@@ -5,8 +5,12 @@
 * AutoUpgrade and Lab Cost/Duration OCR improvement.
 * Fixed Forge with BB Loot.
 * Added Safe Loot Level in GUI for ForgeCraft.
-* Boost Super Troops improvement.
-* Check Obstacles improvement.
+* Rewrited checkObstacles.au3 with new Error Windows.
+* Fixed BB Builders Count in multistats tab.
+* Fixed Some Super Troops Boost.
+* Added Monolith to Weak Base Filter, CSV SIDEB & MAKE (Target).
+* Improvements for Boost Super Troops operations.
+* Check Obstacles improvement (Added Login Fail).
 
 * v8.0.2 **
 * Respond faster to "Stop" during zoomout.
