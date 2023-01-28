@@ -1,0 +1,97 @@
+NOTE  |Author: AnubiS
+NOTE  |Attack: Electro Titans
+NOTE  |*** Support TH14, TH15
+NOTE  |CC : Log, 1 Rage & 1 Freeze, 2 Yetis, 1 Valk, 1 Barb
+NOTE  |Siege : Log Launcher
+NOTE  |Script work on "EXTERNAL EDGES"
+      |                                              				                                                                     			  |
+      |----------------------------------------------------------Electro Titans Starting--------------------------------------------------------------|
+      |                                                                					                        		                              |
+      |_TROOPNAME_|__FLEXIBLE_|____TH06___|____TH07___|____TH08___|____TH09___|____TH10___|___TH11____|___TH12____|___TH13____|___TH14____|___TH15____|
+TRAIN |ETitan     |0          |0          |0          |0          |0          |0          |0          |0          |9          |9          |9          |
+TRAIN |Wiza       |1          |0          |0          |0          |0          |0          |0          |0          |3          |3          |8          |
+      |                                                              																                  |
+TRAIN |ESpell     |0          |0          |0          |0          |0          |0          |0          |0          |4          |4          |4          |
+TRAIN |BtSpell    |0          |0          |0          |0          |0          |0          |0          |0          |7          |7          |7          |
+      |                                                                                                                                  			  |
+TRAIN |LogL       |0          |0          |0          |0          |0          |0          |0          |0          |3          |3          |3          |
+      |                                                                					                        		                              |
+      |_TROOPNAME_|___________|____TH06___|____TH07___|____TH08___|____TH09___|____TH10___|___TH11____|___TH12____|___TH13____|___TH14____|___TH15____|
+TRAIN |King       |0          |0          |0          |0          |0          |0          |0          |0          |1          |1          |1          |
+TRAIN |Queen      |0          |0          |0          |0          |0          |0          |0          |0          |1          |1          |1          |
+TRAIN |Warden     |0          |0          |0          |0          |0          |0          |0          |0          |33         |33         |33         |
+TRAIN |Champion   |0          |0          |0          |0          |0          |0          |0          |0          |1          |1          |1          |
+      |                                                                                                                                  			  |
+      |_TROOPNAME_|___________|____TH06___|____TH07___|____TH08___|____TH09___|____TH10___|____TH11___|____TH12___|____TH13___|____TH14___|____TH15___|	  
+WMODE |0	      |0          |0          |0          |0          |0          |0          |0          |0          |0          |0  	      |0       	  |
+      |                                                                                                                                  			  |
+      |_TROOPNAME_|___________|____TH06___|____TH07___|____TH08___|____TH09___|____TH10___|___TH11____|___TH12____|___TH13____|___TH14____|___TH15____|
+REDLN |0          |0          |0          |0          |0          |0          |0          |0          |0          |4          |4          |4          |
+DRPLN |0          |0          |0          |0          |0          |0          |0          |0          |0          |0          |0          |0          |
+      |___________|___________|____TH06___|____TH07___|____TH08___|____TH09___|____TH10___|____TH11___|____TH12___|____TH13___|____TH14___|____TH15___|
+CCREQ |           |           |           |           |           |           |           |           |           |           |           |           |
+CCSPL |RSpell	  |           |           |           |           |           |           |           |1          |1          |1          |1          |
+CCSPL |FSpell     |           |           |           |           |           |           |           |0          |0          |1          |1          |
+      |                                                                                                                                 			  |
+      |EXTR. GOLD |EXTR.ELIXIR|EXTR. DARK |DEPO. GOLD |DEPO.ELIXIR|DEPO. DARK |TOWNHALL   |FORCED SIDE|           |           |           |           |
+SIDE  |0          |0          |0          |0          |0          |0          |9          |           |           |           |           |           |
+      |EAGLE      |INFERNO    |XBOW       |WIZTOWER   |MORTAR     |AIRDEFENSE |CLANCASTLE |SCATTER    |           |           |           |           |
+SIDEB |10         |0          |0          |0          |0          |0          |0          |0          |           |           |           |           |
+      |                                                                                                               								  |
+      |VECTOR_____|SIDE_______|DROP_POINTS|ADDTILES___|VERSUS_____|RANDOMX_PX_|RANDOMY_PX_|BUILDING___|           |           |           |           |
+MAKE  |A          |FRONT-LEFT |10         |1          |EXT-INT    |0          |0          |           |           |           |           |           |
+MAKE  |B          |FRONT-RIGHT|10         |1          |INT-EXT    |0          |0          |           |           |           |           |           |
+MAKE  |C          |LEFT-FRONT |10         |1          |EXT-INT    |0          |0          |           |           |           |           |           |
+MAKE  |D          |LEFT-BACK  |10         |1          |INT-EXT    |0          |0          |           |           |           |           |           |
+MAKE  |E          |RIGHT-FRONT|10         |1          |EXT-INT    |0          |0          |           |           |           |           |           |
+MAKE  |F          |RIGHT-BACK |10         |1          |INT-EXT    |0          |0          |           |           |           |           |           |
+MAKE  |G          |BACK-LEFT  |10         |1          |EXT-INT    |0          |0          |           |           |           |           |           |
+MAKE  |H          |BACK-RIGHT |10         |1          |INT-EXT    |0          |0          |           |           |           |           |           |
+MAKE  |I          |FRONT-LEFT |10         |-4         |INT-EXT    |0          |0          |           |           |           |           |           |
+MAKE  |J          |FRONT-RIGHT|10         |-8         |INT-EXT    |0          |0          |           |           |           |           |           |
+MAKE  |K          |FRONT-RIGHT|10         |-4         |INT-EXT    |0          |0          |           |           |           |           |           |
+MAKE  |L          |FRONT-RIGHT|10         |-15        |INT-EXT    |0          |0          |           |           |           |           |           |
+MAKE  |M          |FRONT-LEFT |10         |-16        |INT-EXT    |0          |0          |           |           |           |           |           |
+MAKE  |N          |FRONT-RIGHT|10         |-17        |INT-EXT    |0          |0          |           |           |           |           |           |
+MAKE  |O          |FRONT-LEFT |10         |-22        |INT-EXT    |0          |0          |           |           |           |           |           |
+MAKE  |P          |FRONT-RIGHT|10         |-23        |INT-EXT    |0          |0          |           |           |           |           |           |
+MAKE  |Q          |LEFT-FRONT |1          |0          |IGNORE     |0          |0          |TOWNHALL   |           |           |           |           |
+MAKE  |R          |LEFT-FRONT |1          |0          |IGNORE     |0          |0          |EAGLE      |           |           |           |           |
+MAKE  |S          |LEFT-FRONT |1          |0          |IGNORE     |0          |0          |INFERNO    |           |           |           |           |
+MAKE  |T          |BACK-LEFT  |1          |0          |IGNORE     |0          |0          |INFERNO    |           |           |           |           |
+MAKE  |U          |LEFT-FRONT |1          |0          |IGNORE     |0          |0          |SCATTER	  |           |           |           |           |
+MAKE  |V          |BACK-LEFT  |1          |0          |IGNORE     |0          |0          |SCATTER	  |           |           |           |           |
+      |                                                                                                                      						  |
+      |VECTOR_____|INDEX______|QTY_X_VECT_|TROOPNAME__|DELAY_DROP_|DELAYCHANGE|SLEEPAFTER_|___________|           |           |           |           |
+DROP  |J          |1          |4          |ESpell     |100-270    |100-200    |150-170    |           |           |           |           |           |
+WAIT  |1000-1200  |           |           |           |           |           |           |           |           |           |           |           |
+DROP  |A          |3          |1          |King       |50-70      |27-50      |150-170    |           |           |           |           |           |
+DROP  |A          |2          |1          |ETitan     |50-70      |27-50      |350-470    |           |           |           |           |           |
+DROP  |B          |8          |1          |Queen      |50-70      |27-50      |150-170    |           |           |           |           |           |
+DROP  |B          |9          |1          |ETitan     |50-70      |27-50      |150-170    |           |           |           |           |           |
+WAIT  |3000-4000  |           |           |           |           |           |           |           |           |           |           |           |
+DROP  |A          |10         |1          |LogL       |50-70      |27-50      |150-170    |           |           |           |           |           |
+DROP  |A          |4,6,8,9    |4          |ETitan     |50-70      |27-50      |150-170    |           |           |           |           |           |
+DROP  |B          |1,7,5      |3          |ETitan     |50-70      |27-50      |150-170    |           |           |           |           |           |
+DROP  |B          |1          |1          |Champion   |50-70      |27-50      |150-170    |           |           |           |           |           |
+WAIT  |500-1500   |           |           |           |           |           |           |           |           |           |           |           |
+DROP  |B          |1,3        |2          |Wiza       |50-70      |27-50      |150-170    |           |           |           |           |           |
+DROP  |A          |8,10       |2          |Wiza       |50-70      |27-50      |150-170    |           |           |           |           |           |
+DROP  |B          |2,3        |2          |Wiza       |50-70      |27-50      |150-170    |           |           |           |           |           |
+DROP  |A          |9,7        |2          |Wiza       |50-70      |27-50      |150-170    |           |           |           |           |           |
+DROP  |A          |10         |1          |Arch       |50-70      |27-50      |150-170    |           |           |           |           |           |
+DROP  |A          |10         |1          |Warden     |50-70      |27-50      |150-170    |           |           |           |           |           |
+DROP  |L          |1          |1          |RSpell     |50-70      |27-50      |150-170    |           |           |           |           |           |
+DROP  |S          |1          |1          |FSpell     |50-70      |27-50      |150-170    |           |           |           |           |           |
+DROP  |U          |1          |1          |FSpell     |50-70      |27-50      |150-170    |           |           |           |           |           |
+DROP  |Q          |1          |1          |FSpell     |50-70      |27-50      |150-170    |           |           |           |           |           |
+DROP  |R          |1          |1          |FSpell     |50-70      |27-50      |150-170    |           |           |           |           |           |
+DROP  |T          |1          |1          |FSpell     |50-70      |27-50      |150-170    |           |           |           |           |           |
+DROP  |V          |1          |1          |FSpell     |50-70      |27-50      |150-170    |           |           |           |           |           |
+WAIT  |1000       |           |           |           |           |           |           |           |           |           |           |           |
+DROP  |I          |5,6,8      |3          |BtSpell    |50-70      |37-50      |150-200    |           |           |           |           |           |    
+DROP  |K          |3,5,4,6    |4          |BtSpell    |50-70      |37-50      |150-250    |           |           |           |           |           |       
+WAIT  |1500       |           |           |           |           |           |           |           |           |           |           |           |
+DROP  |A          |6-10       |5          |Remain     |50-70      |80-90      |150-200    |           |           |           |           |           |
+      |                                                                 																			  |
+      |-------------------------------------------------------Electro Titans End----------------------------------------------------------------------|
