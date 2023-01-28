@@ -21,9 +21,10 @@ Func CheckVersion()
 	; Get the last Version from API
 	Local $g_sBotGitVersion = ""
 	Local $sCorrectStdOut = InetRead("https://api.github.com/repos/MyBotRun/MyBot/releases/latest")
+	
 	If @error Or $sCorrectStdOut = "" Then Return
 	Local $Temp = BinaryToString($sCorrectStdOut)
-
+	
 	If $Temp <> "" And Not @error Then
 		Local $g_aBotVersionN = StringSplit($g_sBotVersion, " ", 2)
 		If @error Then
@@ -47,11 +48,43 @@ Func CheckVersion()
 		ElseIf _VersionCompare($g_iBotVersionN, $g_sBotGitVersion) = 0 Then
 			SetLog("WELCOME MASTER, YOU HAVE THE LATEST MYBOT VERSION", $COLOR_SUCCESS)
 		Else
-			SetLog("YOU ARE USING A CONFIDENTIAL VERSION MASTER !", $COLOR_FUCHSIA)
+			SetLog("YOU ARE USING A CONFIDENTIAL VERSION MASTER !", $COLOR_SUCCESS)
 		EndIf
 	Else
 		SetDebugLog($Temp)
 	EndIf
+
+	Local $g_sBotModGitVersion = ""
+	Local $sCorrectStdOutMod = InetRead("https://api.github.com/repos/Moebius14/AnuBisMod/releases/latest")
+	Local $TempMod = BinaryToString($sCorrectStdOutMod)	
+
+	If $TempMod <> "" And Not @error Then
+		Local $g_aBotVersionNMod = StringSplit($g_sBotVersionMod, " ", 2)
+		If @error Then
+			Local $g_iBotVersionNMod = StringReplace($g_sBotVersionMod, "v", "")
+		Else
+			Local $g_iBotVersionNMod = StringReplace($g_aBotVersionNMod[0], "v", "")
+		EndIf
+		Local $versionMod = GetLastVersion($TempMod)
+		$g_sBotModGitVersion = StringReplace($versionMod[0], "v", "")
+		SetDebugLog("Last GitHub Mod version is " & $g_sBotModGitVersion)
+		SetDebugLog("Your version is " & $g_iBotVersionNMod)
+
+		If _VersionCompare($g_iBotVersionNMod, $g_sBotModGitVersion) = -1 Then
+			SetLog("WARNING, YOUR MOD VERSION (" & $g_iBotVersionNMod & ") IS OUT OF DATE.", $COLOR_ERROR)
+			Local $ChangelogTXT = GetLastChangeLog($TempMod)
+			Local $Changelog = StringSplit($ChangelogTXT[0], '\r\n', $STR_ENTIRESPLIT + $STR_NOCOUNT)
+			For $i = 0 To UBound($Changelog) - 1
+				SetLog($Changelog[$i] )
+			Next
+			PushMsg("UpdateMod")
+		ElseIf _VersionCompare($g_iBotVersionNMod, $g_sBotModGitVersion) = 0 Then
+			SetLog("~~~~~YOU HAVE THE LATEST MOD VERSION~~~~~", $COLOR_SUCCESS)
+		EndIf
+	Else
+		SetDebugLog($TempMod)
+	EndIf
+
 EndFunc   ;==>CheckVersion
 
 Func GetLastVersion($txt)

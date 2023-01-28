@@ -616,6 +616,7 @@ Func FinalInitialization(Const $sAI)
 	SetLog("-----------------------------------------------------------------------", $COLOR_MONEYGREEN)
 	SetLog("            » " & "Thanks To ALL MyBot Developer's" & " «", $COLOR_TEAL, "Segoe Print", 9)
 	SetLog("                » " & "Based On: MyBot" & " " & $g_sBotVersion & " " & "Dev Team «", $COLOR_TEAL, "Segoe UI Semibold", 10)
+	SetLog("                        » " & "Mod Version" & " " & $g_sBotVersionMod & " " & " «", $COLOR_TEAL, "Segoe UI Semibold", 10)
 	SetLog("-----------------------------------------------------------------------", $COLOR_MONEYGREEN)
 	SetLog(" ", $COLOR_MEDGRAY)
 	; Message - end

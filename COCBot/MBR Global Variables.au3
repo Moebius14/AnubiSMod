@@ -1884,6 +1884,10 @@ Global $g_bChkForceBBAttackOnClanGames = True, $g_bIsBBevent[8], $g_bChkClanGame
 Global $bSearchBBEventFirst = False, $bSearchMainEventFirst = False, $bSearchBothVillages = True
 Global $g_bChkClanGamesPurgeAny = 0, $g_bIsCGCoolDownTime = False, $g_hCoolDownTimer = 0
 Global $g_bSortClanGames = True, $g_iSortClanGames = 0
+Global $g_abCGMainLootItem[6], $g_abCGMainBattleItem[22], $g_abCGMainDestructionItem[34], $g_abCGMainAirItem[13], _
+	   $g_abCGMainGroundItem[28], $g_abCGMainMiscItem[3], $g_abCGMainSpellItem[12], $g_abCGBBBattleItem[4], _
+	   $g_abCGBBDestructionItem[18], $g_abCGBBTroopsItem[11]
+#cs
 Global $g_abCGMainLootItem[UBound(ClanGamesChallenges("$LootChallenges"))]
 Global $g_abCGMainBattleItem[Ubound(ClanGamesChallenges("$BattleChallenges"))]
 Global $g_abCGMainDestructionItem[Ubound(ClanGamesChallenges("$DestructionChallenges"))]
@@ -1894,6 +1898,7 @@ Global $g_abCGMainSpellItem[Ubound(ClanGamesChallenges("$SpellChallenges"))]
 Global $g_abCGBBBattleItem[Ubound(ClanGamesChallenges("$BBBattleChallenges"))]
 Global $g_abCGBBDestructionItem[Ubound(ClanGamesChallenges("$BBDestructionChallenges"))]
 Global $g_abCGBBTroopsItem[Ubound(ClanGamesChallenges("$BBTroopsChallenges"))]
+#ce
 
 ; CSV Deploy Speed
 Global $cmbCSVSpeed[2] = [$LB, $DB]
