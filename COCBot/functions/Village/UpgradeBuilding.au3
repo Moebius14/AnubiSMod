@@ -176,6 +176,15 @@ Func UpgradeBuilding()
 
 		$g_avBuildingUpgrades[$iz][7] = _NowCalc() ; what is date:time now
 		SetDebugLog("Upgrade #" & $iz + 1 & " " & $g_avBuildingUpgrades[$iz][4] & " Started @ " & $g_avBuildingUpgrades[$iz][7], $COLOR_SUCCESS)
+		
+		If $g_bChkNotifyUpgrade Then
+			Local $text ="Village : " & $g_sNotifyOrigin & "%0A"
+			$text &="Profile : " & $g_sProfileCurrentName & "%0A"
+			Local $currentDate = Number(@MDAY)
+			$text &= "Upgrade Of " & $g_avBuildingUpgrades[$iz][4] & " Started"
+			NotifyPushToTelegram($text)
+		EndIf
+		
 		Local $aArray = StringSplit($g_avBuildingUpgrades[$iz][6], ' ', BitOR($STR_CHRSPLIT, $STR_NOCOUNT)) ;separate days, hours
 		If IsArray($aArray) Then
 			Local $iRemainingTimeMin = 0

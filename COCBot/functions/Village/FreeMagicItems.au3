@@ -17,16 +17,16 @@ Func CollectFreeMagicItems($bTest = False)
 
 	If Not $g_bChkCollectFreeMagicItems Or Not $g_bRunState Then Return
 	
-	If $g_bFirstStartAccountFMI[$g_iCurAccount] = 0 Then
-	$IstoRecheckTrader[$g_iCurAccount] = False
-	$MagicItemsCheckTimer[$g_iCurAccount] = 0
-	$DelayReturnedtocheckMagicItemsMS[$g_iCurAccount] = 0
-	$g_bFirstStartAccountFMI[$g_iCurAccount] = 1
+	If Not $g_bFirstStartAccountFMI Then
+	$IstoRecheckTrader = 0
+	$MagicItemsCheckTimer = 0
+	$DelayReturnedtocheckMagicItemsMS = 0
+	$g_bFirstStartAccountFMI = 1
 	EndIf
 	
 	If _GUICtrlComboBox_GetCurSel($g_hCmbPriorityMagicItemsFrequency) = 0 Then 
 		Local Static $iLastTimeChecked[8] = [0, 0, 0, 0, 0, 0, 0, 0]
-		If $iLastTimeChecked[$g_iCurAccount] = @MDAY And Not $bTest And $IstoRecheckTrader[$g_iCurAccount] = False Then
+		If $iLastTimeChecked[$g_iCurAccount] = @MDAY And Not $bTest And Not $IstoRecheckTrader Then
 			SetLog("Next Magic Items Check : Tomorrow", $COLOR_OLIVE)
 			Return
 		EndIf
@@ -36,9 +36,9 @@ Func CollectFreeMagicItems($bTest = False)
 		$g_iCmbPriorityMagicItemsFrequency = _GUICtrlComboBox_GetCurSel($g_hCmbPriorityMagicItemsFrequency) * 60 * 60 * 1000
 		$g_icmbAdvancedVariation[0] = _GUICtrlComboBox_GetCurSel($g_hcmbAdvancedVariation[0]) / 10
 
-		If $MagicItemsCheckTimer[$g_iCurAccount] > 0 And $IstoRecheckTrader[$g_iCurAccount] = False Then
-			Local $MagicItemsCheckTimerDiff = TimerDiff($MagicItemsCheckTimer[$g_iCurAccount])
-			Local $iWaitTime = ($DelayReturnedtocheckMagicItemsMS[$g_iCurAccount] - $MagicItemsCheckTimerDiff)
+		If $MagicItemsCheckTimer > 0 And Not $IstoRecheckTrader Then
+			Local $MagicItemsCheckTimerDiff = TimerDiff($MagicItemsCheckTimer)
+			Local $iWaitTime = ($DelayReturnedtocheckMagicItemsMS - $MagicItemsCheckTimerDiff)
 			Local $sWaitTime = ""
 			Local $iMin, $iHour, $iWaitSec
 	
@@ -49,7 +49,7 @@ Func CollectFreeMagicItems($bTest = False)
 			If $iMin > 0 Then $sWaitTime &= $iMin & " minutes "
 			If $iWaitSec <= 60 Then $sWaitTime = "Imminent"
 		
-			If $MagicItemsCheckTimerDiff < $DelayReturnedtocheckMagicItemsMS[$g_iCurAccount] Then ;Delay not reached : end of fonction CollectFreeMagicItems()
+			If $MagicItemsCheckTimerDiff < $DelayReturnedtocheckMagicItemsMS Then ;Delay not reached : end of fonction CollectFreeMagicItems()
 				SetLog("Next Magic Items Check : " & $sWaitTime & "", $COLOR_OLIVE)
 				Return
 			EndIf
@@ -66,7 +66,7 @@ Func CollectFreeMagicItems($bTest = False)
 	; Check Trader Icon on Main Village
 	
 	OpenTraderWindow()
-	If $IstoRecheckTrader[$g_iCurAccount] = True Then Return
+	If $IstoRecheckTrader Then Return
 
 	If Not $g_bRunState Then Return
 	
@@ -117,9 +117,9 @@ Func CollectFreeMagicItems($bTest = False)
 					Else
 						ClickAway()
 						Sleep(Random(2000, 3000, 1))
-						$IsToOpenOffers[$g_iCurAccount] = True
+						$IsToOpenOffers = 1
 						SaleFreeMagics()
-						$IsToOpenOffers[$g_iCurAccount] = False
+						$IsToOpenOffers = 0
 					EndIf
 				EndIf
 				If Not $g_bRunState Then Return
@@ -176,12 +176,12 @@ Func CollectFreeMagicItems($bTest = False)
 	Sleep(Random(2000, 3000, 1))
 	
 	If _GUICtrlComboBox_GetCurSel($g_hCmbPriorityMagicItemsFrequency) > 0 Then
-		$MagicItemsCheckTimer[$g_iCurAccount] = TimerInit()
+		$MagicItemsCheckTimer = TimerInit()
 		Local $DelayReturnedtocheckMagicItemsInf = ($g_iCmbPriorityMagicItemsFrequency - ($g_iCmbPriorityMagicItemsFrequency * $g_icmbAdvancedVariation[0]))
 		Local $DelayReturnedtocheckMagicItemsSup = ($g_iCmbPriorityMagicItemsFrequency + ($g_iCmbPriorityMagicItemsFrequency * $g_icmbAdvancedVariation[0]))
-		$DelayReturnedtocheckMagicItemsMS[$g_iCurAccount] = Random($DelayReturnedtocheckMagicItemsInf, $DelayReturnedtocheckMagicItemsSup, 1)
+		$DelayReturnedtocheckMagicItemsMS = Random($DelayReturnedtocheckMagicItemsInf, $DelayReturnedtocheckMagicItemsSup, 1)
 		
-		Local $iWaitTime = $DelayReturnedtocheckMagicItemsMS[$g_iCurAccount]
+		Local $iWaitTime = $DelayReturnedtocheckMagicItemsMS
 		Local $sWaitTime = ""
 		Local $iMin, $iHour, $iWaitSec
 	
@@ -229,7 +229,7 @@ Func OpenTraderWindow()
 		If QuickMIS("BC1", $g_sImgTrader, 90, 130, 210, 240) Then
 			Click($g_iQuickMISX, $g_iQuickMISY)
 			If _Sleep(1500) Then Return
-			$IstoRecheckTrader[$g_iCurAccount] = False
+			$IstoRecheckTrader = 0
 			$Found = True
 			ExitLoop
 		EndIf
@@ -238,13 +238,13 @@ Func OpenTraderWindow()
 	If $Found = False Then
 		SetLog("Trader unavailable", $COLOR_INFO)
 		SetLog("Bot will recheck next loop", $COLOR_OLIVE)
-		$IstoRecheckTrader[$g_iCurAccount] = True
+		$IstoRecheckTrader = 1
 	EndIf
 
 	Local $aiDailyDiscount = decodeSingleCoord(findImage("DailyDiscount", $g_sImgDailyDiscountWindow, GetDiamondFromRect("310,175,375,210"), 1, True, Default))
 	If Not IsArray($aiDailyDiscount) Or UBound($aiDailyDiscount, 1) < 1 Then
 		ClickAway()
-		$IstoRecheckTrader[$g_iCurAccount] = True
+		$IstoRecheckTrader = 1
 	EndIf
 EndFunc
 
@@ -358,9 +358,9 @@ Func SaleFreeMagics()
 	
 	$IsopenMagicWindow = False
 	
-	If $IsToOpenOffers[$g_iCurAccount] = False Then
+	If $IsToOpenOffers = 0 Then
 		Sleep(Random(2500, 3500, 1))
-	ElseIf $IsToOpenOffers[$g_iCurAccount] = True Then
+	ElseIf $IsToOpenOffers = 1 Then
 		Sleep(Random(1500, 2000, 1))
 		OpenTraderWindow()
 		Sleep(Random(1500, 3000, 1))
@@ -475,9 +475,9 @@ Func SaleFreeMagicsZero1()
 	
 	$IsopenMagicWindow = False
 	
-	If $IsToOpenOffers[$g_iCurAccount] = False Then
+	If $IsToOpenOffers = 0 Then
 		Sleep(Random(2500, 3500, 1))
-	ElseIf $IsToOpenOffers[$g_iCurAccount] = True Then
+	ElseIf $IsToOpenOffers = 1 Then
 		Sleep(Random(1500, 2000, 1))
 		OpenTraderWindow()
 		Sleep(Random(1500, 3000, 1))

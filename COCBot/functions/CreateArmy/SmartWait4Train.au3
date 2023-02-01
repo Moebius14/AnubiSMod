@@ -148,7 +148,7 @@ Func SmartWait4Train($iTestSeconds = Default)
 		If $g_bDebugSetlogTrain Or $g_bDebugSetlog Then SetLog("getArmyHeroTime returned: " & $aHeroResult[0] & ":" & $aHeroResult[1] & ":" & $aHeroResult[2], $COLOR_DEBUG)
 		If _Sleep($DELAYRESPOND) Then Return
 		If $aHeroResult[0] > 0 Or $aHeroResult[1] > 0 Or $aHeroResult[2] > 0 Or $aHeroResult[3] > 0 Then ; check if hero is enabled to use/wait and set wait time
-		If $IsdroptrophiesActive[$g_iCurAccount] And $bWaitOnlyOneHeroForDT  Then $g_aiTimeTrain[2] = 60; Dumb number 60 minutes for heal any heroe !!
+		If $IsdroptrophiesActive And $bWaitOnlyOneHeroForDT  Then $g_aiTimeTrain[2] = 60; Dumb number 60 minutes for heal any heroe !!
 			For $pTroopType = $eKing To $eChampion ; check all 4 hero
 				Local $iHeroIdx = $pTroopType - $eKing
 				For $pMatchMode = $DB To $LB ; check only DB and LB (TS has no wait option!)
@@ -163,17 +163,17 @@ Func SmartWait4Train($iTestSeconds = Default)
 					EndIf
 					If $iActiveHero <> -1 And $aHeroResult[$iActiveHero] > 0 Then ; valid time?
 						; check exact time & existing time is less than new time
-						If $g_bCloseRandomTime And $g_aiTimeTrain[2] < $aHeroResult[$iActiveHero] And Not $IsdroptrophiesActive[$g_iCurAccount] Then
+						If $g_bCloseRandomTime And $g_aiTimeTrain[2] < $aHeroResult[$iActiveHero] And Not $IsdroptrophiesActive Then
 							$g_aiTimeTrain[2] = $aHeroResult[$iActiveHero] + ($aHeroResult[$iActiveHero] * $RandomAddPercent) ; add some random percent
-						ElseIf $g_bCloseRandomTime And $g_aiTimeTrain[2] < $aHeroResult[$iActiveHero] And $IsdroptrophiesActive[$g_iCurAccount] And Not $bWaitOnlyOneHeroForDT Then
+						ElseIf $g_bCloseRandomTime And $g_aiTimeTrain[2] < $aHeroResult[$iActiveHero] And $IsdroptrophiesActive And Not $bWaitOnlyOneHeroForDT Then
 							$g_aiTimeTrain[2] = $aHeroResult[$iActiveHero] + ($aHeroResult[$iActiveHero] * $RandomAddPercent)
-						ElseIf $g_bCloseRandomTime And $g_aiTimeTrain[2] > $aHeroResult[$iActiveHero] And $IsdroptrophiesActive[$g_iCurAccount] And $bWaitOnlyOneHeroForDT Then
+						ElseIf $g_bCloseRandomTime And $g_aiTimeTrain[2] > $aHeroResult[$iActiveHero] And $IsdroptrophiesActive And $bWaitOnlyOneHeroForDT Then
 							$g_aiTimeTrain[2] = $aHeroResult[$iActiveHero] + ($aHeroResult[$iActiveHero] * $RandomAddPercent)
-						ElseIf $g_bCloseExactTime And $g_aiTimeTrain[2] < $aHeroResult[$iActiveHero] And Not $IsdroptrophiesActive[$g_iCurAccount] Then
+						ElseIf $g_bCloseExactTime And $g_aiTimeTrain[2] < $aHeroResult[$iActiveHero] And Not $IsdroptrophiesActive Then
 							$g_aiTimeTrain[2] = $aHeroResult[$iActiveHero] ; use exact time
-						ElseIf $g_bCloseExactTime And $g_aiTimeTrain[2] < $aHeroResult[$iActiveHero] And $IsdroptrophiesActive[$g_iCurAccount] And Not $bWaitOnlyOneHeroForDT Then
+						ElseIf $g_bCloseExactTime And $g_aiTimeTrain[2] < $aHeroResult[$iActiveHero] And $IsdroptrophiesActive And Not $bWaitOnlyOneHeroForDT Then
 							$g_aiTimeTrain[2] = $aHeroResult[$iActiveHero]
-						ElseIf $g_bCloseExactTime And $g_aiTimeTrain[2] > $aHeroResult[$iActiveHero] And $IsdroptrophiesActive[$g_iCurAccount] And $bWaitOnlyOneHeroForDT Then
+						ElseIf $g_bCloseExactTime And $g_aiTimeTrain[2] > $aHeroResult[$iActiveHero] And $IsdroptrophiesActive And $bWaitOnlyOneHeroForDT Then
 							$g_aiTimeTrain[2] = $aHeroResult[$iActiveHero]
 						EndIf
 						$iTrainWaitCloseFlag = BitOR($iTrainWaitCloseFlag, $TRAINWAIT_HERO)
@@ -241,7 +241,7 @@ Func SmartWait4Train($iTestSeconds = Default)
 			Return ; stop trying to close while training this time
 	EndSwitch
 	
-	If $g_bDropTrophyUseHeroes = 1 And $g_bDropTrophyEnable = 1 And (Number($g_aiCurrentLoot[$eLootTrophy]) > Number($g_iDropTrophyMax) Or $IsDropTrophyBreaked[$g_iCurAccount] = True) Then
+	If $g_bDropTrophyUseHeroes = 1 And $g_bDropTrophyEnable = 1 And (Number($g_aiCurrentLoot[$eLootTrophy]) > Number($g_iDropTrophyMax) Or $IsDropTrophyBreaked) Then
 		If IsToFillCCWithMedalsOnly() Then
 			Local $aRndFuncList = ['DonateCC,Train']
 		Else
@@ -298,7 +298,7 @@ Func SmartWait4Train($iTestSeconds = Default)
 				If $bTest Then $iShieldTime = $iTestSeconds
 				UniversalCloseWaitOpenCoC($iShieldTime * 1000, "SmartWait4Train_", $StopEmulator, $bFullRestart, $bSuspendComputer)
 				$g_bRestart = True ; Set flag to exit idle loop to deal with potential user changes to GUI
-				$IsMainScreenLocated[$g_iCurAccount] = False
+				$IsMainScreenLocated = 0
 				ResetTrainTimeArray()
 			Else ; close game  = $iTrainWaitTime because shield is larger than train time
 				SetLog("Smart wait train time = " & StringFormat("%.2f", $iTrainWaitTime / 60) & " Minutes", $COLOR_INFO)
@@ -306,7 +306,7 @@ Func SmartWait4Train($iTestSeconds = Default)
 				If $bTest Then $iTrainWaitTime = $iTestSeconds
 				UniversalCloseWaitOpenCoC($iTrainWaitTime * 1000, "SmartWait4Train_", $StopEmulator, $bFullRestart, $bSuspendComputer)
 				$g_bRestart = True ; Set flag to exit idle loop to deal with potential user changes to GUI
-				$IsMainScreenLocated[$g_iCurAccount] = False
+				$IsMainScreenLocated = 0
 				ResetTrainTimeArray()
 			EndIf
 			; if shield is zero, or not available, then check all 3 close without shield flags
@@ -317,7 +317,7 @@ Func SmartWait4Train($iTestSeconds = Default)
 				If $bTest Then $iTrainWaitTime = $iTestSeconds
 			UniversalCloseWaitOpenCoC($iTrainWaitTime * 1000, "SmartWait4TrainNoShield_", $StopEmulator, $bFullRestart, $bSuspendComputer)
 			$g_bRestart = True ; Set flag to exit idle loop to deal with potential user changes to GUI
-			$IsMainScreenLocated[$g_iCurAccount] = False
+			$IsMainScreenLocated = 0
 			ResetTrainTimeArray()
 		Else
 			If $g_bDebugSetlogTrain Or $g_bDebugSetlog Then SetLog("$ichkCloseWaitSpell=" & $ichkCloseWaitSpell & ", $g_aiTimeTrain[1]=" & $g_aiTimeTrain[1], $COLOR_DEBUG)

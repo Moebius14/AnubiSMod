@@ -138,13 +138,13 @@ Func ClanCapitalReport($SetLog = True)
 		Local $sRaidText = getOcrAndCapture("coc-mapname", 773, 605 + $g_iBottomOffsetY, 50, 30)
 		If $sRaidText = "Raid" Then
 			SetLog("Raid Weekend is Running", $COLOR_DEBUG)
-			$IsRaidRunning[$g_iCurAccount] = True
-			$iAttack[$g_iCurAccount] = getOcrAndCapture("coc-mapname", 780, 535 + $g_iBottomOffsetY, 20, 30)
-			If $iAttack[$g_iCurAccount] > 1 Then
-				SetLog("You have " & $iAttack[$g_iCurAccount] & " available attacks", $COLOR_SUCCESS)
-			ElseIf $iAttack[$g_iCurAccount] = 1 Then
+			$IsRaidRunning = 1
+			$iAttack = getOcrAndCapture("coc-mapname", 780, 535 + $g_iBottomOffsetY, 20, 30)
+			If $iAttack > 1 Then
+				SetLog("You have " & $iAttack & " available attacks", $COLOR_SUCCESS)
+			ElseIf $iAttack = 1 Then
 				SetLog("You have only one available attack", $COLOR_SUCCESS)
-			ElseIf $iAttack[$g_iCurAccount] = 0 Then
+			ElseIf $iAttack = 0 Then
 				SetLog("You have done all you could", $COLOR_SUCCESS)
 			EndIf
 			If QuickMis("BC1", $g_sImgCCRaid, 360, 450 + $g_iMidOffsetY, 500, 500 + $g_iMidOffsetY) Then
@@ -152,8 +152,9 @@ Func ClanCapitalReport($SetLog = True)
 				If _Sleep(5000) Then Return
 				SwitchToCapitalMain()
 			EndIf
+			CheckRaidMap()
 		Else
-			$IsRaidRunning[$g_iCurAccount] = False
+			$IsRaidRunning = 0
 			Local $sRaidTimeOCR = getTimeToRaid(760, 543 + $g_iBottomOffsetY)
 			Local $iConvertedTime = ConvertOCRTime("Raid Time", $sRaidTimeOCR, False)
 			If $iConvertedTime > 1440 Then
@@ -194,7 +195,7 @@ Func StartRaidWeekend()
 			If _ColorCheck(_GetPixelColor(433, 570, True), Hex(0xFF8D29, 6), 20) Then ;Check Orange button on StartRaid Window
 				SetLog("Starting Raid Weekend", $COLOR_INFO)
 				Click(430, 490 + $g_iBottomOffsetY) ;Click Start Raid Button
-				$IsRaidRunning[$g_iCurAccount] = True
+				$IsRaidRunning = 1
 				If _Sleep(4000) Then Return
 				ClickAway("Right")
 				If QuickMis("BC1", $g_sImgCCRaid, 360, 450 + $g_iMidOffsetY, 500, 500 + $g_iMidOffsetY) Then
@@ -338,9 +339,9 @@ Func ForgeClanCapitalGold($bTest = False)
 				If $g_iCmbBoostBuilders <= 5 Then
 					$g_iCmbBoostBuilders -= 1
 					If $g_iCmbBoostBuilders > 0 Then
-						$g_iTimerBoostBuilders[$g_iCurAccount] = TimerInit()
+						$g_iTimerBoostBuilders = TimerInit()
 					Else
-						$g_iTimerBoostBuilders[$g_iCurAccount] = 0
+						$g_iTimerBoostBuilders = 0
 					EndIf
 					SetLog("Builders Boost completed. Remaining iterations: " & $g_iCmbBoostBuilders, $COLOR_SUCCESS)
 					_GUICtrlComboBox_SetCurSel($g_hCmbBoostBuilders, $g_iCmbBoostBuilders)
@@ -517,9 +518,9 @@ Func ForgeClanCapitalGold($bTest = False)
 				If $g_iCmbBoostBuilders <= 5 Then
 					$g_iCmbBoostBuilders -= 1
 					If $g_iCmbBoostBuilders > 0 Then
-						$g_iTimerBoostBuilders[$g_iCurAccount] = TimerInit()
+						$g_iTimerBoostBuilders = TimerInit()
 					Else
-						$g_iTimerBoostBuilders[$g_iCurAccount] = 0
+						$g_iTimerBoostBuilders = 0
 					EndIf
 					SetLog("Builders Boost completed. Remaining iterations: " & $g_iCmbBoostBuilders, $COLOR_SUCCESS)
 					_GUICtrlComboBox_SetCurSel($g_hCmbBoostBuilders, $g_iCmbBoostBuilders)
@@ -560,34 +561,10 @@ Func SwitchToClanCapital()
 		SetLog("Found Raid Window Covering Map, Close it!", $COLOR_INFO)
 		Click($g_iQuickMISX, $g_iQuickMISY)
 		If _Sleep(3000) Then Return
-		If QuickMis("BC1", $g_sImgRaidMap, 710, 25, 730, 45) Then		
-			Local $sForRaidTimeOCR = getTimeForRaid(725, 55)
-			Local $iConvertedTime = ConvertOCRTime("Raid Time2", $sForRaidTimeOCR, False)
-			If $iConvertedTime > 1440 Then
-				SetLog("Raid Weekend Will Finish in " & $sForRaidTimeOCR & "", $COLOR_GREEN)
-			ElseIf $iConvertedTime < 1440 And $iConvertedTime > 120 Then
-				SetLog("Raid Weekend Will Finish in " & $sForRaidTimeOCR & "", $COLOR_ORANGE)
-			ElseIf $iConvertedTime < 120 Then
-				SetLog("Raid Weekend Will Finish in " & $sForRaidTimeOCR & "", $COLOR_RED)
-			EndIf
-			If _Sleep(1000) Then Return
-		EndIf	
 	EndIf
 	If QuickMis("BC1", $g_sImgCCRaid, 360, 420 + $g_iBottomOffsetY, 500, 470 + $g_iBottomOffsetY) Then
 		Click($g_iQuickMISX, $g_iQuickMISY)
 		If _Sleep(5000) Then Return
-		If QuickMis("BC1", $g_sImgRaidMap, 710, 25, 730, 45) Then		
-			Local $sForRaidTimeOCR = getTimeForRaid(725, 55)
-			Local $iConvertedTime = ConvertOCRTime("Raid Time2", $sForRaidTimeOCR, False)
-			If $iConvertedTime > 1440 Then
-				SetLog("Raid Weekend Will Finish in " & $sForRaidTimeOCR & "", $COLOR_GREEN)
-			ElseIf $iConvertedTime < 1440 And $iConvertedTime > 120 Then
-				SetLog("Raid Weekend Will Finish in " & $sForRaidTimeOCR & "", $COLOR_ORANGE)
-			ElseIf $iConvertedTime < 120 Then
-				SetLog("Raid Weekend Will Finish in " & $sForRaidTimeOCR & "", $COLOR_RED)
-			EndIf
-			If _Sleep(1000) Then Return
-		EndIf
 	EndIf
 	SwitchToCapitalMain()
 	For $i = 1 To 10
@@ -1344,11 +1321,11 @@ Func AutoUpgradeCC()
 	
 	If $g_bChkEnableSmartSwitchCC Then
 		getBuilderCount(True) ;check if we have available builder
-		If ($g_bFirstStartForAll[$g_iCurAccount] = 0 And Number($g_iLootCCGold) = 0 And Not $bForgeEnabled And Not $g_bChkEnableCollectCCGold) Or _
-			($IsCCGoldJustCollectedDChallenge And Number($g_iLootCCGold) = 0) Or ($g_bFirstStartForAll[$g_iCurAccount] = 0 And _
+		If (Not $g_bFirstStartForAll And Number($g_iLootCCGold) = 0 And Not $bForgeEnabled And Not $g_bChkEnableCollectCCGold) Or _
+			($IsCCGoldJustCollectedDChallenge And Number($g_iLootCCGold) = 0) Or (Not $g_bFirstStartForAll And _
 			Number($g_iLootCCGold) = 0 And $g_iFreeBuilderCount = 0) Or (Number($g_iLootCCGold) = 0 And $g_bRequestTroopsEnable And _
 			((Not $bChkUseOnlyCCMedals And $g_aiCmbCCDecisionThen = 1) Or $bChkUseOnlyCCMedals) And ($g_abSearchCastleWaitEnable[$DB] Or _
-			$g_abSearchCastleWaitEnable[$LB]) And $g_bFirstStartForAll[$g_iCurAccount] = 0) Then
+			$g_abSearchCastleWaitEnable[$LB]) And Not $g_bFirstStartForAll) Then
 			
 			If Not OpenForgeWindow() Then 
 				SetLog("Forge Window not Opened, exiting", $COLOR_ACTION)
@@ -1370,9 +1347,8 @@ Func AutoUpgradeCC()
 			If _Sleep($DELAYCOLLECT3) Then Return
 		EndIf
 		Local $iWeekday = _DateToDayOfWeek(@YEAR, @MON, @MDAY)
-		Local $IsToCheckForRaid = False
-		If $g_bChkStartWeekendRaid And $iWeekday = 6 And Not $IsRaidRunning[$g_iCurAccount] Then $IsToCheckForRaid = True
-		If $IsToCheckForRaid Then
+
+		If $g_bChkStartWeekendRaid And $iWeekday = 6 And Not $IsRaidRunning Then
 			SetLog("Smart Clan Capital Switch Control", $COLOR_OLIVE)
 			SetLog("We Are In the Raid Starting Day, Let's Check This", $COLOR_SUCCESS1)
 		Else
@@ -1380,9 +1356,9 @@ Func AutoUpgradeCC()
 			If Number($g_iLootCCGold) = 0 Then
 				$IsCCGoldJustCollected = False
 				$IsCCGoldJustCollectedDChallenge = $IsCCGoldJustCollected
-				If $IsRaidRunning[$g_iCurAccount] And $g_bChkStartWeekendRaid And $iWeekday = 6 Then SetLog("Raid Weekend has already started", $COLOR_SUCCESS1)
+				If $IsRaidRunning And $g_bChkStartWeekendRaid And $iWeekday = 6 Then SetLog("Raid Weekend has already started", $COLOR_SUCCESS1)
 				SetLog("No Capital Gold to spend to Contribute, No Switch", $COLOR_DEBUG)
-				If $g_bFirstStartForAll[$g_iCurAccount] = 0 Then
+				If Not $g_bFirstStartForAll Then
 					If Number($g_iLootCCMedal) = 0 Then CatchCCMedals()
 					If _Sleep(2000) Then Return
 					CatchSmallCCTrophies()

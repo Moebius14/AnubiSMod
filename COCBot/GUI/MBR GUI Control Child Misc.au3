@@ -724,7 +724,7 @@ Func chkActivateClangames()
 	If GUICtrlRead($g_hChkClanGamesEnabled) = $GUI_CHECKED Then
 		ChkClanGamesCollectRewards()
 		GUICtrlSetState($g_hBtnCGSettingsOpen, $GUI_ENABLE)
-		For $i = $g_hChkClanGamesAllTimes to $g_hChkClanGames3hOnly
+		For $i = $g_hChkClanGamesAllTimes to $g_hChkClanGames3h
 			GUICtrlSetState($i, $GUI_ENABLE)
 		Next
 		GUICtrlSetState($g_hChkClanGamesDebug, $GUI_ENABLE)
@@ -754,7 +754,7 @@ Func chkActivateClangames()
 			If GUICtrlRead($g_hChkAttackCGPlannerDayLimit) = $GUI_CHECKED Then
 				GUICtrlSetState($hCGPlannerThenContinue, $GUI_ENABLE)
 				GUICtrlSetState($hCGPlannerThenStopBot, $GUI_ENABLE)
-				If $iRandomAttackCountToday[$g_iCurAccount] = 0 Then
+				If $iRandomAttackCGCountToday = 0 Then
 					GUICtrlSetData($MaxDailyLimit, "0")
 					GUICtrlSetData($ActualNbrsAttacks, "0")
 				EndIf
@@ -843,7 +843,7 @@ Func chkActivateClangames()
 	Else
 		GUICtrlSetState($g_hBtnCGRewardsSettingsOpen, $GUI_DISABLE)
 		GUICtrlSetState($g_hBtnCGSettingsOpen, $GUI_DISABLE)
-		For $i = $g_hChkClanGamesAllTimes to $g_hChkClanGames3hOnly
+		For $i = $g_hChkClanGamesAllTimes to $g_hChkClanGames3h
 			GUICtrlSetState($i, $GUI_DISABLE)
 		Next
 		GUICtrlSetState($g_hChkClanGamesDebug, $GUI_DISABLE)
@@ -861,15 +861,15 @@ EndFunc   ;==>chkActivateClangames
 
 Func ChkClanGamesAllTimes()
 	If GUICtrlRead($g_hChkClanGamesAllTimes) = $GUI_CHECKED Then
-		For $i = $g_hChkClanGames3h to $g_hChkClanGames3hOnly
+		For $i = $g_hChkClanGames3h to $g_hChkClanGames3h
 			GUICtrlSetState($i, $GUI_UNCHECKED)
 		Next
 		If GUICtrlRead($g_hChkClanGamesEnabled) = $GUI_UNCHECKED Then
-			For $i = $g_hChkClanGamesAllTimes to $g_hChkClanGames3hOnly
+			For $i = $g_hChkClanGamesAllTimes to $g_hChkClanGames3h
 				GUICtrlSetState($i, $GUI_DISABLE)
 			Next
 		Else
-			For $i = $g_hChkClanGamesAllTimes to $g_hChkClanGames3hOnly
+			For $i = $g_hChkClanGamesAllTimes to $g_hChkClanGames3h
 				GUICtrlSetState($i, $GUI_ENABLE)
 			Next
 		EndIf
@@ -878,7 +878,7 @@ Func ChkClanGamesAllTimes()
 			GUICtrlSetState($g_hChkClanGames3h, $GUI_UNCHECKED)
 			GUICtrlSetState($g_hChkClanGames3hOnly, $GUI_UNCHECKED)
 		Else
-			For $i = $g_hChkClanGamesAllTimes to $g_hChkClanGames3hOnly
+			For $i = $g_hChkClanGamesAllTimes to $g_hChkClanGames3h
 				GUICtrlSetState($i, $GUI_DISABLE)
 			Next
 		EndIf
@@ -890,11 +890,11 @@ Func ChkClanGames3h()
 		GUICtrlSetState($g_hChkClanGamesAllTimes, $GUI_UNCHECKED)
 		GUICtrlSetState($g_hChkClanGames3hOnly, $GUI_UNCHECKED)	
 		If GUICtrlRead($g_hChkClanGamesEnabled) = $GUI_UNCHECKED Then
-			For $i = $g_hChkClanGamesAllTimes to $g_hChkClanGames3hOnly
+			For $i = $g_hChkClanGamesAllTimes to $g_hChkClanGames3h
 				GUICtrlSetState($i, $GUI_DISABLE)
 			Next
 		Else
-			For $i = $g_hChkClanGamesAllTimes to $g_hChkClanGames3hOnly
+			For $i = $g_hChkClanGamesAllTimes to $g_hChkClanGames3h
 				GUICtrlSetState($i, $GUI_ENABLE)
 			Next
 		EndIf
@@ -903,7 +903,7 @@ Func ChkClanGames3h()
 			GUICtrlSetState($g_hChkClanGamesAllTimes, $GUI_UNCHECKED)
 			GUICtrlSetState($g_hChkClanGames3hOnly, $GUI_UNCHECKED)
 		Else
-			For $i = $g_hChkClanGamesAllTimes to $g_hChkClanGames3hOnly
+			For $i = $g_hChkClanGamesAllTimes to $g_hChkClanGames3h
 				GUICtrlSetState($i, $GUI_DISABLE)
 			Next
 		EndIf
@@ -915,11 +915,11 @@ Func ChkClanGames3hOnly()
 		GUICtrlSetState($g_hChkClanGamesAllTimes, $GUI_UNCHECKED)
 		GUICtrlSetState($g_hChkClanGames3h, $GUI_UNCHECKED)	
 		If GUICtrlRead($g_hChkClanGamesEnabled) = $GUI_UNCHECKED Then
-			For $i = $g_hChkClanGamesAllTimes to $g_hChkClanGames3hOnly
+			For $i = $g_hChkClanGamesAllTimes to $g_hChkClanGames3h
 				GUICtrlSetState($i, $GUI_DISABLE)
 			Next
 		Else
-			For $i = $g_hChkClanGamesAllTimes to $g_hChkClanGames3hOnly
+			For $i = $g_hChkClanGamesAllTimes to $g_hChkClanGames3h
 				GUICtrlSetState($i, $GUI_ENABLE)
 			Next
 		EndIf
@@ -928,7 +928,7 @@ Func ChkClanGames3hOnly()
 			GUICtrlSetState($g_hChkClanGamesAllTimes, $GUI_UNCHECKED)
 			GUICtrlSetState($g_hChkClanGames3h, $GUI_UNCHECKED)
 		Else
-			For $i = $g_hChkClanGamesAllTimes to $g_hChkClanGames3hOnly
+			For $i = $g_hChkClanGamesAllTimes to $g_hChkClanGames3h
 				GUICtrlSetState($i, $GUI_DISABLE)
 			Next
 		EndIf
@@ -1140,8 +1140,8 @@ Func CGLootTVItem()
 	Local $tmpChallenges = ClanGamesChallenges("$LootChallenges")
 	For $i = 0 To UBound($g_ahCGMainLootItem) - 1
 		If GUICtrlRead($g_hClanGamesTV) = $g_ahCGMainLootItem[$i] Then
-			GUICtrlSetData($g_hLabelClangamesDesc, $tmpChallenges[$i][5] & @CRLF & "Required TH Level : " & $tmpChallenges[$i][2] _
-				& @CRLF & "Difficulty : " & $tmpChallenges[$i][4])
+			GUICtrlSetData($g_hLabelClangamesDesc, $tmpChallenges[$i][4] & @CRLF & "Required TH Level : " & $tmpChallenges[$i][2] _
+				& @CRLF & "Difficulty : " & $tmpChallenges[$i][3])
 			ExitLoop
 		Else
 			GUICtrlSetData($g_hLabelClangamesDesc, "")
@@ -1167,8 +1167,8 @@ Func CGMainBattleTVItem()
 	Local $tmpChallenges = ClanGamesChallenges("$BattleChallenges")
 	For $i = 0 To UBound($g_ahCGMainBattleItem) - 1
 		If GUICtrlRead($g_hClanGamesTV) = $g_ahCGMainBattleItem[$i] Then
-			GUICtrlSetData($g_hLabelClangamesDesc, $tmpChallenges[$i][5] & @CRLF & "Required TH Level : " & $tmpChallenges[$i][2] _
-				& @CRLF & "Difficulty : " & $tmpChallenges[$i][4])
+			GUICtrlSetData($g_hLabelClangamesDesc, $tmpChallenges[$i][4] & @CRLF & "Required TH Level : " & $tmpChallenges[$i][2] _
+				& @CRLF & "Difficulty : " & $tmpChallenges[$i][3])
 			ExitLoop
 		Else
 			GUICtrlSetData($g_hLabelClangamesDesc, "")
@@ -1194,8 +1194,8 @@ Func CGMainDestructionTVItem()
 	Local $tmpChallenges = ClanGamesChallenges("$DestructionChallenges")
 	For $i = 0 To UBound($g_ahCGMainDestructionItem) - 1
 		If GUICtrlRead($g_hClanGamesTV) = $g_ahCGMainDestructionItem[$i] Then
-			GUICtrlSetData($g_hLabelClangamesDesc, $tmpChallenges[$i][5] & @CRLF & "Required TH Level : " & $tmpChallenges[$i][2] _
-				& @CRLF & "Difficulty : " & $tmpChallenges[$i][4])
+			GUICtrlSetData($g_hLabelClangamesDesc, $tmpChallenges[$i][4] & @CRLF & "Required TH Level : " & $tmpChallenges[$i][2] _
+				& @CRLF & "Difficulty : " & $tmpChallenges[$i][3])
 			ExitLoop
 		Else
 			GUICtrlSetData($g_hLabelClangamesDesc, "")
@@ -1221,8 +1221,8 @@ Func CGMainAirTVItem()
 	Local $tmpChallenges = ClanGamesChallenges("$AirTroopChallenges")
 	For $i = 0 To UBound($g_ahCGMainAirItem) - 1
 		If GUICtrlRead($g_hClanGamesTV) = $g_ahCGMainAirItem[$i] Then
-			GUICtrlSetData($g_hLabelClangamesDesc, $tmpChallenges[$i][5] & @CRLF & "Required TH Level : " & $tmpChallenges[$i][2] _
-				& @CRLF & "Difficulty : " & $tmpChallenges[$i][4])
+			GUICtrlSetData($g_hLabelClangamesDesc, $tmpChallenges[$i][4] & @CRLF & "Required TH Level : " & $tmpChallenges[$i][2] _
+				& @CRLF & "Difficulty : " & $tmpChallenges[$i][3])
 			ExitLoop
 		Else
 			GUICtrlSetData($g_hLabelClangamesDesc, "")
@@ -1248,8 +1248,8 @@ Func CGMainGroundTVItem()
 	Local $tmpChallenges = ClanGamesChallenges("$GroundTroopChallenges")
 	For $i = 0 To UBound($g_ahCGMainGroundItem) - 1
 		If GUICtrlRead($g_hClanGamesTV) = $g_ahCGMainGroundItem[$i] Then
-			GUICtrlSetData($g_hLabelClangamesDesc, $tmpChallenges[$i][5] & @CRLF & "Required TH Level : " & $tmpChallenges[$i][2] _
-				& @CRLF & "Difficulty : " & $tmpChallenges[$i][4])
+			GUICtrlSetData($g_hLabelClangamesDesc, $tmpChallenges[$i][4] & @CRLF & "Required TH Level : " & $tmpChallenges[$i][2] _
+				& @CRLF & "Difficulty : " & $tmpChallenges[$i][3])
 			ExitLoop
 		Else
 			GUICtrlSetData($g_hLabelClangamesDesc, "")
@@ -1275,8 +1275,8 @@ Func CGMainMiscTVItem()
 	Local $tmpChallenges = ClanGamesChallenges("$MiscChallenges")
 	For $i = 0 To UBound($g_ahCGMainMiscItem) - 1
 		If GUICtrlRead($g_hClanGamesTV) = $g_ahCGMainMiscItem[$i] Then
-			GUICtrlSetData($g_hLabelClangamesDesc, $tmpChallenges[$i][5] & @CRLF & "Required TH Level : " & $tmpChallenges[$i][2] _
-				& @CRLF & "Difficulty : " & $tmpChallenges[$i][4])
+			GUICtrlSetData($g_hLabelClangamesDesc, $tmpChallenges[$i][4] & @CRLF & "Required TH Level : " & $tmpChallenges[$i][2] _
+				& @CRLF & "Difficulty : " & $tmpChallenges[$i][3])
 			ExitLoop
 		Else
 			GUICtrlSetData($g_hLabelClangamesDesc, "")
@@ -1302,8 +1302,8 @@ Func CGMainSpellTVItem()
 	Local $tmpChallenges = ClanGamesChallenges("$SpellChallenges")
 	For $i = 0 To UBound($g_ahCGMainSpellItem) - 1
 		If GUICtrlRead($g_hClanGamesTV) = $g_ahCGMainSpellItem[$i] Then
-			GUICtrlSetData($g_hLabelClangamesDesc, $tmpChallenges[$i][5] & @CRLF & "Required TH Level : " & $tmpChallenges[$i][2] _
-				& @CRLF & "Difficulty : " & $tmpChallenges[$i][4])
+			GUICtrlSetData($g_hLabelClangamesDesc, $tmpChallenges[$i][4] & @CRLF & "Required TH Level : " & $tmpChallenges[$i][2] _
+				& @CRLF & "Difficulty : " & $tmpChallenges[$i][3])
 			ExitLoop
 		Else
 			GUICtrlSetData($g_hLabelClangamesDesc, "")
@@ -1329,8 +1329,8 @@ Func CGBBBattleTVItem()
 	Local $tmpChallenges = ClanGamesChallenges("$BBBattleChallenges")
 	For $i = 0 To UBound($g_ahCGBBBattleItem) - 1
 		If GUICtrlRead($g_hClanGamesTV) = $g_ahCGBBBattleItem[$i] Then
-			GUICtrlSetData($g_hLabelClangamesDesc, $tmpChallenges[$i][5] & @CRLF & "Required TH Level : " & $tmpChallenges[$i][2] _
-				& @CRLF & "Difficulty : " & $tmpChallenges[$i][4])
+			GUICtrlSetData($g_hLabelClangamesDesc, $tmpChallenges[$i][4] & @CRLF & "Required TH Level : " & $tmpChallenges[$i][2] _
+				& @CRLF & "Difficulty : " & $tmpChallenges[$i][3])
 			ExitLoop
 		Else
 			GUICtrlSetData($g_hLabelClangamesDesc, "")
@@ -1356,8 +1356,8 @@ Func CGBBDestructionTVItem()
 	Local $tmpChallenges = ClanGamesChallenges("$BBDestructionChallenges")
 	For $i = 0 To UBound($g_ahCGBBDestructionItem) - 1
 		If GUICtrlRead($g_hClanGamesTV) = $g_ahCGBBDestructionItem[$i] Then
-			GUICtrlSetData($g_hLabelClangamesDesc, $tmpChallenges[$i][5] & @CRLF & "Required TH Level : " & $tmpChallenges[$i][2] _
-				& @CRLF & "Difficulty : " & $tmpChallenges[$i][4])
+			GUICtrlSetData($g_hLabelClangamesDesc, $tmpChallenges[$i][4] & @CRLF & "Required TH Level : " & $tmpChallenges[$i][2] _
+				& @CRLF & "Difficulty : " & $tmpChallenges[$i][3])
 			ExitLoop
 		Else
 			GUICtrlSetData($g_hLabelClangamesDesc, "")
@@ -1383,8 +1383,8 @@ Func CGBBTroopsTVItem()
 	Local $tmpChallenges = ClanGamesChallenges("$BBTroopsChallenges")
 	For $i = 0 To UBound($g_ahCGBBTroopsItem) - 1
 		If GUICtrlRead($g_hClanGamesTV) = $g_ahCGBBTroopsItem[$i] Then
-			GUICtrlSetData($g_hLabelClangamesDesc, $tmpChallenges[$i][5] & @CRLF & "Required TH Level : " & $tmpChallenges[$i][2] _
-				& @CRLF & "Difficulty : " & $tmpChallenges[$i][4])
+			GUICtrlSetData($g_hLabelClangamesDesc, $tmpChallenges[$i][4] & @CRLF & "Required TH Level : " & $tmpChallenges[$i][2] _
+				& @CRLF & "Difficulty : " & $tmpChallenges[$i][3])
 			ExitLoop
 		Else
 			GUICtrlSetData($g_hLabelClangamesDesc, "")

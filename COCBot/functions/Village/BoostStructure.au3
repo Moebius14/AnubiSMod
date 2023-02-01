@@ -168,7 +168,7 @@ EndFunc   ;==>BoostPotion
 Func AllowBoostingBuilders($Masked = False)
 	If $g_iCmbBoostBuilders = 0 Then Return False
 	
-	Local $g_iTimerBoostBuildersDiff = TimerDiff($g_iTimerBoostBuilders[$g_iCurAccount])
+	Local $g_iTimerBoostBuildersDiff = TimerDiff($g_iTimerBoostBuilders)
 	If $g_iTimerBoostBuildersDiff > 0 And $g_iTimerBoostBuildersDiff < Number(60 * 60 * 1000) Then
 		SetLog("Last iteration < 60 minutes, Recheck later", $COLOR_NAVY)
 		Return False
@@ -219,9 +219,9 @@ Func CheckBuilderPotion()
 					If $g_iCmbBoostBuilders <= 5 Then
 						$g_iCmbBoostBuilders -= 1
 						If $g_iCmbBoostBuilders > 0 Then
-							$g_iTimerBoostBuilders[$g_iCurAccount] = TimerInit()
+							$g_iTimerBoostBuilders = TimerInit()
 						Else
-							$g_iTimerBoostBuilders[$g_iCurAccount] = 0
+							$g_iTimerBoostBuilders = 0
 						EndIf
 						SetLog("Builders Boost completed. Remaining iterations: " & $g_iCmbBoostBuilders, $COLOR_SUCCESS)
 						_GUICtrlComboBox_SetCurSel($g_hCmbBoostBuilders, $g_iCmbBoostBuilders)
@@ -246,9 +246,9 @@ Func CheckBuilderPotion()
 					If $g_iCmbBoostBuilders <= 5 Then
 						$g_iCmbBoostBuilders -= 1
 						If $g_iCmbBoostBuilders > 0 Then
-							$g_iTimerBoostBuilders[$g_iCurAccount] = TimerInit()
+							$g_iTimerBoostBuilders = TimerInit()
 						Else
-							$g_iTimerBoostBuilders[$g_iCurAccount] = 0
+							$g_iTimerBoostBuilders = 0
 						EndIf
 						SetLog("Builders Boost completed. Remaining iterations: " & $g_iCmbBoostBuilders, $COLOR_SUCCESS)
 						_GUICtrlComboBox_SetCurSel($g_hCmbBoostBuilders, $g_iCmbBoostBuilders)

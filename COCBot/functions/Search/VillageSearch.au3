@@ -488,7 +488,7 @@ Func SearchLimit($iSkipped, $bReturnToPickupHero = False)
 		;close emulator as directed
 		UniversalCloseWaitOpenCoC($iWaitTime, "SearchRestartLimitPauseTime_", $StopEmulator, $bFullRestart, $bSuspendComputer)
 		$g_bRestart = True
-		$IsMainScreenLocated[$g_iCurAccount] = False
+		$IsMainScreenLocated = 0
 		$IsNewAttack = True
 		$g_iSearchCount = 0
 		Return True

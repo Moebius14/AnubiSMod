@@ -1238,7 +1238,7 @@ Func _RestartAndroidCoC($bInitAndroid = True, $bRestart = True, $bStopCoC = True
 	; reset time lag
 	InitAndroidTimeLag()
 	
-	$IsMainScreenLocated[$g_iCurAccount] = False
+	$IsMainScreenLocated = 0
 	
 	; wait 18 sec. Before Check Main Screen 
 	If _SleepStatus(18000) Then Return False ;AndroidAdbSendShellCommand $timeout seem not working, make more time here

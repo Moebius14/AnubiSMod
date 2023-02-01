@@ -15,7 +15,7 @@
 
 Func PrepareAttackBB($AttackForCount = 0)
 
-	If $g_bChkForceBBAttackOnClanGames And $g_bIsBBevent[$g_iCurAccount] Then
+	If $g_bChkForceBBAttackOnClanGames And $g_bIsBBevent Then
 		Setlog("Running Challenge is BB Challenge", $COLOR_OLIVE)
 		SetLog("Force BB Attack on Clan Games Enabled", $COLOR_DEBUG)
 		SetLog("Attack, No Matter What !!", $COLOR_DEBUG)
@@ -125,7 +125,7 @@ Func PrepareAttackBB($AttackForCount = 0)
 EndFunc
 
 Func IsBBStoragesFull()
-	If ($g_bChkForceBBAttackOnClanGames And $g_bIsBBevent[$g_iCurAccount]) Or ($g_bChkBBAttackForDailyChallenge And $g_IsBBDailyChallengeAvailable) Then Return False
+	If ($g_bChkForceBBAttackOnClanGames And $g_bIsBBevent) Or ($g_bChkBBAttackForDailyChallenge And $g_IsBBDailyChallengeAvailable) Then Return False
 	
 	If $g_bChkBBHaltOnGoldFull And $g_bChkBBHaltOnElixirFull Then
 		If CheckBBGoldStorageFullMod(False) And CheckBBElixirStorageFullMod(False) Then

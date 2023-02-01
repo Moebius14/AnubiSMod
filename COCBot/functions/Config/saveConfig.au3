@@ -794,6 +794,7 @@ Func SaveConfig_600_18()
 	_Ini_Add("notify", "PauseTimeNotif", $g_bChkNotifyPauseTime ? 1 : 0)
 	_Ini_Add("notify", "NotifyUpgradeBM", $g_bChkNotifyUpgradeBM ? 1 : 0)
 	_Ini_Add("notify", "BotStopNotify", $g_bNotifyStopBot ? 1 : 0)
+	_Ini_Add("notify", "NotifyUpgrade", $g_bChkNotifyUpgrade ? 1 : 0)
 EndFunc   ;==>SaveConfig_600_18
 
 Func SaveConfig_600_19()
@@ -1439,6 +1440,7 @@ Func SaveConfig_MOD_Humanization()
 	For $i = 0 To UBound($g_iacmbPause) - 1
 		_Ini_Add("Bot Humanization", "cmbPause[" & $i & "]", _GUICtrlComboBox_GetCurSel($g_acmbPause[$i]))
 	Next
+	_Ini_Add("Bot Humanization", "cmbPriorityChkRaid", _GUICtrlComboBox_GetCurSel($g_acmbPriorityChkRaid))
 	_Ini_Add("Bot Humanization", "cmbMaxActionsNumber", _GUICtrlComboBox_GetCurSel($g_hCmbMaxActionsNumber))
 	_Ini_Add("Bot Humanization", "HowManyinCWCombo", _GUICtrlComboBox_GetCurSel($g_HowManyinCWCombo))
 	_Ini_Add("Bot Humanization", "HowManyinCWLCombo", _GUICtrlComboBox_GetCurSel($g_HowManyinCWLCombo))

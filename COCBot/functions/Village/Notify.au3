@@ -32,9 +32,9 @@ Func NotifyReport()
 			$text &="Forecast : " & $currentForecast & "%0A"
 		EndIf
 		Local $currentDate = Number(@MDAY)
-		If $g_bChkClanGamesEnabled And $g_bChkNotifyCGScore And $currentDate >= 21 And $g_bClanGamesCompleted[$g_iCurAccount] Then
+		If $g_bChkClanGamesEnabled And $g_bChkNotifyCGScore And $currentDate >= 21 And $g_bClanGamesCompleted Then
 			$text &="Clan Games Completed" & "%0A"
-		ElseIf $g_bChkClanGamesEnabled And $g_bChkNotifyCGScore And $currentDate >= 21 And Not $g_bClanGamesCompleted[$g_iCurAccount] Then
+		ElseIf $g_bChkClanGamesEnabled And $g_bChkNotifyCGScore And $currentDate >= 21 And Not $g_bClanGamesCompleted Then
 			If IsClanGamesWindow2() Then
 				If IsClanGamesRunning2() = "Running" Then
 					GetTimesAndScores()
@@ -62,21 +62,13 @@ Func NotifyReport()
 		$text &= " [" & GetTranslatedFileIni("MBR Func_Notify", "Stats-E_Info_01", "E") & "]: " & _NumberFormat($g_aiCurrentLoot[$eLootElixir]) & "%0A"
 		$text &= "[" & GetTranslatedFileIni("MBR Func_Notify", "Stats-DE_Info_01", "DE") & "]: " & _NumberFormat($g_aiCurrentLoot[$eLootDarkElixir])
 		$text &= " [" & GetTranslatedFileIni("MBR Func_Notify", "Stats-T_Info_01", "T") & "]: " & _NumberFormat($g_aiCurrentLoot[$eLootTrophy]) & "%0A"
-		If Number($iAttack[$g_iCurAccount]) > 0 Then
-			If Number($g_iFreeBuilderCount) < 2 Then
-				$text &= "Free Builder : " & $g_iFreeBuilderCount & "%0A"
-			Else
-				$text &= "Free Builders : " & $g_iFreeBuilderCount & "%0A"
-			EndIf
+		If Number($g_iFreeBuilderCount) < 2 Then
+			$text &= "Free Builder : " & $g_iFreeBuilderCount
 		Else
-			If Number($g_iFreeBuilderCount) < 2 Then
-				$text &= "Free Builder : " & $g_iFreeBuilderCount
-			Else
-				$text &= "Free Builders : " & $g_iFreeBuilderCount
-			EndIf
+			$text &= "Free Builders : " & $g_iFreeBuilderCount
 		EndIf
-		If Number($iAttack[$g_iCurAccount]) > 0 Then
-			$text &= "Available attack(s) on Capital Raid Weekend : " & $iAttack[$g_iCurAccount]
+		If Number($iAttack) > 0 Then
+			$text &= "Available attack(s) on Capital Raid Weekend : " & $iAttack
 		EndIf
 		NotifyPushToTelegram($text)
 	EndIf

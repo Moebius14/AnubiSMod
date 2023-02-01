@@ -3257,7 +3257,7 @@ If $ViewPriorityNumber > $IsToViewBBBattleLog Then Return
 	Else
 		GUICtrlSetData($g_hTxtModLog, @CRLF & _NowTime() & " [" & $g_sProfileCurrentName & "] Humanization : " & $ActionForModLog & "", 1)
 	EndIf
-		_FileWriteLog($g_sProfileLogsPath & "\ModLog.log", " [" & $g_sProfileCurrentName & "] - Humanization : " & $ActionForModLog & "")
+	_FileWriteLog($g_sProfileLogsPath & "\ModLog.log", " [" & $g_sProfileCurrentName & "] - Humanization : " & $ActionForModLog & "")
 	If Not ClickAttack() Then Return
 	If Not $g_bRunState Then Return
 	Sleep(Random(3000, 5000, 1))
@@ -3295,7 +3295,7 @@ If $WatchPriorityNumber > $IsToWatchBBReplays Then Return
 	Else
 		GUICtrlSetData($g_hTxtModLog, @CRLF & _NowTime() & " [" & $g_sProfileCurrentName & "] Humanization : " & $ActionForModLog & "", 1)
 	EndIf
-		_FileWriteLog($g_sProfileLogsPath & "\ModLog.log", " [" & $g_sProfileCurrentName & "] - Humanization : " & $ActionForModLog & "")
+	_FileWriteLog($g_sProfileLogsPath & "\ModLog.log", " [" & $g_sProfileCurrentName & "] - Humanization : " & $ActionForModLog & "")
 	Local $aSarea[4] = [200, 35, 650, 710]
 	Local $vReplayNumber = findMultipleQuick($g_sBBReplay, 6, $aSarea, True, "", False, 36)
 	If UBound($vReplayNumber) > 0 And Not @error Then
@@ -3360,4 +3360,88 @@ Func ReturnHomeFromHumanization()
 			ExitLoop
 		EndIf	
 	WEnd
+EndFunc
+
+Func CheckRaidMap()
+If Not $g_bUseBotHumanization Then Return
+Local $IsToCheckRaidMap = Random(0, 100, 1)
+Local $CheckRaidMapPriority = 0
+If $g_iacmbPriorityChkRaid = 0 Then Return
+If $g_iacmbPriorityChkRaid = 1 Then $CheckRaidMapPriority = 85
+If $g_iacmbPriorityChkRaid = 2 Then $CheckRaidMapPriority = 70
+If $g_iacmbPriorityChkRaid = 3 Then $CheckRaidMapPriority = 50
+If $g_iacmbPriorityChkRaid = 4 Then $CheckRaidMapPriority = 30
+If $g_iacmbPriorityChkRaid = 5 Then $CheckRaidMapPriority = 2
+
+If $CheckRaidMapPriority > $IsToCheckRaidMap Then Return
+
+	SetLog("Lets Look At Raid Map", $COLOR_ACTION)
+	$ActionForModLog = "Look At Raid Map"
+	If $g_iTxtCurrentVillageName <> "" Then
+		GUICtrlSetData($g_hTxtModLog, @CRLF & _NowTime() & " [" & $g_iTxtCurrentVillageName & "] Humanization : " & $ActionForModLog & "", 1)
+	Else
+		GUICtrlSetData($g_hTxtModLog, @CRLF & _NowTime() & " [" & $g_sProfileCurrentName & "] Humanization : " & $ActionForModLog & "", 1)
+	EndIf
+	_FileWriteLog($g_sProfileLogsPath & "\ModLog.log", " [" & $g_sProfileCurrentName & "] - Humanization : " & $ActionForModLog & "")
+
+	SwitchToCapitalMain()
+	If QuickMIS("BC1", $g_sImgCCMap, 760, 570 + $g_iBottomOffsetY, 840, 650 + $g_iBottomOffsetY) Then 
+		If $g_iQuickMISName = "RaidMapButton" Then 
+			Click($g_iQuickMISX, $g_iQuickMISY)
+			If _Sleep(3000) Then Return
+			If QuickMis("BC1", $g_sImgRaidMap, 710, 25, 730, 45) Then
+				Local $sForRaidTimeOCR = getTimeForRaid(725, 55)
+				Local $iConvertedTime = ConvertOCRTime("Raid Time2", $sForRaidTimeOCR, False)
+				If $iConvertedTime > 1440 Then
+					SetLog("Raid Weekend Will Finish in " & $sForRaidTimeOCR & "", $COLOR_GREEN)
+				ElseIf $iConvertedTime < 1440 And $iConvertedTime > 120 Then
+					SetLog("Raid Weekend Will Finish in " & $sForRaidTimeOCR & "", $COLOR_ORANGE)
+				ElseIf $iConvertedTime < 120 Then
+					SetLog("Raid Weekend Will Finish in " & $sForRaidTimeOCR & "", $COLOR_RED)
+				EndIf
+				If _Sleep(2500) Then Return
+				If QuickMIS("BC1", $g_sImgCCMap, 760, 570 + $g_iBottomOffsetY, 840, 650 + $g_iBottomOffsetY) Then 
+					If $g_iQuickMISName = "RaidInfoButton" Then 
+						SetLog("Lets Look At Raid Info", $COLOR_ACTION)
+						Click($g_iQuickMISX, $g_iQuickMISY)
+						If _Sleep(2000) Then Return
+						SetLog("Lets Scroll Clan Info", $COLOR_ACTION)
+						For $i = 0 To Random(0, 2, 1)
+							Local $x = Random(270, 450, 1)
+							Local $yStart = Random(540, 560, 1)
+							Local $yEnd = Random($yStart - 200, $yStart - 170, 1)
+							ClickDrag($x, $yStart, $x, $yEnd)
+							If _Sleep(2000) Then Return
+							If Not $g_bRunState Then Return
+						Next
+						Local $bToReScroll = 0
+						If Random(0, 1, 1) = 1 Then
+							SetLog("Lets Look At Attack Log", $COLOR_ACTION)
+							Click(425, 260 + $g_iMidOffsetY)
+							If _Sleep(2000) Then Return
+							$yStart = Random(360, 390, 1)
+							$yEnd = Random($yStart + 140, $yStart + 160, 1)
+							ClickDrag($x, $yStart, $x, $yEnd)
+							$bToReScroll += 1
+							If _Sleep(Random(3000, 7000, 1)) Then Return
+						EndIf
+						If Random(0, 1, 1) = 1 Then
+							SetLog("Lets Look At Defense Log", $COLOR_ACTION)
+							Click(625, 260 + $g_iMidOffsetY)
+							If $bToReScroll = 0 Then
+								If _Sleep(2000) Then Return
+								$yStart = Random(360, 390, 1)
+								$yEnd = Random($yStart + 140, $yStart + 160, 1)
+								ClickDrag($x, $yStart, $x, $yEnd)
+							EndIf
+							If _Sleep(Random(4000, 6000, 1)) Then Return
+						EndIf
+						CloseWindow()
+					EndIf
+					If _Sleep(Random(1000, 3000, 1)) Then Return
+				EndIf
+				SwitchToCapitalMain()
+			EndIf
+		EndIf
+	EndIf
 EndFunc

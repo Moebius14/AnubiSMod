@@ -450,17 +450,17 @@ EndFunc   ;==>LocateStarLab()
 Func StarLabGuiDisplay()
 	Local $iXMoved = 0, $iYMoved = 0
 
-	If ($g_bNoStarLabCheck = 0 Or $g_bNoStarLabCheck = 1) And $g_bFirstStartForStarLab[$g_iCurAccount] = 1 Then Return False
+	If ($g_bNoStarLabCheck = 0 Or $g_bNoStarLabCheck = 1) And $g_bFirstStartForStarLab Then Return False
 	
-	If $g_bNoStarLabCheck = 0 And $g_bFirstStartForStarLab[$g_iCurAccount] = 0 Then
+	If $g_bNoStarLabCheck = 0 And Not $g_bFirstStartForStarLab Then
 		SetLog("StarLab Won't Be Checked !", $COLOR_BLUE)
-		$g_bFirstStartForStarLab[$g_iCurAccount] = 1
+		$g_bFirstStartForStarLab = 1
 		Return False
 	EndIf
 	
-	If $g_bNoStarLabCheck = 1 And $g_bFirstStartForStarLab[$g_iCurAccount] = 0 Then 
+	If $g_bNoStarLabCheck = 1 And Not $g_bFirstStartForStarLab Then 
 		SetLog("StarLab Will Be Checked Just One Time !", $COLOR_BLUE)
-		$g_bFirstStartForStarLab[$g_iCurAccount] = 1
+		$g_bFirstStartForStarLab = 1
 	EndIf
 	
 	Local Static $iLastTimeChecked[8]
@@ -489,7 +489,7 @@ Func StarLabGuiDisplay()
 		SetLog("Cannot find the Star Laboratory Research Button!", $COLOR_ERROR)
 		GUICtrlSetData($g_hLbLStarLabTime, "")
 		ClickAway()
-		If $g_bNoStarLabCheck = 1 Then $g_bFirstStartForStarLab[$g_iCurAccount] = 0
+		If $g_bNoStarLabCheck Then $g_bFirstStartForStarLab = 0
 		Return False
 	EndIf
 	

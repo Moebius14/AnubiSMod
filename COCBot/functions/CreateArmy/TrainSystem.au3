@@ -1603,7 +1603,7 @@ Func IsTimeWaitForCC($g_bFullArmy = False, $g_bCheckSpells = False, $bFullArmyHe
 	
 	If $g_aiCmbCCDecisionTime = 0 Then Return True
 	
-	If $CCWaitChrono < 0 Then Return False
+	If $CCWaitChrono = 0 Then Return False
 	
 	Local $CCWaitTimerDiff = TimerDiff($CCWaitChrono)
 	Local $DelayReturnedCCDecisionTime = ($g_aiCmbCCDecisionTime * 60 * 1000)

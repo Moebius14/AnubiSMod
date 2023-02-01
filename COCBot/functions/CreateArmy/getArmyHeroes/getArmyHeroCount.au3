@@ -319,17 +319,17 @@ EndFunc   ;==>ArmyHeroStatus
 
 Func LabGuiDisplay() ; called from main loop to get an early status for indictors in bot bottom
 
-	If ($g_bNoLabCheck = 0 Or $g_bNoLabCheck = 1) And $g_bFirstStartForLab[$g_iCurAccount] = 1 Then Return
+	If ($g_bNoLabCheck = 0 Or $g_bNoLabCheck = 1) And $g_bFirstStartForLab Then Return
 	
-	If $g_bNoLabCheck = 0 And $g_bFirstStartForLab[$g_iCurAccount] = 0 Then
+	If $g_bNoLabCheck = 0 And Not $g_bFirstStartForLab Then
 		SetLog("Lab Won't Be Checked !", $COLOR_BLUE)
-		$g_bFirstStartForLab[$g_iCurAccount] = 1
+		$g_bFirstStartForLab = 1
 		Return
 	EndIf
 	
-	If $g_bNoLabCheck = 1 And $g_bFirstStartForLab[$g_iCurAccount] = 0 Then
+	If $g_bNoLabCheck = 1 And Not $g_bFirstStartForLab Then
 		SetLog("Lab Will Be Checked Just One Time !", $COLOR_BLUE)
-		$g_bFirstStartForLab[$g_iCurAccount] = 1
+		$g_bFirstStartForLab = 1
 	EndIf
 
 	Local Static $iLastTimeChecked[8]
@@ -397,7 +397,7 @@ Func LabGuiDisplay() ; called from main loop to get an early status for indictor
 		GUICtrlSetState($g_hPicLabGray, $GUI_SHOW)
 		GUICtrlSetData($g_hLbLLabTime, "")
 		;===========================================
-		If $g_bNoLabCheck = 1 Then $g_bFirstStartForLab[$g_iCurAccount] = 0
+		If $g_bNoLabCheck Then $g_bFirstStartForLab = 0
 		Return
 	EndIf
 

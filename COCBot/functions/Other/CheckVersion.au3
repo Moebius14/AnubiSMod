@@ -71,15 +71,22 @@ Func CheckVersion()
 		SetDebugLog("Your version is " & $g_iBotVersionNMod)
 
 		If _VersionCompare($g_iBotVersionNMod, $g_sBotModGitVersion) = -1 Then
+			SetLog("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~", $COLOR_ERROR)
 			SetLog("WARNING, YOUR MOD VERSION (" & $g_iBotVersionNMod & ") IS OUT OF DATE.", $COLOR_ERROR)
+			SetLog("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~", $COLOR_ERROR)
 			Local $ChangelogTXT = GetLastChangeLog($TempMod)
 			Local $Changelog = StringSplit($ChangelogTXT[0], '\r\n', $STR_ENTIRESPLIT + $STR_NOCOUNT)
 			For $i = 0 To UBound($Changelog) - 1
 				SetLog($Changelog[$i] )
 			Next
+			SetLog(" ", $COLOR_ERROR)
+			SetLog("Click Cahaya~Fantasy To Find The Lastest Mod Version", $COLOR_ERROR)
+			SetLog(" ", $COLOR_ERROR)
 			PushMsg("UpdateMod")
 		ElseIf _VersionCompare($g_iBotVersionNMod, $g_sBotModGitVersion) = 0 Then
-			SetLog("~~~~~YOU HAVE THE LATEST MOD VERSION~~~~~", $COLOR_SUCCESS)
+			SetLog("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~", $COLOR_SUCCESS)
+			SetLog("~~~~~~YOU HAVE THE LATEST MOD VERSION~~~~~", $COLOR_SUCCESS)
+			SetLog("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~", $COLOR_SUCCESS)
 		EndIf
 	Else
 		SetDebugLog($TempMod)

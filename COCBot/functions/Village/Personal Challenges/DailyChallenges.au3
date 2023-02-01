@@ -26,11 +26,11 @@ Func DailyChallenges($CCControl = True)
 
 	If Not $g_bChkCollectRewards And Not $bCheckDiscount Then Return
 	
-	If $g_bFirstStartAccountDC[$g_iCurAccount] = 0 Then
+	If Not $g_bFirstStartAccountDC Then
 	$IsToCheckdiff[$g_iCurAccount] = False
 	$asLastTimeCheckedforChallenges[$g_iCurAccount] = 0
 	$DelayPersoChallengesMn[$g_iCurAccount] = 0
-	$g_bFirstStartAccountDC[$g_iCurAccount] = 1
+	$g_bFirstStartAccountDC = 1
 	EndIf
 	
 	If $IsToCheckdiff[$g_iCurAccount] And Not $IsToCheckBeforeStop And $g_iCmbPriorityPersoChallengesFrequency > 0 Then
@@ -64,7 +64,7 @@ Func DailyChallenges($CCControl = True)
 		ClosePersonalChallenges()
 		Sleep(Random(2000, 3000, 1))
 	Else
-		If $bGoldPass And $g_bFirstStartForAll[$g_iCurAccount] = 0 Then
+		If $bGoldPass And Not $g_bFirstStartForAll Then
 			If $bCheckDiscount Then CheckDiscountPerksMod()
 		EndIf
 	EndIf

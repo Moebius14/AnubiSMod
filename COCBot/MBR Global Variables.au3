@@ -668,8 +668,7 @@ $eIcnSuperBarbarian, $eIcnSuperArcher, $eIcnSneakyGoblin, $eIcnSuperWallBreaker,
 $eIcnSuperGiant, $eIcnRocketBalloon, $eIcnSuperWizard, $eIcnSuperDragon, _
 $eIcnInfernoDragon, $eIcnSuperMinion, $eIcnSuperValkyrie, $eIcnSuperWitch, _
 $eIcnIceHound, $eIcnSuperBowler, $eIcnSuperMiner]
-Global $g_bCheckBarrel[8] = [True, True, True, True, True, True, True, True]
-Global $g_bMaxNbrSTroops[8] = [False, False, False, False, False, False, False, False]
+Global $g_bFirstStartBarrel = 1
 
 Global $g_bSuperTroopsEnable = False, $g_bSkipBoostSuperTroopOnHalt = False, $g_bSuperTroopsBoostUsePotionFirst = False
 Global $g_iCmbSuperTroops[$iMaxSupersTroop] = [0, 0]
@@ -1010,7 +1009,7 @@ Global $g_bNotifyAlertMatchFound = False, $g_bNotifyAlerLastRaidIMG = False, $g_
 		$g_bNotifyAlertVillageReport = False, $g_bNotifyAlertLastAttack = False, $g_bNotifyAlertAnotherDevice = False, $g_bNotifyAlertMaintenance = False, _
 		$g_bNotifyAlertBAN = False, $g_bNotifyAlertBOTUpdate = False, $g_bNotifyAlertSmartWaitTime = False, $g_bNotifyAlertLaboratoryIdle = False, $g_bNotifyAlertForecastReport = False, _
 		$g_bNotifyAlertForecastReport2 = False, $g_bChkNotifyCGScore = False, $g_bChkNotifyStarBonusAvail = False, $StarBonusStatus = "", $g_bChkNotifyPauseTime = False, _
-		$g_bChkNotifyUpgradeBM = False
+		$g_bChkNotifyUpgradeBM = False, $g_bChkNotifyUpgrade = False
 ;Schedule
 Global $g_bNotifyScheduleHoursEnable = False, $g_bNotifyScheduleWeekDaysEnable = False
 Global $g_abNotifyScheduleHours[24] = [False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False]
@@ -1059,7 +1058,7 @@ Global $g_bAllBarracksUpgd = False
 
 ; <><><><> Attack Plan / Train Army / Boost <><><><>
 Global $g_iCmbBoostBarracks = 0, $g_iCmbBoostSpellFactory = 0, $g_iCmbBoostWorkshop = 0, $g_iCmbBoostBarbarianKing = 0, $g_iCmbBoostArcherQueen = 0, $g_iCmbBoostWarden = 0, $g_iCmbBoostChampion = 0, $g_iCmbBoostEverything = 0, _
-	   $g_iCmbBoostBuilders = 0, $g_iTimerBoostBuilders[8]
+	   $g_iCmbBoostBuilders = 0, $g_iTimerBoostBuilders = 0
 Global $g_abBoostBarracksHours[24] = [True, True, True, True, True, True, True, True, True, True, True, True, True, True, True, True, True, True, True, True, True, True, True, True]
 
 ; <><><><> Attack Plan / Train Army / Train Order <><><><>
@@ -1243,7 +1242,7 @@ Global $g_abPlannedAttackWeekDays[7] = [True, True, True, True, True, True, True
 Global $g_abPlannedattackHours[24] = [True, True, True, True, True, True, True, True, True, True, True, True, True, True, True, True, True, True, True, True, True, True, True, True]
 Global $g_bPlannedDropCCHoursEnable = False, $g_bUseCCBalanced = False, $g_iCCDonated = 0, $g_iCCReceived = 0, $g_bCheckDonateOften = False
 Global $g_abPlannedDropCCHours[24] = [True, True, True, True, True, True, True, True, True, True, True, True, True, True, True, True, True, True, True, True, True, True, True, True]
-Global $IsPauseButDonate[8], $IsTroopDonated = False, $IsSpellDonated = False, $IsSiegeDonated = False
+Global $IsTroopDonated = False, $IsSpellDonated = False, $IsSiegeDonated = False
 
 ; <><><><> Attack Plan / Search & Attack / Options / SmartZap <><><><>
 Global $g_bSmartZapEnable = False, $g_bEarthQuakeZap = False, $g_bNoobZap = False, $g_bSmartZapDB = True, $g_bSmartZapSaveHeroes = True, _
@@ -1256,7 +1255,7 @@ Global $g_bShareAttackEnable = 0, $g_iShareMinGold = 300000, $g_iShareMinElixir 
 ; <><><><> Attack Plan / Search & Attack / Options / Trophy Settings <><><><>
 Global $g_bDropTrophyEnable = False, $g_iDropTrophyMax = 1200, $g_iDropTrophyMin = 800, $g_bDropTrophyUseHeroes = False, $g_iDropTrophyHeroesPriority = 4, _
 		$g_iDropTrophyHeroesPriority1 = 5, $g_iDropTrophyHeroesPriority2 = 6, $g_iDropTrophyHeroesPriority3 = 1, $g_bDropTrophyAtkDead = 0, $g_iDropTrophyArmyMinPct = 70, _
-		$IsdroptrophiesActive[8], $IsDropTrophyBreaked[8]
+		$IsdroptrophiesActive = 0, $IsDropTrophyBreaked = 0
 Global $g_bChkTrophyAtkWithHeroesOnly = False, $bWaitOnlyOneHeroForDT  = True, $bWaitAllHeroesForDT = False
 
 ; <><><><> Attack Plan / Strategies <><><><>
@@ -1869,6 +1868,7 @@ Global $g_iacmbPriorityReward[22] = [3, 7, 2, 7, 5, 6, 2, 7, 9, 8, 8, 1, 6, 4, 4
 Global $g_bChkClanGamesSpell = 0
 Global $g_bChkClanGamesBBBattle = 0
 Global $g_bChkClanGamesBBDes = 0
+Global $g_bChkClanGamesBBTroops = 0
 
 Global $g_bChkClanGamesDes = 0
 Global $g_bChkClanGamesAirTroop = 0
@@ -1880,25 +1880,13 @@ Global $g_bChkClanGamesDebug = 0, $g_bChkCCGDebugNoneFound = 0
 Global $g_sClanGamesScore = "N/A", $g_sClanGamesTimeRemaining = "N/A"
 
 ;ClanGames Challenges
-Global $g_bChkForceBBAttackOnClanGames = True, $g_bIsBBevent[8], $g_bChkClanGamesBBTroops = False
+Global $g_bChkForceBBAttackOnClanGames = True, $g_bIsBBevent = 0
 Global $bSearchBBEventFirst = False, $bSearchMainEventFirst = False, $bSearchBothVillages = True
 Global $g_bChkClanGamesPurgeAny = 0, $g_bIsCGCoolDownTime = False, $g_hCoolDownTimer = 0
 Global $g_bSortClanGames = True, $g_iSortClanGames = 0
 Global $g_abCGMainLootItem[6], $g_abCGMainBattleItem[22], $g_abCGMainDestructionItem[34], $g_abCGMainAirItem[13], _
 	   $g_abCGMainGroundItem[28], $g_abCGMainMiscItem[3], $g_abCGMainSpellItem[12], $g_abCGBBBattleItem[4], _
 	   $g_abCGBBDestructionItem[18], $g_abCGBBTroopsItem[11]
-#cs
-Global $g_abCGMainLootItem[UBound(ClanGamesChallenges("$LootChallenges"))]
-Global $g_abCGMainBattleItem[Ubound(ClanGamesChallenges("$BattleChallenges"))]
-Global $g_abCGMainDestructionItem[Ubound(ClanGamesChallenges("$DestructionChallenges"))]
-Global $g_abCGMainAirItem[Ubound(ClanGamesChallenges("$AirTroopChallenges"))]
-Global $g_abCGMainGroundItem[Ubound(ClanGamesChallenges("$GroundTroopChallenges"))]
-Global $g_abCGMainMiscItem[Ubound(ClanGamesChallenges("$MiscChallenges"))]
-Global $g_abCGMainSpellItem[Ubound(ClanGamesChallenges("$SpellChallenges"))]
-Global $g_abCGBBBattleItem[Ubound(ClanGamesChallenges("$BBBattleChallenges"))]
-Global $g_abCGBBDestructionItem[Ubound(ClanGamesChallenges("$BBDestructionChallenges"))]
-Global $g_abCGBBTroopsItem[Ubound(ClanGamesChallenges("$BBTroopsChallenges"))]
-#ce
 
 ; CSV Deploy Speed
 Global $cmbCSVSpeed[2] = [$LB, $DB]
@@ -1910,7 +1898,7 @@ Global $cmbCSVSpeedLabel = 0
 Global $g_bChkCollectAchievements = True
 
 ; Collect Free Magic Items
-Global $g_bChkCollectFreeMagicItems = True, $IsToOpenOffers[8]
+Global $g_bChkCollectFreeMagicItems = True, $IsToOpenOffers = 0
 
 ; Daily challenge
 Global $g_bChkCollectRewards = True
@@ -1953,7 +1941,7 @@ Func _ArrayIndexValid(Const ByRef $a, Const $idx)
 EndFunc   ;==>_ArrayIndexValid
 
 ;Check Loading and Updates
-Global $IsMainScreenLocated[8]
+Global $IsMainScreenLocated = 0
 
 ; Internal & External Polygon
 Global $CocDiamondECD = "ECD"
@@ -1993,6 +1981,7 @@ Global Const $g_aiPetUpgradeCostPerLevel[$ePetCount][$g_ePetLevels] = [ _
 ; Humanization
 Global $g_iacmbPriority[11] = [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 5]
 Global $g_iacmbPriorityBB[2] = [1, 1]
+Global $g_iacmbPriorityChkRaid = 4
 Global $g_iacmbMaxSpeed[3] = [3, 3, 3]
 Global $g_iacmbPause[3] = [1, 1, 1]
 Global $g_iMinimumPriority, $g_iMaxActionsNumber, $g_iActionToDo
@@ -2010,6 +1999,7 @@ Global $g_iHowManyinCWCombo = 0, $g_iHowManyinCWLCombo = 2, $g_HowManyPlayersInC
 Global $aResultBuildingDetect = 0, $aNumResultBuildingDetect = 0, $THVisitCoord = 0
 Global $g_bUseWelcomeMessage = False
 Global $g_aWelcomeMessage = ""
+Global Const $g_sIcnHumanization = @ScriptDir & "\Images\Humanization.png"
 
 ;Forecast
 Global Const $g_sIcnForecaster = @ScriptDir & "\lib\ModLibs\Forecaster.png"
@@ -2026,12 +2016,12 @@ Global $g_iCmbForecastBoost = 0, $ForecastCheckTimer = 0, $ForecastCheckTimerDif
 	   $g_bFirstStartForForecast = 0, $RecheckForecastAfterPause = 0
 
 ;Advanced
-Global $g_bFirstStartForLab[8], $g_bNoLabCheck = 2
-Global $g_bFirstStartForStarLab[8], $g_bNoStarLabCheck = 0
-Global $g_bFirstStartForPetHouse[8], $g_bNoPetHouseCheck = 2
-Global $MagicItemsCheckTimer[8], $DelayReturnedtocheckMagicItemsMS[8], $IstoRecheckTrader[8]
+Global $g_bFirstStartForLab = 0, $g_bNoLabCheck = 2
+Global $g_bFirstStartForStarLab = 0, $g_bNoStarLabCheck = 0
+Global $g_bFirstStartForPetHouse = 0, $g_bNoPetHouseCheck = 2
+Global $MagicItemsCheckTimer = 0, $DelayReturnedtocheckMagicItemsMS = 0, $IstoRecheckTrader = 0
 Global $g_iCmbPriorityMagicItemsFrequency = 0
-Global $BBaseCheckTimer[8], $DelayReturnedtocheckBBaseMS[8], $IstoSwitchMod[8]
+Global $BBaseCheckTimer = 0, $DelayReturnedtocheckBBaseMS = 0, $IstoSwitchMod = 0
 Global $g_iCmbPriorityBBaseFrequency = 3, $g_bChkBBaseFrequency = False
 Global $g_iCmbPriorityPersoChallengesFrequency = 0
 Global $IsToCheckdiff[8], $asLastTimeCheckedforChallenges[8], $DelayPersoChallengesMn[8], $IsToCheckBeforeStop = False	   
@@ -2039,21 +2029,21 @@ Global $g_icmbAdvancedVariation[3] = [3, 3, 3]
 Global $g_bChkTrophyDropinPause = True, $g_iacmdRandomDelay = True, $g_iacmdRandomDelayMin = 10, $g_iacmdRandomDelayMax = 30, $g_iacmdRandomDelayFinal = 0
 Global $IsKingReadyForDropTrophies = 0, $IsQueenReadyForDropTrophies = 0, $IsWardenReadyForDropTrophies = 0, $IsChampionReadyForDropTrophies = 0
 Global $g_bChkVisitBbaseinPause = True, $g_bChkPersoChallengesinPause = True
-Global $g_bFirstStartAccountDC[8], $g_bFirstStartAccountFMI[8], $g_bFirstStartAccountSBB[8]
+Global $g_bFirstStartAccountDC = 0, $g_bFirstStartAccountFMI = 0, $g_bFirstStartAccountSBB = 0
 Global $g_iTxtCurrentVillageName = ""
-Global $CheckTombsTimer[8], $CheckTombsFrequency[8]
-Global $LootCartTimer[8], $LootCartFrequency[8]
+Global $CheckTombsTimer = 0, $CheckTombsFrequency = 0
+Global $LootCartTimer = 0, $LootCartFrequency = 0
 Global $g_sNewChallengeTime = 0, $TimeDiffBBChallenge = 0
 
 ; <><><><> CG Attack Planner <><><><>
 Global $g_bAttackCGPlannerEnable = False, $g_bAttackCGPlannerRandomEnable = False, $g_iAttackCGPlannerRandomTime = 1, $g_iAttackCGPlannerRandomProba = 3, $g_bNotifyStopBot = False, _
-	   $g_iAttackCGPlannerRandomVariation = 2, $g_bAttackCGPlannerDayLimit = False, $g_iAttackCGPlannerDayMin = 3, $g_iAttackCGPlannerDayMax = 6, $iRandomAttackCountToday[8]
+	   $g_iAttackCGPlannerRandomVariation = 2, $g_bAttackCGPlannerDayLimit = False, $g_iAttackCGPlannerDayMin = 3, $g_iAttackCGPlannerDayMax = 6, $iRandomAttackCGCountToday = 0
 Global $bCGPlannerThenContinue = True, $bCGPlannerThenStopBot = False, $g_bChkSTOPWhenCGPointsMax = False
 Global $g_abPlannedAttackCGWeekDays[7] = [True, True, True, True, True, True, True]
 Global $g_abPlannedAttackCGHours[24] = [True, True, True, True, True, True, True, True, True, True, True, True, True, True, True, True, True, True, True, True, True, True, True, True]
-Global $g_aiAttackedCGCount[8], $IsReachedMaxCGDayAttack[8], $iNowDayCG = @YDAY
-Global $IsAttackCGRandomEnable[8], $g_bFirstStartAccountCGRA[8], $CGRACheckTimer[8], $DelayReturnedtocheckCGRA[8], $IsStatusForCG[8], $g_bFirstStartForAll[8]
-Global $g_bClanGamesCompleted[8]
+Global $g_aiAttackedCGCount = 0, $IsReachedMaxCGDayAttack = 0, $iNowDayCG = @YDAY
+Global $IsAttackCGRandomEnable = 0, $g_bFirstStartAccountCGRA = 0, $CGRACheckTimer = 0, $DelayReturnedtocheckCGRA = 0, $IsStatusForCG = 0, $g_bFirstStartForAll = 0
+Global $g_bClanGamesCompleted
 
 ;Mod Color settlog
 Global $g_bChkColorfulAttackLog = 1
@@ -2075,7 +2065,7 @@ Global $PotionsNames[9] = ["Power", "Resource", "Training", "Builder", "Clock To
 Global $IsForRequestEarly = True, $IsTofillWithMedals = False
 Global $g_sImgCCReinforceBuy = @ScriptDir & "\imgxml\imglocbuttons\Buy"
 Global $bChkUseOnlyCCMedals = False, $g_aiCmbCCMedalsSaveMin = 100
-Global $g_aiCmbCCDecisionTime = 0, $g_aiCmbCCDecisionThen = 0, $CCWaitChrono = -1
+Global $g_aiCmbCCDecisionTime = 0, $g_aiCmbCCDecisionThen = 0, $CCWaitChrono = 0
 
 ; Spring, Autumn, Clashy, Pirate, Epic Winter, Hog Mountain, Jungle, Epic Jungle, 9th Clash, PumpKin GraveYard,
 ; Snow Day, Tiger Mountain, Primal(PR), Shadow(SH), Royale Scenery, Summer Scenery
@@ -2134,14 +2124,14 @@ Global $g_iNextPageTroop = $eMini
 
 ;ClanCapital
 Global $g_iLootCCGold = 0, $g_iLootCCMedal = 0, $g_iCCTrophies = 0, $g_bChkEnableAutoUpgradeCC = False, $g_bChkAutoUpgradeCCIgnore = False, $g_bChkEnableSmartSwitchCC = False
-Global $IsRaidRunning[8] = [False, False, False, False, False, False, False, False]
+Global $IsRaidRunning = 0
 Global $g_bChkEnableCollectCCGold = True, $g_bChkEnableForgeGold = False, $g_bChkEnableForgeElix = False
 Global $g_bChkEnableForgeDE = False, $g_bChkEnableForgeBBGold = False, $g_bChkEnableForgeBBElix = False, $g_iCmbForgeBuilder = 0
-Global $g_bFirstStartAccountSBB2[8], $CCBaseCheckTimer[8], $DelayReturnedtocheckCCBaseMS[8], $iAttack[8]
+Global $g_bFirstStartAccountSBB2 = 0, $CCBaseCheckTimer = 0, $DelayReturnedtocheckCCBaseMS = 0, $iAttack = 0
 Global $g_iCmbPriorityCCBaseFrequency = 2, $g_icmbAdvancedVariationCC = 3, $IsCCGoldJustCollected = False, $IsCCGoldJustCollectedDChallenge = False
 Global $g_iacmdGoldSaveMin = 150000, $g_iacmdElixSaveMin = 1000, $g_iacmdDarkSaveMin = 1000, $g_iacmdBBGoldSaveMin = 1000, $g_iacmdBBElixSaveMin = 1000
 Global $g_bChkStartWeekendRaid = False, $g_bChkEnablePriorArmyCC = False, $g_bChkEnablePriorHallsCC = False, $g_bChkEnablePriorRuinsCC = False, $g_bChkIsIgnoredWalls = False, _
-$g_bChkEnableOnlyRuinsCC = False, $g_bChkEnablePriorPrioritized = False
+	   $g_bChkEnableOnlyRuinsCC = False, $g_bChkEnablePriorPrioritized = False
 Global $g_bChkEnablePriorArmyCamp = False, $g_bChkEnablePriorBarracks = False, $g_bChkEnablePriorStorage = False, $g_bChkEnablePriorFactory = False
 Global $aCCBuildingIgnore[14] = ["Ruined", "Big Barbarian", "Pyre", "Boulder", "Bonfire", "Grove", "Tree", "Forest", "Campsite", "Stone", "Pillar", "The First", "Trunks", "Tombs"]
 Global $aCCBuildingIgnoreWWalls[15] = ["Wall", "Ruined", "Big Barbarian", "Pyre", "Boulder", "Bonfire", "Grove", "Tree", "Forest", "Campsite", "Stone", "Pillar", "The First", "Trunks", "Tombs"]

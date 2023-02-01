@@ -410,18 +410,18 @@ EndFunc
 ; run every if no upgradeing pet
 Func PetGuiDisplay()
 
-	If ($g_bNoPetHouseCheck = 0 Or $g_bNoPetHouseCheck = 1) And $g_bFirstStartForPetHouse[$g_iCurAccount] = 1 Then Return
+	If ($g_bNoPetHouseCheck = 0 Or $g_bNoPetHouseCheck = 1) And $g_bFirstStartForPetHouse Then Return
 	
 	If $g_iTownHallLevel > 13 Then
-		If $g_bNoPetHouseCheck = 0 And $g_bFirstStartForPetHouse[$g_iCurAccount] = 0 Then
+		If $g_bNoPetHouseCheck = 0 And Not $g_bFirstStartForPetHouse Then
 			SetLog("Pet House Won't Be Checked !", $COLOR_BLUE)
-			$g_bFirstStartForPetHouse[$g_iCurAccount] = 1
+			$g_bFirstStartForPetHouse = 1
 			Return
 		EndIf
 	
-		If $g_bNoPetHouseCheck = 1 And $g_bFirstStartForPetHouse[$g_iCurAccount] = 0 Then
+		If $g_bNoPetHouseCheck = 1 And Not $g_bFirstStartForPetHouse Then
 			SetLog("Pet House Will Be Checked Just One Time !", $COLOR_BLUE)
-			$g_bFirstStartForPetHouse[$g_iCurAccount] = 1
+			$g_bFirstStartForPetHouse = 1
 		EndIf
 	EndIf
 	
@@ -433,7 +433,7 @@ Func PetGuiDisplay()
 		GUICtrlSetState($g_hPicPetGray, $GUI_SHOW)
 		GUICtrlSetData($g_hLbLPetTime, "")
 		;============================================
-		$g_bFirstStartForPetHouse[$g_iCurAccount] = 1
+		$g_bFirstStartForPetHouse = 1
 		Return
 	EndIf
 	
@@ -504,7 +504,7 @@ Func PetGuiDisplay()
 		GUICtrlSetState($g_hPicPetGray, $GUI_SHOW)
 		GUICtrlSetData($g_hLbLPetTime, "")
 		;===========================================
-		If $g_bNoPetHouseCheck = 1 Then $g_bFirstStartForPetHouse[$g_iCurAccount] = 0
+		If $g_bNoPetHouseCheck Then $g_bFirstStartForPetHouse = 0
 		Return
 	EndIf
 

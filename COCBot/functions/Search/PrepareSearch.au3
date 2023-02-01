@@ -14,7 +14,7 @@
 ; ===============================================================================================================================
 Func PrepareSearch($Mode = $DB) ;Click attack button and find match button, will break shield
 	$g_iSearchRestartLimit = Random($g_iSearchRestartLimitMin, $g_iSearchRestartLimitMax, 1)
-	If Not $IsdroptrophiesActive[$g_iCurAccount] Then
+	If Not $IsdroptrophiesActive Then
 		SetLog("Number of search limit for this loop : " & $g_iSearchRestartLimit & " searches", $COLOR_BLUE)
 		SetLog("Number of search limit for Break : " & $g_iSearchRestartLimitPause & " searches", $COLOR_BLUE)
 	EndIf

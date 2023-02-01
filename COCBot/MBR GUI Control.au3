@@ -485,9 +485,9 @@ Func GUIControl_WM_COMMAND($hWind, $iMsg, $wParam, $lParam)
 			OpenURL_Label($nID)
 		Case $g_hFrmBot_URL_PIC, $g_hFrmBot_URL_PIC2
 			OpenURL_Label($g_hLblMyBotURL)
-		;Case $g_hLblDonate
-			; Donate URL is not in text nor tooltip
-		;	ShellExecute("https://mybot.run/forums/index.php?/donate/make-donation/")
+		Case $g_hLblDonate
+			; AnubiS Mod Project Link
+			ShellExecute("https://github.com/Moebius14/AnubiSMod/releases")
 		Case $g_hBtnStart, $g_hTblStart
 			btnStart()
 		Case $g_hBtnStop, $g_hTblStop

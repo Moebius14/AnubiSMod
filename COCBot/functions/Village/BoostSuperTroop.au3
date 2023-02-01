@@ -178,33 +178,43 @@ Func BoostSuperTroop($bTest = False)
 EndFunc   ;==>BoostSuperTroop
 
 Func OpenBarrel($bTest = False)
-	Local $iSTCount = 0, $bOpenBarrel = True, $bRet = False
+	
 	If QuickMIS("BC1", $g_sImgBoostTroopsBarrel, 30, 90 + $g_iMidOffsetY, 180, 240 + $g_iMidOffsetY, True, False) Then
-		; Check if is already boosted.
-		Local $aiSearchArray[4] = [$g_iQuickMISX - 16, $g_iQuickMISY - 41, $g_iQuickMISX - 4, $g_iQuickMISY - 10]
-		Local $aSearchForProgress = decodeMultipleCoords(findImage("SuperTroopProgress", $g_sImgSTProgress, GetDiamondFromRect($aiSearchArray), 0, True, Default))
+	
+		Local $aSearchForProgress = 0
+		Local $iSTCount = 0, $bOpenBarrel = True, $bRet = False
+		Local $aiSearchNoBoost[4] = [$g_iQuickMISX - 10, $g_iQuickMISY - 10, $g_iQuickMISX + 25, $g_iQuickMISY + 35]
+		Local $aiSearchArrayLower[4] = [$g_iQuickMISX - 7, $g_iQuickMISY - 25, $g_iQuickMISX + 20, $g_iQuickMISY - 20]
+		Local $aiSearchArrayUpper[4] = [$g_iQuickMISX - 7, $g_iQuickMISY - 39, $g_iQuickMISX + 20, $g_iQuickMISY - 34]
 		
-		If IsArray($aSearchForProgress) And UBound($aSearchForProgress, 1) > 0 Then
+		If QuickMIS("BC1", $g_sImgBarrelStopped, $aiSearchNoBoost[0], $aiSearchNoBoost[1], $aiSearchNoBoost[2], $aiSearchNoBoost[3], True, False) Then
+			SetLog("No Troop Currently Boosted", $COLOR_INFO)
+		Else
+			If WaitforPixel($aiSearchArrayLower[0], $aiSearchArrayLower[1], $aiSearchArrayLower[2], $aiSearchArrayLower[3], "E2E3D8", 20, 2) Then $aSearchForProgress = 1
+			If WaitforPixel($aiSearchArrayUpper[0], $aiSearchArrayUpper[1], $aiSearchArrayUpper[2], $aiSearchArrayUpper[3], "E2E3D8", 20, 2) Then $aSearchForProgress = 2
+		EndIf	
 		
-			If UBound($aSearchForProgress, 1) = $iMaxSupersTroop Then ;When 2 troops already boosted.
-				SetLog("Max Number of Troops Already boosted", $COLOR_INFO)
-				$g_bMaxNbrSTroops[$g_iCurAccount] = True
+		SetDebugLog("Progress Bar Found : " & $aSearchForProgress, $COLOR_DEBUG)
+		
+		If Number($aSearchForProgress) > 0 Then
+		
+			If Number($aSearchForProgress) = $iMaxSupersTroop Then ;When 2 troops already boosted.
+				SetLog("Max Number Of Troops Already Boosted", $COLOR_INFO)
 				If Not $bTest Then Return False
 			EndIf
-			
-			If $g_bMaxNbrSTroops[$g_iCurAccount] Then $g_bCheckBarrel[$g_iCurAccount] = True ;When 2 Troops Boosted at start, then 1 finishes -> Check.
 		
 			; Reset
 			$iSTCount = 0
 			For $i = 0 To 1
 				If $g_iCmbSuperTroops[$i] > 0 Then $iSTCount += 1
 			Next
-			If $iSTCount = UBound($aSearchForProgress, 1) Then
-				If $g_bCheckBarrel[$g_iCurAccount] Then ; First Start Or when 2 troops at start then 1 finishes.
+			
+			If $iSTCount = Number($aSearchForProgress) Then
+				If $g_bFirstStartBarrel Then ;First Start to check if the selected troop <> boosted troop
 					$bOpenBarrel = True
-					$g_bCheckBarrel[$g_iCurAccount] = False
-				Else	
-					SetLog("Troops Already boosted", $COLOR_INFO)
+					$g_bFirstStartBarrel = 0
+				Else
+					SetLog("Troop Already boosted", $COLOR_INFO)
 					$bOpenBarrel = False
 				EndIf
 			Else

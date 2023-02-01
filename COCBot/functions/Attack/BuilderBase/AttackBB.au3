@@ -36,7 +36,7 @@ Func DoAttackBB()
 			SetLog("Attack #" & $count & "/~", $COLOR_INFO)
 			AttackBB()
 			$AttackForCount += 1
-			If $g_bChkForceBBAttackOnClanGames And $g_bIsBBevent[$g_iCurAccount] Then
+			If $g_bChkForceBBAttackOnClanGames And $g_bIsBBevent Then
 				SetLog("Check if Challenge is Completed", $COLOR_DEBUG)
 				For $x = 0 To 5
 					If QuickMIS("BC1", $g_sImgGameComplete, 760, 510, 820, 550, True, $g_bDebugImageSave) Then
@@ -82,7 +82,7 @@ Func DoAttackBB()
 				SetLog("Attack #" & $i & "/" & $g_iBBAttackCountFinal, $COLOR_INFO)
 				AttackBB()
 				$AttackForCount += 1
-				If $g_bChkForceBBAttackOnClanGames And $g_bIsBBevent[$g_iCurAccount] Then
+				If $g_bChkForceBBAttackOnClanGames And $g_bIsBBevent Then
 					SetLog("Check if Challenge is Completed", $COLOR_DEBUG)
 					For $x = 0 To 5
 						If QuickMIS("BC1", $g_sImgGameComplete, 760, 510, 820, 550, True, $g_bDebugImageSave) Then

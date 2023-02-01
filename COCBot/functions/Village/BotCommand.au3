@@ -139,18 +139,18 @@ Func BotCommand()
 							If _Sleep($DELAYRUNBOT3) Then Return
 							If IsToFillCCWithMedalsOnly() Then
 								Local $aRndFuncList = ['CleanYard', 'DonateCC,Train', 'CollectFreeMagicItems', 'Collect', 'Laboratory', 'UpgradeHeroes', _
-								'PetHouse', 'ForumAccept']
+								'PetHouse']
 							Else
 								Local $aRndFuncList = ['CleanYard', 'DonateCC,Train', 'RequestCC', 'CollectFreeMagicItems', 'Collect', 'Laboratory', 'UpgradeHeroes', _ 
-								'PetHouse', 'ForumAccept']
+								'PetHouse']
 							EndIf
 						Else	
 							If IsToFillCCWithMedalsOnly() Then
 								Local $aRndFuncList = ['CleanYard', 'DonateCC,Train', 'CollectFreeMagicItems', 'Collect', 'UpgradeWall', 'Laboratory', 'UpgradeHeroes', _
-								'UpgradeBuilding', 'PetHouse', 'ForumAccept']
+								'UpgradeBuilding', 'PetHouse']
 							Else
 								Local $aRndFuncList = ['CleanYard', 'DonateCC,Train', 'RequestCC', 'CollectFreeMagicItems', 'Collect', 'UpgradeWall', 'Laboratory', 'UpgradeHeroes', _ 
-								'UpgradeBuilding', 'PetHouse', 'ForumAccept']
+								'UpgradeBuilding', 'PetHouse']
 							EndIf
 						EndIf
 						_ArrayShuffle($aRndFuncList)
@@ -196,18 +196,18 @@ Func BotCommand()
 							If _Sleep($DELAYRUNBOT3) Then Return
 							If IsToFillCCWithMedalsOnly() Then
 								Local $aRndFuncList = ['CleanYard', 'DonateCC,Train', 'CollectFreeMagicItems', 'Collect', 'Laboratory', 'UpgradeHeroes', _
-								'PetHouse', 'ForumAccept']
+								'PetHouse']
 							Else
 								Local $aRndFuncList = ['CleanYard', 'DonateCC,Train', 'RequestCC', 'CollectFreeMagicItems', 'Collect', 'Laboratory', 'UpgradeHeroes', _ 
-								'PetHouse', 'ForumAccept']
+								'PetHouse']
 							EndIf
 						Else	
 							If IsToFillCCWithMedalsOnly() Then
 								Local $aRndFuncList = ['CleanYard', 'DonateCC,Train', 'CollectFreeMagicItems', 'Collect', 'UpgradeWall', 'Laboratory', 'UpgradeHeroes', _
-								'UpgradeBuilding', 'PetHouse', 'ForumAccept']
+								'UpgradeBuilding', 'PetHouse']
 							Else
 								Local $aRndFuncList = ['CleanYard', 'DonateCC,Train', 'RequestCC', 'CollectFreeMagicItems', 'Collect', 'UpgradeWall', 'Laboratory', 'UpgradeHeroes', _ 
-								'UpgradeBuilding', 'PetHouse', 'ForumAccept']
+								'UpgradeBuilding', 'PetHouse']
 							EndIf
 						EndIf
 						_ArrayShuffle($aRndFuncList)
@@ -249,18 +249,18 @@ Func BotCommand()
 							If _Sleep($DELAYRUNBOT3) Then Return
 							If IsToFillCCWithMedalsOnly() Then
 								Local $aRndFuncList = ['CleanYard', 'DonateCC,Train', 'CollectFreeMagicItems', 'Collect', 'Laboratory', 'UpgradeHeroes', _
-								'PetHouse', 'ForumAccept']
+								'PetHouse']
 							Else
 								Local $aRndFuncList = ['CleanYard', 'DonateCC,Train', 'RequestCC', 'CollectFreeMagicItems', 'Collect', 'Laboratory', 'UpgradeHeroes', _ 
-								'PetHouse', 'ForumAccept']
+								'PetHouse']
 							EndIf
 						Else	
 							If IsToFillCCWithMedalsOnly() Then
 								Local $aRndFuncList = ['CleanYard', 'DonateCC,Train', 'CollectFreeMagicItems', 'Collect', 'UpgradeWall', 'Laboratory', 'UpgradeHeroes', _
-								'UpgradeBuilding', 'PetHouse', 'ForumAccept']
+								'UpgradeBuilding', 'PetHouse']
 							Else
 								Local $aRndFuncList = ['CleanYard', 'DonateCC,Train', 'RequestCC', 'CollectFreeMagicItems', 'Collect', 'UpgradeWall', 'Laboratory', 'UpgradeHeroes', _ 
-								'UpgradeBuilding', 'PetHouse', 'ForumAccept']
+								'UpgradeBuilding', 'PetHouse']
 							EndIf
 						EndIf
 						_ArrayShuffle($aRndFuncList)
@@ -304,18 +304,18 @@ Func BotCommand()
 							If _Sleep($DELAYRUNBOT3) Then Return
 							If IsToFillCCWithMedalsOnly() Then
 								Local $aRndFuncList = ['CleanYard', 'DonateCC,Train', 'CollectFreeMagicItems', 'Collect', 'Laboratory', 'UpgradeHeroes', _
-								'PetHouse', 'ForumAccept']
+								'PetHouse']
 							Else
 								Local $aRndFuncList = ['CleanYard', 'DonateCC,Train', 'RequestCC', 'CollectFreeMagicItems', 'Collect', 'Laboratory', 'UpgradeHeroes', _ 
-								'PetHouse', 'ForumAccept']
+								'PetHouse']
 							EndIf
 						Else	
 							If IsToFillCCWithMedalsOnly() Then
 								Local $aRndFuncList = ['CleanYard', 'DonateCC,Train', 'CollectFreeMagicItems', 'Collect', 'UpgradeWall', 'Laboratory', 'UpgradeHeroes', _
-								'UpgradeBuilding', 'PetHouse', 'ForumAccept']
+								'UpgradeBuilding', 'PetHouse']
 							Else
 								Local $aRndFuncList = ['CleanYard', 'DonateCC,Train', 'RequestCC', 'CollectFreeMagicItems', 'Collect', 'UpgradeWall', 'Laboratory', 'UpgradeHeroes', _ 
-								'UpgradeBuilding', 'PetHouse', 'ForumAccept']
+								'UpgradeBuilding', 'PetHouse']
 							EndIf
 						EndIf
 						_ArrayShuffle($aRndFuncList)
@@ -358,18 +358,18 @@ Func BotCommand()
 							If _Sleep($DELAYRUNBOT3) Then Return
 							If IsToFillCCWithMedalsOnly() Then
 								Local $aRndFuncList = ['CleanYard', 'DonateCC,Train', 'CollectFreeMagicItems', 'Collect', 'Laboratory', 'UpgradeHeroes', _
-								'PetHouse', 'ForumAccept']
+								'PetHouse']
 							Else
 								Local $aRndFuncList = ['CleanYard', 'DonateCC,Train', 'RequestCC', 'CollectFreeMagicItems', 'Collect', 'Laboratory', 'UpgradeHeroes', _ 
-								'PetHouse', 'ForumAccept']
+								'PetHouse']
 							EndIf
 						Else	
 							If IsToFillCCWithMedalsOnly() Then
 								Local $aRndFuncList = ['CleanYard', 'DonateCC,Train', 'CollectFreeMagicItems', 'Collect', 'UpgradeWall', 'Laboratory', 'UpgradeHeroes', _
-								'UpgradeBuilding', 'PetHouse', 'ForumAccept']
+								'UpgradeBuilding', 'PetHouse']
 							Else
 								Local $aRndFuncList = ['CleanYard', 'DonateCC,Train', 'RequestCC', 'CollectFreeMagicItems', 'Collect', 'UpgradeWall', 'Laboratory', 'UpgradeHeroes', _ 
-								'UpgradeBuilding', 'PetHouse', 'ForumAccept']
+								'UpgradeBuilding', 'PetHouse']
 							EndIf
 						EndIf
 						_ArrayShuffle($aRndFuncList)
@@ -412,18 +412,18 @@ Func BotCommand()
 							If _Sleep($DELAYRUNBOT3) Then Return
 							If IsToFillCCWithMedalsOnly() Then
 								Local $aRndFuncList = ['CleanYard', 'DonateCC,Train', 'CollectFreeMagicItems', 'Collect', 'Laboratory', 'UpgradeHeroes', _
-								'PetHouse', 'ForumAccept']
+								'PetHouse']
 							Else
 								Local $aRndFuncList = ['CleanYard', 'DonateCC,Train', 'RequestCC', 'CollectFreeMagicItems', 'Collect', 'Laboratory', 'UpgradeHeroes', _ 
-								'PetHouse', 'ForumAccept']
+								'PetHouse']
 							EndIf
 						Else	
 							If IsToFillCCWithMedalsOnly() Then
 								Local $aRndFuncList = ['CleanYard', 'DonateCC,Train', 'CollectFreeMagicItems', 'Collect', 'UpgradeWall', 'Laboratory', 'UpgradeHeroes', _
-								'UpgradeBuilding', 'PetHouse', 'ForumAccept']
+								'UpgradeBuilding', 'PetHouse']
 							Else
 								Local $aRndFuncList = ['CleanYard', 'DonateCC,Train', 'RequestCC', 'CollectFreeMagicItems', 'Collect', 'UpgradeWall', 'Laboratory', 'UpgradeHeroes', _ 
-								'UpgradeBuilding', 'PetHouse', 'ForumAccept']
+								'UpgradeBuilding', 'PetHouse']
 							EndIf
 						EndIf
 						_ArrayShuffle($aRndFuncList)

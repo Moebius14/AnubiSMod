@@ -95,7 +95,7 @@ Func waitMainScreenMod() ;Waits for main screen to popup
 			If Not $g_bRunState Then Return
 			ContinueLoop
 		Else
-			$IsMainScreenLocated[$g_iCurAccount] = True
+			$IsMainScreenLocated = 1
 			ExitLoop
 		EndIf
 	Next

@@ -97,33 +97,32 @@ Func BotStart($bAutostartDelay = 0)
 		SetLog("Bot Auto Starting in " & Round($bAutostartDelay / 1000, 0) & " seconds", $COLOR_ERROR)
 		_SleepStatus($bAutostartDelay)
 	EndIf
-	
-	For $t = 0 to 7
-		$g_bFirstStartForAll[$t] = 0
-		$g_bFirstStartAccountDC[$t] = 0
-		$g_bFirstStartAccountFMI[$t] = 0
-		$g_bFirstStartAccountSBB[$t] = 0
-		$g_bFirstStartAccountSBB2[$t] = 0
-		$g_bFirstStartAccountCGRA[$t] = 0
-		$g_bFirstStartForLab[$t] = 0
-		$g_bFirstStartForPetHouse[$t] = 0
-		$CheckTombsTimer[$t] = 0
-		$CheckTombsFrequency[$t] = 0
-		$LootCartTimer[$t] = 0
-		$LootCartFrequency[$t] = 0
-		$IsdroptrophiesActive[$t] = False
-		$IsDropTrophyBreaked[$t] = False
-		$g_aiAttackedCGCount[$t] = 0
-		$IsReachedMaxCGDayAttack[$t] = 0
-		$g_bIsBBevent[$t] = False
-		$IsAttackCGRandomEnable[$t] = 0
-		$iRandomAttackCountToday[$t] = 0
-		$IsPauseButDonate[$t] = False
-		$IsToOpenOffers[$t] = False
-		$iAttack[$t] = 0
-		$g_bClanGamesCompleted[$t] = False
-		$IsMainScreenLocated[$t] = False
-	Next
+
+	;Mod<
+	$g_bFirstStartForAll = 0
+	$g_bFirstStartAccountDC = 0
+	$g_bFirstStartAccountFMI = 0
+	$g_bFirstStartAccountSBB = 0
+	$g_bFirstStartAccountSBB2 = 0
+	$g_bFirstStartAccountCGRA = 0
+	$g_bFirstStartForLab = 0
+	$g_bFirstStartForPetHouse = 0
+	$g_bFirstStartForStarLab = 0
+	$CheckTombsTimer = 0
+	$CheckTombsFrequency = 0
+	$LootCartTimer = 0
+	$LootCartFrequency = 0
+	$IsdroptrophiesActive = 0
+	$IsDropTrophyBreaked = 0
+	$g_aiAttackedCGCount = 0
+	$IsReachedMaxCGDayAttack = 0
+	$g_bIsBBevent = 0
+	$IsAttackCGRandomEnable = 0
+	$iRandomAttackCGCountToday = 0
+	$IsToOpenOffers = 0
+	$g_bClanGamesCompleted = 0
+	$IsMainScreenLocated = 0
+	$DelayReturnedtocheckCGRA = 0
 	$IsToCheckBeforeStop = False
 	$IsTroopDonated = False
 	$IsSpellDonated = False
@@ -153,6 +152,8 @@ Func BotStart($bAutostartDelay = 0)
 	CloseBoostBuilders2()
 	CloseBoostBuilders3()
 	CloseWelcomeMessage()
+	CloseSecondaryVillages()
+	;Mod>
 	
 	; wait for slot
 	LockBotSlot(True)

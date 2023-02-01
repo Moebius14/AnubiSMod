@@ -19,12 +19,12 @@ Func IsSearchCGAttackEnabled()
 
 	If $g_bAttackCGPlannerEnable = False Then Return True ; return true if attack planner is not enabled
 	
-	If $g_bFirstStartAccountCGRA[$g_iCurAccount] = 0 Then
-	$CGRACheckTimer[$g_iCurAccount] = 0
-	$DelayReturnedtocheckCGRA[$g_iCurAccount] = 0
-	$g_bFirstStartAccountCGRA[$g_iCurAccount] = 1
-	$IsStatusForCG[$g_iCurAccount] = 0
-	$IsAttackCGRandomEnable[$g_iCurAccount] = Random(0, 100, 1)
+	If Not $g_bFirstStartAccountCGRA Then
+	$CGRACheckTimer = 0
+	$DelayReturnedtocheckCGRA = 0
+	$g_bFirstStartAccountCGRA = 1
+	$IsStatusForCG = 0
+	$IsAttackCGRandomEnable = Random(0, 100, 1)
 	$ActionForModLog = "CG Planner First Check"
 		If $g_iTxtCurrentVillageName <> "" Then
 			GUICtrlSetData($g_hTxtCGRandomLog, @CRLF & _NowTime() & " [" & $g_iTxtCurrentVillageName & "] Status For Clan Games Attack : " & $ActionForModLog & "", 1)
@@ -39,9 +39,9 @@ Func IsSearchCGAttackEnabled()
 	
 		Local $g_iAttackCGPlannerRandomProbaNumber = ($g_iAttackCGPlannerRandomProba + 1) * 10
 		
-		If $IsAttackCGRandomEnable[$g_iCurAccount] >= $g_iAttackCGPlannerRandomProbaNumber Then ; random CG attack Enable
-		$IsAttackCGRandomEnable[$g_iCurAccount] = Random(0, 100, 1)
-			If $IsStatusForCG[$g_iCurAccount] = 0 Then
+		If $IsAttackCGRandomEnable >= $g_iAttackCGPlannerRandomProbaNumber Then ; random CG attack Enable
+		$IsAttackCGRandomEnable = Random(0, 100, 1)
+			If Not $IsStatusForCG Then
 				$ActionForModLog = "Enabled"
 				If $g_iTxtCurrentVillageName <> "" Then
 				GUICtrlSetData($g_hTxtCGRandomLog, @CRLF & _NowTime() & " [" & $g_iTxtCurrentVillageName & "] Status For Clan Games Attack : " & $ActionForModLog & "", 1)
@@ -49,7 +49,7 @@ Func IsSearchCGAttackEnabled()
 				GUICtrlSetData($g_hTxtCGRandomLog, @CRLF & _NowTime() & " [" & $g_sProfileCurrentName & "] Status For Clan Games Attack : " & $ActionForModLog & "", 1)
 				EndIf
 				_FileWriteLog($g_sProfileLogsPath & "\CGRALog.log", " [" & $g_sProfileCurrentName & "] - Status For Clan Games Attack : " & $ActionForModLog & "")
-				$IsStatusForCG[$g_iCurAccount] = 1
+				$IsStatusForCG = 1
 			EndIf	
 			
 			If $g_bAttackCGPlannerDayLimit And _OverAttackCGLimit() Then ; check daily attack limit before checking schedule
@@ -105,9 +105,9 @@ Func IsSearchCGAttackEnabled()
 				EndIf
 					Return False
 			ElseIf $g_bAttackCGPlannerDayLimit And Not _OverAttackCGLimit() Then
-					Local $remainingCGattacks = $iRandomAttackCountToday[$g_iCurAccount] - $g_aiAttackedCGCount[$g_iCurAccount]
-					SetLog("Max Clan Games Challenges Today : " & $iRandomAttackCountToday[$g_iCurAccount] & "", $COLOR_ERROR)
-					SetLog("Challenges Done in Clan Games Today : " & $g_aiAttackedCGCount[$g_iCurAccount] & "", $COLOR_BLUE)
+					Local $remainingCGattacks = $iRandomAttackCGCountToday - $g_aiAttackedCGCount
+					SetLog("Max Clan Games Challenges Today : " & $iRandomAttackCGCountToday & "", $COLOR_ERROR)
+					SetLog("Challenges Done in Clan Games Today : " & $g_aiAttackedCGCount & "", $COLOR_BLUE)
 					If $remainingCGattacks > 1 Then
 						SetLog("Remaining Challenges in Clan Games Today : " & $remainingCGattacks & "", $COLOR_SUCCESS1)
 					ElseIf $remainingCGattacks = 1 Then
@@ -119,16 +119,16 @@ Func IsSearchCGAttackEnabled()
 			
 		Else; CG Attack Disable
 		
-			If $CGRACheckTimer[$g_iCurAccount] = 0 Then; First Time or after stop/start or re-activation
-				$CGRACheckTimer[$g_iCurAccount] = TimerInit()
+			If $CGRACheckTimer = 0 Then; First Time or after stop/start or re-activation
+				$CGRACheckTimer = TimerInit()
 				
 				Local $VariationVariableInf = (1 - (($g_iAttackCGPlannerRandomVariation + 1) / 10)) * 1000
 				Local $VariationVariableSup = (1 + (($g_iAttackCGPlannerRandomVariation + 1) / 10)) * 1000
 				Local $RandomizationCoef = (Random($VariationVariableInf, $VariationVariableSup, 1) / 1000)
 				
-				$DelayReturnedtocheckCGRA[$g_iCurAccount] = Round(($g_iAttackCGPlannerRandomTime + 1) * $RandomizationCoef * 60 * 60 * 1000, -1); From hours to ms
+				$DelayReturnedtocheckCGRA = Round(($g_iAttackCGPlannerRandomTime + 1) * $RandomizationCoef * 60 * 60 * 1000, -1); From hours to ms
 				
-				Local $iWaitTime = $DelayReturnedtocheckCGRA[$g_iCurAccount]
+				Local $iWaitTime = $DelayReturnedtocheckCGRA
 				Local $sWaitTime = ""
 				Local $iMin, $iHour, $iWaitSec
 	
@@ -147,16 +147,16 @@ Func IsSearchCGAttackEnabled()
 				GUICtrlSetData($g_hTxtCGRandomLog, @CRLF & _NowTime() & " [" & $g_sProfileCurrentName & "] Status For Clan Games Attack : " & $ActionForModLog & "", 1)
 				EndIf
 				_FileWriteLog($g_sProfileLogsPath & "\CGRALog.log", " [" & $g_sProfileCurrentName & "] - Status For Clan Games Attack : " & $ActionForModLog & "")
-				$IsStatusForCG[$g_iCurAccount] = 1
+				$IsStatusForCG = 1
 				
 				Return False
 			EndIf
 			
-			Local $CGRACheckTimerDiff = TimerDiff($CGRACheckTimer[$g_iCurAccount])
+			Local $CGRACheckTimerDiff = TimerDiff($CGRACheckTimer)
 			
-			If $CGRACheckTimer[$g_iCurAccount] > 0 And $CGRACheckTimerDiff < $DelayReturnedtocheckCGRA[$g_iCurAccount] Then ;Delay not reached : return False
+			If $CGRACheckTimer > 0 And $CGRACheckTimerDiff < $DelayReturnedtocheckCGRA Then ;Delay not reached : return False
 				
-				Local $iWaitTime = ($DelayReturnedtocheckCGRA[$g_iCurAccount] - $CGRACheckTimerDiff)
+				Local $iWaitTime = ($DelayReturnedtocheckCGRA - $CGRACheckTimerDiff)
 				Local $sWaitTime = ""
 				Local $iMin, $iHour, $iWaitSec
 	
@@ -171,9 +171,9 @@ Func IsSearchCGAttackEnabled()
 				Return False
 			EndIf
 			
-			If $CGRACheckTimer[$g_iCurAccount] > 0 And $CGRACheckTimerDiff > $DelayReturnedtocheckCGRA[$g_iCurAccount] Then ;Delay reached : reset chrono ans set new delay. Return True
-				$CGRACheckTimer[$g_iCurAccount] = 0
-				$IsAttackCGRandomEnable[$g_iCurAccount] = Random(0, 100, 1)
+			If $CGRACheckTimer > 0 And $CGRACheckTimerDiff > $DelayReturnedtocheckCGRA Then ;Delay reached : reset chrono ans set new delay. Return True
+				$CGRACheckTimer = 0
+				$IsAttackCGRandomEnable = Random(0, 100, 1)
 				SetLog("Clan Games Attack Re-Activated", $COLOR_OLIVE)
 				
 				$ActionForModLog = "Enabled"
@@ -183,7 +183,7 @@ Func IsSearchCGAttackEnabled()
 				GUICtrlSetData($g_hTxtCGRandomLog, @CRLF & _NowTime() & " [" & $g_sProfileCurrentName & "] Status For Clan Games Attack : " & $ActionForModLog & "", 1)
 				EndIf
 				_FileWriteLog($g_sProfileLogsPath & "\CGRALog.log", " [" & $g_sProfileCurrentName & "] - Status For Clan Games Attack : " & $ActionForModLog & "")
-				$IsStatusForCG[$g_iCurAccount] = 1
+				$IsStatusForCG = 1
 				Return True
 			EndIf
 			
@@ -243,9 +243,9 @@ Func IsSearchCGAttackEnabled()
 				EndIf	
 					Return False
 			ElseIf $g_bAttackCGPlannerDayLimit And Not _OverAttackCGLimit() Then
-					Local $remainingCGattacks = $iRandomAttackCountToday[$g_iCurAccount] - $g_aiAttackedCGCount[$g_iCurAccount]
-					SetLog("Max Clan Games Challenges Today : " & $iRandomAttackCountToday[$g_iCurAccount] & "", $COLOR_ERROR)
-					SetLog("Challenges Done in Clan Games Today : " & $g_aiAttackedCGCount[$g_iCurAccount] & "", $COLOR_BLUE)
+					Local $remainingCGattacks = $iRandomAttackCGCountToday - $g_aiAttackedCGCount
+					SetLog("Max Clan Games Challenges Today : " & $iRandomAttackCGCountToday & "", $COLOR_ERROR)
+					SetLog("Challenges Done in Clan Games Today : " & $g_aiAttackedCGCount & "", $COLOR_BLUE)
 					If $remainingCGattacks > 1 Then
 						SetLog("Remaining Challenges in Clan Games Today : " & $remainingCGattacks & "", $COLOR_SUCCESS1)
 					ElseIf $remainingCGattacks = 1 Then
@@ -284,8 +284,8 @@ Func IsPlannedCGTimeNow()
 EndFunc   ;==>IsPlannedTimeNow
 
 Func _OverAttackCGLimit()
-	If $iRandomAttackCountToday[$g_iCurAccount] <= $g_aiAttackedCGCount[$g_iCurAccount] Then
-		$IsReachedMaxCGDayAttack[$g_iCurAccount] = 1
+	If $iRandomAttackCGCountToday <= $g_aiAttackedCGCount Then
+		$IsReachedMaxCGDayAttack = 1
 		$ActionForModLog = "Daily Count Reached"
 		If $g_iTxtCurrentVillageName <> "" Then
 		GUICtrlSetData($g_hTxtCGRandomLog, @CRLF & _NowTime() & " [" & $g_iTxtCurrentVillageName & "] Status For Clan Games Attack : " & $ActionForModLog & "", 1)

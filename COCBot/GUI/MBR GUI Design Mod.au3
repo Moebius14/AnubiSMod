@@ -40,6 +40,7 @@ Func CreateMODTab()
 		$g_hGUI_MOD_TAB_ITEM5 = GUICtrlCreateTabItem(GetTranslatedFileIni("MBR Main GUI", "Tab_Mod_Tab_05", "Mod Log"))
 			TabModLogGUI()
 			CreateChatWelcomeMessage()
+			CreateSecondaryVillages()
 			
 	GUICtrlCreateTabItem("")
 EndFunc   ;==>CreateMODTab

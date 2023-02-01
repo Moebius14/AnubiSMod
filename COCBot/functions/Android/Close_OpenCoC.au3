@@ -56,7 +56,7 @@ EndFunc   ;==>CloseCoC
 ; ===============================================================================================================================
 
 Func OpenCoC()
-	$IsMainScreenLocated[$g_iCurAccount] = False
+	$IsMainScreenLocated = 0
 	FuncEnter(OpenCoC)
 	ResumeAndroid()
 	If Not $g_bRunState Then Return FuncReturn()

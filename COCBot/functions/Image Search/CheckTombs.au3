@@ -14,21 +14,21 @@
 ; ===============================================================================================================================
 
 Func CheckTombs()
-If $CheckTombsTimer[$g_iCurAccount] <> 0 Then
-	Local $CheckTombsTimerDiff = TimerDiff($CheckTombsTimer[$g_iCurAccount])
-ElseIf $CheckTombsTimer[$g_iCurAccount] = 0 Then
+If $CheckTombsTimer <> 0 Then
+	Local $CheckTombsTimerDiff = TimerDiff($CheckTombsTimer)
+ElseIf $CheckTombsTimer = 0 Then
 	Local $CheckTombsTimerDiff = 0
 EndIf	
 	If Not TestCapture() Then
 		If Not $g_bChkTombstones Then Return False
-		If $CheckTombsTimerDiff <= $CheckTombsFrequency[$g_iCurAccount] Then
+		If $CheckTombsTimerDiff <= $CheckTombsFrequency Then
 			If Not $g_abNotNeedAllTime[1] Then Return
 		EndIf	
 	EndIf
 	; Timer
 	Local $hTimer = __TimerInit()
-	$CheckTombsTimer[$g_iCurAccount] = TimerInit()
-	$CheckTombsFrequency[$g_iCurAccount] = Random((1 * 60 * 60 * 1000), (2 * 60 * 60 * 1000), 1)
+	$CheckTombsTimer = TimerInit()
+	$CheckTombsFrequency = Random((1 * 60 * 60 * 1000), (2 * 60 * 60 * 1000), 1)
 
 	; Setup arrays, including default return values for $return
 	Local $return[7] = ["None", "None", 0, 0, 0, "", ""]

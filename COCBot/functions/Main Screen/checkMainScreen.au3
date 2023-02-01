@@ -21,7 +21,7 @@ EndFunc   ;==>checkMainScreen
 
 Func _checkMainScreen($bSetLog = Default, $bBuilderBase = Default) ;Checks if in main screen
 
-	If Not $IsMainScreenLocated[$g_iCurAccount] Then waitMainScreenMod()
+	If Not $IsMainScreenLocated Then waitMainScreenMod()
 	
 	If $bSetLog = Default Then $bSetLog = True
 	If $bBuilderBase = Default Then $bBuilderBase = $g_bStayOnBuilderBase

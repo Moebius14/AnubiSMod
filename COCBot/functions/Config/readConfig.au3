@@ -898,6 +898,7 @@ Func ReadConfig_600_18()
 	IniReadS($g_bChkNotifyPauseTime, $g_sProfileConfigPath, "notify", "PauseTimeNotif", False, "Bool")
 	IniReadS($g_bChkNotifyUpgradeBM, $g_sProfileConfigPath, "notify", "NotifyUpgradeBM", False, "Bool")
 	IniReadS($g_bNotifyStopBot, $g_sProfileConfigPath, "notify", "BotStopNotify", $g_bNotifyStopBot, "Bool")
+	IniReadS($g_bChkNotifyUpgrade, $g_sProfileConfigPath, "notify", "NotifyUpgrade", False, "Bool")
 EndFunc   ;==>ReadConfig_600_18
 
 Func ReadConfig_600_19()
@@ -1534,6 +1535,7 @@ Func ReadConfig_MOD_Humanization()
 	For $i = 0 To UBound($g_iacmbPause) - 1
 		IniReadS($g_iacmbPause[$i], $g_sProfileConfigPath, "Bot Humanization", "cmbPause[" & $i & "]", $g_iacmbPause[$i], "int")
 	Next
+	IniReadS($g_iacmbPriorityChkRaid, $g_sProfileConfigPath, "Bot Humanization", "cmbPriorityChkRaid", $g_iacmbPriorityChkRaid, "int")
 	IniReadS($g_iCmbMaxActionsNumber, $g_sProfileConfigPath, "Bot Humanization", "cmbMaxActionsNumber", $g_iCmbMaxActionsNumber, "int")
 	IniReadS($g_iHowManyinCWCombo, $g_sProfileConfigPath, "Bot Humanization", "HowManyinCWCombo", $g_iHowManyinCWCombo, "int")
 	IniReadS($g_iHowManyinCWLCombo, $g_sProfileConfigPath, "Bot Humanization", "HowManyinCWLCombo", $g_iHowManyinCWLCombo, "int")

@@ -33,16 +33,17 @@ Func DropTrophy()
 			ClickAway()
 		Next
 
-		If Number($g_aiCurrentLoot[$eLootTrophy]) <= Number($g_iDropTrophyMax) And Not $IsDropTrophyBreaked[$g_iCurAccount] Then
-			$IsdroptrophiesActive[$g_iCurAccount] = False
+		If Number($g_aiCurrentLoot[$eLootTrophy]) <= Number($g_iDropTrophyMax) And Not $IsDropTrophyBreaked Then
+			$IsdroptrophiesActive = 0
 			Return ; exit on trophy count to avoid other checks
 		EndIf
 		
-		$IsdroptrophiesActive[$g_iCurAccount] = True
+		$IsdroptrophiesActive = 1
 		
 		SetLog("Check Train/Donate/Request Before Drop Trophies", $COLOR_BLUE)
 		
 			If Not IsToFillCCWithMedalsOnly() Then RequestCC()
+			
 			If Not _Sleep($DELAYRUNBOT1) Then checkMainScreen(False)
 	
 			If $g_iActiveDonate And $g_bChkDonate Then
@@ -139,9 +140,9 @@ Func DropTrophy()
 			If $g_bChkClanGamesEnabled And $g_bChkEnableBBAttack And $g_bDropTrophyUseHeroes = 1 Then
 			SetLog("Check Clan Games !", $COLOR_OLIVE)
 			_ClanGames()
-				If $g_bChkForceBBAttackOnClanGames And $g_bIsBBevent[$g_iCurAccount] Then	
+				If $g_bChkForceBBAttackOnClanGames And $g_bIsBBevent Then	
 					SwitchBetweenBasesMod()
-					If $IstoSwitchMod[$g_iCurAccount] = True Then
+					If $IstoSwitchMod Then
 						$ActionForModLog = "Switch To Builder Base"
 						If $g_iTxtCurrentVillageName <> "" Then
 						GUICtrlSetData($g_hTxtModLog, @CRLF & _NowTime() & " [" & $g_iTxtCurrentVillageName & "] Avanced : " & $ActionForModLog & "", 1)
@@ -173,7 +174,7 @@ Func DropTrophy()
 		Local $iCount, $aRandomEdge, $iRandomXY
 		Local Const $DTArmyPercent = Round(Int($g_iDropTrophyArmyMinPct) / 100, 2)
 		Local $g_iDropTrophyMaxNeedCheck = $g_iDropTrophyMax ; set trophy target to max trophy
-		If $IsDropTrophyBreaked[$g_iCurAccount] Then $g_iDropTrophyMaxNeedCheck = $g_iDropTrophyMin
+		If $IsDropTrophyBreaked Then $g_iDropTrophyMaxNeedCheck = $g_iDropTrophyMin
 		Local Const $iWaitTime = 3 ; wait time for base recheck during long drop times in minutes (3 minutes ~5-10 drop attacks)
 		Local $iDateCalc, $sWaitToDate
 		$sWaitToDate = _DateAdd('n', Int($iWaitTime), _NowCalc()) ; find delay time for checkbasequick
@@ -234,7 +235,7 @@ Func DropTrophy()
 			If $g_bDropTrophyUseHeroes = 1 Then	SetLog("No Heroe available !", $COLOR_ERROR)
 			If $g_bDropTrophyUseHeroes = 0 Then	SetLog("Please Train DT Troops !", $COLOR_ERROR)
 			SetDebugLog("Drop Trophy(): No troops in $g_avDTtroopsToBeUsed array", $COLOR_DEBUG)
-			$IsDropTrophyBreaked[$g_iCurAccount] = True
+			$IsDropTrophyBreaked = 1
 			
 			CollectCCGold()
 			If SwitchBetweenBasesMod2() Then
@@ -247,9 +248,9 @@ Func DropTrophy()
 			If $g_bChkClanGamesEnabled And $g_bChkEnableBBAttack And $g_bDropTrophyUseHeroes = 1 Then
 			SetLog("Check Clan Games !", $COLOR_OLIVE)
 			_ClanGames()
-				If $g_bChkForceBBAttackOnClanGames And $g_bIsBBevent[$g_iCurAccount] Then	
+				If $g_bChkForceBBAttackOnClanGames And $g_bIsBBevent Then	
 					SwitchBetweenBasesMod()
-					If $IstoSwitchMod[$g_iCurAccount] = True Then
+					If $IstoSwitchMod Then
 						$ActionForModLog = "Switch To Builder Base"
 						If $g_iTxtCurrentVillageName <> "" Then
 						GUICtrlSetData($g_hTxtModLog, @CRLF & _NowTime() & " [" & $g_iTxtCurrentVillageName & "] Avanced : " & $ActionForModLog & "", 1)
@@ -502,8 +503,8 @@ Func DropTrophy()
 				EndIf
 			Else
 				SetLog("Trophy Drop Complete", $COLOR_INFO)
-				$IsdroptrophiesActive[$g_iCurAccount] = False
-				$IsDropTrophyBreaked[$g_iCurAccount] = False
+				$IsdroptrophiesActive = 0
+				$IsDropTrophyBreaked = 0
 				IsSearchAttackEnabled()
 				IsForecastChecked()	
 				TrainSystem()				

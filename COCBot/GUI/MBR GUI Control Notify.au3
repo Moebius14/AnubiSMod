@@ -46,6 +46,7 @@ Func chkPBTGenabled()
 		GUICtrlSetState($g_hChkNotifyStarBonusAvail, $GUI_ENABLE)
 		GUICtrlSetState($g_hChkNotifyCGScore, $GUI_ENABLE)
 		GUICtrlSetState($g_hNotifyStopBot, $GUI_ENABLE)
+		GUICtrlSetState($g_hChkNotifyUpgrade, $GUI_ENABLE)
 		If GUICtrlRead($g_hChkAttackPlannerEnable) = $GUI_CHECKED And GUICtrlRead($g_hChkAttackPlannerCloseCoC) = $GUI_CHECKED Then
 			GUICtrlSetState($g_hChkNotifyPauseTime, $GUI_ENABLE)
 		EndIf	
@@ -94,6 +95,7 @@ Func chkPBTGenabled()
 		GUICtrlSetState($g_hChkNotifyPauseTime, $GUI_DISABLE)
 		GUICtrlSetState($g_hChkNotifyCGScore, $GUI_DISABLE)
 		GUICtrlSetState($g_hNotifyStopBot, $GUI_DISABLE)
+		GUICtrlSetState($g_hChkNotifyUpgrade, $GUI_DISABLE)
 		GUICtrlSetState($g_hChkNotifyUpgradeBM, $GUI_DISABLE)
 	EndIf
 EndFunc   ;==>chkPBTGenabled

@@ -19,7 +19,7 @@
 Func chkUseBotHumanization()
 	If GUICtrlRead($g_hChkUseBotHumanization) = $GUI_CHECKED Then
 		$g_bUseBotHumanization = True
-		For $i = $g_hChkLookAtRedNotifications To $g_acmbPause[2]
+		For $i = $g_hChkLookAtRedNotifications To $g_hBtnSecondaryVillages
 			GUICtrlSetState($i, $GUI_ENABLE)
 		Next
 		For $i = $g_HowManyinCWLabel To $g_HowManyinCWLCombo
@@ -33,7 +33,7 @@ Func chkUseBotHumanization()
 		ViewBattleLog()
 	Else
 		$g_bUseBotHumanization = False
-		For $i = $g_hChkLookAtRedNotifications To $g_acmbPause[2]
+		For $i = $g_hChkLookAtRedNotifications To $g_hBtnSecondaryVillages
 			GUICtrlSetState($i, $GUI_DISABLE)
 		Next
 		For $i = $g_HowManyinCWLabel To $g_HowManyinCWLCombo
@@ -396,7 +396,7 @@ If $g_bForecastEnable Or $g_bForecastBoostEnable Then
 	Local $bFullRestart = True
 	Local $bSuspendComputer = False
 	If $g_bCloseRandom Then $StopEmulator = "random"
-	If $g_bDropTrophyEnable And $g_bChkTrophyDropinPause And (Number($g_aiCurrentLoot[$eLootTrophy]) > Number($g_iDropTrophyMax) Or $IsdroptrophiesActive[$g_iCurAccount]) Then
+	If $g_bDropTrophyEnable And $g_bChkTrophyDropinPause And (Number($g_aiCurrentLoot[$eLootTrophy]) > Number($g_iDropTrophyMax) Or $IsdroptrophiesActive) Then
 		If $currentForecast < $g_iCmbPauseForecastBelow Then SetLog("Forget Forecast To Drop Trophies !", $COLOR_BLUE)	
 		Return False
 	ElseIf $g_iCmbPauseForecastBelow > $currentForecast Then
@@ -404,7 +404,7 @@ If $g_bForecastEnable Or $g_bForecastBoostEnable Then
 		SetLog("Forecast is bad for now", $COLOR_INFO)
 		SetLog("Prepare Bot before pause...", $COLOR_WARNING)
 		If $g_bChkVisitBbaseinPause And ($g_bChkCollectBuilderBase Or $g_bChkStartClockTowerBoost Or $g_iChkBBSuggestedUpgrades Or $g_bChkEnableBBAttack) Then SwitchBetweenBasesMod()
-		If $IstoSwitchMod[$g_iCurAccount] And $g_bChkVisitBbaseinPause And ($g_bChkCollectBuilderBase Or $g_bChkStartClockTowerBoost Or $g_iChkBBSuggestedUpgrades Or $g_bChkEnableBBAttack) Then
+		If $IstoSwitchMod And $g_bChkVisitBbaseinPause And ($g_bChkCollectBuilderBase Or $g_bChkStartClockTowerBoost Or $g_iChkBBSuggestedUpgrades Or $g_bChkEnableBBAttack) Then
 			If $g_bAutoUpgradeWallsEnable And $g_bChkWallUpFirst Then
 				UpgradeWall()
 				If _Sleep($DELAYRUNBOT3) Then Return
@@ -414,21 +414,21 @@ If $g_bForecastEnable Or $g_bForecastBoostEnable Then
 				If _Sleep($DELAYRUNBOT3) Then Return
 				If IsToFillCCWithMedalsOnly() Then
 					Local $aRndFuncList = ['CleanYard', 'DonateCC,Train', 'CollectFreeMagicItems', 'Collect', 'Laboratory', 'UpgradeHeroes', _
-					'PetHouse', 'ForumAccept', 'BuilderBase']
+					'PetHouse', 'BuilderBase']
 				Else
 					Local $aRndFuncList = ['CleanYard', 'DonateCC,Train', 'RequestCC', 'CollectFreeMagicItems', 'Collect', 'Laboratory', 'UpgradeHeroes', _ 
-					'PetHouse', 'ForumAccept', 'BuilderBase']
+					'PetHouse', 'BuilderBase']
 				EndIf
 			Else	
 				If IsToFillCCWithMedalsOnly() Then
 					Local $aRndFuncList = ['CleanYard', 'DonateCC,Train', 'CollectFreeMagicItems', 'Collect', 'UpgradeWall', 'Laboratory', 'UpgradeHeroes', _
-					'UpgradeBuilding', 'PetHouse', 'ForumAccept', 'BuilderBase']
+					'UpgradeBuilding', 'PetHouse', 'BuilderBase']
 				Else
 					Local $aRndFuncList = ['CleanYard', 'DonateCC,Train', 'RequestCC', 'CollectFreeMagicItems', 'Collect', 'UpgradeWall', 'Laboratory', 'UpgradeHeroes', _ 
-					'UpgradeBuilding', 'PetHouse', 'ForumAccept', 'BuilderBase']
+					'UpgradeBuilding', 'PetHouse', 'BuilderBase']
 				EndIf
 			EndIf
-			$IstoSwitchMod[$g_iCurAccount] = False
+			$IstoSwitchMod = 0
 		Else
 			If $g_bAutoUpgradeWallsEnable And $g_bChkWallUpFirst Then
 				UpgradeWall()
@@ -439,18 +439,18 @@ If $g_bForecastEnable Or $g_bForecastBoostEnable Then
 				If _Sleep($DELAYRUNBOT3) Then Return
 				If IsToFillCCWithMedalsOnly() Then
 					Local $aRndFuncList = ['CleanYard', 'DonateCC,Train', 'CollectFreeMagicItems', 'Collect', 'Laboratory', 'UpgradeHeroes', _
-					'PetHouse', 'ForumAccept']
+					'PetHouse']
 				Else
 					Local $aRndFuncList = ['CleanYard', 'DonateCC,Train', 'RequestCC', 'CollectFreeMagicItems', 'Collect', 'Laboratory', 'UpgradeHeroes', _ 
-					'PetHouse', 'ForumAccept']
+					'PetHouse']
 				EndIf
 			Else	
 				If IsToFillCCWithMedalsOnly() Then
 					Local $aRndFuncList = ['CleanYard', 'DonateCC,Train', 'CollectFreeMagicItems', 'Collect', 'UpgradeWall', 'Laboratory', 'UpgradeHeroes', _
-					'UpgradeBuilding', 'PetHouse', 'ForumAccept']
+					'UpgradeBuilding', 'PetHouse']
 				Else
 					Local $aRndFuncList = ['CleanYard', 'DonateCC,Train', 'RequestCC', 'CollectFreeMagicItems', 'Collect', 'UpgradeWall', 'Laboratory', 'UpgradeHeroes', _ 
-					'UpgradeBuilding', 'PetHouse', 'ForumAccept']
+					'UpgradeBuilding', 'PetHouse']
 				EndIf
 			EndIf
 		EndIf
@@ -479,7 +479,7 @@ If $g_bForecastEnable Or $g_bForecastBoostEnable Then
 		;close emulator as directed
 		UniversalCloseWaitOpenCoC($iWaitTime, "SmartWait4TrainForecast_", $StopEmulator, $bFullRestart, $bSuspendComputer)
 		$g_bRestart = True
-		$IsMainScreenLocated[$g_iCurAccount] = False
+		$IsMainScreenLocated = 0
 		Return True
 	Else
 		If $SetLog Then SetLog("Forecast meets settings, Let's Continue !", $COLOR_BLUE)	
@@ -588,56 +588,56 @@ If GUICtrlRead($g_hChkCollectRewards) = $GUI_CHECKED Then
 EndFunc
 
 Func SwitchBetweenBasesMod()
-If $g_bFirstStartAccountSBB[$g_iCurAccount] = 0 Then
-	$IstoSwitchMod[$g_iCurAccount] = False
-	$BBaseCheckTimer[$g_iCurAccount] = 0
-	$DelayReturnedtocheckBBaseMS[$g_iCurAccount] = 0
-	$g_bFirstStartAccountSBB[$g_iCurAccount] = 1
+If Not $g_bFirstStartAccountSBB Then
+	$IstoSwitchMod = 0
+	$BBaseCheckTimer = 0
+	$DelayReturnedtocheckBBaseMS = 0
+	$g_bFirstStartAccountSBB = 1
 EndIf
 
 	$g_iCmbPriorityBBaseFrequency = _GUICtrlComboBox_GetCurSel($g_hCmbPriorityBBaseFrequency) * 60 * 60 * 1000
 	$g_icmbAdvancedVariation[1] = _GUICtrlComboBox_GetCurSel($g_hcmbAdvancedVariation[1]) / 10
 	
 If Not $g_bChkCollectBuilderBase And Not $g_bChkStartClockTowerBoost And Not $g_iChkBBSuggestedUpgrades And Not $g_bChkEnableBBAttack And Not $g_bChkCleanBBYard Then
-	If $g_bIsBBevent[$g_iCurAccount] Then SetLog("Please Enable BB Attack To Complete Challenge !", $COLOR_ERROR)
-	$IstoSwitchMod[$g_iCurAccount] = False
+	If $g_bIsBBevent Then SetLog("Please Enable BB Attack To Complete Challenge !", $COLOR_ERROR)
+	$IstoSwitchMod = 0
 	Return
 EndIf	
 
-If $g_bIsBBevent[$g_iCurAccount] And Not $g_bChkEnableBBAttack Then
+If $g_bIsBBevent And Not $g_bChkEnableBBAttack Then
 	SetLog("Please Enable BB Attack To Complete Challenge !", $COLOR_ERROR)
-	$IstoSwitchMod[$g_iCurAccount] = False
+	$IstoSwitchMod = 0
 	Return
 EndIf
 
 If Not $g_bChkBBaseFrequency Then ; Return True and End fonction Without Timing
 	If ($g_bChkEnableForgeBBGold Or $g_bChkEnableForgeBBElix) And ($g_aiCurrentLootBB[$eLootGoldBB] = 0 Or $g_aiCurrentLootBB[$eLootElixirBB] = 0) Then
-		$IstoSwitchMod[$g_iCurAccount] = True
+		$IstoSwitchMod = 1
 		Return
 	EndIf
 	If Not IsBBDailyChallengeAvailable() Then
-		$IstoSwitchMod[$g_iCurAccount] = False
+		$IstoSwitchMod = 0
 		Return
 	EndIf
-	$IstoSwitchMod[$g_iCurAccount] = True
+	$IstoSwitchMod = 1
 	Return
 	
 ElseIf $g_bChkBBaseFrequency Then ; Cases Check Frequency enable
 
 	If $g_iCmbPriorityBBaseFrequency = 0 Then ; Case Everytime, Return True and End fonction Without Timing
-		$IstoSwitchMod[$g_iCurAccount] = True
+		$IstoSwitchMod = 1
 		Return
 	EndIf
 
-	If $BBaseCheckTimer[$g_iCurAccount] = 0 And Not $g_bIsBBevent[$g_iCurAccount] Then; First Time
+	If Not $BBaseCheckTimer And Not $g_bIsBBevent Then; First Time
 	
-		$BBaseCheckTimer[$g_iCurAccount] = TimerInit()
+		$BBaseCheckTimer = TimerInit()
 	
 		Local $DelayReturnedtocheckBBaseInf = ($g_iCmbPriorityBBaseFrequency - ($g_iCmbPriorityBBaseFrequency * $g_icmbAdvancedVariation[1]))
 		Local $DelayReturnedtocheckBBaseSup = ($g_iCmbPriorityBBaseFrequency + ($g_iCmbPriorityBBaseFrequency * $g_icmbAdvancedVariation[1]))
-		$DelayReturnedtocheckBBaseMS[$g_iCurAccount] = Random($DelayReturnedtocheckBBaseInf, $DelayReturnedtocheckBBaseSup, 1)
+		$DelayReturnedtocheckBBaseMS = Random($DelayReturnedtocheckBBaseInf, $DelayReturnedtocheckBBaseSup, 1)
 		
-		Local $iWaitTime = $DelayReturnedtocheckBBaseMS[$g_iCurAccount]
+		Local $iWaitTime = $DelayReturnedtocheckBBaseMS
 		Local $sWaitTime = ""
 		Local $iMin, $iHour, $iWaitSec
 	
@@ -649,22 +649,22 @@ ElseIf $g_bChkBBaseFrequency Then ; Cases Check Frequency enable
 		SetLog("Time to Check Builder Base", $COLOR_OLIVE)
 		SetLog("Next Builder Base Check : " & $sWaitTime & "", $COLOR_OLIVE)
 		If Not IsBBDailyChallengeAvailable() Then
-			$IstoSwitchMod[$g_iCurAccount] = False
+			$IstoSwitchMod = 0
 			Return
 		EndIf
-		$IstoSwitchMod[$g_iCurAccount] = True
+		$IstoSwitchMod = 1
 		Return
 	EndIf
 
-	If $g_bIsBBevent[$g_iCurAccount] Then ; Case BB Event Detected
+	If $g_bIsBBevent Then ; Case BB Event Detected
 	SetLog("BB Event Detected : Time to Switch To Builder Base", $COLOR_OLIVE)
-		$BBaseCheckTimer[$g_iCurAccount] = TimerInit()
+		$BBaseCheckTimer = TimerInit()
 	
 		Local $DelayReturnedtocheckBBaseInf = ($g_iCmbPriorityBBaseFrequency - ($g_iCmbPriorityBBaseFrequency * $g_icmbAdvancedVariation[1]))
 		Local $DelayReturnedtocheckBBaseSup = ($g_iCmbPriorityBBaseFrequency + ($g_iCmbPriorityBBaseFrequency * $g_icmbAdvancedVariation[1]))
-		$DelayReturnedtocheckBBaseMS[$g_iCurAccount] = Random($DelayReturnedtocheckBBaseInf, $DelayReturnedtocheckBBaseSup, 1)
+		$DelayReturnedtocheckBBaseMS = Random($DelayReturnedtocheckBBaseInf, $DelayReturnedtocheckBBaseSup, 1)
 		
-		Local $iWaitTime = $DelayReturnedtocheckBBaseMS[$g_iCurAccount]
+		Local $iWaitTime = $DelayReturnedtocheckBBaseMS
 		Local $sWaitTime = ""
 		Local $iMin, $iHour, $iWaitSec
 	
@@ -674,7 +674,7 @@ ElseIf $g_bChkBBaseFrequency Then ; Cases Check Frequency enable
 			If $iHour > 0 Then $sWaitTime &= $iHour & " hours "
 			If $iMin > 0 Then $sWaitTime &= $iMin & " minutes "
 		SetLog("Next Regular Switch To Builder Base : " & $sWaitTime & "", $COLOR_OLIVE)
-		$IstoSwitchMod[$g_iCurAccount] = True
+		$IstoSwitchMod = 1
 		$ActionForModLog = "SSwitch To Builder Base - BB Event"
 		If $g_iTxtCurrentVillageName <> "" Then
 			GUICtrlSetData($g_hTxtModLog, @CRLF & _NowTime() & " [" & $g_iTxtCurrentVillageName & "] Avanced : " & $ActionForModLog & "", 1)
@@ -685,11 +685,11 @@ ElseIf $g_bChkBBaseFrequency Then ; Cases Check Frequency enable
 		Return
 	EndIf
 
-	Local $BBaseCheckTimerDiff = TimerDiff($BBaseCheckTimer[$g_iCurAccount])
+	Local $BBaseCheckTimerDiff = TimerDiff($BBaseCheckTimer)
 	
-	If $BBaseCheckTimer[$g_iCurAccount] > 0 And $BBaseCheckTimerDiff < $DelayReturnedtocheckBBaseMS[$g_iCurAccount] Then ;Delay not reached : return False
+	If $BBaseCheckTimer > 0 And $BBaseCheckTimerDiff < $DelayReturnedtocheckBBaseMS Then ;Delay not reached : return False
 	
-		Local $iWaitTime = ($DelayReturnedtocheckBBaseMS[$g_iCurAccount] - $BBaseCheckTimerDiff)
+		Local $iWaitTime = ($DelayReturnedtocheckBBaseMS - $BBaseCheckTimerDiff)
 		Local $sWaitTime = ""
 		Local $iMin, $iHour, $iWaitSec
 	
@@ -701,19 +701,19 @@ ElseIf $g_bChkBBaseFrequency Then ; Cases Check Frequency enable
 			If $iWaitSec <= 60 Then $sWaitTime = "Imminent"
 		
 			SetLog("Next Builder Base Check : " & $sWaitTime & "", $COLOR_OLIVE)
-			$IstoSwitchMod[$g_iCurAccount] = False
+			$IstoSwitchMod = 0
 		Return
 	EndIf
 	
-	If $BBaseCheckTimer[$g_iCurAccount] > 0 And $BBaseCheckTimerDiff > $DelayReturnedtocheckBBaseMS[$g_iCurAccount] Then ;Delay reached : reset chrono ans set new delay. Return True
+	If $BBaseCheckTimer > 0 And $BBaseCheckTimerDiff > $DelayReturnedtocheckBBaseMS Then ;Delay reached : reset chrono ans set new delay. Return True
 
-			$BBaseCheckTimer[$g_iCurAccount] = TimerInit()
+			$BBaseCheckTimer = TimerInit()
 				
 			Local $DelayReturnedtocheckBBaseInf = ($g_iCmbPriorityBBaseFrequency - ($g_iCmbPriorityBBaseFrequency * $g_icmbAdvancedVariation[1]))
 			Local $DelayReturnedtocheckBBaseSup = ($g_iCmbPriorityBBaseFrequency + ($g_iCmbPriorityBBaseFrequency * $g_icmbAdvancedVariation[1]))
-			$DelayReturnedtocheckBBaseMS[$g_iCurAccount] = Random($DelayReturnedtocheckBBaseInf, $DelayReturnedtocheckBBaseSup, 1)
+			$DelayReturnedtocheckBBaseMS = Random($DelayReturnedtocheckBBaseInf, $DelayReturnedtocheckBBaseSup, 1)
 	
-			Local $iWaitTime = $DelayReturnedtocheckBBaseMS[$g_iCurAccount]
+			Local $iWaitTime = $DelayReturnedtocheckBBaseMS
 			Local $sWaitTime = ""
 			Local $iMin, $iHour, $iWaitSec
 	
@@ -726,10 +726,10 @@ ElseIf $g_bChkBBaseFrequency Then ; Cases Check Frequency enable
 			SetLog("Time to Check Builder Base", $COLOR_OLIVE)
 			SetLog("Next Builder Base Check : " & $sWaitTime & "", $COLOR_OLIVE)
 			If Not IsBBDailyChallengeAvailable() Then
-				$IstoSwitchMod[$g_iCurAccount] = False
+				$IstoSwitchMod = 0
 				Return
 			EndIf
-			$IstoSwitchMod[$g_iCurAccount] = True
+			$IstoSwitchMod = 1
 		Return
 	EndIf
 EndIf
@@ -941,7 +941,7 @@ Func chkAttackCGPlannerDayLimit()
 		GUICtrlSetState($g_hLbAttackCGPlannerThen, $GUI_ENABLE)
 		GUICtrlSetState($hCGPlannerThenContinue, $GUI_ENABLE)
 		GUICtrlSetState($hCGPlannerThenStopBot, $GUI_ENABLE)
-		If $iRandomAttackCountToday[$g_iCurAccount] = 0 Then
+		If $iRandomAttackCGCountToday = 0 Then
 			GUICtrlSetData($MaxDailyLimit, "0")
 			GUICtrlSetData($ActualNbrsAttacks, "0")
 		EndIf
@@ -988,9 +988,9 @@ Func cmbAttackCGPlannerDayMax()
 EndFunc   ;==>cmbAttackCGPlannerDayMax
 
 Func LiveDailyCount()
-If $g_bAttackCGPlannerEnable And $g_bAttackCGPlannerDayLimit And $iRandomAttackCountToday[$g_iCurAccount] > 0 Then
-	GUICtrlSetData($MaxDailyLimit, $iRandomAttackCountToday[$g_iCurAccount])
-	GUICtrlSetData($ActualNbrsAttacks, $g_aiAttackedCGCount[$g_iCurAccount])
+If $g_bAttackCGPlannerEnable And $g_bAttackCGPlannerDayLimit And $iRandomAttackCGCountToday > 0 Then
+	GUICtrlSetData($MaxDailyLimit, $iRandomAttackCGCountToday)
+	GUICtrlSetData($ActualNbrsAttacks, $g_aiAttackedCGCount)
 EndIf
 EndFunc
 
@@ -1077,10 +1077,10 @@ Func IschkAttackCGWeekdays()
 EndFunc   ;==>IschkAttackCGWeekdays
 
 Func SwitchBetweenBasesMod2()
-If $g_bFirstStartAccountSBB2[$g_iCurAccount] = 0 Then
-	$CCBaseCheckTimer[$g_iCurAccount] = 0
-	$DelayReturnedtocheckCCBaseMS[$g_iCurAccount] = 0
-	$g_bFirstStartAccountSBB2[$g_iCurAccount] = 1
+If Not $g_bFirstStartAccountSBB2 Then
+	$CCBaseCheckTimer = 0
+	$DelayReturnedtocheckCCBaseMS = 0
+	$g_bFirstStartAccountSBB2 = 1
 EndIf
 
 	Local $aForgeType[5] = [$g_bChkEnableForgeGold, $g_bChkEnableForgeElix, $g_bChkEnableForgeDE, $g_bChkEnableForgeBBGold, $g_bChkEnableForgeBBElix]
@@ -1100,15 +1100,15 @@ EndIf
 		Return True
 	EndIf
 	
-	If $CCBaseCheckTimer[$g_iCurAccount] = 0 Then; First Time
+	If Not $CCBaseCheckTimer Then; First Time
 	
-		$CCBaseCheckTimer[$g_iCurAccount] = TimerInit()
+		$CCBaseCheckTimer = TimerInit()
 		
 		Local $DelayReturnedtocheckCCBaseInf = ($g_iCmbPriorityCCBaseFrequency - ($g_iCmbPriorityCCBaseFrequency * $g_icmbAdvancedVariationCC))
 		Local $DelayReturnedtocheckCCBaseSup = ($g_iCmbPriorityCCBaseFrequency + ($g_iCmbPriorityCCBaseFrequency * $g_icmbAdvancedVariationCC))
-		$DelayReturnedtocheckCCBaseMS[$g_iCurAccount] = Random($DelayReturnedtocheckCCBaseInf, $DelayReturnedtocheckCCBaseSup, 1)
+		$DelayReturnedtocheckCCBaseMS = Random($DelayReturnedtocheckCCBaseInf, $DelayReturnedtocheckCCBaseSup, 1)
 		
-		Local $iWaitTime = $DelayReturnedtocheckCCBaseMS[$g_iCurAccount]
+		Local $iWaitTime = $DelayReturnedtocheckCCBaseMS
 		Local $sWaitTime = ""
 		Local $iMin, $iHour, $iWaitSec
 	
@@ -1126,11 +1126,11 @@ EndIf
 		Return True
 	EndIf
 
-	Local $CCBaseCheckTimerDiff = TimerDiff($CCBaseCheckTimer[$g_iCurAccount])
+	Local $CCBaseCheckTimerDiff = TimerDiff($CCBaseCheckTimer)
 	
-	If $CCBaseCheckTimer[$g_iCurAccount] > 0 And $CCBaseCheckTimerDiff < $DelayReturnedtocheckCCBaseMS[$g_iCurAccount] And Not ($IsCCGoldJustCollected Or $IsCCGoldJustCollectedDChallenge) Then ;Delay not reached And no CCGold : Return False
+	If $CCBaseCheckTimer > 0 And $CCBaseCheckTimerDiff < $DelayReturnedtocheckCCBaseMS And Not ($IsCCGoldJustCollected Or $IsCCGoldJustCollectedDChallenge) Then ;Delay not reached And no CCGold : Return False
 	
-		Local $iWaitTime = ($DelayReturnedtocheckCCBaseMS[$g_iCurAccount] - $CCBaseCheckTimerDiff)
+		Local $iWaitTime = ($DelayReturnedtocheckCCBaseMS - $CCBaseCheckTimerDiff)
 		Local $sWaitTime = ""
 		Local $iMin, $iHour, $iWaitSec
 	
@@ -1145,15 +1145,15 @@ EndIf
 		Return False
 	EndIf
 	
-	If ($CCBaseCheckTimer[$g_iCurAccount] > 0 And $CCBaseCheckTimerDiff > $DelayReturnedtocheckCCBaseMS[$g_iCurAccount]) Or $IsCCGoldJustCollected Or $IsCCGoldJustCollectedDChallenge Then ;Delay reached or CCgold: reset chrono ans set new delay. Return True
+	If ($CCBaseCheckTimer > 0 And $CCBaseCheckTimerDiff > $DelayReturnedtocheckCCBaseMS) Or $IsCCGoldJustCollected Or $IsCCGoldJustCollectedDChallenge Then ;Delay reached or CCgold: reset chrono ans set new delay. Return True
 
-			$CCBaseCheckTimer[$g_iCurAccount] = TimerInit()
+			$CCBaseCheckTimer = TimerInit()
 			
 			Local $DelayReturnedtocheckCCBaseInf = ($g_iCmbPriorityCCBaseFrequency - ($g_iCmbPriorityCCBaseFrequency * $g_icmbAdvancedVariationCC))
 			Local $DelayReturnedtocheckCCBaseSup = ($g_iCmbPriorityCCBaseFrequency + ($g_iCmbPriorityCCBaseFrequency * $g_icmbAdvancedVariationCC))
-			$DelayReturnedtocheckCCBaseMS[$g_iCurAccount] = Random($DelayReturnedtocheckCCBaseInf, $DelayReturnedtocheckCCBaseSup, 1)
+			$DelayReturnedtocheckCCBaseMS = Random($DelayReturnedtocheckCCBaseInf, $DelayReturnedtocheckCCBaseSup, 1)
 	
-			Local $iWaitTime = $DelayReturnedtocheckCCBaseMS[$g_iCurAccount]
+			Local $iWaitTime = $DelayReturnedtocheckCCBaseMS
 			Local $sWaitTime = ""
 			Local $iMin, $iHour, $iWaitSec
 	
@@ -1299,11 +1299,15 @@ EndFunc   ;==>CmbForgeBuilder
 
 Func EnableAutoUpgradeCC()
 If GUICtrlRead($g_hChkEnableAutoUpgradeCC) = $GUI_CHECKED Then
+	GUICtrlSetState($g_hChkStartWeekendRaid, $GUI_ENABLE)
 	GUICtrlSetState($g_hBtnCCUpgradesSettingsOpen, $GUI_ENABLE)
 	GUICtrlSetState($g_hChkEnableSmartSwitchCC, $GUI_ENABLE)
+	GUICtrlSetState($g_acmbPriorityChkRaid, $GUI_ENABLE)
 Else
+	GUICtrlSetState($g_hChkStartWeekendRaid, $GUI_DISABLE)
 	GUICtrlSetState($g_hBtnCCUpgradesSettingsOpen, $GUI_DISABLE)
 	GUICtrlSetState($g_hChkEnableSmartSwitchCC, $GUI_DISABLE)
+	GUICtrlSetState($g_acmbPriorityChkRaid, $GUI_DISABLE)
 EndIf
 EndFunc
 
@@ -1692,4 +1696,12 @@ EndFunc
 
 Func CloseWelcomeMessage()
 	GUISetState(@SW_HIDE, $g_hGUI_WelcomeMessage)
+EndFunc
+
+Func BtnSecondaryVillages()
+	GUISetState(@SW_SHOW, $g_hGUI_SecondaryVillages)
+EndFunc
+
+Func CloseSecondaryVillages()
+	GUISetState(@SW_HIDE, $g_hGUI_SecondaryVillages)
 EndFunc

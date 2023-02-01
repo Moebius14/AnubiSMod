@@ -63,16 +63,10 @@ Global $g_hLabelClangamesDesc = 0, $g_hChkCGRootEnabledAll = 0
 Global $g_hClanGamesTV = 0, $g_hChkCGMainLoot = 0, $g_hChkCGMainBattle = 0, $g_hChkCGMainDestruction = 0
 Global $g_hChkCGMainAir = 0, $g_hChkCGMainGround = 0, $g_hChkCGMainMisc = 0, $g_hChkCGMainSpell = 0
 Global $g_hChkCGBBBattle = 0, $g_hChkCGBBDestruction = 0, $g_hChkCGBBTroops = 0
-Global $g_ahCGMainLootItem[UBound(ClanGamesChallenges("$LootChallenges"))]
-Global $g_ahCGMainBattleItem[Ubound(ClanGamesChallenges("$BattleChallenges"))]
-Global $g_ahCGMainDestructionItem[Ubound(ClanGamesChallenges("$DestructionChallenges"))]
-Global $g_ahCGMainAirItem[Ubound(ClanGamesChallenges("$AirTroopChallenges"))]
-Global $g_ahCGMainGroundItem[Ubound(ClanGamesChallenges("$GroundTroopChallenges"))]
-Global $g_ahCGMainMiscItem[Ubound(ClanGamesChallenges("$MiscChallenges"))]
-Global $g_ahCGMainSpellItem[Ubound(ClanGamesChallenges("$SpellChallenges"))]
-Global $g_ahCGBBBattleItem[Ubound(ClanGamesChallenges("$BBBattleChallenges"))]
-Global $g_ahCGBBDestructionItem[Ubound(ClanGamesChallenges("$BBDestructionChallenges"))]
-Global $g_ahCGBBTroopsItem[Ubound(ClanGamesChallenges("$BBTroopsChallenges"))]
+
+Global $g_ahCGMainLootItem[6], $g_ahCGMainBattleItem[22], $g_ahCGMainDestructionItem[34], $g_ahCGMainAirItem[13], _
+	   $g_ahCGMainGroundItem[28], $g_ahCGMainMiscItem[3], $g_ahCGMainSpellItem[12], $g_ahCGBBBattleItem[4], _
+	   $g_ahCGBBDestructionItem[18], $g_ahCGBBTroopsItem[11]
 
 Func CreateVillageMisc()
 	$g_hGUI_MISC = _GUICreate("", $g_iSizeWGrpTab2, $g_iSizeHGrpTab2, 5, 25, BitOR($WS_CHILD, $WS_TABSTOP), -1, $g_hGUI_VILLAGE)
@@ -425,7 +419,10 @@ EndFunc   ;==>CreateMiscNormalVillageSubTab
 
 Func CreateMiscMagicSubTab()	
 	Local $x = 15, $y = 50
+	
 	GUICtrlCreateGroup(GetTranslatedFileIni("MBR GUI Design Child Village - Misc", "Group_Magic", "Magic Items Selling"), $x - 10, $y - 20, 430, 370)
+	
+	$y += 10
 
 		GUICtrlCreateIcon($g_sLibModIconPath, $eIcnModTrainingPotion, $x + 10, $y - 2, 24, 24)
 		$g_hChkSellMagicItem = GUICtrlCreateCheckbox(GetTranslatedFileIni("MBR GUI Design Child Village - Misc", "ChkSellMagicItem", "Sale To Collect Free Item"), $x + 40, $y, -1, -1)
@@ -438,7 +435,8 @@ Func CreateMiscMagicSubTab()
 			_GUICtrlSetTip(-1, GetTranslatedFileIni("MBR GUI Design Child Village - Misc", "ChkCleanYard_Info_03", "Check this to Check Sale Magic Items On First Start"))
 			GUICtrlSetState(-1, $GUI_UNCHECKED)
 		
-	GUICtrlCreateGroup(GetTranslatedFileIni("MBR GUI Design Child Village - Misc", "Group_Magic2", ""), $x , $y + 35, 410, 245)		
+	GUICtrlCreateGroup(GetTranslatedFileIni("MBR GUI Design Child Village - Misc", "Group_Magic2", ""), $x , $y + 35, 410, 245)	
+	
 	$y += 50	
 			
 		$g_hLabelPotion0 = GUICtrlCreateLabel(GetTranslatedFileIni("MBR GUI Design Child Village - Misc", "LabelPotion_00", "Please Set Potions To Keep In Storage :"), $x + 60, $y , 300, 25)	
@@ -1317,7 +1315,7 @@ Func CreateClanGamesSettings()
 	
 	$x = 220
 	$y -= 23
-	$g_hChkForceBBAttackOnClanGames = GUICtrlCreateCheckbox(GetTranslatedFileIni("MBR GUI Design Child Village - Misc", "ChkForceBBAttackOnClanGames", "Always Allow BB Attack"), $x, $y, -1, -1)
+	$g_hChkForceBBAttackOnClanGames = GUICtrlCreateCheckbox(GetTranslatedFileIni("MBR GUI Design Child Village - Misc", "ChkForceBBAttackOnClanGames", "Always Force BB Attack"), $x, $y, -1, -1)
 		GUICtrlSetOnEvent(-1, "chkClanGamesBB")
 		GUICtrlSetState(-1, $GUI_DISABLE)
 		

@@ -21,11 +21,13 @@ Global $g_hLabel14 = 0, $g_hLabel15 = 0, $g_hLabel16 = 0, $g_hLabel13 = 0
 Global $g_hLabel17 = 0, $g_hLabel18 = 0, $g_hLabel19 = 0
 Global $g_hChkLookAtRedNotifications = 0, $g_hCmbMaxActionsNumber = 0, $g_IsRefusedFriends = 0, $g_hChkForumRequestOnly = 0
 Global $g_acmbPriority[11] = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
-Global $g_acmbPriorityBB[2] = [0, 0]
 Global $g_acmbMaxSpeed[3] = [0, 0, 0]
 Global $g_acmbPause[3] = [0, 0, 0]
 Global $g_hLabelBB1 = 0, $g_hLabelBB2 = 0, $g_hLabelBB3 = 0, $g_hLabelBB4 = 0
 Global $g_hGUI_WelcomeMessage = 0, $g_hBtnWelcomeMessage = 0, $g_hChkUseWelcomeMessage = 0, $g_hTxtWelcomeMessage = 0, $g_hBtnWelcomeMessageClose = 0
+Global $g_hGUI_SecondaryVillages = 0, $g_hBtnSecondaryVillages = 0, $g_hBtnSecondaryVillagesClose = 0
+Global $g_acmbPriorityBB[2] = [0, 0]
+Global $g_hLabelCC1 = 0, $g_acmbPriorityChkRaid = 0
 
 Func TabHumanizationGUI()
 
@@ -52,7 +54,7 @@ Func TabHumanizationGUI()
 	
 	GUICtrlCreateIcon($g_sLibIconPath, $eIcnGUI, $x + 20, $y + 55, 16, 16)
 	$g_hChkForumRequestOnly = GUICtrlCreateCheckbox(GetTranslatedFileIni("MBR GUI Design Child Village - Misc", "ChkForumRequestOnly", "Accept ""Forum"" Requests"), 50, $y + 52, -1, -1)
-	_GUICtrlSetTip(-1, GetTranslatedFileIni("MBR GUI Design Child Village - Misc", "Label_03", "Will Click ""Accept"" With ""Forum"" in Requests But Will Do Nothing For Other Requests"))
+	_GUICtrlSetTip(-1, GetTranslatedFileIni("MBR GUI Design Child Village - Misc", "Label_03", "Will Click ""Accept"" With ""Forum"" in Requests But Won't Do Anything For Other Requests"))
 	GUICtrlSetOnEvent(-1, "ChkForumRequestOnly")
 	GUICtrlSetState(-1, $GUI_UNCHECKED)
 	$g_hBtnWelcomeMessage = GUICtrlCreateButton("Chat", $x + 190, $y + 50, -1, -1)
@@ -137,25 +139,14 @@ Func TabHumanizationGUI()
 	
 	$x += 4
 	$y += 30
+	
+	$g_hBtnSecondaryVillages = GUICtrlCreateButton("Secondary Villages", $x + 155, $y - 4, -1, -1)
+	_GUICtrlSetTip(-1, "Set The Humanization For Builder Base And Clan Capital")
+	GUICtrlSetOnEvent(-1, "BtnSecondaryVillages")
+	
+	$y += 10
 
-	GUICtrlCreateGroup(GetTranslatedFileIni("MBR GUI Design Child Village - Misc", "Group_02", "Builder Base"), $x, $y, 410, 80)
-
-	$g_hLabelBB1 = GUICtrlCreateLabel(GetTranslatedFileIni("MBR GUI Design Child Village - Misc", "Label_BB01", "Look at Battle log"), $x + 10, $y + 25, 110, 17)
-	$g_acmbPriorityBB[0] = GUICtrlCreateCombo("", $x + 110, $y + 20, 75, 25, BitOR($CBS_DROPDOWNLIST, $CBS_AUTOHSCROLL))
-	GUICtrlSetData(-1, $g_sFrequenceChain, "Sometimes")
-	GUICtrlSetOnEvent(-1, "ViewBattleLog")
-	$g_hLabelBB2 = GUICtrlCreateLabel(GetTranslatedFileIni("MBR GUI Design Child Village - Misc", "Label_06", "Watch Battles"), $x + 10, $y + 55, 110, 17)
-	$g_acmbPriorityBB[1] = GUICtrlCreateCombo("", $x + 110, $y + 50, 75, 25, BitOR($CBS_DROPDOWNLIST, $CBS_AUTOHSCROLL))
-	GUICtrlSetData(-1, $g_sFrequenceChain, "Sometimes")
-	GUICtrlSetOnEvent(-1, "WatchBBBattles")
-	$g_hLabelBB3 = GUICtrlCreateLabel(GetTranslatedFileIni("MBR GUI Design Child Village - Misc", "Label_07", "Max Replay Speed"), $x + 222, $y + 25, 110, 17)
-	$g_acmbMaxSpeed[2] = GUICtrlCreateCombo("", $x + 322, $y + 20, 75, 25, BitOR($CBS_DROPDOWNLIST, $CBS_AUTOHSCROLL))
-	GUICtrlSetData(-1, "1x|2x|4x|Random", "Random")
-	$g_hLabelBB4 = GUICtrlCreateLabel(GetTranslatedFileIni("MBR GUI Design Child Village - Misc", "Label_08", "Pause Replay"), $x + 222, $y + 55, 110, 17)
-	$g_acmbPause[2] = GUICtrlCreateCombo("", $x + 322, $y + 50, 75, 25, BitOR($CBS_DROPDOWNLIST, $CBS_AUTOHSCROLL))
-	GUICtrlSetData(-1, $g_sFrequenceChain, "Sometimes")
-		
-	GUICtrlCreateGroup("", -99, -99, 1, 1)
+	_GUICtrlCreatePic($g_sIcnHumanization, $x + 45, $y + 15, 320, 60)
 
 	GUICtrlCreateGroup("", -99, -99, 1, 1)
 
@@ -174,4 +165,44 @@ Func CreateChatWelcomeMessage()
 	$y += 50
 	$g_hBtnWelcomeMessageClose = GUICtrlCreateButton("Close", $_GUI_MAIN_WIDTH - 110, $y, 85, 25)
 		GUICtrlSetOnEvent(-1, "CloseWelcomeMessage")
+EndFunc
+
+Func CreateSecondaryVillages()
+	Local $x = 25, $y = 5
+	$g_hGUI_SecondaryVillages = _GUICreate("Secondary Villages", $_GUI_MAIN_WIDTH - 4, $_GUI_MAIN_HEIGHT - 440, $g_iFrmBotPosX, $g_iFrmBotPosY + 80, $WS_DLGFRAME, $WS_EX_TOPMOST)
+	
+	$y += 10
+	
+	GUICtrlCreateGroup(GetTranslatedFileIni("MBR GUI Design Child Village - Misc", "Group_02", "Builder Base"), $x, $y, 410, 80)
+
+	$g_hLabelBB1 = GUICtrlCreateLabel(GetTranslatedFileIni("MBR GUI Design Child Village - Misc", "Label_BB01", "Look at Battle log"), $x + 10, $y + 25, 110, 17)
+	$g_acmbPriorityBB[0] = GUICtrlCreateCombo("", $x + 110, $y + 20, 75, 25, BitOR($CBS_DROPDOWNLIST, $CBS_AUTOHSCROLL))
+	GUICtrlSetData(-1, $g_sFrequenceChain, "Sometimes")
+	GUICtrlSetOnEvent(-1, "ViewBattleLog")
+	$g_hLabelBB2 = GUICtrlCreateLabel(GetTranslatedFileIni("MBR GUI Design Child Village - Misc", "Label_06", "Watch Battles"), $x + 10, $y + 55, 110, 17)
+	$g_acmbPriorityBB[1] = GUICtrlCreateCombo("", $x + 110, $y + 50, 75, 25, BitOR($CBS_DROPDOWNLIST, $CBS_AUTOHSCROLL))
+	GUICtrlSetData(-1, $g_sFrequenceChain, "Sometimes")
+	GUICtrlSetOnEvent(-1, "WatchBBBattles")
+	$g_hLabelBB3 = GUICtrlCreateLabel(GetTranslatedFileIni("MBR GUI Design Child Village - Misc", "Label_07", "Max Replay Speed"), $x + 222, $y + 25, 110, 17)
+	$g_acmbMaxSpeed[2] = GUICtrlCreateCombo("", $x + 322, $y + 20, 75, 25, BitOR($CBS_DROPDOWNLIST, $CBS_AUTOHSCROLL))
+	GUICtrlSetData(-1, "1x|2x|4x|Random", "Random")
+	$g_hLabelBB4 = GUICtrlCreateLabel(GetTranslatedFileIni("MBR GUI Design Child Village - Misc", "Label_08", "Pause Replay"), $x + 222, $y + 55, 110, 17)
+	$g_acmbPause[2] = GUICtrlCreateCombo("", $x + 322, $y + 50, 75, 25, BitOR($CBS_DROPDOWNLIST, $CBS_AUTOHSCROLL))
+	GUICtrlSetData(-1, $g_sFrequenceChain, "Sometimes")
+		
+	GUICtrlCreateGroup("", -99, -99, 1, 1)
+	
+	$y += 100
+	
+	GUICtrlCreateGroup(GetTranslatedFileIni("MBR GUI Design Child Village - Misc", "Group_03", "Clan Capital"), $x, $y, 410, 60)
+
+	$g_hLabelCC1 = GUICtrlCreateLabel(GetTranslatedFileIni("MBR GUI Design Child Village - Misc", "Label_CC1", "Look at Raid Map"), $x + 100, $y + 25, 110, 17)
+	$g_acmbPriorityChkRaid = GUICtrlCreateCombo("", $x + 200, $y + 20, 75, 25, BitOR($CBS_DROPDOWNLIST, $CBS_AUTOHSCROLL))
+	GUICtrlSetData(-1, $g_sFrequenceChain, "Very Often")
+			
+	GUICtrlCreateGroup("", -99, -99, 1, 1)
+		
+	$y += 70
+	$g_hBtnSecondaryVillagesClose = GUICtrlCreateButton("Close", $_GUI_MAIN_WIDTH - 110, $y, 85, 25)
+		GUICtrlSetOnEvent(-1, "CloseSecondaryVillages")
 EndFunc

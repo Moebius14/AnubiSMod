@@ -767,8 +767,8 @@ Func ApplyConfig_600_11($TypeReadSave)
 			$g_bRequestTroopsEnable = (GUICtrlRead($g_hChkRequestTroopsEnable) = $GUI_CHECKED)
 			$g_sRequestTroopsText = GUICtrlRead($g_hTxtRequestCC)
 			$bChkUseOnlyCCMedals = (GUICtrlRead($g_hChkUseOnlyCCMedals) = $GUI_CHECKED)
-			$g_aiCmbCCDecisionTime = (GUICtrlRead($g_ahCmbCCDecisionTime) = $GUI_CHECKED)
-			$g_aiCmbCCDecisionThen = (GUICtrlRead($g_ahCmbCCDecisionThen) = $GUI_CHECKED)
+			$g_aiCmbCCDecisionTime = _GUICtrlComboBox_GetCurSel($g_ahCmbCCDecisionTime)
+			$g_aiCmbCCDecisionThen = _GUICtrlComboBox_GetCurSel($g_ahCmbCCDecisionThen)
 			$g_aiCmbCCMedalsSaveMin = GUICtrlRead($g_ahCmbCCMedalsSaveMin)
 			; Request Type - Demen
 			$g_abRequestType[0] = (GUICtrlRead($g_hChkRequestType_Troops) = $GUI_CHECKED)
@@ -1206,6 +1206,7 @@ Func ApplyConfig_600_18($TypeReadSave)
 			GUICtrlSetState($g_hChkNotifyPauseTime, $g_bChkNotifyPauseTime ? $GUI_CHECKED : $GUI_UNCHECKED)
 			GUICtrlSetState($g_hChkNotifyUpgradeBM, $g_bChkNotifyUpgradeBM ? $GUI_CHECKED : $GUI_UNCHECKED)
 			GUICtrlSetState($g_hNotifyStopBot, $g_bNotifyStopBot ? $GUI_CHECKED : $GUI_UNCHECKED)
+			GUICtrlSetState($g_hChkNotifyUpgrade, $g_bChkNotifyUpgrade ? $GUI_CHECKED : $GUI_UNCHECKED)
 			ChkVillageReport()
 			ChkVillageReport2()
 			chkUpgradeBattleMachine()
@@ -1240,6 +1241,7 @@ Func ApplyConfig_600_18($TypeReadSave)
 			$g_bChkNotifyPauseTime = (GUICtrlRead($g_hChkNotifyPauseTime) = $GUI_CHECKED)
 			$g_bChkNotifyUpgradeBM = (GUICtrlRead($g_hChkNotifyUpgradeBM) = $GUI_CHECKED)
 			$g_bNotifyStopBot = (GUICtrlRead($g_hNotifyStopBot) = $GUI_CHECKED)
+			$g_bChkNotifyUpgrade = (GUICtrlRead($g_hChkNotifyUpgrade) = $GUI_CHECKED)
 	EndSwitch
 EndFunc   ;==>ApplyConfig_600_18
 
@@ -2611,6 +2613,7 @@ Func ApplyConfig_MOD_Humanization($TypeReadSave)
 			For $i = 0 To UBound($g_iacmbPause) - 1
 				_GUICtrlComboBox_SetCurSel($g_acmbPause[$i], $g_iacmbPause[$i])
 			Next
+			_GUICtrlComboBox_SetCurSel($g_acmbPriorityChkRaid, $g_iacmbPriorityChkRaid)
 			_GUICtrlComboBox_SetCurSel($g_hCmbMaxActionsNumber, $g_iCmbMaxActionsNumber)
 			_GUICtrlComboBox_SetCurSel($g_HowManyinCWCombo, $g_iHowManyinCWCombo)
 			_GUICtrlComboBox_SetCurSel($g_HowManyinCWLCombo, $g_iHowManyinCWLCombo)
@@ -2637,6 +2640,7 @@ Func ApplyConfig_MOD_Humanization($TypeReadSave)
 			For $i = 0 To UBound($g_iacmbPause) - 1
 				$g_iacmbPause[$i] = _GUICtrlComboBox_GetCurSel($g_acmbPause[$i])
 			Next
+			$g_iacmbPriorityChkRaid = _GUICtrlComboBox_GetCurSel($g_acmbPriorityChkRaid)
 			$g_iCmbMaxActionsNumber = _GUICtrlComboBox_GetCurSel($g_hCmbMaxActionsNumber)
 			$g_iHowManyinCWCombo = _GUICtrlComboBox_GetCurSel($g_HowManyinCWCombo)
 			$g_iHowManyinCWLCombo = _GUICtrlComboBox_GetCurSel($g_HowManyinCWLCombo)

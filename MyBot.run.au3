@@ -620,7 +620,7 @@ Func FinalInitialization(Const $sAI)
 	SetLog("-----------------------------------------------------------------------", $COLOR_MONEYGREEN)
 	SetLog(" ", $COLOR_MEDGRAY)
 	; Message - end
-
+	
 	; InitializeVariables();initialize variables used in extrawindows
 	CheckVersion() ; check latest version on mybot.run site
 	UpdateMultiStats()
@@ -880,10 +880,10 @@ Func runBot() ;Bot that runs everything in order
 				If Not $g_bRunState Then Return
 			EndIf
 
-			While $g_bIsBBevent[$g_iCurAccount]
+			While $g_bIsBBevent
 				SwitchBetweenBasesMod()
-				If $IstoSwitchMod[$g_iCurAccount] Then
-					$ActionForModLog = "Switch Between Bases"
+				If $IstoSwitchMod Then
+					$ActionForModLog = "Switch To Builder Base"
 					If $g_iTxtCurrentVillageName <> "" Then
 						GUICtrlSetData($g_hTxtModLog, @CRLF & _NowTime() & " [" & $g_iTxtCurrentVillageName & "] Avanced : " & $ActionForModLog & "", 1)
 					Else
@@ -902,14 +902,14 @@ Func runBot() ;Bot that runs everything in order
 						_RunFunction($Index)
 						If $g_bRestart Then ContinueLoop 2 ; must be level 2 due to loop-in-loop
 					Next
-					If $g_bIsBBevent[$g_iCurAccount] = False Then ExitLoop
+					If Not $g_bIsBBevent Then ExitLoop
 				EndIf
 			WEnd
 
 			SwitchBetweenBasesMod()
 
 			If $g_bAutoUpgradeWallsEnable And $g_bChkWallUpFirst Then
-				If $IstoSwitchMod[$g_iCurAccount] Then
+				If $IstoSwitchMod Then
 					If Not $g_bRunState Then Return
 					_RunFunction('BuilderBase')
 					If $g_bRestart Then ContinueLoop
@@ -917,10 +917,10 @@ Func runBot() ;Bot that runs everything in order
 				EndIf
 			Else
 				; Ensure, that wall upgrade is last of the upgrades
-				If $IstoSwitchMod[$g_iCurAccount] Then
+				If $IstoSwitchMod Then
 					Local $aRndFuncList = ['UpgradeWall', 'BuilderBase'] ;Copied BuilderBase to AttackMain
-					$IstoSwitchMod[$g_iCurAccount] = False
-				ElseIf Not $IstoSwitchMod[$g_iCurAccount] Then
+					$IstoSwitchMod = 0
+				ElseIf Not $IstoSwitchMod Then
 					Local $aRndFuncList = ['UpgradeWall']
 				EndIf
 				_ArrayShuffle($aRndFuncList)
@@ -1042,6 +1042,17 @@ Func _Idle() ;Sequence that runs until Full Army
 			EndIf
 		EndIf
 		If $g_bRestart Then ExitLoop
+		If Random(0, 3, 1) = 0 Then ; This is prevent from collecting all the time which isn't needed anyway, chance to run is 1/4
+			CollectCCGold()
+			_Sleep($DELAYRUNBOT3)
+			If SwitchBetweenBasesMod2() Then
+				ForgeClanCapitalGold()
+				_Sleep($DELAYRUNBOT3)
+				AutoUpgradeCC()
+				_Sleep($DELAYRUNBOT3)
+			EndIf
+			If Not $g_bRunState Then Return
+		EndIf
 		If Random(0, $g_iCollectAtCount - 1, 1) = 0 Then ; This is prevent from collecting all the time which isn't needed anyway, chance to run is 1/$g_iCollectAtCount
 			If $bChkUseOnlyCCMedals Then
 				Local $aRndFuncList = ['Collect', 'CheckTombs', 'DonateCC', 'CleanYard', 'CollectCCGold']
@@ -1055,12 +1066,6 @@ Func _Idle() ;Sequence that runs until Full Army
 				If $g_bRestart Then ExitLoop
 				If CheckAndroidReboot() Then ContinueLoop 2
 			Next
-			If SwitchBetweenBasesMod2() Then
-				ForgeClanCapitalGold()
-				_Sleep($DELAYRUNBOT3)
-				AutoUpgradeCC()
-				_Sleep($DELAYRUNBOT3)
-			EndIf
 			If Not $g_bRunState Then Return
 			If $g_bRestart Then ExitLoop
 			If _Sleep($DELAYIDLE1) Or Not $g_bRunState Then ExitLoop
@@ -1163,7 +1168,7 @@ Func AttackMain() ;Main control for attack functions
 				checkMainScreen(False)
 				If $g_bRestart Then Return
 			EndIf
-			If $g_bDropTrophyEnable And (Number($g_aiCurrentLoot[$eLootTrophy]) > Number($g_iDropTrophyMax) Or $IsDropTrophyBreaked[$g_iCurAccount]) Then ;If current trophy above max trophy, try drop first
+			If $g_bDropTrophyEnable And (Number($g_aiCurrentLoot[$eLootTrophy]) > Number($g_iDropTrophyMax) Or $IsDropTrophyBreaked) Then ;If current trophy above max trophy, try drop first
 				DropTrophy()
 				If Not $g_bRunState Then Return
 				$g_bIsClientSyncError = False ; reset OOS flag to prevent looping.
@@ -1177,10 +1182,10 @@ Func AttackMain() ;Main control for attack functions
 			_ClanGames() ;Trying to do this above in the main loop
 			If Not $g_bRunState Then Return
 
-			While $g_bIsBBevent[$g_iCurAccount]
+			While $g_bIsBBevent
 				SwitchBetweenBasesMod()
-				If $IstoSwitchMod[$g_iCurAccount] Then
-					$ActionForModLog = "Switch Between Bases"
+				If $IstoSwitchMod Then
+					$ActionForModLog = "Switch To Builder Base"
 					If $g_iTxtCurrentVillageName <> "" Then
 						GUICtrlSetData($g_hTxtModLog, @CRLF & _NowTime() & " [" & $g_iTxtCurrentVillageName & "] Avanced : " & $ActionForModLog & "", 1)
 					Else
@@ -1199,7 +1204,7 @@ Func AttackMain() ;Main control for attack functions
 						_RunFunction($Index)
 						If $g_bRestart Then ContinueLoop 2 ; must be level 2 due to loop-in-loop
 					Next
-					If $g_bIsBBevent[$g_iCurAccount] = False Then ExitLoop
+					If Not $g_bIsBBevent Then ExitLoop
 				EndIf
 			WEnd
 
@@ -1392,8 +1397,8 @@ Func __RunFunction($action)
 			UpgradeWall()
 			_Sleep($DELAYRUNBOT3)
 		Case "BuilderBase"
-			If $g_bChkBBaseFrequency And Not $g_bIsBBevent[$g_iCurAccount] Then
-				$ActionForModLog = "Switch Between Bases"
+			If $g_bChkBBaseFrequency And Not $g_bIsBBevent Then
+				$ActionForModLog = "Switch To Builder Base"
 				If $g_iTxtCurrentVillageName <> "" Then
 					GUICtrlSetData($g_hTxtModLog, @CRLF & _NowTime() & " [" & $g_iTxtCurrentVillageName & "] Avanced : " & $ActionForModLog & "", 1)
 				Else
@@ -1434,7 +1439,7 @@ Func FirstCheck()
 	$g_bFullArmy = False
 	$g_iCommandStop = -1
 
-	If $g_bFirstStartForAll[$g_iCurAccount] = 0 Then
+	If Not $g_bFirstStartForAll Then
 	;;;;;Check Town Hall level And CC Sleep/Guard
 		Local $iTownHallLevel = $g_iTownHallLevel
 		Local $bLocateTH = False
@@ -1512,13 +1517,13 @@ Func FirstCheck()
 	If $g_bRestart Then Return
 	
 	If Not $bChkUseOnlyCCMedals And $g_bRequestTroopsEnable And ($g_abSearchCastleWaitEnable[$DB] Or $g_abSearchCastleWaitEnable[$LB]) Then
-		If ($g_bFirstStartForAll[$g_iCurAccount] = 1 And $IsForRequestEarly) Or $g_bFirstStartForAll[$g_iCurAccount] = 0 Then
+		If ($g_bFirstStartForAll And $IsForRequestEarly) Or Not $g_bFirstStartForAll Then
 			SetLog("Wait For CC Enable : Request Early", $COLOR_DEBUG1)
 			RequestCC()
 		EndIf
 	EndIf
 	
-	If $g_bFirstStartForAll[$g_iCurAccount] = 0 Then
+	If Not $g_bFirstStartForAll Then
 		DailyChallenges(False)
 		If Not $g_bRunState Then Return
 	EndIf
@@ -1529,7 +1534,7 @@ Func FirstCheck()
 	If ($g_bChkEnableForgeBBGold Or $g_bChkEnableForgeBBElix) And ($g_aiCurrentLootBB[$eLootGoldBB] = 0 Or $g_aiCurrentLootBB[$eLootElixirBB] = 0) Then
 		SetLog("Switch To Builder Base Early To Check BB Loot", $COLOR_DEBUG1)
 		SwitchBetweenBasesMod()
-		If $IstoSwitchMod[$g_iCurAccount] Then
+		If $IstoSwitchMod Then
 			BuilderBase()
 		EndIf
 	EndIf
@@ -1544,7 +1549,7 @@ Func FirstCheck()
 	
 	If (Not $g_bChkEnableAutoUpgradeCC Or (Not $g_bChkEnableSmartSwitchCC And $g_bChkEnableAutoUpgradeCC)) And $bChkUseOnlyCCMedals And $g_bRequestTroopsEnable And _
 	($g_abSearchCastleWaitEnable[$DB] Or $g_abSearchCastleWaitEnable[$LB]) And ((Not $bChkUseOnlyCCMedals And $g_aiCmbCCDecisionThen = 1) Or _
-	$bChkUseOnlyCCMedals) And $g_bFirstStartForAll[$g_iCurAccount] = 0 Then CatchCCMedals()
+	$bChkUseOnlyCCMedals) And Not $g_bFirstStartForAll Then CatchCCMedals()
 	If _Sleep($DELAYRUNBOT1) Then Return
 	If Not $g_bRunState Then Return
 	
@@ -1554,7 +1559,7 @@ Func FirstCheck()
 	BotHumanization()
 	If Not $g_bRunState Then Return
 
-	If $g_bChkFirstStartSellMagicItem And $g_bFirstStartForAll[$g_iCurAccount] = 0 Then
+	If $g_bChkFirstStartSellMagicItem And Not $g_bFirstStartForAll Then
 		If IsToInspectMagicItems() Then
 			SetLog("Magic Items Management :", $COLOR_DEBUG1)
 			Sleep(Random(1000, 2000, 1))
@@ -1603,7 +1608,7 @@ Func FirstCheck()
 				If Not $g_bRunState Then Return
 				AttackMain()
 				If $g_abSearchCastleWaitEnable[$DB] Or $g_abSearchCastleWaitEnable[$LB] Then
-					If Not $bChkUseOnlyCCMedals And $g_aiCmbCCDecisionTime > 0 Then $CCWaitChrono = -1
+					If Not $bChkUseOnlyCCMedals And $g_aiCmbCCDecisionTime > 0 Then $CCWaitChrono = 0
 				EndIf
 				$g_bSkipFirstZoomout = False
 				If $g_bOutOfGold Then
@@ -1621,7 +1626,7 @@ Func FirstCheck()
 		EndIf
 	EndIf
 
-	If $g_bFirstStartForAll[$g_iCurAccount] = 0 Then $g_bFirstStartForAll[$g_iCurAccount] = 1
+	If Not $g_bFirstStartForAll Then $g_bFirstStartForAll = 1
 EndFunc   ;==>FirstCheck
 
 Func BuilderBase($bTest = False)
@@ -1729,10 +1734,10 @@ Func TestBuilderBase($bTestAll = True)
 EndFunc   ;==>TestBuilderBase
 
 Func GotoBBTodoCG()
-	While $g_bIsBBevent[$g_iCurAccount]
+	While $g_bIsBBevent
 		SwitchBetweenBasesMod()
-		If $IstoSwitchMod[$g_iCurAccount] Then
-			$ActionForModLog = "Switch Between Bases"
+		If $IstoSwitchMod Then
+			$ActionForModLog = "Switch To Builder Base"
 			If $g_iTxtCurrentVillageName <> "" Then
 				GUICtrlSetData($g_hTxtModLog, @CRLF & _NowTime() & " [" & $g_iTxtCurrentVillageName & "] Avanced : " & $ActionForModLog & "", 1)
 			Else
@@ -1751,7 +1756,7 @@ Func GotoBBTodoCG()
 				_RunFunction($Index)
 				If $g_bRestart Then ContinueLoop 2 ; must be level 2 due to loop-in-loop
 			Next
-			If $g_bIsBBevent[$g_iCurAccount] = False Then ExitLoop
+			If Not $g_bIsBBevent Then ExitLoop
 		EndIf
 	WEnd
 EndFunc   ;==>GotoBBTodoCG

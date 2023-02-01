@@ -85,12 +85,12 @@ Global $g_sImgPrioritizeCC = @ScriptDir & "\imgxml\Resources\ClanCapital\CCMap\B
 
 #Region Boost Super Troops
 Global $g_sImgBoostTroopsBarrel = @ScriptDir & "\imgxml\SuperTroops\Barrel\"
+Global $g_sImgBarrelStopped = @ScriptDir & "\imgxml\SuperTroops\Stopped\"
 Global $g_sImgBoostTroopsWindow = @ScriptDir & "\imgxml\SuperTroops\Window\"
 Global $g_sImgBoostTroopsIcons = @ScriptDir & "\imgxml\SuperTroops\Troops\"
 Global $g_sImgBoostTroopsButtons = @ScriptDir & "\imgxml\SuperTroops\Buttons\"
 Global $g_sImgBoostTroopsPotion = @ScriptDir & "\imgxml\SuperTroops\Potions\"
 Global $g_sImgBoostTroopsClock = @ScriptDir & "\imgxml\SuperTroops\Clock\"
-Global $g_sImgSTProgress = @ScriptDir & "\imgxml\SuperTroops\Progress\Progress*.xml"
 #EndRegion
 
 #Region Builder Base

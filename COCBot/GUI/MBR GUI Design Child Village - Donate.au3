@@ -125,9 +125,9 @@ Func CreateRequestSubTab()
 			GUICtrlSetOnEvent(-1, "BtnDefineCapacity")
 			_GUICtrlSetTip(-1, GetTranslatedFileIni("MBR GUI Design Child Village - Donate-CC", "BtnDefineCapacity_Info_01", "Click To Read CC Troops/Spells Max Capacities"))
 			
-		_GUICtrlCreateIcon($g_sLibIconPath, $eIcnCapitalMedal, $x + 70, $y + 45, 24, 24)
+		_GUICtrlCreateIcon($g_sLibIconPath, $eIcnCapitalMedal, $x + 80, $y + 45, 24, 24)
 		
-		$g_hChkUseOnlyCCMedals = GUICtrlCreateCheckbox(GetTranslatedFileIni("MBR GUI Design Child Village - Donate-CC", "ChkUseOnlyCCMedalsDB", "Only Use Medals"), $x + 100, $y + 48)
+		$g_hChkUseOnlyCCMedals = GUICtrlCreateCheckbox(GetTranslatedFileIni("MBR GUI Design Child Village - Donate-CC", "ChkUseOnlyCCMedalsDB", "Only Use Medals"), $x + 115, $y + 48)
 			_GUICtrlSetTip(-1, GetTranslatedFileIni("MBR GUI Design Child Village - Donate-CC", "ChkUseOnlyCCMedalsDB_Info_01", "Fill Clan Castle When Troops, Spells And Heroes Are Ready") & @CRLF & _
 			"Never Request To Clan, Only Use Medals" & @CRLF & _
 			"Set To ""0"" All CC Counts To Fill Them")
@@ -141,7 +141,9 @@ Func CreateRequestSubTab()
 		GUICtrlSetData(-1, "Classic|Wait 1 mn|Wait 2 mn|Wait 3 mn|Wait 4 mn|Wait 5 mn|Wait 6 mn|Wait 7 mn|Wait 8 mn|Wait 9 mn|Wait 10 mn", "Classic")
 		GUICtrlSetOnEvent(-1, "CCDecisionTime")
 		_GUICtrlSetTip(-1, GetTranslatedFileIni("MBR GUI Design Child Village - Donate-CC", "ChkUseCCMedals_Info_01", "Choose How Many Time To Wait For CC After Request") & @CRLF & _
-		"Classic Option Leads To Wait For As Far As CC Is Not Full")
+		"Bot Will Request CC As Far As Army Is Not Full" & @CRLF & _
+		"Classic Option Leads To Wait For As Far As CC Is Not Full" & @CRLF & _
+		"Waiting Time Will Be Checked After Army Is Full")
 			
 		$g_ahCCDecisionThenLabel = GUICtrlCreateLabel("Then", $x + 220, $y + 52, -1, 15)
 		GUICtrlSetState(-1, $GUI_HIDE)

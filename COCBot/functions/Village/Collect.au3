@@ -74,19 +74,19 @@ Func Collect($bCheckTreasury = True)
 EndFunc   ;==>Collect
 
 Func CollectLootCart()
-If $LootCartTimer[$g_iCurAccount] <> 0 Then
-	Local $LootCartTimerDiff = TimerDiff($LootCartTimer[$g_iCurAccount])
-ElseIf $LootCartTimer[$g_iCurAccount] = 0 Then
+If $LootCartTimer <> 0 Then
+	Local $LootCartTimerDiff = TimerDiff($LootCartTimer)
+ElseIf $LootCartTimer = 0 Then
 	Local $LootCartTimerDiff = 0
 EndIf	
-	If $LootCartTimerDiff <= $LootCartFrequency[$g_iCurAccount] Then
+	If $LootCartTimerDiff <= $LootCartFrequency Then
 		If Not $g_abNotNeedAllTime[0] Then 
 			SetLog("Skipping loot cart check", $COLOR_INFO)
 			Return
 		EndIf
 	EndIf
-	$LootCartTimer[$g_iCurAccount] = TimerInit()
-	$LootCartFrequency[$g_iCurAccount] = Random((1 * 60 * 60 * 1000), (2 * 60 * 60 * 1000), 1)	
+	$LootCartTimer = TimerInit()
+	$LootCartFrequency = Random((1 * 60 * 60 * 1000), (2 * 60 * 60 * 1000), 1)	
 
 	SetLog("Searching for a Loot Cart", $COLOR_INFO)
 

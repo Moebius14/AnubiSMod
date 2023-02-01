@@ -26,6 +26,37 @@ Func SwitchAccountVariablesReload($sType = "Load", $iAccount = $g_iCurAccount)
 	; FirstRun
 	Static $abFirstStart = $aiTrue
 	Static $aiFirstRun = $aiTrue
+	Static $gSbFirstStartForAll = $aiZero
+	Static $gSbFirstStartAccountDC = $aiZero
+	Static $gSbFirstStartAccountFMI = $aiZero
+	Static $gSbFirstStartAccountSBB = $aiZero
+	Static $gSbFirstStartAccountSBB2 = $aiZero
+	Static $gSbFirstStartAccountCGRA = $aiZero
+	Static $gSbFirstStartForLab = $aiZero
+	Static $gSbFirstStartForPetHouse = $aiZero
+	Static $gSbFirstStartForStarLab = $aiZero
+	
+	;Mods
+	Static $SCheckTombsTimer = $aiZero
+	Static $SCheckTombsFrequency = $aiZero
+	Static $SLootCartTimer = $aiZero
+	Static $SLootCartFrequency = $aiZero
+	Static $SIsdroptrophiesActive = $aiZero
+	Static $SIsDropTrophyBreaked = $aiZero
+	Static $SIsToOpenOffers = $aiZero
+	Static $SIsMainScreenLocated = $aiZero
+	Static $SDelayReturnedtocheckCGRA = $aiZero
+	Static $SCGRACheckTimer = $aiZero
+	Static $SIsStatusForCG = $aiZero
+	Static $SIstoSwitchMod = $aiZero
+	Static $SBBaseCheckTimer = $aiZero
+	Static $SDelayReturnedtocheckBBaseMS = $aiZero
+	Static $SCCBaseCheckTimer = $aiZero
+	Static $SDelayReturnedtocheckCCBaseMS = $aiZero
+	Static $SMagicItemsCheckTimer = $aiZero
+	Static $SDelayReturnedtocheckMagicItemsMS = $aiZero
+	Static $SIstoRecheckTrader = $aiZero
+	
 
 	; Bottom & Multi-Stats
 	Static $aiSkippedVillageCount = $aiZero
@@ -35,12 +66,17 @@ Func SwitchAccountVariablesReload($sType = "Load", $iAccount = $g_iCurAccount)
 	Static $aiStatsTotalGain = $aiZero84, $aiStatsStartedWith = $aiZero84, $aiStatsLastAttack = $aiZero84, $aiStatsBonusLast = $aiZero84
 	
 	;Humanization
+	Static $gSiTimerBoostBuilders = $aiZero
 	Static $gSCCWaitChrono = $aiZero
+	
+	;Super Troops Boost
+	Static $gSbFirstStartBarrel = $aiTrue
 	
 	;Clan Capital
 	Static $gSiLootCCGold = $aiZero
 	Static $gSiLootCCMedal = $aiZero
 	Static $gSiCCTrophies = $aiZero
+	Static $IsSRaidRunning = $aiZero
 	
 	;Builders Base
 	Static $gSaiCurrentLootBB = $aiZero83
@@ -93,6 +129,14 @@ Func SwitchAccountVariablesReload($sType = "Load", $iAccount = $g_iCurAccount)
 	Static $gaSsNewChallengeTime = $aiZero
 	Static $aSTimeDiffBBChallenge = $aiZero
 	
+	;Clan Games
+	Static $gSbClanGamesCompleted = $aiZero
+	Static $gSaiAttackedCGCount = $aiZero
+	Static $IsSReachedMaxCGDayAttack = $aiZero
+	Static $iSRandomAttackCGCountToday = $aiZero
+	Static $IsSAttackCGRandomEnable = $aiZero
+	Static $gSbIsBBevent = $aiZero
+	
 	$g_hCoolDownTimer = 0
 	$g_bIsCGCoolDownTime = False
 
@@ -101,6 +145,36 @@ Func SwitchAccountVariablesReload($sType = "Load", $iAccount = $g_iCurAccount)
 		Case "Reset"
 			$abFirstStart = $aiTrue
 			$aiFirstRun = $aiTrue
+			$gSbFirstStartForAll = $aiZero
+			$gSbFirstStartAccountDC = $aiZero
+			$gSbFirstStartAccountFMI = $aiZero
+			$gSbFirstStartAccountSBB = $aiZero
+			$gSbFirstStartAccountSBB2 = $aiZero
+			$gSbFirstStartAccountCGRA = $aiZero
+			$gSbFirstStartForLab = $aiZero
+			$gSbFirstStartForPetHouse = $aiZero
+			$gSbFirstStartForStarLab = $aiZero
+			
+			;Mods
+			$SCheckTombsTimer = $aiZero
+			$SCheckTombsFrequency = $aiZero
+			$SLootCartTimer = $aiZero
+			$SLootCartFrequency = $aiZero
+			$SIsdroptrophiesActive = $aiZero
+			$SIsDropTrophyBreaked = $aiZero
+			$SIsToOpenOffers = $aiZero
+			$SIsMainScreenLocated = $aiZero
+			$SDelayReturnedtocheckCGRA = $aiZero
+	        $SCGRACheckTimer = $aiZero
+			$SIsStatusForCG = $aiZero
+			$SIstoSwitchMod = $aiZero
+			$SBBaseCheckTimer = $aiZero
+			$SDelayReturnedtocheckBBaseMS = $aiZero
+			$SCCBaseCheckTimer = $aiZero
+			$SDelayReturnedtocheckCCBaseMS = $aiZero
+			$SMagicItemsCheckTimer = $aiZero
+			$SDelayReturnedtocheckMagicItemsMS = $aiZero
+			$SIstoRecheckTrader = $aiZero
 
 			$g_asTrainTimeFinish = $asEmpty
 			For $i = 0 To 7
@@ -171,6 +245,14 @@ Func SwitchAccountVariablesReload($sType = "Load", $iAccount = $g_iCurAccount)
 			$gaSsNewChallengeTime = $aiZero
 			$aSTimeDiffBBChallenge = $aiZero
 			
+			;Clan Games
+			$gSbClanGamesCompleted = $aiZero
+			$gSaiAttackedCGCount = $aiZero
+			$IsSReachedMaxCGDayAttack = $aiZero
+			$iSRandomAttackCGCountToday = $aiZero
+			$IsSAttackCGRandomEnable = $aiZero
+			$gSbIsBBevent = $aiZero
+			
 			; Hero State
 			$aiHeroAvailable = $aiZero
 			$aiHeroUpgradingBit = $aiZero
@@ -194,12 +276,17 @@ Func SwitchAccountVariablesReload($sType = "Load", $iAccount = $g_iCurAccount)
 			$abNotNeedAllTime1 = $aiTrue
 			
 			;Humanization
+			$gSiTimerBoostBuilders = $aiZero
 			$gSCCWaitChrono = $aiZero
+			
+			;Super Troops Boost
+			$gSbFirstStartBarrel = $aiTrue
 			
 			;Clan Capital
 			$gSiLootCCGold = $aiZero
 			$gSiLootCCMedal = $aiZero
 			$gSiCCTrophies = $aiZero
+			$IsSRaidRunning = $aiZero
 			
 			;Builders Base
 			$gSaiCurrentLootBB = $aiZero83
@@ -209,6 +296,36 @@ Func SwitchAccountVariablesReload($sType = "Load", $iAccount = $g_iCurAccount)
 		Case "Save"
 			$abFirstStart[$iAccount] = $g_bFirstStart
 			$aiFirstRun[$iAccount] = $g_iFirstRun
+			$gSbFirstStartForAll[$iAccount] = $g_bFirstStartForAll
+			$gSbFirstStartAccountDC[$iAccount] = $g_bFirstStartAccountDC
+			$gSbFirstStartAccountFMI[$iAccount] = $g_bFirstStartAccountFMI
+			$gSbFirstStartAccountSBB[$iAccount] = $g_bFirstStartAccountSBB
+			$gSbFirstStartAccountSBB2[$iAccount] = $g_bFirstStartAccountSBB2
+			$gSbFirstStartAccountCGRA[$iAccount] = $g_bFirstStartAccountCGRA
+			$gSbFirstStartForLab[$iAccount] = $g_bFirstStartForLab
+			$gSbFirstStartForPetHouse[$iAccount] = $g_bFirstStartForPetHouse
+			$gSbFirstStartForStarLab[$iAccount] = $g_bFirstStartForStarLab
+			
+			;Mods
+			$SCheckTombsTimer[$iAccount] = $CheckTombsTimer
+			$SCheckTombsFrequency[$iAccount] = $CheckTombsFrequency
+			$SLootCartTimer[$iAccount] = $LootCartTimer
+			$SLootCartFrequency[$iAccount] = $LootCartFrequency
+			$SIsdroptrophiesActive[$iAccount] = $IsdroptrophiesActive
+			$SIsDropTrophyBreaked[$iAccount] = $IsDropTrophyBreaked
+			$SIsToOpenOffers[$iAccount] = $IsToOpenOffers
+			$SIsMainScreenLocated[$iAccount] = $IsMainScreenLocated
+			$SDelayReturnedtocheckCGRA[$iAccount] = $DelayReturnedtocheckCGRA
+	        $SCGRACheckTimer[$iAccount] = $CGRACheckTimer
+			$SIsStatusForCG[$iAccount] = $IsStatusForCG
+			$SIstoSwitchMod[$iAccount] = $IstoSwitchMod
+			$SBBaseCheckTimer[$iAccount] = $BBaseCheckTimer
+			$SDelayReturnedtocheckBBaseMS[$iAccount] = $DelayReturnedtocheckBBaseMS
+			$SCCBaseCheckTimer[$iAccount] = $CCBaseCheckTimer
+			$SDelayReturnedtocheckCCBaseMS[$iAccount] = $DelayReturnedtocheckCCBaseMS
+			$SMagicItemsCheckTimer[$iAccount] = $MagicItemsCheckTimer
+			$SDelayReturnedtocheckMagicItemsMS[$iAccount] = $DelayReturnedtocheckMagicItemsMS
+			$SIstoRecheckTrader[$iAccount] = $IstoRecheckTrader
 
 			; Multi-Stats
 			$aiSkippedVillageCount[$iAccount] = $g_iSkippedVillageCount
@@ -223,12 +340,17 @@ Func SwitchAccountVariablesReload($sType = "Load", $iAccount = $g_iCurAccount)
 			Next
 			
 			;Humanization
+			$gSiTimerBoostBuilders[$iAccount] = $g_iTimerBoostBuilders
 			$gSCCWaitChrono[$iAccount] = $CCWaitChrono
+			
+			;Super Troops Boost
+			$gSbFirstStartBarrel[$iAccount] = $g_bFirstStartBarrel
 			
 			;Clan Capital
 			$gSiLootCCGold[$iAccount] = $g_iLootCCGold
 			$gSiLootCCMedal[$iAccount] = $g_iLootCCMedal
 			$gSiCCTrophies[$iAccount] = $g_iCCTrophies
+			$IsSRaidRunning[$iAccount] = $IsRaidRunning
 			
 			;Builders Base
 			For $i = 0 To UBound($g_aiCurrentLootBB) - 1
@@ -303,6 +425,14 @@ Func SwitchAccountVariablesReload($sType = "Load", $iAccount = $g_iCurAccount)
 			;Daily challenge
 			$gaSsNewChallengeTime[$iAccount] = $g_sNewChallengeTime
 			$aSTimeDiffBBChallenge[$iAccount] = $TimeDiffBBChallenge
+			
+			;Clan Games
+			$gSbClanGamesCompleted[$iAccount] = $g_bClanGamesCompleted
+			$gSaiAttackedCGCount[$iAccount] = $g_aiAttackedCGCount
+			$IsSReachedMaxCGDayAttack[$iAccount] = $IsReachedMaxCGDayAttack
+			$iSRandomAttackCGCountToday[$iAccount] = $iRandomAttackCGCountToday
+			$IsSAttackCGRandomEnable[$iAccount] = $IsAttackCGRandomEnable
+			$gSbIsBBevent[$iAccount] = $g_bIsBBevent
 
 			; Hero State
 			$aiHeroAvailable[$iAccount] = $g_iHeroAvailable
@@ -332,6 +462,36 @@ Func SwitchAccountVariablesReload($sType = "Load", $iAccount = $g_iCurAccount)
 		Case "Load"
 			$g_bFirstStart = $abFirstStart[$iAccount]
 			$g_iFirstRun = $aiFirstRun[$iAccount]
+			$g_bFirstStartForAll = $gSbFirstStartForAll[$iAccount]
+			$g_bFirstStartAccountDC = $gSbFirstStartAccountDC[$iAccount]
+			$g_bFirstStartAccountFMI = $gSbFirstStartAccountFMI[$iAccount]
+			$g_bFirstStartAccountSBB = $gSbFirstStartAccountSBB[$iAccount]
+			$g_bFirstStartAccountSBB2 = $gSbFirstStartAccountSBB2[$iAccount]
+			$g_bFirstStartAccountCGRA = $gSbFirstStartAccountCGRA[$iAccount]
+			$g_bFirstStartForLab = $gSbFirstStartForLab[$iAccount]
+			$g_bFirstStartForPetHouse = $gSbFirstStartForPetHouse[$iAccount]
+			$g_bFirstStartForStarLab = $gSbFirstStartForStarLab[$iAccount]
+			
+			;Mods
+			$CheckTombsTimer = $SCheckTombsTimer[$iAccount]
+			$CheckTombsFrequency = $SCheckTombsFrequency[$iAccount]
+			$LootCartTimer = $SLootCartTimer[$iAccount]
+			$LootCartFrequency = $SLootCartFrequency[$iAccount]
+			$IsdroptrophiesActive = $SIsdroptrophiesActive[$iAccount]
+			$IsDropTrophyBreaked = $SIsDropTrophyBreaked[$iAccount]
+			$IsToOpenOffers = $SIsToOpenOffers[$iAccount]
+			$IsMainScreenLocated = $SIsMainScreenLocated[$iAccount]
+			$DelayReturnedtocheckCGRA = $SDelayReturnedtocheckCGRA[$iAccount]
+	        $CGRACheckTimer = $SCGRACheckTimer[$iAccount]
+			$IsStatusForCG = $SIsStatusForCG[$iAccount]
+			$IstoSwitchMod = $SIstoSwitchMod[$iAccount]
+			$BBaseCheckTimer = $SBBaseCheckTimer[$iAccount]
+			$DelayReturnedtocheckBBaseMS = $SDelayReturnedtocheckBBaseMS[$iAccount]
+			$CCBaseCheckTimer = $SCCBaseCheckTimer[$iAccount]
+			$DelayReturnedtocheckCCBaseMS = $SDelayReturnedtocheckCCBaseMS[$iAccount]
+			$MagicItemsCheckTimer = $SMagicItemsCheckTimer[$iAccount]
+			$DelayReturnedtocheckMagicItemsMS = $SDelayReturnedtocheckMagicItemsMS[$iAccount]
+			$IstoRecheckTrader = $SIstoRecheckTrader[$iAccount]
 
 			; Multi-Stats
 			$g_iSkippedVillageCount = $aiSkippedVillageCount[$iAccount]
@@ -346,7 +506,11 @@ Func SwitchAccountVariablesReload($sType = "Load", $iAccount = $g_iCurAccount)
 			Next
 			
 			;Humanization
+			$g_iTimerBoostBuilders = $gSiTimerBoostBuilders[$iAccount]
 			$CCWaitChrono = $gSCCWaitChrono[$iAccount]
+			
+			;Super Troops Boost
+			$g_bFirstStartBarrel = $gSbFirstStartBarrel[$iAccount]
 			
 			;Clan Capital
 			$g_iLootCCGold = $gSiLootCCGold[$iAccount]
@@ -356,6 +520,7 @@ Func SwitchAccountVariablesReload($sType = "Load", $iAccount = $g_iCurAccount)
 			GUICtrlSetData($g_lblCapitalMedal, _NumberFormat($g_iLootCCMedal, True))
 			GUICtrlSetData($g_lblCapitalTrophies, _NumberFormat($g_iCCTrophies, True))
 			PicCCTrophies()
+			$IsRaidRunning = $IsSRaidRunning[$iAccount]
 			
 			;Builders Base
 			For $i = 0 To UBound($g_aiCurrentLootBB) - 1
@@ -432,6 +597,14 @@ Func SwitchAccountVariablesReload($sType = "Load", $iAccount = $g_iCurAccount)
 			;Daily challenge
 			$g_sNewChallengeTime = $gaSsNewChallengeTime[$iAccount]
 			$TimeDiffBBChallenge = $aSTimeDiffBBChallenge[$iAccount]
+			
+			;Clan Games
+			$g_bClanGamesCompleted = $gSbClanGamesCompleted[$iAccount]
+			$g_aiAttackedCGCount = $gSaiAttackedCGCount[$iAccount]
+			$IsReachedMaxCGDayAttack = $IsSReachedMaxCGDayAttack[$iAccount]
+			$iRandomAttackCGCountToday = $iSRandomAttackCGCountToday[$iAccount]
+			$IsAttackCGRandomEnable = $IsSAttackCGRandomEnable[$iAccount]
+			$g_bIsBBevent = $gSbIsBBevent[$iAccount]
 			
 			; Hero State
 			$g_iHeroAvailable = $aiHeroAvailable[$iAccount]

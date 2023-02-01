@@ -219,8 +219,13 @@ Func _AutoUpgrade()
 				Click(430, 500 + $g_iMidOffsetY)
 		EndSwitch
 		
-		;Check for 'End Boost?' pop-up
 		If _Sleep(1000) Then Return
+		
+		Local $aResult = BuildingInfo(242, 490 + $g_iBottomOffsetY)
+		Local $BuildingName = $aResult[1]
+		
+		;Check for 'End Boost?' pop-up
+		If _Sleep(200) Then Return
 		Local $aImgAUpgradeEndBoost = decodeSingleCoord(findImage("EndBoost", $g_sImgAUpgradeEndBoost, GetDiamondFromRect2(350, 280 + $g_iMidOffsetY, 570, 200 + $g_iMidOffsetY), 1, True))
 		If UBound($aImgAUpgradeEndBoost) > 1 Then
 			SetLog("End Boost? pop-up found", $COLOR_INFO)
@@ -229,6 +234,13 @@ Func _AutoUpgrade()
 			If UBound($aImgAUpgradeEndBoostOKBtn) > 1 Then
 				Click($aImgAUpgradeEndBoostOKBtn[0], $aImgAUpgradeEndBoostOKBtn[1])
 				If _Sleep(1000) Then Return
+				If $g_bChkNotifyUpgrade Then
+					Local $text ="Village : " & $g_sNotifyOrigin & "%0A"
+					$text &="Profile : " & $g_sProfileCurrentName & "%0A"
+					Local $currentDate = Number(@MDAY)
+					$text &= "Auto Upgrade Of " & $BuildingName & " Started"
+					NotifyPushToTelegram($text)
+				EndIf
 			Else
 				SetLog("Unable to locate OK Button", $COLOR_ERROR)
 				If _Sleep(1000) Then Return
