@@ -3020,14 +3020,14 @@ Func CheckWarTime(ByRef $sResult, ByRef $bResult, $bReturnFrom = True) ; return 
 	EndIf
 
 	_CaptureRegion()
-	$bRedColor_InWarButton = _ColorCheck(_GetPixelColor(45, 500, True), "ED151D", 20) Or _ColorCheck(_GetPixelColor(53, 508, True), "DD1525", 20); Red color in war buttons*
-	$g_bClanWarLeague = _ColorCheck(_GetPixelColor(10, 510, True), "FFEF71", 20) ; Golden color at left side of clan war button
-	$g_bClanWar = _ColorCheck(_GetPixelColor(36, 502, True), "F0B345", 20) ; Ordinary war color at left side of clan war button
+	$bRedColor_InWarButton = _ColorCheck(_GetPixelColor(45, 470 + $g_iMidOffsetY, True), "ED151D", 20) Or _ColorCheck(_GetPixelColor(53, 508, True), "DD1525", 20); Red color in war buttons*
+	$g_bClanWarLeague = _ColorCheck(_GetPixelColor(10, 480 + $g_iMidOffsetY, True), "FFEF71", 20) ; Golden color at left side of clan war button
+	$g_bClanWar = _ColorCheck(_GetPixelColor(36, 472 + $g_iMidOffsetY, True), "F0B345", 20) ; Ordinary war color at left side of clan war button
 	If $g_bClanWarLeague Then SetDebugLog("Your Clan Is Doing Clan War League.", $COLOR_INFO)
 	
 	If $bRedColor_InWarButton Then
 		SetLog("Red color on war button :", $COLOR_BLUE)
-		If QuickMIS("BC1", $ImInWar, 40, 492, 66, 512, True, False) Then
+		If QuickMIS("BC1", $ImInWar, 40, 432 + $g_iBottomOffsetY, 66, 452 + $g_iBottomOffsetY, True, False) Then
 			SetLog("-----------------------------------", $COLOR_ERROR)
 			SetLog("|  You Have To Fight In War ! |", $COLOR_ERROR)
 			SetLog("-----------------------------------", $COLOR_ERROR)
@@ -3062,7 +3062,8 @@ Func CheckWarTime(ByRef $sResult, ByRef $bResult, $bReturnFrom = True) ; return 
 		$IsWarEnded = True
 	EndIf
 	
-	If _ColorCheck(_GetPixelColor(200, 530, True), "FFFFFF", 20) And _ColorCheck(_GetPixelColor(670, 530, True), "FFFFFF", 20) And _ColorCheck(_GetPixelColor(437, 292, True), "FFFFAD", 20) Then
+	If _ColorCheck(_GetPixelColor(200, 470 + $g_iBottomOffsetY, True), "FFFFFF", 20) And _ColorCheck(_GetPixelColor(670, 470 + $g_iBottomOffsetY, True), "FFFFFF", 20) And _
+	   _ColorCheck(_GetPixelColor(437, 292, True), "FFFFAD", 20) Then
 		SetLog("Your Clan is not in war yet.", $COLOR_INFO)
 		$IsWarNotActive = True
 	EndIf
@@ -3082,20 +3083,22 @@ Func CheckWarTime(ByRef $sResult, ByRef $bResult, $bReturnFrom = True) ; return 
 			Local $XDayMin[7]
 			Local $XDayMax[7]
 			Local $DayReal = 0
-			For $t = 0 To 5; Check 5 times
-			If QuickMIS("BC1", $directoryDay & "\CWL_BattleDay", 175, 645, 175 + 515, 645 + 30, True, False) Then ; Battle Day Number
-				For $i = 0 To 6
-					$XDayMin[$i] = 180 + ($i * 76)
-					$XDayMax[$i] = 220 + ($i * 76)
-					If $g_iQuickMISX >= $XDayMin[$i] And $g_iQuickMISX <= $XDayMax[$i] Then
-						$DayReal = $i + 1
-						Local $RandomXDayBefore = Random(1, $i, 1)
-						Local $RandomXDayToClick = $g_iQuickMISX - ($RandomXDayBefore * 76) - 5
-						Local $WarNumberAfterRandom = $DayReal - $RandomXDayBefore
-						Local $PrepDayNumber = $DayReal + 1
-					EndIf
-				Next	
-			EndIf
+			For $t = 0 To 4; Check 5 times
+				If QuickMIS("BC1", $directoryDay & "\CWL_BattleDay", 175, 585 + $g_iBottomOffsetY, 690, 615 + $g_iBottomOffsetY, True, False) Then ; Battle Day Number
+					For $i = 0 To 6
+						$XDayMin[$i] = 180 + ($i * 76)
+						$XDayMax[$i] = 220 + ($i * 76)
+						If $g_iQuickMISX >= $XDayMin[$i] And $g_iQuickMISX <= $XDayMax[$i] Then
+							$DayReal = $i + 1
+							Local $RandomXDayBefore = Random(1, $i, 1)
+							Local $RandomXDayToClick = $g_iQuickMISX - ($RandomXDayBefore * 76) - 5
+							Local $WarNumberAfterRandom = $DayReal - $RandomXDayBefore
+							Local $PrepDayNumber = $DayReal + 1
+						EndIf
+					Next
+					ExitLoop		
+				EndIf
+				If _Sleep(250) Then Return
 			Next
 			SetLog("Actual War Day : " & $DayReal & "", $COLOR_INFO)
 			If _Sleep(Random(1500, 2500, 1)) Then Return
@@ -3105,7 +3108,7 @@ Func CheckWarTime(ByRef $sResult, ByRef $bResult, $bReturnFrom = True) ; return 
 			If $DayReal <= 1 Then $SwitchBattleDay = Random(1, 4, 1)
 			Switch $SwitchBattleDay
 				Case 1, 2
-					If QuickMIS("BC1", $directoryDay & "\CWL_Battle", 175, 645, 175 + 515, 645 + 30, True, False) Then ; When Battle Day Is Unselected
+					If QuickMIS("BC1", $directoryDay & "\CWL_Battle", 175, 585 + $g_iBottomOffsetY, 690, 615 + $g_iBottomOffsetY, True, False) Then ; When Battle Day Is Unselected
 						SetLog("CWL : Enter In Battle Day", $COLOR_OLIVE)
 						Click($g_iQuickMISX - 5, $g_iQuickMISY + 12)
 					Else
@@ -3114,7 +3117,7 @@ Func CheckWarTime(ByRef $sResult, ByRef $bResult, $bReturnFrom = True) ; return 
 					$IsAllowedPreparationDay = False
 				Case 3
 					If $IsAllowedPreparationDay = True Then
-						If QuickMIS("BC1", $directoryDay & "\CWL_Preparation", 175, 645, 175 + 515, 645 + 30, True, False) Then ;Find Prepration Button
+						If QuickMIS("BC1", $directoryDay & "\CWL_Preparation", 175, 585 + $g_iBottomOffsetY, 690, 615 + $g_iBottomOffsetY, True, False) Then ;Find Prepration Button
 							If $PrepDayNumber >= 2 Then
 								SetLog("CWL : Enter In Preparation Day (Day " & $PrepDayNumber & ")", $COLOR_OLIVE)
 							Else
@@ -3132,7 +3135,7 @@ Func CheckWarTime(ByRef $sResult, ByRef $bResult, $bReturnFrom = True) ; return 
 						$IsAllowedPreparationDay = False
 					EndIf
 				Case 4
-					If QuickMIS("BC1", $directoryDay & "\CWL_Battle", 175, 645, 175 + 515, 645 + 30, True, False) Then ; When Battle Day Is Unselected
+					If QuickMIS("BC1", $directoryDay & "\CWL_Battle", 175, 585 + $g_iBottomOffsetY, 690, 615 + $g_iBottomOffsetY, True, False) Then ; When Battle Day Is Unselected
 						SetLog("CWL : Enter In Battle Day", $COLOR_OLIVE)
 						$IsAllowedPreparationDay = False
 						Click($g_iQuickMISX - 5, $g_iQuickMISY + 12)
@@ -3155,7 +3158,7 @@ Func CheckWarTime(ByRef $sResult, ByRef $bResult, $bReturnFrom = True) ; return 
 		If _Sleep(Random(2000, 4000, 1)) Then Return
 		If Not $g_bRunState Then Return
 
-		$sWarDay = QuickMIS("N1", $directoryDay, 360, 85, 505, 85 + 28, True, False); Prepare or Battle
+		$sWarDay = QuickMIS("N1", $directoryDay, 360, 85, 505, 113, True, False); Prepare or Battle
 		If $sWarDay = "none" Then
 			$bLocalReturn = SetError(1, 0, "Error reading war day")
 		EndIf
@@ -3163,7 +3166,7 @@ Func CheckWarTime(ByRef $sResult, ByRef $bResult, $bReturnFrom = True) ; return 
 		If Not StringInStr($sWarDay, "Battle") And Not StringInStr($sWarDay, "Preparation") Then
 			$bLocalReturn = False
 		ElseIf StringInStr($sWarDay, "Battle") Or StringInStr($sWarDay, "Preparation") Then
-			$sTime = QuickMIS("OCR", $directoryTime, 396, 65, 396 + 70, 70 + 30, True, False)
+			$sTime = QuickMIS("OCR", $directoryTime, 396, 65, 466, 100, True, False)
 			If $sTime = "none" Then Return SetError(1, 0, "Error reading war time")
 
 			Local $iConvertedTime = ConvertOCRTime("War", $sTime, False)
