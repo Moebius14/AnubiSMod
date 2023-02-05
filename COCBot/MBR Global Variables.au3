@@ -1255,7 +1255,7 @@ Global $g_bShareAttackEnable = 0, $g_iShareMinGold = 300000, $g_iShareMinElixir 
 ; <><><><> Attack Plan / Search & Attack / Options / Trophy Settings <><><><>
 Global $g_bDropTrophyEnable = False, $g_iDropTrophyMax = 1200, $g_iDropTrophyMin = 800, $g_bDropTrophyUseHeroes = False, $g_iDropTrophyHeroesPriority = 4, _
 		$g_iDropTrophyHeroesPriority1 = 5, $g_iDropTrophyHeroesPriority2 = 6, $g_iDropTrophyHeroesPriority3 = 1, $g_bDropTrophyAtkDead = 0, $g_iDropTrophyArmyMinPct = 70, _
-		$IsdroptrophiesActive = 0, $IsDropTrophyBreaked = 0
+		$IsdroptrophiesActive = False, $IsDropTrophyBreaked = False
 Global $g_bChkTrophyAtkWithHeroesOnly = False, $bWaitOnlyOneHeroForDT  = True, $bWaitAllHeroesForDT = False
 
 ; <><><><> Attack Plan / Strategies <><><><>

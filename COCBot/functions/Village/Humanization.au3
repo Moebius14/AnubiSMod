@@ -20,16 +20,16 @@ If _ColorCheck(_GetPixelColor(70, 320 + $g_iMidOffsetY, True), "57584B", 20) The
 		SetLog("Click on Clan Stats", $COLOR_OLIVE)
 		Click(70, 300 + $g_iMidOffsetY);Click Stats Tab
 		If Not $g_bRunState Then Return
-		Sleep(Random(3000, 6000, 1))
+		If _Sleep(Random(3000, 6000, 1)) Then Return
 		If QuickMIS("BC1", $ClanPerks, 690, 265 + $g_iMidOffsetY, 715, 290 + $g_iMidOffsetY, True, False) And $IsToClickStats2 <= 4 Then
 			SetLog("Click on Clan Perks", $COLOR_OLIVE)
 			Click($g_iQuickMISX - 35, $g_iQuickMISY + 10);Click ClanPerks
 			If Not $g_bRunState Then Return
-			Sleep(Random(3000, 6000, 1))
+			If _Sleep(Random(3000, 6000, 1)) Then Return
 			SetLog("Click Back", $COLOR_OLIVE)
 			Click(47, 48 + $g_iMidOffsetY);Click back to tabs
 			If Not $g_bRunState Then Return
-			Sleep(Random(2000, 3000, 1))
+			If _Sleep(Random(2000, 3000, 1)) Then Return
 			SetLog("Click Back on Classic View", $COLOR_OLIVE)
 			Click(70, 190 + $g_iMidOffsetY);Click to classic View
 			If Not $g_bRunState Then Return
@@ -50,11 +50,11 @@ Local $IsToClickStats2 = Random(0, 5, 1)
 		SetLog("Click on Clan Perks", $COLOR_OLIVE)
 		Click($g_iQuickMISX - 35, $g_iQuickMISY + 10);Click ClanPerks
 		If Not $g_bRunState Then Return
-		Sleep(Random(3000, 6000, 1))
+		If _Sleep(Random(3000, 6000, 1)) Then Return
 		SetLog("Click Back", $COLOR_OLIVE)
 		Click(47, 48 + $g_iMidOffsetY);Click back to tabs
 		If Not $g_bRunState Then Return
-		Sleep(Random(2000, 3000, 1))
+		If _Sleep(Random(2000, 3000, 1)) Then Return
 		If $IsToClickStats2 <= 4 Then 
 			SetLog("Click on Classic View", $COLOR_OLIVE)
 			Click(70, 190 + $g_iMidOffsetY);Click to classic View
@@ -68,7 +68,7 @@ Local $IsToClickStats2 = Random(0, 5, 1)
 		If Not $g_bRunState Then Return
 	EndIf
 EndIf
-Sleep(Random(2000, 3000, 1))
+If _Sleep(Random(2000, 3000, 1)) Then Return
 If Not $g_bRunState Then Return
 EndFunc
 
@@ -77,7 +77,7 @@ Func EventsTabRead()
 	Click(715, 630 + $g_iBottomOffsetY)     ; open events
 	If _Sleep(3000) Then Return
 
-	Sleep(Random(2000, 4000, 1))
+	If _Sleep(Random(2000, 4000, 1)) Then Return
 	If Not $g_bRunState Then Return
 	
 	Local $TabtoClick = Random(0, 2, 1)
@@ -92,7 +92,7 @@ Func EventsTabRead()
 		Case 0
 			SetLog("Open Events Tab", $COLOR_DEBUG)
 			Click(365, 80 + $g_iMidOffsetY) ; open events tab
-			Sleep(Random(2000, 4000, 1))
+			If _Sleep(Random(2000, 4000, 1)) Then Return
 
 			Local $NeedScroll = Random(0, 3, 1)
 			If $NeedScroll > 1 Then
@@ -105,23 +105,23 @@ Func EventsTabRead()
 			Else
 				SetLog("Just Wait in Events Tab", $COLOR_OLIVE)
 			EndIf
-			Sleep(Random(2000, 6000, 1))
+			If _Sleep(Random(2000, 6000, 1)) Then Return
 		Case 1
 			SetLog("Open News Tab", $COLOR_DEBUG)
 			Click(245, 80 + $g_iMidOffsetY)
-			Sleep(Random(2000, 6000, 1))
+			If _Sleep(Random(2000, 6000, 1)) Then Return
 
 			Local $SideSwitchNews = Random(1, 4, 1)
 			Switch $SideSwitchNews
 				Case 1
 					SetLog("Scrolling Left And Right Sides", $COLOR_OLIVE)
 					ScrollNewsLeft(Random(0, 2, 1))
-					Sleep(Random(3000, 5000, 1))
+					If _Sleep(Random(3000, 5000, 1)) Then Return
 					ScrollNewsRight(Random(0, 2, 1))
 				Case 2
 					SetLog("Scrolling Right And Left Sides", $COLOR_OLIVE)
 					ScrollNewsRight(Random(0, 2, 1))
-					Sleep(Random(3000, 5000, 1))
+					If _Sleep(Random(3000, 5000, 1)) Then Return
 					ScrollNewsLeft(Random(0, 2, 1))
 				Case 3
 					SetLog("Scrolling Right Side", $COLOR_OLIVE)
@@ -131,29 +131,27 @@ Func EventsTabRead()
 					ScrollNewsLeft(Random(0, 2, 1))
 			EndSwitch
 
-			Sleep(Random(2000, 6000, 1))
-			If _Sleep(3000) Then Return
+			If _Sleep(Random(2000, 6000, 1)) Then Return
 		Case 2
 			SetLog("Open Community Tab", $COLOR_DEBUG)
 			Click(515, 80 + $g_iMidOffsetY)
 			SetLog("Just Wait in Community Tab", $COLOR_OLIVE)
-			Sleep(Random(3000, 8000, 1))
-			If _Sleep(3000) Then Return
+			If _Sleep(Random(3000, 8000, 1)) Then Return
 		Case 3
 			SetLog("Open Esports Tab", $COLOR_DEBUG)
 			Click(660, 80 + $g_iMidOffsetY)
-			Sleep(Random(8000, 10000, 1))
+			If _Sleep(Random(8000, 10000, 1)) Then Return
 			Local $SideSwitchEsports = Random(1, 5, 1)
 			Switch $SideSwitchEsports
 				Case 1
 					SetLog("Scrolling Left And Right Sides", $COLOR_OLIVE)
 					ScrollEsportsLeft(Random(1, 2, 1))
-					Sleep(Random(3000, 5000, 1))
+					If _Sleep(Random(3000, 5000, 1)) Then Return
 					ScrollEsportsRight(Random(1, 2, 1))
 				Case 2
 					SetLog("Scrolling Right And Left Sides", $COLOR_OLIVE)
 					ScrollEsportsRight(Random(1, 2, 1))
-					Sleep(Random(3000, 5000, 1))
+					If _Sleep(Random(3000, 5000, 1)) Then Return
 					ScrollEsportsLeft(Random(1, 2, 1))
 				Case 3
 					SetLog("Scrolling Right Side", $COLOR_OLIVE)
@@ -163,18 +161,18 @@ Func EventsTabRead()
 					ScrollEsportsLeft(Random(1, 2, 1))
 				Case 5
 					SetLog("Do Nothing On Esports Tab", $COLOR_OLIVE)
-					Sleep(Random(3000, 8000, 1))
+					If _Sleep(Random(3000, 8000, 1)) Then Return
 			EndSwitch
 			If _Sleep(3000) Then Return
 	EndSwitch
 	
 	If QuickMIS("BC1", $ImgRedEvent, 150, 100, 730, 125, True, False) Then
 		Click($g_iQuickMISX - 50, $g_iQuickMISY + 18)
-		Sleep(Random(3000, 6000, 1))
+		If _Sleep(Random(3000, 5000, 1)) Then Return
 	EndIf
 	
 	If Not $g_bRunState Then Return
-	Sleep(Random(2000, 5000, 1))
+	If _Sleep(Random(2000, 5000, 1)) Then Return
 	SetLog("Exiting ...", $COLOR_OLIVE)
 	CloseWindow()
 	ReturnAtHome()
@@ -203,16 +201,15 @@ Func LookAtWarLog()
 				If $IsToCheckRaidLog = 3 Then
 					SetLog("Check Raid Log ...", $COLOR_BLUE)
 					Click(715, 110 + $g_iMidOffsetY)
-					Sleep(Random(2000, 4000, 1))
+					If _Sleep(Random(2000, 4000, 1)) Then Return
 					If QuickMIS("BC1", $g_sImgHumanizationRaidLog) Then
 						Click($g_iQuickMISX, $g_iQuickMISY) ; open raid log
-						If _Sleep(500) Then Return
 						If Not $g_bRunState Then Return
-						Sleep(Random(2000, 4000, 1))
+						If _Sleep(Random(2000, 4000, 1)) Then Return
 						Click(660, 365 + $g_iMidOffsetY); Go Button
-						Sleep(Random(2000, 4000, 1))
+						If _Sleep(Random(2000, 4000, 1)) Then Return
 						Click(425, 265 + $g_iMidOffsetY) ; Attack Log Tab
-						Sleep(Random(2000, 3000, 1))
+						If _Sleep(Random(2000, 3000, 1)) Then Return
 						For $i = 0 To $MaxScroll; Scroll Attack Log Tab
 							Local $x = Random(270, 570, 1)
 							Local $yStart = Random(550, 585, 1)
@@ -222,7 +219,7 @@ Func LookAtWarLog()
 						If Not $g_bRunState Then Return
 						Next
 						Click(625, 265 + $g_iMidOffsetY) ; Defense Log Tab
-						Sleep(Random(2000, 3000, 1))
+						If _Sleep(Random(2000, 3000, 1)) Then Return
 						Local $MaxScroll2 = Random(0, 2, 1)
 						For $i = 0 To $MaxScroll2; Scroll Defense Log Tab
 							Local $x = Random(270, 570, 1)
@@ -232,12 +229,12 @@ Func LookAtWarLog()
 							If _Sleep(4000) Then Return
 						If Not $g_bRunState Then Return
 						Next
-						Sleep(Random(2000, 3000, 1))
+						If _Sleep(Random(2000, 3000, 1)) Then Return
 						SetLog("Exiting ...", $COLOR_OLIVE)
 						Click(731, 124 + $g_iMidOffsetY)
-						Sleep(Random(2000, 3000, 1))
+						If _Sleep(Random(2000, 3000, 1)) Then Return
 						Click(731, 124 + $g_iMidOffsetY)
-						Sleep(Random(2000, 3000, 1))
+						If _Sleep(Random(2000, 3000, 1)) Then Return
 					Else
 						SetLog("No Raid Log Button Found ... Skipping ...", $COLOR_WARNING)
 						If Not $g_bRunState Then Return
@@ -250,7 +247,7 @@ Func LookAtWarLog()
 						Click($g_iQuickMISX, $g_iQuickMISY) ; open war log
 						If _Sleep(500) Then Return
 						If Not $g_bRunState Then Return
-						Sleep(Random(2000, 3000, 1))
+						If _Sleep(Random(2000, 3000, 1)) Then Return
 
 						Local $WarTypeChoice = Random(1, 2, 1)
 						Switch $WarTypeChoice
@@ -277,7 +274,7 @@ Func LookAtWarLog()
 					If _Sleep(1000) Then Return
 					SetLog("Exiting ...", $COLOR_OLIVE)
 				EndIf
-				Sleep(Random(2000, 3000, 1))
+				If _Sleep(Random(2000, 3000, 1)) Then Return
 				If Not ClickB("ClanChat") Then
 					SetLog("Error finding the Clan Tab Button", $COLOR_ERROR)
 					Return
@@ -296,6 +293,7 @@ EndFunc   ;==>LookAtWarLog
 Func VisitClanmates()
 	Local $Villagemode = Random(1, 6, 1)
 	Local $ClanFilter = Random(1, 6, 1)
+	Local $bVillage = ""
 	If Not ClickB("ClanChat") Then
 		SetLog("Error finding the Clan Tab Button", $COLOR_ERROR)
 		Return
@@ -318,17 +316,21 @@ Func VisitClanmates()
 				Switch $Villagemode
 					Case 1
 						SetLog("Let's Stay In Home Village Mode...", $COLOR_OLIVE)
+						$bVillage = "HomeVillage"
 						If _Sleep(1500) Then Return
 					Case 2
 						SetLog("Looking At Builder Base Mode ...", $COLOR_OLIVE)
+						$bVillage = "Builder Base"
 						Click(452, 110 + $g_iMidOffsetY)
 						If _Sleep(1500) Then Return
 					Case 3
 						SetLog("Looking At Clan Capital Mode ...", $COLOR_OLIVE)
-						If _Sleep(1500) Then Return
+						$bVillage = "ClanCapital"
 						Click(715, 110 + $g_iMidOffsetY)
+						If _Sleep(1500) Then Return
 					Case 4,5,6
 						SetLog("Let's Stay In Home Village Mode...", $COLOR_OLIVE)
+						$bVillage = "HomeVillage"
 						If _Sleep(1500) Then Return
 				EndSwitch			
 			
@@ -344,45 +346,33 @@ Func VisitClanmates()
 				Switch $VisitClanmatesChoice
 					Case 1
 						SetLog("Top of Clan ...", $COLOR_DEBUG)
-						Local $randomYForClick = (52 * Random(0, 2, 1))
-						Local $aColorGreen0[4] = [430, 527 + $randomYForClick, 0x9CBF5F, 20]
-						Local $aColorGreen1[4] = [430, 527 + $randomYForClick, 0xAAC778, 20]
-														
-						If _CheckPixel($aColorGreen0, True) Or _CheckPixel($aColorGreen1, True) Then
-							If $randomYForClick = 0 Or $randomYForClick = 52 Then
-								Click(450, 527 + $randomYForClick + 52) ; click on a random player +1
-							ElseIf $randomYForClick = 104 Then
-								Click(450, 527 + $randomYForClick - 52) ; click on a random player -1
-							EndIf
-						Else
-							Click(450, 527 + $randomYForClick) ; click on a random player
-						EndIf
+						
+						If Not FindMark($bVillage, True) Then
+							SetLog("Exiting ...", $COLOR_OLIVE)
+							If _Sleep(Random(2000, 3000, 1)) Then Return
+							ReturnHomeFromHumanization()
+						EndIf	
 
-						If _Sleep(1500) Then Return ;Was less due to that bot was unable to detect visit button
 						VisitAPlayer()
 						If _Sleep(1500) Then Return
 						SetLog("Exiting ...", $COLOR_OLIVE)
-						Sleep(Random(2000, 3000, 1))
+						If _Sleep(Random(2000, 3000, 1)) Then Return
 						ReturnHomeFromHumanization()
 					Case 2, 3, 4
 						SetLog("Lets Scroll Clan List ...", $COLOR_DEBUG)
 						If _Sleep(1000) Then Return
 						ScrollList(Random(1, 3, 1)) ; scroll the log
-						Local $randomYForClick = (52 * Random(0, 7, 1))
-						Local $aColorGreen0[4] = [430, 195 + $randomYForClick, 0x9CBF5F, 20]
-						Local $aColorGreen1[4] = [430, 195 + $randomYForClick, 0xAAC778, 20]
-							
-						If _CheckPixel($aColorGreen0, True) Or _CheckPixel($aColorGreen1, True) Then
-							Click(450, 195 + $randomYForClick + 52) ; click on a random player +1	
-						Else
-							Click(450, 195 + $randomYForClick) ; click on a random player
+						
+						If Not FindMark($bVillage, False) Then
+							SetLog("Exiting ...", $COLOR_OLIVE)
+							If _Sleep(Random(2000, 3000, 1)) Then Return
+							ReturnHomeFromHumanization()
 						EndIf
 
-						If _Sleep(1500) Then Return ;Was less due to that bot was unable to detect visit button
 						VisitAPlayer()
 						If _Sleep(1500) Then Return
 						SetLog("Exiting ...", $COLOR_OLIVE)
-						Sleep(Random(2000, 3000, 1))
+						If _Sleep(Random(2000, 3000, 1)) Then Return
 						ReturnHomeFromHumanization()
 				EndSwitch
 			Else
@@ -440,8 +430,7 @@ Func LookAtCurrentWar()
 						SetLog("Switch To Enemy Territory", $COLOR_DEBUG)
 						Sleep(Random(1000, 2000, 1))
 						Click(790, 340 + $g_iMidOffsetY) ; Switch territory
-						Sleep(Random(2000, 3000, 1))
-						If _Sleep(3000) Then Return
+						If _Sleep(Random(2000, 3000, 1)) Then Return
 						If Not $g_bRunState Then Return
 						If $g_HowManyPlayersInCW < 10 Then
 							SetLog("Little War : No Scroll", $COLOR_OLIVE)
@@ -453,8 +442,7 @@ Func LookAtCurrentWar()
 							Scroll(Random(1, 4, 1))
 						EndIf
 					EndIf
-					Sleep(Random(2000, 3000, 1))
-					If _Sleep(3000) Then Return
+					If _Sleep(Random(2000, 3000, 1)) Then Return
 					If Not $g_bRunState Then Return
 					If $Switchterritory2 = 1 Then
 						If $Switchterritory = 1 Then
@@ -464,8 +452,7 @@ Func LookAtCurrentWar()
 						EndIf
 						Sleep(Random(1000, 2000, 1))
 						Click(790, 340 + $g_iMidOffsetY) ; Switch territory
-						Sleep(Random(2000, 3000, 1))
-						If _Sleep(3000) Then Return
+						If _Sleep(Random(2000, 3000, 1)) Then Return
 						If Not $g_bRunState Then Return
 						If $g_HowManyPlayersInCW < 10 Then
 							SetLog("Little War : No Scroll", $COLOR_OLIVE)
@@ -477,8 +464,7 @@ Func LookAtCurrentWar()
 							Scroll(Random(1, 4, 1))
 						EndIf
 					EndIf
-					Sleep(Random(2000, 3000, 1))
-					If _Sleep(3000) Then Return
+					If _Sleep(Random(2000, 3000, 1)) Then Return
 					If Not $g_bRunState Then Return
 				ElseIf $g_bClanWar = True And ($IsWarDay = True Or $IsWarEnded = True) Then ; CW in war or ended / Switch/Scroll
 					If $IsWarEnded = False Then
@@ -488,8 +474,7 @@ Func LookAtCurrentWar()
 							SetLog("Switch To Home Territory", $COLOR_DEBUG)
 							Sleep(Random(1000, 2000, 1))
 							Click(790, 340 + $g_iMidOffsetY) ; Switch territory
-							Sleep(Random(2000, 3000, 1))
-							If _Sleep(3000) Then Return
+							If _Sleep(Random(2000, 3000, 1)) Then Return
 							If Not $g_bRunState Then Return
 							If $g_HowManyPlayersInCW < 10 Then
 								SetLog("Little War : No Scroll", $COLOR_OLIVE)
@@ -509,8 +494,7 @@ Func LookAtCurrentWar()
 							EndIf
 							Sleep(Random(1000, 2000, 1))
 							Click(790, 340 + $g_iMidOffsetY) ; Switch territory
-							Sleep(Random(2000, 3000, 1))
-							If _Sleep(3000) Then Return
+							If _Sleep(Random(2000, 3000, 1)) Then Return
 							If Not $g_bRunState Then Return
 							If $g_HowManyPlayersInCW < 10 Then
 								SetLog("Little War : No Scroll", $COLOR_OLIVE)
@@ -522,8 +506,7 @@ Func LookAtCurrentWar()
 								Scroll(Random(1, 4, 1))
 							EndIf
 						EndIf
-						Sleep(Random(2000, 3000, 1))
-						If _Sleep(3000) Then Return
+						If _Sleep(Random(2000, 3000, 1)) Then Return
 						If Not $g_bRunState Then Return
 					ElseIf $IsWarEnded = True Then
 						Local $Switchterritory = Random(0, 1, 1)
@@ -532,8 +515,7 @@ Func LookAtCurrentWar()
 							SetLog("Switch To Enemy Territory", $COLOR_DEBUG)
 							Sleep(Random(1000, 2000, 1))
 							Click(790, 340 + $g_iMidOffsetY) ; Switch territory
-							Sleep(Random(2000, 3000, 1))
-							If _Sleep(3000) Then Return
+							If _Sleep(Random(2000, 3000, 1)) Then Return
 							If Not $g_bRunState Then Return
 							If $g_HowManyPlayersInCW < 10 Then
 								SetLog("Little War : No Scroll", $COLOR_OLIVE)
@@ -553,8 +535,7 @@ Func LookAtCurrentWar()
 							EndIf
 							Sleep(Random(1000, 2000, 1))
 							Click(790, 340 + $g_iMidOffsetY) ; Switch territory
-							Sleep(Random(2000, 3000, 1))
-							If _Sleep(3000) Then Return
+							If _Sleep(Random(2000, 3000, 1)) Then Return
 							If Not $g_bRunState Then Return
 							If $g_HowManyPlayersInCW < 10 Then
 								SetLog("Little War : No Scroll", $COLOR_OLIVE)
@@ -566,8 +547,7 @@ Func LookAtCurrentWar()
 								Scroll(Random(1, 4, 1))
 							EndIf
 						EndIf
-						Sleep(Random(2000, 3000, 1))
-						If _Sleep(3000) Then Return
+						If _Sleep(Random(2000, 3000, 1)) Then Return
 						If Not $g_bRunState Then Return
 					EndIf
 				EndIf
@@ -576,8 +556,7 @@ Func LookAtCurrentWar()
 					SetLog("Open War Details Menu ...", $COLOR_BLUE)
 					If $g_bClanWar = True Then Click(800, 610 + $g_iBottomOffsetY) ; go to war details
 					If $g_bClanWarLeague = True Then Click(810, 540 + $g_iMidOffsetY) ; go to Cwl war details
-					Sleep(Random(2000, 3000, 1))
-					If _Sleep(1500) Then Return
+					If _Sleep(Random(2000, 3000, 1)) Then Return
 					If Not $g_bRunState Then Return
 
 					If IsClanOverview() Then
@@ -765,7 +744,7 @@ Func LookAtCurrentWar()
 								Case 1
 									SetLog("Looking At My Team Tab ...", $COLOR_DEBUG)
 									Click(530, 50 + $g_iMidOffsetY) ; click the third tab
-									Sleep(Random(2000, 4000, 1))
+									If _Sleep(Random(2000, 4000, 1)) Then Return
 									Local $SecondSubMenu = Random(1, 2, 1)
 									Switch $SecondSubMenu
 										Case 1
@@ -801,7 +780,7 @@ Func LookAtCurrentWar()
 								Case 2
 									SetLog("Looking At Enemy Team Tab ...", $COLOR_DEBUG)
 									Click(700, 50 + $g_iMidOffsetY) ; click the fourth tab
-									Sleep(Random(2000, 4000, 1))
+									If _Sleep(Random(2000, 4000, 1)) Then Return
 									Local $SecondSubMenu = Random(1, 2, 1)
 									Switch $SecondSubMenu
 										Case 1
@@ -858,7 +837,7 @@ Func LookAtCurrentWar()
 		If $g_bClanWarLeague = True And $Is3tabstoclick >= 2 Then
 			SetLog("Look at Season Info", $COLOR_BLUE)
 			Click(796, 615 + $g_iBottomOffsetY) ; go to Cwl Season Info
-			Sleep(Random(2000, 3000, 1))
+			If _Sleep(Random(2000, 3000, 1)) Then Return
 			Local $Click3Tabs = Random(0, 2, 1)
 			Switch $Click3Tabs
 				Case 0
@@ -866,25 +845,25 @@ Func LookAtCurrentWar()
 				Case 1 
 				SetLog("Look at Round Tab", $COLOR_DEBUG);Round Tab
 				Click(350, 50 + $g_iMidOffsetY)
-				Sleep(Random(2000, 3000, 1))
+				If _Sleep(Random(2000, 3000, 1)) Then Return
 				Case 2
 				SetLog("Look at Clan Tab", $COLOR_DEBUG);Clan Tab
 				Click(530, 50 + $g_iMidOffsetY)
-				Sleep(Random(2000, 3000, 1))
+				If _Sleep(Random(2000, 3000, 1)) Then Return
 				Scroll3Tabs(Random(1, 3, 1))
 			EndSwitch
 	
-		Sleep(Random(2000, 4000, 1))
+		If _Sleep(Random(2000, 4000, 1)) Then Return
 		CloseWindow()
 		If Not $g_bRunState Then Return
 		EndIf
 	EndIf
-	Sleep(Random(2000, 4000, 1))
+	If _Sleep(Random(2000, 4000, 1)) Then Return
 
 	$IsAllowedPreparationDay = True
 	$IsARandomDay = False
 	SetLog("Exiting ...", $COLOR_OLIVE)
-	Sleep(Random(2000, 3000, 1))
+	If _Sleep(Random(2000, 3000, 1)) Then Return
 	Return ReturnToHomeFromWar()
 EndFunc   ;==>LookAtCurrentWar
 
@@ -900,7 +879,7 @@ Func WatchWarReplays()
 		If Not $g_bRunState Then Return
 		$IsAllowedPreparationDay = True
 		SetLog("Exiting ...", $COLOR_OLIVE)
-		Sleep(Random(2000, 3000, 1))
+		If _Sleep(Random(2000, 3000, 1)) Then Return
 		Return ReturnToHomeFromWar()
 	EndIf
 	
@@ -910,7 +889,7 @@ Func WatchWarReplays()
 		If ($g_bClanWar = True Or $g_bClanWarLeague = True) And ($IsWarDay = True Or $IsWarEnded = True Or $IsARandomDay = True) Then
 			SetLog("Open War Details Menu ...", $COLOR_BLUE)
 			If $g_bClanWar = True Then Click(800, 610 + $g_iBottomOffsetY) ; go to war details
-			Sleep(Random(2000, 3000, 1))
+			If _Sleep(Random(2000, 3000, 1)) Then Return
 
 			If $IsWarEnded = True And $g_bClanWarLeague = True Then
 				SetLog("Open Random Day", $COLOR_OLIVE)
@@ -988,7 +967,7 @@ Func WatchWarReplays()
 									ClickP($aBack)
 								EndIf	
 									
-								Sleep(Random(2000, 3000, 1))
+								If _Sleep(Random(2000, 3000, 1)) Then Return
 								Click(60 + Random(0, 700, 1), 25 + Random(0, 5, 1)) ; Click to get any window away
 							EndIf
 						Else
@@ -1010,7 +989,7 @@ Func WatchWarReplays()
 				EndIf
 
 				If $IsWarEnded = True And $g_bClanWarLeague = True Then
-					Sleep(Random(2000, 4000, 1))
+					If _Sleep(Random(2000, 4000, 1)) Then Return
 					Click(662, 615 + $g_iBottomOffsetY)
 				EndIf
 
@@ -1029,7 +1008,7 @@ Func WatchWarReplays()
 	$IsAllowedPreparationDay = True
 	$IsARandomDay = False
 	SetLog("Exiting ...", $COLOR_OLIVE)
-	Sleep(Random(2000, 3000, 1))
+	If _Sleep(Random(2000, 3000, 1)) Then Return
 	Return ReturnToHomeFromWar()
 EndFunc   ;==>WatchWarReplays
 
@@ -1073,7 +1052,7 @@ Func WatchDefense()
 					If IsReplayWindow() Then
 						SetLog("This Replay Is Boring, Let Me Go Out ...", $COLOR_OLIVE)
 						SetLog("Exiting ...", $COLOR_OLIVE)
-						Sleep(Random(2000, 3000, 1))
+						If _Sleep(Random(2000, 3000, 1)) Then Return
 						Click(70, 620 + $g_iBottomOffsetY) ; return home
 					EndIf
 				Else
@@ -1096,7 +1075,7 @@ Func WatchDefense()
 
 					If _Sleep(1000) Then Return
 					SetLog("Exiting ...", $COLOR_OLIVE)
-					Sleep(Random(2000, 3000, 1))
+					If _Sleep(Random(2000, 3000, 1)) Then Return
 					ReturnHomeFromHumanization()
 				EndIf
 			EndIf
@@ -1149,7 +1128,7 @@ Func WatchAttack()
 						SetLog("This Replay Is Boring, Let Me Go Out ...", $COLOR_OLIVE)
 						If _Sleep(1000) Then Return
 						SetLog("Exiting ...", $COLOR_OLIVE)
-						Sleep(Random(2000, 3000, 1))
+						If _Sleep(Random(2000, 3000, 1)) Then Return
 						Click(70, 620 + $g_iBottomOffsetY) ; return home
 					EndIf
 				Else
@@ -1172,7 +1151,7 @@ Func WatchAttack()
 
 					If _Sleep(1000) Then Return
 					SetLog("Exiting ...", $COLOR_OLIVE)
-					Sleep(Random(2000, 3000, 1))
+					If _Sleep(Random(2000, 3000, 1)) Then Return
 					ReturnHomeFromHumanization()
 				EndIf
 			EndIf
@@ -1494,16 +1473,24 @@ Func VisitAPlayer()
 	SetLog("Let's Visit a Player ...", $COLOR_INFO)
 	If QuickMIS("BC1", $g_sImgHumanizationVisit) Then
 		Click($g_iQuickMISX, $g_iQuickMISY)
-		_Sleep(Random(3000, 4000))
+		If _Sleep(Random(3000, 4000)) Then Return
 		
 		If Random(0, 2, 1) < 2 Then
 			If QuickMIS("BC1", $g_sImgPlayerProfil, 180, 12, 210, 35) Then
 				SetLog("Check His Profil", $COLOR_OLIVE)
 				Click($g_iQuickMISX, $g_iQuickMISY)
 				If _Sleep(2000) Then Return
+				
+				Local $yCoordOffset = 0
+				If QuickMIS("BC1", $g_sImgLegend, 360, 400 + $g_iMidOffsetY, 430, 430 + $g_iMidOffsetY) Then
+					$yCoordOffset = 102
+					If _Sleep(250) Then Return
+				EndIf
+				
 				Local $x = Random(200, 600, 1)
-				Local $yStart = Random(610, 640, 1)
+				Local $yStart = Random(508 + $yCoordOffset, 538 + $yCoordOffset, 1)
 				Local $yEnd = Random(240, 250, 1)
+				
 				ClickDrag($x, $yStart, $x, $yEnd)
 				_Sleep(Random(5000, 7000))
 				If Not $g_bRunState Then Return
@@ -1617,7 +1604,7 @@ Func CheckTH()
 	CloseWindow(False, True)
 	If Not $g_bRunState Then Return
 	
-	Sleep(Random(2000, 3000, 1))
+	If _Sleep(Random(2000, 3000, 1)) Then Return
 EndFunc
 
 Func CheckMortar()
@@ -1690,7 +1677,7 @@ Func CheckMortar()
 			CloseWindow(False, True)
 			If _Sleep(3000) Then Return
 			If Not $g_bRunState Then Return
-			Sleep(Random(2000, 3000, 1))
+			If _Sleep(Random(2000, 3000, 1)) Then Return
 			$count += 1
 		Else 
 			ExitLoop	
@@ -1839,7 +1826,7 @@ Func CheckXBows()
 			CloseWindow(False, True)
 			If _Sleep(3000) Then Return
 			If Not $g_bRunState Then Return
-			Sleep(Random(2000, 3000, 1))
+			If _Sleep(Random(2000, 3000, 1)) Then Return
 			$count += 1
 		Else 
 			ExitLoop	
@@ -1912,7 +1899,7 @@ Func CheckInferno()
 			CloseWindow(False, True)
 			If _Sleep(3000) Then Return
 			If Not $g_bRunState Then Return
-			Sleep(Random(2000, 3000, 1))
+			If _Sleep(Random(2000, 3000, 1)) Then Return
 			$count += 1
 		Else 
 			ExitLoop	
@@ -1957,7 +1944,7 @@ Func CheckEagle()
 	If _Sleep(3000) Then Return
 	If Not $g_bRunState Then Return
 
-	Sleep(Random(2000, 3000, 1))
+	If _Sleep(Random(2000, 3000, 1)) Then Return
 EndFunc
 
 Func CheckScatter()
@@ -2018,7 +2005,7 @@ Func CheckScatter()
 			CloseWindow(False, True)
 			If _Sleep(3000) Then Return
 			If Not $g_bRunState Then Return
-			Sleep(Random(2000, 3000, 1))
+			If _Sleep(Random(2000, 3000, 1)) Then Return
 			$count += 1
 		Else 
 			ExitLoop	
@@ -2089,7 +2076,7 @@ Func CheckAirDefense()
 			CloseWindow(False, True)
 			If _Sleep(3000) Then Return
 			If Not $g_bRunState Then Return
-			Sleep(Random(2000, 3000, 1))
+			If _Sleep(Random(2000, 3000, 1)) Then Return
 			$count += 1
 		Else 
 			ExitLoop	
@@ -2160,7 +2147,7 @@ Func GoldStorage()
 			CloseWindow(False, True)
 			If _Sleep(3000) Then Return
 			If Not $g_bRunState Then Return
-			Sleep(Random(2000, 3000, 1))
+			If _Sleep(Random(2000, 3000, 1)) Then Return
 			$count += 1
 		Else 
 			ExitLoop	
@@ -2231,7 +2218,7 @@ Func ElixirStorage()
 			CloseWindow(False, True)
 			If _Sleep(3000) Then Return
 			If Not $g_bRunState Then Return
-			Sleep(Random(2000, 3000, 1))
+			If _Sleep(Random(2000, 3000, 1)) Then Return
 			$count += 1
 		Else 
 			ExitLoop	
@@ -2276,12 +2263,12 @@ Func Monolith()
 	If _Sleep(3000) Then Return
 	If Not $g_bRunState Then Return
 
-	Sleep(Random(2000, 3000, 1))
+	If _Sleep(Random(2000, 3000, 1)) Then Return
 EndFunc
 
 Func DoNothing()
 	SetLog("Let The Bot Wait a Little Before Continue ...", $COLOR_OLIVE)
-	_Sleep(Random(3000, 8000))
+	If _Sleep(Random(3000, 8000)) Then Return
 EndFunc   ;==>DoNothing
 
 Func LookAtRedNotifications()
@@ -2292,7 +2279,7 @@ Func LookAtRedNotifications()
 	If _ColorCheck(_GetPixelColor(50, 137, True), "F5151D", 20) Then
 		SetLog("You Have a New Message ...", $COLOR_OLIVE)
 		Click(40, 120 + $g_iMidOffsetY) ; open Messages button
-		_Sleep(Random(3000, 8000))
+		If _Sleep(Random(3000, 8000)) Then Return
 		CloseWindow()
 		If _Sleep(2000) Then Return
 	Else
@@ -2315,7 +2302,7 @@ Func LookAtRedNotifications()
 	
 	If _ColorCheck(_GetPixelColor(45, 500, True), "ED151D", 20) Or _ColorCheck(_GetPixelColor(53, 508, True), "DD1525", 20) Then
 		SetLog("Something To Check In War Area ...", $COLOR_OLIVE)
-		Sleep(Random(1000, 2000, 1))
+		If _Sleep(Random(1000, 2000, 1)) Then Return
 		If QuickMIS("BC1", $ImInWar, 40, 492, 66, 512, True, False) Then
 			SetLog("-----------------------------------", $COLOR_ERROR)
 			SetLog("|  You Have To Fight In War ! |", $COLOR_ERROR)
@@ -2325,13 +2312,13 @@ Func LookAtRedNotifications()
 			SetLog("|  Relax, Nothing To Do In War ! |", $COLOR_SUCCESS1)
 			SetLog("--------------------------------------", $COLOR_SUCCESS1)
 		EndIf
-		Sleep(Random(4000, 6000, 1))
+		If _Sleep(Random(4000, 6000, 1)) Then Return
 		Click(40, 470 + $g_iBottomOffsetY) ; open War menu
 		Local $iSleepForWindow = Random(3000, 5000)
-		Sleep($iSleepForWindow)
+		If _Sleep($iSleepForWindow) Then Return
 		Click(60 + Random(0, 700, 1), 25 + Random(0, 5, 1)) ; Click to get any window away
 		Local $iSleepForWindow2 = Random(1000, 2000)
-		Sleep($iSleepForWindow2)
+		If _Sleep($iSleepForWindow2) Then Return
 		_Sleep(Random(3000, 8000))
 		ReturnHomeFromHumanization()
 		If _Sleep(2000) Then Return
@@ -2371,18 +2358,18 @@ Func LookAtRedNotifications()
 			If _Sleep(3000) Then Return
 			SetLog("Open Esports Tab", $COLOR_DEBUG)
 			Click(660, 80 + $g_iMidOffsetY)
-			Sleep(Random(8000, 10000, 1))
+			If _Sleep(Random(8000, 10000, 1)) Then Return
 			Local $SideSwitchEsports = Random(1, 4, 1)
 			Switch $SideSwitchEsports
 				Case 1
 					SetLog("Scrolling Left And Right Sides", $COLOR_OLIVE)
 					ScrollEsportsLeft(Random(1, 2, 1))
-					Sleep(Random(3000, 5000, 1))
+					If _Sleep(Random(3000, 5000, 1)) Then Return
 					ScrollEsportsRight(Random(1, 2, 1))
 				Case 2
 					SetLog("Scrolling Right And Left Sides", $COLOR_OLIVE)
 					ScrollEsportsRight(Random(1, 2, 1))
-					Sleep(Random(3000, 5000, 1))
+					If _Sleep(Random(3000, 5000, 1)) Then Return
 					ScrollEsportsLeft(Random(1, 2, 1))
 				Case 3
 					SetLog("Scrolling Right Side", $COLOR_OLIVE)
@@ -2397,19 +2384,19 @@ Func LookAtRedNotifications()
 				SetLog("Detection in News Tab", $COLOR_BLUE)
 				SetLog("Open News Tab", $COLOR_DEBUG)
 				Click(245, 80 + $g_iMidOffsetY)
-				Sleep(Random(2000, 6000, 1))
+				If _Sleep(Random(2000, 6000, 1)) Then Return
 
 				Local $SideSwitchNews = Random(1, 4, 1)
 				Switch $SideSwitchNews
 					Case 1
 						SetLog("Scrolling Left And Right Sides", $COLOR_OLIVE)
 						ScrollNewsLeft(Random(0, 2, 1))
-						Sleep(Random(3000, 5000, 1))
+						If _Sleep(Random(3000, 5000, 1)) Then Return
 						ScrollNewsRight(Random(0, 2, 1))
 					Case 2
 						SetLog("Scrolling Right And Left Sides", $COLOR_OLIVE)
 						ScrollNewsRight(Random(0, 2, 1))
-						Sleep(Random(3000, 5000, 1))
+						If _Sleep(Random(3000, 5000, 1)) Then Return
 						ScrollNewsLeft(Random(0, 2, 1))
 					Case 3
 						SetLog("Scrolling Right Side", $COLOR_OLIVE)
@@ -2419,7 +2406,7 @@ Func LookAtRedNotifications()
 						ScrollNewsLeft(Random(0, 2, 1))
 				EndSwitch
 
-				Sleep(Random(2000, 6000, 1))
+				If _Sleep(Random(2000, 5000, 1)) Then Return
 				CloseWindow()
 				If _Sleep(3000) Then Return
 			EndIf
@@ -2438,7 +2425,7 @@ Func LookAtRedNotifications()
 
 		If Not _ColorCheck(_GetPixelColor(365, 80 + $g_iMidOffsetY, True), "F4F4F0", 20) Then ; check if we are Not on events tab
 			Click(365, 80 + $g_iMidOffsetY) ; open events tab
-			Sleep(Random(2000, 4000, 1))
+			If _Sleep(Random(2000, 4000, 1)) Then Return
 
 			Local $NeedScroll = Random(0, 3, 1)
 			If $NeedScroll > 1 Then
@@ -2479,32 +2466,30 @@ Func LookAtRedNotifications()
 		Switch $TabtoClick
 			Case 0
 				SetLog("Stay on Events Tab", $COLOR_OLIVE)
-				Sleep(Random(2000, 6000, 1))
+				If _Sleep(Random(2000, 6000, 1)) Then Return
 			Case 1
 				SetLog("Open News Tab", $COLOR_OLIVE)
 				Click(245, 80 + $g_iMidOffsetY)
-				Sleep(Random(2000, 6000, 1))
-				If _Sleep(3000) Then Return
+				If _Sleep(Random(2000, 6000, 1)) Then Return
 			Case 2
 				SetLog("Open Community Tab", $COLOR_OLIVE)
 				Click(515, 80 + $g_iMidOffsetY)
-				Sleep(Random(3000, 8000, 1))
-				If _Sleep(3000) Then Return
+				If _Sleep(Random(3000, 8000, 1)) Then Return
 			Case 3
 			SetLog("Open Esports Tab", $COLOR_DEBUG)
 			Click(660, 80 + $g_iMidOffsetY)
-			Sleep(Random(8000, 10000, 1))
+			If _Sleep(Random(8000, 10000, 1)) Then Return
 			Local $SideSwitchEsports = Random(1, 5, 1)
 			Switch $SideSwitchEsports
 				Case 1
 					SetLog("Scrolling Left And Right Sides", $COLOR_OLIVE)
 					ScrollEsportsLeft(Random(1, 2, 1))
-					Sleep(Random(3000, 5000, 1))
+					If _Sleep(Random(3000, 5000, 1)) Then Return
 					ScrollEsportsRight(Random(1, 2, 1))
 				Case 2
 					SetLog("Scrolling Right And Left Sides", $COLOR_OLIVE)
 					ScrollEsportsRight(Random(1, 2, 1))
-					Sleep(Random(3000, 5000, 1))
+					If _Sleep(Random(3000, 5000, 1)) Then Return
 					ScrollEsportsLeft(Random(1, 2, 1))
 				Case 3
 					SetLog("Scrolling Right Side", $COLOR_OLIVE)
@@ -2514,12 +2499,12 @@ Func LookAtRedNotifications()
 					ScrollEsportsLeft(Random(1, 2, 1))
 				Case 5
 					SetLog("Do Nothing On Esports Tab", $COLOR_OLIVE)
-					Sleep(Random(3000, 8000, 1))
+					If _Sleep(Random(3000, 8000, 1)) Then Return
 			EndSwitch
 			If _Sleep(3000) Then Return
 		EndSwitch
 
-		Sleep(Random(2000, 5000, 1))
+		If _Sleep(Random(2000, 5000, 1)) Then Return
 		CloseWindow()
 		If _Sleep(2000) Then Return
 	Else
@@ -2532,7 +2517,7 @@ Func LookAtRedNotifications()
 		Local $ShopNotEveryTime = Random(1, 10, 1)
 		If $ShopNotEveryTime > 8 Then
 			Click(800, 610 + $g_iBottomOffsetY) ; open Shop
-			Sleep(Random(3000, 5000, 1))
+			If _Sleep(Random(3000, 5000, 1)) Then Return
 			Local $NeedScroll = Random(0, 2, 1)
 			Local $NeedScroll2 = Random(0, 1, 1)
 			If $NeedScroll >= 1 Then
@@ -2542,7 +2527,7 @@ Func LookAtRedNotifications()
 				ClickDrag($xStart, $y, $xEnd, $y) ; scroll the shop
 			EndIf
 				If $NeedScroll2 = 1 And $NeedScroll >= 1 Then
-					Sleep(Random(2000, 3000, 1))
+					If _Sleep(Random(2000, 3000, 1)) Then Return
 					Local $xStart = Random(130, 350, 1)
 					Local $xEnd = Random($xStart + 380, $xStart + 450, 1)
 					Local $y = Random(160 + $g_iMidOffsetY, 580 + $g_iMidOffsetY, 1)
@@ -2780,30 +2765,43 @@ Func VisitBestPlayers()
 
 		If IsBestPlayers() Then
 			Local $PlayerList = Random(1, 2, 1)
+			Local $bLocation = ""
 			Switch $PlayerList
 				Case 1
 					SetLog("Let's Look At The Global List ...", $COLOR_DEBUG)
+					$bLocation = "Global"
 					Click(270, 110 + $g_iMidOffsetY) ; look at global list
-					If _Sleep(1000) Then Return
+					If _Sleep(1500) Then Return
 					If Not $g_bRunState Then Return
-					Click(512, 317 + $g_iMidOffsetY + (52 * Random(0, 6, 1)))
-					If _Sleep(500) Then Return
+					
+					If Not FindMarkBestPlayer($bLocation) Then
+						SetLog("Exiting ...", $COLOR_OLIVE)
+						If _Sleep(Random(2000, 3000, 1)) Then Return
+						ReturnHomeFromHumanization()
+					EndIf
+					
 					If Not $g_bRunState Then Return
 					VisitAPlayer()
 					SetLog("Exiting ...", $COLOR_OLIVE)
-					Sleep(Random(2000, 3000, 1))
+					If _Sleep(Random(2000, 3000, 1)) Then Return
 					ReturnHomeFromHumanization()
 				Case 2
 					SetLog("Let's Look At The Local List ...", $COLOR_DEBUG)
 					Click(640, 110 + $g_iMidOffsetY) ; look at local list
-					If _Sleep(1000) Then Return
+					$bLocation = "Local"
+					If _Sleep(1500) Then Return
 					If Not $g_bRunState Then Return
-					Click(512, 157 + $g_iMidOffsetY + (52 * Random(0, 9, 1)))
-					If _Sleep(500) Then Return
+					
+					If Not FindMarkBestPlayer($bLocation) Then
+						SetLog("Exiting ...", $COLOR_OLIVE)
+						If _Sleep(Random(2000, 3000, 1)) Then Return
+						ReturnHomeFromHumanization()
+					EndIf
+					
 					If Not $g_bRunState Then Return
 					VisitAPlayer()
 					SetLog("Exiting ...", $COLOR_OLIVE)
-					Sleep(Random(2000, 3000, 1))
+					If _Sleep(Random(2000, 3000, 1)) Then Return
 					ReturnHomeFromHumanization()
 			EndSwitch
 		Else
@@ -2824,6 +2822,7 @@ Func LookAtBestClans()
 		Local $TopClansAll = Random(0, 10, 1)
 		Local $ClanFilter = Random(1, 6, 1)
 		Local $IsClanWarLeagueSelected = False
+		Local $bLocation = ""
 
 		If $TopClansAll > 2 Then
 			SetLog("Let's Look At Top Clans Tab ...", $COLOR_BLUE)
@@ -2842,20 +2841,23 @@ Func LookAtBestClans()
 			Switch $PlayerList
 				Case 1
 					SetLog("Let's Look At The Global List ...", $COLOR_DEBUG)
-					_Sleep(1500)
+					$bLocation = "Global"
 					Click(270, 110 + $g_iMidOffsetY) ; look at global list
 					SetLog("Choose Random Clan ...", $COLOR_OLIVE)
-					_Sleep(1500)
-					Click(420, 305 + $g_iMidOffsetY + (52 * Random(0, 6, 1)))
+					If _Sleep(1500) Then Return
 				Case 2
 					SetLog("Let's Look At The International List ...", $COLOR_DEBUG)
-					_Sleep(1500)
+					$bLocation = "International"
 					Click(640, 110 + $g_iMidOffsetY) ; look at local list
 					SetLog("Choose Random Clan ...", $COLOR_OLIVE)
-					_Sleep(1500)
-					Click(420, 165 + $g_iMidOffsetY + (52 * Random(0, 9, 1)))
+					If _Sleep(1500) Then Return
 			EndSwitch
-			If _Sleep(1500) Then Return
+			
+			If Not FindMarkBestClan($bLocation) Then
+				SetLog("Exiting ...", $COLOR_OLIVE)
+				If _Sleep(Random(2000, 3000, 1)) Then Return
+				ReturnHomeFromHumanization()
+			EndIf
 			
 			ClanStats()
 
@@ -2865,11 +2867,9 @@ Func LookAtBestClans()
 					Case 1
 						SetLog("We Have Found a War Clan Log Button, Let's Look At It ...", $COLOR_OLIVE)
 						Click($g_iQuickMISX, $g_iQuickMISY) ; open war log
-						If _Sleep(500) Then Return
 						If Not $g_bRunState Then Return
-						Sleep(Random(2000, 3000, 1))
+						If _Sleep(Random(2000, 3000, 1)) Then Return
 						SetLog("Let's Look At The Classic Clan War Log ...", $COLOR_OLIVE)
-						_Sleep(1500)
 						Click(258, 115 + $g_iMidOffsetY) ; click Classic War tab
 						SetLog("Let's Scrolling The Log ...", $COLOR_OLIVE)
 						If _Sleep(1500) Then Return
@@ -2877,11 +2877,9 @@ Func LookAtBestClans()
 					Case 2
 						SetLog("We Have Found a War Clan Log Button, Let's Look At It ...", $COLOR_OLIVE)
 						Click($g_iQuickMISX, $g_iQuickMISY) ; open war log
-						If _Sleep(500) Then Return
 						If Not $g_bRunState Then Return
-						Sleep(Random(2000, 3000, 1))
+						If _Sleep(Random(2000, 3000, 1)) Then Return
 						SetLog("Let's Look At The Clan War League Log ...", $COLOR_OLIVE)
-						_Sleep(1500)
 						Click(616, 115 + $g_iMidOffsetY) ; click Clan War League tab
 						SetLog("Let's Scrolling The Log ...", $COLOR_OLIVE)
 						If _Sleep(1500) Then Return
@@ -2889,7 +2887,7 @@ Func LookAtBestClans()
 				EndSwitch
 
 				SetLog("Exiting ...", $COLOR_OLIVE)
-				Sleep(Random(2000, 3000, 1))
+				If _Sleep(Random(2000, 3000, 1)) Then Return
 				CloseWindow()
 			Else
 				SetLog("No War Log Found...", $COLOR_WARNING)
@@ -2906,9 +2904,8 @@ Func LookAtBestClans()
 						SetLog("Let's Scrolling The Clan Members In Home Village Mode...", $COLOR_OLIVE)
 						Scroll(Random(2, 6, 1)) ; scroll the Members list
 						SetLog("Exiting ...", $COLOR_OLIVE)
-						Sleep(Random(2000, 3000, 1))
+						If _Sleep(Random(2000, 3000, 1)) Then Return
 						CloseWindow()
-						If _Sleep(1500) Then Return
 					Case 2
 						SetLog("Let's Scrolling The Clan Members In Builder Base Mode ...", $COLOR_OLIVE)
 						_Sleep(1500)
@@ -2916,9 +2913,8 @@ Func LookAtBestClans()
 						If _Sleep(1500) Then Return
 						Scroll(Random(2, 6, 1)) ; scroll the Members list
 						SetLog("Exiting ...", $COLOR_OLIVE)
-						Sleep(Random(2000, 3000, 1))
+						If _Sleep(Random(2000, 3000, 1)) Then Return
 						CloseWindow()
-						If _Sleep(1500) Then Return
 					Case 3
 						SetLog("Let's Scrolling The Clan Members In Clan Capital Mode ...", $COLOR_OLIVE)
 						_Sleep(1500)
@@ -2926,41 +2922,42 @@ Func LookAtBestClans()
 						If _Sleep(1500) Then Return
 						Scroll(Random(2, 6, 1)) ; scroll the Members list
 						SetLog("Exiting ...", $COLOR_OLIVE)
-						Sleep(Random(2000, 3000, 1))
+						If _Sleep(Random(2000, 3000, 1)) Then Return
 						CloseWindow()
-						If _Sleep(1500) Then Return
 					Case 4
 						SetLog("Let's Visit a Random Player ...", $COLOR_OLIVE)
 						If _Sleep(1500) Then Return
 						
-						If _ColorCheck(_GetPixelColor(600, 410, True), "E8E8E0", 20) Then
-							Click(450, 444 + $g_iMidOffsetY + (52 * Random(0, 3, 1))) ; click on a random player
-						Else
-							Click(450, 497 + $g_iMidOffsetY + (52 * Random(0, 2, 1))) ; click on a random player
+						If Not FindMark() Then
+							SetLog("Exiting ...", $COLOR_OLIVE)
+							If _Sleep(Random(2000, 3000, 1)) Then Return
+							ReturnHomeFromHumanization()
 						EndIf
 						
-						If _Sleep(1500) Then Return ;Was less due to that bot was unable to detect visit button
 						VisitAPlayer()
 						If _Sleep(1500) Then Return
 						SetLog("Exiting ...", $COLOR_OLIVE)
-						Sleep(Random(2000, 3000, 1))
+						If _Sleep(Random(2000, 3000, 1)) Then Return
 						ReturnHomeFromHumanization()
 					Case 5
 						SetLog("Let's exit for this time ...", $COLOR_OLIVE)
-						Sleep(Random(1000, 5000, 1))
+						If _Sleep(Random(1000, 5000, 1)) Then Return
 						CloseWindow()
-						If _Sleep(1500) Then Return
 					Case 6	
 						SetLog("Let's Scrolling Clan Members And Visit Random Player...", $COLOR_OLIVE)
 						If _Sleep(1000) Then Return
 						Scroll(Random(1, 3, 1)) ; scroll the log
-						Local $randomYForClick = (52 * Random(0, 7, 1))
-						Click(450, 165 + $g_iMidOffsetY + $randomYForClick) ; click on a random player
-						If _Sleep(1500) Then Return ;Was less due to that bot was unable to detect visit button
+						
+						If Not FindMark("HomeVillage", False) Then
+							SetLog("Exiting ...", $COLOR_OLIVE)
+							If _Sleep(Random(2000, 3000, 1)) Then Return
+							ReturnHomeFromHumanization()
+						EndIf
+						
 						VisitAPlayer()
 						If _Sleep(1500) Then Return
 						SetLog("Exiting ...", $COLOR_OLIVE)
-						Sleep(Random(2000, 3000, 1))
+						If _Sleep(Random(2000, 3000, 1)) Then Return
 						ReturnHomeFromHumanization()
 				EndSwitch
 			EndIf
@@ -2969,7 +2966,6 @@ Func LookAtBestClans()
 			Scroll(Random(1, 6, 1))     ; scroll the log
 			SetLog("Exiting ...", $COLOR_OLIVE)
 			CloseWindow()
-			If _Sleep(1500) Then Return
 		Else
 			SetLog("Error When Trying To Open Best Clans Menu ... Skipping ...", $COLOR_WARNING)
 		EndIf
@@ -2993,10 +2989,10 @@ Func ReadClanChat()
 			Local $yStart = Random(110 - 10, 110 + 10, 1)
 			Local $yEnd = Random(570 - 10, 570 + 10, 1)
 			ClickDrag($x, $yStart, $x, $yEnd) ; scroll the chat
-			_Sleep(Random(1000, 3000))
+			If _Sleep(Random(1000, 3000)) Then Return
 		Next
 		SetLog("Exiting ...", $COLOR_OLIVE)
-		Sleep(Random(2000, 3000, 1))
+		If _Sleep(Random(2000, 3000, 1)) Then Return
 		If Not ClickB("ClanChat") Then
 			SetLog("Error finding the Clan Tab Button", $COLOR_ERROR)
 			Return
@@ -3040,25 +3036,24 @@ Func CheckWarTime(ByRef $sResult, ByRef $bResult, $bReturnFrom = True) ; return 
 			SetLog("|  Relax, Nothing To Do In War ! |", $COLOR_SUCCESS1)
 			SetLog("--------------------------------------", $COLOR_SUCCESS1)
 		EndIf
-		Sleep(Random(3000, 5000, 1))
 	EndIf
 
-	Sleep(Random(2000, 3000, 1))
+	If _Sleep(Random(2000, 3000, 1)) Then Return
 	If Not $g_bRunState Then Return
 
 	Click(40, 470 + $g_iBottomOffsetY) ; open war menu
 	
-	Sleep(Random(3000, 4000, 1))
+	If _Sleep(Random(3000, 4000, 1)) Then Return
 	If Not $g_bRunState Then Return
 
 	If _ColorCheck(_GetPixelColor(826, 95, True), "FFFFFF", 20) Then
 		SetLog("War is finished.", $COLOR_WARNING)
 		$IsWarEnded = True
 		Local $iSleepForWindow = Random(3000, 5000)
-		Sleep($iSleepForWindow)
+		If _Sleep($iSleepForWindow) Then Return
 		Click(60 + Random(0, 700, 1), 25 + Random(0, 5, 1)) ; Click to get any window away
 		Local $iSleepForWindow2 = Random(1000, 2000)
-		Sleep($iSleepForWindow2)
+		If _Sleep($iSleepForWindow2) Then Return
 	EndIf
 	If Not $g_bRunState Then Return
 	
@@ -3103,7 +3098,7 @@ Func CheckWarTime(ByRef $sResult, ByRef $bResult, $bReturnFrom = True) ; return 
 			EndIf
 			Next
 			SetLog("Actual War Day : " & $DayReal & "", $COLOR_INFO)
-			Sleep(Random(1500, 2500, 1))
+			If _Sleep(Random(1500, 2500, 1)) Then Return
 			If Not $g_bRunState Then Return
 					
 			Local $SwitchBattleDay = Random(1, 5, 1)
@@ -3153,14 +3148,14 @@ Func CheckWarTime(ByRef $sResult, ByRef $bResult, $bReturnFrom = True) ; return 
 					Click($RandomXDayToClick, 620 + $g_iBottomOffsetY)
 					$IsAllowedPreparationDay = False
 					$IsARandomDay = True
-					Sleep(Random(3000, 5000, 1))
+					If _Sleep(Random(3000, 5000, 1)) Then Return
 			EndSwitch
 		EndIf
 		
-		Sleep(Random(3000, 6000, 1))
+		If _Sleep(Random(2000, 4000, 1)) Then Return
 		If Not $g_bRunState Then Return
 
-		$sWarDay = QuickMIS("N1", $directoryDay, 360, 85, 360 + 145, 85 + 28, True, False); Prepare or Battle
+		$sWarDay = QuickMIS("N1", $directoryDay, 360, 85, 505, 85 + 28, True, False); Prepare or Battle
 		If $sWarDay = "none" Then
 			$bLocalReturn = SetError(1, 0, "Error reading war day")
 		EndIf
@@ -3197,9 +3192,9 @@ Func CheckWarTime(ByRef $sResult, ByRef $bResult, $bReturnFrom = True) ; return 
 	If $IsWarNotActive = True Then $IsStepWar = False
 	
 	If $g_bClanWar = True And $IsWarEnded = True Then
-		Sleep(Random(3000, 5000, 1))
+		If _Sleep(Random(3000, 5000, 1)) Then Return
 		Click(430, 556 + $g_iBottomOffsetY) ; Click On view map
-		Sleep(Random(3000, 5000, 1))
+		If _Sleep(Random(3000, 5000, 1)) Then Return
 		If Not $g_bRunState Then Return
 	EndIf
 	
@@ -3232,7 +3227,7 @@ EndFunc   ;==>ReturnToHomeFromWar
 Func ClickClanFilter($MaxTime, $FilterX, $FilterY)
 	For $i = 1 To $MaxTime
 		Click($FilterX, $FilterY)
-		Sleep(Random(1500, 2500, 1))
+		If _Sleep(Random(1500, 2500, 1)) Then Return
 	Next
 EndFunc   ;==>ClickClanFilter
 
@@ -3260,19 +3255,19 @@ If $ViewPriorityNumber > $IsToViewBBBattleLog Then Return
 	_FileWriteLog($g_sProfileLogsPath & "\ModLog.log", " [" & $g_sProfileCurrentName & "] - Humanization : " & $ActionForModLog & "")
 	If Not ClickAttack() Then Return
 	If Not $g_bRunState Then Return
-	Sleep(Random(3000, 5000, 1))
+	If _Sleep(Random(3000, 5000, 1)) Then Return
 	Click(795, 612 + $g_iBottomOffsetY) ; Click Battlelog
 	If Not $g_bRunState Then Return
-	Sleep(Random(3000, 5000, 1))
+	If _Sleep(Random(3000, 5000, 1)) Then Return
 	If Not $g_bRunState Then Return
 	Scroll(Random(1, 3, 1))
 	If Not $g_bRunState Then Return
-	Sleep(Random(3000, 5000, 1))
+	If _Sleep(Random(3000, 5000, 1)) Then Return
 	BBBattleWatchReplay()
 	If Not $g_bRunState Then Return
 	Click(61, 614 + $g_iBottomOffsetY) ; Click Attack!/Home
 	If Not $g_bRunState Then Return
-	Sleep(Random(4000, 6000, 1))
+	If _Sleep(Random(4000, 6000, 1)) Then Return
 	ZoomOut()
 EndFunc
 
@@ -3317,10 +3312,10 @@ If $WatchPriorityNumber > $IsToWatchBBReplays Then Return
 					SetLog("This Replay Is Boring, Let Me Go Out ...", $COLOR_OLIVE)
 					If _Sleep(1000) Then Return
 					SetLog("Exiting ...", $COLOR_OLIVE)
-					Sleep(Random(2000, 3000, 1))
+					If _Sleep(Random(2000, 3000, 1)) Then Return
 					Click(61, 614 + $g_iBottomOffsetY) ; return home
 					If Not $g_bRunState Then Return
-					Sleep(Random(2000, 3000, 1))
+					If _Sleep(Random(2000, 3000, 1)) Then Return
 				EndIf
 			Else
 				If IsReplayWindow() Then
@@ -3339,7 +3334,7 @@ If $WatchPriorityNumber > $IsToWatchBBReplays Then Return
 				If Not $g_bRunState Then Return
 				Click(61, 614 + $g_iBottomOffsetY) ; return home
 				If Not $g_bRunState Then Return
-				Sleep(Random(2000, 3000, 1))
+				If _Sleep(Random(2000, 3000, 1)) Then Return
 			EndIf
 		EndIf
 		If Not $g_bRunState Then Return
@@ -3444,4 +3439,96 @@ If $CheckRaidMapPriority > $IsToCheckRaidMap Then Return
 			EndIf
 		EndIf
 	EndIf
+EndFunc
+
+Func FindMark($bVillage = "HomeVillage", $bIsTop = True)
+
+	Switch $bVillage
+		Case "HomeVillage", "Builder Base"
+			If $bIsTop Then
+				Local $aSarea[4] = [780, 420 + $g_iMidOffsetY, 845, 610 + $g_iBottomOffsetY]
+			Else
+				Local $aSarea[4] = [780, 135 + $g_iMidOffsetY, 845, 610 + $g_iBottomOffsetY]
+			EndIf
+		Case "ClanCapital"
+			If $bIsTop Then
+				Local $aSarea[4] = [630, 420 + $g_iMidOffsetY, 690, 610 + $g_iBottomOffsetY]
+			Else
+				Local $aSarea[4] = [630, 135 + $g_iMidOffsetY, 690, 610 + $g_iBottomOffsetY]
+			EndIf
+	EndSwitch
+	
+	Local $vPlayerMarks = findMultipleQuick($g_sImgPlayerMark, 10, $aSarea)
+	If UBound($vPlayerMarks) > 0 And Not @error Then
+		Local $iPlayerToVisit = Random(0, UBound($vPlayerMarks) - 1, 1)
+		Switch $bVillage
+			Case "HomeVillage", "Builder Base"
+				Local $aColorGreen[4] = [$vPlayerMarks[$iPlayerToVisit][1] - 340, $vPlayerMarks[$iPlayerToVisit][2] + 20, 0x9CBF5F, 20]
+				While _CheckPixel($aColorGreen, True)
+					$iPlayerToVisit = Random(0, UBound($vPlayerMarks) - 1, 1)
+					Local $aColorGreen[4] = [$vPlayerMarks[$iPlayerToVisit][1] - 340, $vPlayerMarks[$iPlayerToVisit][2] + 20, 0x9CBF5F, 20]
+				WEnd
+				Click($vPlayerMarks[$iPlayerToVisit][1] - 340, $vPlayerMarks[$iPlayerToVisit][2]) ; click on Player
+				If _Sleep(1500) Then Return
+			Case "ClanCapital"
+				Local $aColorGreen[4] = [$vPlayerMarks[$iPlayerToVisit][1] - 200, $vPlayerMarks[$iPlayerToVisit][2] + 14, 0x9CBF5F, 20]
+				While _CheckPixel($aColorGreen, True)
+					$iPlayerToVisit = Random(0, UBound($vPlayerMarks) - 1, 1)
+					Local $aColorGreen[4] = [$vPlayerMarks[$iPlayerToVisit][1] - 200, $vPlayerMarks[$iPlayerToVisit][2] + 14, 0x9CBF5F, 20]
+				WEnd
+				Click($vPlayerMarks[$iPlayerToVisit][1] - 200, $vPlayerMarks[$iPlayerToVisit][2]) ; click on Player
+				If _Sleep(1500) Then Return
+		EndSwitch	
+	Else
+		SetLog("No Player Mark Found ... Skipping ...", $COLOR_WARNING)
+		Return False
+	EndIf
+	
+	Return True
+EndFunc
+
+Func FindMarkBestPlayer($bLocation = "Global")
+
+	Switch $bLocation
+		Case "Global"
+			Local $aSarea[4] = [780, 290 + $g_iMidOffsetY, 845, 610 + $g_iBottomOffsetY]
+		Case "Local"
+			Local $aSarea[4] = [780, 130 + $g_iMidOffsetY, 845, 610 + $g_iBottomOffsetY]
+	EndSwitch
+	
+	Local $vPlayerMarks = findMultipleQuick($g_sImgPlayerMark, 10, $aSarea)
+	If UBound($vPlayerMarks) > 0 And Not @error Then
+		Local $iPlayerToVisit = Random(0, UBound($vPlayerMarks) - 1, 1)
+		
+		Click($vPlayerMarks[$iPlayerToVisit][1] - 300, $vPlayerMarks[$iPlayerToVisit][2]) ; click on Player
+		If _Sleep(1000) Then Return
+	Else
+		SetLog("No Player Mark Found ... Skipping ...", $COLOR_WARNING)
+		Return False
+	EndIf
+	
+	Return True
+EndFunc
+
+Func FindMarkBestClan($bLocation = "Global")
+
+	Switch $bLocation
+		Case "Global"
+			Local $aSarea[4] = [780, 265 + $g_iMidOffsetY, 845, 610 + $g_iBottomOffsetY]
+		Case "International"
+			Local $aSarea[4] = [780, 130 + $g_iMidOffsetY, 845, 610 + $g_iBottomOffsetY]
+	EndSwitch
+	
+	Local $vPlayerMarks = findMultipleQuick($g_sImgPlayerMark, 10, $aSarea)
+	If UBound($vPlayerMarks) > 0 And Not @error Then
+		Local $iPlayerToVisit = Random(0, UBound($vPlayerMarks) - 1, 1)
+		
+		Click($vPlayerMarks[$iPlayerToVisit][1] - 400, $vPlayerMarks[$iPlayerToVisit][2]) ; click on Clan
+		If _Sleep(1500) Then Return	
+	Else
+		SetLog("No Player Mark Found ... Skipping ...", $COLOR_WARNING)
+		Return False
+	EndIf
+	
+	Return True
 EndFunc

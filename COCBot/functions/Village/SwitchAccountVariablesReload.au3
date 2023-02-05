@@ -41,8 +41,6 @@ Func SwitchAccountVariablesReload($sType = "Load", $iAccount = $g_iCurAccount)
 	Static $SCheckTombsFrequency = $aiZero
 	Static $SLootCartTimer = $aiZero
 	Static $SLootCartFrequency = $aiZero
-	Static $SIsdroptrophiesActive = $aiZero
-	Static $SIsDropTrophyBreaked = $aiZero
 	Static $SIsToOpenOffers = $aiZero
 	Static $SIsMainScreenLocated = $aiZero
 	Static $SDelayReturnedtocheckCGRA = $aiZero
@@ -160,8 +158,6 @@ Func SwitchAccountVariablesReload($sType = "Load", $iAccount = $g_iCurAccount)
 			$SCheckTombsFrequency = $aiZero
 			$SLootCartTimer = $aiZero
 			$SLootCartFrequency = $aiZero
-			$SIsdroptrophiesActive = $aiZero
-			$SIsDropTrophyBreaked = $aiZero
 			$SIsToOpenOffers = $aiZero
 			$SIsMainScreenLocated = $aiZero
 			$SDelayReturnedtocheckCGRA = $aiZero
@@ -311,8 +307,6 @@ Func SwitchAccountVariablesReload($sType = "Load", $iAccount = $g_iCurAccount)
 			$SCheckTombsFrequency[$iAccount] = $CheckTombsFrequency
 			$SLootCartTimer[$iAccount] = $LootCartTimer
 			$SLootCartFrequency[$iAccount] = $LootCartFrequency
-			$SIsdroptrophiesActive[$iAccount] = $IsdroptrophiesActive
-			$SIsDropTrophyBreaked[$iAccount] = $IsDropTrophyBreaked
 			$SIsToOpenOffers[$iAccount] = $IsToOpenOffers
 			$SIsMainScreenLocated[$iAccount] = $IsMainScreenLocated
 			$SDelayReturnedtocheckCGRA[$iAccount] = $DelayReturnedtocheckCGRA
@@ -477,8 +471,6 @@ Func SwitchAccountVariablesReload($sType = "Load", $iAccount = $g_iCurAccount)
 			$CheckTombsFrequency = $SCheckTombsFrequency[$iAccount]
 			$LootCartTimer = $SLootCartTimer[$iAccount]
 			$LootCartFrequency = $SLootCartFrequency[$iAccount]
-			$IsdroptrophiesActive = $SIsdroptrophiesActive[$iAccount]
-			$IsDropTrophyBreaked = $SIsDropTrophyBreaked[$iAccount]
 			$IsToOpenOffers = $SIsToOpenOffers[$iAccount]
 			$IsMainScreenLocated = $SIsMainScreenLocated[$iAccount]
 			$DelayReturnedtocheckCGRA = $SDelayReturnedtocheckCGRA[$iAccount]

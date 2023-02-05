@@ -9,8 +9,13 @@
 * Fixed BB Builders Count in multistats tab.
 * Fixed Some Super Troops Boost.
 * Added Monolith to Weak Base Filter, CSV SIDEB & MAKE (Target).
-* Improvements for Boost Super Troops operations.
-* Check Obstacles improvement (Added Login Fail).
+* Changed Tolerance of Request Button when available.
+* Added Login Fail Error Window.
+* Cleaned CheckObstacles Code and Images.
+* Improved Super Troops Boost.
+* Improved Monolith Level 1 Detection.
+* Can Now Target Both ScatterShots [CSV].
+* Handle for green button in Daily Rewards Window.
 
 * v8.0.2 **
 * Respond faster to "Stop" during zoomout.

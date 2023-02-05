@@ -599,7 +599,7 @@ Func Algorithm_AttackCSV($testattack = False, $captureredarea = True)
 				_ObjErrMsg("_ObjGetValue " & $g_sBldgNames[$eBldgScatter] & " _LOCATION", @error) ; Log errors
 				SetLog("> " & $g_sBldgNames[$eBldgScatter] & " location not in dictionary", $COLOR_WARNING)
 			Else
-				If IsArray($aResult[0]) Then $g_aiCSVScatterPos = $aResult[0]
+				If IsArray($aResult) Then $g_aiCSVScatterPos = $aResult
 			EndIf
 		Else
 			SetLog("> TH Level to low for Scatter Shot, skip detection", $COLOR_INFO)

@@ -276,7 +276,6 @@ Func AttackCSVDEBUGIMAGE()
 			Next
 	EndIf
 
-
 	; - DRAW TOWNHALL -------------------------------------------------------------------
 	_GDIPlus_GraphicsDrawRect($hGraphic, $g_iTHx - 5, $g_iTHy - 10, 30, 30, $hPenRed)
 
@@ -285,9 +284,12 @@ Func AttackCSVDEBUGIMAGE()
 		_GDIPlus_GraphicsDrawRect($hGraphic, $g_aiCSVEagleArtilleryPos[0] - 15, $g_aiCSVEagleArtilleryPos[1] - 15, 30, 30, $hPenBlue)
 	EndIf
 
-	; - DRAW Eagle -------------------------------------------------------------------
+	; - DRAW ScatterShot --------------------------------------------------------------
 	If $g_bCSVLocateScatter = True And IsArray($g_aiCSVScatterPos) Then
-		_GDIPlus_GraphicsDrawRect($hGraphic, $g_aiCSVScatterPos[0] - 15, $g_aiCSVScatterPos[1] - 15, 30, 30, $hPenBlue)
+		For $i = 0 To UBound($g_aiCSVScatterPos) - 1
+			$pixel = $g_aiCSVScatterPos[$i]
+			_GDIPlus_GraphicsDrawRect($hGraphic, $pixel[0] - 15, $pixel[1] - 15, 25, 25, $hPenBlue)
+		Next
 	EndIf
 
 	; - DRAW Inferno -------------------------------------------------------------------
@@ -332,10 +334,7 @@ Func AttackCSVDEBUGIMAGE()
 	
 	; - DRAW Monolith -------------------------------------------------------------------
 	If $g_bCSVLocateMonolith = True And IsArray($g_aiCSVMonolithPos) Then
-		For $i = 0 To UBound($g_aiCSVMonolithPos) - 1
-			$pixel = $g_aiCSVMonolithPos[$i]
-			_GDIPlus_GraphicsDrawRect($hGraphic, $pixel[0] - 15, $pixel[1] - 15, 30, 30, $hPenPaleBlue)
-		Next
+		_GDIPlus_GraphicsDrawRect($hGraphic, $g_aiCSVMonolithPos[0] - 15, $g_aiCSVMonolithPos[1] - 15, 30, 30, $hPenWhite)
 	EndIf
 
 	; 99 -  DRAW SLICE NUMBERS

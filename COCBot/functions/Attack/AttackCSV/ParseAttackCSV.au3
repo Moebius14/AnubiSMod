@@ -979,23 +979,16 @@ Func ParseAttackCSV_MainSide($debug = False)
 								Next
 							EndIf
 							
-							If IsArray($g_aiCSVMonolithPos) Then
-								For $i = 0 To UBound($g_aiCSVMonolithPos) - 1
-									Local $pixel = $g_aiCSVMonolithPos[$i]
-									If UBound($pixel) = 2 Then
-										Switch StringLeft(Slice8($pixel), 1)
-											Case 1, 2
-												$heightBottomRight += Int($value4)
-											Case 3, 4
-												$heightTopRight += Int($value4)
-											Case 5, 6
-												$heightTopLeft += Int($value4)
-											Case 7, 8
-												$heightBottomLeft += Int($value4)
-										EndSwitch
-									EndIf
-								Next
-							EndIf
+							Switch StringLeft(Slice8($g_aiCSVMonolithPos), 1)
+								Case 1, 2
+									$heightBottomRight += Int($value1)
+								Case 3, 4
+									$heightTopRight += Int($value1)
+								Case 5, 6
+									$heightTopLeft += Int($value1)
+								Case 7, 8
+									$heightBottomLeft += Int($value1)
+							EndSwitch
 
 							Local $maxValue = $heightBottomRight
 							Local $sidename = "BOTTOM-RIGHT"

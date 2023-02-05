@@ -330,7 +330,7 @@ Func ExtendedAttackBarCheck($aAttackBarFirstSearch, $bRemaining, $sSearchDiamond
 				Local $aTempSlot = AttackSlot(Number($aAttackBar[$i][1]), Number($aAttackBar[$i][7]), $aSlotAmountX)
 				$aAttackBar[$i][5] = Number($aTempSlot[0])
 				$aAttackBar[$i][6] = Number($aTempSlot[1])
-				If UBound($aAttackBar, 1) > 1 Then
+                If UBound($aAttackBar, 1) > 1 Then
                     $aAttackBar[$i][3] = Number($aTempSlot[2] + $iLastSlotNumber + 1)
                 Else
                     $aAttackBar[$i][3] = Number($iLastSlotNumber + 1)

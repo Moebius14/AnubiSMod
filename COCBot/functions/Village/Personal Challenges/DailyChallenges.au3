@@ -176,12 +176,13 @@ Func CollectDailyRewards($bGoldPass = False)
 	SetLog("Collecting Daily Rewards...")
 
 	ClickP($aPersonalChallengeRewardsTab, 1, 0, "Rewards tab") ; Click Rewards tab
-	_Sleep(Random(3000, 5000, 1))
+	If _Sleep(Random(2000, 3000, 1)) Then Return
 	If Not $g_bRunState Then Return
-	
-	If QuickMIS("BC1", $g_sImgGreenRight, 790, 390, 820, 425) Then
-		Click($g_iQuickMISX - 8, $g_iQuickMISY + 7) ;Click Right Green Water Drop
-		_Sleep(1500)
+
+	Local $aiGreenButton = decodeSingleCoord(FindImageInPlace2("GreenButton", $g_sImgGreenButton, 790, 360 + $g_iMidOffsetY, 820, 395 + $g_iMidOffsetY, False))
+	If IsArray($aiGreenButton) and UBound($aiGreenButton, 1) = 2 Then
+		Click($aiGreenButton[0] - 8, $aiGreenButton[1] + 7)
+		If _Sleep(1500) Then Return
 	EndIf
 	
 	Local $iClaim = 0
