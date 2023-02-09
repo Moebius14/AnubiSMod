@@ -50,10 +50,11 @@ $g_hGUI_CCUpgradesSettings = 0, $g_hChkEnablePriorArmyWarning = 0, $g_hBtnCCUpgr
 $g_hChkEnablePriorFactory = 0, $g_hBtnBoostBuilders = 0, $g_hCmbBoostBuilders3 = 0, $g_hCmbFreeBuilders3 = 0, $g_hGUI_BoostBuilders3 = 0, $g_hBtnBoostBuildersClose3 = 0
 
 ;ClanGames Challenges
-Global $g_hChkClanGamesEnabled = 0 , $g_hChkClanGamesAllTimes = 0, $g_hChkClanGames3h = 0, $g_hChkClanGames3hOnly = 0, $g_hChkClanGamesDebug = 0, $g_hChkClanGamesCollectRewards = 0, $g_hChkCCGDebugNoneFound = 0
+Global $g_hChkClanGamesEnabled = 0 , $g_hChkClanGamesAllTimes = 0, $g_hChkClanGames3h = 0, $g_hChkClanGames3hOnly = 0
 Global $g_hTxtClanGamesLog = 0, $g_hLblRemainTime = 0 , $g_hLblYourScore = 0
 Global $g_hGUI_CGSettings = 0, $g_hBtnCGSettingsOpen = 0, $g_hBtnCGSettingsClose = 0
-Global $g_hGUI_CGRewardsSettings = 0, $g_hBtnCGRewardsSettingsOpen = 0, $g_hBtnCGRewardsSettingsClose = 0, $TitlePriority = 0, $TitlePriority2 = 0, $g_hBtnCGRewardsSettingsDefault = 0
+Global $g_hGUI_CGRewardsSettings = 0, $g_hChkClanGamesCollectRewards = 0, $g_hBtnCGRewardsSettingsOpen = 0, $g_hBtnCGRewardsSettingsClose = 0, _
+	   $TitlePriority = 0, $TitlePriority2 = 0, $g_hBtnCGRewardsSettingsDefault = 0
 Global $g_hLabelRewardFull = 0, $g_hLabelReward5Gems = 0, $g_hLabelReward10Gems = 0, $g_hLabelReward50Gems = 0, $g_hLabelAllPotionsFull = 0, $g_hLabelAllBooksFull =  0, $g_hLabelAllBooks = 0
 Global $g_acmbPriorityReward[22] = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
 Global $g_hChkForceBBAttackOnClanGames = 0, $g_hChkClanGamesPurgeAny = 0, $g_hChkClanGamesStopBeforeReachAndPurge = 0 
@@ -910,21 +911,16 @@ Func CreateMiscClanGamesV3SubTab()
 		_GUICtrlSetTip(-1, "Classic Behaviour : All Times Events")
 		GUICtrlSetOnEvent(-1, "ChkClanGamesAllTimes")
 		GUICtrlSetState(-1, $GUI_CHECKED)
-		$g_hChkClanGames3hOnly = GUICtrlCreateRadio("Only 3 Hours Events", $x + 100, $y + 20, -1, -1)
+		$g_hChkClanGames3hOnly = GUICtrlCreateRadio("Only 3 Hours Events", $x + 100, $y + 23, -1, -1)
 		_GUICtrlSetTip(-1, "Only choose 3 Hour Events")
 		GUICtrlSetOnEvent(-1, "ChkClanGames3hOnly")
 		GUICtrlSetState(-1, $GUI_UNCHECKED)
-		$g_hChkClanGames3h = GUICtrlCreateRadio("No 3 Hours Events", $x + 100, $y + 40, -1, -1)
+		$g_hChkClanGames3h = GUICtrlCreateRadio("No 3 Hours Events", $x + 100, $y + 46, -1, -1)
 		_GUICtrlSetTip(-1, "Not choose 3 Hour Events, This is 8 Hours Or 1 Day challenges")
 		GUICtrlSetOnEvent(-1, "ChkClanGames3h")
 		GUICtrlSetState(-1, $GUI_UNCHECKED)	
 		
-		$g_hChkClanGamesDebug = GUICtrlCreateCheckbox(GetTranslatedFileIni("MBR GUI Design Child Village - Misc", "ChkClanGamesDebug", "Debug"), $x + 230, $y, -1, -1)
-		
-		$g_hChkCCGDebugNoneFound = GUICtrlCreateCheckbox(GetTranslatedFileIni("MBR GUI Design Child Village - Misc", "CCGDebugNoneFound", "Capture"), $x + 230, $y + 20, -1, -1)
-		_GUICtrlSetTip(-1, "Check To Capture CG Events Window")
-
-	$y += 80
+	$y += 85
 		GUICtrlCreateGroup(GetTranslatedFileIni("MBR GUI Design Child Village - Misc", "Group_CG_Challenges", "Challenges"), $x - 10, $y - 15, $g_iSizeWGrpTab3 - 130, 70)
 			$y += 10
 			$g_hBtnCGSettingsOpen = GUICtrlCreateButton("Clan Games Settings", $x + 80, $y, -1, -1)
@@ -946,7 +942,7 @@ Func CreateMiscClanGamesV3SubTab()
 	GUICtrlCreateGroup("", -99, -99, 1, 1)
 
 	$x = 15
-	$y = 45
+	$y = 40
 	$g_hTxtClanGamesLog = GUICtrlCreateEdit("", $x - 10, 275, $g_iSizeWGrpTab3, 127, BitOR($GUI_SS_DEFAULT_EDIT, $ES_READONLY, $ES_AUTOVSCROLL))
 	GUICtrlSetData(-1, GetTranslatedFileIni("MBR GUI Design Child Village - Misc", "TxtClanGamesLog", _
 			"--------------------------------------------------------- Clan Games LOG ------------------------------------------------"))

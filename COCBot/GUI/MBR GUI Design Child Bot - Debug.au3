@@ -25,6 +25,7 @@ Global $g_hBtnTestVillageSize = 0, $g_hBtnTestDeadBase = 0, $g_hBtnTestTHimgloc 
 Global $g_hBtnRunFunction = 0, $g_hBtnTestDeadBaseFolder = 0, $g_hBtnTestCleanYard = 0, $g_hBtnTestAttackCSV = 0, $g_hBtnTestBuildingLocation = 0, $g_hBtnTestArmyWindow = 0
 Global $g_hBtnTestConfigSave = 0, $g_hBtnTestConfigApply = 0, $g_hBtnTestConfigRead = 0, $g_hBtnTestOcrMemory = 0, $g_hBtnTestWeakBase = 0, $g_hBtnTestClickAway = 0, $g_hBtnTestAutoUpgrade = 0
 Global $g_hBtnTestUpgradeWindow = 0, $g_hBtnTestSmartWait = 0, $g_hBtnConsoleWindow = 0
+Global $g_hChkDebugImageSaveMod = 0, $g_hChkClanGamesDebug = 0, $g_hChkCCGDebugNoneFound = 0
 
 Func CreateBotDebug()
 
@@ -32,14 +33,23 @@ Func CreateBotDebug()
 	GUICtrlCreateGroup(GetTranslatedFileIni("MBR GUI Design Child Bot - Debug", "Group_01", "Debug"), $x - 20, $y - 20, $g_iSizeWGrpTab2, $g_iSizeHGrpTab2)
 		$g_hChkDebugSetlog = GUICtrlCreateCheckbox(GetTranslatedFileIni("MBR GUI Design Child Bot - Debug", "ChkDebugSetlog", "Messages"), $x, $y - 5, -1, -1)
 			_GUICtrlSetTip(-1, GetTranslatedFileIni("MBR GUI Design Child Bot - Debug", "ChkDebugSetlog_Info _01", "Debug: Enables debug SetLog messages in code for Troubleshooting."))
+			
+		$g_hChkDebugImageSaveMod = GUICtrlCreateCheckbox(GetTranslatedFileIni("MBR GUI Design Child Bot - Debug", "ChkDebugImageSaveMod", "Img Mod"), $x + 70, $y - 5, -1, -1)
+			_GUICtrlSetTip(-1, GetTranslatedFileIni("MBR GUI Design Child Bot - Debug", "ChkDebugImageSave_Info _01", "Debug: Enables Saving Mod images for troubleshooting."))
 
 	$y += 20
 		$g_hChkDebugAndroid = GUICtrlCreateCheckbox(GetTranslatedFileIni("MBR GUI Design Child Bot - Debug", "ChkDebugAndroid", "Android"), $x, $y - 5, -1, -1)
 			_GUICtrlSetTip(-1, GetTranslatedFileIni("MBR GUI Design Child Bot - Debug", "ChkDebugAndroid_Info _01", "Debug: Enables additional log debug messages for Android operations."))
-
+			
+		$g_hChkClanGamesDebug = GUICtrlCreateCheckbox(GetTranslatedFileIni("MBR GUI Design Child Village - Debug", "ChkClanGamesDebug", "CG Debug"), $x + 70, $y - 5, -1, -1)
+		_GUICtrlSetTip(-1, "Enables additional log debug messages for CG operations.")
+		
 	$y += 20
 		$g_hChkDebugClick = GUICtrlCreateCheckbox(GetTranslatedFileIni("MBR GUI Design Child Bot - Debug", "ChkDebugClick", "Click"), $x, $y - 5, -1, -1)
 			_GUICtrlSetTip(-1, GetTranslatedFileIni("MBR GUI Design Child Bot - Debug", "ChkDebugClick_Info _01", "Debug: Write the clicked (x,y) coordinates to the log."))
+			
+		$g_hChkCCGDebugNoneFound = GUICtrlCreateCheckbox(GetTranslatedFileIni("MBR GUI Design Child Village - Debug", "CCGDebugNoneFound", "CG Events"), $x + 70, $y - 5, -1, -1)
+		_GUICtrlSetTip(-1, "Check To Capture CG Events Window.")
 
 	$y += 20
 		$g_hChkDebugFunc = GUICtrlCreateCheckbox(GetTranslatedFileIni("MBR GUI Design Child Bot - Debug", "ChkDebugFunc", "Functions"), $x, $y - 5, -1, -1)

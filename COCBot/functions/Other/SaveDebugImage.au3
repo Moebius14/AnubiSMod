@@ -66,6 +66,71 @@ Func SaveDebugImage($sImageName = "Unknown", $vCaptureNew = Default, $bCreateSub
 	If _Sleep($DELAYDEBUGIMAGESAVE1) Then Return
 EndFunc   ;==>SaveDebugImage
 
+Func SaveDebugRectImageCrop($sImageName = "Unknown", $sArea = "" , $vCaptureNew = Default, $bCreateSubFolder = Default, $sTag = "")
+
+	If $vCaptureNew = Default Then $vCaptureNew = True
+	If $bCreateSubFolder = Default Then $bCreateSubFolder = True
+
+	Local $aiArea = GetRectArray($sArea)
+
+	Local $x1 = Number($aiArea[0])
+	Local $y1 = Number($aiArea[1])
+	Local $x2 = Number($aiArea[2])
+	Local $y2 = Number($aiArea[3])
+
+	Local $sDate = @MDAY & "." & @MON & "." & @YEAR
+	Local $sTime = @HOUR & "." & @MIN & "." & @SEC
+
+	Local $sFolderPath = $g_sProfileTempDebugPath
+
+	If $bCreateSubFolder Then
+		$sFolderPath = $g_sProfileTempDebugPath & $sImageName & "\"
+		DirCreate($sFolderPath)
+	EndIf
+
+	Local $bAlreadyExists = True, $bFirst = True
+	local $iCount = 1
+	Local $sFullFileName = ""
+
+	While $bAlreadyExists
+		If $bFirst Then
+			$bFirst = False
+			$sFullFileName = $sFolderPath & $sImageName & $sTag & $sDate & " at " & $sTime & ".png"
+			If FileExists($sFullFileName) Then
+				$bAlreadyExists = True
+			Else
+				$bAlreadyExists = False
+			EndIf
+		Else
+			$sFullFileName = $sFolderPath & $sImageName & $sTag & $sDate & " at " & $sTime & " (" & $iCount & ").png"
+			If FileExists($sFullFileName) Then
+				$iCount +=1
+			Else
+				$bAlreadyExists = False
+			EndIf
+		EndIf
+	WEnd
+	
+	If IsBool($vCaptureNew) And $vCaptureNew Then _CaptureRegion2()
+
+	If IsPtr($vCaptureNew) Then
+		_GDIPlus_ImageSaveToFile($vCaptureNew, $sFullFileName)
+		SetDebugLog("DebugImageSave(" & $vCaptureNew & ") " & $sFullFileName, $COLOR_DEBUG)
+	Else
+		; crop image and put in $hClone
+		Local $oBitmap = _GDIPlus_BitmapCreateFromHBITMAP($g_hHBitmap2)
+		Local $hClone = _GDIPlus_BitmapCloneArea($oBitmap, $x1, $y1, $x2 - $x1, $y2 - $y1, $GDIP_PXF32RGB)	
+
+		_GDIPlus_ImageSaveToFile($hClone, $sFullFileName)
+		
+		_GDIPlus_BitmapDispose($hClone)
+		_GDIPlus_BitmapDispose($oBitmap)
+
+		If $g_bDebugSetlog Then SetDebugLog("DebugImageSave " & $sFullFileName, $COLOR_DEBUG)
+	EndIf
+
+	If _Sleep($DELAYDEBUGIMAGESAVE1) Then Return
+EndFunc   ;==>SaveDebugRectImage
 Func SaveSCIDebugImage($sImageName = "Unknown", $vCaptureNew = Default, $bCreateSubFolder = Default, $sTag = "")
 
 	If $vCaptureNew = Default Then $vCaptureNew = True

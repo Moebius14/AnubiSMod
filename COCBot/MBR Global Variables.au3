@@ -80,8 +80,10 @@ Global $g_iVILLAGE_OFFSET[3] = [0, 0, 1]
 ; <><><><> debug flags <><><><>
 ; <><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><>
 Global $g_bDebugSetlog = False ; Verbose log messages, or extra log messages most everywhere
+Global $g_bDebugImageSaveMod = False ; Save Mod images at key points to allow review/verify emulator window status
 Global $g_bDebugAndroid = False ; Debug Android
 Global $g_bDebugClick = False ; Debug Bot Clicks and when docked, display current mouse position and RGB color
+Global $g_bChkClanGamesDebug = False, $g_bChkCCGDebugNoneFound = False ; Debug Clan Games Codes and Save Challenges Images
 Global $g_bDebugFuncTime = False ; Log Function execution time (where implemented)
 Global $g_bDebugFuncCall = False ; Log Function call hierarchy (where implemented)
 Global $g_bDebugOcr = False ; Creates \Lib\Debug folder and collects OCR images of text capture plus creates OCR log file
@@ -1876,7 +1878,6 @@ Global $g_bChkClanGamesGroundTroop = 0
 Global $g_bChkClanGamesMiscellaneous = 0
 Global $g_bChkClanGamesPurge = 0
 Global $g_bChkClanGamesStopBeforeReachAndPurge = 0
-Global $g_bChkClanGamesDebug = 0, $g_bChkCCGDebugNoneFound = 0
 Global $g_sClanGamesScore = "N/A", $g_sClanGamesTimeRemaining = "N/A"
 
 ;ClanGames Challenges
@@ -1998,7 +1999,7 @@ Global $g_aImageSearchXML = -1, $ActionForModLog = 0
 Global $g_iHowManyinCWCombo = 0, $g_iHowManyinCWLCombo = 2, $g_HowManyPlayersInCW = 0, $g_HowManyPlayersInCWL = 0
 Global $aResultBuildingDetect = 0, $aNumResultBuildingDetect = 0, $THVisitCoord = 0
 Global $g_bUseWelcomeMessage = False
-Global $g_aWelcomeMessage = ""
+Global $g_aWelcomeMessage = "Welcome ! Please read the clan rules and enjoy !"
 Global Const $g_sIcnHumanization = @ScriptDir & "\Images\Humanization.png"
 
 ;Forecast

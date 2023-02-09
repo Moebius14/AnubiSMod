@@ -1,6 +1,16 @@
+* v23.02.09 **
+* Timings and improvements for Humanization.
+* New CSV : Super Arch/Yeti For TH13, TH14, TH15.
+* Fixed CCmedals 5/9 OCR in Trader Window.
+* Set Default Welcome Chat Message [Forum KeyWord].
+* Improvements in Debug Tab.
+
+* v23.02.06 **
+* Fixed BattleDay in CWL [Humanization].
+
 * v23.02.05 **
 * Humanization Improvement.
-* Improvement From Official Branch
+* Improvement From Official Branch.
 
 * v23.02.01 **
 * Added Clan Capital Raid Map Humanization.
@@ -9,7 +19,7 @@
 * Forum Accept Function only in Humanization loop.
 * Added Notify for Upgrade Started.
 * Added Click To Mod Release Page.
-* Fixed Fill CC with Medals Variables
+* Fixed Fill CC with Medals Variables.
 
 * v23.01.29 **
 * Added Check Mod Version.

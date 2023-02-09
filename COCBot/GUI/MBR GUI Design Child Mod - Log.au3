@@ -49,9 +49,9 @@ Local $x = 0, $y = 0
 	
 	$y += 60
 	
-	GUICtrlCreateGroup(GetTranslatedFileIni("MBR GUI Design - ModLog", "Group_02", "Village Name"), $x + 10, $y + 17 , 430, 45)
+	GUICtrlCreateGroup(GetTranslatedFileIni("MBR GUI Design - ModLog", "Group_02", "Village Name (Account)"), $x + 10, $y + 17 , 430, 45)
 	GUICtrlCreateLabel(GetTranslatedFileIni("MBR GUI Design - ModLog", "TxtCurrentVillageName", "Current Alias") & ":", $x + 90, $y + 37, -1, -1, $SS_RIGHT)
-	$g_hTxtCurrentVillageName = GUICtrlCreateInput("", $x + 170, $y + 34, 115, 19)
+	$g_hTxtCurrentVillageName = GUICtrlCreateInput("", $x + 170, $y + 34, 115, 19, BitOR($SS_CENTER, $ES_AUTOHSCROLL))
 	_GUICtrlSetTip(-1, "Please Enter The Name Of The Village For The Current Profile")
 	GUICtrlSetOnEvent(-1, "LoadCurrentAlias")
 	Static $bIconSave = _GUIImageList_Create(24, 24, 4)

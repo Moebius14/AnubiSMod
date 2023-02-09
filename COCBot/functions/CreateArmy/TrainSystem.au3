@@ -1483,6 +1483,7 @@ Func FillCCWMedals($g_bFullArmy = False, $g_bCheckSpells = False, $bFullArmyHero
 			If QuickMIS("BC1", $g_sImgCCReinforceBuy, 540, 430 + $g_iMidOffsetY, 565, 460 + $g_iMidOffsetY) Then
 				If WaitforPixel(575, 445 + $g_iMidOffsetY, 585, 455 + $g_iMidOffsetY, "6CBB1F", 10, 2) Then
 					$g_iCCMedalCost = getOcrAndCapture("coc-reinforcement", 500, 435 + $g_iMidOffsetY, 36, 20, True)
+					If $g_bDebugImageSaveMod Then SaveDebugRectImageCrop("CCMedalCost", "500,475,536,495")
 					SetLog("Cost Of Filling : " & $g_iCCMedalCost & " Medals", $COLOR_ACTION)
 					$g_iLootCCMedal -= $g_iCCMedalCost
 					If $g_iLootCCMedal <= $g_aiCmbCCMedalsSaveMin Then
@@ -1521,6 +1522,7 @@ Func FillCCWMedals($g_bFullArmy = False, $g_bCheckSpells = False, $bFullArmyHero
 					If QuickMIS("BC1", $g_sImgCCReinforceBuy, 540, 430 + $g_iMidOffsetY, 565, 460 + $g_iMidOffsetY) Then
 						If WaitforPixel(575, 445 + $g_iMidOffsetY, 585, 455 + $g_iMidOffsetY, "6CBB1F", 10, 2) Then
 							$g_iCCMedalCost = getOcrAndCapture("coc-reinforcement", 500, 435 + $g_iMidOffsetY, 36, 20, True)
+							If $g_bDebugImageSaveMod Then SaveDebugRectImageCrop("CCMedalCost", "500,475,536,495")
 							SetLog("Cost Of Filling : " & $g_iCCMedalCost & " Medals", $COLOR_ACTION)
 							$g_iLootCCMedal -= $g_iCCMedalCost
 							If $g_iLootCCMedal <= $g_aiCmbCCMedalsSaveMin Then
@@ -1554,6 +1556,7 @@ Func FillCCWMedals($g_bFullArmy = False, $g_bCheckSpells = False, $bFullArmyHero
 					If QuickMIS("BC1", $g_sImgCCReinforceBuy, 540, 430 + $g_iMidOffsetY, 565, 460 + $g_iMidOffsetY) Then
 						If WaitforPixel(575, 445 + $g_iMidOffsetY, 585, 455 + $g_iMidOffsetY, "6CBB1F", 10, 2) Then
 							$g_iCCMedalCost = getOcrAndCapture("coc-reinforcement", 500, 435 + $g_iMidOffsetY, 36, 20, True)
+							If $g_bDebugImageSaveMod Then SaveDebugRectImageCrop("CCMedalCost", "500,475,536,495")
 							SetLog("Cost Of Filling : " & $g_iCCMedalCost & " Medals", $COLOR_ACTION)
 							$g_iLootCCMedal -= $g_iCCMedalCost
 							If $g_iLootCCMedal <= $g_aiCmbCCMedalsSaveMin Then
@@ -1586,7 +1589,12 @@ Func FillCCWMedals($g_bFullArmy = False, $g_bCheckSpells = False, $bFullArmyHero
 	If Not $IsCCOpen Then SetLog("Clan Castle Windows Didn't Open", $COLOR_ERROR)
 	
 	ClickAway()
-		
+	
+	If $g_bDebugImageSaveMod Then 
+		If _Sleep(2000) Then Return
+		CatchCCMedals()
+	EndIf
+	
 	If _Sleep(2000) Then Return
 	OpenArmyOverview(False)
 	If _Sleep(2000) Then Return

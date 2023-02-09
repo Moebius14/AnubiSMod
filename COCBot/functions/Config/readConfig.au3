@@ -290,8 +290,11 @@ EndFunc   ;==>ReadRegularConfig
 Func ReadConfig_Debug()
 	; Debug settings
 	$g_bDebugSetlog = IniRead($g_sProfileConfigPath, "debug", "debugsetlog", 0) = 1 ? True : False
+	$g_bDebugImageSaveMod = IniRead($g_sProfileConfigPath, "debug", "debugimagesaveMod", 0) = 1 ? True : False
 	$g_bDebugAndroid = IniRead($g_sProfileConfigPath, "debug", "debugAndroid", 0) = 1 ? True : False
 	$g_bDebugClick = IniRead($g_sProfileConfigPath, "debug", "debugsetclick", 0) = 1 ? True : False
+	$g_bChkClanGamesDebug = IniRead($g_sProfileConfigPath, "debug", "ChkClanGamesDebug", 0) = 1 ? True : False
+	$g_bChkCCGDebugNoneFound = IniRead($g_sProfileConfigPath, "debug", "ChkCCGDebugNoneFound", 0) = 1 ? True : False
 	If $g_bDevMode Then
 		Local $bDebugFunc = IniRead($g_sProfileConfigPath, "debug", "debugFunc", 0) = 1 ? True : False
 		$g_bDebugFuncTime = $bDebugFunc
@@ -454,8 +457,6 @@ Func ReadConfig_600_6()
 	IniReadS($g_bChkClanGamesAllTimes, $g_sProfileConfigPath, "other", "ChkClanGamesAllTimes", False, "Bool")
 	IniReadS($g_bChkClanGames3h, $g_sProfileConfigPath, "other", "ChkClanGames3h", False, "Bool")
 	IniReadS($g_bChkClanGames3hOnly, $g_sProfileConfigPath, "other", "ChkClanGames3hOnly", False, "Bool")
-	IniReadS($g_bChkClanGamesDebug, $g_sProfileConfigPath, "other", "ChkClanGamesDebug", False, "Bool")
-	IniReadS($g_bChkCCGDebugNoneFound, $g_sProfileConfigPath, "other", "ChkCCGDebugNoneFound", False, "Bool")
 	IniReadS($g_bChkClanGamesCollectRewards, $g_sProfileConfigPath, "other", "ChkClanGamesCollectRewards", False, "Bool")
 	
 	For $i = 0 To UBound($g_iacmbPriorityReward) - 1

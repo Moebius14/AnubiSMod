@@ -21,4 +21,4 @@
 
 Global $g_sBotVersion = "v8.0.3" ;~ Don't add more here, but below. Version can't be longer than vX.y.z because it is also used in Checkversion()
 
-Global $g_sBotVersionMod = "v23.02.06" ;~ Don't add more here, but below. Version can't be longer than vX.y.z because it is also used in Checkversion()
+Global $g_sBotVersionMod = "v23.02.09" ;~ Don't add more here, but below. Version can't be longer than vX.y.z because it is also used in Checkversion()

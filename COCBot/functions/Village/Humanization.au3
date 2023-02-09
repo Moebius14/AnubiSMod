@@ -5,7 +5,7 @@
 ; Parameters ....: None
 ; Return values .: None
 ; Author ........: RoroTiti, NguyenAnhHD
-; Modified ......: Moebius14
+; Modified ......: AnubiS
 ; Remarks .......: This file is part of MyBot, previously known as ClashGameBot. Copyright 2015-2021
 ;                  MyBot is distributed under the terms of the GNU GPL
 ; Related .......:
@@ -40,7 +40,7 @@ If _ColorCheck(_GetPixelColor(70, 320 + $g_iMidOffsetY, True), "57584B", 20) The
 		EndIf
 	EndIf
 EndIf
-Sleep(Random(2000, 3000, 1))
+If _Sleep(Random(2000, 3000, 1)) Then Return
 If Not $g_bRunState Then Return
 
 If _ColorCheck(_GetPixelColor(100, 230 + $g_iMidOffsetY, True), "515047", 20) Then; Stats view
@@ -77,7 +77,6 @@ Func EventsTabRead()
 	Click(715, 630 + $g_iBottomOffsetY)     ; open events
 	If _Sleep(3000) Then Return
 
-	If _Sleep(Random(2000, 4000, 1)) Then Return
 	If Not $g_bRunState Then Return
 	
 	Local $TabtoClick = Random(0, 2, 1)
@@ -131,7 +130,7 @@ Func EventsTabRead()
 					ScrollNewsLeft(Random(0, 2, 1))
 			EndSwitch
 
-			If _Sleep(Random(2000, 6000, 1)) Then Return
+			If _Sleep(Random(2000, 4000, 1)) Then Return
 		Case 2
 			SetLog("Open Community Tab", $COLOR_DEBUG)
 			Click(515, 80 + $g_iMidOffsetY)
@@ -163,7 +162,7 @@ Func EventsTabRead()
 					SetLog("Do Nothing On Esports Tab", $COLOR_OLIVE)
 					If _Sleep(Random(3000, 8000, 1)) Then Return
 			EndSwitch
-			If _Sleep(3000) Then Return
+			If _Sleep(2000) Then Return
 	EndSwitch
 	
 	If QuickMIS("BC1", $ImgRedEvent, 150, 100, 730, 125, True, False) Then
@@ -172,7 +171,7 @@ Func EventsTabRead()
 	EndIf
 	
 	If Not $g_bRunState Then Return
-	If _Sleep(Random(2000, 5000, 1)) Then Return
+	If _Sleep(Random(2000, 4000, 1)) Then Return
 	SetLog("Exiting ...", $COLOR_OLIVE)
 	CloseWindow()
 	ReturnAtHome()
@@ -189,7 +188,7 @@ Func LookAtWarLog()
 	If Not $g_bRunState Then Return
 
 	If ChatOpen() Then
-		If _Sleep(1500) Then Return
+		If _Sleep(1000) Then Return
 
 		If IsClanChat() Then
 			Click(120, 25) ; open the clan menu
@@ -245,9 +244,8 @@ Func LookAtWarLog()
 				ElseIf $IsToCheckRaidLog < 3 Then 
 					If QuickMIS("BC1", $g_sImgHumanizationWarLog) Then ; October Update Changed
 						Click($g_iQuickMISX, $g_iQuickMISY) ; open war log
-						If _Sleep(500) Then Return
-						If Not $g_bRunState Then Return
 						If _Sleep(Random(2000, 3000, 1)) Then Return
+						If Not $g_bRunState Then Return
 
 						Local $WarTypeChoice = Random(1, 2, 1)
 						Switch $WarTypeChoice
@@ -271,7 +269,6 @@ Func LookAtWarLog()
 					EndIf
 					If Not $g_bRunState Then Return
 					CloseWindow()
-					If _Sleep(1000) Then Return
 					SetLog("Exiting ...", $COLOR_OLIVE)
 				EndIf
 				If _Sleep(Random(2000, 3000, 1)) Then Return
@@ -301,7 +298,7 @@ Func VisitClanmates()
 	If _Sleep(2000) Then Return
 
 	If ChatOpen() Then
-		If _Sleep(1500) Then Return
+		If _Sleep(1000) Then Return
 		If Not $g_bRunState Then Return
 
 		If IsClanChat() Then
@@ -354,7 +351,7 @@ Func VisitClanmates()
 						EndIf	
 
 						VisitAPlayer()
-						If _Sleep(1500) Then Return
+						If _Sleep(500) Then Return
 						SetLog("Exiting ...", $COLOR_OLIVE)
 						If _Sleep(Random(2000, 3000, 1)) Then Return
 						ReturnHomeFromHumanization()
@@ -370,7 +367,7 @@ Func VisitClanmates()
 						EndIf
 
 						VisitAPlayer()
-						If _Sleep(1500) Then Return
+						If _Sleep(500) Then Return
 						SetLog("Exiting ...", $COLOR_OLIVE)
 						If _Sleep(Random(2000, 3000, 1)) Then Return
 						ReturnHomeFromHumanization()
@@ -394,41 +391,41 @@ Func LookAtCurrentWar()
 	
 	If Not @error Then
 		If _Sleep(250) Then Return
-		If ($g_bClanWar = True Or $g_bClanWarLeague = True) And $IsStepWar = True Then ; If any war step
+		If ($g_bClanWar Or $g_bClanWarLeague) And $IsStepWar Then ; If any war step
 
 			If IsWarMenu() Then
 				Local $sWarMode = ($g_bClanWarLeague = True) ? ("Current CWL war") : ("Current War")
 				SetLog("Let's Examine The " & $sWarMode & " Map ...", $COLOR_BLUE)
-				If $g_bClanWar = True And $g_HowManyPlayersInCW < 10 Then
+				If $g_bClanWar And $g_HowManyPlayersInCW < 10 Then
 					SetLog("Little War : No Scroll", $COLOR_OLIVE)
-				ElseIf $g_bClanWar = True And $g_HowManyPlayersInCW > 10 And $g_HowManyPlayersInCW < 20 Then
+				ElseIf $g_bClanWar And $g_HowManyPlayersInCW > 10 And $g_HowManyPlayersInCW < 20 Then
 					Scroll(Random(1, 2, 1))
-				ElseIf $g_bClanWar = True And $g_HowManyPlayersInCW >= 20 And $g_HowManyPlayersInCW < 40 Then
+				ElseIf $g_bClanWar And $g_HowManyPlayersInCW >= 20 And $g_HowManyPlayersInCW < 40 Then
 					Scroll(Random(1, 3, 1))
-				ElseIf $g_bClanWar = True And $g_HowManyPlayersInCW >= 40 Then
+				ElseIf $g_bClanWar And $g_HowManyPlayersInCW >= 40 Then
 					Scroll(Random(1, 4, 1))
 				EndIf
 				If _Sleep(3000) Then Return
 				If Not $g_bRunState Then Return
 
-				If $g_bClanWarLeague = True And $g_HowManyPlayersInCWL < 10 Then
+				If $g_bClanWarLeague And $g_HowManyPlayersInCWL < 10 Then
 					SetLog("Little War : No Scroll", $COLOR_OLIVE)
-				ElseIf $g_bClanWarLeague = True And $g_HowManyPlayersInCWL > 10 And $g_HowManyPlayersInCWL < 20 Then
+				ElseIf $g_bClanWarLeague And $g_HowManyPlayersInCWL > 10 And $g_HowManyPlayersInCWL < 20 Then
 					Scroll(Random(1, 2, 1))
-				ElseIf $g_bClanWarLeague = True And $g_HowManyPlayersInCWL >= 20 And $g_HowManyPlayersInCWL < 40 Then
+				ElseIf $g_bClanWarLeague And $g_HowManyPlayersInCWL >= 20 And $g_HowManyPlayersInCWL < 40 Then
 					Scroll(Random(1, 3, 1))
-				ElseIf $g_bClanWarLeague = True And $g_HowManyPlayersInCWL >= 40 Then
+				ElseIf $g_bClanWarLeague And $g_HowManyPlayersInCWL >= 40 Then
 					Scroll(Random(1, 4, 1))
 				EndIf
 				If _Sleep(3000) Then Return
 				If Not $g_bRunState Then Return
 
-				If $g_bClanWar = True And $IsWarDay = False Then ; CW in Preparation / Switch/Scroll
+				If $g_bClanWar And $IsWarDay Then ; CW in Preparation / Switch/Scroll
 					Local $Switchterritory = Random(0, 1, 1)
 					Local $Switchterritory2 = Random(0, 1, 1)
 					If $Switchterritory = 1 Then
 						SetLog("Switch To Enemy Territory", $COLOR_DEBUG)
-						Sleep(Random(1000, 2000, 1))
+						If _Sleep(Random(1000, 2000, 1)) Then Return
 						Click(790, 340 + $g_iMidOffsetY) ; Switch territory
 						If _Sleep(Random(2000, 3000, 1)) Then Return
 						If Not $g_bRunState Then Return
@@ -450,7 +447,7 @@ Func LookAtCurrentWar()
 						Else
 							SetLog("Switch To Enemy Territory", $COLOR_DEBUG)
 						EndIf
-						Sleep(Random(1000, 2000, 1))
+						If _Sleep(Random(1000, 2000, 1)) Then Return
 						Click(790, 340 + $g_iMidOffsetY) ; Switch territory
 						If _Sleep(Random(2000, 3000, 1)) Then Return
 						If Not $g_bRunState Then Return
@@ -466,13 +463,13 @@ Func LookAtCurrentWar()
 					EndIf
 					If _Sleep(Random(2000, 3000, 1)) Then Return
 					If Not $g_bRunState Then Return
-				ElseIf $g_bClanWar = True And ($IsWarDay = True Or $IsWarEnded = True) Then ; CW in war or ended / Switch/Scroll
-					If $IsWarEnded = False Then
+				ElseIf $g_bClanWar And ($IsWarDay Or $IsWarEnded) Then ; CW in war or ended / Switch/Scroll
+					If Not $IsWarEnded Then
 						Local $Switchterritory = Random(0, 1, 1)
 						Local $Switchterritory2 = Random(0, 1, 1)
 						If $Switchterritory = 1 Then
 							SetLog("Switch To Home Territory", $COLOR_DEBUG)
-							Sleep(Random(1000, 2000, 1))
+							If _Sleep(Random(1000, 2000, 1)) Then Return
 							Click(790, 340 + $g_iMidOffsetY) ; Switch territory
 							If _Sleep(Random(2000, 3000, 1)) Then Return
 							If Not $g_bRunState Then Return
@@ -492,7 +489,7 @@ Func LookAtCurrentWar()
 							Else
 								SetLog("Switch To Home Territory", $COLOR_DEBUG)
 							EndIf
-							Sleep(Random(1000, 2000, 1))
+							If _Sleep(Random(1000, 2000, 1)) Then Return
 							Click(790, 340 + $g_iMidOffsetY) ; Switch territory
 							If _Sleep(Random(2000, 3000, 1)) Then Return
 							If Not $g_bRunState Then Return
@@ -508,12 +505,12 @@ Func LookAtCurrentWar()
 						EndIf
 						If _Sleep(Random(2000, 3000, 1)) Then Return
 						If Not $g_bRunState Then Return
-					ElseIf $IsWarEnded = True Then
+					ElseIf $IsWarEnded Then
 						Local $Switchterritory = Random(0, 1, 1)
 						Local $Switchterritory2 = Random(0, 1, 1)
 						If $Switchterritory = 1 Then
 							SetLog("Switch To Enemy Territory", $COLOR_DEBUG)
-							Sleep(Random(1000, 2000, 1))
+							If _Sleep(Random(1000, 2000, 1)) Then Return
 							Click(790, 340 + $g_iMidOffsetY) ; Switch territory
 							If _Sleep(Random(2000, 3000, 1)) Then Return
 							If Not $g_bRunState Then Return
@@ -533,7 +530,7 @@ Func LookAtCurrentWar()
 							Else
 								SetLog("Switch To Enemy Territory", $COLOR_DEBUG)
 							EndIf
-							Sleep(Random(1000, 2000, 1))
+							If _Sleep(Random(1000, 2000, 1)) Then Return
 							Click(790, 340 + $g_iMidOffsetY) ; Switch territory
 							If _Sleep(Random(2000, 3000, 1)) Then Return
 							If Not $g_bRunState Then Return
@@ -552,15 +549,15 @@ Func LookAtCurrentWar()
 					EndIf
 				EndIf
 
-				If ($g_bClanWarLeague = True And $IsAllowedPreparationDay = False) Or $IsWarDay = True Or $IsWarEnded = True Or $g_bClanWar = True Then
+				If ($g_bClanWarLeague And Not $IsAllowedPreparationDay) Or $IsWarDay Or $IsWarEnded Or $g_bClanWar Then
 					SetLog("Open War Details Menu ...", $COLOR_BLUE)
-					If $g_bClanWar = True Then Click(800, 610 + $g_iBottomOffsetY) ; go to war details
-					If $g_bClanWarLeague = True Then Click(810, 540 + $g_iMidOffsetY) ; go to Cwl war details
+					If $g_bClanWar Then Click(800, 610 + $g_iBottomOffsetY) ; go to war details
+					If $g_bClanWarLeague Then Click(810, 540 + $g_iMidOffsetY) ; go to Cwl war details
 					If _Sleep(Random(2000, 3000, 1)) Then Return
 					If Not $g_bRunState Then Return
 
 					If IsClanOverview() Then
-						If $IsWarDay = True Or $IsWarEnded = True Then ; CW and CWL in war or ended
+						If $IsWarDay Or $IsWarEnded Then ; CW and CWL in war or ended
 							Local $FirstMenu = Random(1, 2, 1)
 							Switch $FirstMenu
 								Case 1
@@ -570,8 +567,8 @@ Func LookAtCurrentWar()
 								Case 2
 									SetLog("Looking At War Events ...", $COLOR_DEBUG)
 									Click(360, 50 + $g_iMidOffsetY) ; click second tab
-									If $g_bClanWar = True Then
-										If $IsWarEnded = False Then
+									If $g_bClanWar Then
+										If Not $IsWarEnded Then
 											If $g_HowManyPlayersInCW < 10 Then
 												SetLog("Little War : No Scroll", $COLOR_OLIVE)
 											ElseIf $g_HowManyPlayersInCW > 10 And $g_HowManyPlayersInCW < 20 Then
@@ -581,7 +578,7 @@ Func LookAtCurrentWar()
 											ElseIf $g_HowManyPlayersInCW >= 40 Then
 												Scroll(Random(1, 4, 1))
 											EndIf
-										ElseIf $IsWarEnded = True Then
+										ElseIf $IsWarEnded Then
 											If $g_HowManyPlayersInCW < 10 Then
 												Scroll(Random(0, 1, 1))
 											ElseIf $g_HowManyPlayersInCW > 10 And $g_HowManyPlayersInCW < 20 Then
@@ -592,8 +589,8 @@ Func LookAtCurrentWar()
 												Scroll(Random(1, 5, 1))
 											EndIf
 										EndIf
-									ElseIf $g_bClanWarLeague = True Then
-										If $IsWarEnded = False Then
+									ElseIf $g_bClanWarLeague Then
+										If Not $IsWarEnded Then
 											If $g_HowManyPlayersInCWL < 10 Then
 												SetLog("Little War : No Scroll", $COLOR_OLIVE)
 											ElseIf $g_HowManyPlayersInCWL > 10 And $g_HowManyPlayersInCWL < 20 Then
@@ -603,7 +600,7 @@ Func LookAtCurrentWar()
 											ElseIf $g_HowManyPlayersInCWL >= 40 Then
 												Scroll(Random(1, 4, 1))
 											EndIf
-										ElseIf $IsWarEnded = True Then
+										ElseIf $IsWarEnded Then
 											If $g_HowManyPlayersInCWL < 10 Then
 												Scroll(Random(0, 1, 1))
 											ElseIf $g_HowManyPlayersInCWL > 10 And $g_HowManyPlayersInCWL < 20 Then
@@ -618,13 +615,13 @@ Func LookAtCurrentWar()
 									If _Sleep(1500) Then Return
 									If Not $g_bRunState Then Return
 							EndSwitch
-						ElseIf $IsWarDay = False And $IsWarEnded = False Then ; CW and CWL Preparation
+						ElseIf Not $IsWarDay And Not $IsWarEnded Then ; CW and CWL Preparation
 							Local $FirstMenu = Random(1, 2, 1)
 							Switch $FirstMenu
 								Case 1
 									SetLog("Looking At My Team Tab ...", $COLOR_DEBUG)
 									Click(180, 50 + $g_iMidOffsetY) ; click first tab
-									If $g_bClanWar = True Then
+									If $g_bClanWar Then
 										If $g_HowManyPlayersInCW < 10 Then
 											SetLog("Little War : No Scroll", $COLOR_OLIVE)
 										ElseIf $g_HowManyPlayersInCW > 10 And $g_HowManyPlayersInCW < 20 Then
@@ -636,7 +633,7 @@ Func LookAtCurrentWar()
 										EndIf
 										If _Sleep(1500) Then Return
 										If Not $g_bRunState Then Return
-									ElseIf $g_bClanWarLeague = True Then
+									ElseIf $g_bClanWarLeague Then
 										If $g_HowManyPlayersInCWL < 10 Then
 											SetLog("Little War : No Scroll", $COLOR_OLIVE)
 										ElseIf $g_HowManyPlayersInCWL > 10 And $g_HowManyPlayersInCWL < 20 Then
@@ -652,7 +649,7 @@ Func LookAtCurrentWar()
 								Case 2
 									SetLog("Looking At Enemy Team Tab ...", $COLOR_DEBUG)
 									Click(360, 50 + $g_iMidOffsetY) ; click second tab
-									If $g_bClanWar = True Then
+									If $g_bClanWar Then
 										If $g_HowManyPlayersInCW < 10 Then
 											SetLog("Little War : No Scroll", $COLOR_OLIVE)
 										ElseIf $g_HowManyPlayersInCW > 10 And $g_HowManyPlayersInCW < 20 Then
@@ -664,7 +661,7 @@ Func LookAtCurrentWar()
 										EndIf
 										If _Sleep(1500) Then Return
 										If Not $g_bRunState Then Return
-									ElseIf $g_bClanWarLeague = True Then
+									ElseIf $g_bClanWarLeague Then
 										If $g_HowManyPlayersInCWL < 10 Then
 											SetLog("Little War : No Scroll", $COLOR_OLIVE)
 										ElseIf $g_HowManyPlayersInCWL > 10 And $g_HowManyPlayersInCWL < 20 Then
@@ -680,15 +677,15 @@ Func LookAtCurrentWar()
 							EndSwitch
 						EndIf
 
-						If _Sleep(Random(3000, 6000, 1)) Then Return ; This _Sleep return is for return if bot stops
+						If _Sleep(Random(3000, 6000, 1)) Then Return
 
-						If $IsWarDay = False And $IsWarEnded = False Then ; CW And CWL preparation
+						If Not $IsWarDay And Not $IsWarEnded Then ; CW And CWL preparation
 							Local $SecondMenu = Random(1, 2, 1)
 							Switch $SecondMenu
 								Case 1
 									SetLog("Looking At Attacks Tab ...", $COLOR_DEBUG)
 									Click(260, 105 + $g_iMidOffsetY) ; click the Attacks tab
-									If $g_bClanWar = True Then
+									If $g_bClanWar Then
 										If $g_HowManyPlayersInCW < 10 Then
 											SetLog("Little War : No Scroll", $COLOR_OLIVE)
 										ElseIf $g_HowManyPlayersInCW > 10 And $g_HowManyPlayersInCW < 20 Then
@@ -698,7 +695,7 @@ Func LookAtCurrentWar()
 										ElseIf $g_HowManyPlayersInCW >= 40 Then
 											Scroll(Random(1, 4, 1))
 										EndIf
-									ElseIf $g_bClanWarLeague = True Then
+									ElseIf $g_bClanWarLeague Then
 										If $g_HowManyPlayersInCWL < 10 Then
 											SetLog("Little War : No Scroll", $COLOR_OLIVE)
 										ElseIf $g_HowManyPlayersInCWL > 10 And $g_HowManyPlayersInCWL < 20 Then
@@ -714,7 +711,7 @@ Func LookAtCurrentWar()
 								Case 2
 									SetLog("Looking At Defenses Tab ...", $COLOR_DEBUG)
 									Click(630, 105 + $g_iMidOffsetY) ; click the Defenses tab
-									If $g_bClanWar = True Then
+									If $g_bClanWar Then
 										If $g_HowManyPlayersInCW < 10 Then
 											SetLog("Little War : No Scroll", $COLOR_OLIVE)
 										ElseIf $g_HowManyPlayersInCW > 10 And $g_HowManyPlayersInCW < 20 Then
@@ -724,7 +721,7 @@ Func LookAtCurrentWar()
 										ElseIf $g_HowManyPlayersInCW >= 40 Then
 											Scroll(Random(1, 4, 1))
 										EndIf
-									ElseIf $g_bClanWarLeague = True Then
+									ElseIf $g_bClanWarLeague Then
 										If $g_HowManyPlayersInCWL < 10 Then
 											SetLog("Little War : No Scroll", $COLOR_OLIVE)
 										ElseIf $g_HowManyPlayersInCWL > 10 And $g_HowManyPlayersInCWL < 20 Then
@@ -738,7 +735,7 @@ Func LookAtCurrentWar()
 									If _Sleep(1500) Then Return
 									If Not $g_bRunState Then Return
 							EndSwitch
-						ElseIf $IsWarDay = True Or $IsWarEnded = True Then ; CW and CWL in war or ended
+						ElseIf $IsWarDay Or $IsWarEnded Then ; CW and CWL in war or ended
 							Local $SecondMenu = Random(1, 2, 1)
 							Switch $SecondMenu
 								Case 1
@@ -756,7 +753,7 @@ Func LookAtCurrentWar()
 									EndSwitch
 									If _Sleep(1500) Then Return
 									If Not $g_bRunState Then Return
-									If $g_bClanWar = True Then
+									If $g_bClanWar Then
 										If $g_HowManyPlayersInCW < 10 Then
 											SetLog("Little War : No Scroll", $COLOR_OLIVE)
 										ElseIf $g_HowManyPlayersInCW > 10 And $g_HowManyPlayersInCW < 20 Then
@@ -766,7 +763,7 @@ Func LookAtCurrentWar()
 										ElseIf $g_HowManyPlayersInCW >= 40 Then
 											Scroll(Random(1, 4, 1))
 										EndIf
-									ElseIf $g_bClanWarLeague = True Then
+									ElseIf $g_bClanWarLeague Then
 										If $g_HowManyPlayersInCWL < 10 Then
 											SetLog("Little War : No Scroll", $COLOR_OLIVE)
 										ElseIf $g_HowManyPlayersInCWL > 10 And $g_HowManyPlayersInCWL < 20 Then
@@ -792,7 +789,7 @@ Func LookAtCurrentWar()
 									EndSwitch
 									If _Sleep(1500) Then Return
 									If Not $g_bRunState Then Return
-									If $g_bClanWar = True Then
+									If $g_bClanWar Then
 										If $g_HowManyPlayersInCW < 10 Then
 											SetLog("Little War : No Scroll", $COLOR_OLIVE)
 										ElseIf $g_HowManyPlayersInCW > 10 And $g_HowManyPlayersInCW < 20 Then
@@ -802,7 +799,7 @@ Func LookAtCurrentWar()
 										ElseIf $g_HowManyPlayersInCW >= 40 Then
 											Scroll(Random(1, 4, 1))
 										EndIf
-									ElseIf $g_bClanWarLeague = True Then
+									ElseIf $g_bClanWarLeague Then
 										If $g_HowManyPlayersInCWL < 10 Then
 											SetLog("Little War : No Scroll", $COLOR_OLIVE)
 										ElseIf $g_HowManyPlayersInCWL > 10 And $g_HowManyPlayersInCWL < 20 Then
@@ -815,7 +812,7 @@ Func LookAtCurrentWar()
 									EndIf
 							EndSwitch
 						EndIf
-						If _Sleep(Random(3000, 5000, 1)) Then Return
+						If _Sleep(Random(2000, 4000, 1)) Then Return
 						CloseWindow()
 						If Not $g_bRunState Then Return
 					Else
@@ -832,9 +829,9 @@ Func LookAtCurrentWar()
 		SetLog("Error When Trying To Open War Details Window ... Skipping ...", $COLOR_WARNING)
 	EndIf
 	
-	If $IsStepWar = True Then
+	If $IsStepWar Then
 		Local $Is3tabstoclick = Random(0, 4, 1)
-		If $g_bClanWarLeague = True And $Is3tabstoclick >= 2 Then
+		If $g_bClanWarLeague And $Is3tabstoclick >= 2 Then
 			SetLog("Look at Season Info", $COLOR_BLUE)
 			Click(796, 615 + $g_iBottomOffsetY) ; go to Cwl Season Info
 			If _Sleep(Random(2000, 3000, 1)) Then Return
@@ -859,6 +856,12 @@ Func LookAtCurrentWar()
 		EndIf
 	EndIf
 	If _Sleep(Random(2000, 4000, 1)) Then Return
+	
+	If $g_bClanWarLeague And QuickMIS("BC1", $directoryDay & "\CWL_Battle", 175, 585 + $g_iBottomOffsetY, 690, 615 + $g_iBottomOffsetY, True, False) Then ; When Battle Day Is Unselected
+		SetLog("Back To Battle Day", $COLOR_OLIVE)
+		Click($g_iQuickMISX - 5, $g_iQuickMISY + 12)
+		If _Sleep(1500) Then Return
+	EndIf
 
 	$IsAllowedPreparationDay = True
 	$IsARandomDay = False
@@ -869,11 +872,10 @@ EndFunc   ;==>LookAtCurrentWar
 
 Func WatchWarReplays()
 	Local $sResult, $bResult
-	Local $xBattleDay = Random(0, 6, 1)
 	$IsAllowedPreparationDay = False
-	CheckWarTime($sResult, $bResult, False)
+	CheckWarTime($sResult, $bResult, False, True)
 	
-	If $IsStepWar = False Then
+	If Not $IsStepWar Then
 		SetLog("Your Clan Is Not In Active War Yet ... Skipping ...", $COLOR_WARNING)
 		If _Sleep(1500) Then Return
 		If Not $g_bRunState Then Return
@@ -886,112 +888,102 @@ Func WatchWarReplays()
 	If Not @error Then
 		If _Sleep(250) Then Return
 		If Not $g_bRunState Then Return
-		If ($g_bClanWar = True Or $g_bClanWarLeague = True) And ($IsWarDay = True Or $IsWarEnded = True Or $IsARandomDay = True) Then
+		If ($g_bClanWar Or $g_bClanWarLeague) And ($IsWarDay Or $IsWarEnded Or $IsARandomDay) Then
 			SetLog("Open War Details Menu ...", $COLOR_BLUE)
-			If $g_bClanWar = True Then Click(800, 610 + $g_iBottomOffsetY) ; go to war details
+			
+			If $g_bClanWar Then Click(800, 610 + $g_iBottomOffsetY) ; go to war details
 			If _Sleep(Random(2000, 3000, 1)) Then Return
-
-			If $IsWarEnded = True And $g_bClanWarLeague = True Then
-				SetLog("Open Random Day", $COLOR_OLIVE)
-				If $xBattleDay = 0 Then SetLog("Last Day", $COLOR_BLUE)
-				If $xBattleDay = 1 Then SetLog("Day 6", $COLOR_BLUE)
-				If $xBattleDay = 2 Then SetLog("Day 5", $COLOR_BLUE)
-				If $xBattleDay = 3 Then SetLog("Day 4", $COLOR_BLUE)
-				If $xBattleDay = 4 Then SetLog("Day 3", $COLOR_BLUE)
-				If $xBattleDay = 5 Then SetLog("Day 2", $COLOR_BLUE)
-				If $xBattleDay = 6 Then SetLog("Day 1", $COLOR_BLUE)
-				Click(662 - ($xBattleDay * 77), 645 + $g_iMidOffsetY)
-			EndIf
-
-			If $g_bClanWarLeague = True Then
-				Sleep(Random(4000, 5000, 1))
-				Click(810, 540 + $g_iMidOffsetY) ; go to Cwl war details
-			EndIf
-			If _Sleep(1500) Then Return
 			If Not $g_bRunState Then Return
-
-			If $IsWarDay = True Or $IsWarEnded = True Or $IsARandomDay = True Then
+			
+			If $g_bClanWarLeague Then Click(810, 540 + $g_iMidOffsetY) ; go to Cwl war details
+			If _Sleep(Random(2000, 3000, 1)) Then Return
+			
+			If $IsWarDay Or $IsWarEnded Or $IsARandomDay Then
 			
 				If IsClanOverview() Then
-					Sleep(Random(1000, 2000, 1))
+					If _Sleep(Random(1000, 2000, 1)) Then Return
 					SetLog("Looking At Second Tab ...", $COLOR_DEBUG)
 					Click(360, 50 + $g_iMidOffsetY) ; go to replays tab
-					Sleep(Random(1000, 2000, 1))
-					If _Sleep(1500) Then Return
+					If _Sleep(Random(1500, 2000, 1)) Then Return
 					If Not $g_bRunState Then Return
 
-					If IsBestClans() Then
-						Local $aSarea[4] = [780, 210 + $g_iMidOffsetY, 840, 610 + $g_iBottomOffsetY]
-						Local $vReplayNumber = findMultipleQuick($g_sImgHumanizationReplay, 6, $aSarea, True, "", False, 36)
-						If UBound($vReplayNumber) > 0 And Not @error Then
-							SetLog("There Are " & UBound($vReplayNumber) & " Replays To Watch ... We Will Choose One Of Them ...", $COLOR_INFO)
-							Local $iReplayToLaunch = Random(0, UBound($vReplayNumber) - 1, 1)
+					Local $aSarea[4] = [780, 210 + $g_iMidOffsetY, 840, 610 + $g_iBottomOffsetY]
+					Local $vReplayNumber = findMultipleQuick($g_sImgHumanizationReplay, 6, $aSarea, True, "", False, 36)
+					If UBound($vReplayNumber) > 0 And Not @error Then
+						SetLog("There Are " & UBound($vReplayNumber) & " Replays To Watch ... We Will Choose One Of Them ...", $COLOR_INFO)
+						Local $iReplayToLaunch = Random(0, UBound($vReplayNumber) - 1, 1)
 
-							Click($vReplayNumber[$iReplayToLaunch][1], $vReplayNumber[$iReplayToLaunch][2]) ; click on the choosen replay
+						Click($vReplayNumber[$iReplayToLaunch][1], $vReplayNumber[$iReplayToLaunch][2]) ; click on the choosen replay
 
-							WaitForReplayWindow()
+						WaitForReplayWindow()
+
+						If IsReplayWindow() Then
+							GetReplayDuration(1)
+							If _Sleep(1000) Then Return
+							If Not $g_bRunState Then Return
 
 							If IsReplayWindow() Then
-								GetReplayDuration(1)
-								If _Sleep(1000) Then Return
-								If Not $g_bRunState Then Return
-
-								If IsReplayWindow() Then
-									AccelerateReplay(1)
-								EndIf
-
-								If _Sleep($g_aReplayDuration[1] / 3) Then Return
-
-								If IsReplayWindow() Then
-									DoAPauseDuringReplay(1)
-								EndIf
-
-								If _Sleep($g_aReplayDuration[1] / 3) Then Return
-
-								If IsReplayWindow() And $g_aReplayDuration[0] <> 0 Then
-									DoAPauseDuringReplay(1)
-								EndIf
-
-								SetLog("Waiting For Replay End ...", $COLOR_ACTION)
-
-								While IsReplayWindow()
-									If _Sleep(1000) Then Return
-									If Not $g_bRunState Then Return
-								WEnd
-
-								If _Sleep(1000) Then Return
-								If Not $g_bRunState Then Return
-								
-								Local $aBack = findButton("AttackButton", Default, 1, True)
-								If IsArray($aBack) And UBound($aBack, 1) = 2 Then
-									ClickP($aBack)
-								EndIf	
-									
-								If _Sleep(Random(2000, 3000, 1)) Then Return
-								Click(60 + Random(0, 700, 1), 25 + Random(0, 5, 1)) ; Click to get any window away
+								AccelerateReplay(1)
 							EndIf
-						Else
-							SetLog("No Replay To Watch Yet ... Skipping ...", $COLOR_WARNING)
+
+							If _Sleep($g_aReplayDuration[1] / 3) Then Return
+
+							If IsReplayWindow() Then
+								DoAPauseDuringReplay(1)
+							EndIf
+
+							If _Sleep($g_aReplayDuration[1] / 3) Then Return
+
+							If IsReplayWindow() And $g_aReplayDuration[0] <> 0 Then
+								DoAPauseDuringReplay(1)
+							EndIf
+
+							SetLog("Waiting For Replay End ...", $COLOR_ACTION)
+
+							While IsReplayWindow()
+								If _Sleep(1000) Then Return
+								If Not $g_bRunState Then Return
+							WEnd
+
+							If _Sleep(1000) Then Return
+							If Not $g_bRunState Then Return
+								
+							Local $aBack = findButton("AttackButton", Default, 1, True)
+							If IsArray($aBack) And UBound($aBack, 1) = 2 Then
+								ClickP($aBack)
+							EndIf	
+									
+							If _Sleep(Random(1000, 2000, 1)) Then Return
+							Click(60 + Random(0, 700, 1), 25 + Random(0, 5, 1)) ; Click to get any window away
+							If _Sleep(Random(2000, 3000, 1)) Then Return
 						EndIf
 					Else
-						SetLog("Error When Trying To Open Replays Menu ... Skipping ...", $COLOR_WARNING)
+						SetLog("No Replay To Watch Yet ... Skipping ...", $COLOR_WARNING)
 					EndIf
 				Else
 					SetLog("Error When Trying to Open War Details Window ... Skipping ...", $COLOR_WARNING)
 				EndIf
 
-				If _ColorCheck(_GetPixelColor(826, 95, True), "FFFFFF", 20) And $g_bClanWarLeague = True Then
+				If _ColorCheck(_GetPixelColor(826, 95, True), "FFFFFF", 20) And $g_bClanWarLeague Then
 				Local $iSleepForWindow = Random(3000, 5000)
-				Sleep($iSleepForWindow)
+				If _Sleep($iSleepForWindow) Then Return
 				Click(60 + Random(0, 700, 1), 25 + Random(0, 5, 1)) ; Click to get any window away
 				Local $iSleepForWindow2 = Random(2000, 4000)
-				Sleep($iSleepForWindow2)
+				If _Sleep($iSleepForWindow2) Then Return
 				EndIf
 
-				If $IsWarEnded = True And $g_bClanWarLeague = True Then
-					If _Sleep(Random(2000, 4000, 1)) Then Return
+				If $IsWarEnded And $g_bClanWarLeague Then
+					If _Sleep(Random(2000, 3000, 1)) Then Return
 					Click(662, 615 + $g_iBottomOffsetY)
+					If _Sleep(2500) Then Return
 				EndIf
+				
+				If $g_bClanWarLeague And QuickMIS("BC1", $directoryDay & "\CWL_Battle", 175, 585 + $g_iBottomOffsetY, 690, 615 + $g_iBottomOffsetY, True, False) Then
+					If _Sleep(Random(2000, 3000, 1)) Then Return
+					SetLog("Back To Battle Day", $COLOR_OLIVE)
+					Click($g_iQuickMISX - 5, $g_iQuickMISY + 12)
+					If _Sleep(2500) Then Return
+				EndIf	
 
 			Else
 				SetLog("Your Clan Is Not In Active War Yet ... Skipping ...", $COLOR_WARNING)
@@ -1126,7 +1118,6 @@ Func WatchAttack()
 				If $IsBoring >= 4 Then
 					If IsReplayWindow() Then
 						SetLog("This Replay Is Boring, Let Me Go Out ...", $COLOR_OLIVE)
-						If _Sleep(1000) Then Return
 						SetLog("Exiting ...", $COLOR_OLIVE)
 						If _Sleep(Random(2000, 3000, 1)) Then Return
 						Click(70, 620 + $g_iBottomOffsetY) ; return home
@@ -1149,7 +1140,6 @@ Func WatchAttack()
 						If Not $g_bRunState Then Return
 					WEnd
 
-					If _Sleep(1000) Then Return
 					SetLog("Exiting ...", $COLOR_OLIVE)
 					If _Sleep(Random(2000, 3000, 1)) Then Return
 					ReturnHomeFromHumanization()
@@ -1184,7 +1174,7 @@ Func BotHumanization()
 			$g_iMaxActionsNumber = Random(1, ($g_iCmbMaxActionsNumber + 1), 1)
 			SetLog("The Bot Will Do " & $g_iMaxActionsNumber & " Human Actions During This Loop ...", $COLOR_INFO)
 			For $i = 1 To $g_iMaxActionsNumber
-				If _Sleep(4000) Then Return
+				If _Sleep(2000) Then Return
 				ReturnAtHome()
 				RandomHumanAction()
 			Next
@@ -1192,7 +1182,7 @@ Func BotHumanization()
 			SetLog("All Actions Disabled, Skipping ...", $COLOR_WARNING)
 		EndIf
 		SetLog("Bot Humanization Finished !", $COLOR_SUCCESS1)
-		If _Sleep(3000) Then Return
+		If _Sleep(1500) Then Return
 	EndIf
 EndFunc   ;==>BotHumanization
 
@@ -1341,7 +1331,7 @@ Func MatchPriorityNValue($ActionNumber)
 		Case 4
 			$g_iMinimumPriority = 90
 		Case 5
-			$g_iMinimumPriority = 98
+			$g_iMinimumPriority = 97
 	EndSwitch
 EndFunc   ;==>MatchPriorityNValue
 
@@ -1361,26 +1351,25 @@ Func IsReplayWindow()
 EndFunc   ;==>IsReplayWindow
 
 Func GetReplayDuration($g_iReplayToPause) ; will work with this but can update to make time exact.
-	Local $LoteryMaxSpeedrandom2 = Random(1, 3, 1)
+	Local $LoteryMaxSpeedrandom2 = Random(1, 4, 1)
 	Switch $LoteryMaxSpeedrandom2
 		Case 1
 			Global $MaxSpeedrandom2 = 1
 		Case 2
 			Global $MaxSpeedrandom2 = 2
-		Case 3
+		Case 3, 4
 			Global $MaxSpeedrandom2 = 4
 	EndSwitch
 	Local $MaxSpeed = _GUICtrlComboBox_GetCurSel($g_acmbMaxSpeed[$g_iReplayToPause])
 	If $MaxSpeed = 3 Then
-		If $MaxSpeedrandom2 = 4 Then
-			$MaxSpeed = 2
-		EndIf
-		If $MaxSpeedrandom2 = 2 Then
-			$MaxSpeed = 1
-		EndIf
-		If $MaxSpeedrandom2 = 1 Then
-			$MaxSpeed = 0
-		EndIf
+		Switch $MaxSpeedrandom2
+			Case 4
+				$MaxSpeed = 2
+			Case 2
+				$MaxSpeed = 1
+			Case 1
+				$MaxSpeed = 0
+		EndSwitch
 	ElseIf $MaxSpeed < 3 Then
 		$MaxSpeed = _GUICtrlComboBox_GetCurSel($g_acmbMaxSpeed[$g_iReplayToPause])
 	EndIf
@@ -1411,28 +1400,26 @@ Func AccelerateReplay($g_iReplayToPause)
 	Local $CurrentSpeed = 0
 	Local $MaxSpeed = _GUICtrlComboBox_GetCurSel($g_acmbMaxSpeed[$g_iReplayToPause])
 	If $MaxSpeed = 3 Then
-		If $MaxSpeedrandom2 = 4 Then
-			$MaxSpeed = 2
-		EndIf
-		If $MaxSpeedrandom2 = 2 Then
-			$MaxSpeed = 1
-		EndIf
-		If $MaxSpeedrandom2 = 1 Then
-			$MaxSpeed = 0
-		EndIf
+		Switch $MaxSpeedrandom2
+			Case 4
+				$MaxSpeed = 2
+			Case 2
+				$MaxSpeed = 1
+			Case 1
+				$MaxSpeed = 0
+		EndSwitch
 		SetLog("Replay Speed : " & $MaxSpeedrandom2 & "X", $COLOR_OLIVE)
 	ElseIf $MaxSpeed < 3 Then
 		$MaxSpeed = _GUICtrlComboBox_GetCurSel($g_acmbMaxSpeed[$g_iReplayToPause])
 		Local $ReplaySpeed = 0
-		If $MaxSpeed = 2 Then
-			$ReplaySpeed = 4
-		EndIf
-		If $MaxSpeed = 1 Then
-			$ReplaySpeed = 2
-		EndIf
-		If $MaxSpeed = 0 Then
-			$ReplaySpeed = 1
-		EndIf
+		Switch $MaxSpeed
+			Case 2
+				$ReplaySpeed = 4
+			Case 1
+				$ReplaySpeed = 2
+			Case 0
+				$ReplaySpeed = 1
+		EndSwitch
 		SetLog("Replay Speed : " & $ReplaySpeed & "X", $COLOR_OLIVE)
 	EndIf
 	If $CurrentSpeed <> $MaxSpeed Then SetLog("Let's Make The Replay Faster ...", $COLOR_OLIVE)
@@ -1461,7 +1448,7 @@ Func DoAPauseDuringReplay($g_iReplayToPause)
 		If $PauseScore > $MinimumToPause Then
 			SetLog("Let's Do a Small Pause To See What Happens ...", $COLOR_OLIVE)
 			Click(750, 630 + $g_iBottomOffsetY) ; click pause button
-			_Sleep(Random(1000, 3000))
+			If _Sleep(Random(1000, 2500)) Then Return
 			SetLog("Pause Finished, Let's Relaunch Replay!", $COLOR_OLIVE)
 			Click(750, 630 + $g_iBottomOffsetY) ; click play button
 		EndIf
@@ -1469,37 +1456,66 @@ Func DoAPauseDuringReplay($g_iReplayToPause)
 EndFunc   ;==>DoAPauseDuringReplay
 
 Func VisitAPlayer()
-	If _Sleep(1000) Then Return
 	SetLog("Let's Visit a Player ...", $COLOR_INFO)
 	If QuickMIS("BC1", $g_sImgHumanizationVisit) Then
 		Click($g_iQuickMISX, $g_iQuickMISY)
-		If _Sleep(Random(3000, 4000)) Then Return
+		If _Sleep(Random(4500, 6000)) Then Return
 		
 		If Random(0, 2, 1) < 2 Then
-			If QuickMIS("BC1", $g_sImgPlayerProfil, 180, 12, 210, 35) Then
+			If QuickMIS("BC1", $g_sImgPlayerProfil, 60, 10, 250, 40) Then
 				SetLog("Check His Profil", $COLOR_OLIVE)
 				Click($g_iQuickMISX, $g_iQuickMISY)
 				If _Sleep(2000) Then Return
 				
 				Local $yCoordOffset = 0
-				If QuickMIS("BC1", $g_sImgLegend, 360, 400 + $g_iMidOffsetY, 430, 430 + $g_iMidOffsetY) Then
+				If QuickMIS("BC1", $g_sImgLegend, 350, 400 + $g_iMidOffsetY, 440, 430 + $g_iMidOffsetY) Then
 					$yCoordOffset = 102
 					If _Sleep(250) Then Return
 				EndIf
 				
 				Local $x = Random(200, 600, 1)
 				Local $yStart = Random(508 + $yCoordOffset, 538 + $yCoordOffset, 1)
-				Local $yEnd = Random(240, 250, 1)
+				Local $yEnd = Random(250, 260, 1)
 				
 				ClickDrag($x, $yStart, $x, $yEnd)
-				_Sleep(Random(5000, 7000))
+				If _Sleep(Random(5000, 7000)) Then Return
 				If Not $g_bRunState Then Return
 				$x = Random(200, 600, 1)
 				$yStart = Random(610, 640, 1)
 				$yEnd = Random(350, 370, 1)
 				ClickDrag($x, $yStart, $x, $yEnd)
-				_Sleep(Random(5000, 7000))
+				If _Sleep(Random(5000, 7000)) Then Return
 				If Not $g_bRunState Then Return
+				
+				Local $xVillage = Random(0, 2, 1)
+				Switch $xVillage
+					Case 1
+						SetLog("Go To Builder Base Tab", $COLOR_BLUE)
+						Click(445, 100 + $g_iMidOffsetY)
+						If _Sleep(Random(4000, 7000)) Then Return
+						If QuickMIS("BC1", $g_sImgLegend, 350, 400 + $g_iMidOffsetY, 440, 430 + $g_iMidOffsetY) Then
+							$yCoordOffset = 102
+							If _Sleep(250) Then Return
+						EndIf
+						$x = Random(200, 600, 1)
+						$yStart = Random(508 + $yCoordOffset, 538 + $yCoordOffset, 1)
+						$yEnd = Random(410, 440, 1)
+				
+						ClickDrag($x, $yStart, $x, $yEnd)
+						If _Sleep(Random(5000, 7000)) Then Return
+						If Not $g_bRunState Then Return
+					Case 2
+						SetLog("Go To Clan Capital Tab", $COLOR_BLUE)
+						Click(700, 100 + $g_iMidOffsetY)
+						If _Sleep(Random(4000, 7000)) Then Return
+						$x = Random(200, 600, 1)
+						$yStart = Random(550, 580, 1)
+						$yEnd = Random(410, 440, 1)
+				
+						ClickDrag($x, $yStart, $x, $yEnd)
+						If _Sleep(Random(5000, 7000)) Then Return
+						If Not $g_bRunState Then Return
+				EndSwitch	
 				CloseWindow()
 			EndIf	
 		EndIf
@@ -1507,7 +1523,7 @@ Func VisitAPlayer()
 		Local $aRndFuncList = ['CheckMortar', 'CheckWizard', 'CheckXBows', 'CheckInferno', 'CheckEagle', 'Scatter', 'CheckAirDefense', 'GoldStorage', 'ElixirStorage', 'THALL', 'Monolith']
 		_ArrayShuffle($aRndFuncList)
 	
-		Local $trimmed = 10 - Random(3, 6, 1)
+		Local $trimmed = 10 - Random(5, 8, 1)
 		SetLog("Bot Will Check " & $trimmed & " Types of Buildings", $COLOR_SUCCESS1)
 		For $i = 0 To (10 - $trimmed)
 			Local $sRange = 10 - $i
@@ -1532,37 +1548,37 @@ Func RunFunctionCheckBuildings($action)
 	Switch $action
 		Case "CheckMortar"
 			CheckMortar()
-			_Sleep($DELAYRUNBOT3)
+			If _Sleep($DELAYRUNBOT3) Then Return
 		Case "CheckWizard"
 			CheckWizard()
-			_Sleep($DELAYRUNBOT3)
+			If _Sleep($DELAYRUNBOT3) Then Return
 		Case "CheckXBows"
 			CheckXBows()
-			_Sleep($DELAYRUNBOT3)
+			If _Sleep($DELAYRUNBOT3) Then Return
 		Case "CheckInferno"
 			CheckInferno()
-			_Sleep($DELAYRUNBOT3)
+			If _Sleep($DELAYRUNBOT3) Then Return
 		Case "CheckEagle"
 			CheckEagle()
-			_Sleep($DELAYRUNBOT3)
+			If _Sleep($DELAYRUNBOT3) Then Return
 		Case "Scatter"
 			CheckScatter()
-			_Sleep($DELAYRUNBOT3)
+			If _Sleep($DELAYRUNBOT3) Then Return
 		Case "CheckAirDefense"
 			CheckAirDefense()
-			_Sleep($DELAYRUNBOT3)
+			If _Sleep($DELAYRUNBOT3) Then Return
 		Case "GoldStorage"
 			GoldStorage()
-			_Sleep($DELAYRUNBOT3)
+			If _Sleep($DELAYRUNBOT3) Then Return
 		Case "ElixirStorage"
 			ElixirStorage()
-			_Sleep($DELAYRUNBOT3)
+			If _Sleep($DELAYRUNBOT3) Then Return
 		Case "THALL"
 			CheckTH()
-			_Sleep($DELAYRUNBOT3)
+			If _Sleep($DELAYRUNBOT3) Then Return
 		Case "Monolith"
 			Monolith()
-			_Sleep($DELAYRUNBOT3)
+			If _Sleep($DELAYRUNBOT3) Then Return
 	EndSwitch
 EndFunc
 
@@ -1598,7 +1614,7 @@ Func CheckTH()
 	For $t = 1 to 3
 		If QuickMIS("BC1", $3DotsVisiting, 672, 425 + $g_iMidOffsetY, 697, 450 + $g_iMidOffsetY, True, False) And Random(0, 5, 1) < 2 Then
 			Click($g_iQuickMISX, $g_iQuickMISY)
-			Sleep(Random(2500, 3500, 1))
+			If _Sleep(Random(2500, 3500, 1)) Then Return
 		EndIf
 	Next
 	CloseWindow(False, True)
@@ -1617,6 +1633,7 @@ Func CheckMortar()
 	Local $yInfo = 0	
 	Local $aInd = StringSplit($aResultBuildingDetect, "|")
 	Local $RandomNumBuildingTocheck = 0
+	
 	If $aNumResultBuildingDetect > 2 Then
 		$RandomNumBuildingTocheck = Random(1, 2, 1)
 	Else
@@ -1649,9 +1666,9 @@ Func CheckMortar()
 			Local $BuildingNameFull = getOcrAndCapture("coc-build", 250, 490 + $g_iBottomOffsetY, 350, 30)
 			If Not StringInStr($BuildingNameFull, "Mortar") Then 
 				SetLog("Oups ! Wrong click", $COLOR_ACTION)
-				_Sleep(200)
+				If _Sleep(200) Then Return
 				ClickAway("Right")
-				_Sleep(1000)
+				If _Sleep(1000) Then Return
 				ContinueLoop
 			EndIf
 			Local $aResult = BuildingInfo(242, 490 + $g_iBottomOffsetY)
@@ -1662,20 +1679,19 @@ Func CheckMortar()
 				If _Sleep(Random(4000, 6000)) Then Return
 			Else
 				SetLog("Info Button Not Found", $COLOR_DEBUG)
-				_Sleep(200)
+				If _Sleep(200) Then Return
 				ClickAway("Right")
-				_Sleep(1000)
+				If _Sleep(1000) Then Return
 				ContinueLoop
 			Endif
 			
 			For $t = 1 to 3
 				If QuickMIS("BC1", $3DotsVisiting, 672, 425 + $g_iMidOffsetY, 697, 450 + $g_iMidOffsetY, True, False) And Random(0, 5, 1) < 2 Then
 					Click($g_iQuickMISX, $g_iQuickMISY)
-					Sleep(Random(2500, 3500, 1))
+					If _Sleep(Random(2500, 3500, 1)) Then Return
 				EndIf
 			Next
 			CloseWindow(False, True)
-			If _Sleep(3000) Then Return
 			If Not $g_bRunState Then Return
 			If _Sleep(Random(2000, 3000, 1)) Then Return
 			$count += 1
@@ -1695,6 +1711,7 @@ Func CheckWizard()
 	Local $yInfo = 0
 	Local $aInd = StringSplit($aResultBuildingDetect, "|")
 	Local $RandomNumBuildingTocheck = 0
+	
 	If $aNumResultBuildingDetect > 2 Then
 		$RandomNumBuildingTocheck = Random(1, 2, 1)
 	Else
@@ -1728,9 +1745,9 @@ Func CheckWizard()
 			Local $BuildingNameFull = getOcrAndCapture("coc-build", 250, 490 + $g_iBottomOffsetY, 350, 30)
 			If Not StringInStr($BuildingNameFull, "Wizard") Then 
 				SetLog("Oups ! Wrong click", $COLOR_ACTION)
-				_Sleep(200)
+				If _Sleep(200) Then Return
 				ClickAway("Right")
-				_Sleep(1000)
+				If _Sleep(1000) Then Return
 				ContinueLoop
 			EndIf
 			Local $aResult = BuildingInfo(242, 490 + $g_iBottomOffsetY)
@@ -1741,13 +1758,13 @@ Func CheckWizard()
 				If _Sleep(Random(4000, 6000)) Then Return
 			Else
 				SetLog("Info Button Not Found", $COLOR_DEBUG)
-				_Sleep(200)
+				If _Sleep(200) Then Return
 				ClickAway("Right")
-				_Sleep(1000)
+				If _Sleep(1000) Then Return
 				ContinueLoop
 			Endif
 			CloseWindow(False, True)
-			If _Sleep(3000) Then Return
+			If _Sleep(Random(2000, 3000, 1)) Then Return
 			If Not $g_bRunState Then Return
 			$count += 1
 		Else 
@@ -1766,6 +1783,7 @@ Func CheckXBows()
 	Local $yInfo = 0	
 	Local $aInd = StringSplit($aResultBuildingDetect, "|")
 	Local $RandomNumBuildingTocheck = 0
+	
 	If $aNumResultBuildingDetect > 2 Then
 		$RandomNumBuildingTocheck = Random(1, 2, 1)
 	Else
@@ -1798,9 +1816,9 @@ Func CheckXBows()
 			Local $BuildingNameFull = getOcrAndCapture("coc-build", 250, 490 + $g_iBottomOffsetY, 350, 30)
 			If Not StringInStr($BuildingNameFull, "Bow") Then 
 				SetLog("Oups ! Wrong click", $COLOR_ACTION)
-				_Sleep(200)
+				If _Sleep(200) Then Return
 				ClickAway("Right")
-				_Sleep(1000)
+				If _Sleep(1000) Then Return
 				ContinueLoop
 			EndIf
 			Local $aResult = BuildingInfo(242, 490 + $g_iBottomOffsetY)
@@ -1811,20 +1829,19 @@ Func CheckXBows()
 				If _Sleep(Random(4000, 6000)) Then Return
 			Else
 				SetLog("Info Button Not Found", $COLOR_DEBUG)
-				_Sleep(200)
+				If _Sleep(200) Then Return
 				ClickAway("Right")
-				_Sleep(1000)
+				If _Sleep(1000) Then Return
 				ContinueLoop
 			Endif
 			
 			For $t = 1 to 3
 				If QuickMIS("BC1", $3DotsVisiting, 672, 425 + $g_iMidOffsetY, 697, 450 + $g_iMidOffsetY, True, False) And Random(0, 5, 1) < 2 Then
 					Click($g_iQuickMISX, $g_iQuickMISY)
-					Sleep(Random(2500, 3500, 1))
+					If _Sleep(Random(2500, 3500, 1)) Then Return
 				EndIf
 			Next
 			CloseWindow(False, True)
-			If _Sleep(3000) Then Return
 			If Not $g_bRunState Then Return
 			If _Sleep(Random(2000, 3000, 1)) Then Return
 			$count += 1
@@ -1844,6 +1861,7 @@ Func CheckInferno()
 	Local $yInfo = 0	
 	Local $aInd = StringSplit($aResultBuildingDetect, "|")
 	Local $RandomNumBuildingTocheck = Random(1, 2, 1)
+	If $RandomNumBuildingTocheck > $aNumResultBuildingDetect Then $RandomNumBuildingTocheck = $aNumResultBuildingDetect
 	
 	Local $count = 1
 	If $RandomNumBuildingTocheck = 1 Then
@@ -1871,9 +1889,9 @@ Func CheckInferno()
 			Local $BuildingNameFull = getOcrAndCapture("coc-build", 250, 490 + $g_iBottomOffsetY, 350, 30)
 			If Not StringInStr($BuildingNameFull, "nferno") Then 
 				SetLog("Oups ! Wrong click", $COLOR_ACTION)
-				_Sleep(200)
+				If _Sleep(200) Then Return
 				ClickAway("Right")
-				_Sleep(1000)
+				If _Sleep(1000) Then Return
 				ContinueLoop
 			EndIf
 			Local $aResult = BuildingInfo(242, 490 + $g_iBottomOffsetY)
@@ -1884,20 +1902,19 @@ Func CheckInferno()
 				If _Sleep(Random(4000, 6000)) Then Return
 			Else
 				SetLog("Info Button Not Found", $COLOR_DEBUG)
-				_Sleep(200)
+				If _Sleep(200) Then Return
 				ClickAway("Right")
-				_Sleep(1000)
+				If _Sleep(1000) Then Return
 				ContinueLoop
 			Endif
 			
 			For $t = 1 to 3
 				If QuickMIS("BC1", $3DotsVisiting, 672, 425 + $g_iMidOffsetY, 697, 450 + $g_iMidOffsetY, True, False) And Random(0, 5, 1) < 2 Then
 					Click($g_iQuickMISX, $g_iQuickMISY)
-					Sleep(Random(2500, 3500, 1))
+					If _Sleep(Random(2500, 3500, 1)) Then Return
 				EndIf
 			Next
 			CloseWindow(False, True)
-			If _Sleep(3000) Then Return
 			If Not $g_bRunState Then Return
 			If _Sleep(Random(2000, 3000, 1)) Then Return
 			$count += 1
@@ -1941,7 +1958,6 @@ Func CheckEagle()
 		Return
 	Endif
 	CloseWindow(False, True)
-	If _Sleep(3000) Then Return
 	If Not $g_bRunState Then Return
 
 	If _Sleep(Random(2000, 3000, 1)) Then Return
@@ -1957,6 +1973,7 @@ Func CheckScatter()
 	Local $yInfo = 0	
 	Local $aInd = StringSplit($aResultBuildingDetect, "|")
 	Local $RandomNumBuildingTocheck = Random(1, 2, 1)
+	If $RandomNumBuildingTocheck > $aNumResultBuildingDetect Then $RandomNumBuildingTocheck = $aNumResultBuildingDetect
 
 	Local $count = 1
 	If $RandomNumBuildingTocheck = 1 Then
@@ -1984,9 +2001,9 @@ Func CheckScatter()
 			Local $BuildingNameFull = getOcrAndCapture("coc-build", 250, 490 + $g_iBottomOffsetY, 350, 30)
 			If Not StringInStr($BuildingNameFull, "Scatte") Then 
 				SetLog("Oups ! Wrong click", $COLOR_ACTION)
-				_Sleep(200)
+				If _Sleep(200) Then Return
 				ClickAway("Right")
-				_Sleep(1000)
+				If _Sleep(1000) Then Return
 				ContinueLoop
 			EndIf
 			Local $aResult = BuildingInfo(242, 490 + $g_iBottomOffsetY)
@@ -1997,13 +2014,12 @@ Func CheckScatter()
 				If _Sleep(Random(4000, 6000)) Then Return
 			Else
 				SetLog("Info Button Not Found", $COLOR_DEBUG)
-				_Sleep(200)
+				If _Sleep(200) Then Return
 				ClickAway("Right")
-				_Sleep(1000)
+				If _Sleep(1000) Then Return
 				ContinueLoop
 			Endif
 			CloseWindow(False, True)
-			If _Sleep(3000) Then Return
 			If Not $g_bRunState Then Return
 			If _Sleep(Random(2000, 3000, 1)) Then Return
 			$count += 1
@@ -2023,6 +2039,7 @@ Func CheckAirDefense()
 	Local $yInfo = 0	
 	Local $aInd = StringSplit($aResultBuildingDetect, "|")
 	Local $RandomNumBuildingTocheck = 0
+	
 	If $aNumResultBuildingDetect > 2 Then
 		$RandomNumBuildingTocheck = Random(1, 2, 1)
 	Else
@@ -2055,9 +2072,9 @@ Func CheckAirDefense()
 			Local $BuildingNameFull = getOcrAndCapture("coc-build", 250, 490 + $g_iBottomOffsetY, 350, 30)
 			If Not StringInStr($BuildingNameFull, "Defense") Then 
 				SetLog("Oups ! Wrong click", $COLOR_ACTION)
-				_Sleep(200)
+				If _Sleep(200) Then Return
 				ClickAway("Right")
-				_Sleep(1000)
+				If _Sleep(1000) Then Return
 				ContinueLoop
 			EndIf
 			Local $aResult = BuildingInfo(242, 490 + $g_iBottomOffsetY)
@@ -2068,13 +2085,12 @@ Func CheckAirDefense()
 				If _Sleep(Random(4000, 6000)) Then Return
 			Else
 				SetLog("Info Button Not Found", $COLOR_DEBUG)
-				_Sleep(200)
+				If _Sleep(200) Then Return
 				ClickAway("Right")
-				_Sleep(1000)
+				If _Sleep(1000) Then Return
 				ContinueLoop
 			Endif
 			CloseWindow(False, True)
-			If _Sleep(3000) Then Return
 			If Not $g_bRunState Then Return
 			If _Sleep(Random(2000, 3000, 1)) Then Return
 			$count += 1
@@ -2094,6 +2110,7 @@ Func GoldStorage()
 	Local $yInfo = 0	
 	Local $aInd = StringSplit($aResultBuildingDetect, "|")
 	Local $RandomNumBuildingTocheck = 0
+	
 	If $aNumResultBuildingDetect > 2 Then
 		$RandomNumBuildingTocheck = Random(1, 2, 1)
 	Else
@@ -2126,9 +2143,9 @@ Func GoldStorage()
 			Local $BuildingNameFull = getOcrAndCapture("coc-build", 250, 490 + $g_iBottomOffsetY, 350, 30)
 			If Not StringInStr($BuildingNameFull, "Gold") Then 
 				SetLog("Oups ! Wrong click", $COLOR_ACTION)
-				_Sleep(200)
+				If _Sleep(200) Then Return
 				ClickAway("Right")
-				_Sleep(1000)
+				If _Sleep(1000) Then Return
 				ContinueLoop
 			EndIf
 			Local $aResult = BuildingInfo(242, 490 + $g_iBottomOffsetY)
@@ -2139,13 +2156,12 @@ Func GoldStorage()
 				If _Sleep(Random(4000, 6000)) Then Return
 			Else
 				SetLog("Info Button Not Found", $COLOR_DEBUG)
-				_Sleep(200)
+				If _Sleep(200) Then Return
 				ClickAway("Right")
-				_Sleep(1000)
+				If _Sleep(1000) Then Return
 				ContinueLoop
 			Endif
 			CloseWindow(False, True)
-			If _Sleep(3000) Then Return
 			If Not $g_bRunState Then Return
 			If _Sleep(Random(2000, 3000, 1)) Then Return
 			$count += 1
@@ -2165,6 +2181,7 @@ Func ElixirStorage()
 	Local $yInfo = 0
 	Local $aInd = StringSplit($aResultBuildingDetect, "|")
 	Local $RandomNumBuildingTocheck = 0
+	
 	If $aNumResultBuildingDetect > 2 Then
 		$RandomNumBuildingTocheck = Random(1, 2, 1)
 	Else
@@ -2197,9 +2214,9 @@ Func ElixirStorage()
 			Local $BuildingNameFull = getOcrAndCapture("coc-build", 250, 490 + $g_iBottomOffsetY, 350, 30)
 			If Not StringInStr($BuildingNameFull, "Elixir") Then 
 				SetLog("Oups ! Wrong click", $COLOR_ACTION)
-				_Sleep(200)
+				If _Sleep(200) Then Return
 				ClickAway("Right")
-				_Sleep(1000)
+				If _Sleep(1000) Then Return
 				ContinueLoop
 			EndIf
 			Local $aResult = BuildingInfo(242, 490 + $g_iBottomOffsetY)
@@ -2210,13 +2227,12 @@ Func ElixirStorage()
 				If _Sleep(Random(4000, 6000)) Then Return
 			Else
 				SetLog("Info Button Not Found", $COLOR_DEBUG)
-				_Sleep(200)
+				If _Sleep(200) Then Return
 				ClickAway("Right")
-				_Sleep(1000)
+				If _Sleep(1000) Then Return
 				ContinueLoop
 			Endif
 			CloseWindow(False, True)
-			If _Sleep(3000) Then Return
 			If Not $g_bRunState Then Return
 			If _Sleep(Random(2000, 3000, 1)) Then Return
 			$count += 1
@@ -2260,7 +2276,6 @@ Func Monolith()
 		Return
 	Endif
 	CloseWindow(False, True)
-	If _Sleep(3000) Then Return
 	If Not $g_bRunState Then Return
 
 	If _Sleep(Random(2000, 3000, 1)) Then Return
@@ -2279,9 +2294,8 @@ Func LookAtRedNotifications()
 	If _ColorCheck(_GetPixelColor(50, 137, True), "F5151D", 20) Then
 		SetLog("You Have a New Message ...", $COLOR_OLIVE)
 		Click(40, 120 + $g_iMidOffsetY) ; open Messages button
-		If _Sleep(Random(3000, 8000)) Then Return
+		If _Sleep(Random(3000, 7000)) Then Return
 		CloseWindow()
-		If _Sleep(2000) Then Return
 	Else
 		$NoNotif += 1
 	EndIf
@@ -2294,7 +2308,6 @@ Func LookAtRedNotifications()
 		Click(445, 550 + $g_iBottomOffsetY) ; click Okay
 		If _Sleep(1500) Then Return
 		CloseWindow()
-		If _Sleep(2000) Then Return
 	Else
 		$NoNotif += 1
 	EndIf
@@ -2319,9 +2332,8 @@ Func LookAtRedNotifications()
 		Click(60 + Random(0, 700, 1), 25 + Random(0, 5, 1)) ; Click to get any window away
 		Local $iSleepForWindow2 = Random(1000, 2000)
 		If _Sleep($iSleepForWindow2) Then Return
-		_Sleep(Random(3000, 8000))
 		ReturnHomeFromHumanization()
-		If _Sleep(2000) Then Return
+		If _Sleep(1500) Then Return
 	Else
 		$NoNotif += 1
 	EndIf
@@ -2408,7 +2420,6 @@ Func LookAtRedNotifications()
 
 				If _Sleep(Random(2000, 5000, 1)) Then Return
 				CloseWindow()
-				If _Sleep(3000) Then Return
 			EndIf
 		Else
 			SetLog("Not Visit Esport Everytime !", $COLOR_DEBUG)
@@ -2506,7 +2517,6 @@ Func LookAtRedNotifications()
 
 		If _Sleep(Random(2000, 5000, 1)) Then Return
 		CloseWindow()
-		If _Sleep(2000) Then Return
 	Else
 		$NoNotif += 1
 	EndIf
@@ -2535,7 +2545,6 @@ Func LookAtRedNotifications()
 				EndIf
 			If _Sleep(2000) Then Return
 			CloseWindow()
-			If _Sleep(2000) Then Return
 		Else
 			SetLog("Not Visit Shop Everytime !", $COLOR_DEBUG)
 		EndIf
@@ -2991,6 +3000,9 @@ Func ReadClanChat()
 			ClickDrag($x, $yStart, $x, $yEnd) ; scroll the chat
 			If _Sleep(Random(1000, 3000)) Then Return
 		Next
+		If Not ClickB("ChatDown") Then
+			SetDebugLog("No Chat Down Button", $COLOR_DEBUG)
+		EndIf
 		SetLog("Exiting ...", $COLOR_OLIVE)
 		If _Sleep(Random(2000, 3000, 1)) Then Return
 		If Not ClickB("ClanChat") Then
@@ -3002,7 +3014,7 @@ Func ReadClanChat()
 	EndIf
 EndFunc   ;==>ReadClanChat
 
-Func CheckWarTime(ByRef $sResult, ByRef $bResult, $bReturnFrom = True) ; return [Success + $sResult = $sBattleEndTime, $bResult = $bInWar] OR Failure
+Func CheckWarTime(ByRef $sResult, ByRef $bResult, $bReturnFrom = True, $WWR = False) ; return [Success + $sResult = $sBattleEndTime, $bResult = $bInWar] OR Failure
 	Local $bRedColor_InWarButton, $sWarDay, $sTime
 	Local $bLocalReturn = False
 	$IsWarEnded = False
@@ -3077,8 +3089,32 @@ Func CheckWarTime(ByRef $sResult, ByRef $bResult, $bReturnFrom = True) ; return 
 	EndIf
 
 	If IsWarMenu() Then
+	
+		If $g_bClanWarLeague And $IsWarEnded And $WWR Then
+			Local $xBattleDay = Random(0, 6, 1)
+			If $xBattleDay > 0 Then
+				SetLog("Open Random Day", $COLOR_OLIVE)
+			Else
+				SetLog("Stay In Last Day", $COLOR_OLIVE)
+			EndIf
+			Switch $xBattleDay
+				Case 1
+					SetLog("Open Day 6", $COLOR_BLUE)
+				Case 2
+					SetLog("Open Day 5", $COLOR_BLUE)
+				Case 3
+					SetLog("Open Day 4", $COLOR_BLUE)
+				Case 4
+					SetLog("Open Day 3", $COLOR_BLUE)
+				Case 5
+					SetLog("Open Day 2", $COLOR_BLUE)
+				Case 6
+					SetLog("Open Day 1", $COLOR_BLUE)
+			EndSwitch
+			If $xBattleDay > 0 Then Click(662 - ($xBattleDay * 76), 645 + $g_iMidOffsetY)
+		EndIf
 
-		If $g_bClanWarLeague And $IsWarEnded = False Then
+		If $g_bClanWarLeague And Not $IsWarEnded Then
 		
 			Local $XDayMin[7]
 			Local $XDayMax[7]
@@ -3103,59 +3139,76 @@ Func CheckWarTime(ByRef $sResult, ByRef $bResult, $bReturnFrom = True) ; return 
 			SetLog("Actual War Day : " & $DayReal & "", $COLOR_INFO)
 			If _Sleep(Random(1500, 2500, 1)) Then Return
 			If Not $g_bRunState Then Return
-					
-			Local $SwitchBattleDay = Random(1, 5, 1)
-			If $DayReal <= 1 Then $SwitchBattleDay = Random(1, 4, 1)
-			Switch $SwitchBattleDay
-				Case 1, 2
-					If QuickMIS("BC1", $directoryDay & "\CWL_Battle", 175, 585 + $g_iBottomOffsetY, 690, 615 + $g_iBottomOffsetY, True, False) Then ; When Battle Day Is Unselected
-						SetLog("CWL : Enter In Battle Day", $COLOR_OLIVE)
-						Click($g_iQuickMISX - 5, $g_iQuickMISY + 12)
-					Else
-						SetLog("CWL : Stay In This Day", $COLOR_OLIVE)
-					EndIf
-					$IsAllowedPreparationDay = False
-				Case 3
-					If $IsAllowedPreparationDay = True Then
-						If QuickMIS("BC1", $directoryDay & "\CWL_Preparation", 175, 585 + $g_iBottomOffsetY, 690, 615 + $g_iBottomOffsetY, True, False) Then ;Find Prepration Button
-							If $PrepDayNumber >= 2 Then
-								SetLog("CWL : Enter In Preparation Day (Day " & $PrepDayNumber & ")", $COLOR_OLIVE)
-							Else
-								SetLog("CWL : Enter In Preparation Day", $COLOR_OLIVE)
+			
+			If $WWR Then 
+				If Random(0, 5, 1) > 2 Then
+					Local $XDayNumberMinus = Random(1, $DayReal - 1, 1)
+					Local $RandomXDay = ($g_iQuickMISX - 5) - ($XDayNumberMinus * 76)
+					Local $Daynumber = $DayReal - $XDayNumberMinus
+					SetLog("Open Random Day", $COLOR_OLIVE)
+					If _Sleep(250) Then Return
+					SetLog("Open Day " & $Daynumber, $COLOR_OLIVE)
+					If _Sleep(500) Then Return
+					$IsARandomDay = True
+					Click($RandomXDay, $g_iQuickMISY + 12)
+					If _Sleep(Random(3000, 5000, 1)) Then Return
+				Else
+					SetLog("Stay In This Day", $COLOR_OLIVE)
+				EndIf
+			Else
+				Local $SwitchBattleDay = Random(1, 5, 1)
+				If $DayReal <= 1 Then $SwitchBattleDay = Random(1, 4, 1)
+				Switch $SwitchBattleDay
+					Case 1, 2
+						If QuickMIS("BC1", $directoryDay & "\CWL_Battle", 175, 585 + $g_iBottomOffsetY, 690, 615 + $g_iBottomOffsetY, True, False) Then ; When Battle Day Is Unselected
+							SetLog("CWL : Enter In Battle Day", $COLOR_OLIVE)
+							Click($g_iQuickMISX - 5, $g_iQuickMISY + 12)
+						Else
+							SetLog("CWL : Stay In This Day", $COLOR_OLIVE)
+						EndIf
+						$IsAllowedPreparationDay = False
+					Case 3
+						If $IsAllowedPreparationDay Then
+							If QuickMIS("BC1", $directoryDay & "\CWL_Preparation", 175, 585 + $g_iBottomOffsetY, 690, 615 + $g_iBottomOffsetY, True, False) Then ;Find Preparation Button
+								If $PrepDayNumber >= 2 Then
+									SetLog("CWL : Enter In Preparation Day (Day " & $PrepDayNumber & ")", $COLOR_OLIVE)
+								Else
+									SetLog("CWL : Enter In Preparation Day", $COLOR_OLIVE)
+								EndIf
+								Click($g_iQuickMISX - 5, $g_iQuickMISY + 12)
+								If _Sleep(500) Then Return
+								If Not IsWarMenu() Then
+									SetLog("Error when trying to open CWL Preparation page.", $COLOR_ERROR)
+									$bLocalReturn = SetError(1, 0, "Error Open CWL Preparation page")
+								EndIf
 							EndIf
+						Else
+							SetLog("CWL : Stay In This Day", $COLOR_OLIVE)
+							$IsAllowedPreparationDay = False
+						EndIf
+					Case 4
+						If QuickMIS("BC1", $directoryDay & "\CWL_Battle", 175, 585 + $g_iBottomOffsetY, 690, 615 + $g_iBottomOffsetY, True, False) Then ; When Battle Day Is Unselected
+							SetLog("CWL : Enter In Battle Day", $COLOR_OLIVE)
+							$IsAllowedPreparationDay = False
 							Click($g_iQuickMISX - 5, $g_iQuickMISY + 12)
 							If _Sleep(500) Then Return
 							If Not IsWarMenu() Then
-								SetLog("Error when trying to open CWL Preparation page.", $COLOR_ERROR)
-								$bLocalReturn = SetError(1, 0, "Error Open CWL Preparation page")
+								SetLog("Error when trying to open CWL Battle page.", $COLOR_ERROR)
+								$bLocalReturn = SetError(1, 0, "Error Open CWL Battle page")
 							EndIf
 						EndIf
-					Else
-						SetLog("CWL : Stay In This Day", $COLOR_OLIVE)
+					Case 5	
+						SetLog("CWL : Enter Random Previous Day", $COLOR_OLIVE)
+						SetLog("Entering War Day " & $WarNumberAfterRandom & "", $COLOR_INFO)
+						Click($RandomXDayToClick, 620 + $g_iBottomOffsetY)
 						$IsAllowedPreparationDay = False
-					EndIf
-				Case 4
-					If QuickMIS("BC1", $directoryDay & "\CWL_Battle", 175, 585 + $g_iBottomOffsetY, 690, 615 + $g_iBottomOffsetY, True, False) Then ; When Battle Day Is Unselected
-						SetLog("CWL : Enter In Battle Day", $COLOR_OLIVE)
-						$IsAllowedPreparationDay = False
-						Click($g_iQuickMISX - 5, $g_iQuickMISY + 12)
-						If _Sleep(500) Then Return
-						If Not IsWarMenu() Then
-							SetLog("Error when trying to open CWL Battle page.", $COLOR_ERROR)
-							$bLocalReturn = SetError(1, 0, "Error Open CWL Battle page")
-						EndIf
-					EndIf
-				Case 5	
-					SetLog("CWL : Enter Random Previous Day", $COLOR_OLIVE)
-					SetLog("Entering War Day " & $WarNumberAfterRandom & "", $COLOR_INFO)
-					Click($RandomXDayToClick, 620 + $g_iBottomOffsetY)
-					$IsAllowedPreparationDay = False
-					$IsARandomDay = True
-					If _Sleep(Random(3000, 5000, 1)) Then Return
-			EndSwitch
+						$IsARandomDay = True
+						If _Sleep(Random(3000, 5000, 1)) Then Return
+				EndSwitch
+			EndIf	
 		EndIf
 		
-		If _Sleep(Random(2000, 4000, 1)) Then Return
+		If _Sleep(Random(3000, 5000, 1)) Then Return
 		If Not $g_bRunState Then Return
 
 		$sWarDay = QuickMIS("N1", $directoryDay, 360, 85, 505, 113, True, False); Prepare or Battle
@@ -3189,19 +3242,19 @@ Func CheckWarTime(ByRef $sResult, ByRef $bResult, $bReturnFrom = True) ; return 
 		EndIf
 	EndIf
 	
-	If $IsARandomDay = True Then $IsWarDay = True
+	If $IsARandomDay Then $IsWarDay = True
 	
-	If $IsWarEnded = True Or $IsWarDay = True Or $IsWarDay = False Or $IsARandomDay = True Then $IsStepWar = True
-	If $IsWarNotActive = True Then $IsStepWar = False
+	If $IsWarEnded Or $IsWarDay Or Not $IsWarDay Or $IsARandomDay Then $IsStepWar = True
+	If $IsWarNotActive Then $IsStepWar = False
 	
-	If $g_bClanWar = True And $IsWarEnded = True Then
+	If $g_bClanWar And $IsWarEnded Then
 		If _Sleep(Random(3000, 5000, 1)) Then Return
 		Click(430, 556 + $g_iBottomOffsetY) ; Click On view map
 		If _Sleep(Random(3000, 5000, 1)) Then Return
 		If Not $g_bRunState Then Return
 	EndIf
 	
-	If $bReturnFrom = True Then
+	If $bReturnFrom Then
 		ReturnToHomeFromWar()
 	EndIf
 
@@ -3472,7 +3525,7 @@ Func FindMark($bVillage = "HomeVillage", $bIsTop = True)
 					Local $aColorGreen[4] = [$vPlayerMarks[$iPlayerToVisit][1] - 340, $vPlayerMarks[$iPlayerToVisit][2] + 20, 0x9CBF5F, 20]
 				WEnd
 				Click($vPlayerMarks[$iPlayerToVisit][1] - 340, $vPlayerMarks[$iPlayerToVisit][2]) ; click on Player
-				If _Sleep(1500) Then Return
+				If _Sleep(Random(500, 1000, 1)) Then Return
 			Case "ClanCapital"
 				Local $aColorGreen[4] = [$vPlayerMarks[$iPlayerToVisit][1] - 200, $vPlayerMarks[$iPlayerToVisit][2] + 14, 0x9CBF5F, 20]
 				While _CheckPixel($aColorGreen, True)
@@ -3480,7 +3533,7 @@ Func FindMark($bVillage = "HomeVillage", $bIsTop = True)
 					Local $aColorGreen[4] = [$vPlayerMarks[$iPlayerToVisit][1] - 200, $vPlayerMarks[$iPlayerToVisit][2] + 14, 0x9CBF5F, 20]
 				WEnd
 				Click($vPlayerMarks[$iPlayerToVisit][1] - 200, $vPlayerMarks[$iPlayerToVisit][2]) ; click on Player
-				If _Sleep(1500) Then Return
+				If _Sleep(Random(500, 1000, 1)) Then Return
 		EndSwitch	
 	Else
 		SetLog("No Player Mark Found ... Skipping ...", $COLOR_WARNING)
@@ -3504,7 +3557,7 @@ Func FindMarkBestPlayer($bLocation = "Global")
 		Local $iPlayerToVisit = Random(0, UBound($vPlayerMarks) - 1, 1)
 		
 		Click($vPlayerMarks[$iPlayerToVisit][1] - 300, $vPlayerMarks[$iPlayerToVisit][2]) ; click on Player
-		If _Sleep(1000) Then Return
+		If _Sleep(Random(500, 1000, 1)) Then Return
 	Else
 		SetLog("No Player Mark Found ... Skipping ...", $COLOR_WARNING)
 		Return False
@@ -3527,7 +3580,7 @@ Func FindMarkBestClan($bLocation = "Global")
 		Local $iPlayerToVisit = Random(0, UBound($vPlayerMarks) - 1, 1)
 		
 		Click($vPlayerMarks[$iPlayerToVisit][1] - 400, $vPlayerMarks[$iPlayerToVisit][2]) ; click on Clan
-		If _Sleep(1500) Then Return	
+		If _Sleep(Random(500, 1000, 1)) Then Return
 	Else
 		SetLog("No Player Mark Found ... Skipping ...", $COLOR_WARNING)
 		Return False

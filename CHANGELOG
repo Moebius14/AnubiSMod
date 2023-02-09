@@ -16,6 +16,7 @@
 * Improved Monolith Level 1 Detection.
 * Can Now Target Both ScatterShots [CSV].
 * Handle for green button in Daily Rewards Window.
+* Improved Some Detections (Sieges Switch Window & Spell requests).
 
 * v8.0.2 **
 * Respond faster to "Stop" during zoomout.

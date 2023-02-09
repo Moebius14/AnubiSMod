@@ -522,10 +522,16 @@ Func GUIControl_WM_COMMAND($hWind, $iMsg, $wParam, $lParam)
 			btnVillageStat()
 		Case $g_hChkDebugSetlog
 			chkDebugSetlog()
+		Case $g_hChkDebugImageSaveMod
+			chkDebugImageSaveMod()	
 		Case $g_hChkDebugAndroid
 			chkDebugAndroid()
 		Case $g_hChkDebugClick
 			chkDebugClick()
+		Case $g_hChkClanGamesDebug
+			chkClanGamesDebug()
+		Case $g_hChkCCGDebugNoneFound
+			chkCCGDebugNoneFound()
 		Case $g_hChkDebugFunc
 			chkDebugFunc()
 		Case $g_hChkDebugDisableZoomout

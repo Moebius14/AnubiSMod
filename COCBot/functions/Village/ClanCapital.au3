@@ -122,6 +122,7 @@ Func ClanCapitalReport($SetLog = True)
 	$g_iLootCCGold = getOcrAndCapture("coc-ms", 670, 17, 160, 25, True)
 	$g_iLootCCMedal = getOcrAndCapture("coc-ms", 670, 70, 160, 25, True)
 	$g_iCCTrophies = getOcrAndCapture("coc-cc-trophy", 75, 90, 60, 16, True)
+	If $g_bDebugImageSaveMod Then SaveDebugRectImageCrop("CCTrophies", "75,90,135,106")
 	PicCCTrophies()
 	GUICtrlSetData($g_lblCapitalGold, _NumberFormat($g_iLootCCGold, True))
 	GUICtrlSetData($g_lblCapitalMedal, _NumberFormat($g_iLootCCMedal, True))
@@ -1768,6 +1769,8 @@ Func CatchCCMedals()
 	SetLog("Opening Raid Medals Menu", $COLOR_BLUE)
 	If _Sleep(1500) Then Return
 	
+	If $g_bDebugImageSaveMod Then SaveDebugRectImageCrop("CCMedalsTrader", "110,562,160,576")
+	
 	Local $ReadCCMedalsOCR = getOcrAndCapture("coc-ccmedals-trader", 110, 502 + $g_iBottomOffsetY, 50, 14, True)
 	$g_iLootCCMedal = $ReadCCMedalsOCR
 	If $g_iLootCCMedal > 0 Then
@@ -1804,6 +1807,8 @@ Func CatchSmallCCTrophies()
 	Click(715, 110 + $g_iMidOffsetY) ; open the clan capital tab
 	If _Sleep(2000) Then Return
 	If Not $g_bRunState Then Return
+	
+	If $g_bDebugImageSaveMod Then SaveDebugRectImageCrop("CCtrophySmall", "735,223,780,237")
 	
 	$g_iCCTrophies = getOcrAndCapture("coc-cc-trophySmall", 735, 193 + $g_iMidOffsetY, 45, 14, True)
 	If $g_iCCTrophies > 0 Then

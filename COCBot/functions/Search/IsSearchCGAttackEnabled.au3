@@ -5,7 +5,7 @@
 ; Parameters ....:
 ; Return values .: True = attacking CG is enabled, False = if attacking CG is disabled
 ;					 .; Will return error code if problem determining random no attack time.
-; Author ........: Moebius14 (01-2022)
+; Author ........: AnubiS (01-2022)
 ; Modified ......:
 ; Remarks .......: This file is part of MyBot, previously known as ClashGameBot. Copyright 2015-2019
 ;                  MyBot is distributed under the terms of the GNU GPL

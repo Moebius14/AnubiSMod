@@ -372,6 +372,11 @@ Func chkDebugSetLog()
 	SetDebugLog("DebugSetlog " & ($g_bDebugSetlog ? "enabled" : "disabled"))
 EndFunc   ;==>chkDebugSetLog
 
+Func chkDebugImageSaveMod()
+	$g_bDebugImageSaveMod = (GUICtrlRead($g_hChkDebugImageSaveMod) = $GUI_CHECKED)
+	SetDebugLog("DebugImageSaveMod " & ($g_bDebugImageSaveMod ? "enabled" : "disabled"))
+EndFunc   ;==>chkDebugImageSaveMod
+
 Func chkDebugAndroid()
 	$g_bDebugAndroid = (GUICtrlRead($g_hChkDebugAndroid) = $GUI_CHECKED)
 	SetDebugLog("DebugAndroid " & ($g_bDebugAndroid ? "enabled" : "disabled"))
@@ -381,6 +386,16 @@ Func chkDebugClick()
 	$g_bDebugClick = (GUICtrlRead($g_hChkDebugClick) = $GUI_CHECKED)
 	SetDebugLog("DebugClick " & ($g_bDebugClick ? "enabled" : "disabled"))
 EndFunc   ;==>chkDebugClick
+
+Func chkClanGamesDebug()
+	$g_bChkClanGamesDebug = (GUICtrlRead($g_hChkClanGamesDebug) = $GUI_CHECKED)
+	SetDebugLog("ClanGamesDebug " & ($g_bChkClanGamesDebug ? "enabled" : "disabled"))
+EndFunc   ;==>chkClanGamesDebug
+
+Func chkCCGDebugNoneFound()
+	$g_bChkCCGDebugNoneFound = (GUICtrlRead($g_hChkDebugClick) = $GUI_CHECKED)
+	SetDebugLog("CGDebugNoneFound " & ($g_bChkCCGDebugNoneFound ? "enabled" : "disabled"))
+EndFunc   ;==>chkCCGDebugNoneFound
 
 Func chkDebugFunc()
 	Local $bDebugFunc = (GUICtrlRead($g_hChkDebugFunc) = $GUI_CHECKED)

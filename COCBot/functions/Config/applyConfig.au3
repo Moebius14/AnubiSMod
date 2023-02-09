@@ -218,8 +218,11 @@ Func ApplyConfig_Debug($TypeReadSave)
 	Switch $TypeReadSave
 		Case "Read"
 			GUICtrlSetState($g_hChkDebugSetlog, $g_bDebugSetlog ? $GUI_CHECKED : $GUI_UNCHECKED)
+			GUICtrlSetState($g_hChkDebugImageSaveMod, $g_bDebugImageSaveMod ? $GUI_CHECKED : $GUI_UNCHECKED)
 			GUICtrlSetState($g_hChkDebugAndroid, $g_bDebugAndroid ? $GUI_CHECKED : $GUI_UNCHECKED)
 			GUICtrlSetState($g_hChkDebugClick, $g_bDebugClick ? $GUI_CHECKED : $GUI_UNCHECKED)
+			GUICtrlSetState($g_hChkClanGamesDebug, $g_bChkClanGamesDebug ? $GUI_CHECKED : $GUI_UNCHECKED)
+			GUICtrlSetState($g_hChkCCGDebugNoneFound, $g_bChkCCGDebugNoneFound ? $GUI_CHECKED : $GUI_UNCHECKED)
 			GUICtrlSetState($g_hChkDebugFunc, ($g_bDebugFuncTime And $g_bDebugFuncCall) ? $GUI_CHECKED : $GUI_UNCHECKED)
 			GUICtrlSetState($g_hChkDebugDisableZoomout, $g_bDebugDisableZoomout ? $GUI_CHECKED : $GUI_UNCHECKED)
 			GUICtrlSetState($g_hChkDebugDisableVillageCentering, $g_bDebugDisableVillageCentering ? $GUI_CHECKED : $GUI_UNCHECKED)
@@ -248,8 +251,11 @@ Func ApplyConfig_Debug($TypeReadSave)
 			EndIf
 		Case "Save"
 			$g_bDebugSetlog = (GUICtrlRead($g_hChkDebugSetlog) = $GUI_CHECKED)
+			$g_bDebugImageSaveMod = (GUICtrlRead($g_hChkDebugImageSaveMod) = $GUI_CHECKED)
 			$g_bDebugAndroid = (GUICtrlRead($g_hChkDebugAndroid) = $GUI_CHECKED)
 			$g_bDebugClick = (GUICtrlRead($g_hChkDebugClick) = $GUI_CHECKED)
+			$g_bChkClanGamesDebug = (GUICtrlRead($g_hChkClanGamesDebug) = $GUI_CHECKED) ? 1 : 0
+			$g_bChkCCGDebugNoneFound = (GUICtrlRead($g_hChkCCGDebugNoneFound) = $GUI_CHECKED) ? 1 : 0
 			If $g_bDevMode Then
 				Local $bDebugFunc = (GUICtrlRead($g_hChkDebugFunc) = $GUI_CHECKED)
 				$g_bDebugFuncTime = $bDebugFunc
@@ -361,8 +367,6 @@ Func ApplyConfig_600_6($TypeReadSave)
 			GUICtrlSetState($g_hChkClanGamesAllTimes, $g_bChkClanGamesAllTimes ? $GUI_CHECKED : $GUI_UNCHECKED)
 			GUICtrlSetState($g_hChkClanGames3h, $g_bChkClanGames3h ? $GUI_CHECKED : $GUI_UNCHECKED)
 			GUICtrlSetState($g_hChkClanGames3hOnly, $g_bChkClanGames3hOnly ? $GUI_CHECKED : $GUI_UNCHECKED)
-			GUICtrlSetState($g_hChkClanGamesDebug, $g_bChkClanGamesDebug ? $GUI_CHECKED : $GUI_UNCHECKED)
-			GUICtrlSetState($g_hChkCCGDebugNoneFound, $g_bChkCCGDebugNoneFound ? $GUI_CHECKED : $GUI_UNCHECKED)
 			GUICtrlSetState($g_hChkClanGamesCollectRewards, $g_bChkClanGamesCollectRewards ? $GUI_CHECKED : $GUI_UNCHECKED)
 			
 			For $i = 0 To UBound($g_iacmbPriorityReward) - 1
@@ -582,8 +586,6 @@ Func ApplyConfig_600_6($TypeReadSave)
 			$g_bChkClanGamesAllTimes = (GUICtrlRead($g_hChkClanGamesAllTimes) = $GUI_CHECKED) ? 1 : 0
 			$g_bChkClanGames3h = (GUICtrlRead($g_hChkClanGames3h) = $GUI_CHECKED) ? 1 : 0
 			$g_bChkClanGames3hOnly = (GUICtrlRead($g_hChkClanGames3hOnly) = $GUI_CHECKED) ? 1 : 0
-			$g_bChkClanGamesDebug = (GUICtrlRead($g_hChkClanGamesDebug) = $GUI_CHECKED) ? 1 : 0
-			$g_bChkCCGDebugNoneFound = (GUICtrlRead($g_hChkCCGDebugNoneFound) = $GUI_CHECKED) ? 1 : 0
 			$g_bChkClanGamesCollectRewards = (GUICtrlRead($g_hChkClanGamesCollectRewards) = $GUI_CHECKED) ? 1 : 0
 			
 			For $i = 0 To UBound($g_iacmbPriorityReward) - 1

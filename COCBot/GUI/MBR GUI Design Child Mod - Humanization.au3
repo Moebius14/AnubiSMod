@@ -5,7 +5,7 @@
 ; Parameters ....: None
 ; Return values .: None
 ; Author ........: RoroTiti (2016)
-; Modified ......: Moebius14
+; Modified ......: AnubiS
 ; Remarks .......: This file is part of MyBot, previously known as ClashGameBot. Copyright 2015-2019
 ;                  MyBot is distributed under the terms of the GNU GPL
 ; Related .......:
@@ -158,8 +158,7 @@ Func CreateChatWelcomeMessage()
 	
 	$g_hChkUseWelcomeMessage = GUICtrlCreateCheckbox("Use Welcome Message", $x + 70, $y)
 		GUICtrlSetOnEvent(-1, "chkUseWelcomeMessage")
-	$g_hTxtWelcomeMessage = GUICtrlCreateInput("", $x + 70, $y + 30, 260, 20, BitOR($SS_CENTER, $ES_AUTOHSCROLL))
-		GUICtrlSetData(-1, "Welcome ! Please read the clan rules and enjoy !")
+	$g_hTxtWelcomeMessage = GUICtrlCreateInput($g_aWelcomeMessage, $x + 70, $y + 30, 260, 20, BitOR($SS_CENTER, $ES_AUTOHSCROLL))
 		GUICtrlSetState(-1, $GUI_DISABLE)
 	
 	$y += 50

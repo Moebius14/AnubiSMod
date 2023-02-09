@@ -235,8 +235,11 @@ Func InitializeControlVariables()
 	;$oAlwaysEnabledControls($g_hChkUpdatingWhenMinimized) = 1
 	$oAlwaysEnabledControls($g_hChkHideWhenMinimized) = 1
 	$oAlwaysEnabledControls($g_hChkDebugSetlog) = 1
+	$oAlwaysEnabledControls($g_hChkDebugImageSaveMod) = 1
 	$oAlwaysEnabledControls($g_hChkDebugAndroid) = 1
 	$oAlwaysEnabledControls($g_hChkDebugClick) = 1
+	$oAlwaysEnabledControls($g_hChkClanGamesDebug) = 1
+	$oAlwaysEnabledControls($g_hChkCCGDebugNoneFound) = 1
 	$oAlwaysEnabledControls($g_hChkDebugFunc) = 1
 	$oAlwaysEnabledControls($g_hChkDebugDisableZoomout) = 1
 	$oAlwaysEnabledControls($g_hChkDebugDisableVillageCentering) = 1

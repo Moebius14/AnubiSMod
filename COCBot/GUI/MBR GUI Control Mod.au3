@@ -4,8 +4,8 @@
 ; Syntax ........:
 ; Parameters ....: None
 ; Return values .: None
-; Author ........: Anubis (2021)
-; Modified ......:
+; Author ........: AnubiS (2021)
+; Modified ......: 2023
 ; Remarks .......: This file is part of MyBot, previously known as ClashGameBot. Copyright 2016
 ;                  MyBot is distributed under the terms of the GNU GPL
 ; Related .......:
@@ -116,8 +116,11 @@ Func chkForecastEnable()
 	For $i = $g_hCmbPriorityForecast To $g_hForecastPauseIntervalUnit
 		GUICtrlSetState($i, $g_bForecastEnable ? $GUI_ENABLE : $GUI_DISABLE)
 	Next
-If $g_iCmbPriorityForecast = 0 Then $g_iCmbPauseForecastBelow = 2
-If $g_iCmbPriorityForecast >= 1 Then $g_iCmbPauseForecastBelow = ($g_iCmbPriorityForecast / 2) + 2	
+If $g_iCmbPriorityForecast = 0 Then
+	$g_iCmbPauseForecastBelow = 2
+Else
+	$g_iCmbPauseForecastBelow = ($g_iCmbPriorityForecast / 2) + 2
+EndIf	
 ChkVillageReport()
 ChkVillageReport2()
 If GUICtrlRead($g_hChkForecastEnable) = $GUI_UNCHECKED And GUICtrlRead($g_hChkForecastBoostEnable) = $GUI_UNCHECKED Then
@@ -144,7 +147,7 @@ EndIf
 If $currentForecast = 0 Then
 	GUICtrlSetData($ActualForecastReturn, "??")
 	GUICtrlSetData($ActualForecastReturnTime, "?????")
-ElseIf $currentForecast > 0 Then
+Else
 	GUICtrlSetData($ActualForecastReturn, _NumberFormat($currentForecast, True))
 	GUICtrlSetData($ActualForecastReturnTime, $ForecastTimeStamp)
 EndIf
@@ -176,19 +179,30 @@ Func chkForecastBoostEnable()
 	For $i = $g_hCmbPriorityForecastBoost to $g_hCmbPriorityForecastBoost
 		GUICtrlSetState($i, $g_bForecastBoostEnable ? $GUI_ENABLE : $GUI_DISABLE)
 	Next
-If $g_iCmbPriorityForecastBoost = 0 Then $g_iCmbForecastBoost = 6
-If $g_iCmbPriorityForecastBoost = 1 Then $g_iCmbForecastBoost = 6.5
-If $g_iCmbPriorityForecastBoost = 2 Then $g_iCmbForecastBoost = 7
-If $g_iCmbPriorityForecastBoost = 3 Then $g_iCmbForecastBoost = 7.5
-If $g_iCmbPriorityForecastBoost = 4 Then $g_iCmbForecastBoost = 8
-If $g_iCmbPriorityForecastBoost = 5 Then $g_iCmbForecastBoost = 8.5
-If $g_iCmbPriorityForecastBoost = 6 Then $g_iCmbForecastBoost = 9	
+	
+	Switch $g_iCmbPriorityForecastBoost
+		Case 0
+			$g_iCmbForecastBoost = 6
+		Case 1
+			$g_iCmbForecastBoost = 6.5
+		Case 2
+			$g_iCmbForecastBoost = 7
+		Case 3
+			$g_iCmbForecastBoost = 7.5
+		Case 4
+			$g_iCmbForecastBoost = 8
+		Case 5
+			$g_iCmbForecastBoost = 8.5
+		Case 6
+			$g_iCmbForecastBoost = 9
+	EndSwitch
+
 ChkVillageReport()
 ChkVillageReport2()
 If $currentForecast = 0 Then
 	GUICtrlSetData($ActualForecastReturn, "??")
 	GUICtrlSetData($ActualForecastReturnTime, "?????")
-ElseIf $currentForecast > 0 Then
+Else
 	GUICtrlSetData($ActualForecastReturn, _NumberFormat($currentForecast, True))
 	GUICtrlSetData($ActualForecastReturnTime, $ForecastTimeStamp)
 EndIf
@@ -499,16 +513,26 @@ EndIf
 EndFunc
 
 Func DisplayChkNoLabCheck()
-If _GUICtrlComboBox_GetCurSel($g_hChkNoLabCheck) = 0 Then $g_hChkNoLabCheckLabelTypo = "Never Check Laboratory"
-If _GUICtrlComboBox_GetCurSel($g_hChkNoLabCheck) = 1 Then $g_hChkNoLabCheckLabelTypo = "Check Laboratory Just One Time"
-If _GUICtrlComboBox_GetCurSel($g_hChkNoLabCheck) = 2 Then $g_hChkNoLabCheckLabelTypo = "Check Regulary (2->5 hours)"
-GUICtrlSetData($g_hChkNoLabCheckLabel, $g_hChkNoLabCheckLabelTypo)
+	Switch _GUICtrlComboBox_GetCurSel($g_hChkNoLabCheck)
+		Case 0
+			$g_hChkNoLabCheckLabelTypo = "Never Check Laboratory"
+		Case 1
+			$g_hChkNoLabCheckLabelTypo = "Check Laboratory Just One Time"
+		Case 2
+			$g_hChkNoLabCheckLabelTypo = "Check Regulary (2->5 hours)"
+	EndSwitch
+	GUICtrlSetData($g_hChkNoLabCheckLabel, $g_hChkNoLabCheckLabelTypo)
 EndFunc
 
 Func DisplayChkNoPetHouseCheck()
-If _GUICtrlComboBox_GetCurSel($g_hChkNoPetHouseCheck) = 0 Then $g_hChkNoPetHouseCheckLabelTypo = "Never Check Pet House"
-If _GUICtrlComboBox_GetCurSel($g_hChkNoPetHouseCheck) = 1 Then $g_hChkNoPetHouseCheckLabelTypo = "Check Pet House Just One Time"
-If _GUICtrlComboBox_GetCurSel($g_hChkNoPetHouseCheck) = 2 Then $g_hChkNoPetHouseCheckLabelTypo = "Check Regulary (2->5 hours)"
+	Switch _GUICtrlComboBox_GetCurSel($g_hChkNoPetHouseCheck)
+		Case 0
+			$g_hChkNoPetHouseCheckLabelTypo = "Never Check Pet House"
+		Case 1
+			$g_hChkNoPetHouseCheckLabelTypo = "Check Pet House Just One Time"
+		Case 2
+			$g_hChkNoPetHouseCheckLabelTypo = "Check Regulary (2->5 hours)"
+	EndSwitch
 If $g_iTownHallLevel > 13 Then ; Must be TH14 to Have Pet House
 	GUICtrlSetState($g_hChkNoPetHouseCheck, $GUI_ENABLE)
 ElseIf $g_iTownHallLevel > 0 And $g_iTownHallLevel < 14 Then
@@ -526,9 +550,14 @@ GUICtrlSetData($g_hChkNoPetHouseCheckLabel, $g_hChkNoPetHouseCheckLabelTypo)
 EndFunc
 
 Func DisplayChkNoStarLabCheck()
-If _GUICtrlComboBox_GetCurSel($g_hChkNoStarLabCheck) = 0 Then $g_hChkNoStarLabCheckLabelTypo = "Never Check StarLab"
-If _GUICtrlComboBox_GetCurSel($g_hChkNoStarLabCheck) = 1 Then $g_hChkNoStarLabCheckLabelTypo = "Check StarLab Just One Time"
-If _GUICtrlComboBox_GetCurSel($g_hChkNoStarLabCheck) = 2 Then $g_hChkNoStarLabCheckLabelTypo = "Check Regulary (2->5 hours)"
+	Switch _GUICtrlComboBox_GetCurSel($g_hChkNoStarLabCheck)
+		Case 0
+			$g_hChkNoStarLabCheckLabelTypo = "Never Check StarLab"
+		Case 1
+			$g_hChkNoStarLabCheckLabelTypo = "Check StarLab Just One Time"
+		Case 2
+			$g_hChkNoStarLabCheckLabelTypo = "Check Regulary (2->5 hours)"
+	EndSwitch
 GUICtrlSetData($g_hChkNoStarLabCheckLabel, $g_hChkNoStarLabCheckLabelTypo)
 EndFunc
 
@@ -1023,7 +1052,7 @@ Func chkAttackCGHoursE1()
 			GUICtrlSetState($g_ahChkAttackCGHours[$i], $GUI_CHECKED)
 		Next
 	EndIf
-	Sleep(300)
+	If _Sleep(300) Then Return
 	GUICtrlSetState($g_ahChkAttackCGHoursE1, $GUI_UNCHECKED)
 EndFunc   ;==>chkAttackCGHoursE1
 
@@ -1044,7 +1073,7 @@ Func chkAttackCGHoursE2()
 			GUICtrlSetState($g_ahChkAttackCGHours[$i], $GUI_CHECKED)
 		Next
 	EndIf
-	Sleep(300)
+	If _Sleep(300) Then Return
 	GUICtrlSetState($g_ahChkAttackCGHoursE2, $GUI_UNCHECKED)
 EndFunc   ;==>chkAttackCGHoursE2
 
@@ -1065,7 +1094,7 @@ Func chkAttackCGWeekDaysE()
 			GUICtrlSetState($g_ahChkAttackCGWeekdays[$i], $GUI_CHECKED)
 		Next
 	EndIf
-	Sleep(300)
+	If _Sleep(300) Then Return
 	GUICtrlSetState($g_ahChkAttackCGWeekdaysE, $GUI_UNCHECKED)
 EndFunc   ;==>chkAttackCGWeekDaysE
 
@@ -1454,7 +1483,7 @@ Func IsBBDailyChallengeAvailable()
 		If $counter > 40 Then Return False
 	WEnd
 	
-	_Sleep(5000)
+	If _Sleep(5000) Then Return
 	
 	If QuickMIS("BC1", $g_sImgBBDailyAvail, 65, 320 + $g_iMidOffsetY, 105, 345 + $g_iMidOffsetY) Then
 		SetLog("Check Builder Base Now, Daily Challenge Available", $COLOR_SUCCESS1)
@@ -1570,7 +1599,7 @@ Func ForumAccept()
 		$Scroll = _PixelSearch(294, 83, 296, 93, Hex(0xFFFFFF, 6), 20)
 		If IsArray($Scroll) And _ColorCheck(_GetPixelColor(300, 85, True), Hex(0x95CD0E, 6), 20) Then
 			ClickP($Scroll)
-			If _Sleep($DELAYDONATECC2 + 100) Then ExitLoop
+			If _Sleep(350) Then ExitLoop
 			ContinueLoop
 		EndIf
 		ExitLoop
@@ -1610,7 +1639,7 @@ Func ForumAccept()
 				$Scroll = _PixelSearch(294, 593 + $g_iBottomOffsetY, 296, 603 + $g_iBottomOffsetY, Hex(0xFFFFFF, 6), 20)
 				If IsArray($Scroll) Then
 					Click($Scroll[0], $Scroll[1])
-					If _Sleep($DELAYDONATECC2) Then ExitLoop
+					If _Sleep(250) Then ExitLoop
 					ContinueLoop
 				EndIf
 				ExitLoop
@@ -1674,7 +1703,7 @@ Func SendTextChat() ; click send for clan chat
 		If _Sleep(1500) Then Return
 		Return True
 	Else
-		SetDebugLog("Chatbot: Not find $aChatSendBtn | Pixel was:" & _GetPixelColor($aChatSendBtn[0], $aChatSendBtn[1], True), $COLOR_ERROR)
+		SetDebugLog("Not find $aChatSendBtn | Pixel was:" & _GetPixelColor($aChatSendBtn[0], $aChatSendBtn[1], True), $COLOR_ERROR)
 		Return False
 	EndIf
 	
