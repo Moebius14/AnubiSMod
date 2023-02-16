@@ -5,7 +5,7 @@
 ; Parameters ....: None
 ; Return values .: None
 ; Author ........: Xbebenk, Moebius14
-; Modified ......: Moebius14 (14.12.2022)
+; Modified ......: Moebius14 (16.02.2023)
 ; Remarks .......: This file is part of MyBot, previously known as ClashGameBot. Copyright 2015-2022
 ;                  MyBot is distributed under the terms of the GNU GPL
 ; Related .......:
@@ -48,17 +48,15 @@ Func CollectCCGold($bTest = False)
 						Local $GoldSetlog = _NumberFormat($CollectingCCGold, True)
 						SetLog("Collecting " & $GoldSetlog & " Clan Capital Gold", $COLOR_INFO)
 						$CollectedCCGold += $CollectingCCGold
-						If _Sleep(1000) Then Return
 						Click($aCollect[$i][1], $aCollect[$i][2]) ;Click Collect
 					Else
 						$CollectingCCGold = getOcrAndCapture("coc-forge-ccgold", $aCollect[$i][1] - 70, $aCollect[$i][2] - 13, 64, 18, True)
 						Local $GoldSetlog = _NumberFormat($CollectingCCGold, True)
 						SetLog("Test Only, Should Collecting " & $GoldSetlog & " Clan Capital Gold", $COLOR_INFO)
 						$CollectedCCGold += $CollectingCCGold
-						If _Sleep(1000) Then Return
 						SetLog("Test Only, Should Click on [" & $aCollect[$i][1] & "," & $aCollect[$i][2] & "]")
 					EndIf
-					If _Sleep(500) Then Return
+					If _Sleep(1000) Then Return
 				Next
 			EndIf
 			If _Sleep(1000) Then Return
@@ -76,17 +74,15 @@ Func CollectCCGold($bTest = False)
 							Local $GoldSetlog = _NumberFormat($CollectingCCGold, True)
 							SetLog("Collecting " & $GoldSetlog & " Clan Capital Gold", $COLOR_INFO)
 							$CollectedCCGold += $CollectingCCGold
-							If _Sleep(1000) Then Return
 							Click($aCollect[$i][1], $aCollect[$i][2]) ;Click Collect
 						Else
 							$CollectingCCGold = getOcrAndCapture("coc-forge-ccgold", $aCollect[$i][1] - 70, $aCollect[$i][2] - 13, 64, 18, True)
 							Local $GoldSetlog = _NumberFormat($CollectingCCGold, True)
 							SetLog("Test Only, Should Collecting " & $GoldSetlog & " Clan Capital Gold", $COLOR_INFO)
 							$CollectedCCGold += $CollectingCCGold
-							If _Sleep(1000) Then Return
 							SetLog("Test Only, Should Click on [" & $aCollect[$i][1] & "," & $aCollect[$i][2] & "]")
 						EndIf
-						If _Sleep(500) Then Return
+						If _Sleep(1000) Then Return
 					Next
 				EndIf
 			EndIf
@@ -302,6 +298,7 @@ Func ForgeClanCapitalGold($bTest = False)
 	EndIf
 	
 	If _Sleep(1000) Then Return
+	
 	Local $ReadCCGoldOCR = getOcrAndCapture("coc-forge-ccgold", 320, 456 + $g_iMidOffsetY, 120, 18, True)
 	$g_iLootCCGold = StringTrimRight($ReadCCGoldOCR, 5)
 	If $g_iLootCCGold > 0 Then
@@ -466,27 +463,30 @@ Func ForgeClanCapitalGold($bTest = False)
 						$NumberOfCraftLaunched += 1
 						$g_iFreeBuilderCount -= 1
 						If _Sleep(Random(1000, 1500, 1)) Then Return
-						If $aResource[$i][0] = "Gold" Then
-							$iCurrentGold = $iCurrentGold - Number($cost)
-							Local $iCurrentGoldNum = _NumberFormat($iCurrentGold, True)
-							SetLog("Remaining " & $aResource[$i][0] & " : " & $iCurrentGoldNum & "", $COLOR_SUCCESS)
-						ElseIf $aResource[$i][0] = "Elixir" Then 
-							$iCurrentElix = $iCurrentElix - Number($cost)
-							Local $iCurrentElixNum = _NumberFormat($iCurrentElix, True)
-							SetLog("Remaining " & $aResource[$i][0] & " : " & $iCurrentElixNum & "", $COLOR_SUCCESS)
-						ElseIf $aResource[$i][0] = "Dark Elixir" Then
-							$iCurrentDE = $iCurrentDE - Number($cost)
-							Local $iCurrentDENum = _NumberFormat($iCurrentDE, True)
-							SetLog("Remaining " & $aResource[$i][0] & " : " & $iCurrentDENum & "", $COLOR_SUCCESS)
-						ElseIf $aResource[$i][0] = "Builder Base Gold" Then
-							$g_aiCurrentLootBB[$eLootGoldBB] = $g_aiCurrentLootBB[$eLootGoldBB] - Number($cost)
-							Local $iCurrentBBGoldNum = _NumberFormat($g_aiCurrentLootBB[$eLootGoldBB], True)
-							SetLog("Remaining " & $aResource[$i][0] & " : " & $iCurrentBBGoldNum & "", $COLOR_SUCCESS)
-						ElseIf $aResource[$i][0] = "Builder Base Elixir" Then
-							$g_aiCurrentLootBB[$eLootElixirBB] = $g_aiCurrentLootBB[$eLootElixirBB] - Number($cost)
-							Local $iCurrentBBElixNum = _NumberFormat($g_aiCurrentLootBB[$eLootElixirBB], True)
-							SetLog("Remaining " & $aResource[$i][0] & " : " & $iCurrentBBElixNum & "", $COLOR_SUCCESS)
-						EndIf
+												
+						Switch $aResource[$i][0]
+							Case "Gold"
+								$iCurrentGold = $iCurrentGold - Number($cost)
+								Local $iCurrentGoldNum = _NumberFormat($iCurrentGold, True)
+								SetLog("Remaining " & $aResource[$i][0] & " : " & $iCurrentGoldNum & "", $COLOR_SUCCESS)
+							Case "Elixir"
+								$iCurrentElix = $iCurrentElix - Number($cost)
+								Local $iCurrentElixNum = _NumberFormat($iCurrentElix, True)
+								SetLog("Remaining " & $aResource[$i][0] & " : " & $iCurrentElixNum & "", $COLOR_SUCCESS)	
+							Case "Dark Elixir"
+								$iCurrentDE = $iCurrentDE - Number($cost)
+								Local $iCurrentDENum = _NumberFormat($iCurrentDE, True)
+								SetLog("Remaining " & $aResource[$i][0] & " : " & $iCurrentDENum & "", $COLOR_SUCCESS)
+							Case "Builder Base Gold"
+								$g_aiCurrentLootBB[$eLootGoldBB] = $g_aiCurrentLootBB[$eLootGoldBB] - Number($cost)
+								Local $iCurrentBBGoldNum = _NumberFormat($g_aiCurrentLootBB[$eLootGoldBB], True)
+								SetLog("Remaining " & $aResource[$i][0] & " : " & $iCurrentBBGoldNum & "", $COLOR_SUCCESS)	
+							Case "Builder Base Elixir"
+								$g_aiCurrentLootBB[$eLootElixirBB] = $g_aiCurrentLootBB[$eLootElixirBB] - Number($cost)
+								Local $iCurrentBBElixNum = _NumberFormat($g_aiCurrentLootBB[$eLootElixirBB], True)
+								SetLog("Remaining " & $aResource[$i][0] & " : " & $iCurrentBBElixNum & "", $COLOR_SUCCESS)	
+						EndSwitch
+						
 						ExitLoop
 					Else
 						SetLog("Only Test, should click on [430,480]", $COLOR_INFO)
@@ -675,8 +675,8 @@ EndFunc
 Func IsIgnored($aUpgradeX, $aUpgradeY, $SetLog = True)
 	Local $name[2] = ["", 0]
 	Local $bRet = False
-	$name = getCCBuildingName($aUpgradeX - 250, $aUpgradeY - 8)
-	If $name[0] = "l" Then $name = getCCBuildingNameBlue($aUpgradeX - 230, $aUpgradeY - 12)
+	$name = getCCBuildingName($aUpgradeX - 275, $aUpgradeY - 8)
+	If $name[0] = "l" Then $name = getCCBuildingNameBlue($aUpgradeX - 250, $aUpgradeY - 12)
 	If $g_bChkAutoUpgradeCCIgnore And $g_bChkIsIgnoredWalls Then
 		For $y In $aCCBuildingIgnoreWWalls
 			If StringInStr($name[0], $y) Then
@@ -721,8 +721,8 @@ Func FindCCExistingUpgrade()
 			If Not $g_bChkEnablePriorPrioritized Then ExitLoop
 			If QuickMis("BC1", $g_sImgPrioritizeCC, $aUpgrade[$i][1] + 3, $aUpgrade[$i][2] - 12, $aUpgrade[$i][1] + 23, $aUpgrade[$i][2] + 8) Then
 				If IsIgnored($aUpgrade[$i][1], $aUpgrade[$i][2]) Then ContinueLoop
-				$name = getCCBuildingName($aUpgrade[$i][1] - 250, $aUpgrade[$i][2] - 8)
-				If $name[0] = "l" Then $name = getCCBuildingNameBlue($aUpgrade[$i][1] - 230, $aUpgrade[$i][2] - 12)
+				$name = getCCBuildingName($aUpgrade[$i][1] - 275, $aUpgrade[$i][2] - 8)
+				If $name[0] = "l" Then $name = getCCBuildingNameBlue($aUpgrade[$i][1] - 250, $aUpgrade[$i][2] - 12)
 				SetLog("Prioritized Upgrade Detected : " & $name[0], $COLOR_SUCCESS1)
 				$aResult = $aBackup
 				_ArrayAdd($aResult, $name[0] & "|" & $aUpgrade[$i][1] & "|" &  $aUpgrade[$i][2])
@@ -735,8 +735,8 @@ Func FindCCExistingUpgrade()
 		For $i = 0 To UBound($aUpgrade) - 1 ; Prior Army Stuff
 			If Not $g_bChkEnablePriorArmyCC Then ExitLoop
 			If Not $g_bChkEnablePriorArmyCamp And Not $g_bChkEnablePriorBarracks And Not $g_bChkEnablePriorFactory And Not $g_bChkEnablePriorStorage Then ExitLoop
-			$name = getCCBuildingName($aUpgrade[$i][1] - 250, $aUpgrade[$i][2] - 8)
-			If $name[0] = "l" Then $name = getCCBuildingNameBlue($aUpgrade[$i][1] - 230, $aUpgrade[$i][2] - 12)
+			$name = getCCBuildingName($aUpgrade[$i][1] - 275, $aUpgrade[$i][2] - 8)
+			If $name[0] = "l" Then $name = getCCBuildingNameBlue($aUpgrade[$i][1] - 250, $aUpgrade[$i][2] - 12)
 			If $g_bChkEnablePriorArmyCamp And $g_bChkEnablePriorBarracks And $g_bChkEnablePriorFactory And $g_bChkEnablePriorStorage Then
 				For $y In $g_bChkIsPriorArmy
 					If StringInStr($name[0], $y) Then
@@ -899,8 +899,8 @@ Func FindCCExistingUpgrade()
 
 		For $i = 0 To UBound($aUpgrade) - 1 ; Prior Hall
 			If Not $g_bChkEnablePriorHallsCC Then ExitLoop
-			$name = getCCBuildingName($aUpgrade[$i][1] - 250, $aUpgrade[$i][2] - 8)
-			If $name[0] = "l" Then $name = getCCBuildingNameBlue($aUpgrade[$i][1] - 230, $aUpgrade[$i][2] - 12)
+			$name = getCCBuildingName($aUpgrade[$i][1] - 275, $aUpgrade[$i][2] - 8)
+			If $name[0] = "l" Then $name = getCCBuildingNameBlue($aUpgrade[$i][1] - 250, $aUpgrade[$i][2] - 12)
 
 			For $y In $g_bChkIsPriorHall
 				If StringInStr($name[0], $y) Then
@@ -916,8 +916,8 @@ Func FindCCExistingUpgrade()
 
 		For $i = 0 To UBound($aUpgrade) - 1 ; Prior Ruins
 			If Not $g_bChkEnablePriorRuinsCC Then ExitLoop
-			$name = getCCBuildingName($aUpgrade[$i][1] - 250, $aUpgrade[$i][2] - 8)
-			If $name[0] = "l" Then $name = getCCBuildingNameBlue($aUpgrade[$i][1] - 230, $aUpgrade[$i][2] - 12)
+			$name = getCCBuildingName($aUpgrade[$i][1] - 275, $aUpgrade[$i][2] - 8)
+			If $name[0] = "l" Then $name = getCCBuildingNameBlue($aUpgrade[$i][1] - 250, $aUpgrade[$i][2] - 12)
 			If StringInStr($name[0], "Ruins") Then 
 				SetLog("Upgrade for Ruins Detected", $COLOR_SUCCESS1)
 				$aResult = $aBackup
@@ -929,8 +929,8 @@ Func FindCCExistingUpgrade()
 		If $IsFoundRuins = True Then Return $aResult
 
 		For $i = 0 To UBound($aUpgrade) - 1 ; Ignore Walls Or/And Decorations
-			$name = getCCBuildingName($aUpgrade[$i][1] - 250, $aUpgrade[$i][2] - 8)
-			If $name[0] = "l" Then $name = getCCBuildingNameBlue($aUpgrade[$i][1] - 230, $aUpgrade[$i][2] - 12)
+			$name = getCCBuildingName($aUpgrade[$i][1] - 275, $aUpgrade[$i][2] - 8)
+			If $name[0] = "l" Then $name = getCCBuildingNameBlue($aUpgrade[$i][1] - 250, $aUpgrade[$i][2] - 12)
 			If $g_bChkAutoUpgradeCCIgnore And $g_bChkIsIgnoredWalls Then
 				For $y In $aCCBuildingIgnoreWWalls
 					If StringInStr($name[0], $y) Then
@@ -980,8 +980,8 @@ Func FindCCExistingUpgradeRuinsOnly()
 			If IsIgnored($aUpgrade[$i][1], $aUpgrade[$i][2]) Then ContinueLoop
 			
 			If QuickMis("BC1", $g_sImgPrioritizeCC, $aUpgrade[$i][1] + 3, $aUpgrade[$i][2] - 12, $aUpgrade[$i][1] + 23, $aUpgrade[$i][2] + 8) Then
-				$name = getCCBuildingName($aUpgrade[$i][1] - 250, $aUpgrade[$i][2] - 8)
-				If $name[0] = "l" Then $name = getCCBuildingNameBlue($aUpgrade[$i][1] - 230, $aUpgrade[$i][2] - 12)
+				$name = getCCBuildingName($aUpgrade[$i][1] - 275, $aUpgrade[$i][2] - 8)
+				If $name[0] = "l" Then $name = getCCBuildingNameBlue($aUpgrade[$i][1] - 250, $aUpgrade[$i][2] - 12)
 				SetLog("Prioritized Upgrade Detected : " & $name[0], $COLOR_SUCCESS1)
 				$aResult = $aBackup
 				_ArrayAdd($aResult, $name[0] & "|" & $aUpgrade[$i][1] & "|" &  $aUpgrade[$i][2])
@@ -992,8 +992,8 @@ Func FindCCExistingUpgradeRuinsOnly()
 		If $IsPrioritized = True Then Return $aResult
 
 		For $i = 0 To UBound($aUpgrade) - 1 ; Prior Ruins
-			$name = getCCBuildingName($aUpgrade[$i][1] - 250, $aUpgrade[$i][2] - 8)
-			If $name[0] = "l" Then $name = getCCBuildingNameBlue($aUpgrade[$i][1] - 230, $aUpgrade[$i][2] - 12)
+			$name = getCCBuildingName($aUpgrade[$i][1] - 275, $aUpgrade[$i][2] - 8)
+			If $name[0] = "l" Then $name = getCCBuildingNameBlue($aUpgrade[$i][1] - 250, $aUpgrade[$i][2] - 12)
 			If StringInStr($name[0], "Ruins") Then 
 				SetLog("Upgrade for Ruins Detected", $COLOR_DEBUG)
 				$aResult = $aBackup
@@ -1020,8 +1020,8 @@ Func FindCCSuggestedUpgrade()
 			If Not $g_bChkEnablePriorArmyCC Then ExitLoop
 			If Not $g_bChkEnablePriorArmyCamp And Not $g_bChkEnablePriorBarracks And Not $g_bChkEnablePriorFactory And Not $g_bChkEnablePriorStorage Then ExitLoop
 			If _ColorCheck(_GetPixelColor($aUpgrade[$i][1] - 15, $aUpgrade[$i][2] - 6, True), Hex(0xffffff, 6), 20) Then ContinueLoop;check if we have progressbar, upgrade to ignore
-			$name = getCCBuildingNameSuggested($aUpgrade[$i][1] - 230, $aUpgrade[$i][2] - 12)
-			If $name[0] = "l" Then $name = getCCBuildingNameBlue($aUpgrade[$i][1] - 230, $aUpgrade[$i][2] - 12)
+			$name = getCCBuildingNameSuggested($aUpgrade[$i][1] - 235, $aUpgrade[$i][2] - 12)
+			If $name[0] = "l" Then $name = getCCBuildingNameBlue($aUpgrade[$i][1] - 250, $aUpgrade[$i][2] - 12)
 			If $g_bChkEnablePriorArmyCamp And $g_bChkEnablePriorBarracks And $g_bChkEnablePriorFactory And $g_bChkEnablePriorStorage Then
 				For $y In $g_bChkIsPriorArmy
 					If StringInStr($name[0], $y) Then
@@ -1185,8 +1185,8 @@ Func FindCCSuggestedUpgrade()
 		For $i = 0 To UBound($aUpgrade) - 1
 			If Not $g_bChkEnablePriorHallsCC Then ExitLoop
 			If _ColorCheck(_GetPixelColor($aUpgrade[$i][1] - 15, $aUpgrade[$i][2] - 6, True), Hex(0xffffff, 6), 20) Then ContinueLoop;check if we have progressbar, upgrade to ignore
-			$name = getCCBuildingNameSuggested($aUpgrade[$i][1] - 230, $aUpgrade[$i][2] - 12)
-			If $name[0] = "l" Then $name = getCCBuildingNameBlue($aUpgrade[$i][1] - 230, $aUpgrade[$i][2] - 12)
+			$name = getCCBuildingNameSuggested($aUpgrade[$i][1] - 235, $aUpgrade[$i][2] - 12)
+			If $name[0] = "l" Then $name = getCCBuildingNameBlue($aUpgrade[$i][1] - 250, $aUpgrade[$i][2] - 12)
 			For $y In $g_bChkIsPriorHall
 				If StringInStr($name[0], $y) Then
 					SetLog("Upgrade for Hall Detected", $COLOR_SUCCESS1)
@@ -1204,7 +1204,7 @@ Func FindCCSuggestedUpgrade()
 			If _ColorCheck(_GetPixelColor($aUpgrade[$i][1] - 15, $aUpgrade[$i][2] - 6, True), Hex(0xffffff, 6), 20) Then ;check if we have progressbar, upgrade to ignore
 				ContinueLoop
 			Else
-				$name = getCCBuildingNameBlue($aUpgrade[$i][1] - 230, $aUpgrade[$i][2] - 12)
+				$name = getCCBuildingNameBlue($aUpgrade[$i][1] - 250, $aUpgrade[$i][2] - 12)
 			EndIf
 			If StringInStr($name[0], "Ruins") Then 
 				SetLog("Upgrade for Ruins Detected", $COLOR_SUCCESS1)
@@ -1218,8 +1218,8 @@ Func FindCCSuggestedUpgrade()
 		
 		For $i = 0 To UBound($aUpgrade) - 1
 			If _ColorCheck(_GetPixelColor($aUpgrade[$i][1] - 15, $aUpgrade[$i][2] - 6, True), Hex(0xffffff, 6), 20) Then ContinueLoop;check if we have progressbar, upgrade to ignore
-			$name = getCCBuildingNameSuggested($aUpgrade[$i][1] - 230, $aUpgrade[$i][2] - 12)
-			If $name[0] = "l" Then $name = getCCBuildingNameBlue($aUpgrade[$i][1] - 230, $aUpgrade[$i][2] - 12)
+			$name = getCCBuildingNameSuggested($aUpgrade[$i][1] - 235, $aUpgrade[$i][2] - 12)
+			If $name[0] = "l" Then $name = getCCBuildingNameBlue($aUpgrade[$i][1] - 250, $aUpgrade[$i][2] - 12)
 			If $g_bChkAutoUpgradeCCIgnore And $g_bChkIsIgnoredWalls Then
 				For $y In $aCCBuildingIgnoreWWalls
 					If StringInStr($name[0], $y) Then
@@ -1258,7 +1258,7 @@ Func FindCCSuggestedUpgradeRuinsOnly()
 			If _ColorCheck(_GetPixelColor($aUpgrade[$i][1] - 15, $aUpgrade[$i][2] - 6, True), Hex(0xffffff, 6), 20) Then ;check if we have progressbar, upgrade to ignore
 				ContinueLoop
 			Else
-				$name = getCCBuildingNameBlue($aUpgrade[$i][1] - 230, $aUpgrade[$i][2] - 12)
+				$name = getCCBuildingNameBlue($aUpgrade[$i][1] - 250, $aUpgrade[$i][2] - 12)
 			EndIf
 			If StringInStr($name[0], "Ruins") Then 
 				SetLog("Upgrade for Ruins Detected", $COLOR_SUCCESS1)
@@ -1348,28 +1348,46 @@ Func AutoUpgradeCC()
 			If _Sleep($DELAYCOLLECT3) Then Return
 		EndIf
 		Local $iWeekday = _DateToDayOfWeek(@YEAR, @MON, @MDAY)
-
-		If $g_bChkStartWeekendRaid And $iWeekday = 6 And Not $IsRaidRunning Then
-			SetLog("Smart Clan Capital Switch Control", $COLOR_OLIVE)
-			SetLog("We Are In the Raid Starting Day, Let's Check This", $COLOR_SUCCESS1)
-		Else
-			SetLog("Smart Clan Capital Switch Control", $COLOR_OLIVE)
-			If Number($g_iLootCCGold) = 0 Then
-				$IsCCGoldJustCollected = False
-				$IsCCGoldJustCollectedDChallenge = $IsCCGoldJustCollected
-				If $IsRaidRunning And $g_bChkStartWeekendRaid And $iWeekday = 6 Then SetLog("Raid Weekend has already started", $COLOR_SUCCESS1)
-				SetLog("No Capital Gold to spend to Contribute, No Switch", $COLOR_DEBUG)
-				If Not $g_bFirstStartForAll Then
-					If Number($g_iLootCCMedal) = 0 Then CatchCCMedals()
-					If _Sleep(2000) Then Return
-					CatchSmallCCTrophies()
-					Return
+		Local $StartRaidConditions = $g_bChkStartWeekendRaid And $iWeekday = 6
+		SetLog("Smart Clan Capital Switch Control", $COLOR_OLIVE)
+		If Number($g_iLootCCGold) = 0 Then
+			$IsCCGoldJustCollected = False
+			$IsCCGoldJustCollectedDChallenge = $IsCCGoldJustCollected
+			If $StartRaidConditions And $IsRaidRunning Then SetLog("Raid Weekend has already started", $COLOR_SUCCESS1)
+			If Not $g_bFirstStartForAll Then
+				If Number($g_iLootCCMedal) = 0 Then CatchCCMedals()
+				If _Sleep(2000) Then Return
+				CatchSmallCCTrophies($StartRaidConditions)
+				If $StartRaidConditions And Not $IsRaidRunning Then
+					If $g_iRank = "Leader" Or $g_iRank = "Co-Leader" Then
+						SetLog("We Are In the Raid Starting Day, Let's Check This", $COLOR_SUCCESS1)
+					Else
+						SetLog("We Are In the Raid Starting Day, But You Are Not Decider", $COLOR_ACTION)
+						SetLog("No Capital Gold to spend to Contribute, No Switch", $COLOR_DEBUG)
+						Return
+					EndIf
 				Else
+					SetLog("No Capital Gold to spend to Contribute, No Switch", $COLOR_DEBUG)
+					Return
+				EndIf	
+			Else
+				If $StartRaidConditions And Not $IsRaidRunning Then
+					If $g_iRank = "Leader" Or $g_iRank = "Co-Leader" Then
+						SetLog("Your Clan Rank is " & $g_iRank, $COLOR_FUCHSIA)
+						SetLog("We Are In the Raid Starting Day, Let's Check This", $COLOR_SUCCESS1)
+					Else
+						SetLog("Your Clan Rank is " & $g_iRank, $COLOR_FUCHSIA)
+						SetLog("We Are In the Raid Starting Day, But You Are Not Decider", $COLOR_ACTION)
+						SetLog("No Capital Gold to spend to Contribute, No Switch", $COLOR_DEBUG)
+						Return
+					EndIf
+				Else
+					SetLog("No Capital Gold to spend to Contribute, No Switch", $COLOR_DEBUG)
 					Return
 				EndIf
 			EndIf
-			SetLog("Capital Gold Has Been Detected, Let's Switch", $COLOR_SUCCESS1)
 		EndIf
+		If Number($g_iLootCCGold) > 0 Then SetLog("Capital Gold Has Been Detected, Let's Switch", $COLOR_SUCCESS1)
 	EndIf
 	
 	Local $IsRuinsOnly = False
@@ -1786,7 +1804,7 @@ Func CatchCCMedals()
 	CloseWindow()
 EndFunc
 
-Func CatchSmallCCTrophies()
+Func CatchSmallCCTrophies($StartRaidConditions = False)
 	
 	ClickAway()
 	
@@ -1803,6 +1821,18 @@ Func CatchSmallCCTrophies()
 	Click(120, 25) ; open the clan menu
 	If _Sleep(2000) Then Return
 	If Not $g_bRunState Then Return
+	
+	If $StartRaidConditions Then
+		Click(185, 80) ; open My Profile Tab
+		If _Sleep(2000) Then Return
+		$g_iRank = getOcrAndCapture("coc-clan-ranks", 70, 190 + $g_iMidOffsetY, 65, 14, True)
+		If _Sleep(250) Then Return
+		If $g_iRank = "Coleader" Then $g_iRank = "Co-leader"
+		SetLog("Your Clan Rank is " & $g_iRank, $COLOR_FUCHSIA)
+		Click(355, 80) ; Back To My Clan Tab
+		If _Sleep(2000) Then Return
+		If Not $g_bRunState Then Return
+	EndIf
 	
 	Click(715, 110 + $g_iMidOffsetY) ; open the clan capital tab
 	If _Sleep(2000) Then Return

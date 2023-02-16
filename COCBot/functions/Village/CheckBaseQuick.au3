@@ -40,7 +40,7 @@ Func CheckBaseQuick($bStopRecursion = False, $sReturnHome = "")
 
 		If $g_bDebugSetlog Then SetDebugLog("CheckBaseQuick now", $COLOR_DEBUG)
 
-		RequestCC() ; fill CC
+		If Not IsToFillCCWithMedalsOnly() Then RequestCC() ; fill CC
 		If _Sleep($DELAYRUNBOT1) Then Return
 		checkMainScreen(False) ; required here due to many possible exits
 		If $g_bRestart Then

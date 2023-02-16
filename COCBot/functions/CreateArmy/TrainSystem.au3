@@ -27,15 +27,9 @@ Func TrainSystem()
 
 	BoostSuperTroop()
 
-	If $g_bQuickTrainEnable Then CheckQuickTrainTroop() ; update values of $g_aiArmyComTroops, $g_aiArmyComSpells
-
 	CheckIfArmyIsReady()
-
-	If $g_bQuickTrainEnable Then
-		QuickTrain()
-	Else
-		TrainCustomArmy()
-	EndIf
+	
+	TrainCustomArmy()
 
 	TrainSiege()
 
@@ -303,7 +297,7 @@ Func TrainUsingWhatToTrain($rWTT, $bQueue = $g_bIsFullArmywithHeroesAndSpells)
 			If IsSpellToBrew($rWTT[$i][0]) Then ContinueLoop
 			Local $iTroopIndex = TroopIndexLookup($rWTT[$i][0], "TrainUsingWhatToTrain()")
 
-			If $iTroopIndex >= $eBarb And $iTroopIndex <= $eHunt Then
+			If $iTroopIndex >= $eBarb And $iTroopIndex <= $eIWiza Then
 				Local $NeededSpace = $g_aiTroopSpace[$iTroopIndex] * $rWTT[$i][1]
 			EndIf
 
@@ -312,7 +306,7 @@ Func TrainUsingWhatToTrain($rWTT, $bQueue = $g_bIsFullArmywithHeroesAndSpells)
 
 
 			If $NeededSpace > $LeftSpace Then
-				If $iTroopIndex >= $eBarb And $iTroopIndex <= $eHunt Then
+				If $iTroopIndex >= $eBarb And $iTroopIndex <= $eIWiza Then
 					$rWTT[$i][1] = Int($LeftSpace / $g_aiTroopSpace[$iTroopIndex])
 				EndIf
 			EndIf
@@ -320,11 +314,7 @@ Func TrainUsingWhatToTrain($rWTT, $bQueue = $g_bIsFullArmywithHeroesAndSpells)
 			If $rWTT[$i][1] > 0 Then
 				If Not DragIfNeeded($rWTT[$i][0]) Then Return False
 
-				If $iTroopIndex >= $eBarb And $iTroopIndex <= $eHunt Then
-					Local $sTroopName = ($rWTT[$i][1] > 1 ? $g_asTroopNamesPlural[$iTroopIndex] : $g_asTroopNames[$iTroopIndex])
-				EndIf
-
-				If $iTroopIndex >= $eBarb and $iTroopIndex <= $eHunt Then
+				If $iTroopIndex >= $eBarb And $iTroopIndex <= $eIWiza Then
 					Local $sTroopName = ($rWTT[$i][1] > 1 ? $g_asTroopNamesPlural[$iTroopIndex] : $g_asTroopNames[$iTroopIndex])
 				EndIf
 				
@@ -382,26 +372,31 @@ Func DragIfNeeded($Troop)
 
 	If Not $g_bRunState Then Return
 	Local $bCheckPixel = False
+	Local $iIndex = TroopIndexLookup($Troop, "DragIfNeeded")
+	Local $bDrag = False
+	
+	If $iIndex > $g_iNextPageTroop Then $bDrag = True ;Drag if Troops is on Right side from $g_iNextPageTroop
+	If $iIndex > $eHunt Then $bDrag = False ; Not Drag if Troops are Event Troops
 
-	If IsNextPageTroop($Troop) Then
+	If $bDrag Then
 		If _ColorCheck(_GetPixelColor(834, 373 + $g_iMidOffsetY, True), Hex(0xD3D3CB, 6), 5) Then $bCheckPixel = True
 		If $g_bDebugSetlogTrain Then SetLog("DragIfNeeded Dark Troops: " & $bCheckPixel)
-		For $i = 1 To 4
+		For $i = 1 To 3
 			If Not $bCheckPixel Then
-				ClickDrag(715, 445 + $g_iMidOffsetY, 120, 445 + $g_iMidOffsetY, 2000)
-				If _Sleep(1500) Then Return
+				ClickDrag(750, 445 + $g_iMidOffsetY, 100, 445 + $g_iMidOffsetY)
+				If _Sleep(2000) Then Return
 				If _ColorCheck(_GetPixelColor(834, 403, True), Hex(0xD3D3CB, 6), 5) Then $bCheckPixel = True
 			Else
 				Return True
 			EndIf
 		Next
 	Else
-		If _ColorCheck(_GetPixelColor(22, 373 + + $g_iMidOffsetY, True), Hex(0xD3D3CB, 6), 5) Then $bCheckPixel = True
+		If _ColorCheck(_GetPixelColor(22, 373 + $g_iMidOffsetY, True), Hex(0xD3D3CB, 6), 5) Then $bCheckPixel = True
 		If $g_bDebugSetlogTrain Then SetLog("DragIfNeeded Normal Troops: " & $bCheckPixel)
-		For $i = 1 To 4
+		For $i = 1 To 3
 			If Not $bCheckPixel Then
-				ClickDrag(120, 445 + $g_iMidOffsetY, 725, 445 + $g_iMidOffsetY, 2000)
-				If _Sleep(1500) Then Return
+				ClickDrag(100, 445 + $g_iMidOffsetY, 760, 445 + $g_iMidOffsetY)
+				If _Sleep(2000) Then Return
 				If _ColorCheck(_GetPixelColor(22, 373 + $g_iMidOffsetY, True), Hex(0xD3D3CB, 6), 5) Then $bCheckPixel = True
 			Else
 				Return True
@@ -429,12 +424,6 @@ Func DoWhatToTrainContainSpell($rWTT)
 	Next
 	Return False
 EndFunc   ;==>DoWhatToTrainContainSpell
-
-Func IsNextPageTroop($Troop)
-	Local $iIndex = TroopIndexLookup($Troop, "IsNextPageTroop")
-	If $iIndex >= $g_iNextPageTroop And $iIndex <= $eHunt Then Return True
-	Return False
-EndFunc
 
 Func IsElixirTroop($Troop)
 	Local $iIndex = TroopIndexLookup($Troop, "IsElixirTroop")
@@ -715,7 +704,8 @@ Func GetSlotNumber($bSpells = False)
 		Case $bSpells = False
 			Local Const $Orders = [$eBarb, $eSBarb, $eArch, $eSArch, $eGiant, $eSGiant, $eGobl, $eSGobl, $eWall, $eSWall, $eBall, $eRBall, $eWiza, $eSWiza, $eHeal, $eDrag, $eSDrag, _
 					$eYeti, $eRDrag, $ePekk, $eBabyD, $eInfernoD, $eMine, $eSMine, $eEDrag, $eETitan, _
-					$eMini, $eSMini, $eHogs, $eValk, $eSValk, $eGole, $eWitc, $eSWitc, $eLava, $eIceH, $eBowl, $eSBowl, $eIceG, $eHunt] ; Set Order of troop display in Army Tab
+					$eMini, $eSMini, $eHogs, $eValk, $eSValk, $eGole, $eWitc, $eSWitc, $eLava, $eIceH, $eBowl, $eSBowl, $eIceG, $eHunt, _
+					$eGSkel, $eRGhost, $ePWiza, $eIWiza]
 
 			Local $allCurTroops[UBound($Orders)]
 
@@ -1123,27 +1113,6 @@ Func ResetVariables($sArmyType = "")
 
 EndFunc   ;==>ResetVariables
 
-Func TrainArmyNumber($abQuickTrainArmy)
-	Local $iDistanceBetweenArmies = 110
-	Local $aiTrainButton, $aiSearchArea[4] = [750, 240 + $g_iMidOffsetY, 815, 350 + $g_iMidOffsetY]
-
-	For $iArmyNumber = 0 To 2
-		If $abQuickTrainArmy[$iArmyNumber] Then
-			$aiTrainButton = decodeSingleCoord(findImage("QuickTrainButton", $g_sImgQuickTrain, GetDiamondFromArray($aiSearchArea), 1, True))
-			If UBound($aiTrainButton, 1) = 2 Then
-				ClickP($aiTrainButton)
-				SetLog(" - Making the Army " & $iArmyNumber + 1, $COLOR_INFO)
-				If _Sleep(500) Then Return
-			Else
-				SetLog(" - Army: " & $iArmyNumber + 1 & " is already trained.")
-			EndIf
-		EndIf
-		$aiSearchArea[1] = ($aiSearchArea[1] + $iDistanceBetweenArmies)
-		$aiSearchArea[3] = ($aiSearchArea[3] + $iDistanceBetweenArmies)
-	Next
-
-EndFunc   ;==>TrainArmyNumber
-
 Func DeleteQueued($sArmyTypeQueued, $iOffsetQueued = 802)
 
 	If $sArmyTypeQueued = "Troops" Then
@@ -1175,7 +1144,7 @@ Func MakingDonatedTroops($sType = "All")
 		$avDefaultTroopGroup[$i][2] = $g_aiTroopSpace[$i]
 		$avDefaultTroopGroup[$i][3] = $g_aiTroopTrainTime[$i]
 		$avDefaultTroopGroup[$i][4] = 0
-		$avDefaultTroopGroup[$i][5] = $i >= $g_iNextPageTroop ? "d" : "e"
+		$avDefaultTroopGroup[$i][5] = $i >= $eMini ? "d" : "e"
 	Next
 
 	; notes $avDefaultTroopGroup[19][5]
@@ -1234,16 +1203,13 @@ Func MakingDonatedTroops($sType = "All")
 				Local $iTroopIndex = TroopIndexLookup($avDefaultTroopGroup[$i][0], "MakingDonatedTroops")
 
 				If $avDefaultTroopGroup[$i][2] * $avDefaultTroopGroup[$i][4] <= $RemainTrainSpace[2] Then ; Troopheight x donate troop qty <= avaible train space
-					;Local $pos = GetTrainPos(TroopIndexLookup($avDefaultTroopGroup[$i][0]))
 					Local $howMuch = $avDefaultTroopGroup[$i][4]
 					If $avDefaultTroopGroup[$i][5] = "e" Then
 						TrainIt($iTroopIndex, $howMuch, $g_iTrainClickDelayfinal)
-						;PureClick($pos[0], $pos[1], $howMuch, 500)
 					Else
-						ClickDrag(715, 445 + $g_iMidOffsetY, 120, 445 + $g_iMidOffsetY, 2000) ; Click drag for dark Troops
+						ClickDrag(750, 445 + $g_iMidOffsetY, 100, 445 + $g_iMidOffsetY, 2000) ; Click drag for dark Troops
 						TrainIt($iTroopIndex, $howMuch, $g_iTrainClickDelayfinal)
-						;PureClick($pos[0], $pos[1], $howMuch, 500)
-						ClickDrag(120, 445 + $g_iMidOffsetY, 725, 445 + $g_iMidOffsetY, 2000) ; Click drag for Elixir Troops
+						ClickDrag(100, 445 + $g_iMidOffsetY, 760, 445 + $g_iMidOffsetY, 2000) ; Click drag for Elixir Troops
 					EndIf
 					If _Sleep($DELAYRESPOND) Then Return ; add 5ms delay to catch TrainIt errors, and force return to back to main loop
 					Local $sTroopName = ($avDefaultTroopGroup[$i][4] > 1 ? $g_asTroopNamesPlural[$iTroopIndex] : $g_asTroopNames[$iTroopIndex])
@@ -1261,17 +1227,13 @@ Func MakingDonatedTroops($sType = "All")
 							ExitLoop (2) ;
 						EndIf
 						If $avDefaultTroopGroup[$i][2] <= $RemainTrainSpace[2] And $avDefaultTroopGroup[$i][4] > 0 Then
-							;TrainIt(TroopIndexLookup($g_asTroopShortNames[$i]), 1, $g_iTrainClickDelayfinal)
-							;Local $pos = GetTrainPos(TroopIndexLookup($avDefaultTroopGroup[$i][0]))
 							Local $howMuch = 1
 							If $iTroopIndex >= $eBarb And $iTroopIndex <= $eMine Then ; elixir troop
 								TrainIt($iTroopIndex, $howMuch, $g_iTrainClickDelayfinal)
-								;PureClick($pos[0], $pos[1], $howMuch, 500)
 							Else ; dark elixir troop
-								ClickDrag(715, 445 + $g_iMidOffsetY, 220, 445 + $g_iMidOffsetY, 2000) ; Click drag for dark Troops
+								ClickDrag(750, 445 + $g_iMidOffsetY, 100, 445 + $g_iMidOffsetY, 2000) ; Click drag for dark Troops
 								TrainIt($iTroopIndex, $howMuch, $g_iTrainClickDelayfinal)
-								;PureClick($pos[0], $pos[1], $howMuch, 500)
-								ClickDrag(220, 445 + $g_iMidOffsetY, 725, 445 + $g_iMidOffsetY, 2000) ; Click drag for Elixir Troops
+								ClickDrag(100, 445 + $g_iMidOffsetY, 760, 445 + $g_iMidOffsetY, 2000) ; Click drag for Elixir Troops
 							EndIf
 							If _Sleep($DELAYRESPOND) Then Return ; add 5ms delay to catch TrainIt errors, and force return to back to main loop
 							Local $sTroopName = ($avDefaultTroopGroup[$i][4] > 1 ? $g_asTroopNamesPlural[$iTroopIndex] : $g_asTroopNames[$iTroopIndex])
@@ -1291,7 +1253,6 @@ Func MakingDonatedTroops($sType = "All")
 			If $RemainTrainSpace[0] < $RemainTrainSpace[1] Then ; army camps full
 				Local $howMuch = $RemainTrainSpace[2]
 				TrainIt($eTroopArcher, $howMuch, $g_iTrainClickDelayfinal)
-				;PureClick($TrainArch[0], $TrainArch[1], $howMuch, 500)
 				If $RemainTrainSpace[2] > 0 Then $Plural = 1
 				SetLog(" - Trained " & $howMuch & " archer(s)!", $COLOR_ACTION)
 				If _Sleep(1000) Then Return ; Needed Delay, OCR was not picking up Troop Changes
@@ -1483,7 +1444,7 @@ Func FillCCWMedals($g_bFullArmy = False, $g_bCheckSpells = False, $bFullArmyHero
 			If QuickMIS("BC1", $g_sImgCCReinforceBuy, 540, 430 + $g_iMidOffsetY, 565, 460 + $g_iMidOffsetY) Then
 				If WaitforPixel(575, 445 + $g_iMidOffsetY, 585, 455 + $g_iMidOffsetY, "6CBB1F", 10, 2) Then
 					$g_iCCMedalCost = getOcrAndCapture("coc-reinforcement", 500, 435 + $g_iMidOffsetY, 36, 20, True)
-					If $g_bDebugImageSaveMod Then SaveDebugRectImageCrop("CCMedalCost", "500,475,536,495")
+					If $g_bDebugImageSaveMod Then SaveDebugRectImageCrop("CCMedalCost", "500,465,536,485")
 					SetLog("Cost Of Filling : " & $g_iCCMedalCost & " Medals", $COLOR_ACTION)
 					$g_iLootCCMedal -= $g_iCCMedalCost
 					If $g_iLootCCMedal <= $g_aiCmbCCMedalsSaveMin Then
@@ -1522,7 +1483,7 @@ Func FillCCWMedals($g_bFullArmy = False, $g_bCheckSpells = False, $bFullArmyHero
 					If QuickMIS("BC1", $g_sImgCCReinforceBuy, 540, 430 + $g_iMidOffsetY, 565, 460 + $g_iMidOffsetY) Then
 						If WaitforPixel(575, 445 + $g_iMidOffsetY, 585, 455 + $g_iMidOffsetY, "6CBB1F", 10, 2) Then
 							$g_iCCMedalCost = getOcrAndCapture("coc-reinforcement", 500, 435 + $g_iMidOffsetY, 36, 20, True)
-							If $g_bDebugImageSaveMod Then SaveDebugRectImageCrop("CCMedalCost", "500,475,536,495")
+							If $g_bDebugImageSaveMod Then SaveDebugRectImageCrop("CCMedalCost", "500,465,536,485")
 							SetLog("Cost Of Filling : " & $g_iCCMedalCost & " Medals", $COLOR_ACTION)
 							$g_iLootCCMedal -= $g_iCCMedalCost
 							If $g_iLootCCMedal <= $g_aiCmbCCMedalsSaveMin Then
@@ -1556,7 +1517,7 @@ Func FillCCWMedals($g_bFullArmy = False, $g_bCheckSpells = False, $bFullArmyHero
 					If QuickMIS("BC1", $g_sImgCCReinforceBuy, 540, 430 + $g_iMidOffsetY, 565, 460 + $g_iMidOffsetY) Then
 						If WaitforPixel(575, 445 + $g_iMidOffsetY, 585, 455 + $g_iMidOffsetY, "6CBB1F", 10, 2) Then
 							$g_iCCMedalCost = getOcrAndCapture("coc-reinforcement", 500, 435 + $g_iMidOffsetY, 36, 20, True)
-							If $g_bDebugImageSaveMod Then SaveDebugRectImageCrop("CCMedalCost", "500,475,536,495")
+							If $g_bDebugImageSaveMod Then SaveDebugRectImageCrop("CCMedalCost", "500,465,536,485")
 							SetLog("Cost Of Filling : " & $g_iCCMedalCost & " Medals", $COLOR_ACTION)
 							$g_iLootCCMedal -= $g_iCCMedalCost
 							If $g_iLootCCMedal <= $g_aiCmbCCMedalsSaveMin Then
@@ -1610,6 +1571,8 @@ Func IsTimeWaitForCC($g_bFullArmy = False, $g_bCheckSpells = False, $bFullArmyHe
 	If $bChkUseOnlyCCMedals Then Return False
 	
 	If $g_aiCmbCCDecisionTime = 0 Then Return True
+	
+	If $CCWaitChrono = 0 And $RequestAlreadyMade Then Return True
 	
 	If $CCWaitChrono = 0 Then Return False
 	

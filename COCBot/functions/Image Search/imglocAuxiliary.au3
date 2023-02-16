@@ -314,7 +314,7 @@ Func GetButtonDiamond($sButtonName)
 			$btnDiamond = "350,450|505,450|505,521|350,521"
 		Case "BoostBarrack", "BarrackBoosted"
 			$btnDiamond = GetDiamondFromRect("630,280,850,360")
-		Case "ArmyTab", "TrainTroopsTab", "BrewSpellsTab", "BuildSiegeMachinesTab", "QuickTrainTab"
+		Case "ArmyTab", "TrainTroopsTab", "BrewSpellsTab", "BuildSiegeMachinesTab"
 			$btnDiamond = GetDiamondFromRect2(18, 70 + $g_iMidOffsetY, 800, 120 + $g_iMidOffsetY)
 		Case "MessagesButton"
 			$btnDiamond = GetDiamondFromRect("0,0,250,250")

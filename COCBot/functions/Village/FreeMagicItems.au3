@@ -91,7 +91,7 @@ Func CollectFreeMagicItems($bTest = False)
 				If $aResults[$i][0] = "FREE" Then
 					Click($aResults[$i][1], $aResults[$i][2])
 					SetLog("Free Magic Item Detected On Slot #" & $ItemPosition & "", $COLOR_INFO)
-					Sleep(Random(3000, 4000, 1))
+					If _Sleep(Random(3000, 4000, 1)) Then Return
 					If WaitforPixel($aOcrPositions[$i][0] + 25, $aOcrPositions[$i][1] - 20, $aOcrPositions[$i][0] + 27, $aOcrPositions[$i][1] - 19, "AD590D", 10, 1) Then
 						SetLog("Free Magic Item Collected On Slot #" & $ItemPosition & "", $COLOR_SUCCESS)
 						$aGem[$i] = "Collected"
@@ -102,8 +102,7 @@ Func CollectFreeMagicItems($bTest = False)
 							GUICtrlSetData($g_hTxtModLog, @CRLF & _NowTime() & " [" & $g_sProfileCurrentName & "] Avanced : " & $ActionForModLog & "", 1)
 						EndIf
 						_FileWriteLog($g_sProfileLogsPath & "\ModLog.log", " [" & $g_sProfileCurrentName & "] - Advanced : " & $ActionForModLog & "")
-						Sleep(Random(2000, 4000, 1))
-						If _Sleep(1000) Then Return
+						If _Sleep(Random(2000, 4000, 1)) Then Return
 						$Collected += 1
 						ContinueLoop
 						If Not $g_bRunState Then Return
@@ -116,10 +115,12 @@ Func CollectFreeMagicItems($bTest = False)
 						ContinueLoop
 					Else
 						ClickAway()
-						Sleep(Random(2000, 3000, 1))
+						If _Sleep(Random(2000, 3000, 1)) Then Return
 						$IsToOpenOffers = 1
 						SaleFreeMagics()
 						$IsToOpenOffers = 0
+						$aResults = GetFreeMagic()
+						If _Sleep(500) Then Return
 					EndIf
 				EndIf
 				If Not $g_bRunState Then Return
@@ -127,7 +128,7 @@ Func CollectFreeMagicItems($bTest = False)
 	
 			If $aResults[$i][0] = "FREE" Then
 				Click($aResults[$i][1], $aResults[$i][2])
-				Sleep(Random(3000, 4000, 1))
+				If _Sleep(Random(3000, 4000, 1)) Then Return
 				SetLog("Free Magic Item Detected On Slot #" & $ItemPosition & "", $COLOR_INFO)
 				If WaitforPixel($aOcrPositions[$i][0] + 25, $aOcrPositions[$i][1] - 20, $aOcrPositions[$i][0] + 27, $aOcrPositions[$i][1] - 19, "AD590D", 10, 1) Then
 					SetLog("Free Magic Item Collected On Slot #" & $ItemPosition & "", $COLOR_SUCCESS)
@@ -139,8 +140,7 @@ Func CollectFreeMagicItems($bTest = False)
 						GUICtrlSetData($g_hTxtModLog, @CRLF & _NowTime() & " [" & $g_sProfileCurrentName & "] Avanced : " & $ActionForModLog & "", 1)
 					EndIf
 					_FileWriteLog($g_sProfileLogsPath & "\ModLog.log", " [" & $g_sProfileCurrentName & "] - Advanced : " & $ActionForModLog & "")
-					Sleep(Random(2000, 4000, 1))
-					If _Sleep(1000) Then Return
+					If _Sleep(Random(2000, 4000, 1)) Then Return
 					$Collected += 1
 				EndIf
 			ElseIf $aResults[$i][0] = "FreeFull" Then
@@ -153,8 +153,7 @@ Func CollectFreeMagicItems($bTest = False)
 				SetLog("Free Magic Item Detected On Slot #" & $ItemPosition & "", $COLOR_INFO)
 				SetLog("But Item Out Of Stock", $COLOR_INFO)
 				$aGem[$i] = "Sold Out"
-				Sleep(Random(2000, 4000, 1))
-				If _Sleep(1000) Then Return
+				If _Sleep(Random(2000, 4000, 1)) Then Return
 			EndIf
 		EndIf
 		If Not $g_bRunState Then Return
@@ -173,7 +172,7 @@ Func CollectFreeMagicItems($bTest = False)
 		_FileWriteLog($g_sProfileLogsPath & "\ModLog.log", " [" & $g_sProfileCurrentName & "] - Advanced : " & $ActionForModLog & "")
 	EndIf	
 	ClickAway()
-	Sleep(Random(2000, 3000, 1))
+	If _Sleep(Random(2000, 3000, 1)) Then Return
 	
 	If _GUICtrlComboBox_GetCurSel($g_hCmbPriorityMagicItemsFrequency) > 0 Then
 		$MagicItemsCheckTimer = TimerInit()
@@ -226,14 +225,14 @@ EndFunc
 Func OpenTraderWindow()
 	Local $Found = False
 	For $i = 1 To 5
-		If QuickMIS("BC1", $g_sImgTrader, 90, 130, 210, 240) Then
+		If QuickMIS("BC1", $g_sImgTrader, 90, 130, 210, 210 + $g_iMidOffsetY) Then
 			Click($g_iQuickMISX, $g_iQuickMISY)
 			If _Sleep(1500) Then Return
 			$IstoRecheckTrader = 0
 			$Found = True
 			ExitLoop
 		EndIf
-		_Sleep(1000)
+		If _Sleep(1000) Then Return
 	Next
 	If $Found = False Then
 		SetLog("Trader unavailable", $COLOR_INFO)
@@ -277,27 +276,31 @@ Func SaleFreeMagics()
 		Local $ItemCount = StringSplit($ReadItemCount, "#", $STR_NOCOUNT)
 		For $t = 0 To UBound($g_iacmbMagicPotion) - 1
 			If $g_iacmbMagicPotion[$t] < 6 Then
-				If $ItemCount[0] > $g_iacmbMagicPotion[$t] And QuickMIS("BC1", $PotionsCaptures[$t], $aMagicPosXBC1Start[$i], $aMagicPosYBC1StartFirstRow, $aMagicPosXBC1End[$i], $aMagicPosYBC1EndFirstRow, True, False) Then
-				Local $ItemTime = $ItemCount[0] - $g_iacmbMagicPotion[$t]
-				$XForItem1 = $aMagicPosXToClick[$i]
-				DeleteItemLine1($ItemTime)
+			
+				Local $FindPotion = decodeSingleCoord(FindImageInPlace2("Potion", $PotionsCaptures[$t], $aMagicPosXBC1Start[$i], $aMagicPosYBC1StartFirstRow, $aMagicPosXBC1End[$i], $aMagicPosYBC1EndFirstRow))
+			
+				If $ItemCount[0] > $g_iacmbMagicPotion[$t] And IsArray($FindPotion) And UBound($FindPotion, 1) = 2 Then
 				
-				If $ItemTime > 1 Then
-					$ActionForModLog = ""& $ItemTime & " " & $PotionsNames[$t] & " Potions Sold"
-				ElseIf $ItemTime = 1 Then
-					$ActionForModLog = ""& $ItemTime & " " & $PotionsNames[$t] & " Potion Sold"
-				EndIf
-				If $g_iTxtCurrentVillageName <> "" Then
-					GUICtrlSetData($g_hTxtModLog, @CRLF & _NowTime() & " [" & $g_iTxtCurrentVillageName & "] Magic Items Selling : " & $ActionForModLog & "", 1)
-				Else
-					GUICtrlSetData($g_hTxtModLog, @CRLF & _NowTime() & " [" & $g_sProfileCurrentName & "] Magic Items Selling : " & $ActionForModLog & "", 1)
-				EndIf
-				_FileWriteLog($g_sProfileLogsPath & "\ModLog.log", " [" & $g_sProfileCurrentName & "] - Magic Items Selling : " & $ActionForModLog & "")
+					Local $ItemTime = $ItemCount[0] - $g_iacmbMagicPotion[$t]
+					$XForItem1 = $aMagicPosXToClick[$i]
+					DeleteItemLine1($ItemTime)
+				
+					If $ItemTime > 1 Then
+						$ActionForModLog = ""& $ItemTime & " " & $PotionsNames[$t] & " Potions Sold"
+					ElseIf $ItemTime = 1 Then
+						$ActionForModLog = ""& $ItemTime & " " & $PotionsNames[$t] & " Potion Sold"
+					EndIf
+					If $g_iTxtCurrentVillageName <> "" Then
+						GUICtrlSetData($g_hTxtModLog, @CRLF & _NowTime() & " [" & $g_iTxtCurrentVillageName & "] Magic Items Selling : " & $ActionForModLog & "", 1)
+					Else
+						GUICtrlSetData($g_hTxtModLog, @CRLF & _NowTime() & " [" & $g_sProfileCurrentName & "] Magic Items Selling : " & $ActionForModLog & "", 1)
+					EndIf
+					_FileWriteLog($g_sProfileLogsPath & "\ModLog.log", " [" & $g_sProfileCurrentName & "] - Magic Items Selling : " & $ActionForModLog & "")
 			
 					If $g_iacmbMagicPotion[$t] = 0 Then
 						SetLog(""& $PotionsNames[$t] & " Potion Stock Is Now Empty", $COLOR_ERROR)
 						SetLog("Restarting Inspection", $COLOR_OLIVE)
-						Sleep(Random(1000, 2000, 1))
+						If _Sleep(Random(1000, 2000, 1)) Then Return
 						SaleFreeMagicsZero1()
 						$IsLooptoClose1 = True
 						ExitLoop 2
@@ -317,27 +320,31 @@ Func SaleFreeMagics()
 		Local $ItemCount = StringSplit($ReadItemCount, "#", $STR_NOCOUNT)
 		For $t = 0 To UBound($g_iacmbMagicPotion) - 1
 			If $g_iacmbMagicPotion[$t] < 6 Then
-				If $ItemCount[0] > $g_iacmbMagicPotion[$t] And QuickMIS("BC1", $PotionsCaptures[$t], $aMagicPosXBC1Start[$i], $aMagicPosYBC1StartSecondRow, $aMagicPosXBC1End[$i], $aMagicPosYBC1EndSecondRow, True, False) Then
-				Local $ItemTime2 = $ItemCount[0] - $g_iacmbMagicPotion[$t]
-				$XForItem2 = $aMagicPosXToClick[$i]
-				DeleteItemLine2($ItemTime2)
+			
+				Local $FindPotion = decodeSingleCoord(FindImageInPlace2("Potion", $PotionsCaptures[$t], $aMagicPosXBC1Start[$i], $aMagicPosYBC1StartSecondRow, $aMagicPosXBC1End[$i], $aMagicPosYBC1EndSecondRow))
 				
-				If $ItemTime2 > 1 Then
-					$ActionForModLog = ""& $ItemTime2 & " " & $PotionsNames[$t] & " Potions Sold"
-				ElseIf $ItemTime2 = 1 Then
-					$ActionForModLog = ""& $ItemTime2 & " " & $PotionsNames[$t] & " Potion Sold"
-				EndIf
-				If $g_iTxtCurrentVillageName <> "" Then
-					GUICtrlSetData($g_hTxtModLog, @CRLF & _NowTime() & " [" & $g_iTxtCurrentVillageName & "] Magic Items Selling : " & $ActionForModLog & "", 1)
-				Else
-					GUICtrlSetData($g_hTxtModLog, @CRLF & _NowTime() & " [" & $g_sProfileCurrentName & "] Magic Items Selling : " & $ActionForModLog & "", 1)
-				EndIf
-				_FileWriteLog($g_sProfileLogsPath & "\ModLog.log", " [" & $g_sProfileCurrentName & "] - Magic Items Selling : " & $ActionForModLog & "")
+				If $ItemCount[0] > $g_iacmbMagicPotion[$t] And IsArray($FindPotion) And UBound($FindPotion, 1) = 2 Then
+				
+					Local $ItemTime2 = $ItemCount[0] - $g_iacmbMagicPotion[$t]
+					$XForItem2 = $aMagicPosXToClick[$i]
+					DeleteItemLine2($ItemTime2)
+				
+					If $ItemTime2 > 1 Then
+						$ActionForModLog = ""& $ItemTime2 & " " & $PotionsNames[$t] & " Potions Sold"
+					ElseIf $ItemTime2 = 1 Then
+						$ActionForModLog = ""& $ItemTime2 & " " & $PotionsNames[$t] & " Potion Sold"
+					EndIf
+					If $g_iTxtCurrentVillageName <> "" Then
+						GUICtrlSetData($g_hTxtModLog, @CRLF & _NowTime() & " [" & $g_iTxtCurrentVillageName & "] Magic Items Selling : " & $ActionForModLog & "", 1)
+					Else
+						GUICtrlSetData($g_hTxtModLog, @CRLF & _NowTime() & " [" & $g_sProfileCurrentName & "] Magic Items Selling : " & $ActionForModLog & "", 1)
+					EndIf
+					_FileWriteLog($g_sProfileLogsPath & "\ModLog.log", " [" & $g_sProfileCurrentName & "] - Magic Items Selling : " & $ActionForModLog & "")
 			
 					If $g_iacmbMagicPotion[$t] = 0 Then
 						SetLog(""& $PotionsNames[$t] & " Potion Stock Is Now Empty", $COLOR_ERROR)
 						SetLog("Restarting Inspection", $COLOR_OLIVE)
-						Sleep(Random(1000, 2000, 1))
+						If _Sleep(Random(1000, 2000, 1)) Then Return
 						SaleFreeMagicsZero1()
 						$IsLooptoClose1 = True
 						ExitLoop 2
@@ -350,20 +357,20 @@ Func SaleFreeMagics()
 		Next
 	Next
 	SetLog("Management Ended.", $COLOR_DEBUG1)
-	Sleep(Random(2000, 4000, 1))
+	If _Sleep(Random(2000, 4000, 1)) Then Return
 	EndIf
 	ClickAway()
-	Sleep(Random(2000, 3000, 1))
+	If _Sleep(Random(2000, 3000, 1)) Then Return
 	If $IsLooptoClose1 = False Then ClickAway()
 	
 	$IsopenMagicWindow = False
 	
 	If $IsToOpenOffers = 0 Then
-		Sleep(Random(2500, 3500, 1))
+		If _Sleep(Random(2500, 3500, 1)) Then Return
 	ElseIf $IsToOpenOffers = 1 Then
-		Sleep(Random(1500, 2000, 1))
+		If _Sleep(Random(1500, 2000, 1)) Then Return
 		OpenTraderWindow()
-		Sleep(Random(1500, 3000, 1))
+		If _Sleep(Random(1500, 3000, 1)) Then Return
 	EndIf	
 	
 EndFunc
@@ -392,28 +399,31 @@ Func SaleFreeMagicsZero1()
 		Local $ItemCount = StringSplit($ReadItemCount, "#", $STR_NOCOUNT)
 		For $t = 0 To UBound($g_iacmbMagicPotion) - 1
 			If $g_iacmbMagicPotion[$t] < 6 Then
-				If $ItemCount[0] > $g_iacmbMagicPotion[$t] And QuickMIS("BC1", $PotionsCaptures[$t], $aMagicPosXBC1Start[$i], $aMagicPosYBC1StartFirstRow, $aMagicPosXBC1End[$i], $aMagicPosYBC1EndFirstRow, True, False) Then
 			
-				Local $ItemTime = $ItemCount[0] - $g_iacmbMagicPotion[$t]
-				$XForItem1 = $aMagicPosXToClick[$i]
-				DeleteItemLine1($ItemTime)
+				Local $FindPotion = decodeSingleCoord(FindImageInPlace2("Potion", $PotionsCaptures[$t], $aMagicPosXBC1Start[$i], $aMagicPosYBC1StartFirstRow, $aMagicPosXBC1End[$i], $aMagicPosYBC1EndFirstRow))
+			
+				If $ItemCount[0] > $g_iacmbMagicPotion[$t] And IsArray($FindPotion) And UBound($FindPotion, 1) = 2 Then
+			
+					Local $ItemTime = $ItemCount[0] - $g_iacmbMagicPotion[$t]
+					$XForItem1 = $aMagicPosXToClick[$i]
+					DeleteItemLine1($ItemTime)
 				
-				If $ItemTime > 1 Then
-					$ActionForModLog = ""& $ItemTime & " " & $PotionsNames[$t] & " Potions Sold"
-				ElseIf $ItemTime = 1 Then
-					$ActionForModLog = ""& $ItemTime & " " & $PotionsNames[$t] & " Potion Sold"
-				EndIf
-				If $g_iTxtCurrentVillageName <> "" Then
-					GUICtrlSetData($g_hTxtModLog, @CRLF & _NowTime() & " [" & $g_iTxtCurrentVillageName & "] Magic Items Selling : " & $ActionForModLog & "", 1)
-				Else
-					GUICtrlSetData($g_hTxtModLog, @CRLF & _NowTime() & " [" & $g_sProfileCurrentName & "] Magic Items Selling : " & $ActionForModLog & "", 1)
-				EndIf
-				_FileWriteLog($g_sProfileLogsPath & "\ModLog.log", " [" & $g_sProfileCurrentName & "] - Magic Items Selling : " & $ActionForModLog & "")
+					If $ItemTime > 1 Then
+						$ActionForModLog = ""& $ItemTime & " " & $PotionsNames[$t] & " Potions Sold"
+					ElseIf $ItemTime = 1 Then
+						$ActionForModLog = ""& $ItemTime & " " & $PotionsNames[$t] & " Potion Sold"
+					EndIf
+					If $g_iTxtCurrentVillageName <> "" Then
+						GUICtrlSetData($g_hTxtModLog, @CRLF & _NowTime() & " [" & $g_iTxtCurrentVillageName & "] Magic Items Selling : " & $ActionForModLog & "", 1)
+					Else
+						GUICtrlSetData($g_hTxtModLog, @CRLF & _NowTime() & " [" & $g_sProfileCurrentName & "] Magic Items Selling : " & $ActionForModLog & "", 1)
+					EndIf
+					_FileWriteLog($g_sProfileLogsPath & "\ModLog.log", " [" & $g_sProfileCurrentName & "] - Magic Items Selling : " & $ActionForModLog & "")
 			
 					If $g_iacmbMagicPotion[$t] = 0 Then
 						SetLog(""& $PotionsNames[$t] & " Potion Stock Is Now Empty", $COLOR_ERROR)
 						SetLog("Restarting Inspection", $COLOR_OLIVE)
-						Sleep(Random(1000, 2000, 1))
+						If _Sleep(Random(1000, 2000, 1)) Then Return
 						SaleFreeMagics()
 						$IsLooptoClose2 = True
 						ExitLoop 2
@@ -433,28 +443,31 @@ Func SaleFreeMagicsZero1()
 		Local $ItemCount = StringSplit($ReadItemCount, "#", $STR_NOCOUNT)
 		For $t = 0 To UBound($g_iacmbMagicPotion) - 1
 			If $g_iacmbMagicPotion[$t] < 6 Then
-				If $ItemCount[0] > $g_iacmbMagicPotion[$t] And QuickMIS("BC1", $PotionsCaptures[$t], $aMagicPosXBC1Start[$i], $aMagicPosYBC1StartSecondRow, $aMagicPosXBC1End[$i], $aMagicPosYBC1EndSecondRow, True, False) Then
 			
-				Local $ItemTime2 = $ItemCount[0] - $g_iacmbMagicPotion[$t]
-				$XForItem2 = $aMagicPosXToClick[$i]
-				DeleteItemLine2($ItemTime2)
+				Local $FindPotion = decodeSingleCoord(FindImageInPlace2("Potion", $PotionsCaptures[$t], $aMagicPosXBC1Start[$i], $aMagicPosYBC1StartSecondRow, $aMagicPosXBC1End[$i], $aMagicPosYBC1EndSecondRow))
 				
-				If $ItemTime2 > 1 Then
-					$ActionForModLog = ""& $ItemTime2 & " " & $PotionsNames[$t] & " Potions Sold"
-				ElseIf $ItemTime2 = 1 Then
-					$ActionForModLog = ""& $ItemTime2 & " " & $PotionsNames[$t] & " Potion Sold"
-				EndIf
-				If $g_iTxtCurrentVillageName <> "" Then
-					GUICtrlSetData($g_hTxtModLog, @CRLF & _NowTime() & " [" & $g_iTxtCurrentVillageName & "] Magic Items Selling : " & $ActionForModLog & "", 1)
-				Else
-					GUICtrlSetData($g_hTxtModLog, @CRLF & _NowTime() & " [" & $g_sProfileCurrentName & "] Magic Items Selling : " & $ActionForModLog & "", 1)
-				EndIf
-				_FileWriteLog($g_sProfileLogsPath & "\ModLog.log", " [" & $g_sProfileCurrentName & "] - Magic Items Selling : " & $ActionForModLog & "")
+				If $ItemCount[0] > $g_iacmbMagicPotion[$t] And IsArray($FindPotion) And UBound($FindPotion, 1) = 2 Then
+			
+					Local $ItemTime2 = $ItemCount[0] - $g_iacmbMagicPotion[$t]
+					$XForItem2 = $aMagicPosXToClick[$i]
+					DeleteItemLine2($ItemTime2)
+				
+					If $ItemTime2 > 1 Then
+						$ActionForModLog = ""& $ItemTime2 & " " & $PotionsNames[$t] & " Potions Sold"
+					ElseIf $ItemTime2 = 1 Then
+						$ActionForModLog = ""& $ItemTime2 & " " & $PotionsNames[$t] & " Potion Sold"
+					EndIf
+					If $g_iTxtCurrentVillageName <> "" Then
+						GUICtrlSetData($g_hTxtModLog, @CRLF & _NowTime() & " [" & $g_iTxtCurrentVillageName & "] Magic Items Selling : " & $ActionForModLog & "", 1)
+					Else
+						GUICtrlSetData($g_hTxtModLog, @CRLF & _NowTime() & " [" & $g_sProfileCurrentName & "] Magic Items Selling : " & $ActionForModLog & "", 1)
+					EndIf
+					_FileWriteLog($g_sProfileLogsPath & "\ModLog.log", " [" & $g_sProfileCurrentName & "] - Magic Items Selling : " & $ActionForModLog & "")
 			
 					If $g_iacmbMagicPotion[$t] = 0 Then
 						SetLog(""& $PotionsNames[$t] & " Potion Stock Is Now Empty", $COLOR_ERROR)
 						SetLog("Restarting Inspection", $COLOR_OLIVE)
-						Sleep(Random(1000, 2000, 1))
+						If _Sleep(Random(1000, 2000, 1)) Then Return
 						SaleFreeMagics()
 						$IsLooptoClose2 = True
 						ExitLoop 2
@@ -467,20 +480,20 @@ Func SaleFreeMagicsZero1()
 		Next
 	Next
 	SetLog("Management Ended.", $COLOR_DEBUG1)
-	Sleep(Random(2000, 4000, 1))
+	If _Sleep(Random(2000, 4000, 1)) Then Return
 	EndIf
 	ClickAway()
-	Sleep(Random(2000, 3000, 1))
+	If _Sleep(Random(2000, 3000, 1)) Then Return
 	If $IsLooptoClose2 = False Then ClickAway()
 	
 	$IsopenMagicWindow = False
 	
 	If $IsToOpenOffers = 0 Then
-		Sleep(Random(2500, 3500, 1))
+		If _Sleep(Random(2500, 3500, 1)) Then Return
 	ElseIf $IsToOpenOffers = 1 Then
-		Sleep(Random(1500, 2000, 1))
+		If _Sleep(Random(1500, 2000, 1)) Then Return
 		OpenTraderWindow()
-		Sleep(Random(1500, 3000, 1))
+		If _Sleep(Random(1500, 3000, 1)) Then Return
 	EndIf	
 	
 EndFunc
@@ -513,28 +526,31 @@ Func SaleFreeMagicsDropTrophy()
 		Local $ReadItemCount = MagicItemCount($aMagicPosX[$i], $aMagicPosY)
 		Local $ItemCount = StringSplit($ReadItemCount, "#", $STR_NOCOUNT)
 			If $g_iacmbMagicPotion[0] < 6 Then
-				If $ItemCount[0] > $g_iacmbMagicPotion[0] And QuickMIS("BC1", $PotionsCaptures[0], $aMagicPosXBC1Start[$i], $aMagicPosYBC1StartFirstRow, $aMagicPosXBC1End[$i], $aMagicPosYBC1EndFirstRow, True, False) Then
 			
-				Local $ItemTime = $ItemCount[0] - $g_iacmbMagicPotion[0]
-				$XForItem1 = $aMagicPosXToClick[$i]
-				DeleteItemLine1($ItemTime)
+				Local $FindPotion = decodeSingleCoord(FindImageInPlace2("Potion", $PotionsCaptures[0], $aMagicPosXBC1Start[$i], $aMagicPosYBC1StartFirstRow, $aMagicPosXBC1End[$i], $aMagicPosYBC1EndFirstRow))
+			
+				If $ItemCount[0] > $g_iacmbMagicPotion[0] And IsArray($FindPotion) And UBound($FindPotion, 1) = 2 Then
+			
+					Local $ItemTime = $ItemCount[0] - $g_iacmbMagicPotion[0]
+					$XForItem1 = $aMagicPosXToClick[$i]
+					DeleteItemLine1($ItemTime)
 				
-				If $ItemTime > 1 Then
-					$ActionForModLog = ""& $ItemTime & " " & $PotionsNames[0] & " Potions Sold"
-				ElseIf $ItemTime = 1 Then
-					$ActionForModLog = ""& $ItemTime & " " & $PotionsNames[0] & " Potion Sold"
-				EndIf
-				If $g_iTxtCurrentVillageName <> "" Then
-					GUICtrlSetData($g_hTxtModLog, @CRLF & _NowTime() & " [" & $g_iTxtCurrentVillageName & "] Magic Items Selling : " & $ActionForModLog & "", 1)
-				Else
-					GUICtrlSetData($g_hTxtModLog, @CRLF & _NowTime() & " [" & $g_sProfileCurrentName & "] Magic Items Selling : " & $ActionForModLog & "", 1)
-				EndIf
-				_FileWriteLog($g_sProfileLogsPath & "\ModLog.log", " [" & $g_sProfileCurrentName & "] - Magic Items Selling : " & $ActionForModLog & "")
+					If $ItemTime > 1 Then
+						$ActionForModLog = ""& $ItemTime & " " & $PotionsNames[0] & " Potions Sold"
+					ElseIf $ItemTime = 1 Then
+						$ActionForModLog = ""& $ItemTime & " " & $PotionsNames[0] & " Potion Sold"
+					EndIf
+					If $g_iTxtCurrentVillageName <> "" Then
+						GUICtrlSetData($g_hTxtModLog, @CRLF & _NowTime() & " [" & $g_iTxtCurrentVillageName & "] Magic Items Selling : " & $ActionForModLog & "", 1)
+					Else
+						GUICtrlSetData($g_hTxtModLog, @CRLF & _NowTime() & " [" & $g_sProfileCurrentName & "] Magic Items Selling : " & $ActionForModLog & "", 1)
+					EndIf
+					_FileWriteLog($g_sProfileLogsPath & "\ModLog.log", " [" & $g_sProfileCurrentName & "] - Magic Items Selling : " & $ActionForModLog & "")
 			
 					If $g_iacmbMagicPotion[0] = 0 Then
 						SetLog(""& $PotionsNames[0] & " Potion Stock Is Now Empty", $COLOR_ERROR)
 						SetLog("Restarting Inspection", $COLOR_OLIVE)
-						Sleep(Random(1000, 2000, 1))
+						If _Sleep(Random(1000, 2000, 1)) Then Return
 						SaleFreeMagicsDropTrophyZero1()
 						$IsLooptoClose3 = True
 						ExitLoop
@@ -545,28 +561,31 @@ Func SaleFreeMagicsDropTrophy()
 				If _Sleep(1000) Then Return
 			EndIf
 			If $g_iacmbMagicPotion[5] < 6 Then
-				If $ItemCount[0] > $g_iacmbMagicPotion[5] And QuickMIS("BC1", $PotionsCaptures[5], $aMagicPosXBC1Start[$i], $aMagicPosYBC1StartFirstRow, $aMagicPosXBC1End[$i], $aMagicPosYBC1EndFirstRow, True, False) Then
 			
-				Local $ItemTime = $ItemCount[0] - $g_iacmbMagicPotion[5]
-				$XForItem1 = $aMagicPosXToClick[$i]
-				DeleteItemLine1($ItemTime)
+				Local $FindPotion = decodeSingleCoord(FindImageInPlace2("Potion", $PotionsCaptures[5], $aMagicPosXBC1Start[$i], $aMagicPosYBC1StartFirstRow, $aMagicPosXBC1End[$i], $aMagicPosYBC1EndFirstRow))
+			
+				If $ItemCount[0] > $g_iacmbMagicPotion[5] And IsArray($FindPotion) And UBound($FindPotion, 1) = 2 Then
+			
+					Local $ItemTime = $ItemCount[0] - $g_iacmbMagicPotion[5]
+					$XForItem1 = $aMagicPosXToClick[$i]
+					DeleteItemLine1($ItemTime)
 				
-				If $ItemTime > 1 Then
-					$ActionForModLog = ""& $ItemTime & " " & $PotionsNames[5] & " Potions Sold"
-				ElseIf $ItemTime = 1 Then
-					$ActionForModLog = ""& $ItemTime & " " & $PotionsNames[5] & " Potion Sold"
-				EndIf
-				If $g_iTxtCurrentVillageName <> "" Then
-					GUICtrlSetData($g_hTxtModLog, @CRLF & _NowTime() & " [" & $g_iTxtCurrentVillageName & "] Magic Items Selling : " & $ActionForModLog & "", 1)
-				Else
-					GUICtrlSetData($g_hTxtModLog, @CRLF & _NowTime() & " [" & $g_sProfileCurrentName & "] Magic Items Selling : " & $ActionForModLog & "", 1)
-				EndIf
-				_FileWriteLog($g_sProfileLogsPath & "\ModLog.log", " [" & $g_sProfileCurrentName & "] - Magic Items Selling : " & $ActionForModLog & "")
+					If $ItemTime > 1 Then
+						$ActionForModLog = ""& $ItemTime & " " & $PotionsNames[5] & " Potions Sold"
+					ElseIf $ItemTime = 1 Then
+						$ActionForModLog = ""& $ItemTime & " " & $PotionsNames[5] & " Potion Sold"
+					EndIf
+					If $g_iTxtCurrentVillageName <> "" Then
+						GUICtrlSetData($g_hTxtModLog, @CRLF & _NowTime() & " [" & $g_iTxtCurrentVillageName & "] Magic Items Selling : " & $ActionForModLog & "", 1)
+					Else
+						GUICtrlSetData($g_hTxtModLog, @CRLF & _NowTime() & " [" & $g_sProfileCurrentName & "] Magic Items Selling : " & $ActionForModLog & "", 1)
+					EndIf
+					_FileWriteLog($g_sProfileLogsPath & "\ModLog.log", " [" & $g_sProfileCurrentName & "] - Magic Items Selling : " & $ActionForModLog & "")
 			
 					If $g_iacmbMagicPotion[5] = 0 Then
 						SetLog(""& $PotionsNames[5] & " Potion Stock Is Now Empty", $COLOR_ERROR)
 						SetLog("Restarting Inspection", $COLOR_OLIVE)
-						Sleep(Random(1000, 2000, 1))
+						If _Sleep(Random(1000, 2000, 1)) Then Return
 						SaleFreeMagicsDropTrophyZero1()
 						$IsLooptoClose3 = True
 						ExitLoop
@@ -584,28 +603,31 @@ Func SaleFreeMagicsDropTrophy()
 		Local $ReadItemCount = MagicItemCount($aMagicPosX[$i], $aMagicPosY2)
 		Local $ItemCount = StringSplit($ReadItemCount, "#", $STR_NOCOUNT)
 			If $g_iacmbMagicPotion[0] < 6 Then
-				If $ItemCount[0] > $g_iacmbMagicPotion[0] And QuickMIS("BC1", $PotionsCaptures[0], $aMagicPosXBC1Start[$i], $aMagicPosYBC1StartSecondRow, $aMagicPosXBC1End[$i], $aMagicPosYBC1EndSecondRow, True, False) Then
 			
-				Local $ItemTime2 = $ItemCount[0] - $g_iacmbMagicPotion[0]
-				$XForItem2 = $aMagicPosXToClick[$i]
-				DeleteItemLine2($ItemTime2)
+				Local $FindPotion = decodeSingleCoord(FindImageInPlace2("Potion", $PotionsCaptures[0], $aMagicPosXBC1Start[$i], $aMagicPosYBC1StartSecondRow, $aMagicPosXBC1End[$i], $aMagicPosYBC1EndSecondRow))
 				
-				If $ItemTime2 > 1 Then
-					$ActionForModLog = ""& $ItemTime2 & " " & $PotionsNames[0] & " Potions Sold"
-				ElseIf $ItemTime2 = 1 Then
-					$ActionForModLog = ""& $ItemTime2 & " " & $PotionsNames[0] & " Potion Sold"
-				EndIf
-				If $g_iTxtCurrentVillageName <> "" Then
-					GUICtrlSetData($g_hTxtModLog, @CRLF & _NowTime() & " [" & $g_iTxtCurrentVillageName & "] Magic Items Selling : " & $ActionForModLog & "", 1)
-				Else
-					GUICtrlSetData($g_hTxtModLog, @CRLF & _NowTime() & " [" & $g_sProfileCurrentName & "] Magic Items Selling : " & $ActionForModLog & "", 1)
-				EndIf
-				_FileWriteLog($g_sProfileLogsPath & "\ModLog.log", " [" & $g_sProfileCurrentName & "] - Magic Items Selling : " & $ActionForModLog & "")
+				If $ItemCount[0] > $g_iacmbMagicPotion[0] And IsArray($FindPotion) And UBound($FindPotion, 1) = 2 Then
+			
+					Local $ItemTime2 = $ItemCount[0] - $g_iacmbMagicPotion[0]
+					$XForItem2 = $aMagicPosXToClick[$i]
+					DeleteItemLine2($ItemTime2)
+				
+					If $ItemTime2 > 1 Then
+						$ActionForModLog = ""& $ItemTime2 & " " & $PotionsNames[0] & " Potions Sold"
+					ElseIf $ItemTime2 = 1 Then
+						$ActionForModLog = ""& $ItemTime2 & " " & $PotionsNames[0] & " Potion Sold"
+					EndIf
+					If $g_iTxtCurrentVillageName <> "" Then
+						GUICtrlSetData($g_hTxtModLog, @CRLF & _NowTime() & " [" & $g_iTxtCurrentVillageName & "] Magic Items Selling : " & $ActionForModLog & "", 1)
+					Else
+						GUICtrlSetData($g_hTxtModLog, @CRLF & _NowTime() & " [" & $g_sProfileCurrentName & "] Magic Items Selling : " & $ActionForModLog & "", 1)
+					EndIf
+					_FileWriteLog($g_sProfileLogsPath & "\ModLog.log", " [" & $g_sProfileCurrentName & "] - Magic Items Selling : " & $ActionForModLog & "")
 			
 					If $g_iacmbMagicPotion[0] = 0 Then
 						SetLog(""& $PotionsNames[0] & " Potion Stock Is Now Empty", $COLOR_ERROR)
 						SetLog("Restarting Inspection", $COLOR_OLIVE)
-						Sleep(Random(1000, 2000, 1))
+						If _Sleep(Random(1000, 2000, 1)) Then Return
 						SaleFreeMagicsDropTrophyZero1()
 						$IsLooptoClose3 = True
 						ExitLoop
@@ -616,28 +638,31 @@ Func SaleFreeMagicsDropTrophy()
 				If _Sleep(1000) Then Return
 			EndIf
 			If $g_iacmbMagicPotion[5] < 6 Then
-				If $ItemCount[0] > $g_iacmbMagicPotion[5] And QuickMIS("BC1", $PotionsCaptures[5], $aMagicPosXBC1Start[$i], $aMagicPosYBC1StartSecondRow, $aMagicPosXBC1End[$i], $aMagicPosYBC1EndSecondRow, True, False) Then
 			
-				Local $ItemTime2 = $ItemCount[0] - $g_iacmbMagicPotion[5]
-				$XForItem2 = $aMagicPosXToClick[$i]
-				DeleteItemLine2($ItemTime2)
+				Local $FindPotion = decodeSingleCoord(FindImageInPlace2("Potion", $PotionsCaptures[5], $aMagicPosXBC1Start[$i], $aMagicPosYBC1StartSecondRow, $aMagicPosXBC1End[$i], $aMagicPosYBC1EndSecondRow))
 				
-				If $ItemTime2 > 1 Then
-					$ActionForModLog = ""& $ItemTime2 & " " & $PotionsNames[5] & " Potions Sold"
-				ElseIf $ItemTime2 = 1 Then
-					$ActionForModLog = ""& $ItemTime2 & " " & $PotionsNames[5] & " Potion Sold"
-				EndIf
-				If $g_iTxtCurrentVillageName <> "" Then
-					GUICtrlSetData($g_hTxtModLog, @CRLF & _NowTime() & " [" & $g_iTxtCurrentVillageName & "] Magic Items Selling : " & $ActionForModLog & "", 1)
-				Else
-					GUICtrlSetData($g_hTxtModLog, @CRLF & _NowTime() & " [" & $g_sProfileCurrentName & "] Magic Items Selling : " & $ActionForModLog & "", 1)
-				EndIf
-				_FileWriteLog($g_sProfileLogsPath & "\ModLog.log", " [" & $g_sProfileCurrentName & "] - Magic Items Selling : " & $ActionForModLog & "")
+				If $ItemCount[0] > $g_iacmbMagicPotion[5] And IsArray($FindPotion) And UBound($FindPotion, 1) = 2 Then
+			
+					Local $ItemTime2 = $ItemCount[0] - $g_iacmbMagicPotion[5]
+					$XForItem2 = $aMagicPosXToClick[$i]
+					DeleteItemLine2($ItemTime2)
+				
+					If $ItemTime2 > 1 Then
+						$ActionForModLog = ""& $ItemTime2 & " " & $PotionsNames[5] & " Potions Sold"
+					ElseIf $ItemTime2 = 1 Then
+						$ActionForModLog = ""& $ItemTime2 & " " & $PotionsNames[5] & " Potion Sold"
+					EndIf
+					If $g_iTxtCurrentVillageName <> "" Then
+						GUICtrlSetData($g_hTxtModLog, @CRLF & _NowTime() & " [" & $g_iTxtCurrentVillageName & "] Magic Items Selling : " & $ActionForModLog & "", 1)
+					Else
+						GUICtrlSetData($g_hTxtModLog, @CRLF & _NowTime() & " [" & $g_sProfileCurrentName & "] Magic Items Selling : " & $ActionForModLog & "", 1)
+					EndIf
+					_FileWriteLog($g_sProfileLogsPath & "\ModLog.log", " [" & $g_sProfileCurrentName & "] - Magic Items Selling : " & $ActionForModLog & "")
 			
 					If $g_iacmbMagicPotion[5] = 0 Then
 						SetLog(""& $PotionsNames[5] & " Potion Stock Is Now Empty", $COLOR_ERROR)
 						SetLog("Restarting Inspection", $COLOR_OLIVE)
-						Sleep(Random(1000, 2000, 1))
+						If _Sleep(Random(1000, 2000, 1)) Then Return
 						SaleFreeMagicsDropTrophyZero1()
 						$IsLooptoClose3 = True
 						ExitLoop
@@ -649,12 +674,12 @@ Func SaleFreeMagicsDropTrophy()
 			EndIf
 	Next
 	SetLog("Management Ended.", $COLOR_DEBUG1)
-	Sleep(Random(2000, 4000, 1))
+	If _Sleep(Random(2000, 4000, 1)) Then Return
 	EndIf
 	ClickAway()
-	Sleep(Random(2000, 3000, 1))
+	If _Sleep(Random(2000, 3000, 1)) Then Return
 	If $IsLooptoClose3 = False Then ClickAway()
-	Sleep(Random(2500, 3500, 1))
+	If _Sleep(Random(2500, 3500, 1)) Then Return
 	$IsopenMagicWindow = False
 EndFunc
 
@@ -681,28 +706,31 @@ Func SaleFreeMagicsDropTrophyZero1()
 		Local $ReadItemCount = MagicItemCount($aMagicPosX[$i], $aMagicPosY)
 		Local $ItemCount = StringSplit($ReadItemCount, "#", $STR_NOCOUNT)
 			If $g_iacmbMagicPotion[0] < 6 Then
-				If $ItemCount[0] > $g_iacmbMagicPotion[0] And QuickMIS("BC1", $PotionsCaptures[0], $aMagicPosXBC1Start[$i], $aMagicPosYBC1StartFirstRow, $aMagicPosXBC1End[$i], $aMagicPosYBC1EndFirstRow, True, False) Then
 			
-				Local $ItemTime = $ItemCount[0] - $g_iacmbMagicPotion[0]
-				$XForItem1 = $aMagicPosXToClick[$i]
-				DeleteItemLine1($ItemTime)
+				Local $FindPotion = decodeSingleCoord(FindImageInPlace2("Potion", $PotionsCaptures[0], $aMagicPosXBC1Start[$i], $aMagicPosYBC1StartFirstRow, $aMagicPosXBC1End[$i], $aMagicPosYBC1EndFirstRow))
+			
+				If $ItemCount[0] > $g_iacmbMagicPotion[0] And IsArray($FindPotion) And UBound($FindPotion, 1) = 2 Then
+			
+					Local $ItemTime = $ItemCount[0] - $g_iacmbMagicPotion[0]
+					$XForItem1 = $aMagicPosXToClick[$i]
+					DeleteItemLine1($ItemTime)
 				
-				If $ItemTime > 1 Then
-					$ActionForModLog = ""& $ItemTime & " " & $PotionsNames[0] & " Potions Sold"
-				ElseIf $ItemTime = 1 Then
-					$ActionForModLog = ""& $ItemTime & " " & $PotionsNames[0] & " Potion Sold"
-				EndIf
-				If $g_iTxtCurrentVillageName <> "" Then
-					GUICtrlSetData($g_hTxtModLog, @CRLF & _NowTime() & " [" & $g_iTxtCurrentVillageName & "] Magic Items Selling : " & $ActionForModLog & "", 1)
-				Else
-					GUICtrlSetData($g_hTxtModLog, @CRLF & _NowTime() & " [" & $g_sProfileCurrentName & "] Magic Items Selling : " & $ActionForModLog & "", 1)
-				EndIf
-				_FileWriteLog($g_sProfileLogsPath & "\ModLog.log", " [" & $g_sProfileCurrentName & "] - Magic Items Selling : " & $ActionForModLog & "")
+					If $ItemTime > 1 Then
+						$ActionForModLog = ""& $ItemTime & " " & $PotionsNames[0] & " Potions Sold"
+					ElseIf $ItemTime = 1 Then
+						$ActionForModLog = ""& $ItemTime & " " & $PotionsNames[0] & " Potion Sold"
+					EndIf
+					If $g_iTxtCurrentVillageName <> "" Then
+						GUICtrlSetData($g_hTxtModLog, @CRLF & _NowTime() & " [" & $g_iTxtCurrentVillageName & "] Magic Items Selling : " & $ActionForModLog & "", 1)
+					Else
+						GUICtrlSetData($g_hTxtModLog, @CRLF & _NowTime() & " [" & $g_sProfileCurrentName & "] Magic Items Selling : " & $ActionForModLog & "", 1)
+					EndIf
+					_FileWriteLog($g_sProfileLogsPath & "\ModLog.log", " [" & $g_sProfileCurrentName & "] - Magic Items Selling : " & $ActionForModLog & "")
 			
 					If $g_iacmbMagicPotion[0] = 0 Then
 						SetLog(""& $PotionsNames[0] & " Potion Stock Is Now Empty", $COLOR_ERROR)
 						SetLog("Restarting Inspection", $COLOR_OLIVE)
-						Sleep(Random(1000, 2000, 1))
+						If _Sleep(Random(1000, 2000, 1)) Then Return
 						SaleFreeMagicsDropTrophy()
 						$IsLooptoClose4 = True
 						ExitLoop
@@ -713,28 +741,31 @@ Func SaleFreeMagicsDropTrophyZero1()
 				If _Sleep(1000) Then Return
 			EndIf
 			If $g_iacmbMagicPotion[5] < 6 Then
-				If $ItemCount[0] > $g_iacmbMagicPotion[5] And QuickMIS("BC1", $PotionsCaptures[5], $aMagicPosXBC1Start[$i], $aMagicPosYBC1StartFirstRow, $aMagicPosXBC1End[$i], $aMagicPosYBC1EndFirstRow, True, False) Then
 			
-				Local $ItemTime = $ItemCount[0] - $g_iacmbMagicPotion[5]
-				$XForItem1 = $aMagicPosXToClick[$i]
-				DeleteItemLine1($ItemTime)
+				Local $FindPotion = decodeSingleCoord(FindImageInPlace2("Potion", $PotionsCaptures[5], $aMagicPosXBC1Start[$i], $aMagicPosYBC1StartFirstRow, $aMagicPosXBC1End[$i], $aMagicPosYBC1EndFirstRow))
+			
+				If $ItemCount[0] > $g_iacmbMagicPotion[5] And IsArray($FindPotion) And UBound($FindPotion, 1) = 2 Then
+			
+					Local $ItemTime = $ItemCount[0] - $g_iacmbMagicPotion[5]
+					$XForItem1 = $aMagicPosXToClick[$i]
+					DeleteItemLine1($ItemTime)
 				
-				If $ItemTime > 1 Then
-					$ActionForModLog = ""& $ItemTime & " " & $PotionsNames[5] & " Potions Sold"
-				ElseIf $ItemTime = 1 Then
-					$ActionForModLog = ""& $ItemTime & " " & $PotionsNames[5] & " Potion Sold"
-				EndIf
-				If $g_iTxtCurrentVillageName <> "" Then
-					GUICtrlSetData($g_hTxtModLog, @CRLF & _NowTime() & " [" & $g_iTxtCurrentVillageName & "] Magic Items Selling : " & $ActionForModLog & "", 1)
-				Else
-					GUICtrlSetData($g_hTxtModLog, @CRLF & _NowTime() & " [" & $g_sProfileCurrentName & "] Magic Items Selling : " & $ActionForModLog & "", 1)
-				EndIf
-				_FileWriteLog($g_sProfileLogsPath & "\ModLog.log", " [" & $g_sProfileCurrentName & "] - Magic Items Selling : " & $ActionForModLog & "")
+					If $ItemTime > 1 Then
+						$ActionForModLog = ""& $ItemTime & " " & $PotionsNames[5] & " Potions Sold"
+					ElseIf $ItemTime = 1 Then
+						$ActionForModLog = ""& $ItemTime & " " & $PotionsNames[5] & " Potion Sold"
+					EndIf
+					If $g_iTxtCurrentVillageName <> "" Then
+						GUICtrlSetData($g_hTxtModLog, @CRLF & _NowTime() & " [" & $g_iTxtCurrentVillageName & "] Magic Items Selling : " & $ActionForModLog & "", 1)
+					Else
+						GUICtrlSetData($g_hTxtModLog, @CRLF & _NowTime() & " [" & $g_sProfileCurrentName & "] Magic Items Selling : " & $ActionForModLog & "", 1)
+					EndIf
+					_FileWriteLog($g_sProfileLogsPath & "\ModLog.log", " [" & $g_sProfileCurrentName & "] - Magic Items Selling : " & $ActionForModLog & "")
 			
 					If $g_iacmbMagicPotion[5] = 0 Then
 						SetLog(""& $PotionsNames[5] & " Potion Stock Is Now Empty", $COLOR_ERROR)
 						SetLog("Restarting Inspection", $COLOR_OLIVE)
-						Sleep(Random(1000, 2000, 1))
+						If _Sleep(Random(1000, 2000, 1)) Then Return
 						SaleFreeMagicsDropTrophy()
 						$IsLooptoClose4 = True
 						ExitLoop
@@ -752,7 +783,10 @@ Func SaleFreeMagicsDropTrophyZero1()
 		Local $ReadItemCount = MagicItemCount($aMagicPosX[$i], $aMagicPosY2)
 		Local $ItemCount = StringSplit($ReadItemCount, "#", $STR_NOCOUNT)
 			If $g_iacmbMagicPotion[0] < 6 Then
-				If $ItemCount[0] > $g_iacmbMagicPotion[0] And QuickMIS("BC1", $PotionsCaptures[0], $aMagicPosXBC1Start[$i], $aMagicPosYBC1StartSecondRow, $aMagicPosXBC1End[$i], $aMagicPosYBC1EndSecondRow, True, False) Then
+			
+				Local $FindPotion = decodeSingleCoord(FindImageInPlace2("Potion", $PotionsCaptures[0], $aMagicPosXBC1Start[$i], $aMagicPosYBC1StartSecondRow, $aMagicPosXBC1End[$i], $aMagicPosYBC1EndSecondRow))
+				
+				If $ItemCount[0] > $g_iacmbMagicPotion[0] And IsArray($FindPotion) And UBound($FindPotion, 1) = 2 Then
 			
 				Local $ItemTime2 = $ItemCount[0] - $g_iacmbMagicPotion[0]
 				$XForItem2 = $aMagicPosXToClick[$i]
@@ -773,7 +807,7 @@ Func SaleFreeMagicsDropTrophyZero1()
 					If $g_iacmbMagicPotion[0] = 0 Then
 						SetLog(""& $PotionsNames[0] & " Potion Stock Is Now Empty", $COLOR_ERROR)
 						SetLog("Restarting Inspection", $COLOR_OLIVE)
-						Sleep(Random(1000, 2000, 1))
+						If _Sleep(Random(1000, 2000, 1)) Then Return
 						SaleFreeMagicsDropTrophy()
 						$IsLooptoClose4 = False
 						ExitLoop
@@ -784,7 +818,10 @@ Func SaleFreeMagicsDropTrophyZero1()
 				If _Sleep(1000) Then Return
 			EndIf
 			If $g_iacmbMagicPotion[5] < 6 Then
-				If $ItemCount[0] > $g_iacmbMagicPotion[5] And QuickMIS("BC1", $PotionsCaptures[5], $aMagicPosXBC1Start[$i], $aMagicPosYBC1StartSecondRow, $aMagicPosXBC1End[$i], $aMagicPosYBC1EndSecondRow, True, False) Then
+			
+				Local $FindPotion = decodeSingleCoord(FindImageInPlace2("Potion", $PotionsCaptures[5], $aMagicPosXBC1Start[$i], $aMagicPosYBC1StartSecondRow, $aMagicPosXBC1End[$i], $aMagicPosYBC1EndSecondRow))
+				
+				If $ItemCount[0] > $g_iacmbMagicPotion[5] And IsArray($FindPotion) And UBound($FindPotion, 1) = 2 Then
 			
 				Local $ItemTime2 = $ItemCount[0] - $g_iacmbMagicPotion[5]
 				$XForItem2 = $aMagicPosXToClick[$i]
@@ -805,7 +842,7 @@ Func SaleFreeMagicsDropTrophyZero1()
 					If $g_iacmbMagicPotion[5] = 0 Then
 						SetLog(""& $PotionsNames[5] & " Potion Stock Is Now Empty", $COLOR_ERROR)
 						SetLog("Restarting Inspection", $COLOR_OLIVE)
-						Sleep(Random(1000, 2000, 1))
+						If _Sleep(Random(1000, 2000, 1)) Then Return
 						SaleFreeMagicsDropTrophy()
 						$IsLooptoClose4 = False
 						ExitLoop
@@ -817,12 +854,12 @@ Func SaleFreeMagicsDropTrophyZero1()
 			EndIf
 	Next
 	SetLog("Management Ended.", $COLOR_DEBUG1)
-	Sleep(Random(2000, 4000, 1))
+	If _Sleep(Random(2000, 4000, 1)) Then Return
 	EndIf
 	ClickAway()
-	Sleep(Random(2000, 3000, 1))
+	If _Sleep(Random(2000, 3000, 1)) Then Return
 	If $IsLooptoClose4 = False Then ClickAway()
-	Sleep(Random(2500, 3500, 1))
+	If _Sleep(Random(2500, 3500, 1)) Then Return
 	$IsopenMagicWindow = False
 EndFunc
 
@@ -830,14 +867,14 @@ Func DeleteItemLine1($ItemTime)
 Local $aMagicPosYToClick = 285
 	For $z = 1 To $ItemTime
 		Click($XForItem1, $aMagicPosYToClick)
-		Sleep(Random(2000, 3500, 1))
+		If _Sleep(Random(2000, 3500, 1)) Then Return
 		If Not $g_bRunState Then Return
-		Click(600, 530)
-		Sleep(Random(2000, 3500, 1))
+		Click(600, 500 + $g_iMidOffsetY)
+		If _Sleep(Random(2000, 3500, 1)) Then Return
 		If Not $g_bRunState Then Return
-		Click(510, 440)
+		Click(510, 410 + $g_iMidOffsetY)
 		If Not $g_bRunState Then Return
-		Sleep(Random(2000, 3500, 1))
+		If _Sleep(Random(2000, 3500, 1)) Then Return
 	Next
 EndFunc   ;==>DeleteItemLine1
 
@@ -845,14 +882,14 @@ Func DeleteItemLine2($ItemTime2)
 Local $aMagicPosY2ToClick = 385
 	For $z = 1 To $ItemTime2
 		Click($XForItem2, $aMagicPosY2ToClick)
-		Sleep(Random(2000, 3500, 1))
+		If _Sleep(Random(2000, 3500, 1)) Then Return
 		If Not $g_bRunState Then Return
-		Click(600, 530)
-		Sleep(Random(2000, 3500, 1))
+		Click(600, 500 + $g_iMidOffsetY)
+		If _Sleep(Random(2000, 3500, 1)) Then Return
 		If Not $g_bRunState Then Return
-		Click(510, 440)
+		Click(510, 410 + $g_iMidOffsetY)
 		If Not $g_bRunState Then Return
-		Sleep(Random(2000, 3500, 1))
+		If _Sleep(Random(2000, 3500, 1)) Then Return
 	Next
 EndFunc   ;==>DeleteItemLine2
 
@@ -877,9 +914,9 @@ Func OpenMagicItemWindow()
 		SetLog("Town Hall Windows Didn't Open", $COLOR_DEBUG1)
 		SetLog("New Try...", $COLOR_DEBUG1)
 		ClickAway()
-		Sleep(Random(1000, 1500, 1))
+		If _Sleep(Random(1000, 1500, 1)) Then Return
 		imglocTHSearch(False, True, True) ;Sets $g_iTownHallLevel
-		Sleep(Random(1000, 1500, 1))
+		If _Sleep(Random(1000, 1500, 1)) Then Return
 		BuildingClick($g_aiTownHallPos[0], $g_aiTownHallPos[1])
 		If _Sleep($DELAYBUILDINGINFO1) Then Return
 		Local $BuildingInfo = BuildingInfo(242, 490 + $g_iBottomOffsetY)
@@ -896,13 +933,13 @@ EndFunc
 Func IsMagicItemWindowOpen()
 	Local $bRet = False
 	For $i = 1 To 10
-		If _ColorCheck(_GetPixelColor(690, 180, True), "FFFFFF", 20) Then
+		If _ColorCheck(_GetPixelColor(690, 150 + $g_iMidOffsetY, True), "FFFFFF", 20) Then
 			$bRet = True
 			ExitLoop
 		Else
 			SetDebugLog("Waiting for FreeMagicWindowOpen #" & $i, $COLOR_ACTION)
 		EndIf
-		_Sleep(500)
+		If _Sleep(500) Then Return
 	Next
 	Return $bRet
 EndFunc

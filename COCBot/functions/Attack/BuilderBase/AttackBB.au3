@@ -5,7 +5,7 @@
 ; Parameters ....: None
 ; Return values .: None
 ; Author ........: Chilly-Chill (04-2019)
-; Modified ......:
+; Modified ......: Moebius 14 (02.2023)
 ; Remarks .......: This file is part of MyBot, previously known as ClashGameBot. Copyright 2015-2017
 ;                  MyBot is distributed under the terms of the GNU GPL
 ; Related .......:
@@ -129,7 +129,7 @@ Func AttackBB($iAttackSide = 0)
 		; search for a match
 		If _Sleep(2000) Then Return
 
-		local $aBBFindNow = [521, 278 + $g_iMidOffsetY, 0xffc246, 30] ; search button
+		Local $aBBFindNow = [521, 278 + $g_iMidOffsetY, 0xffc246, 30] ; search button
 
 		If _CheckPixel($aBBFindNow, True) Then
 			PureClick($aBBFindNow[0], $aBBFindNow[1])
@@ -147,17 +147,17 @@ Func AttackBB($iAttackSide = 0)
 			Return
 		EndIf
 
-		local $iAndroidSuspendModeFlagsLast = $g_iAndroidSuspendModeFlags
+		Local $iAndroidSuspendModeFlagsLast = $g_iAndroidSuspendModeFlags
 		$g_iAndroidSuspendModeFlags = 0 ; disable suspend and resume
 		If $g_bDebugSetlog = True Then SetDebugLog("Android Suspend Mode Disabled")
 
 		; wait for the clouds to clear
 		SetLog("Searching for Opponent.", $COLOR_BLUE)
-		local $timer = __TimerInit()
-		local $iPrevTime = 0
+		Local $timer = __TimerInit()
+		Local $iPrevTime = 0
 
 		While Not CheckBattleStarted()
-			local $iTime = Int(__TimerDiff($timer)/ 60000)
+			Local $iTime = Int(__TimerDiff($timer)/ 60000)
 
 			CheckAllObstacles($g_bDebugImageSave, 5, 6)
 			If CheckAllObstacles($g_bDebugImageSave, 0, 1) Then Return False
@@ -191,7 +191,7 @@ Func AttackBB($iAttackSide = 0)
 		EndSwitch
 
 		; Get troops on attack bar and their quantities
-		local $aBBAttackBar = GetAttackBarBB()
+		Local $aBBAttackBar = GetAttackBarBB()
 		If _Sleep($DELAYRESPOND) Then
 			$g_iAndroidSuspendModeFlags = $iAndroidSuspendModeFlagsLast
 			If $g_bDebugSetlog = True Then SetDebugLog("Android Suspend Mode Enabled")
@@ -209,9 +209,9 @@ Func AttackBB($iAttackSide = 0)
 		While Not $bTroopsDropped And _Timer_Diff($hAtkTimer) < 210000
 			Local $iNumSlots = UBound($aBBAttackBar, 1)
 			If $g_bBBDropOrderSet = True Then
-				local $asBBDropOrder = StringSplit($g_sBBDropOrder, "|")
+				Local $asBBDropOrder = StringSplit($g_sBBDropOrder, "|")
 				For $i = 0 To $g_iBBTroopCount - 1 ; loop through each name in the drop order
-					local $j=0, $bDone = 0
+					Local $j=0, $bDone = 0
 					While $j < $iNumSlots And Not $bDone
 						If $aBBAttackBar[$j][0] = $asBBDropOrder[$i+1] Then
 							DeployBBTroop($aBBAttackBar[$j][0], $aBBAttackBar[$j][1], $aBBAttackBar[$j][2], $aBBAttackBar[$j][4], $iSide)
@@ -300,9 +300,9 @@ Func AttackBB($iAttackSide = 0)
 EndFunc
 
 Func CheckBattleStarted()
-	local $sSearchDiamond = GetDiamondFromRect("376,10,460,28") ; top
+	Local $sSearchDiamond = GetDiamondFromRect("376,10,460,28") ; top
 
-	local $aCoords = decodeSingleCoord(findImage("BBBattleStarted", $g_sImgBBBattleStarted, $sSearchDiamond, 1, True))
+	Local $aCoords = decodeSingleCoord(findImage("BBBattleStarted", $g_sImgBBBattleStarted, $sSearchDiamond, 1, True))
 	If IsArray($aCoords) And UBound($aCoords) = 2 Then
 		SetLog("Battle Started", $COLOR_SUCCESS)
 		Return True
@@ -314,7 +314,6 @@ EndFunc
 Func GetMachinePos($bDeployed = False)
 	If Not $g_bBBMachineReady Then Return
 
-	;Local $sSearchDiamond = GetDiamondFromRect("0,630,860,732") ; mid
 	Local $sSearchDiamond = GetDiamondFromRect2(0, 600 + $g_iMidOffsetY, 860, 702+ $g_iMidOffsetY)
 	Local $aCoords
 
@@ -347,12 +346,26 @@ Func GetMachinePos($bDeployed = False)
 EndFunc
 
 Func Okay()
-	local $timer = __TimerInit()
+	Local $timer = __TimerInit()
+	Local $ResultXTime = 0
 
 	While 1
-		local $aCoords = decodeSingleCoord(findImage("OkayButton", $g_sImgOkButton, "FV", 1, True))
+		If $ResultXTime = 0 Then
+			If QuickMIS("BC1", $g_sImgBBAttackResult, 390, 155 + $g_iMidOffsetY, 475, 180 + $g_iMidOffsetY) Then 
+				If $g_iQuickMISName = "Victory" Then
+					SetLog("Match Result : Victory !", $COLOR_SUCCESS1)
+					$ResultXTime += 1
+				ElseIf $g_iQuickMISName = "Defeat" Then
+					SetLog("Match Result : Defeat !", $COLOR_ERROR)
+					$ResultXTime += 1
+				EndIf
+			EndIf
+		EndIf
+	
+		Local $aCoords = decodeSingleCoord(findImage("OkayButton", $g_sImgOkButton, "FV", 1, True))
 		If IsArray($aCoords) And UBound($aCoords) = 2 Then
 			PureClickP($aCoords)
+			If _Sleep(500) Then Return
 			Return True
 		EndIf
 

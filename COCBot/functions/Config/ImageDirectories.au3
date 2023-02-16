@@ -54,7 +54,7 @@ Global $g_sImgAchievementsMyProfile = @ScriptDir & "\imgxml\AchievementRewards\M
 Global $g_sImgAchievementsClaimReward = @ScriptDir & "\imgxml\AchievementRewards\ClaimButton"
 Global $g_sImgAchievementsScrollEnd = @ScriptDir & "\imgxml\AchievementRewards\ScrollEnd*"
 Global $g_sImgCollectReward = @ScriptDir & "\imgxml\Resources\ClaimReward"
-Global $g_sImgGreenButton = @ScriptDir & "\imgxml\DailyChallenge\Button\GreenButton_0_92.xml"
+Global $g_sImgGreenButton = @ScriptDir & "\imgxml\DailyChallenge\Button\"
 Global $g_sImgTrader = @ScriptDir & "\imgxml\FreeMagicItems\TraderIcon"
 Global $g_sImgDailyDiscountWindow = @ScriptDir & "\imgxml\FreeMagicItems\DailyDiscounts*"
 Global $g_sImgBuyDealWindow = @ScriptDir & "\imgxml\FreeMagicItems\BuyDeal"
@@ -112,6 +112,7 @@ Global $g_sImgOkButton = @ScriptDir & "\imgxml\Attack\BuilderBase\OkayButton\Oka
 Global $g_sImgDirBBTroops = @ScriptDir & "\imgxml\Attack\BuilderBase\BBTroops"
 Global $g_sImgBBLootAvail = @ScriptDir & "\imgxml\Attack\BuilderBase\LootAvail\LootAvail_0_90.xml"
 Global $g_sImgBBAttackButton = @ScriptDir & "\imgxml\Attack\BuilderBase\AttackButton\*"
+Global $g_sImgBBAttackResult = @ScriptDir & "\imgxml\Attack\BuilderBase\AttackResult"
 #EndRegion
 
 #Region DonateCC
@@ -158,8 +159,6 @@ Global $g_sImgArmyOverviewSpells = @ScriptDir & "\imgxml\ArmyOverview\Spells" ; 
 Global $g_sImgRequestCCButton = @ScriptDir & "\imgxml\ArmyOverview\RequestCC"
 Global $g_sImgSendRequestButton = @ScriptDir & "\imgxml\ArmyOverview\RequestCC\SendRequest\SendButton*"
 Global $g_sImgArmyOverviewHeroes = @ScriptDir & "\imgxml\ArmyOverview\Heroes"
-Global $g_sImgQuickTrain = @ScriptDir & "\imgxml\Train\Quick_Train\*"
-Global $g_sImgEditQuickTrain = @ScriptDir & "\imgxml\Train\EditQuickTrain\"
 #EndRegion
 
 #Region Attack

@@ -34,11 +34,11 @@ Func DropTrophy()
 		Next
 
 		If Number($g_aiCurrentLoot[$eLootTrophy]) <= Number($g_iDropTrophyMax) And Not $IsDropTrophyBreaked Then
-			$IsdroptrophiesActive = False
+			$IsdroptrophiesActive = 0
 			Return ; exit on trophy count to avoid other checks
 		EndIf
 		
-		$IsdroptrophiesActive = True
+		$IsdroptrophiesActive = 1
 		
 		SetLog("Check Train/Donate/Request Before Drop Trophies", $COLOR_BLUE)
 		
@@ -158,8 +158,14 @@ Func DropTrophy()
 			_Sleep($DELAYRUNBOT3)
 			
 			If $g_bDropTrophyUseHeroes = 1 And $g_bChkTrophyAtkWithHeroesOnly = True Then
-			SetLog("Check/Close Bot To Wait For Heroes", $COLOR_OLIVE)
-			SmartWait4Train()
+				If ProfileSwitchAccountEnabled() And $g_bChkSmartSwitch Then
+					SetLog("Switching Account While Waiting For Heroes", $COLOR_OLIVE)
+					$g_iNextAccount = $g_iCurAccount + 1
+					SwitchCoCAcc($g_iNextAccount)
+				Else
+					SetLog("Check/Close Bot To Wait For Heroes", $COLOR_OLIVE)
+					SmartWait4Train()
+				EndIf
 			EndIf
 			
 			Return
@@ -235,7 +241,7 @@ Func DropTrophy()
 			If $g_bDropTrophyUseHeroes = 1 Then	SetLog("No Heroe available !", $COLOR_ERROR)
 			If $g_bDropTrophyUseHeroes = 0 Then	SetLog("Please Train DT Troops !", $COLOR_ERROR)
 			SetDebugLog("Drop Trophy(): No troops in $g_avDTtroopsToBeUsed array", $COLOR_DEBUG)
-			$IsDropTrophyBreaked = True
+			$IsDropTrophyBreaked = 1
 			
 			CollectCCGold()
 			If SwitchBetweenBasesMod2() Then
@@ -266,10 +272,15 @@ Func DropTrophy()
 			_Sleep($DELAYRUNBOT3)
 			
 			If $g_bDropTrophyUseHeroes = 1 And $g_bChkTrophyAtkWithHeroesOnly = True Then
-			SetLog("Check/Close Bot To Wait For Heroes", $COLOR_OLIVE)
-			SmartWait4Train()
+				If ProfileSwitchAccountEnabled() And $g_bChkSmartSwitch Then
+					SetLog("Switching Account While Waiting For Heroes", $COLOR_OLIVE)
+					$g_iNextAccount = $g_iCurAccount + 1
+					SwitchCoCAcc($g_iNextAccount)
+				Else
+					SetLog("Check/Close Bot To Wait For Heroes", $COLOR_OLIVE)
+					SmartWait4Train()
+				EndIf
 			EndIf
-			
 			Return
 		EndIf
 		
@@ -503,8 +514,8 @@ Func DropTrophy()
 				EndIf
 			Else
 				SetLog("Trophy Drop Complete", $COLOR_INFO)
-				$IsdroptrophiesActive = False
-				$IsDropTrophyBreaked = False
+				$IsdroptrophiesActive = 0
+				$IsDropTrophyBreaked = 0
 				IsSearchAttackEnabled()
 				IsForecastChecked()	
 				TrainSystem()				

@@ -157,6 +157,7 @@ Func CreateBotDebug()
 	$y += $yNext
 
 		$g_hBtnTestQuickTrainsimgloc = GUICtrlCreateButton("PrepareAttack Remain", $x, $y, 140, 25)
+		GUICtrlSetState(-1, $GUI_DISABLE)
 
 	$y += $yNext
 		$g_hBtnTestOcrMemory = GUICtrlCreateButton("OCR Memory Test", $x, $y, 140, 25)

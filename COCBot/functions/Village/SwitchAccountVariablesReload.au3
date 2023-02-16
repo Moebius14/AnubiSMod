@@ -20,7 +20,7 @@ Func SwitchAccountVariablesReload($sType = "Load", $iAccount = $g_iCurAccount)
 	Local $aiZero83[8][3] = [[0, 0, 0], [0, 0, 0], [0, 0, 0], [0, 0, 0], [0, 0, 0], [0, 0, 0], [0, 0, 0], [0, 0, 0]]
 	Local $aiZero84[8][4] = [[0, 0, 0, 0], [0, 0, 0, 0], [0, 0, 0, 0], [0, 0, 0, 0], [0, 0, 0, 0], [0, 0, 0, 0], [0, 0, 0, 0], [0, 0, 0, 0]]
 	Local $asEmpty[8] = ["", "", "", "", "", "", "", ""]
-	Local $aiZeroTroop[$eTroopCount] = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+	Local $aiZeroTroop[$eTroopCount] = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
 	Local $aiZeroSpell[$eSpellCount] = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
 
 	; FirstRun
@@ -54,6 +54,8 @@ Func SwitchAccountVariablesReload($sType = "Load", $iAccount = $g_iCurAccount)
 	Static $SMagicItemsCheckTimer = $aiZero
 	Static $SDelayReturnedtocheckMagicItemsMS = $aiZero
 	Static $SIstoRecheckTrader = $aiZero
+	Static $SIsdroptrophiesActive = $aiZero
+	Static $SIsDropTrophyBreaked = $aiZero
 	
 
 	; Bottom & Multi-Stats
@@ -75,6 +77,7 @@ Func SwitchAccountVariablesReload($sType = "Load", $iAccount = $g_iCurAccount)
 	Static $gSiLootCCMedal = $aiZero
 	Static $gSiCCTrophies = $aiZero
 	Static $IsSRaidRunning = $aiZero
+	Static $gSiRank = $asEmpty
 	
 	;Builders Base
 	Static $gSaiCurrentLootBB = $aiZero83
@@ -105,13 +108,6 @@ Func SwitchAccountVariablesReload($sType = "Load", $iAccount = $g_iCurAccount)
 	Static $aiHeroAvailable = $aiZero
 	Static $aiHeroUpgradingBit = $aiZero
 	Static $aiHeroUpgrading = $aiZero83
-
-	; QuickTrain comp
-	Static $aaArmyQuickTroops[8] = [$aiZeroTroop, $aiZeroTroop, $aiZeroTroop, $aiZeroTroop, $aiZeroTroop, $aiZeroTroop, $aiZeroTroop, $aiZeroTroop]
-	Static $aaArmyQuickSpells[8] = [$aiZeroSpell, $aiZeroSpell, $aiZeroSpell, $aiZeroSpell, $aiZeroSpell, $aiZeroSpell, $aiZeroSpell, $aiZeroSpell]
-	Static $aiTotalQuickTroops = $aiZero
-	Static $aiTotalQuickSpells = $aiZero
-	Static $abQuickArmyMixed = $aiZero
 
 	; Other global status
 	Static $aiCommandStop = $aiMinus
@@ -171,6 +167,8 @@ Func SwitchAccountVariablesReload($sType = "Load", $iAccount = $g_iCurAccount)
 			$SMagicItemsCheckTimer = $aiZero
 			$SDelayReturnedtocheckMagicItemsMS = $aiZero
 			$SIstoRecheckTrader = $aiZero
+			$SIsdroptrophiesActive = $aiZero
+			$SIsDropTrophyBreaked = $aiZero
 
 			$g_asTrainTimeFinish = $asEmpty
 			For $i = 0 To 7
@@ -254,15 +252,6 @@ Func SwitchAccountVariablesReload($sType = "Load", $iAccount = $g_iCurAccount)
 			$aiHeroUpgradingBit = $aiZero
 			$aiHeroUpgrading = $aiZero83
 
-			; QuickTrain comp
-			For $i = 0 To 7
-				$aaArmyQuickTroops[$i] = $aiZeroTroop
-				$aaArmyQuickSpells[$i] = $aiZeroSpell
-			Next
-			$aiTotalQuickTroops = $aiZero
-			$aiTotalQuickSpells = $aiZero
-			$abQuickArmyMixed = $aiZero
-
 			; Other global status
 			$aiCommandStop = $aiMinus
 			$aiAllBarracksUpgd = $aiZero
@@ -283,6 +272,7 @@ Func SwitchAccountVariablesReload($sType = "Load", $iAccount = $g_iCurAccount)
 			$gSiLootCCMedal = $aiZero
 			$gSiCCTrophies = $aiZero
 			$IsSRaidRunning = $aiZero
+			$gSiRank = $asEmpty
 			
 			;Builders Base
 			$gSaiCurrentLootBB = $aiZero83
@@ -320,6 +310,8 @@ Func SwitchAccountVariablesReload($sType = "Load", $iAccount = $g_iCurAccount)
 			$SMagicItemsCheckTimer[$iAccount] = $MagicItemsCheckTimer
 			$SDelayReturnedtocheckMagicItemsMS[$iAccount] = $DelayReturnedtocheckMagicItemsMS
 			$SIstoRecheckTrader[$iAccount] = $IstoRecheckTrader
+			$SIsdroptrophiesActive[$iAccount] = $IsdroptrophiesActive
+			$SIsDropTrophyBreaked[$iAccount] = $IsDropTrophyBreaked
 
 			; Multi-Stats
 			$aiSkippedVillageCount[$iAccount] = $g_iSkippedVillageCount
@@ -345,6 +337,7 @@ Func SwitchAccountVariablesReload($sType = "Load", $iAccount = $g_iCurAccount)
 			$gSiLootCCMedal[$iAccount] = $g_iLootCCMedal
 			$gSiCCTrophies[$iAccount] = $g_iCCTrophies
 			$IsSRaidRunning[$iAccount] = $IsRaidRunning
+			$gSiRank[$iAccount] = $g_iRank
 			
 			;Builders Base
 			For $i = 0 To UBound($g_aiCurrentLootBB) - 1
@@ -435,13 +428,6 @@ Func SwitchAccountVariablesReload($sType = "Load", $iAccount = $g_iCurAccount)
 				$aiHeroUpgrading[$iAccount][$i] = $g_iHeroUpgrading[$i]
 			Next
 
-			; QuickTrain comp
-			$aaArmyQuickTroops[$iAccount] = $g_aiArmyQuickTroops
-			$aaArmyQuickSpells[$iAccount] = $g_aiArmyQuickSpells
-			$aiTotalQuickTroops[$iAccount] = $g_iTotalQuickTroops
-			$aiTotalQuickSpells[$iAccount] = $g_iTotalQuickSpells
-			$abQuickArmyMixed[$iAccount] = $g_bQuickArmyMixed
-
 			; Other global status
 			$aiCommandStop[$iAccount] = $g_iCommandStop
 			$aiAllBarracksUpgd[$iAccount] = $g_bAllBarracksUpgd
@@ -484,6 +470,8 @@ Func SwitchAccountVariablesReload($sType = "Load", $iAccount = $g_iCurAccount)
 			$MagicItemsCheckTimer = $SMagicItemsCheckTimer[$iAccount]
 			$DelayReturnedtocheckMagicItemsMS = $SDelayReturnedtocheckMagicItemsMS[$iAccount]
 			$IstoRecheckTrader = $SIstoRecheckTrader[$iAccount]
+			$IsdroptrophiesActive = $SIsdroptrophiesActive[$iAccount]
+			$IsDropTrophyBreaked = $SIsDropTrophyBreaked[$iAccount]
 
 			; Multi-Stats
 			$g_iSkippedVillageCount = $aiSkippedVillageCount[$iAccount]
@@ -513,6 +501,7 @@ Func SwitchAccountVariablesReload($sType = "Load", $iAccount = $g_iCurAccount)
 			GUICtrlSetData($g_lblCapitalTrophies, _NumberFormat($g_iCCTrophies, True))
 			PicCCTrophies()
 			$IsRaidRunning = $IsSRaidRunning[$iAccount]
+			$g_iRank = $gSiRank[$iAccount]
 			
 			;Builders Base
 			For $i = 0 To UBound($g_aiCurrentLootBB) - 1
@@ -604,13 +593,6 @@ Func SwitchAccountVariablesReload($sType = "Load", $iAccount = $g_iCurAccount)
 			For $i = 0 To 2
 				$g_iHeroUpgrading[$i] = $aiHeroUpgrading[$iAccount][$i]
 			Next
-
-			; QuickTrain comp
-			$g_aiArmyQuickTroops = $aaArmyQuickTroops[$iAccount]
-			$g_aiArmyQuickSpells = $aaArmyQuickSpells[$iAccount]
-			$g_iTotalQuickTroops = $aiTotalQuickTroops[$iAccount]
-			$g_iTotalQuickSpells = $aiTotalQuickSpells[$iAccount]
-			$g_bQuickArmyMixed = $abQuickArmyMixed[$iAccount]
 
 			; Other global status
 			$g_iCommandStop = $aiCommandStop[$iAccount]

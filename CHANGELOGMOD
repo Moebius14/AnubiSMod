@@ -1,3 +1,14 @@
+* v23.02.16 **
+* Check Clan Rank Before Starting Raid [SmartSwitch].
+* Wait For CC Timing Improvement.
+* Fixed Switch Account When Drop Trophies And Wait For Heroes.
+* Fixed : No Request While Long cycle Drop Trophy and Fill CC With Only Medals Checked.
+* New Training and Train/Drop Order GUI and Logic.
+* Added Event Troops (work with Scripted, SmartFarm and Standard).
+* Added CSV with Each Event Troops Inside.
+* Fixed Sell And Collect Free Magic Item.
+* Adjusted Coords For Clan Capital Upgrade Names.
+
 * v23.02.09 **
 * Timings and improvements for Humanization.
 * New CSV : Super Arch/Yeti For TH13, TH14, TH15.

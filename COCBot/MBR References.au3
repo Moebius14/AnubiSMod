@@ -437,9 +437,11 @@ Func ReferenceGlobals()
 	$a1 = $eTroopPekka
 	$a1 = $eTroopBabyDragon
 	$a1 = $eTroopMiner
+	$a1 = $eTroopSuperMiner
 	$a1 = $eTroopElectroDragon
 	$a1 = $eTroopYeti
 	$a1 = $eTroopDragonRider
+	$a1 = $eTroopElectroTitan
 
 	$a1 = $eTroopMinion
 	$a1 = $eTroopHogRider
@@ -452,6 +454,10 @@ Func ReferenceGlobals()
 	$a1 = $eTroopIceGolem
 	$a1 = $eTroopSuperMiner
 	$a1 = $eTroopHeadhunter
+	$a1 = $eTroopGiantSkeleton
+	$a1 = $eTroopRoyalGhost
+	$a1 = $eTroopPartyWizard
+	$a1 = $eTroopIceWizard
 	$a1 = $eTroopCount
 	$a1 = $eSpellLightning
 	$a1 = $eSpellHeal
@@ -461,7 +467,6 @@ Func ReferenceGlobals()
 	$a1 = $eSpellClone
 	$a1 = $eSpellInvisibility
 	$a1 = $eSpellRecall
-
 	$a1 = $eSpellPoison
 	$a1 = $eSpellEarthquake
 	$a1 = $eSpellHaste
@@ -484,7 +489,8 @@ Func ReferenceGlobals()
 	$a1 = $eYeti
 	$a1 = $eRDrag
 	$a1 = $eMine
-
+	$a1 = $eSMine
+	$a1 = $eETitan
 	$a1 = $eMini
 	$a1 = $eHogs
 	$a1 = $eValk
@@ -495,6 +501,10 @@ Func ReferenceGlobals()
 	$a1 = $eSBowl
 	$a1 = $eIceG
 	$a1 = $eHunt
+	$a1 = $eGSkel
+	$a1 = $eRGhost
+	$a1 = $ePWiza
+	$a1 = $eIWiza
 	$a1 = $eKing
 	$a1 = $eQueen
 	$a1 = $eWarden

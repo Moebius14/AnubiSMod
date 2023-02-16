@@ -56,10 +56,6 @@ Func OpenSiegeMachinesTab($bSetLog = True, $sWhereFrom = "Undefined")
 	Return OpenTrainTab("Build Siege Machines Tab", $bSetLog, $sWhereFrom)
 EndFunc   ;==>OpenSiegeMachinesTab
 
-Func OpenQuickTrainTab($bSetLog = True, $sWhereFrom = "Undefined")
-	Return OpenTrainTab("Quick Train Tab", $bSetLog, $sWhereFrom)
-EndFunc   ;==>OpenQuickTrainTab
-
 Func OpenTrainTab($sTab, $bSetLog = True, $sWhereFrom = "Undefined")
 
 	If Not IsTrainPage() Then
@@ -93,31 +89,35 @@ EndFunc   ;==>OpenTrainTab
 Func UpdateNextPageTroop()
 	Local $aSlot0[4] = [615, 465, 705, 370]
 	Local $aSlot1[4] = [615, 570, 705, 480]
-	Local $aSlot2[4] = [715, 465, 865, 370]
+	Local $aSlot2[4] = [715, 465, 805, 370]
+	Local $aSlot3[4] = [715, 570, 805, 480]
 	Local $sEDragTile = @ScriptDir & "\imgxml\Train\Train_Train\EDrag*"
+	
+	If _Sleep(500) Then Return
 
-	SetDebugLog("UpdateNextPageTroop...")
+	$g_iNextPageTroop = $eETitan
 
-	$g_iNextPageTroop = $eMini
-
-	DragIfNeeded($eBarb)
-
-	Local $aiTileCoord = decodeSingleCoord(findImage("UpdateNextPageTroop", $sEDragTile, GetDiamondFromRect("25,375,840,548"), 1, True))
+	Local $aiTileCoord = decodeSingleCoord(findImage("UpdateNextPageTroop", $sEDragTile, GetDiamondFromRect("25,375,840,550"), 1, True))
 
 	If IsArray($aiTileCoord) And Ubound($aiTileCoord, 1) = 2 Then
 		SetDebugLog("Found EDrag at " & $aiTileCoord[0] & ", " & $aiTileCoord[1])
 
 		If PointInRect($aSlot1[0], $aSlot1[1], $aSlot1[2], $aSlot1[3], $aiTileCoord[0], $aiTileCoord[1]) Then
-			$g_iNextPageTroop = $eETitan
+			$g_iNextPageTroop = $eRDrag
 			SetDebugLog("Found Edrag moved 1 Slot")
 		EndIf
 
 		If PointInRect($aSlot2[0], $aSlot2[1], $aSlot2[2], $aSlot2[3], $aiTileCoord[0], $aiTileCoord[1]) Then
-			$g_iNextPageTroop = $eRDrag
-			SetDebugLog("Found Edrag moved 2 Slot")
+			$g_iNextPageTroop = $eYeti
+			SetDebugLog("Found Edrag moved 2 Slots")
+		EndIf
+		
+		If PointInRect($aSlot3[0], $aSlot3[1], $aSlot3[2], $aSlot3[3], $aiTileCoord[0], $aiTileCoord[1]) Then
+			$g_iNextPageTroop = $eEDrag
+			SetDebugLog("Found Edrag moved 3 Slots")
 		EndIf
 	EndIf
-
+	If _Sleep(200) Then Return
 EndFunc
 
 Func PointInRect($iBLx, $iBLy, $iTRx, $iTRy, $iPTx, $iPTy)

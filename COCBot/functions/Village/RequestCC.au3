@@ -18,6 +18,8 @@ Func RequestCC($bClickPAtEnd = True, $sText = "")
 	If Not $g_bRequestTroopsEnable Or Not $g_bDonationEnabled Then
 		Return
 	EndIf
+	
+	$RequestAlreadyMade = False
 
 	If Not $g_bRunState Then Return
 
@@ -83,6 +85,7 @@ Func RequestCC($bClickPAtEnd = True, $sText = "")
 			EndIf
 		ElseIf StringInStr($sButtonState, "Already", 0) > 0 Then
 			SetLog("Clan Castle Request has already been made", $COLOR_INFO)
+			If $CCWaitChrono = 0 Then $RequestAlreadyMade = True
 		ElseIf StringInStr($sButtonState, "Full", 0) > 0 Then
 			SetLog("Clan Castle is full or not available", $COLOR_INFO)
 		Else
