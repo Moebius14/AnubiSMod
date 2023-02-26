@@ -155,7 +155,6 @@ Func BtnDropOrderSet()
 			Next
 			$sNewDropList = StringTrimRight($sNewDropList, 2)
 			SetLog("Troops Dropping Order= " & $sNewDropList, $COLOR_INFO)
-
 		EndIf
 	Else
 		SetLog("Must use all troops and No duplicate troop names!", $COLOR_ERROR)

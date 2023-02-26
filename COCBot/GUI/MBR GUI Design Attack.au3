@@ -60,7 +60,7 @@ EndFunc   ;==>CreateAttackTab
 
 Func CreateDropOrderGUI()
 
-	$g_hGUI_DropOrder = _GUICreate(GetTranslatedFileIni("MBR GUI Design Child Attack - Attack", "GUI_DropOrder", "Attack Custom Dropping Order"), 515, 420, -1, -1, $WS_BORDER, $WS_EX_CONTROLPARENT)
+	$g_hGUI_DropOrder = _GUICreate(GetTranslatedFileIni("MBR GUI Design Child Attack - Attack", "GUI_DropOrder", "Attack Custom Dropping Order"), 515, 420, -1, -1, $WS_BORDER, -1, $g_hFrmBot)
 	SetDefaultDropOrderGroup(False)
 	LoadTranslatedDropOrderList()
 

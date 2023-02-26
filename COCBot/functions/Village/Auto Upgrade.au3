@@ -22,7 +22,7 @@ EndFunc
 
 Func _AutoUpgrade()
 	If Not $g_bAutoUpgradeEnabled Then Return
-	
+
 	SetLog("Starting Auto Upgrade", $COLOR_INFO)
 	Local $iLoopAmount = 0
 	Local $iLoopMax = 8
@@ -68,7 +68,7 @@ Func _AutoUpgrade()
 			SetLog("No upgrade available... Exiting Auto Upgrade...", $COLOR_INFO)
 			ExitLoop
 		EndIf
-	
+
 		; check in the line if we can see "New" or the Gear of the equipment, in this case, will not do the upgrade
 		If QuickMIS("NX",$g_sImgAUpgradeObst, 180, $aTmpCoord[0][2] - 15, 480, $aTmpCoord[0][2] + 15) <> "none" Then
 			SetLog("This is a New Building or an Equipment, looking next...", $COLOR_WARNING)
@@ -78,13 +78,21 @@ Func _AutoUpgrade()
 		; if it's an upgrade, will click on the upgrade, in builders menu
 		Click($aTmpCoord[0][1] + 20, $aTmpCoord[0][2])
 		If _Sleep($DELAYAUTOUPGRADEBUILDING1) Then Return
-		
+
 		$g_aUpgradeNameLevel = BuildingInfo(242, 490 + $g_iBottomOffsetY)
 		Local $aUpgradeButton, $aTmpUpgradeButton
-		
+
 		; check if any wrong click by verifying the presence of the Upgrade button (the hammer)
 		$aUpgradeButton = findButton("Upgrade", Default, 1, True)
-		
+
+		;Wall Double Button Case
+		If $g_aUpgradeNameLevel[1] = "Wall" Then
+			If _ColorCheck(_GetPixelColor($aUpgradeButton[0] + 40, $aUpgradeButton[1] - 15, True), Hex(0xFF887F, 6), 20) Then ; Red On First then Check Second
+				If UBound(decodeSingleCoord(FindImageInPlace2("UpgradeButton2", $g_sImgUpgradeBtn2Wall, $aUpgradeButton[0] + 80, $aUpgradeButton[1] - 15, _
+				$aUpgradeButton[0] + 140, $aUpgradeButton[1] + 30, True))) > 1 Then	$aUpgradeButton[0] += 94
+			EndIf
+		EndIf
+
 		If $g_aUpgradeNameLevel[1] = "Town Hall" And $g_aUpgradeNameLevel[2] > 11 Then;Upgrade THWeapon If TH > 11
 			$aTmpUpgradeButton = findButton("THWeapon") ;try to find UpgradeTHWeapon button (swords)
 			If IsArray($aTmpUpgradeButton) And UBound($aTmpUpgradeButton) = 2 Then
@@ -95,7 +103,7 @@ Func _AutoUpgrade()
 				$aUpgradeButton = $aTmpUpgradeButton
 			EndIf
 		Endif
-		
+
 		If Not(IsArray($aUpgradeButton) And UBound($aUpgradeButton, 1) = 2) Then
 			SetLog("No upgrade here... Wrong click, looking next...", $COLOR_WARNING)
 			ContinueLoop
@@ -106,7 +114,7 @@ Func _AutoUpgrade()
 			SetLog("Error when trying to get upgrade name and level, looking next...", $COLOR_ERROR)
 			ContinueLoop
 		EndIf
-		
+
 		Local $bMustIgnoreUpgrade = False
 		; matchmaking between building name and the ignore list
 		Switch $g_aUpgradeNameLevel[1]
@@ -142,6 +150,54 @@ Func _AutoUpgrade()
 				$bMustIgnoreUpgrade = ($g_iChkUpgradesToIgnore[12] = 1) ? True : False
 			Case "Dark Elixir Drill"
 				$bMustIgnoreUpgrade = ($g_iChkUpgradesToIgnore[13] = 1) ? True : False
+			Case "Builder s Hut"
+				$bMustIgnoreUpgrade = ($g_iChkUpgradesToIgnore[32] = 1) ? True : False
+			Case "Cannon"
+				$bMustIgnoreUpgrade = ($g_iChkUpgradesToIgnore[33] = 1) ? True : False
+			Case "Archer Tower"
+				$bMustIgnoreUpgrade = ($g_iChkUpgradesToIgnore[16] = 1) ? True : False
+			Case "Mortar"
+				$bMustIgnoreUpgrade = ($g_iChkUpgradesToIgnore[17] = 1) ? True : False
+			Case "Hidden Tesla"
+				$bMustIgnoreUpgrade = ($g_iChkUpgradesToIgnore[18] = 1) ? True : False
+			Case "Bomb"
+				$bMustIgnoreUpgrade = ($g_iChkUpgradesToIgnore[19] = 1) ? True : False
+			Case "Spring Trap"
+				$bMustIgnoreUpgrade = ($g_iChkUpgradesToIgnore[19] = 1) ? True : False
+			Case "Giant Bomb"
+				$bMustIgnoreUpgrade = ($g_iChkUpgradesToIgnore[19] = 1) ? True : False
+			Case "Air Bomb"
+				$bMustIgnoreUpgrade = ($g_iChkUpgradesToIgnore[19] = 1) ? True : False
+			Case "Seeking Air Mine"
+				$bMustIgnoreUpgrade = ($g_iChkUpgradesToIgnore[19] = 1) ? True : False
+			Case "Skeleton Trap"
+				$bMustIgnoreUpgrade = ($g_iChkUpgradesToIgnore[19] = 1) ? True : False
+			Case "Tornado Trap"
+				$bMustIgnoreUpgrade = ($g_iChkUpgradesToIgnore[19] = 1) ? True : False
+			Case "Wizard Tower"
+				$bMustIgnoreUpgrade = ($g_iChkUpgradesToIgnore[20] = 1) ? True : False
+			Case "Bomb Tower"
+				$bMustIgnoreUpgrade = ($g_iChkUpgradesToIgnore[21] = 1) ? True : False
+			Case "Air Defense"
+				$bMustIgnoreUpgrade = ($g_iChkUpgradesToIgnore[22] = 1) ? True : False
+			Case "Air Sweeper"
+				$bMustIgnoreUpgrade = ($g_iChkUpgradesToIgnore[23] = 1) ? True : False
+			Case "X Bow"
+				$bMustIgnoreUpgrade = ($g_iChkUpgradesToIgnore[24] = 1) ? True : False
+			Case "Inferno Tower"
+				$bMustIgnoreUpgrade = ($g_iChkUpgradesToIgnore[25] = 1) ? True : False
+			Case "Eagle Artillery"
+				$bMustIgnoreUpgrade = ($g_iChkUpgradesToIgnore[26] = 1) ? True : False
+			Case "Scattershot"
+				$bMustIgnoreUpgrade = ($g_iChkUpgradesToIgnore[27] = 1) ? True : False
+			Case "Monolith"
+				$bMustIgnoreUpgrade = ($g_iChkUpgradesToIgnore[28] = 1) ? True : False
+			Case "Army Camp"
+				$bMustIgnoreUpgrade = ($g_iChkUpgradesToIgnore[29] = 1) ? True : False
+			Case "Workshop"
+				$bMustIgnoreUpgrade = ($g_iChkUpgradesToIgnore[30] = 1) ? True : False
+			Case "Pet House"
+				$bMustIgnoreUpgrade = ($g_iChkUpgradesToIgnore[31] = 1) ? True : False
 			Case Else
 				$bMustIgnoreUpgrade = False
 		EndSwitch
@@ -169,6 +225,7 @@ Func _AutoUpgrade()
 
 		; if one of the value is empty, there is an error, we must exit Auto Upgrade
 		For $i = 0 To 2
+			If $g_aUpgradeNameLevel[1] = "Wall" And $i = 2 Then ExitLoop ; Wall Case : No Upgrade Time
 			If $g_aUpgradeResourceCostDuration[$i] = "" Then
 				SetLog("Error when trying to get upgrade details, looking next...", $COLOR_ERROR)
 				ContinueLoop 2
@@ -218,11 +275,8 @@ Func _AutoUpgrade()
 			Case Else
 				Click(430, 500 + $g_iMidOffsetY)
 		EndSwitch
-		
+
 		If _Sleep(1000) Then Return
-		
-		Local $aResult = BuildingInfo(242, 490 + $g_iBottomOffsetY)
-		Local $BuildingName = $aResult[1]
 		
 		;Check for 'End Boost?' pop-up
 		If _Sleep(200) Then Return
@@ -234,13 +288,6 @@ Func _AutoUpgrade()
 			If UBound($aImgAUpgradeEndBoostOKBtn) > 1 Then
 				Click($aImgAUpgradeEndBoostOKBtn[0], $aImgAUpgradeEndBoostOKBtn[1])
 				If _Sleep(1000) Then Return
-				If $g_bChkNotifyUpgrade Then
-					Local $text ="Village : " & $g_sNotifyOrigin & "%0A"
-					$text &="Profile : " & $g_sProfileCurrentName & "%0A"
-					Local $currentDate = Number(@MDAY)
-					$text &= "Auto Upgrade Of " & $BuildingName & " Started"
-					NotifyPushToTelegram($text)
-				EndIf
 			Else
 				SetLog("Unable to locate OK Button", $COLOR_ERROR)
 				If _Sleep(1000) Then Return
@@ -267,29 +314,29 @@ Func _AutoUpgrade()
 					SetLog("Launched upgrade of Giga Inferno successfully !", $COLOR_SUCCESS)
 				Case 15
 					$g_aUpgradeNameLevel[1] = "Giga Inferno"
-					SetLog("Launched upgrade of Giga Inferno successfully !", $COLOR_SUCCESS)	
+					SetLog("Launched upgrade of Giga Inferno successfully !", $COLOR_SUCCESS)
 			EndSwitch
 		Else
 			SetLog("Launched upgrade of " & $g_aUpgradeNameLevel[1] & " to level " & $g_aUpgradeNameLevel[2] + 1 & " successfully !", $COLOR_SUCCESS)
 		Endif
-				
+
 		SetLog(" - Cost : " & _NumberFormat($g_aUpgradeResourceCostDuration[1]) & " " & $g_aUpgradeResourceCostDuration[0], $COLOR_SUCCESS)
-		SetLog(" - Duration : " & $g_aUpgradeResourceCostDuration[2], $COLOR_SUCCESS)
+		If $g_aUpgradeNameLevel[1] <> "Wall" Then SetLog(" - Duration : " & $g_aUpgradeResourceCostDuration[2], $COLOR_SUCCESS) ; Wall Case : No Upgrade Time
 
-		_GUICtrlEdit_AppendText($g_hTxtAutoUpgradeLog, _
-				@CRLF & _NowDate() & " " & _NowTime() & _
-				" - Upgrading " & $g_aUpgradeNameLevel[1] & _
-				" to level " & $g_aUpgradeNameLevel[2] + 1 & _
-				" for " & _NumberFormat($g_aUpgradeResourceCostDuration[1]) & _
-				" " & $g_aUpgradeResourceCostDuration[0] & _
-				" - Duration : " & $g_aUpgradeResourceCostDuration[2])
-
-		_FileWriteLog($g_sProfileLogsPath & "\AutoUpgradeHistory.log", _
-				"Upgrading " & $g_aUpgradeNameLevel[1] & _
-				" to level " & $g_aUpgradeNameLevel[2] + 1 & _
-				" for " & _NumberFormat($g_aUpgradeResourceCostDuration[1]) & _
-				" " & $g_aUpgradeResourceCostDuration[0] & _
-				" - Duration : " & $g_aUpgradeResourceCostDuration[2])
+		If $g_iTxtCurrentVillageName <> "" Then
+			GUICtrlSetData($g_hTxtModLog, @CRLF & _NowTime() & " [" & $g_iTxtCurrentVillageName & "] AutoUpgrade : " & $g_aUpgradeNameLevel[1] & " to level " & $g_aUpgradeNameLevel[2] + 1, 1)
+		Else
+			GUICtrlSetData($g_hTxtModLog, @CRLF & _NowTime() & " [" & $g_sProfileCurrentName & "] AutoUpgrade : " & $g_aUpgradeNameLevel[1] & " to level " & $g_aUpgradeNameLevel[2] + 1, 1)
+		EndIf
+		_FileWriteLog($g_sProfileLogsPath & "\ModLog.log", " [" & $g_sProfileCurrentName & "] - AutoUpgrade : " & $g_aUpgradeNameLevel[1] & " to level " & $g_aUpgradeNameLevel[2] + 1)
+		
+		If $g_bChkNotifyUpgrade Then
+			Local $text ="Village : " & $g_sNotifyOrigin & "%0A"
+			$text &="Profile : " & $g_sProfileCurrentName & "%0A"
+			Local $currentDate = Number(@MDAY)
+			$text &= "Auto Upgrade Of " & $g_aUpgradeNameLevel[1] & " Started"
+			NotifyPushToTelegram($text)
+		EndIf
 
 	WEnd
 

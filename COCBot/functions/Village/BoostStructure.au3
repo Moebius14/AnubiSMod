@@ -203,14 +203,14 @@ Func CheckBuilderPotion()
 			Click($g_iQuickMISX, $g_iQuickMISY)
 			If _Sleep(2000) Then Return
 			
-			If QuickMis("BC1", $g_sImgGeneralCloseButton, 715, 180, 760, 225) Then
+			If QuickMIS("BC1", $g_sImgGeneralCloseButton, 715, 180, 760, 225) Then
 				SetLog("Forge Time > 9h, will use Builder Potion", $COLOR_INFO)
 				$IsForge = True
 			Else
 				SetLog("Upgrade Time > 9h, will use Builder Potion", $COLOR_INFO)
 			EndIf
 			
-			If QuickMis("BC1", $g_sBoostBuilderInForge, 620, 470, 665, 520) Then
+			If QuickMIS("BC1", $g_sBoostBuilderInForge, 620, 470, 665, 520) Then
 			Click($g_iQuickMISX + 42, $g_iQuickMISY)
 				If _Sleep(1000) Then Return
 				If Not $g_bRunState Then Return

@@ -190,8 +190,17 @@ Func BtnSaveprofile()
 	Setlog("Done!", $COLOR_SUCCESS)
 EndFunc   ;==>BtnSaveprofile
 
-Func BtnSaveprofile2()
+Func BtnSaveAlias()
 	Setlog("Saving your Village Name", $COLOR_INFO)
+	SaveConfig()
+	readConfig()
+	applyConfig()
+	Setlog("Done!", $COLOR_SUCCESS)
+EndFunc   ;==>BtnSaveprofile
+
+Func BtnDeleteAlias()
+	Setlog("Clear your Village Name", $COLOR_INFO)
+	GUICtrlSetData($g_hTxtCurrentVillageName, "")
 	SaveConfig()
 	readConfig()
 	applyConfig()
@@ -724,7 +733,7 @@ Func chkActivateClangames()
 	If GUICtrlRead($g_hChkClanGamesEnabled) = $GUI_CHECKED Then
 		ChkClanGamesCollectRewards()
 		GUICtrlSetState($g_hBtnCGSettingsOpen, $GUI_ENABLE)
-		For $i = $g_hChkClanGamesAllTimes to $g_hChkClanGames3h
+		For $i = $g_hChkClanGamesAllTimes To $g_hChkClanGamesNoOneDay
 			GUICtrlSetState($i, $GUI_ENABLE)
 		Next
 		GUICtrlSetState($g_hChkClanGamesDebug, $GUI_ENABLE)
@@ -843,7 +852,7 @@ Func chkActivateClangames()
 	Else
 		GUICtrlSetState($g_hBtnCGRewardsSettingsOpen, $GUI_DISABLE)
 		GUICtrlSetState($g_hBtnCGSettingsOpen, $GUI_DISABLE)
-		For $i = $g_hChkClanGamesAllTimes to $g_hChkClanGames3h
+		For $i = $g_hChkClanGamesAllTimes To $g_hChkClanGamesNoOneDay
 			GUICtrlSetState($i, $GUI_DISABLE)
 		Next
 		GUICtrlSetState($g_hChkClanGamesDebug, $GUI_DISABLE)
@@ -861,74 +870,44 @@ EndFunc   ;==>chkActivateClangames
 
 Func ChkClanGamesAllTimes()
 	If GUICtrlRead($g_hChkClanGamesAllTimes) = $GUI_CHECKED Then
-		For $i = $g_hChkClanGames3h to $g_hChkClanGames3h
-			GUICtrlSetState($i, $GUI_UNCHECKED)
-		Next
+		GUICtrlSetState($g_hChkClanGamesNoOneDay, $GUI_UNCHECKED)
 		If GUICtrlRead($g_hChkClanGamesEnabled) = $GUI_UNCHECKED Then
-			For $i = $g_hChkClanGamesAllTimes to $g_hChkClanGames3h
+			For $i = $g_hChkClanGamesAllTimes To $g_hChkClanGamesNoOneDay
 				GUICtrlSetState($i, $GUI_DISABLE)
 			Next
 		Else
-			For $i = $g_hChkClanGamesAllTimes to $g_hChkClanGames3h
+			For $i = $g_hChkClanGamesAllTimes To $g_hChkClanGamesNoOneDay
 				GUICtrlSetState($i, $GUI_ENABLE)
 			Next
 		EndIf
 	Else
 		If GUICtrlRead($g_hChkClanGamesEnabled) = $GUI_CHECKED Then
-			GUICtrlSetState($g_hChkClanGames3h, $GUI_UNCHECKED)
-			GUICtrlSetState($g_hChkClanGames3hOnly, $GUI_UNCHECKED)
+			GUICtrlSetState($g_hChkClanGamesNoOneDay, $GUI_UNCHECKED)
 		Else
-			For $i = $g_hChkClanGamesAllTimes to $g_hChkClanGames3h
+			For $i = $g_hChkClanGamesAllTimes To $g_hChkClanGamesNoOneDay
 				GUICtrlSetState($i, $GUI_DISABLE)
 			Next
 		EndIf
 	EndIf
 EndFunc
 
-Func ChkClanGames3h()
-	If GUICtrlRead($g_hChkClanGames3h) = $GUI_CHECKED Then
+Func ChkClanGamesNoOneDay()
+	If GUICtrlRead($g_hChkClanGamesNoOneDay) = $GUI_CHECKED Then
 		GUICtrlSetState($g_hChkClanGamesAllTimes, $GUI_UNCHECKED)
-		GUICtrlSetState($g_hChkClanGames3hOnly, $GUI_UNCHECKED)	
 		If GUICtrlRead($g_hChkClanGamesEnabled) = $GUI_UNCHECKED Then
-			For $i = $g_hChkClanGamesAllTimes to $g_hChkClanGames3h
+			For $i = $g_hChkClanGamesAllTimes To $g_hChkClanGamesNoOneDay
 				GUICtrlSetState($i, $GUI_DISABLE)
 			Next
 		Else
-			For $i = $g_hChkClanGamesAllTimes to $g_hChkClanGames3h
+			For $i = $g_hChkClanGamesAllTimes To $g_hChkClanGamesNoOneDay
 				GUICtrlSetState($i, $GUI_ENABLE)
 			Next
 		EndIf
 	Else
 		If GUICtrlRead($g_hChkClanGamesEnabled) = $GUI_CHECKED Then
 			GUICtrlSetState($g_hChkClanGamesAllTimes, $GUI_UNCHECKED)
-			GUICtrlSetState($g_hChkClanGames3hOnly, $GUI_UNCHECKED)
 		Else
-			For $i = $g_hChkClanGamesAllTimes to $g_hChkClanGames3h
-				GUICtrlSetState($i, $GUI_DISABLE)
-			Next
-		EndIf
-	EndIf
-EndFunc
-
-Func ChkClanGames3hOnly()
-	If GUICtrlRead($g_hChkClanGames3hOnly) = $GUI_CHECKED Then
-		GUICtrlSetState($g_hChkClanGamesAllTimes, $GUI_UNCHECKED)
-		GUICtrlSetState($g_hChkClanGames3h, $GUI_UNCHECKED)	
-		If GUICtrlRead($g_hChkClanGamesEnabled) = $GUI_UNCHECKED Then
-			For $i = $g_hChkClanGamesAllTimes to $g_hChkClanGames3h
-				GUICtrlSetState($i, $GUI_DISABLE)
-			Next
-		Else
-			For $i = $g_hChkClanGamesAllTimes to $g_hChkClanGames3h
-				GUICtrlSetState($i, $GUI_ENABLE)
-			Next
-		EndIf
-	Else
-		If GUICtrlRead($g_hChkClanGamesEnabled) = $GUI_CHECKED Then
-			GUICtrlSetState($g_hChkClanGamesAllTimes, $GUI_UNCHECKED)
-			GUICtrlSetState($g_hChkClanGames3h, $GUI_UNCHECKED)
-		Else
-			For $i = $g_hChkClanGamesAllTimes to $g_hChkClanGames3h
+			For $i = $g_hChkClanGamesAllTimes To $g_hChkClanGamesNoOneDay
 				GUICtrlSetState($i, $GUI_DISABLE)
 			Next
 		EndIf

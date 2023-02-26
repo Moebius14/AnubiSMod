@@ -13,7 +13,7 @@ Func CleanBBYard()
 
 	; Setup arrays, including default return values for $return
 	Local $Filename = ""
-	Local $Locate = 0
+	Local $Locate = False
 	Local $CleanBBYardXY
 	Local $sCocDiamond = $CocDiamondECD
 	Local $redLines = $sCocDiamond
@@ -32,7 +32,7 @@ Func CleanBBYard()
 					If UBound($CleanBBYardXY) > 1 And isInsideDiamondXY($CleanBBYardXY[0], $CleanBBYardXY[1]) Then ; secure x because of clan chat tab
 						If $g_bDebugSetlog Then SetDebugLog($Filename & " found (" & $CleanBBYardXY[0] & "," & $CleanBBYardXY[1] & ")", $COLOR_SUCCESS)
 						If IsMainPageBuilderBase() Then Click($CleanBBYardXY[0], $CleanBBYardXY[1], 1, 0, "#0430")
-						$Locate = 1
+						$Locate = True
 						If _Sleep(1500) Then Return
 						If Not ClickRemoveObstacleBB() Then ContinueLoop
 						If _Sleep($DELAYCHECKTOMBS2) Then Return
@@ -54,7 +54,7 @@ Func CleanBBYard()
 	If $bNoBuilders Then
 		SetLog("No Builders available to remove Obstacles!")
 	Else
-		If $Locate = 0 And $g_bChkCleanBBYard And Number($g_aiCurrentLootBB[$eLootElixirBB]) > 50000 Then SetLog("No Obstacles found, Yard is clean!", $COLOR_SUCCESS)
+		If Not $Locate And $g_bChkCleanBBYard And Number($g_aiCurrentLootBB[$eLootElixirBB]) > 50000 Then SetLog("No Obstacles found, Yard is clean!", $COLOR_SUCCESS)
 		SetDebugLog("Time: " & Round(__TimerDiff($hObstaclesTimer) / 1000, 2) & "'s", $COLOR_SUCCESS)
 	EndIf
 	UpdateStats()
@@ -67,7 +67,7 @@ Func ClickRemoveObstacleBB()
 	If IsArray($aiButton) And UBound($aiButton) >= 2 Then
 		SetDebugLog("Remove Button found! Clicking it at X: " & $aiButton[0] & ", Y: " & $aiButton[1], $COLOR_DEBUG1)
 		ClickP($aiButton)
-		Sleep(1500)
+		If _Sleep(1000) Then Return
 		If $g_iFreeBuilderCountBB = 1 Then
 			Local $IsCleaningRunning = True
 			While $IsCleaningRunning

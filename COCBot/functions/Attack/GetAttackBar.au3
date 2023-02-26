@@ -147,6 +147,13 @@ Func GetAttackBar($bRemaining = False, $pMatchMode = $DB, $bDebug = False)
 				If ($pMatchMode = $DB Or $pMatchMode = $LB) And StringRegExp($aAttackBar[$i][0], "(WallW)|(BattleB)|(StoneS)|(SiegeB)|(LogL)|(FlameF)|(BattleD)", 0) And $g_abAttackDropCC[$pMatchMode] And _
 				$g_aiAttackUseSiege[$pMatchMode] > 0 And $g_aiAttackUseSiege[$pMatchMode] <= $eSiegeMachineCount + 1 Then
 					$g_iSiegeLevel = Number(getSiegeLevel(Number($aAttackBar[$i][5]) - 31, 643 + $g_iBottomOffsetY))
+					Local $NewTry = 0
+					While $g_iSiegeLevel = ""
+						$NewTry += 1
+						$g_iSiegeLevel =  Number(getSiegeLevel(Number($aAttackBar[$i][5]) - 31, 643 + $g_iBottomOffsetY));Recheck Loop
+						_Sleep(100)
+						If $NewTry = 15 Then ExitLoop
+					WEnd
 					If $g_iSiegeLevel = "" Then $g_iSiegeLevel = 1
 					SetDebugLog($aAttackBar[$i][0] & " level: " & $g_iSiegeLevel)
 				EndIf
@@ -158,6 +165,13 @@ Func GetAttackBar($bRemaining = False, $pMatchMode = $DB, $bDebug = False)
 				If StringRegExp($aAttackBar[$i][0], "(LSpell)|(ESpell)", 0) And $g_bSmartZapEnable Then
 					If StringInStr($aAttackBar[$i][0], "LSpell") <> 0 Then
 						Local $iSpellLevel = Number(getTroopsSpellsLevel(Number($aAttackBar[$i][1]) - 18, 642 + $g_iBottomOffsetY)) ; use image location as 'x' changes with quantity
+						Local $NewTry = 0
+						While $iSpellLevel = ""
+							$NewTry += 1
+							$iSpellLevel = Number(getTroopsSpellsLevel(Number($aAttackBar[$i][1]) - 18, 642 + $g_iBottomOffsetY));Recheck Loop
+							_Sleep(100)
+							If $NewTry = 15 Then ExitLoop
+						WEnd
 						If $iSpellLevel > 0 And $iSpellLevel <= $g_iMaxLSpellLevel Then 
 							$g_iLSpellLevel = $iSpellLevel
 							SetLog("Lightning Spell Level : " & $iSpellLevel, $COLOR_INFO)
@@ -169,6 +183,13 @@ Func GetAttackBar($bRemaining = False, $pMatchMode = $DB, $bDebug = False)
 
 					If StringInStr($aAttackBar[$i][0], "ESpell") <> 0 Then
 						Local $iSpellLevel = Number(getTroopsSpellsLevel(Number($aAttackBar[$i][1]) - 25, 642 + $g_iBottomOffsetY)) ; use image location as 'x' changes with quantity
+						Local $NewTry = 0
+						While $iSpellLevel = ""
+							$NewTry += 1
+							$iSpellLevel = Number(getTroopsSpellsLevel(Number($aAttackBar[$i][1]) - 25, 642 + $g_iBottomOffsetY));Recheck Loop
+							_Sleep(100)
+							If $NewTry = 15 Then ExitLoop
+						WEnd
 						If $iSpellLevel > 0 And $iSpellLevel <= $g_iMaxESpellLevel Then 
 							$g_iESpellLevel = $iSpellLevel
 							SetLog("Earth Quake Spell Level : " & $iSpellLevel, $COLOR_INFO)

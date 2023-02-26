@@ -35,7 +35,6 @@ Global $g_ahTxtTrainArmySiegeCount[$eSiegeMachineCount] = [0, 0, 0, 0, 0, 0]
 Global $g_hTxtFullTroop = 0, $g_hChkTotalCampForced = 0, $g_hTxtTotalCampForced = 0
 Global $g_hChkDoubleTrain = 0, $g_hChkPreciseArmy = 0
 
-Global $g_hGrpTrainTroops = 0
 Global $g_ahPicTrainArmyTroop[$eTroopCount] = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
 Global $g_ahPicTrainArmyTroopTmp[7] = [0, 0, 0, 0, 0, 0, 0]
 Global $g_ahLblTrainArmyTroopTmp[7] = [0, 0, 0, 0, 0, 0, 0]
@@ -589,15 +588,6 @@ Func CreateCustomTrainSubTab()
 	GUICtrlSetOnEvent(-1, "TrainTroopCountEdit")
 
 	$x += $xsplit
-	; Super Giants
-	Local $sTroopName = GetTranslatedFileIni("MBR Global GUI Design Names Troops", "TxtSuperGiants", "Super Giants")
-	$g_ahPicTrainArmyTroop[$eTroopSuperGiant] = _GUICtrlCreateIcon($g_sLibIconPath, $eIcnSuperGiant, $x, $y - 5, 42, 42)
-	$g_ahTxtTrainArmyTroopCount[$eTroopSuperGiant] = GUICtrlCreateInput("0", $x + 1, $y + 39, 40, 17, BitOR($GUI_SS_DEFAULT_INPUT, $ES_CENTER, $ES_NUMBER))
-	_GUICtrlSetTip(-1, $sTxtSetPerc & " " & $sTroopName & " " & $sTxtSetPerc2)
-	GUICtrlSetLimit(-1, 2)
-	GUICtrlSetOnEvent(-1, "TrainTroopCountEdit")
-
-	$x += $xsplit
 	; SneakyGoblins
 	Local $sTroopName = GetTranslatedFileIni("MBR Global GUI Design Names Troops", "TxtSneakyGoblins", "Sneaky Goblins")
 	$g_ahPicTrainArmyTroop[$eTroopSneakyGoblin] = _GUICtrlCreateIcon($g_sLibIconPath, $eIcnSneakyGoblin, $x, $y - 5, 42, 42)
@@ -614,6 +604,15 @@ Func CreateCustomTrainSubTab()
 	_GUICtrlSetTip(-1, $sTxtSetPerc & " " & $sTroopName & " " & $sTxtSetPerc2)
 	GUICtrlSetLimit(-1, 3)
 	GUICtrlSetOnEvent(-1, "TrainTroopCountEdit")
+	
+	$x += $xsplit
+	; Super Giants
+	Local $sTroopName = GetTranslatedFileIni("MBR Global GUI Design Names Troops", "TxtSuperGiants", "Super Giants")
+	$g_ahPicTrainArmyTroop[$eTroopSuperGiant] = _GUICtrlCreateIcon($g_sLibIconPath, $eIcnSuperGiant, $x, $y - 5, 42, 42)
+	$g_ahTxtTrainArmyTroopCount[$eTroopSuperGiant] = GUICtrlCreateInput("0", $x + 1, $y + 39, 40, 17, BitOR($GUI_SS_DEFAULT_INPUT, $ES_CENTER, $ES_NUMBER))
+	_GUICtrlSetTip(-1, $sTxtSetPerc & " " & $sTroopName & " " & $sTxtSetPerc2)
+	GUICtrlSetLimit(-1, 2)
+	GUICtrlSetOnEvent(-1, "TrainTroopCountEdit")
 
 	$x += $xsplit
 	; Rocket Balloons
@@ -629,6 +628,15 @@ Func CreateCustomTrainSubTab()
 	Local $sTroopName = GetTranslatedFileIni("MBR Global GUI Design Names Troops", "TxtSuperWizards", "Super Wizards")
 	$g_ahPicTrainArmyTroop[$eTroopSuperWizard] = _GUICtrlCreateIcon($g_sLibIconPath, $eIcnSuperWizard, $x, $y - 5, 42, 42)
 	$g_ahTxtTrainArmyTroopCount[$eTroopSuperWizard] = GUICtrlCreateInput("0", $x + 1, $y + 39, 40, 17, BitOR($GUI_SS_DEFAULT_INPUT, $ES_CENTER, $ES_NUMBER))
+	_GUICtrlSetTip(-1, $sTxtSetPerc & " " & $sTroopName & " " & $sTxtSetPerc2)
+	GUICtrlSetLimit(-1, 2)
+	GUICtrlSetOnEvent(-1, "TrainTroopCountEdit")
+	
+	$x += $xsplit
+	; Super Dragon
+	Local $sTroopName = GetTranslatedFileIni("MBR Global GUI Design Names Troops", "TxtSuperDragon", "Super Dragon")
+	$g_ahPicTrainArmyTroop[$eTroopSuperDragon] = _GUICtrlCreateIcon($g_sLibIconPath, $eIcnSuperDragon, $x, $y - 5, 42, 42)
+	$g_ahTxtTrainArmyTroopCount[$eTroopSuperDragon] = GUICtrlCreateInput("0", $x + 1, $y + 39, 40, 17, BitOR($GUI_SS_DEFAULT_INPUT, $ES_CENTER, $ES_NUMBER))
 	_GUICtrlSetTip(-1, $sTxtSetPerc & " " & $sTroopName & " " & $sTxtSetPerc2)
 	GUICtrlSetLimit(-1, 2)
 	GUICtrlSetOnEvent(-1, "TrainTroopCountEdit")
@@ -651,7 +659,8 @@ Func CreateCustomTrainSubTab()
 	GUICtrlSetLimit(-1, 3)
 	GUICtrlSetOnEvent(-1, "TrainTroopCountEdit")
 
-	$x += $xsplit
+	$x = $iStartX
+	$y += $ysplit
 	; Super Valkyries
 	Local $sTroopName = GetTranslatedFileIni("MBR Global GUI Design Names Troops", "TxtSuperValkyries", "Super Valkyries")
 	$g_ahPicTrainArmyTroop[$eTroopSuperValkyrie] = _GUICtrlCreateIcon($g_sLibIconPath, $eIcnSuperValkyrie, $x, $y - 5, 42, 42)
@@ -659,10 +668,8 @@ Func CreateCustomTrainSubTab()
 	_GUICtrlSetTip(-1, $sTxtSetPerc & " " & $sTroopName & " " & $sTxtSetPerc2)
 	GUICtrlSetLimit(-1, 2)
 	GUICtrlSetOnEvent(-1, "TrainTroopCountEdit")
-
-	$x = $iStartX
-	$y += $ysplit
-
+	
+	$x += $xsplit
 	; Super Witches
 	Local $sTroopName = GetTranslatedFileIni("MBR Global GUI Design Names Troops", "TxtSuperWitches", "Super Witches")
 	$g_ahPicTrainArmyTroop[$eTroopSuperWitch] = _GUICtrlCreateIcon($g_sLibIconPath, $eIcnSuperWitch, $x, $y - 5, 42, 42)
@@ -689,15 +696,6 @@ Func CreateCustomTrainSubTab()
 	GUICtrlSetLimit(-1, 3)
 	GUICtrlSetOnEvent(-1, "TrainTroopCountEdit")
 
-	$x += $xsplit
-	; Super Dragon
-	Local $sTroopName = GetTranslatedFileIni("MBR Global GUI Design Names Troops", "TxtSuperDragon", "Super Dragon")
-	$g_ahPicTrainArmyTroop[$eTroopSuperDragon] = _GUICtrlCreateIcon($g_sLibIconPath, $eIcnSuperDragon, $x, $y - 5, 42, 42)
-	$g_ahTxtTrainArmyTroopCount[$eTroopSuperDragon] = GUICtrlCreateInput("0", $x + 1, $y + 39, 40, 17, BitOR($GUI_SS_DEFAULT_INPUT, $ES_CENTER, $ES_NUMBER))
-	_GUICtrlSetTip(-1, $sTxtSetPerc & " " & $sTroopName & " " & $sTxtSetPerc2)
-	GUICtrlSetLimit(-1, 2)
-	GUICtrlSetOnEvent(-1, "TrainTroopCountEdit")
-	
 	$x += $xsplit
 	; Super Miners
 	Local $sTroopName = GetTranslatedFileIni("MBR Global GUI Design Names Troops", "TxtSuperMiner", "Super Miner")

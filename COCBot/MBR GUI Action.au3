@@ -138,6 +138,7 @@ Func BotStart($bAutostartDelay = 0)
 	$g_iLootCCGold = 0
 	$g_iLootCCMedal = 0
 	$g_iCCTrophies = 0
+	$IsRaidRunning = 0
 	
 	LoadCurrentProfile()
 	LoadCurrentAlias()

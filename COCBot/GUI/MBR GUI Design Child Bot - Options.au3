@@ -17,10 +17,9 @@
 Global $g_hCmbGUILanguage = 0
 Global $g_hChkDisableSplash = 0, $g_hChkForMBRUpdates = 0, $g_hChkDeleteLogs = 0, $g_hTxtDeleteLogsDays = 0, $g_hChkDeleteTemp = 0, $g_hTxtDeleteTempDays = 0, _
 	   $g_hChkDeleteLoots = 0, $g_hTxtDeleteLootsDays = 0
-Global $g_hChkAutostart = 0, $g_hTxtAutostartDelay = 0, $g_hChkCheckGameLanguage = 0, $g_hChkAutoAlign = 0, $g_hTxtAlignOffsetX = 0, $g_hTxtAlignOffsetY = 0, _
-	   $g_hCmbAlignmentOptions = 0
+Global $g_hChkAutostart = 0, $g_hTxtAutostartDelay = 0, $g_hChkCheckGameLanguage = 0, $g_hChkSkipSnowDetection = 0, $g_hChkAutoAlign = 0, $g_hTxtAlignOffsetX = 0, _
+	   $g_hTxtAlignOffsetY = 0, $g_hCmbAlignmentOptions = 0
 Global $g_hTxtGlobalActiveBotsAllowed = 0, $g_hTxtGlobalThreads = 0, $g_hTxtThreads = 0
-;Global $g_hChkUpdatingWhenMinimized = 0
 Global $g_hChkBotCustomTitleBarClick = 0, $g_hChkBotAutoSlideClick = 0, $g_hChkHideWhenMinimized = 0, $g_hChkUseRandomClick = 0, $g_hChkScreenshotType = 0, _
 	   $g_hChkScreenshotHideName = 0, $g_hTxtTimeAnotherDevice = 0
 Global $g_hChkSinglePBTForced = 0, $g_hTxtSinglePBTimeForced = 0, $g_hTxtPBTimeForcedExit = 0, $g_hChkFixClanCastle = 0, $g_hChkAutoResume = 0, $g_hTxtAutoResumeTime = 0, $g_hChkDisableNotifications = 0
@@ -85,7 +84,7 @@ Func CreateBotOptions()
 	GUICtrlCreateGroup("", -99, -99, 1, 1)
 
 	$y += 48
-	GUICtrlCreateGroup(GetTranslatedFileIni("MBR GUI Design Child Bot - Options", "Group_03", "When Bot Starts"), $x - 20, $y - 20, 210, 112)
+	GUICtrlCreateGroup(GetTranslatedFileIni("MBR GUI Design Child Bot - Options", "Group_03", "When Bot Starts"), $x - 20, $y - 20, 210, 134)
 	$y -= 5
 		$g_hChkAutostart = GUICtrlCreateCheckbox(GetTranslatedFileIni("MBR GUI Design Child Bot - Options", "ChkAutostart", "Auto START after") & ":", $x, $y, -1, -1)
 			_GUICtrlSetTip(-1, GetTranslatedFileIni("MBR GUI Design Child Bot - Options", "ChkAutostart_Info_01", "Auto START the Bot after this No. of seconds."))
@@ -98,6 +97,12 @@ Func CreateBotOptions()
 		$g_hChkCheckGameLanguage = GUICtrlCreateCheckbox(GetTranslatedFileIni("MBR GUI Design Child Bot - Options", "ChkCheckGameLanguage", "Check Game Language (EN)"), $x, $y, -1, -1)
 			_GUICtrlSetTip(-1, GetTranslatedFileIni("MBR GUI Design Child Bot - Options", "ChkCheckGameLanguage_Info_01", "Check if the Game is set to the correct language (Must be set to English)."))
 			GUICtrlSetState(-1, $GUI_CHECKED)
+			
+	$y += 22
+		$g_hChkSkipSnowDetection = GUICtrlCreateCheckbox(GetTranslatedFileIni("MBR GUI Design Child Village - Options", "SkipSnowDetection", "Skip Snow Detection"), $x, $y, -1, -1)
+		_GUICtrlSetTip(-1, GetTranslatedFileIni("MBR GUI Design Child Village - Options", "OnFirstCheckSkipSnow", "Enable Skip Snow Detection." & @CRLF & "2022 Winter update of coc : now obstacle and building not covered by snow"))
+		GUICtrlSetState(-1, $GUI_CHECKED)
+		GUICtrlSetOnEvent(-1, "chkSkipSnowDetection")
 
 	$y += 22
 		$g_hChkAutoAlign = GUICtrlCreateCheckbox(GetTranslatedFileIni("MBR GUI Design Child Bot - Options", "ChkAutoAlign", "Auto Align"), $x, $y, -1, -1)

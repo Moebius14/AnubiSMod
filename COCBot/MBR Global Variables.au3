@@ -971,7 +971,7 @@ Global $g_iChkIgnoreTH = 0, $g_iChkIgnoreKing = 0, $g_iChkIgnoreQueen = 0, $g_iC
 Global $g_iChkIgnoreBarrack = 0, $g_iChkIgnoreDBarrack = 0, $g_iChkIgnoreFactory = 0, $g_iChkIgnoreDFactory = 0
 Global $g_iChkIgnoreGColl = 0, $g_iChkIgnoreEColl = 0, $g_iChkIgnoreDColl = 0
 Global $g_iTxtSmartMinGold = 150000, $g_iTxtSmartMinElixir = 1000, $g_iTxtSmartMinDark = 1000
-Global $g_iChkUpgradesToIgnore[16] = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+Global $g_iChkUpgradesToIgnore[34] = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
 Global $g_iChkResourcesToIgnore[3] = [0, 0, 0]
 Global $g_iNextLineOffset = 75
 Global $g_aUpgradeNameLevel ; [Nb of elements in Array, Name, Level]
@@ -1267,7 +1267,7 @@ Global $g_bCheckVersion = True
 Global $g_bDeleteLogs = True, $g_iDeleteLogsDays = 1, $g_bDeleteTemp = True, $g_iDeleteTempDays = 1, $g_bDeleteLoots = True, $g_iDeleteLootsDays = 1
 Global $g_bAutoStart = False, $g_iAutoStartDelay = 10
 Global $b_iAutoRestartDelay = 0 ; Automatically restart bot after so many Seconds, 0 = disabled
-Global $g_bCheckGameLanguage = True
+Global $g_bCheckGameLanguage = True, $g_bSkipSnowDetection = True
 Global $g_bAutoUpdateGame = False
 Global $g_bAutoAlignEnable = False, $g_iAutoAlignPosition = "EMBED", $g_iAutoAlignOffsetX = "", $g_iAutoAlignOffsetY = ""
 Global $g_bUpdatingWhenMinimized = True ; Alternative Minimize Window routine for bot that enables window updates when minimized
@@ -1854,7 +1854,7 @@ $g_oBldgImages.add($eBldgMonolith & "_" & "0", @ScriptDir & "\imgxml\Buildings\M
 ; Clan Games v3
 Global $g_bChkClanGamesAir = 0, $g_bChkClanGamesGround = 0, $g_bChkClanGamesMisc = 0
 Global $g_bChkClanGamesEnabled = 0
-Global $g_bChkClanGamesAllTimes = 1, $g_bChkClanGames3h = 0, $g_bChkClanGames3hOnly = 0
+Global $g_bChkClanGamesAllTimes = 1, $g_bChkClanGamesNoOneDay = 0
 Global $g_bChkClanGamesLoot = 0
 Global $g_bChkClanGamesBattle = 0
 
@@ -1996,9 +1996,9 @@ Global $g_iHowManyinCWCombo = 0, $g_iHowManyinCWLCombo = 2, $g_HowManyPlayersInC
 Global $aResultBuildingDetect = 0, $aNumResultBuildingDetect = 0, $THVisitCoord = 0
 Global $g_bUseWelcomeMessage = False
 Global $g_aWelcomeMessage = "Welcome ! Please read the clan rules and enjoy !"
-Global Const $g_sIcnHumanization = @ScriptDir & "\lib\ModLibs\Humanization.png"
 
 ;Forecast
+Global $g_sForecastPath = @ScriptDir & "\COCBot\Forecast"
 Global Const $g_sIcnForecaster = @ScriptDir & "\lib\ModLibs\Forecaster.png"
 Global $dtStamps[0], $ForecastTimeStamp = 0
 Global $lootMinutes[0]
@@ -2021,7 +2021,7 @@ Global $g_iCmbPriorityMagicItemsFrequency = 0
 Global $BBaseCheckTimer = 0, $DelayReturnedtocheckBBaseMS = 0, $IstoSwitchMod = 0
 Global $g_iCmbPriorityBBaseFrequency = 3, $g_bChkBBaseFrequency = False
 Global $g_iCmbPriorityPersoChallengesFrequency = 0
-Global $IsToCheckdiff[8], $asLastTimeCheckedforChallenges[8], $DelayPersoChallengesMn[8], $IsToCheckBeforeStop = False	   
+Global $IsToCheckdiff[8], $asLastTimeCheckedforChallenges[8], $DelayPersoChallengesMn[8], $IsToCheckBeforeStop = False
 Global $g_icmbAdvancedVariation[3] = [3, 3, 3]
 Global $g_bChkTrophyDropinPause = True, $g_iacmdRandomDelay = True, $g_iacmdRandomDelayMin = 10, $g_iacmdRandomDelayMax = 30, $g_iacmdRandomDelayFinal = 0
 Global $IsKingReadyForDropTrophies = 0, $IsQueenReadyForDropTrophies = 0, $IsWardenReadyForDropTrophies = 0, $IsChampionReadyForDropTrophies = 0

@@ -349,6 +349,9 @@ Func SetupProfileFolder()
 	$g_sProfileDonateCapturePath = $g_sProfilePath & "\" & $g_sProfileCurrentName & '\Donate\'
 	$g_sProfileDonateCaptureWhitelistPath = $g_sProfilePath & "\" & $g_sProfileCurrentName & '\Donate\White List\'
 	$g_sProfileDonateCaptureBlacklistPath = $g_sProfilePath & "\" & $g_sProfileCurrentName & '\Donate\Black List\'
+	If Not FileExists($g_sForecastPath) Then
+		DirCreate($g_sForecastPath)
+	EndIf
 EndFunc   ;==>SetupProfileFolder
 
 ; #FUNCTION# ====================================================================================================================
@@ -883,7 +886,7 @@ Func runBot() ;Bot that runs everything in order
 			While $g_bIsBBevent
 				SwitchBetweenBasesMod()
 				If $IstoSwitchMod Then
-					$ActionForModLog = "Switch To Builder Base"
+					$ActionForModLog = "Switch To Builder Base - BB Event Detected"
 					If $g_iTxtCurrentVillageName <> "" Then
 						GUICtrlSetData($g_hTxtModLog, @CRLF & _NowTime() & " [" & $g_iTxtCurrentVillageName & "] Avanced : " & $ActionForModLog & "", 1)
 					Else
@@ -1185,7 +1188,7 @@ Func AttackMain() ;Main control for attack functions
 			While $g_bIsBBevent
 				SwitchBetweenBasesMod()
 				If $IstoSwitchMod Then
-					$ActionForModLog = "Switch To Builder Base"
+					$ActionForModLog = "Switch To Builder Base - BB Event Detected"
 					If $g_iTxtCurrentVillageName <> "" Then
 						GUICtrlSetData($g_hTxtModLog, @CRLF & _NowTime() & " [" & $g_iTxtCurrentVillageName & "] Avanced : " & $ActionForModLog & "", 1)
 					Else
@@ -1440,7 +1443,9 @@ Func FirstCheck()
 	$g_iCommandStop = -1
 
 	If Not $g_bFirstStartForAll Then
-	;;;;;Check Town Hall level And CC Sleep/Guard
+	;;;;;Check Clan Games Temp Files
+		ClearTempCGFiles()
+	;;;;;Check Town Hall level
 		Local $iTownHallLevel = $g_iTownHallLevel
 		Local $bLocateTH = False
 		SetLog("Detecting Town Hall level", $COLOR_INFO)
@@ -1737,7 +1742,7 @@ Func GotoBBTodoCG()
 	While $g_bIsBBevent
 		SwitchBetweenBasesMod()
 		If $IstoSwitchMod Then
-			$ActionForModLog = "Switch To Builder Base"
+			$ActionForModLog = "Switch To Builder Base - BB Event Detected"
 			If $g_iTxtCurrentVillageName <> "" Then
 				GUICtrlSetData($g_hTxtModLog, @CRLF & _NowTime() & " [" & $g_iTxtCurrentVillageName & "] Avanced : " & $ActionForModLog & "", 1)
 			Else

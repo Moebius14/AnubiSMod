@@ -411,18 +411,17 @@ Func SaveConfig_600_6()
 	_Ini_Add("other", "chkArcherTowerUpgrade", $g_bArcherTowerUpgrade)
 	_Ini_Add("other", "chkMultiMortarUpgrade", $g_bMultiMortarUpgrade)
 	_Ini_Add("other", "chkMegaTeslaUpgrade", $g_bMegaTeslaUpgrade)
-	
+
 	# NEW CLANGAMES GUI
 	_Ini_Add("other", "ChkClanGamesEnabled", $g_bChkClanGamesEnabled ? 1 : 0)
 	_Ini_Add("other", "ChkClanGamesAllTimes", $g_bChkClanGamesAlltimes ? 1 : 0)
-	_Ini_Add("other", "ChkClanGames3h", $g_bChkClanGames3h ? 1 : 0)
-	_Ini_Add("other", "ChkClanGames3hOnly", $g_bChkClanGames3hOnly ? 1 : 0)
+	_Ini_Add("other", "ChkClanGamesNoOneDay", $g_bChkClanGamesNoOneDay ? 1 : 0)
 	_Ini_Add("other", "ChkClanGamesCollectRewards", $g_bChkClanGamesCollectRewards ? 1 : 0)
-	
+
 	For $i = 0 To UBound($g_iacmbPriorityReward) - 1
 		_Ini_Add("other", "cmbPriorityReward[" & $i & "]", _GUICtrlComboBox_GetCurSel($g_acmbPriorityReward[$i]))
 	Next
-	
+
 	_Ini_Add("other", "ChkClanGamesLoot", $g_bChkClanGamesLoot ? 1 : 0)
 	_Ini_Add("other", "ChkClanGamesBattle", $g_bChkClanGamesBattle ? 1 : 0)
 	_Ini_Add("other", "ChkClanGamesDestruction", $g_bChkClanGamesDes ? 1 : 0)
@@ -437,66 +436,66 @@ Func SaveConfig_600_6()
 	_Ini_Add("other", "SearchBBEventFirst", $bSearchBBEventFirst ? 1 : 0)
 	_Ini_Add("other", "SearchMainEventFirst", $bSearchMainEventFirst ? 1 : 0)
 	_Ini_Add("other", "SearchBothVillages", $bSearchBothVillages ? 1 : 0)
-	
+
 	_Ini_Add("other", "ChkClanGamesPurgeAny", $g_bChkClanGamesPurgeAny ? 1 : 0)
 	_Ini_Add("other", "ChkClanGamesStopBeforeReachAndPurge", $g_bChkClanGamesStopBeforeReachAndPurge ? 1 : 0)
 	_Ini_Add("other", "ChkClanGamesSort", $g_bSortClanGames ? 1 : 0)
 	_Ini_Add("other", "ClanGamesSortBy", $g_iSortClanGames)
-	
+
 	Local $str = ""
 	For $i = 0 To UBound($g_abCGMainLootItem) - 1
 		$str &= $g_abCGMainLootItem[$i] & "|"
 	Next
 	_Ini_Add("other", "EnabledCGLoot", $str)
-	
+
 	$str = ""
 	For $i = 0 To UBound($g_abCGMainBattleItem) - 1
 		$str &= $g_abCGMainBattleItem[$i] & "|"
 	Next
 	_Ini_Add("other", "EnabledCGBattle", $str)
-	
+
 	$str = ""
 	For $i = 0 To UBound($g_abCGMainDestructionItem) - 1
 		$str &= $g_abCGMainDestructionItem[$i] & "|"
 	Next
 	_Ini_Add("other", "EnabledCGDes", $str)
-	
+
 	$str = ""
 	For $i = 0 To UBound($g_abCGMainAirItem) - 1
 		$str &= $g_abCGMainAirItem[$i] & "|"
 	Next
 	_Ini_Add("other", "EnabledCGAirTroop", $str)
-	
+
 	$str = ""
 	For $i = 0 To UBound($g_abCGMainGroundItem) - 1
 		$str &= $g_abCGMainGroundItem[$i] & "|"
 	Next
 	_Ini_Add("other", "EnabledCGGroundTroop", $str)
-	
+
 	$str = ""
 	For $i = 0 To UBound($g_abCGMainMiscItem) - 1
 		$str &= $g_abCGMainMiscItem[$i] & "|"
 	Next
 	_Ini_Add("other", "EnabledCGMisc", $str)
-	
+
 	$str = ""
 	For $i = 0 To UBound($g_abCGMainSpellItem) - 1
 		$str &= $g_abCGMainSpellItem[$i] & "|"
 	Next
 	_Ini_Add("other", "EnabledCGSpell", $str)
-	
+
 	$str = ""
 	For $i = 0 To UBound($g_abCGBBBattleItem) - 1
 		$str &= $g_abCGBBBattleItem[$i] & "|"
 	Next
 	_Ini_Add("other", "EnabledBBBattle", $str)
-	
+
 	$str = ""
 	For $i = 0 To UBound($g_abCGBBDestructionItem) - 1
 		$str &= $g_abCGBBDestructionItem[$i] & "|"
 	Next
 	_Ini_Add("other", "EnabledBBDestruction", $str)
-	
+
 	$str = ""
 	For $i = 0 To UBound($g_abCGBBTroopsItem) - 1
 		$str &= $g_abCGBBTroopsItem[$i] & "|"
@@ -630,7 +629,7 @@ Func SaveConfig_600_12()
 
 	For $i = 0 To $eTroopCount - 1 + $g_iCustomDonateConfigs
 		Local $sIniName = ""
-		If $i >= $eTroopBarbarian And $i <= $eTroopHeadhunter Then
+		If $i >= $eTroopBarbarian And $i <= $eTroopIceWizard Then
 			$sIniName = StringReplace($g_asTroopNamesPlural[$i], " ", "")
 		ElseIf $i = $eCustomA Then
 			$sIniName = "CustomA"
@@ -656,7 +655,7 @@ Func SaveConfig_600_12()
 		_Ini_Add("donate", "txtBlacklist" & $sIniName, StringReplace($g_asTxtBlacklistSpell[$i], @CRLF, "|"))
 	Next
 
-	For $i = $eSiegeWallWrecker to $eSiegeMachineCount - 1
+	For $i = $eSiegeWallWrecker To $eSiegeMachineCount - 1
 		Local $index = $eTroopCount + $g_iCustomDonateConfigs
 		Local $sIniName = $g_asSiegeMachineShortNames[$i]
 		_Ini_Add("donate", "chkDonate" & $sIniName, $g_abChkDonateTroop[$index + $i] ? 1 : 0)
@@ -732,7 +731,7 @@ Func SaveConfig_auto()
 	; Auto Upgrade
 	_Ini_Add("Auto Upgrade", "AutoUpgradeEnabled", $g_bAutoUpgradeEnabled)
 	_Ini_Add("Auto Upgrade", "FreeBuildersToPotion", $g_iCmbFreeBuilders)
-	For $i = 0 To 15
+	For $i = 0 To Ubound($g_iChkUpgradesToIgnore) - 1
 		_Ini_Add("Auto Upgrade", "ChkUpgradesToIgnore[" & $i & "]", $g_iChkUpgradesToIgnore[$i])
 	Next
 	For $i = 0 To 2
@@ -1233,6 +1232,7 @@ Func SaveConfig_600_35_1()
 	_Ini_Add("general", "AutoStart", $g_bAutoStart ? 1 : 0)
 	_Ini_Add("general", "AutoStartDelay", $g_iAutoStartDelay)
 	_Ini_Add("General", "ChkLanguage", $g_bCheckGameLanguage ? 1 : 0)
+	_Ini_Add("General", "SkipSnowDetection", $g_bSkipSnowDetection ? 1 : 0)
 	_Ini_Add("general", "DisposeWindows", $g_bAutoAlignEnable ? 1 : 0)
 	_Ini_Add("general", "DisposeWindowsPos", $g_iAutoAlignPosition)
 	_Ini_Add("other", "WAOffsetX", $g_iAutoAlignOffsetX)

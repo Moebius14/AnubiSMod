@@ -16,7 +16,7 @@
 
 Global $g_hCmbProfile = 0, $g_hTxtVillageName = 0, $g_hBtnAddProfile = 0, $g_hBtnConfirmAddProfile = 0, $g_hBtnConfirmRenameProfile = 0, $g_hChkOnlySCIDAccounts = 0, $g_hCmbWhatSCIDAccount2Use = 0 , _
 	   $g_hBtnDeleteProfile = 0, $g_hBtnCancelProfileChange = 0, $g_hBtnRenameProfile = 0, $g_hBtnPullSharedPrefs = 0, $g_hBtnPushSharedPrefs = 0 , $g_hBtnSaveprofile = 0
-
+Global $g_hTxtCurrentVillageName = 0, $g_hBtnSaveAlias = 0, $g_hBtnDeleteAlias = 0
 Global $g_hChkSwitchAcc = 0, $g_hCmbSwitchAcc = 0, $g_hChkSharedPrefs = 0, $g_hCmbTotalAccount = 0, $g_hChkSmartSwitch = 0, $g_hCmbTrainTimeToSkip = 0, $g_hChkDonateLikeCrazy = 0, _
 	   $g_ahChkAccount[8], $g_ahCmbProfile[8], $g_ahChkDonate[8], _
 	   $g_hRadSwitchGooglePlay = 0, $g_hRadSwitchSuperCellID = 0, $g_hRadSwitchSharedPrefs = 0
@@ -24,7 +24,7 @@ Global $g_hChkSwitchAcc = 0, $g_hCmbSwitchAcc = 0, $g_hChkSharedPrefs = 0, $g_hC
 Func CreateBotProfiles()
 
 	Local $x = 25, $y = 45
-	GUICtrlCreateGroup(GetTranslatedFileIni("MBR GUI Design Child Bot - Profiles", "Group_01", "Switch Profiles"), $x - 20, $y - 20, $g_iSizeWGrpTab2, 55)
+	GUICtrlCreateGroup(GetTranslatedFileIni("MBR GUI Design Child Bot - Profiles", "Group_01", "Switch Profiles"), $x - 20, $y - 20, $g_iSizeWGrpTab2, 55 + 25)
 	$x -= 5
 		$g_hCmbProfile = GUICtrlCreateCombo("", $x - 3, $y + 1, 115, 18, BitOR($CBS_DROPDOWNLIST, $CBS_AUTOHSCROLL, $WS_VSCROLL))
 			_GUICtrlSetTip(-1, GetTranslatedFileIni("MBR GUI Design Child Bot - Profiles", "CmbProfile_Info_01", "Use this to switch to a different profile")& @CRLF & _
@@ -39,7 +39,6 @@ Func CreateBotProfiles()
 			GUICtrlSetFont(-1, 9, 400, 1)
 			_GUICtrlSetTip(-1, GetTranslatedFileIni("MBR GUI Design Child Bot - Profiles", "TxtVillageName_Info_01", "Your village/profile's name"))
 			GUICtrlSetState(-1, $GUI_HIDE)
-			; GUICtrlSetOnEvent(-1, "txtVillageName") - No longer needed
 
 		; Local static to avoid GDI Handle leak
 		Static $bIconAdd = 0
@@ -132,10 +131,25 @@ Func CreateBotProfiles()
 			GUICtrlSetData(-1, "Account 1|Account 2|Account 3|Account 4|Account 5|Account 6|Account 7|Account 8", "Account 1")
 			_GUICtrlSetTip(-1, GetTranslatedFileIni("MBR GUI Design Child Bot - Profiles", "WhatSCIDAccount2Use_Info_01", "Select the correct account from Login Window!"))
 			GUICtrlSetOnEvent(-1, "WhatSCIDAccount2Use")
+
+		GUICtrlCreateLabel(GetTranslatedFileIni("MBR GUI Design - ModLog", "TxtCurrentVillageName", "Current Alias") & ":", $x + 60, $y + 35, -1, -1, $SS_RIGHT)
+		$g_hTxtCurrentVillageName = GUICtrlCreateInput("", $x + 138, $y + 32, 115, 19, BitOR($SS_CENTER, $ES_AUTOHSCROLL))
+			_GUICtrlSetTip(-1, "Please Enter The Name Of The Village For The Current Account")
+			GUICtrlSetOnEvent(-1, "LoadCurrentAlias")
+		$g_hBtnSaveAlias = GUICtrlCreateButton("", $x + 267, $y + 27, 24, 24)
+		_GUICtrlButton_SetImageList($g_hBtnSaveAlias, $bIconSave, 4)
+			GUICtrlSetOnEvent(-1, "BtnSaveAlias")
+			_GUICtrlSetTip(-1, "Save Your Current Village Name.")
+			
+		$g_hBtnDeleteAlias = GUICtrlCreateButton("", $x + 300, $y + 27, 24, 24)
+			_GUICtrlButton_SetImageList($g_hBtnDeleteAlias, $bIconDelete, 4)
+			GUICtrlSetOnEvent(-1, "BtnDeleteAlias")	
+			_GUICtrlSetTip(-1, "Clear Your Current Village Name.")
+
 	GUICtrlCreateGroup("", -99, -99, 1, 1)
 
-	Local $x = 25, $y = 105
-	GUICtrlCreateGroup(GetTranslatedFileIni("MBR GUI Design Child Bot - Profiles", "Group_02", "Switch Accounts"), $x - 20, $y - 20, $g_iSizeWGrpTab2, $g_iSizeHGrpTab4)
+	Local $x = 25, $y = 105 + 25
+	GUICtrlCreateGroup(GetTranslatedFileIni("MBR GUI Design Child Bot - Profiles", "Group_02", "Switch Accounts"), $x - 20, $y - 20, $g_iSizeWGrpTab2, $g_iSizeHGrpTab4 - 25)
 	$x -= 8
 		$g_hCmbSwitchAcc = GUICtrlCreateCombo("", $x, $y, 175, 18, BitOR($CBS_DROPDOWNLIST, $CBS_AUTOHSCROLL))
 		Local $s = "No Switch Accounts Group"
@@ -177,12 +191,7 @@ Func CreateBotProfiles()
 		$g_hCmbTrainTimeToSkip = GUICtrlCreateCombo("", $x + 345, $y - 1, 77, -1, BitOR($CBS_DROPDOWNLIST, $CBS_AUTOHSCROLL))
 		GUICtrlSetData(-1, "0 minute|1 minute|2 minutes|3 minutes|4 minutes|5 minutes|6 minutes|7 minutes|8 minutes|9 minutes", "1 minute")
 
-	$y += 23
-		GUICtrlCreateLabel(GetTranslatedFileIni("MBR GUI Design Child Bot - Profiles", "Description", _
-			"Using Switch Accounts requires that not more Google Accounts are registered in Android than configured here. " & _
-			"Maximum of 8 Google/CoC Accounts is supported."), $x, $y, $g_iSizeWGrpTab2 - 20, 42, $SS_CENTER)
-
-	$y += 29
+	$y += 27
 		GUICtrlCreateLabel(GetTranslatedFileIni("MBR GUI Design Child Bot - Profiles", "Label_01", "Accounts"), $x - 5, $y, 60, -1, $SS_CENTER)
 		GUICtrlCreateLabel(GetTranslatedFileIni("MBR GUI Design Child Bot - Profiles", "Label_02", "Profile name"), $x + 82, $y, 70, -1, $SS_CENTER)
 		GUICtrlCreateLabel(GetTranslatedFileIni("MBR GUI Design Child Bot - Profiles", "Label_03", "Donate only"), $x + 170, $y, 60, -1, $SS_CENTER)
@@ -195,7 +204,7 @@ Func CreateBotProfiles()
 		For $i = 0 To UBound($g_ahChkAccount) - 1
 			$g_ahChkAccount[$i] = GUICtrlCreateCheckbox("Acc " & $i + 1 & ".", $x, $y + ($i) * 25, -1, -1)
 			GUICtrlSetOnEvent(-1, "chkAccountX")
-			$g_ahCmbProfile[$i] = GUICtrlCreateCombo("", $x + 65, $y + ($i) * 25, 110, 25, BitOR($CBS_DROPDOWNLIST, $CBS_AUTOHSCROLL, $WS_VSCROLL))
+			$g_ahCmbProfile[$i] = GUICtrlCreateCombo("", $x + 60, $y + ($i) * 25, 115, 25, BitOR($CBS_DROPDOWNLIST, $CBS_AUTOHSCROLL, $WS_VSCROLL))
 			GUICtrlSetOnEvent(-1, "cmbSwitchAccProfileX")
 			GUICtrlSetData(-1, _GUICtrlComboBox_GetList($g_hCmbProfile))
 			$g_ahChkDonate[$i] = GUICtrlCreateCheckbox("", $x + 190, $y + ($i) * 25 - 3, -1, 25)

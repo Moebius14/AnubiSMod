@@ -123,6 +123,14 @@ Func chkAutoStart()
 	GUICtrlSetState($g_hTxtAutostartDelay, GUICtrlRead($g_hChkAutoStart) = $GUI_CHECKED ? $GUI_ENABLE : $GUI_DISABLE)
 EndFunc   ;==>chkAutoStart
 
+Func chkSkipSnowDetection()
+	If GUICtrlRead($g_hChkSkipSnowDetection) = $GUI_CHECKED Then
+		$g_bSkipSnowDetection = True
+	Else
+		$g_bSkipSnowDetection = False
+	EndIf
+EndFunc ;==> chkSkipSnowDetection
+
 Func chkDisposeWindows()
 	If GUICtrlRead($g_hChkAutoAlign) = $GUI_CHECKED Then
 		GUICtrlSetState($g_hCmbAlignmentOptions, $GUI_ENABLE)

@@ -17,6 +17,9 @@
 * Can Now Target Both ScatterShots [CSV].
 * Handle for green button in Daily Rewards Window.
 * Improved Some Detections (Sieges Switch Window & Spell requests).
+* Fixed Wall Upgrade Error in Auto Upgrade.
+* Adjusted Some Coordinates For Clan Capital Upgrades.
+* Fixed Close Start Craft Window When Not Enough Resource.
 
 * v8.0.2 **
 * Respond faster to "Stop" during zoomout.

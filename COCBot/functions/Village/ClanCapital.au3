@@ -31,7 +31,7 @@ Func CollectCCGold($bTest = False)
 		Click($g_iQuickMISX, $g_iQuickMISY + 30)
 		For $i = 1 To 5
 			SetDebugLog("Waiting for Forge Window #" & $i, $COLOR_ACTION)
-			If QuickMis("BC1", $g_sImgGeneralCloseButton, 710, 150 + $g_iMidOffsetY, 760, 195 + $g_iMidOffsetY) Then
+			If QuickMIS("BC1", $g_sImgGeneralCloseButton, 710, 150 + $g_iMidOffsetY, 760, 195 + $g_iMidOffsetY) Then
 				$bWindowOpened = True
 				ExitLoop
 			EndIf
@@ -144,7 +144,7 @@ Func ClanCapitalReport($SetLog = True)
 			ElseIf $iAttack = 0 Then
 				SetLog("You have done all you could", $COLOR_SUCCESS)
 			EndIf
-			If QuickMis("BC1", $g_sImgCCRaid, 360, 450 + $g_iMidOffsetY, 500, 500 + $g_iMidOffsetY) Then
+			If QuickMIS("BC1", $g_sImgCCRaid, 360, 450 + $g_iMidOffsetY, 500, 500 + $g_iMidOffsetY) Then
 				Click($g_iQuickMISX, $g_iQuickMISY)
 				If _Sleep(5000) Then Return
 				SwitchToCapitalMain()
@@ -179,7 +179,7 @@ Func StartRaidWeekend()
 		For $i = 1 To 5 
 			If _Sleep(1000) Then Return
 			SetDebugLog("Waiting for Start Raid Window #" & $i, $COLOR_ACTION)
-			If QuickMis("BC1", $g_sImgGeneralCloseButton, 645, 280, 700, 335 ) Then
+			If QuickMIS("BC1", $g_sImgGeneralCloseButton, 645, 280, 700, 335 ) Then
 				$bWindowOpened = True
 				ExitLoop
 			EndIf
@@ -195,7 +195,7 @@ Func StartRaidWeekend()
 				$IsRaidRunning = 1
 				If _Sleep(4000) Then Return
 				ClickAway("Right")
-				If QuickMis("BC1", $g_sImgCCRaid, 360, 450 + $g_iMidOffsetY, 500, 500 + $g_iMidOffsetY) Then
+				If QuickMIS("BC1", $g_sImgCCRaid, 360, 450 + $g_iMidOffsetY, 500, 500 + $g_iMidOffsetY) Then
 					Click($g_iQuickMISX, $g_iQuickMISY)
 					If _Sleep(3000) Then Return
 				EndIf
@@ -216,7 +216,7 @@ Func OpenForgeWindow()
 		Click($g_iQuickMISX + 18, $g_iQuickMISY + 20)
 		For $i = 1 To 5
 			SetDebugLog("Waiting for Forge Window #" & $i, $COLOR_ACTION)
-			If QuickMis("BC1", $g_sImgGeneralCloseButton, 715, 180, 760, 225) Then
+			If QuickMIS("BC1", $g_sImgGeneralCloseButton, 715, 180, 760, 225) Then
 				$bRet = True
 				ExitLoop
 			EndIf
@@ -230,7 +230,7 @@ Func WaitStartCraftWindow()
 	Local $bRet = False
 	For $i = 1 To 5
 		SetDebugLog("Waiting for StartCraft Window #" & $i, $COLOR_ACTION)
-		If QuickMis("BC1", $g_sImgGeneralCloseButton, 620, 200, 670, 250) Then
+		If QuickMIS("BC1", $g_sImgGeneralCloseButton, 620, 200, 670, 250) Then
 			$bRet = True
 			ExitLoop
 		EndIf
@@ -328,7 +328,7 @@ Func ForgeClanCapitalGold($bTest = False)
 	
 	If TimeForge($iBuilderToUse) Then
 		SetLog("Forge Time > 9h, will use Builder Potion", $COLOR_INFO)
-		If QuickMis("BC1", $g_sBoostBuilderInForge, 620, 440 + $g_iMidOffsetY, 665, 490 + $g_iMidOffsetY) Then
+		If QuickMIS("BC1", $g_sBoostBuilderInForge, 620, 440 + $g_iMidOffsetY, 665, 490 + $g_iMidOffsetY) Then
 			Click($g_iQuickMISX + 42, $g_iQuickMISY)
 			If _Sleep(1000) Then Return
 			If Not $g_bRunState Then Return
@@ -415,15 +415,16 @@ Func ForgeClanCapitalGold($bTest = False)
 			Return
 		EndIf
 		
+		Local $NumberOfCraftLaunched = 0
 		For $j = 1 To $iBuilderToAssign
 			SetDebugLog("Proceed with builder #" & $j)
 			Click($aCraft[$j-1][1], $aCraft[$j-1][2])
 			If _Sleep(500) Then Return
 			If Not WaitStartCraftWindow() Then 
-				ClickAway("Right")
+				ClickAway()
 				Return
 			EndIf
-			Local $NumberOfCraftLaunched = 0
+			Local $IsLowResource = True
 			For $i = 0 To UBound($aForgeType) -1
 				If $aForgeType[$i] = True Then ;check if ForgeType Enabled
 					SetLog("Try Forge using " & $aResource[$i][0], $COLOR_INFO)
@@ -460,6 +461,7 @@ Func ForgeClanCapitalGold($bTest = False)
 					If Not $bTest Then 
 						Click(430, 450 + $g_iMidOffsetY)
 						SetLog("Success Forge with " & $aResource[$i][0] & ", will gain " & $gainNum & " Capital Gold", $COLOR_SUCCESS)
+						$IsLowResource = False
 						$NumberOfCraftLaunched += 1
 						$g_iFreeBuilderCount -= 1
 						If _Sleep(Random(1000, 1500, 1)) Then Return
@@ -493,24 +495,27 @@ Func ForgeClanCapitalGold($bTest = False)
 						CloseWindow()
 					EndIf
 				EndIf
-				If _Sleep(Random(2000, 4000, 1)) Then Return
+				If _Sleep(Random(1000, 2000, 1)) Then Return
 				If Not $g_bRunState Then Return
 			Next
+			If $IsLowResource Then CloseWindow()
 			If Not $g_bRunState Then Return
 		Next
-		If $NumberOfCraftLaunched = 1 Then $ActionForModLog = "Craft Launched"
-		If $NumberOfCraftLaunched > 1 Then $ActionForModLog = "Crafts Launched"
-		If $g_iTxtCurrentVillageName <> "" Then
-			GUICtrlSetData($g_hTxtModLog, @CRLF & _NowTime() & " [" & $g_iTxtCurrentVillageName & "] Clan Capital : " & $NumberOfCraftLaunched & " " & $ActionForModLog & "", 1)
-		Else
-			GUICtrlSetData($g_hTxtModLog, @CRLF & _NowTime() & " [" & $g_sProfileCurrentName & "] Clan Capital : " & $NumberOfCraftLaunched & " " & $ActionForModLog & "", 1)
+		If $NumberOfCraftLaunched > 0 Then
+			If $NumberOfCraftLaunched = 1 Then $ActionForModLog = "Craft Launched"
+			If $NumberOfCraftLaunched > 1 Then $ActionForModLog = "Crafts Launched"
+			If $g_iTxtCurrentVillageName <> "" Then
+				GUICtrlSetData($g_hTxtModLog, @CRLF & _NowTime() & " [" & $g_iTxtCurrentVillageName & "] Clan Capital : " & $NumberOfCraftLaunched & " " & $ActionForModLog & "", 1)
+			Else
+				GUICtrlSetData($g_hTxtModLog, @CRLF & _NowTime() & " [" & $g_sProfileCurrentName & "] Clan Capital : " & $NumberOfCraftLaunched & " " & $ActionForModLog & "", 1)
+			EndIf
+			_FileWriteLog($g_sProfileLogsPath & "\ModLog.log", " [" & $g_sProfileCurrentName & "] - Clan Capital : " & $NumberOfCraftLaunched & " " & $ActionForModLog & "")
 		EndIf
-		_FileWriteLog($g_sProfileLogsPath & "\ModLog.log", " [" & $g_sProfileCurrentName & "] - Clan Capital : " & $NumberOfCraftLaunched & " " & $ActionForModLog & "")
-		EndIf
+	EndIf
 	If _Sleep(1000) Then Return
 	If TimeForge($iBuilderToUse) Then
 		SetLog("Forge Time > 9h, will use Builder Potion", $COLOR_INFO)
-		If QuickMis("BC1", $g_sBoostBuilderInForge, 620, 440 + $g_iMidOffsetY, 665, 490 + $g_iMidOffsetY) Then
+		If QuickMIS("BC1", $g_sBoostBuilderInForge, 620, 440 + $g_iMidOffsetY, 665, 490 + $g_iMidOffsetY) Then
 			Click($g_iQuickMISX + 42, $g_iQuickMISY)
 			If _Sleep(1000) Then Return
 			If Not $g_bRunState Then Return
@@ -558,12 +563,12 @@ Func SwitchToClanCapital()
 	Next
 	If $bAirShipFound = False Then Return $bRet
 	If _Sleep(3000) Then Return
-	If QuickMis("BC1", $g_sImgGeneralCloseButton, 710, 150, 760, 200) Then
+	If QuickMIS("BC1", $g_sImgGeneralCloseButton, 710, 150, 760, 200) Then
 		SetLog("Found Raid Window Covering Map, Close it!", $COLOR_INFO)
 		Click($g_iQuickMISX, $g_iQuickMISY)
 		If _Sleep(3000) Then Return
 	EndIf
-	If QuickMis("BC1", $g_sImgCCRaid, 360, 420 + $g_iBottomOffsetY, 500, 470 + $g_iBottomOffsetY) Then
+	If QuickMIS("BC1", $g_sImgCCRaid, 360, 420 + $g_iBottomOffsetY, 500, 470 + $g_iBottomOffsetY) Then
 		Click($g_iQuickMISX, $g_iQuickMISY)
 		If _Sleep(5000) Then Return
 	EndIf
@@ -607,7 +612,7 @@ Func SwitchToMainVillage()
 	SetDebugLog("Going To MainVillage", $COLOR_ACTION)
 	SwitchToCapitalMain()
 	For $i = 1 To 10
-		If QuickMis("BC1", $g_sImgGeneralCloseButton, 710, 150, 760, 200) Then ; check if we have window covering map, close it!
+		If QuickMIS("BC1", $g_sImgGeneralCloseButton, 710, 150, 760, 200) Then ; check if we have window covering map, close it!
 			Click($g_iQuickMISX, $g_iQuickMISY)
 			SetLog("Found a window covering map, close it!", $COLOR_INFO)
 			If _Sleep(2000) Then Return
@@ -676,7 +681,6 @@ Func IsIgnored($aUpgradeX, $aUpgradeY, $SetLog = True)
 	Local $name[2] = ["", 0]
 	Local $bRet = False
 	$name = getCCBuildingName($aUpgradeX - 275, $aUpgradeY - 8)
-	If $name[0] = "l" Then $name = getCCBuildingNameBlue($aUpgradeX - 250, $aUpgradeY - 12)
 	If $g_bChkAutoUpgradeCCIgnore And $g_bChkIsIgnoredWalls Then
 		For $y In $aCCBuildingIgnoreWWalls
 			If StringInStr($name[0], $y) Then
@@ -705,7 +709,7 @@ Func FindCCExistingUpgrade()
 	Local $IsPrioritized = False, $IsFoundArmy = False, $IsFoundHall = False, $IsFoundRuins = False
 	Local $isIgnored = 0
 	
-	Local $aUpgrade = QuickMIS("CNX", $g_sImgResourceCC, 400, 100, 555, 330 + $g_iMidOffsetY)
+	Local $aUpgrade = QuickMIS("CNX", $g_sImgResourceCC, 400, 100, 565, 330 + $g_iMidOffsetY)
 	If IsArray($aUpgrade) And UBound($aUpgrade) > 0 Then
 		_ArraySort($aUpgrade, 0, 0, 0, 2) ;sort by Y coord
 		
@@ -719,10 +723,9 @@ Func FindCCExistingUpgrade()
 		
 		For $i = 0 To UBound($aUpgrade) - 1 ; Prior Prioritized
 			If Not $g_bChkEnablePriorPrioritized Then ExitLoop
-			If QuickMis("BC1", $g_sImgPrioritizeCC, $aUpgrade[$i][1] + 3, $aUpgrade[$i][2] - 12, $aUpgrade[$i][1] + 23, $aUpgrade[$i][2] + 8) Then
+			If QuickMIS("BC1", $g_sImgPrioritizeCC, $aUpgrade[$i][1] + 3, $aUpgrade[$i][2] - 12, $aUpgrade[$i][1] + 23, $aUpgrade[$i][2] + 8) Then
 				If IsIgnored($aUpgrade[$i][1], $aUpgrade[$i][2]) Then ContinueLoop
 				$name = getCCBuildingName($aUpgrade[$i][1] - 275, $aUpgrade[$i][2] - 8)
-				If $name[0] = "l" Then $name = getCCBuildingNameBlue($aUpgrade[$i][1] - 250, $aUpgrade[$i][2] - 12)
 				SetLog("Prioritized Upgrade Detected : " & $name[0], $COLOR_SUCCESS1)
 				$aResult = $aBackup
 				_ArrayAdd($aResult, $name[0] & "|" & $aUpgrade[$i][1] & "|" &  $aUpgrade[$i][2])
@@ -736,7 +739,6 @@ Func FindCCExistingUpgrade()
 			If Not $g_bChkEnablePriorArmyCC Then ExitLoop
 			If Not $g_bChkEnablePriorArmyCamp And Not $g_bChkEnablePriorBarracks And Not $g_bChkEnablePriorFactory And Not $g_bChkEnablePriorStorage Then ExitLoop
 			$name = getCCBuildingName($aUpgrade[$i][1] - 275, $aUpgrade[$i][2] - 8)
-			If $name[0] = "l" Then $name = getCCBuildingNameBlue($aUpgrade[$i][1] - 250, $aUpgrade[$i][2] - 12)
 			If $g_bChkEnablePriorArmyCamp And $g_bChkEnablePriorBarracks And $g_bChkEnablePriorFactory And $g_bChkEnablePriorStorage Then
 				For $y In $g_bChkIsPriorArmy
 					If StringInStr($name[0], $y) Then
@@ -900,8 +902,6 @@ Func FindCCExistingUpgrade()
 		For $i = 0 To UBound($aUpgrade) - 1 ; Prior Hall
 			If Not $g_bChkEnablePriorHallsCC Then ExitLoop
 			$name = getCCBuildingName($aUpgrade[$i][1] - 275, $aUpgrade[$i][2] - 8)
-			If $name[0] = "l" Then $name = getCCBuildingNameBlue($aUpgrade[$i][1] - 250, $aUpgrade[$i][2] - 12)
-
 			For $y In $g_bChkIsPriorHall
 				If StringInStr($name[0], $y) Then
 					SetLog("Upgrade for Hall Detected", $COLOR_SUCCESS1)
@@ -917,7 +917,6 @@ Func FindCCExistingUpgrade()
 		For $i = 0 To UBound($aUpgrade) - 1 ; Prior Ruins
 			If Not $g_bChkEnablePriorRuinsCC Then ExitLoop
 			$name = getCCBuildingName($aUpgrade[$i][1] - 275, $aUpgrade[$i][2] - 8)
-			If $name[0] = "l" Then $name = getCCBuildingNameBlue($aUpgrade[$i][1] - 250, $aUpgrade[$i][2] - 12)
 			If StringInStr($name[0], "Ruins") Then 
 				SetLog("Upgrade for Ruins Detected", $COLOR_SUCCESS1)
 				$aResult = $aBackup
@@ -930,7 +929,6 @@ Func FindCCExistingUpgrade()
 
 		For $i = 0 To UBound($aUpgrade) - 1 ; Ignore Walls Or/And Decorations
 			$name = getCCBuildingName($aUpgrade[$i][1] - 275, $aUpgrade[$i][2] - 8)
-			If $name[0] = "l" Then $name = getCCBuildingNameBlue($aUpgrade[$i][1] - 250, $aUpgrade[$i][2] - 12)
 			If $g_bChkAutoUpgradeCCIgnore And $g_bChkIsIgnoredWalls Then
 				For $y In $aCCBuildingIgnoreWWalls
 					If StringInStr($name[0], $y) Then
@@ -962,7 +960,7 @@ Func FindCCExistingUpgradeRuinsOnly()
 	Local $aResult[0][3], $aBackup[0][3], $name[2] = ["", 0]
 	Local $IsPrioritized = False, $IsFoundRuins = False, $isIgnored = 0
 	
-	Local $aUpgrade = QuickMIS("CNX", $g_sImgResourceCC, 400, 100, 555, 330 + $g_iMidOffsetY)
+	Local $aUpgrade = QuickMIS("CNX", $g_sImgResourceCC, 400, 100, 565, 330 + $g_iMidOffsetY)
 	If IsArray($aUpgrade) And UBound($aUpgrade) > 0 Then
 		_ArraySort($aUpgrade, 0, 0, 0, 2) ;sort by Y coord
 		
@@ -981,7 +979,6 @@ Func FindCCExistingUpgradeRuinsOnly()
 			
 			If QuickMis("BC1", $g_sImgPrioritizeCC, $aUpgrade[$i][1] + 3, $aUpgrade[$i][2] - 12, $aUpgrade[$i][1] + 23, $aUpgrade[$i][2] + 8) Then
 				$name = getCCBuildingName($aUpgrade[$i][1] - 275, $aUpgrade[$i][2] - 8)
-				If $name[0] = "l" Then $name = getCCBuildingNameBlue($aUpgrade[$i][1] - 250, $aUpgrade[$i][2] - 12)
 				SetLog("Prioritized Upgrade Detected : " & $name[0], $COLOR_SUCCESS1)
 				$aResult = $aBackup
 				_ArrayAdd($aResult, $name[0] & "|" & $aUpgrade[$i][1] & "|" &  $aUpgrade[$i][2])
@@ -993,7 +990,6 @@ Func FindCCExistingUpgradeRuinsOnly()
 
 		For $i = 0 To UBound($aUpgrade) - 1 ; Prior Ruins
 			$name = getCCBuildingName($aUpgrade[$i][1] - 275, $aUpgrade[$i][2] - 8)
-			If $name[0] = "l" Then $name = getCCBuildingNameBlue($aUpgrade[$i][1] - 250, $aUpgrade[$i][2] - 12)
 			If StringInStr($name[0], "Ruins") Then 
 				SetLog("Upgrade for Ruins Detected", $COLOR_DEBUG)
 				$aResult = $aBackup
@@ -1012,7 +1008,7 @@ Func FindCCSuggestedUpgrade()
 	Local $aResult[0][3], $aBackup[0][3], $name[2] = ["", 0]
 	Local $IsFoundArmy = False, $IsFoundHall = False, $IsFoundRuins = False
 	
-	Local $aUpgrade = QuickMIS("CNX", $g_sImgResourceCC, 400, 100, 560, 330 + $g_iMidOffsetY)
+	Local $aUpgrade = QuickMIS("CNX", $g_sImgResourceCC, 400, 100, 565, 330 + $g_iMidOffsetY)
 	If IsArray($aUpgrade) And UBound($aUpgrade) > 0 Then
 		_ArraySort($aUpgrade, 0, 0, 0, 2) ;sort by Y coord
 		
@@ -1021,7 +1017,11 @@ Func FindCCSuggestedUpgrade()
 			If Not $g_bChkEnablePriorArmyCamp And Not $g_bChkEnablePriorBarracks And Not $g_bChkEnablePriorFactory And Not $g_bChkEnablePriorStorage Then ExitLoop
 			If _ColorCheck(_GetPixelColor($aUpgrade[$i][1] - 15, $aUpgrade[$i][2] - 6, True), Hex(0xffffff, 6), 20) Then ContinueLoop;check if we have progressbar, upgrade to ignore
 			$name = getCCBuildingNameSuggested($aUpgrade[$i][1] - 235, $aUpgrade[$i][2] - 12)
-			If $name[0] = "l" Then $name = getCCBuildingNameBlue($aUpgrade[$i][1] - 250, $aUpgrade[$i][2] - 12)
+			
+			If QuickMIS("BC1", $g_sImgDecoration, $aUpgrade[$i][1] - 260, $aUpgrade[$i][2] - 20, $aUpgrade[$i][1] - 160, $aUpgrade[$i][2] + 10) Then
+				$name = getCCBuildingNameBlue($aUpgrade[$i][1] - 230, $aUpgrade[$i][2] - 12)
+			EndIf
+			
 			If $g_bChkEnablePriorArmyCamp And $g_bChkEnablePriorBarracks And $g_bChkEnablePriorFactory And $g_bChkEnablePriorStorage Then
 				For $y In $g_bChkIsPriorArmy
 					If StringInStr($name[0], $y) Then
@@ -1186,7 +1186,11 @@ Func FindCCSuggestedUpgrade()
 			If Not $g_bChkEnablePriorHallsCC Then ExitLoop
 			If _ColorCheck(_GetPixelColor($aUpgrade[$i][1] - 15, $aUpgrade[$i][2] - 6, True), Hex(0xffffff, 6), 20) Then ContinueLoop;check if we have progressbar, upgrade to ignore
 			$name = getCCBuildingNameSuggested($aUpgrade[$i][1] - 235, $aUpgrade[$i][2] - 12)
-			If $name[0] = "l" Then $name = getCCBuildingNameBlue($aUpgrade[$i][1] - 250, $aUpgrade[$i][2] - 12)
+			
+			If QuickMIS("BC1", $g_sImgDecoration, $aUpgrade[$i][1] - 260, $aUpgrade[$i][2] - 20, $aUpgrade[$i][1] - 160, $aUpgrade[$i][2] + 10) Then
+				$name = getCCBuildingNameBlue($aUpgrade[$i][1] - 230, $aUpgrade[$i][2] - 12)
+			EndIf
+			
 			For $y In $g_bChkIsPriorHall
 				If StringInStr($name[0], $y) Then
 					SetLog("Upgrade for Hall Detected", $COLOR_SUCCESS1)
@@ -1204,7 +1208,7 @@ Func FindCCSuggestedUpgrade()
 			If _ColorCheck(_GetPixelColor($aUpgrade[$i][1] - 15, $aUpgrade[$i][2] - 6, True), Hex(0xffffff, 6), 20) Then ;check if we have progressbar, upgrade to ignore
 				ContinueLoop
 			Else
-				$name = getCCBuildingNameBlue($aUpgrade[$i][1] - 250, $aUpgrade[$i][2] - 12)
+				$name = getCCBuildingNameBlue($aUpgrade[$i][1] - 230, $aUpgrade[$i][2] - 12)
 			EndIf
 			If StringInStr($name[0], "Ruins") Then 
 				SetLog("Upgrade for Ruins Detected", $COLOR_SUCCESS1)
@@ -1219,7 +1223,11 @@ Func FindCCSuggestedUpgrade()
 		For $i = 0 To UBound($aUpgrade) - 1
 			If _ColorCheck(_GetPixelColor($aUpgrade[$i][1] - 15, $aUpgrade[$i][2] - 6, True), Hex(0xffffff, 6), 20) Then ContinueLoop;check if we have progressbar, upgrade to ignore
 			$name = getCCBuildingNameSuggested($aUpgrade[$i][1] - 235, $aUpgrade[$i][2] - 12)
-			If $name[0] = "l" Then $name = getCCBuildingNameBlue($aUpgrade[$i][1] - 250, $aUpgrade[$i][2] - 12)
+			
+			If QuickMIS("BC1", $g_sImgDecoration, $aUpgrade[$i][1] - 260, $aUpgrade[$i][2] - 20, $aUpgrade[$i][1] - 160, $aUpgrade[$i][2] + 10) Then
+				$name = getCCBuildingNameBlue($aUpgrade[$i][1] - 230, $aUpgrade[$i][2] - 12)
+			EndIf
+			
 			If $g_bChkAutoUpgradeCCIgnore And $g_bChkIsIgnoredWalls Then
 				For $y In $aCCBuildingIgnoreWWalls
 					If StringInStr($name[0], $y) Then
@@ -1251,14 +1259,14 @@ Func FindCCSuggestedUpgradeRuinsOnly()
 	Local $aResult[0][3], $aBackup[0][3], $name[2] = ["", 0]
 	Local $IsFoundRuins = False
 	
-	Local $aUpgrade = QuickMIS("CNX", $g_sImgResourceCC, 400, 100, 560, 330 + $g_iMidOffsetY)
+	Local $aUpgrade = QuickMIS("CNX", $g_sImgResourceCC, 400, 100, 565, 330 + $g_iMidOffsetY)
 	If IsArray($aUpgrade) And UBound($aUpgrade) > 0 Then
 		_ArraySort($aUpgrade, 0, 0, 0, 2) ;sort by Y coord
 		For $i = 0 To UBound($aUpgrade) - 1
 			If _ColorCheck(_GetPixelColor($aUpgrade[$i][1] - 15, $aUpgrade[$i][2] - 6, True), Hex(0xffffff, 6), 20) Then ;check if we have progressbar, upgrade to ignore
 				ContinueLoop
 			Else
-				$name = getCCBuildingNameBlue($aUpgrade[$i][1] - 250, $aUpgrade[$i][2] - 12)
+				$name = getCCBuildingNameBlue($aUpgrade[$i][1] - 230, $aUpgrade[$i][2] - 12)
 			EndIf
 			If StringInStr($name[0], "Ruins") Then 
 				SetLog("Upgrade for Ruins Detected", $COLOR_SUCCESS1)
@@ -1295,7 +1303,7 @@ Func WaitUpgradeWindowCC()
 	For $i = 1 To 10
 		SetLog("Waiting for Upgrade Window #" & $i, $COLOR_ACTION)
 		If _Sleep(1000) Then Return
-		If QuickMis("BC1", $g_sImgGeneralCloseButton, 685, 125, 730, 170) Then ;check if upgrade window opened
+		If QuickMIS("BC1", $g_sImgGeneralCloseButton, 685, 125, 730, 170) Then ;check if upgrade window opened
 			$bRet = True
 			Return $bRet
 		EndIf
@@ -1323,10 +1331,10 @@ Func AutoUpgradeCC()
 	If $g_bChkEnableSmartSwitchCC Then
 		getBuilderCount(True) ;check if we have available builder
 		If (Not $g_bFirstStartForAll And Number($g_iLootCCGold) = 0 And Not $bForgeEnabled And Not $g_bChkEnableCollectCCGold) Or _
-			($IsCCGoldJustCollectedDChallenge And Number($g_iLootCCGold) = 0) Or (Not $g_bFirstStartForAll And _
-			Number($g_iLootCCGold) = 0 And $g_iFreeBuilderCount = 0) Or (Number($g_iLootCCGold) = 0 And $g_bRequestTroopsEnable And _
-			((Not $bChkUseOnlyCCMedals And $g_aiCmbCCDecisionThen = 1) Or $bChkUseOnlyCCMedals) And ($g_abSearchCastleWaitEnable[$DB] Or _
-			$g_abSearchCastleWaitEnable[$LB]) And Not $g_bFirstStartForAll) Then
+			($IsCCGoldJustCollectedDChallenge And Number($g_iLootCCGold) = 0) Or _
+			(Not $g_bFirstStartForAll And Number($g_iLootCCGold) = 0 And $g_iFreeBuilderCount = 0) Or _
+			(Number($g_iLootCCGold) = 0 And $g_bRequestTroopsEnable And ((Not $bChkUseOnlyCCMedals And $g_aiCmbCCDecisionThen = 1) Or $bChkUseOnlyCCMedals) And ($g_abSearchCastleWaitEnable[$DB] Or _
+			$g_abSearchCastleWaitEnable[$LB]) And Not $g_bFirstStartForAll And Not $bForgeEnabled) Then
 			
 			If Not OpenForgeWindow() Then 
 				SetLog("Forge Window not Opened, exiting", $COLOR_ACTION)
@@ -1355,7 +1363,7 @@ Func AutoUpgradeCC()
 			$IsCCGoldJustCollectedDChallenge = $IsCCGoldJustCollected
 			If $StartRaidConditions And $IsRaidRunning Then SetLog("Raid Weekend has already started", $COLOR_SUCCESS1)
 			If Not $g_bFirstStartForAll Then
-				If Number($g_iLootCCMedal) = 0 Then CatchCCMedals()
+				If Number($g_iLootCCMedal) = 0 And Not $StartRaidConditions Then CatchCCMedals()
 				If _Sleep(2000) Then Return
 				CatchSmallCCTrophies($StartRaidConditions)
 				If $StartRaidConditions And Not $IsRaidRunning Then
@@ -1808,7 +1816,11 @@ Func CatchSmallCCTrophies($StartRaidConditions = False)
 	
 	ClickAway()
 	
-	SetLog("Check CC Trophies in Clan Informations", $COLOR_BLUE)
+	If $StartRaidConditions Then
+		SetLog("Check Your Rank in Clan Informations", $COLOR_BLUE)
+	Else
+		SetLog("Check CC Trophies in Clan Informations", $COLOR_BLUE)
+	EndIf
 	If _Sleep(1000) Then Return
 	
 	If Not ClickB("ClanChat") Then
@@ -1832,25 +1844,25 @@ Func CatchSmallCCTrophies($StartRaidConditions = False)
 		Click(355, 80) ; Back To My Clan Tab
 		If _Sleep(2000) Then Return
 		If Not $g_bRunState Then Return
-	EndIf
-	
-	Click(715, 110 + $g_iMidOffsetY) ; open the clan capital tab
-	If _Sleep(2000) Then Return
-	If Not $g_bRunState Then Return
-	
-	If $g_bDebugImageSaveMod Then SaveDebugRectImageCrop("CCtrophySmall", "735,223,780,237")
-	
-	$g_iCCTrophies = getOcrAndCapture("coc-cc-trophySmall", 735, 193 + $g_iMidOffsetY, 45, 14, True)
-	If $g_iCCTrophies > 0 Then
-		Local $TrophySetlog = _NumberFormat($g_iCCTrophies, True)
-		SetLog("" & $TrophySetlog & " Clan Capital Trophies Detected", $COLOR_SUCCESS1)
 	Else
-		SetLog("No Clan Capital Trophies Detected", $COLOR_DEBUG1)
+		Click(715, 102 + $g_iMidOffsetY) ; open the clan capital tab
+		If _Sleep(2000) Then Return
+		If Not $g_bRunState Then Return
+	
+		If $g_bDebugImageSaveMod Then SaveDebugRectImageCrop("CCtrophySmall", "735,223,780,237")
+	
+		$g_iCCTrophies = getOcrAndCapture("coc-cc-trophySmall", 735, 193 + $g_iMidOffsetY, 45, 14, True)
+		If $g_iCCTrophies > 0 Then
+			Local $TrophySetlog = _NumberFormat($g_iCCTrophies, True)
+			SetLog("" & $TrophySetlog & " Clan Capital Trophies Detected", $COLOR_SUCCESS1)
+		Else
+			SetLog("No Clan Capital Trophies Detected", $COLOR_DEBUG1)
+		EndIf
+		PicCCTrophies()
+		GUICtrlSetData($g_lblCapitalTrophies, _NumberFormat($g_iCCTrophies, True))
+		UpdateStats()
+		If ProfileSwitchAccountEnabled() Then SwitchAccountVariablesReload("Save")
 	EndIf
-	PicCCTrophies()
-	GUICtrlSetData($g_lblCapitalTrophies, _NumberFormat($g_iCCTrophies, True))
-	UpdateStats()
-	If ProfileSwitchAccountEnabled() Then SwitchAccountVariablesReload("Save")
 	
 	CloseWindow()
 	If _Sleep(500) Then Return

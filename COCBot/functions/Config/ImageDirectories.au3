@@ -81,6 +81,7 @@ Global $g_sImgCCGoldCollectDaily = @ScriptDir & "\imgxml\Resources\ClanCapital\C
 Global $g_sImgCCRaid = @ScriptDir & "\imgxml\Resources\ClanCapital\CCMap\Raid\"
 Global $g_sImgRaidMap = @ScriptDir & "\imgxml\Resources\ClanCapital\CCMap\Raid\RaidMap\"
 Global $g_sImgPrioritizeCC = @ScriptDir & "\imgxml\Resources\ClanCapital\CCMap\BuilderMenu\Prioritize\"
+Global $g_sImgDecoration = @ScriptDir & "\imgxml\Resources\ClanCapital\CCMap\BuilderMenu\Decoration\"
 #EndRegion
 
 #Region Boost Super Troops
@@ -134,6 +135,7 @@ Global $g_sImgChatIUnterstand = @ScriptDir & "\imgxml\DonateCC\donateccwbl\iunde
  Global $g_sImgAUpgradeHour = @ScriptDir & "\imgxml\Resources\Auto Upgrade\Hour\"
  Global $g_sImgResourceIcon = @ScriptDir & "\imgxml\Resources\Auto Upgrade\ResourceIcon\"
  Global $g_sImgWallResource = @ScriptDir & "\imgxml\Resources\Auto Upgrade\UpgradeWalls\"
+ Global $g_sImgUpgradeBtn2Wall = @ScriptDir & "\imgxml\imglocbuttons\Upgrade*"
 #EndRegion
 
 #Region Auto Upgrade Builder Base

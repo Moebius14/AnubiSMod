@@ -143,7 +143,7 @@ Func DropTrophy()
 				If $g_bChkForceBBAttackOnClanGames And $g_bIsBBevent Then	
 					SwitchBetweenBasesMod()
 					If $IstoSwitchMod Then
-						$ActionForModLog = "Switch To Builder Base"
+						$ActionForModLog = "Switch To Builder Base - BB Event Detected"
 						If $g_iTxtCurrentVillageName <> "" Then
 						GUICtrlSetData($g_hTxtModLog, @CRLF & _NowTime() & " [" & $g_iTxtCurrentVillageName & "] Avanced : " & $ActionForModLog & "", 1)
 						Else
@@ -257,7 +257,7 @@ Func DropTrophy()
 				If $g_bChkForceBBAttackOnClanGames And $g_bIsBBevent Then	
 					SwitchBetweenBasesMod()
 					If $IstoSwitchMod Then
-						$ActionForModLog = "Switch To Builder Base"
+						$ActionForModLog = "Switch To Builder Base - BB Event Detected"
 						If $g_iTxtCurrentVillageName <> "" Then
 						GUICtrlSetData($g_hTxtModLog, @CRLF & _NowTime() & " [" & $g_iTxtCurrentVillageName & "] Avanced : " & $ActionForModLog & "", 1)
 						Else

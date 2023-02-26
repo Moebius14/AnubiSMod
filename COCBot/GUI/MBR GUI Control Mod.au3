@@ -686,7 +686,7 @@ ElseIf $g_bChkBBaseFrequency Then ; Cases Check Frequency enable
 	EndIf
 
 	If $g_bIsBBevent Then ; Case BB Event Detected
-	SetLog("BB Event Detected : Time to Switch To Builder Base", $COLOR_OLIVE)
+		SetLog("BB Event Detected : Time to Switch To Builder Base", $COLOR_OLIVE)
 		$BBaseCheckTimer = TimerInit()
 	
 		Local $DelayReturnedtocheckBBaseInf = ($g_iCmbPriorityBBaseFrequency - ($g_iCmbPriorityBBaseFrequency * $g_icmbAdvancedVariation[1]))
@@ -704,13 +704,6 @@ ElseIf $g_bChkBBaseFrequency Then ; Cases Check Frequency enable
 			If $iMin > 0 Then $sWaitTime &= $iMin & " minutes "
 		SetLog("Next Regular Switch To Builder Base : " & $sWaitTime & "", $COLOR_OLIVE)
 		$IstoSwitchMod = 1
-		$ActionForModLog = "SSwitch To Builder Base - BB Event"
-		If $g_iTxtCurrentVillageName <> "" Then
-			GUICtrlSetData($g_hTxtModLog, @CRLF & _NowTime() & " [" & $g_iTxtCurrentVillageName & "] Avanced : " & $ActionForModLog & "", 1)
-		Else
-			GUICtrlSetData($g_hTxtModLog, @CRLF & _NowTime() & " [" & $g_sProfileCurrentName & "] Avanced : " & $ActionForModLog & "", 1)
-		EndIf
-		_FileWriteLog($g_sProfileLogsPath & "\ModLog.log", " [" & $g_sProfileCurrentName & "] - Advanced : " & $ActionForModLog & "")
 		Return
 	EndIf
 

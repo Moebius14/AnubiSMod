@@ -28,11 +28,12 @@ Global $g_hGUI_WelcomeMessage = 0, $g_hBtnWelcomeMessage = 0, $g_hChkUseWelcomeM
 Global $g_hGUI_SecondaryVillages = 0, $g_hBtnSecondaryVillages = 0, $g_hBtnSecondaryVillagesClose = 0
 Global $g_acmbPriorityBB[2] = [0, 0]
 Global $g_hLabelCC1 = 0, $g_acmbPriorityChkRaid = 0
+Global $g_HowManyinCWLabel = 0, $g_HowManyinCWCombo = 0, $g_HowManyinCWLLabel = 0, $g_HowManyinCWLCombo = 0
 
 Func TabHumanizationGUI()
 
 	Local $x = 30, $y = 50
-	
+
 	GUICtrlCreateGroup(GetTranslatedFileIni("MBR GUI Design Child Village - Misc", "Group_01", "Settings"), $x - 20, $y - 20, 430, 400)
 
 	$x -= 20
@@ -42,16 +43,16 @@ Func TabHumanizationGUI()
 	_GUICtrlSetTip(-1, GetTranslatedFileIni("MBR GUI Design Child Village - Misc", "Label_02", "Bot performs more Human-Like behaviors."))
 	GUICtrlSetOnEvent(-1, "chkUseBotHumanization")
 	GUICtrlSetState(-1, $GUI_CHECKED)
-	
+
 	GUICtrlCreateIcon($g_sLibModIconPath, $eIcnBell, $x + 22, $y + 26, 14, 16)
 	$g_hChkLookAtRedNotifications = GUICtrlCreateCheckbox(GetTranslatedFileIni("MBR GUI Design Child Village - Misc", "chkLookAtRedNotifications", "Notifications"), 50, $y + 26, 80, 17)
 	_GUICtrlSetTip(-1, GetTranslatedFileIni("MBR GUI Design Child Village - Misc", "chkLookAtRedNotifications2", "Check Notifications : Messages, League, War, Chat, Events, Shop,..."))
 	GUICtrlSetOnEvent(-1, "chkLookAtRedNotifications")
 	GUICtrlSetState(-1, $GUI_CHECKED)
-	
+
 	$g_IsRefusedFriends = GUICtrlCreateCheckbox(GetTranslatedFileIni("MBR GUI Design Child Village - Misc", "RefuseFriends", "Refuse Friends"), 140, $y + 26, 90, 17)
 	GUICtrlSetState(-1, $GUI_CHECKED)
-	
+
 	GUICtrlCreateIcon($g_sLibIconPath, $eIcnGUI, $x + 20, $y + 55, 16, 16)
 	$g_hChkForumRequestOnly = GUICtrlCreateCheckbox(GetTranslatedFileIni("MBR GUI Design Child Village - Misc", "ChkForumRequestOnly", "Accept ""Forum"" Requests"), 50, $y + 52, -1, -1)
 	_GUICtrlSetTip(-1, GetTranslatedFileIni("MBR GUI Design Child Village - Misc", "Label_03", "Will Click ""Accept"" With ""Forum"" in Requests But Won't Do Anything For Other Requests"))
@@ -62,13 +63,13 @@ Func TabHumanizationGUI()
 	GUICtrlSetColor(-1, $COLOR_SUCCESS)
 	_GUICtrlSetTip(-1, "Set The Welcome Message After Accept")
 	GUICtrlSetOnEvent(-1, "BtnWelcomeMessage")
-	
+
 	$y += 25
-	
+
 	$g_hLabel19 = GUICtrlCreateLabel(GetTranslatedFileIni("MBR GUI Design Child Village - Misc", "Label_19", "Read Events"), 248, $y + 2, 110, 17)
 	$g_acmbPriority[9] = GUICtrlCreateCombo("", $x + 348, $y, 75, 25, BitOR($CBS_DROPDOWNLIST, $CBS_AUTOHSCROLL))
 	GUICtrlSetData(-1, $g_sFrequenceChain, "Sometimes")
-	
+
 	$x += 6
 	$y += 25
 
@@ -136,17 +137,30 @@ Func TabHumanizationGUI()
 	$g_hLabel18 = GUICtrlCreateLabel(GetTranslatedFileIni("MBR GUI Design Child Village - Misc", "Label_18", "Max Actions by Loop"), $x + 232, $y + 5, 103, 17)
 	$g_hCmbMaxActionsNumber = GUICtrlCreateCombo("", $x + 342, $y, 75, 25, BitOR($CBS_DROPDOWNLIST, $CBS_AUTOHSCROLL))
 	GUICtrlSetData(-1, "1|2|3|4|5", "1")
-	
+
 	$x += 4
 	$y += 30
-	
+
 	$g_hBtnSecondaryVillages = GUICtrlCreateButton("Secondary Villages", $x + 155, $y - 4, -1, -1)
 	_GUICtrlSetTip(-1, "Set The Humanization For Builder Base And Clan Capital")
 	GUICtrlSetOnEvent(-1, "BtnSecondaryVillages")
-	
-	$y += 10
 
-	_GUICtrlCreatePic($g_sIcnHumanization, $x + 45, $y + 15, 320, 60)
+	GUICtrlCreateGroup(GetTranslatedFileIni("MBR GUI Design - ModLog", "Group_01", "Informations for humanization"), $x, $y + 20, 410, 60)
+
+	$x += 20
+	GUICtrlCreateIcon($g_sLibModIconPath, $eIcnModCW, $x + 8, $y + 38, 32, 32)
+	$g_HowManyinCWLabel = GUICtrlCreateLabel("Players in CW : ", $x + 48, $y + 49, -1, -1)
+	$g_HowManyinCWCombo = GUICtrlCreateCombo("", $x + 128, $y + 45, 40, 10, BitOR($CBS_DROPDOWNLIST, $CBS_AUTOHSCROLL))
+	GUICtrlSetData(-1, "5|10|15|20|25|30|35|40|45|50", "5")
+	_GUICtrlSetTip(-1, "Please Select Number Of Players In Classic War - Humanization Optimization")
+	GUICtrlSetOnEvent(-1, "HowManyinCWCombo")
+	GUICtrlCreateIcon($g_sLibModIconPath, $eIcnCWLChampion, $x + 208, $y + 37, 34, 34)
+	$g_HowManyinCWLLabel = GUICtrlCreateLabel("Players in CWL : ", $x + 248, $y + 49, -1, -1)
+	$g_HowManyinCWLCombo = GUICtrlCreateCombo("", $x + 333, $y + 45, 40, 10, BitOR($CBS_DROPDOWNLIST, $CBS_AUTOHSCROLL))
+	GUICtrlSetData(-1, "5|10|15|20|25|30|35|40|45|50", "15")
+	_GUICtrlSetTip(-1, "Please Select Number Of Players In Clan War League - Humanization Optimization")
+	GUICtrlSetOnEvent(-1, "HowManyinCWLCombo")
+	GUICtrlCreateGroup("", -99, -99, 1, 1)
 
 	GUICtrlCreateGroup("", -99, -99, 1, 1)
 
@@ -154,13 +168,15 @@ EndFunc   ;==>TabHumanizationGUI
 
 Func CreateChatWelcomeMessage()
 	Local $x = 25, $y = 5
-	$g_hGUI_WelcomeMessage = _GUICreate("Welcome Message", $_GUI_MAIN_WIDTH - 4, $_GUI_MAIN_HEIGHT - 570, $g_iFrmBotPosX, $g_iFrmBotPosY + 80, $WS_DLGFRAME, $WS_EX_TOPMOST)
-	
+	$g_hGUI_WelcomeMessage = _GUICreate("Welcome Message", $_GUI_MAIN_WIDTH - 4, $_GUI_MAIN_HEIGHT - 570, $g_iFrmBotPosX, $g_iFrmBotPosY + 80, $WS_DLGFRAME, -1, $g_hFrmBot)
+
 	$g_hChkUseWelcomeMessage = GUICtrlCreateCheckbox("Use Welcome Message", $x + 70, $y)
+		_GUICtrlSetTip(-1, "Enable Welcome Chat Message")
 		GUICtrlSetOnEvent(-1, "chkUseWelcomeMessage")
 	$g_hTxtWelcomeMessage = GUICtrlCreateInput($g_aWelcomeMessage, $x + 70, $y + 30, 260, 20, BitOR($SS_CENTER, $ES_AUTOHSCROLL))
+		_GUICtrlSetTip(-1, "Type Your Welcome Chat Message" & @CRLF & "Will Be Written After Accept With ""Forum"" Keyword")
 		GUICtrlSetState(-1, $GUI_DISABLE)
-	
+
 	$y += 50
 	$g_hBtnWelcomeMessageClose = GUICtrlCreateButton("Close", $_GUI_MAIN_WIDTH - 110, $y, 85, 25)
 		GUICtrlSetOnEvent(-1, "CloseWelcomeMessage")
@@ -168,10 +184,10 @@ EndFunc
 
 Func CreateSecondaryVillages()
 	Local $x = 25, $y = 5
-	$g_hGUI_SecondaryVillages = _GUICreate("Secondary Villages", $_GUI_MAIN_WIDTH - 4, $_GUI_MAIN_HEIGHT - 440, $g_iFrmBotPosX, $g_iFrmBotPosY + 80, $WS_DLGFRAME, $WS_EX_TOPMOST)
-	
+	$g_hGUI_SecondaryVillages = _GUICreate("Secondary Villages", $_GUI_MAIN_WIDTH - 4, $_GUI_MAIN_HEIGHT - 440, $g_iFrmBotPosX, $g_iFrmBotPosY + 80, $WS_DLGFRAME, -1, $g_hFrmBot)
+
 	$y += 10
-	
+
 	GUICtrlCreateGroup(GetTranslatedFileIni("MBR GUI Design Child Village - Misc", "Group_02", "Builder Base"), $x, $y, 410, 80)
 
 	$g_hLabelBB1 = GUICtrlCreateLabel(GetTranslatedFileIni("MBR GUI Design Child Village - Misc", "Label_BB01", "Look at Battle log"), $x + 10, $y + 25, 110, 17)
@@ -188,19 +204,19 @@ Func CreateSecondaryVillages()
 	$g_hLabelBB4 = GUICtrlCreateLabel(GetTranslatedFileIni("MBR GUI Design Child Village - Misc", "Label_08", "Pause Replay"), $x + 222, $y + 55, 110, 17)
 	$g_acmbPause[2] = GUICtrlCreateCombo("", $x + 322, $y + 50, 75, 25, BitOR($CBS_DROPDOWNLIST, $CBS_AUTOHSCROLL))
 	GUICtrlSetData(-1, $g_sFrequenceChain, "Sometimes")
-		
+
 	GUICtrlCreateGroup("", -99, -99, 1, 1)
-	
+
 	$y += 100
-	
+
 	GUICtrlCreateGroup(GetTranslatedFileIni("MBR GUI Design Child Village - Misc", "Group_03", "Clan Capital"), $x, $y, 410, 60)
 
 	$g_hLabelCC1 = GUICtrlCreateLabel(GetTranslatedFileIni("MBR GUI Design Child Village - Misc", "Label_CC1", "Look at Raid Map"), $x + 100, $y + 25, 110, 17)
 	$g_acmbPriorityChkRaid = GUICtrlCreateCombo("", $x + 200, $y + 20, 75, 25, BitOR($CBS_DROPDOWNLIST, $CBS_AUTOHSCROLL))
 	GUICtrlSetData(-1, $g_sFrequenceChain, "Very Often")
-			
+
 	GUICtrlCreateGroup("", -99, -99, 1, 1)
-		
+
 	$y += 70
 	$g_hBtnSecondaryVillagesClose = GUICtrlCreateButton("Close", $_GUI_MAIN_WIDTH - 110, $y, 85, 25)
 		GUICtrlSetOnEvent(-1, "CloseSecondaryVillages")

@@ -452,15 +452,14 @@ Func ReadConfig_600_6()
 
 	# NEW CLANGAMES GUI
 	IniReadS($g_bChkClanGamesEnabled, $g_sProfileConfigPath, "other", "ChkClanGamesEnabled", False, "Bool")
-	IniReadS($g_bChkClanGamesAllTimes, $g_sProfileConfigPath, "other", "ChkClanGamesAllTimes", False, "Bool")
-	IniReadS($g_bChkClanGames3h, $g_sProfileConfigPath, "other", "ChkClanGames3h", False, "Bool")
-	IniReadS($g_bChkClanGames3hOnly, $g_sProfileConfigPath, "other", "ChkClanGames3hOnly", False, "Bool")
+	IniReadS($g_bChkClanGamesAllTimes, $g_sProfileConfigPath, "other", "ChkClanGamesAllTimes", True, "Bool")
+	IniReadS($g_bChkClanGamesNoOneDay, $g_sProfileConfigPath, "other", "ChkClanGamesNoOneDay", False, "Bool")
 	IniReadS($g_bChkClanGamesCollectRewards, $g_sProfileConfigPath, "other", "ChkClanGamesCollectRewards", False, "Bool")
-	
+
 	For $i = 0 To UBound($g_iacmbPriorityReward) - 1
 		IniReadS($g_iacmbPriorityReward[$i], $g_sProfileConfigPath, "other", "cmbPriorityReward[" & $i & "]", $g_iacmbPriorityReward[$i], "int")
 	Next
-	
+
 	IniReadS($g_bChkClanGamesLoot, $g_sProfileConfigPath, "other", "ChkClanGamesLoot", True, "Bool")
 	IniReadS($g_bChkClanGamesBattle, $g_sProfileConfigPath, "other", "ChkClanGamesBattle", True, "Bool")
 	IniReadS($g_bChkClanGamesDes, $g_sProfileConfigPath, "other", "ChkClanGamesDestruction", True, "Bool")
@@ -471,7 +470,7 @@ Func ReadConfig_600_6()
 	IniReadS($g_bChkClanGamesBBBattle, $g_sProfileConfigPath, "other", "ChkClanGamesBBBattle", True, "Bool")
 	IniReadS($g_bChkClanGamesBBDes, $g_sProfileConfigPath, "other", "ChkClanGamesBBDestruction", True, "Bool")
 	IniReadS($g_bChkClanGamesBBTroops, $g_sProfileConfigPath, "other", "ChkClanGamesBBTroops", False, "Bool")
-	
+
 	IniReadS($g_bChkForceBBAttackOnClanGames, $g_sProfileConfigPath, "other", "ChkForceBBAttackOnClanGames", True, "Bool")
 	IniReadS($bSearchBBEventFirst, $g_sProfileConfigPath, "other", "SearchBBEventFirst", $bSearchBBEventFirst, "Bool")
 	IniReadS($bSearchMainEventFirst, $g_sProfileConfigPath, "other", "SearchMainEventFirst", $bSearchMainEventFirst, "Bool")
@@ -480,10 +479,10 @@ Func ReadConfig_600_6()
 	IniReadS($g_bChkClanGamesStopBeforeReachAndPurge, $g_sProfileConfigPath, "other", "ChkClanGamesStopBeforeReachAndPurge", True, "Bool")
 	IniReadS($g_bSortClanGames, $g_sProfileConfigPath, "other", "ChkClanGamesSort", True, "Bool")
 	IniReadS($g_iSortClanGames, $g_sProfileConfigPath, "other", "ClanGamesSortBy", 0, "int")
-	
+
 	Local $str
 	;ClanGames MainVillage Loot Challenges
-	$str = StringSplit(IniRead($g_sProfileConfigPath, "other", "EnabledCGLoot", "1|1|1|1|1|1|"), "|", $STR_NOCOUNT)
+	$str = StringSplit(IniRead($g_sProfileConfigPath, "other", "EnabledCGLoot", "0|0|0|0|0|0|"), "|", $STR_NOCOUNT)
 	For $i = 0 To UBound($g_abCGMainLootItem) - 1
 		If $i >= UBound($str) Then
 			$g_abCGMainLootItem[$i] = 0
@@ -492,7 +491,7 @@ Func ReadConfig_600_6()
 		EndIf
 	Next
 	;ClanGames MainVillage Battle Challenges
-	$str = StringSplit(IniRead($g_sProfileConfigPath, "other", "EnabledCGBattle", "1|1|1|1|"), "|", $STR_NOCOUNT)
+	$str = StringSplit(IniRead($g_sProfileConfigPath, "other", "EnabledCGBattle", "0|0|0|0||0|0|0||0|0|0||0|0|0||0|0|0||0|0|0||0|0|0|"), "|", $STR_NOCOUNT)
 	For $i = 0 To UBound($g_abCGMainBattleItem) - 1
 		If $i >= UBound($str) Then
 			$g_abCGMainBattleItem[$i] = 0
@@ -501,7 +500,7 @@ Func ReadConfig_600_6()
 		EndIf
 	Next
 	;ClanGames MainVillage Destructions Challenges
-	$str = StringSplit(IniRead($g_sProfileConfigPath, "other", "EnabledCGDes", "0|1|1|1|0|1|0|0|0|0|0|0|0|1|0|0|1|0|"), "|", $STR_NOCOUNT)
+	$str = StringSplit(IniRead($g_sProfileConfigPath, "other", "EnabledCGDes", "0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|"), "|", $STR_NOCOUNT)
 	For $i = 0 To UBound($g_abCGMainDestructionItem) - 1
 		If $i >= UBound($str) Then
 			$g_abCGMainDestructionItem[$i] = 0
@@ -510,7 +509,7 @@ Func ReadConfig_600_6()
 		EndIf
 	Next
 	;ClanGames MainVillage Air Troops Challenges
-	$str = StringSplit(IniRead($g_sProfileConfigPath, "other", "EnabledCGAirTroop", "0|0|0|0|0|0|0|0|0|0|0|0|0|0|"), "|", $STR_NOCOUNT)
+	$str = StringSplit(IniRead($g_sProfileConfigPath, "other", "EnabledCGAirTroop", "0|0|0|0|0|0|0|0|0|0|0|0|0|"), "|", $STR_NOCOUNT)
 	For $i = 0 To UBound($g_abCGMainAirItem) - 1
 		If $i >= UBound($str) Then
 			$g_abCGMainAirItem[$i] = 0
@@ -519,7 +518,7 @@ Func ReadConfig_600_6()
 		EndIf
 	Next
 	;ClanGames MainVillage Ground Troops Challenges
-	$str = StringSplit(IniRead($g_sProfileConfigPath, "other", "EnabledCGGroundTroop", "0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|"), "|", $STR_NOCOUNT)
+	$str = StringSplit(IniRead($g_sProfileConfigPath, "other", "EnabledCGGroundTroop", "0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|"), "|", $STR_NOCOUNT)
 	For $i = 0 To UBound($g_abCGMainGroundItem) - 1
 		If $i >= UBound($str) Then
 			$g_abCGMainGroundItem[$i] = 0
@@ -528,7 +527,7 @@ Func ReadConfig_600_6()
 		EndIf
 	Next
 	;ClanGames MainVillage Miscellaneous Challenges
-	$str = StringSplit(IniRead($g_sProfileConfigPath, "other", "EnabledCGMisc", "0|1|1|"), "|", $STR_NOCOUNT)
+	$str = StringSplit(IniRead($g_sProfileConfigPath, "other", "EnabledCGMisc", "0|0|0|"), "|", $STR_NOCOUNT)
 	For $i = 0 To UBound($g_abCGMainMiscItem) - 1
 		If $i >= UBound($str) Then
 			$g_abCGMainMiscItem[$i] = 0
@@ -537,7 +536,7 @@ Func ReadConfig_600_6()
 		EndIf
 	Next
 	;ClanGames MainVillage Spell Challenges
-	$str = StringSplit(IniRead($g_sProfileConfigPath, "other", "EnabledCGSpell", "1|0|0|0|0|0|0|0|0|0|0|0|"), "|", $STR_NOCOUNT)
+	$str = StringSplit(IniRead($g_sProfileConfigPath, "other", "EnabledCGSpell", "0|0|0|0|0|0|0|0|0|0|0|0|"), "|", $STR_NOCOUNT)
 	For $i = 0 To UBound($g_abCGMainSpellItem) - 1
 		If $i >= UBound($str) Then
 			$g_abCGMainSpellItem[$i] = 0
@@ -546,7 +545,7 @@ Func ReadConfig_600_6()
 		EndIf
 	Next
 	;ClanGames BuilderBase Battle Challenges
-	$str = StringSplit(IniRead($g_sProfileConfigPath, "other", "EnabledBBBattle", "1|1|1|1|"), "|", $STR_NOCOUNT)
+	$str = StringSplit(IniRead($g_sProfileConfigPath, "other", "EnabledBBBattle", "0|0|0|0|"), "|", $STR_NOCOUNT)
 	For $i = 0 To UBound($g_abCGBBBattleItem) - 1
 		If $i >= UBound($str) Then
 			$g_abCGBBBattleItem[$i] = 0
@@ -555,7 +554,7 @@ Func ReadConfig_600_6()
 		EndIf
 	Next
 	;ClanGames BuilderBase Destructions Challenges
-	$str = StringSplit(IniRead($g_sProfileConfigPath, "other", "EnabledBBDestruction", "0|1|1|1|0|1|0|0|0|0|0|0|0|1|0|0|1|0|"), "|", $STR_NOCOUNT)
+	$str = StringSplit(IniRead($g_sProfileConfigPath, "other", "EnabledBBDestruction", "0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|"), "|", $STR_NOCOUNT)
 	For $i = 0 To UBound($g_abCGBBDestructionItem) - 1
 		If $i >= UBound($str) Then
 			$g_abCGBBDestructionItem[$i] = 0
@@ -564,7 +563,7 @@ Func ReadConfig_600_6()
 		EndIf
 	Next
 	;ClanGames BuilderBase Troops Challenges
-	$str = StringSplit(IniRead($g_sProfileConfigPath, "other", "EnabledBBTroops", "1|0|0|0|0|0|0|0|0|0|0|"), "|", $STR_NOCOUNT)
+	$str = StringSplit(IniRead($g_sProfileConfigPath, "other", "EnabledBBTroops", "0|0|0|0|0|0|0|0|0|0|0|"), "|", $STR_NOCOUNT)
 	For $i = 0 To UBound($g_abCGBBTroopsItem) - 1
 		If $i >= UBound($str) Then
 			$g_abCGBBTroopsItem[$i] = 0
@@ -711,7 +710,7 @@ Func ReadConfig_600_12()
 	IniReadS($g_abChkDonateQueueOnly[1], $g_sProfileConfigPath, "donate", "chkDonateQueueOnly[1]", True, "Bool")
 	For $i = 0 To $eTroopCount - 1 + $g_iCustomDonateConfigs
 		Local $sIniName = ""
-		If $i >= $eTroopBarbarian And $i <= $eTroopHeadhunter Then
+		If $i >= $eTroopBarbarian And $i <= $eTroopIceWizard Then
 			$sIniName = StringReplace($g_asTroopNamesPlural[$i], " ", "")
 		ElseIf $i = $eCustomA Then
 			$sIniName = "CustomA"
@@ -778,7 +777,7 @@ Func ReadConfig_600_12()
 	$g_bChkExtraKorean = (IniRead($g_sProfileConfigPath, "donate", "chkExtraKorean", "0") = "1")
 	$g_bChkExtraPersian = (IniRead($g_sProfileConfigPath, "donate", "chkExtraPersian", "0") = "1")
 
-	$g_sTxtGeneralBlacklist = StringReplace(IniRead($g_sProfileConfigPath, "donate", "txtBlacklist", "clan war|war|cw"), "|", @CRLF)
+	$g_sTxtGeneralBlacklist = StringReplace(IniRead($g_sProfileConfigPath, "donate", "txtBlacklist", $g_sTxtGeneralBlacklist), "|", @CRLF)
 EndFunc   ;==>ReadConfig_600_12
 
 Func ReadConfig_600_13()
@@ -836,7 +835,7 @@ Func ReadConfig_auto()
 	; Auto Upgrade
 	IniReadS($g_bAutoUpgradeEnabled, $g_sProfileConfigPath, "Auto Upgrade", "AutoUpgradeEnabled", False, "Bool")
 	IniReadS($g_iCmbFreeBuilders, $g_sProfileConfigPath, "Auto Upgrade", "FreeBuildersToPotion", $g_iCmbFreeBuilders, "int")
-	For $i = 0 To 15
+	For $i = 0 To Ubound($g_iChkUpgradesToIgnore) - 1
 		IniReadS($g_iChkUpgradesToIgnore[$i], $g_sProfileConfigPath, "Auto Upgrade", "ChkUpgradesToIgnore[" & $i & "]", $g_iChkUpgradesToIgnore[$i], "int")
 	Next
 	For $i = 0 To 2
@@ -1313,6 +1312,7 @@ Func ReadConfig_600_35_1()
 	IniReadS($g_bRestarted, $g_sProfileConfigPath, "general", "Restarted", $g_bRestarted, "int")
 	If $g_bBotLaunchOption_Autostart = True Then $g_bRestarted = True
 	$g_bCheckGameLanguage = (IniRead($g_sProfileConfigPath, "General", "ChkLanguage", "1") = "1")
+	IniReadS($g_bSkipSnowDetection, $g_sProfileConfigPath, "General", "SkipSnowDetection", True, "Bool")
 	IniReadS($g_bAutoAlignEnable, $g_sProfileConfigPath, "general", "DisposeWindows", False, "Bool")
 	IniReadS($g_iAutoAlignPosition, $g_sProfileConfigPath, "general", "DisposeWindowsPos", "EMBED")
 	IniReadS($g_iAutoAlignOffsetX, $g_sProfileConfigPath, "other", "WAOffsetX", "")

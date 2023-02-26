@@ -202,15 +202,15 @@ EndFunc   ;==>CleanYard
 
 Func ClickRemoveObstacle()
 	If ChatOpen() Then Click(332, 382) ; close chat
-	If QuickMis("BC1", $g_sImgGeneralCloseButton, 605, 165, 660, 215) Then
+	If QuickMIS("BC1", $g_sImgGeneralCloseButton, 605, 165, 660, 215) Then
 		Click($g_iQuickMISX, $g_iQuickMISY)
-		_Sleep(500)
+		If _Sleep(500) Then Return
 	EndIf
 	Local $aiButton = findButton("RemoveObstacle", Default, 1, True)
 	If IsArray($aiButton) And UBound($aiButton) >= 2 Then
 		SetDebugLog("Remove Button found! Clicking it at X: " & $aiButton[0] & ", Y: " & $aiButton[1], $COLOR_DEBUG1)
 		ClickP($aiButton)
-		Sleep(1000)
+		If _Sleep(1000) Then Return
 		If $g_iFreeBuilderCount = 1 Then
 			Local $IsCleaningRunning = True
 			While $IsCleaningRunning

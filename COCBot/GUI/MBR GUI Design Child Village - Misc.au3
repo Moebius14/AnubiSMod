@@ -50,7 +50,7 @@ $g_hGUI_CCUpgradesSettings = 0, $g_hChkEnablePriorArmyWarning = 0, $g_hBtnCCUpgr
 $g_hChkEnablePriorFactory = 0, $g_hBtnBoostBuilders = 0, $g_hCmbBoostBuilders3 = 0, $g_hCmbFreeBuilders3 = 0, $g_hGUI_BoostBuilders3 = 0, $g_hBtnBoostBuildersClose3 = 0
 
 ;ClanGames Challenges
-Global $g_hChkClanGamesEnabled = 0 , $g_hChkClanGamesAllTimes = 0, $g_hChkClanGames3h = 0, $g_hChkClanGames3hOnly = 0
+Global $g_hChkClanGamesEnabled = 0 , $g_hChkClanGamesAllTimes = 0, $g_hChkClanGamesNoOneDay = 0
 Global $g_hTxtClanGamesLog = 0, $g_hLblRemainTime = 0 , $g_hLblYourScore = 0
 Global $g_hGUI_CGSettings = 0, $g_hBtnCGSettingsOpen = 0, $g_hBtnCGSettingsClose = 0
 Global $g_hGUI_CGRewardsSettings = 0, $g_hChkClanGamesCollectRewards = 0, $g_hBtnCGRewardsSettingsOpen = 0, $g_hBtnCGRewardsSettingsClose = 0, _
@@ -831,7 +831,7 @@ Func CreateMiscClanCapitalSubTab()
 EndFunc ;CreateMiscClanCapitalSubTab
 
 Func CreateBBDropOrderGUI()
-	$g_hGUI_BBDropOrder = _GUICreate(GetTranslatedFileIni("GUI Design Child Village - Misc", "GUI_BBDropOrder", "BB Custom Drop Order"), 322, 313, -1, -1, $WS_BORDER, $WS_EX_CONTROLPARENT)
+	$g_hGUI_BBDropOrder = _GUICreate(GetTranslatedFileIni("GUI Design Child Village - Misc", "GUI_BBDropOrder", "BB Custom Drop Order"), 322, 313, -1, -1, $WS_BORDER, -1, $g_hFrmBot)
 
 
 	Local $x = 25, $y = 25
@@ -903,31 +903,17 @@ Func CreateMiscClanGamesV3SubTab()
 		GUICtrlCreateGroup("", -99, -99, 1, 1)
 	$y = 33
 	$x = 135
-		$g_hChkClanGamesEnabled = GUICtrlCreateCheckbox(GetTranslatedFileIni("MBR GUI Design Child Village - Misc", "ChkClanGamesEnabled", "Enabled"), $x, $y, -1, -1)
+		$g_hChkClanGamesEnabled = GUICtrlCreateCheckbox(GetTranslatedFileIni("MBR GUI Design Child Village - Misc", "ChkClanGamesEnabled", "Enabled"), $x, $y + 10, -1, -1)
 			GUICtrlSetOnEvent(-1, "chkActivateClangames")
-							
-		GUIStartGroup()
-		$g_hChkClanGamesAllTimes = GUICtrlCreateRadio("All Events", $x + 100, $y , -1, -1)
-		_GUICtrlSetTip(-1, "Classic Behaviour : All Times Events")
-		GUICtrlSetOnEvent(-1, "ChkClanGamesAllTimes")
-		GUICtrlSetState(-1, $GUI_CHECKED)
-		$g_hChkClanGames3hOnly = GUICtrlCreateRadio("Only 3 Hours Events", $x + 100, $y + 23, -1, -1)
-		_GUICtrlSetTip(-1, "Only choose 3 Hour Events")
-		GUICtrlSetOnEvent(-1, "ChkClanGames3hOnly")
-		GUICtrlSetState(-1, $GUI_UNCHECKED)
-		$g_hChkClanGames3h = GUICtrlCreateRadio("No 3 Hours Events", $x + 100, $y + 46, -1, -1)
-		_GUICtrlSetTip(-1, "Not choose 3 Hour Events, This is 8 Hours Or 1 Day challenges")
-		GUICtrlSetOnEvent(-1, "ChkClanGames3h")
-		GUICtrlSetState(-1, $GUI_UNCHECKED)	
-		
-	$y += 85
+
+	$y += 55
 		GUICtrlCreateGroup(GetTranslatedFileIni("MBR GUI Design Child Village - Misc", "Group_CG_Challenges", "Challenges"), $x - 10, $y - 15, $g_iSizeWGrpTab3 - 130, 70)
 			$y += 10
 			$g_hBtnCGSettingsOpen = GUICtrlCreateButton("Clan Games Settings", $x + 80, $y, -1, -1)
 			GUICtrlSetOnEvent(-1, "btnCGSettings")
 		GUICtrlCreateGroup("", -99, -99, 1, 1)
-		
-	$y += 70
+
+	$y += 80
 		GUICtrlCreateGroup(GetTranslatedFileIni("MBR GUI Design Child Village - Misc", "Group_CG_Rewards", "Rewards"), $x - 10, $y - 15, $g_iSizeWGrpTab3 - 130, 70)
 			$y += 10
 			$g_hChkClanGamesCollectRewards = GUICtrlCreateCheckBox(GetTranslatedFileIni("MBR GUI Design Child Village - Misc", "ChkClanGamesCollectRewards", "Collect"), $x, $y + 2, -1, -1)
@@ -950,15 +936,18 @@ Func CreateMiscClanGamesV3SubTab()
 EndFunc   ;==>CreateMiscClanGamesV3SubTab
 
 Func CreateCCUpgradesSettings()
-	$g_hGUI_CCUpgradesSettings = _GUICreate(GetTranslatedFileIni("GUI Design Child Village - Misc", "GUI_CCUpgradesSettings", "Clan Capital Upgrades Settings"), $_GUI_MAIN_WIDTH - 4, $_GUI_MAIN_HEIGHT - 60, $g_iFrmBotPosX, $g_iFrmBotPosY + 80, $WS_DLGFRAME, $WS_EX_TOPMOST)
+	$g_hGUI_CCUpgradesSettings = _GUICreate(GetTranslatedFileIni("GUI Design Child Village - Misc", "GUI_CCUpgradesSettings", "Clan Capital Upgrades Settings"), $_GUI_MAIN_WIDTH - 4, $_GUI_MAIN_HEIGHT - 60, $g_iFrmBotPosX, $g_iFrmBotPosY + 80, $WS_DLGFRAME, -1, $g_hFrmBot)
 	Local $x = 35, $y = 15
 	
 		$g_hChkEnablePriorPrioritized = GUICtrlCreateCheckbox(GetTranslatedFileIni("MBR GUI Design Child Village - Misc", "ChkEnablePriorPrioritized", "Prior Prioritized"), $x , $y + 2, -1, -1)
+		_GUICtrlSetTip(-1, "Green Flagged Upgrades Will Be Upgraded First")
 		_GUICtrlCreateIcon($g_sLibModIconPath, $eIcnModCCPrioritized, $x + 95, $y + 1, 24, 24)
 	
 	$y += 70
 		GUICtrlCreateGroup(GetTranslatedFileIni("MBR GUI Design Child Village - Misc", "ChkPriorArmyCCGroup", "Army Stuff"), $x - 10, $y - 32, 420, 115)
 		$g_hChkEnablePriorArmyCC = GUICtrlCreateCheckbox(GetTranslatedFileIni("MBR GUI Design Child Village - Misc", "ChkPriorArmyCC", "Prior All Army Related"), $x, $y + 1, -1, -1)
+		_GUICtrlSetTip(-1, "Will Upgrade All Army Related Stuff :" & @CRLF & _
+		"You can choose Camps, Barracks, Factories and Storages")
 		GUICtrlSetOnEvent(-1, "ChkEnablePriorArmyCCLive")
 		
 		$g_hChkEnablePriorArmyWarning = GUICtrlCreateLabel("", $x, $y + 53, 150, 15)
@@ -979,11 +968,10 @@ Func CreateCCUpgradesSettings()
 		GUICtrlSetOnEvent(-1, "ChkEnablePriorStorage")
 		GUICtrlCreateGroup("", -99, -99, 1, 1)
 	
-	
-	
 	$y += 125
 		GUICtrlCreateGroup(GetTranslatedFileIni("MBR GUI Design Child Village - Misc", "ChkPriorHallCCGroup", "Halls"), $x - 10, $y - 32, 420, 80)
 		$g_hChkEnablePriorHallsCC = GUICtrlCreateCheckbox(GetTranslatedFileIni("MBR GUI Design Child Village - Misc", "ChkPriorHallsCC", "Prior Halls"), $x, $y + 1, -1, -1)
+		_GUICtrlSetTip(-1, "Will upgrade Capital Or District Hall")
 		GUICtrlSetOnEvent(-1, "ChkPriorHallsCC")
 		_GUICtrlCreateIcon($g_sLibModIconPath, $eIcnModCCCapitalHall, $x + 220, $y - 15, 48, 48)
 		_GUICtrlCreateIcon($g_sLibModIconPath, $eIcnModCCDistrictHall, $x + 280, $y - 15, 48, 48)
@@ -992,6 +980,7 @@ Func CreateCCUpgradesSettings()
 	$y += 90
 		GUICtrlCreateGroup(GetTranslatedFileIni("MBR GUI Design Child Village - Misc", "hkEnablePriorRuinsCC", "Ruins"), $x - 10, $y - 32, 420, 100)
 		$g_hChkEnablePriorRuinsCC = GUICtrlCreateCheckbox(GetTranslatedFileIni("MBR GUI Design Child Village - Misc", "ChkPriorRuinsCC", "Prior Ruins"), $x, $y - 1, -1, -1)
+		_GUICtrlSetTip(-1, "Will upgrade Ruins in Capital Or District")
 		GUICtrlSetOnEvent(-1, "ChkPriorRuinsCC")
 		$g_hChkEnableOnlyRuinsCC = GUICtrlCreateCheckbox(GetTranslatedFileIni("MBR GUI Design Child Village - Misc", "ChkOnlyRuinsCC", "Only Upgrade Ruins"), $x, $y + 24, -1, -1)
 		GUICtrlSetState(-1, $GUI_DISABLE)
@@ -1013,6 +1002,8 @@ Func CreateCCUpgradesSettings()
 	$y += 90
 		GUICtrlCreateGroup(GetTranslatedFileIni("MBR GUI Design Child Village - Misc", "ChkAutoUpgradeCCIgnore", "Decorations"), $x - 10, $y - 32, 420, 80)
 		$g_hChkAutoUpgradeCCIgnore = GUICtrlCreateCheckbox(GetTranslatedFileIni("MBR GUI Design Child Village - Misc", "ChkAutoUpgradeCCIgnore", "Ignore Decoration Building"), $x, $y + 1, -1, -1)
+		_GUICtrlSetTip(-1, "Will Ignore Decoration Buildings :" & @CRLF & _
+		"Groves, Trees, Forests, Campsites, Stones, Trunks, etc...")
 		_GUICtrlCreateIcon($g_sLibModIconPath, $eIcnModCCBigBarb, $x + 160, $y - 5, 32, 32)
 		_GUICtrlCreateIcon($g_sLibModIconPath, $eIcnModCCBoulder, $x + 200, $y - 5, 32, 32)
 		_GUICtrlCreateIcon($g_sLibModIconPath, $eIcnModCCGreatPyre, $x + 240, $y - 5, 32, 32)
@@ -1027,7 +1018,7 @@ Func CreateCCUpgradesSettings()
 EndFunc
 
 Func CreateCollectRewardsSettings()
-	$g_hGUI_CGRewardsSettings = _GUICreate(GetTranslatedFileIni("GUI Design Child Village - Misc", "GUI_CGSettings", "ClanGames Reward Priority Settings"), $_GUI_MAIN_WIDTH - 4, $_GUI_MAIN_HEIGHT - 100, $g_iFrmBotPosX, $g_iFrmBotPosY + 80, $WS_DLGFRAME, $WS_EX_TOPMOST)
+	$g_hGUI_CGRewardsSettings = _GUICreate(GetTranslatedFileIni("GUI Design Child Village - Misc", "GUI_CGSettings", "ClanGames Reward Priority Settings"), $_GUI_MAIN_WIDTH - 4, $_GUI_MAIN_HEIGHT - 100, $g_iFrmBotPosX, $g_iFrmBotPosY + 80, $WS_DLGFRAME, -1, $g_hFrmBot)
 	Local $x = 25, $y = 15
 	$TitlePriority = GUICtrlCreateLabel("Define Priority For Each Item", $x + 100, $y - 10, 250, -1)
 	GUICtrlSetFont(-1, 12, $FW_BOLD, Default, "Segoe UI Semibold", $CLEARTYPE_QUALITY)
@@ -1224,11 +1215,11 @@ EndFunc
 
 Func CreateClanGamesSettings()
 	Local $tmpChallenges
-	$g_hGUI_CGSettings = _GUICreate(GetTranslatedFileIni("GUI Design Child Village - Misc", "GUI_CGSettings", "ClanGames Challenge Settings"), $_GUI_MAIN_WIDTH - 4, $_GUI_MAIN_HEIGHT - 100, $g_iFrmBotPosX, $g_iFrmBotPosY + 80, $WS_DLGFRAME, $WS_EX_TOPMOST)
+	$g_hGUI_CGSettings = _GUICreate(GetTranslatedFileIni("GUI Design Child Village - Misc", "GUI_CGSettings", "ClanGames Challenge Settings"), $_GUI_MAIN_WIDTH - 4, $_GUI_MAIN_HEIGHT - 100, $g_iFrmBotPosX, $g_iFrmBotPosY + 80, $WS_DLGFRAME, -1, $g_hFrmBot)
 	Local $x = 25, $y = 25
-	
+
 	$g_hClanGamesTV = GUICtrlCreateTreeView(6, 6, 200, $_GUI_MAIN_HEIGHT - 140, BitOR($TVS_HASBUTTONS, $TVS_HASLINES, $TVS_LINESATROOT, $TVS_CHECKBOXES), $WS_EX_CLIENTEDGE)
-	
+
 	$g_hChkCGMainLoot = GUICtrlCreateTreeViewItem("Loot Challenges", $g_hClanGamesTV)
 		GUICtrlSetOnEvent(-1, "CGLootTVRoot")
 	$tmpChallenges = ClanGamesChallenges("$LootChallenges")
@@ -1236,7 +1227,7 @@ Func CreateClanGamesSettings()
 		$g_ahCGMainLootItem[$j] = GUICtrlCreateTreeViewItem($tmpChallenges[$j][1], $g_hChkCGMainLoot)
 		GUICtrlSetOnEvent(-1, "CGLootTVItem")
 	Next
-	
+
 	$g_hChkCGMainBattle = GUICtrlCreateTreeViewItem("Battle Challenges", $g_hClanGamesTV)
 		GUICtrlSetOnEvent(-1, "CGMainBattleTVRoot")
 	$tmpChallenges = ClanGamesChallenges("$BattleChallenges")
@@ -1244,7 +1235,7 @@ Func CreateClanGamesSettings()
 		$g_ahCGMainBattleItem[$j] = GUICtrlCreateTreeViewItem($tmpChallenges[$j][1], $g_hChkCGMainBattle)
 		GUICtrlSetOnEvent(-1, "CGMainBattleTVItem")
 	Next
-	
+
 	$g_hChkCGMainDestruction = GUICtrlCreateTreeViewItem("Destruction Challenges", $g_hClanGamesTV)
 		GUICtrlSetOnEvent(-1, "CGMainDestructionTVRoot")
 	$tmpChallenges = ClanGamesChallenges("$DestructionChallenges")
@@ -1252,7 +1243,7 @@ Func CreateClanGamesSettings()
 		$g_ahCGMainDestructionItem[$j] = GUICtrlCreateTreeViewItem($tmpChallenges[$j][1], $g_hChkCGMainDestruction)
 		GUICtrlSetOnEvent(-1, "CGMainDestructionTVItem")
 	Next
-	
+
 	$g_hChkCGMainAir = GUICtrlCreateTreeViewItem("AirTroop Challenges", $g_hClanGamesTV)
 		GUICtrlSetOnEvent(-1, "CGMainAirTVRoot")
 	$tmpChallenges = ClanGamesChallenges("$AirTroopChallenges")
@@ -1260,7 +1251,7 @@ Func CreateClanGamesSettings()
 		$g_ahCGMainAirItem[$j] = GUICtrlCreateTreeViewItem($tmpChallenges[$j][1], $g_hChkCGMainAir)
 		GUICtrlSetOnEvent(-1, "CGMainAirTVItem")
 	Next
-	
+
 	$g_hChkCGMainGround = GUICtrlCreateTreeViewItem("GroundTroop Challenges", $g_hClanGamesTV)
 		GUICtrlSetOnEvent(-1, "CGMainGroundTVRoot")
 	$tmpChallenges = ClanGamesChallenges("$GroundTroopChallenges")
@@ -1268,7 +1259,7 @@ Func CreateClanGamesSettings()
 		$g_ahCGMainGroundItem[$j] = GUICtrlCreateTreeViewItem($tmpChallenges[$j][1], $g_hChkCGMainGround)
 		GUICtrlSetOnEvent(-1, "CGMainGroundTVItem")
 	Next
-	
+
 	$g_hChkCGMainMisc = GUICtrlCreateTreeViewItem("Miscellaneous Challenges", $g_hClanGamesTV)
 		GUICtrlSetOnEvent(-1, "CGMainMiscTVRoot")
 	$tmpChallenges = ClanGamesChallenges("$MiscChallenges")
@@ -1276,7 +1267,7 @@ Func CreateClanGamesSettings()
 		$g_ahCGMainMiscItem[$j] = GUICtrlCreateTreeViewItem($tmpChallenges[$j][1], $g_hChkCGMainMisc)
 		GUICtrlSetOnEvent(-1, "CGMainMiscTVItem")
 	Next
-	
+
 	$g_hChkCGMainSpell = GUICtrlCreateTreeViewItem("Spell Challenges", $g_hClanGamesTV)
 		GUICtrlSetOnEvent(-1, "CGMainSpellTVRoot")
 	$tmpChallenges = ClanGamesChallenges("$SpellChallenges")
@@ -1284,7 +1275,7 @@ Func CreateClanGamesSettings()
 		$g_ahCGMainSpellItem[$j] = GUICtrlCreateTreeViewItem($tmpChallenges[$j][1], $g_hChkCGMainSpell)
 		GUICtrlSetOnEvent(-1, "CGMainSpellTVItem")
 	Next
-	
+
 	$g_hChkCGBBBattle = GUICtrlCreateTreeViewItem("BB Battle Challenges", $g_hClanGamesTV)
 		GUICtrlSetOnEvent(-1, "CGBBBattleTVRoot")
 	$tmpChallenges = ClanGamesChallenges("$BBBattleChallenges")
@@ -1292,7 +1283,7 @@ Func CreateClanGamesSettings()
 		$g_ahCGBBBattleItem[$j] = GUICtrlCreateTreeViewItem($tmpChallenges[$j][1], $g_hChkCGBBBattle)
 		GUICtrlSetOnEvent(-1, "CGBBBattleTVItem")
 	Next
-	
+
 	$g_hChkCGBBDestruction = GUICtrlCreateTreeViewItem("BB Destruction Challenges", $g_hClanGamesTV)
 		GUICtrlSetOnEvent(-1, "CGBBDestructionTVRoot")
 	$tmpChallenges = ClanGamesChallenges("$BBDestructionChallenges")
@@ -1300,7 +1291,7 @@ Func CreateClanGamesSettings()
 		$g_ahCGBBDestructionItem[$j] = GUICtrlCreateTreeViewItem($tmpChallenges[$j][1], $g_hChkCGBBDestruction)
 		GUICtrlSetOnEvent(-1, "CGBBDestructionTVItem")
 	Next
-	
+
 	$g_hChkCGBBTroops = GUICtrlCreateTreeViewItem("BB Troops Challenges", $g_hClanGamesTV)
 		GUICtrlSetOnEvent(-1, "CGBBTroopsTVRoot")
 	$tmpChallenges = ClanGamesChallenges("$BBTroopsChallenges")
@@ -1308,35 +1299,50 @@ Func CreateClanGamesSettings()
 		$g_ahCGBBTroopsItem[$j] = GUICtrlCreateTreeViewItem($tmpChallenges[$j][1], $g_hChkCGBBTroops)
 		GUICtrlSetOnEvent(-1, "CGBBTroopsTVItem")
 	Next
-	
+
 	$x = 220
 	$y -= 23
 	$g_hChkForceBBAttackOnClanGames = GUICtrlCreateCheckbox(GetTranslatedFileIni("MBR GUI Design Child Village - Misc", "ChkForceBBAttackOnClanGames", "Always Force BB Attack"), $x, $y, -1, -1)
 		GUICtrlSetOnEvent(-1, "chkClanGamesBB")
+		_GUICtrlSetTip(-1, GetTranslatedFileIni("MBR GUI Design Child Village - Misc", "ChkClanGames_Info_02", "If Enabled : Ignore BB Trophy, BB Loot, BB Wait BM"))
 		GUICtrlSetState(-1, $GUI_DISABLE)
-		
+
 	$y += 23
 	$g_hChkClanGamesPurgeAny = GUICtrlCreateCheckbox(GetTranslatedFileIni("MBR GUI Design Child Village - Misc", "ChkClanGamesPurgeAny", "Purge Any Event If No Event Found"), $x, $y, -1, -1)
-	
+		_GUICtrlSetTip(-1, GetTranslatedFileIni("MBR GUI Design Child Village - Misc", "ChkClanGames_Info_03", "If No Event Found, Purge Any Event"))
+
 	$y += 23
 		$g_hChkClanGamesStopBeforeReachAndPurge = GUICtrlCreateCheckbox(GetTranslatedFileIni("MBR GUI Design Child Village - Misc", "ChkClanGamesStopBeforeReachAndPurge", "Stop before completing your limit and only Purge"), $x, $y, -1, -1)
-	
-	$y += 23
+		_GUICtrlSetTip(-1, GetTranslatedFileIni("MBR GUI Design Child Village - Misc", "ChkClanGames_Info_04", "Stop Selecting Events 300 points before End And Purge" & @CRLF & _
+												"But not purge on last day of clangames"))
+
+	$y += 35
+		GUIStartGroup()
+		$g_hChkClanGamesAllTimes = GUICtrlCreateRadio("All Events", $x + 20, $y , -1, -1)
+		_GUICtrlSetTip(-1, "Classic Behaviour : All Times Events")
+		GUICtrlSetOnEvent(-1, "ChkClanGamesAllTimes")
+		GUICtrlSetState(-1, $GUI_CHECKED)
+		$g_hChkClanGamesNoOneDay = GUICtrlCreateRadio("No 1 Day Events", $x + 120, $y, -1, -1)
+		_GUICtrlSetTip(-1, "Not choose 1 Day Events, This Will be 8 Hours Or 3 Hours Challenges")
+		GUICtrlSetOnEvent(-1, "ChkClanGamesNoOneDay")
+		GUICtrlSetState(-1, $GUI_UNCHECKED)	
+
+	$y += 35
 		$g_hChkClanGamesSort = GUICtrlCreateCheckbox(GetTranslatedFileIni("MBR GUI Design Child Village - Misc", "ChkClanGamesSort", "Sort Clan Games By :"), $x, $y, -1, -1)
 		GUICtrlSetOnEvent(-1, "chkSortClanGames")
 		GUICtrlSetState(-1, $GUI_CHECKED)
-		
+
 	$y += 23
 		$g_hCmbClanGamesSort = GUICtrlCreateCombo("", $x + 20, $y, 120, 18, BitOR($CBS_DROPDOWNLIST, $CBS_AUTOHSCROLL))
 		Local $sCmbTxt = "Easier Difficulties|Higher Score|Shortest Time|Longest Time"
 		GUICtrlSetData(-1, $sCmbTxt, "Easier Difficulties")
-		
+
 	$y += 45
 	GUICtrlCreateGroup(GetTranslatedFileIni("MBR GUI Design Child Village - Misc", "ClangamesDesc", "Description"), $x - 10, $y - 15, 250, 120)
 		$g_hLabelClangamesDesc = GUICtrlCreateLabel("", $x, $y, 230, 100)
 			GUICtrlSetFont(-1, 9, $FW_BOLD, $GUI_FONTITALIC)
 	GUICtrlCreateGroup("", -99, -99, 1, 1)
-	
+
 	$y += 135
 	GUICtrlCreateGroup(GetTranslatedFileIni("MBR GUI Design Child Village - Misc", "ClangamesPriority", "Challenges Priority Select"), $x - 10, $y - 15, 250, 45)
 	$hSearchBBEventFirst = GUICtrlCreateRadio(GetTranslatedFileIni("MBR GUI Design Child Village - Misc", "SearchBBEventFirst", "BB First"), $x, $y, -1, -1)
@@ -1345,15 +1351,16 @@ Func CreateClanGamesSettings()
 	$x += 65
 	$hSearchMainEventFirst = GUICtrlCreateRadio(GetTranslatedFileIni("MBR GUI Design Child Village - Misc", "SearchMainEventFirst", "Main First"), $x, $y, -1, -1)
 	GUICtrlSetState(-1, $GUI_UNCHECKED)
-	
+
 	$x += 70
 	$hSearchBothVillages = GUICtrlCreateRadio(GetTranslatedFileIni("MBR GUI Design Child Village - Misc", "SearchBothVillages", "Both Equal"), $x, $y, -1, -1)
 	GUICtrlSetState(-1, $GUI_CHECKED)
 	GUICtrlCreateGroup("", -99, -99, 1, 1)
-	
+
 	$x -= 135
 	$y += 50
 	$g_hChkCGRootEnabledAll = GUICtrlCreateCheckbox(GetTranslatedFileIni("MBR GUI Design Child Village - Misc", "ChkCGRootEnableAllItem", "Challenges inherit Challenge Category"), $x, $y, -1, -1)
+		_GUICtrlSetTip(-1, GetTranslatedFileIni("MBR GUI Design Child Village - Misc", "ChkCGRootEnableAllItem02", "Enable/Disable this to quickly enable or disable all item per category"))
 		GuiCtrlSetState(-1, $GUI_UNCHECKED)
 	$g_hBtnCGSettingsClose = GUICtrlCreateButton(GetTranslatedFileIni("MBR GUI Design Child Village - Misc", "BtnCGSettings", "Close"), $_GUI_MAIN_WIDTH - 100, $_GUI_MAIN_HEIGHT - 160, 85, 25)
 		GUICtrlSetOnEvent(-1, "CloseCGSettings")
@@ -1361,7 +1368,7 @@ EndFunc
 
 Func CreateBoostBuilders3()
 	Local $x = 25, $y = 5
-	$g_hGUI_BoostBuilders3 = _GUICreate("Builders Boost Settings", $_GUI_MAIN_WIDTH - 4, $_GUI_MAIN_HEIGHT - 570, $g_iFrmBotPosX, $g_iFrmBotPosY + 80, $WS_DLGFRAME, $WS_EX_TOPMOST)
+	$g_hGUI_BoostBuilders3 = _GUICreate("Builders Boost Settings", $_GUI_MAIN_WIDTH - 4, $_GUI_MAIN_HEIGHT - 570, $g_iFrmBotPosX, $g_iFrmBotPosY + 80, $WS_DLGFRAME, -1, $g_hFrmBot)
 	
 	_GUICtrlCreateIcon($g_sLibModIconPath, $eIcnModBuilderPotion, $x + 30, $y + 10, 24, 24)
 	GUICtrlCreateLabel("Builders Potions To Use", $x + 55, $y + 16, -1, -1)

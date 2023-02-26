@@ -1,3 +1,15 @@
+* v23.02.26 **
+* Fixed _GUICtrlSetTip in Top GUI Windows.
+* Added Skip Snow Check (Enabled by default).
+* Added Extra Buildings To Auto Upgrade Ignore List.
+* Moved Some Stuff into Tabs (Alias, Players in CW/CWL..).
+* Fixed Donation General Blacklist Saving.
+* Improvement For Clan Games Events with Same Image Selection (BB/Main).
+* Restart search For Event When One of Selected Events Disappears.
+* Added Missing Images For Some Clan Games Events.
+* Fixed Double check For CC Gold When Trying To Start Craft [SmartSwitch].
+* SmartSwitch And Clan Capital OCR's Improvements.
+
 * v23.02.16 **
 * Check Clan Rank Before Starting Raid [SmartSwitch].
 * Wait For CC Timing Improvement.

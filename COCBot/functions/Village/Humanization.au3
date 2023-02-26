@@ -2723,7 +2723,7 @@ Func IsMainScreen()
 EndFunc   ;==>IsMainScreen
 
 Func IsMessagesReplayWindow()
-	Local $bResult = QuickMis("BC1", $g_sImgGeneralCloseButton, 740, 95, 790, 140);Wait for Replay Message Window To Be Appear
+	Local $bResult = QuickMIS("BC1", $g_sImgGeneralCloseButton, 740, 95, 790, 140);Wait for Replay Message Window To Be Appear
 	Return $bResult
 EndFunc   ;==>IsMessagesReplayWindow
 
@@ -3440,8 +3440,8 @@ If $CheckRaidMapPriority > $IsToCheckRaidMap Then Return
 		If $g_iQuickMISName = "RaidMapButton" Then 
 			Click($g_iQuickMISX, $g_iQuickMISY)
 			If _Sleep(3000) Then Return
-			If QuickMis("BC1", $g_sImgRaidMap, 710, 25, 730, 45) Then
-				Local $sForRaidTimeOCR = getTimeForRaid(725, 55)
+			If QuickMIS("BC1", $g_sImgRaidMap, 710, 25, 730, 45) Then
+				Local $sForRaidTimeOCR = getTimeForRaid(715, 55)
 				Local $iConvertedTime = ConvertOCRTime("Raid Time2", $sForRaidTimeOCR, False)
 				If $iConvertedTime > 1440 Then
 					SetLog("Raid Weekend Will Finish in " & $sForRaidTimeOCR & "", $COLOR_GREEN)

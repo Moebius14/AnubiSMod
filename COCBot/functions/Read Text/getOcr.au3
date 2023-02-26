@@ -22,7 +22,7 @@ Func getTimeToRaid($x_start, $y_start) ; read actual time remaining in Lab for c
 EndFunc   ;==>getTimeToRaid
 
 Func getTimeForRaid($x_start, $y_start) ; read actual time remaining in Lab for current upgrade (336,260), changed CoC v9.24 282,277
-	Return getOcrAndCapture("coc-timeforraid", $x_start, $y_start, 92, 20, True)
+	Return getOcrAndCapture("coc-timeforraid", $x_start, $y_start, 103, 20, True)
 EndFunc   ;==>getTimeForRaid
 
 Func getNameBuilding($x_start, $y_start) ; getNameBuilding(242,520) -> Gets complete name and level of the buildings, bottom of screen

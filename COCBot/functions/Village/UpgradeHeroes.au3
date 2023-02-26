@@ -220,7 +220,7 @@ Func QueenUpgrade()
 				SetLog("Use Hero Books to Complete Now this Hero Upgrade", $COLOR_INFO)
 				Click($HeroBooks[0], $HeroBooks[1])
 				_Sleep(1000)
-				If QuickMis("BC1", $g_sImgGeneralCloseButton, 560, 260, 610, 305) Then
+				If QuickMIS("BC1", $g_sImgGeneralCloseButton, 560, 260, 610, 305) Then
 					Click(430, 425)
 				EndIf
 			Else
@@ -345,7 +345,7 @@ Func KingUpgrade()
 				SetLog("Use Hero Books to Complete Now this Hero Upgrade", $COLOR_INFO)
 				Click($HeroBooks[0], $HeroBooks[1])
 				_Sleep(1000)
-				If QuickMis("BC1", $g_sImgGeneralCloseButton, 560, 260, 610, 305) Then
+				If QuickMIS("BC1", $g_sImgGeneralCloseButton, 560, 260, 610, 305) Then
 					Click(430, 425)
 				EndIf
 			Else
@@ -484,7 +484,7 @@ Func WardenUpgrade()
 				SetLog("Use Hero Books to Complete Now this Hero Upgrade", $COLOR_INFO)
 				Click($HeroBooks[0], $HeroBooks[1])
 				_Sleep(1000)
-				If QuickMis("BC1", $g_sImgGeneralCloseButton, 560, 260, 610, 305) Then
+				If QuickMIS("BC1", $g_sImgGeneralCloseButton, 560, 260, 610, 305) Then
 					Click(430, 425)
 				EndIf
 			Else
@@ -608,7 +608,7 @@ Func ChampionUpgrade()
 				SetLog("Use Hero Books to Complete Now this Hero Upgrade", $COLOR_INFO)
 				Click($HeroBooks[0], $HeroBooks[1])
 				_Sleep(1000)
-				If QuickMis("BC1", $g_sImgGeneralCloseButton, 560, 260, 610, 305) Then
+				If QuickMIS("BC1", $g_sImgGeneralCloseButton, 560, 260, 610, 305) Then
 					Click(430, 425)
 				EndIf
 			Else

@@ -363,10 +363,9 @@ Func ApplyConfig_600_6($TypeReadSave)
 			#NEW CLANGAMES GUI
 			GUICtrlSetState($g_hChkClanGamesEnabled, $g_bChkClanGamesEnabled ? $GUI_CHECKED : $GUI_UNCHECKED)
 			GUICtrlSetState($g_hChkClanGamesAllTimes, $g_bChkClanGamesAllTimes ? $GUI_CHECKED : $GUI_UNCHECKED)
-			GUICtrlSetState($g_hChkClanGames3h, $g_bChkClanGames3h ? $GUI_CHECKED : $GUI_UNCHECKED)
-			GUICtrlSetState($g_hChkClanGames3hOnly, $g_bChkClanGames3hOnly ? $GUI_CHECKED : $GUI_UNCHECKED)
+			GUICtrlSetState($g_hChkClanGamesNoOneDay, $g_bChkClanGamesNoOneDay ? $GUI_CHECKED : $GUI_UNCHECKED)
 			GUICtrlSetState($g_hChkClanGamesCollectRewards, $g_bChkClanGamesCollectRewards ? $GUI_CHECKED : $GUI_UNCHECKED)
-			
+
 			For $i = 0 To UBound($g_iacmbPriorityReward) - 1
 				_GUICtrlComboBox_SetCurSel($g_acmbPriorityReward[$i], $g_iacmbPriorityReward[$i])
 			Next
@@ -391,7 +390,7 @@ Func ApplyConfig_600_6($TypeReadSave)
 			GUICtrlSetState($g_hChkClanGamesSort, $g_bSortClanGames ? $GUI_CHECKED : $GUI_UNCHECKED)
 			_GUICtrlComboBox_SetCurSel($g_hCmbClanGamesSort, $g_iSortClanGames)
 			chkSortClanGames()
-			
+
 			For $i = 0 To UBound($g_ahCGMainLootItem) - 1
 				GUICtrlSetState($g_ahCGMainLootItem[$i], $g_abCGMainLootItem[$i] = 1 ? $GUI_CHECKED : $GUI_UNCHECKED)
 			Next
@@ -422,7 +421,7 @@ Func ApplyConfig_600_6($TypeReadSave)
 			For $i = 0 To UBound($g_ahCGBBTroopsItem) - 1
 				GUICtrlSetState($g_ahCGBBTroopsItem[$i], $g_abCGBBTroopsItem[$i] = 1 ? $GUI_CHECKED : $GUI_UNCHECKED)
 			Next
-			
+
 			chkActivateClangames()
 
 			; Builder Base Attack
@@ -459,7 +458,7 @@ Func ApplyConfig_600_6($TypeReadSave)
 				Next
 				GUICtrlSetBkColor($g_hBtnBBDropOrder, $COLOR_GREEN)
 			EndIf
-			
+
 			;ClanCapital
 			GUICtrlSetState($g_hChkEnableCollectCCGold, $g_bChkEnableCollectCCGold ? $GUI_CHECKED : $GUI_UNCHECKED)
 			GUICtrlSetState($g_hChkEnableForgeGold, $g_bChkEnableForgeGold ? $GUI_CHECKED : $GUI_UNCHECKED)
@@ -582,10 +581,9 @@ Func ApplyConfig_600_6($TypeReadSave)
 			#NEW CLANGAMES GUI
 			$g_bChkClanGamesEnabled = (GUICtrlRead($g_hChkClanGamesEnabled) = $GUI_CHECKED) ? 1 : 0
 			$g_bChkClanGamesAllTimes = (GUICtrlRead($g_hChkClanGamesAllTimes) = $GUI_CHECKED) ? 1 : 0
-			$g_bChkClanGames3h = (GUICtrlRead($g_hChkClanGames3h) = $GUI_CHECKED) ? 1 : 0
-			$g_bChkClanGames3hOnly = (GUICtrlRead($g_hChkClanGames3hOnly) = $GUI_CHECKED) ? 1 : 0
+			$g_bChkClanGamesNoOneDay = (GUICtrlRead($g_hChkClanGamesNoOneDay) = $GUI_CHECKED) ? 1 : 0
 			$g_bChkClanGamesCollectRewards = (GUICtrlRead($g_hChkClanGamesCollectRewards) = $GUI_CHECKED) ? 1 : 0
-			
+
 			For $i = 0 To UBound($g_iacmbPriorityReward) - 1
 				$g_iacmbPriorityReward[$i] = _GUICtrlComboBox_GetCurSel($g_acmbPriorityReward[$i])
 			Next
@@ -609,7 +607,7 @@ Func ApplyConfig_600_6($TypeReadSave)
 			$g_bChkClanGamesStopBeforeReachAndPurge = (GUICtrlRead($g_hChkClanGamesStopBeforeReachAndPurge) = $GUI_CHECKED) ? 1 : 0
 			$g_bSortClanGames = (GUICtrlRead($g_hChkClanGamesSort) = $GUI_CHECKED) ? 1 : 0
 			$g_iSortClanGames = _GUICtrlComboBox_GetCurSel($g_hCmbClanGamesSort)
-			
+
 			For $i = 0 To UBound($g_ahCGMainLootItem) - 1
 				$g_abCGMainLootItem[$i] = BitAND(GUICtrlRead($g_ahCGMainLootItem[$i]), $GUI_CHECKED) ? 1 : 0
 			Next
@@ -1101,7 +1099,7 @@ Func ApplyConfig_auto($TypeReadSave)
 			_GUICtrlComboBox_SetCurSel($g_hCmbFreeBuilders, $g_iCmbFreeBuilders)
 			_GUICtrlComboBox_SetCurSel($g_hCmbFreeBuilders2, $g_iCmbFreeBuilders)
 			_GUICtrlComboBox_SetCurSel($g_hCmbFreeBuilders3, $g_iCmbFreeBuilders)
-			For $i = 0 To 15
+			For $i = 0 To Ubound($g_iChkUpgradesToIgnore) - 1
 				GUICtrlSetState($g_hChkUpgradesToIgnore[$i], $g_iChkUpgradesToIgnore[$i] = 1 ? $GUI_CHECKED : $GUI_UNCHECKED)
 			Next
 			For $i = 0 To 2
@@ -1114,7 +1112,7 @@ Func ApplyConfig_auto($TypeReadSave)
 		Case "Save"
 			$g_bAutoUpgradeEnabled = (GUICtrlRead($g_hChkAutoUpgrade) = $GUI_CHECKED)
 			$g_iCmbFreeBuilders = _GUICtrlComboBox_GetCurSel($g_hCmbFreeBuilders)
-			For $i = 0 To 15
+			For $i = 0 To Ubound($g_iChkUpgradesToIgnore) - 1
 				$g_iChkUpgradesToIgnore[$i] = GUICtrlRead($g_hChkUpgradesToIgnore[$i]) = $GUI_CHECKED ? 1 : 0
 			Next
 			For $i = 0 To 2
@@ -2175,6 +2173,17 @@ Func ApplyConfig_600_33($TypeReadSave)
 				EndIf
 			Next
 			If $g_bCustomDropOrderEnable Then ; only update troop train order if enabled
+				Local $iValueSet = 0
+				For $i = 0 To UBound($g_ahCmbDropOrder) - 1
+					Local $iValue = _GUICtrlComboBox_GetCurSel($g_ahCmbDropOrder[$i])
+					If $iValue <> -1 Then
+						$iValueSet += 1
+					EndIf
+				Next
+				If $iValueSet > 0 And $iValueSet < $eDropOrderCount Then
+					SetLog("Set your Troops Drop Order For New Bot Version")
+					BtnDropOrderSet()
+				EndIf
 				If Not ChangeDropOrder() Then ; process error
 					SetDefaultDropOrderGroup()
 					GUICtrlSetState($g_hChkCustomDropOrderEnable, $GUI_UNCHECKED)
@@ -2214,6 +2223,7 @@ Func ApplyConfig_600_35_1($TypeReadSave)
 			GUICtrlSetData($g_hTxtAutostartDelay, $g_iAutoStartDelay)
 			chkAutoStart()
 			GUICtrlSetState($g_hChkCheckGameLanguage, $g_bCheckGameLanguage ? $GUI_CHECKED : $GUI_UNCHECKED)
+			GUICtrlSetState($g_hChkSkipSnowDetection, $g_bSkipSnowDetection ? $GUI_CHECKED : $GUI_UNCHECKED)
 			GUICtrlSetState($g_hChkAutoAlign, $g_bAutoAlignEnable ? $GUI_CHECKED : $GUI_UNCHECKED)
 			chkDisposeWindows()
 			_GUICtrlComboBox_SetCurSel($g_hCmbAlignmentOptions, $g_iAutoAlignPosition)
@@ -2254,6 +2264,7 @@ Func ApplyConfig_600_35_1($TypeReadSave)
 			$g_bAutoStart = (GUICtrlRead($g_hChkAutostart) = $GUI_CHECKED)
 			$g_iAutoStartDelay = GUICtrlRead($g_hTxtAutostartDelay)
 			$g_bCheckGameLanguage = (GUICtrlRead($g_hChkCheckGameLanguage) = $GUI_CHECKED)
+			$g_bSkipSnowDetection = (GUICtrlRead($g_hChkSkipSnowDetection) = $GUI_CHECKED)
 			$g_bAutoAlignEnable = (GUICtrlRead($g_hChkAutoAlign) = $GUI_CHECKED)
 			$g_iAutoAlignPosition = _GUICtrlComboBox_GetCurSel($g_hCmbAlignmentOptions)
 			$g_iAutoAlignOffsetX = GUICtrlRead($g_hTxtAlignOffsetX)
@@ -2381,6 +2392,17 @@ Func ApplyConfig_600_54($TypeReadSave)
 			Next
 			
 			If $g_bCustomTrainOrderEnable Then ; only update troop train order if enabled
+				Local $iValueSet = 0
+				For $i = 0 To UBound($g_ahCmbTroopOrder) - 1
+					Local $iValue = _GUICtrlComboBox_GetCurSel($g_ahCmbTroopOrder[$i])
+					If $iValue <> -1 Then
+						$iValueSet += 1
+					EndIf
+				Next
+				If $iValueSet > 0 And $iValueSet < $eTroopCount Then
+					SetLog("Set your Troops Train Order For New Bot Version")
+					BtnTroopOrderSet()
+				EndIf
 				If Not ChangeTroopTrainOrder() Then ; process error
 					SetDefaultTroopGroup()
 					GUICtrlSetState($g_hChkCustomTrainOrderEnable, $GUI_UNCHECKED)

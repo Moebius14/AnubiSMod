@@ -62,8 +62,8 @@ Func BotDetectFirstTime()
 	If $g_iTownHallLevel < 2 Or ($g_aiTownHallPos[1] = "" Or $g_aiTownHallPos[1] = -1) Then LocateTownHall(False, False)
 
 	If _Sleep($DELAYBOTDETECT1) Then Return
-;	CheckImageType()
-;	If _Sleep($DELAYBOTDETECT1) Then Return
+	If Not $g_bSkipSnowDetection Then CheckImageType()
+	If _Sleep($DELAYBOTDETECT1) Then Return
 
 	If $g_bScreenshotHideName Then
 		If _Sleep($DELAYBOTDETECT3) Then Return

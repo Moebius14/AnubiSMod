@@ -1324,7 +1324,7 @@ Func BotClose($SaveConfig = Default, $bExit = True)
 	ResumeAndroid()
 	SetLog("Closing " & $g_sBotTitle & " now ...")
 	LockBotSlot(False)
-
+	
 	If $SaveConfig = True Then
 		setupProfile()
 		SaveConfig()

@@ -23,8 +23,8 @@ Global $g_aGroupAttackDB = "", $g_aGroupAttackDBSpell = "", $groupIMGAttackDB = 
 Global $g_aGroupListPicMinTrophy = "", $g_aGroupListPicMaxTrophy = ""
 
 ;End Battle
-Global $g_aGroupEndBattleDB = "", $groupEndBattkeAB = "", $groupKingSleeping = "", $groupQueenSleeping = "", $groupWardenSleeping = "", $groupCloseWhileTraining = "", _
-	   $grpTrainTroops = "", $grpCookSpell = "", $groupChampionSleeping = ""
+Global $g_aGroupEndBattleDB = "", $groupEndBattkeAB = "", $groupKingSleeping = "", $groupQueenSleeping = "", $groupWardenSleeping = "", $groupCloseWhileTraining = "", $groupChampionSleeping = ""
+;	   $grpTrainTroops = "", $grpCookSpell = "", $groupChampionSleeping = ""
 
 ;Spell
 Global $groupLightning = "", $groupHeal = "", $groupRage = "", $groupJump = "", $groupFreeze = "", $groupClone = "", $groupInvisibility = "", $groupRecall = ""
@@ -136,25 +136,6 @@ Func InitializeControlVariables()
 
    $groupCloseWhileTraining = $g_hChkCloseWithoutShield&"#"&$g_hChkCloseEmulator&"#"&$g_hChkSuspendComputer&"#"&$g_hPicCloseWaitTrain&"#"&$g_hChkRandomClose&"#"&$g_hPicCloseWaitStop&"#"& _
 							  $g_hRdoCloseWaitExact&"#"&$g_hPicCloseWaitExact&"#"&$g_hRdoCloseWaitRandom&"#"&$g_hCmbCloseWaitRdmPercentMin&"#"&$g_hCmbCloseWaitRdmPercentMax&"#"&$g_hLblCloseWaitRdmPercent
-   $grpTrainTroops = $g_ahTxtTrainArmyTroopCount[$eTroopBarbarian]&"#"&$g_ahTxtTrainArmyTroopCount[$eTroopSuperBarbarian]&"#"&$g_ahTxtTrainArmyTroopCount[$eTroopArcher]&"#"& _
-					 $g_ahTxtTrainArmyTroopCount[$eTroopSuperArcher]&"#"&$g_ahTxtTrainArmyTroopCount[$eTroopGiant]&"#"&$g_ahTxtTrainArmyTroopCount[$eTroopSuperGiant]&"#"& _
-					 $g_ahTxtTrainArmyTroopCount[$eTroopGoblin]&"#"&$g_ahTxtTrainArmyTroopCount[$eTroopSneakyGoblin]&"#"&$g_ahTxtTrainArmyTroopCount[$eTroopWallBreaker]&"#"& _
-					 $g_ahTxtTrainArmyTroopCount[$eTroopSuperWallBreaker]&"#"&$g_ahTxtTrainArmyTroopCount[$eTroopBalloon]&"#"&$g_ahTxtTrainArmyTroopCount[$eTroopRocketBalloon]&"#"&$g_ahTxtTrainArmyTroopCount[$eTroopWizard]&"#"& _
-					 $g_ahTxtTrainArmyTroopCount[$eTroopSuperWizard]&"#"&$g_ahTxtTrainArmyTroopCount[$eTroopHealer]&"#"&$g_ahTxtTrainArmyTroopCount[$eTroopDragon]&"#"& _
-					 $g_ahTxtTrainArmyTroopCount[$eTroopPekka]&"#"&$g_ahTxtTrainArmyTroopCount[$eTroopBabyDragon]&"#"&$g_ahTxtTrainArmyTroopCount[$eTroopInfernoDragon]&"#"& _
-					 $g_ahTxtTrainArmyTroopCount[$eTroopMiner]&"#"&$g_ahTxtTrainArmyTroopCount[$eTroopSuperMiner]&"#"&$g_ahTxtTrainArmyTroopCount[$eTroopMinion]&"#"&$g_ahTxtTrainArmyTroopCount[$eTroopSuperMinion]&"#"& _
-					 $g_ahTxtTrainArmyTroopCount[$eTroopHogRider]&"#"&$g_ahTxtTrainArmyTroopCount[$eTroopValkyrie]&"#"&$g_ahTxtTrainArmyTroopCount[$eTroopSuperValkyrie]&"#"& _
-					 $g_ahTxtTrainArmyTroopCount[$eTroopGolem]&"#"&$g_ahTxtTrainArmyTroopCount[$eTroopWitch]&"#"&$g_ahTxtTrainArmyTroopCount[$eTroopSuperWitch]&"#"& _
-					 $g_ahTxtTrainArmyTroopCount[$eTroopLavaHound]&"#"&$g_ahTxtTrainArmyTroopCount[$eTroopIceHound]&"#"&$g_ahTxtTrainArmyTroopCount[$eTroopBowler]&"#"& _
-					 $g_ahTxtTrainArmyTroopCount[$eTroopElectroDragon]&"#"&$g_ahTxtTrainArmyTroopCount[$eTroopIceGolem]&"#"&$g_ahTxtTrainArmyTroopCount[$eTroopYeti]&"#"& _
-					 $g_ahTxtTrainArmyTroopCount[$eTroopDragonRider]&"#"&$g_ahTxtTrainArmyTroopCount[$eTroopElectroTitan]&"#"&$g_ahTxtTrainArmyTroopCount[$eTroopHeadhunter]&"#"& _
-					 $g_ahTxtTrainArmyTroopCount[$eTroopSuperBowler]&"#"&$g_ahTxtTrainArmyTroopCount[$eTroopSuperDragon]
-  
-  $grpCookSpell = $g_ahTxtTrainArmySpellCount[$eSpellLightning]&"#"&$g_ahTxtTrainArmySpellCount[$eSpellHeal]&"#"&$g_ahTxtTrainArmySpellCount[$eSpellRage]&"#"& _
-				   $g_ahTxtTrainArmySpellCount[$eSpellJump]&"#"&$g_ahTxtTrainArmySpellCount[$eSpellFreeze]&"#"&$g_ahTxtTrainArmySpellCount[$eSpellClone]&"#"& _
-				   $g_ahTxtTrainArmySpellCount[$eSpellInvisibility]&"#"&$g_ahTxtTrainArmySpellCount[$eSpellRecall]&"#"& _
-				   $g_ahTxtTrainArmySpellCount[$eSpellPoison]&"#"&$g_ahTxtTrainArmySpellCount[$eSpellEarthquake]&"#"& _
-				   $g_ahTxtTrainArmySpellCount[$eSpellHaste]&"#"&$g_ahTxtTrainArmySpellCount[$eSpellSkeleton]&"#"&$g_ahTxtTrainArmySpellCount[$eSpellBat]
 
    ;Spell
    $groupLightning = $g_ahPicTrainArmySpell[$eSpellLightning]&"#"&$g_ahTxtTrainArmySpellCount[$eSpellLightning]

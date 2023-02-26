@@ -779,6 +779,7 @@ Func NotifyPushMessageToBoth($Message, $Source = "")
 			_CaptureRegion(215, 77, 450, 360)
 			Local $Screnshotfilename = "Screenshot_" & $Date & "_" & $Time & ".jpg"
 			_GDIPlus_ImageSaveToFile($g_hBitmap, $g_sProfileTempPath & $Screnshotfilename)
+			_GDIPlus_ImageDispose($g_hBitmap)
 			If $g_bTGRequestBuilderInfo Then
 				If $g_bTGRequestBuilderInfo Then
 					NotifyPushFileToTelegram($Screnshotfilename, "Temp", "image/jpeg", $g_sNotifyOrigin & " | " & "Builder Information" & "%0A" & $Screnshotfilename)

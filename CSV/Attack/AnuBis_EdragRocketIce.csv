@@ -26,7 +26,7 @@ TRAIN |Queen      |0          |0          |0          |0          |0          |0
 TRAIN |Warden     |0          |0          |0          |0          |0          |0          |1          |317        |317        |317        |317        |
 TRAIN |Champion   |0          |0          |0          |0          |0          |0          |0          |0          |1          |1          |1          |
       |                                                                                                                                  			  |
-      |_TROOPNAME_|___________|____TH06___|____TH07___|____TH08___|____TH09___|____TH10___|____TH11___|____TH12___|____TH13___|____TH14___|____TH15___|	  
+      |_TROOPNAME_|___________|____TH06___|____TH07___|____TH08___|____TH09___|____TH10___|____TH11___|____TH12___|____TH13___|____TH14___|____TH15___|
 WMODE |0	      |0          |0          |0          |0          |0          |0          |1          |1          |1          |1  	      |1       	  |
       |                                                                                                                                  			  |
       |___________|___________|____TH06___|____TH07___|____TH08___|____TH09___|____TH10___|____TH11___|____TH12___|____TH13___|____TH14___|____TH15___|
@@ -48,8 +48,8 @@ MAKE  |Q          |FRONT-LEFT |10         |0          |EXT-INT    |0          |0
 MAKE  |R          |FRONT-RIGHT|10         |0          |INT-EXT    |0          |0          |           |           |           |           |           |
 MAKE  |M          |LEFT-BACK  |10         |0          |EXT-INT    |0          |0          |  		  |           |           |           |           |
 MAKE  |N          |RIGHT-BACK |10         |0          |EXT-INT    |0          |0          |    		  |           |           |           |           |
-MAKE  |S          |FRONT-LEFT |10         |-7         |INT-EXT    |0          |0          |           |           |           |           |           |
-MAKE  |T          |FRONT-RIGHT|10         |-8         |INT-EXT    |0          |0          |           |           |           |           |           |
+MAKE  |S          |FRONT-LEFT |10         |-9         |INT-EXT    |0          |0          |           |           |           |           |           |
+MAKE  |T          |FRONT-RIGHT|10         |-9         |INT-EXT    |0          |0          |           |           |           |           |           |
 MAKE  |J          |FRONT-RIGHT|10         |-12        |INT-EXT    |0          |0          |           |           |           |           |           |
 MAKE  |U          |FRONT-LEFT |10         |-18        |INT-EXT    |0          |0          |           |           |           |           |           |
 MAKE  |V          |FRONT-RIGHT|10         |-18        |INT-EXT    |0          |0          |           |           |           |           |           |
@@ -65,7 +65,13 @@ MAKE  |E          |LEFT-BACK  |1          |0          |IGNORE     |0          |0
 MAKE  |F          |RIGHT-BACK |1          |0          |IGNORE     |0          |0          |INFERNO    |           |           |           |           |
 MAKE  |G          |BACK-LEFT  |1          |0          |IGNORE     |0          |0          |INFERNO    |           |           |           |           |
 MAKE  |H          |BACK-RIGHT |1          |0          |IGNORE     |0          |0          |INFERNO    |           |           |           |           |
-      |                                                                                                                      						  |                                                                                                                    |
+MAKE  |F          |FRONT-LEFT |1          |0          |IGNORE     |0          |0          |EAGLE      |           |           |           |           |
+MAKE  |I          |FRONT-RIGHT|1          |0          |IGNORE     |0          |0          |EAGLE      |           |           |           |           |
+MAKE  |L          |LEFT-FRONT |1          |0          |IGNORE     |0          |0          |EAGLE      |           |           |           |           |
+MAKE  |O          |RIGHT-BACK |1          |0          |IGNORE     |0          |0          |SCATTER    |           |           |           |           |
+MAKE  |Y          |BACK-RIGHT |1          |0          |IGNORE     |0          |0          |SCATTER    |           |           |           |           |
+MAKE  |Z          |FRONT-LEFT |1          |0          |IGNORE     |0          |0          |MONOLITH   |           |           |           |           |
+      |                                                                                                                      						  |
       |VECTOR_____|INDEX______|QTY_X_VECT_|TROOPNAME__|DELAY_DROP_|DELAYCHANGE|SLEEPAFTER_|___________|___________|___________|___________|___________|
 DROP  |Q          |3          |1          |EDrag      |55-70      |27-50      |450-700    |           |           |           |           |           |
 DROP  |R          |8          |1          |EDrag      |55-70      |27-50      |3500-4000  |           |           |           |           |           |
@@ -98,6 +104,9 @@ DROP  |Q          |10         |1          |Champion   |0          |0          |9
 DROP  |P          |1          |1          |FSpell     |0          |0          |400-600    |           |           |           |           |           |
 DROP  |A          |1          |1          |FSpell     |0          |0          |400-600    |           |           |           |           |           |
 DROP  |B          |1          |1          |FSpell     |0          |0          |400-600    |           |           |           |           |           |
+DROP  |F          |1          |1          |FSpell     |0          |0          |400-600    |           |           |           |           |           |
+DROP  |I          |1          |1          |FSpell     |0          |0          |400-600    |           |           |           |           |           |
+DROP  |L          |1          |1          |FSpell     |0          |0          |400-600    |           |           |           |           |           |
 DROP  |U          |3          |1          |RSpell     |0          |0          |400-600    |           |           |           |           |           |
 DROP  |V          |2          |1          |RSpell     |0          |0          |100-150    |           |           |           |           |           |
 WAIT  |3000-3300  |           |           |           |           |           |           |           |           |           |           |           |
@@ -107,6 +116,9 @@ DROP  |E          |1          |1          |FSpell     |0          |0          |4
 DROP  |F          |1          |1          |FSpell     |0          |0          |400-600    |           |           |           |           |           |
 DROP  |G          |1          |1          |FSpell     |0          |0          |400-600    |           |           |           |           |           |
 DROP  |H          |1          |1          |FSpell     |0          |0          |400-600    |           |           |           |           |           |
+DROP  |O          |1          |1          |FSpell     |0          |0          |400-600    |           |           |           |           |           |
+DROP  |Y          |1          |1          |FSpell     |0          |0          |400-600    |           |           |           |           |           |
+DROP  |Z          |1          |1          |FSpell     |0          |0          |400-600    |           |           |           |           |           |
 WAIT  |1300-1500  |           |           |           |           |           |           |           |           |           |           |           |
 DROP  |M          |5          |1          |EDrag      |55-70      |27-50      |500-540    |           |           |           |           |           |
 DROP  |M          |5          |1          |RBall      |55-70      |27-50      |150-370    |           |           |           |           |           |

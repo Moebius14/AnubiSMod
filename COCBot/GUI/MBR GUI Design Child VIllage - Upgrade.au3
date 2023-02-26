@@ -5,7 +5,7 @@
 ; Parameters ....: None
 ; Return values .: None
 ; Author ........:
-; Modified ......: CodeSlinger69 (2017)
+; Modified ......: CodeSlinger69 (2017), Moebius14 (2023)
 ; Remarks .......: This file is part of MyBot, previously known as ClashGameBot. Copyright 2015-2019
 ;                  MyBot is distributed under the terms of the GNU GPL
 ; Related .......:
@@ -57,10 +57,11 @@ Global $g_ahWallsCurrentCount[17] = [-1, -1, -1, -1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
 Global $g_ahPicWallsLevel[17] = [-1, -1, -1, -1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0] ; elements 0 to 3 are not referenced
 
 ; Auto Upgrade
-Global $g_hChkAutoUpgrade = 0, $g_hLblAutoUpgrade = 0, $g_hTxtAutoUpgradeLog = 0, $g_hCmbBoostBuilders = 0, $g_hCmbFreeBuilders = 0, $g_hCmbBoostBuilders2 = 0, $g_hCmbFreeBuilders2 = 0
+Global $g_hChkAutoUpgrade = 0, $g_hLblAutoUpgrade = 0, $g_hCmbBoostBuilders = 0, $g_hCmbFreeBuilders = 0, $g_hCmbBoostBuilders2 = 0, $g_hCmbFreeBuilders2 = 0
 Global $g_hTxtSmartMinGold = 0, $g_hTxtSmartMinElixir = 0, $g_hTxtSmartMinDark = 0
 Global $g_hChkResourcesToIgnore[3] = [0, 0, 0]
-Global $g_hChkUpgradesToIgnore[16] = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+Global $g_hChkUpgradesToIgnore[34] = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+Global $g_hBtnResetIgnore = 0
 
 Func CreateVillageUpgrade()
 
@@ -497,7 +498,7 @@ EndFunc   ;==>CreateBuildingsSubTab
 
 Func CreateBoostBuilders()
 	Local $x = 25, $y = 5
-	$g_hGUI_BoostBuilders = _GUICreate("Builders Boost Settings", $_GUI_MAIN_WIDTH - 4, $_GUI_MAIN_HEIGHT - 570, $g_iFrmBotPosX, $g_iFrmBotPosY + 80, $WS_DLGFRAME, $WS_EX_TOPMOST)
+	$g_hGUI_BoostBuilders = _GUICreate("Builders Boost Settings", $_GUI_MAIN_WIDTH - 4, $_GUI_MAIN_HEIGHT - 570, $g_iFrmBotPosX, $g_iFrmBotPosY + 80, $WS_DLGFRAME, -1, $g_hFrmBot)
 	
 	_GUICtrlCreateIcon($g_sLibModIconPath, $eIcnModBuilderPotion, $x + 30, $y + 10, 24, 24)
 	GUICtrlCreateLabel("Builders Potions To Use", $x + 55, $y + 16, -1, -1)
@@ -647,18 +648,18 @@ EndFunc   ;==>CreateWallsSubTab
 Func CreateAutoUpgradeSubTab()
 
 	Local $x = 25, $y = 45
-	GUICtrlCreateGroup(GetTranslatedFileIni("MBR GUI Design - AutoUpgrade", "Group_01", "Auto Upgrade"), $x - 20, $y - 20, $g_iSizeWGrpTab3 - 3, 130)
+	GUICtrlCreateGroup(GetTranslatedFileIni("MBR GUI Design - AutoUpgrade", "Group_01", "Auto Upgrade"), $x - 20, $y - 20, $g_iSizeWGrpTab3 - 5, 107)
 
 		$g_hChkAutoUpgrade = GUICtrlCreateCheckbox(GetTranslatedFileIni("MBR GUI Design - AutoUpgrade", "ChkAutoUpgrade", "Enable Auto Upgrade"), $x - 5, $y, -1, -1)
 			_GUICtrlSetTip(-1, GetTranslatedFileIni("MBR GUI Design - AutoUpgrade", "ChkAutoUpgrade_Info_01", "Check box to enable automatically starting Upgrades from builders menu"))
 			GUICtrlSetOnEvent(-1, "chkAutoUpgrade")
 	
-		_GUICtrlCreateIcon($g_sLibModIconPath, $eIcnModBuilderPotion, $x + 110, $y + 23, 24, 24)
-		$g_hBtnBoostBuilders = GUICtrlCreateButton("Builders Boost Settings", $x + 140, $y + 23, -1, -1)
+		_GUICtrlCreateIcon($g_sLibModIconPath, $eIcnModBuilderPotion, $x + 130, $y, 24, 24)
+		$g_hBtnBoostBuilders = GUICtrlCreateButton("Builders Boost Settings", $x + 160, $y, -1, -1)
 			_GUICtrlSetTip(-1, "Use this to boost builders with POTIONS! Use with caution!")
 			GUICtrlSetOnEvent(-1, "BtnBoostBuilders2")
 	
-	$y += 30
+	$y += 7
 		$g_hLblAutoUpgrade = GUICtrlCreateLabel(GetTranslatedFileIni("MBR GUI Design - AutoUpgrade", "Label_01", "Save"), $x, $y + 32, -1, -1)
 		$g_hTxtSmartMinGold = GUICtrlCreateInput("150000", $x + 33, $y + 29, 60, 21, BitOR($ES_CENTER, $ES_NUMBER))
 			_GUICtrlCreateIcon($g_sLibIconPath, $eIcnGold, $x + 98, $y + 32, 16, 16)
@@ -676,8 +677,8 @@ Func CreateAutoUpgradeSubTab()
 			GUICtrlSetOnEvent(-1, "chkResourcesToIgnore")
 	GUICtrlCreateGroup("", -99, -99, 1, 1)
 
-	GUICtrlCreateGroup(GetTranslatedFileIni("MBR GUI Design - AutoUpgrade", "Group_02", "Upgrades to ignore"), $x - 20, $y + 85, $g_iSizeWGrpTab3 - 3, 137)
-	Local $x = 21, $y = 130
+	GUICtrlCreateGroup(GetTranslatedFileIni("MBR GUI Design - AutoUpgrade", "Group_02", "Upgrades to ignore"), $x - 20, $y + 85, $g_iSizeWGrpTab3 - 5, 263)
+	Local $x = 21, $y = 107
 	Local $iIconSize = 32
 	Local $xOff = (40 - $iIconSize) / 2
 	Local $yRow1 = 50
@@ -762,16 +763,98 @@ Func CreateAutoUpgradeSubTab()
 		$g_hChkUpgradesToIgnore[13] = GUICtrlCreateCheckbox("", $x + 380 - $xOff, $y + $yRow2 + $yChkOff, 17, 17)
 			_GUICtrlSetTip(-1, "Ignore Dark Elixir Drill Upgrade")
 			GUICtrlSetOnEvent(-1, "chkUpgradesToIgnore")
+		
+		;Advanced
+		Local $LeftOffset = 37
+		$y = $y + $yRow2 + 60
+		$x = $LeftOffset
+		$g_hChkUpgradesToIgnore[32] = GUICtrlCreateCheckbox("Builder's Hut", $x, $y, -1, -1)
+		_GUICtrlSetTip(-1, "Ignore Builder's Hut Upgrade")
+		GUICtrlSetOnEvent(-1, "chkUpgradesToIgnore")
+		$x += 100		
+		$g_hChkUpgradesToIgnore[33] = GUICtrlCreateCheckbox("Cannon", $x, $y, -1, -1)
+		_GUICtrlSetTip(-1, "Ignore Cannon Upgrade")
+		GUICtrlSetOnEvent(-1, "chkUpgradesToIgnore")
+		$x += 100
+		$g_hChkUpgradesToIgnore[16] = GUICtrlCreateCheckbox("Archer Tower", $x, $y, -1, -1)
+		_GUICtrlSetTip(-1, "Ignore Archer Tower Upgrade")
+		GUICtrlSetOnEvent(-1, "chkUpgradesToIgnore")
+		$x += 100
+		$g_hChkUpgradesToIgnore[17] = GUICtrlCreateCheckbox("Mortar", $x, $y, -1, -1)
+		_GUICtrlSetTip(-1, "Ignore Mortar Upgrade")
+		GUICtrlSetOnEvent(-1, "chkUpgradesToIgnore")
+		$x = $LeftOffset
+		$y += 20
+		$g_hChkUpgradesToIgnore[18] = GUICtrlCreateCheckbox("Hidden Tesla", $x, $y, -1, -1)
+		_GUICtrlSetTip(-1, "Ignore Hidden Tesla Upgrade")
+		GUICtrlSetOnEvent(-1, "chkUpgradesToIgnore")
+		$x += 100
+		$g_hChkUpgradesToIgnore[19] = GUICtrlCreateCheckbox("Traps", $x, $y, -1, -1)
+		_GUICtrlSetTip(-1, "Ignore Traps, Giant Bomb, Air Bomb, Seeking Air Mine," & @CRLF & "Skeleton Trap And Tornado Trap Upgrade")
+		GUICtrlSetOnEvent(-1, "chkUpgradesToIgnore")
+		$x += 100
+		$g_hChkUpgradesToIgnore[20] = GUICtrlCreateCheckbox("Wizard Tower", $x, $y, -1, -1)
+		_GUICtrlSetTip(-1, "Ignore Wizard Tower Upgrade")
+		GUICtrlSetOnEvent(-1, "chkUpgradesToIgnore")
+		$x += 100
+		$g_hChkUpgradesToIgnore[21] = GUICtrlCreateCheckbox("Bomb Tower", $x, $y, -1, -1)
+		_GUICtrlSetTip(-1, "Ignore Bomb Tower Upgrade")
+		GUICtrlSetOnEvent(-1, "chkUpgradesToIgnore")
+		$x = $LeftOffset
+		$y += 20
+		$g_hChkUpgradesToIgnore[22] = GUICtrlCreateCheckbox("Air Defense", $x, $y, -1, -1)
+		_GUICtrlSetTip(-1, "Ignore Air Defense Upgrade")
+		GUICtrlSetOnEvent(-1, "chkUpgradesToIgnore")
+		$x += 100
+		$g_hChkUpgradesToIgnore[23] = GUICtrlCreateCheckbox("Air Sweeper", $x, $y, -1, -1)
+		_GUICtrlSetTip(-1, "Ignore Air Sweeper Upgrade")
+		GUICtrlSetOnEvent(-1, "chkUpgradesToIgnore")
+		$x += 100
+		$g_hChkUpgradesToIgnore[24] = GUICtrlCreateCheckbox("X-Bow", $x, $y, -1, -1)
+		_GUICtrlSetTip(-1, "Ignore X-Bow Upgrade")
+		GUICtrlSetOnEvent(-1, "chkUpgradesToIgnore")
+		$x += 100
+		$g_hChkUpgradesToIgnore[25] = GUICtrlCreateCheckbox("Inferno Tower", $x, $y, -1, -1)
+		_GUICtrlSetTip(-1, "Ignore Inferno Tower Upgrade")
+		GUICtrlSetOnEvent(-1, "chkUpgradesToIgnore")
+		$x = $LeftOffset
+		$y += 20
+		$g_hChkUpgradesToIgnore[26] = GUICtrlCreateCheckbox("Eagle Artillery", $x, $y, -1, -1)
+		_GUICtrlSetTip(-1, "Ignore Eagle Artillery Upgrade")
+		GUICtrlSetOnEvent(-1, "chkUpgradesToIgnore")
+		$x += 100
+		$g_hChkUpgradesToIgnore[27] = GUICtrlCreateCheckbox("Scattershot", $x, $y, -1, -1)
+		_GUICtrlSetTip(-1, "Ignore Scattershot Upgrade")
+		GUICtrlSetOnEvent(-1, "chkUpgradesToIgnore")
+		$x += 100
+		$g_hChkUpgradesToIgnore[28] = GUICtrlCreateCheckbox("Monolith", $x, $y, -1, -1)
+		_GUICtrlSetTip(-1, "Ignore Monolith Upgrade")
+		GUICtrlSetOnEvent(-1, "chkUpgradesToIgnore")
+		$x += 100
+		$g_hChkUpgradesToIgnore[29] = GUICtrlCreateCheckbox("Army Camp", $x, $y, -1, -1)
+		_GUICtrlSetTip(-1, "Ignore Army Camp Upgrade")
+		GUICtrlSetOnEvent(-1, "chkUpgradesToIgnore")
+		$x = $LeftOffset
+		$y += 20
+		$g_hChkUpgradesToIgnore[30] = GUICtrlCreateCheckbox("Workshop", $x, $y, -1, -1)
+		_GUICtrlSetTip(-1, "Ignore Workshop Upgrade")
+		GUICtrlSetOnEvent(-1, "chkUpgradesToIgnore")
+		$x += 100
+		$g_hChkUpgradesToIgnore[31] = GUICtrlCreateCheckbox("Pet House", $x, $y, -1, -1)
+		_GUICtrlSetTip(-1, "Ignore Pet House Upgrade")
+		GUICtrlSetOnEvent(-1, "chkUpgradesToIgnore")
+		
+		$x += 230
+		$g_hBtnResetIgnore = GUICtrlCreateButton("Reset", $x, $y + 10, -1, -1)
+		GUICtrlSetOnEvent(-1, "ResetIgnore")
+		
 	GUICtrlCreateGroup("", -99, -99, 1, 1)
-
-	$g_hTxtAutoUpgradeLog = GUICtrlCreateEdit("", $x - 16, 305, $g_iSizeWGrpTab3, 97, BitOR($GUI_SS_DEFAULT_EDIT, $ES_READONLY))
-		GUICtrlSetData(-1, GetTranslatedFileIni("MBR GUI Design - AutoUpgrade", "TxtAutoUpgradeLog", "------------------------------------------------ AUTO UPGRADE LOG ------------------------------------------------"))
 
 EndFunc   ;==>CreateAutoUpgradeGUI
 
 Func CreateBoostBuilders2()
 	Local $x = 25, $y = 5
-	$g_hGUI_BoostBuilders2 = _GUICreate("Builders Boost Settings", $_GUI_MAIN_WIDTH - 4, $_GUI_MAIN_HEIGHT - 570, $g_iFrmBotPosX, $g_iFrmBotPosY + 80, $WS_DLGFRAME, $WS_EX_TOPMOST)
+	$g_hGUI_BoostBuilders2 = _GUICreate("Builders Boost Settings", $_GUI_MAIN_WIDTH - 4, $_GUI_MAIN_HEIGHT - 570, $g_iFrmBotPosX, $g_iFrmBotPosY + 80, $WS_DLGFRAME, -1, $g_hFrmBot)
 	
 	_GUICtrlCreateIcon($g_sLibModIconPath, $eIcnModBuilderPotion, $x + 30, $y + 10, 24, 24)
 	GUICtrlCreateLabel("Builders Potions To Use", $x + 55, $y + 16, -1, -1)

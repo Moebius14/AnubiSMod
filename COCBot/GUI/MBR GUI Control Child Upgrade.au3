@@ -539,12 +539,12 @@ EndFunc   ;==>btnWalls
 Func chkAutoUpgrade()
 	If GUICtrlRead($g_hChkAutoUpgrade) = $GUI_CHECKED Then
 		$g_bAutoUpgradeEnabled = True
-		For $i = $g_hLblAutoUpgrade To $g_hTxtAutoUpgradeLog
+		For $i = $g_hLblAutoUpgrade To $g_hBtnResetIgnore
 			GUICtrlSetState($i, $GUI_ENABLE)
 		Next
 	Else
 		$g_bAutoUpgradeEnabled = False
-		For $i = $g_hLblAutoUpgrade To $g_hTxtAutoUpgradeLog
+		For $i = $g_hLblAutoUpgrade To $g_hBtnResetIgnore
 			GUICtrlSetState($i, $GUI_DISABLE)
 		Next
 	EndIf
@@ -570,10 +570,17 @@ Func chkResourcesToIgnore()
 EndFunc   ;==>chkResourcesToIgnore
 
 Func chkUpgradesToIgnore()
-	For $i = 0 To 14
+	For $i = 0 To Ubound($g_iChkUpgradesToIgnore) - 1
 		$g_iChkUpgradesToIgnore[$i] = GUICtrlRead($g_hChkUpgradesToIgnore[$i]) = $GUI_CHECKED ? 1 : 0
 	Next
 EndFunc   ;==>chkUpgradesToIgnore
+
+Func ResetIgnore()
+	For $i = 0 To Ubound($g_iChkUpgradesToIgnore) - 1
+		GUICtrlSetState($g_hChkUpgradesToIgnore[$i], $GUI_UNCHECKED)
+		$g_iChkUpgradesToIgnore[$i] = 0
+	Next
+EndFunc
 
 Func chkUpgradePets()
 	If $g_iTownHallLevel = 14 Then ; Must be TH14 to have Pets 1->4
