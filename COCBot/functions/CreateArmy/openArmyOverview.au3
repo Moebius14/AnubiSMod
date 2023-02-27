@@ -92,15 +92,15 @@ Func UpdateNextPageTroop()
 	Local $aSlot2[4] = [715, 465, 805, 370]
 	Local $aSlot3[4] = [715, 570, 805, 480]
 	Local $sEDragTile = @ScriptDir & "\imgxml\Train\Train_Train\EDrag*"
-	
+
 	If _Sleep(500) Then Return
 
-	$g_iNextPageTroop = $eETitan
+	Local $aiTileCoord = decodeSingleCoord(findImage("UpdateNextPageTroop", $sEDragTile, GetDiamondFromRect("25,375,840,575"), 1, True))
 
-	Local $aiTileCoord = decodeSingleCoord(findImage("UpdateNextPageTroop", $sEDragTile, GetDiamondFromRect("25,375,840,550"), 1, True))
-
-	If IsArray($aiTileCoord) And Ubound($aiTileCoord, 1) = 2 Then
+	If IsArray($aiTileCoord) And Ubound($aiTileCoord, 1) = 2 And $aiTileCoord[0] > 610 Then
 		SetDebugLog("Found EDrag at " & $aiTileCoord[0] & ", " & $aiTileCoord[1])
+
+		$g_iNextPageTroop = $eETitan
 
 		If PointInRect($aSlot1[0], $aSlot1[1], $aSlot1[2], $aSlot1[3], $aiTileCoord[0], $aiTileCoord[1]) Then
 			$g_iNextPageTroop = $eRDrag
@@ -111,13 +111,20 @@ Func UpdateNextPageTroop()
 			$g_iNextPageTroop = $eYeti
 			SetDebugLog("Found Edrag moved 2 Slots")
 		EndIf
-		
+
 		If PointInRect($aSlot3[0], $aSlot3[1], $aSlot3[2], $aSlot3[3], $aiTileCoord[0], $aiTileCoord[1]) Then
 			$g_iNextPageTroop = $eEDrag
 			SetDebugLog("Found Edrag moved 3 Slots")
 		EndIf
 	EndIf
 	If _Sleep(200) Then Return
+
+	If Not IsArray($aiTileCoord) Or Ubound($aiTileCoord, 1) < 2 Then ; Case 2 Super Troops On left + 2 Event Troops
+		SetDebugLog("EDrag Not Found")
+		$g_iNextPageTroop = $eMine
+		SetDebugLog("Found Edrag moved 4 Slots")
+		If _Sleep(200) Then Return
+	EndIf
 EndFunc
 
 Func PointInRect($iBLx, $iBLy, $iTRx, $iTRy, $iPTx, $iPTy)

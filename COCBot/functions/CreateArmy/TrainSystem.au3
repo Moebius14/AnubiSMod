@@ -374,7 +374,7 @@ Func DragIfNeeded($Troop)
 	Local $bCheckPixel = False
 	Local $iIndex = TroopIndexLookup($Troop, "DragIfNeeded")
 	Local $bDrag = False
-	
+
 	If $iIndex > $g_iNextPageTroop Then $bDrag = True ;Drag if Troops is on Right side from $g_iNextPageTroop
 	If $iIndex > $eHunt Then $bDrag = False ; Not Drag if Troops are Event Troops
 
@@ -385,7 +385,7 @@ Func DragIfNeeded($Troop)
 			If Not $bCheckPixel Then
 				ClickDrag(750, 445 + $g_iMidOffsetY, 100, 445 + $g_iMidOffsetY)
 				If _Sleep(2000) Then Return
-				If _ColorCheck(_GetPixelColor(834, 403, True), Hex(0xD3D3CB, 6), 5) Then $bCheckPixel = True
+				If _ColorCheck(_GetPixelColor(834, 373 + $g_iMidOffsetY, True), Hex(0xD3D3CB, 6), 5) Then $bCheckPixel = True
 			Else
 				Return True
 			EndIf

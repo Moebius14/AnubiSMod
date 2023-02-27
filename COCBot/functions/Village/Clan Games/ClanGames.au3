@@ -155,7 +155,7 @@ Func _ClanGames($test = False)
 					Setlog("Clan Games Minute Remain: " & $sTimeCG)
 					If $g_bChkClanGamesPurgeAny And $sTimeCG > 1440 Then ; purge, but not purge on last day of clangames
 						SetLog("Stop before completing your limit and only Purge")
-						SetLog("Lets only purge 1 most top event", $COLOR_WARNING)
+						SetLog("Lets only purge 1 random event", $COLOR_WARNING)
 						PurgeEvent(False, True)
 						ClearTempCGFiles()
 						Return
@@ -409,15 +409,23 @@ Func _ClanGames($test = False)
 				Click($aSelectChallenges[$i][1], $aSelectChallenges[$i][2])
 				If _Sleep(1500) Then Return
 				Local $EventHours = GetEventInformation()
-				Setlog("Detected " & $aSelectChallenges[$i][0] & " difficulty of " & $aSelectChallenges[$i][3] & " Time: " & $EventHours & " min", $COLOR_INFO)
+				If $EventHours > 0 Then
+					Setlog("Detected " & $aSelectChallenges[$i][0] & " difficulty of " & $aSelectChallenges[$i][3] & " Time: " & $EventHours & " min", $COLOR_INFO)
+				Else
+					Setlog("Detected " & $aSelectChallenges[$i][0] & " Will Finish After End Of Clan Games", $COLOR_ERROR)
+				EndIf
 				Click($aSelectChallenges[$i][1], $aSelectChallenges[$i][2])
 				If _Sleep(250) Then Return
 				$aSelectChallenges[$i][4] = Number($EventHours)
 			Next
 
-			; let's get the 1440 minutes events and remove from array
+			; let's get the 1440 minutes events and Finish After End Of Clan Games Then remove from array
 			Local $aTempSelectChallenges[0][6]
 			For $i = 0 To UBound($aSelectChallenges) - 1
+				If $aSelectChallenges[$i][4] = 0 Then
+					Setlog($aSelectChallenges[$i][0] & " unselected, will finish after End Of Clan Games!", $COLOR_INFO)
+					ContinueLoop
+				EndIf
 				If $aSelectChallenges[$i][4] = 1440 And $g_bChkClanGamesNoOneDay Then
 					Setlog($aSelectChallenges[$i][0] & " unselected, this is a 1 Day event!", $COLOR_INFO)
 					ContinueLoop
@@ -549,7 +557,7 @@ Func _ClanGames($test = False)
 
 	If $g_bChkClanGamesPurgeAny Then ; still have to purge, because no enabled event on setting found
 		SetLog("Purge needed, because no enabled event on setting found", $COLOR_WARNING)
-		SetLog("No Event found, lets purge 1 most top event", $COLOR_WARNING)
+		SetLog("No Event found, lets purge 1 random event", $COLOR_WARNING)
 		PurgeEvent(False, True)
 		If _Sleep(1000) Then Return
 	Else
@@ -911,7 +919,7 @@ Func GetTimesAndScores()
 	Local $iRestScore = -1, $sYourGameScore = "", $aiScoreLimit, $sTimeRemain = 0
 
 	;Ocr for game time remaining
-	$sTimeRemain = StringReplace(getOcrTimeGameTime(55, 447 + $g_iMidOffsetY), " ", "") ; read Clan Games waiting time
+	$sTimeRemain = StringReplace(getOcrTimeGameTime(45, 447 + $g_iMidOffsetY), " ", "") ; read Clan Games waiting time
 
 	;Check if OCR returned a valid timer format
 	If Not StringRegExp($sTimeRemain, "([0-2]?[0-9]?[DdHhSs]+)", $STR_REGEXPMATCH, 1) Then
@@ -1142,10 +1150,17 @@ Func PurgeEvent($bTest = False, $startFirst = True)
 		SaveDebugImage("CG_All_Challenges", True)
 		If _Sleep(1000) Then Return
 	EndIf
+	
+	Local $XPurgeEvents[4] = [344, 470, 596, 722]
+	Local $XEventPurge = $XPurgeEvents[Random(0, 3, 1)]
+	Local $YPurgeEvents[3] = [180, 340, 480]
+	Local $YEventPurge = $YPurgeEvents[Random(0, 2, 1)]
 
-	Local $SearchArea
-
-	Click(344,180 + $g_iMidOffsetY) ;Most Top Challenge
+	If $startFirst Then
+		Click($XEventPurge, $YEventPurge + $g_iMidOffsetY) ;Any Challenge
+	Else
+		Click(344, 180 + $g_iMidOffsetY)
+	EndIf
 
 	If _Sleep(1000) Then Return
 	If $startFirst Then
@@ -1163,7 +1178,7 @@ Func PurgeEvent($bTest = False, $startFirst = True)
 		EndIf
 	Else
 		SetLog("Purge a Wrong Challenge", $COLOR_INFO)
-		If QuickMIS("BC1", $g_sImgTrashPurge, 400, 170 + $g_iMidOffsetY, 700, 320 + $g_iMidOffsetY, True, False) Then
+		If QuickMIS("BC1", $g_sImgTrashPurge, 220, 120 + $g_iMidOffsetY, 700, 500 + $g_iMidOffsetY, True, False) Then
 			Click($g_iQuickMISX, $g_iQuickMISY)
 			If _Sleep(1200) Then Return
 			SetLog("Click Trash", $COLOR_INFO)
@@ -1194,7 +1209,7 @@ EndFunc   ;==>PurgeEvent
 
 Func StartAndPurgeEvent($bTest = False)
 
-	If QuickMIS("BC1", $g_sImgStart, 220, 120 + $g_iMidOffsetY, 700, 370 + $g_iMidOffsetY, True, False) Then
+	If QuickMIS("BC1", $g_sImgStart, 220, 120 + $g_iMidOffsetY, 700, 500 + $g_iMidOffsetY, True, False) Then
 		Local $Timer = GetEventTimeInMinutes($g_iQuickMISX , $g_iQuickMISY)
 		SetLog("Starting  Event" & " [" & $Timer & " min]", $COLOR_SUCCESS)
 		Click($g_iQuickMISX, $g_iQuickMISY)
@@ -1206,7 +1221,7 @@ Func StartAndPurgeEvent($bTest = False)
 		_FileWriteLog($g_sProfileLogsPath & "\ClanGames.log", " [" & $g_sProfileCurrentName & "] - Starting Purge for " & $Timer & " min")
 
 		If _Sleep(3000) Then Return
-		If QuickMIS("BC1", $g_sImgTrashPurge, 400, 170 + $g_iMidOffsetY, 700, 320 + $g_iMidOffsetY, True, False) Then
+		If QuickMIS("BC1", $g_sImgTrashPurge, 220, 120 + $g_iMidOffsetY, 700, 500 + $g_iMidOffsetY, True, False) Then
 			Click($g_iQuickMISX, $g_iQuickMISY)
 			If _Sleep(3000) Then Return
 			SetLog("Click Trash", $COLOR_INFO)
@@ -1701,7 +1716,6 @@ Func CollectClanGamesRewards($bTest = False)
 EndFunc
 
 Func SearchColumn($aiColumn, $aRewardsList)
-	;If $sSearchArea = "" Then Return False
 
 	Local $sRewardsDir = @ScriptDir & "\imgxml\Resources\ClanGamesImages\Rewards"
 	Local $aSelectReward[0][4]
@@ -1732,12 +1746,8 @@ Func SearchColumn($aiColumn, $aRewardsList)
 
 		Local $avTempReward = $avRewards[$j]
 
-		;SetLog("$avTempReward : " & $avTempReward[0] & " found at " & $avTempReward[1])
-
 		For $k = 0 to UBound($aRewardsList) - 1
-			;SetLog("$aRewardsList: " & $aRewardsList[$k][0] & " Piority " & $aRewardsList[$k][1])
 			If $avTempReward[0] = $aRewardsList[$k][0] Then
-				;SetLog("Matched!")
 				Local $aiTempCoords = decodeSingleCoord($avTempReward[1])
 				; [0] reward, [1] X axis, [2] Y axis, [3] Piority
 				Local $aArray[4] = [$avTempReward[0], $aiTempCoords[0], $aiTempCoords[1], $aRewardsList[$k][1]]
@@ -1829,7 +1839,7 @@ Func SetCGCoolDownTime($bTest = False)
 	$g_hCoolDownTimer = TimerInit()
 	Local $sleep = Random(500, 1500, 1)
 	If _Sleep($sleep) Then Return
-	SetDebugLog("$g_hCoolDownTimer after: " & Round(TimerDiff($g_hCoolDownTimer)/1000/60, 2), $COLOR_DEBUG2)
+	SetDebugLog("$g_hCoolDownTimer after: " & Round(TimerDiff($g_hCoolDownTimer)/1000/60, 2) & " Minutes", $COLOR_DEBUG2)
 
 	If $bTest Then
 		$sleep = Random(500, 5500, 1)
@@ -1841,11 +1851,23 @@ EndFunc
 
 Func IsCGCoolDownTime()
 	Local $iTimer = Round(TimerDiff($g_hCoolDownTimer)/1000/60, 2)
+	Local $iSec = Round(TimerDiff($g_hCoolDownTimer)/1000)
 	SetDebugLog("CG Cooldown Timer : " & $iTimer)
+
 	If $iTimer > 10 Then 
 		$g_bIsCGCoolDownTime = False
 	Else
-		SetLog("Cooldown Time Detected: " & $iTimer & " Minutes", $COLOR_DEBUG2) 
+		Local $sWaitTime = "", $iMin
+		$iMin = Floor($iTimer)
+		If $iTimer < 1 Then
+			$iSec = Round($iTimer*60)
+		Else
+			$iSec = $iSec - ($iMin*60)
+		EndIf
+		If $iMin = 1 Then $sWaitTime &= $iMin & " minute "
+		If $iMin > 1 Then $sWaitTime &= $iMin & " minutes "
+		If $iSec > 1 Then $sWaitTime &= $iSec & " seconds"
+		SetLog("Cooldown Time Detected: " & $sWaitTime, $COLOR_DEBUG2)
 		$g_bIsCGCoolDownTime = True
 	EndIf
 

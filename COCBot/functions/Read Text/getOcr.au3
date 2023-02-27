@@ -238,7 +238,7 @@ Func getOcrMaintenanceTime($x_start, $y_start, $sLogText = Default, $LogTextColo
 EndFunc   ;==>getOcrMaintenanceTime
 
 Func getOcrTimeGameTime($x_start, $y_start) ;  -> Get the guard/shield time left, middle top of the screen
-	Return getOcrAndCapture("coc-clangames", $x_start, $y_start, 116, 31, True)
+	Return getOcrAndCapture("coc-clangames", $x_start, $y_start, 120, 31, True)
 EndFunc   ;==>getOcrTimeGameTime
 
 Func getOcrYourScore($x_start, $y_start) ; -> Gets CheckValuesCost on Train Window

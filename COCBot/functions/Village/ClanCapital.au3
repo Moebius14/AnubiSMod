@@ -212,17 +212,20 @@ EndFunc
 
 Func OpenForgeWindow()
 	Local $bRet = False
-	If QuickMIS("BC1", $g_sImgForgeHouse, 250, 510 + $g_iBottomOffsetY, 400, 670 + $g_iBottomOffsetY) Then 
-		Click($g_iQuickMISX + 18, $g_iQuickMISY + 20)
-		For $i = 1 To 5
-			SetDebugLog("Waiting for Forge Window #" & $i, $COLOR_ACTION)
-			If QuickMIS("BC1", $g_sImgGeneralCloseButton, 715, 180, 760, 225) Then
-				$bRet = True
-				ExitLoop
-			EndIf
-			If _Sleep(600) Then Return
-		Next
-	EndIf
+	For $z = 1 To 5
+		If QuickMIS("BC1", $g_sImgForgeHouse, 240, 510 + $g_iBottomOffsetY, 380, 670 + $g_iBottomOffsetY) Then 
+			Click($g_iQuickMISX + 18, $g_iQuickMISY + 20)
+			For $i = 1 To 5
+				SetDebugLog("Waiting for Forge Window #" & $i, $COLOR_ACTION)
+				If QuickMIS("BC1", $g_sImgGeneralCloseButton, 715, 180, 760, 225) Then
+					$bRet = True
+					ExitLoop 2
+				EndIf
+				If _Sleep(600) Then Return
+			Next
+		EndIf
+		If _Sleep(600) Then Return
+	Next
 	Return $bRet
 EndFunc
 
@@ -291,6 +294,7 @@ Func ForgeClanCapitalGold($bTest = False)
 	Local $iCurrentGold = getResourcesMainScreen(695, 23) ;get current Gold
 	Local $iCurrentElix = getResourcesMainScreen(695, 74) ;get current Elixir
 	Local $iCurrentDE = getResourcesMainScreen(720, 120) ;get current Dark Elixir
+	If _Sleep(1000) Then Return
 	If Not $g_bRunState Then Return
 	If Not OpenForgeWindow() Then 
 		SetLog("Forge Window not Opened, exiting", $COLOR_ACTION)
@@ -1335,7 +1339,7 @@ Func AutoUpgradeCC()
 			(Not $g_bFirstStartForAll And Number($g_iLootCCGold) = 0 And $g_iFreeBuilderCount = 0) Or _
 			(Number($g_iLootCCGold) = 0 And $g_bRequestTroopsEnable And ((Not $bChkUseOnlyCCMedals And $g_aiCmbCCDecisionThen = 1) Or $bChkUseOnlyCCMedals) And ($g_abSearchCastleWaitEnable[$DB] Or _
 			$g_abSearchCastleWaitEnable[$LB]) And Not $g_bFirstStartForAll And Not $bForgeEnabled) Then
-			
+			If _Sleep(1000) Then Return
 			If Not OpenForgeWindow() Then 
 				SetLog("Forge Window not Opened, exiting", $COLOR_ACTION)
 				Return

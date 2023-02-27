@@ -1,3 +1,8 @@
+* v23.02.x27 **
+* Fixed Train Some Middle Troops in 2nd army when Troops Boosted On left.
+* Improved Forge Detection.
+* Fixed Clan Games Running Time.
+
 * v23.02.26 **
 * Fixed _GUICtrlSetTip in Top GUI Windows.
 * Added Skip Snow Check (Enabled by default).
@@ -9,6 +14,7 @@
 * Added Missing Images For Some Clan Games Events.
 * Fixed Double check For CC Gold When Trying To Start Craft [SmartSwitch].
 * SmartSwitch And Clan Capital OCR's Improvements.
+* Purge and CoolDown Timer improvement.
 
 * v23.02.16 **
 * Check Clan Rank Before Starting Raid [SmartSwitch].
