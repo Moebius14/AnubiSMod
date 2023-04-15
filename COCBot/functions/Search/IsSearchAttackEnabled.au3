@@ -116,7 +116,8 @@ Func IsSearchAttackEnabled($Forecast = False)
 				$text &="Profile : " & $g_sProfileCurrentName & "%0A"
 				;Forecast option
 				If $g_bNotifyAlertForecastReport Then
-				$text &="Forecast : " & $currentForecast & "%0A"
+					If $IsForecastDown Then $currentForecast = "N/A"
+					$text &="Forecast : " & $currentForecast & "%0A"
 				EndIf
 				;CG Score option
 				If $g_bChkClanGamesEnabled And $g_bChkNotifyCGScore Then
@@ -243,7 +244,8 @@ Func IsSearchAttackEnabled($Forecast = False)
 					$text &="Profile : " & $g_sProfileCurrentName & "%0A"
 					;Forecast option
 					If $g_bNotifyAlertForecastReport Then
-					$text &="Forecast : " & $currentForecast & "%0A"
+						If $IsForecastDown Then $currentForecast = "N/A"
+						$text &="Forecast : " & $currentForecast & "%0A"
 					EndIf
 					;CG Score option
 					If $g_bChkClanGamesEnabled And $g_bChkNotifyCGScore Then
@@ -389,7 +391,8 @@ Func IsSearchAttackEnabled($Forecast = False)
 					$text &="Profile : " & $g_sProfileCurrentName & "%0A"
 					;Forecast option
 					If $g_bNotifyAlertForecastReport Then
-					$text &="Forecast : " & $currentForecast & "%0A"
+						If $IsForecastDown Then $currentForecast = "N/A"
+						$text &="Forecast : " & $currentForecast & "%0A"
 					EndIf
 					;CG Score option
 					If $g_bChkClanGamesEnabled And $g_bChkNotifyCGScore Then

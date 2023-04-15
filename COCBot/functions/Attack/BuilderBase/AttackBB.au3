@@ -38,12 +38,12 @@ Func DoAttackBB()
 			$AttackForCount += 1
 			If $g_bChkForceBBAttackOnClanGames And $g_bIsBBevent Then
 				SetLog("Check if Challenge is Completed", $COLOR_DEBUG)
-				For $x = 0 To 5
+				For $x = 0 To 7
 					If QuickMIS("BC1", $g_sImgGameComplete, 760, 510, 820, 550, True, $g_bDebugImageSave) Then
 						SetLog("Nice, Game Completed !", $COLOR_SUCCESS)
 						ExitLoop 2
 					Endif
-					_Sleep(500)
+					If _Sleep(500) Then Return
 				Next
 				SetLog("Challenge Is Not Finished...", $COLOR_ERROR)
 			EndIf
@@ -84,12 +84,12 @@ Func DoAttackBB()
 				$AttackForCount += 1
 				If $g_bChkForceBBAttackOnClanGames And $g_bIsBBevent Then
 					SetLog("Check if Challenge is Completed", $COLOR_DEBUG)
-					For $x = 0 To 5
+					For $x = 0 To 7
 						If QuickMIS("BC1", $g_sImgGameComplete, 760, 510, 820, 550, True, $g_bDebugImageSave) Then
 							SetLog("Nice, Game Completed !", $COLOR_SUCCESS)
 							ExitLoop 2
 						Endif
-						_Sleep(500)
+						If _Sleep(500) Then Return
 					Next
 					SetLog("Challenge Is Not Finished...", $COLOR_ERROR)
 				EndIf
@@ -159,7 +159,7 @@ Func AttackBB($iAttackSide = 0)
 		While Not CheckBattleStarted()
 			Local $iTime = Int(__TimerDiff($timer)/ 60000)
 
-			CheckAllObstacles($g_bDebugImageSave, 5, 6)
+			CheckAllObstacles($g_bDebugImageSave, 5)
 			If CheckAllObstacles($g_bDebugImageSave, 0, 1) Then Return False
 
 			If $iTime > $iPrevTime Then ; if we have increased by a minute
@@ -262,7 +262,7 @@ Func AttackBB($iAttackSide = 0)
 			$aBBAttackBar = GetAttackBarBB(True)
 			If $aBBattackBar = "" And (Not $bMachineAlive Or Not $g_bBBMAchineReady) Then $bTroopsDropped = True
 			
-			CheckAllObstacles($g_bDebugImageSave, 5, 6)
+			CheckAllObstacles($g_bDebugImageSave, 5)
 			If CheckAllObstacles($g_bDebugImageSave, 0, 1) Then Return False
 		WEnd
 
@@ -350,6 +350,8 @@ Func Okay()
 	Local $ResultXTime = 0
 
 	While 1
+		CheckAllObstacles($g_bDebugImageSave, 3)
+		If CheckAllObstacles($g_bDebugImageSave, 0, 1) Then Return False
 		If $ResultXTime = 0 Then
 			If QuickMIS("BC1", $g_sImgBBAttackResult, 390, 155 + $g_iMidOffsetY, 475, 180 + $g_iMidOffsetY) Then 
 				If $g_iQuickMISName = "Victory" Then
@@ -372,7 +374,7 @@ Func Okay()
 		; check for advert
 		If $g_sAndroidGameDistributor = "Magic" Then ClashOfMagicAdvert()
 		
-		CheckAllObstacles($g_bDebugImageSave, 5, 6)
+		CheckAllObstacles($g_bDebugImageSave, 5)
 		If CheckAllObstacles($g_bDebugImageSave, 0, 1) Then Return False
 
 		If __TimerDiff($timer) >= 180000 Then

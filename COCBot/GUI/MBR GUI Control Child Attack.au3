@@ -464,6 +464,18 @@ Func chkSearchReduction()
 	EndIf
 EndFunc   ;==>chkSearchReduction
 
+Func chkSearchReductionStorage()
+	If GUICtrlRead($g_hChkSearchReductionStorage) = $GUI_CHECKED Then
+		_GUICtrlEdit_SetReadOnly($g_hTxtSearchReduceGoldMod, False)
+		_GUICtrlEdit_SetReadOnly($g_hTxtSearchReduceElixirMod, False)
+		_GUICtrlEdit_SetReadOnly($g_hTxtSearchReduceDarkMod, False)
+	Else
+		_GUICtrlEdit_SetReadOnly($g_hTxtSearchReduceGoldMod, True)
+		_GUICtrlEdit_SetReadOnly($g_hTxtSearchReduceElixirMod, True)
+		_GUICtrlEdit_SetReadOnly($g_hTxtSearchReduceDarkMod, True)
+	EndIf
+EndFunc   ;==>chkSearchReductionStorage
+
 Func sldMaxVSDelay()
 	$g_iSearchDelayMax = GUICtrlRead($g_hSldMaxVSDelay)
 	GUICtrlSetData($g_hLblMaxVSDelay, $g_iSearchDelayMax)

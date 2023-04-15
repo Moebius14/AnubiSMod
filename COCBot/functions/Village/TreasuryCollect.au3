@@ -34,43 +34,46 @@ Func TreasuryCollect()
 	If _Sleep($DELAYCOLLECT3) Then Return
 	BuildingClick($g_aiClanCastlePos[0], $g_aiClanCastlePos[1], "#0250") ; select CC
 	If _Sleep($DELAYTREASURY2) Then Return
+	Local $BuildingInfo = BuildingInfo(242, 490 + $g_iBottomOffsetY)
 
-	Local $aTreasuryButton = findButton("Treasury", Default, 1, True)
-	If IsArray($aTreasuryButton) And UBound($aTreasuryButton, 1) = 2 Then
-		If IsMainPage() Then ClickP($aTreasuryButton, 1, 0, "#0330")
+	If $BuildingInfo[1] = "Clan Castle" Then
 		If _Sleep($DELAYTREASURY1) Then Return
 	Else
 		For $i = 1 To 10
-			SetLog("Cannot find the Treasury Button", $COLOR_DEBUG1)
+			Local $NewX = Number($g_aiClanCastlePos[0] + (2*$i))
+			Local $NewY = Number($g_aiClanCastlePos[1] - (2*$i))
+			SetLog("Clan Castle Windows Didn't Open", $COLOR_DEBUG1)
 			SetLog("New Try...", $COLOR_DEBUG1)
 			ClickAway()
-			Sleep(Random(1000, 1500, 1))
-			BuildingClick($g_aiClanCastlePos[0] + (2 * $i), $g_aiClanCastlePos[1] + (2 * $i), "#0250") ; select CC
+			If _Sleep(Random(1000, 1500, 1)) Then Return
+			PureClickVisit($NewX, $NewY) ; select CC
 			If _Sleep($DELAYBUILDINGINFO1) Then Return
-			
-			Local $BuildingInfo = BuildingInfo(242, 490 + $g_iBottomOffsetY)
-			
+
+			$BuildingInfo = BuildingInfo(242, 490 + $g_iBottomOffsetY)
+
 			If $BuildingInfo[1] = "Clan Castle" Then ExitLoop
 			ClickAway()
-			Sleep(Random(1000, 1500, 1))
-			BuildingClick($g_aiClanCastlePos[0] + (2 * $i), $g_aiClanCastlePos[1] - (2 * $i), "#0250") ; select CC
+			$NewX = Number($g_aiClanCastlePos[0] - (2*$i))
+			$NewY = Number($g_aiClanCastlePos[1] + (2*$i))
+			If _Sleep(Random(1000, 1500, 1)) Then Return
+			PureClickVisit($NewX, $NewY) ; select CC
 			If _Sleep($DELAYBUILDINGINFO1) Then Return
-			
+
 			$BuildingInfo = BuildingInfo(242, 490 + $g_iBottomOffsetY)
-			
+
 			If $BuildingInfo[1] = "Clan Castle" Then ExitLoop
 		Next
-	EndIf	
-		
+	EndIf
+
 	If _Sleep($DELAYTREASURY2) Then Return
-	$aTreasuryButton = findButton("Treasury", Default, 1, True)
+	Local $aTreasuryButton = findButton("Treasury", Default, 1, True)
 	If IsArray($aTreasuryButton) And UBound($aTreasuryButton, 1) = 2 Then
 		If IsMainPage() Then ClickP($aTreasuryButton, 1, 0, "#0330")
 		If _Sleep($DELAYTREASURY1) Then Return
 	Else
 		SetLog("Cannot find the Treasury Button", $COLOR_ERROR)
 	EndIf
-	
+
 	If Not _WaitForCheckPixel($aTreasuryWindow, $g_bCapturePixel, Default, "Wait treasury window:") Then
 		SetLog("Treasury window not found!", $COLOR_ERROR)
 		Return

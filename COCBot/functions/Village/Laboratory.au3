@@ -259,7 +259,6 @@ EndFunc
 
 ; check the lab to see if something is upgrading in the lab already
 Func ChkLabUpgradeInProgress()
-	Return False ;HArchH
 	; check for upgrade in process - look for green in finish upgrade with gems button
 	SetDebugLog("_GetPixelColor(730, 200): " & _GetPixelColor(730, 200, True) & ":A2CB6C", $COLOR_DEBUG)
 	If _ColorCheck(_GetPixelColor(730, 200, True), Hex(0xA2CB6C, 6), 20) Then
@@ -317,7 +316,6 @@ Func FindResearchButton()
 		Return False
 	EndIf
 EndFunc
-
 
 Func UseLabPotion()
 If $g_bUseLabPotion And $iLabFinishTimeMod > 1440 Then ; only use potion if lab upgrade time is more than 1 day

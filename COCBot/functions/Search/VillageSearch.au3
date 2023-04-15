@@ -53,13 +53,50 @@ Func _VillageSearch() ;Control for searching a village that meets conditions
 		DirCreate($g_sProfileTempDebugPath & "\Zombies\")
 		setZombie()
 	EndIf
+	
+	Local $g_aiFilterMinGoldMod[$g_iModeCount] = [0, 0, 0]
+	Local $g_aiFilterMinElixirMod[$g_iModeCount] = [0, 0, 0]
+	Local $g_aiFilterMeetDEMinMod[$g_iModeCount] = [0, 0, 0]
+	Local $g_aiFilterMinGoldPlusElixirMod[$g_iModeCount] = [0, 0, 0]
+	Local $DEFilterIsenabled = 0
+	
+	For $i = 0 To $g_iModeCount - 1
+		If $g_abFullStorage[$eLootGold] And $g_bSearchReductionStorageEnable Then
+			$g_aiFilterMinGoldMod[$i] = $g_iSearchReductionGoldMod
+		Else
+			$g_aiFilterMinGoldMod[$i] = $g_aiFilterMinGold[$i]
+		EndIf
+		If $g_abFullStorage[$eLootElixir] And $g_bSearchReductionStorageEnable Then
+			$g_aiFilterMinElixirMod[$i] = $g_iSearchReductionElixirMod
+		Else
+			$g_aiFilterMinElixirMod[$i] = $g_aiFilterMinElixir[$i]
+		EndIf
+		If $g_abFullStorage[$eLootDarkElixir] And $g_bSearchReductionStorageEnable Then
+			$g_aiFilterMeetDEMinMod[$i] = $g_iSearchReductionDarkMod
+			If $g_abFilterMeetDEEnable[$i] Then $DEFilterIsenabled += 1
+		Else
+			$g_aiFilterMeetDEMinMod[$i] = $g_aiFilterMeetDEMin[$i]
+		EndIf
+		If ($g_abFullStorage[$eLootGold] Or $g_abFullStorage[$eLootElixir]) And $g_bSearchReductionStorageEnable And $g_aiFilterMeetGE[$i] = 2 Then
+			If $g_abFullStorage[$eLootGold] Then $g_aiFilterMinGoldPlusElixirMod[$i] = $g_aiFilterMinElixir[$i] + $g_iSearchReductionGoldMod
+			If $g_abFullStorage[$eLootElixir] Then $g_aiFilterMinGoldPlusElixirMod[$i] = $g_aiFilterMinGold[$i] + $g_iSearchReductionElixirMod
+		Else
+			$g_aiFilterMinGoldPlusElixirMod[$i] = $g_aiFilterMinGoldPlusElixir[$i]
+		EndIf
+	Next
+	
+	If $g_bSearchReductionStorageEnable Then
+		If $g_abFullStorage[$eLootGold] Then SetLog("Gold Storages are full, Aim Reduced", $COLOR_INFO)
+		If $g_abFullStorage[$eLootElixir] Then SetLog("Elixir Storages are full, Aim Reduced", $COLOR_INFO)
+		If $g_abFullStorage[$eLootDarkElixir] And $DEFilterIsenabled > 0 Then SetLog("Dark Elixir Storage is full, Aim Reduced", $COLOR_INFO)
+	EndIf
 
 	If $g_bIsClientSyncError = False Then
 		For $i = 0 To $g_iModeCount - 1
-			$g_iAimGold[$i] = $g_aiFilterMinGold[$i]
-			$g_iAimElixir[$i] = $g_aiFilterMinElixir[$i]
-			$g_iAimGoldPlusElixir[$i] = $g_aiFilterMinGoldPlusElixir[$i]
-			$g_iAimDark[$i] = ($g_abFilterMeetDEEnable[$i] ? ($g_aiFilterMeetDEMin[$i]) : (0))
+			$g_iAimGold[$i] = $g_aiFilterMinGoldMod[$i]
+			$g_iAimElixir[$i] = $g_aiFilterMinElixirMod[$i]
+			$g_iAimGoldPlusElixir[$i] = $g_aiFilterMinGoldPlusElixirMod[$i]
+			$g_iAimDark[$i] = ($g_abFilterMeetDEEnable[$i] ? ($g_aiFilterMeetDEMinMod[$i]) : (0))
 			$g_iAimTrophy[$i] = ($g_abFilterMeetTrophyEnable[$i] ? ($g_aiFilterMeetTrophyMin[$i]) : (0))
 			$g_iAimTrophyMax[$i] = ($g_abFilterMeetTrophyEnable[$i] ? ($g_aiFilterMeetTrophyMax[$i]) : (99))
 		Next
@@ -382,7 +419,7 @@ Func _VillageSearch() ;Control for searching a village that meets conditions
 			_CaptureRegions()
 			If (_ColorCheck(_GetPixelColor($NextBtn[0], $NextBtn[1]), Hex($NextBtn[2], 6), $NextBtn[3])) And IsAttackPage(False) Then
 				$g_bCloudsActive = True
-				ClickP($NextBtn, 1, 0, "#0155") ;Click Next
+				Click($NextBtn[0] + 55, $NextBtn[1] - 18, 1, 0, "#0155") ;Click Next
 				ExitLoop
 			Else
 				SetDebugLog("Wait to see Next Button... " & $i, $COLOR_DEBUG)

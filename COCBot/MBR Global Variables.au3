@@ -278,9 +278,10 @@ Global $__Nox_Config[1][3] = _ ; Alternative Nox Control ID (array must be order
 ;                 |          |                        |                                  |                |                      |                       |                      |                       |              |                    |64 = Make DPI Aware (if avaliable)                  |                                    |                                     |
 ;                 |          |                        |                                  |                |                      |                       |                      |                       |              |                    |128 = ADB use input swipe and not script            |                                    |                                     |
 ;                 |          |                        |                                  |                |                      |                       |                      |                       |              |                    |256 = Update $g_sAppClassInstance with Window Handle|                                    |                                     |
-Global $g_avAndroidAppConfig[5][16] = [ _ ;           |                                  |                |                      |                       |                      |                       |              |                    |512 = Supports adding shared folder with vboxmanage.exe                                  |                                     |
+Global $g_avAndroidAppConfig[6][16] = [ _ ;           |                                  |                |                      |                       |                      |                       |              |                    |512 = Supports adding shared folder with vboxmanage.exe                                  |                                     |
 	["Nox",        "nox",     "No",                   "[CLASS:subWin; INSTANCE:1]",       "",              $g_iDEFAULT_WIDTH,     $g_iDEFAULT_HEIGHT - 48,$g_iDEFAULT_WIDTH + 4, $g_iDEFAULT_HEIGHT - 10,0,             "127.0.0.1:62001",   1+2+4+8+16+32       +256+512, '# ',                  '(nox Virtual Input|Android Input|Android_Input)', 0,                      2], _ ; Nox
 	["MEmu",       "MEmu",    "MEmu ",                "[CLASS:subWin; INSTANCE:1]",       "",              $g_iDEFAULT_WIDTH,     $g_iDEFAULT_HEIGHT - 48,$g_iDEFAULT_WIDTH + 51,$g_iDEFAULT_HEIGHT - 12,0,             "127.0.0.1:21503",     2+4+8+16+32           +512, '# ',                  '(Microvirt Virtual Input|User Input)', 0,                                 2], _ ; MEmu
+	["BlueStacks5","Pie64",   "BlueStacks5 ",         "[CLASS:BlueStacksApp; INSTANCE:1]","_ctl.W",        $g_iDEFAULT_WIDTH,     $g_iDEFAULT_HEIGHT - 48,$g_iDEFAULT_WIDTH,     $g_iDEFAULT_HEIGHT - 48,0,             "127.0.0.1:5555",    1+2+4+8+16+32   +128,         '# ',                  'BlueStacks Virtual Touch',          0,                                    1], _ ; BlueStacks5
 	["BlueStacks2","Android", "BlueStacks ",          "[CLASS:BlueStacksApp; INSTANCE:1]","_ctl.Window",   $g_iDEFAULT_WIDTH,     $g_iDEFAULT_HEIGHT - 48,$g_iDEFAULT_WIDTH,     $g_iDEFAULT_HEIGHT - 48,0,             "127.0.0.1:5555",    1+2+4+8+16+32   +128,         '$ ',                  'BlueStacks Virtual Touch',          0,                                    1], _ ; BlueStacks2
 	["BlueStacks", "Android", "BlueStacks App Player","[CLASS:BlueStacksApp; INSTANCE:1]","_ctl.Window",   $g_iDEFAULT_WIDTH,     $g_iDEFAULT_HEIGHT - 48,$g_iDEFAULT_WIDTH,     $g_iDEFAULT_HEIGHT - 48,0,             "127.0.0.1:5555",    1    +8+16+32   +128,         '$ ',                  'BlueStacks Virtual Touch',          0,                                    1], _ ; BlueStacks
 	["iTools",     "iToolsVM","iTools ",              "[CLASS:subWin; INSTANCE:1]",       "",              $g_iDEFAULT_WIDTH,     $g_iDEFAULT_HEIGHT - 48,$g_iDEFAULT_WIDTH + 2, $g_iDEFAULT_HEIGHT - 13,0,             "127.0.0.1:54001",   1+2+4+8+16+32+64        +512, '# ',                  'iTools Virtual PassThrough Input',  0,                                    1] _ ; iTools
@@ -289,6 +290,7 @@ Global $g_avAndroidAppConfig[5][16] = [ _ ;           |                         
 ; Android Configutions, see COCBot\functions\Android\Android Status & Information.txt for more details
 Global $__Nox_Idx = _ArraySearch($g_avAndroidAppConfig, "Nox", 0, 0, 0, 0, 1, 0) ; http://en.bignox.com/
 Global $__MEmu_Idx = _ArraySearch($g_avAndroidAppConfig, "MEmu", 0, 0, 0, 0, 1, 0) ; http://www.memuplay.com/
+Global $__BS5_Idx = _ArraySearch($g_avAndroidAppConfig, "BlueStacks5", 0, 0, 0, 0, 1, 0) ; http://www.bluestacks.com/
 Global $__BS2_Idx = _ArraySearch($g_avAndroidAppConfig, "BlueStacks2", 0, 0, 0, 0, 1, 0) ; http://www.bluestacks.com/
 Global $__BS_Idx = _ArraySearch($g_avAndroidAppConfig, "BlueStacks", 0, 0, 0, 0, 1, 0) ; https://filehippo.com/de/download_bluestacks_app_player/64518/
 Global $__iTools_Idx = _ArraySearch($g_avAndroidAppConfig, "iTools", 0, 0, 0, 0, 1, 0) ; https://pro.itools.cn/simulate/
@@ -353,6 +355,7 @@ Global Const $g_iAndroidJellyBean = 17
 Global Const $g_iAndroidKitKat = 19
 Global Const $g_iAndroidLollipop = 21
 Global Const $g_iAndroidNougat = 24
+Global Const $g_iAndroidpie = 28
 Global $g_iAndroidVersionAPI = $g_iAndroidJellyBean ; getprop ro.build.version.sdk
 
 ; Updated in UpdateAndroidConfig() and $g_sAndroidEmulator&Init() as well
@@ -414,8 +417,8 @@ Global $g_bInitAndroid = True ; Used to cache android config, is set to False on
 Global Const $g_iCoCReconnectingTimeout = 1200000 ; 20 minutes : When still (or again) CoC reconnecting animation then restart CoC (handled in checkObstacles)
 
 ; Special Android Emulator variables
-Global $__BlueStacks_Version
-Global $__BlueStacks_Path
+Global $__BlueStacks_Version, $__BlueStacks5_Version, $__MEmu_Version, $__Nox_Version
+Global $__BlueStacks_Path, $__BlueStacks5_Path
 Global $__MEmu_Path
 Global $__Nox_Path
 Global $__iTools_Path
@@ -845,7 +848,7 @@ Global $g_bMakeScreenshotNow = False ; Used to create Screenshot in _Sleep if Sc
 ; <><><><> Village / Misc <><><><>
 Global $g_bChkBotStop = False, $g_iCmbBotCommand = 0, $g_iCmbBotCond = 0, $g_iCmbHoursStop = 0, $g_iCmbTimeStop = 0
 Global $g_abFullStorage[$eLootCount] = [False, False, False, False], $g_aiResumeAttackLoot[$eLootCount] = [0, 0, 0, 0], $g_iResumeAttackTime = 0
-Global $g_bCollectStarBonus = False
+Global $g_bCollectStarBonus = False, $g_bCCTreasuryFull = False, $TreasuryCheckChrono = 0, $IsToCheckCCTreasury = False
 Global $g_iTxtRestartGold = 10000
 Global $g_iTxtRestartElixir = 25000
 Global $g_iTxtRestartDark = 500
@@ -1225,6 +1228,7 @@ Global $g_iAtkTBEnableCount = 150, $g_iAtkTBMaxTHLevel = 0, $g_iAtkTBMode = 0
 ; <><><><> Attack Plan / Search & Attack / Options / Search <><><><>
 Global $g_bSearchReductionEnable = False, $g_iSearchReductionCount = 20, $g_iSearchReductionGold = 2000, $g_iSearchReductionElixir = 2000, $g_iSearchReductionGoldPlusElixir = 4000, _
 		$g_iSearchReductionDark = 100, $g_iSearchReductionTrophy = 2
+Global $g_bSearchReductionStorageEnable = False, $g_iSearchReductionGoldMod = 2000, $g_iSearchReductionElixirMod = 2000, $g_iSearchReductionDarkMod = 100
 Global $g_iSearchDelayMin = 0, $g_iSearchDelayMax = 0
 Global $g_bSearchAttackNowEnable = False, $g_iSearchAttackNowDelay = 0, $g_bSearchRestartEnable = True, $g_iSearchRestartLimitMin = 20, $g_iSearchRestartLimitMax = 50, $g_bSearchAlertMe = True, $g_bSearchRestartPickupHero = False
 Global $g_iSearchRestartLimitMinPause = 70, $g_iSearchRestartLimitMaxPause = 90, $g_iSearchesPauseIntervalMin = 3, $g_iSearchesPauseIntervalMax = 7
@@ -1879,7 +1883,8 @@ Global $g_sClanGamesScore = "N/A", $g_sClanGamesTimeRemaining = "N/A"
 ;ClanGames Challenges
 Global $g_bChkForceBBAttackOnClanGames = True, $g_bIsBBevent = 0
 Global $bSearchBBEventFirst = False, $bSearchMainEventFirst = False, $bSearchBothVillages = True
-Global $g_bChkClanGamesPurgeAny = 0, $g_bIsCGCoolDownTime = False, $g_hCoolDownTimer = 0
+Global $g_bChkClanGamesPurgeAny = 0, $g_bChkClanGamesPurgeAnyClose = 0, $sPurgeTimeCG = 0, $b_COCClose = True, $g_bIsCGCoolDownTime = False, $g_hCoolDownTimer = 0
+Global $IsCGEventRunning = False, $g_bChkForceAttackOnClanGamesWhenHalt = False
 Global $g_bSortClanGames = True, $g_iSortClanGames = 0
 Global $g_abCGMainLootItem[6], $g_abCGMainBattleItem[22], $g_abCGMainDestructionItem[34], $g_abCGMainAirItem[13], _
 	   $g_abCGMainGroundItem[28], $g_abCGMainMiscItem[3], $g_abCGMainSpellItem[12], $g_abCGBBBattleItem[4], _
@@ -2011,6 +2016,7 @@ Global $g_iCmbPauseForecastBelow = 0
 Global $g_bForecastBoostEnable = False, $g_iCmbPriorityForecastBoost = 4
 Global $g_iCmbForecastBoost = 0, $ForecastCheckTimer = 0, $ForecastCheckTimerDiff = 0, $ReadForecastRepeatDelay = 0, $g_iCmbForecastCheckFrequency = 3, _
 	   $g_bFirstStartForForecast = 0, $RecheckForecastAfterPause = 0
+Global $IsForecastDown = False
 
 ;Advanced
 Global $g_bFirstStartForLab = 0, $g_bNoLabCheck = 2

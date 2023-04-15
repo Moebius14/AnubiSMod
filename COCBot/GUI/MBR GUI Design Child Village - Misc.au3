@@ -18,7 +18,7 @@ Global $g_hGUI_MISC = 0, $g_hGUI_MISC_TAB = 0, $g_hGUI_MISC_TAB_ITEM1 = 0, $g_hG
 
 Global $g_hChkBotStop = 0, $g_hCmbBotCommand = 0, $g_hCmbBotCond = 0, $g_hCmbHoursStop = 0, $g_hCmbTimeStop = 0
 Global $g_LblResumeAttack = 0, $g_ahTxtResumeAttackLoot[$eLootCount] = [0, 0, 0, 0], $g_hCmbResumeTime = 0
-Global $g_hChkCollectStarBonus = 0
+Global $g_hChkCollectStarBonus = 0, $g_hChkCCTreasuryFull = 0
 Global $g_hTxtRestartGold = 0, $g_hTxtRestartElixir = 0, $g_hTxtRestartDark = 0
 Global $g_hChkTrap = 0, $g_hChkCollect = 0, $g_hChkTombstones = 0, $g_hChkCleanYard = 0, $g_hChkGemsBox = 0
 Global $g_hChkCollectCartFirst = 0, $g_hTxtCollectGold = 0, $g_hTxtCollectElixir = 0, $g_hTxtCollectDark = 0
@@ -57,7 +57,8 @@ Global $g_hGUI_CGRewardsSettings = 0, $g_hChkClanGamesCollectRewards = 0, $g_hBt
 	   $TitlePriority = 0, $TitlePriority2 = 0, $g_hBtnCGRewardsSettingsDefault = 0
 Global $g_hLabelRewardFull = 0, $g_hLabelReward5Gems = 0, $g_hLabelReward10Gems = 0, $g_hLabelReward50Gems = 0, $g_hLabelAllPotionsFull = 0, $g_hLabelAllBooksFull =  0, $g_hLabelAllBooks = 0
 Global $g_acmbPriorityReward[22] = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
-Global $g_hChkForceBBAttackOnClanGames = 0, $g_hChkClanGamesPurgeAny = 0, $g_hChkClanGamesStopBeforeReachAndPurge = 0 
+Global $g_hChkForceBBAttackOnClanGames = 0, $g_hChkClanGamesPurgeAny = 0, $g_hChkClanGamesPurgeAnyClose = 0, $g_hChkClanGamesStopBeforeReachAndPurge = 0
+Global $g_hChkForceAttackOnClanGamesWhenHalt = 0
 Global $hSearchBBEventFirst = 0, $hSearchMainEventFirst = 0, $hSearchBothVillages = 0 
 Global $g_hChkClanGamesSort = 0, $g_hCmbClanGamesSort = 0
 Global $g_hLabelClangamesDesc = 0, $g_hChkCGRootEnabledAll = 0
@@ -122,7 +123,7 @@ Func CreateMiscNormalVillageSubTab()
 							   GetTranslatedFileIni("MBR GUI Design Child Village - Misc", "CmbBotCond_Item_03", "(G or E) Full and Max.Trophy") & "|" & _
 							   GetTranslatedFileIni("MBR GUI Design Child Village - Misc", "CmbBotCond_Item_04", "G or E Full or Max.Trophy") & "|" & _
 							   GetTranslatedFileIni("MBR GUI Design Child Village - Misc", "CmbBotCond_Item_05", "Gold and Elixir Full") & "|" & _
-							   GetTranslatedFileIni("MBR GUI Design Child Village - Misc", "CmbBotCond_Item_06", "Gold or Elixir Full") & "|" & _
+							   GetTranslatedFileIni("MBR GUI Design Child Village - Misc", "CmbBotCond_Item_06", "Gold or Elixir or DE Full") & "|" & _
 							   GetTranslatedFileIni("MBR GUI Design Child Village - Misc", "CmbBotCond_Item_07", "Gold Full and Max.Trophy") & "|" & _
 							   GetTranslatedFileIni("MBR GUI Design Child Village - Misc", "CmbBotCond_Item_08", "Elixir Full and Max.Trophy") & "|" & _
 							   GetTranslatedFileIni("MBR GUI Design Child Village - Misc", "CmbBotCond_Item_09", "Gold Full or Max.Trophy") & "|" & _
@@ -174,6 +175,10 @@ Func CreateMiscNormalVillageSubTab()
 		_GUICtrlCreateIcon($g_sLibIconPath, $eIcnTrophy, $x + 56, $y, 16, 16) ;HArchH Was 65, now 56.
 
 		$g_hChkCollectStarBonus = GUICtrlCreateCheckbox(GetTranslatedFileIni("MBR GUI Design Child Village - Misc", "ChkCollectStarBonus", "When star bonus available"), $x + 15, $y + 20, -1, -1)
+		GUICtrlSetOnEvent(-1, "ChkCollectStarBonus")
+
+		$g_hChkCCTreasuryFull = GUICtrlCreateCheckbox(GetTranslatedFileIni("MBR GUI Design Child Village - Misc", "ChkCCTreasuryFull", "Don't Attack if Treasury Full"), $x + 165, $y + 20, -1, -1)
+		_GUICtrlSetTip(-1, "Bot Won't Attack For Star Bonus If CC Treasury is Full")
 
 	$x += 80
 		GUICtrlCreateLabel("<", $x + 5, $y + 2, -1, -1)
@@ -1306,15 +1311,25 @@ Func CreateClanGamesSettings()
 		GUICtrlSetOnEvent(-1, "chkClanGamesBB")
 		_GUICtrlSetTip(-1, GetTranslatedFileIni("MBR GUI Design Child Village - Misc", "ChkClanGames_Info_02", "If Enabled : Ignore BB Trophy, BB Loot, BB Wait BM"))
 		GUICtrlSetState(-1, $GUI_DISABLE)
-
+	
 	$y += 23
+	$g_hChkForceAttackOnClanGamesWhenHalt = GUICtrlCreateCheckbox(GetTranslatedFileIni("MBR GUI Design Child Village - Misc", "ChkForceAttackOnClanGamesWhenHalt", "Always Force Attack in Halt Mode"), $x, $y, -1, -1)
+		_GUICtrlSetTip(-1, GetTranslatedFileIni("MBR GUI Design Child Village - Misc", "ChkClanGames_Info_03", "If Enabled : Ignore Halt Mode If An Event Is Running (Attack !)"))
+		GUICtrlSetState(-1, $GUI_DISABLE)
+
+	$y += 33
 	$g_hChkClanGamesPurgeAny = GUICtrlCreateCheckbox(GetTranslatedFileIni("MBR GUI Design Child Village - Misc", "ChkClanGamesPurgeAny", "Purge Any Event If No Event Found"), $x, $y, -1, -1)
-		_GUICtrlSetTip(-1, GetTranslatedFileIni("MBR GUI Design Child Village - Misc", "ChkClanGames_Info_03", "If No Event Found, Purge Any Event"))
-
+		_GUICtrlSetTip(-1, GetTranslatedFileIni("MBR GUI Design Child Village - Misc", "ChkClanGames_Info_04", "If No Event Found, Purge Any Event"))
+		GUICtrlSetOnEvent(-1, "ChkClanGamesPurgeAny")
+		
 	$y += 23
+	$g_hChkClanGamesPurgeAnyClose = GUICtrlCreateCheckbox(GetTranslatedFileIni("MBR GUI Design Child Village - Misc", "ChkClanGamesPurgeAnyWait", "Then Close CoC While Purge"), $x + 10, $y, -1, -1)
+		_GUICtrlSetTip(-1, GetTranslatedFileIni("MBR GUI Design Child Village - Misc", "ChkClanGames_Info_05", "Close COC while CoolDown Time Or Switch Account if Activated."))	
+
+	$y += 33
 		$g_hChkClanGamesStopBeforeReachAndPurge = GUICtrlCreateCheckbox(GetTranslatedFileIni("MBR GUI Design Child Village - Misc", "ChkClanGamesStopBeforeReachAndPurge", "Stop before completing your limit and only Purge"), $x, $y, -1, -1)
-		_GUICtrlSetTip(-1, GetTranslatedFileIni("MBR GUI Design Child Village - Misc", "ChkClanGames_Info_04", "Stop Selecting Events 300 points before End And Purge" & @CRLF & _
-												"But not purge on last day of clangames"))
+		_GUICtrlSetTip(-1, GetTranslatedFileIni("MBR GUI Design Child Village - Misc", "ChkClanGames_Info_06", "Stop Selecting Events 300 points before End And Purge" & @CRLF & _
+												"But not purge on last day of Clan Games"))
 
 	$y += 35
 		GUIStartGroup()

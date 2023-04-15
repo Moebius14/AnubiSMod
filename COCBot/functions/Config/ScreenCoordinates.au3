@@ -31,9 +31,9 @@ Global $aFindMatchButton[4] = [470, 20 + $g_iBottomOffsetY, 0xD8A420, 10] ; Find
 Global $aIsAttackShield[4] = [250, 415 + $g_iMidOffsetY, 0xE8E8E0, 10] ; Attack window, white shield verification window
 Global $aAway[2] = [175, 10] ; Away click, moved from 1,1 to prevent scroll window from top, moved from 0,10 to 175,32 to prevent structure click or 175,10 to just fix MEmu 2.x opening and closing toolbar
 Global $aAway2[2] = [235, 10] ; Second Away Position for Windows like Donate Window where at $aAway is a button
-Global $aNoShield[4] = [448, 20, 0x43484B, 15] ; Main Screen, charcoal pixel center of shield when no shield is present
+Global $aNoShield[4] = [451, 16, 0x484C4E, 15] ; Main Screen, charcoal pixel center of shield when no shield is present / BS5.10 March 2023
 Global $aHaveShield[4] = [455, 19, 0xF0F8FB, 15] ; Main Screen, Silver pixel top center of shield
-Global $aHavePerGuard[4] = [455, 19, 0x10100D, 15] ; Main Screen, black pixel in sword outline top center of shield
+Global $aHavePerGuard[4] = [454, 16, 0x7B4CD8, 15] ; Main Screen, Purple Pixel Top of Shield
 Global $aShieldInfoButton[4] = [431, 10, 0x75BDE4, 15] ; Main Screen, Blue pixel upper part of "i"
 Global $aIsShieldInfo[4] = [645, 195, 0xED1115, 20] ; Main Screen, Shield Info window, red pixel right of X
 Global $aSurrenderButton[4] = [70, 545 + $g_iBottomOffsetY, 0xC00000, 40] ; Surrender Button, Attack Screen
@@ -65,15 +65,18 @@ Global $aWonOneStar[4] = [714, 538 + $g_iBottomOffsetY, 0xC0C8C0, 20] ; Center o
 Global $aWonTwoStar[4] = [739, 538 + $g_iBottomOffsetY, 0xC0C8C0, 20] ; Center of 2nd Star for winning attack on enemy
 Global $aWonThreeStar[4] = [763, 538 + $g_iBottomOffsetY, 0xC0C8C0, 20] ; Center of 3rd Star for winning attack on enemy
 Global $aIsAtkDarkElixirFull[4] = [743, 62 + $g_iMidOffsetY, 0x270D33, 10] ; Attack Screen DE Resource bar is full
-Global $aIsDarkElixirFull[4] = [708, 102 + $g_iMidOffsetY, 0x270D33, 10] ; Main Screen DE Resource bar is full
-Global $aIsGoldFull[4] = [659, 2 + $g_iMidOffsetY, 0xE7C00D, 10] ; Main Screen Gold Resource bar is Full
-Global $aIsElixirFull[4] = [659, 52 + $g_iMidOffsetY, 0xC027C0, 10] ; Main Screen Elixir Resource bar is Full
+Global $aIsDarkElixirFull[4] = [709, 102 + $g_iMidOffsetY, 0x270D33, 10] ; Main Screen DE Resource bar is full
+Global $aIsGoldFull[4] = [660, 2 + $g_iMidOffsetY, 0xE7C00D, 10] ; Main Screen Gold Resource bar is Full
+Global $aIsElixirFull[4] = [660, 52 + $g_iMidOffsetY, 0xC027C0, 10] ; Main Screen Elixir Resource bar is Full
+Global $aIsCCGoldFull[4] = [700, 230 + $g_iMidOffsetY, 0x57BF0F, 15] ; Treasury Gold Resource bar is Full
+Global $aIsCCElixirFull[4] = [698, 262 + $g_iMidOffsetY, 0x50BD10, 15] ; Treasury Elixir Resource bar is Full
+Global $aIsCCDarkElixirFull[4] = [697, 297 + $g_iMidOffsetY, 0x4DBA0E, 15] ; Treasury DE Resource bar is full
 Global $aPerkBtn[4] = [95, 243 + $g_iMidOffsetY, 0x7cd8e8, 10] ; Clan Info Page, Perk Button (blue); 800x780
 Global $aIsGemWindow1[4] = [573, 256 + $g_iMidOffsetY, 0xEB1316, 20] ; Main Screen, pixel left of Red X to close gem window
 Global $aIsGemWindow2[4] = [577, 266 + $g_iMidOffsetY, 0xCC2025, 20] ; Main Screen, pixel below Red X to close gem window
 Global $aIsGemWindow3[4] = [586, 266 + $g_iMidOffsetY, 0xCC2025, 20] ; Main Screen, pixel below Red X to close gem window
 Global $aIsGemWindow4[4] = [595, 266 + $g_iMidOffsetY, 0xCC2025, 20] ; Main Screen, pixel below Red X to close gem window
-Global $aIsTrainPgChk1[4] = [813, 80 + $g_iMidOffsetY, 0xFF8D95, 10] ; Main Screen, Train page open - left upper corner of x button
+Global $aIsTrainPgChk1[4] = [815, 80 + $g_iMidOffsetY, 0xFF8D95, 10] ; Main Screen, Train page open - left upper corner of x button
 Global $aIsTrainPgChk2[4] = [762, 328 + $g_iMidOffsetY, 0xF18439, 10] ; Main Screen, Train page open - Dark Orange in left arrow
 Global $aRtnHomeCloud1[4] = [56, 592 + $g_iBottomOffsetY, 0x0A223F, 15] ; Cloud Screen, during search, blue pixel in left eye
 Global $aRtnHomeCloud2[4] = [72, 592 + $g_iBottomOffsetY, 0x103F7E, 15] ; Cloud Screen, during search, blue pixel in right eye
@@ -111,12 +114,12 @@ Global $aWonTwoStarAtkRprt[4] = [398, 180 + $g_iMidOffsetY, 0xD0D6D0, 30] ; Cent
 Global $aWonThreeStarAtkRprt[4] = [534, 180 + $g_iMidOffsetY, 0xC8CAC7, 30] ; Center of 3rd Star reached attacked village
 ; pixel color: location information								BS 850MB (Reg GFX), BS 500MB (Med GFX) : location
 
-Global $NextBtn[4] = [780, 546 + $g_iBottomOffsetY, 0xD34300, 20] ;  Next Button
-Global $a12OrMoreSlots[4] = [16, 588 + $g_iBottomOffsetY, 0x4583B9, 25] ; Attackbar Check if 12+ Slots exist
-Global $a12OrMoreSlots2[4] = [16, 588 + $g_iBottomOffsetY, 0x7E2327, 25] ; Attackbar Check if 12+ Slots exist SuperTroops
+Global $NextBtn[4] = [720, 536 + $g_iBottomOffsetY, 0xE5510D, 20] ;  Next Button
+Global $a12OrMoreSlots[4] = [24, 578 + $g_iBottomOffsetY, 0x87E3F7, 25] ; Attackbar Check if 12+ Slots exist / BS5
+Global $a12OrMoreSlots2[4] = [24, 579 + $g_iBottomOffsetY, 0xFF4040, 25] ; Attackbar Check if 12+ Slots exist SuperTroops / BS5
 Global $aDoubRowAttackBar[4] = [68, 486, 0xFC5D64, 20]
 Global $aTroopIsDeployed[4] = [0, 0, 0x404040, 20] ; Attackbar Remain Check X and Y are Dummies
-Global Const $aIsAttackPage[4] = [18, 548 + $g_iBottomOffsetY, 0xcf0d0e, 20] ; red button "end battle" - left portion
+Global Const $aIsAttackPage[4] = [50, 548 + $g_iBottomOffsetY, 0xD10D0E, 20] ; red button "end battle" - left portion
 
 ; 1 - Dark Gray : Castle filled/No Castle | 2 - Light Green : Available or Already made | 3 - White : Available or Castle filled/No Castle
 Global $aRequestTroopsAO[6] = [761, 562 + $g_iMidOffsetY, 0x565656, 0x71BA2F, 0xFFFFFE, 25] ; Button Request Troops in Army Overview  (x,y, Gray - Full/No Castle, Green - Available or Already, White - Available or Full)
@@ -133,7 +136,6 @@ Global Const $aAtkRprtDECheck2[4] = [678, 418 + $g_iMidOffsetY, 0x030000, 30]
 ;returnhome
 Global Const $aRtnHomeCheck1[4] = [363, 548 + $g_iMidOffsetY, 0x78C11C, 20]
 Global Const $aRtnHomeCheck2[4] = [497, 548 + $g_iMidOffsetY, 0x79C326, 20]
-;Global Const $aRtnHomeCheck3[4]      = [ 284,  28, 0x41B1CD, 20]
 
 Global Const $aProfileReport[4] = [619, 344, 0x4E4D79, 20] ; Dark Purple of Profile Page when no Attacks were made
 

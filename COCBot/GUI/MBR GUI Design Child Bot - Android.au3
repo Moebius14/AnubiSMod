@@ -31,8 +31,9 @@ Func CreateBotAndroid()
 			
 	$x = 188
 		GUICtrlCreateButton(GetTranslatedFileIni("Android Control", "BtnResetDistributor", "Reset"), $x, $y - 2, 50, 25)
-			GUICtrlSetOnEvent(-1, "btnResetDistributor")			
-			
+			_GUICtrlSetTip(-1, GetTranslatedFileIni("MBR Distributors", "CmbCOCDistributors_Info_02", "Click to Reset Game Distributor"))
+			GUICtrlSetOnEvent(-1, "btnResetDistributor")
+
 	GUICtrlCreateGroup("", -99, -99, 1, 1)
 
 	$x = 280
@@ -139,12 +140,12 @@ Func CreateBotAndroid()
 	GUICtrlCreateGroup(GetTranslatedFileIni("Android Control", "Group_02", "Install Play Store Apps"), $x - 20, $y - 20, $w, $h)
 	$y -= 2
 		GUICtrlCreateButton(GetTranslatedFileIni("Android Control", "BtnPlayStoreGame", "Clash of Clans"), $x - 8, $y, $w - 24, 25)
-			;GUICtrlSetOnEvent(-1, "OpenPlayStoreGame")
-			GUICtrlSetState(-1, $GUI_DISABLE)
+			GUICtrlSetOnEvent(-1, "OpenPlayStoreGame")
+			;GUICtrlSetState(-1, $GUI_DISABLE)
 	$y += 30
 		GUICtrlCreateButton(GetTranslatedFileIni("Android Control", "BtnPlayStoreGooglePlayServices", "Google Play Services"), $x - 8, $y, $w - 24, 25)
-			;GUICtrlSetOnEvent(-1, "OpenPlayStoreGooglePlayServices")
-			GUICtrlSetState(-1, $GUI_DISABLE)
+			GUICtrlSetOnEvent(-1, "OpenPlayStoreGooglePlayServices")
+			;GUICtrlSetState(-1, $GUI_DISABLE)
 	$y += 30
 		GUICtrlCreateButton(GetTranslatedFileIni("Android Control", "BtnPlayStoreNovaLauncher", "Nova Launcher"), $x - 8, $y, $w - 24, 25)
 			GUICtrlSetOnEvent(-1, "OpenPlayStoreNovaLauncher")

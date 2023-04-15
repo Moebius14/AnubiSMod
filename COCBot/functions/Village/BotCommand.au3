@@ -38,20 +38,52 @@ Func BotCommand()
 	$g_bDonationEnabled = True
 
 	If $bChkBotStop Then
+	
+		If $g_bChkForceAttackOnClanGamesWhenHalt Then
+			_ClanGames()
+			If $IsCGEventRunning Then Return False
+		EndIf
 
 		If $iCmbBotCond = 15 And $g_iCmbHoursStop <> 0 Then $TimeToStop = $g_iCmbHoursStop * 3600000 ; 3600000 = 1 Hours
 
 		Switch $iCmbBotCond
 			Case 0
-				If isGoldFull() And isElixirFull() And isTrophyMax() Then $g_bMeetCondStop = True
+				Local $Conditions = 0
+				If isGoldFull() Then
+					$g_abFullStorage[$eLootGold] = True
+					$Conditions += 1
+				EndIf
+				If isElixirFull() Then
+					$g_abFullStorage[$eLootElixir] = True
+					$Conditions += 1
+				EndIf
+				If $Conditions = 2 And isTrophyMax() Then $g_bMeetCondStop = True
 			Case 1
-				If (isGoldFull() And isElixirFull()) Or isTrophyMax() Then $g_bMeetCondStop = True
+				Local $Conditions = 0
+				If isGoldFull() Then
+					$g_abFullStorage[$eLootGold] = True
+					$Conditions += 1
+				EndIf
+				If isElixirFull() Then
+					$g_abFullStorage[$eLootElixir] = True
+					$Conditions += 1
+				EndIf
+				If $Conditions = 2 Or isTrophyMax() Then $g_bMeetCondStop = True
 			Case 2
 				If (isGoldFull() Or isElixirFull()) And isTrophyMax() Then $g_bMeetCondStop = True
 			Case 3
 				If isGoldFull() Or isElixirFull() Or isTrophyMax() Then $g_bMeetCondStop = True
 			Case 4
-				If isGoldFull() And isElixirFull() Then $g_bMeetCondStop = True
+				Local $Conditions = 0
+				If isGoldFull() Then
+					$g_abFullStorage[$eLootGold] = True
+					$Conditions += 1
+				EndIf
+				If isElixirFull() Then
+					$g_abFullStorage[$eLootElixir] = True
+					$Conditions += 1
+				EndIf
+				If $Conditions = 2 Then $g_bMeetCondStop = True
 			Case 5
 				If isGoldFull() Or isElixirFull() Or isDarkElixirFull() Then $g_bMeetCondStop = True
 			Case 6
@@ -71,7 +103,20 @@ Func BotCommand()
 			Case 13
 				If isDarkElixirFull() Then $g_bMeetCondStop = True
 			Case 14
-				If isGoldFull() And isElixirFull() And isDarkElixirFull() Then $g_bMeetCondStop = True
+				Local $Conditions = 0
+				If isGoldFull() Then
+					$g_abFullStorage[$eLootGold] = True
+					$Conditions += 1
+				EndIf
+				If isElixirFull() Then
+					$g_abFullStorage[$eLootElixir] = True
+					$Conditions += 1
+				EndIf
+				If isDarkElixirFull() Then
+					$g_abFullStorage[$eLootDarkElixir] = True
+					$Conditions += 1
+				EndIf
+				If $Conditions = 3 Then $g_bMeetCondStop = True
 			Case 15 ; Bot running for...
 				If Round(__TimerDiff($g_hTimerSinceStarted)) > $TimeToStop Then $g_bMeetCondStop = True
 			Case 16 ; Train/Donate Only
@@ -107,11 +152,11 @@ Func BotCommand()
 			Switch $iCmbBotCommand
 				Case 0
 					If ($iCmbBotCond <= 14 And $g_bCollectStarBonus) Or $iCmbBotCond = 23 And StarBonusSearch() Then
-						SetLog("Star Bonus Available ! Continue Attacking...", $COLOR_SUCCESS1)
-						Return False
+						If Not IsCCTreasuryFull() Then
+							Return False
+						EndIf
 					ElseIf $iCmbBotCond = 23 Then
-						SetLog("Star bonus unavailable. Bot Will Stop After Routines", $COLOR_DEBUG)
-						$IsToCheckBeforeStop = True
+						SetLog("Star bonus unavailable.", $COLOR_DEBUG)
 					EndIf
 					If Not $g_bDonationEnabled Then
 						SetLog("Halt Attack, Stay Online/Collect", $COLOR_INFO)
@@ -124,8 +169,9 @@ Func BotCommand()
 					If _Sleep($DELAYBOTCOMMAND1) Then Return
 				Case 1
 					If $iCmbBotCond = 23 And StarBonusSearch() Then
-						SetLog("Star Bonus Available ! Continue Attacking...", $COLOR_SUCCESS1)
-						Return False
+						If Not IsCCTreasuryFull() Then
+							Return False
+						EndIf
 					ElseIf $iCmbBotCond = 23 Then
 						SetLog("Star bonus unavailable. Bot Will Stop After Routines", $COLOR_DEBUG)
 						$IsToCheckBeforeStop = True
@@ -181,8 +227,9 @@ Func BotCommand()
 					Return True
 				Case 2
 					If $iCmbBotCond = 23 And StarBonusSearch() Then
-						SetLog("Star Bonus Available ! Continue Attacking...", $COLOR_SUCCESS1)
-						Return False
+						If Not IsCCTreasuryFull() Then
+							Return False
+						EndIf
 					ElseIf $iCmbBotCond = 23 Then
 						SetLog("Star bonus unavailable. Bot Close Stop After Routines", $COLOR_DEBUG)
 						$IsToCheckBeforeStop = True
@@ -234,8 +281,9 @@ Func BotCommand()
 					Return True ; HaHa - No Return possible!
 				Case 3
 					If $iCmbBotCond = 23 And StarBonusSearch() Then
-						SetLog("Star Bonus Available ! Continue Attacking...", $COLOR_SUCCESS1)
-						Return False
+						If Not IsCCTreasuryFull() Then
+							Return False
+						EndIf
 					ElseIf $iCmbBotCond = 23 Then
 						SetLog("Star bonus unavailable. Android And Bot Will Stop After Routines", $COLOR_DEBUG)
 						$IsToCheckBeforeStop = True
@@ -289,8 +337,9 @@ Func BotCommand()
 					Return True ; HaHa - No Return possible!
 				Case 4
 					If $iCmbBotCond = 23 And StarBonusSearch() Then
-						SetLog("Star Bonus Available ! Continue Attacking...", $COLOR_SUCCESS1)
-						Return False
+						If Not IsCCTreasuryFull() Then
+							Return False
+						EndIf
 					ElseIf $iCmbBotCond = 23 Then
 						SetLog("Star bonus unavailable. Computer Will ShutDown Stop After Routines", $COLOR_DEBUG)
 						$IsToCheckBeforeStop = True
@@ -343,8 +392,9 @@ Func BotCommand()
 					Return True ; HaHa - No Return possible!
 				Case 5
 					If $iCmbBotCond = 23 And StarBonusSearch() Then
-						SetLog("Star Bonus Available ! Continue Attacking...", $COLOR_SUCCESS1)
-						Return False
+						If Not IsCCTreasuryFull() Then
+							Return False
+						EndIf
 					ElseIf $iCmbBotCond = 23 Then
 						SetLog("Star bonus unavailable. Computer Will Sleep Stop After Routines", $COLOR_DEBUG)
 						$IsToCheckBeforeStop = True
@@ -397,8 +447,9 @@ Func BotCommand()
 					Return True ; HaHa - No Return possible!
 				Case 6
 					If $iCmbBotCond = 23 And StarBonusSearch() Then
-						SetLog("Star Bonus Available ! Continue Attacking...", $COLOR_SUCCESS1)
-						Return False
+						If Not IsCCTreasuryFull() Then
+							Return False
+						EndIf
 					ElseIf $iCmbBotCond = 23 Then
 						SetLog("Star bonus unavailable. Computer Will Reboot Stop After Routines", $COLOR_DEBUG)
 						$IsToCheckBeforeStop = True
@@ -451,8 +502,9 @@ Func BotCommand()
 					Return True ; HaHa - No Return possible!
 				Case 7
 					If $iCmbBotCond = 23 And StarBonusSearch() Then
-						SetLog("Star Bonus Available ! Continue Attacking...", $COLOR_SUCCESS1)
-						Return False
+						If Not IsCCTreasuryFull() Then
+							Return False
+						EndIf
 					ElseIf $iCmbBotCond = 23 Then
 						If ProfileSwitchAccountEnabled() Then
 							Local $aActiveAccount = _ArrayFindAll($g_abAccountNo, True)
@@ -486,7 +538,6 @@ Func BotCommand()
 	EndIf
 	Return False
 EndFunc   ;==>BotCommand
-
 
 ; #FUNCTION# ====================================================================================================================
 ; Name ..........: isTrophyMax
@@ -551,3 +602,110 @@ Func StopAndResumeTimer($bResume = False)
 	SetDebugLog("@HOUR: " & @HOUR & ", $bCurrentStatus: " & $bCurrentStatus & ", $abStop[$g_iCurAccount]: " & $abStop[$g_iCurAccount])
 	Return $abStop[$g_iCurAccount]
 EndFunc   ;==>StopAndResumeTimer
+
+Func IsCCTreasuryFull()
+	If Not $g_bCCTreasuryFull Then
+		SetLog("Star Bonus Available ! Continue Attacking...", $COLOR_SUCCESS1)
+		Return False
+	EndIf
+
+	SetLog("Star Bonus Available ! Continue Attacking...", $COLOR_SUCCESS1)
+
+	Local $CCTreasuryCheckTimerDiff = TimerDiff($TreasuryCheckChrono)
+	If $TreasuryCheckChrono <> 0 Then
+		If $CCTreasuryCheckTimerDiff < 2*60*60*1000 Then
+			Switch $IsToCheckCCTreasury
+				Case True
+					Return False
+				Case False
+					Return True
+			EndSwitch
+		EndIf
+	EndIf
+
+	SetLog("Check If Treasury Is Full Or Not", $COLOR_INFO)
+
+	ClickAway()
+	If _Sleep($DELAYRESPOND) Then Return
+
+	If ($g_aiClanCastlePos[0] = "-1" Or $g_aiClanCastlePos[1] = "-1") Then ;check for valid CC location
+		SetLog("Need Clan Castle location for the Treasury, Please locate your Clan Castle.", $COLOR_WARNING)
+		LocateClanCastle()
+		If ($g_aiClanCastlePos[0] = "-1" Or $g_aiClanCastlePos[1] = "-1") Then ; can not assume CC was located due msgbox timeout and unattended bo, must verify
+			SetLog("Treasury skipped, bad Clan Castle location", $COLOR_ERROR)
+			If _Sleep($DELAYRESPOND) Then Return
+			Return
+		EndIf
+	EndIf
+	ClickAway()
+	If _Sleep($DELAYCOLLECT3) Then Return
+	BuildingClick($g_aiClanCastlePos[0], $g_aiClanCastlePos[1], "#0250") ; select CC
+	If _Sleep($DELAYTREASURY2) Then Return
+	Local $BuildingInfo = BuildingInfo(242, 490 + $g_iBottomOffsetY)
+
+	If $BuildingInfo[1] = "Clan Castle" Then
+		SetDebugLog("Clan Castle Windows Is Open", $COLOR_DEBUG1)
+	Else
+		For $i = 1 To 10
+			Local $NewX = Number($g_aiClanCastlePos[0] + (2*$i))
+			Local $NewY = Number($g_aiClanCastlePos[1] - (2*$i))
+			SetLog("Clan Castle Windows Didn't Open", $COLOR_DEBUG1)
+			SetLog("New Try...", $COLOR_DEBUG1)
+			ClickAway()
+			If _Sleep(Random(1000, 1500, 1)) Then Return
+			PureClickVisit($NewX, $NewY) ; select CC
+			If _Sleep($DELAYBUILDINGINFO1) Then Return
+			
+			$BuildingInfo = BuildingInfo(242, 490 + $g_iBottomOffsetY)
+			
+			If $BuildingInfo[1] = "Clan Castle" Then ExitLoop
+			ClickAway()
+			$NewX = Number($g_aiClanCastlePos[0] - (2*$i))
+			$NewY = Number($g_aiClanCastlePos[1] + (2*$i))
+			If _Sleep(Random(1000, 1500, 1)) Then Return
+			PureClickVisit($NewX, $NewY) ; select CC
+			If _Sleep($DELAYBUILDINGINFO1) Then Return
+			
+			$BuildingInfo = BuildingInfo(242, 490 + $g_iBottomOffsetY)
+			
+			If $BuildingInfo[1] = "Clan Castle" Then ExitLoop
+		Next
+	EndIf
+
+	If _Sleep($DELAYTREASURY2) Then Return
+	Local $aTreasuryButton = findButton("Treasury", Default, 1, True)
+	If IsArray($aTreasuryButton) And UBound($aTreasuryButton, 1) = 2 Then
+		If IsMainPage() Then ClickP($aTreasuryButton, 1, 0, "#0330")
+		If _Sleep($DELAYTREASURY1) Then Return
+	Else
+		SetLog("Cannot find the Treasury Button", $COLOR_ERROR)
+	EndIf
+
+	If Not _WaitForCheckPixel($aTreasuryWindow, $g_bCapturePixel, Default, "Wait treasury window:") Then
+		SetLog("Treasury window not found!", $COLOR_ERROR)
+		Return
+	EndIf
+
+	Local $IsTreasuryFull = False
+	Local $aFullCCBar = QuickMIS("CNX", $g_sImgFullCCRes, 658, 200 + $g_iMidOffsetY, 710, 315 + $g_iMidOffsetY)
+	If IsArray($aFullCCBar) And UBound($aFullCCBar) > 0 Then
+		SetDebugLog("CC full bars found = " & Number(UBound($aFullCCBar)), $COLOR_DEBUG)
+		If Number(UBound($aFullCCBar)) = 3 Then $IsTreasuryFull = True
+	EndIf
+
+	$TreasuryCheckChrono = TimerInit()
+	If _Sleep(200) Then Return
+	CloseWindow()
+
+	If $IsTreasuryFull Then
+		SetLog("Clan Castle Treasury is Full !", $COLOR_WARNING)
+		SetLog("Bot Won't Attack For Star Bonus", $COLOR_DEBUG)
+		$IsToCheckCCTreasury = False
+		Return True
+	Else
+		SetLog("Clan Castle Treasury is Not Full !", $COLOR_WARNING)
+		SetLog("Bot Will Attack For Star Bonus", $COLOR_SUCCESS1)
+		$IsToCheckCCTreasury = True
+		Return False
+	EndIf
+EndFunc

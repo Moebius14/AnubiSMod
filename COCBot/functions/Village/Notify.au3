@@ -29,6 +29,7 @@ Func NotifyReport()
 		$text &="Profile : " & $g_sProfileCurrentName & "%0A"
 		;Forecast option
 		If $g_bNotifyAlertForecastReport Then
+			If $IsForecastDown Then $currentForecast = "N/A"
 			$text &="Forecast : " & $currentForecast & "%0A"
 		EndIf
 		Local $currentDate = Number(@MDAY)
@@ -646,7 +647,8 @@ Func NotifyPushMessageToBoth($Message, $Source = "")
 				$g_iStatsLastAttack[$eLootDarkElixir] = Round($g_iStatsLastAttack[$eLootDarkElixir], 1)
 
 				If $g_bNotifyAlertForecastReport2 Then 
-				NotifyPushToTelegram("Last Raid :" & _
+					If $IsForecastDown Then $currentForecast = "N/A"
+					NotifyPushToTelegram("Last Raid :" & _
 						"%0A" & "Village : " & $g_sNotifyOrigin & _
 						"%0A" & "Profile : " & $g_sProfileCurrentName & _
 						"%0A" & "Forecast : " & $currentForecast & _
@@ -658,7 +660,7 @@ Func NotifyPushMessageToBoth($Message, $Source = "")
 						"  [" & GetTranslatedFileIni("MBR Func_Notify", "Stats-T_Info_01", "*") & "]: " & $g_sStarsEarned & _
 						"  [Tr#]: " & $g_aiCurrentLoot[$eLootTrophy])
 				Else
-				NotifyPushToTelegram("Last Raid :" & _
+					NotifyPushToTelegram("Last Raid :" & _
 						"%0A" & "Village : " & $g_sNotifyOrigin & _
 						"%0A" & "Profile : " & $g_sProfileCurrentName & _
 						"%0A" & "[" & GetTranslatedFileIni("MBR Func_Notify", "Stats-G_Info_01", "G") & "]: " & _NumberFormat($g_iStatsLastAttack[$eLootGold]) & _
@@ -912,6 +914,7 @@ Func NotifyWhenStop()
 Local $text ="Village : " & $g_sNotifyOrigin & "%0A"
 $text &="Profile : " & $g_sProfileCurrentName & "%0A"
 If $g_bNotifyAlertForecastReport Then
+	If $IsForecastDown Then $currentForecast = "N/A"
 	$text &="Forecast : " & $currentForecast & "%0A"
 EndIf
 Local $currentDate = Number(@MDAY)

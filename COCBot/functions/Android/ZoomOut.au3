@@ -66,6 +66,11 @@ Func ZoomOutBlueStacks2()
    ;Return ZoomOutCtrlClick(False, False, False)
 EndFunc
 
+Func ZoomOutBlueStacks5()
+	; newer BlueStacks versions don't work with Ctrl-Click, so fall back to original arrow key
+	Return DefaultZoomOut("{DOWN}", 0, ($g_iAndroidZoomoutMode <> 3))
+EndFunc
+
 Func ZoomOutMEmu()
    ;ClickP($aAway) ; activate window first with Click Away (when not clicked zoom might not work)
    Return DefaultZoomOut("{F3}", 0, ($g_iAndroidZoomoutMode <> 3))

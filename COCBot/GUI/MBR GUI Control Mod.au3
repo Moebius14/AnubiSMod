@@ -148,7 +148,11 @@ If $currentForecast = 0 Then
 	GUICtrlSetData($ActualForecastReturn, "??")
 	GUICtrlSetData($ActualForecastReturnTime, "?????")
 Else
-	GUICtrlSetData($ActualForecastReturn, _NumberFormat($currentForecast, True))
+	If $IsForecastDown Then
+		GUICtrlSetData($ActualForecastReturn, "XX")
+	Else
+		GUICtrlSetData($ActualForecastReturn, _NumberFormat($currentForecast, True))
+	EndIf
 	GUICtrlSetData($ActualForecastReturnTime, $ForecastTimeStamp)
 EndIf
 EndFunc
@@ -170,7 +174,11 @@ EndFunc   ;==>ForecastPauseIntervalMax
 Func btnChkForecast()
 $currentForecast = readCurrentForecast()
 $ForecastTimeStamp = _NowTime(4)
-GUICtrlSetData($ActualForecastReturn, _NumberFormat($currentForecast, True))
+If $IsForecastDown Then
+	GUICtrlSetData($ActualForecastReturn, "XX")
+Else
+	GUICtrlSetData($ActualForecastReturn, _NumberFormat($currentForecast, True))
+EndIf
 GUICtrlSetData($ActualForecastReturnTime, $ForecastTimeStamp)
 EndFunc   ;==>btnChkForecast
 
@@ -203,7 +211,11 @@ If $currentForecast = 0 Then
 	GUICtrlSetData($ActualForecastReturn, "??")
 	GUICtrlSetData($ActualForecastReturnTime, "?????")
 Else
-	GUICtrlSetData($ActualForecastReturn, _NumberFormat($currentForecast, True))
+	If $IsForecastDown Then
+		GUICtrlSetData($ActualForecastReturn, "XX")
+	Else
+		GUICtrlSetData($ActualForecastReturn, _NumberFormat($currentForecast, True))
+	EndIf
 	GUICtrlSetData($ActualForecastReturnTime, $ForecastTimeStamp)
 EndIf
 EndFunc
@@ -212,7 +224,39 @@ Func _RoundDown($nVar, $iCount)
     Return Round((Int($nVar * (10 ^ $iCount))) / (10 ^ $iCount), $iCount)
 EndFunc
 
+Func IsForecastWebSiteReached()
+    Local $TimerURL, $PID, $timeout_server = 500;(500 ms)
+	Local $Reached = True
+    FileDelete(@tempdir&"\initread.txt")
+    $TimerURL = TimerInit()
+    $PID = Run(@AutoItexe & ' /AutoIt3ExecuteLine "filewrite(@tempdir&''\initread.txt'',inetread( ''http://clashofclansforecaster.com'',1))"',"",@SW_HIDE)
+    While 1
+        If $PID = 0 Or TimerDiff($TimerURL) >= $timeout_server Then
+            ProcessClose($PID)
+			$Reached = False
+        ElseIf FileExists(@tempdir&"\initread.txt") And Not ProcessExists($PID) Then
+           FileDelete(@tempdir&"\initread.txt")
+        Else
+            ContinueLoop
+        EndIf
+        ExitLoop
+    WEnd
+	If FileExists(@tempdir&"\initread.txt") Then FileDelete(@tempdir&"\initread.txt")
+	Return $Reached
+Endfunc
+
 Func readCurrentForecast()
+;	Ping("clashofclansforecaster.com", 500)
+;	If @error <> 0 Then
+	If Not IsForecastWebSiteReached() Then
+		If $g_bForecastEnable Or $g_bForecastBoostEnable Then SetLog("Forecast Seems To Be Down!", $COLOR_RED)
+		$IsForecastDown = True
+		GUICtrlSetData($ActualForecastReturn, "XX")
+		Return False
+	EndIf
+
+	$IsForecastDown = False
+
 	Local $return = getCurrentForecast()
 	If $return > 0 Then Return $return
 
@@ -380,8 +424,13 @@ If $g_bForecastEnable Or $g_bForecastBoostEnable Then
 	If $ForecastCheckTimerDiff > $ReadForecastRepeatDelay Or $ForecastCheckTimer = 0 Or $g_bFirstStartForForecast = 1 Or $RecheckForecastAfterPause = 1 Then
 		$ForecastCheckTimer = TimerInit()
 		$currentForecast = readCurrentForecast()
+		If $IsForecastDown Then $SetLog = False
 		$ForecastTimeStamp = _NowTime(4)
-		GUICtrlSetData($ActualForecastReturn, _NumberFormat($currentForecast, True))
+		If $IsForecastDown Then
+			GUICtrlSetData($ActualForecastReturn, "XX")
+		Else
+			GUICtrlSetData($ActualForecastReturn, _NumberFormat($currentForecast, True))
+		EndIf
 		GUICtrlSetData($ActualForecastReturnTime, $ForecastTimeStamp)
 	EndIf
 	If $currentForecast < $g_iCmbPauseForecastBelow Then
@@ -396,8 +445,13 @@ ElseIf Not $g_bForecastEnable And Not $g_bForecastBoostEnable Then
 	If $ForecastCheckTimerDiff > $ReadForecastRepeatDelay Or $ForecastCheckTimer = 0 Or $g_bFirstStartForForecast = 1 Or $RecheckForecastAfterPause = 1 Then
 		$ForecastCheckTimer = TimerInit()
 		$currentForecast = readCurrentForecast()
+		If $IsForecastDown Then $SetLog = False
 		$ForecastTimeStamp = _NowTime(4)
-		GUICtrlSetData($ActualForecastReturn, _NumberFormat($currentForecast, True))
+		If $IsForecastDown Then
+			GUICtrlSetData($ActualForecastReturn, "XX")
+		Else
+			GUICtrlSetData($ActualForecastReturn, _NumberFormat($currentForecast, True))
+		EndIf
 		GUICtrlSetData($ActualForecastReturnTime, $ForecastTimeStamp)
 	EndIf
 	If $SetLog Then SetLog("Current Forecast : " & $currentForecast & "", $COLOR_BLUE)
@@ -406,6 +460,11 @@ EndFunc
 
 Func IsForecastBAD($SetLog = True)
 If $g_bForecastEnable Or $g_bForecastBoostEnable Then
+	If $IsForecastDown Then
+		SetLog("Forecast is Down : Override Settings", $COLOR_WARNING)
+		SetLog("Let's Play", $COLOR_WARNING)
+		Return False
+	EndIf
 	Local $StopEmulator = False
 	Local $bFullRestart = True
 	Local $bSuspendComputer = False
@@ -505,6 +564,10 @@ EndIf
 EndFunc
 
 Func IsForecastBoostAllowed()
+If $IsForecastDown Then
+	SetLog("Forecast is Down : Override Settings", $COLOR_WARNING)
+	Return False
+EndIf
 If $g_iCmbForecastBoost > $currentForecast Then
 	Return False
 Else

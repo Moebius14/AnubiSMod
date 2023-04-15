@@ -763,6 +763,11 @@ Func runBot() ;Bot that runs everything in order
 
 			If _Sleep($DELAYRUNBOT2) Then Return
 			If BotCommand() Then btnStop()
+			If Not $g_bChkBotStop And $g_bSearchReductionStorageEnable Then
+				isGoldFull(True)
+				isElixirFull(True)
+				isDarkElixirFull(True)
+			EndIf
 			If Not $g_bRunState Then Return
 			If $g_bOutOfGold And (Number($g_aiCurrentLoot[$eLootGold]) >= Number($g_iTxtRestartGold)) Then ; check if enough gold to begin searching again
 				$g_bOutOfGold = False ; reset out of gold flag
@@ -788,6 +793,11 @@ Func runBot() ;Bot that runs everything in order
 				_RunFunction($Index)
 				If $g_bRestart Then ContinueLoop 2 ; must be level 2 due to loop-in-loop
 			Next
+			
+			If $g_bRequestTroopsEnable And ($g_abSearchCastleWaitEnable[$DB] Or $g_abSearchCastleWaitEnable[$LB]) And ((Not $bChkUseOnlyCCMedals And _
+			$g_aiCmbCCDecisionThen = 1) Or $bChkUseOnlyCCMedals) Then
+				If Number($g_iLootCCMedal) = 0 Then CatchCCMedals()
+			EndIf
 
 			AddIdleTime()
 			If Not $g_bRunState Then Return
@@ -820,7 +830,11 @@ Func runBot() ;Bot that runs everything in order
 					SetLog("Forecast is Shiny for Boost", $COLOR_GREEN)
 					BoostEverything()     ; 1st Check if is to use Training Potion
 				ElseIf $g_bForecastBoostEnable And Not IsForecastBoostAllowed() Then
-					SetLog("Forecast is Bad for Boost", $COLOR_RED)
+					If $IsForecastDown Then
+						SetLog("Forecast is Unknow : No Boost", $COLOR_RED)
+					Else					
+						SetLog("Forecast is Bad for Boost", $COLOR_RED)
+					EndIf	
 				ElseIf Not $g_bForecastBoostEnable Then
 					BoostEverything()
 				EndIf
@@ -881,6 +895,19 @@ Func runBot() ;Bot that runs everything in order
 			If $g_bChkCollectBuilderBase Or $g_bChkStartClockTowerBoost Or $g_iChkBBSuggestedUpgrades Or $g_bChkEnableBBAttack Then
 				_ClanGames()
 				If Not $g_bRunState Then Return
+				If IsCGCoolDownTime() And $g_bChkClanGamesPurgeAnyClose And $b_COCClose Then
+					Local $iWaitTime = Random($sPurgeTimeCG*1000, ($sPurgeTimeCG+60)*1000, 1)
+					If ProfileSwitchAccountEnabled() And $sPurgeTimeCG > 420 Then
+						SetLog("Switch Account While Purging", $COLOR_INFO)
+						checkSwitchAcc(True)
+					Else
+						SetLog("CoC Will be Closed While Purging", $COLOR_INFO)
+						UniversalCloseWaitOpenCoC($iWaitTime, "CloseCocWhilePurging")
+						$IsMainScreenLocated = 0
+						$sPurgeTimeCG = 0
+						ContinueLoop
+					EndIf
+				EndIf
 			EndIf
 
 			While $g_bIsBBevent
@@ -1028,6 +1055,11 @@ Func _Idle() ;Sequence that runs until Full Army
 		If $g_iCommandStop = -1 Then SetLog("====== Waiting for full army ======", $COLOR_SUCCESS)
 		Local $hTimer = __TimerInit()
 		BotHumanization()
+		
+		If $g_bRequestTroopsEnable And ($g_abSearchCastleWaitEnable[$DB] Or $g_abSearchCastleWaitEnable[$LB]) And ((Not $bChkUseOnlyCCMedals And _
+		$g_aiCmbCCDecisionThen = 1) Or $bChkUseOnlyCCMedals) Then
+			If Number($g_iLootCCMedal) = 0 Then CatchCCMedals()
+		EndIf
 
 		IsForecastChecked()
 		If IsForecastBAD() Then ExitLoop
@@ -1184,7 +1216,20 @@ Func AttackMain() ;Main control for attack functions
 			EndIf
 			_ClanGames() ;Trying to do this above in the main loop
 			If Not $g_bRunState Then Return
-
+			If IsCGCoolDownTime() And $g_bChkClanGamesPurgeAnyClose And $b_COCClose Then
+				Local $iWaitTime = Random($sPurgeTimeCG*1000, ($sPurgeTimeCG+60)*1000, 1)
+				If ProfileSwitchAccountEnabled() And $sPurgeTimeCG > 420 Then
+					SetLog("Switch Account While Purging", $COLOR_INFO)
+					checkSwitchAcc(True)
+				Else
+					SetLog("CoC Will be Closed While Purging", $COLOR_INFO)
+					UniversalCloseWaitOpenCoC($iWaitTime, "CloseCocWhilePurging")
+					$IsMainScreenLocated = 0
+					$sPurgeTimeCG = 0
+					Return
+				EndIf
+			EndIf
+			
 			While $g_bIsBBevent
 				SwitchBetweenBasesMod()
 				If $IstoSwitchMod Then
@@ -1485,7 +1530,11 @@ Func FirstCheck()
 	
 	$currentForecast = readCurrentForecast()
 	$ForecastTimeStamp = _NowTime(4)
-	GUICtrlSetData($ActualForecastReturn, _NumberFormat($currentForecast, True))
+	If $IsForecastDown Then
+		GUICtrlSetData($ActualForecastReturn, "XX")
+	Else
+		GUICtrlSetData($ActualForecastReturn, _NumberFormat($currentForecast, True))
+	EndIf
 	GUICtrlSetData($ActualForecastReturnTime, $ForecastTimeStamp)
 	$ForecastCheckTimer = TimerInit()
 	$g_bFirstStartForForecast = 1
@@ -1513,6 +1562,11 @@ Func FirstCheck()
 	If $g_bRestart Then Return
 
 	If BotCommand() Then btnStop()
+	If Not $g_bChkBotStop And $g_bSearchReductionStorageEnable Then
+		isGoldFull(True)
+		isElixirFull(True)
+		isDarkElixirFull(True)
+	EndIf
 	If Not $g_bRunState Then Return
 	
 	IsSearchAttackEnabled()
@@ -1574,6 +1628,7 @@ Func FirstCheck()
 	If Not $g_bRunState Then Return
 
 	$iNowDayCG = @YDAY ; record numeric value for today
+	$sPurgeTimeCG = 0
 	_ClanGames()
 	GotoBBTodoCG()
 

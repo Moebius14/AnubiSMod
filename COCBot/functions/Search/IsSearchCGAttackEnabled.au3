@@ -71,7 +71,8 @@ Func IsSearchCGAttackEnabled()
 						Local $text ="Village : " & $g_sNotifyOrigin & "%0A"
 						$text &="Profile : " & $g_sProfileCurrentName & "%0A"
 						If $g_bNotifyAlertForecastReport Then
-						$text &="Forecast : " & $currentForecast & "%0A"
+							If $IsForecastDown Then $currentForecast = "N/A"
+							$text &="Forecast : " & $currentForecast & "%0A"
 						EndIf
 						If $g_bChkClanGamesEnabled And $g_bChkNotifyCGScore Then
 						$text &="CG Score : " & $g_sClanGamesScore & "%0A"
@@ -91,7 +92,8 @@ Func IsSearchCGAttackEnabled()
 						Local $text ="Village : " & $g_sNotifyOrigin & "%0A"
 						$text &="Profile : " & $g_sProfileCurrentName & "%0A"
 						If $g_bNotifyAlertForecastReport Then
-						$text &="Forecast : " & $currentForecast & "%0A"
+							If $IsForecastDown Then $currentForecast = "N/A"
+							$text &="Forecast : " & $currentForecast & "%0A"
 						EndIf
 						If $g_bChkClanGamesEnabled And $g_bChkNotifyCGScore Then
 						$text &="CG Score : " & $g_sClanGamesScore & "%0A"
@@ -209,7 +211,8 @@ Func IsSearchCGAttackEnabled()
 						Local $text ="Village : " & $g_sNotifyOrigin & "%0A"
 						$text &="Profile : " & $g_sProfileCurrentName & "%0A"
 						If $g_bNotifyAlertForecastReport Then
-						$text &="Forecast : " & $currentForecast & "%0A"
+							If $IsForecastDown Then $currentForecast = "N/A"
+							$text &="Forecast : " & $currentForecast & "%0A"
 						EndIf
 						If $g_bChkClanGamesEnabled And $g_bChkNotifyCGScore Then
 						$text &="CG Score : " & $g_sClanGamesScore & "%0A"
@@ -229,7 +232,8 @@ Func IsSearchCGAttackEnabled()
 						Local $text ="Village : " & $g_sNotifyOrigin & "%0A"
 						$text &="Profile : " & $g_sProfileCurrentName & "%0A"
 						If $g_bNotifyAlertForecastReport Then
-						$text &="Forecast : " & $currentForecast & "%0A"
+							If $IsForecastDown Then $currentForecast = "N/A"
+							$text &="Forecast : " & $currentForecast & "%0A"
 						EndIf
 						If $g_bChkClanGamesEnabled And $g_bChkNotifyCGScore Then
 						$text &="CG Score : " & $g_sClanGamesScore & "%0A"

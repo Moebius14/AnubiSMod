@@ -21,6 +21,11 @@ Func TrainSystem()
 		If $g_bDebugSetlogTrain Then SetLog("Halt mode - training disabled", $COLOR_DEBUG)
 		Return
 	EndIf
+	
+	If $g_bRequestTroopsEnable And ($g_abSearchCastleWaitEnable[$DB] Or $g_abSearchCastleWaitEnable[$LB]) And ((Not $bChkUseOnlyCCMedals And _
+	$g_aiCmbCCDecisionThen = 1) Or $bChkUseOnlyCCMedals) Then
+		If Number($g_iLootCCMedal) = 0 Then CatchCCMedals()
+	EndIf
 
 	$g_sTimeBeforeTrain = _NowCalc()
 	StartGainCost()
@@ -1441,6 +1446,8 @@ Func FillCCWMedals($g_bFullArmy = False, $g_bCheckSpells = False, $bFullArmyHero
 	If $BuildingInfo[1] = "Clan Castle" Then
 		If ClickB("Reinforce") Then
 			If _Sleep(1000) Then Return
+			If Number($g_iLootCCMedal) = 0 Then $g_iLootCCMedal = getOcrAndCapture("coc-cc-trophy", 540, 379, 44, 14, True)
+			If _Sleep(250) Then Return
 			If QuickMIS("BC1", $g_sImgCCReinforceBuy, 540, 430 + $g_iMidOffsetY, 565, 460 + $g_iMidOffsetY) Then
 				If WaitforPixel(575, 445 + $g_iMidOffsetY, 585, 455 + $g_iMidOffsetY, "6CBB1F", 10, 2) Then
 					$g_iCCMedalCost = getOcrAndCapture("coc-reinforcement", 500, 435 + $g_iMidOffsetY, 36, 20, True)
@@ -1468,11 +1475,13 @@ Func FillCCWMedals($g_bFullArmy = False, $g_bCheckSpells = False, $bFullArmyHero
 		EndIf
 	Else
 		For $i = 1 To 10
+			Local $NewX = Number($g_aiClanCastlePos[0] + (2*$i))
+			Local $NewY = Number($g_aiClanCastlePos[1] - (2*$i))
 			SetLog("Clan Castle Windows Didn't Open", $COLOR_DEBUG1)
 			SetLog("New Try...", $COLOR_DEBUG1)
 			ClickAway()
 			If _Sleep(1500) Then Return
-			BuildingClick($g_aiClanCastlePos[0] + (2 * $i), $g_aiClanCastlePos[1] + (2 * $i), "#0250") ; select CC
+			PureClickVisit($NewX, $NewY) ; select CC
 			If _Sleep($DELAYBUILDINGINFO1) Then Return
 			
 			Local $BuildingInfo = BuildingInfo(242, 490 + $g_iBottomOffsetY)
@@ -1480,6 +1489,8 @@ Func FillCCWMedals($g_bFullArmy = False, $g_bCheckSpells = False, $bFullArmyHero
 			If $BuildingInfo[1] = "Clan Castle" Then
 				If ClickB("Reinforce") Then
 					If _Sleep(1000) Then Return
+					If Number($g_iLootCCMedal) = 0 Then $g_iLootCCMedal = getOcrAndCapture("coc-cc-trophy", 540, 379, 44, 14, True)
+					If _Sleep(250) Then Return
 					If QuickMIS("BC1", $g_sImgCCReinforceBuy, 540, 430 + $g_iMidOffsetY, 565, 460 + $g_iMidOffsetY) Then
 						If WaitforPixel(575, 445 + $g_iMidOffsetY, 585, 455 + $g_iMidOffsetY, "6CBB1F", 10, 2) Then
 							$g_iCCMedalCost = getOcrAndCapture("coc-reinforcement", 500, 435 + $g_iMidOffsetY, 36, 20, True)
@@ -1505,8 +1516,10 @@ Func FillCCWMedals($g_bFullArmy = False, $g_bCheckSpells = False, $bFullArmyHero
 				EndIf
 			EndIf	
 			ClickAway()
+			$NewX = Number($g_aiClanCastlePos[0] - (2*$i))
+			$NewY = Number($g_aiClanCastlePos[1] + (2*$i))
 			If _Sleep(1500) Then Return
-			BuildingClick($g_aiClanCastlePos[0] + (2 * $i), $g_aiClanCastlePos[1] - (2 * $i), "#0250") ; select CC
+			PureClickVisit($NewX, $NewY) ; select CC
 			If _Sleep($DELAYBUILDINGINFO1) Then Return
 			
 			$BuildingInfo = BuildingInfo(242, 490 + $g_iBottomOffsetY)
@@ -1514,6 +1527,8 @@ Func FillCCWMedals($g_bFullArmy = False, $g_bCheckSpells = False, $bFullArmyHero
 			If $BuildingInfo[1] = "Clan Castle" Then
 				If ClickB("Reinforce") Then
 					If _Sleep(1000) Then Return
+					If Number($g_iLootCCMedal) = 0 Then $g_iLootCCMedal = getOcrAndCapture("coc-cc-trophy", 540, 379, 44, 14, True)
+					If _Sleep(250) Then Return
 					If QuickMIS("BC1", $g_sImgCCReinforceBuy, 540, 430 + $g_iMidOffsetY, 565, 460 + $g_iMidOffsetY) Then
 						If WaitforPixel(575, 445 + $g_iMidOffsetY, 585, 455 + $g_iMidOffsetY, "6CBB1F", 10, 2) Then
 							$g_iCCMedalCost = getOcrAndCapture("coc-reinforcement", 500, 435 + $g_iMidOffsetY, 36, 20, True)

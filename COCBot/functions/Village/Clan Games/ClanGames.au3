@@ -15,19 +15,43 @@
 Func _ClanGames($test = False)
 	If Not $g_bChkClanGamesEnabled Then Return
 
-   ; Check if games has been completed
-   If $g_bClanGamesCompleted Then
-	  SetLog("Clan Games has already been completed")
-	  Return
-   EndIf
-
-	;Prevent checking clangames before date 22 (clangames should start on 22 and end on 28 or 29) depends on how many tiers/maxpoint
 	Local $currentDate = Number(@MDAY)
-	If $currentDate < 21 Then
-		SetLog("Current date : " & $currentDate & " --> Skip Clan Games", $COLOR_INFO)
+	
+	;Prevent checking clangames before date 22 (clangames should start on 22 and end on 28 or 29) depends on how many tiers/maxpoint
+	If $currentDate < 22 Then
+		SetDebugLog("Current date : " & $currentDate & " --> Skip Clan Games", $COLOR_INFO)
 		Return
 	EndIf
+	
+	Local $sFound = False
+	If $currentDate >= 28 Then
+		For $i = 1 To 10
+			If QuickMIS("BC1", $g_sImgCaravan, 180, 55, 300, 120 + $g_iMidOffsetY) Then
+				$sFound = True
+				ExitLoop
+			EndIf
+			If _Sleep(200) Then Return
+		Next
+		If Not $sFound Then Return
+	EndIf
 
+   ; Check if games has been completed
+	If $g_bClanGamesCompleted Then
+		$sFound = False
+		SetLog("Clan Games has already been completed")
+		For $i = 1 To 10
+			If QuickMIS("BC1", $g_sImgCaravan, 180, 55, 300, 120 + $g_iMidOffsetY) Then
+				$sFound = True
+				ExitLoop
+			EndIf
+			If _Sleep(200) Then Return
+		Next
+		If Not $sFound Or Not $g_bChkClanGamesCollectRewards Then Return
+   EndIf
+   
+	$b_COCClose = True
+	$IsCGEventRunning = False
+	
 	If IsCGCoolDownTime() Then Return
 
 	If $iNowDayCG <> @YDAY Or Not $g_bFirstStartForAll Then; if 1 day or more has passed since last time Or First start, update daily random value
@@ -128,7 +152,8 @@ Func _ClanGames($test = False)
 						Local $text ="Village : " & $g_sNotifyOrigin & "%0A"
 						$text &="Profile : " & $g_sProfileCurrentName & "%0A"
 						If $g_bNotifyAlertForecastReport Then
-						$text &="Forecast : " & $currentForecast & "%0A"
+							If $IsForecastDown Then $currentForecast = "N/A"
+							$text &="Forecast : " & $currentForecast & "%0A"
 						EndIf
 						Local $currentDate = Number(@MDAY)
 						If $g_bChkClanGamesEnabled And $g_bChkNotifyCGScore And $currentDate >= 21 And $currentDate < 29 Then
@@ -156,6 +181,7 @@ Func _ClanGames($test = False)
 					If $g_bChkClanGamesPurgeAny And $sTimeCG > 1440 Then ; purge, but not purge on last day of clangames
 						SetLog("Stop before completing your limit and only Purge")
 						SetLog("Lets only purge 1 random event", $COLOR_WARNING)
+						$b_COCClose = False
 						PurgeEvent(False, True)
 						ClearTempCGFiles()
 						Return
@@ -419,13 +445,9 @@ Func _ClanGames($test = False)
 				$aSelectChallenges[$i][4] = Number($EventHours)
 			Next
 
-			; let's get the 1440 minutes events and Finish After End Of Clan Games Then remove from array
+			; let's get the 1440 minutes events Then remove from array
 			Local $aTempSelectChallenges[0][6]
 			For $i = 0 To UBound($aSelectChallenges) - 1
-				If $aSelectChallenges[$i][4] = 0 Then
-					Setlog($aSelectChallenges[$i][0] & " unselected, will finish after End Of Clan Games!", $COLOR_INFO)
-					ContinueLoop
-				EndIf
 				If $aSelectChallenges[$i][4] = 1440 And $g_bChkClanGamesNoOneDay Then
 					Setlog($aSelectChallenges[$i][0] & " unselected, this is a 1 Day event!", $COLOR_INFO)
 					ContinueLoop
@@ -990,6 +1012,8 @@ Func IsEventRunning($bOpenWindow = False)
 			If IsArray($aActiveEvent) And UBound($aActiveEvent) > 0 Then
 				SetLog("Active Challenge " & $aActiveEvent[0][0] & " is Enabled on Setting, OK!!", $COLOR_DEBUG)
 
+				$IsCGEventRunning = True
+
 				If $g_bAttackCGPlannerEnable And $g_bAttackCGPlannerDayLimit And $g_bFirstStartForAll Then
 					Local $remainingCGattacks = $iRandomAttackCGCountToday - $g_aiAttackedCGCount
 					LiveDailyCount()
@@ -1102,19 +1126,36 @@ Func StartsEvent($sEventName, $getCapture = True, $g_bChkClanGamesDebug = False)
 
 	If QuickMIS("BC1", $g_sImgStart, 220, 120 + $g_iMidOffsetY, 830, 550 + $g_iMidOffsetY, $getCapture, False) Then
 		Local $Timer = GetEventTimeInMinutes($g_iQuickMISX, $g_iQuickMISY)
-		SetLog("Starting Event" & " [" & $Timer & " min]", $COLOR_SUCCESS)
-		Click($g_iQuickMISX, $g_iQuickMISY)
-		If $g_iTxtCurrentVillageName <> "" Then
-			GUICtrlSetData($g_hTxtClanGamesLog, @CRLF & _NowTime() & " [" & $g_iTxtCurrentVillageName & "] - Starting " & $sEventName & " for " & $Timer & " min", 1)
-			$g_aiAttackedCGCount += 1
-			LiveDailyCount()
+		Local $sTimeCG = ConvertOCRTime("ClanGames()", $g_sClanGamesTimeRemaining, True)
+		If $Timer > 0 Then
+			SetLog("Starting Event" & " [" & $Timer & " min]", $COLOR_SUCCESS)
+			Click($g_iQuickMISX, $g_iQuickMISY)
+			If $g_iTxtCurrentVillageName <> "" Then
+				GUICtrlSetData($g_hTxtClanGamesLog, @CRLF & _NowTime() & " [" & $g_iTxtCurrentVillageName & "] - Starting " & $sEventName & " for " & $Timer & " min", 1)
+				$g_aiAttackedCGCount += 1
+				LiveDailyCount()
+			Else
+				GUICtrlSetData($g_hTxtClanGamesLog, @CRLF & _NowTime() & " [" & $g_sProfileCurrentName & "] - Starting " & $sEventName & " for " & $Timer & " min", 1)
+				$g_aiAttackedCGCount += 1
+				LiveDailyCount()
+			EndIf
+			_FileWriteLog($g_sProfileLogsPath & "\ClanGames.log", " [" & $g_sProfileCurrentName & "] - Starting " & $sEventName & " for " & $Timer & " min")
+			$g_bFirstStartForAll = 1
 		Else
-			GUICtrlSetData($g_hTxtClanGamesLog, @CRLF & _NowTime() & " [" & $g_sProfileCurrentName & "] - Starting " & $sEventName & " for " & $Timer & " min", 1)
-			$g_aiAttackedCGCount += 1
-			LiveDailyCount()
+			SetLog("Starting Event" & " [" & $sTimeCG & " min]", $COLOR_SUCCESS)
+			Click($g_iQuickMISX, $g_iQuickMISY)
+			If $g_iTxtCurrentVillageName <> "" Then
+				GUICtrlSetData($g_hTxtClanGamesLog, @CRLF & _NowTime() & " [" & $g_iTxtCurrentVillageName & "] - Starting " & $sEventName & " for " & $sTimeCG & " min", 1)
+				$g_aiAttackedCGCount += 1
+				LiveDailyCount()
+			Else
+				GUICtrlSetData($g_hTxtClanGamesLog, @CRLF & _NowTime() & " [" & $g_sProfileCurrentName & "] - Starting " & $sEventName & " for " & $sTimeCG & " min", 1)
+				$g_aiAttackedCGCount += 1
+				LiveDailyCount()
+			EndIf
+			_FileWriteLog($g_sProfileLogsPath & "\ClanGames.log", " [" & $g_sProfileCurrentName & "] - Starting " & $sEventName & " for " & $sTimeCG & " min")
+			$g_bFirstStartForAll = 1
 		EndIf
-		_FileWriteLog($g_sProfileLogsPath & "\ClanGames.log", " [" & $g_sProfileCurrentName & "] - Starting " & $sEventName & " for " & $Timer & " min")
-		$g_bFirstStartForAll = 1
 
 		;check if Challenge is BB Challenge, enabling force BB attack
 		If $g_bChkForceBBAttackOnClanGames Then
@@ -1211,15 +1252,26 @@ Func StartAndPurgeEvent($bTest = False)
 
 	If QuickMIS("BC1", $g_sImgStart, 220, 120 + $g_iMidOffsetY, 700, 500 + $g_iMidOffsetY, True, False) Then
 		Local $Timer = GetEventTimeInMinutes($g_iQuickMISX , $g_iQuickMISY)
-		SetLog("Starting  Event" & " [" & $Timer & " min]", $COLOR_SUCCESS)
-		Click($g_iQuickMISX, $g_iQuickMISY)
-		If $g_iTxtCurrentVillageName <> "" Then
-		GUICtrlSetData($g_hTxtClanGamesLog, @CRLF & _NowTime() & " [" & $g_iTxtCurrentVillageName & "] - Starting Purge for " & $Timer & " min", 1)
+		Local $sTimeCG = ConvertOCRTime("ClanGames()", $g_sClanGamesTimeRemaining, True)
+		If $Timer > 0 Then
+			SetLog("Starting  Event" & " [" & $Timer & " min]", $COLOR_SUCCESS)
+			Click($g_iQuickMISX, $g_iQuickMISY)
+			If $g_iTxtCurrentVillageName <> "" Then
+				GUICtrlSetData($g_hTxtClanGamesLog, @CRLF & _NowTime() & " [" & $g_iTxtCurrentVillageName & "] - Starting Purge for " & $Timer & " min", 1)
+			Else
+				GUICtrlSetData($g_hTxtClanGamesLog, @CRLF & _NowTime() & " [" & $g_sProfileCurrentName & "] - Starting Purge for " & $Timer & " min", 1)
+			EndIf
+			_FileWriteLog($g_sProfileLogsPath & "\ClanGames.log", " [" & $g_sProfileCurrentName & "] - Starting Purge for " & $Timer & " min")
 		Else
-		GUICtrlSetData($g_hTxtClanGamesLog, @CRLF & _NowTime() & " [" & $g_sProfileCurrentName & "] - Starting Purge for " & $Timer & " min", 1)
+			SetLog("Starting  Event" & " [" & $sTimeCG & " min]", $COLOR_SUCCESS)
+			Click($g_iQuickMISX, $g_iQuickMISY)
+			If $g_iTxtCurrentVillageName <> "" Then
+				GUICtrlSetData($g_hTxtClanGamesLog, @CRLF & _NowTime() & " [" & $g_iTxtCurrentVillageName & "] - Starting Purge for " & $sTimeCG & " min", 1)
+			Else
+				GUICtrlSetData($g_hTxtClanGamesLog, @CRLF & _NowTime() & " [" & $g_sProfileCurrentName & "] - Starting Purge for " & $sTimeCG & " min", 1)
+			EndIf
+			_FileWriteLog($g_sProfileLogsPath & "\ClanGames.log", " [" & $g_sProfileCurrentName & "] - Starting Purge for " & $sTimeCG & " min")
 		EndIf
-		_FileWriteLog($g_sProfileLogsPath & "\ClanGames.log", " [" & $g_sProfileCurrentName & "] - Starting Purge for " & $Timer & " min")
-
 		If _Sleep(3000) Then Return
 		If QuickMIS("BC1", $g_sImgTrashPurge, 220, 120 + $g_iMidOffsetY, 700, 500 + $g_iMidOffsetY, True, False) Then
 			Click($g_iQuickMISX, $g_iQuickMISY)
@@ -1823,10 +1875,16 @@ EndFunc
 
 Func CooldownTime($getCapture = True)
 	;check cooldown purge
+	$sPurgeTimeCG = 0
 	Local $aiCoolDown = decodeSingleCoord(findImage("Cooldown", $g_sImgCoolPurge & "\*.xml", GetDiamondFromRect("480,370,570,410"), 1, True, Default))
 	If IsArray($aiCoolDown) And UBound($aiCoolDown, 1) >= 2 Then
 		SetLog("Cooldown Purge Detected", $COLOR_INFO)
 		If _Sleep(1500) Then Return
+		If $g_bChkClanGamesPurgeAnyClose Then
+			Local $sPurgeTimeRemain = getOcrTimeGameTime(500, 265 + $g_iMidOffsetY) ; read CoolDown time
+			$sPurgeTimeCG = ConvertOCRTime("SetCGCoolDownTime()", $sPurgeTimeRemain, False, "sec")
+			SetDebugLog("$sPurgeTimeCG : " & $sPurgeTimeCG & " Seconds", $COLOR_DEBUG2)
+		EndIf
 		CloseWindow()
 		Return True
 	EndIf
@@ -1835,10 +1893,18 @@ EndFunc   ;==>CooldownTime
 
 Func SetCGCoolDownTime($bTest = False)
 	$g_hCoolDownTimer = 0
+	$sPurgeTimeCG = 0
 	SetDebugLog("$g_hCoolDownTimer before: " & $g_hCoolDownTimer, $COLOR_DEBUG2)
 	$g_hCoolDownTimer = TimerInit()
 	Local $sleep = Random(500, 1500, 1)
 	If _Sleep($sleep) Then Return
+	
+	If $g_bChkClanGamesPurgeAnyClose And $b_COCClose Then
+		Local $sPurgeTimeRemain = getOcrTimeGameTime(500, 265 + $g_iMidOffsetY) ; read CoolDown time
+		$sPurgeTimeCG = ConvertOCRTime("SetCGCoolDownTime()", $sPurgeTimeRemain, False, "sec")
+		SetDebugLog("$sPurgeTimeCG : " & $sPurgeTimeCG & " Seconds", $COLOR_DEBUG2)
+	EndIf
+	
 	SetDebugLog("$g_hCoolDownTimer after: " & Round(TimerDiff($g_hCoolDownTimer)/1000/60, 2) & " Minutes", $COLOR_DEBUG2)
 
 	If $bTest Then
@@ -1870,6 +1936,14 @@ Func IsCGCoolDownTime()
 		SetLog("Cooldown Time Detected: " & $sWaitTime, $COLOR_DEBUG2)
 		$g_bIsCGCoolDownTime = True
 	EndIf
-
+	
+	If $g_bChkClanGamesPurgeAnyClose And $b_COCClose Then
+		If $sPurgeTimeCG = 0 Then
+			$g_bIsCGCoolDownTime = False
+		Else
+			$g_bIsCGCoolDownTime = True
+		EndIf
+	EndIf
+	
 	Return $g_bIsCGCoolDownTime
 EndFunc

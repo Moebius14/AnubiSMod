@@ -252,7 +252,7 @@ Func DonateCC($bCheckForNewMsg = False)
 	If $g_iCommandStop <> 0 And $g_iCommandStop <> 3 Then SetLog("Checking for Donate Requests in Clan Chat", $COLOR_INFO)
 
 	Local $iTimer
-	Local $sSearchArea, $aiSearchArray[4] = [200, 90, 300, 700], $aiSearchArrayBackUp = $aiSearchArray
+	Local $sSearchArea, $aiSearchArray[4] = [200, 90, 300, 680], $aiSearchArrayBackUp = $aiSearchArray
 	Local $aiDonateButton
 
 	While $bDonate

@@ -62,6 +62,7 @@ Global $g_sImgUpgradeWhiteZero = @ScriptDir & "\imgxml\Main Village\Upgrade\Whit
 Global $g_sImgDonateCC = @ScriptDir & "\imgxml\DonateCC\"
 Global $g_sImgLabResearch = @ScriptDir & "\imgxml\Research\Laboratory\"
 Global $g_sImgBBDailyAvail = @ScriptDir & "\imgxml\DailyChallenge\BBDailyChallenge\"
+Global $g_sImgFullCCRes = @ScriptDir & "\imgxml\Resources\TreasuryFull"
 #EndRegion
 
 #Region Clan Capital

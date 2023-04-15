@@ -87,6 +87,7 @@ Func CheckVersion()
 			SetLog("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~", $COLOR_SUCCESS)
 			SetLog("~~~~~~YOU HAVE THE LATEST MOD VERSION~~~~~", $COLOR_SUCCESS)
 			SetLog("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~", $COLOR_SUCCESS)
+			SetLog(" ", $COLOR_SUCCESS)
 		EndIf
 	Else
 		SetDebugLog($TempMod)

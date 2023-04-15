@@ -1,7 +1,14 @@
-* v23.02.x27 **
+* v23.04.15 **
 * Fixed Train Some Middle Troops in 2nd army when Troops Boosted On left.
 * Improved Forge Detection.
 * Fixed Clan Games Running Time.
+* Added Halt, Stop, etc... When Resources and Treasury are full.
+* Improved Open Clan Castle Retry.
+* Added Check if no CC Medal.
+* Added Force Attack When Halt Mode if Event Running(Clan Games).
+* Added Reduce Search Aim Loot When Full Storages.
+* Added Check To Prevent Forecast Error if WebSite is Down.
+* Improved Shared-Prefs/SCID Account Connect.
 
 * v23.02.26 **
 * Fixed _GUICtrlSetTip in Top GUI Windows.

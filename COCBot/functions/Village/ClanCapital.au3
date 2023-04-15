@@ -1359,8 +1359,9 @@ Func AutoUpgradeCC()
 			CloseWindow()
 			If _Sleep($DELAYCOLLECT3) Then Return
 		EndIf
-		Local $iWeekday = _DateToDayOfWeek(@YEAR, @MON, @MDAY)
-		Local $StartRaidConditions = $g_bChkStartWeekendRaid And $iWeekday = 6
+		
+		Local $IsUTCTimeForRaid = UTCTime()
+		Local $StartRaidConditions = $g_bChkStartWeekendRaid And $IsUTCTimeForRaid
 		SetLog("Smart Clan Capital Switch Control", $COLOR_OLIVE)
 		If Number($g_iLootCCGold) = 0 Then
 			$IsCCGoldJustCollected = False
@@ -1956,3 +1957,33 @@ Func PicCCTrophies()
 		GUICtrlSetState($g_hLblCCLeague3, $GUI_HIDE)
 	EndIf
 EndFunc   ;==>PicCCTrophies
+
+Func UTCTime()
+	If _Sleep(100) Then Return
+	Local $String = BinaryToString(InetRead("http://worldtimeapi.org/api/timezone/Etc/UTC.txt",1))
+	Local $ErrorCycle = 0
+	While @error <> 0
+		$String = BinaryToString(InetRead("http://worldtimeapi.org/api/timezone/Etc/UTC.txt",1))
+		If @error <> 0 Then
+			$ErrorCycle += 1
+		Else
+			ExitLoop
+		EndIf
+		If _Sleep(200) Then Return
+		If $ErrorCycle = 15 Then ExitLoop
+	WEnd
+	If $ErrorCycle = 15 And @WDAY = 6 Then Return True
+	Local $Day = StringRegExp($String,'day_of_week: (.+?)', $STR_REGEXPARRAYMATCH)
+	Local $Time = StringRegExp($String,'datetime: (.+?)T(\d+:\d+:\d+)', $STR_REGEXPARRAYMATCH)
+	If IsArray($Time) And UBound($Time) > 0 Then
+		Local $TimeHourUTC = StringSplit($Time[1], ":", $STR_NOCOUNT)
+	Else
+		If @WDAY = 6 Then Return True
+	EndIf
+	If IsArray($TimeHourUTC) And UBound($TimeHourUTC) > 0 Then
+		If $TimeHourUTC[0] > 6 And $Day[0] = 5 Then Return True;Raid begins Friday at 7am utc.
+	Else
+		If @WDAY = 6 Then Return True
+	EndIf
+	Return False
+EndFunc

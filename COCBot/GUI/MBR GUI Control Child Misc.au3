@@ -251,9 +251,18 @@ Func cmbBotCond()
 	For $i = $g_LblResumeAttack To $g_ahTxtResumeAttackLoot[$eLootDarkElixir]
 		GUICtrlSetState($i, $GUI_DISABLE)
 	Next
-	If _GUICtrlComboBox_GetCurSel($g_hCmbBotCommand) <> 0 Then Return
+	If _GUICtrlComboBox_GetCurSel($g_hCmbBotCommand) <> 0 And $iCond <> 23 Then Return
 	If $iCond <= 14 Or $iCond = 22 Then GUICtrlSetState($g_LblResumeAttack, $GUI_ENABLE)
-	If $iCond <= 14 Then GUICtrlSetState($g_hChkCollectStarBonus, $GUI_ENABLE)
+
+	If $iCond <= 14 Then
+		GUICtrlSetState($g_hChkCollectStarBonus, $GUI_ENABLE)
+		If GUICtrlRead($g_hChkCollectStarBonus) = $GUI_CHECKED Then GUICtrlSetState($g_hChkCCTreasuryFull, $GUI_ENABLE)
+	ElseIf $iCond = 23 Then
+		GUICtrlSetState($g_hChkCCTreasuryFull, $GUI_ENABLE)
+	Else
+		GUICtrlSetState($g_hChkCCTreasuryFull, $GUI_DISABLE)
+	EndIf
+
 	If $iCond <= 6 Or $iCond = 8 Or $iCond = 10 Or $iCond = 14 Then GUICtrlSetState($g_ahTxtResumeAttackLoot[$eLootGold], $GUI_ENABLE)
 	If $iCond <= 5 Or $iCond = 7 Or $iCond = 9 Or $iCond = 11 Or $iCond = 14 Then GUICtrlSetState($g_ahTxtResumeAttackLoot[$eLootElixir], $GUI_ENABLE)
 	If $iCond = 13 Or $iCond = 14 Then GUICtrlSetState($g_ahTxtResumeAttackLoot[$eLootDarkElixir], $GUI_ENABLE)
@@ -261,16 +270,26 @@ Func cmbBotCond()
 	If $iCond = 22 Then GUICtrlSetState($g_hCmbResumeTime, $GUI_ENABLE)
 EndFunc   ;==>cmbBotCond
 
+Func ChkCollectStarBonus()
+	If GUICtrlRead($g_hChkCollectStarBonus) = $GUI_CHECKED Then
+		GUICtrlSetState($g_hChkCCTreasuryFull, $GUI_ENABLE)
+	Else
+		GUICtrlSetState($g_hChkCCTreasuryFull, $GUI_DISABLE)
+	EndIf
+EndFunc
+
 Func chkBotStop()
 	If GUICtrlRead($g_hChkBotStop) = $GUI_CHECKED Then
 		For $i = $g_hCmbBotCommand To $g_hCmbBotCond
 			GUICtrlSetState($i, $GUI_ENABLE)
 		Next
 		cmbBotCond()
+		GUICtrlSetState($g_hChkForceAttackOnClanGamesWhenHalt, $GUI_ENABLE)
 	Else
 		For $i = $g_hCmbBotCommand To $g_ahTxtResumeAttackLoot[$eLootDarkElixir]
 			GUICtrlSetState($i, $GUI_DISABLE)
 		Next
+		GUICtrlSetState($g_hChkForceAttackOnClanGamesWhenHalt, $GUI_DISABLE)
 	EndIf
 EndFunc   ;==>chkBotStop
 
@@ -405,30 +424,39 @@ Func btnResetDistributor()
 	$g_bRunState = True
 	While 1
 		If _Sleep(500) Then Return ; add small delay before display message window
-
-			_ExtMsgBoxSet(1 + 64, $SS_CENTER, 0x004080, 0xFFFF00, 12, "Comic Sans MS", 600)
-			Local $stext = @CRLF & GetTranslatedFileIni("MBR Popups", "Reset_Distributor_info", "Click OK to Reset Game Distributor,") & @CRLF & @CRLF & _
-					GetTranslatedFileIni("MBR Popups", "Bot_will_exit", "NOTE =>> Bot will exit and need to be restarted when complete") & @CRLF & @CRLF & GetTranslatedFileIni("MBR Popups", "Cancel_to_exit", "Or Click Cancel to exit") & @CRLF
-			Local $MsgBox = _ExtMsgBox(0, GetTranslatedFileIni("MBR Popups", "Ok_Cancel", "Ok|Cancel"), GetTranslatedFileIni("MBR Popups", "Reset_Game_Distributor_Info", "Delete Game Distributor Infomation ?"), $stext, 120)
+		_ExtMsgBoxSet(1 + 64, $SS_CENTER, 0x004080, 0xFFFF00, 12, "Comic Sans MS", 600)
+		Local $stext = @CRLF & GetTranslatedFileIni("MBR Popups", "Reset_Distributor_info", "Click Continue to Reset and Select Game Distributor,") & @CRLF & @CRLF & _
+				GetTranslatedFileIni("MBR Popups", "Bot_will_exit", "NOTE =>> Bot will exit and need to be restarted when complete") & @CRLF & @CRLF & GetTranslatedFileIni("MBR Popups", "Cancel_to_exit", "Or Click Cancel to exit") & @CRLF
+		Local $MsgBox = _ExtMsgBox(0, GetTranslatedFileIni("MBR Popups", "Continue_Cancel", "Continue|Cancel"), GetTranslatedFileIni("MBR Popups", "Game_Distributor_Info", "Game Distributor Selection"), $stext, 120)
+		If $g_bDebugSetlog Then SetDebugLog("$MsgBox= " & $MsgBox, $COLOR_DEBUG)
+		If $MsgBox = 1 Then
+			Local $stext = @CRLF & GetTranslatedFileIni("MBR Popups", "Choice_Game_Distributor_Info", "Choose Game Distributor Now") & @CRLF
+			Local $MsgBox = _ExtMsgBox(0, "Google|Amazon", GetTranslatedFileIni("MBR Popups", "Game_Distributor_Info", -1), $stext, 120)
 			If $g_bDebugSetlog Then SetDebugLog("$MsgBox= " & $MsgBox, $COLOR_DEBUG)
 			If $MsgBox = 1 Then
-				Local $stext = @CRLF & GetTranslatedFileIni("MBR Popups", "Sure_Game_Distributor_Info", "Are you 100% sure you want to reset Game Distributor information ?") & @CRLF & @CRLF & _
-						GetTranslatedFileIni("MBR Popups", "Reset_then_restart_bot", "Click OK to Reset and then restart the bot (manually)") & @CRLF & @CRLF & GetTranslatedFileIni("MBR Popups", "Cancel_to_exit", -1) & @CRLF
-				Local $MsgBox = _ExtMsgBox(0, GetTranslatedFileIni("MBR Popups", "Ok_Cancel", -1), GetTranslatedFileIni("MBR Popups", "Reset_Game_Distributor_Info", -1), $stext, 120)
-				If $g_bDebugSetlog Then SetDebugLog("$MsgBox= " & $MsgBox, $COLOR_DEBUG)
-				If $MsgBox = 1 Then
-					$g_sAndroidGameDistributor = "Amazon" ; Default CoC Game Distributor, loaded from config.ini
-					$g_sAndroidGamePackage = "com.supercell.clashofclans.amazon" ; Default CoC Game Package, loaded from config.ini
-					$g_sAndroidGameClass = "com.supercell.titan.amazon.GameAppAmazon" ; Default CoC Game Class, loaded from config.ini
-					$g_sUserGameDistributor = "Amazon" ; User Added CoC Game Distributor, loaded from config.ini
-					$g_sUserGamePackage = "com.supercell.clashofclans.amazon" ; User Added CoC Game Package, loaded from config.ini
-					$g_sUserGameClass = "com.supercell.titan.amazon.GameAppAmazon" ; User Added CoC Game Class, loaded from config.ini
-
+				$g_sAndroidGameDistributor = "Google"
+				$g_sAndroidGamePackage = "com.supercell.clashofclans"
+				$g_sAndroidGameClass = "com.supercell.titan.GameApp"
+				$g_sUserGameDistributor = "Google"
+				$g_sUserGamePackage = "com.supercell.clashofclans"
+				$g_sUserGameClass = "com.supercell.titan.GameApp"
+			ElseIf $MsgBox = 2 Then
+				$g_sAndroidGameDistributor = "Amazon"
+				$g_sAndroidGamePackage = "com.supercell.clashofclans.amazon"
+				$g_sAndroidGameClass = "com.supercell.titan.amazon.GameAppAmazon"
+				$g_sUserGameDistributor = "Amazon"
+				$g_sUserGamePackage = "com.supercell.clashofclans.amazon"
+				$g_sUserGameClass = "com.supercell.titan.amazon.GameAppAmazon"
+			EndIf
+			Local $stext = @CRLF & GetTranslatedFileIni("MBR Popups", "Sure_Game_Distributor_Info", "Are you 100% sure of Game Distributor ?") & @CRLF & @CRLF & _
+			GetTranslatedFileIni("MBR Popups", "Reset_then_restart_bot", "Click Confirm to Reset and then restart the bot (manually)") & @CRLF & @CRLF & GetTranslatedFileIni("MBR Popups", "Cancel_to_exit", -1) & @CRLF
+			Local $MsgBox = _ExtMsgBox(0, GetTranslatedFileIni("MBR Popups", "Confirm_Cancel", "Confirm|Cancel"), GetTranslatedFileIni("MBR Popups", "Reset_Game_Distributor_Info", -1), $stext, 120)
+			If $g_bDebugSetlog Then SetDebugLog("$MsgBox= " & $MsgBox, $COLOR_DEBUG)
+			If $MsgBox = 1 Then
 				SaveConfig()
 				BotClose(False)
-				EndIf
 			EndIf
-
+		EndIf
 		ExitLoop
 	WEnd
 	$g_bRunState = $wasRunState
@@ -957,6 +985,16 @@ Func chkClanGamesBB()
 		$g_bChkForceBBAttackOnClanGames = True
 	Else
 		$g_bChkForceBBAttackOnClanGames = False
+	EndIf
+EndFunc
+
+Func ChkClanGamesPurgeAny()
+	If GUICtrlRead($g_hChkClanGamesPurgeAny) = $GUI_CHECKED Then
+		$g_bChkClanGamesPurgeAny = True
+		GUICtrlSetState($g_hChkClanGamesPurgeAnyClose, $GUI_ENABLE)
+	Else
+		$g_bChkClanGamesPurgeAny = False
+		GUICtrlSetState($g_hChkClanGamesPurgeAnyClose, $GUI_DISABLE)
 	EndIf
 EndFunc
 

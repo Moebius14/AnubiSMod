@@ -179,7 +179,7 @@ Func AttackReport()
 	
 	$AtkLogTxt = "| " & String($g_iCurAccount + 1) & "|" & _NowTime(4) & "|"
 	;Forecast option
-	If $currentForecast <> 0 Then
+	If $currentForecast > 0 Then
 		$AtkLogTxt &= " " & StringFormat("%.1f", $currentForecast) & "|"
 	Else
 		$AtkLogTxt &= " N/A|"
@@ -217,7 +217,7 @@ Func AttackReport()
 	
 	If Int($g_iStatsLastAttack[$eLootTrophy]) >= 0 Then
 		If $g_bChkColorfulAttackLog = 1 Then
-			Local $aColorful[4] = [0xFF0000, 0x8F8F8F, 0x0047D6, 0x3FA800]
+			Local $aColorful[4] = [0xFF0000, 0x8F8F8F, 0x0047D6, 0x378c04]
 			Switch $iStarsEarned
 				Case 1
 					SetAtkLog($AtkLogTxt, $AtkLogTxtExtend, $aColorful[$iStarsEarned])

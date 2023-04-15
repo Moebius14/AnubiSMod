@@ -1736,7 +1736,7 @@ Func CheckScreenAndroid($ClientWidth, $ClientHeight, $bSetLog = True)
 		EndIf
 	Else
 		Switch $g_sAndroidEmulator
-			Case "BlueStacks", "BlueStacks2" ; BlueStacks doesn't support it
+			Case "BlueStacks", "BlueStacks2", "BlueStacks5" ; BlueStacks doesn't support it
 			Case Else
 				SetDebugLog($g_sAndroidEmulator & " Display Font Scale cannot be verified", $COLOR_ERROR)
 		EndSwitch
@@ -1974,6 +1974,8 @@ Func _AndroidAdbLaunchShellInstance($wasRunState = Default, $rebootAndroidIfNecc
 				SetDebugLog("Android Version 5.1")
 			Case $g_iAndroidNougat
 				SetDebugLog("Android Version 7.0")
+			Case $g_iAndroidpie
+				SetDebugLog("Android Version 9.0")
 			Case Else
 				SetDebugLog("Android Version not detected!")
 		EndSwitch
@@ -4054,63 +4056,44 @@ Func CheckAndroidReboot($bRebootAndroid = True)
 
 EndFunc   ;==>CheckAndroidReboot
 
-Func GetAndroidProcessPID($sPackage = Default, $bForeground = True, $iRetryCount = 0)
-	If $sPackage = Default Then $sPackage = $g_sAndroidGamePackage
-	; - USER  - PID - PPID  - VSS  - RSS  -   PRIO - NICE - RTPRIO - SCHED - WCHAN  - EIP    - STATE - NAME
-	; u0_a58    4395  580   1135308 187040     14    -6        0      0     ffffffff 00000000    S      com.supercell.clashofclans
-	; u0_a27    2912  142   663800  98656      30    10        0      3     ffffffff b7591617    S      com.tencent.tmgp.supercell.clashofclans
-	; u0_a26    2740  73    1601704 76380      20    0         0      0     ffffffff b7489435    S      com.supercell.clashofclans.guopan
-	;USER      PID   PPID  VSIZE  RSS  PRIO  NICE  RTPRI SCHED  WCHAN            PC  NAME
-	;u0_a54    12560 84    1336996 189660 10    -10   0     0     futex_wait b7725424 S com.supercell.clashofclans
-	;u0_a54    13303 84    1338548 188464 16    -4    0     0     sys_epoll_ b7725424 S com.supercell.clashofclans
-	If AndroidInvalidState() Then Return 0
-	Local $cmd = "set result=$(ps -p|grep """ & $g_sAndroidGamePackage & """ >&2)"
-	Local $output = AndroidAdbSendShellCommand($cmd)
-	Local $error = @error
-	SetError(0)
-	If $error = 0 Then
-		SetDebugLog("$g_sAndroidGamePackage: " & $g_sAndroidGamePackage)
-		SetDebugLog("GetAndroidProcessPID StdOut :" & $output)
-		$output = StringStripWS($output, 7)
-		Local $aPkgList[0][26] ; adjust to any suffisent size to accommodate
-		Local $iCols
-		_ArrayAdd($aPkgList, $output, 0, " ", @LF, $ARRAYFILL_FORCE_STRING)
-
-		Local $CorrectSCHED = "0"
-		Switch $g_sAndroidGamePackage
-			Case $g_sAndroidGamePackage = "com.tencent.tmgp.supercell.clashofclans"
-				; scheduling policy : SCHED_BATCH = 3
-				$CorrectSCHED = "3"
-			Case Else
-				; scheduling policy : SCHED_NORMAL = 0
-				$CorrectSCHED = "0"
-		EndSwitch
-
-		For $i = 1 To UBound($aPkgList)
-			$iCols = _ArraySearch($aPkgList, "", 0, 0, 0, 0, 1, $i, True)
-			If $iCols > 9 And $aPkgList[$i - 1][$iCols - 1] = $g_sAndroidGamePackage Then
-				; process running
-				If $bForeground = True And $aPkgList[$i - 1][8] <> $CorrectSCHED Then
-					; not foreground
-					If $iRetryCount < 2 Then
-						; retry 2 times
-						Sleep(100)
-						Return GetAndroidProcessPID($sPackage, $bForeground, $iRetryCount + 1)
-					EndIf
-					SetDebugLog("Android process " & $sPackage & " not running in foreground")
-					Return 0
-				EndIf
-				Return Int($aPkgList[$i - 1][1])
+Func GetAndroidProcessPID($sPackage = Default, $bForeground = True, $DEPRECATED = "")
+	Local $iError = 0, $iPid = 0, $sDumpsys = ""
+	For $i = 1 To 3
+		SetDebugLog("[GetAndroidProcessPID][Try: " & $i & "]")
+		If $i <> 1 Then
+			If _Sleep(250) Then
+				Return 0
 			EndIf
-		Next
-	EndIf
-	If $iRetryCount < 2 Then
-		; retry 2 times
-		Sleep(100)
-		Return GetAndroidProcessPID($sPackage, $bForeground, $iRetryCount + 1)
-	EndIf
-	SetDebugLog("Android process " & $sPackage & " not running")
-	Return SetError($error, 0, 0)
+		EndIf
+
+		If AndroidInvalidState() Then
+			$iError = 1
+			ContinueLoop
+		EndIf
+
+		If $sPackage = Default Then $sPackage = $g_sAndroidGamePackage
+
+		$iPid = Number(AndroidAdbSendShellCommand("pidof " & $sPackage))
+		If $iPid > 0 Then
+			SetDebugLog("[GetAndroidProcessPID] $g_sAndroidGamePackage: " & $sPackage)
+			SetDebugLog("[GetAndroidProcessPID] GetAndroidProcessPID StdOut :" & $iPid)
+
+			If $bForeground = False Then
+				$iError = 0
+				ExitLoop
+			EndIf
+
+			$sDumpsys = AndroidAdbSendShellCommand("dumpsys window windows | grep -E 'mCurrentFocus.*" & $sPackage & "'")
+			SetDebugLog("[GetAndroidProcessPID] dumpsys window windows StdOut :" & $sDumpsys)
+
+			If StringInStr($sDumpsys, $sPackage) Then
+				$iError = 0
+				ExitLoop
+			EndIf
+			If $i = 3 Then $iPid = 0
+		EndIf
+	Next
+	Return SetError($iError, 0, $iPid)
 EndFunc   ;==>GetAndroidProcessPID
 
 Func AndroidToFront($hHWndAfter = Default, $sSource = "Unknown")
@@ -4320,13 +4303,13 @@ Func OpenPlayStore($sPackage)
 	AndroidAdbSendShellCommand("am start -a android.intent.action.VIEW -d 'market://details?id=" & $sPackage & "'")
 EndFunc   ;==>OpenPlayStore
 
-;Func OpenPlayStoreGame()
-;	Return OpenPlayStore($g_sUserGamePackage)
-;EndFunc   ;==>OpenPlayStoreGame
+Func OpenPlayStoreGame()
+	Return OpenPlayStore($g_sUserGamePackage)
+EndFunc   ;==>OpenPlayStoreGame
 
-;Func OpenPlayStoreGooglePlayServices()
-;	Return OpenPlayStore("com.google.android.gms")
-;EndFunc   ;==>OpenPlayStoreGooglePlayServices
+Func OpenPlayStoreGooglePlayServices()
+	Return OpenPlayStore("com.google.android.gms")
+EndFunc   ;==>OpenPlayStoreGooglePlayServices
 
 Func OpenPlayStoreNovaLauncher()
 	Return OpenPlayStore("com.teslacoilsw.launcher")
@@ -4450,9 +4433,10 @@ EndFunc   ;==>UpdateAndroidBackgroundMode
 
 Func GetAndroidCodeName($iAPI = $g_iAndroidVersionAPI)
 
+	If $iAPI >= $g_iAndroidpie Then Return "Pie"
 	If $iAPI >= $g_iAndroidNougat Then Return "Nougat"
 	If $iAPI >= $g_iAndroidLollipop Then Return "Lollipop"
-		If $iAPI >= $g_iAndroidKitKat Then Return "KitKat"
+	If $iAPI >= $g_iAndroidKitKat Then Return "KitKat"
 	If $iAPI >= $g_iAndroidJellyBean Then Return "JellyBean"
 
 	SetDebugLog("Unsupported Android API Version: " & $iAPI, $COLOR_ERROR)
@@ -4655,7 +4639,6 @@ Func PushSharedPrefs($sProfile = $g_sProfileCurrentName, $bCloseGameIfRunning = 
 			If FileExists($hostFolder & "\shared_prefs") And $iFilesInShared < 1 Then
 				; copy files
 				If FileCopy($g_sPrivateProfilePath & "\" & $sProfile & "\shared_prefs\*", $hostFolder & "\shared_prefs", $FC_OVERWRITE) And UBound(_FileListToArray($hostFolder & "\shared_prefs", "*", $FLTA_FILES)) - 1 >= $iFiles Then
-
 					AndroidAdbSendShellCommand("set result=$(rm /data/data/" & $g_sAndroidGamePackage & "/shared_prefs/* >&2)")
 					AndroidAdbSendShellCommand("set result=$(cp """ & $androidFolder & "/shared_prefs/""* /data/data/" & $g_sAndroidGamePackage & "/shared_prefs >&2)")
 					$cmdOutput = AndroidAdbSendShellCommand("set result=$(ls -l /data/data/" & $g_sAndroidGamePackage & "/shared_prefs/ >&2)")
@@ -4685,7 +4668,6 @@ Func PushSharedPrefs($sProfile = $g_sProfileCurrentName, $bCloseGameIfRunning = 
 			SetLog($g_sAndroidGamePackage & " has no shared_prefs or cannot be accessed, please launch game first", $COLOR_ERROR)
 		EndIf
 	EndIf
-
 	If $Result Then
 		AndroidAdbSendShellCommand("set result=$(ls -l /data/data/" & $g_sAndroidGamePackage & "/shared_prefs/ >&2)")
 		SetLog("Pushed shared_prefs of profile " & $sProfile & " (" & $iFilesPushed & " files)")

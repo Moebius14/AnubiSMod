@@ -15,7 +15,7 @@
 Func GetAttackBar($bRemaining = False, $pMatchMode = $DB, $bDebug = False)
 	Local Static $aAttackBar[0][8]
 	Local Static $bDoubleRow = False, $bCheckSlot12 = False
-	Local $sSearchDiamond = GetDiamondFromRect2(0,575 + $g_iBottomOffsetY,858,638 + $g_iBottomOffsetY)
+	Local $sSearchDiamond = GetDiamondFromRect2(0, 575 + $g_iBottomOffsetY, 858, 638 + $g_iBottomOffsetY)
 	Local $iYBelowRowOne = 630, $aiOCRLocation[2] = [-1, -1], $aSlotAmountX[0][3]
 	Local $g_bCheckExtAttackBar = True
 

@@ -16,6 +16,9 @@
 
 Global $g_hChkSearchReduction = 0, $g_hTxtSearchReduceCount = 0, $g_hTxtSearchReduceGold = 0, $g_hTxtSearchReduceElixir = 0, $g_hTxtSearchReduceGoldPlusElixir = 0, _
 	   $g_hTxtSearchReduceDark = 0, $g_hTxtSearchReduceTrophy = 0
+	   
+Global $g_hChkSearchReductionStorage = 0, $g_hTxtSearchReduceGoldMod = 0, $g_hTxtSearchReduceElixirMod = 0, $g_hTxtSearchReduceDarkMod = 0   
+	   
 Global $g_hSldVSDelay = 0, $g_hSldMaxVSDelay = 0
 Global $g_hChkAttackNow = 0, $g_hCmbAttackNowDelay = 0, $g_hChkRestartSearchLimit = 0, $g_hTxtRestartSearchlimitMin = 0, $g_hTxtRestartSearchlimitMax = 0, $g_hChkAlertSearch = 0, $g_hLblRestartSearchlimit = 0, _
 	   $g_hLblRestartSearchlimitunit = 0, $g_hLblRestartSearchlimitAnd = 0
@@ -29,7 +32,7 @@ Func CreateAttackSearchOptionsSearch()
 
 	Local $sTxtTip = ""
 	Local $x = 25, $y = 45
-	GUICtrlCreateGroup(GetTranslatedFileIni("MBR GUI Design Child Attack - Options-Search", "Group_01", "Search Reduction"), $x - 20, $y - 20, 223, 165)
+	GUICtrlCreateGroup(GetTranslatedFileIni("MBR GUI Design Child Attack - Options-Search", "Group_01", "Search Reduction"), $x - 20, $y - 20, 223, 258)
 	$x -= 13
 		$g_hChkSearchReduction = GUICtrlCreateCheckbox(GetTranslatedFileIni("MBR GUI Design Child Attack - Options-Search", "ChkSearchReduction", "Enable Search Reduction"), $x, $y - 4, -1, -1)
 			_GUICtrlSetTip(-1, GetTranslatedFileIni("MBR GUI Design Child Attack - Options-Search", "ChkSearchReduction_Info_01", "Check this if you want the search values to automatically be lowered after a certain amount of searches."))
@@ -90,7 +93,7 @@ Func CreateAttackSearchOptionsSearch()
 			_GUICtrlSetTip(-1, $sTxtTip)
 
 	$y += 21
-		GUICtrlCreateLabel(GetTranslatedFileIni("MBR GUI Design Child Attack - Options-Search", "LblSearchReduceTrophy", "- Reduce Tropies"), $x, $y + 3, -1, 17)
+		GUICtrlCreateLabel(GetTranslatedFileIni("MBR GUI Design Child Attack - Options-Search", "LblSearchReduceTrophy", "- Reduce Trophies"), $x, $y + 3, -1, 17)
 			$sTxtTip = GetTranslatedFileIni("MBR GUI Design Child Attack - Options-Search", "LblSearchReduceTrophy_Info_01", "Lower value for Trophies by this amount on each step.")
 			_GUICtrlSetTip(-1, $sTxtTip)
 		$g_hTxtSearchReduceTrophy = GUICtrlCreateInput("2", $x + 115, $y, 40, 18, BitOR($GUI_SS_DEFAULT_INPUT, $ES_CENTER, $ES_NUMBER))
@@ -98,10 +101,46 @@ Func CreateAttackSearchOptionsSearch()
 			GUICtrlSetLimit(-1, 1)
 		_GUICtrlCreateIcon($g_sLibIconPath, $eIcnTrophy, $x + 160, $y, 16, 16)
 			_GUICtrlSetTip(-1, $sTxtTip)
+			
+	$y += 25
+		$g_hChkSearchReductionStorage = GUICtrlCreateCheckbox(GetTranslatedFileIni("MBR GUI Design Child Attack - Options-Search", "ChkSearchReductionStorage", "Enable Search Reduction (Storage)"), $x, $y - 4, -1, -1)
+			_GUICtrlSetTip(-1, GetTranslatedFileIni("MBR GUI Design Child Attack - Options-Search", "ChkSearchReductionStorage_Info_01", "Check this if you want the search values to automatically be lowered When Storage is Full."))
+			GUICtrlSetState(-1, $GUI_UNCHECKED)	
+			GUICtrlSetOnEvent(-1, "chkSearchReductionStorage")			
+			
+	$y += 21
+		GUICtrlCreateLabel(GetTranslatedFileIni("MBR GUI Design Child Attack - Options-Search", "LblSearchReduceGold", "- Reduce Gold"), $x, $y + 3, -1, 17)
+			$sTxtTip = GetTranslatedFileIni("MBR GUI Design Child Attack - Options-Search", "LblSearchReduceGoldMod_Info_01", "Lower value for Gold To this amount on each step, When Gold Storage is Full.")
+			_GUICtrlSetTip(-1, $sTxtTip)
+		$g_hTxtSearchReduceGoldMod = GUICtrlCreateInput("2000", $x + 115, $y, 40, 18, BitOR($GUI_SS_DEFAULT_INPUT, $ES_CENTER, $ES_NUMBER))
+			_GUICtrlSetTip(-1, $sTxtTip)
+			GUICtrlSetLimit(-1, 5)
+		_GUICtrlCreateIcon($g_sLibIconPath, $eIcnGold, $x + 160, $y, 16, 16)
+			_GUICtrlSetTip(-1, $sTxtTip)
+
+	$y += 21
+		GUICtrlCreateLabel(GetTranslatedFileIni("MBR GUI Design Child Attack - Options-Search", "LblSearchReduceElixir", "- Reduce Elixir"), $x, $y + 3, -1, 17)
+			$sTxtTip = GetTranslatedFileIni("MBR GUI Design Child Attack - Options-Search", "LblSearchReduceElixirMod_Info_01", "Lower value for Elixir To this amount on each step, When Elixir Storage is Full.")
+			_GUICtrlSetTip(-1, $sTxtTip)
+		$g_hTxtSearchReduceElixirMod = GUICtrlCreateInput("2000", $x + 115, $y, 40, 18, BitOR($GUI_SS_DEFAULT_INPUT, $ES_CENTER, $ES_NUMBER))
+			_GUICtrlSetTip(-1, $sTxtTip)
+			GUICtrlSetLimit(-1, 5)
+		_GUICtrlCreateIcon($g_sLibIconPath, $eIcnElixir, $x + 160, $y, 16, 16)
+			_GUICtrlSetTip(-1, $sTxtTip)
+
+	$y += 21
+		GUICtrlCreateLabel(GetTranslatedFileIni("MBR GUI Design Child Attack - Options-Search", "LblSearchReduceDark", "- Reduce Dark Elixir"), $x, $y + 3, -1, 17)
+			$sTxtTip = GetTranslatedFileIni("MBR GUI Design Child Attack - Options-Search", "LblSearchReduceDarkMod_Info_01", "Lower value for Dark Elixir To this amount on each step, When Dark Elixir Storage is Full.")
+			_GUICtrlSetTip(-1, $sTxtTip)
+		$g_hTxtSearchReduceDarkMod = GUICtrlCreateInput("100", $x + 115, $y, 40, 18, BitOR($GUI_SS_DEFAULT_INPUT, $ES_CENTER, $ES_NUMBER))
+			_GUICtrlSetTip(-1, $sTxtTip)
+			GUICtrlSetLimit(-1, 3)
+		_GUICtrlCreateIcon($g_sLibIconPath, $eIcnDark, $x + 160, $y, 16, 16)
+			_GUICtrlSetTip(-1, $sTxtTip)		
 	GUICtrlCreateGroup("", -99, -99, 1, 1)
 
 	$x = 25
-	$y = 212
+	$y = 305
 	GUICtrlCreateGroup(GetTranslatedFileIni("MBR GUI Design Child Attack - Options-Search", "Group_02", "Village Search Delay"), $x - 20, $y - 20, 223, 72)
 	$x += 20
 		$sTxtTip = GetTranslatedFileIni("MBR GUI Design Child Attack - Options-Search", "LblMinVSDelay_Info_01", "Use this slider to change the time to wait between Next clicks when searching for a Village to Attack.") & @CRLF & _

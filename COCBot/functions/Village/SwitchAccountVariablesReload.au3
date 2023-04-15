@@ -130,9 +130,11 @@ Func SwitchAccountVariablesReload($sType = "Load", $iAccount = $g_iCurAccount)
 	Static $iSRandomAttackCGCountToday = $aiZero
 	Static $IsSAttackCGRandomEnable = $aiZero
 	Static $gSbIsBBevent = $aiZero
+	Static $SIsCGEventRunning = $aiZero
 	
 	$g_hCoolDownTimer = 0
 	$g_bIsCGCoolDownTime = False
+	$sPurgeTimeCG = 0
 
 	; First time switch account
 	Switch $sType
@@ -246,6 +248,7 @@ Func SwitchAccountVariablesReload($sType = "Load", $iAccount = $g_iCurAccount)
 			$iSRandomAttackCGCountToday = $aiZero
 			$IsSAttackCGRandomEnable = $aiZero
 			$gSbIsBBevent = $aiZero
+			$SIsCGEventRunning = $aiZero
 			
 			; Hero State
 			$aiHeroAvailable = $aiZero
@@ -420,6 +423,7 @@ Func SwitchAccountVariablesReload($sType = "Load", $iAccount = $g_iCurAccount)
 			$iSRandomAttackCGCountToday[$iAccount] = $iRandomAttackCGCountToday
 			$IsSAttackCGRandomEnable[$iAccount] = $IsAttackCGRandomEnable
 			$gSbIsBBevent[$iAccount] = $g_bIsBBevent
+			$SIsCGEventRunning[$iAccount] = $IsCGEventRunning
 
 			; Hero State
 			$aiHeroAvailable[$iAccount] = $g_iHeroAvailable
@@ -586,6 +590,7 @@ Func SwitchAccountVariablesReload($sType = "Load", $iAccount = $g_iCurAccount)
 			$iRandomAttackCGCountToday = $iSRandomAttackCGCountToday[$iAccount]
 			$IsAttackCGRandomEnable = $IsSAttackCGRandomEnable[$iAccount]
 			$g_bIsBBevent = $gSbIsBBevent[$iAccount]
+			$IsCGEventRunning = $SIsCGEventRunning[$iAccount]
 			
 			; Hero State
 			$g_iHeroAvailable = $aiHeroAvailable[$iAccount]

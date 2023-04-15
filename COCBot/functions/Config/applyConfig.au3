@@ -301,6 +301,7 @@ Func ApplyConfig_600_6($TypeReadSave)
 				GUICtrlSetData($g_ahTxtResumeAttackLoot[$i], $g_aiResumeAttackLoot[$i])
 			Next
 			GUICtrlSetState($g_hChkCollectStarBonus, $g_bCollectStarBonus ? $GUI_CHECKED : $GUI_UNCHECKED)
+			GUICtrlSetState($g_hChkCCTreasuryFull, $g_bCCTreasuryFull ? $GUI_CHECKED : $GUI_UNCHECKED)
 			_GUICtrlComboBox_SetCurSel($g_hCmbTimeStop, $g_iCmbTimeStop)
 			_GUICtrlComboBox_SetCurSel($g_hCmbResumeTime, $g_iResumeAttackTime)
 			chkBotStop()
@@ -382,13 +383,16 @@ Func ApplyConfig_600_6($TypeReadSave)
 			GUICtrlSetState($g_hChkCGBBTroops, $g_bChkClanGamesBBTroops ? $GUI_CHECKED : $GUI_UNCHECKED)
 
 			GUICtrlSetState($g_hChkForceBBAttackOnClanGames, $g_bChkForceBBAttackOnClanGames ? $GUI_CHECKED : $GUI_UNCHECKED)
+			GUICtrlSetState($g_hChkForceAttackOnClanGamesWhenHalt, $g_bChkForceAttackOnClanGamesWhenHalt ? $GUI_CHECKED : $GUI_UNCHECKED)
 			GUICtrlSetState($hSearchBBEventFirst, $bSearchBBEventFirst ? $GUI_CHECKED : $GUI_UNCHECKED)
 			GUICtrlSetState($hSearchMainEventFirst, $bSearchMainEventFirst ? $GUI_CHECKED : $GUI_UNCHECKED)
 			GUICtrlSetState($hSearchBothVillages, $bSearchBothVillages ? $GUI_CHECKED : $GUI_UNCHECKED)
 			GUICtrlSetState($g_hChkClanGamesPurgeAny, $g_bChkClanGamesPurgeAny ? $GUI_CHECKED : $GUI_UNCHECKED)
+			GUICtrlSetState($g_hChkClanGamesPurgeAnyClose, $g_bChkClanGamesPurgeAnyClose ? $GUI_CHECKED : $GUI_UNCHECKED)
 			GUICtrlSetState($g_hChkClanGamesStopBeforeReachAndPurge, $g_bChkClanGamesStopBeforeReachAndPurge ? $GUI_CHECKED : $GUI_UNCHECKED)
 			GUICtrlSetState($g_hChkClanGamesSort, $g_bSortClanGames ? $GUI_CHECKED : $GUI_UNCHECKED)
 			_GUICtrlComboBox_SetCurSel($g_hCmbClanGamesSort, $g_iSortClanGames)
+			ChkClanGamesPurgeAny()
 			chkSortClanGames()
 
 			For $i = 0 To UBound($g_ahCGMainLootItem) - 1
@@ -530,6 +534,7 @@ Func ApplyConfig_600_6($TypeReadSave)
 				$g_aiResumeAttackLoot[$i] = GUICtrlRead($g_ahTxtResumeAttackLoot[$i])
 			Next
 			$g_bCollectStarBonus = (GUICtrlRead($g_hChkCollectStarBonus) = $GUI_CHECKED)
+			$g_bCCTreasuryFull = (GUICtrlRead($g_hChkCCTreasuryFull) = $GUI_CHECKED)
 			$g_iCmbTimeStop = _GUICtrlComboBox_GetCurSel($g_hCmbTimeStop)
 			$g_iResumeAttackTime = _GUICtrlComboBox_GetCurSel($g_hCmbResumeTime)
 
@@ -600,10 +605,12 @@ Func ApplyConfig_600_6($TypeReadSave)
 			$g_bChkClanGamesBBTroops = BitAND(GUICtrlRead($g_hChkCGBBTroops), $GUI_CHECKED) ? 1 : 0
 
 			$g_bChkForceBBAttackOnClanGames = (GUICtrlRead($g_hChkForceBBAttackOnClanGames) = $GUI_CHECKED) ? 1 : 0
+			$g_bChkForceAttackOnClanGamesWhenHalt = (GUICtrlRead($g_hChkForceAttackOnClanGamesWhenHalt) = $GUI_CHECKED) ? 1 : 0
 			$bSearchBBEventFirst = (GUICtrlRead($hSearchBBEventFirst) = $GUI_CHECKED) ? 1 : 0
 			$bSearchMainEventFirst = (GUICtrlRead($hSearchMainEventFirst) = $GUI_CHECKED) ? 1 : 0
 			$bSearchBothVillages = (GUICtrlRead($hSearchBothVillages) = $GUI_CHECKED) ? 1 : 0
 			$g_bChkClanGamesPurgeAny = (GUICtrlRead($g_hChkClanGamesPurgeAny) = $GUI_CHECKED) ? 1 : 0
+			$g_bChkClanGamesPurgeAnyClose = (GUICtrlRead($g_hChkClanGamesPurgeAnyClose) = $GUI_CHECKED) ? 1 : 0
 			$g_bChkClanGamesStopBeforeReachAndPurge = (GUICtrlRead($g_hChkClanGamesStopBeforeReachAndPurge) = $GUI_CHECKED) ? 1 : 0
 			$g_bSortClanGames = (GUICtrlRead($g_hChkClanGamesSort) = $GUI_CHECKED) ? 1 : 0
 			$g_iSortClanGames = _GUICtrlComboBox_GetCurSel($g_hCmbClanGamesSort)
@@ -1347,6 +1354,11 @@ Func ApplyConfig_600_28($TypeReadSave)
 			GUICtrlSetData($g_hTxtSearchReduceGoldPlusElixir, $g_iSearchReductionGoldPlusElixir)
 			GUICtrlSetData($g_hTxtSearchReduceDark, $g_iSearchReductionDark)
 			GUICtrlSetData($g_hTxtSearchReduceTrophy, $g_iSearchReductionTrophy)
+			GUICtrlSetState($g_hChkSearchReductionStorage, $g_bSearchReductionStorageEnable ? $GUI_CHECKED : $GUI_UNCHECKED)
+			chkSearchReductionStorage()
+			GUICtrlSetData($g_hTxtSearchReduceGoldMod, $g_iSearchReductionGoldMod)
+			GUICtrlSetData($g_hTxtSearchReduceElixirMod, $g_iSearchReductionElixirMod)
+			GUICtrlSetData($g_hTxtSearchReduceDarkMod, $g_iSearchReductionDarkMod)
 			If $g_iSearchDelayMin > $g_iSearchDelayMax Then $g_iSearchDelayMax = $g_iSearchDelayMin ; check for illegal condition
 			GUICtrlSetData($g_hSldVSDelay, $g_iSearchDelayMin)
 			GUICtrlSetData($g_hLblVSDelay, $g_iSearchDelayMin)
@@ -1373,6 +1385,10 @@ Func ApplyConfig_600_28($TypeReadSave)
 			$g_iSearchReductionGoldPlusElixir = GUICtrlRead($g_hTxtSearchReduceGoldPlusElixir)
 			$g_iSearchReductionDark = GUICtrlRead($g_hTxtSearchReduceDark)
 			$g_iSearchReductionTrophy = GUICtrlRead($g_hTxtSearchReduceTrophy)
+			$g_bSearchReductionStorageEnable = (GUICtrlRead($g_hChkSearchReductionStorage) = $GUI_CHECKED)
+			$g_iSearchReductionGoldMod = GUICtrlRead($g_hTxtSearchReduceGoldMod)
+			$g_iSearchReductionElixirMod = GUICtrlRead($g_hTxtSearchReduceElixirMod)
+			$g_iSearchReductionDarkMod = GUICtrlRead($g_hTxtSearchReduceDarkMod)
 			$g_iSearchDelayMin = GUICtrlRead($g_hSldVSDelay)
 			$g_iSearchDelayMax = GUICtrlRead($g_hSldMaxVSDelay)
 			$g_bSearchAttackNowEnable = (GUICtrlRead($g_hChkAttackNow) = $GUI_CHECKED)

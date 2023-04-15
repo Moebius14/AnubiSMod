@@ -118,6 +118,7 @@ Func BoostEverything()
 
 	If $g_bForecastBoostEnable = True And IsForecastBoostAllowed() Then
 		$ActionForModLog = "Boosting Everything"
+		If $IsForecastDown Then $currentForecast = "N/A"
 		If $g_iTxtCurrentVillageName <> "" Then
 			GUICtrlSetData($g_hTxtModLog, @CRLF & _NowTime() & " [" & $g_iTxtCurrentVillageName & "] Forecaster : " & $ActionForModLog & " At "& $currentForecast & " Score", 1)
 		Else
