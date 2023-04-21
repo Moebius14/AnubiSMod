@@ -128,6 +128,14 @@ Func TxtRestartSearchlimitMax()
 		GUICtrlSetData($g_hTxtRestartSearchlimitMax, GUICtrlRead($g_hTxtRestartSearchlimitMin))
 	EndIf
 	$g_iSearchRestartLimitMax = Int(GUICtrlRead($g_hTxtRestartSearchlimitMax))
+	If Int(GUICtrlRead($g_hTxtRestartSearchlimitMinPause)) < Int(GUICtrlRead($g_hTxtRestartSearchlimitMax)) Then
+		GUICtrlSetData($g_hTxtRestartSearchlimitMinPause, GUICtrlRead($g_hTxtRestartSearchlimitMax))
+		$g_iSearchRestartLimitMinPause = Int(GUICtrlRead($g_hTxtRestartSearchlimitMinPause))
+		If Int(GUICtrlRead($g_hTxtRestartSearchlimitMaxPause)) < Int(GUICtrlRead($g_hTxtRestartSearchlimitMinPause)) Then
+			GUICtrlSetData($g_hTxtRestartSearchlimitMaxPause, GUICtrlRead($g_hTxtRestartSearchlimitMinPause))
+			$g_iSearchRestartLimitMaxPause = Int(GUICtrlRead($g_hTxtRestartSearchlimitMaxPause))
+		EndIf
+	EndIf
 EndFunc   ;==>TxtRestartSearchlimitMax
 
 Func TxtRestartSearchlimitMinPause()
@@ -135,6 +143,14 @@ Func TxtRestartSearchlimitMinPause()
 		GUICtrlSetData($g_hTxtRestartSearchlimitMinPause, GUICtrlRead($g_hTxtRestartSearchlimitMaxPause))
 	EndIf
 	$g_iSearchRestartLimitMinPause = Int(GUICtrlRead($g_hTxtRestartSearchlimitMinPause))
+	If Int(GUICtrlRead($g_hTxtRestartSearchlimitMinPause)) < Int(GUICtrlRead($g_hTxtRestartSearchlimitMax)) Then
+		GUICtrlSetData($g_hTxtRestartSearchlimitMax, GUICtrlRead($g_hTxtRestartSearchlimitMinPause))
+		$g_iSearchRestartLimitMax = Int(GUICtrlRead($g_hTxtRestartSearchlimitMax))
+		If Int(GUICtrlRead($g_hTxtRestartSearchlimitMax)) < Int(GUICtrlRead($g_hTxtRestartSearchlimitMin)) Then
+			GUICtrlSetData($g_hTxtRestartSearchlimitMin, GUICtrlRead($g_hTxtRestartSearchlimitMax))
+			$g_iSearchRestartLimitMin = Int(GUICtrlRead($g_hTxtRestartSearchlimitMin))
+		EndIf
+	EndIf
 EndFunc   ;==>TxtRestartSearchlimitMinPause
 
 Func TxtRestartSearchlimitMaxPause()

@@ -24,7 +24,7 @@ Global $g_hChkAttackNow = 0, $g_hCmbAttackNowDelay = 0, $g_hChkRestartSearchLimi
 	   $g_hLblRestartSearchlimitunit = 0, $g_hLblRestartSearchlimitAnd = 0
 Global $g_hLblRestartSearchlimitPause = 0, $g_hTxtRestartSearchlimitMinPause = 0, $g_hLblRestartSearchlimitAndPause = 0, $g_hTxtRestartSearchlimitMaxPause = 0, $g_hLblRestartSearchlimitunitPause = 0, _
        $g_hLabelSearchesPauseInterval = 0, $g_hSearchesPauseIntervalMin = 0, $g_hSearchesPauseIntervalAnd = 0, $g_hSearchesPauseIntervalMax = 0, $g_hSearchesPauseIntervalUnit = 0
-
+Global $g_hLblRestartSearchlimitFromPause = 0, $g_hSearchesPauseIntervalFrom = 0
 Global $g_hLblVSDelay = 0, $g_hLblTextVSDelay = 0, $g_hLblMaxVSDelay = 0, $g_hLblTextMaxVSDelay = 0, $g_hLblAttackNow = 0, $g_hLblAttackNowSec = 0
 Global $g_hChkRestartSearchPickupHero = 0
 
@@ -104,7 +104,8 @@ Func CreateAttackSearchOptionsSearch()
 			
 	$y += 25
 		$g_hChkSearchReductionStorage = GUICtrlCreateCheckbox(GetTranslatedFileIni("MBR GUI Design Child Attack - Options-Search", "ChkSearchReductionStorage", "Enable Search Reduction (Storage)"), $x, $y - 4, -1, -1)
-			_GUICtrlSetTip(-1, GetTranslatedFileIni("MBR GUI Design Child Attack - Options-Search", "ChkSearchReductionStorage_Info_01", "Check this if you want the search values to automatically be lowered When Storage is Full."))
+			_GUICtrlSetTip(-1, GetTranslatedFileIni("MBR GUI Design Child Attack - Options-Search", "ChkSearchReductionStorage_Info_01", "Check this if you want the search values to automatically be lowered When Storage is Full.") & @CRLF & _
+							   GetTranslatedFileIni("MBR GUI Design Child Attack - Options-Search", "ChkSearchReductionStorage_Info_02", "WILL ONLY REDUCE GOLD/ELIXIR AIM WHEN ""G And E"" SEARCH MODE."))
 			GUICtrlSetState(-1, $GUI_UNCHECKED)	
 			GUICtrlSetOnEvent(-1, "chkSearchReductionStorage")			
 			
@@ -220,7 +221,8 @@ Func CreateAttackSearchOptionsSearch()
 		
 	$y += 45
 		$sTxtTip = GetTranslatedFileIni("MBR GUI Design Child Attack - Options-Search", "ChkRestartSearchLimit_Info_02", "Return To Base And Pause after x-between searches.")
-		$g_hLblRestartSearchlimitPause = GUICtrlCreateLabel("Pause Bot If Searches Reach From :", $x - 5, $y , -1, -1)
+		$g_hLblRestartSearchlimitPause = GUICtrlCreateLabel("Pause Bot If Searches Reach :", $x - 5, $y , -1, -1)
+		$g_hLblRestartSearchlimitFromPause = GUICtrlCreateLabel("From", $x + 5, $y + 19, 35, -1)
 		$g_hTxtRestartSearchlimitMinPause = GUICtrlCreateInput("70", $x + 32, $y + 17, 25, 18, BitOR($GUI_SS_DEFAULT_INPUT, $ES_CENTER, $ES_NUMBER))
 			_GUICtrlSetTip(-1, $sTxtTip)
 			GUICtrlSetLimit(-1, 2)
@@ -230,16 +232,17 @@ Func CreateAttackSearchOptionsSearch()
 			_GUICtrlSetTip(-1, $sTxtTip)
 			GUICtrlSetLimit(-1, 2)
 			GUICtrlSetOnEvent(-1, "TxtRestartSearchlimitMaxPause")
-		$g_hLblRestartSearchlimitunitPause = GUICtrlCreateLabel("searches.", $x + 112, $y + 17, -1, -1)
+		$g_hLblRestartSearchlimitunitPause = GUICtrlCreateLabel("searches.", $x + 112, $y + 19, -1, -1)
 		
 	$y += 45
 		$sTxtTip = GetTranslatedFileIni("MBR GUI Design Child Attack - Options-Search", "ChkRestartSearchLimit_Info_03", "Pause Time after x-between Too Much searches.")
-		$g_hLabelSearchesPauseInterval = GUICtrlCreateLabel("Time Before Restart Bot Between :", $x - 5, $y , -1, -1)
+		$g_hLabelSearchesPauseInterval = GUICtrlCreateLabel("Time Before Restart Bot :", $x - 5, $y , -1, -1)
+		$g_hSearchesPauseIntervalFrom = GUICtrlCreateLabel("From", $x + 5, $y + 19, 35, -1)
 		$g_hSearchesPauseIntervalMin = GUICtrlCreateInput("3", $x + 32, $y + 17, 25, 18, BitOR($GUI_SS_DEFAULT_INPUT, $ES_CENTER, $ES_NUMBER))
 			_GUICtrlSetTip(-1, $sTxtTip)
 			GUICtrlSetLimit(-1, 2)
 			GUICtrlSetOnEvent(-1, "SearchesPauseIntervalMin")
-		$g_hSearchesPauseIntervalAnd = GUICtrlCreateLabel("And", $x + 61, $y + 19, 20, -1)
+		$g_hSearchesPauseIntervalAnd = GUICtrlCreateLabel("To", $x + 64, $y + 19, 20, -1)
 		$g_hSearchesPauseIntervalMax = GUICtrlCreateInput("7", $x + 82, $y + 17, 25, 18, BitOR($GUI_SS_DEFAULT_INPUT, $ES_CENTER, $ES_NUMBER))
 			_GUICtrlSetTip(-1, $sTxtTip)
 			GUICtrlSetLimit(-1, 2)

@@ -36,13 +36,9 @@ Func CompareResources($pMode) ;Compares resources and returns true if conditions
 	EndIf
 	
 	If $g_bSearchReductionStorageEnable Then
-		If $g_abFullStorage[$eLootGold] Then $g_iAimGold[$pMode] = $g_iSearchReductionGoldMod
-		If $g_abFullStorage[$eLootElixir] Then $g_iAimElixir[$pMode] = $g_iSearchReductionElixirMod
+		If $g_abFullStorage[$eLootGold] And $g_aiFilterMeetGE[$pMode] = 0 Then $g_iAimGold[$pMode] = $g_iSearchReductionGoldMod
+		If $g_abFullStorage[$eLootElixir] And $g_aiFilterMeetGE[$pMode] = 0 Then $g_iAimElixir[$pMode] = $g_iSearchReductionElixirMod
 		If $g_abFullStorage[$eLootDarkElixir] Then $g_iAimDark[$pMode] = $g_iSearchReductionDarkMod
-		If ($g_abFullStorage[$eLootGold] Or $g_abFullStorage[$eLootElixir]) And $g_aiFilterMeetGE[$pMode] = 2 Then
-			If $g_abFullStorage[$eLootGold] Then $g_iAimGoldPlusElixir[$pMode] = $g_aiFilterMinElixir[$pMode] + $g_iSearchReductionGoldMod
-			If $g_abFullStorage[$eLootElixir] Then $g_iAimGoldPlusElixir[$pMode] = $g_aiFilterMinGold[$pMode] + $g_iSearchReductionElixirMod
-		EndIf
 	EndIf
 
 	Local $bGoldMet = (Number($g_iSearchGold) >= Number($g_iAimGold[$pMode])), $bElixirMet = (Number($g_iSearchElixir) >= Number($g_iAimElixir[$pMode]))

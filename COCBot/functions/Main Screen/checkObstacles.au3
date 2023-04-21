@@ -384,7 +384,7 @@ Func CheckAllObstacles($bDebugImageSave = $g_bDebugImageSave, $MinType = 0, $Max
 		$aiObstacleType[$i][0] = decodeSingleCoord(FindImageInPlace2("ErrorType", $aiObstacleType[$i][2], $aiObstacleType[$i][3], $aiObstacleType[$i][4] + _
 								 $g_iMidOffsetY, $aiObstacleType[$i][5], $aiObstacleType[$i][6] + $g_iMidOffsetY, False))
 
-		If IsArray($aiObstacleType[$i][0]) and UBound($aiObstacleType[$i][0], 1) = 2 Then
+		If IsArray($aiObstacleType[$i][0]) And UBound($aiObstacleType[$i][0], 1) = 2 Then
 
 			SetLog($aiObstacleType[$i][1] & " (in " & Round(TimerDiff($hTimer) / 1000, 2) & " seconds)", $COLOR_INFO)
 		
@@ -470,7 +470,7 @@ Func CheckAllObstacles($bDebugImageSave = $g_bDebugImageSave, $MinType = 0, $Max
 	Next	
 	
 	SetDebugLog("No Obstacle Window found! (in " & Round(TimerDiff($hTimer) / 1000, 2) & " seconds)", $COLOR_DEBUG)
-
+	
 	Return $bRet
 
 EndFunc

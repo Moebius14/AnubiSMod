@@ -46,12 +46,13 @@ Func waitMainScreen() ;Waits for main screen to popup
 		If Mod($i, 5) = 0 Then ;every 10 seconds
 			If $g_bDebugImageSave Then SaveDebugImage("WaitMainScreen_", False)
 		EndIf
+		
 		If ($i > 105) Or ($iCount > 120) Then ExitLoop ; If CheckObstacles forces reset, limit total time to 4 minutes
 
 		If TestCapture() Then
 			Return "Main screen not available"
 		EndIf
-
+		
 	Next
 
 	;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;

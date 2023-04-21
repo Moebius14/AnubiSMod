@@ -17,10 +17,18 @@ Func _ClanGames($test = False)
 
 	Local $currentDate = Number(@MDAY)
 	
-	;Prevent checking clangames before date 22 (clangames should start on 22 and end on 28 or 29) depends on how many tiers/maxpoint
-	If $currentDate < 22 Then
+	;Prevent checking clangames before date 20 (clangames should start on 22 and end on 28 or 29) depends on how many tiers/maxpoint
+	If $currentDate < 20 Then
 		SetDebugLog("Current date : " & $currentDate & " --> Skip Clan Games", $COLOR_INFO)
 		Return
+	EndIf
+	
+	If $currentDate > 19 And $currentDate < 23 Then
+		If Not UTCTimeCG() Then
+			Local Static $iLastTimeChecked[8] = [0, 0, 0, 0, 0, 0, 0, 0]
+			If $iLastTimeChecked[$g_iCurAccount] = @MDAY Then Return
+			$iLastTimeChecked[$g_iCurAccount] = @MDAY
+		EndIf
 	EndIf
 	
 	Local $sFound = False
@@ -1946,4 +1954,36 @@ Func IsCGCoolDownTime()
 	EndIf
 	
 	Return $g_bIsCGCoolDownTime
+EndFunc
+
+Func UTCTimeCG()
+	Local $Time, $DayUTC, $TimeHourUTC
+	If _Sleep(100) Then Return
+	Local $String = BinaryToString(InetRead("http://worldtimeapi.org/api/timezone/Etc/UTC.txt",1))
+	Local $ErrorCycle = 0
+	While @error <> 0
+		$String = BinaryToString(InetRead("http://worldtimeapi.org/api/timezone/Etc/UTC.txt",1))
+		If @error <> 0 Then
+			$ErrorCycle += 1
+		Else
+			ExitLoop
+		EndIf
+		If _Sleep(100) Then Return
+		If $ErrorCycle = 10 Then ExitLoop
+	WEnd
+	If $ErrorCycle = 10 And Number(@MDAY) = 22 Then Return True
+	$Time = StringRegExp($String,'datetime: (.+?)T(\d+:\d+:\d+)', $STR_REGEXPARRAYMATCH)
+
+	If IsArray($Time) And UBound($Time) > 0 Then
+		$DayUTC = StringSplit($Time[0], "-", $STR_NOCOUNT)
+		$TimeHourUTC = StringSplit($Time[1], ":", $STR_NOCOUNT)
+	Else
+		If Number(@MDAY) = 22 Then Return True
+	EndIf
+	If IsArray($TimeHourUTC) And UBound($TimeHourUTC) > 0 Then
+		If $TimeHourUTC[0] > 6 And $DayUTC[2] = 22 Then Return True;Clan Games begins the 22th at 8am utc.
+	Else
+		If Number(@MDAY) = 22 Then Return True
+	EndIf
+	Return False
 EndFunc

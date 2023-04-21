@@ -955,8 +955,9 @@ Func CheckLoginWithSupercellIDScreen()
 
 	If Not $g_bRunState Then Return
 
-	; Account List check be there, validate with imgloc
-	Local $aiLogin = decodeSingleCoord(FindImageInPlace2("LoginWithSupercellID", $g_sImgLoginWithSupercellID, 100, 595 + $g_iBottomOffsetY, 425, 655 + $g_iBottomOffsetY, False))
+	; "Log in with Supercell ID" check be there, validate with imgloc
+	;Local $aiLogin = decodeSingleCoord(FindImageInPlace2("LoginWithSupercellID", $g_sImgLoginWithSupercellID, 100, 595 + $g_iBottomOffsetY, 425, 655 + $g_iBottomOffsetY, False))
+	Local $aiLogin = decodeSingleCoord(findImage("LoginWithSupercellID", $g_sImgLoginWithSupercellID, GetDiamondFromRect("100,655,425,715"), 1, True, Default)); just in case of more than 1 point detected
 
 	If IsArray($aiLogin) And Ubound($aiLogin) = 2 Then
 		Local $iAccount = 0 ; default first account on list

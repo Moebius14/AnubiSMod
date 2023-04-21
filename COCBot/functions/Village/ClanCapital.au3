@@ -1959,6 +1959,7 @@ Func PicCCTrophies()
 EndFunc   ;==>PicCCTrophies
 
 Func UTCTime()
+	Local $Day, $Time, $TimeHourUTC
 	If _Sleep(100) Then Return
 	Local $String = BinaryToString(InetRead("http://worldtimeapi.org/api/timezone/Etc/UTC.txt",1))
 	Local $ErrorCycle = 0
@@ -1969,14 +1970,14 @@ Func UTCTime()
 		Else
 			ExitLoop
 		EndIf
-		If _Sleep(200) Then Return
-		If $ErrorCycle = 15 Then ExitLoop
+		If _Sleep(100) Then Return
+		If $ErrorCycle = 10 Then ExitLoop
 	WEnd
-	If $ErrorCycle = 15 And @WDAY = 6 Then Return True
-	Local $Day = StringRegExp($String,'day_of_week: (.+?)', $STR_REGEXPARRAYMATCH)
-	Local $Time = StringRegExp($String,'datetime: (.+?)T(\d+:\d+:\d+)', $STR_REGEXPARRAYMATCH)
+	If $ErrorCycle = 10 And @WDAY = 6 Then Return True
+	$Day = StringRegExp($String,'day_of_week: (.+?)', $STR_REGEXPARRAYMATCH)
+	$Time = StringRegExp($String,'datetime: (.+?)T(\d+:\d+:\d+)', $STR_REGEXPARRAYMATCH)
 	If IsArray($Time) And UBound($Time) > 0 Then
-		Local $TimeHourUTC = StringSplit($Time[1], ":", $STR_NOCOUNT)
+		$TimeHourUTC = StringSplit($Time[1], ":", $STR_NOCOUNT)
 	Else
 		If @WDAY = 6 Then Return True
 	EndIf
