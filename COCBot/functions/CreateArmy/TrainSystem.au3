@@ -175,7 +175,13 @@ Func CheckIfArmyIsReady()
 		$g_bIsFullArmywithHeroesAndSpells = False
 	EndIf
 	If $g_bFullArmy And $g_bCheckSpells And $bFullArmyHero Then ; Force Switch while waiting for CC in SwitchAcc
-		If Not $bFullArmyCC Then $g_bWaitForCCTroopSpell = True
+		If Not $bFullArmyCC Then
+			If $g_aiCmbCCDecisionThen > 0 And Not $bChkUseOnlyCCMedals And $g_aiCmbCCDecisionThen = 1 Then
+				$g_bWaitForCCTroopSpell = False ; To Not Switch if fill with medals
+			Else
+				$g_bWaitForCCTroopSpell = True
+			EndIf
+		EndIf	
 	EndIf
 
 	Local $sLogText = ""

@@ -1492,27 +1492,26 @@ Func FirstCheck()
 		ClearTempCGFiles()
 	;;;;;Check Town Hall level
 		Local $iTownHallLevel = $g_iTownHallLevel
-		Local $bLocateTH = False
-		SetLog("Detecting Town Hall level", $COLOR_INFO)
-		SetLog("Town Hall level is currently saved as " &  $g_iTownHallLevel, $COLOR_INFO)
-		If $g_aiTownHallPos[0] > -1 Then
+		SetLog("Town Hall is currently saved as level " &  $g_iTownHallLevel, $COLOR_INFO)
+
+		imglocTHSearch(False, True, True) ;Sets $g_iTownHallLevel
+		SetDebugLog("Detected Town Hall level is " &  $g_iTownHallLevel, $COLOR_INFO)
+		
+		If $g_iTownHallLevel = 0 And $g_aiTownHallPos[0] > -1 Then
 			BuildingClick($g_aiTownHallPos[0], $g_aiTownHallPos[1])
 			If _Sleep(800) Then Return
 			Local $BuildingInfo = BuildingInfo(245, 550)
 			If $BuildingInfo[1] = "Town Hall" Then
-				$g_iTownHallLevel =  $BuildingInfo[2]
+				$g_iTownHallLevel = $BuildingInfo[2]
+				If _Sleep(500) Then Return
+				ClickAway()
 			Else
-				$bLocateTH = True
+				SetLog("Please Locate Town Hall Manually!", $COLOR_ERROR)
 			EndIf
 		EndIf
-
-		If $g_iTownHallLevel = 0 Or $bLocateTH Then
-			imglocTHSearch(False, True, True) ;Sets $g_iTownHallLevel
-		EndIf
-
-		SetLog("Detected Town Hall level is " &  $g_iTownHallLevel, $COLOR_INFO)
+		
 		If $g_iTownHallLevel = $iTownHallLevel Then
-			SetLog("Town Hall level has not changed", $COLOR_INFO)
+			SetDebugLog("Town Hall level has not changed", $COLOR_INFO)
 		Else
 			SetLog("Town Hall level has changed!", $COLOR_INFO)
 			SetLog("New Town hall level detected as " &  $g_iTownHallLevel, $COLOR_INFO)
@@ -1656,7 +1655,6 @@ Func FirstCheck()
 				ExitLoop
 			EndIf
 		Wend
-
 		If Not $g_bRunState Then Return
 		SetDebugLog("Are you ready? " & String($g_bIsFullArmywithHeroesAndSpells))
 		If $g_bIsFullArmywithHeroesAndSpells Then

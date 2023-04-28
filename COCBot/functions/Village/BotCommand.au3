@@ -20,7 +20,7 @@ Func BotCommand()
 	Static $TimeToStop = -1
 
 	Local $bChkBotStop, $iCmbBotCond, $iCmbBotCommand
-
+	
 	If $g_bOutOfElixir Or $g_bOutOfGold Then ; Check for out of loot conditions
 		$bChkBotStop = True ; set halt attack mode
 		$iCmbBotCond = 18 ; set stay online/collect only mode
@@ -38,85 +38,50 @@ Func BotCommand()
 	$g_bDonationEnabled = True
 
 	If $bChkBotStop Then
-	
-		If $g_bChkForceAttackOnClanGamesWhenHalt Then
-			_ClanGames()
-			If $IsCGEventRunning Then Return False
+		
+		If $iCmbBotCond < 15 Then
+			isGoldFull()
+			isElixirFull()
+			isDarkElixirFull()
+		ElseIf $g_bSearchReductionStorageEnable Then
+			isGoldFull(True)
+			isElixirFull(True)
+			isDarkElixirFull(True)
 		EndIf
 
 		If $iCmbBotCond = 15 And $g_iCmbHoursStop <> 0 Then $TimeToStop = $g_iCmbHoursStop * 3600000 ; 3600000 = 1 Hours
 
 		Switch $iCmbBotCond
 			Case 0
-				Local $Conditions = 0
-				If isGoldFull() Then
-					$g_abFullStorage[$eLootGold] = True
-					$Conditions += 1
-				EndIf
-				If isElixirFull() Then
-					$g_abFullStorage[$eLootElixir] = True
-					$Conditions += 1
-				EndIf
-				If $Conditions = 2 And isTrophyMax() Then $g_bMeetCondStop = True
+				If $g_abFullStorage[$eLootGold] And $g_abFullStorage[$eLootElixir] And isTrophyMax() Then $g_bMeetCondStop = True
 			Case 1
-				Local $Conditions = 0
-				If isGoldFull() Then
-					$g_abFullStorage[$eLootGold] = True
-					$Conditions += 1
-				EndIf
-				If isElixirFull() Then
-					$g_abFullStorage[$eLootElixir] = True
-					$Conditions += 1
-				EndIf
-				If $Conditions = 2 Or isTrophyMax() Then $g_bMeetCondStop = True
+				If ($g_abFullStorage[$eLootGold] And $g_abFullStorage[$eLootElixir]) Or isTrophyMax() Then $g_bMeetCondStop = True
 			Case 2
-				If (isGoldFull() Or isElixirFull()) And isTrophyMax() Then $g_bMeetCondStop = True
+				If ($g_abFullStorage[$eLootGold] Or $g_abFullStorage[$eLootElixir]) And isTrophyMax() Then $g_bMeetCondStop = True
 			Case 3
-				If isGoldFull() Or isElixirFull() Or isTrophyMax() Then $g_bMeetCondStop = True
+				If $g_abFullStorage[$eLootGold] Or $g_abFullStorage[$eLootElixir] Or isTrophyMax() Then $g_bMeetCondStop = True
 			Case 4
-				Local $Conditions = 0
-				If isGoldFull() Then
-					$g_abFullStorage[$eLootGold] = True
-					$Conditions += 1
-				EndIf
-				If isElixirFull() Then
-					$g_abFullStorage[$eLootElixir] = True
-					$Conditions += 1
-				EndIf
-				If $Conditions = 2 Then $g_bMeetCondStop = True
+				If $g_abFullStorage[$eLootGold] And $g_abFullStorage[$eLootElixir] Then $g_bMeetCondStop = True
 			Case 5
-				If isGoldFull() Or isElixirFull() Or isDarkElixirFull() Then $g_bMeetCondStop = True
+				If $g_abFullStorage[$eLootGold] Or $g_abFullStorage[$eLootElixir] Or $g_abFullStorage[$eLootDarkElixir] Then $g_bMeetCondStop = True
 			Case 6
-				If isGoldFull() And isTrophyMax() Then $g_bMeetCondStop = True
+				If $g_abFullStorage[$eLootGold] And isTrophyMax() Then $g_bMeetCondStop = True
 			Case 7
-				If isElixirFull() And isTrophyMax() Then $g_bMeetCondStop = True
+				If $g_abFullStorage[$eLootElixir] And isTrophyMax() Then $g_bMeetCondStop = True
 			Case 8
-				If isGoldFull() Or isTrophyMax() Then $g_bMeetCondStop = True
+				If $g_abFullStorage[$eLootGold] Or isTrophyMax() Then $g_bMeetCondStop = True
 			Case 9
-				If isElixirFull() Or isTrophyMax() Then $g_bMeetCondStop = True
+				If $g_abFullStorage[$eLootElixir] Or isTrophyMax() Then $g_bMeetCondStop = True
 			Case 10
-				If isGoldFull() Then $g_bMeetCondStop = True
+				If $g_abFullStorage[$eLootGold] Then $g_bMeetCondStop = True
 			Case 11
-				If isElixirFull() Then $g_bMeetCondStop = True
+				If $g_abFullStorage[$eLootElixir] Then $g_bMeetCondStop = True
 			Case 12
 				If isTrophyMax() Then $g_bMeetCondStop = True
 			Case 13
-				If isDarkElixirFull() Then $g_bMeetCondStop = True
+				If $g_abFullStorage[$eLootDarkElixir] Then $g_bMeetCondStop = True
 			Case 14
-				Local $Conditions = 0
-				If isGoldFull() Then
-					$g_abFullStorage[$eLootGold] = True
-					$Conditions += 1
-				EndIf
-				If isElixirFull() Then
-					$g_abFullStorage[$eLootElixir] = True
-					$Conditions += 1
-				EndIf
-				If isDarkElixirFull() Then
-					$g_abFullStorage[$eLootDarkElixir] = True
-					$Conditions += 1
-				EndIf
-				If $Conditions = 3 Then $g_bMeetCondStop = True
+				If $g_abFullStorage[$eLootGold] And $g_abFullStorage[$eLootElixir] And $g_abFullStorage[$eLootDarkElixir] Then $g_bMeetCondStop = True
 			Case 15 ; Bot running for...
 				If Round(__TimerDiff($g_hTimerSinceStarted)) > $TimeToStop Then $g_bMeetCondStop = True
 			Case 16 ; Train/Donate Only
@@ -145,10 +110,11 @@ Func BotCommand()
 				Local $bResume = ($iCmbBotCommand = 0)
 				If StopAndResumeTimer($bResume) Then $g_bMeetCondStop = True
 			Case 23 ; When star bonus unavailable
-					$g_bMeetCondStop = True
+				$g_bMeetCondStop = True
 		EndSwitch
 
 		If $g_bMeetCondStop Then
+		
 			Switch $iCmbBotCommand
 				Case 0
 					If ($iCmbBotCond <= 14 And $g_bCollectStarBonus) Or $iCmbBotCond = 23 And StarBonusSearch() Then
@@ -157,6 +123,13 @@ Func BotCommand()
 						EndIf
 					ElseIf $iCmbBotCond = 23 Then
 						SetLog("Star bonus unavailable.", $COLOR_DEBUG)
+					EndIf
+					If $g_bChkForceAttackOnClanGamesWhenHalt Then
+						_ClanGames()
+						If $IsCGEventRunning Then
+							SetLog("Clan Games Challenge Running, Don't Halt Attack.", $COLOR_SUCCESS)
+							Return False
+						EndIf
 					EndIf
 					If Not $g_bDonationEnabled Then
 						SetLog("Halt Attack, Stay Online/Collect", $COLOR_INFO)
@@ -172,7 +145,23 @@ Func BotCommand()
 						If Not IsCCTreasuryFull() Then
 							Return False
 						EndIf
+						If $g_bChkForceAttackOnClanGamesWhenHalt Then
+							_ClanGames(False, True)
+							If $IsCGEventRunning Then
+								SetLog("Star bonus unavailable.", $COLOR_DEBUG)
+								SetLog("Clan Games Challenge Running, Finish it First.", $COLOR_ACTION)
+								Return False
+							EndIf
+						EndIf
 					ElseIf $iCmbBotCond = 23 Then
+						If $g_bChkForceAttackOnClanGamesWhenHalt Then
+							_ClanGames(False, True)
+							If $IsCGEventRunning Then
+								SetLog("Star bonus unavailable.", $COLOR_DEBUG)
+								SetLog("Clan Games Challenge Running, Finish it First.", $COLOR_ACTION)
+								Return False
+							EndIf
+						EndIf
 						SetLog("Star bonus unavailable. Bot Will Stop After Routines", $COLOR_DEBUG)
 						$IsToCheckBeforeStop = True
 						Sleep(Random(3500, 5500, 1))
@@ -230,7 +219,23 @@ Func BotCommand()
 						If Not IsCCTreasuryFull() Then
 							Return False
 						EndIf
+						If $g_bChkForceAttackOnClanGamesWhenHalt Then
+							_ClanGames(False, True)
+							If $IsCGEventRunning Then
+								SetLog("Star bonus unavailable.", $COLOR_DEBUG)
+								SetLog("Clan Games Challenge Running, Finish it First.", $COLOR_ACTION)
+								Return False
+							EndIf
+						EndIf
 					ElseIf $iCmbBotCond = 23 Then
+						If $g_bChkForceAttackOnClanGamesWhenHalt Then
+							_ClanGames(False, True)
+							If $IsCGEventRunning Then
+								SetLog("Star bonus unavailable.", $COLOR_DEBUG)
+								SetLog("Clan Games Challenge Running, Finish it First.", $COLOR_ACTION)
+								Return False
+							EndIf
+						EndIf
 						SetLog("Star bonus unavailable. Bot Close Stop After Routines", $COLOR_DEBUG)
 						$IsToCheckBeforeStop = True
 						Sleep(Random(3500, 5500, 1))
@@ -284,7 +289,23 @@ Func BotCommand()
 						If Not IsCCTreasuryFull() Then
 							Return False
 						EndIf
+						If $g_bChkForceAttackOnClanGamesWhenHalt Then
+							_ClanGames(False, True)
+							If $IsCGEventRunning Then
+								SetLog("Star bonus unavailable.", $COLOR_DEBUG)
+								SetLog("Clan Games Challenge Running, Finish it First.", $COLOR_ACTION)
+								Return False
+							EndIf
+						EndIf
 					ElseIf $iCmbBotCond = 23 Then
+						If $g_bChkForceAttackOnClanGamesWhenHalt Then
+							_ClanGames(False, True)
+							If $IsCGEventRunning Then
+								SetLog("Star bonus unavailable.", $COLOR_DEBUG)
+								SetLog("Clan Games Challenge Running, Finish it First.", $COLOR_ACTION)
+								Return False
+							EndIf
+						EndIf
 						SetLog("Star bonus unavailable. Android And Bot Will Stop After Routines", $COLOR_DEBUG)
 						$IsToCheckBeforeStop = True
 						Sleep(Random(3500, 5500, 1))
@@ -340,7 +361,23 @@ Func BotCommand()
 						If Not IsCCTreasuryFull() Then
 							Return False
 						EndIf
+						If $g_bChkForceAttackOnClanGamesWhenHalt Then
+							_ClanGames(False, True)
+							If $IsCGEventRunning Then
+								SetLog("Star bonus unavailable.", $COLOR_DEBUG)
+								SetLog("Clan Games Challenge Running, Finish it First.", $COLOR_ACTION)
+								Return False
+							EndIf
+						EndIf
 					ElseIf $iCmbBotCond = 23 Then
+						If $g_bChkForceAttackOnClanGamesWhenHalt Then
+							_ClanGames(False, True)
+							If $IsCGEventRunning Then
+								SetLog("Star bonus unavailable.", $COLOR_DEBUG)
+								SetLog("Clan Games Challenge Running, Finish it First.", $COLOR_ACTION)
+								Return False
+							EndIf
+						EndIf
 						SetLog("Star bonus unavailable. Computer Will ShutDown Stop After Routines", $COLOR_DEBUG)
 						$IsToCheckBeforeStop = True
 						Sleep(Random(3500, 5500, 1))
@@ -395,7 +432,23 @@ Func BotCommand()
 						If Not IsCCTreasuryFull() Then
 							Return False
 						EndIf
+						If $g_bChkForceAttackOnClanGamesWhenHalt Then
+							_ClanGames(False, True)
+							If $IsCGEventRunning Then
+								SetLog("Star bonus unavailable.", $COLOR_DEBUG)
+								SetLog("Clan Games Challenge Running, Finish it First.", $COLOR_ACTION)
+								Return False
+							EndIf
+						EndIf
 					ElseIf $iCmbBotCond = 23 Then
+						If $g_bChkForceAttackOnClanGamesWhenHalt Then
+							_ClanGames(False, True)
+							If $IsCGEventRunning Then
+								SetLog("Star bonus unavailable.", $COLOR_DEBUG)
+								SetLog("Clan Games Challenge Running, Finish it First.", $COLOR_ACTION)
+								Return False
+							EndIf
+						EndIf
 						SetLog("Star bonus unavailable. Computer Will Sleep Stop After Routines", $COLOR_DEBUG)
 						$IsToCheckBeforeStop = True
 						Sleep(Random(3500, 5500, 1))
@@ -450,7 +503,23 @@ Func BotCommand()
 						If Not IsCCTreasuryFull() Then
 							Return False
 						EndIf
+						If $g_bChkForceAttackOnClanGamesWhenHalt Then
+							_ClanGames(False, True)
+							If $IsCGEventRunning Then
+								SetLog("Star bonus unavailable.", $COLOR_DEBUG)
+								SetLog("Clan Games Challenge Running, Finish it First.", $COLOR_ACTION)
+								Return False
+							EndIf
+						EndIf
 					ElseIf $iCmbBotCond = 23 Then
+						If $g_bChkForceAttackOnClanGamesWhenHalt Then
+							_ClanGames(False, True)
+							If $IsCGEventRunning Then
+								SetLog("Star bonus unavailable.", $COLOR_DEBUG)
+								SetLog("Clan Games Challenge Running, Finish it First.", $COLOR_ACTION)
+								Return False
+							EndIf
+						EndIf
 						SetLog("Star bonus unavailable. Computer Will Reboot Stop After Routines", $COLOR_DEBUG)
 						$IsToCheckBeforeStop = True
 						Sleep(Random(3500, 5500, 1))
@@ -505,7 +574,23 @@ Func BotCommand()
 						If Not IsCCTreasuryFull() Then
 							Return False
 						EndIf
+						If $g_bChkForceAttackOnClanGamesWhenHalt Then
+							_ClanGames(False, True)
+							If $IsCGEventRunning Then
+								SetLog("Star bonus unavailable.", $COLOR_DEBUG)
+								SetLog("Clan Games Challenge Running, Finish it First.", $COLOR_ACTION)
+								Return False
+							EndIf
+						EndIf
 					ElseIf $iCmbBotCond = 23 Then
+						If $g_bChkForceAttackOnClanGamesWhenHalt Then
+							_ClanGames(False, True)
+							If $IsCGEventRunning Then
+								SetLog("Star bonus unavailable.", $COLOR_DEBUG)
+								SetLog("Clan Games Challenge Running, Finish it First.", $COLOR_ACTION)
+								Return False
+							EndIf
+						EndIf
 						If ProfileSwitchAccountEnabled() Then
 							Local $aActiveAccount = _ArrayFindAll($g_abAccountNo, True)
 							If UBound($aActiveAccount) >= 2 Then

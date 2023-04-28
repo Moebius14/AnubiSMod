@@ -16,7 +16,7 @@
 Func PrepareAttackBB($AttackForCount = 0)
 
 	If $g_bChkForceBBAttackOnClanGames And $g_bIsBBevent Then
-		Setlog("Running Challenge is BB Challenge", $COLOR_OLIVE)
+		Setlog("Running Challenge is BB Challenge : " & $CurrentActiveChallenge, $COLOR_ACTION)
 		SetLog("Force BB Attack on Clan Games Enabled", $COLOR_DEBUG)
 		SetLog("Attack, No Matter What !!", $COLOR_DEBUG)
 		If Not ClickAttack() Then Return False

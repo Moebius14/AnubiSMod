@@ -2861,6 +2861,8 @@ Func _AndroidScreencap($iLeft, $iTop, $iWidth, $iHeight, $iRetryCount = 0)
 		Local $lastAvg = Round($g_aiAndroidAdbStatsLast[$AdbStatsType][0] / $iLastCount)
 		If $g_bDebugAndroid Or Mod($g_aiAndroidAdbStatsTotal[$AdbStatsType][0], 100) = 0 Then
 			SetDebugLog("AdbScreencap: " & $totalAvg & "/" & $lastAvg & "/" & $duration & " ms (all/" & $iLastCount & "/1)," & $shellLogInfo & "," & $iLoopCountFile & ",l=" & $iLeft & ",t=" & $iTop & ",w=" & $iWidth & ",h=" & $iHeight & ", " & $Filename & ": w=" & $g_iAndroidAdbScreencapWidth & ",h=" & $g_iAndroidAdbScreencapHeight & ",f=" & $iF)
+			SetDeBugLog("AdbScreencap HostPath: " & $hostPath)
+			SetDeBugLog("AdbScreencap AndroidPath: " & $androidPath)
 		EndIf
 	EndIf
 
@@ -4055,7 +4057,7 @@ Func CheckAndroidReboot($bRebootAndroid = True)
 	Return False
 
 EndFunc   ;==>CheckAndroidReboot
-
+#cs
 Func GetAndroidProcessPID($sPackage = Default, $bForeground = True, $DEPRECATED = "")
 	Local $iError = 0, $iPid = 0, $sDumpsys = ""
 	For $i = 1 To 3
@@ -4094,6 +4096,101 @@ Func GetAndroidProcessPID($sPackage = Default, $bForeground = True, $DEPRECATED 
 		EndIf
 	Next
 	Return SetError($iError, 0, $iPid)
+EndFunc   ;==>GetAndroidProcessPID
+#ce
+
+Func GetAndroidProcessPID($sPackage = Default, $bForeground = True, $iRetryCount = 0)
+	Local $cmd = "", $sDumpsys = "", $iRetryMax = 5
+
+	If $sPackage = Default Then $sPackage = $g_sAndroidGamePackage
+	; - USER  - PID - PPID  - VSS  - RSS  -   PRIO - NICE - RTPRIO - SCHED - WCHAN  - EIP    - STATE - NAME
+	; u0_a58    4395  580   1135308 187040     14    -6        0      0     ffffffff 00000000    S      com.supercell.clashofclans
+	; u0_a27    2912  142   663800  98656      30    10        0      3     ffffffff b7591617    S      com.tencent.tmgp.supercell.clashofclans
+	; u0_a26    2740  73    1601704 76380      20    0         0      0     ffffffff b7489435    S      com.supercell.clashofclans.guopan
+	;USER      PID   PPID  VSIZE  RSS  PRIO  NICE  RTPRI SCHED  WCHAN            PC  NAME
+	;u0_a54    12560 84    1336996 189660 10    -10   0     0     futex_wait b7725424 S com.supercell.clashofclans
+	;u0_a54    13303 84    1338548 188464 16    -4    0     0     sys_epoll_ b7725424 S com.supercell.clashofclans
+	If AndroidInvalidState() Then Return 0
+	
+	If $g_iAndroidVersionAPI = $g_iAndroidPie Then
+		$cmd = "set result=$(ps -A|grep """ & $g_sAndroidGamePackage & """ >&2)"
+		; ps -A|grep "com.supercell.clashofclans" >&2
+		;USER           PID  PPID     VSZ    RSS WCHAN            ADDR S NAME
+		;u0_a69        8572   104 4358212 265080 __do_sys_+          0 S com.supercell.clashofclans
+	Else
+		$cmd = "set result=$(ps -p|grep """ & $g_sAndroidGamePackage & """ >&2)"
+	EndIf
+
+	Local $output = AndroidAdbSendShellCommand($cmd)
+	Local $error = @error
+	
+	;SetLog("$g_sAndroidGamePackage: " & $g_sAndroidGamePackage)
+	;SetLog("GetAndroidProcessPID StdOut :" & $output)
+
+	SetError(0)
+	If $error = 0 Then
+		SetDebugLog("$g_sAndroidGamePackage: " & $g_sAndroidGamePackage)
+		SetDebugLog("GetAndroidProcessPID StdOut :" & $output)
+		$output = StringStripWS($output, 7)
+		Local $aPkgList[0][26] ; adjust to any suffisent size to accommodate
+		Local $iCols
+		_ArrayAdd($aPkgList, $output, 0, " ", @LF, $ARRAYFILL_FORCE_STRING)
+
+		Local $CorrectSCHED = "0"
+		Switch $g_sAndroidGamePackage
+			Case $g_sAndroidGamePackage = "com.tencent.tmgp.supercell.clashofclans"
+				; scheduling policy : SCHED_BATCH = 3
+				$CorrectSCHED = "3"
+			Case Else
+				; scheduling policy : SCHED_NORMAL = 0
+				$CorrectSCHED = "0"
+		EndSwitch
+
+		For $i = 1 To UBound($aPkgList)
+			$iCols = _ArraySearch($aPkgList, "", 0, 0, 0, 0, 1, $i, True)
+			If $iCols > 9 And $aPkgList[$i - 1][$iCols - 1] = $g_sAndroidGamePackage Then
+				; process running
+				If $bForeground = True And $aPkgList[$i - 1][8] <> $CorrectSCHED Then
+					; not foreground
+					If $iRetryCount < $iRetryMax Then
+						; retry 2 times
+						Sleep(100)
+						Return GetAndroidProcessPID($sPackage, $bForeground, $iRetryCount + 1)
+					EndIf
+					SetDebugLog("Android process " & $sPackage & " not running in foreground")
+					Return 0
+				EndIf
+				Return Int($aPkgList[$i - 1][1])
+			EndIf
+
+			If $iCols = 9 And $aPkgList[$i - 1][$iCols - 1] = $g_sAndroidGamePackage Then ; ps -A
+				;$sDumpsys = AndroidAdbSendShellCommand("dumpsys window windows | grep -E 'mCurrentFocus.*" & $g_sAndroidGamePackage & "'")
+				$sDumpsys = AndroidAdbSendShellCommand("dumpsys window windows | grep -E 'mCurrentFocus'")
+				;SetLog("Dumpsys : " & $sDumpsys)
+
+				If $bForeground = True And StringInStr($sDumpsys, $g_sAndroidGamePackage) = 0 Then
+					; not foreground
+					If $iRetryCount < $iRetryMax Then
+						; retry 2 times
+						Sleep(100)
+						Return GetAndroidProcessPID($sPackage, $bForeground, $iRetryCount + 1)
+					EndIf
+					SetLog("Android process " & $sPackage & " not running in foreground")
+					Return 0
+				EndIf
+				Return Int($aPkgList[$i - 1][1]) ; return PID
+			EndIf
+		Next
+	EndIf
+
+	If $iRetryCount < $iRetryMax Then
+		; retry 2 times
+		Sleep(100)
+		Return GetAndroidProcessPID($sPackage, $bForeground, $iRetryCount + 1)
+	EndIf
+
+	SetLog("Android process " & $sPackage & " not running")
+	Return SetError($error, 0, 0)
 EndFunc   ;==>GetAndroidProcessPID
 
 Func AndroidToFront($hHWndAfter = Default, $sSource = "Unknown")

@@ -1970,10 +1970,16 @@ Func UTCTime()
 		Else
 			ExitLoop
 		EndIf
-		If _Sleep(100) Then Return
+		If _Sleep(150) Then Return
 		If $ErrorCycle = 10 Then ExitLoop
 	WEnd
-	If $ErrorCycle = 10 And @WDAY = 6 Then Return True
+	If $ErrorCycle = 10 Then
+		If @WDAY = 6 Then
+			Return True
+		Else
+			Return False
+		EndIf
+	EndIf
 	$Day = StringRegExp($String,'day_of_week: (.+?)', $STR_REGEXPARRAYMATCH)
 	$Time = StringRegExp($String,'datetime: (.+?)T(\d+:\d+:\d+)', $STR_REGEXPARRAYMATCH)
 	If IsArray($Time) And UBound($Time) > 0 Then

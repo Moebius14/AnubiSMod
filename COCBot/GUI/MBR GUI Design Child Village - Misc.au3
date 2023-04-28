@@ -1314,12 +1314,13 @@ Func CreateClanGamesSettings()
 	
 	$y += 23
 	$g_hChkForceAttackOnClanGamesWhenHalt = GUICtrlCreateCheckbox(GetTranslatedFileIni("MBR GUI Design Child Village - Misc", "ChkForceAttackOnClanGamesWhenHalt", "Always Force Attack in Halt Mode"), $x, $y, -1, -1)
-		_GUICtrlSetTip(-1, GetTranslatedFileIni("MBR GUI Design Child Village - Misc", "ChkClanGames_Info_03", "If Enabled : Ignore Halt Mode If An Event Is Running (Attack !)"))
+		_GUICtrlSetTip(-1, GetTranslatedFileIni("MBR GUI Design Child Village - Misc", "ChkClanGames_Info_03", "If Enabled : Ignore Halt Mode If A Challenge Is Running (Attack !)" & @CRLF & _
+												"For Stop Mode, Close Mode, Etc, Finish Running Challenge First"))
 		GUICtrlSetState(-1, $GUI_DISABLE)
 
 	$y += 33
-	$g_hChkClanGamesPurgeAny = GUICtrlCreateCheckbox(GetTranslatedFileIni("MBR GUI Design Child Village - Misc", "ChkClanGamesPurgeAny", "Purge Any Event If No Event Found"), $x, $y, -1, -1)
-		_GUICtrlSetTip(-1, GetTranslatedFileIni("MBR GUI Design Child Village - Misc", "ChkClanGames_Info_04", "If No Event Found, Purge Any Event"))
+	$g_hChkClanGamesPurgeAny = GUICtrlCreateCheckbox(GetTranslatedFileIni("MBR GUI Design Child Village - Misc", "ChkClanGamesPurgeAny", "Purge Any Challenge If No Challenge Found"), $x, $y, -1, -1)
+		_GUICtrlSetTip(-1, GetTranslatedFileIni("MBR GUI Design Child Village - Misc", "ChkClanGames_Info_04", "If No Challenge Found, Purge Any"))
 		GUICtrlSetOnEvent(-1, "ChkClanGamesPurgeAny")
 		
 	$y += 23
@@ -1328,17 +1329,17 @@ Func CreateClanGamesSettings()
 
 	$y += 33
 		$g_hChkClanGamesStopBeforeReachAndPurge = GUICtrlCreateCheckbox(GetTranslatedFileIni("MBR GUI Design Child Village - Misc", "ChkClanGamesStopBeforeReachAndPurge", "Stop before completing your limit and only Purge"), $x, $y, -1, -1)
-		_GUICtrlSetTip(-1, GetTranslatedFileIni("MBR GUI Design Child Village - Misc", "ChkClanGames_Info_06", "Stop Selecting Events 300 points before End And Purge" & @CRLF & _
+		_GUICtrlSetTip(-1, GetTranslatedFileIni("MBR GUI Design Child Village - Misc", "ChkClanGames_Info_06", "Stop Selecting Challenges 300 points before End And Purge" & @CRLF & _
 												"But not purge on last day of Clan Games"))
 
 	$y += 35
 		GUIStartGroup()
-		$g_hChkClanGamesAllTimes = GUICtrlCreateRadio("All Events", $x + 20, $y , -1, -1)
-		_GUICtrlSetTip(-1, "Classic Behaviour : All Times Events")
+		$g_hChkClanGamesAllTimes = GUICtrlCreateRadio("All Challenges", $x + 20, $y , -1, -1)
+		_GUICtrlSetTip(-1, "Classic Behaviour : All Times Challenges")
 		GUICtrlSetOnEvent(-1, "ChkClanGamesAllTimes")
 		GUICtrlSetState(-1, $GUI_CHECKED)
-		$g_hChkClanGamesNoOneDay = GUICtrlCreateRadio("No 1 Day Events", $x + 120, $y, -1, -1)
-		_GUICtrlSetTip(-1, "Not choose 1 Day Events, This Will be 8 Hours Or 3 Hours Challenges")
+		$g_hChkClanGamesNoOneDay = GUICtrlCreateRadio("No 1 Day Challenges", $x + 120, $y, -1, -1)
+		_GUICtrlSetTip(-1, "Not choose 1 Day Challenges, This Will be 8 Hours Or 3 Hours Challenges")
 		GUICtrlSetOnEvent(-1, "ChkClanGamesNoOneDay")
 		GUICtrlSetState(-1, $GUI_UNCHECKED)	
 
