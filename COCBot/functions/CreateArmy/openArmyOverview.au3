@@ -40,10 +40,10 @@ Func OpenArmyTab($bSetLog = True, $sWhereFrom = "Undefined")
 	Return OpenTrainTab("Army Tab", $bSetLog, $sWhereFrom)
 EndFunc   ;==>OpenArmyTab
 
-Func OpenTroopsTab($bSetLog = True, $sWhereFrom = "Undefined")
+Func OpenTroopsTab($bSetLog = True, $sWhereFrom = "Undefined", $SecondArmy = False)
    	Local $bResult = OpenTrainTab("Train Troops Tab", $bSetLog, $sWhereFrom)
 
-	If $bResult Then UpdateNextPageTroop()
+	If $bResult And Not $SecondArmy Then UpdateNextPageTroop()
 
 	Return $bResult
 EndFunc   ;==>OpenTroopsTab
@@ -129,6 +129,5 @@ EndFunc
 
 Func PointInRect($iBLx, $iBLy, $iTRx, $iTRy, $iPTx, $iPTy)
 	If $iPTx > $iBLx And $iPTx < $iTRx And $iPTy < $iBLy And $iPTy > $iTRy Then Return True
-
 	Return False
 EndFunc

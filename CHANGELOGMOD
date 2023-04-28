@@ -1,13 +1,16 @@
+* v23.04.29 **
+* Fixed Train Troops / Drag Troops in some cases.
+
 * v23.04.28 **
 * Improved Connect Supercell ID Green Bar Detection.
-* Reduce Search Aim Loot When Full Storages Only When G And E Search Mode.
+* Reduce Aim Loot Search When Full Storages Only When G And E Search Mode.
 * Added "Enter Clan Games" only once a day from the 20th of every month until Opening Day/Time.
 * Improved detection of challenges with shared images in Clan Games.
 * Corrected some typos in log and menus.
 * Improved Purge challenge when wrong challenge selected.
 * Added missing challenges images and adjusted some tolerances.
 * Improved Selected Challenge Type/Name Display in Log.
-* Fixed Search Aim Loot Reduction in some cases.
+* Fixed Aim Loot Reduction Search in some cases.
 * Changed TH level Check at first start : Click only if misdetection.
 
 * v23.04.15 **
