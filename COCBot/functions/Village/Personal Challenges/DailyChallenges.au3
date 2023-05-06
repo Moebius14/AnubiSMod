@@ -186,6 +186,9 @@ Func CollectDailyRewards($bGoldPass = False)
 	
 	Local $iClaim = 0
 	Local $IsCCGoldPresent = 0
+	Local $IsBOFPresent = 0
+	Local $IsBOSPresent = 0
+	Local $IsResPotPresent = 0
 	For $i = 0 To 10
 		If Not $g_bRunState Then Return
 		Local $SearchArea = $bGoldPass ? GetDiamondFromRect("25,336(810,240)") : GetDiamondFromRect("25,535(810,35)")
@@ -202,8 +205,14 @@ Func CollectDailyRewards($bGoldPass = False)
 					For $j = 0 To UBound($aAllCoords) - 1
 						If $bGoldPass Then
 							If QuickMIS("BC1", $g_sImgCCGoldCollectDaily, 40, 270, 810, 340) Then $IsCCGoldPresent += 1
+							If QuickMIS("BC1", $g_sImgBOFCollectDaily, 40, 270, 810, 340) Then $IsBOFPresent += 1
+							If QuickMIS("BC1", $g_sImgBOSCollectDaily, 40, 270, 810, 340) Then $IsBOSPresent += 1
+							If QuickMIS("BC1", $g_sImgResPotCollectDaily, 40, 270, 810, 340) Then $IsResPotPresent += 1
 						Else
 							If QuickMIS("BC1", $g_sImgCCGoldCollectDaily, 40, 470, 810, 540) Then $IsCCGoldPresent += 1
+							If QuickMIS("BC1", $g_sImgBOFCollectDaily, 40, 470, 810, 540) Then $IsBOFPresent += 1
+							If QuickMIS("BC1", $g_sImgBOSCollectDaily, 40, 470, 810, 540) Then $IsBOSPresent += 1
+							If QuickMIS("BC1", $g_sImgResPotCollectDaily, 40, 470, 810, 540) Then $IsResPotPresent += 1
 						EndIf
 						ClickP($aAllCoords[$j], 1, 0, "Claim " & $j + 1) ; Click Claim button
 						_Sleep(Random(2000, 4000, 1))
@@ -220,12 +229,21 @@ Func CollectDailyRewards($bGoldPass = False)
 						Else
 							$iClaim += 1
 							If $bGoldPass Then
-								If Not QuickMIS("BC1", $g_sImgCCGoldCollectDaily, 40, 260, 810, 340) And $IsCCGoldPresent > 0 Then $IsCCGoldJustCollected = True
+								If Not QuickMIS("BC1", $g_sImgCCGoldCollectDaily, 40, 260, 810, 340) And $IsCCGoldPresent > 0 Then $IsCCGoldJustCollected = 1
+								If Not QuickMIS("BC1", $g_sImgBOFCollectDaily, 40, 260, 810, 340) And $IsBOFPresent > 0 Then $IsBOFJustCollected = 1
+								If Not QuickMIS("BC1", $g_sImgBOSCollectDaily, 40, 260, 810, 340) And $IsBOSPresent > 0 Then $IsBOSJustCollected = 1
+								If Not QuickMIS("BC1", $g_sImgResPotCollectDaily, 40, 260, 810, 340) And $IsResPotPresent > 0 Then $IsResPotJustCollected = 1
 							Else
-								If Not QuickMIS("BC1", $g_sImgCCGoldCollectDaily, 40, 470, 810, 540) And $IsCCGoldPresent > 0 Then $IsCCGoldJustCollected = True
+								If Not QuickMIS("BC1", $g_sImgCCGoldCollectDaily, 40, 470, 810, 540) And $IsCCGoldPresent > 0 Then $IsCCGoldJustCollected = 1
+								If Not QuickMIS("BC1", $g_sImgBOFCollectDaily, 40, 470, 810, 540) And $IsBOFPresent > 0 Then $IsBOFJustCollected = 1
+								If Not QuickMIS("BC1", $g_sImgBOSCollectDaily, 40, 470, 810, 540) And $IsBOSPresent > 0 Then $IsBOSJustCollected = 1
+								If Not QuickMIS("BC1", $g_sImgResPotCollectDaily, 40, 470, 810, 540) And $IsResPotPresent > 0 Then $IsResPotJustCollected = 1
 							EndIf
 							If $IsCCGoldJustCollected Then SetLog("Clan Capital Gold Collected", $COLOR_SUCCESS1)
 							$IsCCGoldJustCollectedDChallenge = $IsCCGoldJustCollected
+							If $IsBOFJustCollected Then SetLog("Book Of Fighting Collected", $COLOR_SUCCESS1)
+							If $IsBOSJustCollected Then SetLog("Book Of Spells Collected", $COLOR_SUCCESS1)
+							If $IsResPotJustCollected Then SetLog("Research Potion Collected", $COLOR_SUCCESS1)
 							If _Sleep(100) Then ExitLoop
 						EndIf
 					Next

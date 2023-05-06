@@ -981,8 +981,21 @@ Func ApplyConfig_600_14($TypeReadSave)
 			GUICtrlSetState($g_hChkAutoLabUpgrades, $g_bAutoLabUpgradeEnable ? $GUI_CHECKED : $GUI_UNCHECKED)
 			GUICtrlSetState($g_hUseLabPotion, $g_bUseLabPotion ? $GUI_CHECKED : $GUI_UNCHECKED)
 			_GUICtrlComboBox_SetCurSel($g_hCmbLaboratory, $g_iCmbLaboratory)
-			_GUICtrlSetImage($g_hPicLabUpgrade, $g_sLibIconPath, $g_avLabTroops[$g_iCmbLaboratory][1])
+			If $g_iCmbLaboratory > 45 Then
+				_GUICtrlSetImage($g_hPicLabUpgrade, $g_sLibModIconPath, $g_avLabTroops[$g_iCmbLaboratory][1])
+			Else
+				_GUICtrlSetImage($g_hPicLabUpgrade, $g_sLibIconPath, $g_avLabTroops[$g_iCmbLaboratory][1])
+			EndIf
 			chkLab()
+			For $i = 0 To UBound($g_aCmbLabUpgradeOrder) - 1
+				_GUICtrlComboBox_SetCurSel($g_ahCmbLabUpgradeOrder[$i], $g_aCmbLabUpgradeOrder[$i])
+			Next
+			GUICtrlSetState($g_hUseBOF, $g_bUseBOF ? $GUI_CHECKED : $GUI_UNCHECKED)
+			GUICtrlSetData($g_hUseBOFTime, $g_iUseBOFTime)
+			GUICtrlSetState($g_hUseBOS, $g_bUseBOS ? $GUI_CHECKED : $GUI_UNCHECKED)
+			GUICtrlSetData($g_hUseBOSTime, $g_iUseBOSTime)
+			GUICtrlSetState($g_hUseBOE, $g_bUseBOE ? $GUI_CHECKED : $GUI_UNCHECKED)
+			GUICtrlSetData($g_hUseBOETime, $g_iUseBOETime)
 			GUICtrlSetState($g_hChkAutoStarLabUpgrades, $g_bAutoStarLabUpgradeEnable ? $GUI_CHECKED : $GUI_UNCHECKED)
 			_GUICtrlComboBox_SetCurSel($g_hCmbStarLaboratory, $g_iCmbStarLaboratory)
 			_GUICtrlSetImage($g_hPicStarLabUpgrade, $g_sLibIconPath, $g_avStarLabTroops[$g_iCmbStarLaboratory][4])
@@ -991,6 +1004,15 @@ Func ApplyConfig_600_14($TypeReadSave)
 			$g_bAutoLabUpgradeEnable = (GUICtrlRead($g_hChkAutoLabUpgrades) = $GUI_CHECKED)
 			$g_bUseLabPotion = (GUICtrlRead($g_hUseLabPotion) = $GUI_CHECKED)
 			$g_iCmbLaboratory = _GUICtrlComboBox_GetCurSel($g_hCmbLaboratory)
+			For $i = 0 To UBound($g_ahCmbLabUpgradeOrder) - 1
+				$g_aCmbLabUpgradeOrder[$i] = _GUICtrlComboBox_GetCurSel($g_ahCmbLabUpgradeOrder[$i])
+			Next
+			$g_bUseBOF = (GUICtrlRead($g_hUseBOF) = $GUI_CHECKED)
+			$g_iUseBOFTime =  GUICtrlRead($g_hUseBOFTime)
+			$g_bUseBOS = (GUICtrlRead($g_hUseBOS) = $GUI_CHECKED)
+			$g_iUseBOSTime =  GUICtrlRead($g_hUseBOSTime)
+			$g_bUseBOE = (GUICtrlRead($g_hUseBOE) = $GUI_CHECKED)
+			$g_iUseBOETime =  GUICtrlRead($g_hUseBOETime)
 			$g_bAutoStarLabUpgradeEnable = (GUICtrlRead($g_hChkAutoStarLabUpgrades) = $GUI_CHECKED)
 			$g_iCmbStarLaboratory = _GUICtrlComboBox_GetCurSel($g_hCmbStarLaboratory)
 	EndSwitch

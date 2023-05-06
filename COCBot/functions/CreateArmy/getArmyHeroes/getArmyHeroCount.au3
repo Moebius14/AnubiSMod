@@ -334,6 +334,8 @@ Func LabGuiDisplay() ; called from main loop to get an early status for indictor
 
 	Local Static $iLastTimeChecked[8]
 	If $g_bFirstStart Then $iLastTimeChecked[$g_iCurAccount] = ""
+	
+	If ($g_bUseBOF And $IsBOFJustCollected) Or ($g_bUseBOS And $IsBOSJustCollected) Or ($g_bUseLabPotion And $IsResPotJustCollected) Then $iLastTimeChecked[$g_iCurAccount] = ""
 
 	; Check if is a valid date and Calculated the number of minutes from remain time Lab and now
 	If _DateIsValid($g_sLabUpgradeTime) And _DateIsValid($iLastTimeChecked[$g_iCurAccount]) Then
@@ -343,6 +345,7 @@ Func LabGuiDisplay() ; called from main loop to get an early status for indictor
 		SetDebugLog("Lab LastCheck: " & $iLastTimeChecked[$g_iCurAccount] & ", Check DateCalc: " & $iLastCheck)
 		; A check each from 2 to 5 hours [2*60 = 120 to 5*60 = 300] or when Lab research time finishes
 		Local $iDelayToCheck = Random(120, 300, 1)
+		If $IsResearchPotInStock And $g_bUseLabPotion And $iLabFinishTimeMod > 1440 Then $iDelayToCheck = 60
 		If $iLabTime > 0 And $iLastCheck <= $iDelayToCheck Then Return
 	EndIf
 
@@ -388,6 +391,9 @@ Func LabGuiDisplay() ; called from main loop to get an early status for indictor
 		If $g_bDebugImageSave Then SaveDebugImage("LabUpgrade") ; Debug Only
 		ClickP($aResearchButton)
 		If _Sleep($DELAYLABORATORY1) Then Return ; Wait for window to open
+		$IsBOFJustCollected = 0
+		$IsBOSJustCollected = 0
+		$IsResPotJustCollected = 0
 	Else
 		SetLog("Cannot find the Laboratory Research Button!", $COLOR_ERROR)
 		ClickAway()
@@ -418,6 +424,92 @@ Func LabGuiDisplay() ; called from main loop to get an early status for indictor
 			SetLog("Research will finish in " & $sLabTimeOCR & " (" & $g_sLabUpgradeTime & ")")
 			$iLabFinishTimeMod = $iLabFinishTime
 		EndIf
+		
+		Local $bUseBooks = False
+		Local $iLabFinishTimeDay = ConvertOCRTime("Lab Time (Day)", $sLabTimeOCR, False, "day")
+
+		If Not $bUseBooks And $g_bUseBOE And $iLabFinishTimeDay >= $g_iUseBOETime Then
+			SetLog("Use Book of Everything Enabled", $COLOR_INFO)
+			SetLog("Lab Upgrade time > than " & $g_iUseBOETime & " day", $COLOR_INFO)
+			If QuickMIS("BFI", $g_sImgBooks & "BOE*", 650, 230 + $g_iMidOffsetY, 730, 290 + $g_iMidOffsetY) Then
+				Click($g_iQuickMISX, $g_iQuickMISY)
+				If _Sleep(1000) Then Return
+				If QuickMIS("BC1", $g_sImgBooks, 400, 360 + $g_iMidOffsetY, 500, 430 + $g_iMidOffsetY) Then
+					Click($g_iQuickMISX, $g_iQuickMISY)
+					SetLog("Successfully use Book of Everything", $COLOR_SUCCESS)
+					$bUseBooks = True
+					$ActionForModLog = "Use Book of Everything"
+					If $g_iTxtCurrentVillageName <> "" Then
+						GUICtrlSetData($g_hTxtModLog, @CRLF & _NowTime() & " [" & $g_iTxtCurrentVillageName & "] Laboratory : " & $ActionForModLog, 1)
+					Else
+						GUICtrlSetData($g_hTxtModLog, @CRLF & _NowTime() & " [" & $g_sProfileCurrentName & "] Laboratory : " & $ActionForModLog, 1)
+					EndIf
+					_FileWriteLog($g_sProfileLogsPath & "\ModLog.log", " [" & $g_sProfileCurrentName & "] - Laboratory : " & $ActionForModLog & "")
+					If _Sleep(1000) Then Return
+				EndIf
+			Else
+				SetLog("Book of Everything Not Found", $COLOR_ERROR)
+			EndIf
+		EndIf
+
+		If Not $bUseBooks And $g_bUseBOS And $iLabFinishTimeDay >= $g_iUseBOSTime Then
+			SetLog("Use Book of Spells Enabled", $COLOR_INFO)
+			SetLog("Lab Upgrade time > than " & $g_iUseBOSTime & " day", $COLOR_INFO)
+			If QuickMIS("BFI", $g_sImgBooks & "BOS*", 650, 230 + $g_iMidOffsetY, 730, 290 + $g_iMidOffsetY) Then
+				Click($g_iQuickMISX, $g_iQuickMISY)
+				If _Sleep(1000) Then Return
+				If QuickMIS("BC1", $g_sImgBooks, 400, 360 + $g_iMidOffsetY, 500, 430 + $g_iMidOffsetY) Then
+					Click($g_iQuickMISX, $g_iQuickMISY)
+					SetLog("Successfully use Book of Spells", $COLOR_SUCCESS)
+					$bUseBooks = True
+					$ActionForModLog = "Use Book of Spells"
+					If $g_iTxtCurrentVillageName <> "" Then
+						GUICtrlSetData($g_hTxtModLog, @CRLF & _NowTime() & " [" & $g_iTxtCurrentVillageName & "] Laboratory : " & $ActionForModLog, 1)
+					Else
+						GUICtrlSetData($g_hTxtModLog, @CRLF & _NowTime() & " [" & $g_sProfileCurrentName & "] Laboratory : " & $ActionForModLog, 1)
+					EndIf
+					_FileWriteLog($g_sProfileLogsPath & "\ModLog.log", " [" & $g_sProfileCurrentName & "] - Laboratory : " & $ActionForModLog & "")
+					If _Sleep(1000) Then Return
+				EndIf
+			Else
+				SetLog("Book of Spell Not Found", $COLOR_ERROR)
+			EndIf
+		EndIf
+	
+		If Not $bUseBooks And $g_bUseBOF And $iLabFinishTimeDay >= $g_iUseBOFTime Then
+			SetLog("Use Book of Fighting Enabled", $COLOR_INFO)
+			SetLog("Lab Upgrade time > than " & $g_iUseBOFTime & " day", $COLOR_INFO)
+			If QuickMIS("BFI", $g_sImgBooks & "BOF*", 650, 230 + $g_iMidOffsetY, 730, 290 + $g_iMidOffsetY) Then
+				Click($g_iQuickMISX, $g_iQuickMISY)
+				If _Sleep(1000) Then Return
+				If QuickMIS("BC1", $g_sImgBooks, 400, 360 + $g_iMidOffsetY, 500, 430 + $g_iMidOffsetY) Then
+					Click($g_iQuickMISX, $g_iQuickMISY)
+					SetLog("Successfully use Book of Fighting", $COLOR_SUCCESS)
+					$bUseBooks = True
+					$ActionForModLog = "Use Book of Fighting"
+					If $g_iTxtCurrentVillageName <> "" Then
+						GUICtrlSetData($g_hTxtModLog, @CRLF & _NowTime() & " [" & $g_iTxtCurrentVillageName & "] Laboratory : " & $ActionForModLog, 1)
+					Else
+						GUICtrlSetData($g_hTxtModLog, @CRLF & _NowTime() & " [" & $g_sProfileCurrentName & "] Laboratory : " & $ActionForModLog, 1)
+					EndIf
+					_FileWriteLog($g_sProfileLogsPath & "\ModLog.log", " [" & $g_sProfileCurrentName & "] - Laboratory : " & $ActionForModLog & "")
+					If _Sleep(1000) Then Return
+				EndIf
+			Else
+				SetLog("Book of Fighting Not Found", $COLOR_ERROR)
+			EndIf
+		EndIf
+
+		If $bUseBooks Then 
+			$g_sLabUpgradeTime = "" ;reset lab upgrade time
+			$iLabFinishTimeMod = 0
+			;==========Hide Red  Show Green Hide Gray===
+			GUICtrlSetState($g_hPicLabGray, $GUI_HIDE)
+			GUICtrlSetState($g_hPicLabRed, $GUI_SHOW)
+			GUICtrlSetState($g_hPicLabGreen, $GUI_HIDE)
+			;===========================================
+		EndIf
+
 		If _Sleep(500) Then Return
 		If ProfileSwitchAccountEnabled() Then SwitchAccountVariablesReload("Save") ; saving $asLabUpgradeTime[$g_iCurAccount] = $g_sLabUpgradeTime for instantly displaying in multi-stats
 		CloseWindow(True)

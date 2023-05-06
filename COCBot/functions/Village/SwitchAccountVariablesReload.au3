@@ -56,7 +56,6 @@ Func SwitchAccountVariablesReload($sType = "Load", $iAccount = $g_iCurAccount)
 	Static $SIstoRecheckTrader = $aiZero
 	Static $SIsdroptrophiesActive = $aiZero
 	Static $SIsDropTrophyBreaked = $aiZero
-	
 
 	; Bottom & Multi-Stats
 	Static $aiSkippedVillageCount = $aiZero
@@ -78,6 +77,8 @@ Func SwitchAccountVariablesReload($sType = "Load", $iAccount = $g_iCurAccount)
 	Static $gSiCCTrophies = $aiZero
 	Static $IsSRaidRunning = $aiZero
 	Static $gSiRank = $asEmpty
+	Static $SIsCCGoldJustCollected = $aiZero
+	Static $SIsCCGoldJustCollectedDChallenge = $aiZero
 	
 	;Builders Base
 	Static $gSaiCurrentLootBB = $aiZero83
@@ -103,6 +104,10 @@ Func SwitchAccountVariablesReload($sType = "Load", $iAccount = $g_iCurAccount)
 	Static $asLabUpgradeTime = $asEmpty, $aiLabStatus = $aiZero, $aiLabElixirCost = $aiZero, $aiLabDElixirCost = $aiZero, $asLabFinishTimeMod = $aiZero
 	Static $asPetLabUpgradeTime = $asEmpty, $aiPetStatus = $aiZero, $asiMinDark4PetUpgrade = $aiZero
 	Static $asStarLabUpgradeTime = $asEmpty
+	Static $SIsResearchPotInStock = $aiTrue
+	Static $SIsBOFJustCollected = $aiZero
+	Static $SIsBOSJustCollected = $aiZero
+	Static $SIsResPotJustCollected = $aiZero
 
 	; Hero State
 	Static $aiHeroAvailable = $aiZero
@@ -236,6 +241,10 @@ Func SwitchAccountVariablesReload($sType = "Load", $iAccount = $g_iCurAccount)
 			$aiPetStatus = $aiZero
 			$asiMinDark4PetUpgrade = $asEmpty
 			$asStarLabUpgradeTime = $asEmpty
+			$SIsResearchPotInStock = $aiTrue
+			$SIsBOFJustCollected = $aiZero
+			$SIsBOSJustCollected = $aiZero
+			$SIsResPotJustCollected = $aiZero
 			
 			;Daily Challenge
 			$gaSsNewChallengeTime = $aiZero
@@ -276,6 +285,8 @@ Func SwitchAccountVariablesReload($sType = "Load", $iAccount = $g_iCurAccount)
 			$gSiCCTrophies = $aiZero
 			$IsSRaidRunning = $aiZero
 			$gSiRank = $asEmpty
+			$SIsCCGoldJustCollected = $aiZero
+			$SIsCCGoldJustCollectedDChallenge = $aiZero
 			
 			;Builders Base
 			$gSaiCurrentLootBB = $aiZero83
@@ -341,6 +352,8 @@ Func SwitchAccountVariablesReload($sType = "Load", $iAccount = $g_iCurAccount)
 			$gSiCCTrophies[$iAccount] = $g_iCCTrophies
 			$IsSRaidRunning[$iAccount] = $IsRaidRunning
 			$gSiRank[$iAccount] = $g_iRank
+			$SIsCCGoldJustCollected[$iAccount] = $IsCCGoldJustCollected
+			$SIsCCGoldJustCollectedDChallenge[$iAccount] = $IsCCGoldJustCollectedDChallenge
 			
 			;Builders Base
 			For $i = 0 To UBound($g_aiCurrentLootBB) - 1
@@ -411,6 +424,11 @@ Func SwitchAccountVariablesReload($sType = "Load", $iAccount = $g_iCurAccount)
 			$asiMinDark4PetUpgrade[$iAccount] = $g_iMinDark4PetUpgrade
 			
 			$asStarLabUpgradeTime[$iAccount] = $g_sStarLabUpgradeTime
+			
+			$SIsResearchPotInStock[$iAccount] = $IsResearchPotInStock
+			$SIsBOFJustCollected[$iAccount] = $IsBOFJustCollected
+			$SIsBOSJustCollected[$iAccount] = $IsBOSJustCollected
+			$SIsResPotJustCollected[$iAccount] = $IsResPotJustCollected
 			
 			;Daily challenge
 			$gaSsNewChallengeTime[$iAccount] = $g_sNewChallengeTime
@@ -506,6 +524,8 @@ Func SwitchAccountVariablesReload($sType = "Load", $iAccount = $g_iCurAccount)
 			PicCCTrophies()
 			$IsRaidRunning = $IsSRaidRunning[$iAccount]
 			$g_iRank = $gSiRank[$iAccount]
+			$IsCCGoldJustCollected = $SIsCCGoldJustCollected[$iAccount]
+			$IsCCGoldJustCollectedDChallenge = $SIsCCGoldJustCollectedDChallenge[$iAccount]
 			
 			;Builders Base
 			For $i = 0 To UBound($g_aiCurrentLootBB) - 1
@@ -578,6 +598,11 @@ Func SwitchAccountVariablesReload($sType = "Load", $iAccount = $g_iCurAccount)
 			
 			$g_sStarLabUpgradeTime = $asStarLabUpgradeTime[$iAccount]
 			GUICtrlSetData($g_hLbLStarLabTime, "")
+			
+			$IsResearchPotInStock = $SIsResearchPotInStock[$iAccount]
+			$IsBOFJustCollected = $SIsBOFJustCollected[$iAccount]
+			$IsBOSJustCollected = $SIsBOSJustCollected[$iAccount]
+			$IsResPotJustCollected = $SIsResPotJustCollected[$iAccount]
 			
 			;Daily challenge
 			$g_sNewChallengeTime = $gaSsNewChallengeTime[$iAccount]

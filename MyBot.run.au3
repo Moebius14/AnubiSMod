@@ -1429,6 +1429,11 @@ Func __RunFunction($action)
 		Case "Laboratory"
 			Laboratory()
 			If Not _Sleep($DELAYRUNBOT3) Then checkMainScreen(False)
+			While $IsLabtoRecheck
+				SetLog("Re-Check Laboratory For " & $g_avLabTroops[$g_iCmbLaboratory][0], $COLOR_SUCCESS)
+				If _Sleep(1000) Then Return
+				Laboratory()
+			Wend
 		Case "PetHouse"
 			PetHouse()
 			If Not _Sleep($DELAYRUNBOT3) Then checkMainScreen(False)

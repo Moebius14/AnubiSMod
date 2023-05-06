@@ -566,7 +566,7 @@ Global Enum $eIcnVillager = 1, $eIcnModCWL, $eIcnModZZZ, $eIcnHumanization, $eIc
 		$eIcnModBBGoldRune, $eIcnModElixirRune, $eIcnModDarkElixirRune, $eIcnModCCArmyCamp, $eIcnModCCBarrack, $eIcnModCCSpellFactory, $eIcnModCCSpellStorage, $eIcnModCCCapitalHall, $eIcnModCCDistrictHall, _
 		$eIcnModCCWall1, $eIcnModCCWall5, $eIcnModCCBigBarb, $eIcnModCCBoulder, $eIcnModCCForest, $eIcnModCCGreatPyre, $eIcnModCCGrove, $eIcnModCCPillar, $eIcnModCCBarrackRuin, $eIcnModCCBowBlastRuin, $eIcnModCCBombTowerRuin, _
 		$eIcnModCCSwizardtowerRuin, $eIcnModCCWall2, $eIcnModCCWall3, $eIcnModGoldRune, $eIcnModHeroBook, $eIcnCCSleep, $eIcnCCWake, $eIcnModCCPrioritized, $eIcnCWLChampion, $eIcnPriority, _
-		$eIcnGiantSkeleton, $eIcnRoyalGhost, $eIcnPartyWizard, $eIcnIceWizard
+		$eIcnGiantSkeleton, $eIcnRoyalGhost, $eIcnPartyWizard, $eIcnIceWizard, $eIcnAllSpell, $eIcnAllSiege, $eIcnModFightingBook, $eIcnModEverythingBook
 		
 Global $eIcnDonBlank = $eIcnDonBlacklist
 Global $eIcnOptions = $eIcnDonBlacklist
@@ -938,7 +938,11 @@ Global $g_iDonateSkipNearFullPercent = 90
 
 ; <><><><> Village / Upgrade <><><><>
 ; Lab
-Global $g_bAutoLabUpgradeEnable = False, $g_iCmbLaboratory = 0, $g_bAutoStarLabUpgradeEnable = False, $g_iCmbStarLaboratory = 0
+Global $g_bAutoLabUpgradeEnable = False, $g_iCmbLaboratory = 0, $g_bAutoStarLabUpgradeEnable = False, $g_iCmbStarLaboratory = 0, $IsLabtoRecheck = False
+Global $g_ahCmbLabUpgradeOrder[8] = [-1, -1, -1, -1, -1, -1, -1, -1]
+Global $g_aCmbLabUpgradeOrder[8] = [-1, -1, -1, -1, -1, -1, -1, -1]
+Global $g_bUseBOF = 0, $g_iUseBOFTime = 0, $g_bUseBOS = 0, $g_iUseBOSTime = 0, $g_bUseBOE = 0, $g_iUseBOETime = 0
+Global $IsBOFJustCollected = 0, $IsBOSJustCollected = 0, $IsResPotJustCollected = 0
 
 ; Heroes
 Global $g_bUpgradeKingEnable = False, $g_bUpgradeQueenEnable = False, $g_bUpgradeWardenEnable = False, $g_bUpgradeChampionEnable = False, $g_iHeroReservedBuilder = 0
@@ -1399,7 +1403,7 @@ Global $g_CurrentCampUtilization = 0, $g_iTotalCampSpace = 0
 
 ; Upgrading - Lab
 Global $g_iLaboratoryElixirCost = 0, $g_iLaboratoryDElixirCost = 0, $g_bUseLabPotion = False, $g_bUpgradeAnyTroops = False
-Global $g_sLabUpgradeTime = "", $iLabFinishTimeMod = 0, $iStarLabFinishTimeMod = 0
+Global $g_sLabUpgradeTime = "", $iLabFinishTimeMod = 0, $iStarLabFinishTimeMod = 0, $IsResearchPotInStock = 1
 Global $g_sStarLabUpgradeTime = ""
 
 ; Array to hold Laboratory Troop information [LocX of upper left corner of image, LocY of upper left corner of image, PageLocation, Troop "name", Icon # in DLL file, ShortName on image file]
@@ -1408,7 +1412,7 @@ Global $g_avStarLabTroops[12][6]
 
 ; [0] Name, [1] Icon [2] ShortName
 Func TranslateTroopNames()
-	Dim $g_avLabTroops[46][3] = [ _
+	Dim $g_avLabTroops[48][3] = [ _
 			[GetTranslatedFileIni("MBR Global GUI Design", "Any", "Any"), $eIcnBlank], _
 			[GetTranslatedFileIni("MBR Global GUI Design Names Troops", "TxtBarbarians", "Barbarians"), $eIcnBarbarian, "Barb"], _
 			[GetTranslatedFileIni("MBR Global GUI Design Names Troops", "TxtArchers", "Archers"), $eIcnArcher, "Arch"], _
@@ -1425,7 +1429,7 @@ Func TranslateTroopNames()
 			[GetTranslatedFileIni("MBR Global GUI Design Names Troops", "TxtElectroDragons", "Electro Dragons"), $eIcnElectroDragon, "EDrag"], _
 			[GetTranslatedFileIni("MBR Global GUI Design Names Troops", "TxtYetis", "Yetis"), $eIcnYeti, "Yeti"], _
 			[GetTranslatedFileIni("MBR Global GUI Design Names Troops", "TxtDragonRiders", "Dragon Riders"), $eIcnDragonRider, "RDrag"], _
-			[GetTranslatedFileIni("MBR Global GUI Design Names Troops", "TxtEltroTitan", "Electro Titan"), $eIcnElectroTitan, "ETitan"], _
+			[GetTranslatedFileIni("MBR Global GUI Design Names Troops", "TxtElectroTitan", "Electro Titan"), $eIcnElectroTitan, "ETitan"], _
 			[GetTranslatedFileIni("MBR Global GUI Design Names Spells", "TxtLightningSpells", "Lightning Spell"), $eIcnLightSpell, "LSpell"], _
 			[GetTranslatedFileIni("MBR Global GUI Design Names Spells", "TxtHealingSpells", "Healing Spell"), $eIcnHealSpell, "HSpell"], _
 			[GetTranslatedFileIni("MBR Global GUI Design Names Spells", "TxtRageSpells", "Rage Spell"), $eIcnRageSpell, "RSpell"], _
@@ -1454,7 +1458,9 @@ Func TranslateTroopNames()
 			[GetTranslatedFileIni("MBR Global GUI Design Names Troops", "TxtSiegeBarracks", "Siege Barracks"), $eIcnSiegeB, "SiegeB"], _
 			[GetTranslatedFileIni("MBR Global GUI Design Names Troops", "TxtLogLauncher", "Log Launcher"), $eIcnLogL, "LogL"], _
 			[GetTranslatedFileIni("MBR Global GUI Design Names Troops", "TxtFlameFlinger", "Flame Flinger"), $eIcnFlameF, "FlameF"], _
-			[GetTranslatedFileIni("MBR Global GUI Design Names Troops", "TxtBattleDrill", "Battle Drill"), $eIcnBattleD, "BattleD"]]
+			[GetTranslatedFileIni("MBR Global GUI Design Names Troops", "TxtBattleDrill", "Battle Drill"), $eIcnBattleD, "BattleD"], _
+			[GetTranslatedFileIni("MBR Global GUI Design Names Troops", "TxtAnySpell", "Any Spell"), $eIcnAllSpell, "AnySpell"], _
+			[GetTranslatedFileIni("MBR Global GUI Design Names Troops", "TxtAnySiege", "Any Siege"), $eIcnAllSiege, "AnySiege"]]
 
 	Dim $g_avStarLabTroops[12][5] = [ _
 			[-1, -1, -1, GetTranslatedFileIni("MBR Global GUI Design", "Any", "Any"), $eIcnBlank], _
@@ -2131,7 +2137,7 @@ Global $IsRaidRunning = 0, $g_iRank = ""
 Global $g_bChkEnableCollectCCGold = True, $g_bChkEnableForgeGold = False, $g_bChkEnableForgeElix = False
 Global $g_bChkEnableForgeDE = False, $g_bChkEnableForgeBBGold = False, $g_bChkEnableForgeBBElix = False, $g_iCmbForgeBuilder = 0
 Global $g_bFirstStartAccountSBB2 = 0, $CCBaseCheckTimer = 0, $DelayReturnedtocheckCCBaseMS = 0, $iAttack = 0
-Global $g_iCmbPriorityCCBaseFrequency = 2, $g_icmbAdvancedVariationCC = 3, $IsCCGoldJustCollected = False, $IsCCGoldJustCollectedDChallenge = False
+Global $g_iCmbPriorityCCBaseFrequency = 2, $g_icmbAdvancedVariationCC = 3, $IsCCGoldJustCollected = 0, $IsCCGoldJustCollectedDChallenge = 0
 Global $g_iacmdGoldSaveMin = 150000, $g_iacmdElixSaveMin = 1000, $g_iacmdDarkSaveMin = 1000, $g_iacmdBBGoldSaveMin = 1000, $g_iacmdBBElixSaveMin = 1000
 Global $g_bChkStartWeekendRaid = False, $g_bChkEnablePriorArmyCC = False, $g_bChkEnablePriorHallsCC = False, $g_bChkEnablePriorRuinsCC = False, $g_bChkIsIgnoredWalls = False, _
 	   $g_bChkEnableOnlyRuinsCC = False, $g_bChkEnablePriorPrioritized = False

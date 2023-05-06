@@ -803,6 +803,16 @@ Func ReadConfig_600_14()
 	IniReadS($g_bAutoLabUpgradeEnable, $g_sProfileBuildingPath, "upgrade", "upgradetroops", False, "Bool")
 	IniReadS($g_bUseLabPotion, $g_sProfileBuildingPath, "upgrade", "uselabpotion", False, "Bool")
 	IniReadS($g_iCmbLaboratory, $g_sProfileBuildingPath, "upgrade", "upgradetroopname", 0, "int")
+	Local $str = StringSplit(IniRead($g_sProfileBuildingPath, "upgrade", "upgradeorderlist", "-1| -1| -1| -1| -1| -1| -1| -1"), "|", $STR_NOCOUNT)
+	For $i = 0 To UBound($g_aCmbLabUpgradeOrder) - 1
+		$g_aCmbLabUpgradeOrder[$i] = $str[$i]
+	Next
+	IniReadS($g_bUseBOF, $g_sProfileBuildingPath, "upgrade", "usebookfighting", False, "Bool")
+	IniReadS($g_iUseBOFTime, $g_sProfileBuildingPath, "upgrade", "usebookfightingMinTime", 7, "int")
+	IniReadS($g_bUseBOS, $g_sProfileBuildingPath, "upgrade", "usebookspell", False, "Bool")
+	IniReadS($g_iUseBOSTime, $g_sProfileBuildingPath, "upgrade", "usebookspellMinTime", 7, "int")
+	IniReadS($g_bUseBOE, $g_sProfileBuildingPath, "upgrade", "usebookeverything", False, "Bool")
+	IniReadS($g_iUseBOETime, $g_sProfileBuildingPath, "upgrade", "usebookeverythingMinTime", 14, "int")
 	IniReadS($g_iLaboratoryElixirCost, $g_sProfileBuildingPath, "upgrade", "upgradelabelexircost", 0, "int")
 	IniReadS($g_iLaboratoryDElixirCost, $g_sProfileBuildingPath, "upgrade", "upgradelabdelexircost", 0, "int")
 	IniReadS($g_bAutoStarLabUpgradeEnable, $g_sProfileBuildingPath, "upgrade", "upgradestartroops", False, "Bool")

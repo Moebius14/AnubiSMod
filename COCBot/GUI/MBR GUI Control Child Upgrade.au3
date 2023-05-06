@@ -209,16 +209,71 @@ Func chkLab()
 		GUICtrlSetState($g_hPicLabUpgrade, $GUI_SHOW)
 		GUICtrlSetState($g_hLblNextUpgrade, $GUI_ENABLE)
 		GUICtrlSetState($g_hCmbLaboratory, $GUI_ENABLE)
-		_GUICtrlSetImage($g_hPicLabUpgrade, $g_sLibIconPath, $g_avLabTroops[$g_iCmbLaboratory][1])
+		If $g_iCmbLaboratory > 45 Then
+			_GUICtrlSetImage($g_hPicLabUpgrade, $g_sLibModIconPath, $g_avLabTroops[$g_iCmbLaboratory][1])
+		Else
+			_GUICtrlSetImage($g_hPicLabUpgrade, $g_sLibIconPath, $g_avLabTroops[$g_iCmbLaboratory][1])
+		EndIf
+		cmbLab()
 	Else
 		$g_bAutoLabUpgradeEnable = False
 		GUICtrlSetState($g_hPicLabUpgrade, $GUI_HIDE)
 		GUICtrlSetState($g_hLblNextUpgrade, $GUI_DISABLE)
 		GUICtrlSetState($g_hCmbLaboratory, $GUI_DISABLE)
-		_GUICtrlSetImage($g_hPicLabUpgrade, $g_sLibIconPath, $g_avLabTroops[0][1])
+		If $g_iCmbLaboratory > 45 Then
+			_GUICtrlSetImage($g_hPicLabUpgrade, $g_sLibModIconPath, $g_avLabTroops[$g_iCmbLaboratory][1])
+		Else
+			_GUICtrlSetImage($g_hPicLabUpgrade, $g_sLibIconPath, $g_avLabTroops[$g_iCmbLaboratory][1])
+		EndIf
+		If $g_iCmbLaboratory = 0 Then
+			For $i = $Dummy2 To $g_hBtnSetLabUpgradeOrder
+				btnRemoveLabUpgradeOrder()
+				GUICtrlSetState($i, $GUI_DISABLE)
+			Next
+		Else
+			For $i = $Dummy2 To $g_hBtnSetLabUpgradeOrder
+				GUICtrlSetState($i, $GUI_DISABLE)
+			Next
+		EndIf
 	EndIf
 	LabStatusGUIUpdate()
 EndFunc   ;==>chkLab
+
+Func cmbLabUpgradeOrder()
+	Local $iGUI_CtrlId = @GUI_CtrlId
+	For $i = 0 To UBound($g_ahCmbLabUpgradeOrder) - 1 ; check for duplicate combobox index and flag problem
+		If _GUICtrlComboBox_GetCurSel($g_ahCmbLabUpgradeOrder[$i]) = _GUICtrlComboBox_GetCurSel($g_hCmbLaboratory) Then
+			_GUICtrlComboBox_SetCurSel($g_ahCmbLabUpgradeOrder[$i], -1)
+			ContinueLoop
+		EndIf
+		If $iGUI_CtrlId = $g_ahCmbLabUpgradeOrder[$i] Then ContinueLoop
+		If _GUICtrlComboBox_GetCurSel($iGUI_CtrlId) = _GUICtrlComboBox_GetCurSel($g_ahCmbLabUpgradeOrder[$i]) Then
+			_GUICtrlComboBox_SetCurSel($g_ahCmbLabUpgradeOrder[$i], -1)
+			GUISetState()
+		EndIf
+	Next
+EndFunc   ;==>cmbLabUpgradeOrder
+
+Func btnRemoveLabUpgradeOrder()
+	For $i = 0 To UBound($g_ahCmbLabUpgradeOrder) - 1
+		_GUICtrlComboBox_SetCurSel($g_ahCmbLabUpgradeOrder[$i], -1)
+	Next
+EndFunc
+
+Func btnSetLabUpgradeOrder()
+	Local $d
+	SetLog("Set Laboratory Upgrade Order",$COLOR_SUCCESS)
+	SetLog("1 : " & $g_avLabTroops[$g_iCmbLaboratory][0], $COLOR_SUCCESS)
+	For $i = 0 To UBound($g_ahCmbLabUpgradeOrder) - 1
+		$g_aCmbLabUpgradeOrder[$i] = _GUICtrlComboBox_GetCurSel($g_ahCmbLabUpgradeOrder[$i])
+		$d = $g_aCmbLabUpgradeOrder[$i]
+		If $g_aCmbLabUpgradeOrder[$i] = -1 Then
+			$d = 0
+			_GUICtrlComboBox_SetCurSel($g_ahCmbLabUpgradeOrder[$i], $g_avLabTroops[$d][0])
+		EndIf
+		SetLog($i+2 & " : " & $g_avLabTroops[$d][0], $COLOR_SUCCESS)
+	Next
+EndFunc
 
 Func chkStarLab()
 	If GUICtrlRead($g_hChkAutoStarLabUpgrades) = $GUI_CHECKED Then
@@ -273,7 +328,21 @@ EndFunc   ;==>StarLabStatusGUIUpdate
 
 Func cmbLab()
 	$g_iCmbLaboratory = _GUICtrlComboBox_GetCurSel($g_hCmbLaboratory)
-	_GUICtrlSetImage($g_hPicLabUpgrade, $g_sLibIconPath, $g_avLabTroops[$g_iCmbLaboratory][1])
+	If $g_iCmbLaboratory > 45 Then
+		_GUICtrlSetImage($g_hPicLabUpgrade, $g_sLibModIconPath, $g_avLabTroops[$g_iCmbLaboratory][1])
+	Else
+		_GUICtrlSetImage($g_hPicLabUpgrade, $g_sLibIconPath, $g_avLabTroops[$g_iCmbLaboratory][1])
+	EndIf
+	If $g_iCmbLaboratory = 0 Then
+		For $i = $Dummy2 To $g_hBtnSetLabUpgradeOrder
+			btnRemoveLabUpgradeOrder()
+			GUICtrlSetState($i, $GUI_DISABLE)
+		Next
+	ElseIf $g_bAutoLabUpgradeEnable Then
+		For $i = $Dummy2 To $g_hBtnSetLabUpgradeOrder
+			GUICtrlSetState($i, $GUI_ENABLE)
+		Next
+	EndIf
 EndFunc   ;==>cmbLab
 
 Func cmbStarLab()
@@ -461,7 +530,6 @@ Func chkUpgradeChampion()
 EndFunc   ;==>chkUpgradeChampion
 
 Func cmbHeroReservedBuilder()
-	$g_iHeroReservedBuilder = _GUICtrlComboBox_GetCurSel($g_hCmbHeroReservedBuilder)
 	If $g_iTownHallLevel > 6 Then ; Must be TH7 or above to have Heroes
 		If $g_iTownHallLevel > 12 Then ; For TH13 enable up to 4 reserved builders
 			GUICtrlSetData($g_hCmbHeroReservedBuilder, "|0|1|2|3|4", "0")
@@ -482,6 +550,10 @@ Func cmbHeroReservedBuilder()
 	EndIf
 	_GUICtrlComboBox_SetCurSel($g_hCmbHeroReservedBuilder, $g_iHeroReservedBuilder)
 EndFunc   ;==>cmbHeroReservedBuilder
+
+Func cmbHeroReservedBuilder2()
+	$g_iHeroReservedBuilder = _GUICtrlComboBox_GetCurSel($g_hCmbHeroReservedBuilder)
+EndFunc   ;==>cmbHeroReservedBuilder2
 
 Func chkWalls()
 	If GUICtrlRead($g_hChkWalls) = $GUI_CHECKED Then

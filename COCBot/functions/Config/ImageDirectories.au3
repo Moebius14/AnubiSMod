@@ -63,6 +63,13 @@ Global $g_sImgDonateCC = @ScriptDir & "\imgxml\DonateCC\"
 Global $g_sImgLabResearch = @ScriptDir & "\imgxml\Research\Laboratory\"
 Global $g_sImgBBDailyAvail = @ScriptDir & "\imgxml\DailyChallenge\BBDailyChallenge\"
 Global $g_sImgFullCCRes = @ScriptDir & "\imgxml\Resources\TreasuryFull"
+Global $g_sImgLabUpRequiredOrLvlMax = @ScriptDir & "\imgxml\Research\RequiredOrLvlMax\"
+Global $g_sImgAnySpell = @ScriptDir & "\imgxml\Research\Laboratory\AllSpell\"
+Global $g_sImgAnySiege = @ScriptDir & "\imgxml\Research\Laboratory\AllSiege\"
+Global $g_sImgBooks = @ScriptDir & "\imgxml\Research\Books\"
+Global $g_sImgBOFCollectDaily = @ScriptDir & "\imgxml\Research\DailyChallenges\BOF\"
+Global $g_sImgBOSCollectDaily = @ScriptDir & "\imgxml\Research\DailyChallenges\BOS\"
+Global $g_sImgResPotCollectDaily = @ScriptDir & "\imgxml\Research\DailyChallenges\ResPot\"
 #EndRegion
 
 #Region Clan Capital

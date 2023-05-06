@@ -299,7 +299,7 @@ Func TrainUsingWhatToTrain($rWTT, $bQueue = $g_bIsFullArmywithHeroesAndSpells)
 
 	If UBound($rWTT) = 1 And $rWTT[0][0] = "Arch" And $rWTT[0][1] = 0 Then Return True ; If was default Result of WhatToTrain
 
-	If Not OpenTroopsTab(True, "TrainUsingWhatToTrain()", $bQueue) Then Return
+	If Not OpenTroopsTab(True, "TrainUsingWhatToTrain()") Then Return
 	
 	; Loop through needed troops to Train
 	For $i = 0 To (UBound($rWTT) - 1)

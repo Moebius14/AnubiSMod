@@ -16,7 +16,7 @@
 
 Func CollectCCGold($bTest = False)
 	If Not $g_bRunState Then Return
-	$IsCCGoldJustCollected = False
+	$IsCCGoldJustCollected = 0
 	If Not $g_bChkEnableCollectCCGold Then Return
 	Local $bWindowOpened = False
 	Local $CollectingCCGold = 0, $CollectedCCGold = 0
@@ -86,7 +86,7 @@ Func CollectCCGold($bTest = False)
 					Next
 				EndIf
 			EndIf
-			$IsCCGoldJustCollected = True
+			$IsCCGoldJustCollected = 1
 			Local $GoldSetlog = _NumberFormat($CollectedCCGold, True)
 			SetLog("Collected " & $GoldSetlog & " Clan Capital Gold Successfully !", $COLOR_SUCCESS1)
 			Local $ReadCCGoldOCR = getOcrAndCapture("coc-forge-ccgold", 320, 456 + $g_iMidOffsetY, 120, 18, True)
@@ -1364,7 +1364,7 @@ Func AutoUpgradeCC()
 		Local $StartRaidConditions = $g_bChkStartWeekendRaid And $IsUTCTimeForRaid
 		SetLog("Smart Clan Capital Switch Control", $COLOR_OLIVE)
 		If Number($g_iLootCCGold) = 0 Then
-			$IsCCGoldJustCollected = False
+			$IsCCGoldJustCollected = 0
 			$IsCCGoldJustCollectedDChallenge = $IsCCGoldJustCollected
 			If $StartRaidConditions And $IsRaidRunning Then SetLog("Raid Weekend has already started", $COLOR_SUCCESS1)
 			If Not $g_bFirstStartForAll Then
@@ -1412,7 +1412,7 @@ Func AutoUpgradeCC()
 	If Not SwitchToClanCapital() Then Return
 	If _Sleep(1000) Then Return
 	If Number($g_iLootCCGold) = 0 Then 
-		$IsCCGoldJustCollected = False
+		$IsCCGoldJustCollected = 0
 		$IsCCGoldJustCollectedDChallenge = $IsCCGoldJustCollected
 		SetLog("No Capital Gold to spend to Contribute", $COLOR_INFO)
 		SwitchToMainVillage()
@@ -1530,7 +1530,7 @@ Func AutoUpgradeCC()
 	ClanCapitalReport(False)
 	If Not $g_bRunState Then Return
 	If Number($g_iLootCCGold) = 0 Then
-		$IsCCGoldJustCollected = False
+		$IsCCGoldJustCollected = 0
 		$IsCCGoldJustCollectedDChallenge = $IsCCGoldJustCollected
 	EndIf
 	SwitchToMainVillage()

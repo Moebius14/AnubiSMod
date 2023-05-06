@@ -18,9 +18,10 @@ Global $g_hGUI_UPGRADE = 0, $g_hGUI_UPGRADE_TAB = 0, $g_hGUI_UPGRADE_TAB_ITEM1 =
 	   $g_hGUI_UPGRADE_TAB_ITEM4 = 0, $g_hGUI_UPGRADE_TAB_ITEM5 = 0
 
 ; Lab
-; Lab
 Global $g_hChkAutoLabUpgrades = 0, $g_hCmbLaboratory = 0, $g_hLblNextUpgrade = 0, $g_hBtnResetLabUpgradeTime = 0, $g_hPicLabUpgrade = 0
 Global $g_hChkAutoStarLabUpgrades = 0, $g_hCmbStarLaboratory = 0, $g_hLblNextSLUpgrade = 0, $g_hBtnResetStarLabUpgradeTime = 0, $g_hPicStarLabUpgrade = 0
+Global $g_hBtnRemoveLabUpgradeOrder = 0, $g_hBtnSetLabUpgradeOrder = 0, $Dummy2 = 0
+Global $g_hUseBOF = 0, $g_hUseBOFTime = 0, $g_hUseBOS = 0, $g_hUseBOSTime = 0, $g_hUseBOE = 0, $g_hUseBOETime = 0
 
 
 Global $g_hChkAutoLabUpgrades = 0, $g_hCmbLaboratory = 0, $g_hLblNextUpgrade = 0, $g_hBtnResetLabUpgradeTime = 0, $g_hPicLabUpgrade = 0, _
@@ -136,7 +137,9 @@ Func CreateLaboratorySubTab()
 					   GetTranslatedFileIni("MBR Global GUI Design Names Troops", "TxtSiegeBarracks", "Siege Barracks") & "|" & _
 					   GetTranslatedFileIni("MBR Global GUI Design Names Troops", "TxtLogLaunchers", "Log Launchers") & "|" & _
 					   GetTranslatedFileIni("MBR Global GUI Design Names Troops", "TxtFlameFlingers", "Flame Flingers") & "|" & _
-					   GetTranslatedFileIni("MBR Global GUI Design Names Troops", "TxtBattleDrills", "Battle Drills")
+					   GetTranslatedFileIni("MBR Global GUI Design Names Troops", "TxtBattleDrills", "Battle Drills") & "|" & _
+					   GetTranslatedFileIni("MBR Global GUI Design Names Troops", "TxtAnySpell", "Any Spell") & "|" & _
+					   GetTranslatedFileIni("MBR Global GUI Design Names Troops", "TxtAnySiege", "Any Siege")
 
 	Local $sTxtSLNames = GetTranslatedFileIni("MBR Global GUI Design", "Any", "Any") & "|" & _
 					   GetTranslatedFileIni("MBR Global GUI Design Names Builderbase Troops", "TxtRagedBarbarian", "Raged Barbarian") & "|" & _
@@ -152,7 +155,7 @@ Func CreateLaboratorySubTab()
 					   GetTranslatedFileIni("MBR Global GUI Design Names Builderbase Troops", "TxtHogGlider", "Hog Glider")
 
 	Local $x = 25, $y = 45
-	GUICtrlCreateGroup(GetTranslatedFileIni("MBR GUI Design Child Village - Upgrade_Laboratory", "Group_01", "Laboratory"), $x - 20, $y - 20, $g_iSizeWGrpTab3, 120)
+	GUICtrlCreateGroup(GetTranslatedFileIni("MBR GUI Design Child Village - Upgrade_Laboratory", "Group_01", "Laboratory"), $x - 20, $y - 20, $g_iSizeWGrpTab3 - 4, 273)
 		_GUICtrlCreateIcon($g_sLibIconPath, $eIcnLabUpgrade, $x, $y + 10, 64, 64)
 		$g_hChkAutoLabUpgrades = GUICtrlCreateCheckbox(GetTranslatedFileIni("MBR GUI Design Child Village - Upgrade_Laboratory", "ChkAutoLabUpgrades", "Auto Laboratory Upgrades"), $x + 80, $y + 5, -1, -1)
 			_GUICtrlSetTip(-1, GetTranslatedFileIni("MBR GUI Design Child Village - Upgrade_Laboratory", "ChkAutoLabUpgrades_Info_01", "Check box to enable automatically starting Upgrades in laboratory"))
@@ -173,7 +176,7 @@ Func CreateLaboratorySubTab()
 			GUICtrlSetState(-1, $GUI_DISABLE)
 			GUICtrlSetOnEvent(-1, "cmbLab")
 		; Red button, will show on upgrade in progress. Temp unhide here and in Func ChkLab() if GUI needs editing.
-		$g_hBtnResetLabUpgradeTime = GUICtrlCreateButton("", $x + 120 + 172, $y + 36, 18, 18, BitOR($BS_PUSHLIKE,$BS_DEFPUSHBUTTON))
+		$g_hBtnResetLabUpgradeTime = GUICtrlCreateButton("", $x + 295, $y + 36, 18, 18, BitOR($BS_PUSHLIKE,$BS_DEFPUSHBUTTON))
 			GUICtrlSetBkColor(-1, $COLOR_ERROR)
 			;_GUICtrlSetImage(-1, $g_sLibIconPath, $eIcnRedLight)
 			_GUICtrlSetTip(-1, GetTranslatedFileIni("MBR GUI Design Child Village - Upgrade_Laboratory", "BtnResetLabUpgradeTime_Info_01", "Visible Red button means that laboratory upgrade in process") & @CRLF & _
@@ -186,10 +189,75 @@ Func CreateLaboratorySubTab()
 			GUICtrlSetOnEvent(-1, "ResetLabUpgradeTime")
 		$g_hPicLabUpgrade = _GUICtrlCreateIcon($g_sLibIconPath, $eIcnBlank, $x + 330, $y, 64, 64)
 			GUICtrlSetState(-1, $GUI_HIDE)
+
+		; Create translated list of Troops for combo box
+		Local $sComboData = ""
+		For $i = 0 To Ubound($g_avLabTroops) - 1
+			$sComboData &= $g_avLabTroops[$i][0] & "|"
+		Next
+
+		; Create ComboBox(es) for selection of troop training order
+		$y += 70
+		$x += 20
+		$Dummy2 = GUICtrlCreateLabel("", $x, $y, -1, -1)
+		For $z = 0 To UBound($g_ahCmbLabUpgradeOrder) - 1
+			If $z < 4 Then
+				GUICtrlCreateLabel($z + 2 & ":", $x - 16, $y + 2, -1, 18)
+				$g_ahCmbLabUpgradeOrder[$z] = GUICtrlCreateCombo("", $x, $y, 110, 18, BitOR($CBS_DROPDOWNLIST + $WS_VSCROLL, $CBS_AUTOHSCROLL))
+				GUICtrlSetOnEvent(-1, "cmbLabUpgradeOrder")
+				GUICtrlSetData(-1, $sComboData, "")
+				GUICtrlSetState(-1, $GUI_DISABLE)
+				$y += 22 ; move down to next combobox location
+			ElseIf $z > 3 And $z < 8 Then
+				If $z = 4 Then
+					$x += 141
+					$y -= 88
+				EndIf
+				GUICtrlCreateLabel($z + 2 & ":", $x - 13, $y + 2, -1, 18)
+				$g_ahCmbLabUpgradeOrder[$z] = GUICtrlCreateCombo("", $x + 4, $y, 110, 18, BitOR($CBS_DROPDOWNLIST + $WS_VSCROLL, $CBS_AUTOHSCROLL))
+				GUICtrlSetOnEvent(-1, "cmbLabUpgradeOrder")
+				GUICtrlSetData(-1, $sComboData, "")
+				GUICtrlSetState(-1, $GUI_DISABLE)
+				$y += 22 ; move down to next combobox location
+			EndIf
+		Next
+
+		$x += 140
+		$y -= 68
+		$g_hBtnRemoveLabUpgradeOrder = GUICtrlCreateButton("Clear List", $x - 6, $y, 96, 20)
+		GUICtrlSetState(-1, BitOR($GUI_UNCHECKED, $GUI_DISABLE))
+		GUICtrlSetOnEvent(-1, "btnRemoveLabUpgradeOrder")
+
+		$y += 25
+		$g_hBtnSetLabUpgradeOrder = GUICtrlCreateButton("Apply Order", $x - 6, $y, 96, 20)
+		GUICtrlSetState(-1, BitOR($GUI_UNCHECKED, $GUI_DISABLE))
+		GUICtrlSetOnEvent(-1, "btnSetLabUpgradeOrder")
+
+		$x = 30
+		$y += 45
+		GUICtrlCreateIcon($g_sLibModIconPath, $eIcnModFightingBook, $x, $y, 24, 24)
+		$g_hUseBOF = GUICtrlCreateCheckbox(GetTranslatedFileIni("MBR GUI Design Child Village - Upgrade_Laboratory", "ChkUseBOF", "Use Book Of Fighting, If Lab time is more than:"), $x + 30, $y, -1, -1)
+			_GUICtrlSetTip(-1, GetTranslatedFileIni("MBR GUI Design Child Village - Upgrade_Laboratory", "ChkUseBOF", "Enable Use Book Of Fighting" & @CRLF & "If Laboratory Upgrade time is more than specified day"))
+		$g_hUseBOFTime = GUICtrlCreateInput("7", $x + 275, $y + 2, 25, 18, BitOR($GUI_SS_DEFAULT_INPUT, $ES_CENTER, $ES_NUMBER))
+		GUICtrlCreateLabel("Days", $x + 305, $y + 3)
+		$y += 23
+		GUICtrlCreateIcon($g_sLibModIconPath, $eIcnModSpellBook, $x, $y, 24, 24)
+		$g_hUseBOS = GUICtrlCreateCheckbox(GetTranslatedFileIni("MBR GUI Design Child Village - Upgrade_Laboratory", "ChkUseBOS", "Use Book Of Spells, If Lab time is more than:"), $x + 30, $y, -1, -1)
+			_GUICtrlSetTip(-1, GetTranslatedFileIni("MBR GUI Design Child Village - Upgrade_Laboratory", "ChkUseBOF", "Enable Use Book Of Spell" & @CRLF & "If Laboratory Upgrade time is more than specified day"))
+		$g_hUseBOSTime = GUICtrlCreateInput("7", $x + 260, $y + 2, 25, 18, BitOR($GUI_SS_DEFAULT_INPUT, $ES_CENTER, $ES_NUMBER))
+		GUICtrlCreateLabel("Days", $x + 290, $y + 3)
+		$y += 23
+		GUICtrlCreateIcon($g_sLibModIconPath, $eIcnModEverythingBook, $x, $y, 24, 24)
+		$g_hUseBOE = GUICtrlCreateCheckbox(GetTranslatedFileIni("MBR GUI Design Child Village - Upgrade_Laboratory", "ChkUseBOE", "Use Book Of Everything, If Lab time is more than:"), $x + 30, $y, -1, -1)
+			_GUICtrlSetTip(-1, GetTranslatedFileIni("MBR GUI Design Child Village - Upgrade_Laboratory", "ChkUseBOE", "Enable Use Book Of Everything" & @CRLF & "If Laboratory Upgrade time is more than specified day"))
+		$g_hUseBOETime = GUICtrlCreateInput("14", $x + 285, $y + 2, 25, 18, BitOR($GUI_SS_DEFAULT_INPUT, $ES_CENTER, $ES_NUMBER))
+		GUICtrlCreateLabel("Days", $x + 315, $y + 3)
+
 	GUICtrlCreateGroup("", -99, -99, 1, 1)
 
-	$y += 110
-	GUICtrlCreateGroup(GetTranslatedFileIni("MBR GUI Design Child Village - Upgrade_Laboratory", "Group_02", "Star Laboratory"), $x - 20, $y - 20, $g_iSizeWGrpTab3, 100)
+	$y += 50
+	$x = 25
+	GUICtrlCreateGroup(GetTranslatedFileIni("MBR GUI Design Child Village - Upgrade_Laboratory", "Group_02", "Star Laboratory"), $x - 20, $y - 20, $g_iSizeWGrpTab3 - 4, 100)
 		_GUICtrlCreateIcon($g_sLibIconPath, $eIcnStarLaboratory, $x, $y, 64, 64)
 		$g_hChkAutoStarLabUpgrades = GUICtrlCreateCheckbox(GetTranslatedFileIni("MBR GUI Design Child Village - Upgrade_Laboratory", "ChkAutoStarLabUpgrades", "Auto Star Laboratory Upgrades"), $x + 80, $y + 5, -1, -1)
 			_GUICtrlSetTip(-1, GetTranslatedFileIni("MBR GUI Design Child Village - Upgrade_Laboratory", "ChkAutoStarLabUpgrades_Info_01", "Check box to enable automatically starting Upgrades in star laboratory"))
@@ -289,8 +357,8 @@ Func CreateHeroesSubTab()
 		$g_hLblHeroReservedBuilderTop = GUICtrlCreateLabel(GetTranslatedFileIni("MBR GUI Design Child Village - Upgrade_Heroes", "LblHeroReservedBuilderTop", "Reserve ") , $x, $y + 15, -1, -1)
 		$g_hCmbHeroReservedBuilder = GUICtrlCreateCombo("", $x + 50, $y + 11, 30, 21, $CBS_DROPDOWNLIST, $WS_EX_RIGHT)
 			_GUICtrlSetTip(-1, GetTranslatedFileIni("MBR GUI Design Child Village - Upgrade_Heroes", "CmbHeroReservedBuilder", "At least this many builders have to upgrade heroes, or wait for it."))
-			GUICtrlSetData(-1, "|0|1|2|3", "0")
-			GUICtrlSetOnEvent(-1, "cmbHeroReservedBuilder")
+			GUICtrlSetData(-1, "|0|1|2|3|4", "0")
+			GUICtrlSetOnEvent(-1, "cmbHeroReservedBuilder2")
 		$g_hLblHeroReservedBuilderBottom = GUICtrlCreateLabel(GetTranslatedFileIni("MBR GUI Design Child Village - Upgrade_Heroes", "LblHeroReservedBuilderBottom", "builder/s for hero upgrade"), $x + 95, $y + 15, -1, -1)
 	
 	$y += 40
