@@ -15,6 +15,7 @@
 #include-once
 
 Func SetComboTroopComp()
+	$g_iTotalCampSpace = $g_iTotalCampForcedValue
 	Local $bWasRedraw = SetRedrawBotWindow(False, Default, Default, Default, "SetComboTroopComp")
 	Local $ArmyCampTemp = 0
 
@@ -72,7 +73,7 @@ Func lblTotalCountTroop1()
 	GUICtrlSetData($g_hLblCountTotal, String($TotalTroopsToTrain))
 
 	For $i = 0 To $eTroopCount - 1
-		GUICtrlSetBkColor($g_ahTxtTrainArmyTroopCount[$i], $TotalTroopsToTrain <= GUICtrlRead($g_hTxtTotalCampForced) ? $COLOR_WHITE : $COLOR_RED)
+		If $g_iTotalCampForcedValue > 0 Then GUICtrlSetBkColor($g_ahTxtTrainArmyTroopCount[$i], $TotalTroopsToTrain <= GUICtrlRead($g_hTxtTotalCampForced) ? $COLOR_WHITE : $COLOR_RED)
 	Next
 
 	If GUICtrlRead($g_hChkTotalCampForced) = $GUI_CHECKED And GUICtrlRead($g_hLblCountTotal) = GUICtrlRead($g_hTxtTotalCampForced) Then
@@ -82,7 +83,7 @@ Func lblTotalCountTroop1()
 	ElseIf GUICtrlRead($g_hLblCountTotal) > $ArmyCampTemp / 2 And GUICtrlRead($g_hLblCountTotal) < $ArmyCampTemp Then
 		GUICtrlSetBkColor($g_hLblCountTotal, $COLOR_ORANGE)
 	Else
-		GUICtrlSetBkColor($g_hLblCountTotal, $COLOR_RED)
+		If $g_iTotalCampForcedValue > 0 Then GUICtrlSetBkColor($g_hLblCountTotal, $COLOR_RED)
 	EndIf
 
 	Local $fPctOfForced = Floor((GUICtrlRead($g_hLblCountTotal) / GUICtrlRead($g_hTxtTotalCampForced)) * 100)
@@ -1265,4 +1266,12 @@ Func BtnEventTroops()
 		GUICtrlSetState($i, $GUI_SHOW)
 	Next
 	SetBtnSelector("EventTroops")
+EndFunc
+
+Func BtnCampSizeAdjust()
+	GUISetState(@SW_SHOW, $g_hGUI_CampSizeAdjust)
+EndFunc
+
+Func CloseCampSizeAdjust()
+	GUISetState(@SW_HIDE, $g_hGUI_CampSizeAdjust)
 EndFunc

@@ -611,7 +611,7 @@ Func _ClanGames($test = False, $HaltMode = False)
 				For $i = 0 To UBound($aTempSelectChallenges) - 1
 					If Not $g_bRunState Then Return
 					SetDebugLog("$aTempSelectChallenges: " & _ArrayToString($aTempSelectChallenges))
-					Setlog("Next Challenge will be " & $aTempSelectChallenges[$i][0] & " to make in " & $aTempSelectChallenges[$i][4] & " min.")
+					Setlog("Next Challenge will be " & $aTempSelectChallenges[$i][0] & " to do in " & $aTempSelectChallenges[$i][4] & " min.")
 					; Select and Start EVENT
 					$sEventName = $aTempSelectChallenges[$i][0]
 					If Not QuickMIS("BC1", $sTempChallengePath & "Selected\", $aTempSelectChallenges[$i][1] - 60, $aTempSelectChallenges[$i][2] - 60, $aTempSelectChallenges[$i][1] + 60, $aTempSelectChallenges[$i][2] + 60, True) Then 

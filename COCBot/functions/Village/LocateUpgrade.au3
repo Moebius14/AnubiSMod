@@ -312,8 +312,28 @@ Func UpgradeValue($inum, $bRepeat = False) ;function to find the value and type 
 				If _ColorCheck(_GetPixelColor(480, 500 + $g_iMidOffsetY, True), Hex(0xBD21EF, 6), 20) Then $g_avBuildingUpgrades[$inum][3] = "Elixir" ;Check if Elixir required and update type
 				If _ColorCheck(_GetPixelColor(480, 500 + $g_iMidOffsetY, True), Hex(0x352D3D, 6), 20) Then $g_avBuildingUpgrades[$inum][3] = "Dark" ;Check if Dark Elixir required and update type
 
-				$g_avBuildingUpgrades[$inum][2] = Number(getCostsUpgrade(362, 488 + $g_iMidOffsetY)) ; Try to read white text.
-				If $g_avBuildingUpgrades[$inum][2] = "" Then $g_avBuildingUpgrades[$inum][2] = Number(getCostsUpgradeRed(362, 488 + $g_iMidOffsetY)) ;read RED upgrade text
+				$g_avBuildingUpgrades[$inum][2] = Number(getCostsUpgrade1(362, 488 + $g_iMidOffsetY)) ; Try to read white text.
+				Local $g_ReadCorrect = StringRight($g_avBuildingUpgrades[$inum][2], 1)
+				If $g_avBuildingUpgrades[$inum][2] = "" Or $g_avBuildingUpgrades[$inum][2] = 0 Or $g_ReadCorrect <> 0 Then
+					$g_avBuildingUpgrades[$inum][2] = Number(getCostsUpgrade2(362, 488 + $g_iMidOffsetY))
+					$g_ReadCorrect = StringRight($g_avBuildingUpgrades[$inum][2], 1)
+					If $g_avBuildingUpgrades[$inum][2] = "" Or $g_avBuildingUpgrades[$inum][2] = 0 Or $g_ReadCorrect <> 0 Then
+						$g_avBuildingUpgrades[$inum][2] = Number(getCostsUpgrade(362, 488 + $g_iMidOffsetY))
+						$g_ReadCorrect = StringRight($g_avBuildingUpgrades[$inum][2], 1)
+					EndIf
+					If $g_ReadCorrect <> 0 Then $g_avBuildingUpgrades[$inum][2] = ""
+					If $g_avBuildingUpgrades[$inum][2] = "" Then $g_avBuildingUpgrades[$inum][2] = Number(getCostsUpgradeRed3(362, 488 + $g_iMidOffsetY)) ;read RED upgrade text
+					$g_ReadCorrect = StringRight($g_avBuildingUpgrades[$inum][2], 1)
+					If $g_avBuildingUpgrades[$inum][2] = "" Or $g_avBuildingUpgrades[$inum][2] = 0 Or $g_ReadCorrect <> 0 Then
+						$g_avBuildingUpgrades[$inum][2] = Number(getCostsUpgradeRed2(362, 488 + $g_iMidOffsetY))
+						$g_ReadCorrect = StringRight($g_avBuildingUpgrades[$inum][2], 1)
+						If $g_avBuildingUpgrades[$inum][2] = "" Or $g_avBuildingUpgrades[$inum][2] = 0 Or $g_ReadCorrect <> 0 Then
+							$g_avBuildingUpgrades[$inum][2] = Number(getCostsUpgradeRed(362, 488 + $g_iMidOffsetY))
+							$g_ReadCorrect = StringRight($g_avBuildingUpgrades[$inum][2], 1)
+						EndIf
+					EndIf
+					If $g_ReadCorrect <> 0 Then $g_avBuildingUpgrades[$inum][2] = ""
+				EndIf
 				If $g_avBuildingUpgrades[$inum][2] = "" And $g_abUpgradeRepeatEnable[$inum] = False Then $bOopsFlag = True ; set error flag for user to set value if not repeat upgrade
 
 				;HArchH X value was 195
@@ -341,8 +361,28 @@ Func UpgradeValue($inum, $bRepeat = False) ;function to find the value and type 
 					Return False
 				EndIf
 				If _ColorCheck(_GetPixelColor(710, 535 + $g_iMidOffsetY, True), Hex(0x3C3035, 6), 20) Then $g_avBuildingUpgrades[$inum][3] = "Dark" ; Check if DE required and update type
-				$g_avBuildingUpgrades[$inum][2] = Number(getCostsUpgrade(598, 522 + $g_iMidOffsetY)) ; Try to read white text.
-				If $g_avBuildingUpgrades[$inum][2] = "" Then $g_avBuildingUpgrades[$inum][2] = Number(getCostsUpgradeRed(598, 522 + $g_iMidOffsetY)) ;read RED upgrade text
+				$g_avBuildingUpgrades[$inum][2] = Number(getCostsUpgrade1(598, 522 + $g_iMidOffsetY)) ; Try to read white text.
+				Local $g_ReadCorrect = StringRight($g_avBuildingUpgrades[$inum][2], 1)
+				If $g_avBuildingUpgrades[$inum][2] = "" Or $g_avBuildingUpgrades[$inum][2] = 0 Or $g_ReadCorrect <> 0 Then
+					$g_avBuildingUpgrades[$inum][2] = Number(getCostsUpgrade2(598, 522 + $g_iMidOffsetY))
+					$g_ReadCorrect = StringRight($g_avBuildingUpgrades[$inum][2], 1)
+					If $g_avBuildingUpgrades[$inum][2] = "" Or $g_avBuildingUpgrades[$inum][2] = 0 Or $g_ReadCorrect <> 0 Then
+						$g_avBuildingUpgrades[$inum][2] = Number(getCostsUpgrade(598, 522 + $g_iMidOffsetY))
+						$g_ReadCorrect = StringRight($g_avBuildingUpgrades[$inum][2], 1)
+					EndIf
+					If $g_ReadCorrect <> 0 Then $g_avBuildingUpgrades[$inum][2] = ""
+					If $g_avBuildingUpgrades[$inum][2] = "" Then $g_avBuildingUpgrades[$inum][2] = Number(getCostsUpgradeRed3(598, 522 + $g_iMidOffsetY)) ;read RED upgrade text
+					$g_ReadCorrect = StringRight($g_avBuildingUpgrades[$inum][2], 1)
+					If $g_avBuildingUpgrades[$inum][2] = "" Or $g_avBuildingUpgrades[$inum][2] = 0 Or $g_ReadCorrect <> 0 Then
+						$g_avBuildingUpgrades[$inum][2] = Number(getCostsUpgradeRed2(598, 522 + $g_iMidOffsetY))
+						$g_ReadCorrect = StringRight($g_avBuildingUpgrades[$inum][2], 1)
+						If $g_avBuildingUpgrades[$inum][2] = "" Or $g_avBuildingUpgrades[$inum][2] = 0 Or $g_ReadCorrect <> 0 Then
+							$g_avBuildingUpgrades[$inum][2] = Number(getCostsUpgradeRed(598, 522 + $g_iMidOffsetY))
+							$g_ReadCorrect = StringRight($g_avBuildingUpgrades[$inum][2], 1)
+						EndIf
+					EndIf
+					If $g_ReadCorrect <> 0 Then $g_avBuildingUpgrades[$inum][2] = ""
+				EndIf
 				If $g_avBuildingUpgrades[$inum][2] = "" And $g_abUpgradeRepeatEnable[$inum] = False Then $bOopsFlag = True ; set error flag for user to set value
 				$g_avBuildingUpgrades[$inum][6] = getHeroUpgradeTime(578, 465 + $g_iMidOffsetY) ; Try to read white text showing time for upgrade
 				SetLog("Upgrade #" & $inum + 1 & " Time = " & $g_avBuildingUpgrades[$inum][6], $COLOR_INFO)
@@ -376,7 +416,8 @@ Func UpgradeValue($inum, $bRepeat = False) ;function to find the value and type 
 			_ExtMsgBoxSet(1 + 64, $SS_CENTER, 0x004080, 0xFFFF00, 12, "Comic Sans MS", 500)
 			Local $stext = GetTranslatedFileIni("MBR Popups", "Func_Locate_Building_09", "Save copy of upgrade image for developer analysis ?")
 			Local $MsgBox = _ExtMsgBox(48, GetTranslatedFileIni("MBR Popups", "YES_NO", "YES|NO"), GetTranslatedFileIni("MBR Popups", "Notice", "Notice"), $stext, 60, $g_hFrmBot)
-			If $MsgBox = 1 And $g_bDebugImageSave Then SaveDebugImage("UpgradeReadError_")
+			;If $MsgBox = 1 And $g_bDebugImageSave Then SaveDebugImage("UpgradeReadError_")
+			If $MsgBox = 1 Then SaveDebugImage("UpgradeReadError_")
 		EndIf
 		If $g_avBuildingUpgrades[$inum][3] = "" And $bOopsFlag And Not $bRepeat Then
 			_ExtMsgBoxSet(1 + 64, $SS_CENTER, 0x004080, 0xFFFF00, 10, "Comic Sans MS", 500)

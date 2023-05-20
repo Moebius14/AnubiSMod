@@ -32,7 +32,7 @@ Global $g_ahChkArmy[3] = [0, 0, 0]
 Global $g_ahTxtTrainArmyTroopCount[$eTroopCount] = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
 Global $g_ahTxtTrainArmySpellCount[$eSpellCount] = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
 Global $g_ahTxtTrainArmySiegeCount[$eSiegeMachineCount] = [0, 0, 0, 0, 0, 0]
-Global $g_hTxtFullTroop = 0, $g_hChkTotalCampForced = 0, $g_hTxtTotalCampForced = 0
+Global $g_hTxtFullTroop = 0, $g_hChkTotalCampForced = 0, $g_hTxtTotalCampForced = 0, $g_ArmyCampCap = 0, $g_hArmyCampUpgrade = 0, $g_hBtnAdjust = 0, $g_ahPicArmyCampUpgrade = 0
 Global $g_hChkDoubleTrain = 0, $g_hChkPreciseArmy = 0
 
 Global $g_ahPicTrainArmyTroop[$eTroopCount] = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
@@ -46,6 +46,7 @@ Global $g_ahPicTrainArmySiegeTmp[3] = [0, 0, 0]
 Global $g_ahLblTrainArmySiegeTmp[3] = [0, 0, 0]
 Global $g_hLblTotalTimeCamp = 0, $g_hLblElixirCostCamp = 0, $g_hLblDarkCostCamp = 0, $g_hCalTotalTroops = 0, $g_hCalTotalSpells =0, $g_hLblCountTotalSpells = 0, $g_hLblCountTotal = 0, _
 		$g_hTxtTotalCountSpell = 0, $g_hLblTotalTimeSpell = 0, $g_hLblElixirCostSpell = 0, $g_hLblDarkCostSpell = 0
+Global $g_hGUI_CampSizeAdjust = 0, $g_hBtnCloseCampSizeAdjust = 0
 
 ; Boost sub-tab
 Global $g_hCmbBoostBarracks = 0, $g_hCmbBoostSpellFactory = 0, $g_hCmbBoostWorkshop = 0, $g_hCmbBoostBarbarianKing = 0, $g_hCmbBoostArcherQueen = 0, $g_hCmbBoostWarden = 0, $g_hCmbBoostChampion = 0, $g_hCmbBoostEverything = 0
@@ -164,6 +165,7 @@ Func CreateAttackTroops()
 	$g_hGUI_TRAINTYPE_TAB_ITEM3 = GUICtrlCreateTabItem(GetTranslatedFileIni("MBR Main GUI", "Tab_03_STab_01_STab_03", "Train Order"))
 	$g_hGUI_TRAINTYPE_TAB_ITEM4 = GUICtrlCreateTabItem(GetTranslatedFileIni("MBR Main GUI", "Tab_03_STab_01_STab_04", "Options"))
 
+	CreateCampSizeAdjust()
 	GUICtrlCreateTabItem("")
 
 EndFunc   ;==>CreateAttackTroops
@@ -180,19 +182,23 @@ Func CreateTrainArmy()
 	GUICtrlSetOnEvent(-1, "Removecamp")
 
 	$g_hChkTotalCampForced = GUICtrlCreateCheckbox(GetTranslatedFileIni("MBR GUI Design Child Attack - Troops", "ChkTotalCampForced", "Force Army Camp") & ":", $x + 25, $y, -1, -1)
-	GUICtrlSetState(-1, $GUI_CHECKED)
+	GUICtrlSetState(-1, $GUI_CHECKED + $GUI_HIDE)
 	GUICtrlSetOnEvent(-1, "chkTotalCampForced")
-	_GUICtrlSetTip(-1, GetTranslatedFileIni("MBR GUI Design Child Attack - Troops", "ChkTotalCampForced_Info_01", "If not detected set army camp values (instead ask)"))
-	$g_hTxtTotalCampForced = GUICtrlCreateInput("220", $x + 134, $y + 3, 30, 17, BitOR($GUI_SS_DEFAULT_INPUT, $ES_CENTER, $ES_NUMBER))
+	$g_ArmyCampCap = GUICtrlCreateLabel("Camps Capacity :", $x + 15, $y + 5, -1, -1)
+	$g_hTxtTotalCampForced = GUICtrlCreateInput("220", $x + 100, $y + 3, 30, 17, BitOR($GUI_SS_DEFAULT_INPUT, $ES_CENTER, $ES_NUMBER))
 	GUICtrlSetOnEvent(-1, "SetComboTroopComp")
 	GUICtrlSetLimit(-1, 3)
 
-	GUICtrlCreateLabel(GetTranslatedFileIni("MBR GUI Design Child Attack - Troops", "LblFullTroop", "'Full' Camp") & " " & ChrW(8805), $x + 170, $y + 5, 70, 17, $SS_RIGHT)
-	$g_hTxtFullTroop = GUICtrlCreateInput("100", $x + 242, $y + 3, 30, 17, BitOR($GUI_SS_DEFAULT_INPUT, $ES_CENTER, $ES_NUMBER))
+	$g_hBtnAdjust = GUICtrlCreateButton("Adjust", $x + 139, $y + 2, 36, 19)
+	_GUICtrlSetTip(-1, GetTranslatedFileIni("MBR GUI Design Child Attack - Troops", "Adjust_Info_01", "Set Which Troop has to be added when Army Camps Capacity Increases."))
+	GUICtrlSetOnEvent(-1, "BtnCampSizeAdjust")
+
+	GUICtrlCreateLabel(GetTranslatedFileIni("MBR GUI Design Child Attack - Troops", "LblFullTroop", "'Full' Camp") & " " & ChrW(8805), $x + 174, $y + 5, 70, 17, $SS_RIGHT)
+	$g_hTxtFullTroop = GUICtrlCreateInput("100", $x + 246, $y + 3, 30, 17, BitOR($GUI_SS_DEFAULT_INPUT, $ES_CENTER, $ES_NUMBER))
 	GUICtrlSetOnEvent(-1, "SetComboTroopComp")
 	_GUICtrlSetTip(-1, GetTranslatedFileIni("MBR GUI Design Child Attack - Troops", "TxtFullTroop_Info_01", "Army camps are 'Full' when reaching this %, then start attack."))
 	GUICtrlSetLimit(-1, 3)
-	GUICtrlCreateLabel("%", $x + 273, $y + 5, -1, 17)
+	GUICtrlCreateLabel("%", $x + 277, $y + 5, -1, 17)
 
 	GUICtrlCreateLabel(GetTranslatedFileIni("MBR GUI Design Child Attack - Troops", "SpellCapacity", "Spell Capacity") & ":", $x + 285, $y + 5, 90, 17, $SS_RIGHT)
 	$g_hTxtTotalCountSpell = GUICtrlCreateCombo("", $x + 380, $y + 1, 36, 16, BitOR($CBS_DROPDOWNLIST, $CBS_AUTOHSCROLL))
@@ -202,6 +208,36 @@ Func CreateTrainArmy()
 	CreateCustomTrainSubTab()
 
 EndFunc   ;==>CreateTrainArmy
+
+Func CreateCampSizeAdjust()
+	Local $x = 25, $y = 5
+	$g_hGUI_CampSizeAdjust = _GUICreate("Troop Selection", $_GUI_MAIN_WIDTH - 4, $_GUI_MAIN_HEIGHT - 470, $g_iFrmBotPosX, $g_iFrmBotPosY + 80, $WS_DLGFRAME, -1, $g_hFrmBot)
+	GUICtrlCreateLabel("Please Select Which Troop To Add When Camps Capacity Increases", $x + 45, $y + 15, -1, -1)
+	$g_hArmyCampUpgrade = GUICtrlCreateCombo("", $x + 100, $y + 90, 100, 10, BitOR($CBS_DROPDOWNLIST, $CBS_AUTOHSCROLL))
+		GUICtrlSetData(-1, "Balloons|Archers|Barbarians|Goblins|Giants|Hog Riders", "Balloons")
+		GUICtrlSetOnEvent(-1, "SetCampSizeAdjust")
+	$g_ahPicArmyCampUpgrade = _GUICtrlCreateIcon($g_sLibIconPath, $eIcnBalloon, $x + 230, $y + 65, 64, 64)
+	$g_hBtnCloseCampSizeAdjust = GUICtrlCreateButton("Close", $_GUI_MAIN_WIDTH - 110, $y + 150, 85, 25)
+		GUICtrlSetOnEvent(-1, "CloseCampSizeAdjust")
+EndFunc
+
+Func SetCampSizeAdjust()
+	$g_iArmyCampUpgrade = _GUICtrlComboBox_GetCurSel($g_hArmyCampUpgrade)
+	Switch $g_iArmyCampUpgrade
+		Case 0
+			_GUICtrlSetImage($g_ahPicArmyCampUpgrade, $g_sLibIconPath, $g_aTroopsIcon[10])
+		Case 1
+			_GUICtrlSetImage($g_ahPicArmyCampUpgrade, $g_sLibIconPath, $g_aTroopsIcon[2])
+		Case 2
+			_GUICtrlSetImage($g_ahPicArmyCampUpgrade, $g_sLibIconPath, $g_aTroopsIcon[0])
+		Case 3
+			_GUICtrlSetImage($g_ahPicArmyCampUpgrade, $g_sLibIconPath, $g_aTroopsIcon[6])
+		Case 4
+			_GUICtrlSetImage($g_ahPicArmyCampUpgrade, $g_sLibIconPath, $g_aTroopsIcon[4])
+		Case 5
+			_GUICtrlSetImage($g_ahPicArmyCampUpgrade, $g_sLibIconPath, $g_aTroopsIcon[28])
+	EndSwitch
+EndFunc
 
 Func CreateCustomTrainSubTab()
 
@@ -216,7 +252,6 @@ Func CreateCustomTrainSubTab()
 			GUICtrlSetColor(-1, $COLOR_BLUE)
 			GUICtrlSetFont(-1, 9, 900)
 		Next
-
 		$g_hCalTotalTroops = GUICtrlCreateProgress($x + 5, $y + 53, 235, 10)
 		$g_hLblCountTotal = GUICtrlCreateLabel(0, $x + 245, $y + 51, 35, 15, $SS_CENTER)
 	GUICtrlCreateGroup("", -99, -99, 1, 1)
@@ -1106,7 +1141,7 @@ Func CreateTrainOrder()
 	_GUICtrlTab_SetItemSize($g_hGUI_TRAINARMY_ORDER_TAB, 90, 20)
 	CreateOrderTroopsSubTab()
 	CreateOrderSpellsSubTab()
-
+	
 EndFunc   ;==>CreateTrainOrder
 
 Func CreateOrderTroopsSubTab()

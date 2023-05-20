@@ -287,11 +287,13 @@ Func GetButtonDiamond($sButtonName)
 		Case "Next" ; attackpage attackwindow
 			$btnDiamond = "697,542|850,542|850,610|697,610"
 		Case "ObjectButtons", "BoostOne", "BoostCT", "ClockTowerPot", "Upgrade", "Research", "Treasury", "RemoveObstacle", "CollectLootCart", "Pets", "MagicItem", "HeroBooks", _
-		"LabPotion", "LabBoosted", "BuilderPot", "Reinforce", "Info", "THWeapon"; Full size of object buttons at the bottom
+		"LabPotion", "LabBoosted", "BuilderPot", "Reinforce", "Info", "THWeapon", "WallRing"; Full size of object buttons at the bottom
 			$btnDiamond = GetDiamondFromRect2(140, 531 + $g_iBottomOffsetY, 720, 611 + $g_iBottomOffsetY)
 			If $g_bDebugImageSave Then SaveDebugDiamondImage("ObjectButtons", $btnDiamond)
 		Case "GEM", "BOOSTBtn", "BoostConfirm" ; Boost window button (full button size)
 			$btnDiamond = GetDiamondFromRect2(359, 382 + $g_iMidOffsetY, 507, 448 + $g_iMidOffsetY)
+		Case "WallRingConfirm" ; Upgrade Wall With Wall Rings
+			$btnDiamond = GetDiamondFromRect2(359, 465 + $g_iMidOffsetY, 507, 530 + $g_iMidOffsetY)
 		Case "EnterShop"
 			$btnDiamond = GetDiamondFromRect("359,392(148,66)")
 		Case "EndBattleSurrender" ;surrender - attackwindow

@@ -201,21 +201,16 @@ Func CollectDailyRewards($bGoldPass = False)
 				If IsArray($aResultArray) And $aResultArray[0] = "ClaimBtn" Then
 					Local $sAllCoordsString = _ArrayToString($aResultArray, "|", 1) ; "x1,y1|x2,y2|..."
 					Local $aAllCoords = decodeMultipleCoords($sAllCoordsString, 50, 50) ; [{coords1}, {coords2}, ...]
+					Local $RewardImagesTypes[4][2] = [[$g_sImgCCGoldCollectDaily, $IsCCGoldPresent], _
+														[$g_sImgBOFCollectDaily, $IsBOFPresent], _
+														[$g_sImgBOSCollectDaily, $IsBOSPresent], _
+														[$g_sImgResPotCollectDaily, $IsResPotPresent]]
 
 					For $j = 0 To UBound($aAllCoords) - 1
-						If $bGoldPass Then
-							If QuickMIS("BC1", $g_sImgCCGoldCollectDaily, 40, 270, 810, 340) Then $IsCCGoldPresent += 1
-							If QuickMIS("BC1", $g_sImgBOFCollectDaily, 40, 270, 810, 340) Then $IsBOFPresent += 1
-							If QuickMIS("BC1", $g_sImgBOSCollectDaily, 40, 270, 810, 340) Then $IsBOSPresent += 1
-							If QuickMIS("BC1", $g_sImgResPotCollectDaily, 40, 270, 810, 340) Then $IsResPotPresent += 1
-						Else
-							If QuickMIS("BC1", $g_sImgCCGoldCollectDaily, 40, 470, 810, 540) Then $IsCCGoldPresent += 1
-							If QuickMIS("BC1", $g_sImgBOFCollectDaily, 40, 470, 810, 540) Then $IsBOFPresent += 1
-							If QuickMIS("BC1", $g_sImgBOSCollectDaily, 40, 470, 810, 540) Then $IsBOSPresent += 1
-							If QuickMIS("BC1", $g_sImgResPotCollectDaily, 40, 470, 810, 540) Then $IsResPotPresent += 1
-						EndIf
+						For $z = 0 To Ubound($RewardImagesTypes) - 1
+							If QuickMIS("BC1", $RewardImagesTypes[$z][0], ($aAllCoords[$j])[0] - 50, ($aAllCoords[$j])[1] - 86, ($aAllCoords[$j])[0] + 45, ($aAllCoords[$j])[1] - 20) Then $RewardImagesTypes[$z][1] += 1
+						Next
 						ClickP($aAllCoords[$j], 1, 0, "Claim " & $j + 1) ; Click Claim button
-						_Sleep(Random(2000, 4000, 1))
 						If WaitforPixel(350, 410, 351, 411, Hex(0xFDC875, 6), 20, 3) Then; wait for Cancel Button popped up in 1.5 second
 						    If $g_bChkSellRewards Then
 							    Setlog("Selling extra reward for gems", $COLOR_SUCCESS)
@@ -227,26 +222,47 @@ Func CollectDailyRewards($bGoldPass = False)
 							Endif
 							If _Sleep(1000) Then ExitLoop
 						Else
+							If _Sleep(Random(3000, 4000, 1)) Then ExitLoop
 							$iClaim += 1
-							If $bGoldPass Then
-								If Not QuickMIS("BC1", $g_sImgCCGoldCollectDaily, 40, 260, 810, 340) And $IsCCGoldPresent > 0 Then $IsCCGoldJustCollected = 1
-								If Not QuickMIS("BC1", $g_sImgBOFCollectDaily, 40, 260, 810, 340) And $IsBOFPresent > 0 Then $IsBOFJustCollected = 1
-								If Not QuickMIS("BC1", $g_sImgBOSCollectDaily, 40, 260, 810, 340) And $IsBOSPresent > 0 Then $IsBOSJustCollected = 1
-								If Not QuickMIS("BC1", $g_sImgResPotCollectDaily, 40, 260, 810, 340) And $IsResPotPresent > 0 Then $IsResPotJustCollected = 1
-							Else
-								If Not QuickMIS("BC1", $g_sImgCCGoldCollectDaily, 40, 470, 810, 540) And $IsCCGoldPresent > 0 Then $IsCCGoldJustCollected = 1
-								If Not QuickMIS("BC1", $g_sImgBOFCollectDaily, 40, 470, 810, 540) And $IsBOFPresent > 0 Then $IsBOFJustCollected = 1
-								If Not QuickMIS("BC1", $g_sImgBOSCollectDaily, 40, 470, 810, 540) And $IsBOSPresent > 0 Then $IsBOSJustCollected = 1
-								If Not QuickMIS("BC1", $g_sImgResPotCollectDaily, 40, 470, 810, 540) And $IsResPotPresent > 0 Then $IsResPotJustCollected = 1
-							EndIf
-							If $IsCCGoldJustCollected Then SetLog("Clan Capital Gold Collected", $COLOR_SUCCESS1)
-							$IsCCGoldJustCollectedDChallenge = $IsCCGoldJustCollected
-							If $IsBOFJustCollected Then SetLog("Book Of Fighting Collected", $COLOR_SUCCESS1)
-							If $IsBOSJustCollected Then SetLog("Book Of Spells Collected", $COLOR_SUCCESS1)
-							If $IsResPotJustCollected Then SetLog("Research Potion Collected", $COLOR_SUCCESS1)
+							For $z = 0 To Ubound($RewardImagesTypes) - 1
+								If Not QuickMIS("BC1", $RewardImagesTypes[$z][0], ($aAllCoords[$j])[0] - 50, ($aAllCoords[$j])[1] - 86, ($aAllCoords[$j])[0] + 45, ($aAllCoords[$j])[1] - 20) And $RewardImagesTypes[$z][1] > 0 Then
+									Switch $z
+										Case 0
+											$IsCCGoldJustCollected = 1
+										Case 1
+											$IsBOFJustCollected = 1
+										Case 2
+											$IsBOSJustCollected = 1
+										Case 3
+											$IsResPotJustCollected = 1
+									EndSwitch
+								EndIf
+							Next
+							
+							Local $RewardTypes[4][2] = [[$IsCCGoldJustCollected, "Clan Capital Gold Collected"], _
+														[$IsBOFJustCollected, "Book Of Fighting Collected"], _
+														[$IsBOSJustCollected, "Book Of Spells Collected"], _
+														[$IsResPotJustCollected, "Research Potion Collected"]]
+
+							For $z = 0 To Ubound($RewardTypes) - 1
+								If $z = 0 Then $IsCCGoldJustCollectedDChallenge = $RewardTypes[$z][0]
+								If $RewardTypes[$z][0] = 1 Then
+									SetLog($RewardTypes[$z][1], $COLOR_SUCCESS1)
+									If $g_iTxtCurrentVillageName <> "" Then
+										GUICtrlSetData($g_hTxtModLog, @CRLF & _NowTime() & " [" & $g_iTxtCurrentVillageName & "] Avanced : " & $RewardTypes[$z][1] & "", 1)
+									Else
+										GUICtrlSetData($g_hTxtModLog, @CRLF & _NowTime() & " [" & $g_sProfileCurrentName & "] Avanced : " & $RewardTypes[$z][1] & "", 1)
+									EndIf
+									_FileWriteLog($g_sProfileLogsPath & "\ModLog.log", " [" & $g_sProfileCurrentName & "] - Advanced : " & $RewardTypes[$z][1] & "")
+								EndIf
+							Next
 							If _Sleep(100) Then ExitLoop
 						EndIf
 					Next
+					$IsCCGoldPresent = 0
+					$IsBOFPresent = 0
+					$IsBOSPresent = 0
+					$IsResPotPresent = 0
 				EndIf
 			Next
 		EndIf

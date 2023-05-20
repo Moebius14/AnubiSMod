@@ -1495,43 +1495,43 @@ Func FirstCheck()
 	If Not $g_bFirstStartForAll Then
 	;;;;;Check Clan Games Temp Files
 		ClearTempCGFiles()
-	;;;;;Check Town Hall level
-		Local $iTownHallLevel = $g_iTownHallLevel
-		SetLog("Town Hall is currently saved as level " &  $g_iTownHallLevel, $COLOR_INFO)
-
-		imglocTHSearch(False, True, True) ;Sets $g_iTownHallLevel
-		SetDebugLog("Detected Town Hall level is " &  $g_iTownHallLevel, $COLOR_INFO)
-		
-		If $g_iTownHallLevel = 0 And $g_aiTownHallPos[0] > -1 Then
-			BuildingClick($g_aiTownHallPos[0], $g_aiTownHallPos[1])
-			If _Sleep(800) Then Return
-			Local $BuildingInfo = BuildingInfo(245, 550)
-			If $BuildingInfo[1] = "Town Hall" Then
-				$g_iTownHallLevel = $BuildingInfo[2]
-				If _Sleep(500) Then Return
-				ClickAway()
-			Else
-				SetLog("Please Locate Town Hall Manually!", $COLOR_ERROR)
-			EndIf
-		EndIf
-		
-		If $g_iTownHallLevel = $iTownHallLevel Then
-			SetDebugLog("Town Hall level has not changed", $COLOR_INFO)
-		Else
-			SetLog("Town Hall level has changed!", $COLOR_INFO)
-			SetLog("New Town hall level detected as " &  $g_iTownHallLevel, $COLOR_INFO)
-			applyConfig()
-			saveConfig()
-		EndIf
-		
+	;;;;;Check Clan Castle Capacities	
 		If $g_aiClanCastleLvl = -1 Or $g_aiClanCastleTroopsCap = -1 Then
 			SetLog("Define CC Troops/Spells Capacities", $COLOR_INFO)
 			_BtnDefineCapacity()
 		EndIf
+	EndIf	
 
-	;;;;;;;;;;;;;;;;;;;;;;;;;;
+	;;;;;Check Town Hall level
+	Local $iTownHallLevel = $g_iTownHallLevel
+	SetLog("Town Hall is currently saved as level " &  $g_iTownHallLevel, $COLOR_INFO)
+
+	imglocTHSearch(False, True, True) ;Sets $g_iTownHallLevel
+	SetDebugLog("Detected Town Hall level is " &  $g_iTownHallLevel, $COLOR_INFO)
+
+	If $g_iTownHallLevel = 0 And $g_aiTownHallPos[0] > -1 Then
+		BuildingClick($g_aiTownHallPos[0], $g_aiTownHallPos[1])
+		If _Sleep(800) Then Return
+		Local $BuildingInfo = BuildingInfo(245, 550)
+		If $BuildingInfo[1] = "Town Hall" Then
+			$g_iTownHallLevel = $BuildingInfo[2]
+			If _Sleep(500) Then Return
+			ClickAway()
+		Else
+			SetLog("Please Locate Town Hall Manually!", $COLOR_ERROR)
+		EndIf
 	EndIf
-	
+
+	If $g_iTownHallLevel = $iTownHallLevel Then
+		SetDebugLog("Town Hall level has not changed", $COLOR_INFO)
+	Else
+		SetLog("Town Hall level has changed!", $COLOR_INFO)
+		SetLog("New Town hall level detected as " &  $g_iTownHallLevel, $COLOR_INFO)
+		applyConfig()
+		saveConfig()
+	EndIf
+	;;;;;;;;;;;;;;;;;;;;;;;;;;
+
 	$currentForecast = readCurrentForecast()
 	$ForecastTimeStamp = _NowTime(4)
 	If $IsForecastDown Then
@@ -1693,6 +1693,9 @@ Func FirstCheck()
 EndFunc   ;==>FirstCheck
 
 Func BuilderBase($bTest = False)
+	;Disable BB 2.0
+	If $g_bDisableBB Then Return
+	
 	; switch to builderbase and check it is builderbase
 	If SwitchBetweenBases() And isOnBuilderBase() Then
 

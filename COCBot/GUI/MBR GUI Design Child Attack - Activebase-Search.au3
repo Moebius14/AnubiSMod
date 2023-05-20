@@ -143,7 +143,7 @@ Func CreateAttackSearchActiveBaseSearch()
 					   GetTranslatedFileIni("MBR GUI Design Child Attack - Search", "TxtChampionWait_Info_02", -1)
 		$g_hPicABChampionWait = _GUICtrlCreateIcon($g_sLibIconPath, $eIcnChampion, $x - 18, $y + 4, 40, 40)
 			_GUICtrlSetTip(-1, $sTxtTip)
-		$g_hPicABChampionSleepWait = _GUICtrlCreateIcon($g_sLibIconPath, $eIcnSleepingChampion, $x - 18, $y + 4, 40, 40)
+		$g_hPicABChampionSleepWait = _GUICtrlCreateIcon($g_sLibModIconPath, $eIcnSleepingChampion, $x - 18, $y + 4, 40, 40)
 			GUICtrlSetState(-1, $GUI_HIDE)
 
 	$y += 70

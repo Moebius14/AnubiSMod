@@ -910,7 +910,7 @@ EndIf
 If _Sleep(500) Then Return
 EndFunc
 
-Func NotifyWhenStop()
+Func NotifyWhenStop($Type = "Stop")
 Local $text ="Village : " & $g_sNotifyOrigin & "%0A"
 $text &="Profile : " & $g_sProfileCurrentName & "%0A"
 If $g_bNotifyAlertForecastReport Then
@@ -930,7 +930,32 @@ If Number($g_iFreeBuilderCount) < 2 Then
 Else
 	$text &= "Free Builders : " & $g_iFreeBuilderCount & "%0A"
 EndIf
-$text &= "Star Bonus Unavailable, Bot Stopped"
+Switch $Type
+	Case "StopStar"
+		$text &= "Star Bonus Unavailable, Bot Stopped"
+	Case "Stop"
+		$text &= "Bot Stopped"
+	Case "CloseBotStar"
+		$text &= "Star Bonus Unavailable, Bot Closed"
+	Case "CloseBot"
+		$text &= "Bot Closed"
+	Case "CloseANBStar"
+		$text &= "Star Bonus Unavailable, Android and Bot Closed"
+	Case "CloseANB"
+		$text &= "Android and Bot Closed"
+	Case "ShutdownStar"
+		$text &= "Star Bonus Unavailable, Computer ShutDown"
+	Case "Shutdown"
+		$text &= "Computer ShutDown"
+	Case "CPUSleepStar"
+		$text &= "Star Bonus Unavailable, Computer Sleep Mode Started"
+	Case "CPUSleep"
+		$text &= "Computer Sleep Mode Started"
+	Case "RebootingStar"
+		$text &= "Star Bonus Unavailable, Computer Rebooted"
+	Case "Rebooting"
+		$text &= "Computer Rebooted"
+EndSwitch
 NotifyPushToTelegram($text)
 EndFunc
 

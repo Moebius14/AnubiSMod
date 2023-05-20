@@ -91,12 +91,28 @@ Func getResourcesBonus($x_start, $y_start) ; -> Gets complete value of Gold/Elix
 EndFunc   ;==>getResourcesBonus
 
 Func getCostsUpgrade($x_start, $y_start) ; -> Gets complete value of Gold/Elixir bonus loot in "AttackReport.au3"
-	Return getOcrAndCapture("coc-bonus", $x_start, $y_start, 104, 16, True)
+	Return getOcrAndCapture("coc-CostsUpgrades-Big", $x_start, $y_start, 104, 16, True)
 EndFunc   ;==>getCostsUpgrade
+
+Func getCostsUpgrade1($x_start, $y_start) ; -> Gets complete value of Gold/Elixir bonus loot in "AttackReport.au3"
+	Return getOcrAndCapture("coc-cc-trophy", $x_start, $y_start, 104, 16, True)
+EndFunc   ;==>getCostsUpgrade1
+
+Func getCostsUpgrade2($x_start, $y_start) ; -> Gets complete value of Gold/Elixir bonus loot in "AttackReport.au3"
+	Return getOcrAndCapture("coc-CostsUpgrades-Med", $x_start, $y_start, 104, 16, True)
+EndFunc   ;==>getCostsUpgrade2
 
 Func getCostsUpgradeRed($x_start, $y_start) ; -> Gets complete value of Gold/Elixir xxx,xxx , RED text on green upgrade button."UpgradeBuildings.au3"
 	Return getOcrAndCapture("coc-u-r", $x_start, $y_start, 104, 16, True)
 EndFunc   ;==>getCostsUpgradeRed
+
+Func getCostsUpgradeRed2($x_start, $y_start) ; -> Gets complete value of Gold/Elixir xxx,xxx , RED text on green upgrade button."UpgradeBuildings.au3"
+	Return getOcrAndCapture("coc-u-r2", $x_start, $y_start, 104, 16, True)
+EndFunc   ;==>getCostsUpgradeRed2
+
+Func getCostsUpgradeRed3($x_start, $y_start) ; -> Gets complete value of Gold/Elixir xxx,xxx , RED text on green upgrade button."UpgradeBuildings.au3"
+	Return getOcrAndCapture("coc-u-r3", $x_start, $y_start, 104, 16, True)
+EndFunc   ;==>getCostsUpgradeRed3
 
 Func getResourcesBonusPerc($x_start, $y_start) ; -> Gets complete value of Bonus % in "AttackReport.au3"
 	Return getOcrAndCapture("coc-bonus", $x_start, $y_start, 48, 16, True)

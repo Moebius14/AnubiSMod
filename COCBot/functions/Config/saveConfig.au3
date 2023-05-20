@@ -766,6 +766,8 @@ Func SaveConfig_600_17()
 	_Ini_Add("upgrade", "savebldr", $g_bUpgradeWallSaveBuilder ? 1 : 0)
 	_Ini_Add("upgrade", "WallUpFirst", $g_bChkWallUpFirst ? 1 : 0)
 	_Ini_Add("upgrade", "walllvl", $g_iCmbUpgradeWallsLevel)
+	_Ini_Add("upgrade", "HowUseWR", $g_iHowUseWallRings)
+	_Ini_Add("upgrade", "CmbUseWR", $g_iCmbUseWallRings)
 	For $i = 4 To 16
 		_Ini_Add("Walls", "Wall" & StringFormat("%02d", $i), $g_aiWallsCurrentCount[$i])
 	Next
@@ -1346,6 +1348,8 @@ Func SaveConfig_600_52_2()
 	; DoubleTrain - Demen
 	_Ini_Add("troop", "DoubleTrain", $g_bDoubleTrain ? 1 : 0)
 	_Ini_Add("troop", "PreciseArmy", $g_bPreciseArmy ? 1 : 0)
+	; ArmyCamp Cap Upgrade
+	_Ini_Add("troop", "CampSizeUpgrade", _GUICtrlComboBox_GetCurSel($g_hArmyCampUpgrade))
 EndFunc   ;==>SaveConfig_600_52_2
 
 Func SaveConfig_600_54()

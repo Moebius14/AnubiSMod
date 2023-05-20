@@ -56,6 +56,7 @@ Global $g_hChkWalls = 0, $g_hTxtWallMinGold = 0, $g_hTxtWallMinElixir = 0, $g_hR
 Global $g_hLblWallCost = 0, $g_hBtnFindWalls = 0
 Global $g_ahWallsCurrentCount[17] = [-1, -1, -1, -1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0] ; elements 0 to 3 are not referenced
 Global $g_ahPicWallsLevel[17] = [-1, -1, -1, -1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0] ; elements 0 to 3 are not referenced
+Global $g_hHowUseWallRings = 0, $g_hCmbUseWallRings = 0
 
 ; Auto Upgrade
 Global $g_hChkAutoUpgrade = 0, $g_hLblAutoUpgrade = 0, $g_hCmbBoostBuilders = 0, $g_hCmbFreeBuilders = 0, $g_hCmbBoostBuilders2 = 0, $g_hCmbFreeBuilders2 = 0
@@ -348,7 +349,7 @@ Func CreateHeroesSubTab()
 			GUICtrlSetColor ( -1, $COLOR_ERROR )
 			_GUICtrlCreateIcon($g_sLibIconPath, $eIcnChampionUpgr, $x + 18, $y, 64, 64)
 			_GUICtrlSetTip(-1, $sTxtTip)
-		$g_hPicChkChampionSleepWait = _GUICtrlCreateIcon($g_sLibIconPath, $eIcnSleepingChampion, $x + 18, $y, 64, 64)
+		$g_hPicChkChampionSleepWait = _GUICtrlCreateIcon($g_sLibModIconPath, $eIcnSleepingChampion, $x + 18, $y, 64, 64)
 			_GUICtrlSetTip(-1, $sTxtTip)
 			GUICtrlSetState(-1,$GUI_HIDE)
 
@@ -586,7 +587,7 @@ EndFunc
 
 Func CreateWallsSubTab()
 	Local $x = 25, $y = 45
-	GUICtrlCreateGroup(GetTranslatedFileIni("MBR GUI Design Child Village - Upgrade_Walls", "Group_01", "Walls"), $x - 20, $y - 20, $g_iSizeWGrpTab3, 120 + 25)
+	GUICtrlCreateGroup(GetTranslatedFileIni("MBR GUI Design Child Village - Upgrade_Walls", "Group_01", "Walls"), $x - 20, $y - 20, $g_iSizeWGrpTab3, 120 + 25 + 40)
 		_GUICtrlCreateIcon ($g_sLibIconPath, $eIcnWall, $x - 12, $y - 6, 24, 24)
 		$g_hChkWalls = GUICtrlCreateCheckbox(GetTranslatedFileIni("MBR GUI Design Child Village - Upgrade_Walls", "ChkWalls", "Auto Wall Upgrade"), $x + 18, $y - 2, -1, -1)
 			_GUICtrlSetTip(-1, GetTranslatedFileIni("MBR GUI Design Child Village - Upgrade_Walls", "ChkWalls_Info_01", "Check this to upgrade Walls if there are enough resources."))
@@ -623,6 +624,17 @@ Func CreateWallsSubTab()
 			_GUICtrlSetTip(-1, GetTranslatedFileIni("MBR GUI Design Child Village - Upgrade_Walls", "ChkWallUpFirst_Info_01", "Check This To Upgrade Walls Before Buildings Or Heroes, But After Laboratory"))
 			GUICtrlSetState(-1, $GUI_ENABLE)
 			GUICtrlSetState(-1, $GUI_UNCHECKED)
+		
+		_GUICtrlCreateIcon($g_sLibModIconPath, $eIcnModWallRing, $x - 12, $y + 127, 20, 20)
+		GUICtrlCreateLabel("Use Wall Rings :", $x + 19, $y + 131, -1, -1)		
+		$g_hHowUseWallRings = GUICtrlCreateCombo("", $x + 110, $y + 127, 140, 21, BitOR($CBS_DROPDOWNLIST, $CBS_AUTOHSCROLL), $WS_EX_RIGHT)
+		GUICtrlSetData(-1, "Never|First|If Not Enough Resource", "First")
+		GUICtrlSetState(-1, $GUI_DISABLE)
+		GUICtrlSetOnEvent(-1, "cmbWallRingsCB")
+		
+		$g_hCmbUseWallRings = GUICtrlCreateCombo("", $x + 270, $y + 127, 61, 21, BitOR($CBS_DROPDOWNLIST, $CBS_AUTOHSCROLL), $WS_EX_RIGHT)
+		GUICtrlSetData(-1, "1 Max|2 Max|3 Max|4 Max|5 Max|6 Max|7 Max|8 Max", "4 Max")
+		GUICtrlSetState(-1, $GUI_DISABLE)
 
 	$x += 225
 		GUICtrlCreateLabel(GetTranslatedFileIni("MBR GUI Design Child Village - Upgrade_Walls", "LblSearchforWalls", "Search for Walls level") & ":", $x, $y + 2, -1, -1)
@@ -654,7 +666,7 @@ Func CreateWallsSubTab()
 			GUICtrlSetState(-1, $GUI_DISABLE)
 	GUICtrlCreateGroup("", -99, -99, 1, 1)
 
-	Local $x = 25, $y = 175 + 25
+	Local $x = 25, $y = 175 + 25 + 40
 	GUICtrlCreateGroup(GetTranslatedFileIni("MBR GUI Design Child Village - Upgrade_Walls", "Group_02", "Walls counter"), $x - 20, $y - 20, $g_iSizeWGrpTab3, 95 + 40)
 		$g_ahWallsCurrentCount[4] = GUICtrlCreateInput("0", $x, $y, 25, 19, BitOR($GUI_SS_DEFAULT_INPUT, $ES_CENTER, $ES_NUMBER))
 			_GUICtrlSetTip(-1, GetTranslatedFileIni("MBR GUI Design Child Village - Upgrade_Walls", "WallsCurrentCount_Info_01", "Input number of Walls level") & " 4 " & GetTranslatedFileIni("MBR GUI Design Child Village - Upgrade_Walls", "WallsCurrentCount_Info_02", "you have."))

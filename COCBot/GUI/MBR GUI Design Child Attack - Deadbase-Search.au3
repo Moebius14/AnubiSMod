@@ -145,7 +145,7 @@ Func CreateAttackSearchDeadBaseSearch()
 			_GUICtrlSetTip(-1, $sTxtTip)
 		$g_hPicDBChampionWait=_GUICtrlCreateIcon($g_sLibIconPath, $eIcnChampion, $x - 18, $y + 4, 40, 40)
 			_GUICtrlSetTip(-1, $sTxtTip)
-		$g_hPicDBChampionSleepWait=_GUICtrlCreateIcon($g_sLibIconPath, $eIcnSleepingChampion, $x - 18, $y + 4, 40, 40)
+		$g_hPicDBChampionSleepWait=_GUICtrlCreateIcon($g_sLibModIconPath, $eIcnSleepingChampion, $x - 18, $y + 4, 40, 40)
 			GUICtrlSetState(-1, $GUI_HIDE)
 
 	$y += 70

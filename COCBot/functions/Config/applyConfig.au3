@@ -462,6 +462,30 @@ Func ApplyConfig_600_6($TypeReadSave)
 				Next
 				GUICtrlSetBkColor($g_hBtnBBDropOrder, $COLOR_GREEN)
 			EndIf
+			
+			If $g_bDisableBB Then
+				SetLog("BB 2.0 not supported yet", $COLOR_INFO)
+				For $i = $g_alblBldBaseStats[$eLootGoldBB] To $g_hChkPlacingNewBuildings
+					GUICtrlSetState($i, $GUI_DISABLE)
+				Next
+				For $i = 0 To UBound($g_ahCGBBBattleItem) - 1
+					GUICtrlSetState($g_ahCGBBBattleItem[$i], $GUI_UNCHECKED)
+				Next
+				For $i = 0 To UBound($g_ahCGBBDestructionItem) - 1
+					GUICtrlSetState($g_ahCGBBDestructionItem[$i], $GUI_UNCHECKED)
+				Next
+				For $i = 0 To UBound($g_ahCGBBTroopsItem) - 1
+					GUICtrlSetState($g_ahCGBBTroopsItem[$i], $GUI_UNCHECKED)
+				Next
+				For $i = $g_hChkCGBBBattle To $g_hChkCGBBTroops
+					GUICtrlSetState($i, $GUI_UNCHECKED)
+				Next
+				GUICtrlSetState($g_hChkForceBBAttackOnClanGames, $GUI_UNCHECKED + $GUI_DISABLE)
+				GUICtrlSetState($hSearchMainEventFirst, $GUI_CHECKED)
+				For $i = $hSearchBBEventFirst To $hSearchBothVillages
+					GUICtrlSetState($i, $GUI_DISABLE)
+				Next
+			EndIf
 
 			;ClanCapital
 			GUICtrlSetState($g_hChkEnableCollectCCGold, $g_bChkEnableCollectCCGold ? $GUI_CHECKED : $GUI_UNCHECKED)
@@ -1171,6 +1195,8 @@ Func ApplyConfig_600_17($TypeReadSave)
 			GUICtrlSetState($g_hChkSaveWallBldr, $g_bUpgradeWallSaveBuilder ? $GUI_CHECKED : $GUI_UNCHECKED)
 			GUICtrlSetState($g_hChkWallUpFirst, $g_bChkWallUpFirst ? $GUI_CHECKED : $GUI_UNCHECKED)
 			_GUICtrlComboBox_SetCurSel($g_hCmbWalls, $g_iCmbUpgradeWallsLevel)
+			_GUICtrlComboBox_SetCurSel($g_hHowUseWallRings, $g_iHowUseWallRings)
+			_GUICtrlComboBox_SetCurSel($g_hCmbUseWallRings, $g_iCmbUseWallRings)
 			For $i = 4 To 16
 				GUICtrlSetData($g_ahWallsCurrentCount[$i], $g_aiWallsCurrentCount[$i])
 			Next
@@ -1190,6 +1216,8 @@ Func ApplyConfig_600_17($TypeReadSave)
 			$g_bUpgradeWallSaveBuilder = (GUICtrlRead($g_hChkSaveWallBldr) = $GUI_CHECKED)
 			$g_bChkWallUpFirst = (GUICtrlRead($g_hChkWallUpFirst) = $GUI_CHECKED)
 			$g_iCmbUpgradeWallsLevel = _GUICtrlComboBox_GetCurSel($g_hCmbWalls)
+			$g_iHowUseWallRings = _GUICtrlComboBox_GetCurSel($g_hHowUseWallRings)
+			$g_iCmbUseWallRings = _GUICtrlComboBox_GetCurSel($g_hCmbUseWallRings)
 			For $i = 4 To 16 ; added wall-lvl16
 				$g_aiWallsCurrentCount[$i] = Number(GUICtrlRead($g_ahWallsCurrentCount[$i]))
 			Next
@@ -2390,6 +2418,9 @@ Func ApplyConfig_600_52_2($TypeReadSave)
 			; DoubleTrain - Demen
 			GUICtrlSetState($g_hChkDoubleTrain, $g_bDoubleTrain ? $GUI_CHECKED : $GUI_UNCHECKED)
 			GUICtrlSetState($g_hChkPreciseArmy, $g_bPreciseArmy ? $GUI_CHECKED : $GUI_UNCHECKED)
+			; ArmyCamp Cap Upgrade
+			_GUICtrlComboBox_SetCurSel($g_hArmyCampUpgrade, $g_iArmyCampUpgrade)
+			SetCampSizeAdjust()
 		Case "Save"
 			; troop/spell levels and counts
 			For $T = 0 To $eTroopCount - 1
@@ -2410,6 +2441,8 @@ Func ApplyConfig_600_52_2($TypeReadSave)
 			; DoubleTrain - Demen
 			$g_bDoubleTrain = (GUICtrlRead($g_hChkDoubleTrain) = $GUI_CHECKED)
 			$g_bPreciseArmy = (GUICtrlRead($g_hChkPreciseArmy) = $GUI_CHECKED)
+			; ArmyCamp Cap Upgrade
+			$g_iArmyCampUpgrade = _GUICtrlComboBox_GetCurSel($g_hArmyCampUpgrade)
 	EndSwitch
 EndFunc   ;==>ApplyConfig_600_52_2
 
@@ -2471,7 +2504,6 @@ Func ApplyConfig_600_54($TypeReadSave)
 					Next
 				EndIf
 			EndIf
-
 			chkTotalCampForced()
 			SetComboTroopComp() ; this function also calls lblTotalCount
 		Case "Save"
@@ -2653,6 +2685,11 @@ Func ApplyConfig_MOD_Humanization($TypeReadSave)
 			cmbWarReplay()
 			GuiLookatCurrentWar()
 			ViewBattleLog()
+			If $g_bDisableBB Then
+				For $i = $g_hLabelBB1 To $g_acmbPause[2]
+					GUICtrlSetState($i, $GUI_DISABLE)
+				Next
+			EndIf
 		Case "Save"
 			$g_bUseBotHumanization = (GUICtrlRead($g_hChkUseBotHumanization) = $GUI_CHECKED)
 			$g_bLookAtRedNotifications = (GUICtrlRead($g_hChkLookAtRedNotifications) = $GUI_CHECKED)
@@ -2738,6 +2775,15 @@ Func ApplyConfig_MOD_Advanced($TypeReadSave)
 			ChkPersoChallengesinPause()
 			LoadCurrentAlias()
 			LoadCurrentProfile()
+			If $g_bDisableBB Then
+				For $i = $g_hChkNoStarLabCheck To $g_hChkNoStarLabCheckLabel
+					GUICtrlSetState($i, $GUI_DISABLE)
+				Next
+				For $i = $g_hChkBBaseFrequencyLabel To $g_hcmbAdvancedVariation[1]
+					GUICtrlSetState($i, $GUI_DISABLE)
+				Next
+				GUICtrlSetState($g_hChkVisitBbaseinPause, $GUI_DISABLE)
+			EndIf
 		Case "Save"
 			$g_bNoLabCheck = _GUICtrlComboBox_GetCurSel($g_hChkNoLabCheck)
 			$g_bNoStarLabCheck = _GUICtrlComboBox_GetCurSel($g_hChkNoStarLabCheck)

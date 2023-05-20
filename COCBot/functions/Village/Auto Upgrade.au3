@@ -150,7 +150,7 @@ Func _AutoUpgrade()
 				$bMustIgnoreUpgrade = ($g_iChkUpgradesToIgnore[12] = 1) ? True : False
 			Case "Dark Elixir Drill"
 				$bMustIgnoreUpgrade = ($g_iChkUpgradesToIgnore[13] = 1) ? True : False
-			Case "Builder s Hut"
+			Case "Builder's Hut"
 				$bMustIgnoreUpgrade = ($g_iChkUpgradesToIgnore[32] = 1) ? True : False
 			Case "Cannon"
 				$bMustIgnoreUpgrade = ($g_iChkUpgradesToIgnore[33] = 1) ? True : False
@@ -215,18 +215,35 @@ Func _AutoUpgrade()
 		Switch $g_aUpgradeNameLevel[1]
 			Case "Barbarian King", "Archer Queen", "Grand Warden", "Royal Champion"
 				$g_aUpgradeResourceCostDuration[0] = QuickMIS("N1", $g_sImgAUpgradeRes, 690, 510 + $g_iMidOffsetY, 730, 550 + $g_iMidOffsetY) ; get resource
-				$g_aUpgradeResourceCostDuration[1] = getCostsUpgrade(598, 522 + $g_iMidOffsetY) ; get cost
+				$g_aUpgradeResourceCostDuration[1] = getCostsUpgrade1(598, 522 + $g_iMidOffsetY) ; get cost
 				$g_aUpgradeResourceCostDuration[2] = getHeroUpgradeTime(578, 465 + $g_iMidOffsetY) ; get duration
+				Local $g_Xtype = 598
+				Local $g_Ytype = 522 + $g_iMidOffsetY
 			Case Else
 				$g_aUpgradeResourceCostDuration[0] = QuickMIS("N1", $g_sImgAUpgradeRes, 460, 480 + $g_iMidOffsetY, 500, 520 + $g_iMidOffsetY) ; get resource
-				$g_aUpgradeResourceCostDuration[1] = getCostsUpgrade(362, 488 + $g_iMidOffsetY) ; get cost
+				$g_aUpgradeResourceCostDuration[1] = getCostsUpgrade1(362, 488 + $g_iMidOffsetY) ; get cost
 				$g_aUpgradeResourceCostDuration[2] = getBldgUpgradeTime(185, 307 + $g_iMidOffsetY) ; get duration
+				Local $g_Xtype = 362
+				Local $g_Ytype = 488 + $g_iMidOffsetY
 		EndSwitch
+		
+		Local $g_ReadCorrect = StringRight($g_aUpgradeResourceCostDuration[1], 1)
 
 		; if one of the value is empty, there is an error, we must exit Auto Upgrade
 		For $i = 0 To 2
 			If $g_aUpgradeNameLevel[1] = "Wall" And $i = 2 Then ExitLoop ; Wall Case : No Upgrade Time
-			If $g_aUpgradeResourceCostDuration[$i] = "" Then
+			If $g_aUpgradeResourceCostDuration[$i] = "" Or ($i = 1 And ($g_aUpgradeResourceCostDuration[$i] = 0 Or $g_ReadCorrect <> 0)) Then
+				If $i = 1 Then
+					$g_aUpgradeResourceCostDuration[$i] = getCostsUpgrade2($g_Xtype, $g_Ytype)
+					$g_ReadCorrect = StringRight($g_aUpgradeResourceCostDuration[$i], 1)
+					If $g_aUpgradeResourceCostDuration[$i] = "" Or $g_aUpgradeResourceCostDuration[$i] = 0 Or $g_ReadCorrect <> 0 Then
+						$g_aUpgradeResourceCostDuration[$i] = getCostsUpgrade($g_Xtype, $g_Ytype)
+						$g_ReadCorrect = StringRight($g_aUpgradeResourceCostDuration[$i], 1)
+						If $g_ReadCorrect <> 0 Then $g_aUpgradeResourceCostDuration[$i] = ""
+					EndIf
+					If $g_aUpgradeResourceCostDuration[$i] <> "" And $g_aUpgradeResourceCostDuration[$i] > 0 Then ContinueLoop
+				EndIf
+				SaveDebugImage("UpgradeReadError_")
 				SetLog("Error when trying to get upgrade details, looking next...", $COLOR_ERROR)
 				ContinueLoop 2
 			EndIf
@@ -268,10 +285,12 @@ Func _AutoUpgrade()
 			ContinueLoop
 		EndIf
 
-		; final click on upgrade button, click coord is get looking at upgrade type (heroes have a diferent place for Upgrade button)
+		; final click on upgrade button, click coord is get looking at upgrade type (heroes have a different place for Upgrade button)
+		Local $bHeroUpgrade = False
 		Switch $g_aUpgradeNameLevel[1]
 			Case "Barbarian King", "Archer Queen", "Grand Warden", "Royal Champion"
 				Click(660, 530 + $g_iMidOffsetY)
+				$bHeroUpgrade = True
 			Case Else
 				Click(430, 500 + $g_iMidOffsetY)
 		EndSwitch
@@ -336,6 +355,44 @@ Func _AutoUpgrade()
 			Local $currentDate = Number(@MDAY)
 			$text &= "Auto Upgrade Of " & $g_aUpgradeNameLevel[1] & " Started"
 			NotifyPushToTelegram($text)
+		EndIf
+		
+		If $bHeroUpgrade And $g_bUseHeroBooks Then
+			If _Sleep(500) Then Return
+			Local $HeroUpgradeTime = ConvertOCRTime("UseHeroBooks", $g_aUpgradeResourceCostDuration[2])
+			If $HeroUpgradeTime >= ($g_iHeroMinUpgradeTime * 1440) Then
+				Local $HeroBooks = FindButton("HeroBooks")
+				If IsArray($HeroBooks) And UBound($HeroBooks) = 2 Then
+					SetLog("Use Book Of Heroes to Complete Now this Hero Upgrade", $COLOR_INFO)
+					Click($HeroBooks[0], $HeroBooks[1])
+					If _Sleep(1000) Then Return
+					If ClickB("BoostConfirm") Then
+						SetLog("Hero Upgrade Finished With Book of Heroes", $COLOR_SUCCESS)
+						Local $bHeroShortName
+						Switch $g_aUpgradeNameLevel[1]
+							Case "Barbarian King"
+								$bHeroShortName = "King"
+							Case "Archer Queen"
+								$bHeroShortName = "Queen"
+							Case "Grand Warden"
+								$bHeroShortName = "Warden"
+							Case "Royal Champion"
+								$bHeroShortName = "Champion"
+						EndSwitch
+						$ActionForModLog = "Upgraded with Book of Heroes"
+						If $g_iTxtCurrentVillageName <> "" Then
+							GUICtrlSetData($g_hTxtModLog, @CRLF & _NowTime() & " [" & $g_iTxtCurrentVillageName & "] " & $bHeroShortName & " : " & $ActionForModLog, 1)
+						Else
+							GUICtrlSetData($g_hTxtModLog, @CRLF & _NowTime() & " [" & $g_sProfileCurrentName & "] " & $bHeroShortName & " : " & $ActionForModLog, 1)
+						EndIf
+						_FileWriteLog($g_sProfileLogsPath & "\ModLog.log", " [" & $g_sProfileCurrentName & "] " & $bHeroShortName & " : " & $ActionForModLog)
+						If _Sleep(1000) Then Return
+						ClickAway()
+					EndIf
+				Else
+					SetLog("No Books of Heroes Found", $COLOR_DEBUG)
+				EndIf
+			EndIf
 		EndIf
 
 	WEnd

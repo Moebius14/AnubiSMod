@@ -77,43 +77,15 @@ Func getArmyTroopCapacity($bOpenArmyWindow = False, $bCloseArmyWindow = False, $
 		$g_CurrentCampUtilization = 0
 		CheckOverviewFullArmy()
 	EndIf
-
-	If $g_iTotalCampSpace = 0 Or ($g_iTotalCampSpace <> $tmpTotalCamp) Then ; if Total camp size is still not set or value not same as read use forced value
-		If $g_bTotalCampForced = False Then ; check if forced camp size set in expert tab
-			Local $proposedTotalCamp = $tmpTotalCamp
-			If $g_iTotalCampSpace > $tmpTotalCamp Then $proposedTotalCamp = $g_iTotalCampSpace
-			$sInputbox = InputBox("Question", _
-					"Enter your total Army Camp capacity." & @CRLF & @CRLF & _
-					"Please check it matches with total Army Camp capacity" & @CRLF & _
-					"you see in Army Overview right now in Android Window:" & @CRLF & _
-					$g_sAndroidTitle & @CRLF & @CRLF & _
-					"(This window closes in 2 Minutes with value of " & $proposedTotalCamp & ")", $proposedTotalCamp, "", 330, 220, Default, Default, 120, $g_hFrmBot)
-			Local $error = @error
-			If $error = 1 Then
-				SetLog("Army Camp User input cancelled, still using " & $g_iTotalCampSpace, $COLOR_ACTION)
-			Else
-				If $error = 2 Then
-					; Cancelled, using proposed value
-					$g_iTotalCampSpace = $proposedTotalCamp
-				Else
-					$g_iTotalCampSpace = Number($sInputbox)
-				EndIf
-				If $error = 0 Then
-					$g_iTotalCampForcedValue = $g_iTotalCampSpace
-					$g_bTotalCampForced = True
-					SetLog("Army Camp User input = " & $g_iTotalCampSpace, $COLOR_INFO)
-				Else
-					; timeout
-					SetLog("Army Camp proposed value = " & $g_iTotalCampSpace, $COLOR_ACTION)
-				EndIf
-			EndIf
-		Else
-			$g_iTotalCampSpace = Number($g_iTotalCampForcedValue)
-		EndIf
+	
+	If $iHoldCamp <> $g_iTotalCampForcedValue And $iHoldCamp > 0 Then
+		SetLog("Adjusting Camp Capacity To : " & $iHoldCamp & " Slots", $COLOR_ACTION)
+		Local $CampCapDiff = Number($tmpTotalCamp - $g_iTotalCampForcedValue)
+		$g_iTotalCampForcedValue = $tmpTotalCamp
+		$g_iTotalCampSpace = $tmpTotalCamp
+		GUICtrlSetData($g_hTxtTotalCampForced, $g_iTotalCampForcedValue)
+		If $CampCapDiff > 0 Then CorrectArmyComp($CampCapDiff)
 	EndIf
-	If _Sleep($DELAYCHECKARMYCAMP4) Then Return
-
-	If $g_bTotalCampForced = True Then $g_iTotalCampSpace = Number($g_iTotalCampForcedValue)
 
 	If $g_iTotalCampSpace > 0 Then
 		If $bSetLog Then SetLog("Total Army Camp Capacity: " & $g_CurrentCampUtilization & "/" & $g_iTotalCampSpace & " (" & Int($g_CurrentCampUtilization / $g_iTotalCampSpace * 100) & "%)")
@@ -139,3 +111,25 @@ Func getArmyTroopCapacity($bOpenArmyWindow = False, $bCloseArmyWindow = False, $
 	EndIf
 
 EndFunc   ;==>getArmyTroopCapacity
+
+Func CorrectArmyComp($CampCapDiff = 5)
+	Switch $g_iArmyCampUpgrade
+		Case 0
+			$g_aiArmyCustomTroops[10] += Number($CampCapDiff)/5;Loons
+		Case 1
+			$g_aiArmyCustomTroops[2] += Number($CampCapDiff);Archers
+		Case 2
+			$g_aiArmyCustomTroops[0] += Number($CampCapDiff);Barbs
+		Case 3
+			$g_aiArmyCustomTroops[6] += Number($CampCapDiff);Goblins
+		Case 4
+			$g_aiArmyCustomTroops[4] += Number($CampCapDiff)/5;Giants
+		Case 5
+			$g_aiArmyCustomTroops[28] += Number($CampCapDiff)/5;Hogs		
+	EndSwitch
+	For $i= 0 To $eTroopCount - 1
+		GUICtrlSetData($g_ahTxtTrainArmyTroopCount[$i], $g_aiArmyCustomTroops[$i])
+		$g_aiArmyCompTroops[$i] = $g_aiArmyCustomTroops[$i]
+	Next
+	SetComboTroopComp()
+EndFunc

@@ -555,6 +555,25 @@ Func cmbHeroReservedBuilder2()
 	$g_iHeroReservedBuilder = _GUICtrlComboBox_GetCurSel($g_hCmbHeroReservedBuilder)
 EndFunc   ;==>cmbHeroReservedBuilder2
 
+Func ReducecmbHeroReservedBuilder()
+	Local $IsToUpNrbHeroes = 0
+	Local $CheckedHeroes[4] = [$g_bUpgradeKingEnable, $g_bUpgradeQueenEnable, $g_bUpgradeWardenEnable, $g_bUpgradeChampionEnable]
+	For $i = 0 to UBound($CheckedHeroes) - 1
+		If $CheckedHeroes[$i] Then $IsToUpNrbHeroes += 1
+	Next
+	If $g_iHeroReservedBuilder > $IsToUpNrbHeroes Then
+		If $IsToUpNrbHeroes > 1 Then
+			SetLog("Reduce Reserved Builders To " & $IsToUpNrbHeroes, $COLOR_ACTION)
+		Else
+			SetLog("Reduce Reserved Builder To " & $IsToUpNrbHeroes, $COLOR_ACTION)
+		EndIf
+		$g_iHeroReservedBuilder = $IsToUpNrbHeroes
+		_GUICtrlComboBox_SetCurSel($g_hCmbHeroReservedBuilder, $g_iHeroReservedBuilder)
+;		applyConfig()
+;		saveConfig()
+	EndIf
+EndFunc
+
 Func chkWalls()
 	If GUICtrlRead($g_hChkWalls) = $GUI_CHECKED Then
 		$g_bAutoUpgradeWallsEnable = True
@@ -565,7 +584,9 @@ Func chkWalls()
 		GUICtrlSetState($g_hTxtWallMinGold, $GUI_ENABLE)
 		GUICtrlSetState($g_hTxtWallMinElixir, $GUI_ENABLE)
 		GUICtrlSetState($g_hChkWallUpFirst, $GUI_ENABLE)
+		GUICtrlSetState($g_hHowUseWallRings, $GUI_ENABLE)
 		cmbWalls()
+		cmbWallRingsCB()
 	Else
 		$g_bAutoUpgradeWallsEnable = False
 		GUICtrlSetState($g_hRdoUseGold, $GUI_DISABLE)
@@ -575,12 +596,22 @@ Func chkWalls()
 		GUICtrlSetState($g_hTxtWallMinGold, $GUI_DISABLE)
 		GUICtrlSetState($g_hTxtWallMinElixir, $GUI_DISABLE)
 		GUICtrlSetState($g_hChkWallUpFirst, $GUI_DISABLE)
+		GUICtrlSetState($g_hHowUseWallRings, $GUI_DISABLE)
+		GUICtrlSetState($g_hCmbUseWallRings, $GUI_DISABLE)
 	EndIf
 EndFunc   ;==>chkWalls
 
 Func chkSaveWallBldr()
 	$g_bUpgradeWallSaveBuilder = (GUICtrlRead($g_hChkSaveWallBldr) = $GUI_CHECKED)
 EndFunc   ;==>chkSaveWallBldr
+
+Func cmbWallRingsCB()
+	If _GUICtrlComboBox_GetCurSel($g_hHowUseWallRings) = 0 Then
+		GUICtrlSetState($g_hCmbUseWallRings, $GUI_DISABLE)
+	Else
+		GUICtrlSetState($g_hCmbUseWallRings, $GUI_ENABLE)
+	EndIf
+EndFunc
 
 Func cmbWalls()
 	$g_iCmbUpgradeWallsLevel = _GUICtrlComboBox_GetCurSel($g_hCmbWalls)

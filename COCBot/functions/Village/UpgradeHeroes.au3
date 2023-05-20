@@ -145,6 +145,10 @@ Func QueenUpgrade()
 				If $aHeroLevel = $g_iMaxQueenLevel Then ; max hero
 					SetLog("Your Archer Queen is at max level, cannot upgrade anymore!", $COLOR_INFO)
 					$g_bUpgradeQueenEnable = False ; turn Off the Queens upgrade
+					GUICtrlSetState($g_hChkUpgradeQueen, $GUI_UNCHECKED)
+					chkUpgradeQueen()
+					ReducecmbHeroReservedBuilder()
+					ClickAway()
 					Return
 				EndIf
 			Else
@@ -169,7 +173,28 @@ Func QueenUpgrade()
 
 	If $g_aiCurrentLoot[$eLootDarkElixir] < ($g_afQueenUpgCost[$aHeroLevel] * 1000) * (1 - Number($g_iBuilderBoostDiscount) / 100) + $g_iUpgradeMinDark Then
 		SetLog("Insufficient DE for Upg Queen, requires: " & ($g_afQueenUpgCost[$aHeroLevel] * 1000) * (1 - Number($g_iBuilderBoostDiscount) / 100) & " + " & $g_iUpgradeMinDark, $COLOR_INFO)
-		Return
+		If $g_iHeroReservedBuilder = 0 Then Return
+		Local $aUpgradeButton = findButton("Upgrade", Default, 1, True)
+		If IsArray($aUpgradeButton) And UBound($aUpgradeButton, 1) = 2 Then
+			If _Sleep($DELAYUPGRADEHERO2) Then Return
+			ClickP($aUpgradeButton)
+			If _Sleep($DELAYUPGRADEHERO3) Then Return ; Wait for window to open
+			If $g_bDebugImageSave Then SaveDebugImage("UpgradeDarkBtn1")
+			If _ColorCheck(_GetPixelColor(721, 118 + $g_iMidOffsetY, True), Hex(0xE00408, 6), 20) Then ; Check if the Hero Upgrade window is open
+				If _ColorCheck(_GetPixelColor(400, 530 + $g_iMidOffsetY, True), Hex(0xE1433F, 6), 20) Then
+					SetLog("TH upgrade needed - Skipped!", $COLOR_ERROR)
+					$g_bUpgradeQueenEnable = False
+					GUICtrlSetState($g_hChkUpgradeQueen, $GUI_UNCHECKED)
+					chkUpgradeQueen()
+					ReducecmbHeroReservedBuilder()
+					CloseWindow()
+					Return
+				Else
+					CloseWindow()
+					Return		
+				EndIf
+			EndIf
+		EndIf
 	EndIf
 
 	Local $bHeroUpgrade = False
@@ -178,13 +203,23 @@ Func QueenUpgrade()
 		If _Sleep($DELAYUPGRADEHERO2) Then Return
 		ClickP($aUpgradeButton)
 		If _Sleep($DELAYUPGRADEHERO3) Then Return ; Wait for window to open
+		Local $g_aUpgradeDuration = getHeroUpgradeTime(578, 465 + $g_iMidOffsetY) ; get duration
 		If $g_bDebugImageSave Then SaveDebugImage("UpgradeDarkBtn1")
 		If _ColorCheck(_GetPixelColor(721, 118 + $g_iMidOffsetY, True), Hex(0xE00408, 6), 20) Then ; Check if the Hero Upgrade window is open
+		
+			If _ColorCheck(_GetPixelColor(400, 530 + $g_iMidOffsetY, True), Hex(0xE1433F, 6), 20) Then
+				SetLog("Queen upgrade not available, need TH upgrade - Skipped!", $COLOR_ERROR)
+				$g_bUpgradeQueenEnable = False
+				GUICtrlSetState($g_hChkUpgradeQueen, $GUI_UNCHECKED)
+				chkUpgradeQueen()
+				ReducecmbHeroReservedBuilder()
+				CloseWindow()
+				Return
+			EndIf
 
 			Local $aWhiteZeros = decodeSingleCoord(findImage("UpgradeWhiteZero" ,$g_sImgUpgradeWhiteZero, GetDiamondFromRect("408,519,747,606"), 1, True, Default))
 			If IsArray($aWhiteZeros) And UBound($aWhiteZeros, 1) = 2 Then
 				ClickP($aWhiteZeros, 1, 0) ; Click upgrade buttton
-				ClickAway()
 
 				If _Sleep($DELAYUPGRADEHERO1) Then Return
 				If $g_bDebugImageSave Then SaveDebugImage("UpgradeDarkBtn2")
@@ -212,16 +247,24 @@ Func QueenUpgrade()
 	EndIf
 	
 	If $bHeroUpgrade And $g_bUseHeroBooks Then
-		_Sleep(500)
-		Local $HeroUpgradeTime = ConvertOCRTime("UseHeroBooks", $g_aUpgradeResourceCostDuration[2])
+		If _Sleep(500) Then Return
+		Local $HeroUpgradeTime = ConvertOCRTime("UseHeroBooks", $g_aUpgradeDuration)
 		If $HeroUpgradeTime >= ($g_iHeroMinUpgradeTime * 1440) Then
 			Local $HeroBooks = FindButton("HeroBooks")
 			If IsArray($HeroBooks) And UBound($HeroBooks) = 2 Then
-				SetLog("Use Hero Books to Complete Now this Hero Upgrade", $COLOR_INFO)
+				SetLog("Use Book Of Heroes to Complete Now this Hero Upgrade", $COLOR_INFO)
 				Click($HeroBooks[0], $HeroBooks[1])
-				_Sleep(1000)
-				If QuickMIS("BC1", $g_sImgGeneralCloseButton, 560, 260, 610, 305) Then
-					Click(430, 425)
+				If _Sleep(1000) Then Return
+				If ClickB("BoostConfirm") Then
+					SetLog("Hero Upgrade Finished With Book of Heroes", $COLOR_SUCCESS)
+					$ActionForModLog = "Upgraded with Book of Heroes"
+					If $g_iTxtCurrentVillageName <> "" Then
+						GUICtrlSetData($g_hTxtModLog, @CRLF & _NowTime() & " [" & $g_iTxtCurrentVillageName & "] Queen : " & $ActionForModLog, 1)
+					Else
+						GUICtrlSetData($g_hTxtModLog, @CRLF & _NowTime() & " [" & $g_sProfileCurrentName & "] Queen : " & $ActionForModLog, 1)
+					EndIf
+					_FileWriteLog($g_sProfileLogsPath & "\ModLog.log", " [" & $g_sProfileCurrentName & "] - Queen : " & $ActionForModLog)
+					If _Sleep(1000) Then Return
 				EndIf
 			Else
 				SetLog("No Books of Heroes Found", $COLOR_DEBUG)
@@ -268,6 +311,10 @@ Func KingUpgrade()
 				If $aHeroLevel = $g_iMaxKingLevel Then ; max hero
 					SetLog("Your Babarian King is at max level, cannot upgrade anymore!", $COLOR_INFO)
 					$g_bUpgradeKingEnable = False ; Turn Off the King's Upgrade
+					GUICtrlSetState($g_hChkUpgradeKing, $GUI_UNCHECKED)
+					chkUpgradeKing()
+					ReducecmbHeroReservedBuilder()
+					ClickAway()
 					Return
 				EndIf
 			Else
@@ -293,7 +340,28 @@ Func KingUpgrade()
 
 	If $g_aiCurrentLoot[$eLootDarkElixir] < ($g_afKingUpgCost[$aHeroLevel] * 1000) * (1 - Number($g_iBuilderBoostDiscount) / 100) + $g_iUpgradeMinDark Then
 		SetLog("Insufficient DE for Upg King, requires: " & ($g_afKingUpgCost[$aHeroLevel] * 1000) * (1 - Number($g_iBuilderBoostDiscount) / 100) & " + " & $g_iUpgradeMinDark, $COLOR_INFO)
-		Return
+		If $g_iHeroReservedBuilder = 0 Then Return
+		Local $aUpgradeButton = findButton("Upgrade", Default, 1, True)
+		If IsArray($aUpgradeButton) And UBound($aUpgradeButton, 1) = 2 Then
+			If _Sleep($DELAYUPGRADEHERO2) Then Return
+			ClickP($aUpgradeButton)
+			If _Sleep($DELAYUPGRADEHERO3) Then Return ; Wait for window to open
+			If $g_bDebugImageSave Then SaveDebugImage("UpgradeDarkBtn1")
+			If _ColorCheck(_GetPixelColor(721, 118 + $g_iMidOffsetY, True), Hex(0xE00408, 6), 20) Then ; Check if the Hero Upgrade window is open
+				If _ColorCheck(_GetPixelColor(400, 530 + $g_iMidOffsetY, True), Hex(0xE1433F, 6), 20) Then
+					SetLog("TH upgrade needed - Skipped!", $COLOR_ERROR)
+					$g_bUpgradeKingEnable = False
+					GUICtrlSetState($g_hChkUpgradeKing, $GUI_UNCHECKED)
+					chkUpgradeKing()
+					ReducecmbHeroReservedBuilder()
+					CloseWindow()
+					Return
+				Else
+					CloseWindow()
+					Return		
+				EndIf
+			EndIf
+		EndIf
 	EndIf
 
 	Local $bHeroUpgrade = False
@@ -302,14 +370,25 @@ Func KingUpgrade()
 		If _Sleep($DELAYUPGRADEHERO2) Then Return
 		ClickP($aUpgradeButton)
 		If _Sleep($DELAYUPGRADEHERO3) Then Return ; Wait for window to open
+		Local $g_aUpgradeDuration = getHeroUpgradeTime(578, 465 + $g_iMidOffsetY) ; get duration
 		If $g_bDebugImageSave Then SaveDebugImage("UpgradeDarkBtn1")
 
 		If _ColorCheck(_GetPixelColor(715, 120 + $g_iMidOffsetY, True), Hex(0xE01C20, 6), 20) Then ; Check if the Hero Upgrade window is open
+		
+			If _ColorCheck(_GetPixelColor(400, 530 + $g_iMidOffsetY, True), Hex(0xE1433F, 6), 20) Then
+				SetLog("King upgrade not available, need TH upgrade - Skipped!", $COLOR_ERROR)
+				$g_bUpgradeKingEnable = False
+				GUICtrlSetState($g_hChkUpgradeKing, $GUI_UNCHECKED)
+				chkUpgradeKing()
+				ReducecmbHeroReservedBuilder()
+				CloseWindow()
+				Return
+			EndIf
+		
 			Local $aWhiteZeros = decodeSingleCoord(findImage("UpgradeWhiteZero" ,$g_sImgUpgradeWhiteZero, GetDiamondFromRect("408,519,747,606"), 1, True, Default))
 			If IsArray($aWhiteZeros) And UBound($aWhiteZeros, 1) = 2 Then
 				ClickP($aWhiteZeros, 1, 0) ; Click upgrade buttton
-				ClickAway()
-
+				
 				If _Sleep($DELAYUPGRADEHERO1) Then Return
 				If $g_bDebugImageSave Then SaveDebugImage("UpgradeDarkBtn2")
 				If _ColorCheck(_GetPixelColor(573, 256 + $g_iMidOffsetY, True), Hex(0xDB0408, 6), 20) Then ; Redundant Safety Check if the use Gem window opens
@@ -337,16 +416,24 @@ Func KingUpgrade()
 	EndIf
 	
 	If $bHeroUpgrade And $g_bUseHeroBooks Then
-		_Sleep(500)
-		Local $HeroUpgradeTime = ConvertOCRTime("UseHeroBooks", $g_aUpgradeResourceCostDuration[2])
+		If _Sleep(500) Then Return
+		Local $HeroUpgradeTime = ConvertOCRTime("UseHeroBooks", $g_aUpgradeDuration)
 		If $HeroUpgradeTime >= ($g_iHeroMinUpgradeTime * 1440) Then
 			Local $HeroBooks = FindButton("HeroBooks")
 			If IsArray($HeroBooks) And UBound($HeroBooks) = 2 Then
-				SetLog("Use Hero Books to Complete Now this Hero Upgrade", $COLOR_INFO)
+				SetLog("Use Book Of Heroes to Complete Now this Hero Upgrade", $COLOR_INFO)
 				Click($HeroBooks[0], $HeroBooks[1])
-				_Sleep(1000)
-				If QuickMIS("BC1", $g_sImgGeneralCloseButton, 560, 260, 610, 305) Then
-					Click(430, 425)
+				If _Sleep(1000) Then Return
+				If ClickB("BoostConfirm") Then
+					SetLog("Hero Upgrade Finished With Book of Heroes", $COLOR_SUCCESS)
+					$ActionForModLog = "Upgraded with Book of Heroes"
+					If $g_iTxtCurrentVillageName <> "" Then
+						GUICtrlSetData($g_hTxtModLog, @CRLF & _NowTime() & " [" & $g_iTxtCurrentVillageName & "] King : " & $ActionForModLog, 1)
+					Else
+						GUICtrlSetData($g_hTxtModLog, @CRLF & _NowTime() & " [" & $g_sProfileCurrentName & "] King : " & $ActionForModLog, 1)
+					EndIf
+					_FileWriteLog($g_sProfileLogsPath & "\ModLog.log", " [" & $g_sProfileCurrentName & "] - King : " & $ActionForModLog)
+					If _Sleep(1000) Then Return
 				EndIf
 			Else
 				SetLog("No Books of Heroes Found", $COLOR_DEBUG)
@@ -399,6 +486,10 @@ Func WardenUpgrade()
 				If $g_iWardenLevel = $g_iMaxWardenLevel Then ; max hero
 					SetLog("Your Grand Warden is at max level, cannot upgrade anymore!", $COLOR_INFO)
 					$g_bUpgradeWardenEnable = False ; turn OFF the Wardn's Upgrade
+					GUICtrlSetState($g_hChkUpgradeWarden, $GUI_UNCHECKED)
+					chkUpgradeWarden()
+					ReducecmbHeroReservedBuilder()
+					ClickAway()
 					Return
 				EndIf
 			Else
@@ -425,7 +516,28 @@ Func WardenUpgrade()
 
 	If $g_aiCurrentLoot[$eLootElixir] < ($g_afWardenUpgCost[$g_iWardenLevel] * 1000000) * (1 - Number($g_iBuilderBoostDiscount) / 100) + $g_iUpgradeMinElixir Then
 		SetLog("Insufficient Elixir for Warden Upgrade, requires: " & ($g_afWardenUpgCost[$g_iWardenLevel] * 1000000) * (1 - Number($g_iBuilderBoostDiscount) / 100) & " + " & $g_iUpgradeMinElixir, $COLOR_INFO)
-		Return
+		If $g_iHeroReservedBuilder = 0 Then Return
+		Local $aUpgradeButton = findButton("Upgrade", Default, 1, True)
+		If IsArray($aUpgradeButton) And UBound($aUpgradeButton, 1) = 2 Then
+			If _Sleep($DELAYUPGRADEHERO2) Then Return
+			ClickP($aUpgradeButton)
+			If _Sleep($DELAYUPGRADEHERO3) Then Return ; Wait for window to open
+			If $g_bDebugImageSave Then SaveDebugImage("UpgradeDarkBtn1")
+			If _ColorCheck(_GetPixelColor(721, 118 + $g_iMidOffsetY, True), Hex(0xE00408, 6), 20) Then ; Check if the Hero Upgrade window is open
+				If _ColorCheck(_GetPixelColor(400, 530 + $g_iMidOffsetY, True), Hex(0xE1433F, 6), 20) Then
+					SetLog("TH upgrade needed - Skipped!", $COLOR_ERROR)
+					$g_bUpgradeWardenEnable = False
+					GUICtrlSetState($g_hChkUpgradeWarden, $GUI_UNCHECKED)
+					chkUpgradeWarden()
+					ReducecmbHeroReservedBuilder()
+					CloseWindow()
+					Return
+				Else
+					CloseWindow()
+					Return		
+				EndIf
+			EndIf
+		EndIf
 	EndIf
 
 	If _Sleep($DELAYUPGRADEHERO2) Then Return
@@ -436,17 +548,26 @@ Func WardenUpgrade()
 		If _Sleep($DELAYUPGRADEHERO2) Then Return
 		ClickP($aUpgradeButton)
 		If _Sleep($DELAYUPGRADEHERO3) Then Return ; Wait for window to open
-
+		Local $g_aUpgradeDuration = getHeroUpgradeTime(578, 465 + $g_iMidOffsetY) ; get duration
 		If $g_bDebugSetlog Then SaveDebugImage("UpgradeElixirBtn1")
 
 		SetDebugLog("pixel: " & _GetPixelColor(718, 120 + $g_iMidOffsetY, True) & " expected " & Hex(0xDD0408, 6) & " result: " & _ColorCheck(_GetPixelColor(718, 120 + $g_iMidOffsetY, True), Hex(0xDD0408, 6), 20), $COLOR_DEBUG)
 		If _ColorCheck(_GetPixelColor(718, 120 + $g_iMidOffsetY, True), Hex(0xDD0408, 6), 20) Then ; Check if the Hero Upgrade window is open
 
+			If _ColorCheck(_GetPixelColor(400, 530 + $g_iMidOffsetY, True), Hex(0xE1433F, 6), 20) Then
+				SetLog("Warden upgrade not available, need TH upgrade - Skipped!", $COLOR_ERROR)
+				$g_bUpgradeWardenEnable = False
+				GUICtrlSetState($g_hChkUpgradeWarden, $GUI_UNCHECKED)
+				chkUpgradeWarden()
+				ReducecmbHeroReservedBuilder()
+				CloseWindow()
+				Return
+			EndIf
+
 			Local $aWhiteZeros = decodeSingleCoord(findImage("UpgradeWhiteZero" ,$g_sImgUpgradeWhiteZero, GetDiamondFromRect("408,519,747,606"), 1, True, Default))
 			If IsArray($aWhiteZeros) And UBound($aWhiteZeros, 1) = 2 Then
 				ClickP($aWhiteZeros, 1, 0) ; Click upgrade buttton
-				ClickAway()
-
+				
 				If _Sleep($DELAYUPGRADEHERO1) Then Return
 
 				If $g_bDebugSetlog Then SaveDebugImage("UpgradeElixirBtn2")
@@ -476,16 +597,24 @@ Func WardenUpgrade()
 	EndIf
 	
 	If $bHeroUpgrade And $g_bUseHeroBooks Then
-		_Sleep(500)
-		Local $HeroUpgradeTime = ConvertOCRTime("UseHeroBooks", $g_aUpgradeResourceCostDuration[2])
+		If _Sleep(500) Then Return
+		Local $HeroUpgradeTime = ConvertOCRTime("UseHeroBooks", $g_aUpgradeDuration)
 		If $HeroUpgradeTime >= ($g_iHeroMinUpgradeTime * 1440) Then
 			Local $HeroBooks = FindButton("HeroBooks")
 			If IsArray($HeroBooks) And UBound($HeroBooks) = 2 Then
-				SetLog("Use Hero Books to Complete Now this Hero Upgrade", $COLOR_INFO)
+				SetLog("Use Book Of Heroes to Complete Now this Hero Upgrade", $COLOR_INFO)
 				Click($HeroBooks[0], $HeroBooks[1])
-				_Sleep(1000)
-				If QuickMIS("BC1", $g_sImgGeneralCloseButton, 560, 260, 610, 305) Then
-					Click(430, 425)
+				If _Sleep(1000) Then Return
+				If ClickB("BoostConfirm") Then
+					SetLog("Hero Upgrade Finished With Book of Heroes", $COLOR_SUCCESS)
+					$ActionForModLog = "Upgraded with Book of Heroes"
+					If $g_iTxtCurrentVillageName <> "" Then
+						GUICtrlSetData($g_hTxtModLog, @CRLF & _NowTime() & " [" & $g_iTxtCurrentVillageName & "] Warden : " & $ActionForModLog, 1)
+					Else
+						GUICtrlSetData($g_hTxtModLog, @CRLF & _NowTime() & " [" & $g_sProfileCurrentName & "] Warden : " & $ActionForModLog, 1)
+					EndIf
+					_FileWriteLog($g_sProfileLogsPath & "\ModLog.log", " [" & $g_sProfileCurrentName & "] - Warden : " & $ActionForModLog)
+					If _Sleep(1000) Then Return
 				EndIf
 			Else
 				SetLog("No Books of Heroes Found", $COLOR_DEBUG)
@@ -533,6 +662,10 @@ Func ChampionUpgrade()
 				If $aHeroLevel = $g_iMaxChampionLevel Then ; max hero
 					SetLog("Your Royal Champion is at max level, cannot upgrade anymore!", $COLOR_INFO)
 					$g_bUpgradeChampionEnable = False ; turn Off the Champions upgrade
+					GUICtrlSetState($g_hChkUpgradeChampion, $GUI_UNCHECKED)
+					chkUpgradeChampion()
+					ReducecmbHeroReservedBuilder()
+					ClickAway()
 					Return
 				EndIf
 			Else
@@ -557,7 +690,28 @@ Func ChampionUpgrade()
 
 	If $g_aiCurrentLoot[$eLootDarkElixir] < ($g_afChampionUpgCost[$aHeroLevel] * 1000) * (1 - Number($g_iBuilderBoostDiscount) / 100) + $g_iUpgradeMinDark Then
 		SetLog("Insufficient DE for Upg Champion, requires: " & ($g_afChampionUpgCost[$aHeroLevel] * 1000) * (1 - Number($g_iBuilderBoostDiscount) / 100) & " + " & $g_iUpgradeMinDark, $COLOR_INFO)
-		Return
+		If $g_iHeroReservedBuilder = 0 Then Return
+		Local $aUpgradeButton = findButton("Upgrade", Default, 1, True)
+		If IsArray($aUpgradeButton) And UBound($aUpgradeButton, 1) = 2 Then
+			If _Sleep($DELAYUPGRADEHERO2) Then Return
+			ClickP($aUpgradeButton)
+			If _Sleep($DELAYUPGRADEHERO3) Then Return ; Wait for window to open
+			If $g_bDebugImageSave Then SaveDebugImage("UpgradeDarkBtn1")
+			If _ColorCheck(_GetPixelColor(721, 118 + $g_iMidOffsetY, True), Hex(0xE00408, 6), 20) Then ; Check if the Hero Upgrade window is open
+				If _ColorCheck(_GetPixelColor(400, 530 + $g_iMidOffsetY, True), Hex(0xE1433F, 6), 20) Then
+					SetLog("TH upgrade needed - Skipped!", $COLOR_ERROR)
+					$g_bUpgradeChampionEnable = False
+					GUICtrlSetState($g_hChkUpgradeChampion, $GUI_UNCHECKED)
+					chkUpgradeChampion()
+					ReducecmbHeroReservedBuilder()
+					CloseWindow()
+					Return
+				Else
+					CloseWindow()
+					Return		
+				EndIf
+			EndIf
+		EndIf
 	EndIf
 
 	Local $bHeroUpgrade = False
@@ -566,14 +720,24 @@ Func ChampionUpgrade()
 		If _Sleep($DELAYUPGRADEHERO2) Then Return
 		ClickP($aUpgradeButton)
 		If _Sleep($DELAYUPGRADEHERO3) Then Return ; Wait for window to open
+		Local $g_aUpgradeDuration = getHeroUpgradeTime(578, 465 + $g_iMidOffsetY) ; get duration
 		If $g_bDebugImageSave Then SaveDebugImage("UpgradeDarkBtn1")
 		If _ColorCheck(_GetPixelColor(721, 118 + $g_iMidOffsetY, True), Hex(0xE00408, 6), 20) Then ; Check if the Hero Upgrade window is open
+
+			If _ColorCheck(_GetPixelColor(400, 530 + $g_iMidOffsetY, True), Hex(0xE1433F, 6), 20) Then
+				SetLog("Champion upgrade not available, need TH upgrade - Skipped!", $COLOR_ERROR)
+				$g_bUpgradeChampionEnable = False
+				GUICtrlSetState($g_hChkUpgradeChampion, $GUI_UNCHECKED)
+				chkUpgradeChampion()
+				ReducecmbHeroReservedBuilder()
+				CloseWindow()
+				Return
+			EndIf
 
 			Local $aWhiteZeros = decodeSingleCoord(findImage("UpgradeWhiteZero" ,$g_sImgUpgradeWhiteZero, GetDiamondFromRect("408,519,747,606"), 1, True, Default))
 			If IsArray($aWhiteZeros) And UBound($aWhiteZeros, 1) = 2 Then
 				ClickP($aWhiteZeros, 1, 0) ; Click upgrade buttton
-				ClickAway()
-
+				
 				If _Sleep($DELAYUPGRADEHERO1) Then Return
 				If $g_bDebugImageSave Then SaveDebugImage("UpgradeDarkBtn2")
 				If _ColorCheck(_GetPixelColor(573, 256 + $g_iMidOffsetY, True), Hex(0xDB0408, 6), 20) Then ; Redundant Safety Check if the use Gem window opens
@@ -600,16 +764,24 @@ Func ChampionUpgrade()
 	EndIf
 	
 	If $bHeroUpgrade And $g_bUseHeroBooks Then
-		_Sleep(500)
-		Local $HeroUpgradeTime = ConvertOCRTime("UseHeroBooks", $g_aUpgradeResourceCostDuration[2])
+		If _Sleep(500) Then Return
+		Local $HeroUpgradeTime = ConvertOCRTime("UseHeroBooks", $g_aUpgradeDuration)
 		If $HeroUpgradeTime >= ($g_iHeroMinUpgradeTime * 1440) Then
 			Local $HeroBooks = FindButton("HeroBooks")
 			If IsArray($HeroBooks) And UBound($HeroBooks) = 2 Then
-				SetLog("Use Hero Books to Complete Now this Hero Upgrade", $COLOR_INFO)
+				SetLog("Use Book Of Heroes to Complete Now this Hero Upgrade", $COLOR_INFO)
 				Click($HeroBooks[0], $HeroBooks[1])
-				_Sleep(1000)
-				If QuickMIS("BC1", $g_sImgGeneralCloseButton, 560, 260, 610, 305) Then
-					Click(430, 425)
+				If _Sleep(1000) Then Return
+				If ClickB("BoostConfirm") Then
+					SetLog("Hero Upgrade Finished With Book of Heroes", $COLOR_SUCCESS)
+					$ActionForModLog = "Upgraded with Book of Heroes"
+					If $g_iTxtCurrentVillageName <> "" Then
+						GUICtrlSetData($g_hTxtModLog, @CRLF & _NowTime() & " [" & $g_iTxtCurrentVillageName & "] Champion : " & $ActionForModLog, 1)
+					Else
+						GUICtrlSetData($g_hTxtModLog, @CRLF & _NowTime() & " [" & $g_sProfileCurrentName & "] Champion : " & $ActionForModLog, 1)
+					EndIf
+					_FileWriteLog($g_sProfileLogsPath & "\ModLog.log", " [" & $g_sProfileCurrentName & "] - Champion : " & $ActionForModLog)
+					If _Sleep(1000) Then Return
 				EndIf
 			Else
 				SetLog("No Books of Heroes Found", $COLOR_DEBUG)

@@ -1281,7 +1281,11 @@ Func CreateClanGamesSettings()
 		GUICtrlSetOnEvent(-1, "CGMainSpellTVItem")
 	Next
 
-	$g_hChkCGBBBattle = GUICtrlCreateTreeViewItem("BB Battle Challenges", $g_hClanGamesTV)
+	If $g_bDisableBB Then
+		$g_hChkCGBBBattle = GUICtrlCreateLabel("", $x, $y, -1, -1)
+	Else
+		$g_hChkCGBBBattle = GUICtrlCreateTreeViewItem("BB Battle Challenges", $g_hClanGamesTV)
+	EndIf
 		GUICtrlSetOnEvent(-1, "CGBBBattleTVRoot")
 	$tmpChallenges = ClanGamesChallenges("$BBBattleChallenges")
 	For $j = 0 To UBound($tmpChallenges) - 1
@@ -1289,7 +1293,11 @@ Func CreateClanGamesSettings()
 		GUICtrlSetOnEvent(-1, "CGBBBattleTVItem")
 	Next
 
-	$g_hChkCGBBDestruction = GUICtrlCreateTreeViewItem("BB Destruction Challenges", $g_hClanGamesTV)
+	If $g_bDisableBB Then
+		$g_hChkCGBBDestruction = GUICtrlCreateLabel("", $x, $y, -1, -1)
+	Else
+		$g_hChkCGBBDestruction = GUICtrlCreateTreeViewItem("BB Destruction Challenges", $g_hClanGamesTV)
+	EndIf
 		GUICtrlSetOnEvent(-1, "CGBBDestructionTVRoot")
 	$tmpChallenges = ClanGamesChallenges("$BBDestructionChallenges")
 	For $j = 0 To UBound($tmpChallenges) - 1
@@ -1297,7 +1305,11 @@ Func CreateClanGamesSettings()
 		GUICtrlSetOnEvent(-1, "CGBBDestructionTVItem")
 	Next
 
-	$g_hChkCGBBTroops = GUICtrlCreateTreeViewItem("BB Troops Challenges", $g_hClanGamesTV)
+	If $g_bDisableBB Then
+		$g_hChkCGBBTroops = GUICtrlCreateLabel("", $x, $y, -1, -1)
+	Else
+		$g_hChkCGBBTroops = GUICtrlCreateTreeViewItem("BB Troops Challenges", $g_hClanGamesTV)
+	EndIf
 		GUICtrlSetOnEvent(-1, "CGBBTroopsTVRoot")
 	$tmpChallenges = ClanGamesChallenges("$BBTroopsChallenges")
 	For $j = 0 To UBound($tmpChallenges) - 1

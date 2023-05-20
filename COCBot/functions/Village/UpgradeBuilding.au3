@@ -389,15 +389,21 @@ Func UpgradeNormal($iUpgradeNumber)
 EndFunc   ;==>UpgradeNormal
 
 Func UpgradeHero($iUpgradeNumber)
+	ClickAway()
+	If _Sleep($DELAYUPGRADENORMAL1) Then Return
+	
 	BuildingClick($g_avBuildingUpgrades[$iUpgradeNumber][0], $g_avBuildingUpgrades[$iUpgradeNumber][1], "#0304") ; Select the item to be upgrade
 	If _Sleep($DELAYUPGRADEHERO1) Then Return ; Wait for window to open
-
+	
+	Local $aResult = BuildingInfo(242, 490 + $g_iBottomOffsetY)
+	Local $bHeroUpgrade = False
 	Local $aUpgradeButton = findButton("Upgrade", Default, 1, True)
 
 	If IsArray($aUpgradeButton) And UBound($aUpgradeButton, 1) = 2 Then
 		If _Sleep($DELAYUPGRADEHERO2) Then Return
 		ClickP($aUpgradeButton, 1, 0, "#0305") ; Click Upgrade Button
 		If _Sleep($DELAYUPGRADEHERO3) Then Return ; Wait for window to open
+		Local $g_aUpgradeDuration = getHeroUpgradeTime(578, 465 + $g_iMidOffsetY) ; get duration
 		If $g_bDebugImageSave Then SaveDebugImage("UpgradeDarkBtn1")
 		Local $aHeroUpgradeWinChk[4] = [719, 128 + $g_iMidOffsetY, 0xCD161D, 20] ; Red pixel on botton X to close window
 		If _WaitForCheckPixel($aHeroUpgradeWinChk, $g_bCapturePixel,Default, "HeroUpgradeWinChk", Default, Default, 100) Then ; wait up to 2 seconds upgrade window to open
@@ -408,7 +414,6 @@ Func UpgradeHero($iUpgradeNumber)
 				Return False
 			Else
 				Click(660, 530 + $g_iMidOffsetY, 1, 0, "#0307") ; Click upgrade buttton
-				ClickAway()
 				If _Sleep($DELAYUPGRADEHERO1) Then Return
 				If $g_bDebugImageSave Then SaveDebugImage("UpgradeDarkBtn2")
 				If isGemOpen(True) Then; Redundant Safety Check if the use Gem window opens; Redundant Safety Check if the use Gem window opens
@@ -434,6 +439,44 @@ Func UpgradeHero($iUpgradeNumber)
 					GUICtrlSetState($g_hChkUpgrade[$iUpgradeNumber], $GUI_CHECKED) ; Ensure upgrade selection box is checked
 					$g_abBuildingUpgradeEnable[$iUpgradeNumber] = True ; Ensure upgrade selection box is checked
 				EndIf
+				
+				If $g_bUseHeroBooks Then
+					If _Sleep(500) Then Return
+					Local $HeroUpgradeTime = ConvertOCRTime("UseHeroBooks", $g_aUpgradeDuration)
+					If $HeroUpgradeTime >= ($g_iHeroMinUpgradeTime * 1440) Then
+						Local $HeroBooks = FindButton("HeroBooks")
+						If IsArray($HeroBooks) And UBound($HeroBooks) = 2 Then
+							SetLog("Use Book Of Heroes to Complete Now this Hero Upgrade", $COLOR_INFO)
+							Click($HeroBooks[0], $HeroBooks[1])
+							If _Sleep(1000) Then Return
+							If ClickB("BoostConfirm") Then
+								SetLog("Hero Upgrade Finished With Book of Heroes", $COLOR_SUCCESS)
+								Local $bHeroShortName
+								Switch $aResult[1]
+									Case "Barbarian King"
+										$bHeroShortName = "King"
+									Case "Archer Queen"
+										$bHeroShortName = "Queen"
+									Case "Grand Warden"
+										$bHeroShortName = "Warden"
+									Case "Royal Champion"
+										$bHeroShortName = "Champion"
+								EndSwitch
+						$ActionForModLog = "Upgraded with Book of Heroes"
+						If $g_iTxtCurrentVillageName <> "" Then
+							GUICtrlSetData($g_hTxtModLog, @CRLF & _NowTime() & " [" & $g_iTxtCurrentVillageName & "] " & $bHeroShortName & " : " & $ActionForModLog, 1)
+						Else
+							GUICtrlSetData($g_hTxtModLog, @CRLF & _NowTime() & " [" & $g_sProfileCurrentName & "] " & $bHeroShortName & " : " & $ActionForModLog, 1)
+						EndIf
+						_FileWriteLog($g_sProfileLogsPath & "\ModLog.log", " [" & $g_sProfileCurrentName & "] " & $bHeroShortName & " : " & $ActionForModLog)
+						If _Sleep(1000) Then Return
+							EndIf
+						Else
+							SetLog("No Books of Heroes Found", $COLOR_DEBUG)
+						EndIf
+					EndIf
+				EndIf
+				
 				ClickAway()
 				If _Sleep($DELAYUPGRADEHERO2) Then Return ; Wait for window to close
 				VillageReport(True, True)

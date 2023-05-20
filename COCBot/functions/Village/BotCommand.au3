@@ -205,12 +205,21 @@ Func BotCommand()
 						If _Sleep($DELAYRUNBOT3) Then Return
 						VillageReport()
 						If $g_bNotifyStopBot Then
-							NotifyWhenStop()
+							NotifyWhenStop("StopStar")
 						EndIf
 						Sleep(Random(3500, 5500, 1))
 						CloseCoC(False)
 						Sleep(Random(1500, 2500, 1))
+						SetLog("MyBot.run Bot Stop as requested", $COLOR_INFO)
+						If _Sleep($DELAYBOTCOMMAND1) Then Return
+						Return True
 					EndIf
+					If $g_bNotifyStopBot Then
+						NotifyWhenStop("Stop")
+					EndIf
+					Sleep(Random(3500, 5500, 1))
+					CloseCoC(False)
+					Sleep(Random(1500, 2500, 1))
 					SetLog("MyBot.run Bot Stop as requested", $COLOR_INFO)
 					If _Sleep($DELAYBOTCOMMAND1) Then Return
 					Return True
@@ -276,9 +285,17 @@ Func BotCommand()
 							AutoUpgradeCC()
 							_Sleep($DELAYRUNBOT3)
 						EndIf
+						If $g_bNotifyStopBot Then
+							NotifyWhenStop("CloseBotStar")
+						EndIf
+						SetLog("MyBot.run Close Bot as requested", $COLOR_INFO)
 						Sleep(Random(3500, 5500, 1))
 						BotClose()
 						Sleep(Random(1500, 2500, 1))
+						Return True ; HaHa - No Return possible!
+					EndIf
+					If $g_bNotifyStopBot Then
+						NotifyWhenStop("CloseBot")
 					EndIf
 					SetLog("MyBot.run Close Bot as requested", $COLOR_INFO)
 					If _Sleep($DELAYBOTCOMMAND1) Then Return
@@ -346,10 +363,18 @@ Func BotCommand()
 							AutoUpgradeCC()
 							_Sleep($DELAYRUNBOT3)
 						EndIf
+						If $g_bNotifyStopBot Then
+							NotifyWhenStop("CloseANBStar")
+						EndIf
+						SetLog("Close Android and Bot as requested", $COLOR_INFO)
 						Sleep(Random(3500, 5500, 1))
 						CloseAndroid("BotCommand")
 						BotClose()
 						Sleep(Random(1500, 2500, 1))
+						Return True ; HaHa - No Return possible!
+					EndIf
+					If $g_bNotifyStopBot Then
+						NotifyWhenStop("CloseANB")
 					EndIf
 					SetLog("Close Android and Bot as requested", $COLOR_INFO)
 					If _Sleep($DELAYBOTCOMMAND1) Then Return
@@ -378,7 +403,7 @@ Func BotCommand()
 								Return False
 							EndIf
 						EndIf
-						SetLog("Star bonus unavailable. Computer Will ShutDown Stop After Routines", $COLOR_DEBUG)
+						SetLog("Star bonus unavailable. Computer Will ShutDown After Routines", $COLOR_DEBUG)
 						$IsToCheckBeforeStop = True
 						Sleep(Random(3500, 5500, 1))
 						If $g_bAutoUpgradeWallsEnable And $g_bChkWallUpFirst Then
@@ -418,10 +443,18 @@ Func BotCommand()
 							AutoUpgradeCC()
 							_Sleep($DELAYRUNBOT3)
 						EndIf
+						If $g_bNotifyStopBot Then
+							NotifyWhenStop("ShutdownStar")
+						EndIf
+						SetLog("Force Shutdown of Computer", $COLOR_INFO)
 						Sleep(Random(3500, 5500, 1))
 						If _Sleep($DELAYBOTCOMMAND1) Then Return
 						Shutdown(BitOR($SD_SHUTDOWN, $SD_FORCE)) ; Force Shutdown
 						Sleep(Random(1500, 2500, 1))
+						Return True ; HaHa - No Return possible!
+					EndIf
+					If $g_bNotifyStopBot Then
+						NotifyWhenStop("Shutdown")
 					EndIf
 					SetLog("Force Shutdown of Computer", $COLOR_INFO)
 					If _Sleep($DELAYBOTCOMMAND1) Then Return
@@ -449,7 +482,7 @@ Func BotCommand()
 								Return False
 							EndIf
 						EndIf
-						SetLog("Star bonus unavailable. Computer Will Sleep Stop After Routines", $COLOR_DEBUG)
+						SetLog("Star bonus unavailable. Computer Will Sleep After Routines", $COLOR_DEBUG)
 						$IsToCheckBeforeStop = True
 						Sleep(Random(3500, 5500, 1))
 						If $g_bAutoUpgradeWallsEnable And $g_bChkWallUpFirst Then
@@ -489,10 +522,18 @@ Func BotCommand()
 							AutoUpgradeCC()
 							_Sleep($DELAYRUNBOT3)
 						EndIf
+						If $g_bNotifyStopBot Then
+							NotifyWhenStop("CPUSleepStar")
+						EndIf
+						SetLog("Computer Sleep Mode Start now", $COLOR_INFO)
 						Sleep(Random(3500, 5500, 1))
 						If _Sleep($DELAYBOTCOMMAND1) Then Return
 						Shutdown($SD_STANDBY) ; Sleep / Stand by
 						Sleep(Random(1500, 2500, 1))
+						Return True ; HaHa - No Return possible!
+					EndIf
+					If $g_bNotifyStopBot Then
+						NotifyWhenStop("CPUSleep")
 					EndIf
 					SetLog("Computer Sleep Mode Start now", $COLOR_INFO)
 					If _Sleep($DELAYBOTCOMMAND1) Then Return
@@ -520,7 +561,7 @@ Func BotCommand()
 								Return False
 							EndIf
 						EndIf
-						SetLog("Star bonus unavailable. Computer Will Reboot Stop After Routines", $COLOR_DEBUG)
+						SetLog("Star bonus unavailable. Computer Will Reboot After Routines", $COLOR_DEBUG)
 						$IsToCheckBeforeStop = True
 						Sleep(Random(3500, 5500, 1))
 						If $g_bAutoUpgradeWallsEnable And $g_bChkWallUpFirst Then
@@ -560,10 +601,18 @@ Func BotCommand()
 							AutoUpgradeCC()
 							_Sleep($DELAYRUNBOT3)
 						EndIf
+						If $g_bNotifyStopBot Then
+							NotifyWhenStop("RebootingStar")
+						EndIf
+						SetLog("Rebooting Computer", $COLOR_INFO)
 						Sleep(Random(3500, 5500, 1))
 						If _Sleep($DELAYBOTCOMMAND1) Then Return
 						Shutdown(BitOR($SD_REBOOT, $SD_FORCE)) ; Reboot
 						Sleep(Random(1500, 2500, 1))
+						Return True ; HaHa - No Return possible!
+					EndIf
+					If $g_bNotifyStopBot Then
+						NotifyWhenStop("Rebooting")
 					EndIf
 					SetLog("Rebooting Computer", $COLOR_INFO)
 					If _Sleep($DELAYBOTCOMMAND1) Then Return
@@ -600,6 +649,9 @@ Func BotCommand()
 							Else
 								SetLog("This is the last account to turn off. Stop bot now. Adios!", $COLOR_INFO)
 								If _Sleep($DELAYBOTCOMMAND1) Then Return
+								If $g_bNotifyStopBot Then
+									NotifyWhenStop("StopStar")
+								EndIf
 								CloseCoC()
 								Return True
 							EndIf
@@ -614,6 +666,9 @@ Func BotCommand()
 						Else
 							SetLog("This is the last account to turn off. Stop bot now. Adios!", $COLOR_INFO)
 							If _Sleep($DELAYBOTCOMMAND1) Then Return
+							If $g_bNotifyStopBot Then
+								NotifyWhenStop("Stop")
+							EndIf
 							CloseCoC()
 							Return True
 						EndIf

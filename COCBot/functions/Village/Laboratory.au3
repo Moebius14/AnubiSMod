@@ -65,7 +65,10 @@ Func Laboratory($debug=False)
 
 	If Not FindResearchButton() Then Return False ; cant start because we cannot find the research button
 
-	If ChkLabUpgradeInProgress() Then Return False ; cant start if something upgrading
+	If ChkLabUpgradeInProgress() Then
+		CloseWindow(True)
+		Return False ; cant start if something upgrading
+	EndIf
 
 	; Lab upgrade is not in progress and not upgreading, so we need to start an upgrade.
 	Local $iCurPage = 1
@@ -326,8 +329,6 @@ Func Laboratory($debug=False)
 							If _Sleep($DELAYLABORATORY2) Then Return
 						Next
 					EndIf
-					
-	;				SetLog("Lab Upgrade " & $g_avLabTroops[$t][0] & " - Not available.", $COLOR_INFO)
 
 					Local $iRaw = Mod($t, 2)
 					Local $iColumn = 0
@@ -474,9 +475,6 @@ Func Laboratory($debug=False)
 		If $sCostResult = "" And $g_iCmbLaboratory < 46 Then ; not enough resources or Lab Upgrade Required
 			SetLog("Lab Upgrade " & $g_avLabTroops[$g_iCmbLaboratory][0] & " - Not enough Resources." & @CRLF & "We will try again later.", $COLOR_INFO)
 			SetDebugLog("Coords: (" & $aCoords[0] & "," & $aCoords[1] & ")")
-;		ElseIf StringSplit($sCostResult, "1")[0] = StringLen($sCostResult)+1 or StringSplit($sCostResult, "1")[1] = "0" Then ; max level if all ones returned from ocr or if the first letter is a 0.
-;			SetLog("Lab Upgrade " & $g_avLabTroops[$g_iCmbLaboratory][0] & " - Max Level. Choose another upgrade.", $COLOR_INFO)
-;			SetDebugLog("Coords: (" & $aCoords[0] & "," & $aCoords[1] & ")")
 		Else
 			Return LaboratoryUpgrade($g_avLabTroops[$g_iCmbLaboratory][0], $aCoords, $sCostResult, $debug) ; return whether or not we successfully upgraded
 		EndIf
@@ -503,8 +501,6 @@ Func Laboratory($debug=False)
 
 					If $sCostResult = "" Then ; not enough resources
 						SetDebugLog("Lab Upgrade " & $aTempTroopArray[0] & " - Not enough Resources")
-	;				ElseIf StringSplit($sCostResult, "1")[0] = StringLen($sCostResult)+1 or StringSplit($sCostResult, "1")[1] = "0" Then ; max level if all ones returned from ocr or if the first letter is a 0.
-	;						SetDebugLog("Lab Upgrade " & $aTempTroopArray[0] & " - Max Level")
 					Else
 						Return LaboratoryUpgrade($aTempTroopArray[0], $aCoords, $sCostResult, $debug) ; return whether or not we successfully upgraded
 					EndIf
@@ -544,17 +540,10 @@ Func LaboratoryUpgrade($name, $aCoords, $sCostResult, $debug = False)
 	Else
 		Click(660, 520 + $g_iMidOffsetY, 1, 0, "#0202") ; Everything is good - Click the upgrade button
 		If isGemOpen(True) = False Then ; check for gem window
-			ChkLabUpgradeInProgress($name)
-			; check for green button to use gems to finish upgrade, checking if upgrade actually started
-			If Not (_ColorCheck(_GetPixelColor(625, 218 + $g_iMidOffsetY, True), Hex(0x6fbd1f, 6), 15) Or _ColorCheck(_GetPixelColor(660, 218 + $g_iMidOffsetY, True), Hex(0x6fbd1f, 6), 15)) Then
-				SetLog("Something went wrong with " & $name & " Upgrade, try again.", $COLOR_ERROR)
-				ClickAway()
-				Return False
-			EndIf
-
 			; success
 			SetLog("Upgrade " & $name & " in your laboratory started with success...", $COLOR_SUCCESS)
 			PushMsg("LabSuccess")
+			ChkLabUpgradeInProgress($name)
 			If _Sleep($DELAYLABUPGRADE2) Then Return
 			CloseWindow(True)
 			Return True ; upgrade started
@@ -732,7 +721,6 @@ Func ChkLabUpgradeInProgress($name = "")
 		EndIf
 
 		If ProfileSwitchAccountEnabled() Then SwitchAccountVariablesReload("Save") ; saving $asLabUpgradeTime[$g_iCurAccount] = $g_sLabUpgradeTime for instantly displaying in multi-stats
-		CloseWindow(True)
 		Return True
 	EndIf
 	Return False ; returns False if no upgrade in progress

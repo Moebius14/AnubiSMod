@@ -188,20 +188,20 @@ Global Const $g_sGoogle = "Google"
 #Tidy_Off
 ; <><><><><><><><><><><><><><><><><><><><><><><><><><><><><><>
 ; <><><><><><>  Android.au3 (and related) globals <><><><><><>
-;Global $g_sAndroidGameDistributor = "Google" ; Default CoC Game Distributor, loaded from config.ini
-;Global $g_sAndroidGamePackage = "com.supercell.clashofclans" ; Default CoC Game Package, loaded from config.ini
-;Global $g_sAndroidGameClass = "com.supercell.titan.GameApp" ; Default CoC Game Class, loaded from config.ini
-;Global $g_sUserGameDistributor = "Google" ; User Added CoC Game Distributor, loaded from config.ini
-;Global $g_sUserGamePackage = "com.supercell.clashofclans" ; User Added CoC Game Package, loaded from config.ini
-;Global $g_sUserGameClass = "com.supercell.titan.GameApp" ; User Added CoC Game Class, loaded from config.ini
+Global $g_sAndroidGameDistributor = "Google" ; Default CoC Game Distributor, loaded from config.ini
+Global $g_sAndroidGamePackage = "com.supercell.clashofclans" ; Default CoC Game Package, loaded from config.ini
+Global $g_sAndroidGameClass = "com.supercell.titan.GameApp" ; Default CoC Game Class, loaded from config.ini
+Global $g_sUserGameDistributor = "Google" ; User Added CoC Game Distributor, loaded from config.ini
+Global $g_sUserGamePackage = "com.supercell.clashofclans" ; User Added CoC Game Package, loaded from config.ini
+Global $g_sUserGameClass = "com.supercell.titan.GameApp" ; User Added CoC Game Class, loaded from config.ini
 
 ; Amazon
-Global $g_sAndroidGameDistributor = "Amazon" ; Default CoC Game Distributor, loaded from config.ini
-Global $g_sAndroidGamePackage = "com.supercell.clashofclans.amazon" ; Default CoC Game Package, loaded from config.ini
-Global $g_sAndroidGameClass = "com.supercell.titan.amazon.GameAppAmazon" ; Default CoC Game Class, loaded from config.ini
-Global $g_sUserGameDistributor = "Amazon" ; User Added CoC Game Distributor, loaded from config.ini
-Global $g_sUserGamePackage = "com.supercell.clashofclans.amazon" ; User Added CoC Game Package, loaded from config.ini
-Global $g_sUserGameClass = "com.supercell.titan.amazon.GameAppAmazon" ; User Added CoC Game Class, loaded from config.ini
+;Global $g_sAndroidGameDistributor = "Amazon" ; Default CoC Game Distributor, loaded from config.ini
+;Global $g_sAndroidGamePackage = "com.supercell.clashofclans.amazon" ; Default CoC Game Package, loaded from config.ini
+;Global $g_sAndroidGameClass = "com.supercell.titan.amazon.GameAppAmazon" ; Default CoC Game Class, loaded from config.ini
+;Global $g_sUserGameDistributor = "Amazon" ; User Added CoC Game Distributor, loaded from config.ini
+;Global $g_sUserGamePackage = "com.supercell.clashofclans.amazon" ; User Added CoC Game Package, loaded from config.ini
+;Global $g_sUserGameClass = "com.supercell.titan.amazon.GameAppAmazon" ; User Added CoC Game Class, loaded from config.ini
 
 Global $g_hAndroidLaunchTime = 0 ; __TimerInit() when Android was last launched
 Global $g_iAndroidRebootHours = 24 ; Default hours when Android gets automatically rebooted
@@ -558,7 +558,7 @@ Global Enum $eIcnArcher = 1, $eIcnDonArcher, $eIcnBalloon, $eIcnDonBalloon, $eIc
         $eIcnClanCapital, $eIcnCapitalGold, $eIcnCapitalMedal, $eHdV15, $eWall16, $eIcnElectroTitan, $eIcnRecallSpell, $eIcnBattleD, $eIcnTH15, $eIcnPetFrosty, $eIcnPetDiggy, $eIcnPetPoisonLizard, $eIcnPetPhoenix, _
 		$eIconTH15Weapon, $eIcnBBGold, $eIcnBBElix, $eIcnBBTrophy, $eIcnLabUpgrade, $eIcnArcheTower6, $eIcnBattleMachine, $eIcnDoubleCannon4, $eIcnMegaTesla9, $eIcnMultiMortar8, $g_sIcnMBisland, $eIcnPetHouseGreen, _
 		$eIcnSuperMiner, $eIcnCapitalTrophy, $eLigue1, $eLigue2, $eLigue3, $eIcnMonolith
-		
+
 ; enumerated Icons 1-based index to IconLibMod
 Global Enum $eIcnVillager = 1, $eIcnModCWL, $eIcnModZZZ, $eIcnHumanization, $eIcnGUIMod, $eIcnBell, $g_sIcnTrader, $eIcnAnubisMod, $eIcnStorm1Mod, $eIcnStorm2Mod, $eIcnForecast, $eIcnStop, $eIcnChrono, $eIcnModForecastBoost, _
 		$eIcnDebugMod, $eIcnAdvanced, $eIcnModRecycle, $eIcnModColorfulSetlog, $eIcnModRandomClose, $eIcnModLog, $eIcnChallenge, $eIcnModCW, $eIcnPing, $eIcnModBuilderPotion, $eIcnModClockPotion, $eIcnModPowerPotion, _ 
@@ -566,13 +566,12 @@ Global Enum $eIcnVillager = 1, $eIcnModCWL, $eIcnModZZZ, $eIcnHumanization, $eIc
 		$eIcnModBBGoldRune, $eIcnModElixirRune, $eIcnModDarkElixirRune, $eIcnModCCArmyCamp, $eIcnModCCBarrack, $eIcnModCCSpellFactory, $eIcnModCCSpellStorage, $eIcnModCCCapitalHall, $eIcnModCCDistrictHall, _
 		$eIcnModCCWall1, $eIcnModCCWall5, $eIcnModCCBigBarb, $eIcnModCCBoulder, $eIcnModCCForest, $eIcnModCCGreatPyre, $eIcnModCCGrove, $eIcnModCCPillar, $eIcnModCCBarrackRuin, $eIcnModCCBowBlastRuin, $eIcnModCCBombTowerRuin, _
 		$eIcnModCCSwizardtowerRuin, $eIcnModCCWall2, $eIcnModCCWall3, $eIcnModGoldRune, $eIcnModHeroBook, $eIcnCCSleep, $eIcnCCWake, $eIcnModCCPrioritized, $eIcnCWLChampion, $eIcnPriority, _
-		$eIcnGiantSkeleton, $eIcnRoyalGhost, $eIcnPartyWizard, $eIcnIceWizard, $eIcnAllSpell, $eIcnAllSiege, $eIcnModFightingBook, $eIcnModEverythingBook
-		
+		$eIcnGiantSkeleton, $eIcnRoyalGhost, $eIcnPartyWizard, $eIcnIceWizard, $eIcnAllSpell, $eIcnAllSiege, $eIcnModFightingBook, $eIcnModEverythingBook, $eIcnSleepingChampion
+
 Global $eIcnDonBlank = $eIcnDonBlacklist
 Global $eIcnOptions = $eIcnDonBlacklist
 Global $eIcnAchievements = $eIcnMain
 Global $eIcnStrategies = $eIcnBlank
-Global $eIcnSleepingChampion = $eIcnSleepingWarden
 
 ; Controls bot startup and ongoing operation
 Global Const $g_iCollectAtCount = 10 ; Run Collect() after this amount of times before actually collect
@@ -971,6 +970,7 @@ Global $g_iUpgradeWallLootType = 0, $g_bUpgradeWallSaveBuilder = False, $g_bChkW
 Global $g_iCmbUpgradeWallsLevel = 0
 Global $g_aiWallsCurrentCount[17] = [-1, -1, -1, -1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0] ; elements 0 to 3 are not referenced
 Global $g_aiLastGoodWallPos[2] = [-1, -1]
+Global $g_iHowUseWallRings = 1, $g_iCmbUseWallRings = 3
 
 ; Auto Upgrade
 Global $g_bAutoUpgradeEnabled = False, $g_bUseHeroBooks = False, $g_iHeroMinUpgradeTime = 0, $g_iCmbFreeBuilders = 1
@@ -1052,7 +1052,7 @@ Global $g_aiTrainArmySpellLevel[$eSpellCount] = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
 Global $g_aiTrainArmySiegeMachineLevel[$eSiegeMachineCount] = [0, 0, 0, 0, 0, 0, 0]
 
 Global $g_iTrainArmyFullTroopPct = 100
-Global $g_bTotalCampForced = False, $g_iTotalCampForcedValue = 200
+Global $g_bTotalCampForced = False, $g_iTotalCampForcedValue = 220, $g_iArmyCampUpgrade = 0
 Global $g_iTotalSpellValue = 0
 Global $g_bDoubleTrain, $g_bPreciseArmy
 Global $g_bAllBarracksUpgd = False
@@ -1399,7 +1399,7 @@ Global $g_iTotalTrainSpaceSiege = 0
 Global $g_iCurrentSpells ; Current Spells
 Global $g_iCurrentCCSpells = 0, $g_iTotalCCSpells = 0
 Global $g_bFullArmySpells = False ; true when $g_iTotalTrainSpaceSpell = $iTotalSpellSpace in getArmySpellCount
-Global $g_CurrentCampUtilization = 0, $g_iTotalCampSpace = 0
+Global $g_CurrentCampUtilization = 0, $g_iTotalCampSpace = 220
 
 ; Upgrading - Lab
 Global $g_iLaboratoryElixirCost = 0, $g_iLaboratoryDElixirCost = 0, $g_bUseLabPotion = False, $g_bUpgradeAnyTroops = False
@@ -2150,3 +2150,6 @@ Global $g_bChkIsPriorArmyCBS[4] = ["Army", "Barracks", "Fortress", "Storage"], $
 	   $g_bChkIsPriorArmyCSF[3] = ["Army", "Storage", "Factory"], $g_bChkIsPriorArmyBSF[4] = ["Barracks", "Fortress", "Storage", "Factory"]
 Global $g_bChkIsPriorArmyCB[3] = ["Army", "Barracks", "Fortress"], $g_bChkIsPriorArmyCS[2] = ["Army", "Storage"], $g_bChkIsPriorArmyCF[2] = ["Army", "Factory"], _
 	   $g_bChkIsPriorArmyBS[3] = ["Barracks", "Fortress", "Storage"], $g_bChkIsPriorArmyBF[3] = ["Barracks", "Fortress", "Factory"], $g_bChkIsPriorArmySF[2] = ["Storage", "Factory"]
+
+;Disable BB 2.0
+Global $g_bDisableBB = True

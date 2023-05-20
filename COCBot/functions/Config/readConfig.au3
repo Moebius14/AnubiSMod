@@ -868,6 +868,8 @@ Func ReadConfig_600_17()
 	IniReadS($g_bUpgradeWallSaveBuilder, $g_sProfileConfigPath, "upgrade", "savebldr", False, "Bool")
 	IniReadS($g_bChkWallUpFirst, $g_sProfileConfigPath, "upgrade", "WallUpFirst", False, "Bool")
 	IniReadS($g_iCmbUpgradeWallsLevel, $g_sProfileConfigPath, "upgrade", "walllvl", 6, "int")
+	IniReadS($g_iHowUseWallRings, $g_sProfileConfigPath, "upgrade", "HowUseWR", 1, "int")
+	IniReadS($g_iCmbUseWallRings, $g_sProfileConfigPath, "upgrade", "CmbUseWR", 3, "int")
 	For $i = 4 To 16
 		IniReadS($g_aiWallsCurrentCount[$i], $g_sProfileConfigPath, "Walls", "Wall" & StringFormat("%02d", $i), 0, "int")
 	Next
@@ -1449,6 +1451,8 @@ Func ReadConfig_600_52_2()
 	; DoubleTrain - Demen
 	$g_bDoubleTrain = (IniRead($g_sProfileConfigPath, "troop", "DoubleTrain", "0") = "1")
 	$g_bPreciseArmy = (IniRead($g_sProfileConfigPath, "troop", "PreciseArmy", "0") = "1")
+	; ArmyCamp Cap Upgrade
+	IniReadS($g_iArmyCampUpgrade, $g_sProfileConfigPath, "troop", "CampSizeUpgrade", $g_iArmyCampUpgrade, "int")
 EndFunc   ;==>ReadConfig_600_52_2
 
 Func ReadConfig_600_54()

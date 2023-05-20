@@ -72,7 +72,7 @@ Func CloseWindow($IsinLab = False, $IsToClickRight = False, $iLoopCount = 5, $iD
 		$aSearchArea = $iX1  & "," & $iY1 & "|" & $iX2 & "," & $iY1 & "|" & $iX2 & "," & $iY2 & "|" & $iX1 & "," & $iY2
 	EndIf
 
-	For $i = 1 to $iLoopCount
+	For $i = 1 To $iLoopCount
 		$aiButton = decodeSingleCoord(findImage("CloseWindow", $sImageDir, $aSearchArea, 1, True))
 
 		If $bDebugImageSave Then SaveDebugDiamondImage("CloseWindow", $aSearchArea)

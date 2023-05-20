@@ -4113,7 +4113,7 @@ Func GetAndroidProcessPID($sPackage = Default, $bForeground = True, $iRetryCount
 	If AndroidInvalidState() Then Return 0
 	
 	If $g_iAndroidVersionAPI = $g_iAndroidPie Then
-		$cmd = "set result=$(ps -A|grep """ & $g_sAndroidGamePackage & """ >&2)"
+		$cmd = "set result=$(ps -A -o USER,PID,NAME|grep """ & $g_sAndroidGamePackage & """ >&2)"
 		; ps -A|grep "com.supercell.clashofclans" >&2
 		;USER           PID  PPID     VSZ    RSS WCHAN            ADDR S NAME
 		;u0_a69        8572   104 4358212 265080 __do_sys_+          0 S com.supercell.clashofclans
@@ -4163,7 +4163,7 @@ Func GetAndroidProcessPID($sPackage = Default, $bForeground = True, $iRetryCount
 				Return Int($aPkgList[$i - 1][1])
 			EndIf
 
-			If $iCols = 9 And $aPkgList[$i - 1][$iCols - 1] = $g_sAndroidGamePackage Then ; ps -A
+			If $iCols = 3 And $aPkgList[$i - 1][$iCols - 1] = $g_sAndroidGamePackage Then ; ps -A
 				;$sDumpsys = AndroidAdbSendShellCommand("dumpsys window windows | grep -E 'mCurrentFocus.*" & $g_sAndroidGamePackage & "'")
 				$sDumpsys = AndroidAdbSendShellCommand("dumpsys window windows | grep -E 'mCurrentFocus'")
 				;SetLog("Dumpsys : " & $sDumpsys)

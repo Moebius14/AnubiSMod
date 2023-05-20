@@ -35,7 +35,6 @@ Func BoostSuperTroop($bTest = False)
 			
 			Local $iPicsPerRow = 4, $picswidth = 125, $picspad = 18
 			Local $columnStart = 150, $iColumnY1 = 280 + $g_iMidOffsetY, $iColumnY2 = 440 + $g_iMidOffsetY
-			Local $BoostCost = 0, $BoostDuration = 0
 
 			If $g_iCmbSuperTroops[$i] > 0 Then
 			
@@ -96,31 +95,22 @@ Func BoostSuperTroop($bTest = False)
 								Else ;try to use dark elixir because potion not found
 									Setlog("Cannot Find Potion, Using Dark Elixir...", $COLOR_INFO)
 									If QuickMIS("BC1", $g_sImgBoostTroopsButtons, 600, 500 + $g_iMidOffsetY, 750, 570 + $g_iMidOffsetY, True, False) Then ;find image of dark elixir button
-										If $g_iCmbSuperTroops[$i] = 14 Then
-											$BoostCost = _NumberFormat(getResourcesBonus(628, 542 + $g_iMidOffsetY)) ; get cost
-											$BoostDuration = getHeroUpgradeTime(575, 484 + $g_iMidOffsetY) ; get duration
-										Else
-											$BoostCost = _NumberFormat(getResourcesBonus(628, 522 + $g_iMidOffsetY)) ; get cost
-											$BoostDuration = getHeroUpgradeTime(575, 464 + $g_iMidOffsetY) ; get duration
-										EndIf
 										Click($g_iQuickMISX - 44, $g_iQuickMISY + 10, 1)
 										If _Sleep(1500) Then Return
 										If QuickMIS("BC1", $g_sImgBoostTroopsButtons, 320, 400 + $g_iMidOffsetY, 550, 480 + $g_iMidOffsetY, True, False) Then ;find image of dark elixir button again (confirm upgrade)
 											;Click boost
 											If $bTest Then
-												If $BoostCost <> "" Then Setlog("BoostCost = " & $BoostCost & " Dark Elixir, Duration = " & $BoostDuration, $COLOR_SUCCESS)
 												CancelBoost("Using Dark Elixir")
 											Else
 												Click($g_iQuickMISX - 50, $g_iQuickMISY + 10, 1)
 												Setlog("Using Dark Elixir, Successfully Boost " & $sTroopName, $COLOR_SUCCESS)
-												If $BoostCost <> "" Then Setlog("BoostCost = " & $BoostCost & " Dark Elixir, Duration = " & $BoostDuration, $COLOR_SUCCESS)
 												$bRet = True
 											EndIf
 										Else
 											Setlog("Could not find dark elixir button for final upgrade " & $sTroopName, $COLOR_ERROR)
 											For $i = 0 To 1
 												CloseWindow()
-											Next
+											Next	
 										EndIf
 									Else
 										Setlog("Could not find dark elixir button for upgrade " & $sTroopName, $COLOR_ERROR)
@@ -130,24 +120,15 @@ Func BoostSuperTroop($bTest = False)
 							Else
 								Setlog("Using Dark Elixir...", $COLOR_INFO)
 								If QuickMIS("BC1", $g_sImgBoostTroopsButtons, 600, 500 + $g_iMidOffsetY, 750, 570 + $g_iMidOffsetY, True, False) Then ;find image of dark elixir button
-									If $g_iCmbSuperTroops[$i] = 14 Then
-										$BoostCost = _NumberFormat(getResourcesBonus(628, 542 + $g_iMidOffsetY)) ; get cost
-										$BoostDuration = getHeroUpgradeTime(575, 484 + $g_iMidOffsetY) ; get duration
-									Else
-										$BoostCost = _NumberFormat(getResourcesBonus(628, 522 + $g_iMidOffsetY)) ; get cost
-										$BoostDuration = getHeroUpgradeTime(575, 464 + $g_iMidOffsetY) ; get duration
-									EndIf
 									Click($g_iQuickMISX - 44, $g_iQuickMISY + 10, 1)
 									If _Sleep(1500) Then Return
 									If QuickMIS("BC1", $g_sImgBoostTroopsButtons, 320, 400 + $g_iMidOffsetY, 550, 480 + $g_iMidOffsetY, True, False) Then ;find image of dark elixir button again (confirm upgrade)
 										;Click boost
 										If $bTest Then
-											If $BoostCost <> "" Then Setlog("BoostCost = " & $BoostCost & " Dark Elixir, Duration = " & $BoostDuration, $COLOR_SUCCESS)
 											CancelBoost("Using Dark Elixir")
 										Else
 											Click($g_iQuickMISX - 50, $g_iQuickMISY + 10, 1)
 											Setlog("Successfully Boost " & $sTroopName, $COLOR_SUCCESS)
-											If $BoostCost <> "" Then Setlog("BoostCost = " & $BoostCost & " Dark Elixir, Duration = " & $BoostDuration, $COLOR_SUCCESS)
 											$bRet = True
 										EndIf
 									Else

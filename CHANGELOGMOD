@@ -1,3 +1,13 @@
+* v23.05.20 **
+* Added Reduce Reserved Builders for Heroes if TH Upgrade needed.
+* Added Notify Bot Stop For Any Cases (When Selected).
+* Fixed Some bugs.
+* Added Missing Images For Scattershots Level 1.
+* Improved Daily Challenge Collect and Detection.
+* Added Auto Adjust Camps Capacity with Selected Troops.
+* Added Upgrade Walls with Wall Rings Feature. (Beta)
+* Added Uncheck Walls Upgrade if Th Upgrade Needed or Max Level.
+
 * v23.05.06 **
 * Changed Lab Check Frequency (Classic) to every 1 hour if Research Pot is detected.
 * Fixed Reserved Builders for Heroes Count.
