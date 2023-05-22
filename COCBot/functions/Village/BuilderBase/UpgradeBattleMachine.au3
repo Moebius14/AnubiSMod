@@ -118,10 +118,6 @@ Func BattleMachineUpgrade($test = False, $bFinishNow = False)
 				If $g_bChkNotifyUpgradeBM Then
 					Local $text ="Village : " & $g_sNotifyOrigin & "%0A"
 					$text &="Profile : " & $g_sProfileCurrentName & "%0A"
-					If $g_bNotifyAlertForecastReport Then
-						If $IsForecastDown Then $currentForecast = "N/A"
-						$text &="Forecast : " & $currentForecast & "%0A"
-					EndIf
 					Local $currentDate = Number(@MDAY)
 					$text &= "Upgrade Battle Machine Is Launched"
 					NotifyPushToTelegram($text)

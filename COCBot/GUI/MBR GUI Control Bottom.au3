@@ -373,8 +373,7 @@ Func ToggleGuiControls($bEnabled, $bOptimizedRedraw = True)
 		SetDebugLog("Enable GUI Controls")
 	EndIf
 	$g_bGUIControlDisabled = True
-	
-	For $i = $g_hFirstControlToHide To $g_hLastControlToHidemod
+	For $i = $g_hFirstControlToHide To $g_hLastControlToHide
 		If IsAlwaysEnabledControl($i) Then ContinueLoop
 		If $i >= $g_hClanGamesTV And $i < $g_hChkForceBBAttackOnClanGames Then ContinueLoop
 		If Not $bEnabled Then
@@ -387,19 +386,6 @@ Func ToggleGuiControls($bEnabled, $bOptimizedRedraw = True)
 			If $i >= $g_hChkForceBBAttackOnClanGames And $i <= $g_hBtnCGSettingsClose Then GUICtrlSetState($i, $GUI_ENABLE)
 		EndIf	
 	Next
-			
-	For $i = $g_hFirstControlToHidemod To $g_hLastControlToHide
-		If IsAlwaysEnabledControl($i) Then ContinueLoop
-		If Not $bEnabled Then
-			; Save state of all controls on tabs
-			$g_aiControlPrevState[$i] = BitAND(GUICtrlGetState($i), $GUI_ENABLE)
-			If $g_aiControlPrevState[$i] Then GUICtrlSetState($i, $GUI_DISABLE)
-		Else
-			; Restore previous state of controls
-			If $g_aiControlPrevState[$i] Then GUICtrlSetState($i, $g_aiControlPrevState[$i])
-		EndIf	
-	Next
-	
 	If Not $bEnabled Then
 		ControlDisable("", "", $g_hCmbGUILanguage)
 	Else

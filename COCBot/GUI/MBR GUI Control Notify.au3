@@ -57,12 +57,6 @@ Func chkPBTGenabled()
 			GUICtrlSetState($g_hChkNotifyPauseTime, $GUI_DISABLE)
 		EndIf
 		If GUICtrlRead($g_hChkNotifyAlertVillageStats) = $GUI_CHECKED Then
-			GUICtrlSetState($g_hChkNotifyAlertForecast, $GUI_ENABLE)
-		EndIf
-		If GUICtrlRead($g_hChkNotifyAlertLastRaidTXT) = $GUI_CHECKED then
-			GUICtrlSetState($g_hChkNotifyAlertForecast2, $GUI_ENABLE)
-		EndIf
-		If GUICtrlRead($g_hChkNotifyAlertVillageStats) = $GUI_CHECKED Then
 			GUICtrlSetState($g_hChkNotifyStarBonusAvail, $GUI_ENABLE)
 			GUICtrlSetState($g_hChkNotifyCGScore, $GUI_ENABLE)
 		Else
@@ -89,8 +83,6 @@ Func chkPBTGenabled()
 		GUICtrlSetState($g_hChkNotifyBOTUpdate, $GUI_DISABLE)
 		GUICtrlSetState($g_hChkNotifyAlertSmartWaitTime, $GUI_DISABLE)
 		GUICtrlSetState($g_hChkNotifyAlertLaboratoryIdle, $GUI_DISABLE)
-		GUICtrlSetState($g_hChkNotifyAlertForecast, $GUI_DISABLE)
-		GUICtrlSetState($g_hChkNotifyAlertForecast2, $GUI_DISABLE)
 		GUICtrlSetState($g_hChkNotifyStarBonusAvail, $GUI_DISABLE)
 		GUICtrlSetState($g_hChkNotifyPauseTime, $GUI_DISABLE)
 		GUICtrlSetState($g_hChkNotifyCGScore, $GUI_DISABLE)

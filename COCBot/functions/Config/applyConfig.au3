@@ -121,8 +121,6 @@ Func applyConfig($bRedrawAtExit = True, $TypeReadSave = "Read") ;Applies the dat
 	ApplyConfig_600_33($TypeReadSave)
 	; <><><> Humanization <><><>
 	ApplyConfig_MOD_Humanization($TypeReadSave)
-	; <><><> Forecast <><><>
-	ApplyConfig_MOD_Forecast($TypeReadSave)
 	; <><><> Advanced <><><>
 	ApplyConfig_MOD_Advanced($TypeReadSave)
 	; <><><><> Bot / Options <><><><>
@@ -1254,8 +1252,6 @@ Func ApplyConfig_600_18($TypeReadSave)
 			GUICtrlSetState($g_hChkNotifyBOTUpdate, $g_bNotifyAlertBOTUpdate ? $GUI_CHECKED : $GUI_UNCHECKED)
 			GUICtrlSetState($g_hChkNotifyAlertSmartWaitTime, $g_bNotifyAlertSmartWaitTime ? $GUI_CHECKED : $GUI_UNCHECKED)
 			GUICtrlSetState($g_hChkNotifyAlertLaboratoryIdle, $g_bNotifyAlertLaboratoryIdle ? $GUI_CHECKED : $GUI_UNCHECKED)
-			GUICtrlSetState($g_hChkNotifyAlertForecast, $g_bNotifyAlertForecastReport ? $GUI_CHECKED : $GUI_UNCHECKED)
-			GUICtrlSetState($g_hChkNotifyAlertForecast2, $g_bNotifyAlertForecastReport2 ? $GUI_CHECKED : $GUI_UNCHECKED)
 			GUICtrlSetState($g_hChkNotifyCGScore, $g_bChkNotifyCGScore ? $GUI_CHECKED : $GUI_UNCHECKED)
 			GUICtrlSetState($g_hChkNotifyStarBonusAvail, $g_bChkNotifyStarBonusAvail ? $GUI_CHECKED : $GUI_UNCHECKED)
 			GUICtrlSetState($g_hChkNotifyPauseTime, $g_bChkNotifyPauseTime ? $GUI_CHECKED : $GUI_UNCHECKED)
@@ -1263,7 +1259,6 @@ Func ApplyConfig_600_18($TypeReadSave)
 			GUICtrlSetState($g_hNotifyStopBot, $g_bNotifyStopBot ? $GUI_CHECKED : $GUI_UNCHECKED)
 			GUICtrlSetState($g_hChkNotifyUpgrade, $g_bChkNotifyUpgrade ? $GUI_CHECKED : $GUI_UNCHECKED)
 			ChkVillageReport()
-			ChkVillageReport2()
 			chkUpgradeBattleMachine()
 		Case "Save"
 			; Telegram
@@ -1289,8 +1284,6 @@ Func ApplyConfig_600_18($TypeReadSave)
 			$g_bNotifyAlertBOTUpdate = (GUICtrlRead($g_hChkNotifyBOTUpdate) = $GUI_CHECKED)
 			$g_bNotifyAlertSmartWaitTime = (GUICtrlRead($g_hChkNotifyAlertSmartWaitTime) = $GUI_CHECKED)
 			$g_bNotifyAlertLaboratoryIdle = (GUICtrlRead($g_hChkNotifyAlertLaboratoryIdle) = $GUI_CHECKED)
-			$g_bNotifyAlertForecastReport = (GUICtrlRead($g_hChkNotifyAlertForecast) = $GUI_CHECKED)
-			$g_bNotifyAlertForecastReport2 = (GUICtrlRead($g_hChkNotifyAlertForecast2) = $GUI_CHECKED)
 			$g_bChkNotifyCGScore = (GUICtrlRead($g_hChkNotifyCGScore) = $GUI_CHECKED)
 			$g_bChkNotifyStarBonusAvail = (GUICtrlRead($g_hChkNotifyStarBonusAvail) = $GUI_CHECKED)
 			$g_bChkNotifyPauseTime = (GUICtrlRead($g_hChkNotifyPauseTime) = $GUI_CHECKED)
@@ -2715,30 +2708,6 @@ Func ApplyConfig_MOD_Humanization($TypeReadSave)
 			$g_iHowManyinCWLCombo = _GUICtrlComboBox_GetCurSel($g_HowManyinCWLCombo)
 	EndSwitch
 EndFunc   ;==>ApplyConfig_MOD_Humanization
-
-Func ApplyConfig_MOD_Forecast($TypeReadSave)
-	; <><><><> Forecast <><><><>
-	Switch $TypeReadSave
-		Case "Read"
-			GUICtrlSetState($g_hChkForecastEnable, $g_bForecastEnable ? $GUI_CHECKED : $GUI_UNCHECKED)
-			_GUICtrlComboBox_SetCurSel($g_hCmbPriorityForecast, $g_iCmbPriorityForecast)
-			GUICtrlSetData($g_hForecastPauseIntervalMin, $g_iForecastPauseIntervalMin)
-			GUICtrlSetData($g_hForecastPauseIntervalMax, $g_iForecastPauseIntervalMax)
-			chkForecastEnable()
-			GUICtrlSetState($g_hChkForecastBoostEnable, $g_bForecastBoostEnable ? $GUI_CHECKED : $GUI_UNCHECKED)
-			_GUICtrlComboBox_SetCurSel($g_hCmbPriorityForecastBoost, $g_iCmbPriorityForecastBoost)
-			chkForecastBoostEnable()
-			_GUICtrlComboBox_SetCurSel($g_hCmbForecastCheckFrequency, $g_iCmbForecastCheckFrequency)
-		Case "Save"
-			$g_bForecastEnable = (GUICtrlRead($g_hChkForecastEnable) = $GUI_CHECKED)
-			$g_iCmbPriorityForecast = _GUICtrlComboBox_GetCurSel($g_hCmbPriorityForecast)
-			$g_iForecastPauseIntervalMin = GUICtrlRead($g_hForecastPauseIntervalMin)
-			$g_iForecastPauseIntervalMax = GUICtrlRead($g_hForecastPauseIntervalMax)
-			$g_bForecastBoostEnable = (GUICtrlRead($g_hChkForecastBoostEnable) = $GUI_CHECKED)
-			$g_iCmbPriorityForecastBoost = _GUICtrlComboBox_GetCurSel($g_hCmbPriorityForecastBoost)
-			$g_iCmbForecastCheckFrequency = _GUICtrlComboBox_GetCurSel($g_hCmbForecastCheckFrequency)
-	EndSwitch
-EndFunc   ;==>ApplyConfig_MOD_Forecast
 
 Func ApplyConfig_MOD_Advanced($TypeReadSave)
 	; <><><><> Advanced <><><><>

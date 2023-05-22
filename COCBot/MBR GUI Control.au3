@@ -625,8 +625,6 @@ Func GUIControl_WM_COMMAND($hWind, $iMsg, $wParam, $lParam)
 			Setlog("Prepare Attack test - Remaining troops")
 			PrepareAttack($DB, True)
 			$g_bRunState = $RuntimeA
-		Case $lblForecastSource
-			ShellExecute("http://clashofclansforecaster.com/")
 	EndSwitch
 
 	If $lParam = $g_hCmbGUILanguage Then
@@ -1172,19 +1170,13 @@ Func BotGuiModeToggle()
 			GUICtrlDelete($g_hGUI_LOG_SA)
 			GUICtrlDelete($g_hGUI_STATS_TAB)
 
-			For $i = $g_hFirstControlToHide To $g_hLastControlToHidemod
-				GUICtrlDelete($i)
-			Next
-			
-			For $i = $g_hFirstControlToHidemod To $g_hLastControlToHide
+			For $i = $g_hFirstControlToHide To $g_hLastControlToHide
 				GUICtrlDelete($i)
 			Next
 			
 			$g_hFirstControlToHide = 0
 			$g_hLastControlToHide = 0
-			$g_hFirstControlToHidemod = 0
-			$g_hLastControlToHidemod = 0
-
+			
 			; destroy windows
 			For $hGUI In $g_oGuiNotInMini
 				SetDebugLog("GUIDelete: " & $hGUI)
@@ -2140,7 +2132,7 @@ Func Bind_ImageList($nCtrl, ByRef $hImageList)
 			
 		Case $g_hGUI_MOD_TAB
 			; the icons for main tab
-			Local $aIconIndex = [$eIcnHumanization, $eIcnForecast, $eIcnAdvanced, $eIcnStrongMan, $eIcnModLog]	
+			Local $aIconIndex = [$eIcnHumanization, $eIcnAdvanced, $eIcnStrongMan, $eIcnModLog]	
 
 		Case $g_hGUI_BOT_TAB
 			; the icons for Bot tab
@@ -2166,7 +2158,7 @@ Func Bind_ImageList($nCtrl, ByRef $hImageList)
 				AddImageToModTab($nCtrl, $hImageList, $i, $tTcItem, $g_sLibModIconPath, $aIconIndex[$i] - 1)
 			ElseIf $nCtrl = $g_hGUI_MISC_TAB And $i = 1 Then
 				AddImageToModTab($nCtrl, $hImageList, $i, $tTcItem, $g_sLibModIconPath, $aIconIndex[$i] - 1)
-			ElseIf $nCtrl = $g_hGUI_MOD_TAB And $i <> 3 Then
+			ElseIf $nCtrl = $g_hGUI_MOD_TAB And $i <> 2 Then
 				AddImageToModTab($nCtrl, $hImageList, $i, $tTcItem, $g_sLibModIconPath, $aIconIndex[$i] - 1)
 			ElseIf $nCtrl = $g_hGUI_BOT_TAB And $i = 2 Then
 				AddImageToModTab($nCtrl, $hImageList, $i, $tTcItem, $g_sLibModIconPath, $aIconIndex[$i] - 1)

@@ -56,7 +56,6 @@ Global $g_hStatusBar = 0
 Global $g_hTiShow = 0, $g_hTiHide = 0, $g_hTiDonate = 0, $g_hTiAbout = 0, $g_hTiStartStop = 0, $g_hTiPause = 0, $g_hTiExit = 0
 Global $g_aFrmBotPosInit[8] = [0, 0, 0, 0, 0, 0, 0, 0]
 Global $g_hFirstControlToHide = 0, $g_hLastControlToHide = 0, $g_aiControlPrevState[1]
-Global $g_hFirstControlToHidemod = 0, $g_hLastControlToHidemod = 0
 Global $g_bFrmBotMinimized = False ; prevents bot flickering
 Global $g_hTblStart = 0, $g_hTblStop = 0, $g_hTblPause = 0, $g_hTblResume = 0, $g_hTblMakeScreenshot = 0 ; TaskBarList buttons
 

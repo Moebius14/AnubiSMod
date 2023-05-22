@@ -349,9 +349,6 @@ Func SetupProfileFolder()
 	$g_sProfileDonateCapturePath = $g_sProfilePath & "\" & $g_sProfileCurrentName & '\Donate\'
 	$g_sProfileDonateCaptureWhitelistPath = $g_sProfilePath & "\" & $g_sProfileCurrentName & '\Donate\White List\'
 	$g_sProfileDonateCaptureBlacklistPath = $g_sProfilePath & "\" & $g_sProfileCurrentName & '\Donate\Black List\'
-	If Not FileExists($g_sForecastPath) Then
-		DirCreate($g_sForecastPath)
-	EndIf
 EndFunc   ;==>SetupProfileFolder
 
 ; #FUNCTION# ====================================================================================================================
@@ -671,7 +668,7 @@ Func MainLoop($bCheckPrerequisitesOK = True)
 	Local $hStarttime = _Timer_Init()
 
 	; Check the Supported Emulator versions
-	CheckEmuNewVersions()
+;	CheckEmuNewVersions()
 
 	;Reset Telegram message
 	NotifyGetLastMessageFromTelegram()
@@ -757,10 +754,6 @@ Func runBot() ;Bot that runs everything in order
 			IschkAddRandomClickTimingDelay2()
 			IschkAddRandomClickTimingDelay1()
 
-			IsForecastChecked()
-			If IsForecastBAD() Then ContinueLoop
-			If Not $g_bRunState Then Return
-
 			If _Sleep($DELAYRUNBOT2) Then Return
 			If BotCommand() Then btnStop()
 			If Not $g_bChkBotStop And $g_bSearchReductionStorageEnable Then
@@ -826,19 +819,7 @@ Func runBot() ;Bot that runs everything in order
 					If $g_bRestart Then ContinueLoop 2 ; must be level 2 due to loop-in-loop
 					If CheckAndroidReboot() Then ContinueLoop 2 ; must be level 2 due to loop-in-loop
 				Next
-				If $g_bForecastBoostEnable And IsForecastBoostAllowed() Then
-					SetLog("Forecast is Shiny for Boost", $COLOR_GREEN)
-					BoostEverything()     ; 1st Check if is to use Training Potion
-				ElseIf $g_bForecastBoostEnable And Not IsForecastBoostAllowed() Then
-					If $IsForecastDown Then
-						SetLog("Forecast is Unknow : No Boost", $COLOR_RED)
-					Else					
-						SetLog("Forecast is Bad for Boost", $COLOR_RED)
-					EndIf	
-				ElseIf Not $g_bForecastBoostEnable Then
-					BoostEverything()
-				EndIf
-				
+				BoostEverything()
 				If $g_bRestart Then ContinueLoop
 				Local $aRndFuncList = ['BoostBuilders', 'BoostBarracks', 'BoostSpellFactory', 'BoostWorkshop', 'BoostKing', 'BoostQueen', 'BoostWarden', 'BoostChampion']
 				_ArrayShuffle($aRndFuncList)
@@ -1061,10 +1042,6 @@ Func _Idle() ;Sequence that runs until Full Army
 			If Number($g_iLootCCMedal) = 0 Then CatchCCMedals()
 		EndIf
 
-		IsForecastChecked()
-		If IsForecastBAD() Then ExitLoop
-		If Not $g_bRunState Then Return
-
 		If _Sleep($DELAYIDLE1) Then ExitLoop
 		checkObstacles() ; trap common error messages also check for reconnecting animation
 		checkMainScreen(False) ; required here due to many possible exits
@@ -1185,10 +1162,6 @@ Func _Idle() ;Sequence that runs until Full Army
 EndFunc   ;==>_Idle
 
 Func AttackMain() ;Main control for attack functions
-
-	IsForecastChecked(False)
-	If IsForecastBAD(False) Then Return
-	If Not $g_bRunState Then Return
 
 	If ProfileSwitchAccountEnabled() And $g_abDonateOnly[$g_iCurAccount] Then Return
 	ClickAway()
@@ -1532,17 +1505,6 @@ Func FirstCheck()
 	EndIf
 	;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-	$currentForecast = readCurrentForecast()
-	$ForecastTimeStamp = _NowTime(4)
-	If $IsForecastDown Then
-		GUICtrlSetData($ActualForecastReturn, "XX")
-	Else
-		GUICtrlSetData($ActualForecastReturn, _NumberFormat($currentForecast, True))
-	EndIf
-	GUICtrlSetData($ActualForecastReturnTime, $ForecastTimeStamp)
-	$ForecastCheckTimer = TimerInit()
-	$g_bFirstStartForForecast = 1
-
 	If $g_bChkCollectCartFirst Then CollectLootCart()
 
 	VillageReport()
@@ -1645,21 +1607,6 @@ Func FirstCheck()
 		IschkAddRandomClickTimingDelay1()
 		TrainSystem()
 
-		Local $forecastloop = 0
-		While 1
-			IsForecastChecked()
-			If IsForecastBAD() Then
-				If Not $g_bRunState Then Return
-				$forecastloop += 1
-			Else
-				If $forecastloop > 0 Then
-					IschkAddRandomClickTimingDelay2()
-					IschkAddRandomClickTimingDelay1()
-					TrainSystem()
-				EndIf
-				ExitLoop
-			EndIf
-		Wend
 		If Not $g_bRunState Then Return
 		SetDebugLog("Are you ready? " & String($g_bIsFullArmywithHeroesAndSpells))
 		If $g_bIsFullArmywithHeroesAndSpells Then

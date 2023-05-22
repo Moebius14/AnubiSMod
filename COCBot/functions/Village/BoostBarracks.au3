@@ -116,17 +116,6 @@ Func BoostEverything()
 		If _Sleep($DELAYBOOSTBARRACKS2) Then Return
 	EndIf
 
-	If $g_bForecastBoostEnable = True And IsForecastBoostAllowed() Then
-		$ActionForModLog = "Boosting Everything"
-		If $IsForecastDown Then $currentForecast = "N/A"
-		If $g_iTxtCurrentVillageName <> "" Then
-			GUICtrlSetData($g_hTxtModLog, @CRLF & _NowTime() & " [" & $g_iTxtCurrentVillageName & "] Forecaster : " & $ActionForModLog & " At "& $currentForecast & " Score", 1)
-		Else
-			GUICtrlSetData($g_hTxtModLog, @CRLF & _NowTime() & " [" & $g_sProfileCurrentName & "] Forecaster : " & $ActionForModLog & " At "& $currentForecast & " Score", 1)
-		EndIf
-	_FileWriteLog($g_sProfileLogsPath & "\ModLog.log", " [" & $g_sProfileCurrentName & "] - Forecaster : " & $ActionForModLog & "")
-	EndIf
-
 	Return BoostPotion("Everything", "Town Hall", $g_aiTownHallPos, $g_iCmbBoostEverything, $g_hCmbBoostEverything) = _NowCalc()
 	$g_aiTimeTrain[0] = 0 ; reset Troop remaining time
 	$g_aiTimeTrain[1] = 0 ; reset Spells remaining time

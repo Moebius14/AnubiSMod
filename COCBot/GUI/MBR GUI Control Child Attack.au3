@@ -263,14 +263,8 @@ Func chkAttackPlannerEnable()
 		$g_bAttackPlannerEnable = False
 		GUICtrlSetState($g_hChkAttackPlannerCloseCoC, $GUI_DISABLE)
 		GUICtrlSetState($g_hChkAttackPlannerSuspendComputer, $GUI_DISABLE)
-		If GUICtrlRead($g_hChkForecastEnable) = $GUI_UNCHECKED Then
-			GUICtrlSetState($g_hChkTrophyDropinPause, $GUI_DISABLE)
-			GUICtrlSetState($g_hChkVisitBbaseinPause, $GUI_DISABLE)
-		Else
-			GUICtrlSetState($g_hChkTrophyDropinPause, $GUI_ENABLE)
-			GUICtrlSetState($g_hChkVisitBbaseinPause, $GUI_ENABLE)
-		EndIf
-		
+		GUICtrlSetState($g_hChkTrophyDropinPause, $GUI_DISABLE)
+		GUICtrlSetState($g_hChkVisitBbaseinPause, $GUI_DISABLE)
 		GUICtrlSetState($g_acmdRandomDelay, $GUI_DISABLE)
 		GUICtrlSetState($g_acmdRandomDelayMin, $GUI_DISABLE)
 		GUICtrlSetState($g_hLabelDelayPauseIntervalAnd, $GUI_DISABLE)

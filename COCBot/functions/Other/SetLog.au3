@@ -339,8 +339,8 @@ EndFunc   ;==>SetSwitchAccLog
 
 Func AtkLogHead()
 	SetAtkLog(_PadStringCenter(" " & GetTranslatedFileIni("MBR Func_AtkLogHead", "AtkLogHead_Text_01", "ATTACK LOG") & " ", 71, "="), "", $COLOR_BLACK, "MS Shell Dlg", 8.5)
-	SetAtkLog(GetTranslatedFileIni("MBR Func_AtkLogHead", "AtkLogHead_Text_02", '|                            ------- LOOT --------            -- BONUS --   |'), "")
-	SetAtkLog(GetTranslatedFileIni("MBR Func_AtkLogHead", "AtkLogHead_Text_03", '|AC| TIME|Fore|TROPHY|SRC|DS|   GOLD| ELIXIR|   DE| TR| *|  %| G & E|  DE|L.|'), "")
+	SetAtkLog(GetTranslatedFileIni("MBR Func_AtkLogHead", "AtkLogHead_Text_02", '|                       ------- LOOT --------            -- BONUS --   |'), "")
+	SetAtkLog(GetTranslatedFileIni("MBR Func_AtkLogHead", "AtkLogHead_Text_03", '|AC| TIME|TROPHY|SRC|DS|   GOLD| ELIXIR|   DE| TR| *|  %| G & E|  DE|L.|'), "")
 EndFunc   ;==>AtkLogHead                                                                          
 
 Func __FileWriteLog($handle, $text)

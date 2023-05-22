@@ -68,9 +68,19 @@ Func DailyChallenges($CCControl = True)
 			If $bCheckDiscount Then CheckDiscountPerksMod()
 		EndIf
 	EndIf
+	
+	If ($g_bUseBOF And $IsBOFJustCollected) Or ($g_bUseBOS And $IsBOSJustCollected) Or ($g_bUseLabPotion And $IsResPotJustCollected) Then
+		Local $BookTypes[3][2] = [[$IsBOFJustCollected, "Book Of Fighting"], [$IsBOSJustCollected, "Book Of Spells"], [$IsResPotJustCollected, "Research Potion"]]
+		For $i = 0 To Ubound($BookTypes) - 1						
+			If $BookTypes[$i][0] Then SetLog("Time To Check Laboratory, " & $BookTypes[$i][1] & " Just Collected", $COLOR_OLIVE)
+		Next
+		If _Sleep(500) Then Return
+		LabGuiDisplay()
+	EndIf
+	
 	If Not $IsToCheckBeforeStop And $CCControl Then
 		If SwitchBetweenBasesMod2() Then
-			_Sleep(Random(2000, 3000, 1))
+			If _Sleep(Random(1500, 2000, 1)) Then Return
 			AutoUpgradeCC()
 			_Sleep($DELAYRUNBOT3)
 		EndIf

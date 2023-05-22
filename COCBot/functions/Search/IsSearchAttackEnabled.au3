@@ -13,7 +13,7 @@
 ; Link ..........: https://github.com/MyBotRun/MyBot/wiki
 ; Example .......: No
 ; ===============================================================================================================================
-Func IsSearchAttackEnabled($Forecast = False)
+Func IsSearchAttackEnabled()
 
 	SetDebugLog("Begin IsSearchAttackScheduled:", $COLOR_DEBUG1)
 	
@@ -114,11 +114,6 @@ Func IsSearchAttackEnabled($Forecast = False)
 				
 				Local $text ="Village : " & $g_sNotifyOrigin & "%0A"
 				$text &="Profile : " & $g_sProfileCurrentName & "%0A"
-				;Forecast option
-				If $g_bNotifyAlertForecastReport Then
-					If $IsForecastDown Then $currentForecast = "N/A"
-					$text &="Forecast : " & $currentForecast & "%0A"
-				EndIf
 				;CG Score option
 				If $g_bChkClanGamesEnabled And $g_bChkNotifyCGScore Then
 				$text &="CG Score : " & $g_sClanGamesScore & "%0A"
@@ -136,11 +131,7 @@ Func IsSearchAttackEnabled($Forecast = False)
 			
 			UniversalCloseWaitOpenCoC($iWaitTime * 1000, "IsSearchAttackScheduled_", $g_bAttackPlannerCloseAll, True, $g_bAttackPlannerSuspendComputer) ; Close and Wait for attacking to start
 			$g_bRestart = True
-			If $forecast Then
-				Return False
-			Else 
-				Return
-			EndIf
+			Return
 		Else
 			Return False
 		EndIf
@@ -242,11 +233,6 @@ Func IsSearchAttackEnabled($Forecast = False)
 				
 					Local $text ="Village : " & $g_sNotifyOrigin & "%0A"
 					$text &="Profile : " & $g_sProfileCurrentName & "%0A"
-					;Forecast option
-					If $g_bNotifyAlertForecastReport Then
-						If $IsForecastDown Then $currentForecast = "N/A"
-						$text &="Forecast : " & $currentForecast & "%0A"
-					EndIf
 					;CG Score option
 					If $g_bChkClanGamesEnabled And $g_bChkNotifyCGScore Then
 					$text &="CG Score : " & $g_sClanGamesScore & "%0A"
@@ -264,11 +250,7 @@ Func IsSearchAttackEnabled($Forecast = False)
 				
 				UniversalCloseWaitOpenCoC($iWaitTime * 1000, "IsSearchAttackScheduled_", $g_bAttackPlannerCloseAll, True, $g_bAttackPlannerSuspendComputer) ; Close and Wait for attacking to start
 				$g_bRestart = True
-				If $forecast Then
-					Return False
-				Else 
-					Return
-				EndIf
+				Return
 			Else
 				Return False ; random time to stop attack found let bot idle
 			EndIf
@@ -338,7 +320,6 @@ Func IsSearchAttackEnabled($Forecast = False)
 			If $g_bChkPersoChallengesinPause Then DailyChallenges(False)
 			If _Sleep(1000) Then Return
 			CollectCCGold()
-			If _Sleep(1000) Then Return
 			If SwitchBetweenBasesMod2() Then
 				ForgeClanCapitalGold()
 				_Sleep($DELAYRUNBOT3)
@@ -389,11 +370,6 @@ Func IsSearchAttackEnabled($Forecast = False)
 				
 					Local $text ="Village : " & $g_sNotifyOrigin & "%0A"
 					$text &="Profile : " & $g_sProfileCurrentName & "%0A"
-					;Forecast option
-					If $g_bNotifyAlertForecastReport Then
-						If $IsForecastDown Then $currentForecast = "N/A"
-						$text &="Forecast : " & $currentForecast & "%0A"
-					EndIf
 					;CG Score option
 					If $g_bChkClanGamesEnabled And $g_bChkNotifyCGScore Then
 					$text &="CG Score : " & $g_sClanGamesScore & "%0A"
@@ -412,11 +388,7 @@ Func IsSearchAttackEnabled($Forecast = False)
 				; close emulator as directed
 				UniversalCloseWaitOpenCoC($iWaitTime * 1000, "IsSearchAttackScheduled_", $g_bAttackPlannerCloseAll, True, $g_bAttackPlannerSuspendComputer) ; Close and Wait for attacking to start
 				$g_bRestart = True
-				If $forecast Then
-					Return False
-				Else 
-					Return
-				EndIf
+				Return
 			Else
 				Return False ; if not planned to close anything, then stop attack
 			EndIf

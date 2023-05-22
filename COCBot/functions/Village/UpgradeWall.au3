@@ -43,12 +43,12 @@ Func UpgradeWall()
 							If imglocCheckWall() Then
 								$bResult = UpgradeWallGold($iWallCost)
 								Switch $bResult
+									Case "Locked"
+										ExitLoop
 									Case False
 										SetLog("Upgrade with Gold failed, skipping...", $COLOR_ERROR)
 										ClickAway()
 										Return
-									Case "Locked"
-										ExitLoop
 								EndSwitch
 							ElseIf SwitchToNextWallLevel() Then
 								SetLog("No more walls of current level, switching to next", $COLOR_ACTION)
@@ -64,12 +64,12 @@ Func UpgradeWall()
 							If imglocCheckWall() Then
 								$bResult = UpgradeWallElixir($iWallCost)
 								Switch $bResult
+									Case "Locked"
+										ExitLoop
 									Case False
 										SetLog("Upgrade with Elixir failed, skipping...", $COLOR_ERROR)
 										ClickAway()
 										Return
-									Case "Locked"
-										ExitLoop
 								EndSwitch
 							ElseIf SwitchToNextWallLevel() Then
 								SetLog("No more walls of current level, switching to next", $COLOR_ACTION)
@@ -89,12 +89,12 @@ Func UpgradeWall()
 										SetLog("Upgrade with Elixir failed, attempt to upgrade using Gold", $COLOR_ERROR)
 										$bResult = UpgradeWallGold($iWallCost)
 										Switch $bResult
+											Case "Locked"
+												ExitLoop
 											Case False
 												SetLog("Upgrade with Gold failed, skipping...", $COLOR_ERROR)
 												ClickAway()
 												Return
-											Case "Locked"
-												ExitLoop
 										EndSwitch
 									Case "Locked"
 										ExitLoop
@@ -110,12 +110,12 @@ Func UpgradeWall()
 								If imglocCheckWall() Then
 									$bResult = UpgradeWallGold($iWallCost)
 									Switch $bResult
+										Case "Locked"
+											ExitLoop
 										Case False
 											SetLog("Upgrade with Gold failed, skipping...", $COLOR_ERROR)
 											ClickAway()
 											Return
-										Case "Locked"
-											ExitLoop
 									EndSwitch
 								ElseIf SwitchToNextWallLevel() Then
 									SetLog("No more walls of current level, switching to next", $COLOR_ACTION)
@@ -146,9 +146,9 @@ Func UpgradeWall()
 				If $g_iHowUseWallRings <> 2 Then Return
 				If imglocCheckWall() Then
 					Switch WallRings()
-						Case True
+						Case "WRUsed"
 							ContinueLoop
-						Case False
+						Case "Cancel"
 							CloseWindow()
 							ExitLoop
 						Case "NoButton"
@@ -183,12 +183,11 @@ Func UpgradeWallGold($iWallCost = $g_iWallCost)
 	If $g_iHowUseWallRings = 1 Then
 		SetLog("Upgrading Wall using Wall Rings First", $COLOR_SUCCESS)
 		Switch WallRings()
-			Case True
+			Case "WRUsed"
 				Return True
-			Case False
+			Case "Cancel"
 				ClickAway()
 			Case "Locked"
-				SetLog("Case Locked", $COLOR_ERROR)
 				CloseWindow()
 				Return "Locked"
 		EndSwitch
@@ -256,12 +255,11 @@ Func UpgradeWallElixir($iWallCost)
 	If $g_iHowUseWallRings = 1 Then
 		SetLog("Upgrading Wall using Wall Rings First", $COLOR_SUCCESS)
 		Switch WallRings()
-			Case True
+			Case "WRUsed"
 				Return True
-			Case False
+			Case "Cancel"
 				ClickAway()
 			Case "Locked"
-				SetLog("Case Locked", $COLOR_ERROR)
 				CloseWindow()
 				Return "Locked"
 		EndSwitch
@@ -488,14 +486,14 @@ Func WallRings()
 		If $WRNeeded = "" Then
 			SetLog("Bad OCR Read, Skip", $COLOR_ERROR)
 			SaveDebugImage("WallRings")
-			Return False
+			Return "Cancel"
 		Else
 			SetLog("Wall Rings Needed : " & $WRNeeded, $COLOR_ACTION)
 			If $WRNeeded <= $g_iCmbUseWallRings + 1 Then
 				SetLog("Wall Rings Needed Matching With Settings (" & $g_iCmbUseWallRings + 1 & ")", $COLOR_SUCCESS1)
 			Else
 				SetLog("Wall Rings Needed Higher Than Settings (" & $g_iCmbUseWallRings + 1 & ")", $COLOR_DEBUG)
-				Return False
+				Return "Cancel"
 			EndIf
 		EndIf
 		
@@ -503,7 +501,7 @@ Func WallRings()
 		If ClickB("WallRingConfirm") Then
 			If isGemOpen(True) Then ; Should never happens
 				SetLog("No free builder, Upgrade Walls Using Wall Rings skipped..", $COLOR_ERROR)
-				Return False
+				Return "Cancel"
 			EndIf
 			SetLog("Successfully Upgrade Wall Using Wall Rings", $COLOR_SUCCESS)
 			$ActionForModLog = "Using Wall Rings"
@@ -516,14 +514,14 @@ Func WallRings()
 			$g_iNbrOfWallsUpped += 1
 			If _Sleep(1000) Then Return
 			ClickAway()
-			Return True
+			Return "WRUsed"
 		Else
 			SetLog("Not Enough Wall Rings To Upgrade Wall", $COLOR_DEBUG) ; Should never happens
 			If _Sleep(500) Then Return
-			Return False
+			Return "Cancel"
 		EndIf
 	Else
-		SetLog("Wall rings Button Not Found", $COLOR_DEBUG) ; Should never happens
+		SetLog("Wall rings Button Not Found", $COLOR_DEBUG)
 		If _Sleep(500) Then Return
 		Return "NoButton"
 	EndIf

@@ -265,8 +265,6 @@ Func ReadRegularConfig()
 	ReadConfig_641_1()
 	; <><><> Humanization <><><>
 	ReadConfig_MOD_Humanization()
-	; <><><> Forecast <><><>
-	ReadConfig_MOD_Forecast()
 	; <><><> Advanced <><><>
 	ReadConfig_MOD_Advanced()
 	; <><><><> Attack Plan / Strategies <><><><>
@@ -904,8 +902,6 @@ Func ReadConfig_600_18()
 	IniReadS($g_bNotifyAlertBOTUpdate, $g_sProfileConfigPath, "notify", "AlertPBUpdate", False, "Bool")
 	IniReadS($g_bNotifyAlertSmartWaitTime, $g_sProfileConfigPath, "notify", "AlertSmartWaitTime", False, "Bool")
 	IniReadS($g_bNotifyAlertLaboratoryIdle, $g_sProfileConfigPath, "notify", "AlertLaboratoryIdle", False, "Bool")
-	IniReadS($g_bNotifyAlertForecastReport, $g_sProfileConfigPath, "notify", "AlertPBForecast", False, "Bool")
-	IniReadS($g_bNotifyAlertForecastReport2, $g_sProfileConfigPath, "notify", "AlertPBForecast2", False, "Bool")
 	IniReadS($g_bChkNotifyCGScore, $g_sProfileConfigPath, "notify", "AlertCGScore", False, "Bool")
 	IniReadS($g_bChkNotifyStarBonusAvail, $g_sProfileConfigPath, "notify", "StarBonusStatus", False, "Bool")
 	IniReadS($g_bChkNotifyPauseTime, $g_sProfileConfigPath, "notify", "PauseTimeNotif", False, "Bool")
@@ -1539,17 +1535,6 @@ Func ReadConfig_MOD_Humanization()
 	IniReadS($g_iHowManyinCWCombo, $g_sProfileConfigPath, "Bot Humanization", "HowManyinCWCombo", $g_iHowManyinCWCombo, "int")
 	IniReadS($g_iHowManyinCWLCombo, $g_sProfileConfigPath, "Bot Humanization", "HowManyinCWLCombo", $g_iHowManyinCWLCombo, "int")
 EndFunc   ;==>ReadConfig_MOD_Humanization
-
-Func ReadConfig_MOD_Forecast()
-	; <><><> Forecast <><><>
-	IniReadS($g_bForecastEnable, $g_sProfileConfigPath, "Forecast", "chkForecastEnable", $g_bForecastEnable, "Bool")
-	IniReadS($g_iCmbPriorityForecast, $g_sProfileConfigPath, "Forecast", "ForecastScoreMin", $g_iCmbPriorityForecast, "int")
-	IniReadS($g_iForecastPauseIntervalMin, $g_sProfileConfigPath, "Forecast", "ForecastPauseIntervalMin", $g_iForecastPauseIntervalMin, "Int")
-	IniReadS($g_iForecastPauseIntervalMax, $g_sProfileConfigPath, "Forecast", "ForecastPauseIntervalMax", $g_iForecastPauseIntervalMax, "Int")	
-	IniReadS($g_bForecastBoostEnable, $g_sProfileConfigPath, "Forecast", "chkForecastBoostEnable", $g_bForecastBoostEnable, "Bool")
-	IniReadS($g_iCmbPriorityForecastBoost, $g_sProfileConfigPath, "Forecast", "ForecastBoostScoreMin", $g_iCmbPriorityForecastBoost, "int")
-	IniReadS($g_iCmbForecastCheckFrequency, $g_sProfileConfigPath, "Forecast", "ForecastCheckFrequency", $g_iCmbForecastCheckFrequency, "int")
-EndFunc   ;==>ReadConfig_MOD_Forecast
 
 Func ReadConfig_MOD_Advanced()
 	; <><><> Advanced <><><>

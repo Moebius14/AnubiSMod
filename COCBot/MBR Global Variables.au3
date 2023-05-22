@@ -1031,8 +1031,8 @@ Global $g_bNotifyRemoteEnable = False, $g_sNotifyOrigin = "", $g_bNotifyDeleteAl
 Global $g_bNotifyAlertMatchFound = False, $g_bNotifyAlerLastRaidIMG = False, $g_bNotifyAlerLastRaidTXT = False, $g_bNotifyAlertCampFull = False, _
 		$g_bNotifyAlertUpgradeWalls = False, $g_bNotifyAlertOutOfSync = False, $g_bNotifyAlertTakeBreak = False, $g_bNotifyAlertBulderIdle = False, _
 		$g_bNotifyAlertVillageReport = False, $g_bNotifyAlertLastAttack = False, $g_bNotifyAlertAnotherDevice = False, $g_bNotifyAlertMaintenance = False, _
-		$g_bNotifyAlertBAN = False, $g_bNotifyAlertBOTUpdate = False, $g_bNotifyAlertSmartWaitTime = False, $g_bNotifyAlertLaboratoryIdle = False, $g_bNotifyAlertForecastReport = False, _
-		$g_bNotifyAlertForecastReport2 = False, $g_bChkNotifyCGScore = False, $g_bChkNotifyStarBonusAvail = False, $StarBonusStatus = "", $g_bChkNotifyPauseTime = False, _
+		$g_bNotifyAlertBAN = False, $g_bNotifyAlertBOTUpdate = False, $g_bNotifyAlertSmartWaitTime = False, $g_bNotifyAlertLaboratoryIdle = False, _
+		$g_bChkNotifyCGScore = False, $g_bChkNotifyStarBonusAvail = False, $StarBonusStatus = "", $g_bChkNotifyPauseTime = False, _
 		$g_bChkNotifyUpgradeBM = False, $g_bChkNotifyUpgrade = False
 ;Schedule
 Global $g_bNotifyScheduleHoursEnable = False, $g_bNotifyScheduleWeekDaysEnable = False
@@ -1895,6 +1895,7 @@ Global $g_bSortClanGames = True, $g_iSortClanGames = 0
 Global $g_abCGMainLootItem[6], $g_abCGMainBattleItem[22], $g_abCGMainDestructionItem[34], $g_abCGMainAirItem[13], _
 	   $g_abCGMainGroundItem[28], $g_abCGMainMiscItem[3], $g_abCGMainSpellItem[12], $g_abCGBBBattleItem[4], _
 	   $g_abCGBBDestructionItem[18], $g_abCGBBTroopsItem[11]
+Global $IsCGEventForGold = False, $IsCGEventForElixir = False, $IsCGEventForDE = False
 
 ; CSV Deploy Speed
 Global $cmbCSVSpeed[2] = [$LB, $DB]
@@ -2007,22 +2008,6 @@ Global $g_iHowManyinCWCombo = 0, $g_iHowManyinCWLCombo = 2, $g_HowManyPlayersInC
 Global $aResultBuildingDetect = 0, $aNumResultBuildingDetect = 0, $THVisitCoord = 0
 Global $g_bUseWelcomeMessage = False
 Global $g_aWelcomeMessage = "Welcome ! Please read the clan rules and enjoy !"
-
-;Forecast
-Global $g_sForecastPath = @ScriptDir & "\COCBot\Forecast"
-Global Const $g_sIcnForecaster = @ScriptDir & "\lib\ModLibs\Forecaster.png"
-Global $dtStamps[0], $ForecastTimeStamp = 0
-Global $lootMinutes[0]
-Global $timeOffset = 0
-Global $lootIndexScaleMarkers = 0
-Global $currentForecast = 0, $lblForecastSource = 0
-Global $g_bForecastEnable = False, $g_iCmbPriorityForecast = 2
-Global $g_iForecastPauseIntervalMin = 5, $g_iForecastPauseIntervalMax = 35
-Global $g_iCmbPauseForecastBelow = 0
-Global $g_bForecastBoostEnable = False, $g_iCmbPriorityForecastBoost = 4
-Global $g_iCmbForecastBoost = 0, $ForecastCheckTimer = 0, $ForecastCheckTimerDiff = 0, $ReadForecastRepeatDelay = 0, $g_iCmbForecastCheckFrequency = 3, _
-	   $g_bFirstStartForForecast = 0, $RecheckForecastAfterPause = 0
-Global $IsForecastDown = False
 
 ;Advanced
 Global $g_bFirstStartForLab = 0, $g_bNoLabCheck = 2

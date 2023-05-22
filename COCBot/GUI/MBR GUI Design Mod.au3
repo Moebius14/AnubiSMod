@@ -16,11 +16,10 @@
 
 Global $g_hGUI_MOD = 0
 #include "MBR GUI Design Child Mod - Humanization.au3"
-#include "MBR GUI Design Child Mod - Forecaster.au3"
 #include "MBR GUI Design Child Mod - Advanced.au3"
 #include "MBR GUI Design Child Mod - CGPlanner.au3"
 #include "MBR GUI Design Child Mod - Log.au3"
-Global $g_hGUI_MOD_TAB = 0, $g_hGUI_MOD_TAB_ITEM1 = 0, $g_hGUI_MOD_TAB_ITEM2 = 0, $g_hGUI_MOD_TAB_ITEM3 = 0, $g_hGUI_MOD_TAB_ITEM4 = 0, $g_hGUI_MOD_TAB_ITEM5 = 0
+Global $g_hGUI_MOD_TAB = 0, $g_hGUI_MOD_TAB_ITEM1 = 0, $g_hGUI_MOD_TAB_ITEM2 = 0, $g_hGUI_MOD_TAB_ITEM3 = 0, $g_hGUI_MOD_TAB_ITEM4 = 0
 
 Func CreateMODTab()
 
@@ -31,13 +30,11 @@ Func CreateMODTab()
 
 		$g_hGUI_MOD_TAB_ITEM1 = GUICtrlCreateTabItem(GetTranslatedFileIni("MBR Main GUI", "Tab_Mod_Tab_01", "Humanization"))
 			TabHumanizationGUI()
-		$g_hGUI_MOD_TAB_ITEM2 = GUICtrlCreateTabItem(GetTranslatedFileIni("MBR Main GUI", "Tab_Mod_Tab_02", "Forecaster"))
-			TabForecastGUI()
-		$g_hGUI_MOD_TAB_ITEM3 = GUICtrlCreateTabItem(GetTranslatedFileIni("MBR Main GUI", "Tab_Mod_Tab_03", "Advanced"))
+		$g_hGUI_MOD_TAB_ITEM2 = GUICtrlCreateTabItem(GetTranslatedFileIni("MBR Main GUI", "Tab_Mod_Tab_02", "Advanced"))
 			TabAdvancedGUI()
-		$g_hGUI_MOD_TAB_ITEM4 = GUICtrlCreateTabItem(GetTranslatedFileIni("MBR Main GUI", "Tab_Mod_Tab_04", "CG Planner"))
+		$g_hGUI_MOD_TAB_ITEM3 = GUICtrlCreateTabItem(GetTranslatedFileIni("MBR Main GUI", "Tab_Mod_Tab_03", "CG Planner"))
 			TabCGPlannerGUI()	
-		$g_hGUI_MOD_TAB_ITEM5 = GUICtrlCreateTabItem(GetTranslatedFileIni("MBR Main GUI", "Tab_Mod_Tab_05", "Mod Log"))
+		$g_hGUI_MOD_TAB_ITEM4 = GUICtrlCreateTabItem(GetTranslatedFileIni("MBR Main GUI", "Tab_Mod_Tab_04", "Mod Log"))
 			TabModLogGUI()
 			CreateChatWelcomeMessage()
 			CreateSecondaryVillages()

@@ -4853,7 +4853,7 @@ Func AddSpace($s, $Option = Default)
 	EndSwitch
 	Return $s
 EndFunc   ;==>AddSpace
-
+#cs
 Func CheckEmuNewVersions()
 
 	Local $Version = GetVersionNormalized($g_sAndroidVersion)
@@ -4863,12 +4863,14 @@ Func CheckEmuNewVersions()
 	Switch $g_sAndroidEmulator
 		Case "BlueStacks2"
 			$NewVersion = GetVersionNormalized("4.280.0.1022")
+		Case "BlueStacks5"
+			$NewVersion = GetVersionNormalized("5.10.220.1008")
 		Case "MEmu"
 			$NewVersion = GetVersionNormalized("7.6.6.0")
 		Case "Nox"
-			$NewVersion = GetVersionNormalized("7.0.1.6")
+			$NewVersion = GetVersionNormalized("7.0.5.7")
 		Case Else
-			; diabled of the others
+			; disabled of the others
 			$NewVersion = GetVersionNormalized("99.0.0.0")
 	EndSwitch
 
@@ -4877,3 +4879,4 @@ Func CheckEmuNewVersions()
 		SetLog($HelpLink, $COLOR_INFO)
 	EndIf
 EndFunc   ;==>CheckEmuNewVersions
+#ce

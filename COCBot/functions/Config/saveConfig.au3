@@ -257,8 +257,6 @@ Func SaveRegularConfig()
 	SaveConfig_600_33()
 	; <><><> Humanization <><><>
 	SaveConfig_MOD_Humanization()
-	; <><><> Forecast <><><>
-	SaveConfig_MOD_Forecast()
 	; <><><> Advanced <><><>
 	SaveConfig_MOD_Advanced()
 	; <><><><> Bot / Options <><><><>
@@ -801,8 +799,6 @@ Func SaveConfig_600_18()
 	_Ini_Add("notify", "AlertPBUpdate", $g_bNotifyAlertBOTUpdate ? 1 : 0)
 	_Ini_Add("notify", "AlertSmartWaitTime", $g_bNotifyAlertSmartWaitTime ? 1 : 0)
 	_Ini_Add("notify", "AlertLaboratoryIdle", $g_bNotifyAlertLaboratoryIdle ? 1 : 0)
-	_Ini_Add("notify", "AlertPBForecast", $g_bNotifyAlertForecastReport ? 1 : 0)
-	_Ini_Add("notify", "AlertPBForecast2", $g_bNotifyAlertForecastReport2 ? 1 : 0)
 	_Ini_Add("notify", "AlertCGScore", $g_bChkNotifyCGScore ? 1 : 0)
 	_Ini_Add("notify", "StarBonusStatus", $g_bChkNotifyStarBonusAvail ? 1 : 0)
 	_Ini_Add("notify", "PauseTimeNotif", $g_bChkNotifyPauseTime ? 1 : 0)
@@ -1446,18 +1442,6 @@ Func SaveConfig_MOD_Humanization()
 	_Ini_Add("Bot Humanization", "HowManyinCWCombo", _GUICtrlComboBox_GetCurSel($g_HowManyinCWCombo))
 	_Ini_Add("Bot Humanization", "HowManyinCWLCombo", _GUICtrlComboBox_GetCurSel($g_HowManyinCWLCombo))
 EndFunc   ;==>SaveConfig_MOD_Humanization
-
-Func SaveConfig_MOD_Forecast()
-	; <><><> Forecast <><><>
-	ApplyConfig_MOD_Forecast(GetApplyConfigSaveAction())
-	_Ini_Add("Forecast", "chkForecastEnable", $g_bForecastEnable ? 1 : 0)
-	_Ini_Add("Forecast", "ForecastScoreMin", _GUICtrlComboBox_GetCurSel($g_hCmbPriorityForecast))
-	_Ini_Add("Forecast", "ForecastPauseIntervalMin", $g_iForecastPauseIntervalMin)
-	_Ini_Add("Forecast", "ForecastPauseIntervalMax", $g_iForecastPauseIntervalMax)
-	_Ini_Add("Forecast", "chkForecastBoostEnable", $g_bForecastBoostEnable ? 1 : 0)
-	_Ini_Add("Forecast", "ForecastBoostScoreMin", _GUICtrlComboBox_GetCurSel($g_hCmbPriorityForecastBoost))
-	_Ini_Add("Forecast", "ForecastCheckFrequency", _GUICtrlComboBox_GetCurSel($g_hCmbForecastCheckFrequency))
-EndFunc   ;==>SaveConfig_MOD_Forecast
 
 Func SaveConfig_MOD_Advanced()
 	; <><><> Advanced <><><>

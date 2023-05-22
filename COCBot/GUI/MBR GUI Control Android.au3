@@ -208,6 +208,55 @@ Func getAllEmulators()
 		Setlog("No Emulator found in your machine")
 		Return
 	EndIf
+	
+	If $sEmulatorString <> "" Then
+		Local $IsTocontact = 0
+		Local $HelpLink = "Contact Your Favorite Developer!"
+		For $i = 0 To UBound($aEmulator) - 1
+			Local $emuVer = ""
+			If StringInStr($aEmulator[$i], "BlueStacks5") Then $emuVer = GetVersionNormalized($__BlueStacks5_Version)
+		;	If StringInStr($aEmulator[$i], "Memu") Then $emuVer = GetVersionNormalized($__MEmu_Version)
+			If StringInStr($aEmulator[$i], "nox") Then $emuVer = GetVersionNormalized($__Nox_Version)
+			
+			Local $VersionMin = "", $VersionMax = "", $DisplayVersionMin = "", $DisplayVersionMax = ""
+
+			Switch $aEmulator[$i]
+				Case "BlueStacks5"
+					$DisplayVersionMin = "5.10.220.1008"
+					$VersionMin = GetVersionNormalized($DisplayVersionMin)
+					$DisplayVersionMax = "5.11.100.1063"
+					$VersionMax = GetVersionNormalized($DisplayVersionMax)
+			;	Case "MEmu"
+			;		$DisplayVersionMin = "7.6.6.0"
+			;		$VersionMin = GetVersionNormalized($DisplayVersionMin)
+			;		$DisplayVersionMax = "7.6.6.0"
+			;		$VersionMax = GetVersionNormalized($DisplayVersionMax)
+				Case "Nox"
+					$DisplayVersionMin = "7.0.5.7"
+					$VersionMin = GetVersionNormalized($DisplayVersionMin)
+					$DisplayVersionMax = "7.0.5.7"
+					$VersionMax = GetVersionNormalized($DisplayVersionMax)
+			EndSwitch
+
+			If $emuVer <> "" And ($emuVer < $VersionMin Or $emuVer > $VersionMax) Then
+				Select
+					Case $emuVer < $VersionMin
+						SetLog("You are using an unsupported " & $aEmulator[$i] & " version !", $COLOR_ERROR)
+						SetLog("Minimum Required Version : " & $DisplayVersionMin, $COLOR_SUCCESS)
+					Case $emuVer > $VersionMax
+						Setlog("This " & $aEmulator[$i] & " version has never been tested on this Mod", $COLOR_WARNING)
+						SetLog("Max Tested Version : " & $DisplayVersionMax, $COLOR_SUCCESS)
+				EndSelect
+			EndIf
+
+			If $emuVer = "" Then
+				SetLog("You are using an unsupported Emulator : " & $aEmulator[$i], $COLOR_ERROR)
+				$IsTocontact +=1
+				ContinueLoop
+			EndIf
+		Next
+		If $IsTocontact > 0 Then SetLog($HelpLink, $COLOR_INFO)
+	EndIf
 
 	GUICtrlSetData($g_hCmbAndroidEmulator, $sEmulatorString)
 
@@ -216,6 +265,7 @@ Func getAllEmulators()
 
 	; Lets get all Instances
 	getAllEmulatorsInstances()
+
 EndFunc   ;==>getAllEmulators
 
 Func getAllEmulatorsInstances()

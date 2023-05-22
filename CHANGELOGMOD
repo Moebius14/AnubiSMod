@@ -1,3 +1,9 @@
+* v23.05.22 **
+* Remove Forecaster (RIP)
+* Updated Emulators Supported Versions.
+* Fixed Wall Rings Using When Not Enough Resources.
+* Added Not Reduce Aim Loot Search When Full Storages And Running Loot Challenge.
+
 * v23.05.20 **
 * Added Reduce Reserved Builders for Heroes if TH Upgrade needed.
 * Added Notify Bot Stop For Any Cases (When Selected).

@@ -846,14 +846,10 @@ EndFunc   ;==>CheckTroopTimeAllAccount
 
 Func DisableGUI_AfterLoadNewProfile()
 	$g_bGUIControlDisabled = True
-	For $i = $g_hFirstControlToHide To $g_hLastControlToHidemod
+	For $i = $g_hFirstControlToHide To $g_hLastControlToHide
 		If IsAlwaysEnabledControl($i) Then ContinueLoop
 		If $i >= $g_hClanGamesTV And $i < $g_hChkForceBBAttackOnClanGames Then ContinueLoop
 		If $i >= $g_hChkForceBBAttackOnClanGames And $i <= $g_hBtnCGSettingsClose Then ContinueLoop
-		If BitAND(GUICtrlGetState($i), $GUI_ENABLE) Then GUICtrlSetState($i, $GUI_DISABLE)
-	Next
-	For $i = $g_hFirstControlToHidemod To $g_hLastControlToHide
-		If IsAlwaysEnabledControl($i) Then ContinueLoop
 		If BitAND(GUICtrlGetState($i), $GUI_ENABLE) Then GUICtrlSetState($i, $GUI_DISABLE)
 	Next
 	ControlEnable("", "", $g_hCmbGUILanguage)
@@ -956,8 +952,7 @@ Func CheckLoginWithSupercellIDScreen()
 	If Not $g_bRunState Then Return
 
 	; "Log in with Supercell ID" check be there, validate with imgloc
-	;Local $aiLogin = decodeSingleCoord(FindImageInPlace2("LoginWithSupercellID", $g_sImgLoginWithSupercellID, 100, 595 + $g_iBottomOffsetY, 425, 655 + $g_iBottomOffsetY, False))
-	Local $aiLogin = decodeSingleCoord(findImage("LoginWithSupercellID", $g_sImgLoginWithSupercellID, GetDiamondFromRect("100,655,425,715"), 1, True, Default)); just in case of more than 1 point detected
+	Local $aiLogin = decodeSingleCoord(FindImageInPlace2("LoginWithSupercellID", $g_sImgLoginWithSupercellID, 100, 595 + $g_iBottomOffsetY, 425, 655 + $g_iBottomOffsetY, False))
 
 	If IsArray($aiLogin) And Ubound($aiLogin) = 2 Then
 		Local $iAccount = 0 ; default first account on list
@@ -993,7 +988,6 @@ Func CheckLoginWithSupercellIDScreen()
 		EndIf
 
 		If $g_bChkSuperCellID Then
-			Local $aSearchForAccount, $aCoordinates[0][2], $aTempArray
 			Click($aiLogin[0], $aiLogin[1], 1, 0, "Click Log in with SC_ID")
 			If _Sleep(2000) Then Return
 			$bResult = True
@@ -1014,7 +1008,7 @@ Func CheckLoginWithSupercellIDScreen()
 		EndIf
 	EndIf
 	Return False
-EndFunc   ;==>CheckLoginWithSupercellID
+EndFunc   ;==>CheckLoginWithSupercellIDScreen
 
 Func SwitchAccountCheckProfileInUse($sNewProfile)
 	; now check if profile is used in another group

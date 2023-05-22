@@ -128,7 +128,6 @@ Func BotStart($bAutostartDelay = 0)
 	$IsSpellDonated = False
 	$IsSiegeDonated = False
 	$IsopenMagicWindow = False
-	$ForecastCheckTimer = 0
 	For $z = 0 to 1
 		$g_abNotNeedAllTime[$z] = True
 	Next

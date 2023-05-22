@@ -62,18 +62,21 @@ Func _VillageSearch() ;Control for searching a village that meets conditions
 	For $i = 0 To $g_iModeCount - 1
 		If $g_abFullStorage[$eLootGold] And $g_bSearchReductionStorageEnable And $g_aiFilterMeetGE[$i] = 0 Then
 			$g_aiFilterMinGoldMod[$i] = $g_iSearchReductionGoldMod
+			If $IsCGEventForGold Then $g_aiFilterMinGoldMod[$i] = $g_aiFilterMinGold[$i]
 			If ($i = 0 And $g_abAttackTypeEnable[$DB]) Or ($i = 1 And $g_abAttackTypeEnable[$LB]) Then $g_aiFilterGAndE += 1
 		Else
 			$g_aiFilterMinGoldMod[$i] = $g_aiFilterMinGold[$i]
 		EndIf
 		If $g_abFullStorage[$eLootElixir] And $g_bSearchReductionStorageEnable And $g_aiFilterMeetGE[$i] = 0 Then
 			$g_aiFilterMinElixirMod[$i] = $g_iSearchReductionElixirMod
+			If $IsCGEventForElixir Then $g_aiFilterMinElixirMod[$i] = $g_aiFilterMinElixir[$i]
 			If ($i = 0 And $g_abAttackTypeEnable[$DB]) Or ($i = 1 And $g_abAttackTypeEnable[$LB]) Then $g_aiFilterGAndE += 1
 		Else
 			$g_aiFilterMinElixirMod[$i] = $g_aiFilterMinElixir[$i]
 		EndIf
 		If $g_abFullStorage[$eLootDarkElixir] And $g_bSearchReductionStorageEnable Then
 			$g_aiFilterMeetDEMinMod[$i] = $g_iSearchReductionDarkMod
+			If $IsCGEventForDE Then $g_aiFilterMeetDEMinMod[$i] = $g_aiFilterMeetDEMin[$i]
 			If ($i = 0 And $g_abAttackTypeEnable[$DB] And $g_abFilterMeetDEEnable[0]) Or ($i = 1 And $g_abAttackTypeEnable[$LB] And $g_abFilterMeetDEEnable[1]) Then $DEFilterIsenabled += 1
 		Else
 			$g_aiFilterMeetDEMinMod[$i] = $g_aiFilterMeetDEMin[$i]
@@ -81,9 +84,27 @@ Func _VillageSearch() ;Control for searching a village that meets conditions
 	Next
 	
 	If $g_bSearchReductionStorageEnable Then
-		If $g_abFullStorage[$eLootGold] And $g_aiFilterGAndE > 0 Then SetLog("Gold Storages are full, Aim Reduced", $COLOR_INFO)
-		If $g_abFullStorage[$eLootElixir] And $g_aiFilterGAndE > 0 Then SetLog("Elixir Storages are full, Aim Reduced", $COLOR_INFO)
-		If $g_abFullStorage[$eLootDarkElixir] And $DEFilterIsenabled > 0 Then SetLog("Dark Elixir Storage is full, Aim Reduced", $COLOR_INFO)
+		If $g_abFullStorage[$eLootGold] And $g_aiFilterGAndE > 0 Then
+			If $IsCGEventForGold Then
+				SetLog("Gold Storages full, Aim Won't be Reduced, Gold Event Running", $COLOR_INFO)
+			Else
+				SetLog("Gold Storages are full, Aim Reduced", $COLOR_INFO)
+			EndIf
+		EndIf
+		If $g_abFullStorage[$eLootElixir] And $g_aiFilterGAndE > 0 Then
+			If $IsCGEventForElixir Then
+				SetLog("Elixir Storages full, Aim Won't be Reduced, Elixir Event Running", $COLOR_INFO)
+			Else
+				SetLog("Elixir Storages are full, Aim Reduced", $COLOR_INFO)
+			EndIf
+		EndIf
+		If $g_abFullStorage[$eLootDarkElixir] And $DEFilterIsenabled > 0 Then
+			If $IsCGEventForDE Then
+				SetLog("Dark Storage full, Aim Won't be Reduced, Dark Event Running", $COLOR_INFO)
+			Else
+				SetLog("Dark Elixir Storage is full, Aim Reduced", $COLOR_INFO)
+			EndIf
+		EndIf
 	EndIf
 
 	If $g_bIsClientSyncError = False Then

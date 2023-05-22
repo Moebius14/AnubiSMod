@@ -183,7 +183,7 @@ Func QueenUpgrade()
 			If _ColorCheck(_GetPixelColor(721, 118 + $g_iMidOffsetY, True), Hex(0xE00408, 6), 20) Then ; Check if the Hero Upgrade window is open
 				If _ColorCheck(_GetPixelColor(400, 530 + $g_iMidOffsetY, True), Hex(0xE1433F, 6), 20) Then
 					SetLog("TH upgrade needed - Skipped!", $COLOR_ERROR)
-					$g_bUpgradeQueenEnable = False
+					$g_bUpgradeQueenEnable = False ; turn Off the Queens upgrade
 					GUICtrlSetState($g_hChkUpgradeQueen, $GUI_UNCHECKED)
 					chkUpgradeQueen()
 					ReducecmbHeroReservedBuilder()
@@ -209,7 +209,7 @@ Func QueenUpgrade()
 		
 			If _ColorCheck(_GetPixelColor(400, 530 + $g_iMidOffsetY, True), Hex(0xE1433F, 6), 20) Then
 				SetLog("Queen upgrade not available, need TH upgrade - Skipped!", $COLOR_ERROR)
-				$g_bUpgradeQueenEnable = False
+				$g_bUpgradeQueenEnable = False ; turn Off the Queens upgrade
 				GUICtrlSetState($g_hChkUpgradeQueen, $GUI_UNCHECKED)
 				chkUpgradeQueen()
 				ReducecmbHeroReservedBuilder()
@@ -350,7 +350,7 @@ Func KingUpgrade()
 			If _ColorCheck(_GetPixelColor(721, 118 + $g_iMidOffsetY, True), Hex(0xE00408, 6), 20) Then ; Check if the Hero Upgrade window is open
 				If _ColorCheck(_GetPixelColor(400, 530 + $g_iMidOffsetY, True), Hex(0xE1433F, 6), 20) Then
 					SetLog("TH upgrade needed - Skipped!", $COLOR_ERROR)
-					$g_bUpgradeKingEnable = False
+					$g_bUpgradeKingEnable = False ; Turn Off the King's Upgrade
 					GUICtrlSetState($g_hChkUpgradeKing, $GUI_UNCHECKED)
 					chkUpgradeKing()
 					ReducecmbHeroReservedBuilder()
@@ -377,7 +377,7 @@ Func KingUpgrade()
 		
 			If _ColorCheck(_GetPixelColor(400, 530 + $g_iMidOffsetY, True), Hex(0xE1433F, 6), 20) Then
 				SetLog("King upgrade not available, need TH upgrade - Skipped!", $COLOR_ERROR)
-				$g_bUpgradeKingEnable = False
+				$g_bUpgradeKingEnable = False ; Turn Off the King's Upgrade
 				GUICtrlSetState($g_hChkUpgradeKing, $GUI_UNCHECKED)
 				chkUpgradeKing()
 				ReducecmbHeroReservedBuilder()
@@ -526,7 +526,7 @@ Func WardenUpgrade()
 			If _ColorCheck(_GetPixelColor(721, 118 + $g_iMidOffsetY, True), Hex(0xE00408, 6), 20) Then ; Check if the Hero Upgrade window is open
 				If _ColorCheck(_GetPixelColor(400, 530 + $g_iMidOffsetY, True), Hex(0xE1433F, 6), 20) Then
 					SetLog("TH upgrade needed - Skipped!", $COLOR_ERROR)
-					$g_bUpgradeWardenEnable = False
+					$g_bUpgradeWardenEnable = False ; turn OFF the Wardn's Upgrade
 					GUICtrlSetState($g_hChkUpgradeWarden, $GUI_UNCHECKED)
 					chkUpgradeWarden()
 					ReducecmbHeroReservedBuilder()
@@ -556,7 +556,7 @@ Func WardenUpgrade()
 
 			If _ColorCheck(_GetPixelColor(400, 530 + $g_iMidOffsetY, True), Hex(0xE1433F, 6), 20) Then
 				SetLog("Warden upgrade not available, need TH upgrade - Skipped!", $COLOR_ERROR)
-				$g_bUpgradeWardenEnable = False
+				$g_bUpgradeWardenEnable = False ; turn OFF the Wardn's Upgrade
 				GUICtrlSetState($g_hChkUpgradeWarden, $GUI_UNCHECKED)
 				chkUpgradeWarden()
 				ReducecmbHeroReservedBuilder()
@@ -700,7 +700,7 @@ Func ChampionUpgrade()
 			If _ColorCheck(_GetPixelColor(721, 118 + $g_iMidOffsetY, True), Hex(0xE00408, 6), 20) Then ; Check if the Hero Upgrade window is open
 				If _ColorCheck(_GetPixelColor(400, 530 + $g_iMidOffsetY, True), Hex(0xE1433F, 6), 20) Then
 					SetLog("TH upgrade needed - Skipped!", $COLOR_ERROR)
-					$g_bUpgradeChampionEnable = False
+					$g_bUpgradeChampionEnable = False ; turn Off the Champions upgrade
 					GUICtrlSetState($g_hChkUpgradeChampion, $GUI_UNCHECKED)
 					chkUpgradeChampion()
 					ReducecmbHeroReservedBuilder()
@@ -726,7 +726,7 @@ Func ChampionUpgrade()
 
 			If _ColorCheck(_GetPixelColor(400, 530 + $g_iMidOffsetY, True), Hex(0xE1433F, 6), 20) Then
 				SetLog("Champion upgrade not available, need TH upgrade - Skipped!", $COLOR_ERROR)
-				$g_bUpgradeChampionEnable = False
+				$g_bUpgradeChampionEnable = False ; turn Off the Champions upgrade
 				GUICtrlSetState($g_hChkUpgradeChampion, $GUI_UNCHECKED)
 				chkUpgradeChampion()
 				ReducecmbHeroReservedBuilder()

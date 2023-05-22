@@ -20,6 +20,9 @@ Func _ClanGames($test = False, $HaltMode = False)
 	$b_COCClose = True ;just to be sure, reset to true
 	$IsCGEventRunning = 0 ;just to be sure, reset to false
 	$g_bIsBBevent = 0 ;just to be sure, reset to false
+	$IsCGEventForGold = False
+	$IsCGEventForElixir = False
+	$IsCGEventForDE = False
 
 	Local $currentDate = Number(@MDAY)
 	
@@ -160,10 +163,6 @@ Func _ClanGames($test = False, $HaltMode = False)
 					If $g_bNotifyStopBot Then
 						Local $text ="Village : " & $g_sNotifyOrigin & "%0A"
 						$text &="Profile : " & $g_sProfileCurrentName & "%0A"
-						If $g_bNotifyAlertForecastReport Then
-							If $IsForecastDown Then $currentForecast = "N/A"
-							$text &="Forecast : " & $currentForecast & "%0A"
-						EndIf
 						Local $currentDate = Number(@MDAY)
 						If $g_bChkClanGamesEnabled And $g_bChkNotifyCGScore And $currentDate >= 21 And $currentDate < 29 Then
 						$text &="CG Score : " & $g_sClanGamesScore & "%0A"
@@ -1094,6 +1093,14 @@ Func IsEventRunning($bOpenWindow = False)
 							; Match the names
 							If $ActiveChallengeFullName[1] = $LootChallenges[$j][0] Then
 								$CurrentActiveChallenge = $LootChallenges[$j][1]
+								Switch $j
+									Case 0, 3
+										$IsCGEventForGold = True
+									Case 1, 4
+										$IsCGEventForElixir = True
+									Case 2, 5
+										$IsCGEventForDE = True
+								EndSwitch
 							EndIf
 						Next
 					Case "A"
@@ -1355,6 +1362,20 @@ Func StartsEvent($sEventName, $getCapture = True, $g_bChkClanGamesDebug = False)
 		Else
 			Setlog("Running Challenge is MainVillage Challenge : " & $sEventName, $COLOR_ACTION)
 			$g_bIsBBevent = 0
+			Local $LootChallenges = ClanGamesChallenges("$LootChallenges")
+			For $j = 0 To UBound($LootChallenges) - 1
+				; Match the names
+				If $sEventName = $LootChallenges[$j][1] Then
+					Switch $j
+						Case 0, 3
+							$IsCGEventForGold = True
+						Case 1, 4
+							$IsCGEventForElixir = True
+						Case 2, 5
+							$IsCGEventForDE = True
+					EndSwitch
+				EndIf
+			Next
 		EndIf
 		$IsCGEventRunning = 1
 		ClearTempCGFiles()

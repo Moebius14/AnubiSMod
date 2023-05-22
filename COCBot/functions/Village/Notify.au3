@@ -27,11 +27,6 @@ Func NotifyReport()
 		Local $text ="Report :" & "%0A"
 		$text &="Village : " & $g_sNotifyOrigin & "%0A"
 		$text &="Profile : " & $g_sProfileCurrentName & "%0A"
-		;Forecast option
-		If $g_bNotifyAlertForecastReport Then
-			If $IsForecastDown Then $currentForecast = "N/A"
-			$text &="Forecast : " & $currentForecast & "%0A"
-		EndIf
 		Local $currentDate = Number(@MDAY)
 		If $g_bChkClanGamesEnabled And $g_bChkNotifyCGScore And $currentDate >= 21 And $g_bClanGamesCompleted Then
 			$text &="Clan Games Completed" & "%0A"
@@ -88,23 +83,6 @@ Func NotifyReport()
 EndFunc   ;==>NotifyReport
 
 Func ChkVillageReport()
-	If GUICtrlRead($g_hChkNotifyAlertVillageStats) = $GUI_CHECKED And $g_bNotifyTGEnable = True Then
-		$g_bNotifyAlertVillageReport = True
-		For $i = $g_hChkNotifyAlertForecast To $g_hChkNotifyAlertForecast
-			GUICtrlSetState($i, $GUI_ENABLE)
-		Next
-	ElseIf GUICtrlRead($g_hChkNotifyAlertVillageStats) = $GUI_UNCHECKED And $g_bNotifyTGEnable = True Then
-		$g_bNotifyAlertVillageReport = False
-		For $i = $g_hChkNotifyAlertForecast To $g_hChkNotifyAlertForecast
-			GUICtrlSetState($i, $GUI_DISABLE)
-		Next
-	ElseIf GUICtrlRead($g_hChkNotifyAlertVillageStats) = $GUI_UNCHECKED And $g_bNotifyTGEnable = False Then
-		$g_bNotifyAlertVillageReport = False
-		For $i = $g_hChkNotifyAlertForecast To $g_hChkNotifyAlertForecast
-			GUICtrlSetState($i, $GUI_DISABLE)
-		Next
-	EndIf
-
 If GUICtrlRead($g_hChkNotifyAlertVillageStats) = $GUI_CHECKED And GUICtrlRead($g_hChkClanGamesEnabled) = $GUI_CHECKED Then
 	GUICtrlSetState($g_hChkNotifyCGScore, $GUI_ENABLE)
 ElseIf GUICtrlRead($g_hChkNotifyAlertVillageStats) = $GUI_UNCHECKED And GUICtrlRead($g_hChkClanGamesEnabled) = $GUI_CHECKED Then
@@ -117,25 +95,6 @@ If GUICtrlRead($g_hChkNotifyAlertVillageStats) = $GUI_CHECKED Then
 	GUICtrlSetState($g_hChkNotifyStarBonusAvail, $GUI_ENABLE)
 Else
 	GUICtrlSetState($g_hChkNotifyStarBonusAvail, $GUI_DISABLE)
-EndIf
-EndFunc
-
-Func ChkVillageReport2()
-If GUICtrlRead($g_hChkNotifyAlertLastRaidTXT) = $GUI_CHECKED And $g_bNotifyTGEnable = True Then
-		$g_bNotifyAlerLastRaidTXT = True
-		For $i = $g_hChkNotifyAlertForecast2 To $g_hChkNotifyAlertForecast2
-			GUICtrlSetState($i, $GUI_ENABLE)
-		Next
-ElseIf GUICtrlRead($g_hChkNotifyAlertLastRaidTXT) = $GUI_UNCHECKED And $g_bNotifyTGEnable = True Then
-		$g_bNotifyAlerLastRaidTXT = False
-		For $i = $g_hChkNotifyAlertForecast2 To $g_hChkNotifyAlertForecast2
-			GUICtrlSetState($i, $GUI_DISABLE)
-		Next
-ElseIf GUICtrlRead($g_hChkNotifyAlertLastRaidTXT) = $GUI_UNCHECKED And $g_bNotifyTGEnable = False Then
-		$g_bNotifyAlerLastRaidTXT = False
-		For $i = $g_hChkNotifyAlertForecast2 To $g_hChkNotifyAlertForecast2
-			GUICtrlSetState($i, $GUI_DISABLE)
-		Next
 EndIf
 EndFunc
 
@@ -645,32 +604,18 @@ Func NotifyPushMessageToBoth($Message, $Source = "")
 				$g_iStatsLastAttack[$eLootGold] = Round($g_iStatsLastAttack[$eLootGold], -1)
 				$g_iStatsLastAttack[$eLootElixir] = Round($g_iStatsLastAttack[$eLootElixir], -1)
 				$g_iStatsLastAttack[$eLootDarkElixir] = Round($g_iStatsLastAttack[$eLootDarkElixir], 1)
-
-				If $g_bNotifyAlertForecastReport2 Then 
-					If $IsForecastDown Then $currentForecast = "N/A"
-					NotifyPushToTelegram("Last Raid :" & _
-						"%0A" & "Village : " & $g_sNotifyOrigin & _
-						"%0A" & "Profile : " & $g_sProfileCurrentName & _
-						"%0A" & "Forecast : " & $currentForecast & _
-						"%0A" & "[" & GetTranslatedFileIni("MBR Func_Notify", "Stats-G_Info_01", "G") & "]: " & _NumberFormat($g_iStatsLastAttack[$eLootGold]) & _
-						"k  [" & GetTranslatedFileIni("MBR Func_Notify", "Stats-E_Info_01", "E") & "]: " & _NumberFormat($g_iStatsLastAttack[$eLootElixir]) & _
-						"k  [" & GetTranslatedFileIni("MBR Func_Notify", "Stats-DE_Info_01", "DE") & "]: " & _NumberFormat($g_iStatsLastAttack[$eLootDarkElixir]) & _
-						"k %0A[" & GetTranslatedFileIni("MBR Func_Notify", "Stats-T_Info_01", "T") & "]: " & $g_iStatsLastAttack[$eLootTrophy] & _
-						"  [" & GetTranslatedFileIni("MBR Func_Notify", "Stats-T_Info_01", "%") & "]: " & $g_sTotalDamage & _
-						"  [" & GetTranslatedFileIni("MBR Func_Notify", "Stats-T_Info_01", "*") & "]: " & $g_sStarsEarned & _
-						"  [Tr#]: " & $g_aiCurrentLoot[$eLootTrophy])
-				Else
-					NotifyPushToTelegram("Last Raid :" & _
-						"%0A" & "Village : " & $g_sNotifyOrigin & _
-						"%0A" & "Profile : " & $g_sProfileCurrentName & _
-						"%0A" & "[" & GetTranslatedFileIni("MBR Func_Notify", "Stats-G_Info_01", "G") & "]: " & _NumberFormat($g_iStatsLastAttack[$eLootGold]) & _
-						"k  [" & GetTranslatedFileIni("MBR Func_Notify", "Stats-E_Info_01", "E") & "]: " & _NumberFormat($g_iStatsLastAttack[$eLootElixir]) & _
-						"k  [" & GetTranslatedFileIni("MBR Func_Notify", "Stats-DE_Info_01", "DE") & "]: " & _NumberFormat($g_iStatsLastAttack[$eLootDarkElixir]) & _
-						"k %0A[" & GetTranslatedFileIni("MBR Func_Notify", "Stats-T_Info_01", "T") & "]: " & $g_iStatsLastAttack[$eLootTrophy] & _
-						"  [" & GetTranslatedFileIni("MBR Func_Notify", "Stats-T_Info_01", "%") & "]: " & $g_sTotalDamage & _
-						"  [" & GetTranslatedFileIni("MBR Func_Notify", "Stats-T_Info_01", "*") & "]: " & $g_sStarsEarned & _
-						"  [Tr#]: " & $g_aiCurrentLoot[$eLootTrophy])
-				EndIf
+				
+				NotifyPushToTelegram("Last Raid :" & _
+					"%0A" & "Village : " & $g_sNotifyOrigin & _
+					"%0A" & "Profile : " & $g_sProfileCurrentName & _
+					"%0A" & "[" & GetTranslatedFileIni("MBR Func_Notify", "Stats-G_Info_01", "G") & "]: " & _NumberFormat($g_iStatsLastAttack[$eLootGold]) & _
+					"k  [" & GetTranslatedFileIni("MBR Func_Notify", "Stats-E_Info_01", "E") & "]: " & _NumberFormat($g_iStatsLastAttack[$eLootElixir]) & _
+					"k  [" & GetTranslatedFileIni("MBR Func_Notify", "Stats-DE_Info_01", "DE") & "]: " & _NumberFormat($g_iStatsLastAttack[$eLootDarkElixir]) & _
+					"k %0A[" & GetTranslatedFileIni("MBR Func_Notify", "Stats-T_Info_01", "T") & "]: " & $g_iStatsLastAttack[$eLootTrophy] & _
+					"  [" & GetTranslatedFileIni("MBR Func_Notify", "Stats-T_Info_01", "%") & "]: " & $g_sTotalDamage & _
+					"  [" & GetTranslatedFileIni("MBR Func_Notify", "Stats-T_Info_01", "*") & "]: " & $g_sStarsEarned & _
+					"  [Tr#]: " & $g_aiCurrentLoot[$eLootTrophy])
+				
 				If _Sleep($DELAYPUSHMSG1) Then Return
 				SetLog("Notify Telegram: Last Raid Text has been sent!", $COLOR_SUCCESS)
 			EndIf
@@ -913,10 +858,6 @@ EndFunc
 Func NotifyWhenStop($Type = "Stop")
 Local $text ="Village : " & $g_sNotifyOrigin & "%0A"
 $text &="Profile : " & $g_sProfileCurrentName & "%0A"
-If $g_bNotifyAlertForecastReport Then
-	If $IsForecastDown Then $currentForecast = "N/A"
-	$text &="Forecast : " & $currentForecast & "%0A"
-EndIf
 Local $currentDate = Number(@MDAY)
 If $g_bChkClanGamesEnabled And $g_bChkNotifyCGScore And $currentDate >= 21 And $currentDate < 29 Then
 	$text &="CG Score : " & $g_sClanGamesScore & "%0A"

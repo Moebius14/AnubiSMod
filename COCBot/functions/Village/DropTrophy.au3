@@ -517,7 +517,6 @@ Func DropTrophy()
 				$IsdroptrophiesActive = 0
 				$IsDropTrophyBreaked = 0
 				IsSearchAttackEnabled()
-				IsForecastChecked()	
 				TrainSystem()				
 			EndIf
 		WEnd

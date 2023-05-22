@@ -178,12 +178,6 @@ Func AttackReport()
 	$g_iStatsBonusLast[$eLootGold]=$g_iStatsBonusLast[$eLootGold]/1000
 	
 	$AtkLogTxt = "| " & String($g_iCurAccount + 1) & "|" & _NowTime(4) & "|"
-	;Forecast option
-	If $currentForecast > 0 Then
-		$AtkLogTxt &= " " & StringFormat("%.1f", $currentForecast) & "|"
-	Else
-		$AtkLogTxt &= " N/A|"
-	EndIf
 	$AtkLogTxt &= StringFormat("%6d", $g_aiCurrentLoot[$eLootTrophy]) & "|"
 	$AtkLogTxt &= StringFormat("%3d", $g_iSearchCount) & "|"
 	$AtkLogTxt &= StringFormat("%2d", $g_iSidesAttack) & "|"
