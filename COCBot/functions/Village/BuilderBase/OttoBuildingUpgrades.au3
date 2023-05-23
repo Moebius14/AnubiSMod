@@ -468,6 +468,9 @@ EndFunc   ;==>MegaTeslaUpgrade
 
 Func OttoBuildingUpgrades($bTest = False, $bFinishNow = False)
 
+	SetLog("OTTO Building Upgrade is disabled!", $COLOR_WARNING)
+	Return
+
 	If Not $g_bBattleMachineUpgrade And Not $g_bDoubleCannonUpgrade And Not $g_bArcherTowerUpgrade And Not $g_bMultiMortarUpgrade And Not $g_bMegaTeslaUpgrade Then Return False
 
 	; Master Builder is not available return

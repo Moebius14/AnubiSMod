@@ -112,7 +112,7 @@ Func _ClanGames($test = False, $HaltMode = False)
 	If IsClanGamesWindow() Then
 		; Let's selected only the necessary images 
 		Local $sImagePath = @ScriptDir & "\imgxml\Resources\ClanGamesImages\Challenges"
-		Local $sTempChallengePath = $g_sProfilePath & "\" & $g_sProfileCurrentName & "\Temp\Challenges\"
+		Local $sTempChallengePath = @TempDir & "\" & $g_sProfileCurrentName & "\Challenges\"
 
 		;Remove All previous file (in case setting changed)
 		ClearTempCGFiles()
@@ -619,6 +619,7 @@ Func _ClanGames($test = False, $HaltMode = False)
 						If _Sleep(2000) Then Return
 						$EventLoopOut = True
 						$IsLooped += 1
+						$sEventName = ""
 						ContinueLoop 2
 					EndIf
 					$CurrentActiveChallenge = $aTempSelectChallenges[$i][0]
@@ -650,7 +651,7 @@ Func _ClanGames($test = False, $HaltMode = False)
 EndFunc ;==>_ClanGames
 
 Func ClearTempCGFiles()
-	Local $sTempChallengePath = $g_sProfilePath & "\" & $g_sProfileCurrentName & "\Temp\Challenges\"
+	Local $sTempChallengePath = @TempDir & "\" & $g_sProfileCurrentName & "\Challenges\"
 	If FileExists($sTempChallengePath) Then
 		;Remove All files From Clan Games
 		DirRemove($sTempChallengePath, $DIR_REMOVE)
@@ -771,7 +772,7 @@ EndFunc ;==>ClanGameImageCopy
 Func FindEvent()
 	Local $hStarttime = _Timer_Init()
 	Local $sImagePath = @ScriptDir & "\imgxml\Resources\ClanGamesImages\Challenges"
-	Local $sTempChallengePath = $g_sProfilePath & "\" & $g_sProfileCurrentName & "\Temp\Challenges\"
+	Local $sTempChallengePath = @TempDir & "\" & $g_sProfileCurrentName & "\Challenges\"
 	Local $aEvent, $aReturn[0][6]
 	Local $aX[4] = [290, 415, 542, 668]
 	Local $aY[3] = [119 + $g_iMidOffsetY, 278 + $g_iMidOffsetY, 438 + $g_iMidOffsetY]
@@ -1050,7 +1051,7 @@ EndFunc   ;==>GetTimesAndScores
 Func IsEventRunning($bOpenWindow = False)
 	Local $aEventFailed[4] = [300, 225 + $g_iMidOffsetY, 0xEA2B24, 20]
 	Local $aEventPurged[4] = [300, 236 + $g_iMidOffsetY, 0x57C68F, 20]
-	Local $sTempChallengePath = $g_sProfilePath & "\" & $g_sProfileCurrentName & "\Temp\Challenges\"
+	Local $sTempChallengePath = @TempDir & "\" & $g_sProfileCurrentName & "\Challenges\"
 
 	If $bOpenWindow Then
 		ClickAway()
@@ -1759,7 +1760,7 @@ Func ClanGamesChallenges($sReturnArray)
 			["ArcherTower",             "Archer Tower",            		6, 1, "Destroy certain number of Archer Tower in Versus Battles"	], _
 			["LavaLauncher",            "Lava Launcher",           		6, 5, "Destroy certain number of Lava Launcher in Versus Battles"	]]
 
-	Local $BBTroopsChallenges[11][5] = [ _
+	Local $BBTroopsChallenges[12][5] = [ _
             ["RBarb",					"Raged Barbarian",              6, 1, "Win 1-5 Attacks using Raged Barbarians in Versus Battle"	], _
             ["SArch",                 	"Sneaky Archer",                6, 1, "Win 1-5 Attacks using Sneaky Archer in Versus Battle"	], _
             ["BGiant",         			"Boxer Giant",             		6, 1, "Win 1-5 Attacks using Boxer Giant in Versus Battle"		], _
@@ -1770,7 +1771,8 @@ Func ClanGamesChallenges($sReturnArray)
 			["NWitch",                 	"Night Witch",                 	6, 1, "Win 1-5 Attacks using Night Witch in Versus Battle"		], _
 			["DShip",                 	"Drop Ship",                  	6, 1, "Win 1-5 Attacks using Drop Ship in Versus Battle"		], _
 			["SPekka",                 	"Super Pekka",                  6, 1, "Win 1-5 Attacks using Super Pekka in Versus Battle"		], _
-			["HGlider",                 "Hog Glider",                  	6, 1, "Win 1-5 Attacks using Hog Glider in Versus Battle"		]]
+			["HGlider",                 "Hog Glider",                  	6, 1, "Win 1-5 Attacks using Hog Glider in Versus Battle"		], _
+			["EFWizard",                "ElectroFire Wizard",          	6, 1, "Win 1-5 Attacks using ElectroFire Wizard in Versus Battle"]]
 
 	Switch $sReturnArray
 		Case "$LootChallenges"

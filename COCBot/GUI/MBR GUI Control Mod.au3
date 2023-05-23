@@ -223,8 +223,6 @@ If Not $g_bFirstStartAccountSBB Then
 	$g_bFirstStartAccountSBB = 1
 EndIf
 
-If $g_bDisableBB Then Return
-
 	$g_iCmbPriorityBBaseFrequency = _GUICtrlComboBox_GetCurSel($g_hCmbPriorityBBaseFrequency) * 60 * 60 * 1000
 	$g_icmbAdvancedVariation[1] = _GUICtrlComboBox_GetCurSel($g_hcmbAdvancedVariation[1]) / 10
 	
@@ -1018,6 +1016,8 @@ Func StarBonusSearch()
 EndFunc
 
 Func IsBBDailyChallengeAvailable()
+
+	If $g_bDisableBB Then Return True
 
 	If Not $g_bChkBBAttackForDailyChallenge Or Not $g_bChkEnableBBAttack Then Return True
 	

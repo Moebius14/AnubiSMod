@@ -364,7 +364,7 @@ Func LocateStarLab()
 
 	SetLog("Looking for Star Laboratory...", $COLOR_ACTION)
 
-	Local $sCocDiamond = "FV"
+	Local $sCocDiamond = $CocDiamondDCD
 	Local $sRedLines = $sCocDiamond
 	Local $iMinLevel = 0
 	Local $iMaxLevel = 1000

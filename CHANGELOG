@@ -21,12 +21,14 @@
 * Adjusted Some Coordinates For Clan Capital Upgrades.
 * Fixed Close Start Craft Window When Not Enough Resource.
 * Added BS5 Pie64 Support (Based on Work of Xbebenk).
+* Revert To Google Distribution.
 * Fixed Lab Check Upgrade in Progress.
-* Added CheckObstacles At the end of BB Attack.
-* New Upgrade Button Image.
-* Reverted GetAndroidProcessPID
 * Improved OCR in Clan Capital.
 * Fixed OCR Costs Values (Update BB2.0), in progress.
+* Added Missing Images For Scattershots Level 1.
+* Improved "Log in with Supercell ID" Management.
+* Fixed Builder Base ZoomOut
+* Added Otto Outpost ZoomOut
 
 * v8.0.2 **
 * Respond faster to "Stop" during zoomout.

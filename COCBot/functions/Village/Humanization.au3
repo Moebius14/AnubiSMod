@@ -3288,6 +3288,7 @@ Func ClickClanFilter($MaxTime, $FilterX, $FilterY)
 EndFunc   ;==>ClickClanFilter
 
 Func BBBattleLog()
+If $g_bDisableBB Then Return
 If Not $g_bUseBotHumanization Then Return
 Local $IsToViewBBBattleLog = Random(0, 100, 1)
 Local $ViewPriorityNumber = 0

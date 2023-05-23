@@ -18,6 +18,10 @@ Local $bBMDeployed, $hBMTimer
 Local $bMachineAlive
 
 Func DoAttackBB()
+
+	SetLog("Builder Base Attack is Disabled!", $COLOR_WARNING)
+	Return
+
 	If Not $g_bChkEnableBBAttack Then Return
 	
 	If IsBBStoragesFull() Then

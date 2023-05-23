@@ -1640,8 +1640,6 @@ Func FirstCheck()
 EndFunc   ;==>FirstCheck
 
 Func BuilderBase($bTest = False)
-	;Disable BB 2.0
-	If $g_bDisableBB Then Return
 	
 	; switch to builderbase and check it is builderbase
 	If SwitchBetweenBases() And isOnBuilderBase() Then
@@ -1706,8 +1704,8 @@ Func BuilderBase($bTest = False)
 		; switch back to normal village
 		If SwitchBetweenBases() Then $g_bStayOnBuilderBase = False
 
-		Sleep(Random(1500, 2500))
-		_ClanGames()
+		Sleep(Random(1500, 2000))
+		If Not $g_bDisableBB Then _ClanGames()
 		If Not $g_bRunState Then Return
 
 	EndIf

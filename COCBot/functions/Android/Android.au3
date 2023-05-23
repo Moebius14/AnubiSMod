@@ -1817,7 +1817,7 @@ Func _AndroidAdbLaunchShellInstance($wasRunState = Default, $rebootAndroidIfNecc
 		; check shared folder
 		Local $pathFound = False
 		Local $iMount
-		For $iMount = 0 To 29
+		For $iMount = 0 To 4
 			$s = LaunchConsole($g_sAndroidAdbPath, AddSpace($g_sAndroidAdbGlobalOptions) & "-s " & $g_sAndroidAdbDevice & " shell" & $g_sAndroidAdbShellOptions & " mount", $process_killed)
 			Local $path = $g_sAndroidPicturesPath
 			If StringRight($path, 1) = "/" Then $path = StringLeft($path, StringLen($path) - 1)

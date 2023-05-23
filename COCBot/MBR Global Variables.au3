@@ -195,14 +195,6 @@ Global $g_sUserGameDistributor = "Google" ; User Added CoC Game Distributor, loa
 Global $g_sUserGamePackage = "com.supercell.clashofclans" ; User Added CoC Game Package, loaded from config.ini
 Global $g_sUserGameClass = "com.supercell.titan.GameApp" ; User Added CoC Game Class, loaded from config.ini
 
-; Amazon
-;Global $g_sAndroidGameDistributor = "Amazon" ; Default CoC Game Distributor, loaded from config.ini
-;Global $g_sAndroidGamePackage = "com.supercell.clashofclans.amazon" ; Default CoC Game Package, loaded from config.ini
-;Global $g_sAndroidGameClass = "com.supercell.titan.amazon.GameAppAmazon" ; Default CoC Game Class, loaded from config.ini
-;Global $g_sUserGameDistributor = "Amazon" ; User Added CoC Game Distributor, loaded from config.ini
-;Global $g_sUserGamePackage = "com.supercell.clashofclans.amazon" ; User Added CoC Game Package, loaded from config.ini
-;Global $g_sUserGameClass = "com.supercell.titan.amazon.GameAppAmazon" ; User Added CoC Game Class, loaded from config.ini
-
 Global $g_hAndroidLaunchTime = 0 ; __TimerInit() when Android was last launched
 Global $g_iAndroidRebootHours = 24 ; Default hours when Android gets automatically rebooted
 
@@ -1894,7 +1886,7 @@ Global $IsCGEventRunning = 0, $g_bChkForceAttackOnClanGamesWhenHalt = False, $Cu
 Global $g_bSortClanGames = True, $g_iSortClanGames = 0
 Global $g_abCGMainLootItem[6], $g_abCGMainBattleItem[22], $g_abCGMainDestructionItem[34], $g_abCGMainAirItem[13], _
 	   $g_abCGMainGroundItem[28], $g_abCGMainMiscItem[3], $g_abCGMainSpellItem[12], $g_abCGBBBattleItem[4], _
-	   $g_abCGBBDestructionItem[18], $g_abCGBBTroopsItem[11]
+	   $g_abCGBBDestructionItem[18], $g_abCGBBTroopsItem[12]
 Global $IsCGEventForGold = False, $IsCGEventForElixir = False, $IsCGEventForDE = False
 
 ; CSV Deploy Speed
@@ -2069,14 +2061,14 @@ Global $g_aiCmbCCDecisionTime = 0, $g_aiCmbCCDecisionThen = 0, $CCWaitChrono = 0
 Global Enum $eTreeDSS, $eTreeDAS, $eTreeCC, $eTreePS, $eTreeEW, $eTreeHM, $eTreeJS, $eTreeEJ, $eTree9C, $eTreePG, _
 			$eTreeSD, $eTreeTM, $eTreePR, $eTreeSH, $eTreeRS, $eTreeSM, $eTreePX, $eTreeXC, $eTreeCF, $eTreeMS, _
 			$eTreeCS, $eTreeIT, _
-			$eTreeBB, _
-			$eTreeCP, $eTreeBC, $eTreeCount
+			$eTreeBB, $eTreeOO, _
+ 			$eTreeCP, $eTreeBC, $eTreeCount
 
 Global $g_asSceneryNames[$eTreeCount] = [ _
 	"Classic Spring", "Classic Autumn", "Clashy Construct", "Pirate Scenery", "Epic Winter", "Hog Mountain", "Jungle Scenery", "Epic Jungle", "9th Clashiversary", _
 	"Pumpkin Graveyard", "Snowy Day", "Tiger Mountain", "Primal Scenery", "Shadow Scenery", "Royale Scenery", "Summer Scenery", "Pixel Scenery", "10th Clashiversary", _
 	"Clash Fest", "Magic Scenery", _
-	"Classic Scenery", "Inferno Town", "Builder Base", _
+	"Classic Scenery", "Inferno Town", "Builder Base", "OTTO Outpost", _
 	"Capital Peak", "Barbarian Camp"]
 
 ; village size, left, right, top, bottom, village size 2, AdjLeft, AdjRight, AdjTop, AdjBottom
@@ -2103,7 +2095,8 @@ Global Const $g_afRefVillage[$eTreeCount][10] = [ _
 	[469.703380664663, 41, 790, 66, 632, 469.703380664663, 50, 50, 42, 42], _		; MS partial
 	[480, 35, 809, 57, 632, 480, 50, 50, 42, 42], _				; CS
 	[480, 35, 809, 57, 632, 480, 50, 50, 42, 42], _				; IT
-	[418.46093337521, 95, 765, 142, 641, 418.46093337521, 50, 46, 38, 42], _ ; BB partial
+	[379.32672221687 , 114, 720, 158, 610, 379.32672221687, 50, 46, 38, 42], _ ; BB partial [418.46093337521, 95, 765, 142, 641, 418.46093337521, 50, 46, 38, 42], _ 
+	[363.220939721829, 121, 702, 180, 612, 363.220939721829, 50, 46, 38, 42], _ ; OO
 	[461.860421647731, 73, 814, 85, 637, 461.860421647731, 10, 10, 10, 10], _   ; CP partial
 	[427.945118331064, 97, 785, 91, 604, 427.945118331064, 10, 10, 10, 10]] 	; BC partial
 

@@ -41,6 +41,19 @@ Func SwitchBetweenBases($bCheckMainScreen = True)
 		If Not $g_bRunState Then Return
 
 		ZoomOut() ; ensure boat is visible
+		
+		Local $iLoop = 0
+		; check if OTTO Outpost
+		While $g_iTree = $eTreeOO 
+			SwitchToBuilderBase()
+			ZoomOut()
+			$iLoop =+ 1
+			If $iLoop = 10 Then
+				SetLog("Failed to switch to Builder Base", $COLOR_ERROR)
+				ExitLoop ; exit and let main code handle the reset which will reload into the main village or builder base
+			EndIf
+		WEnd		
+		
 		If Not $g_bRunState Then Return
 
 		$avBoat = findMultiple($sTileDir, $sRegionToSearch, $sRegionToSearch, 0, 1000, 1, "objectname,objectpoints", True)
@@ -97,3 +110,22 @@ Func SwitchBetweenBases($bCheckMainScreen = True)
 
 	Return False
 EndFunc   ;==>SwitchBetweenBases
+
+Func SwitchToBuilderBase()
+	Local $sImgTunnel = @ScriptDir & "\imgxml\Resources\BuildersBase\Tunnel\OOTunnel_0_93.png"
+
+	Local $aiTunnel = decodeSingleCoord(findImage("OOTunnel", $sImgTunnel, "FV", 1, True))
+
+	If IsArray($aiTunnel) And UBound($aiTunnel) = 2 Then
+		SetLog("Found Tunnel", $COLOR_INFO)
+		ClickP($aiTunnel)
+	Else
+		SetLog("Failed to locate the tunnel", $COLOR_INFO)
+		SaveDebugImage("OO2BBTunnel");
+		Return False
+	EndIf	
+
+	If _Sleep(2000) Then Return
+
+	Return True
+EndFunc

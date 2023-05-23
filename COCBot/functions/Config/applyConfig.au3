@@ -461,11 +461,9 @@ Func ApplyConfig_600_6($TypeReadSave)
 				GUICtrlSetBkColor($g_hBtnBBDropOrder, $COLOR_GREEN)
 			EndIf
 			
+			
+			SetLog("BB 2.0 not fully supported", $COLOR_INFO)
 			If $g_bDisableBB Then
-				SetLog("BB 2.0 not supported yet", $COLOR_INFO)
-				For $i = $g_alblBldBaseStats[$eLootGoldBB] To $g_hChkPlacingNewBuildings
-					GUICtrlSetState($i, $GUI_DISABLE)
-				Next
 				For $i = 0 To UBound($g_ahCGBBBattleItem) - 1
 					GUICtrlSetState($g_ahCGBBBattleItem[$i], $GUI_UNCHECKED)
 				Next
@@ -2744,15 +2742,6 @@ Func ApplyConfig_MOD_Advanced($TypeReadSave)
 			ChkPersoChallengesinPause()
 			LoadCurrentAlias()
 			LoadCurrentProfile()
-			If $g_bDisableBB Then
-				For $i = $g_hChkNoStarLabCheck To $g_hChkNoStarLabCheckLabel
-					GUICtrlSetState($i, $GUI_DISABLE)
-				Next
-				For $i = $g_hChkBBaseFrequencyLabel To $g_hcmbAdvancedVariation[1]
-					GUICtrlSetState($i, $GUI_DISABLE)
-				Next
-				GUICtrlSetState($g_hChkVisitBbaseinPause, $GUI_DISABLE)
-			EndIf
 		Case "Save"
 			$g_bNoLabCheck = _GUICtrlComboBox_GetCurSel($g_hChkNoLabCheck)
 			$g_bNoStarLabCheck = _GUICtrlComboBox_GetCurSel($g_hChkNoStarLabCheck)
