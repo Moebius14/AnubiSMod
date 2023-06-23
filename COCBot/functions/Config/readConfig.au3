@@ -598,6 +598,7 @@ Func ReadConfig_600_6()
 	IniReadS($g_bChkEnableForgeDE, $g_sProfileConfigPath, "ClanCapital", "ChkEnableForgeDE", False, "Bool")
 	IniReadS($g_bChkEnableForgeBBGold, $g_sProfileConfigPath, "ClanCapital", "ChkEnableForgeBBGold", False, "Bool")
 	IniReadS($g_bChkEnableForgeBBElix, $g_sProfileConfigPath, "ClanCapital", "ChkEnableForgeBBElix", False, "Bool")
+	IniReadS($g_bChkEnableSmartUse, $g_sProfileConfigPath, "ClanCapital", "ChkEnableSmartUse", False, "Bool")
 	IniReadS($g_iCmbForgeBuilder, $g_sProfileConfigPath, "ClanCapital", "ForgeUseBuilder", 1, "int")
 	IniReadS($g_bChkEnableAutoUpgradeCC, $g_sProfileConfigPath, "ClanCapital", "AutoUpgradeCC", False, "Bool")
 	IniReadS($g_bChkEnableSmartSwitchCC, $g_sProfileConfigPath, "ClanCapital", "SmartSwitchCC", False, "Bool")
@@ -717,10 +718,6 @@ Func ReadConfig_600_12()
 			$sIniName = "CustomA"
 		ElseIf $i = $eCustomB Then
 			$sIniName = "CustomB"
-		ElseIf $i = $eCustomC Then
-			$sIniName = "CustomC"
-		ElseIf $i = $eCustomD Then
-			$sIniName = "CustomD"
 		EndIf
 		$g_abChkDonateTroop[$i] = (IniRead($g_sProfileConfigPath, "donate", "chkDonate" & $sIniName, "0") = "1")
 		$g_abChkDonateAllTroop[$i] = (IniRead($g_sProfileConfigPath, "donate", "chkDonateAll" & $sIniName, "0") = "1")
@@ -758,20 +755,6 @@ Func ReadConfig_600_12()
 	$g_aiDonateCustomTrpNumB[0][1] = Int(IniRead($g_sProfileConfigPath, "donate", "txtDonateCustomB1", 3))
 	$g_aiDonateCustomTrpNumB[1][1] = Int(IniRead($g_sProfileConfigPath, "donate", "txtDonateCustomB2", 13))
 	$g_aiDonateCustomTrpNumB[2][1] = Int(IniRead($g_sProfileConfigPath, "donate", "txtDonateCustomB3", 5))
-
-	$g_aiDonateCustomTrpNumC[0][0] = Int(IniRead($g_sProfileConfigPath, "donate", "cmbDonateCustomC1", 12))
-	$g_aiDonateCustomTrpNumC[1][0] = Int(IniRead($g_sProfileConfigPath, "donate", "cmbDonateCustomC2", 2))
-	$g_aiDonateCustomTrpNumC[2][0] = Int(IniRead($g_sProfileConfigPath, "donate", "cmbDonateCustomC3", 0))
-	$g_aiDonateCustomTrpNumC[0][1] = Int(IniRead($g_sProfileConfigPath, "donate", "txtDonateCustomC1", 2))
-	$g_aiDonateCustomTrpNumC[1][1] = Int(IniRead($g_sProfileConfigPath, "donate", "txtDonateCustomC2", 3))
-	$g_aiDonateCustomTrpNumC[2][1] = Int(IniRead($g_sProfileConfigPath, "donate", "txtDonateCustomC3", 1))
-
-	$g_aiDonateCustomTrpNumD[0][0] = Int(IniRead($g_sProfileConfigPath, "donate", "cmbDonateCustomD1", 18))
-	$g_aiDonateCustomTrpNumD[1][0] = Int(IniRead($g_sProfileConfigPath, "donate", "cmbDonateCustomD2", 9))
-	$g_aiDonateCustomTrpNumD[2][0] = Int(IniRead($g_sProfileConfigPath, "donate", "cmbDonateCustomD3", 25))
-	$g_aiDonateCustomTrpNumD[0][1] = Int(IniRead($g_sProfileConfigPath, "donate", "txtDonateCustomD1", 3))
-	$g_aiDonateCustomTrpNumD[1][1] = Int(IniRead($g_sProfileConfigPath, "donate", "txtDonateCustomD2", 13))
-	$g_aiDonateCustomTrpNumD[2][1] = Int(IniRead($g_sProfileConfigPath, "donate", "txtDonateCustomD3", 5))
 
 	$g_bChkExtraAlphabets = (IniRead($g_sProfileConfigPath, "donate", "chkExtraAlphabets", "0") = "1")
 	$g_bChkExtraChinese = (IniRead($g_sProfileConfigPath, "donate", "chkExtraChinese", "0") = "1")
@@ -811,8 +794,8 @@ Func ReadConfig_600_14()
 	IniReadS($g_iUseBOSTime, $g_sProfileBuildingPath, "upgrade", "usebookspellMinTime", 7, "int")
 	IniReadS($g_bUseBOE, $g_sProfileBuildingPath, "upgrade", "usebookeverything", False, "Bool")
 	IniReadS($g_iUseBOETime, $g_sProfileBuildingPath, "upgrade", "usebookeverythingMinTime", 14, "int")
-	IniReadS($g_iLaboratoryElixirCost, $g_sProfileBuildingPath, "upgrade", "upgradelabelexircost", 0, "int")
-	IniReadS($g_iLaboratoryDElixirCost, $g_sProfileBuildingPath, "upgrade", "upgradelabdelexircost", 0, "int")
+;	IniReadS($g_iLaboratoryElixirCost, $g_sProfileBuildingPath, "upgrade", "upgradelabelexircost", 0, "int")
+;	IniReadS($g_iLaboratoryDElixirCost, $g_sProfileBuildingPath, "upgrade", "upgradelabdelexircost", 0, "int")
 	IniReadS($g_bAutoStarLabUpgradeEnable, $g_sProfileBuildingPath, "upgrade", "upgradestartroops", False, "Bool")
 	IniReadS($g_iCmbStarLaboratory, $g_sProfileBuildingPath, "upgrade", "upgradestartroopname", 0, "int")
 EndFunc   ;==>ReadConfig_600_14
@@ -832,6 +815,7 @@ Func ReadConfig_600_15()
 	IniReadS($g_bChkSortPetUpgrade, $g_sProfileConfigPath, "upgrade", "ChkSortPetUpgrade", False, "Bool")
 	IniReadS($g_iCmbSortPetUpgrade, $g_sProfileConfigPath, "upgrade", "CmbSortPetUpgrade", 0, "int")
 	IniReadS($g_iCmbSortPetUpgradeLvLCost, $g_sProfileConfigPath, "upgrade", "CmbSortPetUpgrade2", 0, "int")
+	IniReadS($g_bUsePetPotion, $g_sProfileConfigPath, "upgrade", "ChkPetPotion", False, "Bool")
 EndFunc   ;==>ReadConfig_600_15
 
 Func ReadConfig_600_16()
@@ -963,8 +947,8 @@ Func ReadConfig_600_28()
 	IniReadS($g_iSearchReductionGoldMod, $g_sProfileConfigPath, "search", "reduceGoldMod", 2000, "int")
 	IniReadS($g_iSearchReductionElixirMod, $g_sProfileConfigPath, "search", "reduceElixirMod", 2000, "int")
 	IniReadS($g_iSearchReductionDarkMod, $g_sProfileConfigPath, "search", "reduceDarkMod", 100, "int")
-	IniReadS($g_iSearchDelayMin, $g_sProfileConfigPath, "other", "VSDelay", 0, "Int")
-	IniReadS($g_iSearchDelayMax, $g_sProfileConfigPath, "other", "MaxVSDelay", 6, "Int")
+	IniReadS($g_iSearchDelayMin, $g_sProfileConfigPath, "other", "VSDelay", 1, "Int")
+	IniReadS($g_iSearchDelayMax, $g_sProfileConfigPath, "other", "MaxVSDelay", 5, "Int")
 	IniReadS($g_bSearchAttackNowEnable, $g_sProfileConfigPath, "general", "AttackNow", False, "Bool")
 	IniReadS($g_iSearchAttackNowDelay, $g_sProfileConfigPath, "general", "attacknowdelay", 3, "int")
 	IniReadS($g_bSearchRestartEnable, $g_sProfileConfigPath, "search", "ChkRestartSearchLimit", True, "Bool")

@@ -114,13 +114,13 @@ Func UpdateNextPageTroop()
 			SetDebugLog("Found Edrag moved 2 Slots")
 		EndIf
 
-		If PointInRect($aSlot3[0], $aSlot3[1], $aSlot3[2], $aSlot3[3], $aiTileCoord[0], $aiTileCoord[1]) Then
+		If PointInRect($aSlot3[0], $aSlot3[1], $aSlot3[2], $aSlot3[3], $aiTileCoord[0], $aiTileCoord[1]) Then; Support 2 Super Troops + 1 Event Troop Or 1 Super Troop + 2 Event Troops (Moebius14)
 			$g_iNextPageTroop = $eEDrag
 			SetDebugLog("Found Edrag moved 3 Slots")
 		EndIf
-		
-	Else
-			
+
+	Else; Support 2 Super Troops + 2+ Event Troops (Moebius14)
+
 		$aiTileCoord = decodeSingleCoord(findImage("UpdateNextPageTroop", $sMinerTile, GetDiamondFromRect("25,375,840,575"), 1, True))
 		If IsArray($aiTileCoord) And Ubound($aiTileCoord, 1) = 2 And _ColorCheck(_GetPixelColor(22, 373 + $g_iMidOffsetY, True), Hex(0xD3D3CB, 6), 5) And $aiTileCoord[0] > 610 Then
 			
@@ -137,11 +137,11 @@ Func UpdateNextPageTroop()
 				SetDebugLog("Found Miner moved 4 Slots")
 			EndIf
 		EndIf
-		
+
 	EndIf
-	
+
 	If _Sleep(200) Then Return
-	
+
 EndFunc
 
 Func PointInRect($iBLx, $iBLy, $iTRx, $iTRy, $iPTx, $iPTy)

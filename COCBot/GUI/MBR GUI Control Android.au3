@@ -182,10 +182,6 @@ Func getAllEmulators()
 	Local $MEmuEmulator = GetMEmuPath()
 	If FileExists($MEmuEmulator) Then $sEmulatorString &= "MEmu|"
 
-	; iTools
-	Local $iToolsEmulator = GetiToolsPath()
-	If FileExists($iToolsEmulator) Then $sEmulatorString &= "iTools|"
-
 	Local $sResult = StringRight($sEmulatorString, 1)
 	If $sResult == "|" Then $sEmulatorString = StringTrimRight($sEmulatorString, 1)
 	
@@ -215,7 +211,7 @@ Func getAllEmulators()
 		For $i = 0 To UBound($aEmulator) - 1
 			Local $emuVer = ""
 			If StringInStr($aEmulator[$i], "BlueStacks5") Then $emuVer = GetVersionNormalized($__BlueStacks5_Version)
-		;	If StringInStr($aEmulator[$i], "Memu") Then $emuVer = GetVersionNormalized($__MEmu_Version)
+	;		If StringInStr($aEmulator[$i], "Memu") Then $emuVer = GetVersionNormalized($__MEmu_Version)
 			If StringInStr($aEmulator[$i], "nox") Then $emuVer = GetVersionNormalized($__Nox_Version)
 			
 			Local $VersionMin = "", $VersionMax = "", $DisplayVersionMin = "", $DisplayVersionMax = ""
@@ -224,17 +220,17 @@ Func getAllEmulators()
 				Case "BlueStacks5"
 					$DisplayVersionMin = "5.10.220.1008"
 					$VersionMin = GetVersionNormalized($DisplayVersionMin)
-					$DisplayVersionMax = "5.11.100.1063"
+					$DisplayVersionMax = "5.11.100.2202"
 					$VersionMax = GetVersionNormalized($DisplayVersionMax)
-			;	Case "MEmu"
-			;		$DisplayVersionMin = "7.6.6.0"
-			;		$VersionMin = GetVersionNormalized($DisplayVersionMin)
-			;		$DisplayVersionMax = "7.6.6.0"
-			;		$VersionMax = GetVersionNormalized($DisplayVersionMax)
+	;			Case "MEmu"
+	;				$DisplayVersionMin = "9.0.1.0"
+	;				$VersionMin = GetVersionNormalized($DisplayVersionMin)
+	;				$DisplayVersionMax = "9.0.1.0"
+	;				$VersionMax = GetVersionNormalized($DisplayVersionMax)
 				Case "Nox"
 					$DisplayVersionMin = "7.0.5.7"
 					$VersionMin = GetVersionNormalized($DisplayVersionMin)
-					$DisplayVersionMax = "7.0.5.7"
+					$DisplayVersionMax = "7.0.5.8"
 					$VersionMax = GetVersionNormalized($DisplayVersionMax)
 			EndSwitch
 
@@ -293,8 +289,6 @@ Func getAllEmulatorsInstances()
 			$sEmulatorPath = GetNoxPath() & "\BignoxVMS"
 		Case "MEmu"
 			$sEmulatorPath = GetMEmuPath() & "\MemuHyperv VMs"
-		Case "iTools"
-			$sEmulatorPath = GetiToolsPath() & "\Repos\VMs"  ; C:\Program Files (x86)\ThinkSky\iToolsAVM\Repos\VMs
 		Case Else
 			GUICtrlSetData($g_hCmbAndroidInstance, "Android", "Android")
 			Return

@@ -5,8 +5,8 @@
 ; Parameters ....:
 ; Return values .:
 ; Author ........: xbebenk (08/2021)
-; Modified ......: Moebius14 (12/2022)
-; Remarks .......: This file is part of MyBot, previously known as ClashGameBot. Copyright 2015-2020
+; Modified ......: Moebius14 (06/2023)
+; Remarks .......: This file is part of MyBot, previously known as ClashGameBot. Copyright 2015-2023
 ;                  MyBot is distributed under the terms of the GNU GPL
 ; Related .......:
 ; Link ..........: https://github.com/MyBotRun/MyBot/wiki
@@ -48,10 +48,10 @@ Func BoostSuperTroop($bTest = False)
 						$iColumnX = $columnStart + (1 * ($picswidth + $picspad))
 					Case $g_iCmbSuperTroops[$i] = 3 Or $g_iCmbSuperTroops[$i] = 7 Or $g_iCmbSuperTroops[$i] = 11 Or $g_iCmbSuperTroops[$i] = 15 ;third column
 						$iColumnX = $columnStart + (2 * ($picswidth + $picspad))
-					Case $g_iCmbSuperTroops[$i] = 4 Or $g_iCmbSuperTroops[$i] = 8 Or $g_iCmbSuperTroops[$i] = 12 ;fourth column
+					Case $g_iCmbSuperTroops[$i] = 4 Or $g_iCmbSuperTroops[$i] = 8 Or $g_iCmbSuperTroops[$i] = 12 Or $g_iCmbSuperTroops[$i] = 16 ;fourth column
 						$iColumnX = $columnStart + (3 * ($picswidth + $picspad))
 				EndSelect
-				
+
 				Local $iRowTarget = Ceiling($g_iCmbSuperTroops[$i] / $iPicsPerRow) ; get row Stroop
 				SetDebugLog("$iRowTarget = " & $iRowTarget & " , $iRow = " & $iRow, $COLOR_DEBUG)
 				StroopNextPage($iRowTarget, $iRow) ; go to the needed Row
@@ -267,7 +267,6 @@ Func GetSTroopName(Const $iIndex)
 EndFunc   ;==>GetSTroopName
 
 Func FindStroopIcons($iIndex, $iColumnX, $iColumnY1, $iColumnX1, $iColumnY2)
-
 	Local $FullTemp
 	$FullTemp = SearchImgloc($g_sImgBoostTroopsIcons, $iColumnX, $iColumnY1, $iColumnX1, $iColumnY2)
 	SetDebugLog("Troop SearchImgloc returned:" & $FullTemp[0] & ".", $COLOR_DEBUG)

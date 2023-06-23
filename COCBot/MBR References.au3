@@ -131,18 +131,6 @@ Func ReferenceFunctions()
 	RedrawNoxWindow()
 	HideNoxWindow()
 	EmbedNox()
-	OpeniTools()
-	IsiToolsCommandLine(0)
-	GetiToolsProgramParameter()
-	GetiToolsPath()
-	GetiToolsAdbPath()
-	InitiTools()
-	SetScreeniTools()
-	RebootiToolsSetScreen()
-	CloseiTools()
-	CheckScreeniTools()
-	HideiToolsWindow()
-	EmbediTools()
 	AndroidEmbedded()
 	_ProcessSuspendResume2(0)
 	__EnumDefaultProc(0, 0)
@@ -462,6 +450,7 @@ Func ReferenceGlobals()
 
 	$a1 = $eTroopMinion
 	$a1 = $eTroopHogRider
+	$a1 = $eTroopSuperHogRider
 	$a1 = $eTroopValkyrie
 	$a1 = $eTroopGolem
 	$a1 = $eTroopWitch
@@ -469,8 +458,8 @@ Func ReferenceGlobals()
 	$a1 = $eTroopLavaHound
 	$a1 = $eTroopBowler
 	$a1 = $eTroopIceGolem
-	$a1 = $eTroopSuperMiner
 	$a1 = $eTroopHeadhunter
+	$a1 = $eTroopAppWard
 	$a1 = $eTroopGiantSkeleton
 	$a1 = $eTroopRoyalGhost
 	$a1 = $eTroopPartyWizard
@@ -510,6 +499,7 @@ Func ReferenceGlobals()
 	$a1 = $eETitan
 	$a1 = $eMini
 	$a1 = $eHogs
+	$a1 = $eSHogs
 	$a1 = $eValk
 	$a1 = $eGole
 	$a1 = $eWitc
@@ -518,6 +508,7 @@ Func ReferenceGlobals()
 	$a1 = $eSBowl
 	$a1 = $eIceG
 	$a1 = $eHunt
+	$a1 = $eAppWard
 	$a1 = $eGSkel
 	$a1 = $eRGhost
 	$a1 = $ePWiza

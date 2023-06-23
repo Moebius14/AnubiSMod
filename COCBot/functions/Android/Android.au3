@@ -759,51 +759,86 @@ Func DetectInstalledAndroid()
 	FuncReturn()
 EndFunc   ;==>DetectInstalledAndroid
 
-; Find preferred Adb Path. Current Android ADB is used and saved in profile.ini and shared across instances.
+; Find preferred Adb Path.
 Func FindPreferredAdbPath()
-	Local $aDll = ["AdbWinApi.dll", "AdbWinUsbApi.dll"]
-	Local $adbPath = Execute("Get" & $g_sAndroidEmulator & "AdbPath()")
-	Local $sAdbFolder = StringLeft($adbPath, StringInStr($adbPath, "\", 0, -1))
-	Local $sAdbFile = StringMid($adbPath, StringLen($sAdbFolder) + 1)
-	Local $sRealAdb = @ScriptDir & "\lib\adb\adb.exe"
-	Local $sDummyAdb = @ScriptDir & "\lib\DummyExe.exe"
-	Local $bDummy = $g_iAndroidAdbReplace = 2 And FileExists($sDummyAdb)
-	Local $sAdb = ($bDummy ? $sDummyAdb : $sRealAdb)
+	Local $sAdbPath = ""
+	; Use From Emulator
+	Switch $g_sAndroidEmulator
+		Case "BlueStacks5"
+			$sAdbPath = GetBlueStacks5AdbPath()
+		Case "MEmu"
+			$sAdbPath = GetMEmuAdbPath()
+		Case "Nox"
+			$sAdbPath = GetNoxAdbPath()
+	EndSwitch
 
-	If $g_iAndroidAdbReplace And $adbPath And FileExists($sAdb) And (Not $bDummy Or (FileExists(@ScriptDir & "\lib\adb\" & $aDll[0]) And FileExists(@ScriptDir & "\lib\adb\" & $aDll[1]))) _
-			And (FileGetSize($adbPath) <> FileGetSize($sAdb) Or (Not $bDummy And (FileGetSize($sAdbFolder & $aDll[0]) <> FileGetSize(@ScriptDir & "\lib\adb\" & $aDll[0]) Or FileGetSize($sAdbFolder & $aDll[1]) <> FileGetSize(@ScriptDir & "\lib\adb\" & $aDll[1])))) Then
-		Local $aAdbProcess = ProcessesExist($adbPath)
-		For $i = 0 To UBound($aAdbProcess) -1
-			; ensure target process is not running
-			KillProcess($aAdbProcess[$i], "FindPreferredAdbPath")
-		Next
-		If FileCopy($sAdb, $adbPath, 1) And ($bDummy Or (FileCopy(@ScriptDir & "\lib\adb\" & $aDll[0], $sAdbFolder & $aDll[0], 1) And FileCopy(@ScriptDir & "\lib\adb\" & $aDll[1], $sAdbFolder & $aDll[1], 1))) Then
-			SetLog("Replaced " & $g_sAndroidEmulator & " ADB with MyBot.run version")
-		Else
-			SetLog("Cannot replace " & $g_sAndroidEmulator & " ADB with MyBot.run version", $COLOR_ERROR)
+	; Using From MyBotRun
+	If $g_iAndroidAdbReplace = 1 Then
+		; Stop Adb from Emulator
+        Local $aAdbProcess = ProcessesExist($sAdbPath)
+        For $i = 0 To UBound($aAdbProcess) -1
+            KillProcess($aAdbProcess[$i], "FindPreferredAdbPath")
+        Next
+
+		; Use Boot Root Folder
+		Local $sBootPathAdb = @ScriptDir & "\lib\adb\adb.exe"
+		Local $sBootPathAdbWinApi = @ScriptDir & "\lib\adb\AdbWinApi.dll"
+		Local $sBootPathAdbWinUsbApi = @ScriptDir & "\lib\adb\AdbWinUsbApi.dll"
+		Local $sBootDirPath = @ScriptDir & "\Adb\"
+
+		; Copy Adb Files for Root Folder
+		Switch $g_sAndroidEmulator
+			Case "BlueStacks5"
+				; Check if File exist
+				If FileExists($sBootDirPath & "HD-Adb.exe") = 0 Then
+					If FileCopy($sBootPathAdb, $sBootDirPath & "HD-Adb.exe", $FC_CREATEPATH) = 1 Then
+						$sAdbPath = $sBootDirPath & "HD-Adb.exe"
+						SetDebugLog("Replaced " & $g_sAndroidEmulator & " Adb From MyBotRun", $COLOR_SUCCESS)
+					Else
+						SetDebugLog("Cannot replace " & $g_sAndroidEmulator & " ADB with MyBotRun", $COLOR_ERROR)
+					EndIf
+				Else
+					$sAdbPath = $sBootDirPath & "HD-Adb.exe"
+					SetDebugLog("Using " & $g_sAndroidEmulator & " Adb From MyBotRun", $COLOR_SUCCESS)
+				EndIf
+			Case "MEmu"
+				; Check if File exist
+				If FileExists($sBootDirPath & "adb.exe") = 0 Then
+					If FileCopy($sBootPathAdb, $sBootDirPath & "adb.exe", $FC_CREATEPATH) = 1 Then
+						$sAdbPath = $sBootDirPath & "adb.exe"
+						SetDebugLog("Replaced " & $g_sAndroidEmulator & " Adb From MyBotRun", $COLOR_SUCCESS)
+					Else
+						SetDebugLog("Cannot replace " & $g_sAndroidEmulator & " ADB with MyBotRun", $COLOR_ERROR)
+					EndIf
+				Else
+					$sAdbPath = $sBootDirPath & "adb.exe"
+					SetDebugLog("Using " & $g_sAndroidEmulator & " Adb From MyBotRun", $COLOR_SUCCESS)
+				EndIf
+			Case "Nox"
+				; Check if File exist
+				If FileExists($sBootDirPath & "nox_adb.exe") = 0 Then
+					If FileCopy($sBootPathAdb, $sBootDirPath & "nox_adb.exe", $FC_CREATEPATH) = 1 Then
+						$sAdbPath = $sBootDirPath & "nox_adb.exe"
+						SetDebugLog("Replaced " & $g_sAndroidEmulator & " Adb From MyBotRun", $COLOR_SUCCESS)
+					Else
+						SetDebugLog("Cannot replace " & $g_sAndroidEmulator & " ADB with MyBotRun", $COLOR_ERROR)
+					EndIf
+				Else
+					$sAdbPath = $sBootDirPath & "nox_adb.exe"
+					SetDebugLog("Using " & $g_sAndroidEmulator & " Adb From MyBotRun", $COLOR_SUCCESS)
+				EndIf
+		EndSwitch
+
+		If FileExists($sBootDirPath & "AdbWinApi.dll") = 0 Then
+			If FileCopy($sBootPathAdbWinApi, $sBootDirPath & "AdbWinApi.dll", $FC_CREATEPATH) = 0 Then SetDebugLog("AdbWinApi was not replaced!", $COLOR_ERROR)
+		EndIf
+		If FileExists($sBootDirPath & "AdbWinUsbApi.dll") = 0 Then
+			If FileCopy($sBootPathAdbWinUsbApi, $sBootDirPath & "AdbWinUsbApi.dll", $FC_CREATEPATH) = 0 Then SetDebugLog("AdbWinUsbApi was not replaced!", $COLOR_ERROR)
 		EndIf
 	EndIf
-	$sAdb = $sRealAdb
-	If $g_bAndroidAdbUseMyBot And FileExists($sAdb) Then
-		Return $sAdb
-	EndIf
 
-	If FileExists($g_sAndroidAdbPath) Then
-		Return $g_sAndroidAdbPath
-	EndIf
-
-	If $adbPath = "" Then
-		; find any
-		For $i = 0 To UBound($g_avAndroidAppConfig) - 1
-			$adbPath = Execute("Get" & $g_avAndroidAppConfig[$i][0] & "AdbPath()")
-			If $adbPath <> "" Then ExitLoop
-		Next
-	EndIf
-	If $adbPath <> "" Then
-		; Not used anymore since MBR v7.6.7
-		;_SaveProfileConfigAdbPath(Default, $adbPath) ; ensure profile.ini is saved as quickly as possible with new ADB path
-	EndIf
-	Return $adbPath
+	SetDebugLog("Using ADB Path " & $sAdbPath)
+	Return $sAdbPath
 EndFunc   ;==>FindPreferredAdbPath
 
 Func CompareAndUpdate(ByRef $UpdateWhenDifferent, Const $New)
@@ -1261,15 +1296,6 @@ Func _RestartAndroidCoC($bInitAndroid = True, $bRestart = True, $bStopCoC = True
 			EndIf
 			$iRetry += 1
 			SetLog("Unable to load Clash of Clans, " & $iRetry & ". retry...", $COLOR_ERROR)
-			If $iRetry = 2 And $iRecursive = 0 And HaveSharedPrefs() Then
-				; crash might get fixed by clearing cache
-				$cmdOutput = AndroidAdbSendShellCommand("set export=$(pm clear " & $g_sAndroidGamePackage & " >&2)", 15000) ; timeout of 15 Seconds
-				If StringInStr($cmdOutput, "Success") Then
-					SetLog("Clash of Clans cache now cleared", $COLOR_SUCCESS)
-				Else
-					SetLog("Clash of Clans cache not cleared: " & $cmdOutput, $COLOR_ERROR)
-				EndIf
-			EndIf
 			If _SleepStatus(5000) Then Return False
 			Return _RestartAndroidCoC($bInitAndroid, $bRestart, $bStopCoC, $iRetry, $iRecursive)
 		EndIf
@@ -1351,11 +1377,11 @@ Func SetScreenAndroid()
 	ResumeAndroid()
 	If Not $g_bRunState Then Return False
 	; Set Android screen size and dpi
-	SetLog("Set " & $g_sAndroidEmulator & " screen resolution to " & $g_iAndroidClientWidth & " x " & $g_iAndroidClientHeight, $COLOR_INFO)
+	SetDebugLog("Set " & $g_sAndroidEmulator & " screen resolution to " & $g_iAndroidClientWidth & " x " & $g_iAndroidClientHeight, $COLOR_INFO)
 	Local $Result = Execute("SetScreen" & $g_sAndroidEmulator & "()")
 	If $Result Then
-		SetLog("A restart of your computer might be required", $COLOR_ACTION)
-		SetLog("for the applied changes to take effect.", $COLOR_ACTION)
+		SetDebugLog("A restart of your computer might be required", $COLOR_ACTION)
+		SetDebugLog("for the applied changes to take effect.", $COLOR_ACTION)
 	EndIf
 	Return $Result
 EndFunc   ;==>SetScreenAndroid
@@ -3976,7 +4002,12 @@ Func AndroidCloseSystemBar()
 		SetLog("Cannot close " & $g_sAndroidEmulator & " System Bar", $COLOR_ERROR)
 		Return False
 	EndIf
-	Local $cmdOutput = AndroidAdbSendShellCommand("service call activity 42 s16 com.android.systemui", Default, $wasRunState, False)
+	Local $cmdOutput = ""
+	If $g_iAndroidVersionAPI = $g_iAndroidPie Then
+		$cmdOutput = AndroidAdbSendShellCommand("settings put global policy_control immersive.status=*", Default, $wasRunState, False)
+	Else
+		$cmdOutput = AndroidAdbSendShellCommand("service call activity 42 s16 com.android.systemui", Default, $wasRunState, False)
+	EndIf
 	Local $Result = StringLeft($cmdOutput, 6) = "Result"
 	SetDebugLog("Closed " & $g_sAndroidEmulator & " System Bar: " & $Result)
 	Return $Result
@@ -4568,7 +4599,7 @@ Func PullSharedPrefs($sProfile = $g_sProfileCurrentName)
 	Local $iFilesPulled = 0
 
 	If Not $g_sAndroidPicturesPathAvailable Then
-		SetLog("Shard folder in Android not availble, cannot pull shared_prefs", $COLOR_RED)
+		SetLog("Shared folder in Android not available, cannot pull shared_prefs", $COLOR_RED)
 		Return SetError(0, 0, $Result)
 	EndIf
 
@@ -4662,7 +4693,7 @@ Func PushSharedPrefs($sProfile = $g_sProfileCurrentName, $bCloseGameIfRunning = 
 	Local $cmdOutput
 
 	If Not $g_sAndroidPicturesPathAvailable Then
-		SetLog("Shard folder in Android not availble, cannot push shared_prefs", $COLOR_RED)
+		SetLog("Shared folder in Android not available, cannot push shared_prefs", $COLOR_RED)
 		Return SetError(0, 0, $Result)
 	EndIf
 
@@ -4862,11 +4893,9 @@ Func CheckEmuNewVersions()
 
 	Switch $g_sAndroidEmulator
 		Case "BlueStacks2"
-			$NewVersion = GetVersionNormalized("4.280.0.1022")
-		Case "BlueStacks5"
-			$NewVersion = GetVersionNormalized("5.10.220.1008")
+			$NewVersion = GetVersionNormalized("5.11.100.2202")
 		Case "MEmu"
-			$NewVersion = GetVersionNormalized("7.6.6.0")
+			$NewVersion = GetVersionNormalized("9.0.1.0")
 		Case "Nox"
 			$NewVersion = GetVersionNormalized("7.0.5.7")
 		Case Else
@@ -4874,7 +4903,7 @@ Func CheckEmuNewVersions()
 			$NewVersion = GetVersionNormalized("99.0.0.0")
 	EndSwitch
 
-	If $Version > $NewVersion Then
+	If $Version <> $NewVersion Then
 		SetLog("You are using an unsupported " & $g_sAndroidEmulator & " version (" & $g_sAndroidVersion & ")!", $COLOR_ERROR)
 		SetLog($HelpLink, $COLOR_INFO)
 	EndIf

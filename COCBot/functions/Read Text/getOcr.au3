@@ -2,7 +2,7 @@
 ; Name ..........: OCR
 ; Description ...: Gets complete value of gold/Elixir/DarkElixir/Trophy/Gem xxx,xxx
 ; Author ........: Didipe (2015)
-; Modified ......: ProMac (2015), Hervidero (2015-12), MMHK (2016-12), MR.ViPER (2017-4)
+; Modified ......: ProMac (2015), Hervidero (2015-12), MMHK (2016-12), MR.ViPER (2017-4), Moebius14 (2023-06)
 ; Remarks .......: This file is part of MyBot, previously known as ClashGameBot. Copyright 2015-2019
 ;                  MyBot is distributed under the terms of the GNU GPL
 ; Related .......:
@@ -123,7 +123,7 @@ Func getLabUpgrdResourceWht($x_start, $y_start) ; -> Gets complete value of Elix
 EndFunc   ;==>getLabUpgrdResourceWht
 
 Func getLabUpgrdResourceRed($x_start, $y_start) ; -> Gets complete value of Elixir/DE on the troop buttons,  xxx,xxx for "laboratory.au3" when red text
-	Return getOcrAndCapture("coc-lab-r", $x_start, $y_start, 70, 14, True)
+	Return getOcrAndCapture("coc-lab-r", $x_start, $y_start, 70, 12, True)
 EndFunc   ;==>getLabUpgrdResourceRed
 
 Func getStarLabUpgrdResourceRed($x_start, $y_start) ; -> Gets complete value of Elixir on the troop buttons,  xxx,xxx for "starlaboratory.au3" when red text
@@ -138,8 +138,12 @@ Func getLabUpgradeTime($x_start, $y_start) ; -> Gets complete remain lab upgrade
 	Return getOcrAndCapture("coc-uptime2", $x_start, $y_start, 80, 22) ; 80 is required to upgrades > 10 days
 EndFunc   ;==>getLabUpgradeTime
 
-Func getHeroUpgradeTime($x_start, $y_start) ; -> Gets complete upgrade time for heroes 464, 527 + $g_iMidOffsetY
-	Return getOcrAndCapture("coc-uptime2", $x_start, $y_start, 68, 20) ; 68 is required to days & hours for young hero
+Func getPetUpgradeTime($x_start, $y_start) ; -> Gets complete remain lab upgrade time V4 for Jun2023 update
+	Return getOcrAndCapture("coc-uptime2", $x_start, $y_start, 166, 22) ; 166 is required to upgrades > 10 days
+EndFunc   ;==>getLabUpgradeTime
+
+Func getHeroUpgradeTime($x_start, $y_start) ; -> Gets complete upgrade time for heroes 578, 470 + $g_iMidOffsetY
+	Return getOcrAndCapture("coc-uptime2", $x_start, $y_start, 72, 20) ; 72 is required to days & hours for hero ; Jun2023
 EndFunc   ;==>getHeroUpgradeTime
 
 Func getChatString($x_start, $y_start, $language) ; -> Get string chat request - Latin Alphabetic - EN "DonateCC.au3"

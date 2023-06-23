@@ -37,6 +37,8 @@ Global Const $sImgReloadBtn = @ScriptDir & "\imgxml\CheckObstacles\reloadbtn*"
 Global Const $sImgNeverBtn = @ScriptDir & "\imgxml\CheckObstacles\NeverBtn*"
 Global Const $sImgOKBtn = @ScriptDir & "\imgxml\CheckObstacles\OKBtn*"
 Global Const $sImgClashOfMagicAdvert = @ScriptDir & "\imgxml\CheckObstacles\ClashOfMagicAdvert*"
+Global Const $sImgClashNotResponding = @ScriptDir & "\imgxml\CheckObstacles\NotResp*"
+Global Const $g_sImgCOCUpdate = @ScriptDir & "\imgxml\CheckObstacles\COCUpdate*"
 #EndRegion
 
 #Region Main Village
@@ -66,10 +68,12 @@ Global $g_sImgFullCCRes = @ScriptDir & "\imgxml\Resources\TreasuryFull"
 Global $g_sImgLabUpRequiredOrLvlMax = @ScriptDir & "\imgxml\Research\RequiredOrLvlMax\"
 Global $g_sImgAnySpell = @ScriptDir & "\imgxml\Research\Laboratory\AllSpell\"
 Global $g_sImgAnySiege = @ScriptDir & "\imgxml\Research\Laboratory\AllSiege\"
+Global $g_sImgElixirDrop = @ScriptDir & "\imgxml\Research\Laboratory\ElixirDrop\"
 Global $g_sImgBooks = @ScriptDir & "\imgxml\Research\Books\"
 Global $g_sImgBOFCollectDaily = @ScriptDir & "\imgxml\Research\DailyChallenges\BOF\"
 Global $g_sImgBOSCollectDaily = @ScriptDir & "\imgxml\Research\DailyChallenges\BOS\"
 Global $g_sImgResPotCollectDaily = @ScriptDir & "\imgxml\Research\DailyChallenges\ResPot\"
+Global $g_sImgPetPotCollectDaily = @ScriptDir & "\imgxml\Research\DailyChallenges\PetPot\"
 #EndRegion
 
 #Region Clan Capital
@@ -122,6 +126,9 @@ Global $g_sImgDirBBTroops = @ScriptDir & "\imgxml\Attack\BuilderBase\BBTroops"
 Global $g_sImgBBLootAvail = @ScriptDir & "\imgxml\Attack\BuilderBase\LootAvail\LootAvail_0_90.xml"
 Global $g_sImgBBAttackButton = @ScriptDir & "\imgxml\Attack\BuilderBase\AttackButton\*"
 Global $g_sImgBBAttackResult = @ScriptDir & "\imgxml\Attack\BuilderBase\AttackResult"
+Global $g_sImgAxes = @ScriptDir & "\imgxml\Resources\BuildersBase\ElixirCart\Axes*"
+Global $g_sImgElixirCart = @ScriptDir & "\imgxml\Resources\BuildersBase\ElixirCart\ElixCart*"
+Global $g_sImgCollectElixirCart = @ScriptDir & "\imgxml\Resources\BuildersBase\ElixirCart\Collect*"
 #EndRegion
 
 #Region DonateCC
@@ -145,6 +152,7 @@ Global $g_sImgChatIUnterstand = @ScriptDir & "\imgxml\DonateCC\donateccwbl\iunde
  Global $g_sImgWallResource = @ScriptDir & "\imgxml\Resources\Auto Upgrade\UpgradeWalls\"
  Global $g_sImgUpgradeBtn2Wall = @ScriptDir & "\imgxml\imglocbuttons\Upgrade*"
  Global $g_sImgLockedWall = @ScriptDir & "\imgxml\Walls\LockedWalls\"
+ Global $g_sImgAUpgradeEquip = @ScriptDir & "\imgxml\Resources\Auto Upgrade\Equipment"
 #EndRegion
 
 #Region Auto Upgrade Builder Base

@@ -40,7 +40,7 @@ Func StarLaboratory($bTestRun = False)
 	If Not $g_bAutoStarLabUpgradeEnable Then Return ; Lab upgrade not enabled.
 
 	;Create local array to hold upgrade values
-	Local $aUpgradeValue[12] = [-1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+	Local $aUpgradeValue[13] = [-1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
 	Local $iAvailElixir, $sElixirCount, $TimeDiff, $aArray, $Result, $aSearchForTroop
 	Local $iXMoved = 0, $iYMoved = 0, $iFirstPageOffset = 0, $iLastPageOffset = 0
 	Local $iSelectedUpgrade = $g_iCmbStarLaboratory

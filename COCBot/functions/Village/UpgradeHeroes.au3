@@ -111,7 +111,6 @@ EndFunc   ;==>UpgradeHeroes
 Func QueenUpgrade()
 
 	If Not $g_bUpgradeQueenEnable Then Return
-	Local $aHeroLevel = 0
 
 	SetLog("Upgrade Queen")
 	ClickAway()
@@ -140,9 +139,9 @@ Func QueenUpgrade()
 			Return
 		Else
 			If $sInfo[2] <> "" Then
-				$aHeroLevel = Number($sInfo[2]) ; grab hero level from building info array
-				SetLog("Your Archer Queen level read as: " & $aHeroLevel, $COLOR_SUCCESS)
-				If $aHeroLevel = $g_iMaxQueenLevel Then ; max hero
+				$g_iQueenLevel = Number($sInfo[2]) ; grab hero level from building info array
+				SetLog("Your Archer Queen Level read as: " & $g_iQueenLevel, $COLOR_SUCCESS)
+				If $g_iQueenLevel = $g_iMaxQueenLevel Then ; max hero
 					SetLog("Your Archer Queen is at max level, cannot upgrade anymore!", $COLOR_INFO)
 					$g_bUpgradeQueenEnable = False ; turn Off the Queens upgrade
 					GUICtrlSetState($g_hChkUpgradeQueen, $GUI_UNCHECKED)
@@ -171,8 +170,8 @@ Func QueenUpgrade()
 		SetDebugLog("getResourcesMainScreen didn't get the DE value", $COLOR_DEBUG)
 	EndIf
 
-	If $g_aiCurrentLoot[$eLootDarkElixir] < ($g_afQueenUpgCost[$aHeroLevel] * 1000) * (1 - Number($g_iBuilderBoostDiscount) / 100) + $g_iUpgradeMinDark Then
-		SetLog("Insufficient DE for Upg Queen, requires: " & ($g_afQueenUpgCost[$aHeroLevel] * 1000) * (1 - Number($g_iBuilderBoostDiscount) / 100) & " + " & $g_iUpgradeMinDark, $COLOR_INFO)
+	If $g_aiCurrentLoot[$eLootDarkElixir] < ($g_afQueenUpgCost[$g_iQueenLevel] * 1000) * (1 - Number($g_iBuilderBoostDiscount) / 100) + $g_iUpgradeMinDark Then
+		SetLog("Insufficient DE for Upg Queen, requires: " & ($g_afQueenUpgCost[$g_iQueenLevel] * 1000) * (1 - Number($g_iBuilderBoostDiscount) / 100) & " + " & $g_iUpgradeMinDark, $COLOR_INFO)
 		If $g_iHeroReservedBuilder = 0 Then Return
 		Local $aUpgradeButton = findButton("Upgrade", Default, 1, True)
 		If IsArray($aUpgradeButton) And UBound($aUpgradeButton, 1) = 2 Then
@@ -203,7 +202,7 @@ Func QueenUpgrade()
 		If _Sleep($DELAYUPGRADEHERO2) Then Return
 		ClickP($aUpgradeButton)
 		If _Sleep($DELAYUPGRADEHERO3) Then Return ; Wait for window to open
-		Local $g_aUpgradeDuration = getHeroUpgradeTime(578, 465 + $g_iMidOffsetY) ; get duration
+		Local $g_aUpgradeDuration = getHeroUpgradeTime(578, 470 + $g_iMidOffsetY) ; get duration
 		If $g_bDebugImageSave Then SaveDebugImage("UpgradeDarkBtn1")
 		If _ColorCheck(_GetPixelColor(721, 118 + $g_iMidOffsetY, True), Hex(0xE00408, 6), 20) Then ; Check if the Hero Upgrade window is open
 		
@@ -232,7 +231,7 @@ Func QueenUpgrade()
 				$bHeroUpgrade = True
 				If _Sleep($DELAYUPGRADEHERO2) Then Return ; Wait for window to close
 				$g_iNbrOfHeroesUpped += 1
-				$g_iCostDElixirHero += $g_afQueenUpgCost[$aHeroLevel - 1] * 1000 * (1 - Number($g_iBuilderBoostDiscount) / 100)
+				$g_iCostDElixirHero += $g_afQueenUpgCost[$g_iQueenLevel - 1] * 1000 * (1 - Number($g_iBuilderBoostDiscount) / 100)
 				UpdateStats()
 			Else
 				SetLog("Queen Upgrade Fail! No DE!", $COLOR_ERROR)
@@ -278,7 +277,6 @@ EndFunc   ;==>QueenUpgrade
 Func KingUpgrade()
 	;upgradeking
 	If Not $g_bUpgradeKingEnable Then Return
-	Local $aHeroLevel = 0
 
 	SetLog("Upgrade King")
 	ClickAway()
@@ -306,9 +304,9 @@ Func KingUpgrade()
 			Return
 		Else
 			If $sInfo[2] <> "" Then
-				$aHeroLevel = Number($sInfo[2]) ; grab hero level from building info array
-				SetLog("Your King Level read as: " & $aHeroLevel, $COLOR_SUCCESS)
-				If $aHeroLevel = $g_iMaxKingLevel Then ; max hero
+				$g_iKingLevel = Number($sInfo[2]) ; grab hero level from building info array
+				SetLog("Your Babarian King Level read as: " & $g_iKingLevel, $COLOR_SUCCESS)
+				If $g_iKingLevel = $g_iMaxKingLevel Then ; max hero
 					SetLog("Your Babarian King is at max level, cannot upgrade anymore!", $COLOR_INFO)
 					$g_bUpgradeKingEnable = False ; Turn Off the King's Upgrade
 					GUICtrlSetState($g_hChkUpgradeKing, $GUI_UNCHECKED)
@@ -338,8 +336,8 @@ Func KingUpgrade()
 	EndIf
 	If _Sleep(100) Then Return
 
-	If $g_aiCurrentLoot[$eLootDarkElixir] < ($g_afKingUpgCost[$aHeroLevel] * 1000) * (1 - Number($g_iBuilderBoostDiscount) / 100) + $g_iUpgradeMinDark Then
-		SetLog("Insufficient DE for Upg King, requires: " & ($g_afKingUpgCost[$aHeroLevel] * 1000) * (1 - Number($g_iBuilderBoostDiscount) / 100) & " + " & $g_iUpgradeMinDark, $COLOR_INFO)
+	If $g_aiCurrentLoot[$eLootDarkElixir] < ($g_afKingUpgCost[$g_iKingLevel] * 1000) * (1 - Number($g_iBuilderBoostDiscount) / 100) + $g_iUpgradeMinDark Then
+		SetLog("Insufficient DE for Upg King, requires: " & ($g_afKingUpgCost[$g_iKingLevel] * 1000) * (1 - Number($g_iBuilderBoostDiscount) / 100) & " + " & $g_iUpgradeMinDark, $COLOR_INFO)
 		If $g_iHeroReservedBuilder = 0 Then Return
 		Local $aUpgradeButton = findButton("Upgrade", Default, 1, True)
 		If IsArray($aUpgradeButton) And UBound($aUpgradeButton, 1) = 2 Then
@@ -370,7 +368,7 @@ Func KingUpgrade()
 		If _Sleep($DELAYUPGRADEHERO2) Then Return
 		ClickP($aUpgradeButton)
 		If _Sleep($DELAYUPGRADEHERO3) Then Return ; Wait for window to open
-		Local $g_aUpgradeDuration = getHeroUpgradeTime(578, 465 + $g_iMidOffsetY) ; get duration
+		Local $g_aUpgradeDuration = getHeroUpgradeTime(578, 470 + $g_iMidOffsetY) ; get duration
 		If $g_bDebugImageSave Then SaveDebugImage("UpgradeDarkBtn1")
 
 		If _ColorCheck(_GetPixelColor(715, 120 + $g_iMidOffsetY, True), Hex(0xE01C20, 6), 20) Then ; Check if the Hero Upgrade window is open
@@ -400,7 +398,7 @@ Func KingUpgrade()
 				$bHeroUpgrade = True
 				If _Sleep($DELAYUPGRADEHERO2) Then Return ; Wait for window to close
 				$g_iNbrOfHeroesUpped += 1
-				$g_iCostDElixirHero += $g_afKingUpgCost[$aHeroLevel - 1] * 1000 * (1 - Number($g_iBuilderBoostDiscount) / 100)
+				$g_iCostDElixirHero += $g_afKingUpgCost[$g_iKingLevel - 1] * 1000 * (1 - Number($g_iBuilderBoostDiscount) / 100)
 				UpdateStats()
 			Else
 				SetLog("King Upgrade Fail! No DE!", $COLOR_ERROR)
@@ -482,7 +480,7 @@ Func WardenUpgrade()
 		Else
 			If $sInfo[2] <> "" Then
 				$g_iWardenLevel = Number($sInfo[2]) ; grab hero level from building info array
-				SetLog("Your Grand Warden Warden Level read as: " & $g_iWardenLevel, $COLOR_SUCCESS)
+				SetLog("Your Grand Warden Level read as: " & $g_iWardenLevel, $COLOR_SUCCESS)
 				If $g_iWardenLevel = $g_iMaxWardenLevel Then ; max hero
 					SetLog("Your Grand Warden is at max level, cannot upgrade anymore!", $COLOR_INFO)
 					$g_bUpgradeWardenEnable = False ; turn OFF the Wardn's Upgrade
@@ -548,7 +546,7 @@ Func WardenUpgrade()
 		If _Sleep($DELAYUPGRADEHERO2) Then Return
 		ClickP($aUpgradeButton)
 		If _Sleep($DELAYUPGRADEHERO3) Then Return ; Wait for window to open
-		Local $g_aUpgradeDuration = getHeroUpgradeTime(578, 465 + $g_iMidOffsetY) ; get duration
+		Local $g_aUpgradeDuration = getHeroUpgradeTime(578, 470 + $g_iMidOffsetY) ; get duration
 		If $g_bDebugSetlog Then SaveDebugImage("UpgradeElixirBtn1")
 
 		SetDebugLog("pixel: " & _GetPixelColor(718, 120 + $g_iMidOffsetY, True) & " expected " & Hex(0xDD0408, 6) & " result: " & _ColorCheck(_GetPixelColor(718, 120 + $g_iMidOffsetY, True), Hex(0xDD0408, 6), 20), $COLOR_DEBUG)
@@ -628,7 +626,6 @@ EndFunc   ;==>WardenUpgrade
 Func ChampionUpgrade()
 
 	If Not $g_bUpgradeChampionEnable Then Return
-	Local $aHeroLevel = 0
 
 	SetLog("Upgrade Champion")
 	ClickAway()
@@ -657,9 +654,9 @@ Func ChampionUpgrade()
 			Return
 		Else
 			If $sInfo[2] <> "" Then
-				$aHeroLevel = Number($sInfo[2]) ; grab hero level from building info array
-				SetLog("Your Royal Champion level read as: " & $aHeroLevel, $COLOR_SUCCESS)
-				If $aHeroLevel = $g_iMaxChampionLevel Then ; max hero
+				$g_iChampionLevel = Number($sInfo[2]) ; grab hero level from building info array
+				SetLog("Your Royal Champion Level read as: " & $g_iChampionLevel, $COLOR_SUCCESS)
+				If $g_iChampionLevel = $g_iMaxChampionLevel Then ; max hero
 					SetLog("Your Royal Champion is at max level, cannot upgrade anymore!", $COLOR_INFO)
 					$g_bUpgradeChampionEnable = False ; turn Off the Champions upgrade
 					GUICtrlSetState($g_hChkUpgradeChampion, $GUI_UNCHECKED)
@@ -688,8 +685,8 @@ Func ChampionUpgrade()
 		SetDebugLog("getResourcesMainScreen didn't get the DE value", $COLOR_DEBUG)
 	EndIf
 
-	If $g_aiCurrentLoot[$eLootDarkElixir] < ($g_afChampionUpgCost[$aHeroLevel] * 1000) * (1 - Number($g_iBuilderBoostDiscount) / 100) + $g_iUpgradeMinDark Then
-		SetLog("Insufficient DE for Upg Champion, requires: " & ($g_afChampionUpgCost[$aHeroLevel] * 1000) * (1 - Number($g_iBuilderBoostDiscount) / 100) & " + " & $g_iUpgradeMinDark, $COLOR_INFO)
+	If $g_aiCurrentLoot[$eLootDarkElixir] < ($g_afChampionUpgCost[$g_iChampionLevel] * 1000) * (1 - Number($g_iBuilderBoostDiscount) / 100) + $g_iUpgradeMinDark Then
+		SetLog("Insufficient DE for Upg Champion, requires: " & ($g_afChampionUpgCost[$g_iChampionLevel] * 1000) * (1 - Number($g_iBuilderBoostDiscount) / 100) & " + " & $g_iUpgradeMinDark, $COLOR_INFO)
 		If $g_iHeroReservedBuilder = 0 Then Return
 		Local $aUpgradeButton = findButton("Upgrade", Default, 1, True)
 		If IsArray($aUpgradeButton) And UBound($aUpgradeButton, 1) = 2 Then
@@ -720,7 +717,7 @@ Func ChampionUpgrade()
 		If _Sleep($DELAYUPGRADEHERO2) Then Return
 		ClickP($aUpgradeButton)
 		If _Sleep($DELAYUPGRADEHERO3) Then Return ; Wait for window to open
-		Local $g_aUpgradeDuration = getHeroUpgradeTime(578, 465 + $g_iMidOffsetY) ; get duration
+		Local $g_aUpgradeDuration = getHeroUpgradeTime(578, 470 + $g_iMidOffsetY) ; get duration
 		If $g_bDebugImageSave Then SaveDebugImage("UpgradeDarkBtn1")
 		If _ColorCheck(_GetPixelColor(721, 118 + $g_iMidOffsetY, True), Hex(0xE00408, 6), 20) Then ; Check if the Hero Upgrade window is open
 
@@ -749,7 +746,7 @@ Func ChampionUpgrade()
 				$bHeroUpgrade = True
 				If _Sleep($DELAYUPGRADEHERO2) Then Return ; Wait for window to close
 				$g_iNbrOfHeroesUpped += 1
-				$g_iCostDElixirHero += $g_afChampionUpgCost[$aHeroLevel - 1] * 1000 * (1 - Number($g_iBuilderBoostDiscount) / 100)
+				$g_iCostDElixirHero += $g_afChampionUpgCost[$g_iChampionLevel - 1] * 1000 * (1 - Number($g_iBuilderBoostDiscount) / 100)
 				UpdateStats()
 			Else
 				SetLog("Champion Upgrade Fail! No DE!", $COLOR_ERROR)

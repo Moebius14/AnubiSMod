@@ -20,7 +20,7 @@ Func SwitchAccountVariablesReload($sType = "Load", $iAccount = $g_iCurAccount)
 	Local $aiZero83[8][3] = [[0, 0, 0], [0, 0, 0], [0, 0, 0], [0, 0, 0], [0, 0, 0], [0, 0, 0], [0, 0, 0], [0, 0, 0]]
 	Local $aiZero84[8][4] = [[0, 0, 0, 0], [0, 0, 0, 0], [0, 0, 0, 0], [0, 0, 0, 0], [0, 0, 0, 0], [0, 0, 0, 0], [0, 0, 0, 0], [0, 0, 0, 0]]
 	Local $asEmpty[8] = ["", "", "", "", "", "", "", ""]
-	Local $aiZeroTroop[$eTroopCount] = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+	Local $aiZeroTroop[$eTroopCount] = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
 	Local $aiZeroSpell[$eSpellCount] = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
 
 	; FirstRun
@@ -104,10 +104,12 @@ Func SwitchAccountVariablesReload($sType = "Load", $iAccount = $g_iCurAccount)
 	Static $asLabUpgradeTime = $asEmpty, $aiLabStatus = $aiZero, $aiLabElixirCost = $aiZero, $aiLabDElixirCost = $aiZero, $asLabFinishTimeMod = $aiZero
 	Static $asPetLabUpgradeTime = $asEmpty, $aiPetStatus = $aiZero, $asiMinDark4PetUpgrade = $aiZero
 	Static $asStarLabUpgradeTime = $asEmpty
-	Static $SIsResearchPotInStock = $aiTrue
+	Static $SIsResearchPotInStock = $aiZero
+	Static $SIsPetPotInStock = $aiZero
 	Static $SIsBOFJustCollected = $aiZero
 	Static $SIsBOSJustCollected = $aiZero
 	Static $SIsResPotJustCollected = $aiZero
+	Static $SIsPetPotJustCollected = $aiZero
 
 	; Hero State
 	Static $aiHeroAvailable = $aiZero
@@ -241,10 +243,12 @@ Func SwitchAccountVariablesReload($sType = "Load", $iAccount = $g_iCurAccount)
 			$aiPetStatus = $aiZero
 			$asiMinDark4PetUpgrade = $asEmpty
 			$asStarLabUpgradeTime = $asEmpty
-			$SIsResearchPotInStock = $aiTrue
+			$SIsResearchPotInStock = $aiZero
+			$SIsPetPotInStock = $aiZero
 			$SIsBOFJustCollected = $aiZero
 			$SIsBOSJustCollected = $aiZero
 			$SIsResPotJustCollected = $aiZero
+			$SIsPetPotJustCollected = $aiZero
 			
 			;Daily Challenge
 			$gaSsNewChallengeTime = $aiZero
@@ -426,9 +430,11 @@ Func SwitchAccountVariablesReload($sType = "Load", $iAccount = $g_iCurAccount)
 			$asStarLabUpgradeTime[$iAccount] = $g_sStarLabUpgradeTime
 			
 			$SIsResearchPotInStock[$iAccount] = $IsResearchPotInStock
+			$SIsPetPotInStock[$iAccount] = $IspetPotInStock
 			$SIsBOFJustCollected[$iAccount] = $IsBOFJustCollected
 			$SIsBOSJustCollected[$iAccount] = $IsBOSJustCollected
 			$SIsResPotJustCollected[$iAccount] = $IsResPotJustCollected
+			$SIsPetPotJustCollected[$iAccount] = $IsPetPotJustCollected
 			
 			;Daily challenge
 			$gaSsNewChallengeTime[$iAccount] = $g_sNewChallengeTime
@@ -532,6 +538,7 @@ Func SwitchAccountVariablesReload($sType = "Load", $iAccount = $g_iCurAccount)
 				$g_aiCurrentLootBB[$i] = $gSaiCurrentLootBB[$iAccount][$i]
 				GUICtrlSetData($g_alblBldBaseStats[$i], _NumberFormat($g_aiCurrentLootBB[$i], True))
 			Next
+			PicBBTrophies()
 			$g_iFreeBuilderCountBB = $gSiFreeBuilderCountBB[$iAccount]
 			$g_iTotalBuilderCountBB = $gSiTotalBuilderCountBB[$iAccount]
 			
@@ -600,9 +607,11 @@ Func SwitchAccountVariablesReload($sType = "Load", $iAccount = $g_iCurAccount)
 			GUICtrlSetData($g_hLbLStarLabTime, "")
 			
 			$IsResearchPotInStock = $SIsResearchPotInStock[$iAccount]
+			$IsPetPotInStock = $SIsPetPotInStock[$iAccount]
 			$IsBOFJustCollected = $SIsBOFJustCollected[$iAccount]
 			$IsBOSJustCollected = $SIsBOSJustCollected[$iAccount]
 			$IsResPotJustCollected = $SIsResPotJustCollected[$iAccount]
+			$IsPetPotJustCollected = $SIsPetPotJustCollected[$iAccount]
 			
 			;Daily challenge
 			$g_sNewChallengeTime = $gaSsNewChallengeTime[$iAccount]
@@ -659,7 +668,7 @@ Func SwitchAccountVariablesReload($sType = "Load", $iAccount = $g_iCurAccount)
 					If $iLabTime > 0 Then
 						_TicksToDay($iLabTime, $day, $hour, $min, $sec)
 						GUICtrlSetData($g_ahLblLabTime[$i], $day > 0 ? StringFormat("%2ud %02i:%02i'", $day, $hour, $min) : StringFormat("%02i:%02i:%02i", $hour, $min, $sec))
-						GUICtrlSetColor($g_ahLblLabTime[$i], $day > 0 ? $COLOR_GREEN : $COLOR_ORANGE)
+						GUICtrlSetColor($g_ahLblLabTime[$i], $day > 0 ? $COLOR_GREEN : $COLOR_OLIVE)
 					Else
 						GUICtrlSetData($g_ahLblLabTime[$i], "")
 						$asLabUpgradeTime[$i] = ""
@@ -672,7 +681,7 @@ Func SwitchAccountVariablesReload($sType = "Load", $iAccount = $g_iCurAccount)
 					If $iStarLabTime > 0 Then
 						_TicksToDay($iStarLabTime, $day, $hour, $min, $sec)
 						GUICtrlSetData($g_ahLbLStarLabTime[$i], $day > 0 ? StringFormat("%2ud %02i:%02i'", $day, $hour, $min) : StringFormat("%02i:%02i:%02i", $hour, $min, $sec))
-						GUICtrlSetColor($g_ahLbLStarLabTime[$i], $day > 0 ? $COLOR_GREEN : $COLOR_ORANGE)
+						GUICtrlSetColor($g_ahLbLStarLabTime[$i], $day > 0 ? $COLOR_GREEN : $COLOR_OLIVE)
 					Else
 						GUICtrlSetData($g_ahLbLStarLabTime[$i], "")
 						$asStarLabUpgradeTime[$i] = ""
@@ -685,7 +694,7 @@ Func SwitchAccountVariablesReload($sType = "Load", $iAccount = $g_iCurAccount)
 					If $iPetHouseTime > 0 Then
 						_TicksToDay($iPetHouseTime, $day, $hour, $min, $sec)
 						GUICtrlSetData($g_ahLbLPetTime[$i], $day > 0 ? StringFormat("%2ud %02i:%02i'", $day, $hour, $min) : StringFormat("%02i:%02i:%02i", $hour, $min, $sec))
-						GUICtrlSetColor($g_ahLbLPetTime[$i], $day > 0 ? $COLOR_GREEN : $COLOR_ORANGE)
+						GUICtrlSetColor($g_ahLbLPetTime[$i], $day > 0 ? $COLOR_GREEN : $COLOR_OLIVE)
 					Else
 						GUICtrlSetData($g_ahLbLPetTime[$i], "")
 						$asPetLabUpgradeTime[$i] = ""

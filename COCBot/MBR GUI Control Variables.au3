@@ -51,7 +51,7 @@ Global $g_aGroupListPicABMaxTH = ""
 Global $g_aGroupListPicBullyMaxTH = ""
 
 ;League
-Global $g_aGroupLeague = "", $g_aGroupCCLeague = ""
+Global $g_aGroupLeague = "", $g_aGroupCCLeague = "", $g_aGroupBBLeague = ""
 
 ; Groups of controls
 Global $aTabControlsVillage, $aTabControlsMisc, $aTabControlsDonate, $aTabControlsUpgrade, $aTabControlsNotify
@@ -187,10 +187,15 @@ Func InitializeControlVariables()
    $g_aGroupLeague = $g_ahPicLeague[$eLeagueUnranked]&"#"&$g_ahPicLeague[$eLeagueBronze]&"#"&$g_ahPicLeague[$eLeagueSilver]&"#"&$g_ahPicLeague[$eLeagueGold] &"#"& _
 				  $g_ahPicLeague[$eLeagueCrystal]&"#"&$g_ahPicLeague[$eLeagueMaster]&"#"&$g_ahPicLeague[$eLeagueChampion]&"#"&$g_ahPicLeague[$eLeagueTitan]&"#"& _
 				  $g_ahPicLeague[$eLeagueLegend]
-				  
+
 	$g_aGroupCCLeague = $g_ahPicCCLeague[$eLeagueUnranked]&"#"&$g_ahPicCCLeague[$eLeagueBronze]&"#"&$g_ahPicCCLeague[$eLeagueSilver]&"#"&$g_ahPicCCLeague[$eLeagueGold] &"#"& _
 				  $g_ahPicCCLeague[$eLeagueCrystal]&"#"&$g_ahPicCCLeague[$eLeagueMaster]&"#"&$g_ahPicCCLeague[$eLeagueChampion]&"#"&$g_ahPicCCLeague[$eLeagueTitan]&"#"& _
 				  $g_ahPicCCLeague[$eLeagueLegend]
+
+	$g_aGroupBBLeague = $g_ahPicBBLeague[$eBBLeagueUnranked]&"#"&$g_ahPicBBLeague[$eLeagueDiamond]&"#"&$g_ahPicBBLeague[$eLeagueRuby]&"#"&$g_ahPicBBLeague[$eLeagueEmerald] &"#"& _
+				  $g_ahPicBBLeague[$eLeaguePlatinum]&"#"&$g_ahPicBBLeague[$eLeagueTitanium]&"#"&$g_ahPicBBLeague[$eLeagueSteel]&"#"&$g_ahPicBBLeague[$eLeagueIron]&"#"& _
+				  $g_ahPicBBLeague[$eLeagueBrass]&"#"&$g_ahPicBBLeague[$eLeagueCopper]&"#"&$g_ahPicBBLeague[$eLeagueStone]&"#"&$g_ahPicBBLeague[$eLeagueClay]&"#"& _
+				  $g_ahPicBBLeague[$eLeagueWood]
 
    ; Groups of controls
    Dim $aTabControlsVillage = [$g_hGUI_VILLAGE_TAB, $g_hGUI_VILLAGE_TAB_ITEM1, $g_hGUI_VILLAGE_TAB_ITEM2, $g_hGUI_VILLAGE_TAB_ITEM3, $g_hGUI_VILLAGE_TAB_ITEM4, $g_hGUI_VILLAGE_TAB_ITEM5]

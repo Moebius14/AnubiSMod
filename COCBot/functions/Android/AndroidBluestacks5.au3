@@ -35,8 +35,8 @@ Func _OpenBlueStacks5($bRestart = False)
 	; always start ADB first to avoid ADB connection problems
 	LaunchConsole($g_sAndroidAdbPath, AddSpace($g_sAndroidAdbGlobalOptions) & "start-server", $process_killed)
 
-	;$PID = ShellExecute($__BlueStacks5_Path & "HD-RunApp.exe", "-p " & $g_sAndroidGamePackage & " -a " & $g_sAndroidGamePackage & $g_sAndroidGameClass)  ;Start BS and CoC with command line
-	;$PID = ShellExecute($__BlueStacks5_Path & "HD-Frontend.exe", $g_sAndroidInstance) ;Start BS and CoC with command line
+	;$PID = ShellExecute($__BlueStacks_Path & "HD-RunApp.exe", "-p " & $g_sAndroidGamePackage & " -a " & $g_sAndroidGamePackage & $g_sAndroidGameClass)  ;Start BS and CoC with command line
+	;$PID = ShellExecute($__BlueStacks_Path & "HD-Frontend.exe", $g_sAndroidInstance) ;Start BS and CoC with command line
 	$cmdPar = GetAndroidProgramParameter()
 	$PID = LaunchAndroid($g_sAndroidProgramPath, $cmdPar, $g_sAndroidPath)
 	;$ErrorResult = ControlGetHandle("BlueStacks Error", "", "") ; Check for BS error window handle if it opens
@@ -81,18 +81,20 @@ Func _OpenBlueStacks5($bRestart = False)
 EndFunc   ;==>_OpenBlueStacks
 
 Func GetBlueStacks5AdbPath()
-	Return GetBlueStacksXAdbPath()
+	Local $adbPath = $__BlueStacks_Path & "HD-Adb.exe"
+	If FileExists($adbPath) Then Return $adbPath
+	Return ""
 EndFunc   ;==>GetBlueStacksXAdbPath
 
 Func InitBlueStacks5X($bCheckOnly = False, $bAdjustResolution = False, $bLegacyMode = False)
 	;Bluestacks5 doesn't have registry tree for engine, only installation dir info available on registry
 	$__BlueStacks5_Version = RegRead($g_sHKLM & "\SOFTWARE\BlueStacks_nxt\", "Version")
-	$__BlueStacks5_Path = RegRead($g_sHKLM & "\SOFTWARE\BlueStacks_nxt\", "InstallDir")
+	$__BlueStacks_Path = RegRead($g_sHKLM & "\SOFTWARE\BlueStacks_nxt\", "InstallDir")
 	If @error <> 0 Then
-		$__BlueStacks5_Path = @ProgramFilesDir & "\BlueStacks_nxt\"
+		$__BlueStacks_Path = @ProgramFilesDir & "\BlueStacks_nxt\"
 		SetError(0, 0, 0)
 	EndIf
-	$__BlueStacks5_Path = StringReplace($__BlueStacks5_Path, "\\", "\")
+	$__BlueStacks_Path = StringReplace($__BlueStacks_Path, "\\", "\")
 	
 	Local $frontend_exe = ["HD-Frontend.exe", "HD-Player.exe"]
 	Local $i, $aFiles = ["HD-Player.exe", "HD-Adb.exe"] ; first element can be $frontend_exe array!
@@ -103,7 +105,7 @@ Func InitBlueStacks5X($bCheckOnly = False, $bAdjustResolution = False, $bLegacyM
 		Local $aFiles2 = $aFiles[$i]
 		If Not IsArray($aFiles2) Then Local $aFiles2 = [$aFiles[$i]]
 		For $j = 0 To UBound($aFiles2) - 1
-			$File = $__BlueStacks5_Path & $aFiles2[$j]
+			$File = $__BlueStacks_Path & $aFiles2[$j]
 			$bFileFound = FileExists($File)
 			If $bFileFound Then
 				; check if $frontend_exe is array, then convert
@@ -120,21 +122,21 @@ Func InitBlueStacks5X($bCheckOnly = False, $bAdjustResolution = False, $bLegacyM
 			Return False
 		EndIf
 	Next
-	
 	Local $sPreferredADB = FindPreferredAdbPath()
-
+	
 	If Not $bCheckOnly Then
 		; update global variables
-		$g_sAndroidPath = $__BlueStacks5_Path
-		$g_sAndroidProgramPath = $__BlueStacks5_Path & $frontend_exe
-        $g_sAndroidAdbPath = $sPreferredADB
-		$g_sAndroidVersion = $__BlueStacks_Version
+		$g_sAndroidPath = $__BlueStacks_Path
+		$g_sAndroidProgramPath = $__BlueStacks_Path & $frontend_exe
+		;$g_sAndroidAdbPath = $__BlueStacks_Path & "HD-Adb.exe"
+		$g_sAndroidAdbPath = $sPreferredADB
+		$g_sAndroidVersion = $__BlueStacks5_Version
 		ConfigureSharedFolderBlueStacks5() ; something like D:\ProgramData\BlueStacks\Engine\UserData\SharedFolder\
 		WinGetAndroidHandle()
 	EndIf
 	
 	Return True
-EndFunc   ;==>InitBlueStacks5
+EndFunc   ;==>InitBlueStacks5X
 
 Func ConfigureSharedFolderBlueStacks5($iMode = 0, $bSetLog = Default)
 	If $bSetLog = Default Then $bSetLog = True
@@ -194,7 +196,7 @@ Func InitBlueStacks5($bCheckOnly = False)
 	Next
 	
 	If $bInstalled And Not $bCheckOnly Then
-		$__VBoxManage_Path = $__BlueStacks5_Path & "BstkVMMgr.exe"
+		$__VBoxManage_Path = $__BlueStacks_Path & "BstkVMMgr.exe"
 		Local $bsNow = GetVersionNormalized($__BlueStacks5_Version)
 		If $bsNow > GetVersionNormalized("5.0") Then
 			; only Version 4 requires new options
@@ -209,7 +211,7 @@ Func InitBlueStacks5($bCheckOnly = False)
 	EndIf
 
 	Return $bInstalled
-EndFunc   ;==>InitBlueStacks2
+EndFunc   ;==>InitBlueStacks5
 
 Func GetBlueStacks5BackgroundMode()
 #cs
@@ -391,30 +393,55 @@ EndFunc
 
 Func GetBlueStacks5SvcPid()
 	; find process PID
-	Local $PID = ProcessExists2("HD-Player.exe")
+	Local $PID = ProcessExists2("HD-Service.exe")
 	Return $PID
 EndFunc   ;==>GetBlueStacksSvcPid
 
 Func CloseBlueStacks5()
 
+	Local $bOops = False
+
 	If Not InitAndroid() Then Return
 
-	; BlueStacks 5 supports multiple instance
-	Local $PID = 0
-	Local $aFile = ["HD-Player.exe"]
+	If Not CloseUnsupportedBlueStacksX(False) And GetVersionNormalized($g_sAndroidVersion) > GetVersionNormalized("2.10") Then
+		; BlueStacks 3 supports multiple instance
+		Local $aFiles = ["HD-Frontend.exe", "HD-Plus-Service.exe", "HD-Service.exe"]
 
-	$PID = ProcessExists2($aFile, $g_sAndroidInstance, 1)
-	If $PID <> 0 Then
-		ShellExecute(@WindowsDir & "\System32\taskkill.exe", " -f -t -pid " & $PID, "", Default, @SW_HIDE)
-		If _Sleep(2000) Then Return ; Give OS time to work
-		$PID = ProcessExists2($aFile, $g_sAndroidInstance, 1)
-		If $PID <> 0 Then SetLog($g_sAndroidEmulator & " failed to kill " & $aFile, $COLOR_ERROR)
+		Local $bError = False
+		For $sFile In $aFiles
+			Local $PID
+			$PID = ProcessExists2($sFile, $g_sAndroidInstance)
+			If $PID Then
+				ShellExecute(@WindowsDir & "\System32\taskkill.exe", " -f -t -pid " & $PID, "", Default, @SW_HIDE)
+				If _Sleep(1000) Then Return ; Give OS time to work
+			EndIf
+		Next
+		If _Sleep(1000) Then Return ; Give OS time to work
+		For $sFile In $aFiles
+			Local $PID
+			$PID = ProcessExists2($sFile, $g_sAndroidInstance)
+			If $PID Then
+				SetLog($g_sAndroidEmulator & " failed to kill " & $sFile, $COLOR_ERROR)
+			EndIf
+		Next
+
+		; also close vm
+		CloseVboxAndroidSvc()
+	Else
+		SetDebugLog("Closing BlueStacks: " & $__BlueStacks_Path & "HD-Quit.exe")
+		RunWait($__BlueStacks_Path & "HD-Quit.exe")
+		If @error <> 0 Then
+			SetLog($g_sAndroidEmulator & " failed to quit", $COLOR_ERROR)
+			;SetError(1, @extended, -1)
+			;Return False
+		EndIf
 	EndIf
-	
-	; Close Virtual Machine
-	CloseVboxAndroidSvc()
 
 	If _Sleep(2000) Then Return ; wait a bit
+
+	If $bOops Then
+		SetError(1, @extended, -1)
+	EndIf
 
 EndFunc   ;==>CloseBlueStacks5
 

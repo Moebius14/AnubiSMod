@@ -512,7 +512,7 @@ Func LabGuiDisplay() ; called from main loop to get an early status for indictor
 
 		If _Sleep(500) Then Return
 		If ProfileSwitchAccountEnabled() Then SwitchAccountVariablesReload("Save") ; saving $asLabUpgradeTime[$g_iCurAccount] = $g_sLabUpgradeTime for instantly displaying in multi-stats
-		CloseWindow(True)
+		CloseWindow(False, True)
 		Return True
 	ElseIf _ColorCheck(_GetPixelColor(730, 170 + $g_iMidOffsetY, True), Hex(0x8088B0, 6), 20) Then ; Look for light purple in upper right corner of lab window.
 		SetLog("Laboratory has Stopped", $COLOR_INFO)

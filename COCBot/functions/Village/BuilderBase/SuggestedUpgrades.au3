@@ -80,6 +80,11 @@ Func MainSuggestedUpgradeCode($bDebugImage = $g_bDebugImageSave, $bFinishNow = F
 	If $g_iChkBBSuggestedUpgrades = 0 Then Return
 	Local $bDebug = $g_bDebugSetlog
 	Local $bScreencap = True
+	
+	If $g_iBuilderHallLevel >= 8 Then
+		SetLog("AutoUpgrade is disabled for BH8+!", $COLOR_WARNING)
+		Return
+	EndIf
 
 	; Check if you are on Builder island
 	If isOnBuilderBase(True) Then

@@ -37,11 +37,12 @@ Global $g_hChkBattleMachineUpgrade = 0, $g_hChkDoubleCannonUpgrade = 0, $g_hChkA
 Global $g_hChkMegaTeslaUpgrade = 0
 Global $g_hChkBBSuggestedUpgrades = 0, $g_hChkBBSuggestedUpgradesIgnoreGold = 0 , $g_hChkBBSuggestedUpgradesIgnoreElixir , $g_hChkBBSuggestedUpgradesIgnoreHall = 0
 Global $g_hChkPlacingNewBuildings = 0, $g_hChkBBSuggestedUpgradesIgnoreWall = 0
+Global $g_ahPicBBLeague[$eBBLeagueCount] = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], $g_hLblBBLeague1 = 0, $g_hLblBBLeague2 = 0, $g_hLblBBLeague3 = 0, $g_hLblBBLeague4 = 0, $g_hLblBBLeague5 = 0
 
 Global $g_lblCapitalGold = 0, $g_lblCapitalMedal = 0, $g_hCmbForgeBuilder = 0, $g_hLbCmbForgeBuilder = 0, $g_hChkEnableAutoUpgradeCC = 0, _
 $g_hChkAutoUpgradeCCIgnore = 0, $g_hChkStartWeekendRaid = 0, $g_hChkEnableSmartSwitchCC = 0
 Global $g_lblCapitalTrophies = 0, $g_ahPicCCLeague[$eLeagueCount] = [0, 0, 0, 0, 0, 0, 0, 0, 0], $g_hLblCCLeague1 = 0, $g_hLblCCLeague2 = 0, $g_hLblCCLeague3 = 0
-Global $g_hChkEnableCollectCCGold = 0, $g_hChkEnableForgeGold = 0, $g_hChkEnableForgeElix = 0, $g_hChkEnableForgeDE = 0, $g_hChkEnableForgeBBGold = 0, $g_hChkEnableForgeBBElix = 0
+Global $g_hChkEnableCollectCCGold = 0, $g_hChkEnableForgeGold = 0, $g_hChkEnableForgeElix = 0, $g_hChkEnableForgeDE = 0, $g_hChkEnableForgeBBGold = 0, $g_hChkEnableForgeBBElix = 0, $g_hChkEnableSmartUse = 0
 Global $g_hCmbPriorityCCBaseFrequency = 0, $g_hChkCCBaseFrequencyLabel = 0, $g_hChkCCBaseFrequencyLabel1 = 0, $g_hcmbAdvancedVariationCC = 0, $g_hTxtAutoUpgradeCCLog = 0
 Global $g_hLbacmdGoldSaveMin = 0, $g_acmdGoldSaveMin = 0, $g_hLbacmdElixSaveMin = 0, $g_acmdElixSaveMin = 0, $g_hLbacmdDarkSaveMin = 0, $g_acmdDarkSaveMin = 0
 Global $g_hLbacmdBBGoldSaveMin = 0, $g_acmdBBGoldSaveMin = 0, $g_hLbacmdBBElixSaveMin = 0, $g_acmdBBElixSaveMin = 0
@@ -67,8 +68,8 @@ Global $g_hChkCGMainAir = 0, $g_hChkCGMainGround = 0, $g_hChkCGMainMisc = 0, $g_
 Global $g_hChkCGBBBattle = 0, $g_hChkCGBBDestruction = 0, $g_hChkCGBBTroops = 0
 
 Global $g_ahCGMainLootItem[6], $g_ahCGMainBattleItem[22], $g_ahCGMainDestructionItem[34], $g_ahCGMainAirItem[13], _
-	   $g_ahCGMainGroundItem[28], $g_ahCGMainMiscItem[3], $g_ahCGMainSpellItem[12], $g_ahCGBBBattleItem[4], _
-	   $g_ahCGBBDestructionItem[18], $g_ahCGBBTroopsItem[12]
+	   $g_ahCGMainGroundItem[29], $g_ahCGMainMiscItem[3], $g_ahCGMainSpellItem[12], $g_ahCGBBBattleItem[4], _
+	   $g_ahCGBBDestructionItem[19], $g_ahCGBBTroopsItem[12]
 
 Func CreateVillageMisc()
 	$g_hGUI_MISC = _GUICreate("", $g_iSizeWGrpTab2, $g_iSizeHGrpTab2, 5, 25, BitOR($WS_CHILD, $WS_TABSTOP), -1, $g_hGUI_VILLAGE)
@@ -534,17 +535,56 @@ Func CreateMiscBuilderBaseSubTab()
 		$g_alblBldBaseStats[$eLootGoldBB] = GUICtrlCreateLabel("---", $x + 35, $y + 2, 100, -1)
 			GUICtrlSetFont(-1, 9, $FW_BOLD, Default, "Arial", $CLEARTYPE_QUALITY)
 
-		_GUICtrlCreateIcon($g_sLibIconPath, $eIcnBBElix, $x + 140, $y - 2, 24, 24)
-		$g_alblBldBaseStats[$eLootElixirBB] = GUICtrlCreateLabel("---", $x + 175, $y + 2, 100, -1)
+		_GUICtrlCreateIcon($g_sLibIconPath, $eIcnBBElix, $x + 130, $y - 2, 24, 24)
+		$g_alblBldBaseStats[$eLootElixirBB] = GUICtrlCreateLabel("---", $x + 165, $y + 2, 100, -1)
 			GUICtrlSetFont(-1, 9, $FW_BOLD, Default, "Arial", $CLEARTYPE_QUALITY)
 
-		_GUICtrlCreateIcon($g_sLibIconPath, $eIcnBBTrophy, $x + 280, $y - 2, 24, 24)
-		$g_alblBldBaseStats[$eLootTrophyBB] = GUICtrlCreateLabel("---", $x + 315, $y + 2, 100, -1)
+		_GUICtrlCreateIcon($g_sLibIconPath, $eIcnBBTrophy, $x + 260, $y - 3, 26, 26)
+		$g_alblBldBaseStats[$eLootTrophyBB] = GUICtrlCreateLabel("---", $x + 295, $y + 2, 100, -1)
 			GUICtrlSetFont(-1, 9, $FW_BOLD, Default, "Arial", $CLEARTYPE_QUALITY)
+
+		$g_ahPicBBLeague[$eBBLeagueUnranked] = _GUICtrlCreateIcon($g_sLibIconPath, $eUnranked, $x + 355, $y - 15, 40, 40)
+			GUICtrlSetState(-1, $GUI_SHOW)
+		$g_ahPicBBLeague[$eLeagueWood] = _GUICtrlCreateIcon($g_sLibIconPath, $eWood, $x + 355, $y - 12, 40, 40)
+			GUICtrlSetState(-1, $GUI_HIDE)
+		$g_ahPicBBLeague[$eLeagueClay] = _GUICtrlCreateIcon($g_sLibIconPath, $eClay, $x + 355, $y - 12, 40, 40)
+			GUICtrlSetState(-1, $GUI_HIDE)
+		$g_ahPicBBLeague[$eLeagueStone] = _GUICtrlCreateIcon($g_sLibIconPath, $eStone, $x + 355, $y - 12, 40, 40)
+			GUICtrlSetState(-1, $GUI_HIDE)
+		$g_ahPicBBLeague[$eLeagueCopper] = _GUICtrlCreateIcon($g_sLibIconPath, $eCopper, $x + 355, $y - 12, 40, 40)
+			GUICtrlSetState(-1, $GUI_HIDE)
+		$g_ahPicBBLeague[$eLeagueBrass] = _GUICtrlCreateIcon($g_sLibIconPath, $eBrass, $x + 355, $y - 12, 40, 40)
+			GUICtrlSetState(-1, $GUI_HIDE)
+		$g_ahPicBBLeague[$eLeagueIron] = _GUICtrlCreateIcon($g_sLibIconPath, $eIron, $x + 355, $y - 12, 40, 40)
+			GUICtrlSetState(-1, $GUI_HIDE)
+		$g_ahPicBBLeague[$eLeagueSteel] = _GUICtrlCreateIcon($g_sLibIconPath, $eSteel, $x + 355, $y - 12, 40, 40)
+			GUICtrlSetState(-1, $GUI_HIDE)
+		$g_ahPicBBLeague[$eLeagueTitanium] = _GUICtrlCreateIcon($g_sLibIconPath, $eTitanium, $x + 355, $y - 12, 40, 40)
+			GUICtrlSetState(-1, $GUI_HIDE)
+		$g_ahPicBBLeague[$eLeaguePlatinum] = _GUICtrlCreateIcon($g_sLibIconPath, $ePlatinum, $x + 355, $y - 12, 40, 40)
+			GUICtrlSetState(-1, $GUI_HIDE)
+		$g_ahPicBBLeague[$eLeagueEmerald] = _GUICtrlCreateIcon($g_sLibIconPath, $eEmerald, $x + 355, $y - 12, 40, 40)
+			GUICtrlSetState(-1, $GUI_HIDE)
+		$g_ahPicBBLeague[$eLeagueRuby] = _GUICtrlCreateIcon($g_sLibIconPath, $eRuby, $x + 355, $y - 12, 40, 40)
+			GUICtrlSetState(-1, $GUI_HIDE)
+		$g_ahPicBBLeague[$eLeagueDiamond] = _GUICtrlCreateIcon($g_sLibIconPath, $eDiamond, $x + 355, $y - 12, 40, 40)
+			GUICtrlSetState(-1, $GUI_HIDE)
+
+		$g_hLblBBLeague1 = _GUICtrlCreateIcon($g_sLibIconPath, $eLigue1, $x + 382, $y + 12, 10, 10)
+			GUICtrlSetState(-1, $GUI_HIDE)
+		$g_hLblBBLeague2 = _GUICtrlCreateIcon($g_sLibIconPath, $eLigue2, $x + 382, $y + 12, 10, 10)
+			GUICtrlSetState(-1, $GUI_HIDE)
+		$g_hLblBBLeague3 = _GUICtrlCreateIcon($g_sLibIconPath, $eLigue3, $x + 382, $y + 13, 10, 10)
+			GUICtrlSetState(-1, $GUI_HIDE)
+		$g_hLblBBLeague4 = _GUICtrlCreateIcon($g_sLibIconPath, $eLigue4, $x + 382, $y + 13, 10, 10)
+			GUICtrlSetState(-1, $GUI_HIDE)
+		$g_hLblBBLeague5 = _GUICtrlCreateIcon($g_sLibIconPath, $eLigue5, $x + 382, $y + 13, 10, 10)
+			GUICtrlSetState(-1, $GUI_HIDE)
+
 	GUICtrlCreateGroup("", -99, -99, 1, 1)
-	
+
 	$y = 84
-	
+
 	GUICtrlCreateGroup(GetTranslatedFileIni("MBR GUI Design Child Village - Misc", "Group_13", "Builders Base Attacking"), $x - 10,  $y, 430, 110)
 		$g_hChkEnableBBAttack = GUICtrlCreateCheckbox(GetTranslatedFileIni("MBR GUI Design Child Village - Misc", "ChkEnableBBAttack", "Attack"), $x + 20, $y + 20, -1, -1)
 			_GUICtrlSetTip(-1, GetTranslatedFileIni("MBR GUI Design Child Village - Misc", "ChkEnableBBAttack_Info_01", "Uses the currently queued army to attack."))
@@ -623,7 +663,7 @@ Func CreateMiscBuilderBaseSubTab()
 		_GUICtrlSetTip(-1, GetTranslatedFileIni("MBR GUI Design Child Village - Misc", "ChkBBaseFrequency_Info_01", "Check this to enable BBase Switch Frequency in Advanced Mod Tab"))
 		GUICtrlSetOnEvent(-1, "ChkBBaseFrequency")
 		$g_hChkCollectBuilderBase = GUICtrlCreateCheckbox(GetTranslatedFileIni("MBR GUI Design Child Village - Misc", "ChkCollectBuilderBase", "Collect Ressources"), $x + 100, $y + 14, -1, -1)
-			_GUICtrlSetTip(-1, GetTranslatedFileIni("MBR GUI Design Child Village - Misc", "ChkCollectBuildersBase_Info_01", "Check this to collect Ressources on the Builder Base"))
+			_GUICtrlSetTip(-1, GetTranslatedFileIni("MBR GUI Design Child Village - Misc", "ChkCollectBuildersBase_Info_01", "Check this to collect Ressources and Elixir Cart on the Builder Base"))
 		$g_hChkCleanBBYard = GUICtrlCreateCheckbox(GetTranslatedFileIni("MBR GUI Design Child Village - Misc", "ChkCleanBBYard", "Remove Obstacles"), $x + 260, $y + 14, -1, -1)
 			_GUICtrlSetTip(-1, GetTranslatedFileIni("MBR GUI Design Child Village - Misc", "ChkCleanBBYard_Info_01", "Check this to automatically clear Yard from Trees, Trunks, etc."))
 			GUICtrlSetState (-1, $GUI_ENABLE)
@@ -715,7 +755,7 @@ Func CreateMiscClanCapitalSubTab()
 	$y += 30
 
 		$g_hChkEnableCollectCCGold = GUICtrlCreateCheckbox(GetTranslatedFileIni("MBR GUI Design Child Village - Misc", "CollectCCGold", "Collect Clan Capital Gold"), $x, $y, -1, -1)
-		GUICtrlSetState(-1, $GUI_CHECKED)
+
 		$g_hChkStartWeekendRaid = GUICtrlCreateCheckbox(GetTranslatedFileIni("MBR GUI Design Child Village - Misc", "StartWeekendRaid", "Start Weekend Raid"), $x + 180, $y, -1, -1)
 		_GUICtrlSetTip(-1, "Only Chiefs Or Co-Chiefs Can Start Weekend Raids")
 		
@@ -759,14 +799,12 @@ Func CreateMiscClanCapitalSubTab()
 		$g_hLbacmdGoldSaveMin = GUICtrlCreateLabel("Save : ", $x + 70, $y + 4, -1, -1)
 		$g_acmdGoldSaveMin = GUICtrlCreateInput("150000", $x + 110, $y + 2, 55, 18, BitOR($GUI_SS_DEFAULT_INPUT, $ES_CENTER, $ES_NUMBER))
 		GUICtrlSetLimit(-1, 8)
-		GUICtrlSetOnEvent(-1, "cmdGoldSaveMin")
 	$y += 20
 		$g_hChkEnableForgeElix = GUICtrlCreateCheckbox(GetTranslatedFileIni("MBR GUI Design Child Village - Misc", "EnableCCGoldForgeElix", "Use Elixir"), $x, $y, -1, -1)
 		GUICtrlSetOnEvent(-1, "ChkEnableForgeElix")
 		$g_hLbacmdElixSaveMin = GUICtrlCreateLabel("Save : ", $x + 70, $y + 4, -1, -1)
 		$g_acmdElixSaveMin = GUICtrlCreateInput("1000", $x + 110, $y + 2, 55, 18, BitOR($GUI_SS_DEFAULT_INPUT, $ES_CENTER, $ES_NUMBER))
 		GUICtrlSetLimit(-1, 8)
-		GUICtrlSetOnEvent(-1, "cmdElixSaveMin")
 	$x += 100
 	$y -= 20
 		$g_hChkEnableForgeDE = GUICtrlCreateCheckbox(GetTranslatedFileIni("MBR GUI Design Child Village - Misc", "EnableCCGoldForgeDE", "Use Dark"), $x - 100, $y + 40, -1, -1)
@@ -774,14 +812,15 @@ Func CreateMiscClanCapitalSubTab()
 		$g_hLbacmdDarkSaveMin = GUICtrlCreateLabel("Save : ", $x - 30, $y + 44, -1, -1)
 		$g_acmdDarkSaveMin = GUICtrlCreateInput("1000", $x + 10, $y + 42, 55, 18, BitOR($GUI_SS_DEFAULT_INPUT, $ES_CENTER, $ES_NUMBER))
 		GUICtrlSetLimit(-1, 6)
-		GUICtrlSetOnEvent(-1, "cmdDarkSaveMin")
+		$g_hChkEnableSmartUse = GUICtrlCreateCheckbox(GetTranslatedFileIni("MBR GUI Design Child Village - Misc", "EnableSmartUse", "Smart Use of Resources"), $x + 115, $y + 40, -1, -1)
+		_GUICtrlSetTip(-1, GetTranslatedFileIni("MBR GUI Design Child Village - Misc", "EnableSmartUse_Info_01", "If checked, Bot will use resources in the order of their values.") & @CRLF & _
+						   GetTranslatedFileIni("MBR GUI Design Child Village - Misc", "EnableSmartUse_Info_02", "If unchecked, Bot will use resources by type."))
 	$y += 20
 		$g_hChkEnableForgeBBElix = GUICtrlCreateCheckbox(GetTranslatedFileIni("MBR GUI Design Child Village - Misc", "EnableCCGoldForgeBBElix", "Use BB Elixir"), $x + 115, $y, -1, -1)
 		GUICtrlSetOnEvent(-1, "ChkEnableForgeBBElix")
 		$g_hLbacmdBBElixSaveMin = GUICtrlCreateLabel("Save : ", $x + 200, $y + 4, -1, -1)
 		$g_acmdBBElixSaveMin = GUICtrlCreateInput("1000", $x + 240, $y + 2, 55, 18, BitOR($GUI_SS_DEFAULT_INPUT, $ES_CENTER, $ES_NUMBER))
 		GUICtrlSetLimit(-1, 7)
-		GUICtrlSetOnEvent(-1, "cmdBBElixSaveMin")
 	$x += 115
 	$y -= 20
 		$g_hChkEnableForgeBBGold = GUICtrlCreateCheckbox(GetTranslatedFileIni("MBR GUI Design Child Village - Misc", "EnableCCGoldForgeBBGold", "Use BB Gold"), $x, $y, -1, -1)
@@ -789,7 +828,6 @@ Func CreateMiscClanCapitalSubTab()
 		$g_hLbacmdBBGoldSaveMin = GUICtrlCreateLabel("Save : ", $x + 85, $y + 4, -1, -1)
 		$g_acmdBBGoldSaveMin = GUICtrlCreateInput("1000", $x + 125, $y + 2, 55, 18, BitOR($GUI_SS_DEFAULT_INPUT, $ES_CENTER, $ES_NUMBER))
 		GUICtrlSetLimit(-1, 7)
-		GUICtrlSetOnEvent(-1, "cmdBBGoldSaveMin")
 	$x = 15
 	$y += 68
 		GUICtrlCreateLabel(GetTranslatedFileIni("MBR GUI Design Child Village - Misc", "LblForgeUseBuilder", "Use "), $x, $y + 2, 45, 17)

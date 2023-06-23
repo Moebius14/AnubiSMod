@@ -41,16 +41,18 @@ Func SwitchBetweenBases($bCheckMainScreen = True)
 		If Not $g_bRunState Then Return
 
 		ZoomOut() ; ensure boat is visible
-		
+
 		Local $iLoop = 0
 		; check if OTTO Outpost
 		While $g_iTree = $eTreeOO 
 			SwitchToBuilderBase()
 			ZoomOut()
-			$iLoop =+ 1
-			If $iLoop = 10 Then
+			$iLoop += 1
+			If $iLoop > 2 Then
 				SetLog("Failed to switch to Builder Base", $COLOR_ERROR)
-				ExitLoop ; exit and let main code handle the reset which will reload into the main village or builder base
+				RestartAndroidCoC()
+				If _Sleep(5000) Then Return
+				ZoomOut()
 			EndIf
 		WEnd		
 		

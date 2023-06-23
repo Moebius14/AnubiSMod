@@ -154,8 +154,8 @@ Func SaveBuildingConfig()
 	_Ini_Add("upgrade", "usebookspellMinTime", $g_iUseBOSTime)
 	_Ini_Add("upgrade", "usebookeverything", $g_bUseBOE ? 1 : 0)
 	_Ini_Add("upgrade", "usebookeverythingMinTime", $g_iUseBOETime)
-	_Ini_Add("upgrade", "upgradelabelexircost", $g_iLaboratoryElixirCost)
-	_Ini_Add("upgrade", "upgradelabdelexircost", $g_iLaboratoryDElixirCost)
+;	_Ini_Add("upgrade", "upgradelabelexircost", $g_iLaboratoryElixirCost)
+;	_Ini_Add("upgrade", "upgradelabdelexircost", $g_iLaboratoryDElixirCost)
 	_Ini_Add("upgrade", "upgradestartroops", $g_bAutoStarLabUpgradeEnable ? 1 : 0)
 	_Ini_Add("upgrade", "upgradestartroopname", $g_iCmbStarLaboratory)
 
@@ -539,6 +539,7 @@ Func SaveConfig_600_6()
 	_Ini_Add("ClanCapital", "ChkEnableForgeDE", $g_bChkEnableForgeDE)
 	_Ini_Add("ClanCapital", "ChkEnableForgeBBGold", $g_bChkEnableForgeBBGold)
 	_Ini_Add("ClanCapital", "ChkEnableForgeBBElix", $g_bChkEnableForgeBBElix)
+	_Ini_Add("ClanCapital", "ChkEnableSmartUse", $g_bChkEnableSmartUse)
 	_Ini_Add("ClanCapital", "ForgeUseBuilder", $g_iCmbForgeBuilder)
 	_Ini_Add("ClanCapital", "AutoUpgradeCC", $g_bChkEnableAutoUpgradeCC)
 	_Ini_Add("ClanCapital", "SmartSwitchCC", $g_bChkEnableSmartSwitchCC)
@@ -647,10 +648,6 @@ Func SaveConfig_600_12()
 			$sIniName = "CustomA"
 		ElseIf $i = $eCustomB Then
 			$sIniName = "CustomB"
-		ElseIf $i = $eCustomC Then
-			$sIniName = "CustomC"
-		ElseIf $i = $eCustomD Then
-			$sIniName = "CustomD"
 		EndIf
 
 		_Ini_Add("donate", "chkDonate" & $sIniName, $g_abChkDonateTroop[$i] ? 1 : 0)
@@ -681,10 +678,6 @@ Func SaveConfig_600_12()
 		_Ini_Add("donate", "txtDonateCustomA" & $i + 1, $g_aiDonateCustomTrpNumA[$i][1])
 		_Ini_Add("donate", "cmbDonateCustomB" & $i + 1, $g_aiDonateCustomTrpNumB[$i][0])
 		_Ini_Add("donate", "txtDonateCustomB" & $i + 1, $g_aiDonateCustomTrpNumB[$i][1])
-		_Ini_Add("donate", "cmbDonateCustomC" & $i + 1, $g_aiDonateCustomTrpNumC[$i][0])
-		_Ini_Add("donate", "txtDonateCustomC" & $i + 1, $g_aiDonateCustomTrpNumC[$i][1])
-		_Ini_Add("donate", "cmbDonateCustomD" & $i + 1, $g_aiDonateCustomTrpNumD[$i][0])
-		_Ini_Add("donate", "txtDonateCustomD" & $i + 1, $g_aiDonateCustomTrpNumD[$i][1])
 	Next
 
 	_Ini_Add("donate", "chkExtraAlphabets", $g_bChkExtraAlphabets ? 1 : 0)
@@ -729,6 +722,7 @@ Func SaveConfig_600_15()
 	_Ini_Add("upgrade", "ChkSortPetUpgrade", $g_bChkSortPetUpgrade ? 1 : 0)
 	_Ini_Add("upgrade", "CmbSortPetUpgrade", $g_iCmbSortPetUpgrade)
 	_Ini_Add("upgrade", "CmbSortPetUpgrade2", $g_iCmbSortPetUpgradeLvLCost)
+	_Ini_Add("upgrade", "ChkPetPotion", $g_bUsePetPotion ? 1 : 0)
 EndFunc   ;==>SaveConfig_600_15
 
 Func SaveConfig_600_16()

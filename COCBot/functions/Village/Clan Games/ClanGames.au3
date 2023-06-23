@@ -651,7 +651,7 @@ Func _ClanGames($test = False, $HaltMode = False)
 EndFunc ;==>_ClanGames
 
 Func ClearTempCGFiles()
-	Local $sTempChallengePath = @TempDir & "\" & $g_sProfileCurrentName & "\Challenges\"
+	Local $sTempChallengePath = @TempDir & "\" & $g_sProfileCurrentName
 	If FileExists($sTempChallengePath) Then
 		;Remove All files From Clan Games
 		DirRemove($sTempChallengePath, $DIR_REMOVE)
@@ -1685,7 +1685,7 @@ Func ClanGamesChallenges($sReturnArray)
 			["BattleB", 				"Battle Blimp", 				10, 1, "Earn 1-5 Stars (accumulated from many attacks) from Multiplayer Battles using a of Battle Blimp"], _
 			["StoneS",	 				"Stone Slammer", 				10, 1, "Earn 1-5 Stars (accumulated from many attacks) from Multiplayer Battles using a of Stone Slammer"]]
 
-	Local $GroundTroopChallenges[28][5] = [ _
+	Local $GroundTroopChallenges[29][5] = [ _
 			["Arch", 					"Archer", 						  6, 1, "Earn 1-5 Stars from Multiplayer Battles using certain count of Archers"		], _
 			["Barb", 					"Barbarian", 					  6, 1, "Earn 1-5 Stars from Multiplayer Battles using certain count of Barbarians"			], _
 			["Giant", 					"Giant", 						  6, 1, "Earn 1-5 Stars from Multiplayer Battles using certain count of Giants"			], _
@@ -1711,6 +1711,7 @@ Func ClanGamesChallenges($sReturnArray)
 			["Swiza", 					"SuperWizard",					 12, 1, "Earn 1-5 Stars from Multiplayer Battles using certain count of Super Wizard" 	], _
 			["Svalk", 					"SuperValkyrie",				 12, 1, "Earn 1-5 Stars from Multiplayer Battles using certain count of Super Valkyrie"	], _
 			["Switc", 					"SuperWitch", 					 12, 1, "Earn 1-5 Stars from Multiplayer Battles using certain count of Super Witch" 	], _
+			["Sbowl", 					"SuperBowler", 					 12, 1, "Earn 1-5 Stars from Multiplayer Battles using certain count of Super Bowler" 	], _
 			["WallW", 					"Wall Wrecker", 				 10, 1, "Earn 1-5 Stars from Multiplayer Battles using a Wall Wrecker" 					], _
 			["SiegeB", 					"Siege Barrack", 				 10, 1, "Earn 1-5 Stars from Multiplayer Battles using a Siege Barracks" 				], _
 			["LogL", 					"Log Launcher", 				 10, 1, "Earn 1-5 Stars from Multiplayer Battles using a Log Launcher"					]]
@@ -1740,7 +1741,7 @@ Func ClanGamesChallenges($sReturnArray)
 			["StarTimed",				"BB Star Timed",				 6, 2, "Earn stars in Versus Battles, but only stars gained below a minute counted"	], _
             ["Destruction",				"BB Destruction",				 6, 1, "Earn certain amount of destruction percentage (%) in Versus Battles"			]]
 
-	Local $BBDestructionChallenges[18][5] = [ _
+	Local $BBDestructionChallenges[19][5] = [ _
             ["Airbomb",					"Air Bomb",                 	6, 4, "Destroy certain number of Air Bomb in Versus Battles"		], _
 			["BuildingDes",             "BB Building",					6, 4, "Destroy certain number of Building in Versus Battles"		], _
 			["BuilderHall",             "BuilderHall",					6, 2, "Destroy certain number of Builder Hall in Versus Battles"	], _
@@ -1758,7 +1759,8 @@ Func ClanGamesChallenges($sReturnArray)
 			["WallDes",             	"Wall WipeOut",    	    		6, 2, "Destroy certain number of Wall in Versus Battles"			], _
 			["Crusher",             	"Crusher",                 		6, 2, "Destroy certain number of Crusher in Versus Battles"			], _
 			["ArcherTower",             "Archer Tower",            		6, 1, "Destroy certain number of Archer Tower in Versus Battles"	], _
-			["LavaLauncher",            "Lava Launcher",           		6, 5, "Destroy certain number of Lava Launcher in Versus Battles"	]]
+			["LavaLauncher",            "Lava Launcher",           		6, 5, "Destroy certain number of Lava Launcher in Versus Battles"	], _
+			["OttosOutPost",            "Otto's OutPost",          		6, 6, "Destroy certain number of Otto's OutPost in Versus Battles"	]]
 
 	Local $BBTroopsChallenges[12][5] = [ _
             ["RBarb",					"Raged Barbarian",              6, 1, "Win 1-5 Attacks using Raged Barbarians in Versus Battle"	], _

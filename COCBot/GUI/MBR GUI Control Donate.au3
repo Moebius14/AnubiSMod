@@ -18,8 +18,8 @@ Global $g_aiDonIcons[$eTroopCount + 1] = [$eIcnDonBarbarian, $eIcnSuperBarbarian
 							$eIcnDonWallBreaker, $eIcnSuperWallBreaker, $eIcnDonBalloon, $eIcnRocketBalloon, $eIcnDonWizard, $eIcnSuperWizard, _
 							$eIcnDonHealer, $eIcnDonDragon, $eIcnSuperDragon, $eIcnDonPekka, $eIcnDonBabyDragon, _							
 							$eIcnInfernoDragon, $eIcnDonMiner, $eIcnSuperMiner, $eIcnElectroDragon, $eIcnYeti, $eIcnDragonRider, $eIcnElectroTitan, _
-							$eIcnDonMinion, $eIcnSuperMinion, $eIcnDonHogRider, $eIcnDonValkyrie, $eIcnSuperValkyrie, $eIcnDonGolem, _
-							$eIcnDonWitch, $eIcnSuperWitch, $eIcnDonLavaHound, $eIcnIceHound, $eIcnDonBowler, $eIcnSuperBowler, $eIcnIceGolem, $eIcnHeadhunter, $eIcnDonBlank]
+							$eIcnDonMinion, $eIcnSuperMinion, $eIcnDonHogRider, $eIcnSuperHogRider, $eIcnDonValkyrie, $eIcnSuperValkyrie, $eIcnDonGolem, _
+							$eIcnDonWitch, $eIcnSuperWitch, $eIcnDonLavaHound, $eIcnIceHound, $eIcnDonBowler, $eIcnSuperBowler, $eIcnIceGolem, $eIcnHeadhunter, $eIcnAppWard, $eIcnDonBlank]
 
 Func btnDonateTroop()
 	For $i = 0 To $eTroopCount - 1 + $g_iCustomDonateConfigs + $eSiegeMachineCount
@@ -149,24 +149,6 @@ Func cmbDonateCustomB()
 	_GUICtrlSetImage($g_ahPicDonateCustomB[2], $g_sLibIconPath, $g_aiDonIcons[$combo3])
 EndFunc   ;==>cmbDonateCustomB
 
-Func cmbDonateCustomC()
-	Local $combo1 = _GUICtrlComboBox_GetCurSel($g_ahCmbDonateCustomC[0])
-	Local $combo2 = _GUICtrlComboBox_GetCurSel($g_ahCmbDonateCustomC[1])
-	Local $combo3 = _GUICtrlComboBox_GetCurSel($g_ahCmbDonateCustomC[2])
-	_GUICtrlSetImage($g_ahPicDonateCustomC[0], $g_sLibIconPath, $g_aiDonIcons[$combo1])
-	_GUICtrlSetImage($g_ahPicDonateCustomC[1], $g_sLibIconPath, $g_aiDonIcons[$combo2])
-	_GUICtrlSetImage($g_ahPicDonateCustomC[2], $g_sLibIconPath, $g_aiDonIcons[$combo3])
-EndFunc   ;==>cmbDonateCustomC
-
-Func cmbDonateCustomD()
-	Local $combo1 = _GUICtrlComboBox_GetCurSel($g_ahCmbDonateCustomD[0])
-	Local $combo2 = _GUICtrlComboBox_GetCurSel($g_ahCmbDonateCustomD[1])
-	Local $combo3 = _GUICtrlComboBox_GetCurSel($g_ahCmbDonateCustomD[2])
-	_GUICtrlSetImage($g_ahPicDonateCustomD[0], $g_sLibIconPath, $g_aiDonIcons[$combo1])
-	_GUICtrlSetImage($g_ahPicDonateCustomD[1], $g_sLibIconPath, $g_aiDonIcons[$combo2])
-	_GUICtrlSetImage($g_ahPicDonateCustomD[2], $g_sLibIconPath, $g_aiDonIcons[$combo3])
-EndFunc   ;==>cmbDonateCustomD
-
 Func _DonateBtn($hFirstControl, $hLastControl)
     Static $hLastDonateBtn1 = -1, $hLastDonateBtn2 = -1
 
@@ -202,7 +184,7 @@ Func _DonateControls($iTroopIndex)
 
 	For $i = $iFirstTroop To $iLastTroop
 		If $i = $iTroopIndex Then
-			GUICtrlSetBkColor($g_ahLblDonateTroop[$i], $COLOR_ORANGE)
+			GUICtrlSetBkColor($g_ahLblDonateTroop[$i], $COLOR_OLIVE)
 		Else
 			If GUICtrlGetBkColor($g_ahLblDonateTroop[$i]) = $COLOR_NAVY Then GUICtrlSetBkColor($g_ahLblDonateTroop[$i], $GUI_BKCOLOR_TRANSPARENT)
 		EndIf
@@ -254,7 +236,7 @@ EndFunc   ;==>_DonateAllControls
 Func _DonateControlsSpell($iSpellIndex)
 	For $i = 0 To $eSpellCount - 1
 		If $i = $iSpellIndex Then
-			GUICtrlSetBkColor($g_ahLblDonateSpell[$i], $COLOR_ORANGE)
+			GUICtrlSetBkColor($g_ahLblDonateSpell[$i], $COLOR_OLIVE)
 		Else
 			If GUICtrlGetBkColor($g_ahLblDonateSpell[$i]) = $COLOR_NAVY Then GUICtrlSetBkColor($g_ahLblDonateSpell[$i], $GUI_BKCOLOR_TRANSPARENT)
 	    EndIf

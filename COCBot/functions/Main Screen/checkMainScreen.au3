@@ -61,6 +61,13 @@ Func _checkMainScreen($bSetLog = Default, $bBuilderBase = Default) ;Checks if in
 		$bObstacleResult = checkObstacles($bBuilderBase)
 		SetDebugLog("CheckObstacles[" & $i & "] Result = " & $bObstacleResult, $COLOR_DEBUG)
 
+		;Arch: Arbitrary looping limit...
+		If $i > 24 Then
+			SetLog("Giving up and restarting everything.", $COLOR_ERROR)
+			SaveConfig()
+			RestartBot()
+		EndIf
+
 		$bContinue = False
 		If Not $bObstacleResult Then
 			If $g_bMinorObstacle Then

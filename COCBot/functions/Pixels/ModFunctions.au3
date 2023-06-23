@@ -334,19 +334,19 @@ Func findMultipleQuick($sDirectory, $iQuantityMatch = Default, $vArea2SearchOri 
 
 	Local $resultArr = StringSplit($result[0], "|", $STR_NOCOUNT), $sSlipt = StringSplit($sOnlyFind, "|", $STR_NOCOUNT)
 	If Not $bOnlyFindIsSpace And $bIsDir Then
-		If $g_bDebugSetlog Then SetDebugLog(" ***  findMultipleQuick multiples **** ", $COLOR_ORANGE)
+		If $g_bDebugSetlog Then SetDebugLog(" ***  findMultipleQuick multiples **** ", $COLOR_OLIVE)
 		If CompKick($resultArr, $sSlipt, $bExactFind) Then
-			If $g_bDebugSetlog Then SetDebugLog(" ***  findMultipleQuick has no result **** ", $COLOR_ORANGE)
+			If $g_bDebugSetlog Then SetDebugLog(" ***  findMultipleQuick has no result **** ", $COLOR_OLIVE)
 			Return -1
 		EndIf
 	ElseIf Not $bIsDir Then
-		If $g_bDebugSetlog Then SetDebugLog(" ***  findMultipleQuick one **** ", $COLOR_ORANGE)
+		If $g_bDebugSetlog Then SetDebugLog(" ***  findMultipleQuick one **** ", $COLOR_OLIVE)
 		Local $iIsA = _ArraySearch($resultArr, $sFileName & $sExtension)
 		If $iIsA <> -1 Then
 			Local $resultArr[1] = [String($sFileName & $sExtension)]
-			If $g_bDebugSetlog Then SetDebugLog(" ***  findMultipleQuick " & $resultArr[0] & " **** ", $COLOR_ORANGE)
+			If $g_bDebugSetlog Then SetDebugLog(" ***  findMultipleQuick " & $resultArr[0] & " **** ", $COLOR_OLIVE)
 		Else
-			If $g_bDebugSetlog Then SetDebugLog(" ***  findMultipleQuick only one has no result **** ", $COLOR_ORANGE)
+			If $g_bDebugSetlog Then SetDebugLog(" ***  findMultipleQuick only one has no result **** ", $COLOR_OLIVE)
 			Return -1
 		EndIf
 	EndIf

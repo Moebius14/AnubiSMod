@@ -24,24 +24,24 @@ Func WaitForClouds()
 	Local $bEnabledGUI = False
 
 	Local $maxSearchCount = 720 ; $maxSearchCount * 250ms ($DELAYGETRESOURCES1) = seconds wait time before reset in lower leagues: 720*250ms = 3 minutes
-	Local $maxLongSearchCount = 7 ; $maxLongSearchCount * $maxSearchCount = seconds total wait time in higher leagues: ; 21 minutes, set a value here but is never used unless error
+	Local $maxLongSearchCount = 5 ; $maxLongSearchCount * $maxSearchCount = seconds total wait time in higher leagues: ; 15 minutes, set a value here but is never used unless error
 
 	Switch Int($g_aiCurrentLoot[$eLootTrophy]) ; add randomization to SearchCounters (long cloud keep alive time) for higher leagues
 		Case 3700 To 4099 ; champion 1 league
-			$maxSearchCount = Random(480, 840, 1) ; random range 2-3.5 minutes
-			$maxLongSearchCount = Random(10, 12, 1) ; random range 20-40 minutes
+			$maxSearchCount = Random(360, 650, 1) ; random range 1.5-2.8 minutes
+			$maxLongSearchCount = Random(1, 2, 1) ; random range 1.5-5.6 minutes
 		Case 4100 To 4399 ; Titan 3 league
-			$maxSearchCount = Random(480, 840, 1) ; random range 2-3.5 minutes
-			$maxLongSearchCount = Random(15, 25, 1) ; random range 30-87 minutes
+			$maxSearchCount = Random(360, 650, 1) ; random range 1.5-2.8 minutes
+			$maxLongSearchCount = Random(1, 2, 1) ; random range 1.5-5.6 minutes
 		Case 4400 To 4699 ; Titan 2 league
-			$maxSearchCount = Random(600, 840, 1) ; random range 2.5-3.5 minutes
-			$maxLongSearchCount = Random(24, 42, 1) ; random range 60-147 minutes
+			$maxSearchCount = Random(360, 650, 1) ; random range 1.5-2.8 minutes
+			$maxLongSearchCount = Random(1, 3, 1) ; random range 1.5-8.4 minutes
 		Case 4700 To 4999 ; Titan 1 league
-			$maxSearchCount = Random(600, 840, 1) ; random range 2.5-3.5 minutes
-			$maxLongSearchCount = Random(36, 50, 1) ; random range 90-175 minutes
+			$maxSearchCount = Random(360, 650, 1) ; random range 1.5-2.8 minutes
+			$maxLongSearchCount = Random(3, 5, 1) ; random range 4.5-14 minutes
 		Case 5000 To 6500 ; Legend league
-			$maxSearchCount = Random(600, 840, 1) ; random range 2.5-3.5 minutes
-			$maxLongSearchCount = Random(80, 85, 1) ; random range 200-300 minutes
+			$maxSearchCount = Random(360, 650, 1) ; random range 2.5-3.5 minutes
+			$maxLongSearchCount = Random(3, 5, 1) ; random range 4.5-14 minutes
 	EndSwitch
 	If $g_bDebugSetlog Then ; display random values if debug log
 		SetLog("RANDOM: $maxSearchCount= " & $maxSearchCount & "= " & Round($maxSearchCount / $DELAYGETRESOURCES1, 2) & " min between cloud chk", $COLOR_DEBUG)
@@ -88,6 +88,15 @@ Func WaitForClouds()
 		If $iSearchTime >= $iLastTime + 1 Then
 			SetLog("Cloud wait time " & StringFormat("%.1f", $iSearchTime) & " minute(s)", $COLOR_INFO)
 			$iLastTime += 1
+
+			;Temp Fix
+			;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+		;	$g_bIsClientSyncError = True
+		;	$g_bRestart = True
+		;	CloseCoC(True)
+		;	ExitLoop
+			;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
 			; once a minute safety checks for search fail/retry msg and Personal Break events and early detection if CoC app has crashed inside emulator (Bluestacks issue mainly)
 			If chkAttackSearchFail() = 2 Or chkAttackSearchPersonalBreak() = True Or GetAndroidProcessPID() = 0 Then
 				resetAttackSearch()

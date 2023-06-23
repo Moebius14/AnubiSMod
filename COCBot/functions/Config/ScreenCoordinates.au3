@@ -3,8 +3,8 @@
 ; Description ...: Global variables for commonly used X|Y positions, screen check color, and tolerance
 ; Syntax ........: $aXXXXX[Y]  : XXXX is name of point or item being checked, Y = 2 for position only, or 4 when color/tolerance value included
 ; Author ........:
-; Modified ......:
-; Remarks .......: This file is part of MyBot, previously known as ClashGameBot. Copyright 2015-2019
+; Modified ......: Moebius (06/2023)
+; Remarks .......: This file is part of MyBot, previously known as ClashGameBot. Copyright 2015-2023
 ;                  MyBot is distributed under the terms of the GNU GPL
 ; Related .......:
 ; Link ..........: https://github.com/MyBotRun/MyBot/wiki
@@ -175,10 +175,10 @@ Global $aLanguageOkay[4] = [510, 420 + $g_iMidOffsetY, 0x6FBD1F, 20]
 Global Const $aPersonalChallengeOpenButton1[4] = [149, 631 + $g_iBottomOffsetY, 0xB5CEE4, 20] ; Personal Challenge Button
 Global Const $aPersonalChallengeOpenButton2[4] = [149, 631 + $g_iBottomOffsetY, 0xFDE575, 20] ; Personal Challenge Button with Gold Pass
 Global Const $aPersonalChallengeOpenButton3[4] = [166, 606 + $g_iBottomOffsetY, 0xFF1815, 20] ; Personal Challenge Button with red symbol
-Global Const $aPersonalChallengeCloseButton[4] = [813, 51 + $g_iMidOffsetY, 0xF51D1E, 20] ; Personal Challenge Window Close Button
-Global Const $aPersonalChallengeRewardsAvail[4] = [542, 20 + $g_iMidOffsetY, 0xFF0A08, 20] ; Personal Challenge - Red symbol showing available rewards
-Global Const $aPersonalChallengeRewardsTab[4] = [450, 33 + $g_iMidOffsetY, 0x988510, 20] ; Personal Challenge - Rewards tab unchecked with Gold Pass
-Global Const $aPersonalChallengePerksTab[4] = [660, 33 + $g_iMidOffsetY, 0xEFE079, 20] ; Personal Challenge - Perks tab Checked
+Global Const $aPersonalChallengeCloseButton[4] = [813, 51 + $g_iMidOffsetY, 0xF51D22, 20] ; Personal Challenge Window Close Button - Jun23 Update
+Global Const $aPersonalChallengeRewardsAvail[4] = [445, 20 + $g_iMidOffsetY, 0xFF0C08, 20] ; Personal Challenge - Red symbol showing available rewards - Jun23 Update
+Global Const $aPersonalChallengeRewardsTab[4] = [385, 55 + $g_iMidOffsetY, 0x688090, 20] ; Personal Challenge - Rewards tab unchecked with Gold Pass - Jun23 Update
+Global Const $aPersonalChallengePerksTab[4] = [545, 55 + $g_iMidOffsetY, 0xA7CFEC, 20] ; Personal Challenge - Perks tab Checked - Jun23 Update
 Global Const $aPersonalChallengeLeftEdge[4] = [30, 385 + $g_iMidOffsetY, 0x28221E, 20] ; Personal Challenge Window - Rewards tab - Black left edge
 Global Const $aPersonalChallengeCancelBtn[4] = [350, 380 + $g_iMidOffsetY, 0xFDC875, 20] ; Personal Challenge Window - Cancel button at Storage Full msg
 Global Const $aPersonalChallengeOkBtn[4] = [515, 380 + $g_iMidOffsetY, 0xDFF887, 20] ; Personal Challenge Window - Okay button at Storage Full msg

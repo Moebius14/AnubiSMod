@@ -1146,7 +1146,7 @@ Func IsSCIDAccComplete($iAccounts = 3)
 
 				Local $aiVillageNameCoord  = decodeSingleCoord(findImage("IsSCIDAccComplete", $sProfileFolder & $filename, GetDiamondFromArray($aiSearchArea), 1, True))
 
-				If Not IsArray($aiVillageNameCoord) Or UBound($aiVillageNameCoord, $UBOUND_ROWS) < 2 Then
+				If Not IsArray($aiVillageNameCoord) Or UBound($aiVillageNameCoord, $UBOUND_ROWS) < 1 Then
 					SetSwitchAccLog("image " & $g_asProfileName[$i + $j] & " - missing!")
 					SetLog("SCID Account image :" & $g_asProfileName[$i + $j] & " - missing!")
 					$bSaveImage = True

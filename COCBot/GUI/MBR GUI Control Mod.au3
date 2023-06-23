@@ -618,7 +618,7 @@ EndFunc
 Func _cmbAttackCGPlannerDayLimit()
 	Switch Int(GUICtrlRead($g_hCmbAttackCGPlannerDayMin))
 		Case 0 To 8
-			GUICtrlSetBkColor($g_hCmbAttackCGPlannerDayMin, $COLOR_MONEYGREEN)
+			GUICtrlSetBkColor($g_hCmbAttackCGPlannerDayMin, $COLOR_GREEN)
 		Case 9 To 12
 			GUICtrlSetBkColor($g_hCmbAttackCGPlannerDayMin, $COLOR_YELLOW)
 		Case 13 To 999
@@ -626,7 +626,7 @@ Func _cmbAttackCGPlannerDayLimit()
 	EndSwitch
 	Switch Int(GUICtrlRead($g_hCmbAttackCGPlannerDayMax))
 		Case 0 To 8
-			GUICtrlSetBkColor($g_hCmbAttackCGPlannerDayMax, $COLOR_MONEYGREEN)
+			GUICtrlSetBkColor($g_hCmbAttackCGPlannerDayMax, $COLOR_GREEN)
 		Case 9 To 12
 			GUICtrlSetBkColor($g_hCmbAttackCGPlannerDayMax, $COLOR_YELLOW)
 		Case 13 To 999
@@ -871,46 +871,6 @@ Func ChkEnableForgeBBElix()
 		Next
 	EndIf
 EndFunc   ;==>ChkEnableForgeBBElix
-
-Func cmdGoldSaveMin()
-	If Int(GUICtrlRead($g_acmdGoldSaveMin)) < 150000 Then
-		GUICtrlSetData($g_acmdGoldSaveMin, 150000)
-	ElseIf Int(GUICtrlRead($g_acmdGoldSaveMin)) > 22000000 Then
-		GUICtrlSetData($g_acmdGoldSaveMin, 22000000)
-	EndIf
-EndFunc   ;==>cmdGoldSaveMin
-
-Func cmdElixSaveMin()
-	If Int(GUICtrlRead($g_acmdElixSaveMin)) < 1000 Then
-		GUICtrlSetData($g_acmdElixSaveMin, 1000)
-	ElseIf Int(GUICtrlRead($g_acmdElixSaveMin)) > 22000000 Then
-		GUICtrlSetData($g_acmdElixSaveMin, 22000000)
-	EndIf
-EndFunc   ;==>cmdElixSaveMin
-
-Func cmdDarkSaveMin()
-	If Int(GUICtrlRead($g_acmdDarkSaveMin)) < 1000 Then
-		GUICtrlSetData($g_acmdDarkSaveMin, 1000)
-	ElseIf Int(GUICtrlRead($g_acmdDarkSaveMin)) > 370000 Then
-		GUICtrlSetData($g_acmdDarkSaveMin, 370000)
-	EndIf
-EndFunc   ;==>cmdDarkSaveMin
-
-Func cmdBBGoldSaveMin()
-	If Int(GUICtrlRead($g_acmdBBGoldSaveMin)) < 1000 Then
-		GUICtrlSetData($g_acmdBBGoldSaveMin, 1000)
-	ElseIf Int(GUICtrlRead($g_acmdBBGoldSaveMin)) > 5000000 Then
-		GUICtrlSetData($g_acmdBBGoldSaveMin, 5000000)
-	EndIf
-EndFunc   ;==>cmdBBGoldSaveMin
-
-Func cmdBBElixSaveMin()
-	If Int(GUICtrlRead($g_acmdBBElixSaveMin)) < 1000 Then
-		GUICtrlSetData($g_acmdBBElixSaveMin, 1000)
-	ElseIf Int(GUICtrlRead($g_acmdBBElixSaveMin)) > 5000000 Then
-		GUICtrlSetData($g_acmdBBElixSaveMin, 5000000)
-	EndIf
-EndFunc   ;==>cmdBBElixSaveMin
 
 Func CmbForgeBuilder()
 	$g_iCmbForgeBuilder = Int(_GUICtrlComboBox_GetCurSel($g_hCmbForgeBuilder))
@@ -1190,8 +1150,8 @@ Func ForumAccept()
 	
 	While 1
 		ForceCaptureRegion()
-		$Scroll = _PixelSearch(294, 83, 296, 93, Hex(0xFFFFFF, 6), 20)
-		If IsArray($Scroll) And _ColorCheck(_GetPixelColor(300, 85, True), Hex(0x95CD0E, 6), 20) Then
+		$Scroll = _PixelSearch(294, 81, 297, 93, Hex(0xFFFFFF, 6), 20)
+		If IsArray($Scroll) And _ColorCheck(_GetPixelColor(301, 85, True), Hex(0x95CD0E, 6), 20) Then
 			ClickP($Scroll)
 			If _Sleep(350) Then ExitLoop
 			ContinueLoop
@@ -1235,7 +1195,7 @@ Func ForumAccept()
 				ContinueLoop
 			Else
 				ForceCaptureRegion()
-				$Scroll = _PixelSearch(294, 593 + $g_iBottomOffsetY, 296, 603 + $g_iBottomOffsetY, Hex(0xFFFFFF, 6), 20)
+				$Scroll = _PixelSearch(294, 591 + $g_iBottomOffsetY, 297, 603 + $g_iBottomOffsetY, Hex(0xFFFFFF, 6), 20)
 				If IsArray($Scroll) Then
 					Click($Scroll[0], $Scroll[1])
 					If _Sleep(250) Then ExitLoop

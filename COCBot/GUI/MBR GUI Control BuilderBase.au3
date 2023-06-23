@@ -66,8 +66,8 @@ Func chkUpgradeDoubleCannon()
 	If GUICtrlRead($g_hChkDoubleCannonUpgrade) = $GUI_CHECKED Then
 		_GUICtrlTab_ClickTab($g_hTabMain, 0)
 
-		SetLog("Please wait ......", $COLOR_ORANGE)
-		SetLog("Checking for valid Coordinates of Double Cannon ......", $COLOR_ORANGE)
+		SetLog("Please wait ......", $COLOR_OLIVE)
+		SetLog("Checking for valid Coordinates of Double Cannon ......", $COLOR_OLIVE)
 
 		$g_bDoubleCannonUpgrade = True
 		LocateDoubleCannon()
@@ -84,8 +84,8 @@ Func chkUpgradeArcherTower()
 	If GUICtrlRead($g_hChkArcherTowerUpgrade) = $GUI_CHECKED Then
 		_GUICtrlTab_ClickTab($g_hTabMain, 0)
 
-		SetLog("Please wait ......", $COLOR_ORANGE)
-		SetLog("Checking for valid Coordinates of Archer Tower ......", $COLOR_ORANGE)
+		SetLog("Please wait ......", $COLOR_OLIVE)
+		SetLog("Checking for valid Coordinates of Archer Tower ......", $COLOR_OLIVE)
 
 		$g_bArcherTowerUpgrade = True
 		LocateArcherTower()
@@ -101,8 +101,8 @@ Func chkUpgradeMultiMortar()
 	If GUICtrlRead($g_hChkMultiMortarUpgrade) = $GUI_CHECKED Then
 		_GUICtrlTab_ClickTab($g_hTabMain, 0)
 
-		SetLog("Please wait ......", $COLOR_ORANGE)
-		SetLog("Checking for valid Coordinates of Multi Mortar ......", $COLOR_ORANGE)
+		SetLog("Please wait ......", $COLOR_OLIVE)
+		SetLog("Checking for valid Coordinates of Multi Mortar ......", $COLOR_OLIVE)
 
 		$g_bMultiMortarUpgrade = True
 		LocateMultiMortar()
@@ -118,8 +118,8 @@ Func chkUpgradeMegaTesla()
 	If GUICtrlRead($g_hChkMegaTeslaUpgrade) = $GUI_CHECKED Then
 		_GUICtrlTab_ClickTab($g_hTabMain, 0)
 
-		SetLog("Please wait ......", $COLOR_ORANGE)
-		SetLog("Checking for valid Coordinates of Mega Tesla ......", $COLOR_ORANGE)
+		SetLog("Please wait ......", $COLOR_OLIVE)
+		SetLog("Checking for valid Coordinates of Mega Tesla ......", $COLOR_OLIVE)
 
 		$g_bMegaTeslaUpgrade = True
 		LocateMegaTesla()

@@ -50,3 +50,88 @@ Func CollectBuilderBase($bSwitchToBB = False, $bSwitchToNV = False)
 	If _Sleep($DELAYCOLLECT3) Then Return
 	If $bSwitchToNV Then SwitchBetweenBases() ; Switching back to the normal Village
 EndFunc
+
+Func CollectElixirCart($bSwitchToBB = False, $bSwitchToNV = False)
+
+	If Not $g_bChkCollectBuilderBase Then Return
+	If Not $g_bRunState Then Return
+
+	If $bSwitchToBB Then
+		ClickAway()
+		If Not SwitchBetweenBases() Then Return ; Switching to Builders Base
+	EndIf
+
+	SetLog("Collecting Elixir Cart", $COLOR_INFO)
+	If _Sleep($DELAYCOLLECT2) Then Return
+
+	Local $bRet, $aiElixirCart, $aiCollect, $aiAxes
+	Local $t = 0
+
+	$aiElixirCart = decodeSingleCoord(FindImageInPlace2("ElixirCart", $g_sImgElixirCart, 470, 90 + $g_iMidOffsetY, 610, 190 + $g_iMidOffsetY))
+	If IsArray($aiElixirCart) And UBound($aiElixirCart, 1) = 2 Then
+		SetLog("Found Filled Elixir Cart", $COLOR_SUCCESS)
+		PureClick($aiElixirCart[0], $aiElixirCart[1] + 16)
+		If _Sleep(1000) Then Return
+		$bRet = False
+		For $i = 0 To 10
+			$aiCollect = decodeSingleCoord(FindImageInPlace2("CollectElixirCart", $g_sImgCollectElixirCart, 620, 515 + $g_iMidOffsetY, 720, 560 + $g_iMidOffsetY))
+			If IsArray($aiCollect) And UBound($aiCollect, 1) = 2 Then
+				$bRet = True
+				ExitLoop
+			EndIf
+			If _Sleep(250) Then Return
+		Next
+		If $bRet Then
+			SetLog("Collect Elixir Cart!", $COLOR_SUCCESS1)
+			PureClickP($aiCollect)
+			If _Sleep(500) Then Return
+		Else
+			SetLog("Collect Button Not Found", $COLOR_ERROR)
+		EndIf	
+		CloseWindow(False, False, False, 20)
+	Else
+		$bRet = False
+		For $i = 0 To 10
+			$aiAxes = decodeSingleCoord(FindImageInPlace2("Axes", $g_sImgAxes, 470, 90 + $g_iMidOffsetY, 610, 190 + $g_iMidOffsetY))
+			If IsArray($aiAxes) And UBound($aiAxes, 1) = 2 Then
+				$bRet = True
+				ExitLoop
+			EndIf
+			If _Sleep(250) Then Return
+		Next
+		If $bRet Then
+			While 1
+				If $t = 0 Then SetLog("Wait for the opponent to finish its attack...", $COLOR_ACTION)
+				$t +=1
+				$aiElixirCart = decodeSingleCoord(FindImageInPlace2("ElixirCart", $g_sImgElixirCart, 470, 90 + $g_iMidOffsetY, 610, 190 + $g_iMidOffsetY))
+				If IsArray($aiElixirCart) And UBound($aiElixirCart, 1) = 2 Then ExitLoop
+				If _Sleep(1000) Then Return
+			WEnd
+			SetLog("Found Filled Elixir Cart", $COLOR_SUCCESS)
+			PureClick($aiElixirCart[0], $aiElixirCart[1] + 16)
+			If _Sleep(1000) Then Return
+			$bRet = False
+			For $i = 0 To 10
+				$aiCollect = decodeSingleCoord(FindImageInPlace2("CollectElixirCart", $g_sImgCollectElixirCart, 620, 515 + $g_iMidOffsetY, 720, 560 + $g_iMidOffsetY))
+				If IsArray($aiCollect) And UBound($aiCollect, 1) = 2 Then
+					$bRet = True
+					ExitLoop
+				EndIf
+				If _Sleep(250) Then Return
+			Next
+			If $bRet Then
+				SetLog("Collect Elixir Cart!", $COLOR_SUCCESS1)
+				PureClickP($aiCollect)
+				If _Sleep(500) Then Return
+			Else
+				SetLog("Collect Button Not Found", $COLOR_ERROR)
+			EndIf	
+			CloseWindow(False, False, False, 20)
+		Else
+			SetLog("Elixir Cart Not Found Or Empty", $COLOR_DEBUG)
+		EndIf
+	EndIf
+
+	If _Sleep($DELAYCOLLECT3) Then Return
+	If $bSwitchToNV Then SwitchBetweenBases() ; Switching back to the normal Village
+EndFunc

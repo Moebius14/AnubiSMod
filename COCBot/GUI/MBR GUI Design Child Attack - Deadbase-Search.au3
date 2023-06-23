@@ -5,8 +5,8 @@
 ; Parameters ....: None
 ; Return values .: None
 ; Author ........:
-; Modified ......: CodeSlinger69 (01-2017)
-; Remarks .......: This file is part of MyBot, previously known as ClashGameBot. Copyright 2015-2019
+; Modified ......: Moebius14 (06-2023)
+; Remarks .......: This file is part of MyBot, previously known as ClashGameBot. Copyright 2015-2023
 ;                  MyBot is distributed under the terms of the GNU GPL
 ; Related .......:
 ; Link ..........: https://github.com/MyBotRun/MyBot/wiki
@@ -145,7 +145,7 @@ Func CreateAttackSearchDeadBaseSearch()
 			_GUICtrlSetTip(-1, $sTxtTip)
 		$g_hPicDBChampionWait=_GUICtrlCreateIcon($g_sLibIconPath, $eIcnChampion, $x - 18, $y + 4, 40, 40)
 			_GUICtrlSetTip(-1, $sTxtTip)
-		$g_hPicDBChampionSleepWait=_GUICtrlCreateIcon($g_sLibModIconPath, $eIcnSleepingChampion, $x - 18, $y + 4, 40, 40)
+		$g_hPicDBChampionSleepWait=_GUICtrlCreateIcon($g_sLibIconPath, $eIcnSleepingChampion, $x - 18, $y + 4, 40, 40)
 			GUICtrlSetState(-1, $GUI_HIDE)
 
 	$y += 70
@@ -353,7 +353,7 @@ Func CreateAttackSearchDeadBaseSearch()
 		$g_ahCmbWeakScatter[$DB] = GUICtrlCreateCombo("", $x + 19, $y, 51, -1, BitOR($CBS_DROPDOWNLIST, $CBS_AUTOHSCROLL))
 			$sTxtTip = GetTranslatedFileIni("MBR GUI Design Child Attack - Search", "CmbMaxScatter_Info_01", "Set the Max. level of the ScatterShot to search for on a village to attack.")
 			_GUICtrlSetTip(-1, $sTxtTip)
-			GUICtrlSetData(-1, "-|Lvl 1|Lvl 2", "Lvl 1")
+			GUICtrlSetData(-1, "-|Lvl 1|Lvl 2|Lvl 3", "Lvl 1")
 			GUICtrlSetState(-1, $GUI_DISABLE)
 		$g_ahPicWeakScatter[$LB] = _GUICtrlCreateIcon($g_sLibIconPath, $eIcnScattershot, $x + 76, $y - 2, 24, 24)
 			_GUICtrlSetTip(-1, $sTxtTip)			
@@ -377,7 +377,7 @@ Func CreateAttackSearchDeadBaseSearch()
 		$g_ahCmbWeakEagle[$DB] = GUICtrlCreateCombo("", $x + 19, $y, 51, -1, BitOR($CBS_DROPDOWNLIST, $CBS_AUTOHSCROLL))
 			$sTxtTip = GetTranslatedFileIni("MBR GUI Design Child Attack - Search", "CmbMaxEagle_Info_01", "Set the Max. level of the Eagle Artillery to search for on a village to attack.")
 			_GUICtrlSetTip(-1, $sTxtTip)
-			GUICtrlSetData(-1, "-|Lvl 1|Lvl 2|Lvl 3|Lvl 4", "Lvl 1")
+			GUICtrlSetData(-1, "-|Lvl 1|Lvl 2|Lvl 3|Lvl 4|Lvl 5", "Lvl 1")
 			GUICtrlSetState(-1, $GUI_DISABLE)
 		$g_ahPicWeakEagle[$DB] = _GUICtrlCreateIcon($g_sLibIconPath, $eIcnEagleArt, $x + 76, $y - 2, 24, 24)
 			_GUICtrlSetTip(-1, $sTxtTip)

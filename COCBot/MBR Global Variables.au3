@@ -147,7 +147,6 @@ Global $g_oCOMErrorHandler = 0
 #Tidy_On
 #EndRegion debugging
 
-Global Const $COLOR_ORANGE = 0xFF7700 ; Used for donate GUI buttons
 Global Const $COLOR_ERROR = $COLOR_RED ; Error messages
 Global Const $COLOR_WARNING = $COLOR_MAROON ; Warning messages
 Global Const $COLOR_INFO = $COLOR_BLUE ; Information or Status updates for user
@@ -156,7 +155,7 @@ Global Const $COLOR_SUCCESS1 = 0x009900 ; Med green, optional success message fo
 Global Const $COLOR_DEBUG = $COLOR_PURPLE ; Purple, basic debug color
 Global Const $COLOR_DEBUG1 = 0x7A00CC ; Dark Purple, Debug for successful status checks
 Global Const $COLOR_DEBUG2 = 0xAA80FF ; lt Purple, secondary debug color
-Global Const $COLOR_DEBUGS = $COLOR_MEDGRAY ; Med Grey, debug color for less important but needed supporting data points in multiple messages
+Global Const $COLOR_DEBUGS = $COLOR_GRAY ; Med Grey, debug color for less important but needed supporting data points in multiple messages
 Global Const $COLOR_ACTION = 0xFF8000 ; Med Orange, debug color for individual actions, clicks, etc
 Global Const $COLOR_ACTION1 = 0xCC80FF ; Light Purple, debug color for pixel/window checks
 
@@ -270,13 +269,12 @@ Global $__Nox_Config[1][3] = _ ; Alternative Nox Control ID (array must be order
 ;                 |          |                        |                                  |                |                      |                       |                      |                       |              |                    |64 = Make DPI Aware (if avaliable)                  |                                    |                                     |
 ;                 |          |                        |                                  |                |                      |                       |                      |                       |              |                    |128 = ADB use input swipe and not script            |                                    |                                     |
 ;                 |          |                        |                                  |                |                      |                       |                      |                       |              |                    |256 = Update $g_sAppClassInstance with Window Handle|                                    |                                     |
-Global $g_avAndroidAppConfig[6][16] = [ _ ;           |                                  |                |                      |                       |                      |                       |              |                    |512 = Supports adding shared folder with vboxmanage.exe                                  |                                     |
+Global $g_avAndroidAppConfig[5][16] = [ _ ;           |                                  |                |                      |                       |                      |                       |              |                    |512 = Supports adding shared folder with vboxmanage.exe                                  |                                     |
 	["Nox",        "nox",     "No",                   "[CLASS:subWin; INSTANCE:1]",       "",              $g_iDEFAULT_WIDTH,     $g_iDEFAULT_HEIGHT - 48,$g_iDEFAULT_WIDTH + 4, $g_iDEFAULT_HEIGHT - 10,0,             "127.0.0.1:62001",   1+2+4+8+16+32       +256+512, '# ',                  '(nox Virtual Input|Android Input|Android_Input)', 0,                      2], _ ; Nox
 	["MEmu",       "MEmu",    "MEmu ",                "[CLASS:subWin; INSTANCE:1]",       "",              $g_iDEFAULT_WIDTH,     $g_iDEFAULT_HEIGHT - 48,$g_iDEFAULT_WIDTH + 51,$g_iDEFAULT_HEIGHT - 12,0,             "127.0.0.1:21503",     2+4+8+16+32           +512, '# ',                  '(Microvirt Virtual Input|User Input)', 0,                                 2], _ ; MEmu
 	["BlueStacks5","Pie64",   "BlueStacks5 ",         "[CLASS:BlueStacksApp; INSTANCE:1]","_ctl.W",        $g_iDEFAULT_WIDTH,     $g_iDEFAULT_HEIGHT - 48,$g_iDEFAULT_WIDTH,     $g_iDEFAULT_HEIGHT - 48,0,             "127.0.0.1:5555",    1+2+4+8+16+32   +128,         '# ',                  'BlueStacks Virtual Touch',          0,                                    1], _ ; BlueStacks5
 	["BlueStacks2","Android", "BlueStacks ",          "[CLASS:BlueStacksApp; INSTANCE:1]","_ctl.Window",   $g_iDEFAULT_WIDTH,     $g_iDEFAULT_HEIGHT - 48,$g_iDEFAULT_WIDTH,     $g_iDEFAULT_HEIGHT - 48,0,             "127.0.0.1:5555",    1+2+4+8+16+32   +128,         '$ ',                  'BlueStacks Virtual Touch',          0,                                    1], _ ; BlueStacks2
-	["BlueStacks", "Android", "BlueStacks App Player","[CLASS:BlueStacksApp; INSTANCE:1]","_ctl.Window",   $g_iDEFAULT_WIDTH,     $g_iDEFAULT_HEIGHT - 48,$g_iDEFAULT_WIDTH,     $g_iDEFAULT_HEIGHT - 48,0,             "127.0.0.1:5555",    1    +8+16+32   +128,         '$ ',                  'BlueStacks Virtual Touch',          0,                                    1], _ ; BlueStacks
-	["iTools",     "iToolsVM","iTools ",              "[CLASS:subWin; INSTANCE:1]",       "",              $g_iDEFAULT_WIDTH,     $g_iDEFAULT_HEIGHT - 48,$g_iDEFAULT_WIDTH + 2, $g_iDEFAULT_HEIGHT - 13,0,             "127.0.0.1:54001",   1+2+4+8+16+32+64        +512, '# ',                  'iTools Virtual PassThrough Input',  0,                                    1] _ ; iTools
+	["BlueStacks", "Android", "BlueStacks App Player","[CLASS:BlueStacksApp; INSTANCE:1]","_ctl.Window",   $g_iDEFAULT_WIDTH,     $g_iDEFAULT_HEIGHT - 48,$g_iDEFAULT_WIDTH,     $g_iDEFAULT_HEIGHT - 48,0,             "127.0.0.1:5555",    1    +8+16+32   +128,         '$ ',                  'BlueStacks Virtual Touch',          0,                                    1] _ ; BlueStacks
 ]
 
 ; Android Configutions, see COCBot\functions\Android\Android Status & Information.txt for more details
@@ -285,7 +283,6 @@ Global $__MEmu_Idx = _ArraySearch($g_avAndroidAppConfig, "MEmu", 0, 0, 0, 0, 1, 
 Global $__BS5_Idx = _ArraySearch($g_avAndroidAppConfig, "BlueStacks5", 0, 0, 0, 0, 1, 0) ; http://www.bluestacks.com/
 Global $__BS2_Idx = _ArraySearch($g_avAndroidAppConfig, "BlueStacks2", 0, 0, 0, 0, 1, 0) ; http://www.bluestacks.com/
 Global $__BS_Idx = _ArraySearch($g_avAndroidAppConfig, "BlueStacks", 0, 0, 0, 0, 1, 0) ; https://filehippo.com/de/download_bluestacks_app_player/64518/
-Global $__iTools_Idx = _ArraySearch($g_avAndroidAppConfig, "iTools", 0, 0, 0, 0, 1, 0) ; https://pro.itools.cn/simulate/
 
 ; Startup detection
 Global $g_bOnlyInstance = True
@@ -300,7 +297,7 @@ Global $g_iAndroidBackgroundMode = 0 ; 0 = Default (using $g_iAndroidBackgroundM
 Global $g_iAndroidBackgroundModeDefault = 1 ; Uses 1 or 2 of $g_iAndroidBackgroundMode
 Global $g_iAndroidConfig = 0 ; Default selected Android Config of $g_avAndroidAppConfig array
 Global $g_sAndroidVersion ; Identified version of Android Emulator (not Android Version, this is the version of the vendor!)
-Global $g_sAndroidEmulator ; Emulator used (BS, BS2, MEmu, Nox and iTools)
+Global $g_sAndroidEmulator ; Emulator used (BS, BS2, MEmu, Nox)
 Global $g_sAndroidInstance ; Clone or instance of emulator or "" if not supported
 Global $g_sAndroidTitle ; Emulator Window Title
 Global $g_bUpdateAndroidWindowTitle = False ; If Android has always same title (like iTools) instance name will be added
@@ -310,8 +307,8 @@ Global $g_iAndroidClientWidth ; Expected width of android rendering control
 Global $g_iAndroidClientHeight ; Expected height of android rendering control
 Global $g_iAndroidWindowWidth ; Expected Width of android window
 Global $g_iAndroidWindowHeight ; Expected height of android window
-Global $g_bAndroidAdbUseMyBot = True ; Use MyBot provided adb.exe and not the one from emulator
-Global $g_iAndroidAdbReplace = 2 ; Replace Android Emulator adb.exe: 0 = don't replace, 1 = replace with MyBot version, 2 = repalce with dummy exe (default)
+Global $g_bAndroidAdbUseMyBot = False ; Use MyBot provided adb.exe and not the one from emulator
+Global $g_iAndroidAdbReplace = 0 ; 0 = Use from emulator, 1 = replace with MyBot version
 Global $g_sAndroidAdbPath ; Path to executable HD-Adb.exe or adb.exe
 Global $g_sAndroidAdbGlobalOptions ; Additional adb global options like -P 5037 for port
 Global $g_sAndroidAdbDevice ; full device name ADB connects to
@@ -410,10 +407,9 @@ Global Const $g_iCoCReconnectingTimeout = 1200000 ; 20 minutes : When still (or 
 
 ; Special Android Emulator variables
 Global $__BlueStacks_Version, $__BlueStacks5_Version, $__MEmu_Version, $__Nox_Version
-Global $__BlueStacks_Path, $__BlueStacks5_Path
+Global $__BlueStacks_Path
 Global $__MEmu_Path
 Global $__Nox_Path
-Global $__iTools_Path
 
 Global $__VBoxManage_Path ; Full path to executable VBoxManage.exe
 Global $__VBoxVMinfo ; Virtualbox vminfo config details of android instance
@@ -549,7 +545,8 @@ Global Enum $eIcnArcher = 1, $eIcnDonArcher, $eIcnBalloon, $eIcnDonBalloon, $eIc
 		$eIcnPetLassi, $eIcnPetElectroOwl, $eIcnPetMightyYak, $eIcnPetUnicorn, $eIcnTH14, $eWall15, $eIcnPetHouse, $eIcnRocketBalloon, $eIcnDragonRider, $eHdV14, $eIcnSuperBowler, $eIcnSuperDragon, $eIcnFlameF, _
         $eIcnClanCapital, $eIcnCapitalGold, $eIcnCapitalMedal, $eHdV15, $eWall16, $eIcnElectroTitan, $eIcnRecallSpell, $eIcnBattleD, $eIcnTH15, $eIcnPetFrosty, $eIcnPetDiggy, $eIcnPetPoisonLizard, $eIcnPetPhoenix, _
 		$eIconTH15Weapon, $eIcnBBGold, $eIcnBBElix, $eIcnBBTrophy, $eIcnLabUpgrade, $eIcnArcheTower6, $eIcnBattleMachine, $eIcnDoubleCannon4, $eIcnMegaTesla9, $eIcnMultiMortar8, $g_sIcnMBisland, $eIcnPetHouseGreen, _
-		$eIcnSuperMiner, $eIcnCapitalTrophy, $eLigue1, $eLigue2, $eLigue3, $eIcnMonolith
+		$eIcnSuperMiner, $eIcnCapitalTrophy, $eLigue1, $eLigue2, $eLigue3, $eIcnMonolith, $eIcnEFWizard, $eWood, $eClay, $eStone, $eCopper, $eBrass, $eIron, $eSteel, $eTitanium, $ePlatinum, $eEmerald, _
+		$eRuby, $eDiamond, $eLigue4, $eLigue5, $eIcnSuperHogRider, $eIcnAppWard, $eIcnSleepingChampion
 
 ; enumerated Icons 1-based index to IconLibMod
 Global Enum $eIcnVillager = 1, $eIcnModCWL, $eIcnModZZZ, $eIcnHumanization, $eIcnGUIMod, $eIcnBell, $g_sIcnTrader, $eIcnAnubisMod, $eIcnStorm1Mod, $eIcnStorm2Mod, $eIcnForecast, $eIcnStop, $eIcnChrono, $eIcnModForecastBoost, _
@@ -558,7 +555,7 @@ Global Enum $eIcnVillager = 1, $eIcnModCWL, $eIcnModZZZ, $eIcnHumanization, $eIc
 		$eIcnModBBGoldRune, $eIcnModElixirRune, $eIcnModDarkElixirRune, $eIcnModCCArmyCamp, $eIcnModCCBarrack, $eIcnModCCSpellFactory, $eIcnModCCSpellStorage, $eIcnModCCCapitalHall, $eIcnModCCDistrictHall, _
 		$eIcnModCCWall1, $eIcnModCCWall5, $eIcnModCCBigBarb, $eIcnModCCBoulder, $eIcnModCCForest, $eIcnModCCGreatPyre, $eIcnModCCGrove, $eIcnModCCPillar, $eIcnModCCBarrackRuin, $eIcnModCCBowBlastRuin, $eIcnModCCBombTowerRuin, _
 		$eIcnModCCSwizardtowerRuin, $eIcnModCCWall2, $eIcnModCCWall3, $eIcnModGoldRune, $eIcnModHeroBook, $eIcnCCSleep, $eIcnCCWake, $eIcnModCCPrioritized, $eIcnCWLChampion, $eIcnPriority, _
-		$eIcnGiantSkeleton, $eIcnRoyalGhost, $eIcnPartyWizard, $eIcnIceWizard, $eIcnAllSpell, $eIcnAllSiege, $eIcnModFightingBook, $eIcnModEverythingBook, $eIcnSleepingChampion
+		$eIcnGiantSkeleton, $eIcnRoyalGhost, $eIcnPartyWizard, $eIcnIceWizard, $eIcnAllSpell, $eIcnAllSiege, $eIcnModFightingBook, $eIcnModEverythingBook, $eIcnModPetPotion
 
 Global $eIcnDonBlank = $eIcnDonBlacklist
 Global $eIcnOptions = $eIcnDonBlacklist
@@ -611,10 +608,15 @@ Global Const $DROPLINE_DROPPOINTS_ONLY = 4
 ;--------------------------------------------------------------------------
 ; Standard Enums and Consts - Attacks, Troops, Spells, Leagues, Loot Types
 ;--------------------------------------------------------------------------
+; $eTroopCount = 44 + Super Hog Rider + Apprentice Warden = 46 (June 2023)
+; $eSpellCount = 13
+; $eSiegeMachineCount = 7
+; $g_iCustomDonateConfigs = 4
+
 ; Complete list of all deployable/trainable objects
 Global Enum $eBarb, $eSBarb, $eArch, $eSArch, $eGiant, $eSGiant, $eGobl, $eSGobl, $eWall, $eSWall, $eBall, $eRBall, $eWiza, $eSWiza, $eHeal, _
 		$eDrag, $eSDrag, $ePekk, $eBabyD, $eInfernoD, $eMine, $eSMine, $eEDrag, $eYeti, $eRDrag, $eETitan, _
-		$eMini, $eSMini, $eHogs, $eValk, $eSValk, $eGole, $eWitc, $eSWitc, $eLava, $eIceH, $eBowl, $eSBowl, $eIceG, $eHunt, $eGSkel, $eRGhost, $ePWiza, $eIWiza, _
+		$eMini, $eSMini, $eHogs, $eSHogs, $eValk, $eSValk, $eGole, $eWitc, $eSWitc, $eLava, $eIceH, $eBowl, $eSBowl, $eIceG, $eHunt, $eAppWard, $eGSkel, $eRGhost, $ePWiza, $eIWiza, _
 		$eKing, $eQueen, $eWarden, $eChampion, $eCastle, _
 		$eLSpell, $eHSpell, $eRSpell, $eJSpell, $eFSpell, $eCSpell, $eISpell, $eReSpell, $ePSpell, $eESpell, $eHaSpell, $eSkSpell, $eBtSpell, _
 		$eWallW, $eBattleB, $eStoneS, $eSiegeB, $eLogL, $eFlameF, $eBattleD, $eArmyCount
@@ -630,52 +632,52 @@ Global Enum $eTroopBarbarian, $eTroopSuperBarbarian, $eTroopArcher, $eTroopSuper
 		$eTroopSuperWallBreaker, $eTroopBalloon, $eTroopRocketBalloon, $eTroopWizard, $eTroopSuperWizard, $eTroopHealer, $eTroopDragon, $eTroopSuperDragon, _
 		$eTroopPekka, $eTroopBabyDragon, $eTroopInfernoDragon, $eTroopMiner, $eTroopSuperMiner, _
 		$eTroopElectroDragon, $eTroopYeti, $eTroopDragonRider, $eTroopElectroTitan, _
-		$eTroopMinion, $eTroopSuperMinion, $eTroopHogRider, $eTroopValkyrie, $eTroopSuperValkyrie, $eTroopGolem, $eTroopWitch, $eTroopSuperWitch, _
-		$eTroopLavaHound, $eTroopIceHound, $eTroopBowler, $eTroopSuperBowler, $eTroopIceGolem, $eTroopHeadhunter, _ 
+		$eTroopMinion, $eTroopSuperMinion, $eTroopHogRider, $eTroopSuperHogRider, $eTroopValkyrie, $eTroopSuperValkyrie, $eTroopGolem, $eTroopWitch, $eTroopSuperWitch, _
+		$eTroopLavaHound, $eTroopIceHound, $eTroopBowler, $eTroopSuperBowler, $eTroopIceGolem, $eTroopHeadhunter, $eTroopAppWard, _ 
 		$eTroopGiantSkeleton, $eTroopRoyalGhost, $eTroopPartyWizard, $eTroopIceWizard, $eTroopCount
 Global Const $g_asTroopNames[$eTroopCount] = [ _
 		"Barbarian", "Super Barbarian", "Archer", "Super Archer", "Giant", "Super Giant", "Goblin", "Sneaky Goblin", "Wall Breaker", "Super WallBreaker", _
 		"Balloon", "Rocket Balloon", "Wizard", "Super Wizard", "Healer", "Dragon", "Super Dragon", _
-		"Pekka", "Baby Dragon", "Inferno Dragon", "Miner", "Super Miner", "Electro Dragon", "Yeti", "Dragon Rider", "Electro Titan", "Minion", "Super Minion", "Hog Rider", "Valkyrie", _
-		"Super Valkyrie", "Golem", "Witch", "Super Witch", "Lava Hound", "Ice Hound", "Bowler", "Super Bowler", "Ice Golem", "Headhunter", "Giant Skeleton", "Royal Ghost", "Party Wizard", "Ice Wizard"]
+		"Pekka", "Baby Dragon", "Inferno Dragon", "Miner", "Super Miner", "Electro Dragon", "Yeti", "Dragon Rider", "Electro Titan", "Minion", "Super Minion", "Hog Rider", "Super Hog Rider", "Valkyrie", _
+		"Super Valkyrie", "Golem", "Witch", "Super Witch", "Lava Hound", "Ice Hound", "Bowler", "Super Bowler", "Ice Golem", "Headhunter", "Apprentice Warden", "Giant Skeleton", "Royal Ghost", "Party Wizard", "Ice Wizard"]
 Global Const $g_asTroopNamesPlural[$eTroopCount] = [ _
 		"Barbarians", "Super Barbarians", "Archers", "Super Archers", "Giants", "Super Giants", "Goblins", "Sneaky Goblins", "Wall Breakers", _
 		"Super Wall Breakers", "Balloons", "Rocket Balloons", "Wizards", "Super Wizards", "Healers", "Dragons", "Super Dragons", "Pekkas", _
-		"Baby Dragons", "Inferno Dragons", "Miners", "Super Miners", "Electro Dragons", "Yetis", "Dragon Riders", "Electro Titans", "Minions", "Super Minions", "Hog Riders", "Valkyries", _
-		"Super Valkyries", "Golems", "Witches", "Super Witchs", "Lava Hounds", "Ice Hounds", "Bowlers", "Super Bowlers", "Ice Golems", "Headhunters", "Giant Skeletons", "Royal Ghosts", "Party Wizards", "Ice Wizards"]
+		"Baby Dragons", "Inferno Dragons", "Miners", "Super Miners", "Electro Dragons", "Yetis", "Dragon Riders", "Electro Titans", "Minions", "Super Minions", "Hog Riders", "Super Hog Riders", "Valkyries", _
+		"Super Valkyries", "Golems", "Witches", "Super Witchs", "Lava Hounds", "Ice Hounds", "Bowlers", "Super Bowlers", "Ice Golems", "Headhunters", "Apprentice Wardens", "Giant Skeletons", "Royal Ghosts", "Party Wizards", "Ice Wizards"]
 Global Const $g_asTroopShortNames[$eTroopCount] = [ _
 		"Barb", "SBarb", "Arch", "SArch", "Giant", "SGiant", "Gobl", "SGobl", "Wall", "SWall", "Ball", "RBall", "Wiza", "SWiza", "Heal", "Drag", "SDrag", _
 		"Pekk", "BabyD", "InfernoD", "Mine", "SMine", "EDrag", "Yeti", "RDrag", "ETitan", _
-		"Mini", "SMini", "Hogs", "Valk", "SValk", "Gole", "Witc", "SWitc", "Lava", "IceH", "Bowl", "SBowl", "IceG", "Hunt", "GSkel", "RGhost", "PWiza", "IWiza"]
+		"Mini", "SMini", "Hogs", "SHogs", "Valk", "SValk", "Gole", "Witc", "SWitc", "Lava", "IceH", "Bowl", "SBowl", "IceG", "Hunt", "AppWard", "GSkel", "RGhost", "PWiza", "IWiza"]
 
-Global Const $g_aiTroopSpace[$eTroopCount] = [1, 5, 1, 12, 5, 10, 1, 3, 2, 8, 5, 8, 4, 10, 14, 20, 40, 25, 10, 15, 6, 24, 30, 18, 25, 32, 2, 12, 5, 8, 20, 30, 12, 40, 30, 40, 6, 30, 15, 6, 20, 8, 4, 4]
+Global Const $g_aiTroopSpace[$eTroopCount] = [1, 5, 1, 12, 5, 10, 1, 3, 2, 8, 5, 8, 4, 10, 14, 20, 40, 25, 10, 15, 6, 24, 30, 18, 25, 32, 2, 12, 5, 12, 8, 20, 30, 12, 40, 30, 40, 6, 30, 15, 6, 20, 20, 8, 4, 4]
 
 Global Const $g_aiTroopTrainTime[$eTroopCount] = [5, 25, 8, 72, 30, 60, 7, 21, 15, 60, 30, 48, 30, 75, 120, 180, 360, 180, 90, 135, 30, 120, 360, 180, 250, 360, _
-												 18, 108, 45, 90, 225, 300, 180, 400, 300, 400, 60, 300, 180, 60, _
+												 18, 108, 45, 108, 90, 225, 300, 180, 400, 300, 400, 60, 300, 180, 60, 240, _
 												 30, 37, 30, 30]
 
-Global Const $g_aiTroopDonateXP[$eTroopCount - 4] = [1, 5, 1, 12, 5, 10, 1, 3, 2, 8, 5, 8, 4, 10, 14, 20, 40, 25, 10, 15, 6, 24, 30, 18, 25, 32, 2, 12, 5, 8, 20, 30, 12, 40, 30, 40, 6, 30, 15, 6]
+Global Const $g_aiTroopDonateXP[$eTroopCount - 4] = [1, 5, 1, 12, 5, 10, 1, 3, 2, 8, 5, 8, 4, 10, 14, 20, 40, 25, 10, 15, 6, 24, 30, 18, 25, 32, 2, 12, 5, 12, 8, 20, 30, 12, 40, 30, 40, 6, 30, 15, 6, 20]
 
 ; TroopsIcons
 Global Const $g_aTroopsIcon[$eTroopCount] = [$eIcnBarbarian, $eIcnSuperBarbarian, $eIcnArcher, $eIcnSuperArcher, $eIcnGiant, $eIcnSuperGiant, $eIcnGoblin, _
 		$eIcnSneakyGoblin, $eIcnWallBreaker, $eIcnSuperWallBreaker, $eIcnBalloon, $eIcnRocketBalloon, $eIcnWizard, $eIcnSuperWizard, $eIcnHealer, $eIcnDragon, _ 
-		$eIcnSuperDragon, $eIcnPekka, $eIcnBabyDragon, $eIcnInfernoDragon, $eIcnMiner,$eIcnSuperMiner, $eIcnElectroDragon, $eIcnYeti, $eIcnDragonRider, _ 
-		$eIcnElectroTitan, $eIcnMinion, $eIcnSuperMinion, $eIcnHogRider, $eIcnValkyrie, $eIcnSuperValkyrie, $eIcnGolem, $eIcnWitch, $eIcnSuperWitch, _
-		$eIcnLavaHound, $eIcnIceHound, $eIcnBowler, $eIcnSuperBowler, $eIcnIceGolem, $eIcnHeadhunter, $eIcnGiantSkeleton, $eIcnRoyalGhost, $eIcnPartyWizard, $eIcnIceWizard]
+		$eIcnSuperDragon, $eIcnPekka, $eIcnBabyDragon, $eIcnInfernoDragon, $eIcnMiner, $eIcnSuperMiner, $eIcnElectroDragon, $eIcnYeti, $eIcnDragonRider, _ 
+		$eIcnElectroTitan, $eIcnMinion, $eIcnSuperMinion, $eIcnHogRider, $eIcnSuperHogRider, $eIcnValkyrie, $eIcnSuperValkyrie, $eIcnGolem, $eIcnWitch, $eIcnSuperWitch, _
+		$eIcnLavaHound, $eIcnIceHound, $eIcnBowler, $eIcnSuperBowler, $eIcnIceGolem, $eIcnHeadhunter, $eIcnAppWard, $eIcnGiantSkeleton, $eIcnRoyalGhost, $eIcnPartyWizard, $eIcnIceWizard]
 
 ; Super Troops
-Global Const $iSuperTroopsCount = 15, $iMaxSupersTroop = 2
+Global Const $iSuperTroopsCount = 16, $iMaxSupersTroop = 2
 Global Const $g_asSuperTroopNames[$iSuperTroopsCount] = [ _
 		"Super Barbarian", "Super Archer", "Sneaky Goblin", "Super WallBreaker", "Super Giant", "Rocket Balloon", "Super Wizard", "Super Dragon", "Inferno Dragon", "Super Minion", "Super Valkyrie", "Super Witch", _
-		"Ice Hound", "Super Bowler", "Super Miner"]
+		"Ice Hound", "Super Bowler", "Super Miner", "Super Hog Rider"]
 Global Const $g_asSuperTroopIndex[$iSuperTroopsCount] = [ _
 		$eTroopSuperBarbarian, $eTroopSuperArcher, $eTroopSneakyGoblin, $eTroopSuperWallBreaker, $eTroopSuperGiant, $eTroopRocketBalloon, $eTroopSuperWizard, $eTroopSuperDragon, $eTroopInfernoDragon, $eTroopSuperMinion, _
-		$eTroopSuperValkyrie, $eTroopSuperWitch, $eTroopIceHound, $eTroopSuperBowler, $eTroopSuperMiner]
+		$eTroopSuperValkyrie, $eTroopSuperWitch, $eTroopIceHound, $eTroopSuperBowler, $eTroopSuperMiner, $eTroopSuperHogRider]
 Global $g_aSuperTroopsIcons[$iSuperTroopsCount + 1] = [$eIcnOptions, _
 $eIcnSuperBarbarian, $eIcnSuperArcher, $eIcnSneakyGoblin, $eIcnSuperWallBreaker, _
 $eIcnSuperGiant, $eIcnRocketBalloon, $eIcnSuperWizard, $eIcnSuperDragon, _
 $eIcnInfernoDragon, $eIcnSuperMinion, $eIcnSuperValkyrie, $eIcnSuperWitch, _
-$eIcnIceHound, $eIcnSuperBowler, $eIcnSuperMiner]
+$eIcnIceHound, $eIcnSuperBowler, $eIcnSuperMiner, $eIcnSuperHogRider]
 Global $g_bFirstStartBarrel = 1
 
 Global $g_bSuperTroopsEnable = False, $g_bSkipBoostSuperTroopOnHalt = False, $g_bSuperTroopsBoostUsePotionFirst = False
@@ -743,6 +745,22 @@ Global Const $g_asCCLeagueDetails[22][2] = [ _
 		["Titan III", "4100"], ["Titan II", "4400"], ["Titan I", "4700"], _
 		["Legend", "5000"]]
 
+Global Enum $eBBLeagueUnranked, $eLeagueWood, $eLeagueClay, $eLeagueStone, $eLeagueCopper, $eLeagueBrass, $eLeagueIron, $eLeagueSteel, _
+			$eLeagueTitanium, $eLeaguePlatinum, $eLeagueEmerald, $eLeagueRuby, $eLeagueDiamond, $eBBLeagueCount
+Global Const $g_asBBLeagueDetails[42][2] = [ _
+		["Wood V", "0"], ["Wood IV", "100"], ["Wood III", "200"], ["Wood II", "300"], ["Wood I", "400"], _
+		["Clay V", "500"], ["Clay IV", "600"], ["Clay III", "700"], ["Clay II", "800"], ["Clay I", "900"], _
+		["Stone V", "1000"], ["Stone IV", "1100"], ["Stone III", "1200"], ["Stone II", "1300"], ["Stone I", "1400"], _
+		["Copper V", "1500"], ["Copper IV", "1600"], ["Copper III", "1700"], ["Copper II", "1800"], ["Copper I", "1900"], _
+		["Brass III", "2000"], ["Brass II", "2200"], ["Brass I", "2400"], _
+		["Iron III", "2600"], ["Iron II", "2800"], ["Iron I", "3000"], _
+		["Steel III", "3200"], ["Steel II", "3400"], ["Steel I", "3600"], _
+		["Titanium III", "3800"], ["Titanium II", "4000"], ["Titanium I", "4200"], _
+		["Platinum III", "4400"], ["Platinum II", "4600"], ["Platinum I", "4800"], _
+		["Emerald III", "5000"], ["Emerald II", "5200"], ["Emerald I", "5400"], _
+		["Ruby III", "5600"], ["Ruby II", "5800"], ["Ruby I", "6000"], _
+		["Diamond", "6200"]]		
+
 ; Loot types
 Global Enum $eLootGold, $eLootElixir, $eLootDarkElixir, $eLootTrophy, $eLootCount
 
@@ -803,7 +821,7 @@ EndFunc   ;==>TroopIndexLookup
 ; and returns the full name.
 ;--------------------------------------------------------------------------
 Func GetTroopName(Const $iIndex, $iQuantity = 1)
-	If $iIndex >= $eBarb And $iIndex <= $eHunt Then
+	If $iIndex >= $eBarb And $iIndex <= $eAppWard Then
 		Return $iQuantity > 1 ? $g_asTroopNamesPlural[$iIndex] : $g_asTroopNames[$iIndex]
 	ElseIf $iIndex >= $eLSpell And $iIndex <= $eBtSpell Then
 		Return $iQuantity > 1 ? $g_asSpellNames[$iIndex - $eLSpell] & " Spells" : $g_asSpellNames[$iIndex - $eLSpell] & " Spell"
@@ -886,7 +904,7 @@ Global $g_sRequestTroopsText = ""
 Global $g_abRequestCCHours[24] = [False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False]
 Global $g_abRequestType[3] = [True, True, False] ; (0 = Troop, 1 = Spell, 2 = Siege Machine)
 Global $g_iRequestCountCCTroop = 0, $g_iRequestCountCCSpell = 0
-Global $g_aiCCTroopsExpected[$eTroopCount] = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+Global $g_aiCCTroopsExpected[$eTroopCount] = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
 Global $g_aiCCSpellsExpected[$eSpellCount] = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
 Global $g_aiCCSiegeExpected[$eSiegeMachineCount] = [0, 0, 0, 0, 0, 0, 0]
 Global $g_aiClanCastleTroopWaitType[3], $g_aiClanCastleTroopWaitQty[3]
@@ -896,15 +914,14 @@ Global $g_aiClanCastleSiegeWaitType[2]
 ; <><><><> Village / Donate - Donate <><><><>
 Global $g_bChkDonate = True
 Global $g_abChkDonateQueueOnly[2]
-Global $g_aiQueueTroopFirstSlot[$eTroopCount] = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+Global $g_aiQueueTroopFirstSlot[$eTroopCount] = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
 Global $g_aiQueueSpellFirstSlot[$eSpellCount] = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
 Global Enum $eCustomA = $eTroopCount, $eCustomB = $eTroopCount + 1
-Global Enum $eCustomC = $eTroopCount + 2, $eCustomD = $eTroopCount + 3
 Global Const $g_iCustomDonateConfigs = 4
-Global $g_abChkDonateTroop[$eTroopCount + $g_iCustomDonateConfigs + $eSiegeMachineCount] = [False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False]
-Global $g_abChkDonateAllTroop[$eTroopCount + $g_iCustomDonateConfigs + $eSiegeMachineCount] = [False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False]
-Global $g_asTxtDonateTroop[$eTroopCount + $g_iCustomDonateConfigs + $eSiegeMachineCount] = ["", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", ""] ; array of pipe-delimited list of strings to match to a request string
-Global $g_asTxtBlacklistTroop[$eTroopCount + $g_iCustomDonateConfigs + $eSiegeMachineCount] = ["", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", ""] ; array of pipe-delimited list of strings to prevent a match to a request string
+Global $g_abChkDonateTroop[$eTroopCount + $g_iCustomDonateConfigs + $eSiegeMachineCount] = [False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False]
+Global $g_abChkDonateAllTroop[$eTroopCount + $g_iCustomDonateConfigs + $eSiegeMachineCount] = [False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False]
+Global $g_asTxtDonateTroop[$eTroopCount + $g_iCustomDonateConfigs + $eSiegeMachineCount] = ["", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", ""] ; array of pipe-delimited list of strings to match to a request string
+Global $g_asTxtBlacklistTroop[$eTroopCount + $g_iCustomDonateConfigs + $eSiegeMachineCount] = ["", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", ""] ; array of pipe-delimited list of strings to prevent a match to a request string
 
 Global $g_abChkDonateSpell[$eSpellCount] = [False, False, False, False, False, False, False, False, False, False, False, False, False]
 Global $g_abChkDonateAllSpell[$eSpellCount] = [False, False, False, False, False, False, False, False, False, False, False, False, False]
@@ -912,7 +929,6 @@ Global $g_asTxtDonateSpell[$eSpellCount] = ["", "", "", "", "", "", "", "", "", 
 Global $g_asTxtBlacklistSpell[$eSpellCount] = ["", "", "", "", "", "", "", "", "", "", "", "", ""]
 
 Global $g_aiDonateCustomTrpNumA[3][2] = [[0, 0], [0, 0], [0, 0]], $g_aiDonateCustomTrpNumB[3][2] = [[0, 0], [0, 0], [0, 0]]
-Global $g_aiDonateCustomTrpNumC[3][2] = [[0, 0], [0, 0], [0, 0]], $g_aiDonateCustomTrpNumD[3][2] = [[0, 0], [0, 0], [0, 0]]
 
 Global $g_bChkExtraAlphabets = False ; extra alphabets
 Global $g_bChkExtraChinese = False ; extra Chinese alphabets
@@ -1032,14 +1048,14 @@ Global $g_abNotifyScheduleHours[24] = [False, False, False, False, False, False,
 Global $g_abNotifyScheduleWeekDays[7] = [False, False, False, False, False, False, False]
 
 ; <><><><> Attack Plan / Train Army / Troops/Spells <><><><>
-Global $g_aiArmyCustomTroops[$eTroopCount] = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+Global $g_aiArmyCustomTroops[$eTroopCount] = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
 Global $g_aiArmyCustomSpells[$eSpellCount] = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
 Global $g_aiArmyCompSiegeMachines[$eSiegeMachineCount] = [0, 0, 0, 0, 0, 0, 0]
 
-Global $g_aiArmyCompTroops[$eTroopCount] = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+Global $g_aiArmyCompTroops[$eTroopCount] = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
 Global $g_aiArmyCompSpells[$eSpellCount] = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
 
-Global $g_aiTrainArmyTroopLevel[$eTroopCount] = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+Global $g_aiTrainArmyTroopLevel[$eTroopCount] = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
 Global $g_aiTrainArmySpellLevel[$eSpellCount] = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
 Global $g_aiTrainArmySiegeMachineLevel[$eSiegeMachineCount] = [0, 0, 0, 0, 0, 0, 0]
 
@@ -1058,16 +1074,16 @@ Global $g_abBoostBarracksHours[24] = [True, True, True, True, True, True, True, 
 Global Const $g_aiTroopOrderIcon[$eTroopCount + 1] = [ _
 		$eIcnOptions, $eIcnBarbarian, $eIcnSuperBarbarian, $eIcnArcher, $eIcnSuperArcher, $eIcnGiant, $eIcnSuperGiant, $eIcnGoblin, $eIcnSneakyGoblin, $eIcnWallBreaker, $eIcnSuperWallBreaker, $eIcnBalloon, $eIcnRocketBalloon, _
 		$eIcnWizard, $eIcnSuperWizard, $eIcnHealer, $eIcnDragon, $eIcnSuperDragon, $eIcnPekka, $eIcnBabyDragon, $eIcnInfernoDragon, $eIcnMiner, $eIcnSuperMiner, $eIcnElectroDragon, $eIcnYeti, _
-		$eIcnDragonRider, $eIcnElectroTitan, $eIcnMinion, $eIcnSuperMinion, $eIcnHogRider, $eIcnValkyrie, $eIcnSuperValkyrie, $eIcnGolem, $eIcnWitch, $eIcnSuperWitch, $eIcnLavaHound, $eIcnIceHound, $eIcnBowler, $eIcnSuperBowler, $eIcnIceGolem, $eIcnHeadhunter, _
-		$eIcnGiantSkeleton, $eIcnRoyalGhost, $eIcnPartyWizard, $eIcnIceWizard]
-Global $g_bCustomTrainOrderEnable = False, $g_aiCmbCustomTrainOrder[$eTroopCount] = [-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1]
+		$eIcnDragonRider, $eIcnElectroTitan, $eIcnMinion, $eIcnSuperMinion, $eIcnHogRider, $eIcnSuperHogRider, $eIcnValkyrie, $eIcnSuperValkyrie, $eIcnGolem, $eIcnWitch, $eIcnSuperWitch, $eIcnLavaHound, $eIcnIceHound, $eIcnBowler, $eIcnSuperBowler, $eIcnIceGolem, $eIcnHeadhunter, _
+		$eIcnAppWard, $eIcnGiantSkeleton, $eIcnRoyalGhost, $eIcnPartyWizard, $eIcnIceWizard]
+Global $g_bCustomTrainOrderEnable = False, $g_aiCmbCustomTrainOrder[$eTroopCount] = [-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1]
 
 Global $g_aiTrainOrder[$eTroopCount] = [ _
 		$eTroopBarbarian, $eTroopSuperBarbarian, $eTroopArcher, $eTroopSuperArcher, $eTroopGiant, $eTroopSuperGiant, $eTroopGoblin, $eTroopSneakyGoblin, $eTroopWallBreaker, _
 		$eTroopSuperWallBreaker, $eTroopBalloon, $eTroopRocketBalloon, $eTroopWizard, $eTroopSuperWizard, $eTroopHealer, $eTroopDragon, $eTroopSuperDragon, $eTroopPekka, $eTroopBabyDragon, _
 		$eTroopInfernoDragon, $eTroopMiner, $eTroopSuperMiner, $eTroopElectroDragon, $eTroopYeti, $eTroopDragonRider, $eTroopElectroTitan, _
-		$eTroopMinion, $eTroopSuperMinion, $eTroopHogRider, $eTroopValkyrie, $eTroopSuperValkyrie, $eTroopGolem, $eTroopWitch, $eTroopSuperWitch, _
-		$eTroopLavaHound, $eTroopIceHound, $eTroopBowler, $eTroopSuperBowler, $eTroopIceGolem, $eTroopHeadhunter, $eTroopGiantSkeleton, $eTroopRoyalGhost, $eTroopPartyWizard, $eTroopIceWizard]
+		$eTroopMinion, $eTroopSuperMinion, $eTroopHogRider, $eTroopSuperHogRider, $eTroopValkyrie, $eTroopSuperValkyrie, $eTroopGolem, $eTroopWitch, $eTroopSuperWitch, _
+		$eTroopLavaHound, $eTroopIceHound, $eTroopBowler, $eTroopSuperBowler, $eTroopIceGolem, $eTroopHeadhunter, $eTroopAppWard, $eTroopGiantSkeleton, $eTroopRoyalGhost, $eTroopPartyWizard, $eTroopIceWizard]
 
 ; Spells Brew Order
 Global Const $g_aiSpellsOrderIcon[$eSpellCount + 1] = [ _
@@ -1084,36 +1100,36 @@ Global $g_aiBrewOrder[$eSpellCount] = [ _
 Global Enum $eTroopBarbarianS, $eTroopSuperBarbarianS, $eTroopArcherS, $eTroopSuperArcherS, $eTroopGiantS, $eTroopSuperGiantS, $eTroopGoblinS, $eTroopSneakyGoblinS, $eTroopWallBreakerS, _
 		$eTroopSuperWallBreakerS, $eTroopBalloonS, $eTroopRocketBalloonS, $eTroopWizardS, $eTroopSuperWizardS, $eTroopHealerS, $eTroopDragonS, $eTroopSuperDragonS, _
 		$eTroopPekkaS, $eTroopBabyDragonS, $eTroopInfernoDragonS, _
-		$eTroopMinerS, $eTroopSuperMinerS, $eTroopElectroDragonS, $eTroopYetiS, $eTroopDragonRiderS, $eTroopElectroTitanS, $eTroopMinionS, $eTroopSuperMinionS, $eTroopHogRiderS, $eTroopValkyrieS, $eTroopSuperValkyrieS, _
-		$eTroopGolemS, $eTroopWitchS, $eTroopSuperWitchS, $eTroopLavaHoundS, $eTroopIceHoundS, $eTroopBowlerS, $eTroopSuperBowlerS, $eTroopIceGolemS, $eTroopHeadHunterS, _
+		$eTroopMinerS, $eTroopSuperMinerS, $eTroopElectroDragonS, $eTroopYetiS, $eTroopDragonRiderS, $eTroopElectroTitanS, $eTroopMinionS, $eTroopSuperMinionS, $eTroopHogRiderS, $eTroopSuperHogRiderS, $eTroopValkyrieS, $eTroopSuperValkyrieS, _
+		$eTroopGolemS, $eTroopWitchS, $eTroopSuperWitchS, $eTroopLavaHoundS, $eTroopIceHoundS, $eTroopBowlerS, $eTroopSuperBowlerS, $eTroopIceGolemS, $eTroopHeadHunterS, $eTroopAppWardS, _
 		$eTroopGiantSkeletonS, $eTroopRoyalGhostS, $eTroopPartyWizardS, $eTroopIceWizardS, $eHeroeS, $eCCS, $eDropOrderCount
 
 Global Const $g_asDropOrderNames[$eDropOrderCount] = [ _
 		"Barbarians", "Super Barbarians", "Archers", "Super Archers", "Giants", "Super Giants", "Goblins", "Sneaky Goblins", "Wall Breakers", "Super Wall Breakers", "Balloons", "Rocket Balloons", "Wizards", _
 		"Super Wizards", "Healers", "Dragons", "Super Dragon", "Pekkas", "Baby Dragons", "Inferno Dragons", "Miners", "Super Miners", "Electro Dragons", _
-		"Yetis", "Dragon Riders", "Electro Titans", "Minions", "Super Minions", "Hog Riders", "Valkyries", "Super Valkyries", "Golems", "Witches", "Super Witches", "Lava Hounds", "Ice Hounds", "Bowlers", "Super Bowlers", "Ice Golems", "Headhunters", _
+		"Yetis", "Dragon Riders", "Electro Titans", "Minions", "Super Minions", "Hog Riders", "Super Hog Riders", "Valkyries", "Super Valkyries", "Golems", "Witches", "Super Witches", "Lava Hounds", "Ice Hounds", "Bowlers", "Super Bowlers", "Ice Golems", "Headhunters", "Apprentice Wardens", _
  		"Giant Skeletons", "Royal Ghosts", "Party Wizards", "Ice Wizards", "Clan Castle", "Heroes"]
 
 Global Const $g_aiDropOrderIcon[$eDropOrderCount + 1] = [ _
 		$eIcnOptions, $eIcnBarbarian, $eIcnSuperBarbarian, $eIcnArcher, $eIcnSuperArcher, $eIcnGiant, $eIcnSuperGiant, $eIcnGoblin, $eIcnSneakyGoblin, $eIcnWallBreaker, $eIcnSuperWallBreaker, _
 		$eIcnBalloon, $eIcnRocketBalloon, $eIcnWizard, $eIcnSuperWizard, $eIcnHealer, $eIcnDragon, $eIcnSuperDragon, _
 		$eIcnPekka, $eIcnBabyDragon, $eIcnInfernoDragon, $eIcnMiner, $eIcnSuperMiner, $eIcnElectroDragon, $eIcnYeti, $eIcnDragonRider, $eIcnElectroTitan, $eIcnMinion, _
-		$eIcnSuperMinion, $eIcnHogRider, $eIcnValkyrie, $eIcnSuperValkyrie, $eIcnGolem, $eIcnWitch, $eIcnSuperWitch, $eIcnLavaHound, $eIcnIceHound, $eIcnBowler, $eIcnSuperBowler, $eIcnIceGolem, $eIcnHeadhunter, _
+		$eIcnSuperMinion, $eIcnHogRider, $eIcnSuperHogRider, $eIcnValkyrie, $eIcnSuperValkyrie, $eIcnGolem, $eIcnWitch, $eIcnSuperWitch, $eIcnLavaHound, $eIcnIceHound, $eIcnBowler, $eIcnSuperBowler, $eIcnIceGolem, $eIcnHeadhunter, $eIcnAppWard, _
 		$eIcnGiantSkeleton, $eIcnRoyalGhost, $eIcnPartyWizard, $eIcnIceWizard, $eIcnCC, $eIcnHeroes]
-Global $g_bCustomDropOrderEnable = False, $g_aiCmbCustomDropOrder[$eDropOrderCount] = [-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1]
+Global $g_bCustomDropOrderEnable = False, $g_aiCmbCustomDropOrder[$eDropOrderCount] = [-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1]
 
 Global $g_aiDropOrder[$eDropOrderCount] = [ _
 		$eTroopBarbarianS, $eTroopSuperBarbarianS, $eTroopArcherS, $eTroopSuperArcherS, $eTroopGiantS, $eTroopSuperGiantS, $eTroopGoblinS, $eTroopSneakyGoblinS, $eTroopWallBreakerS, _
 		$eTroopSuperWallBreakerS, $eTroopBalloonS, $eTroopRocketBalloonS, $eTroopWizardS, $eTroopSuperWizardS, $eTroopHealerS, _
 		$eTroopDragonS, $eTroopSuperDragonS, $eTroopPekkaS, $eTroopBabyDragonS, $eTroopInfernoDragonS, $eTroopMinerS, $eTroopSuperMinerS, $eTroopElectroDragonS, _
-		$eTroopYetiS, $eTroopDragonRiderS, $eTroopElectroTitanS, $eTroopMinionS, $eTroopSuperMinionS, $eTroopHogRiderS, $eTroopValkyrieS, $eTroopSuperValkyrieS, $eTroopGolemS, _
-        $eTroopWitchS, $eTroopSuperWitchS, $eTroopLavaHoundS, $eTroopIceHoundS, $eTroopBowlerS, $eTroopSuperBowlerS, $eTroopIceGolemS, $eTroopHeadHunterS, _
+		$eTroopYetiS, $eTroopDragonRiderS, $eTroopElectroTitanS, $eTroopMinionS, $eTroopSuperMinionS, $eTroopHogRiderS, $eTroopSuperHogRiderS, $eTroopValkyrieS, $eTroopSuperValkyrieS, $eTroopGolemS, _
+        $eTroopWitchS, $eTroopSuperWitchS, $eTroopLavaHoundS, $eTroopIceHoundS, $eTroopBowlerS, $eTroopSuperBowlerS, $eTroopIceGolemS, $eTroopHeadHunterS, $eTroopAppWardS, _
 		$eTroopGiantSkeletonS, $eTroopRoyalGhostS, $eTroopPartyWizardS, $eTroopIceWizardS, $eCCS, $eHeroeS]
 
 ; <><><><> Attack Plan / Train Army / Options <><><><>
 Global $g_bCloseWhileTrainingEnable = True, $g_bCloseWithoutShield = True, $g_bCloseEmulator = False, $g_bSuspendComputer = False, $g_bCloseRandom = True, _
 		$g_bCloseExactTime = False, $g_bCloseRandomTime = True, $g_iCloseRandomTimePercentMin = 3, $g_iCloseRandomTimePercentMax = 8, $g_iCloseMinimumTimeMin = 2, $g_iCloseMinimumTimeMax = 5, _
-		$g_iRandomCloseOptionPercent = 85, $g_idRadio_RandomClassic = False, $g_idRadio_RandomMod = True
+		$g_iRandomCloseOptionPercent = 90, $g_idRadio_RandomClassic = False, $g_idRadio_RandomMod = True
 Global $g_iTrainClickDelay = 120, $RandomClickTrainAddTime = 0, $g_iTrainClickDelayfinal = 0
 Global $g_bTrainAddRandomDelayEnable = False, $g_iTrainAddRandomDelayMin = 5, $g_iTrainAddRandomDelayMax = 20
 Global $g_bTrainAddRandomClickTimingDelayEnable = True, $g_iTrainAddRandomClickTimingDelayMin = 0, $g_iTrainAddRandomClickTimingDelayMax = 10
@@ -1225,7 +1241,7 @@ Global $g_iAtkTBEnableCount = 150, $g_iAtkTBMaxTHLevel = 0, $g_iAtkTBMode = 0
 Global $g_bSearchReductionEnable = False, $g_iSearchReductionCount = 20, $g_iSearchReductionGold = 2000, $g_iSearchReductionElixir = 2000, $g_iSearchReductionGoldPlusElixir = 4000, _
 		$g_iSearchReductionDark = 100, $g_iSearchReductionTrophy = 2
 Global $g_bSearchReductionStorageEnable = False, $g_iSearchReductionGoldMod = 2000, $g_iSearchReductionElixirMod = 2000, $g_iSearchReductionDarkMod = 100
-Global $g_iSearchDelayMin = 0, $g_iSearchDelayMax = 0
+Global $g_iSearchDelayMin = 1, $g_iSearchDelayMax = 5
 Global $g_bSearchAttackNowEnable = False, $g_iSearchAttackNowDelay = 0, $g_bSearchRestartEnable = True, $g_iSearchRestartLimitMin = 20, $g_iSearchRestartLimitMax = 50, $g_bSearchAlertMe = True, $g_bSearchRestartPickupHero = False
 Global $g_iSearchRestartLimitMinPause = 70, $g_iSearchRestartLimitMaxPause = 90, $g_iSearchesPauseIntervalMin = 3, $g_iSearchesPauseIntervalMax = 7
 Global $g_asHeroHealTime[$eHeroCount] = ["", "", "", ""]
@@ -1395,16 +1411,16 @@ Global $g_CurrentCampUtilization = 0, $g_iTotalCampSpace = 220
 
 ; Upgrading - Lab
 Global $g_iLaboratoryElixirCost = 0, $g_iLaboratoryDElixirCost = 0, $g_bUseLabPotion = False, $g_bUpgradeAnyTroops = False
-Global $g_sLabUpgradeTime = "", $iLabFinishTimeMod = 0, $iStarLabFinishTimeMod = 0, $IsResearchPotInStock = 1
+Global $g_sLabUpgradeTime = "", $iLabFinishTimeMod = 0, $iStarLabFinishTimeMod = 0, $IsResearchPotInStock = 0
 Global $g_sStarLabUpgradeTime = ""
 
 ; Array to hold Laboratory Troop information [LocX of upper left corner of image, LocY of upper left corner of image, PageLocation, Troop "name", Icon # in DLL file, ShortName on image file]
-Global $g_avLabTroops[45][3]
-Global $g_avStarLabTroops[12][6]
+Global $g_avLabTroops[46][3]
+Global $g_avStarLabTroops[13][5]
 
 ; [0] Name, [1] Icon [2] ShortName
 Func TranslateTroopNames()
-	Dim $g_avLabTroops[48][3] = [ _
+	Dim $g_avLabTroops[49][3] = [ _
 			[GetTranslatedFileIni("MBR Global GUI Design", "Any", "Any"), $eIcnBlank], _
 			[GetTranslatedFileIni("MBR Global GUI Design Names Troops", "TxtBarbarians", "Barbarians"), $eIcnBarbarian, "Barb"], _
 			[GetTranslatedFileIni("MBR Global GUI Design Names Troops", "TxtArchers", "Archers"), $eIcnArcher, "Arch"], _
@@ -1444,6 +1460,7 @@ Func TranslateTroopNames()
 			[GetTranslatedFileIni("MBR Global GUI Design Names Troops", "TxtBowlers", "Bowlers"), $eIcnBowler, "Bowl"], _
 			[GetTranslatedFileIni("MBR Global GUI Design Names Troops", "TxtIceGolems", "Ice Golems"), $eIcnIceGolem, "IceG"], _
 			[GetTranslatedFileIni("MBR Global GUI Design Names Troops", "TxtHeadhunters", "Headhunters"), $eIcnHeadhunter, "Hunt"], _
+			[GetTranslatedFileIni("MBR Global GUI Design Names Troops", "TxtAppWard", "App. Warden"), $eIcnAppWard, "AppWard"], _
 			[GetTranslatedFileIni("MBR Global GUI Design Names Troops", "TxtWallWreckers", "Wall Wreckers"), $eIcnWallW, "Siege"], _
 			[GetTranslatedFileIni("MBR Global GUI Design Names Troops", "TxtBattleBlimps", "Battle Blimps"), $eIcnBattleB, "Blimp"], _
 			[GetTranslatedFileIni("MBR Global GUI Design Names Troops", "TxtStoneSlammers", "Stone Slammer"), $eIcnStoneS, "Slammer"], _
@@ -1454,7 +1471,7 @@ Func TranslateTroopNames()
 			[GetTranslatedFileIni("MBR Global GUI Design Names Troops", "TxtAnySpell", "Any Spell"), $eIcnAllSpell, "AnySpell"], _
 			[GetTranslatedFileIni("MBR Global GUI Design Names Troops", "TxtAnySiege", "Any Siege"), $eIcnAllSiege, "AnySiege"]]
 
-	Dim $g_avStarLabTroops[12][5] = [ _
+	Dim $g_avStarLabTroops[13][5] = [ _
 			[-1, -1, -1, GetTranslatedFileIni("MBR Global GUI Design", "Any", "Any"), $eIcnBlank], _
 			[114, 341 + $g_iMidOffsetY, 0, GetTranslatedFileIni("MBR Global GUI Design Names Builderbase Troops", "TxtRagedBarbarian", "Raged Barbarian"), $eIcnRagedBarbarian], _
 			[114, 449 + $g_iMidOffsetY, 0, GetTranslatedFileIni("MBR Global GUI Design Names Builderbase Troops", "TxtSneakyArcher", "SneakyArcher"), $eIcnSneakyArcher], _
@@ -1466,7 +1483,8 @@ Func TranslateTroopNames()
 			[416, 449 + $g_iMidOffsetY, 0, GetTranslatedFileIni("MBR Global GUI Design Names Builderbase Troops", "TxtNightWitch", "Night Witch"), $eIcnNightWitch], _
 			[516, 341 + $g_iMidOffsetY, 0, GetTranslatedFileIni("MBR Global GUI Design Names Builderbase Troops", "TxtDropShip", "Drop Ship"), $eIcnDropShip], _
 			[516, 449 + $g_iMidOffsetY, 0, GetTranslatedFileIni("MBR Global GUI Design Names Builderbase Troops", "TxtSuperPekka", "Super Pekka"), $eIcnSuperPekka], _
-			[622, 341 + $g_iMidOffsetY, 0, GetTranslatedFileIni("MBR Global GUI Design Names Builderbase Troops", "TxtHogGlider", "Hog Glider"), $eIcnHogGlider]]
+			[622, 341 + $g_iMidOffsetY, 0, GetTranslatedFileIni("MBR Global GUI Design Names Builderbase Troops", "TxtHogGlider", "Hog Glider"), $eIcnHogGlider], _
+			[622, 449 + $g_iMidOffsetY, 0, GetTranslatedFileIni("MBR Global GUI Design Names Builderbase Troops", "TxtEFWizard", "ElectroFire Wizard"), $eIcnEFWizard]]
 EndFunc   ;==>TranslateTroopNames
 
 ; Upgrading - Wall
@@ -1477,12 +1495,13 @@ Global $g_iWallCost = 0
 
 ; Upgrading - Heroes
 ; Barbarian King/Queen Upgrade Costs = Dark Elixir in xxxK
-Global Const $g_iMaxKingLevel = 85
-Global Const $g_iMaxQueenLevel = 85
-Global Const $g_iMaxWardenLevel = 60
-Global Const $g_iMaxChampionLevel = 35
+Global Const $g_iMaxKingLevel = 90
+Global Const $g_iMaxQueenLevel = 90
+Global Const $g_iMaxWardenLevel = 65
+Global Const $g_iMaxChampionLevel = 40
 
-;Updated for Oct2022
+Global $g_iKingLevel = -1
+;Updated for Jun2023
 Global Const $g_afKingUpgCost[$g_iMaxKingLevel] = [5, 6, 7, 8, 10, 11, 12, 13, 14, 15, _
 17, 19, 21, 23, 25, 27, 29, 31, 33, 35, _
 37, 39, 41, 43, 45, 47, 49, 51, 53, 55, _
@@ -1491,9 +1510,10 @@ Global Const $g_afKingUpgCost[$g_iMaxKingLevel] = [5, 6, 7, 8, 10, 11, 12, 13, 1
 130, 135, 140, 146, 151, 158, 165, 172, 180, 187, _
 193, 200, 206, 211, 216, 225, 234, 243, 252, 261, _
 267, 270, 279, 284, 289, 300, 305, 310, 315, 320, _
-330, 335, 340, 345, 350]
+330, 335, 340, 345, 350, 352, 354, 356, 358, 360]
 
-;Updated for Oct2022
+Global $g_iQueenLevel = -1
+;Updated for Jun2023
 Global Const $g_afQueenUpgCost[$g_iMaxQueenLevel] = [10, 11, 12, 13, 15, 16, 17, 18, 19, 20, _
 22, 24, 26, 28, 30, 32, 34, 36, 38, 40, _
 42, 44, 46, 48, 50, 52, 54, 56, 58, 60, _
@@ -1502,23 +1522,24 @@ Global Const $g_afQueenUpgCost[$g_iMaxQueenLevel] = [10, 11, 12, 13, 15, 16, 17,
 138, 143, 148, 154, 159, 166, 172, 179, 186, 192, _
 198, 203, 208, 213, 219, 228, 237, 246, 255, 266, _
 269, 278, 283, 288, 297, 302, 308, 314, 319, 325, _
-334, 338, 342, 346, 350]
+334, 338, 342, 346, 350, 352, 354, 356, 358, 360]
 
 ;Royal Champion upgrade costs, xx.xK
-;Updated for Oct2022
+Global $g_iChampionLevel = -1
+;Updated for Jun2023
 Global Const $g_afChampionUpgCost[$g_iMaxChampionLevel] = [60, 73, 89, 105, 122, 140, 158, 170, 182, 192, 202, 211, 216, 222, 228, 234, 239, 245, 251, 257, 262, 267, 272, 277, 282, 295, 300, 305, 310, 315, _
-325, 330, 335, 340, 345]
+325, 330, 335, 340, 345, 347, 349, 351, 353, 355]
 
 ; Grand Warden Upgrade Costs = Elixir in xx.xK
 Global $g_iWardenLevel = -1
-;Updated for Oct2022
+;Updated for Jun2023
 Global Const $g_afWardenUpgCost[$g_iMaxWardenLevel] = [1, 1.1, 1.4, 1.6, 1.8, 2, 2.2, 2.5, 2.7, 3.1, _
 3.6, 4, 4.4, 4.9, 5.3, 5.7, 6.2, 6.6, 7.1, 7.9, _
 8.8, 8.9, 9, 9.1, 9.2, 9.3, 9.4, 9.5, 9.6, 9.7, _
 9.8, 9.9, 10, 10.1, 10.2, 10.3, 10.4, 10.5, 10.6, 10.7, _
 10.8, 11.2, 11.6, 12, 12.4, 12.8, 13.2, 13.6, 14.3, 15.5, _
 16.6, 17.1, 17.6, 18.1, 18.6, _
-19.2, 19.4, 19.6, 19.8, 20]
+19.2, 19.4, 19.6, 19.8, 20, 20.2, 20.4, 20.6, 20.8, 21]
 
 ; Special Bot activities active
 Global $g_bVillageSearchActive = False ;True during Village Search
@@ -1532,6 +1553,7 @@ Global Const $g_aiSearchCost[$g_iMaxTHLevel] = [10, 50, 75, 110, 170, 250, 380, 
 Global $g_bSearchMode = False
 Global $g_bIsSearchLimit = False
 Global $g_bIsClientSyncError = False ;If true means while searching Client Out Of Sync error occurred.
+Global $IsAttackStarted = False
 Global $g_iSearchGold = 0, $g_iSearchElixir = 0, $g_iSearchDark = 0, $g_iSearchTrophy = 0, $g_iSearchTH = 0 ;Resources of bases when searching
 Global $g_aiMaxTH[$g_iModeCount] = [0, 0, 0]
 Global $g_iAimGold[$g_iModeCount] = [0, 0, 0], $g_iAimElixir[$g_iModeCount] = [0, 0, 0], $g_iAimGoldPlusElixir[$g_iModeCount] = [0, 0, 0], $g_iAimDark[$g_iModeCount] = [0, 0, 0], _
@@ -1556,7 +1578,8 @@ Global Const $g_aaiBottomRightDropPoints[5][2] = [[466, 600], [554, 555], [615, 
 Global Const $g_aaiBottomRightDropPoints2[5][2] = [[480, 600], [554, 555], [615, 510], [678, 460], [765, 394]]
 Global Const $g_aaiEdgeDropPoints[4] = [$g_aaiBottomRightDropPoints, $g_aaiTopLeftDropPoints, $g_aaiBottomLeftDropPoints, $g_aaiTopRightDropPoints]
 Global Const $g_aaiEdgeDropPoints2[4] = [$g_aaiBottomRightDropPoints2, $g_aaiTopLeftDropPoints, $g_aaiBottomLeftDropPoints2, $g_aaiTopRightDropPoints]
-Global Const $g_aiUseAllTroops[$eArmyCount - 1] = [$eBarb, $eSBarb, $eArch, $eSArch, $eGiant, $eSGiant, $eGobl, $eSGobl, $eWall, $eSWall, $eBall, $eRBall, $eWiza, $eSWiza, $eHeal, $eDrag, $eSDrag, $ePekk, $eBabyD, $eInfernoD, $eMine, $eSMine, $eEDrag, $eYeti, $eRDrag, $eETitan, $eMini, $eSMini, $eHogs, $eValk, $eSValk, $eGole, $eWitc, $eSWitc, $eLava, $eIceH, $eBowl, $eSBowl, $eIceG, $eHunt, $eKing, $eQueen, $eWarden, $eChampion, $eCastle, $eLSpell, $eHSpell, $eRSpell, $eJSpell, $eFSpell, $eCSpell, $eISpell, $eReSpell, $ePSpell, $eESpell, $eHaSpell, $eBtSpell, $eWallW, $eBattleB, $eStoneS, $eSiegeB, $eLogL, $eFlameF, $eBattleD]
+Global Const $g_aiUseAllTroops[$eArmyCount - 1] = [$eBarb, $eSBarb, $eArch, $eSArch, $eGiant, $eSGiant, $eGobl, $eSGobl, $eWall, $eSWall, $eBall, $eRBall, $eWiza, $eSWiza, $eHeal, $eDrag, $eSDrag, $ePekk, $eBabyD, $eInfernoD, $eMine, $eSMine, $eEDrag, $eYeti, $eRDrag, $eETitan, $eMini, $eSMini, $eHogs, $eSHogs, $eValk, $eSValk, $eGole, $eWitc, $eSWitc, $eLava, $eIceH, $eBowl, $eSBowl, $eIceG, $eHunt, $eAppWard, $eGSkel, $eRGhost, $ePWiza, $eIWiza, _
+$eKing, $eQueen, $eWarden, $eChampion, $eCastle, $eLSpell, $eHSpell, $eRSpell, $eJSpell, $eFSpell, $eCSpell, $eISpell, $eReSpell, $ePSpell, $eESpell, $eHaSpell, $eBtSpell, $eWallW, $eBattleB, $eStoneS, $eSiegeB, $eLogL, $eFlameF, $eBattleD]
 Global Const $g_aiUseBarracks[45] = [$eBarb, $eSBarb, $eArch, $eSArch, $eGiant, $eSGiant, $eGobl, $eSGobl, $eWall, $eSWall, $eBall, $eRBall, $eWiza, $eSWiza, $eHeal, $eDrag, $eSDrag, $ePekk, $eBabyD, $eInfernoD, $eMine, $eSMine, $eEDrag, $eYeti, $eRDrag, $eETitan, $eKing, $eQueen, $eWarden, $eChampion , $eCastle, $eLSpell, $eHSpell, $eRSpell, $eJSpell, $eFSpell, $eCSpell, $eISpell, $eISpell, $eReSpell, $ePSpell, $eESpell, $eHaSpell, $eSkSpell, $eBtSpell]
 Global Const $g_aiUseBarbs[20] = [$eBarb, $eSBarb, $eKing, $eQueen, $eWarden, $eChampion, $eCastle, $eLSpell, $eHSpell, $eRSpell, $eJSpell, $eFSpell, $eCSpell, $eISpell, $eReSpell, $ePSpell, $eESpell, $eHaSpell, $eSkSpell, $eBtSpell]
 Global Const $g_aiUseArchs[20] = [$eArch, $eSArch, $eKing, $eQueen, $eWarden, $eChampion, $eCastle, $eLSpell, $eHSpell, $eRSpell, $eJSpell, $eFSpell, $eCSpell, $eISpell, $eReSpell, $ePSpell, $eESpell, $eHaSpell, $eSkSpell, $eBtSpell]
@@ -1568,7 +1591,7 @@ Global Const $g_aiUseBarcherGobGiant[26] = [$eBarb, $eSBarb, $eArch, $eSArch, $e
 Global Const $g_aiUseBarcherHog[23] = [$eBarb, $eSBarb, $eArch, $eSArch, $eHogs, $eKing, $eQueen, $eWarden, $eChampion, $eCastle, $eLSpell, $eHSpell, $eRSpell, $eJSpell, $eFSpell, $eCSpell, $eISpell, $eReSpell, $ePSpell, $eESpell, $eHaSpell, $eSkSpell, $eBtSpell]
 Global Const $g_aiUseBarcherMinion[24] = [$eBarb, $eSBarb, $eArch, $eSArch, $eMini, $eSMini, $eKing, $eQueen, $eWarden, $eChampion, $eCastle, $eLSpell, $eHSpell, $eRSpell, $eJSpell, $eFSpell, $eCSpell, $eISpell, $eReSpell, $ePSpell, $eESpell, $eHaSpell, $eSkSpell, $eBtSpell]
 Global Const $g_aaiTroopsToBeUsed[11] = [$g_aiUseAllTroops, $g_aiUseBarracks, $g_aiUseBarbs, $g_aiUseArchs, $g_aiUseBarcher, $g_aiUseBarbGob, $g_aiUseArchGob, $g_aiUseBarcherGiant, $g_aiUseBarcherGobGiant, $g_aiUseBarcherHog, $g_aiUseBarcherMinion]
-Global $g_avAttackTroops[$eHunt][6] ;11 Slots of troops -  Name, Amount, x-coord (+ 11 extended slots Slot11+)
+Global $g_avAttackTroops[$eIWiza][6] ;11 Slots of troops -  Name, Amount, x-coord (+ 11 extended slots Slot11+)
 Global $g_bFullArmy = False ;Check for full army or not
 Global $g_iKingSlot = -1, $g_iQueenSlot = -1, $g_iWardenSlot = -1, $g_iChampionSlot = -1, $g_iClanCastleSlot = -1
 Global $g_iTotalAttackSlot = 10, $g_bDraggedAttackBar = False ; Slot11+
@@ -1587,7 +1610,7 @@ Global $g_bCheckChampionPower = False ; Check for Champion activate power
 Global $g_bDropQueen, $g_bDropKing, $g_bDropWarden, $g_bDropChampion
 
 ; Attack - Troops
-Global $g_aiSlotInArmy[$eTroopCount] = [-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1]
+Global $g_aiSlotInArmy[$eTroopCount] = [-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1]
 ; Red area search
 Global $g_aiPixelTopLeft[0]
 Global $g_aiPixelBottomLeft[0]
@@ -1659,21 +1682,21 @@ Global Const $g_aiDonateTroopPriority[$eTroopCount] = [ _
 		$eTroopDragonRider, $eTroopDragon, $eTroopSuperValkyrie, $eTroopRocketBalloon, _
 		$eTroopYeti, $eTroopIceGolem, $eTroopInfernoDragon, $eTroopSuperMinion, $eTroopSuperArcher, $eTroopWitch, $eTroopHealer, $eTroopBabyDragon, _
 		$eTroopSuperWizard, $eTroopSuperGiant, $eTroopValkyrie, $eTroopSuperWallBreaker, $eTroopBowler, $eTroopHeadhunter, $eTroopMiner, $eTroopSuperMiner, _
-		$eTroopGiant, $eTroopSuperBarbarian, $eTroopBalloon, $eTroopHogRider, $eTroopWizard, _
-		$eTroopSneakyGoblin, $eTroopWallBreaker, $eTroopMinion, $eTroopArcher, $eTroopBarbarian, $eTroopGoblin]
+		$eTroopGiant, $eTroopSuperBarbarian, $eTroopBalloon, $eTroopHogRider, $eTroopSuperHogRider, $eTroopWizard, _
+		$eTroopSneakyGoblin, $eTroopWallBreaker, $eTroopMinion, $eTroopArcher, $eTroopBarbarian, $eTroopGoblin, $eTroopAppWard]
 Global Const $g_aiDonateSpellPriority[$eSpellCount] = [ _
 		$eSpellLightning, $eSpellHeal, $eSpellRage, $eSpellJump, $eSpellFreeze, $eSpellClone, $eSpellInvisibility, $eSpellRecall, _
 		$eSpellPoison, $eSpellEarthquake, $eSpellHaste, $eSpellSkeleton, $eSpellBat]
-Global $g_aiDonateStatsTroops[$eTroopCount][2] = [[0, 0], [0, 0], [0, 0], [0, 0], [0, 0], [0, 0], [0, 0], [0, 0], [0, 0], [0, 0], [0, 0], [0, 0], [0, 0], [0, 0], [0, 0], [0, 0], [0, 0], [0, 0], [0, 0], [0, 0], [0, 0], [0, 0], [0, 0], [0, 0], [0, 0], [0, 0], [0, 0], [0, 0], [0, 0], [0, 0], [0, 0], [0, 0], [0, 0], [0, 0], [0, 0], [0, 0], [0, 0], [0, 0], [0, 0], [0, 0], [0, 0], [0, 0], [0, 0], [0, 0]]
+Global $g_aiDonateStatsTroops[$eTroopCount][2] = [[0, 0], [0, 0], [0, 0], [0, 0], [0, 0], [0, 0], [0, 0], [0, 0], [0, 0], [0, 0], [0, 0], [0, 0], [0, 0], [0, 0], [0, 0], [0, 0], [0, 0], [0, 0], [0, 0], [0, 0], [0, 0], [0, 0], [0, 0], [0, 0], [0, 0], [0, 0], [0, 0], [0, 0], [0, 0], [0, 0], [0, 0], [0, 0], [0, 0], [0, 0], [0, 0], [0, 0], [0, 0], [0, 0], [0, 0], [0, 0], [0, 0], [0, 0], [0, 0], [0, 0], [0, 0], [0, 0]]
 Global $g_aiDonateStatsSpells[$eSpellCount][2] = [[0, 0], [0, 0], [0, 0], [0, 0], [0, 0], [0, 0], [0, 0], [0, 0], [0, 0], [0, 0], [0, 0], [0, 0], [0, 0]]
 Global $g_aiDonateStatsSieges[$eSiegeMachineCount][2] = [[0, 0], [0, 0], [0, 0], [0, 0], [0, 0], [0, 0], [0, 0]]
 Global $g_iTotalDonateStatsTroops = 0, $g_iTotalDonateStatsTroopsXP = 0
 Global $g_iTotalDonateStatsSpells = 0, $g_iTotalDonateStatsSpellsXP = 0
 Global $g_iTotalDonateStatsSiegeMachines = 0, $g_iTotalDonateStatsSiegeMachinesXP = 0
 Global $g_iActiveDonate = -1 ; -1 means not set yet
-Global $g_aiDonateTroops[$eTroopCount] = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], $g_aiDonateSpells[$eSpellCount] = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], $g_aiDonateSiegeMachines[$eSiegeMachineCount] = [0, 0, 0, 0, 0, 0, 0]
-Global $g_aiCurrentTroops[$eTroopCount] = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], $g_aiCurrentSpells[$eSpellCount] = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], $g_aiCurrentSiegeMachines[$eSiegeMachineCount] = [0, 0, 0, 0, 0, 0, 0]
-Global $g_aiCurrentCCTroops[$eTroopCount] = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], $g_aiCurrentCCSpells[$eSpellCount] = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], $g_aiCurrentCCSiegeMachines[$eSiegeMachineCount] = [0, 0, 0, 0, 0, 0, 0]
+Global $g_aiDonateTroops[$eTroopCount] = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], $g_aiDonateSpells[$eSpellCount] = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], $g_aiDonateSiegeMachines[$eSiegeMachineCount] = [0, 0, 0, 0, 0, 0, 0]
+Global $g_aiCurrentTroops[$eTroopCount] = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], $g_aiCurrentSpells[$eSpellCount] = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], $g_aiCurrentSiegeMachines[$eSiegeMachineCount] = [0, 0, 0, 0, 0, 0, 0]
+Global $g_aiCurrentCCTroops[$eTroopCount] = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], $g_aiCurrentCCSpells[$eSpellCount] = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], $g_aiCurrentCCSiegeMachines[$eSiegeMachineCount] = [0, 0, 0, 0, 0, 0, 0]
 Global $g_bDonationEnabled = True
 Global $g_iTroopsDonated = 0
 Global $g_iTroopsReceived = 0
@@ -1685,6 +1708,7 @@ Global $g_avDTtroopsToBeUsed[8][2] = [["Barb", 0], ["Arch", 0], ["Giant", 0], ["
 ; Obstacles
 Global $g_bMinorObstacle = False
 Global $g_bGfxError = False ; True when Android Gfx Errors detected that will initiate Android reboot
+Global $g_iGfxErrorCount = 0, $g_iGfxErrorMax = 5
 Global $g_bNetworkError = False ; True when Network Error detected that will initiate Android reboot
 Global $g_bErrorWindow = False ; True when Error window detected that will initiate Android reboot
 
@@ -1778,7 +1802,7 @@ Func _FilloBldgLevels()
 	$g_oBldgLevels.add($eBldgElixirS, $aBldgStorage)
 	Local Const $aBldgDarkStorage[$g_iMaxTHLevel] = [0, 0, 0, 0, 0, 0, 2, 4, 6, 6, 6, 7, 8, 9, 10]
 	$g_oBldgLevels.add($eBldgDarkS, $aBldgDarkStorage)
-	Local Const $aBldgEagle[$g_iMaxTHLevel] = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 3, 4, 5, 5]
+	Local Const $aBldgEagle[$g_iMaxTHLevel] = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 3, 4, 5, 6] ;Jun23
 	$g_oBldgLevels.add($eBldgEagle, $aBldgEagle)
 	Local Const $aBldgInferno[$g_iMaxTHLevel] = [0, 0, 0, 0, 0, 0, 0, 0, 0, 3, 5, 6, 7, 8, 9]
 	$g_oBldgLevels.add($eBldgInferno, $aBldgInferno)
@@ -1790,7 +1814,7 @@ Func _FilloBldgLevels()
 	$g_oBldgLevels.add($eBldgXBow, $aBldgXBow)
 	Local Const $aBldgAirDefense[$g_iMaxTHLevel] = [0, 0, 0, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13]
 	$g_oBldgLevels.add($eBldgAirDefense, $aBldgAirDefense)
-	Local const $aBldgScatterShot[$g_iMaxTHLevel] = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 3, 3]
+	Local const $aBldgScatterShot[$g_iMaxTHLevel] = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 3, 4] ;Jun23
 	$g_oBldgLevels.add($eBldgScatter, $aBldgScatterShot)
 	Local const $aBldgMonolith[$g_iMaxTHLevel] = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2]
 	$g_oBldgLevels.add($eBldgMonolith, $aBldgMonolith)
@@ -1885,8 +1909,8 @@ Global $g_bChkClanGamesPurgeAny = 0, $g_bChkClanGamesPurgeAnyClose = 0, $sPurgeT
 Global $IsCGEventRunning = 0, $g_bChkForceAttackOnClanGamesWhenHalt = False, $CurrentActiveChallenge = 0
 Global $g_bSortClanGames = True, $g_iSortClanGames = 0
 Global $g_abCGMainLootItem[6], $g_abCGMainBattleItem[22], $g_abCGMainDestructionItem[34], $g_abCGMainAirItem[13], _
-	   $g_abCGMainGroundItem[28], $g_abCGMainMiscItem[3], $g_abCGMainSpellItem[12], $g_abCGBBBattleItem[4], _
-	   $g_abCGBBDestructionItem[18], $g_abCGBBTroopsItem[12]
+	   $g_abCGMainGroundItem[29], $g_abCGMainMiscItem[3], $g_abCGMainSpellItem[12], $g_abCGBBBattleItem[4], _
+	   $g_abCGBBDestructionItem[19], $g_abCGBBTroopsItem[12]
 Global $IsCGEventForGold = False, $IsCGEventForElixir = False, $IsCGEventForDE = False
 
 ; CSV Deploy Speed
@@ -1967,17 +1991,19 @@ Global $g_bChkSortPetUpgrade = False, $g_iCmbSortPetUpgrade = 0, $g_iCmbSortPetU
 Global Enum $ePetLassi, $ePetElectroOwl, $ePetMightyYak, $ePetUnicorn, $ePetFrosty, $ePetDiggy, $ePetPoisonLizard, $ePetPhoenix, $ePetCount
 Global Const $g_asPetNames[$ePetCount] = ["Lassi", "Electro Owl", "Mighty Yak", "Unicorn", "Frosty", "Diggy", "Poison Lizard", "Phoenix"]
 Global Const $g_asPetShortNames[$ePetCount] = ["Lassi", "Owl", "Yak", "Unicorn", "Frosty", "Diggy", "Lizard", "Phoenix"]
-Global Const $g_ePetLevels = 10
+Global Const $g_ePetLevels[$ePetCount] = [15, 10, 15, 10, 10, 10, 10, 10] ;Jun23 Update, Pets have not same max level.
 
-Global Const $g_aiPetUpgradeCostPerLevel[$ePetCount][$g_ePetLevels] = [ _
-		[0, 115, 130, 145, 160, 175, 190, 205, 220, 235], _; LASSI
-		[0, 135, 150, 165, 180, 195, 210, 225, 240, 255], _; Electro Owl
-		[0, 165, 185, 205, 225, 245, 255, 265, 275, 285], _; Mighty Yak
-		[0, 210, 220, 230, 240, 250, 260, 270, 280, 290], _; Unicorn
-		[0, 215, 225, 235, 245, 255, 265, 275, 285, 295], _; Frosty
-		[0, 220, 230, 240, 250, 260, 270, 280, 290, 300], _; Diggy
-		[0, 225, 235, 245, 255, 265, 275, 285, 295, 305], _; Poison Lizard
-		[0, 230, 240, 250, 260, 270, 280, 290, 300, 310]]; Phoenix
+Global Const $g_aiPetUpgradeCostPerLevel[$ePetCount][15] = [ _
+		[0, 115, 130, 145, 160, 175, 190, 205, 220, 235, 250, 260, 270, 280, 290], _; LASSI
+		[0, 135, 150, 165, 180, 195, 210, 225, 240, 255, 0, 0, 0, 0, 0], _; Electro Owl
+		[0, 165, 185, 205, 225, 245, 255, 265, 275, 285, 290, 295, 300, 305, 310], _; Mighty Yak
+		[0, 210, 220, 230, 240, 250, 260, 270, 280, 290, 0, 0, 0, 0, 0], _; Unicorn
+		[0, 215, 225, 235, 245, 255, 265, 275, 285, 295, 0, 0, 0, 0, 0], _; Frosty
+		[0, 220, 230, 240, 250, 260, 270, 280, 290, 300, 0, 0, 0, 0, 0], _; Diggy
+		[0, 225, 235, 245, 255, 265, 275, 285, 295, 305, 0, 0, 0, 0, 0], _; Poison Lizard
+		[0, 230, 240, 250, 260, 270, 280, 290, 300, 310, 0, 0, 0, 0, 0]]; Phoenix
+	
+Global $g_bUsePetPotion = False, $iPetFinishTimeMod = 0, $IsPetPotInStock = 0, $IsPetPotJustCollected = 0
 
 ; Humanization
 Global $g_iacmbPriority[11] = [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 5]
@@ -2095,7 +2121,7 @@ Global Const $g_afRefVillage[$eTreeCount][10] = [ _
 	[469.703380664663, 41, 790, 66, 632, 469.703380664663, 50, 50, 42, 42], _		; MS partial
 	[480, 35, 809, 57, 632, 480, 50, 50, 42, 42], _				; CS
 	[480, 35, 809, 57, 632, 480, 50, 50, 42, 42], _				; IT
-	[379.32672221687 , 114, 720, 158, 610, 379.32672221687, 50, 46, 38, 42], _ ; BB partial [418.46093337521, 95, 765, 142, 641, 418.46093337521, 50, 46, 38, 42], _ 
+	[379.32672221687 , 114, 720, 158, 610, 379.32672221687, 50, 46, 38, 42], _ ; BB partial [418.46093337521, 95, 765, 142, 641, 418.46093337521, 50, 46, 38, 42], _
 	[363.220939721829, 121, 702, 180, 612, 363.220939721829, 50, 46, 38, 42], _ ; OO
 	[461.860421647731, 73, 814, 85, 637, 461.860421647731, 10, 10, 10, 10], _   ; CP partial
 	[427.945118331064, 97, 785, 91, 604, 427.945118331064, 10, 10, 10, 10]] 	; BC partial
@@ -2112,7 +2138,7 @@ Global $g_iNextPageTroop = $eETitan
 ;ClanCapital
 Global $g_iLootCCGold = 0, $g_iLootCCMedal = 0, $g_iCCTrophies = 0, $g_bChkEnableAutoUpgradeCC = False, $g_bChkAutoUpgradeCCIgnore = False, $g_bChkEnableSmartSwitchCC = False
 Global $IsRaidRunning = 0, $g_iRank = ""
-Global $g_bChkEnableCollectCCGold = True, $g_bChkEnableForgeGold = False, $g_bChkEnableForgeElix = False
+Global $g_bChkEnableCollectCCGold = False, $g_bChkEnableForgeGold = False, $g_bChkEnableForgeElix = False, $g_bChkEnableSmartUse = False
 Global $g_bChkEnableForgeDE = False, $g_bChkEnableForgeBBGold = False, $g_bChkEnableForgeBBElix = False, $g_iCmbForgeBuilder = 0
 Global $g_bFirstStartAccountSBB2 = 0, $CCBaseCheckTimer = 0, $DelayReturnedtocheckCCBaseMS = 0, $iAttack = 0
 Global $g_iCmbPriorityCCBaseFrequency = 2, $g_icmbAdvancedVariationCC = 3, $IsCCGoldJustCollected = 0, $IsCCGoldJustCollectedDChallenge = 0

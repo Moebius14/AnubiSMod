@@ -1,3 +1,4 @@
+joe4obijoe
 * v8.0.3 **
 * Added Clan Capital Trophies and League.
 * CC trophies in multistats (page 3).
@@ -29,6 +30,24 @@
 * Improved "Log in with Supercell ID" Management.
 * Fixed Builder Base ZoomOut
 * Added Otto Outpost ZoomOut
+* Added ElectroFire Wizard To Star Laboratory.
+* Added Reboot Emulator if "COC isn't Responding" Window is detected.
+* Fixed BS 'hang' during attack search.
+* Added Elixir Cart Collect.
+* Added New BB Leagues and Logos in GUI.
+* Added Smart use of resources for Forge.
+* Trying to fix COC resets to tutorial base
+* Trying to prevent infinite BB / Main base switching loop
+* Added Get out of BB Reinforcement base
+* Fixed OCR White Values for forge (Bug?).
+* Fixed ScreenCoordinates for Daily Challenge Window.
+* Improved some red costs values.
+* June 2023 Update Fixes
+** Added New Pet Levels.
+** New hero levels and costs.
+** Fixed Heroes and Pets upgrade time.
+** Super Hog Rider support.
+** Apprentice Warden support.
 
 * v8.0.2 **
 * Respond faster to "Stop" during zoomout.

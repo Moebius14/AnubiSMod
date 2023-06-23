@@ -19,7 +19,6 @@ Local $aResult = BuildingInfo(242, 490 + $g_iBottomOffsetY)
 Local $TowerClockLevel = $aResult[2]
 SetLog("Clock Tower Level " & $TowerClockLevel & " Detected")
 Local $ClockTimeGained = 0
-
 	Switch $TowerClockLevel
 		Case 1
 			$ClockTimeGained = 126
@@ -42,7 +41,6 @@ Local $ClockTimeGained = 0
 		Case Else
 			$ClockTimeGained = 270
 	EndSwitch
-
 Return $ClockTimeGained
 EndFunc
 
@@ -109,7 +107,7 @@ Func StartClockTowerBoost($bSwitchToBB = False, $bSwitchToNV = False, $bConditio
 		
 		If $IsCTToOpen Then
 			_Sleep(1000)
-			For $i = 0 To 10
+			For $i = 0 To 20
 				If QuickMIS("BC1", $g_sImgCTNonAvailable) Then
 					Click($g_iQuickMISX - 7, $g_iQuickMISY) ;Click On CT Non Available
 					If _Sleep($DELAYCLOCKTOWER1) Then Return
@@ -117,6 +115,7 @@ Func StartClockTowerBoost($bSwitchToBB = False, $bSwitchToNV = False, $bConditio
 					_Sleep(500)
 					ExitLoop
 				EndIf
+				_Sleep(150)
 			Next
 			$TimeGained = ClockTimeGained()
 		EndIf

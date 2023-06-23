@@ -428,7 +428,7 @@ Func InitializeMBR(ByRef $sAI, $bConfigRead)
 			"With the first command line parameter, specify the Profilename (you can create profiles on the Bot/Profiles tab, if a " & _
 			"profilename contains a {space}, then enclose the profilename in double quotes). " & _
 			"With the second, specify the name of the Emulator and with the third, an Android Instance (not for BlueStacks). \r\n" & _
-			"Supported Emulators are MEmu, Nox, BlueStacks2, BlueStacks and iTools.\r\n\r\n" & _
+			"Supported Emulators are MEmu, Nox and BlueStacks.\r\n\r\n" & _
 			"Examples:\r\n" & _
 			"     MyBot.run.exe MyVillage BlueStacks2\r\n" & _
 			"     MyBot.run.exe ""My Second Village"" MEmu MEmu_1")
@@ -609,16 +609,16 @@ Func FinalInitialization(Const $sAI)
 
 	; AnubiS MOD
 	SetLog(" ", $COLOR_SUCCESS)
-	SetLog("________" & " \  MyBot AnubiS MOD  /" & "________", $COLOR_MONEYGREEN, "Impact", 14)
+	SetLog("________" & " \  MyBot AnubiS MOD  /" & "________", $COLOR_GREEN, "Impact", 14)
 	SetLog("                                » " & "Warning" & " «", $COLOR_TEAL, "Segoe UI Semibold", 12)
 	SetLog("                                     » " & "Personnal Use Only" & " «", $COLOR_TEAL, "Segoe UI Semibold", 9)
 	SetLog("                  » " & "BOT Language set to ENGLISH" & " «", $COLOR_TEAL, "Segoe UI Semibold", 10)
-	SetLog("-----------------------------------------------------------------------", $COLOR_MONEYGREEN)
+	SetLog("-----------------------------------------------------------------------", $COLOR_GREEN)
 	SetLog("            » " & "Thanks To ALL MyBot Developer's" & " «", $COLOR_TEAL, "Segoe Print", 9)
 	SetLog("                » " & "Based On: MyBot" & " " & $g_sBotVersion & " " & "Dev Team «", $COLOR_TEAL, "Segoe UI Semibold", 10)
 	SetLog("                        » " & "Mod Version" & " " & $g_sBotVersionMod & " " & " «", $COLOR_TEAL, "Segoe UI Semibold", 10)
-	SetLog("-----------------------------------------------------------------------", $COLOR_MONEYGREEN)
-	SetLog(" ", $COLOR_MEDGRAY)
+	SetLog("-----------------------------------------------------------------------", $COLOR_GREEN)
+	SetLog(" ", $COLOR_GRAY)
 	; Message - end
 	
 	; InitializeVariables();initialize variables used in extrawindows
@@ -983,12 +983,14 @@ Func runBot() ;Bot that runs everything in order
 			EndIf
 		Else ;When error occurs directly goes to attack
 			Local $sRestartText = $g_bIsSearchLimit ? " due search limit" : " after Out of Sync Error: Attack Now"
+			If $IsAttackStarted Then $sRestartText = "After Taking Too Much Time To Click Next Button"
 			SetLog("Restarted" & $sRestartText, $COLOR_INFO)
 			;Use "CheckDonateOften" setting to run loop on hitting SearchLimit
 			If $g_bIsSearchLimit And $g_bCheckDonateOften Then
 				SetDebugLog("ARCH: Clearing booleans", $COLOR_DEBUG)
 				$g_bIsClientSyncError = False
 				$g_bRestart = False
+				$IsAttackStarted = False
 			EndIf
 			If _Sleep($DELAYRUNBOT3) Then Return
 			;  OCR read current Village Trophies when OOS restart maybe due PB or else DropTrophy skips one attack cycle after OOS
@@ -1001,6 +1003,7 @@ Func runBot() ;Bot that runs everything in order
 			If $g_bOutOfGold Then
 				SetLog("Switching to Halt Attack, Stay Online/Collect mode ...", $COLOR_ERROR)
 				$g_bIsClientSyncError = False ; reset fast restart flag to stop OOS mode and start collecting resources
+				$IsAttackStarted = False
 				ContinueLoop
 			EndIf
 			CheckDonateOften()
@@ -1180,6 +1183,7 @@ Func AttackMain() ;Main control for attack functions
 				DropTrophy()
 				If Not $g_bRunState Then Return
 				$g_bIsClientSyncError = False ; reset OOS flag to prevent looping.
+				$IsAttackStarted = False
 				If _Sleep($DELAYATTACKMAIN1) Then Return
 				Return ; return to runbot, refill armycamps
 			EndIf
@@ -1257,6 +1261,7 @@ Func AttackMain() ;Main control for attack functions
 			SetLog("Search, Trophy or Army Camp % are out of range in search setting", $COLOR_WARNING)
 			$g_bIsSearchLimit = False
 			$g_bIsClientSyncError = False
+			$IsAttackStarted = False
 			If ProfileSwitchAccountEnabled() Then checkSwitchAcc()
 			SmartWait4Train()
 			If Not $g_bRunState Then Return
@@ -1660,11 +1665,20 @@ Func BuilderBase($bTest = False)
 		If _Sleep($DELAYRUNBOT3) Then Return
 		If checkObstacles() Then Return
 		
+		LocateBuilderHall()
+		If _Sleep($DELAYRUNBOT3) Then Return
+		If checkObstacles() Then Return
+		
 		Local $StartLabONGui = StarLabGuiDisplay()
 		If _Sleep($DELAYRUNBOT3) Then Return
 		If checkObstacles() Then Return
 		
 		DoAttackBB()
+		If _Sleep($DELAYRUNBOT3) Then Return
+		If checkObstacles() Then Return
+		If $g_bRestart Then Return
+		
+		CollectElixirCart()
 		If _Sleep($DELAYRUNBOT3) Then Return
 		If checkObstacles() Then Return
 		

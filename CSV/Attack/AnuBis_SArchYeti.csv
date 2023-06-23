@@ -53,7 +53,7 @@ MAKE  |J          |FRONT-RIGHT|10         |-22        |INT-EXT    |0          |0
 MAKE  |Y          |FRONT-LEFT |10         |-16        |INT-EXT    |0          |0          |           |           |           |           |           |
 MAKE  |M          |FRONT-LEFT |10         |0          |INT-EXT    |0          |0          |           |           |           |           |           |
 MAKE  |P          |FRONT-RIGHT|10         |0          |INT-EXT    |0          |0          |           |           |           |           |           |
-MAKE  |T          |FRONT-LEFT |10         |-17        |INT-EXT    |1          |1          |           |           |           |           |           |
+MAKE  |T          |FRONT-LEFT |10         |-20        |INT-EXT    |1          |1          |           |           |           |           |           |
 MAKE  |B          |FRONT-LEFT |1          |0          |IGNORE     |0          |0          |TOWNHALL   |           |           |           |           |
 MAKE  |X          |FRONT-RIGHT|1          |0          |IGNORE     |0          |0          |TOWNHALL   |           |           |           |           |
 MAKE  |F          |FRONT-LEFT |1          |0          |IGNORE     |0          |0          |EAGLE      |           |           |           |           |
@@ -85,7 +85,7 @@ DROP  |M          |1          |1          |BattleB    |50-70      |0          |1
 DROP  |M          |1          |1          |StoneS     |50-70      |0          |100-120    |           |           |           |           |           |
 WAIT  |500-750    |           |           |           |           |           |           |           |           |           |           |           |
 DROP  |Q          |10         |1          |ETitan     |70-95      |60-90      |50-100     |           |           |           |           |           |
-DROP  |Q          |10         |1          |King       |0          |0          |20-50      |           |    ﻿       |           |           |           |
+DROP  |Q          |10         |1          |King       |0          |0          |20-50      |           |           |           |           |           |
 DROP  |Q          |10         |1          |Warden     |0          |0          |20-50      |           |           |           |           |           |
 DROP  |Q          |10         |1          |Queen      |0          |0          |20-50      |           |           |           |           |           |
 DROP  |Q          |10         |1          |Champion   |0          |0          |150-170    |           |           |           |           |           |

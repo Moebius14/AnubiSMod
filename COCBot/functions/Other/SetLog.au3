@@ -137,7 +137,7 @@ Func GetLogLevel($Color)
 			$sLevel = "ACTION   "
 		Case $COLOR_ACTION1
 			$sLevel = "ACTION1  "
-		Case $COLOR_ORANGE
+		Case $COLOR_OLIVE
 			$sLevel = "ORANGE   "
 		Case $COLOR_BLACK
 			$sLevel = "NORMAL   "

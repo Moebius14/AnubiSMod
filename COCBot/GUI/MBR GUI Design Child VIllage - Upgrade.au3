@@ -36,7 +36,7 @@ Global $g_hChkUpgradeChampion = 0, $g_hPicChkChampionSleepWait = 0
 Global $g_hUseHeroBooks = 0, $g_hHeroMinUpgradeTime = 0
 
 Global $g_hChkUpgradePets[$ePetCount]
-Global $g_hChkSortPetUpgrade = 0, $g_hCmbSortPetUpgrade = 0, $g_hLblSortPetUpgradeLvLCost =0, $g_hCmbSortPetUpgradeLvLCost = 0
+Global $g_hChkSortPetUpgrade = 0, $g_hCmbSortPetUpgrade = 0, $g_hLblSortPetUpgradeLvLCost =0, $g_hCmbSortPetUpgradeLvLCost = 0, $g_hUsePetPotion = 0
 
 ; Buildings
 Global $g_hChkUpgrade[$g_iUpgradeSlots] = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
@@ -132,6 +132,7 @@ Func CreateLaboratorySubTab()
 					   GetTranslatedFileIni("MBR Global GUI Design Names Troops", "TxtBowlers", "Bowlers") & "|" & _
 					   GetTranslatedFileIni("MBR Global GUI Design Names Troops", "TxtIceGolems", "Ice Golems") & "|" & _
 					   GetTranslatedFileIni("MBR Global GUI Design Names Troops", "TxtHeadhunters", "Headhunters") & "|" & _
+					   GetTranslatedFileIni("MBR Global GUI Design Names Troops", "TxtAppWards", "App. Warden") & "|" & _
 					   GetTranslatedFileIni("MBR Global GUI Design Names Troops", "TxtWallWreckers", "Wall Wreckers") & "|" & _
 					   GetTranslatedFileIni("MBR Global GUI Design Names Troops", "TxtBattleBlimps", "Battle Blimps") & "|" & _
 					   GetTranslatedFileIni("MBR Global GUI Design Names Troops", "TxtStoneSlammers", "Stone Slammers") & "|" & _
@@ -153,7 +154,8 @@ Func CreateLaboratorySubTab()
 					   GetTranslatedFileIni("MBR Global GUI Design Names Builderbase Troops", "TxtNightWitch", "Night Witch") & "|" & _
 					   GetTranslatedFileIni("MBR Global GUI Design Names Builderbase Troops", "TxtDropShip", "Drop Ship") & "|" & _
 					   GetTranslatedFileIni("MBR Global GUI Design Names Builderbase Troops", "TxtSuperPekka", "Super Pekka") & "|" & _
-					   GetTranslatedFileIni("MBR Global GUI Design Names Builderbase Troops", "TxtHogGlider", "Hog Glider")
+					   GetTranslatedFileIni("MBR Global GUI Design Names Builderbase Troops", "TxtHogGlider", "Hog Glider") & "|" & _
+					   GetTranslatedFileIni("MBR Global GUI Design Names Builderbase Troops", "TxtEFWizard", "ElectroFire Wizard")
 
 	Local $x = 25, $y = 45
 	GUICtrlCreateGroup(GetTranslatedFileIni("MBR GUI Design Child Village - Upgrade_Laboratory", "Group_01", "Laboratory"), $x - 20, $y - 20, $g_iSizeWGrpTab3 - 4, 273)
@@ -349,11 +351,11 @@ Func CreateHeroesSubTab()
 			GUICtrlSetColor ( -1, $COLOR_ERROR )
 			_GUICtrlCreateIcon($g_sLibIconPath, $eIcnChampionUpgr, $x + 18, $y, 64, 64)
 			_GUICtrlSetTip(-1, $sTxtTip)
-		$g_hPicChkChampionSleepWait = _GUICtrlCreateIcon($g_sLibModIconPath, $eIcnSleepingChampion, $x + 18, $y, 64, 64)
+		$g_hPicChkChampionSleepWait = _GUICtrlCreateIcon($g_sLibIconPath, $eIcnSleepingChampion, $x + 18, $y, 64, 64)
 			_GUICtrlSetTip(-1, $sTxtTip)
 			GUICtrlSetState(-1,$GUI_HIDE)
 
-	$y += 70
+	$y += 60
 	$x = 45
 		$g_hLblHeroReservedBuilderTop = GUICtrlCreateLabel(GetTranslatedFileIni("MBR GUI Design Child Village - Upgrade_Heroes", "LblHeroReservedBuilderTop", "Reserve ") , $x, $y + 15, -1, -1)
 		$g_hCmbHeroReservedBuilder = GUICtrlCreateCombo("", $x + 50, $y + 11, 30, 21, $CBS_DROPDOWNLIST, $WS_EX_RIGHT)
@@ -369,7 +371,7 @@ Func CreateHeroesSubTab()
 		GUICtrlCreateLabel("Days", $x + 300, $y + 4)
 
 ; Pets
-	Local $x = 25, $y = 220
+	Local $x = 25, $y = 200
 	GUICtrlCreateLabel(GetTranslatedFileIni("MBR GUI Design Child Village - Upgrade_Pets", "LblAutoUpgrading_02", "Auto upgrading of your Pets"), $x - 10, $y, -1, -1)
 	$x += 20
 	$y += 15
@@ -454,7 +456,12 @@ Func CreateHeroesSubTab()
 		Local $sCmbTxt = "Lower Cost|Higher Cost"
 		GUICtrlSetData(-1, $sCmbTxt, "Lower Cost")
 		GUICtrlSetOnEvent(-1, "SortPetUpgrade")
-	
+
+	$y += 25
+		$g_hUsePetPotion = GUICtrlCreateCheckbox(GetTranslatedFileIni("MBR GUI Design Child Village - Upgrade_Pets", "ChkUsePetPotion", "Use Pet Potion"), $x, $y, -1, -1)	
+		_GUICtrlSetTip(-1, "Enable Use of Pet Potion, If Upgrade is more than 1 Day")
+		GUICtrlCreateIcon($g_sLibModIconPath, $eIcnModPetPotion, $x + 90, $y - 3, 24, 24)
+
 	GUICtrlCreateGroup("", -99, -99, 1, 1)
 EndFunc   ;==>CreateHeroesSubTab
 

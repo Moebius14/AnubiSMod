@@ -783,7 +783,7 @@ Func IsPlanUseTelegram($Message)
 					Local $hour = StringSplit(_NowTime(4), ":", $STR_NOCOUNT)
 					If Not $g_abNotifyScheduleHours[$hour[0]] Then
 						SetLog("Notify not planned for this hour! Notification skipped", $COLOR_WARNING)
-						SetLog($Message, $COLOR_ORANGE)
+						SetLog($Message, $COLOR_OLIVE)
 						Return False ; exit func if no planned
 					EndIf
 				EndIf
@@ -795,7 +795,7 @@ Func IsPlanUseTelegram($Message)
 				Local $hour = StringSplit(_NowTime(4), ":", $STR_NOCOUNT)
 				If Not $g_abNotifyScheduleHours[$hour[0]] Then
 					SetLog("Notify not planned for this hour! Notification skipped", $COLOR_WARNING)
-					SetLog($Message, $COLOR_ORANGE)
+					SetLog($Message, $COLOR_OLIVE)
 					Return False ; exit func if no planned
 				EndIf
 			EndIf

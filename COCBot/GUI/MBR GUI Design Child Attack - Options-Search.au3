@@ -174,7 +174,7 @@ Func CreateAttackSearchOptionsSearch()
 			_GUICtrlSlider_SetTipSide(-1, $TBTS_BOTTOM)
 			_GUICtrlSlider_SetTicFreq(-1, 1)
 			GUICtrlSetLimit(-1, 15, 0) ; change max/min value
-			GUICtrlSetData(-1, 6) ; default value
+			GUICtrlSetData(-1, 5) ; default value
 			GUICtrlSetBkColor(-1, $COLOR_WHITE)
 			GUICtrlSetOnEvent(-1, "sldMaxVSDelay")
 	GUICtrlCreateGroup("", -99, -99, 1, 1)

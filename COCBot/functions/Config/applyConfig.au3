@@ -490,6 +490,7 @@ Func ApplyConfig_600_6($TypeReadSave)
 			GUICtrlSetState($g_hChkEnableForgeDE, $g_bChkEnableForgeDE ? $GUI_CHECKED : $GUI_UNCHECKED)
 			GUICtrlSetState($g_hChkEnableForgeBBGold, $g_bChkEnableForgeBBGold ? $GUI_CHECKED : $GUI_UNCHECKED)
 			GUICtrlSetState($g_hChkEnableForgeBBElix, $g_bChkEnableForgeBBElix ? $GUI_CHECKED : $GUI_UNCHECKED)
+			GUICtrlSetState($g_hChkEnableSmartUse, $g_bChkEnableSmartUse ? $GUI_CHECKED : $GUI_UNCHECKED)
 			_GUICtrlComboBox_SetCurSel($g_hCmbForgeBuilder, $g_iCmbForgeBuilder)
 			GUICtrlSetState($g_hChkEnableAutoUpgradeCC, $g_bChkEnableAutoUpgradeCC ? $GUI_CHECKED : $GUI_UNCHECKED)
 			GUICtrlSetState($g_hChkEnableSmartSwitchCC, $g_bChkEnableSmartSwitchCC ? $GUI_CHECKED : $GUI_UNCHECKED)
@@ -684,6 +685,7 @@ Func ApplyConfig_600_6($TypeReadSave)
 			$g_bChkEnableForgeDE = (GUICtrlRead($g_hChkEnableForgeDE) = $GUI_CHECKED)
 			$g_bChkEnableForgeBBGold = (GUICtrlRead($g_hChkEnableForgeBBGold) = $GUI_CHECKED)
 			$g_bChkEnableForgeBBElix = (GUICtrlRead($g_hChkEnableForgeBBElix) = $GUI_CHECKED)
+			$g_bChkEnableSmartUse = (GUICtrlRead($g_hChkEnableSmartUse) = $GUI_CHECKED)
 			$g_iCmbForgeBuilder = _GUICtrlComboBox_GetCurSel($g_hCmbForgeBuilder)
 			$g_bChkEnableAutoUpgradeCC = (GUICtrlRead($g_hChkEnableAutoUpgradeCC) = $GUI_CHECKED)
 			$g_bChkEnableSmartSwitchCC = (GUICtrlRead($g_hChkEnableSmartSwitchCC) = $GUI_CHECKED)
@@ -894,18 +896,6 @@ Func ApplyConfig_600_12($TypeReadSave)
 			Next
 			cmbDonateCustomB()
 
-			For $i = 0 To 2
-				_GUICtrlComboBox_SetCurSel($g_ahCmbDonateCustomC[$i], $g_aiDonateCustomTrpNumC[$i][0])
-				GUICtrlSetData($g_ahTxtDonateCustomC[$i], $g_aiDonateCustomTrpNumC[$i][1])
-			Next
-			cmbDonateCustomC()
-
-			For $i = 0 To 2
-				_GUICtrlComboBox_SetCurSel($g_ahCmbDonateCustomD[$i], $g_aiDonateCustomTrpNumD[$i][0])
-				GUICtrlSetData($g_ahTxtDonateCustomD[$i], $g_aiDonateCustomTrpNumD[$i][1])
-			Next
-			cmbDonateCustomD()
-
 			GUICtrlSetState($g_hChkExtraAlphabets, $g_bChkExtraAlphabets ? $GUI_CHECKED : $GUI_UNCHECKED)
 			GUICtrlSetState($g_hChkExtraChinese, $g_bChkExtraChinese ? $GUI_CHECKED : $GUI_UNCHECKED)
 			GUICtrlSetState($g_hChkExtraKorean, $g_bChkExtraKorean ? $GUI_CHECKED : $GUI_UNCHECKED)
@@ -944,10 +934,6 @@ Func ApplyConfig_600_12($TypeReadSave)
 				$g_aiDonateCustomTrpNumA[$i][1] = GUICtrlRead($g_ahTxtDonateCustomA[$i])
 				$g_aiDonateCustomTrpNumB[$i][0] = _GUICtrlComboBox_GetCurSel($g_ahCmbDonateCustomB[$i])
 				$g_aiDonateCustomTrpNumB[$i][1] = GUICtrlRead($g_ahTxtDonateCustomB[$i])
-				$g_aiDonateCustomTrpNumC[$i][0] = _GUICtrlComboBox_GetCurSel($g_ahCmbDonateCustomC[$i])
-				$g_aiDonateCustomTrpNumC[$i][1] = GUICtrlRead($g_ahTxtDonateCustomC[$i])
-				$g_aiDonateCustomTrpNumD[$i][0] = _GUICtrlComboBox_GetCurSel($g_ahCmbDonateCustomD[$i])
-				$g_aiDonateCustomTrpNumD[$i][1] = GUICtrlRead($g_ahTxtDonateCustomD[$i])
 			Next
 
 			$g_bChkExtraAlphabets = (GUICtrlRead($g_hChkExtraAlphabets) = $GUI_CHECKED)
@@ -1001,7 +987,7 @@ Func ApplyConfig_600_14($TypeReadSave)
 			GUICtrlSetState($g_hChkAutoLabUpgrades, $g_bAutoLabUpgradeEnable ? $GUI_CHECKED : $GUI_UNCHECKED)
 			GUICtrlSetState($g_hUseLabPotion, $g_bUseLabPotion ? $GUI_CHECKED : $GUI_UNCHECKED)
 			_GUICtrlComboBox_SetCurSel($g_hCmbLaboratory, $g_iCmbLaboratory)
-			If $g_iCmbLaboratory > 45 Then
+			If $g_iCmbLaboratory > 46 Then
 				_GUICtrlSetImage($g_hPicLabUpgrade, $g_sLibModIconPath, $g_avLabTroops[$g_iCmbLaboratory][1])
 			Else
 				_GUICtrlSetImage($g_hPicLabUpgrade, $g_sLibIconPath, $g_avLabTroops[$g_iCmbLaboratory][1])
@@ -1069,6 +1055,7 @@ Func ApplyConfig_600_15($TypeReadSave)
 			GUICtrlSetState($g_hChkSortPetUpgrade, $g_bChkSortPetUpgrade ? $GUI_CHECKED : $GUI_UNCHECKED)
 			_GUICtrlComboBox_SetCurSel($g_hCmbSortPetUpgrade, $g_iCmbSortPetUpgrade)
 			_GUICtrlComboBox_SetCurSel($g_hCmbSortPetUpgradeLvLCost, $g_iCmbSortPetUpgradeLvLCost)
+			GUICtrlSetState($g_hUsePetPotion, $g_bUsePetPotion ? $GUI_CHECKED : $GUI_UNCHECKED)
 			chkUpgradePets()
 		Case "Save"
 			$g_bUpgradeKingEnable = (GUICtrlRead($g_hChkUpgradeKing) = $GUI_CHECKED)
@@ -1085,6 +1072,7 @@ Func ApplyConfig_600_15($TypeReadSave)
 			$g_bChkSortPetUpgrade = (GUICtrlRead($g_hChkSortPetUpgrade) = $GUI_CHECKED)
 			$g_iCmbSortPetUpgrade = _GUICtrlComboBox_GetCurSel($g_hCmbSortPetUpgrade)
 			$g_iCmbSortPetUpgradeLvLCost = _GUICtrlComboBox_GetCurSel($g_hCmbSortPetUpgradeLvLCost)
+			$g_bUsePetPotion = (GUICtrlRead($g_hUsePetPotion) = $GUI_CHECKED)
 	EndSwitch
 EndFunc   ;==>ApplyConfig_600_15
 

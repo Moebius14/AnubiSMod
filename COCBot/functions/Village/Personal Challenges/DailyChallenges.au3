@@ -2,8 +2,8 @@
 ; Name ..........: DailyChallenges()
 ; Description ...: Daily Challenges
 ; Author ........: TripleM (04/2019), Demen (07/2019)
-; Modified ......:
-; Remarks .......: This file is part of MyBot Copyright 2015-2019
+; Modified ......: Moebius (06/2023)
+; Remarks .......: This file is part of MyBot Copyright 2015-2023
 ;                  MyBot is distributed under the terms of the GNU GPL
 ; Related .......:
 ; Link ..........: https://github.com/MyBotRun/MyBot/wiki
@@ -78,6 +78,12 @@ Func DailyChallenges($CCControl = True)
 		LabGuiDisplay()
 	EndIf
 	
+	If $g_bUsePetPotion And $IsPetPotJustCollected Then
+		SetLog("Time To Check Pet House, Pet Potion Just Collected", $COLOR_OLIVE)
+		If _Sleep(500) Then Return
+		PetGuiDisplay()
+	EndIf
+	
 	If Not $IsToCheckBeforeStop And $CCControl Then
 		If SwitchBetweenBasesMod2() Then
 			If _Sleep(Random(1500, 2000, 1)) Then Return
@@ -136,23 +142,35 @@ If _CheckPixel($aPersonalChallengeOpenButton3, $g_bCapturePixel) Then
 		Return False
 	EndIf
 	
-	sleep(random(2000, 4000, 1))
+	If _Sleep(random(2000, 4000, 1)) Then Return
 	
 	Local $xMarge = Random(0, 6, 1)
 	If _CheckPixel($aPersonalChallengeRewardsAvail, $g_bCapturePixel) Then
-		If Random(0, 2, 1) > 1 Then Click(660 + ($xMarge * 10), 75) ; Perks
-		sleep(random(2000, 4000, 1))
+		If Random(0, 2, 1) > 1 Then
+			Click(545 + ($xMarge * 10), 75) ; Perks
+			If _Sleep(random(2000, 4000, 1)) Then Return
+		EndIf
+		If Random(0, 2, 1) > 1 Then
+			Click(710 + ($xMarge * 10), 75) ; Bank
+			If _Sleep(random(2000, 4000, 1)) Then Return
+		EndIf
 	Else
-		Click(450 + ($xMarge * 10), 75) ; Rewards
-		sleep(random(2000, 4000, 1))
-		If Random(0, 2, 1) > 1 Then Click(660 + ($xMarge * 10), 75) ; Perks
-		sleep(random(2000, 4000, 1))
+		Click(385 + ($xMarge * 10), 75) ; Rewards
+		If _Sleep(random(2000, 4000, 1)) Then Return
+		If Random(0, 2, 1) > 1 Then
+			Click(545 + ($xMarge * 10), 75) ; Perks
+			If _Sleep(random(2000, 4000, 1)) Then Return
+		EndIf
+		If Random(0, 2, 1) > 1 Then
+			Click(710 + ($xMarge * 10), 75) ; Bank
+			If _Sleep(random(2000, 4000, 1)) Then Return
+		EndIf
 	EndIf
 	
-	If Not _ColorCheck(_GetPixelColor(185, 70, True), "C5DBE5", 20) Or Not _ColorCheck(_GetPixelColor(250, 90, True), "A8D0EC", 20) Then
-		Click(250 + ($xMarge * 10), 75)
+	If Not _ColorCheck(_GetPixelColor(185, 90, True), "A8D0EC", 20) Then
+		Click(225 + ($xMarge * 10), 75)
 	EndIf
-	sleep(random(2000, 4000, 1))
+	If _Sleep(random(2000, 3000, 1)) Then Return
 	
     Local $counter = 0
 	While Not _CheckPixel($aPersonalChallengeCloseButton, $g_bCapturePixel) ; test for Personal Challenge Close Button
@@ -199,6 +217,7 @@ Func CollectDailyRewards($bGoldPass = False)
 	Local $IsBOFPresent = 0
 	Local $IsBOSPresent = 0
 	Local $IsResPotPresent = 0
+	Local $IsPetPotPresent = 0
 	For $i = 0 To 10
 		If Not $g_bRunState Then Return
 		Local $SearchArea = $bGoldPass ? GetDiamondFromRect("25,336(810,240)") : GetDiamondFromRect("25,535(810,35)")
@@ -211,10 +230,11 @@ Func CollectDailyRewards($bGoldPass = False)
 				If IsArray($aResultArray) And $aResultArray[0] = "ClaimBtn" Then
 					Local $sAllCoordsString = _ArrayToString($aResultArray, "|", 1) ; "x1,y1|x2,y2|..."
 					Local $aAllCoords = decodeMultipleCoords($sAllCoordsString, 50, 50) ; [{coords1}, {coords2}, ...]
-					Local $RewardImagesTypes[4][2] = [[$g_sImgCCGoldCollectDaily, $IsCCGoldPresent], _
+					Local $RewardImagesTypes[5][2] = [[$g_sImgCCGoldCollectDaily, $IsCCGoldPresent], _
 														[$g_sImgBOFCollectDaily, $IsBOFPresent], _
 														[$g_sImgBOSCollectDaily, $IsBOSPresent], _
-														[$g_sImgResPotCollectDaily, $IsResPotPresent]]
+														[$g_sImgResPotCollectDaily, $IsResPotPresent], _
+														[$g_sImgPetPotCollectDaily, $IsPetPotPresent]]
 
 					For $j = 0 To UBound($aAllCoords) - 1
 						For $z = 0 To Ubound($RewardImagesTypes) - 1
@@ -245,14 +265,17 @@ Func CollectDailyRewards($bGoldPass = False)
 											$IsBOSJustCollected = 1
 										Case 3
 											$IsResPotJustCollected = 1
+										Case 4
+											$IsPetPotJustCollected = 1
 									EndSwitch
 								EndIf
 							Next
 							
-							Local $RewardTypes[4][2] = [[$IsCCGoldJustCollected, "Clan Capital Gold Collected"], _
+							Local $RewardTypes[5][2] = [[$IsCCGoldJustCollected, "Clan Capital Gold Collected"], _
 														[$IsBOFJustCollected, "Book Of Fighting Collected"], _
 														[$IsBOSJustCollected, "Book Of Spells Collected"], _
-														[$IsResPotJustCollected, "Research Potion Collected"]]
+														[$IsResPotJustCollected, "Research Potion Collected"], _
+														[$IsPetPotJustCollected, "Pet Potion Collected"]]
 
 							For $z = 0 To Ubound($RewardTypes) - 1
 								If $z = 0 Then $IsCCGoldJustCollectedDChallenge = $RewardTypes[$z][0]
@@ -273,6 +296,7 @@ Func CollectDailyRewards($bGoldPass = False)
 					$IsBOFPresent = 0
 					$IsBOSPresent = 0
 					$IsResPotPresent = 0
+					$IsPetPotPresent = 0
 				EndIf
 			Next
 		EndIf

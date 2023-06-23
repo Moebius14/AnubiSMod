@@ -57,52 +57,89 @@ Func _VillageSearch() ;Control for searching a village that meets conditions
 	Local $g_aiFilterMinGoldMod[$g_iModeCount] = [0, 0, 0]
 	Local $g_aiFilterMinElixirMod[$g_iModeCount] = [0, 0, 0]
 	Local $g_aiFilterMeetDEMinMod[$g_iModeCount] = [0, 0, 0]
-	Local $DEFilterIsenabled = 0, $g_aiFilterGAndE = 0
+	Local $g_aiFilterGAndE_DB = False, $g_aiFilterGAndE_LB = False
+	Local $DEFilterIsenabled_DB = False, $DEFilterIsenabled_LB = False
 	
 	For $i = 0 To $g_iModeCount - 1
 		If $g_abFullStorage[$eLootGold] And $g_bSearchReductionStorageEnable And $g_aiFilterMeetGE[$i] = 0 Then
 			$g_aiFilterMinGoldMod[$i] = $g_iSearchReductionGoldMod
 			If $IsCGEventForGold Then $g_aiFilterMinGoldMod[$i] = $g_aiFilterMinGold[$i]
-			If ($i = 0 And $g_abAttackTypeEnable[$DB]) Or ($i = 1 And $g_abAttackTypeEnable[$LB]) Then $g_aiFilterGAndE += 1
+			Switch $i
+				Case 0
+					If $g_abAttackTypeEnable[$DB] Then $g_aiFilterGAndE_DB = True
+				Case 1
+					If $g_abAttackTypeEnable[$LB] Then $g_aiFilterGAndE_LB = True
+			EndSwitch
 		Else
 			$g_aiFilterMinGoldMod[$i] = $g_aiFilterMinGold[$i]
 		EndIf
 		If $g_abFullStorage[$eLootElixir] And $g_bSearchReductionStorageEnable And $g_aiFilterMeetGE[$i] = 0 Then
 			$g_aiFilterMinElixirMod[$i] = $g_iSearchReductionElixirMod
 			If $IsCGEventForElixir Then $g_aiFilterMinElixirMod[$i] = $g_aiFilterMinElixir[$i]
-			If ($i = 0 And $g_abAttackTypeEnable[$DB]) Or ($i = 1 And $g_abAttackTypeEnable[$LB]) Then $g_aiFilterGAndE += 1
+			Switch $i
+				Case 0
+					If $g_abAttackTypeEnable[$DB] Then $g_aiFilterGAndE_DB = True
+				Case 1
+					If $g_abAttackTypeEnable[$LB] Then $g_aiFilterGAndE_LB = True
+			EndSwitch
 		Else
 			$g_aiFilterMinElixirMod[$i] = $g_aiFilterMinElixir[$i]
 		EndIf
 		If $g_abFullStorage[$eLootDarkElixir] And $g_bSearchReductionStorageEnable Then
 			$g_aiFilterMeetDEMinMod[$i] = $g_iSearchReductionDarkMod
 			If $IsCGEventForDE Then $g_aiFilterMeetDEMinMod[$i] = $g_aiFilterMeetDEMin[$i]
-			If ($i = 0 And $g_abAttackTypeEnable[$DB] And $g_abFilterMeetDEEnable[0]) Or ($i = 1 And $g_abAttackTypeEnable[$LB] And $g_abFilterMeetDEEnable[1]) Then $DEFilterIsenabled += 1
+			Switch $i
+				Case 0
+					If $g_abAttackTypeEnable[$DB] And $g_abFilterMeetDEEnable[$i] Then $DEFilterIsenabled_DB = True
+				Case 1
+					If $g_abAttackTypeEnable[$LB] And $g_abFilterMeetDEEnable[$i] Then $DEFilterIsenabled_LB = True
+			EndSwitch
 		Else
 			$g_aiFilterMeetDEMinMod[$i] = $g_aiFilterMeetDEMin[$i]
 		EndIf
 	Next
 	
 	If $g_bSearchReductionStorageEnable Then
-		If $g_abFullStorage[$eLootGold] And $g_aiFilterGAndE > 0 Then
+		If $g_abFullStorage[$eLootGold] And ($g_aiFilterGAndE_DB Or $g_aiFilterGAndE_LB) Then
 			If $IsCGEventForGold Then
 				SetLog("Gold Storages full, Aim Won't be Reduced, Gold Event Running", $COLOR_INFO)
 			Else
-				SetLog("Gold Storages are full, Aim Reduced", $COLOR_INFO)
+				Select
+					Case $g_aiFilterGAndE_DB And Not $g_aiFilterGAndE_LB
+						SetLog("Gold Storages are full, Aim Reduced For Dead Bases", $COLOR_INFO)
+					Case Not $g_aiFilterGAndE_DB And $g_aiFilterGAndE_LB
+						SetLog("Gold Storages are full, Aim Reduced For Live Bases", $COLOR_INFO)
+					Case $g_aiFilterGAndE_DB And $g_aiFilterGAndE_LB
+						SetLog("Gold Storages are full, Aim Reduced For Dead And Live Bases", $COLOR_INFO)
+				EndSelect
 			EndIf
 		EndIf
-		If $g_abFullStorage[$eLootElixir] And $g_aiFilterGAndE > 0 Then
+		If $g_abFullStorage[$eLootElixir] And ($g_aiFilterGAndE_DB Or $g_aiFilterGAndE_LB) Then
 			If $IsCGEventForElixir Then
 				SetLog("Elixir Storages full, Aim Won't be Reduced, Elixir Event Running", $COLOR_INFO)
 			Else
-				SetLog("Elixir Storages are full, Aim Reduced", $COLOR_INFO)
+				Select
+					Case $g_aiFilterGAndE_DB And Not $g_aiFilterGAndE_LB
+						SetLog("Elixir Storages are full, Aim Reduced For Dead Bases", $COLOR_INFO)
+					Case Not $g_aiFilterGAndE_DB And $g_aiFilterGAndE_LB
+						SetLog("Elixir Storages are full, Aim Reduced For Live Bases", $COLOR_INFO)
+					Case $g_aiFilterGAndE_DB And $g_aiFilterGAndE_LB
+						SetLog("Elixir Storages are full, Aim Reduced For Dead And Live Bases", $COLOR_INFO)
+				EndSelect
 			EndIf
 		EndIf
-		If $g_abFullStorage[$eLootDarkElixir] And $DEFilterIsenabled > 0 Then
+		If $g_abFullStorage[$eLootDarkElixir] And ($DEFilterIsenabled_DB Or $DEFilterIsenabled_LB) Then
 			If $IsCGEventForDE Then
 				SetLog("Dark Storage full, Aim Won't be Reduced, Dark Event Running", $COLOR_INFO)
 			Else
-				SetLog("Dark Elixir Storage is full, Aim Reduced", $COLOR_INFO)
+				Select
+					Case $DEFilterIsenabled_DB And Not $DEFilterIsenabled_LB
+						SetLog("Dark Elixir Storage is full, Aim Reduced For Dead Bases", $COLOR_INFO)
+					Case Not $DEFilterIsenabled_DB And $DEFilterIsenabled_LB
+						SetLog("Dark Elixir Storage is full, Aim Reduced For Live Bases", $COLOR_INFO)
+					Case $DEFilterIsenabled_DB And $DEFilterIsenabled_LB
+						SetLog("Dark Elixir Storage is full, Aim Reduced For Dead And Live Bases", $COLOR_INFO)
+				EndSelect
 			EndIf
 		EndIf
 	EndIf
@@ -431,6 +468,7 @@ Func _VillageSearch() ;Control for searching a village that meets conditions
 		Local $i = 0
 		While $i < 100
 			If _Sleep($DELAYVILLAGESEARCH2) Then Return
+			$IsAttackStarted = False
 			$i += 1
 			_CaptureRegions()
 			If (_ColorCheck(_GetPixelColor($NextBtn[0], $NextBtn[1]), Hex($NextBtn[2], 6), $NextBtn[3])) And IsAttackPage(False) Then
@@ -442,16 +480,20 @@ Func _VillageSearch() ;Control for searching a village that meets conditions
 			EndIf
 			
 			If $i >= 99 Or isProblemAffect() Or (Mod($i, 10) = 0 And checkObstacles_Network(False, False)) Then ; if we can't find the next button or there is an error, then restart
+				If Not (_ColorCheck(_GetPixelColor($NextBtn[0], $NextBtn[1]), Hex($NextBtn[2], 6), $NextBtn[3])) And IsAttackPage(False) Then $IsAttackStarted = True
 				$g_bIsClientSyncError = True
 				checkMainScreen()
 				If $g_bRestart Then
-					$g_iNbrOfOoS += 1
-					UpdateStats()
+					If Not $IsAttackStarted Then
+						$g_iNbrOfOoS += 1
+						UpdateStats()
+						PushMsg("OoSResources")
+					EndIf
 					SetLog("Couldn't locate Next button", $COLOR_ERROR)
-					PushMsg("OoSResources")
 				Else
 					SetLog("Have strange problem Couldn't locate Next button, Restarting CoC and Bot...", $COLOR_ERROR)
 					$g_bIsClientSyncError = False ; disable fast OOS restart if not simple error and try restarting CoC
+					$IsAttackStarted = False
 					CloseCoC(True)
 				EndIf
 				Return
@@ -512,6 +554,7 @@ Func _VillageSearch() ;Control for searching a village that meets conditions
 	PushMsg("MatchFound")
 
 	$g_bIsClientSyncError = False
+	$IsAttackStarted = False
 	$IsNewAttack = True
 EndFunc   ;==>_VillageSearch
 
@@ -526,6 +569,7 @@ Func SearchLimit($iSkipped, $bReturnToPickupHero = False)
 			If $Wcount >= 50 Or isProblemAffect(True) Then
 				checkMainScreen()
 				$g_bIsClientSyncError = False ; reset OOS flag for long restart
+				$IsAttackStarted = False
 				$g_bRestart = True ; set force runbot restart flag
 				Return True
 			EndIf
@@ -554,6 +598,7 @@ Func SearchLimit($iSkipped, $bReturnToPickupHero = False)
 			If $Wcount >= 50 Or isProblemAffect(True) Then
 				checkMainScreen()
 				$g_bIsClientSyncError = False ; reset OOS flag for long restart
+				$IsAttackStarted = False
 				$g_bRestart = True ; set force runbot restart flag
 				Return True
 			EndIf

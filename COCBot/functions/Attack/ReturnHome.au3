@@ -81,10 +81,11 @@ Func ReturnHome($TakeSS = 1, $GoldChangeCheck = True) ;Return main screen
 	_ObjDeleteKey($g_oBldgAttackInfo, "") ; Remove all Keys from dictionary
 
 	SetLog("Returning Home", $COLOR_INFO)
-	If $g_bRunState = False Then Return
+	If Not $g_bRunState Then Return
 
 	; ---- CLICK SURRENDER BUTTON ----
 	If Not (IsReturnHomeBattlePage(True, False)) Then ; check if battle is already over
+		Local $bret = False
 		For $i = 0 To 5 ; dynamic wait loop for surrender button to appear (if end battle or surrender button are not found in 5*(200)ms + 10*(200)ms or 3 seconds, then give up.)
 			SetDebugLog("Wait for surrender button to appear #" & $i)
 			$aiSurrenderButton = findButton("EndBattle", Default, 1, True)
@@ -101,7 +102,15 @@ Func ReturnHome($TakeSS = 1, $GoldChangeCheck = True) ;Return main screen
 							$j += 1
 						EndIf
 						If ReturnHomeMainPage() Then Return
-						If $j > 10 Then ExitLoop ; if Okay button not found in 10*(200)ms or 2 seconds, then give up.
+						If $j > 10 Then
+							Select
+								Case $i < 5; if Okay button not found in 10*(200)ms or 2 seconds, then give up.
+									ExitLoop
+								Case $i = 5; if Okay button not found Then Restart COC.
+									$bret = True
+									ExitLoop 2
+							EndSelect
+						EndIf
 						If _Sleep($DELAYRETURNHOME5) Then Return
 					WEnd
 				EndIf
@@ -111,6 +120,11 @@ Func ReturnHome($TakeSS = 1, $GoldChangeCheck = True) ;Return main screen
 			If ReturnHomeMainPage() Then Return
 			If _Sleep($DELAYRETURNHOME5) Then Return
 		Next
+		If $bret Then
+			SetLog("Have strange problem Couldn't Click Okay to Confirm surrender, Restarting CoC", $COLOR_ERROR)
+			CloseCoC(True)
+			Return
+		EndIf
 	Else
 		SetDebugLog("Battle already over.", $COLOR_DEBUG)
 	EndIf

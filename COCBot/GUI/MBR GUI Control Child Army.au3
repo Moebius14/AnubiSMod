@@ -77,11 +77,11 @@ Func lblTotalCountTroop1()
 	Next
 
 	If GUICtrlRead($g_hChkTotalCampForced) = $GUI_CHECKED And GUICtrlRead($g_hLblCountTotal) = GUICtrlRead($g_hTxtTotalCampForced) Then
-		GUICtrlSetBkColor($g_hLblCountTotal, $COLOR_MONEYGREEN)
+		GUICtrlSetBkColor($g_hLblCountTotal, $COLOR_GREEN)
 	ElseIf GUICtrlRead($g_hLblCountTotal) = $ArmyCampTemp Then
-		GUICtrlSetBkColor($g_hLblCountTotal, $COLOR_MONEYGREEN)
+		GUICtrlSetBkColor($g_hLblCountTotal, $COLOR_GREEN)
 	ElseIf GUICtrlRead($g_hLblCountTotal) > $ArmyCampTemp / 2 And GUICtrlRead($g_hLblCountTotal) < $ArmyCampTemp Then
-		GUICtrlSetBkColor($g_hLblCountTotal, $COLOR_ORANGE)
+		GUICtrlSetBkColor($g_hLblCountTotal, $COLOR_OLIVE)
 	Else
 		If $g_iTotalCampForcedValue > 0 Then GUICtrlSetBkColor($g_hLblCountTotal, $COLOR_RED)
 	EndIf
@@ -149,7 +149,7 @@ Func lblTotalCountSpell()
 		GUICtrlSetBkColor($g_ahTxtTrainArmySpellCount[$i], $g_iTotalTrainSpaceSpell <= Number(GUICtrlRead($g_hTxtTotalCountSpell)) ? $COLOR_WHITE : $COLOR_RED)
 	Next
 
-	GUICtrlSetBkColor($g_hLblCountTotalSpells, $g_iTotalTrainSpaceSpell <= Number(GUICtrlRead($g_hTxtTotalCountSpell)) ? $COLOR_MONEYGREEN : $COLOR_RED)
+	GUICtrlSetBkColor($g_hLblCountTotalSpells, $g_iTotalTrainSpaceSpell <= Number(GUICtrlRead($g_hTxtTotalCountSpell)) ? $COLOR_GREEN : $COLOR_RED)
 
 	Local $iSpellProgress = Floor(($g_iTotalTrainSpaceSpell / Number(GUICtrlRead($g_hTxtTotalCountSpell))) * 100)
 	If $iSpellProgress <= 100 Then
@@ -161,9 +161,9 @@ Func lblTotalCountSpell()
 	
 	If $g_iTotalSpellValue > 0 Then
 		If $g_iTotalTrainSpaceSpell = $g_iTotalSpellValue Then
-			GUICtrlSetBkColor($g_hLblCountTotalSpells, $COLOR_MONEYGREEN)
+			GUICtrlSetBkColor($g_hLblCountTotalSpells, $COLOR_GREEN)
 		ElseIf $g_iTotalTrainSpaceSpell > $g_iTotalSpellValue / 2 Then
-			GUICtrlSetBkColor($g_hLblCountTotalSpells, $COLOR_ORANGE)
+			GUICtrlSetBkColor($g_hLblCountTotalSpells, $COLOR_OLIVE)
 		Else
 			GUICtrlSetBkColor($g_hLblCountTotalSpells, $COLOR_RED)
 		EndIf
@@ -1142,10 +1142,10 @@ Func RemoveAllTmpTrain($sWhat = "All")
 EndFunc
 
 Func HideAllTroops()
-	For $i = $g_ahPicTrainArmyTroop[$eTroopMinion] To $g_ahPicTrainArmyTroop[$eTroopHeadhunter]
+	For $i = $g_ahPicTrainArmyTroop[$eTroopMinion] To $g_ahPicTrainArmyTroop[$eTroopAppWard]
 		GUICtrlSetState($i, $GUI_HIDE)
 	Next
-	For $i = $g_ahTxtTrainArmyTroopCount[$eTroopMinion] To $g_ahTxtTrainArmyTroopCount[$eTroopHeadhunter]
+	For $i = $g_ahTxtTrainArmyTroopCount[$eTroopMinion] To $g_ahTxtTrainArmyTroopCount[$eTroopAppWard]
 		GUICtrlSetState($i, $GUI_HIDE)
 	Next
 	For $i = $g_ahPicTrainArmyTroop[$eTroopBarbarian] To $g_ahPicTrainArmyTroop[$eTroopElectroTitan]
@@ -1154,10 +1154,10 @@ Func HideAllTroops()
 	For $i = $g_ahTxtTrainArmyTroopCount[$eTroopBarbarian] To $g_ahTxtTrainArmyTroopCount[$eTroopElectroTitan]
 		GUICtrlSetState($i, $GUI_HIDE)
 	Next
-	For $i = $g_ahPicTrainArmyTroop[$eTroopSuperBarbarian] To $g_ahPicTrainArmyTroop[$eTroopSuperMiner]
+	For $i = $g_ahPicTrainArmyTroop[$eTroopSuperBarbarian] To $g_ahPicTrainArmyTroop[$eTroopSuperHogRider]
 		GUICtrlSetState($i, $GUI_HIDE)
 	Next
-	For $i = $g_ahTxtTrainArmyTroopCount[$eTroopSuperBarbarian] To $g_ahTxtTrainArmyTroopCount[$eTroopSuperMiner]
+	For $i = $g_ahTxtTrainArmyTroopCount[$eTroopSuperBarbarian] To $g_ahTxtTrainArmyTroopCount[$eTroopSuperHogRider]
 		GUICtrlSetState($i, $GUI_HIDE)
 	Next
 	For $i = $g_ahPicTrainArmySpell[$eSpellLightning] To $g_ahPicTrainArmySpell[$eSpellBat]
@@ -1215,10 +1215,10 @@ EndFunc
 
 Func BtnDarkElixirTroops()
 	HideAllTroops()
-	For $i = $g_ahPicTrainArmyTroop[$eTroopMinion] To $g_ahPicTrainArmyTroop[$eTroopHeadhunter]
+	For $i = $g_ahPicTrainArmyTroop[$eTroopMinion] To $g_ahPicTrainArmyTroop[$eTroopAppWard]
 		GUICtrlSetState($i, $GUI_SHOW)
 	Next
-	For $i = $g_ahTxtTrainArmyTroopCount[$eTroopMinion] To $g_ahTxtTrainArmyTroopCount[$eTroopHeadhunter]
+	For $i = $g_ahTxtTrainArmyTroopCount[$eTroopMinion] To $g_ahTxtTrainArmyTroopCount[$eTroopAppWard]
 		GUICtrlSetState($i, $GUI_SHOW)
 	Next
 	SetBtnSelector("DarkElixirTroops")
@@ -1226,10 +1226,10 @@ EndFunc
 
 Func BtnSuperTroops()
 	HideAllTroops()
-	For $i = $g_ahPicTrainArmyTroop[$eTroopSuperBarbarian] To $g_ahPicTrainArmyTroop[$eTroopSuperMiner]
+	For $i = $g_ahPicTrainArmyTroop[$eTroopSuperBarbarian] To $g_ahPicTrainArmyTroop[$eTroopSuperHogRider]
 		GUICtrlSetState($i, $GUI_SHOW)
 	Next
-	For $i = $g_ahTxtTrainArmyTroopCount[$eTroopSuperBarbarian] To $g_ahTxtTrainArmyTroopCount[$eTroopSuperMiner]
+	For $i = $g_ahTxtTrainArmyTroopCount[$eTroopSuperBarbarian] To $g_ahTxtTrainArmyTroopCount[$eTroopSuperHogRider]
 		GUICtrlSetState($i, $GUI_SHOW)
 	Next
 	SetBtnSelector("SuperTroops")

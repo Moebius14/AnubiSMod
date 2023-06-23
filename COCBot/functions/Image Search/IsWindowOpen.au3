@@ -56,7 +56,7 @@ Func IsWindowOpen($sImagePath, $iLoopCount = 1, $iDelay = 200, $sSearchArea = ""
 	Return False
 EndFunc
 
-Func CloseWindow($IsinLab = False, $IsToClickRight = False, $iLoopCount = 5, $iDelay = 200, $aSearchArea = Default, $bDebuglog = $g_bDebugSetlog,  $bDebugImageSave = $g_bDebugImageSave)
+Func CloseWindow($IsinPet = False, $IsinLab = False, $IsToClickRight = False, $iLoopCount = 5, $iDelay = 200, $aSearchArea = Default, $bDebuglog = $g_bDebugSetlog,  $bDebugImageSave = $g_bDebugImageSave)
 	Local $aiButton
 	Local $sImageDir = @ScriptDir & "\imgxml\Windows\CloseButton\*"
 
@@ -83,6 +83,7 @@ Func CloseWindow($IsinLab = False, $IsToClickRight = False, $iLoopCount = 5, $iD
 			If _Sleep(1500) Then Return
 			
 			If $IsinLab Then UseLabPotion()
+;			If $IsinPet Then UsePetPotion()
 
 			; clear building text - this area is needed for ZoomOut()
 			Local $sBuildingText = getNameBuilding(242, 490 + $g_iBottomOffsetY)

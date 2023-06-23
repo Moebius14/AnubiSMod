@@ -209,7 +209,7 @@ Func chkLab()
 		GUICtrlSetState($g_hPicLabUpgrade, $GUI_SHOW)
 		GUICtrlSetState($g_hLblNextUpgrade, $GUI_ENABLE)
 		GUICtrlSetState($g_hCmbLaboratory, $GUI_ENABLE)
-		If $g_iCmbLaboratory > 45 Then
+		If $g_iCmbLaboratory > 46 Then
 			_GUICtrlSetImage($g_hPicLabUpgrade, $g_sLibModIconPath, $g_avLabTroops[$g_iCmbLaboratory][1])
 		Else
 			_GUICtrlSetImage($g_hPicLabUpgrade, $g_sLibIconPath, $g_avLabTroops[$g_iCmbLaboratory][1])
@@ -220,7 +220,7 @@ Func chkLab()
 		GUICtrlSetState($g_hPicLabUpgrade, $GUI_HIDE)
 		GUICtrlSetState($g_hLblNextUpgrade, $GUI_DISABLE)
 		GUICtrlSetState($g_hCmbLaboratory, $GUI_DISABLE)
-		If $g_iCmbLaboratory > 45 Then
+		If $g_iCmbLaboratory > 46 Then
 			_GUICtrlSetImage($g_hPicLabUpgrade, $g_sLibModIconPath, $g_avLabTroops[$g_iCmbLaboratory][1])
 		Else
 			_GUICtrlSetImage($g_hPicLabUpgrade, $g_sLibIconPath, $g_avLabTroops[$g_iCmbLaboratory][1])
@@ -328,7 +328,7 @@ EndFunc   ;==>StarLabStatusGUIUpdate
 
 Func cmbLab()
 	$g_iCmbLaboratory = _GUICtrlComboBox_GetCurSel($g_hCmbLaboratory)
-	If $g_iCmbLaboratory > 45 Then
+	If $g_iCmbLaboratory > 46 Then
 		_GUICtrlSetImage($g_hPicLabUpgrade, $g_sLibModIconPath, $g_avLabTroops[$g_iCmbLaboratory][1])
 	Else
 		_GUICtrlSetImage($g_hPicLabUpgrade, $g_sLibIconPath, $g_avLabTroops[$g_iCmbLaboratory][1])
@@ -704,6 +704,7 @@ Func chkUpgradePets()
 		Next
 		GUICtrlSetState($g_hChkSortPetUpgrade, $GUI_ENABLE)
 		GUICtrlSetState($g_hCmbSortPetUpgrade, $GUI_ENABLE)
+		GUICtrlSetState($g_hUsePetPotion, $GUI_ENABLE)
 	ElseIf $g_iTownHallLevel > 14 Then ; Must be TH15 to have all Pets
 		For $i = 0 To $ePetCount - 1
 			GUICtrlSetState($g_hChkUpgradePets[$i], $GUI_ENABLE)
@@ -717,6 +718,7 @@ Func chkUpgradePets()
 		Next
 		GUICtrlSetState($g_hChkSortPetUpgrade, $GUI_ENABLE)
 		GUICtrlSetState($g_hCmbSortPetUpgrade, $GUI_ENABLE)
+		GUICtrlSetState($g_hUsePetPotion, $GUI_ENABLE)
 	Else
 		For $i = 0 to $ePetCount - 1
 			GUICtrlSetState($g_hChkUpgradePets[$i], $GUI_DISABLE + $GUI_UNCHECKED)
@@ -724,7 +726,9 @@ Func chkUpgradePets()
 		Next
 		GUICtrlSetState($g_hChkSortPetUpgrade, $GUI_DISABLE + $GUI_UNCHECKED)
 		GUICtrlSetState($g_hCmbSortPetUpgrade, $GUI_DISABLE)
+		GUICtrlSetState($g_hUsePetPotion, $GUI_DISABLE + $GUI_UNCHECKED)
 	EndIf
+	GUICtrlSetState($g_hUsePetPotion, $GUI_DISABLE + $GUI_UNCHECKED)
 	SortPetUpgrade()
 EndFunc
 

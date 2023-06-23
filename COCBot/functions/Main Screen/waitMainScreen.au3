@@ -89,7 +89,7 @@ EndFunc   ;==>waitMainScreen
 Func waitMainScreenMod() ;Waits for main screen to popup
 	Local $sLoading = ""
 	For $i = 1 To 10
-		$sLoading = getOcrAndCapture("coc-Loading", 385, 581 + $g_iBottomOffsetY, 90, 22, True)
+		$sLoading = getOcrAndCapture("coc-Loading", 385, 582 + $g_iBottomOffsetY, 90, 20, True)
 		If $sLoading = "Loading" Then 
 			SetLog("Still on Loading Screen...", $COLOR_INFO)
 			_Sleep(3000)

@@ -89,7 +89,7 @@ Func CreateBottomPanel()
 		
 		Local $sVersionModded = $g_sBotVersion & " Mod"
 		$g_hLblVersion = GUICtrlCreateLabel($sVersionModded, $x + 116, $y + 76, 65, 17, $SS_LEFT ) ;
-			GUICtrlSetColor(-1, $COLOR_MEDGRAY)
+			GUICtrlSetColor(-1, $COLOR_GRAY)
 
 
 		$g_hBtnAttackNowDB = GUICtrlCreateButton(GetTranslatedFileIni("MBR GUI Design Bottom", "BtnAttackNowDB", "DB Attack!"), $x + 190, $y - 4, 60, -1)

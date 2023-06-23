@@ -139,7 +139,13 @@ Func EventsTabRead()
 		Case 3
 			SetLog("Open Esports Tab", $COLOR_DEBUG)
 			Click(660, 80 + $g_iMidOffsetY)
-			If _Sleep(Random(8000, 10000, 1)) Then Return
+			While 1
+				If WaitforPixel(655, 165 + $g_iBottomOffsetY, 660, 175 + $g_iBottomOffsetY, Hex(0xE8E8E0, 6), 15, 10) Then
+					If _Sleep(500) Then Return
+				Else
+					ExitLoop
+				EndIf
+			WEnd
 			Local $SideSwitchEsports = Random(1, 5, 1)
 			Switch $SideSwitchEsports
 				Case 1
@@ -959,17 +965,18 @@ Func WatchWarReplays()
 						EndIf
 					Else
 						SetLog("No Replay To Watch Yet ... Skipping ...", $COLOR_WARNING)
+						ClickAway()
 					EndIf
 				Else
 					SetLog("Error When Trying to Open War Details Window ... Skipping ...", $COLOR_WARNING)
 				EndIf
 
 				If _ColorCheck(_GetPixelColor(826, 95, True), "FFFFFF", 20) And $g_bClanWarLeague Then
-				Local $iSleepForWindow = Random(3000, 5000)
-				If _Sleep($iSleepForWindow) Then Return
-				Click(60 + Random(0, 700, 1), 25 + Random(0, 5, 1)) ; Click to get any window away
-				Local $iSleepForWindow2 = Random(2000, 4000)
-				If _Sleep($iSleepForWindow2) Then Return
+					Local $iSleepForWindow = Random(3000, 5000)
+					If _Sleep($iSleepForWindow) Then Return
+					Click(60 + Random(0, 700, 1), 25 + Random(0, 5, 1)) ; Click to get any window away
+					Local $iSleepForWindow2 = Random(2000, 4000)
+					If _Sleep($iSleepForWindow2) Then Return
 				EndIf
 
 				If $IsWarEnded And $g_bClanWarLeague Then
@@ -993,6 +1000,7 @@ Func WatchWarReplays()
 
 		Else
 			SetLog("No Replay To Watch Yet, See Ya Later", $COLOR_WARNING)
+			ClickAway()
 		EndIf
 
 	EndIf
@@ -1617,7 +1625,7 @@ Func CheckTH()
 			If _Sleep(Random(2500, 3500, 1)) Then Return
 		EndIf
 	Next
-	CloseWindow(False, True)
+	CloseWindow(False, False, True)
 	If Not $g_bRunState Then Return
 	
 	If _Sleep(Random(2000, 3000, 1)) Then Return
@@ -1691,7 +1699,7 @@ Func CheckMortar()
 					If _Sleep(Random(2500, 3500, 1)) Then Return
 				EndIf
 			Next
-			CloseWindow(False, True)
+			CloseWindow(False, False, True)
 			If Not $g_bRunState Then Return
 			If _Sleep(Random(2000, 3000, 1)) Then Return
 			$count += 1
@@ -1763,7 +1771,7 @@ Func CheckWizard()
 				If _Sleep(1000) Then Return
 				ContinueLoop
 			Endif
-			CloseWindow(False, True)
+			CloseWindow(False, False, True)
 			If _Sleep(Random(2000, 3000, 1)) Then Return
 			If Not $g_bRunState Then Return
 			$count += 1
@@ -1841,7 +1849,7 @@ Func CheckXBows()
 					If _Sleep(Random(2500, 3500, 1)) Then Return
 				EndIf
 			Next
-			CloseWindow(False, True)
+			CloseWindow(False, False, True)
 			If Not $g_bRunState Then Return
 			If _Sleep(Random(2000, 3000, 1)) Then Return
 			$count += 1
@@ -1914,7 +1922,7 @@ Func CheckInferno()
 					If _Sleep(Random(2500, 3500, 1)) Then Return
 				EndIf
 			Next
-			CloseWindow(False, True)
+			CloseWindow(False, False, True)
 			If Not $g_bRunState Then Return
 			If _Sleep(Random(2000, 3000, 1)) Then Return
 			$count += 1
@@ -1957,7 +1965,7 @@ Func CheckEagle()
 		ClickAway("Right")
 		Return
 	Endif
-	CloseWindow(False, True)
+	CloseWindow(False, False, True)
 	If Not $g_bRunState Then Return
 
 	If _Sleep(Random(2000, 3000, 1)) Then Return
@@ -2019,7 +2027,7 @@ Func CheckScatter()
 				If _Sleep(1000) Then Return
 				ContinueLoop
 			Endif
-			CloseWindow(False, True)
+			CloseWindow(False, False, True)
 			If Not $g_bRunState Then Return
 			If _Sleep(Random(2000, 3000, 1)) Then Return
 			$count += 1
@@ -2090,7 +2098,7 @@ Func CheckAirDefense()
 				If _Sleep(1000) Then Return
 				ContinueLoop
 			Endif
-			CloseWindow(False, True)
+			CloseWindow(False, False, True)
 			If Not $g_bRunState Then Return
 			If _Sleep(Random(2000, 3000, 1)) Then Return
 			$count += 1
@@ -2161,7 +2169,7 @@ Func GoldStorage()
 				If _Sleep(1000) Then Return
 				ContinueLoop
 			Endif
-			CloseWindow(False, True)
+			CloseWindow(False, False, True)
 			If Not $g_bRunState Then Return
 			If _Sleep(Random(2000, 3000, 1)) Then Return
 			$count += 1
@@ -2232,7 +2240,7 @@ Func ElixirStorage()
 				If _Sleep(1000) Then Return
 				ContinueLoop
 			Endif
-			CloseWindow(False, True)
+			CloseWindow(False, False, True)
 			If Not $g_bRunState Then Return
 			If _Sleep(Random(2000, 3000, 1)) Then Return
 			$count += 1
@@ -2275,7 +2283,7 @@ Func Monolith()
 		ClickAway("Right")
 		Return
 	Endif
-	CloseWindow(False, True)
+	CloseWindow(False, False, True)
 	If Not $g_bRunState Then Return
 
 	If _Sleep(Random(2000, 3000, 1)) Then Return
@@ -2370,7 +2378,13 @@ Func LookAtRedNotifications()
 			If _Sleep(3000) Then Return
 			SetLog("Open Esports Tab", $COLOR_DEBUG)
 			Click(660, 80 + $g_iMidOffsetY)
-			If _Sleep(Random(8000, 10000, 1)) Then Return
+			While 1
+				If WaitforPixel(655, 165 + $g_iBottomOffsetY, 660, 175 + $g_iBottomOffsetY, Hex(0xE8E8E0, 6), 15, 10) Then
+					If _Sleep(500) Then Return
+				Else
+					ExitLoop
+				EndIf
+			WEnd
 			Local $SideSwitchEsports = Random(1, 4, 1)
 			Switch $SideSwitchEsports
 				Case 1
@@ -2489,7 +2503,13 @@ Func LookAtRedNotifications()
 			Case 3
 			SetLog("Open Esports Tab", $COLOR_DEBUG)
 			Click(660, 80 + $g_iMidOffsetY)
-			If _Sleep(Random(8000, 10000, 1)) Then Return
+			While 1
+				If WaitforPixel(655, 165 + $g_iBottomOffsetY, 660, 175 + $g_iBottomOffsetY, Hex(0xE8E8E0, 6), 15, 10) Then
+					If _Sleep(500) Then Return
+				Else
+					ExitLoop
+				EndIf
+			WEnd
 			Local $SideSwitchEsports = Random(1, 5, 1)
 			Switch $SideSwitchEsports
 				Case 1
@@ -3447,7 +3467,7 @@ If $CheckRaidMapPriority > $IsToCheckRaidMap Then Return
 				If $iConvertedTime > 1440 Then
 					SetLog("Raid Weekend Will Finish in " & $sForRaidTimeOCR & "", $COLOR_GREEN)
 				ElseIf $iConvertedTime < 1440 And $iConvertedTime > 120 Then
-					SetLog("Raid Weekend Will Finish in " & $sForRaidTimeOCR & "", $COLOR_ORANGE)
+					SetLog("Raid Weekend Will Finish in " & $sForRaidTimeOCR & "", $COLOR_OLIVE)
 				ElseIf $iConvertedTime < 120 Then
 					SetLog("Raid Weekend Will Finish in " & $sForRaidTimeOCR & "", $COLOR_RED)
 				EndIf

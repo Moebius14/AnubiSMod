@@ -16,7 +16,7 @@ Func LocateBuilderHall()
 				SetLog("It reads as Level " & $aResult[2] & ".", $COLOR_INFO)
 
 				If $aResult[2] > $g_iBuilderHallLevel Then $g_iBuilderHallLevel = $aResult[2]
-				;ChkCraftCapitalGold()
+				ClickAway()
 				Return True
 			Else
 				ClickAway()
@@ -41,7 +41,7 @@ Func LocateBuilderHall()
 
 	SetLog("Looking for Builder Hall...", $COLOR_ACTION)
 
-	Local $sCocDiamond = "DCD"
+	Local $sCocDiamond = $CocDiamondDCD
 	Local $sRedLines = $sCocDiamond
 	Local $iMinLevel = 0
 	Local $iMaxLevel = 1000
@@ -73,8 +73,8 @@ Func LocateBuilderHall()
 						; Test the coordinates
 						Local $tempObbj = StringSplit($tempObbjs[$j], ",", $STR_NOCOUNT) ;  will be a string : 708,360
 						If UBound($tempObbj) = 2 Then
-							$g_aiBuilderHallPos[0] = Number($tempObbj[0]) ;+ 9
-							$g_aiBuilderHallPos[1] = Number($tempObbj[1]) ;+ 15
+							$g_aiBuilderHallPos[0] = Number($tempObbj[0]) + 9
+							$g_aiBuilderHallPos[1] = Number($tempObbj[1]) + 15
 							SetLog("Builder Hall :" & $g_aiBuilderHallPos[0] & "," & $g_aiBuilderHallPos[1])
 							ConvertFromVillagePos($g_aiBuilderHallPos[0],$g_aiBuilderHallPos[1])
 							SetLog("Builder Hall VillagePos:" & $g_aiBuilderHallPos[0] & "," & $g_aiBuilderHallPos[1])
@@ -85,8 +85,8 @@ Func LocateBuilderHall()
 					; Test the coordinate
 					Local $tempObbj = StringSplit($aObjectpoints, ",", $STR_NOCOUNT) ;  will be a string : 708,360
 					If UBound($tempObbj) = 2 Then
-						$g_aiBuilderHallPos[0] = Number($tempObbj[0]) ;+ 9
-						$g_aiBuilderHallPos[1] = Number($tempObbj[1]) ;+ 15
+						$g_aiBuilderHallPos[0] = Number($tempObbj[0]) + 9
+						$g_aiBuilderHallPos[1] = Number($tempObbj[1]) + 15
 						SetLog("Builder Hall :" & $g_aiBuilderHallPos[0] & "," & $g_aiBuilderHallPos[1])
 						ConvertFromVillagePos($g_aiBuilderHallPos[0],$g_aiBuilderHallPos[1])
 						SetLog("Builder Hall VillagePos:" & $g_aiBuilderHallPos[0] & "," & $g_aiBuilderHallPos[1])

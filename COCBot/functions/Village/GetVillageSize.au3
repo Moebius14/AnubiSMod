@@ -121,7 +121,7 @@ Func GetVillageSize($DebugLog = Default, $sStonePrefix = Default, $sTreePrefix =
 						Local $sVillage = StringSplit($avTempArray[0],"-") ; get filename only
 						$sScenery = StringRight($sVillage[1], 2) ; get extension
 
-						SetDeBugLog("Village Scenery Found: " & $sScenery, $COLOR_ORANGE)
+						SetDeBugLog("Village Scenery Found: " & $sScenery, $COLOR_OLIVE)
 
 						; if too far away from expected location then align
 						If $x > ($x0 + 75) Or $x < ($x0 - 75) Then

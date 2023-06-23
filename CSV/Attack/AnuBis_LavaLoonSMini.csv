@@ -24,7 +24,7 @@ TRAIN |Queen      |0          |0          |0          |0          |0          |0
 TRAIN |Warden     |0          |0          |0          |0          |0          |0          |0          |34         |34         |34         |34         |
 TRAIN |Champion   |0          |0          |0          |0          |0          |0          |0          |0          |1          |1          |1          |
       |                                                                                                                                  			  |
-      |_TROOPNAME_|___________|____TH06___|____TH07___|____TH08___|____TH09___|____TH10___|____TH11___|____TH12___|____TH13___|____TH14___|____TH15___|	  
+      |_TROOPNAME_|___________|____TH06___|____TH07___|____TH08___|____TH09___|____TH10___|____TH11___|____TH12___|____TH13___|____TH14___|____TH15___|
 WMODE |0	      |0          |0          |0          |0          |0          |0          |0          |1          |1          |1  	      |1       	  |
       |                                                                                                                                  			  |
       |___________|___________|____TH06___|____TH07___|____TH08___|____TH09___|____TH10___|____TH11___|____TH12___|____TH13___|____TH14___|____TH15___|
@@ -56,6 +56,12 @@ MAKE  |M          |LEFT-FRONT |10         |0          |INT-EXT    |3          |0
 MAKE  |O          |FRONT-LEFT |20         |-23        |INT-EXT    |0          |0          |           |           |           |           |           |
 MAKE  |R          |FRONT-LEFT |1          |0          |IGNORE     |0          |0          |INFERNO    |           |           |           |           |
 MAKE  |S          |FRONT-RIGHT|1          |0          |IGNORE     |0          |0          |INFERNO    |           |           |           |           |
+MAKE  |T          |LEFT-FRONT |1          |0          |IGNORE     |0          |0          |INFERNO    |           |           |           |           |
+MAKE  |U          |RIGHT-FRONT|1          |0          |IGNORE     |0          |0          |INFERNO    |           |           |           |           |
+MAKE  |X          |FRONT-LEFT |1          |0          |IGNORE     |0          |0          |TOWNHALL   |           |           |           |           |
+MAKE  |Y          |FRONT-RIGHT|1          |0          |IGNORE     |0          |0          |TOWNHALL   |           |           |           |           |
+MAKE  |W          |LEFT-FRONT |1          |0          |IGNORE     |0          |0          |TOWNHALL   |           |           |           |           |
+MAKE  |G          |RIGHT-FRONT|1          |0          |IGNORE     |0          |0          |TOWNHALL   |           |           |           |           |
 MAKE  |V          |FRONT-LEFT |20         |-6         |INT-EXT    |0          |0          |           |           |           |           |           |
 MAKE  |Z          |FRONT-RIGHT|20         |-6         |INT-EXT    |0          |0          |           |           |           |           |           |
 MAKE  |I          |FRONT-LEFT |10         |0          |EXT-INT    |0          |5          |           |           |           |           |           |
@@ -68,9 +74,10 @@ DROP  |V          |11         |1          |HaSpell    |30-50      |30-70      |4
 DROP  |V          |4          |1          |HaSpell    |30-50      |30-70      |400-600    |           |           |           |           |           |
 DROP  |Z          |4          |1          |HaSpell    |30-50      |30-70      |400-600    |           |           |           |           |           |
 DROP  |Z          |11         |1          |HaSpell    |30-50      |30-70      |400-600    |           |           |           |           |           |
-DROP  |A-B        |7          |1          |Lava       |300-500    |30-70      |400-700    |           |           |           |           |           |
-DROP  |A-B        |7          |1          |Lava       |300-500    |30-70      |300        |           |           |           |           |           |
-DROP  |A          |1          |1          |Catle      |0          |0          |0          |           |           |           |           |           |
+DROP  |A          |7          |1          |Lava       |300-500    |30-70      |400-700    |           |           |           |           |           |
+DROP  |A          |0          |1          |Lava       |300-500    |30-70      |200-500    |           |           |           |           |           |
+DROP  |B          |7          |1          |Lava       |300-500    |30-70      |300        |           |           |           |           |           |
+DROP  |A          |1          |1          |Castle     |0          |0          |0          |           |           |           |           |           |
 DROP  |A          |1          |1          |WallW      |0          |0          |300        |           |           |           |           |           |
 DROP  |A          |1          |1          |BattleB    |0          |0          |300        |           |           |           |           |           |
 DROP  |A          |1          |1          |StoneS     |0          |0          |300        |           |           |           |           |           |
@@ -81,6 +88,12 @@ DROP  |P          |10         |1          |Ball       |75-100     |40-50      |2
 DROP  |A          |1          |1          |Warden     |0          |0          |300        |           |           |           |           |           |
 DROP  |R          |1          |1          |FSpell     |50-70      |0          |50-70      |           |           |           |           |           |
 DROP  |S          |1          |1          |FSpell     |50-70      |0          |50-70      |           |           |           |           |           |
+DROP  |T          |1          |1          |FSpell     |50-70      |0          |50-70      |           |           |           |           |           |
+DROP  |U          |1          |1          |FSpell     |50-70      |0          |50-70      |           |           |           |           |           |
+DROP  |X          |1          |1          |FSpell     |50-70      |0          |50-70      |           |           |           |           |           |
+DROP  |Y          |1          |1          |FSpell     |50-70      |0          |50-70      |           |           |           |           |           |
+DROP  |W          |1          |1          |FSpell     |50-70      |0          |50-70      |           |           |           |           |           |
+DROP  |G          |1          |1          |FSpell     |50-70      |0          |50-70      |           |           |           |           |           |
 DROP  |E          |14         |1          |HaSpell    |0          |0          |300        |           |           |           |           |           |
 DROP  |E          |6          |1          |RSpell     |0          |0          |400-600    |           |           |           |           |           |
 DROP  |F          |3          |1          |RSpell     |0          |0          |400-600    |           |           |           |           |           |

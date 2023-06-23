@@ -30,7 +30,7 @@ Func PetHouse($test = False)
 	Local $bUpgradePets = False
 	Local $iPage = 0
 
-   If $g_iTownHallLevel < 14 Then
+	If $g_iTownHallLevel < 14 Then
 		Return
 	EndIf
 
@@ -214,12 +214,14 @@ Func PetHouse($test = False)
 							GUICtrlSetState($g_hPicPetGreen, $GUI_SHOW)
 							;===========================================
 							If _Sleep($DELAYLABORATORY2) Then Return
-							Local $sPetTimeOCR = getRemainTLaboratory(274, 286)
+							Local $sPetTimeOCR = getRemainTLaboratory(274, 256 + $g_iMidOffsetY)
+							If $sPetTimeOCR = "" Then $sPetTimeOCR = getPetUpgradeTime(274, 260 + $g_iMidOffsetY)
 							Local $iPetFinishTime = ConvertOCRTime("Lab Time", $sPetTimeOCR, False)
 							SetDebugLog("$sPetTimeOCR: " & $sPetTimeOCR & ", $iPetFinishTime = " & $iPetFinishTime & " m")
 							If $iPetFinishTime > 0 Then
 								$g_sPetUpgradeTime = _DateAdd('n', Ceiling($iPetFinishTime), _NowCalc())
 								SetLog("Pet House will finish in " & $sPetTimeOCR & " (" & $g_sPetUpgradeTime & ")")
+								$iPetFinishTimeMod = $iPetFinishTime
 							EndIf
 
 						Else
@@ -228,7 +230,7 @@ Func PetHouse($test = False)
 
 						SetLog("Started upgrade for : " & $aPet[$i][1])
 						If ProfileSwitchAccountEnabled() Then SwitchAccountVariablesReload("Save")
-						CloseWindow()
+						CloseWindow(True)
 						Return True
 					Else
 						SetLog("Failed to find the Pets button!", $COLOR_ERROR)
@@ -259,16 +261,16 @@ Func PetHouse($test = False)
 
 				; get the Pet Level
 				Local $iPetLevel = getTroopsSpellsLevel($iPetLevelxCoord[$i], 532)
-				If Not ($iPetLevel > 0 And $iPetLevel <= $g_ePetLevels) Then; If detected level is not between 1 and 10, To Prevent Crash
+				If Not ($iPetLevel > 0 And $iPetLevel <= $g_ePetLevels[$i]) Then ;If detected level is not between 1 and 10 Or 15, To Prevent Crash
 					If $g_bDebugSetlog Then SetDebugLog("Pet Level OCR Misdetection, Detected Level is : " & $iPetLevel, $COLOR_WARNING)
 					ContinueLoop
 				EndIf
-				If $iPetLevel < $g_ePetLevels Then
+				If $iPetLevel < $g_ePetLevels[$i] Then
 					SetLog($g_asPetNames[$i] & " is at level " & $iPetLevel)
 				Else
-					SetLog($g_asPetNames[$i] & " is at Max level (" & $g_ePetLevels & ")")
+					SetLog($g_asPetNames[$i] & " is at Max level (" & $g_ePetLevels[$i] & ")")
 				EndIf
-				If $iPetLevel = $g_ePetLevels Then ContinueLoop
+				If $iPetLevel = $g_ePetLevels[$i] Then ContinueLoop
 				
 				If _Sleep($DELAYLABORATORY2) Then Return
 
@@ -316,12 +318,14 @@ Func PetHouse($test = False)
 							GUICtrlSetState($g_hPicPetGreen, $GUI_SHOW)
 							;===========================================
 							If _Sleep($DELAYLABORATORY2) Then Return
-							Local $sPetTimeOCR = getRemainTLaboratory(274, 286)
+							Local $sPetTimeOCR = getRemainTLaboratory(274, 256 + $g_iMidOffsetY)
+							If $sPetTimeOCR = "" Then $sPetTimeOCR = getPetUpgradeTime(274, 260 + $g_iMidOffsetY)
 							Local $iPetFinishTime = ConvertOCRTime("Lab Time", $sPetTimeOCR, False)
 							SetDebugLog("$sPetTimeOCR: " & $sPetTimeOCR & ", $iPetFinishTime = " & $iPetFinishTime & " m")
 							If $iPetFinishTime > 0 Then
 								$g_sPetUpgradeTime = _DateAdd('n', Ceiling($iPetFinishTime), _NowCalc())
 								SetLog("Pet House will finish in " & $sPetTimeOCR & " (" & $g_sPetUpgradeTime & ")")
+								$iPetFinishTimeMod = $iPetFinishTime
 							EndIf
 						Else
 							CloseWindow()
@@ -330,7 +334,7 @@ Func PetHouse($test = False)
 
 						SetLog("Started upgrade for : " & $g_asPetNames[$i])
 						If ProfileSwitchAccountEnabled() Then SwitchAccountVariablesReload("Save")
-						CloseWindow()
+						CloseWindow(True)
 						Return True
 					Else
 						SetLog("Failed to find the Pets button!", $COLOR_ERROR)
@@ -354,11 +358,12 @@ EndFunc
 Func CheckPetUpgrade()
 	; check for upgrade in process - look for green in finish upgrade with gems button
 	If $g_bDebugSetlog Then SetLog("_GetPixelColor(730, 200): " & _GetPixelColor(730, 200, True) & ":E5FD94", $COLOR_DEBUG)
-	If _ColorCheck(_GetPixelColor(695, 265, True), Hex(0xE5FD94, 6), 20) Then
+	If _ColorCheck(_GetPixelColor(730, 240 + $g_iMidOffsetY, True), Hex(0xBED79A, 6), 20) Then
 		SetLog("Pet House Upgrade in progress, waiting for completion", $COLOR_INFO)
 		If _Sleep($DELAYLABORATORY2) Then Return
 		; upgrade in process and time not recorded so update completion time!
-		Local $sPetTimeOCR = getRemainTLaboratory(274, 286)
+		Local $sPetTimeOCR = getRemainTLaboratory(274, 256 + $g_iMidOffsetY)
+		If $sPetTimeOCR = "" Then $sPetTimeOCR = getPetUpgradeTime(274, 260 + $g_iMidOffsetY)
 		Local $iPetFinishTime = ConvertOCRTime("Lab Time", $sPetTimeOCR, False)
 		SetDebugLog("$sPetTimeOCR: " & $sPetTimeOCR & ", $iPetFinishTime = " & $iPetFinishTime & " m")
 		If $iPetFinishTime > 0 Then
@@ -366,11 +371,12 @@ Func CheckPetUpgrade()
 			If @error Then _logErrorDateAdd(@error)
 			SetLog("Pet Upgrade will finish in " & $sPetTimeOCR & " (" & $g_sPetUpgradeTime & ")")
 			; LabStatusGUIUpdate() ; Update GUI flag
+			$iPetFinishTimeMod = $iPetFinishTime
 		ElseIf $g_bDebugSetlog Then
 			SetLog("PetLabUpgradeInProgress - Invalid getRemainTLaboratory OCR", $COLOR_DEBUG)
 		EndIf
 		If ProfileSwitchAccountEnabled() Then SwitchAccountVariablesReload("Save")
-		CloseWindow()
+		CloseWindow(True)
 		Return True
 	EndIf
 	Return False ; returns False if no upgrade in progress
@@ -439,6 +445,8 @@ Func PetGuiDisplay()
 	
 	Local Static $iLastTimeChecked[8]
 	If $g_bFirstStart Then $iLastTimeChecked[$g_iCurAccount] = ""
+	
+	If $g_bUsePetPotion And $IsPetPotJustCollected Then $iLastTimeChecked[$g_iCurAccount] = ""
 
 	; Check if is a valid date and Calculated the number of minutes from remain time Lab and now
 	If _DateIsValid($g_sPetUpgradeTime) And _DateIsValid($iLastTimeChecked[$g_iCurAccount]) Then
@@ -446,13 +454,14 @@ Func PetGuiDisplay()
 		Local $iLastCheck =_DateDiff('n', $iLastTimeChecked[$g_iCurAccount], _NowCalc()) ; elapse time from last check (minutes)
 		SetDebugLog("Pet House PetUpgradeTime: " & $g_sPetUpgradeTime & ", Pet DateCalc: " & $iLabTime)
 		SetDebugLog("Pet House LastCheck: " & $iLastTimeChecked[$g_iCurAccount] & ", Check DateCalc: " & $iLastCheck)
-		; A check each from 2 to 5 hours [2*60 = 120 to 5*60 = 300] or when Lab research time finishes
+		; A check each from 2 to 5 hours [2*60 = 120 to 5*60 = 300] or when Pet House research time finishes
 		Local $iDelayToCheck = Random(120, 300, 1)
+		If $IsPetPotInStock And $g_bUsePetPotion And $iPetFinishTimeMod > 1440 Then $iDelayToCheck = 60
 		If $iLabTime > 0 And $iLastCheck <= $iDelayToCheck Then Return
 	EndIf
 
 	; not enough Dark Elixir for upgrade -
-	If $g_aiCurrentLoot[$eLootDarkElixir] < $g_iMinDark4PetUpgrade Then
+	If $g_aiCurrentLoot[$eLootDarkElixir] < $g_iMinDark4PetUpgrade And Not _DateIsValid($g_sPetUpgradeTime) Then
 		If $g_iMinDark4PetUpgrade <> 999999 Then
 			SetLog("Current DE Storage: " & $g_aiCurrentLoot[$eLootDarkElixir])
 			SetLog("Minimum DE for Pet upgrade: " & $g_iMinDark4PetUpgrade)
@@ -523,15 +532,15 @@ Func PetGuiDisplay()
 	Local $IsStopped = False
 	
 	For $i = 0 To 5
-		If _ColorCheck(_GetPixelColor(695, 265, True), Hex(0xE5FD94, 6), 20) Then ; Look for light green in upper right corner of lab window.
+		If _ColorCheck(_GetPixelColor(730, 240 + $g_iMidOffsetY, True), Hex(0xBED79A, 6), 20) Then ; Look for light green on the right in lab window.
 			 $IsRunning = True
 			 ExitLoop
 		EndIf
-		If _ColorCheck(_GetPixelColor(260, 260, True), Hex(0xCBB338, 6), 20) Then ; Look for the paw in the Pet House window.
+		If _ColorCheck(_GetPixelColor(220, 230 + $g_iMidOffsetY, True), Hex(0xCAB438, 6), 20) Then ; Look for the paw in the Pet House window.
 			$IsStopped = True
 			ExitLoop
 		EndIf
-		_Sleep(500)
+		If _Sleep(500) Then Return
 	Next
 
 	; check for upgrade in process - look for green in finish upgrade with gems button
@@ -543,15 +552,17 @@ Func PetGuiDisplay()
 		GUICtrlSetState($g_hPicPetGreen, $GUI_SHOW)
 		;===========================================
 		If _Sleep($DELAYLABORATORY2) Then Return
-		Local $sPetTimeOCR = getRemainTLaboratory(274, 286)
+		Local $sPetTimeOCR = getRemainTLaboratory(274, 256 + $g_iMidOffsetY)
+		If $sPetTimeOCR = "" Then $sPetTimeOCR = getPetUpgradeTime(274, 260 + $g_iMidOffsetY)
 		Local $iPetFinishTime = ConvertOCRTime("Lab Time", $sPetTimeOCR, False)
 		SetDebugLog("$sPetTimeOCR: " & $sPetTimeOCR & ", $iPetFinishTime = " & $iPetFinishTime & " m")
 		If $iPetFinishTime > 0 Then
 			$g_sPetUpgradeTime = _DateAdd('n', Ceiling($iPetFinishTime), _NowCalc())
 			SetLog("Pet House will finish in " & $sPetTimeOCR & " (" & $g_sPetUpgradeTime & ")")
+			$iPetFinishTimeMod = $iPetFinishTime
 		EndIf
 		If ProfileSwitchAccountEnabled() Then SwitchAccountVariablesReload("Save")
-		CloseWindow()
+		CloseWindow(True)
 		Return True
 	ElseIf $IsStopped Then ; Look for the paw in the Pet House window.
 		SetLog("Pet House has Stopped", $COLOR_INFO)
@@ -574,6 +585,8 @@ Func PetGuiDisplay()
 		GUICtrlSetData($g_hLbLPetTime, "")
 		;=============================================
 		CloseWindow()
+		$iLastTimeChecked[$g_iCurAccount] = ""
+		If $g_bNoPetHouseCheck Then $g_bFirstStartForPetHouse = 0
 		Return
 	EndIf
 
@@ -598,16 +611,16 @@ Func GetMinDark4PetUpgrade()
 			; get the Pet Level
 			Local $iPetLevel = getTroopsSpellsLevel($iPetLevelxCoord[$i], 532)
 						
-			If Not ($iPetLevel > 0 And $iPetLevel <= $g_ePetLevels) Then; If detected level is not between 1 and 10, To Prevent Crash
+			If Not ($iPetLevel > 0 And $iPetLevel <= $g_ePetLevels[$i]) Then ;If detected level is not between 1 and 10 Or 15, To Prevent Crash
 				If $g_bDebugSetlog Then SetDebugLog("Pet Level OCR Misdetection, Detected Level is : " & $iPetLevel, $COLOR_WARNING)
 				ContinueLoop
 			EndIf
-			If $iPetLevel < $g_ePetLevels Then
+			If $iPetLevel < $g_ePetLevels[$i] Then
 				SetLog($g_asPetNames[$i] & " is at level " & $iPetLevel)
 			Else
-				SetLog($g_asPetNames[$i] & " is at Max level (" & $g_ePetLevels & ")")
+				SetLog($g_asPetNames[$i] & " is at Max level (" & $g_ePetLevels[$i] & ")")
 			EndIf
-			If $iPetLevel = $g_ePetLevels Then ContinueLoop
+			If $iPetLevel = $g_ePetLevels[$i] Then ContinueLoop
 
 			If _Sleep($DELAYLABORATORY2) Then Return
 
@@ -695,18 +708,18 @@ Func GetPetUpgradeList()
 			Local $Name = $g_asPetNames[$i]
 			Local $Unlocked = String(_ColorCheck(_GetPixelColor($iPetUnlockedxCoord[$i], 415, True), Hex(0xc3b6a5, 6), 20))
 			Local $iPetLevel = getTroopsSpellsLevel($iPetLevelxCoord[$i], 532)
-			If Not ($iPetLevel > 0 And $iPetLevel <= $g_ePetLevels) Then; If detected level is not between 1 and 10, To Prevent Crash
+			If Not ($iPetLevel > 0 And $iPetLevel <= $g_ePetLevels[$i]) Then ;If detected level is not between 1 and 10 Or 15, To Prevent Crash
 				If $g_bDebugSetlog Then SetDebugLog("Pet Level OCR Misdetection, Detected Level is : " & $iPetLevel, $COLOR_WARNING)
 				ContinueLoop
 			EndIf
 			Local $x = $iPetUnlockedxCoord[$i]
 			$iDarkElixirReq = 0 ;reset value
-			If Number($iPetLevel) = $g_ePetLevels Then ;skip read upgrade cost because pet is maxed
+			If Number($iPetLevel) = $g_ePetLevels[$i] Then ;skip read upgrade cost because pet is maxed
 				$Unlocked = "MaxLevel"
-				SetLog($Name & " is at Max level (" & $g_ePetLevels & ")")
+				SetLog($Name & " is at Max level (" & $g_ePetLevels[$i] & ")")
 			ElseIf _ColorCheck(_GetPixelColor($iPetUnlockedxCoord[$i], 415, True), Hex(0xababab, 6), 20) Then
 				$Unlocked = "Locked"
-				SetLog($g_asPetNames[$i] & " is Locked")
+				SetLog($Name & " is Locked")
 			Else
 				$iDarkElixirReq = 1000 * Number($g_aiPetUpgradeCostPerLevel[$i][$iPetLevel])
 				$iDarkElixirReq = Int($iDarkElixirReq - ($iDarkElixirReq * Number($g_iBuilderBoostDiscount) / 100))
@@ -744,4 +757,42 @@ Func DragPetHouse($iPetIndex, ByRef $iPage)
 	EndIf
 	
 	Return False
+EndFunc
+
+Func UsePetPotion()
+If $g_bUsePetPotion And $iPetFinishTimeMod > 1440 Then ; only use potion if Pet upgrade time is more than 1 day
+	If _Sleep(1000) Then Return
+	Local $PetPotion = FindButton("PetPotion")
+	If IsArray($PetPotion) And UBound($PetPotion) = 2 Then
+		$IsPetPotInStock = 1
+		SetLog("Use Pet Potion", $COLOR_INFO)
+		Local $PetBoosted = FindButton("PetBoosted")
+		If IsArray($PetBoosted) And UBound($PetBoosted) = 2 Then ; Lab already boosted skip using potion
+			SetLog("Detected Pet House already boosted", $COLOR_INFO)
+			If _Sleep(1000) Then Return
+			ClickAway()
+			Return
+		EndIf
+		Click($PetPotion[0], $PetPotion[1])
+		If _Sleep(1000) Then Return
+		If Not $g_bRunState Then Return
+		If ClickB("BoostConfirm") Then
+			SetLog("Pet House Boosted With Pet Potion", $COLOR_SUCCESS)
+			$g_sPetUpgradeTime = _DateAdd('n', Ceiling($iPetFinishTimeMod - 1380), _NowCalc())
+			SetLog("Recalculate Pet House time, using potion (" & $g_sPetUpgradeTime & ")")
+			$ActionForModLog = "Boosting Pet Upgrade"
+			If $g_iTxtCurrentVillageName <> "" Then
+				GUICtrlSetData($g_hTxtModLog, @CRLF & _NowTime() & " [" & $g_iTxtCurrentVillageName & "] Pet House : " & $ActionForModLog & " Using Potion", 1)
+			Else
+				GUICtrlSetData($g_hTxtModLog, @CRLF & _NowTime() & " [" & $g_sProfileCurrentName & "] Pet House : " & $ActionForModLog & " Using Potion", 1)
+			EndIf
+			_FileWriteLog($g_sProfileLogsPath & "\ModLog.log", " [" & $g_sProfileCurrentName & "] - Pet House : " & $ActionForModLog & "")
+		EndIf
+		If _Sleep(1000) Then Return
+	Else
+		SetLog("No Pet Potion Found", $COLOR_DEBUG)
+		$IsPetPotInStock = 0
+		If _Sleep(1000) Then Return
+	EndIf
+EndIf
 EndFunc

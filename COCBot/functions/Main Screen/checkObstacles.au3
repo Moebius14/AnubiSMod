@@ -25,13 +25,6 @@ Func checkObstacles($bBuilderBase = Default) ;Checks if something is in the way 
 		; CoC not running
 		Return checkObstacles_ReloadCoC() ; just start CoC (but first close it!)
 	EndIf
-	
-;	;;;;;;;;;;;;;;;;;;;;;;;;;; no longer used ??? ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;	If _ColorCheck(_GetPixelColor(383, 375 + $g_iMidOffsetY), Hex(0xF0BE70, 6), 20) Then
-;		SetLog("Found Switch Account Dialog!", $COLOR_INFO)
-;		PureClick(383, 375 + $g_iMidOffsetY, 1, 0, "Click Cancel")
-;	EndIf
-
 	Local $wasForce = OcrForceCaptureRegion(False)
 	$iRecursive += 1
 	Local $Result = _checkObstacles($bBuilderBase, $iRecursive > 5)
@@ -44,6 +37,7 @@ Func _checkObstacles($bBuilderBase = False, $bRecursive = False) ;Checks if some
 	Local $msg, $x, $y, $Result
 	$g_bMinorObstacle = False
 	Local $aMessage
+	Local $b_Switch = False
 	
 	_CaptureRegions()
 
@@ -54,18 +48,28 @@ Func _checkObstacles($bBuilderBase = False, $bRecursive = False) ;Checks if some
 		If checkObstacles_GfxError() Then Return True
 	EndIf
 	Local $bIsOnBuilderIsland = isOnBuilderBase()
-	Local $bIsOnMainVillage = isOnMainVillage()
-	If $bBuilderBase <> $bIsOnBuilderIsland And ($bIsOnBuilderIsland Or $bIsOnBuilderIsland <> $bIsOnMainVillage) Then
-		If $bIsOnBuilderIsland Then
-			SetLog("Detected Builder Base, trying to switch back to Main Village")
-		Else
+	Select
+		Case $bBuilderBase And Not $bIsOnBuilderIsland
 			SetLog("Detected Main Village, trying to switch back to Builder Base")
-		EndIf
+			$b_Switch = True
+		Case Not $bBuilderBase And $bIsOnBuilderIsland
+			SetLog("Detected Builder Base, trying to switch back to Main Village")
+			$b_Switch = True
+	EndSelect
+	If $b_Switch Then
 		If SwitchBetweenBases() Then
 			$g_bMinorObstacle = True
 			If _Sleep($DELAYCHECKOBSTACLES1) Then Return
 			Return False
 		EndIf
+	EndIf
+
+	If UBound(decodeSingleCoord(FindImageInPlace2("MinorUpdate", $g_sImgCOCUpdate, 420, 450 + $g_iMidOffsetY, 580, 590 + $g_iMidOffsetY, False))) > 1 Then ; COC Minor Update
+		SetLog("Chief, we have minor coc Update!", $COLOR_INFO)
+		ClickAway()
+		$g_bMinorObstacle = True
+		If _Sleep($DELAYCHECKOBSTACLES1) Then Return
+		Return False
 	EndIf
 
 	If UBound(decodeSingleCoord(FindImageInPlace2("Error", $g_sImgError, 630, 270 + $g_iMidOffsetY, 632, 290 + $g_iMidOffsetY, False))) > 1 Then
@@ -95,9 +99,9 @@ Func _checkObstacles($bBuilderBase = False, $bRecursive = False) ;Checks if some
 		Return checkObstacles_ReloadCoC($bRecursive) ; Unknown Error Message, Try To Restart COC
 					
 	EndIf
-	
-	;;;;;;;;;;;;;;;;;;;; Amazon Or Google Play Error ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-	If CheckAllObstacles($g_bDebugImageSave, 5, 6, $bRecursive) Then Return True
+
+	;;;;;;;;;;;;;;;;;;;; Amazon ,Google Play Or COC Error ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+	If CheckAllObstacles($g_bDebugImageSave, 5, 7, $bRecursive) Then Return True
 	;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 				
 	If UBound(decodeSingleCoord(FindImageInPlace2("Maintenance", $g_sImgMaintenance, 270, 40 + $g_iMidOffsetY, 640, 130 + $g_iMidOffsetY, False))) > 1 Then ; Maintenance Break
@@ -346,7 +350,7 @@ Func ClashOfMagicAdvert($bDebugImageSave = $g_bDebugImageSave)
 	Return False
 EndFunc
  
-Func CheckAllObstacles($bDebugImageSave = $g_bDebugImageSave, $MinType = 0, $MaxType = 6, $bRecursive = False)
+Func CheckAllObstacles($bDebugImageSave = $g_bDebugImageSave, $MinType = 0, $MaxType = 7, $bRecursive = False)
 
 	Local $bRet = False, $Ref
 	Local $aiIsAnotherDevice = False
@@ -359,40 +363,42 @@ Func CheckAllObstacles($bDebugImageSave = $g_bDebugImageSave, $MinType = 0, $Max
 	;; 4 : Important Notice Then Click On "OK"
 	;; 5 : Google Play Services Has Stopped Then Click on "OK"
 	;; 6 : Amazon AppStore Connection Failure Then Click on "OK"
-	;; 7 : Another Device Connected Then Wait $g_iAnotherDeviceWaitTime Then Click on "Reload"
+	;; 7 : Clash Of Clan isn't responding Then Reboot Emulator
+	;; 8 : Another Device Connected Then Wait $g_iAnotherDeviceWaitTime Then Click on "Reload"
 
-	Local $aiObstacleType[8][7] = [["", "Detected Connection Lost!", $sImgConnectionLost, 170, 260, 400, 320], _
+	Local $aiObstacleType[9][7] = [["", "Detected Connection Lost!", $sImgConnectionLost, 170, 260, 400, 320], _
 	["", "Detected Out Of Sync!", $sImgOos, 330, 310, 460, 350], _
 	["", "Detected Personnal/Extended Break!", $g_sImgPersonalBreak, 170, 260, 400, 320], _
 	["", "Detected Rate Game!", $sImgRateGame, 170, 260, 400, 320], _
 	["", "Detected Important Notice!", $sImgNotice, 170, 250, 400, 300], _
 	["", "Detected Google Play Services Has Stopped!", $sImgGPServices, 280, 300, 410, 340], _
 	["", "Detected Amazon AppStore Connection Failure!", $sImgAmazonFailure, 220, 255, 380, 295], _
+	["", "Detected COC isn't Responding!!", $sImgClashNotResponding, 210, 270, 360, 340], _
 	["", "Detected Another Device Connected!!", $sImgDevice, 220, 300, 360, 360]]
-	
+
 	Local $aiButtonType[5][6] = [["", $sImgReloadBtn, 170, 365, 330, 420], _
 	["", $sImgNeverBtn, 540, 365, 700, 420], _
 	["", $sImgOKBtn, 170, 370, 270, 430], _
 	["", $sImgOKBtn, 630, 355, 700, 385], _
 	["", $sImgOKBtn, 400, 380, 460, 410]]
-										
+					
 	; Initial Timer
 	Local $hTimer = TimerInit()									
-	
+
 	For $i = $MinType To $MaxType
-	
+
 		$aiObstacleType[$i][0] = decodeSingleCoord(FindImageInPlace2("ErrorType", $aiObstacleType[$i][2], $aiObstacleType[$i][3], $aiObstacleType[$i][4] + _
 								 $g_iMidOffsetY, $aiObstacleType[$i][5], $aiObstacleType[$i][6] + $g_iMidOffsetY, False))
 
 		If IsArray($aiObstacleType[$i][0]) And UBound($aiObstacleType[$i][0], 1) = 2 Then
 
 			SetLog($aiObstacleType[$i][1] & " (in " & Round(TimerDiff($hTimer) / 1000, 2) & " seconds)", $COLOR_INFO)
-		
+
 			If $i = 0 Then
-				$aiObstacleType[7][0] = decodeSingleCoord(FindImageInPlace2("Device", $aiObstacleType[7][2], $aiObstacleType[7][3], $aiObstacleType[7][4] + _
-								        $g_iMidOffsetY, $aiObstacleType[7][5], $aiObstacleType[7][6] + $g_iMidOffsetY, False))
-				If IsArray($aiObstacleType[7][0]) And UBound($aiObstacleType[7][0], 1) = 2 Then
-					SetLog($aiObstacleType[7][1] & " (in " & Round(TimerDiff($hTimer) / 1000, 2) & " seconds)", $COLOR_INFO)
+				$aiObstacleType[8][0] = decodeSingleCoord(FindImageInPlace2("Device", $aiObstacleType[8][2], $aiObstacleType[8][3], $aiObstacleType[8][4] + _
+										$g_iMidOffsetY, $aiObstacleType[8][5], $aiObstacleType[8][6] + $g_iMidOffsetY, False))
+				If IsArray($aiObstacleType[8][0]) And UBound($aiObstacleType[8][0], 1) = 2 Then
+					SetLog($aiObstacleType[8][1] & " (in " & Round(TimerDiff($hTimer) / 1000, 2) & " seconds)", $COLOR_INFO)
 					If $g_iAnotherDeviceWaitTime > 3600 Then
 						SetLog("Another Device has connected, waiting " & Floor(Floor($g_iAnotherDeviceWaitTime / 60) / 60) & " hours " & Floor(Mod(Floor($g_iAnotherDeviceWaitTime / 60), 60)) & " minutes " & Floor(Mod($g_iAnotherDeviceWaitTime, 60)) & " seconds", $COLOR_ERROR)
 						PushMsg("AnotherDevice3600")
@@ -412,14 +418,18 @@ Func CheckAllObstacles($bDebugImageSave = $g_bDebugImageSave, $MinType = 0, $Max
 				If TestCapture() Then Return "Village must take a break"
 				PushMsg("TakeBreak")
 				If _SleepStatus($DELAYCHECKOBSTACLES4) Then Return ; 2 Minutes
+			ElseIf $i = 7 Then
+				checkObstacles_RebootAndroid(False, False, True)
+				$bRet = True
+				ExitLoop
 			EndIf	
-		
+
 			If _Sleep(100) Then Return
-		
+
 			SetDebugLog("Searching for Button ...", $COLOR_INFO)
-	
+
 			; Find OK, Reload, Try Again, Never, No Thanks buttons
-			
+
 			Switch $i
 				Case 0 To 2
 					$Ref = 0
@@ -432,45 +442,46 @@ Func CheckAllObstacles($bDebugImageSave = $g_bDebugImageSave, $MinType = 0, $Max
 				Case 6
 					$Ref = 4
 			EndSwitch
-			
+
 			$aiButtonType[$Ref][0] = decodeSingleCoord(FindImageInPlace2("Button", $aiButtonType[$Ref][1], $aiButtonType[$Ref][2], $aiButtonType[$Ref][3] + _
 								   $g_iMidOffsetY, $aiButtonType[$Ref][4], $aiButtonType[$Ref][5] + $g_iMidOffsetY, False))
-			
+
 			If IsArray($aiButtonType[$Ref][0]) And UBound($aiButtonType[$Ref][0], 1) = 2 Then
 			
 				If _Sleep(100) Then Return
 				SetDebugLog("Found button....", $COLOR_SUCCESS1)
 				PureClickP($aiButtonType[$Ref][0])
 				If _Sleep($DELAYCHECKOBSTACLES1) Then Return
-				
+
 				If ($i = 0 And $aiIsAnotherDevice) Or $i = 2 Then
 					If $g_bForceSinglePBLogoff Then $g_bGForcePBTUpdate = True
 					checkObstacles_ResetSearch()
 				ElseIf $i > 2 Then
 					$g_bMinorObstacle = True
+					ExitLoop
 				EndIf
-				
+
 			Else
 				If $bDebugImageSave Then SaveDebugImage("CheckObstacles")
 				SetDebugLog("Failed to find Button", $COLOR_DEBUG)
-				
+
 				If $i = 5 Or $i = 6 Then
 					checkObstacles_RebootAndroid(False, False, True)
 				Else
 					checkObstacles_ReloadCoC($bRecursive)
 				EndIf
-				
+
 			EndIf
-		
+
 			$bRet = True
 			ExitLoop
 
 		EndIf
 
 	Next	
-	
+
 	SetDebugLog("No Obstacle Window found! (in " & Round(TimerDiff($hTimer) / 1000, 2) & " seconds)", $COLOR_DEBUG)
-	
+
 	Return $bRet
 
 EndFunc

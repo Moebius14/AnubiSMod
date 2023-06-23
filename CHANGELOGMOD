@@ -1,5 +1,14 @@
-* v23.05.xx **
-
+* v23.06.23 **
+* Improved Builder Time OCR
+* Fixed Not Reduce Aim Loot Search When Full Storages And Running Loot Challenge.
+* Added New Challenges To Clan Games.
+* Adjusted "Reinforce" Button tolerance.
+* Added Support For "Gear Up" Upgrade.
+* Added additional Gfx error support.
+* Improved some CSV.
+* Fixed Wall Upgrade Resources Attributes.
+* Improved Chat Scroll up and down.
+* Improved Donate Count For Train Donated Troops.
 
 * v23.05.22 **
 * Remove Forecaster (RIP)
