@@ -3,7 +3,7 @@
 ; Description ...: Upgrade Pets
 ; Author ........: GrumpyHog (2021-04)
 ; Modified ......:
-; Remarks .......: This file is part of MyBot Copyright 2015-2021
+; Remarks .......: This file is part of MyBot Copyright 2015-2023
 ;                  MyBot is distributed under the terms of the GNU GPL
 ; Related .......: Returns True or False
 ; Link ..........: https://github.com/MyBotRun/MyBot/wiki
@@ -320,7 +320,7 @@ Func PetHouse($test = False)
 							If _Sleep($DELAYLABORATORY2) Then Return
 							Local $sPetTimeOCR = getRemainTLaboratory(274, 256 + $g_iMidOffsetY)
 							If $sPetTimeOCR = "" Then $sPetTimeOCR = getPetUpgradeTime(274, 260 + $g_iMidOffsetY)
-							Local $iPetFinishTime = ConvertOCRTime("Lab Time", $sPetTimeOCR, False)
+							Local $iPetFinishTime = ConvertOCRTime("Lab Time", $sPetTimeOCR, False) + 1
 							SetDebugLog("$sPetTimeOCR: " & $sPetTimeOCR & ", $iPetFinishTime = " & $iPetFinishTime & " m")
 							If $iPetFinishTime > 0 Then
 								$g_sPetUpgradeTime = _DateAdd('n', Ceiling($iPetFinishTime), _NowCalc())
@@ -364,7 +364,7 @@ Func CheckPetUpgrade()
 		; upgrade in process and time not recorded so update completion time!
 		Local $sPetTimeOCR = getRemainTLaboratory(274, 256 + $g_iMidOffsetY)
 		If $sPetTimeOCR = "" Then $sPetTimeOCR = getPetUpgradeTime(274, 260 + $g_iMidOffsetY)
-		Local $iPetFinishTime = ConvertOCRTime("Lab Time", $sPetTimeOCR, False)
+		Local $iPetFinishTime = ConvertOCRTime("Lab Time", $sPetTimeOCR, False) + 1
 		SetDebugLog("$sPetTimeOCR: " & $sPetTimeOCR & ", $iPetFinishTime = " & $iPetFinishTime & " m")
 		If $iPetFinishTime > 0 Then
 			$g_sPetUpgradeTime = _DateAdd('n', Ceiling($iPetFinishTime), _NowCalc())
@@ -554,7 +554,7 @@ Func PetGuiDisplay()
 		If _Sleep($DELAYLABORATORY2) Then Return
 		Local $sPetTimeOCR = getRemainTLaboratory(274, 256 + $g_iMidOffsetY)
 		If $sPetTimeOCR = "" Then $sPetTimeOCR = getPetUpgradeTime(274, 260 + $g_iMidOffsetY)
-		Local $iPetFinishTime = ConvertOCRTime("Lab Time", $sPetTimeOCR, False)
+		Local $iPetFinishTime = ConvertOCRTime("Lab Time", $sPetTimeOCR, False) + 1
 		SetDebugLog("$sPetTimeOCR: " & $sPetTimeOCR & ", $iPetFinishTime = " & $iPetFinishTime & " m")
 		If $iPetFinishTime > 0 Then
 			$g_sPetUpgradeTime = _DateAdd('n', Ceiling($iPetFinishTime), _NowCalc())
@@ -766,8 +766,8 @@ If $g_bUsePetPotion And $iPetFinishTimeMod > 1440 Then ; only use potion if Pet 
 	If IsArray($PetPotion) And UBound($PetPotion) = 2 Then
 		$IsPetPotInStock = 1
 		SetLog("Use Pet Potion", $COLOR_INFO)
-		Local $PetBoosted = FindButton("PetBoosted")
-		If IsArray($PetBoosted) And UBound($PetBoosted) = 2 Then ; Lab already boosted skip using potion
+		Local $PetBoosted = FindButton("LabBoosted")
+		If IsArray($PetBoosted) And UBound($PetBoosted) = 2 Then ; Pet House already boosted skip using potion
 			SetLog("Detected Pet House already boosted", $COLOR_INFO)
 			If _Sleep(1000) Then Return
 			ClickAway()

@@ -5,8 +5,8 @@
 ; Parameters ....:
 ; Return values .: None
 ; Author ........: ProMac (2015), HungLe (2015)
-; Modified ......: Sardo (08-2015), KnowJack (08-2015), MonkeyHunter(06-2016) , trlopes (07-2016)
-; Remarks .......: This file is part of MyBot, previously known as ClashGameBot. Copyright 2015-2021
+; Modified ......: Sardo (08-2015), KnowJack (08-2015), MonkeyHunter(06-2016) , trlopes (07-2016), Moebius14 (07-2023)
+; Remarks .......: This file is part of MyBot, previously known as ClashGameBot. Copyright 2015-2023
 ;                  MyBot is distributed under the terms of the GNU GPL
 ; Related .......: checkwall.au3
 ; Link ..........: https://github.com/MyBotRun/MyBot/wiki
@@ -23,21 +23,49 @@ Func UpgradeWall()
 	If $g_bAutoUpgradeWallsEnable = True Then
 		SetLog("Checking Upgrade Walls", $COLOR_INFO)
 		SetDebugLog("$iWallCost:" & $iWallCost)
-
-		Switch SkipWallUpgrade($iWallCost)
-			Case "Gold"
-				$g_iUpgradeWallLootTypeRestricted = 0
-			Case "Elixir"
-				$g_iUpgradeWallLootTypeRestricted = 1
-			Case "Skip"
-				Return
-			Case "OK"
-				$g_iUpgradeWallLootTypeRestricted = $g_iUpgradeWallLootType
-		EndSwitch
+		Local $ToSkip = False
 
 		SetDebugLog("$g_iFreeBuilderCount:" & $g_iFreeBuilderCount)
 		If $g_iFreeBuilderCount > 0 Then
 			ClickAway()
+
+			While 1
+				If $g_iHowUseWallRings = 1 Then ; First
+					If imglocCheckWall() Then
+						Switch WallRings()
+							Case "WRUsed"
+								ContinueLoop
+							Case "Cancel", "Locked"
+								CloseWindow()
+								ExitLoop
+							Case "NoButton","NotEnough"
+								ExitLoop
+						EndSwitch
+					ElseIf SwitchToNextWallLevel() Then
+						SetLog("No more walls of current level, switching to next", $COLOR_ACTION)
+						ContinueLoop
+					Else
+						ExitLoop
+					EndIf
+				Else
+					ExitLoop
+				EndIf
+			Wend
+
+			ClickAway()
+
+			Switch SkipWallUpgrade($iWallCost)
+				Case "Gold"
+					$g_iUpgradeWallLootTypeRestricted = 0
+				Case "Elixir"
+					$g_iUpgradeWallLootTypeRestricted = 1
+				Case "Skip"
+					UseWallRingsWOU()
+					Return
+				Case "OK"
+					$g_iUpgradeWallLootTypeRestricted = $g_iUpgradeWallLootType
+			EndSwitch
+
 			Local $MinWallGold = Number($g_aiCurrentLoot[$eLootGold] - $iWallCost) >= Number($g_iUpgradeWallMinGold) ; Check if enough Gold
 			Local $MinWallElixir = Number($g_aiCurrentLoot[$eLootElixir] - $iWallCost) >= Number($g_iUpgradeWallMinElixir) ; Check if enough Elixir
 			Local $bResult = 0
@@ -147,74 +175,53 @@ Func UpgradeWall()
 
 				ClickAway()
 				VillageReport(True, True)
-				
+
 				Switch SkipWallUpgrade($iWallCost)
 					Case "Gold"
 						$g_iUpgradeWallLootTypeRestricted = 0
 					Case "Elixir"
 						$g_iUpgradeWallLootTypeRestricted = 1
-			;		Case "Skip"
-			;			Return
+					Case "Skip"
+						$ToSkip = True
 					Case "OK"
 						$g_iUpgradeWallLootTypeRestricted = $g_iUpgradeWallLootType
 				EndSwitch
 
 				$MinWallGold = Number($g_aiCurrentLoot[$eLootGold] - $iWallCost) > Number($g_iUpgradeWallMinGold) ; Check if enough Gold
 				$MinWallElixir = Number($g_aiCurrentLoot[$eLootElixir] - $iWallCost) > Number($g_iUpgradeWallMinElixir) ; Check if enough Elixir
-				
-				If ($g_iUpgradeWallLootTypeRestricted = 0 And $MinWallGold) Or ($g_iUpgradeWallLootTypeRestricted = 1 And $MinWallElixir) Or _
-				($g_iUpgradeWallLootTypeRestricted = 2 And ($MinWallGold Or $MinWallElixir)) Then ContinueLoop
 
-				While 1
-					If $g_iHowUseWallRings = 2 Then
-						If imglocCheckWall() Then
-							Switch WallRings()
-								Case "WRUsed"
-									ClickAway()
-									ContinueLoop 2
-								Case "NoButton","NotEnough"
-									ClickAway()
-									Return
-								Case "Cancel"
-									CloseWindow()
-									ContinueLoop 2
-								Case "Locked"
-									CloseWindow()
-									Return
-							EndSwitch
-						ElseIf SwitchToNextWallLevel() Then
-							SetLog("No more walls of current level, switching to next", $COLOR_ACTION)
-							ContinueLoop 2
+				If $ToSkip Then
+					While 1
+						If $g_iHowUseWallRings = 2 Then ; If not enough resource after Upgrade
+							If imglocCheckWall() Then
+								Switch WallRings()
+									Case "WRUsed"
+										ClickAway()
+										ContinueLoop
+									Case "NoButton","NotEnough"
+										ClickAway()
+										Return
+									Case "Cancel", "Locked"
+										CloseWindow()
+										Return
+								EndSwitch
+							ElseIf SwitchToNextWallLevel() Then
+								SetLog("No more walls of current level, switching to next", $COLOR_ACTION)
+								ContinueLoop
+							Else
+								Return
+							EndIf
 						Else
-							Return
+							ExitLoop 2
 						EndIf
-					Else
-						ExitLoop
-					EndIf
-				Wend
+					Wend
+				Else
+					If ($g_iUpgradeWallLootTypeRestricted = 0 And $MinWallGold) Or ($g_iUpgradeWallLootTypeRestricted = 1 And $MinWallElixir) Or _
+						($g_iUpgradeWallLootTypeRestricted = 2 And ($MinWallGold Or $MinWallElixir)) Then ContinueLoop
+				EndIf	
 
 			WEnd
-			
-			While 1
-				If $g_iHowUseWallRings <> 2 Then ExitLoop
-				If imglocCheckWall() Then
-					Switch WallRings()
-						Case "WRUsed"
-							ContinueLoop
-						Case "Cancel", "Locked"
-							CloseWindow()
-							ExitLoop
-						Case "NoButton","NotEnough"
-							ExitLoop
-					EndSwitch
-				ElseIf SwitchToNextWallLevel() Then
-					SetLog("No more walls of current level, switching to next", $COLOR_ACTION)
-					ContinueLoop
-				Else
-					ExitLoop
-				EndIf
-			Wend
-		
+
 			ClickAway()
 		Else
 			SetLog("No free builder, Upgrade Walls skipped..", $COLOR_ERROR)
@@ -227,23 +234,38 @@ Func UpgradeWall()
 
 EndFunc   ;==>UpgradeWall
 
+Func UseWallRingsWOU()
+	While 1
+		If $g_iHowUseWallRings = 2 Then ; If not enough resource without Upgrade
+			If imglocCheckWall() Then
+				Switch WallRings()
+					Case "WRUsed"
+						ClickAway()
+						ContinueLoop
+					Case "NoButton","NotEnough"
+						ClickAway()
+						Return
+					Case "Cancel", "Locked"
+						CloseWindow()
+						Return
+				EndSwitch
+			ElseIf SwitchToNextWallLevel() Then
+				SetLog("No more walls of current level, switching to next", $COLOR_ACTION)
+				ContinueLoop
+			Else
+				Return
+			EndIf
+		Else
+			ExitLoop
+		EndIf
+	Wend
+	ClickAway()
+EndFunc
+
 
 Func UpgradeWallGold($iWallCost = $g_iWallCost)
 
 	If _Sleep($DELAYRESPOND) Then Return
-	
-	If $g_iHowUseWallRings = 1 Then
-		SetLog("Upgrading Wall using Wall Rings First", $COLOR_SUCCESS)
-		Switch WallRings()
-			Case "WRUsed"
-				Return "Updated"
-			Case "Cancel"
-				ClickAway()
-			Case "Locked"
-				CloseWindow()
-				Return "Locked"
-		EndSwitch
-	EndIf
 
 	Local $aUpgradeButton = findButton("Upgrade", Default, 2, True)
 	If IsArray($aUpgradeButton) And UBound($aUpgradeButton) > 0 Then
@@ -265,7 +287,7 @@ Func UpgradeWallGold($iWallCost = $g_iWallCost)
 			ClickAway()
 			Return "Locked"
 		EndIf
-	
+
 		If isNoUpgradeLoot(False) = True Then
 			SetLog("Upgrade stopped due no loot", $COLOR_ERROR)
 			Return "No"
@@ -303,19 +325,6 @@ EndFunc   ;==>UpgradeWallGold
 Func UpgradeWallElixir($iWallCost)
 
 	If _Sleep($DELAYRESPOND) Then Return
-	
-	If $g_iHowUseWallRings = 1 Then
-		SetLog("Upgrading Wall using Wall Rings First", $COLOR_SUCCESS)
-		Switch WallRings()
-			Case "WRUsed"
-				Return "Updated"
-			Case "Cancel"
-				ClickAway()
-			Case "Locked"
-				CloseWindow()
-				Return "Locked"
-		EndSwitch
-	EndIf
 
 	Local $aUpgradeButton = findButton("Upgrade", Default, 2, True)
 	If IsArray($aUpgradeButton) And UBound($aUpgradeButton) > 0 Then
@@ -325,19 +334,19 @@ Func UpgradeWallElixir($iWallCost)
 					Click($aUpgradeButton[$i][0], $aUpgradeButton[$i][1])
 					ExitLoop
 				EndIf
-			EndIf	
+			EndIf
 		Next
 	EndIf
 
 	If _Sleep($DELAYUPGRADEWALLELIXIR2) Then Return
 
 	If _ColorCheck(_GetPixelColor(677, 150 + $g_iMidOffsetY, True), Hex(0xE1090E, 6), 20) Then
-	
+
 		If Not IsUpgradeWallsPossible() Then
 			ClickAway()
 			Return "Locked"
 		EndIf
-	
+
 		If isNoUpgradeLoot(False) = True Then
 			SetLog("Upgrade stopped due to insufficient loot", $COLOR_ERROR)
 			Return "No"
@@ -419,19 +428,12 @@ Func SkipWallUpgrade($iWallCost = $g_iWallCost) ; Dynamic Upgrades
 				Return "Skip"
 			EndIf
 		Case 2 ; Using gold and elixir
-			If $g_aiCurrentLoot[$eLootGold] - ($iWallCost + Number($g_iUpgradeWallMinGold)) < 0 Then
-				SetLog("Wall upgrade: insufficient gold for Wall upgrade", $COLOR_WARNING)
-				If $g_aiCurrentLoot[$eLootElixir] - ($iWallCost + Number($g_iUpgradeWallMinElixir)) < 0 Then
-					SetLog("Skip Wall upgrade - insufficient resources for Wall upgrade", $COLOR_WARNING)
-					Return "Skip"
-				EndIf
-			EndIf
 			If $g_aiCurrentLoot[$eLootElixir] - ($iWallCost + Number($g_iUpgradeWallMinElixir)) < 0 Then
-				SetLog("Wall upgrade: insufficient elixir for Wall upgrade", $COLOR_WARNING)
 				If $g_aiCurrentLoot[$eLootGold] - ($iWallCost + Number($g_iUpgradeWallMinGold)) < 0 Then
-					SetLog("Skip Wall upgrade - insufficient resources for Wall upgrade", $COLOR_WARNING)
+					SetLog("Skip Wall upgrade - insufficient gold and elixir for Wall upgrade", $COLOR_WARNING)
 					Return "Skip"
 				EndIf
+				SetLog("Skip Wall upgrade - insufficient elixir for Wall upgrade", $COLOR_WARNING)
 			EndIf
 	EndSwitch
 
@@ -468,25 +470,17 @@ Func SkipWallUpgrade($iWallCost = $g_iWallCost) ; Dynamic Upgrades
 						Return "Skip"
 					EndIf
 				Case 2 ; Using gold and elixir
-					If $g_aiCurrentLoot[$eLootGold] - ($iBuildingsNeedGold + $iWallCost + Number($g_iUpgradeWallMinGold)) < 0 Then
-						If $iBuildingsNeedGold > 0 Then SetLog("Wall upgrade: insufficient gold for selected upgrades", $COLOR_WARNING)
-						If $g_aiCurrentLoot[$eLootElixir] - ($iBuildingsNeedElixir + $iWallCost + Number($g_iUpgradeWallMinElixir)) >= 0 Then
-							If $iBuildingsNeedElixir > 0 Then SetLog("Using Elixir only for wall Upgrade", $COLOR_SUCCESS1)
-							Return "Elixir"
-						Else
-							SetLog("Skip Wall upgrade - insufficient resources for selected upgrades", $COLOR_WARNING)
-							Return "Skip"
-						EndIf
-					EndIf
 					If $g_aiCurrentLoot[$eLootElixir] - ($iBuildingsNeedElixir + $iWallCost + Number($g_iUpgradeWallMinElixir)) < 0 Then
 						If $iBuildingsNeedElixir > 0 Then SetLog("Wall upgrade: insufficient elixir for selected upgrades", $COLOR_WARNING)
-						If $g_aiCurrentLoot[$eLootGold] - ($iBuildingsNeedGold + $iWallCost + Number($g_iUpgradeWallMinGold)) >= 0 Then
+						If $g_aiCurrentLoot[$eLootGold] - ($iBuildingsNeedGold + $iWallCost + Number($g_iUpgradeWallMinGold)) < 0 Then
+							SetLog("Skip Wall upgrade - insufficient gold and elixir for selected upgrades", $COLOR_WARNING)
+							Return "Skip"
+						Else
 							SetLog("Using Gold only for Wall Upgrade", $COLOR_SUCCESS1)
 							Return "Gold"
-						Else
-							SetLog("Skip Wall upgrade - insufficient resources for selected upgrades", $COLOR_WARNING)
-							Return "Skip"
 						EndIf
+					Else
+						Return "Elixir"
 					EndIf
 			EndSwitch
 		EndIf
@@ -496,15 +490,17 @@ Func SkipWallUpgrade($iWallCost = $g_iWallCost) ; Dynamic Upgrades
 
 	;   Is Warden Level updated |          Is Warden not max yet           |  Is Upgrade enabled       |               Is Warden not already upgrading                |               Is a Builder available
 	If ($g_iWardenLevel <> -1) And ($g_iWardenLevel < $g_iMaxWardenLevel) And $g_bUpgradeWardenEnable And BitAND($g_iHeroUpgradingBit, $eHeroWarden) <> $eHeroWarden And ($g_iFreeBuilderCount > ($g_bUpgradeWallSaveBuilder ? 1 : 0)) Then
-		Local $bMinWardenElixir = Number($g_aiCurrentLoot[$eLootElixir]) > ($iWallCost + $g_afWardenUpgCost[$g_iWardenLevel] * 1000000 + Number($g_iUpgradeWallMinElixir))
+;		Local $bMinWardenElixir = Number($g_aiCurrentLoot[$eLootElixir]) > ($iWallCost + $g_afWardenUpgCost[$g_iWardenLevel] * 1000000 + Number($g_iUpgradeWallMinElixir))
+		Local $g_ExactWardenCost = ($g_afWardenUpgCost[$g_iWardenLevel] * 1000000) - ($g_afWardenUpgCost[$g_iWardenLevel] * 1000000) * Number($g_iBuilderBoostDiscount) / 100
+		Local $bMinWardenElixir = Number($g_aiCurrentLoot[$eLootElixir]) > $iWallCost + $g_ExactWardenCost + Number($g_iUpgradeWallMinElixir)
 		If Not $bMinWardenElixir Then
 			Switch $g_iUpgradeWallLootType
 				Case 1 ; Elixir
-					SetLog("Grand Warden needs " & ($g_afWardenUpgCost[$g_iWardenLevel] * 1000000) & " Elixir for next Level", $COLOR_WARNING)
+					SetLog("Grand Warden needs " & $g_ExactWardenCost & " Elixir for next Level", $COLOR_WARNING)
 					SetLog("Skipping Wall Upgrade", $COLOR_WARNING)
 					Return "Skip"
 				Case 2 ; Elixir & Gold
-					SetLog("Grand Warden needs " & ($g_afWardenUpgCost[$g_iWardenLevel] * 1000000) & " Elixir for next Level", $COLOR_SUCCESS1)
+					SetLog("Grand Warden needs " & $g_ExactWardenCost & " Elixir for next Level", $COLOR_SUCCESS1)
 					SetLog("Using Gold only for Wall Upgrade", $COLOR_SUCCESS1)
 					Return "Gold"
 			EndSwitch
@@ -538,9 +534,9 @@ Func SwitchToNextWallLevel() ; switches wall level to upgrade to next level
 		SetDebugLog("$g_iCmbUpgradeWallsLevel = " & $g_iCmbUpgradeWallsLevel)
 
 		EnableGuiControls()
-		
+
 		_GUICtrlComboBox_SetCurSel($g_hCmbWalls, $g_iCmbUpgradeWallsLevel + 1)
-		
+
 		cmbWalls()
 		SaveConfig()
 		DisableGuiControls()
@@ -557,11 +553,11 @@ Func WallRings()
 		SetLog("Trying Upgrade Wall Using Wall Rings", $COLOR_INFO)
 		Click($WallRing[0] - 14, $WallRing[1])
 		If _Sleep(1000) Then Return
-		
+
 		If Not _ColorCheck(_GetPixelColor(688, 176, True), "FFFFFF", 10) Then Return "NotEnough"
-		
+
 		If Not IsUpgradeWallsPossible() Then Return "Locked"
-		
+
 		$WRNeeded = getOcrAndCapture("coc-WR", 410, 483 + $g_iMidOffsetY, 35, 28)
 		If $WRNeeded = "" Then
 			SetLog("Bad OCR Read, Skip", $COLOR_ERROR)
@@ -576,7 +572,7 @@ Func WallRings()
 				Return "Cancel"
 			EndIf
 		EndIf
-		
+
 		If Not $g_bRunState Then Return
 		If ClickB("WallRingConfirm") Then
 			If isGemOpen(True) Then ; Should never happens

@@ -6,7 +6,7 @@
 ; Return values .: None
 ; Author ........: Demen
 ; Modified ......:
-; Remarks .......: This file is part of MyBot, previously known as ClashGameBot. Copyright 2015-2016
+; Remarks .......: This file is part of MyBot, previously known as ClashGameBot. Copyright 2015-2023
 ;                  MyBot is distributed under the terms of the GNU GPL
 ; Related .......:
 ; Link ..........: https://github.com/MyBotRun/MyBot/wiki
@@ -110,6 +110,7 @@ Func SwitchAccountVariablesReload($sType = "Load", $iAccount = $g_iCurAccount)
 	Static $SIsBOSJustCollected = $aiZero
 	Static $SIsResPotJustCollected = $aiZero
 	Static $SIsPetPotJustCollected = $aiZero
+	Static $SIsAutoForgeSlotJustCollected = $aiZero
 
 	; Hero State
 	Static $aiHeroAvailable = $aiZero
@@ -249,6 +250,7 @@ Func SwitchAccountVariablesReload($sType = "Load", $iAccount = $g_iCurAccount)
 			$SIsBOSJustCollected = $aiZero
 			$SIsResPotJustCollected = $aiZero
 			$SIsPetPotJustCollected = $aiZero
+			$SIsAutoForgeSlotJustCollected = $aiZero
 			
 			;Daily Challenge
 			$gaSsNewChallengeTime = $aiZero
@@ -435,6 +437,7 @@ Func SwitchAccountVariablesReload($sType = "Load", $iAccount = $g_iCurAccount)
 			$SIsBOSJustCollected[$iAccount] = $IsBOSJustCollected
 			$SIsResPotJustCollected[$iAccount] = $IsResPotJustCollected
 			$SIsPetPotJustCollected[$iAccount] = $IsPetPotJustCollected
+			$SIsAutoForgeSlotJustCollected[$iAccount] = $IsAutoForgeSlotJustCollected
 			
 			;Daily challenge
 			$gaSsNewChallengeTime[$iAccount] = $g_sNewChallengeTime
@@ -612,6 +615,7 @@ Func SwitchAccountVariablesReload($sType = "Load", $iAccount = $g_iCurAccount)
 			$IsBOSJustCollected = $SIsBOSJustCollected[$iAccount]
 			$IsResPotJustCollected = $SIsResPotJustCollected[$iAccount]
 			$IsPetPotJustCollected = $SIsPetPotJustCollected[$iAccount]
+			$IsAutoForgeSlotJustCollected = $SIsAutoForgeSlotJustCollected[$iAccount]
 			
 			;Daily challenge
 			$g_sNewChallengeTime = $gaSsNewChallengeTime[$iAccount]

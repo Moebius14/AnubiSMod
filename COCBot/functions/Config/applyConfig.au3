@@ -6,7 +6,7 @@
 ; Return values .: NA
 ; Author ........:
 ; Modified ......: CodeSlinger69 (01-2017)
-; Remarks .......: This file is part of MyBot, previously known as ClashGameBot. Copyright 2015-2021
+; Remarks .......: This file is part of MyBot, previously known as ClashGameBot. Copyright 2015-2023
 ;                  MyBot is distributed under the terms of the GNU GPL
 ; Related .......:
 ; Link ..........: https://github.com/MyBotRun/MyBot/wiki
@@ -434,8 +434,7 @@ Func ApplyConfig_600_6($TypeReadSave)
 			GUICtrlSetData($g_hTxtBBTrophyUpperLimit, $g_iTxtBBTrophyUpperLimit)
 			GUICtrlSetState($g_hChkBBAttIfLootAvail, $g_bChkBBAttIfLootAvail ? $GUI_CHECKED : $GUI_UNCHECKED)
 			GUICtrlSetState($g_hChkBBWaitForMachine, $g_bChkBBWaitForMachine ? $GUI_CHECKED : $GUI_UNCHECKED)
-			GUICtrlSetState($g_hChkBBHaltOnGoldFull, $g_bChkBBHaltOnGoldFull ? $GUI_CHECKED : $GUI_UNCHECKED)
-			GUICtrlSetState($g_hChkBBHaltOnElixirFull, $g_bChkBBHaltOnElixirFull ? $GUI_CHECKED : $GUI_UNCHECKED)
+			GUICtrlSetState($g_hChkBBHaltOnResourcesFull, $g_bChkBBHaltOnResourcesFull ? $GUI_CHECKED : $GUI_UNCHECKED)
 			_GUICtrlComboBox_SetCurSel($g_hCmbBBNextTroopDelay, (($g_iBBNextTroopDelay - $g_iBBNextTroopDelayDefault) / $g_iBBNextTroopDelayIncrement) + 4) ; set combos based on delays
 			_GUICtrlComboBox_SetCurSel($g_hCmbBBSameTroopDelay, (($g_iBBSameTroopDelay - $g_iBBSameTroopDelayDefault) / $g_iBBSameTroopDelayIncrement) + 4)
 			_GUICtrlComboBox_SetCurSel($g_hCmbBBAttackCount, $g_iBBAttackCount)
@@ -448,39 +447,17 @@ Func ApplyConfig_600_6($TypeReadSave)
 				GUICtrlSetState($g_hBtnBBDropOrderSet, $GUI_ENABLE)
 				GUICtrlSetState($g_hBtnBBRemoveDropOrder, $GUI_ENABLE)
 				Local $asBBDropOrder = StringSplit($g_sBBDropOrder, "|")
-				If $asBBDropOrder[0] = 11 Then
-				  SetLog("Old Custom Troop List, appending Battle Machine")
-				  ReDim $asBBDropOrder[13]
-				  $asBBDropOrder[12] = "BattleMachine"
-				  $g_sBBDropOrder &= "|BattleMachine"
+				If $asBBDropOrder[0] = 12 Then
+				  SetLog("Old Custom Troop List, appending Electro Wizard")
+				  ReDim $asBBDropOrder[14]
+				  $asBBDropOrder[13] = "ElectroWizard"
+				  $g_sBBDropOrder &= "|ElectroWizard"
 				  SetLog("New List :" & $g_sBBDropOrder)
 			    EndIf
 			    For $i=0 To $g_iBBTroopCount - 1
 					_GUICtrlComboBox_SetCurSel($g_ahCmbBBDropOrder[$i], _GUICtrlComboBox_SelectString($g_ahCmbBBDropOrder[$i], $asBBDropOrder[$i+1]))
 				Next
 				GUICtrlSetBkColor($g_hBtnBBDropOrder, $COLOR_GREEN)
-			EndIf
-			
-			
-			SetLog("BB 2.0 not fully supported", $COLOR_INFO)
-			If $g_bDisableBB Then
-				For $i = 0 To UBound($g_ahCGBBBattleItem) - 1
-					GUICtrlSetState($g_ahCGBBBattleItem[$i], $GUI_UNCHECKED)
-				Next
-				For $i = 0 To UBound($g_ahCGBBDestructionItem) - 1
-					GUICtrlSetState($g_ahCGBBDestructionItem[$i], $GUI_UNCHECKED)
-				Next
-				For $i = 0 To UBound($g_ahCGBBTroopsItem) - 1
-					GUICtrlSetState($g_ahCGBBTroopsItem[$i], $GUI_UNCHECKED)
-				Next
-				For $i = $g_hChkCGBBBattle To $g_hChkCGBBTroops
-					GUICtrlSetState($i, $GUI_UNCHECKED)
-				Next
-				GUICtrlSetState($g_hChkForceBBAttackOnClanGames, $GUI_UNCHECKED + $GUI_DISABLE)
-				GUICtrlSetState($hSearchMainEventFirst, $GUI_CHECKED)
-				For $i = $hSearchBBEventFirst To $hSearchBothVillages
-					GUICtrlSetState($i, $GUI_DISABLE)
-				Next
 			EndIf
 
 			;ClanCapital
@@ -522,6 +499,7 @@ Func ApplyConfig_600_6($TypeReadSave)
 			EnableAutoUpgradeCC()
 			ChkEnablePriorArmyCC()
 			ChkPriorRuinsCC()
+			CCBaseFrequencyDatas()
 			
 			;Planner
 			GUICtrlSetState($g_hChkAttackCGPlannerEnable, $g_bAttackCGPlannerEnable = True ? $GUI_CHECKED : $GUI_UNCHECKED)
@@ -675,8 +653,7 @@ Func ApplyConfig_600_6($TypeReadSave)
 			$g_iTxtBBTrophyUpperLimit = GUICtrlRead($g_hTxtBBTrophyUpperLimit)
 			$g_bChkBBAttIfLootAvail = (GUICtrlRead($g_hChkBBAttIfLootAvail) = $GUI_CHECKED)
 			$g_bChkBBWaitForMachine = (GUICtrlRead($g_hChkBBWaitForMachine) = $GUI_CHECKED)
-			$g_bChkBBHaltOnGoldFull = (GUICtrlRead($g_hChkBBHaltOnGoldFull) = $GUI_CHECKED)
-			$g_bChkBBHaltOnElixirFull = (GUICtrlRead($g_hChkBBHaltOnElixirFull) = $GUI_CHECKED)
+			$g_bChkBBHaltOnResourcesFull = (GUICtrlRead($g_hChkBBHaltOnResourcesFull) = $GUI_CHECKED)
 			
 			;ClanCapital
 			$g_bChkEnableCollectCCGold = (GUICtrlRead($g_hChkEnableCollectCCGold) = $GUI_CHECKED)
@@ -2664,11 +2641,6 @@ Func ApplyConfig_MOD_Humanization($TypeReadSave)
 			cmbWarReplay()
 			GuiLookatCurrentWar()
 			ViewBattleLog()
-			If $g_bDisableBB Then
-				For $i = $g_hLabelBB1 To $g_acmbPause[2]
-					GUICtrlSetState($i, $GUI_DISABLE)
-				Next
-			EndIf
 		Case "Save"
 			$g_bUseBotHumanization = (GUICtrlRead($g_hChkUseBotHumanization) = $GUI_CHECKED)
 			$g_bLookAtRedNotifications = (GUICtrlRead($g_hChkLookAtRedNotifications) = $GUI_CHECKED)

@@ -4,7 +4,7 @@
 ; Syntax ........: $g_sImgxxx = @ScriptDir & "\imgxml\xxx\"
 ; Author ........:
 ; Modified ......:
-; Remarks .......: This file is part of MyBot, previously known as ClashGameBot. Copyright 2015-2019
+; Remarks .......: This file is part of MyBot, previously known as ClashGameBot. Copyright 2015-2023
 ;                  MyBot is distributed under the terms of the GNU GPL
 ; Related .......:
 ; Link ..........: https://github.com/MyBotRun/MyBot/wiki
@@ -39,6 +39,7 @@ Global Const $sImgOKBtn = @ScriptDir & "\imgxml\CheckObstacles\OKBtn*"
 Global Const $sImgClashOfMagicAdvert = @ScriptDir & "\imgxml\CheckObstacles\ClashOfMagicAdvert*"
 Global Const $sImgClashNotResponding = @ScriptDir & "\imgxml\CheckObstacles\NotResp*"
 Global Const $g_sImgCOCUpdate = @ScriptDir & "\imgxml\CheckObstacles\COCUpdate*"
+Global Const $g_sImgClanCapitalResults = @ScriptDir & "\imgxml\other\CCResults*"
 #EndRegion
 
 #Region Main Village
@@ -74,6 +75,7 @@ Global $g_sImgBOFCollectDaily = @ScriptDir & "\imgxml\Research\DailyChallenges\B
 Global $g_sImgBOSCollectDaily = @ScriptDir & "\imgxml\Research\DailyChallenges\BOS\"
 Global $g_sImgResPotCollectDaily = @ScriptDir & "\imgxml\Research\DailyChallenges\ResPot\"
 Global $g_sImgPetPotCollectDaily = @ScriptDir & "\imgxml\Research\DailyChallenges\PetPot\"
+Global $g_sImgAutoForgeSlotDaily = @ScriptDir & "\imgxml\Research\DailyChallenges\AutoForgeSlot\"
 #EndRegion
 
 #Region Clan Capital
@@ -116,19 +118,23 @@ Global $g_sImgCleanBBYard = @ScriptDir & "\imgxml\Resources\ObstaclesBB"
 Global $g_sImgIsOnBB = @ScriptDir & "\imgxml\village\Page\BuilderBase\"
 Global $g_sImgStarLaboratory = @ScriptDir & "\imgxml\Resources\BuildersBase\StarLaboratory"
 Global $g_sImgStarLabElex = @ScriptDir & "\imgxml\Resources\BuildersBase\StarLabElex\StarLabElex*"
-Global $g_sImgBBMachReady = @ScriptDir & "\imgxml\Attack\BuilderBase\BattleMachine\BBMachReady_0_90.xml"
-Global $g_sImgBBNeedTrainTroops = @ScriptDir & "\imgxml\Attack\BuilderBase\TroopStatus\BBNeedTrainTroops_0_90.xml"
-Global $g_sImgBBTroopsTraining = @ScriptDir & "\imgxml\Attack\BuilderBase\TroopStatus\BBTroopsTraining_0_90.xml"
-Global $g_sImgBBBattleStarted = @ScriptDir & "\imgxml\Attack\BuilderBase\BattleStarted\BBBattleStarted_0_90.xml"
-Global $g_sImgBBBattleMachine = @ScriptDir & "\imgxml\Attack\BuilderBase\BattleMachine\BBBattleMachine_0_90.xml"
-Global $g_sImgOkButton = @ScriptDir & "\imgxml\Attack\BuilderBase\OkayButton\OkayButton_0_90.xml"
-Global $g_sImgDirBBTroops = @ScriptDir & "\imgxml\Attack\BuilderBase\BBTroops"
-Global $g_sImgBBLootAvail = @ScriptDir & "\imgxml\Attack\BuilderBase\LootAvail\LootAvail_0_90.xml"
+Global $g_sImgBBMachReady = @ScriptDir & "\imgxml\Attack\BuilderBase\PrepareAttackBB\BattleMachine"
+Global $g_sImgDirBBTroops = @ScriptDir & "\imgxml\Attack\BuilderBase\AttackBB\AttackBar\"
 Global $g_sImgBBAttackButton = @ScriptDir & "\imgxml\Attack\BuilderBase\AttackButton\*"
-Global $g_sImgBBAttackResult = @ScriptDir & "\imgxml\Attack\BuilderBase\AttackResult"
 Global $g_sImgAxes = @ScriptDir & "\imgxml\Resources\BuildersBase\ElixirCart\Axes*"
 Global $g_sImgElixirCart = @ScriptDir & "\imgxml\Resources\BuildersBase\ElixirCart\ElixCart*"
 Global $g_sImgCollectElixirCart = @ScriptDir & "\imgxml\Resources\BuildersBase\ElixirCart\Collect*"
+Global $g_sImgFillTrain = @ScriptDir & "\imgxml\Attack\BuilderBase\PrepareAttackBB\TrainTroop\"
+Global $g_sImgFillCamp = @ScriptDir & "\imgxml\Attack\BuilderBase\PrepareAttackBB\TrainTroop\Camp\"
+Global $sImgTunnel = @ScriptDir & "\imgxml\Resources\BuildersBase\Tunnel\OOTunnel_0_93.xml"
+; Builder Base Attack
+Global $g_sImgBBAttackStart = @ScriptDir & "\imgxml\Attack\BuilderBase\AttackBB\AttackStart\"
+Global $g_sImgChangeTroops = @ScriptDir & "\imgxml\Attack\BuilderBase\ChangeTroops\"
+Global $g_sImgBBAttackBonus = @ScriptDir & "\imgxml\Attack\BuilderBase\AttackBB\AttackBonus\"
+Global $g_sImgBBReturnHome = @ScriptDir & "\imgxml\Attack\BuilderBase\AttackBB\ReturnHome\"
+Global $g_sImgBBBattleMachine = @ScriptDir & "\imgxml\Attack\BuilderBase\AttackBB\AttackBar\Machine\"
+Global $g_sImgDirMachineAbility = @ScriptDir & "\imgxml\Attack\BuilderBase\AttackBB\AttackBar\MachineAbility\"
+Global $g_sImgDirWallBreakerAbility = @ScriptDir & "\imgxml\Attack\BuilderBase\AttackBB\AttackBar\WBAbility\"
 #EndRegion
 
 #Region DonateCC
@@ -156,8 +162,7 @@ Global $g_sImgChatIUnterstand = @ScriptDir & "\imgxml\DonateCC\donateccwbl\iunde
 #EndRegion
 
 #Region Auto Upgrade Builder Base
-Global $g_sImgAutoUpgradeGold = @ScriptDir & "\imgxml\Resources\BuildersBase\AutoUpgrade\Gold"
-Global $g_sImgAutoUpgradeElixir = @ScriptDir & "\imgxml\Resources\BuildersBase\AutoUpgrade\Elixir"
+Global $g_sImgAutoUpgradeBB = @ScriptDir & "\imgxml\Resources\BuildersBase\AutoUpgrade\Resources"
 Global $g_sImgAutoUpgradeWindow = @ScriptDir & "\imgxml\Resources\BuildersBase\AutoUpgrade\Window"
 Global $g_sImgAutoUpgradeNew = @ScriptDir & "\imgxml\Resources\BuildersBase\AutoUpgrade\New"
 Global $g_sImgAutoUpgradeNoRes = @ScriptDir & "\imgxml\Resources\BuildersBase\AutoUpgrade\NoResources"
@@ -251,6 +256,7 @@ Global $directoryTime = @ScriptDir & "\imgxml\Humanization\WarPage\Time"
 Global $ClanPerks = @ScriptDir & "\imgxml\Humanization\ClanPerks"
 Global $g_sHVReplay = @ScriptDir & "\imgxml\Humanization\Replay\HV"
 Global $g_sBBReplay = @ScriptDir & "\imgxml\Humanization\Replay\BB"
+Global $g_sImgBBLive = @ScriptDir & "\imgxml\Humanization\Replay\BBLive"
 Global $g_sImgClanFilter = @ScriptDir & "\imgxml\Humanization\Filter"
 Global $g_sImgReturnHome = @ScriptDir & "\imgxml\Humanization\ReturnHome"
 Global $g_sImgPlayerProfil = @ScriptDir & "\imgxml\Humanization\Profil"

@@ -7,7 +7,7 @@
 ; Return values .: None
 ; Author ........:
 ; Modified ......:
-; Remarks .......: This file is part of MyBot, previously known as ClashGameBot. Copyright 2015-2019
+; Remarks .......: This file is part of MyBot, previously known as ClashGameBot. Copyright 2015-2023
 ;                  MyBot is distributed under the terms of the GNU GPL
 ; Related .......:
 ; Link ..........: https://github.com/MyBotRun/MyBot/wiki
@@ -164,10 +164,10 @@ Func SelectCastleOrSiege(ByRef $iTroopIndex, $iX, $iCmbSiege)
 	Local $bNeedSwitch = False, $bAnySiege = False
 
 	Local $sLog = GetTroopName($iTroopIndex)
-	
+
 	Local $iMaxSiegeLevel = 4
-	
-	If $g_iTownHallLevel < 11 Then $iMaxSiegeLevel = 3
+	If $iTroopIndex = $eWallW Or $iTroopIndex = $eStoneS Then $iMaxSiegeLevel = 5
+	If $g_iTownHallLevel < 10 Then $iMaxSiegeLevel = 3
 
 	Switch $ToUse
 		Case $iTroopIndex ; the same as current castle/siege

@@ -6,7 +6,7 @@
 ; Return values .: None
 ; Author ........: MyBot.run team
 ; Modified ......:
-; Remarks .......: This file is part of MyBot, previously known as ClashGameBot. Copyright 2015-2019
+; Remarks .......: This file is part of MyBot, previously known as ClashGameBot. Copyright 2015-2023
 ;                  MyBot is distributed under the terms of the GNU GPL
 ; Related .......:
 ; Link ..........: https://github.com/MyBotRun/MyBot/wiki
@@ -18,8 +18,7 @@ Func chkEnableBBAttack()
 		GUICtrlSetState($g_hChkBBTrophyRange, $GUI_ENABLE)
 		GUICtrlSetState($g_hChkBBAttIfLootAvail, $GUI_ENABLE)
 		GUICtrlSetState($g_hChkBBWaitForMachine, $GUI_ENABLE)
-		GUICtrlSetState($g_hChkBBHaltOnGoldFull, $GUI_ENABLE)
-		GUICtrlSetState($g_hChkBBHaltOnElixirFull, $GUI_ENABLE)
+		GUICtrlSetState($g_hChkBBHaltOnResourcesFull, $GUI_ENABLE)
 		GUICtrlSetState($g_hBtnBBDropOrder, $GUI_ENABLE)
 		GUICtrlSetState($g_hCmbBBSameTroopDelay, $GUI_ENABLE)
 		GUICtrlSetState($g_hCmbBBNextTroopDelay, $GUI_ENABLE)
@@ -34,8 +33,7 @@ Func chkEnableBBAttack()
 		GUICtrlSetState($g_hTxtBBTrophyLowerLimit, $GUI_DISABLE)
 		GUICtrlSetState($g_hTxtBBTrophyUpperLimit, $GUI_DISABLE)
 		GUICtrlSetState($g_hChkBBWaitForMachine, $GUI_DISABLE)
-		GUICtrlSetState($g_hChkBBHaltOnGoldFull, $GUI_DISABLE)
-		GUICtrlSetState($g_hChkBBHaltOnElixirFull, $GUI_DISABLE)
+		GUICtrlSetState($g_hChkBBHaltOnResourcesFull, $GUI_DISABLE)
 		GUICtrlSetState($g_hBtnBBDropOrder, $GUI_DISABLE)
 		GUICtrlSetState($g_hCmbBBSameTroopDelay, $GUI_DISABLE)
 		GUICtrlSetState($g_hCmbBBNextTroopDelay, $GUI_DISABLE)
@@ -48,15 +46,13 @@ EndFunc
 Func ChkBBAttackForDailyChallenge()
 	If GUICtrlRead($g_hChkBBAttackForDailyChallenge) = $GUI_CHECKED Then
 		GUICtrlSetState($g_hChkBBAttIfLootAvail, $GUI_DISABLE)
-		GUICtrlSetState($g_hChkBBHaltOnGoldFull, $GUI_DISABLE)
-		GUICtrlSetState($g_hChkBBHaltOnElixirFull, $GUI_DISABLE)
+		GUICtrlSetState($g_hChkBBHaltOnResourcesFull, $GUI_DISABLE)
 		GUICtrlSetState($g_hChkBBWaitForMachine, $GUI_DISABLE)
 	Else
 		If GUICtrlRead($g_hChkEnableBBAttack) = $GUI_CHECKED Then
 			GUICtrlSetState($g_hChkBBAttIfLootAvail, $GUI_ENABLE)
 			GUICtrlSetState($g_hChkBBWaitForMachine, $GUI_ENABLE)
-			GUICtrlSetState($g_hChkBBHaltOnGoldFull, $GUI_ENABLE)
-			GUICtrlSetState($g_hChkBBHaltOnElixirFull, $GUI_ENABLE)
+			GUICtrlSetState($g_hChkBBHaltOnResourcesFull, $GUI_ENABLE)
 		EndIf
 	EndIf
 EndFunc

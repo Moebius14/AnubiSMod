@@ -178,10 +178,15 @@ Global Const $aPersonalChallengeOpenButton3[4] = [166, 606 + $g_iBottomOffsetY, 
 Global Const $aPersonalChallengeCloseButton[4] = [813, 51 + $g_iMidOffsetY, 0xF51D22, 20] ; Personal Challenge Window Close Button - Jun23 Update
 Global Const $aPersonalChallengeRewardsAvail[4] = [445, 20 + $g_iMidOffsetY, 0xFF0C08, 20] ; Personal Challenge - Red symbol showing available rewards - Jun23 Update
 Global Const $aPersonalChallengeRewardsTab[4] = [385, 55 + $g_iMidOffsetY, 0x688090, 20] ; Personal Challenge - Rewards tab unchecked with Gold Pass - Jun23 Update
-Global Const $aPersonalChallengePerksTab[4] = [545, 55 + $g_iMidOffsetY, 0xA7CFEC, 20] ; Personal Challenge - Perks tab Checked - Jun23 Update
+Global Const $aPersonalChallengePerksTab[4] = [545, 55 + $g_iMidOffsetY, 0xEFC20B, 20] ; Personal Challenge - Perks tab Checked - Jun23 Update
 Global Const $aPersonalChallengeLeftEdge[4] = [30, 385 + $g_iMidOffsetY, 0x28221E, 20] ; Personal Challenge Window - Rewards tab - Black left edge
 Global Const $aPersonalChallengeCancelBtn[4] = [350, 380 + $g_iMidOffsetY, 0xFDC875, 20] ; Personal Challenge Window - Cancel button at Storage Full msg
 Global Const $aPersonalChallengeOkBtn[4] = [515, 380 + $g_iMidOffsetY, 0xDFF887, 20] ; Personal Challenge Window - Okay button at Storage Full msg
+
+;BB Attack 2.0
+Global $aBBGoldEnd[4] = [629, 435, 0xFFE848, 20] ; Gold At the end Of BB attack
+Global $aOkayButton[2] = [430, 570]	; Okay button after BB attack
+Global $aOkayButtonRND[4] = [372, 560, 484, 595]	; Okay button after BB attack, RND
 
 ;Chat : Welcome Message
 Global $aChatSelectTextBox[4] = [278, 640 + $g_iBottomOffsetY, 0xFFFFFF, 10] ; color white Select Chat Textbox

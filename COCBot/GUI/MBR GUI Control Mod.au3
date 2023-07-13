@@ -713,7 +713,7 @@ EndIf
 		EndIf
 	Next
 	If Not $bForgeEnabled And Not $g_bChkEnableAutoUpgradeCC Then Return False
-	
+
 	$g_iCmbPriorityCCBaseFrequency = _GUICtrlComboBox_GetCurSel($g_hCmbPriorityCCBaseFrequency) * 60 * 60 * 1000
 	$g_icmbAdvancedVariationCC = _GUICtrlComboBox_GetCurSel($g_hcmbAdvancedVariationCC) / 10
 
@@ -740,6 +740,8 @@ EndIf
 			If $iMin > 0 Then $sWaitTime &= $iMin & " minutes "
 		If $IsCCGoldJustCollected Or $IsCCGoldJustCollectedDChallenge Then
 			SetLog("Time To Check Clan Capital Stuff, CC Gold Just Collected", $COLOR_OLIVE)
+		ElseIf $IsAutoForgeSlotJustCollected Then
+				SetLog("Time To Check Clan Capital Stuff, Auto Forge Slot Just Unlocked", $COLOR_OLIVE)
 		Else
 			SetLog("Time To Check Clan Capital Stuff", $COLOR_OLIVE)
 		EndIf
@@ -766,7 +768,7 @@ EndIf
 		Return False
 	EndIf
 	
-	If ($CCBaseCheckTimer > 0 And $CCBaseCheckTimerDiff > $DelayReturnedtocheckCCBaseMS) Or $IsCCGoldJustCollected Or $IsCCGoldJustCollectedDChallenge Then ;Delay reached or CCgold: reset chrono ans set new delay. Return True
+	If ($CCBaseCheckTimer > 0 And $CCBaseCheckTimerDiff > $DelayReturnedtocheckCCBaseMS) Or $IsCCGoldJustCollected Or $IsCCGoldJustCollectedDChallenge Or $IsAutoForgeSlotJustCollected Then ;Delay reached or CCgold: reset chrono ans set new delay. Return True
 
 			$CCBaseCheckTimer = TimerInit()
 			
@@ -786,6 +788,8 @@ EndIf
 		
 			If $IsCCGoldJustCollected Or $IsCCGoldJustCollectedDChallenge Then
 				SetLog("Time To Check Clan Capital Stuff, CC Gold Just Collected", $COLOR_OLIVE)
+			ElseIf $IsAutoForgeSlotJustCollected Then
+				SetLog("Time To Check Clan Capital Stuff, Auto Forge Slot Just Unlocked", $COLOR_OLIVE)
 			Else
 				SetLog("Time To Check Clan Capital Stuff", $COLOR_OLIVE)
 			EndIf
@@ -874,7 +878,7 @@ EndFunc   ;==>ChkEnableForgeBBElix
 
 Func CmbForgeBuilder()
 	$g_iCmbForgeBuilder = Int(_GUICtrlComboBox_GetCurSel($g_hCmbForgeBuilder))
-	GUICtrlSetData($g_hLbCmbForgeBuilder, $g_iCmbForgeBuilder > 0 ? GetTranslatedFileIni("MBR GUI Design Child Village - Misc", "LblForgeBuilder", "Builders for Forge") : _
+	GUICtrlSetData($g_hLbCmbForgeBuilder, $g_iCmbForgeBuilder > 1 ? GetTranslatedFileIni("MBR GUI Design Child Village - Misc", "LblForgeBuilder", "Builders for Forge") : _
 	GetTranslatedFileIni("MBR GUI Design Child Village - Misc", "LblForgeBuilder", "Builder for Forge"))
 EndFunc   ;==>CmbForgeBuilder
 
@@ -976,8 +980,6 @@ Func StarBonusSearch()
 EndFunc
 
 Func IsBBDailyChallengeAvailable()
-
-	If $g_bDisableBB Then Return True
 
 	If Not $g_bChkBBAttackForDailyChallenge Or Not $g_bChkEnableBBAttack Then Return True
 	

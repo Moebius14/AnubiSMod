@@ -1553,7 +1553,7 @@ EndFunc   ;==>GetEventInformation
 
 Func IsBBChallenge($i = Default, $j = Default)
 
-	Local $BorderX[4] = [294, 420, 546, 672]
+	Local $BorderX[4] = [292, 418, 546, 669]
 	Local $BorderY[3] = [175 + $g_iMidOffsetY, 333 + $g_iMidOffsetY, 490 + $g_iMidOffsetY]
 	Local $iColumn, $iRow, $bReturn
 
@@ -1581,7 +1581,7 @@ Func IsBBChallenge($i = Default, $j = Default)
 		For $x = 0 To 3
 			If $iRow = ($y+1) And $iColumn = ($x+1) Then 
 				;Search image border, our image is MainVillage event border, so If found return False
-				If QuickMIS("BC1", $g_sImgBorder, $BorderX[$x] - 50, $BorderY[$y] - 50, $BorderX[$x] + 50, $BorderY[$y] + 50, True, False) Then
+				If QuickMIS("BC1", $g_sImgBorder, $BorderX[$x] - 15, $BorderY[$y] - 20, $BorderX[$x] + 15, $BorderY[$y] + 10, True, False) Then
 					If $g_bChkClanGamesDebug Then SetLog("IsBBChallenge = False", $COLOR_ERROR)
 					Return False
 				Else
@@ -1741,7 +1741,7 @@ Func ClanGamesChallenges($sReturnArray)
 			["StarTimed",				"BB Star Timed",				 6, 2, "Earn stars in Versus Battles, but only stars gained below a minute counted"	], _
             ["Destruction",				"BB Destruction",				 6, 1, "Earn certain amount of destruction percentage (%) in Versus Battles"			]]
 
-	Local $BBDestructionChallenges[19][5] = [ _
+	Local $BBDestructionChallenges[21][5] = [ _
             ["Airbomb",					"Air Bomb",                 	6, 4, "Destroy certain number of Air Bomb in Versus Battles"		], _
 			["BuildingDes",             "BB Building",					6, 4, "Destroy certain number of Building in Versus Battles"		], _
 			["BuilderHall",             "BuilderHall",					6, 2, "Destroy certain number of Builder Hall in Versus Battles"	], _
@@ -1759,8 +1759,10 @@ Func ClanGamesChallenges($sReturnArray)
 			["WallDes",             	"Wall WipeOut",    	    		6, 2, "Destroy certain number of Wall in Versus Battles"			], _
 			["Crusher",             	"Crusher",                 		6, 2, "Destroy certain number of Crusher in Versus Battles"			], _
 			["ArcherTower",             "Archer Tower",            		6, 1, "Destroy certain number of Archer Tower in Versus Battles"	], _
-			["LavaLauncher",            "Lava Launcher",           		6, 5, "Destroy certain number of Lava Launcher in Versus Battles"	], _
-			["OttosOutPost",            "Otto's OutPost",          		6, 6, "Destroy certain number of Otto's OutPost in Versus Battles"	]]
+			["LavaLauncher",            "Lava Launcher",           	   11, 5, "Destroy certain number of Lava Launcher in Versus Battles"	], _
+			["OttoOutpost",             "Otto OutPost",            		6, 7, "Destroy certain number of Otto OutPost in Builder Battle"], _
+			["Xbow",               		"Xbow Explosion",            	6, 7, "Destroy certain number of X-Bows in Builder Battle"	    ], _
+			["HealingHut",              "Healing Hut",            		6, 7, "Destroy certain number of Healing Hut in Builder Battle"	]]
 
 	Local $BBTroopsChallenges[12][5] = [ _
             ["RBarb",					"Raged Barbarian",              6, 1, "Win 1-5 Attacks using Raged Barbarians in Versus Battle"	], _
@@ -1773,8 +1775,8 @@ Func ClanGamesChallenges($sReturnArray)
 			["NWitch",                 	"Night Witch",                 	6, 1, "Win 1-5 Attacks using Night Witch in Versus Battle"		], _
 			["DShip",                 	"Drop Ship",                  	6, 1, "Win 1-5 Attacks using Drop Ship in Versus Battle"		], _
 			["SPekka",                 	"Super Pekka",                  6, 1, "Win 1-5 Attacks using Super Pekka in Versus Battle"		], _
-			["HGlider",                 "Hog Glider",                  	6, 1, "Win 1-5 Attacks using Hog Glider in Versus Battle"		], _
-			["EFWizard",                "ElectroFire Wizard",          	6, 1, "Win 1-5 Attacks using ElectroFire Wizard in Versus Battle"]]
+			["HGlider",                 "Hog Glider",                  10, 1, "Win 1-5 Attacks using Hog Glider in Versus Battle"		], _
+			["EFWiza",                  "ElectroFire Wizard",          12, 1, "Win 1-5 Attacks using ElectroFire Wizard in Versus Battle"]]
 
 	Switch $sReturnArray
 		Case "$LootChallenges"

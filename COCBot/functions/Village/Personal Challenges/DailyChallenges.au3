@@ -86,7 +86,8 @@ Func DailyChallenges($CCControl = True)
 	
 	If Not $IsToCheckBeforeStop And $CCControl Then
 		If SwitchBetweenBasesMod2() Then
-			If _Sleep(Random(1500, 2000, 1)) Then Return
+			ForgeClanCapitalGold()
+			_Sleep($DELAYRUNBOT3)
 			AutoUpgradeCC()
 			_Sleep($DELAYRUNBOT3)
 		EndIf
@@ -218,7 +219,8 @@ Func CollectDailyRewards($bGoldPass = False)
 	Local $IsBOSPresent = 0
 	Local $IsResPotPresent = 0
 	Local $IsPetPotPresent = 0
-	For $i = 0 To 10
+	Local $IsAutoForgeSlotPresent = 0
+	For $i = 0 To 13
 		If Not $g_bRunState Then Return
 		Local $SearchArea = $bGoldPass ? GetDiamondFromRect("25,336(810,240)") : GetDiamondFromRect("25,535(810,35)")
 		Local $aResult = findMultiple(@ScriptDir & "\imgxml\DailyChallenge\", $SearchArea, $SearchArea, 0, 1000, $bGoldPass ? 5 : 2, "objectname,objectpoints", True)
@@ -230,11 +232,12 @@ Func CollectDailyRewards($bGoldPass = False)
 				If IsArray($aResultArray) And $aResultArray[0] = "ClaimBtn" Then
 					Local $sAllCoordsString = _ArrayToString($aResultArray, "|", 1) ; "x1,y1|x2,y2|..."
 					Local $aAllCoords = decodeMultipleCoords($sAllCoordsString, 50, 50) ; [{coords1}, {coords2}, ...]
-					Local $RewardImagesTypes[5][2] = [[$g_sImgCCGoldCollectDaily, $IsCCGoldPresent], _
+					Local $RewardImagesTypes[6][2] = [[$g_sImgCCGoldCollectDaily, $IsCCGoldPresent], _
 														[$g_sImgBOFCollectDaily, $IsBOFPresent], _
 														[$g_sImgBOSCollectDaily, $IsBOSPresent], _
 														[$g_sImgResPotCollectDaily, $IsResPotPresent], _
-														[$g_sImgPetPotCollectDaily, $IsPetPotPresent]]
+														[$g_sImgPetPotCollectDaily, $IsPetPotPresent], _
+														[$g_sImgAutoForgeSlotDaily, $IsAutoForgeSlotPresent]]
 
 					For $j = 0 To UBound($aAllCoords) - 1
 						For $z = 0 To Ubound($RewardImagesTypes) - 1
@@ -267,15 +270,18 @@ Func CollectDailyRewards($bGoldPass = False)
 											$IsResPotJustCollected = 1
 										Case 4
 											$IsPetPotJustCollected = 1
+										Case 5
+											$IsAutoForgeSlotJustCollected = 1
 									EndSwitch
 								EndIf
 							Next
 							
-							Local $RewardTypes[5][2] = [[$IsCCGoldJustCollected, "Clan Capital Gold Collected"], _
+							Local $RewardTypes[6][2] = [[$IsCCGoldJustCollected, "Clan Capital Gold Collected"], _
 														[$IsBOFJustCollected, "Book Of Fighting Collected"], _
 														[$IsBOSJustCollected, "Book Of Spells Collected"], _
 														[$IsResPotJustCollected, "Research Potion Collected"], _
-														[$IsPetPotJustCollected, "Pet Potion Collected"]]
+														[$IsPetPotJustCollected, "Pet Potion Collected"], _
+														[$IsAutoForgeSlotJustCollected, "AutoForge Slot Collected"]]
 
 							For $z = 0 To Ubound($RewardTypes) - 1
 								If $z = 0 Then $IsCCGoldJustCollectedDChallenge = $RewardTypes[$z][0]
@@ -297,6 +303,7 @@ Func CollectDailyRewards($bGoldPass = False)
 					$IsBOSPresent = 0
 					$IsResPotPresent = 0
 					$IsPetPotPresent = 0
+					$IsAutoForgeSlotPresent = 0
 				EndIf
 			Next
 		EndIf
@@ -304,9 +311,9 @@ Func CollectDailyRewards($bGoldPass = False)
 			If $i = 0 Then
 				SetLog("Dragging back for more... ", Default, Default, Default, Default, Default, Default, False) ; no end line
 			Else
-				SetLog($i & ".. ", Default, Default, Default, Default, Default, 0, $i < 10 ? False : Default) ; no time
+				SetLog($i & ".. ", Default, Default, Default, Default, Default, 0, $i < 13 ? False : Default) ; no time
 			EndIf
-			ClickDrag(100, 415, 750, 415, 1000) ;x1 was 50. x2 was 810  Change for Dec '20 update
+			ClickDrag(100, 385 + $g_iMidOffsetY, 750, 385 + $g_iMidOffsetY, 1000) ;x1 was 50. x2 was 810  Change for Dec '20 update
 			If _Sleep(500) Then ExitLoop
 		Else
 			If $i > 0 Then SetLog($i & ".", Default, Default, Default, Default, Default, False) ; no time + end line
@@ -329,7 +336,7 @@ Func CheckDiscountPerks()
 	If _Sleep(500) Then Return
 
 	; find builder boost rate %
-	Local $sDiscount = getOcrAndCapture("coc-builderboost", 370, 330, 110, 46)
+	Local $sDiscount = getOcrAndCapture("coc-builderboost", 370, 305  + $g_iMidOffsetY, 110, 40)
 	SetDebugLog("Builder boost OCR: " & $sDiscount)
 	If StringInStr($sDiscount, "%") Then
 		Local $aDiscount = StringSplit($sDiscount, "%", $STR_NOCOUNT)
@@ -372,7 +379,7 @@ Func CheckDiscountPerksMod()
 	If _Sleep(500) Then Return
 
 	; find builder boost rate %
-	Local $sDiscount = getOcrAndCapture("coc-builderboost", 370, 330, 110, 46)
+	Local $sDiscount = getOcrAndCapture("coc-builderboost", 370, 305  + $g_iMidOffsetY, 110, 40)
 	SetDebugLog("Builder boost OCR: " & $sDiscount)
 	If StringInStr($sDiscount, "%") Then
 		Local $aDiscount = StringSplit($sDiscount, "%", $STR_NOCOUNT)

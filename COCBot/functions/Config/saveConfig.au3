@@ -6,7 +6,7 @@
 ; Return values .: NA
 ; Author ........:
 ; Modified ......: CodeSlinger69 (01-2018)
-; Remarks .......: This file is part of MyBot, previously known as ClashGameBot. Copyright 2015-2019
+; Remarks .......: This file is part of MyBot, previously known as ClashGameBot. Copyright 2015-2023
 ;                  MyBot is distributed under the terms of the GNU GPL
 ; Related .......:
 ; Link ..........: https://github.com/MyBotRun/MyBot/wiki
@@ -522,8 +522,7 @@ Func SaveConfig_600_6()
 	_Ini_Add("other", "TxtBBTrophyUpperLimit", $g_iTxtBBTrophyUpperLimit)
 	_Ini_Add("other", "ChkBBAttIfLootAvail", $g_bChkBBAttIfLootAvail)
 	_Ini_Add("other", "ChkBBWaitForMachine", $g_bChkBBWaitForMachine)
-	_Ini_Add("other", "ChkBBHaltOnGoldFull", $g_bChkBBHaltOnGoldFull)
-	_Ini_Add("other", "ChkBBHaltOnElixirFull", $g_bChkBBHaltOnElixirFull)
+	_Ini_Add("other", "ChkBBHaltOnResourcesFull", $g_bChkBBHaltOnResourcesFull)
 	_Ini_Add("other", "iBBNextTroopDelay", $g_iBBNextTroopDelay)
 	_Ini_Add("other", "iBBSameTroopDelay", $g_iBBSameTroopDelay)
 	_Ini_Add("other", "iBBAttackCount", $g_iBBAttackCount)

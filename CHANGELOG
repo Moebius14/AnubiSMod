@@ -48,6 +48,17 @@ joe4obijoe
 ** Fixed Heroes and Pets upgrade time.
 ** Super Hog Rider support.
 ** Apprentice Warden support.
+** Fixed OCR White/Red Labs Costs Values
+* Added BB 2.0 Attack support.
+* Updated BB 2.0 AutoUpgrade.
+* Fixed Forge Gold Collect.
+* Added Minor Update Detection.
+* Added Eagle level 6 and ScatterShots level 4 templates.
+* Added Level 5 support for Wall Wrecker and Stone Slammer.
+* Added Auto forge slot Support.
+* Improved SuperTroops Boost start.
+* Fixed Check Discount Perks.
+* Added Some New BB Challenges for Clan Games.
 
 * v8.0.2 **
 * Respond faster to "Stop" during zoomout.

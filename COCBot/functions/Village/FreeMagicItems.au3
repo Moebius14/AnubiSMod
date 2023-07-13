@@ -6,7 +6,7 @@
 ; Return values .: None
 ; Author ........: ProMac (03-2018)
 ; Modified ......:
-; Remarks .......: This file is part of MyBot, previously known as ClashGameBot. Copyright 2015-2019
+; Remarks .......: This file is part of MyBot, previously known as ClashGameBot. Copyright 2015-2023
 ;                  MyBot is distributed under the terms of the GNU GPL
 ; Related .......:
 ; Link ..........: https://github.com/MyBotRun/MyBot/wiki
@@ -270,7 +270,7 @@ Func SaleFreeMagics()
 	$IsopenMagicWindow = True
 	For $i = 0 To UBound($aMagicPosX) - 1
 		Local $Slot = $i + 1
-		Local $SlotEnd = 9
+		Local $SlotEnd = 10
 		SetLog("Inspecting MagicItem Slot : " & $Slot & "/" & $SlotEnd &"", $COLOR_SUCCESS)
 		Local $ReadItemCount = MagicItemCount($aMagicPosX[$i], $aMagicPosY)
 		Local $ItemCount = StringSplit($ReadItemCount, "#", $STR_NOCOUNT)
@@ -313,7 +313,7 @@ Func SaleFreeMagics()
 		Next
 	Next
 	If $IsLooptoClose1 = False Then
-	For $i = 0 To UBound($aMagicPosX) - 2
+	For $i = 0 To UBound($aMagicPosX) - 1
 		Local $Slot = $i + 6
 		SetLog("Inspecting MagicItem Slot : " & $Slot & "/" & $SlotEnd &"", $COLOR_SUCCESS)
 		Local $ReadItemCount = MagicItemCount($aMagicPosX[$i], $aMagicPosY2)
@@ -393,7 +393,7 @@ Func SaleFreeMagicsZero1()
 	If Not $g_bRunState Then Return
 	For $i = 0 To UBound($aMagicPosX) - 1
 		Local $Slot = $i + 1
-		Local $SlotEnd = 9
+		Local $SlotEnd = 10
 		SetLog("Inspecting MagicItem Slot : " & $Slot & "/" & $SlotEnd &"", $COLOR_SUCCESS)
 		Local $ReadItemCount = MagicItemCount($aMagicPosX[$i], $aMagicPosY)
 		Local $ItemCount = StringSplit($ReadItemCount, "#", $STR_NOCOUNT)
@@ -436,7 +436,7 @@ Func SaleFreeMagicsZero1()
 		Next
 	Next
 	If $IsLooptoClose2 = False Then
-	For $i = 0 To UBound($aMagicPosX) - 2
+	For $i = 0 To UBound($aMagicPosX) - 1
 		Local $Slot = $i + 6
 		SetLog("Inspecting MagicItem Slot : " & $Slot & "/" & $SlotEnd &"", $COLOR_SUCCESS)
 		Local $ReadItemCount = MagicItemCount($aMagicPosX[$i], $aMagicPosY2)
@@ -521,7 +521,7 @@ Func SaleFreeMagicsDropTrophy()
 	$IsopenMagicWindow = True
 	For $i = 0 To UBound($aMagicPosX) - 1
 		Local $Slot = $i + 1
-		Local $SlotEnd = 9
+		Local $SlotEnd = 10
 		SetLog("Inspecting MagicItem Slot : " & $Slot & "/" & $SlotEnd &"", $COLOR_SUCCESS)
 		Local $ReadItemCount = MagicItemCount($aMagicPosX[$i], $aMagicPosY)
 		Local $ItemCount = StringSplit($ReadItemCount, "#", $STR_NOCOUNT)
@@ -597,7 +597,7 @@ Func SaleFreeMagicsDropTrophy()
 			EndIf
 	Next
 	If $IsLooptoClose3 = False Then
-	For $i = 0 To UBound($aMagicPosX) - 2
+	For $i = 0 To UBound($aMagicPosX) - 1
 		Local $Slot = $i + 6
 		SetLog("Inspecting MagicItem Slot : " & $Slot & "/" & $SlotEnd &"", $COLOR_SUCCESS)
 		Local $ReadItemCount = MagicItemCount($aMagicPosX[$i], $aMagicPosY2)
@@ -701,7 +701,7 @@ Func SaleFreeMagicsDropTrophyZero1()
 	If Not $g_bRunState Then Return
 	For $i = 0 To UBound($aMagicPosX) - 1
 		Local $Slot = $i + 1
-		Local $SlotEnd = 9
+		Local $SlotEnd = 10
 		SetLog("Inspecting MagicItem Slot : " & $Slot & "/" & $SlotEnd &"", $COLOR_SUCCESS)
 		Local $ReadItemCount = MagicItemCount($aMagicPosX[$i], $aMagicPosY)
 		Local $ItemCount = StringSplit($ReadItemCount, "#", $STR_NOCOUNT)
@@ -777,7 +777,7 @@ Func SaleFreeMagicsDropTrophyZero1()
 			EndIf
 	Next
 	If $IsLooptoClose4 = False Then
-	For $i = 0 To UBound($aMagicPosX) - 2
+	For $i = 0 To UBound($aMagicPosX) - 1
 		Local $Slot = $i + 6
 		SetLog("Inspecting MagicItem Slot : " & $Slot & "/" & $SlotEnd &"", $COLOR_SUCCESS)
 		Local $ReadItemCount = MagicItemCount($aMagicPosX[$i], $aMagicPosY2)
@@ -952,7 +952,7 @@ Local $count = 0
 			$count += 1
 		EndIf
 	Next
-	If $count = 9 Then
+	If $count = 10 Then
 		$bRet = False
 		SetLog("Magic Items Selling : All Magic Items Set To Max", $COLOR_ACTION)
 	EndIf

@@ -6,7 +6,7 @@
 ; Return values .: None
 ; Author ........: summoner
 ; Modified ......: KnowJack (06/2015), Sardo (08/2015), Monkeyhunter(04/2016), MMHK(06/2018), Chilly-Chill (12/2019)
-; Remarks .......: This file is part of MyBot, previously known as ClashGameBot. Copyright 2015-2019
+; Remarks .......: This file is part of MyBot, previously known as ClashGameBot. Copyright 2015-2023
 ;                  MyBot is distributed under the terms of the GNU GPL
 ; Related .......:
 ; Link ..........: https://github.com/MyBotRun/MyBot/wiki
@@ -646,7 +646,7 @@ Func ChkLabUpgradeInProgress($name = "")
 		; upgrade in process and time not recorded so update completion time!
 		Local $sLabTimeOCR = getRemainTLaboratory(270, 227 + $g_iMidOffsetY)
 		If $sLabTimeOCR = "" Then $sLabTimeOCR = getPetUpgradeTime(270, 227 + $g_iMidOffsetY)
-		Local $iLabFinishTime = ConvertOCRTime("Lab Time", $sLabTimeOCR, False)
+		Local $iLabFinishTime = ConvertOCRTime("Lab Time", $sLabTimeOCR, False) + 1
 		SetDebugLog("$sLabTimeOCR: " & $sLabTimeOCR & ", $iLabFinishTime = " & $iLabFinishTime & " m")
 		If $iLabFinishTime > 0 Then
 			$g_sLabUpgradeTime = _DateAdd('n', Ceiling($iLabFinishTime), _NowCalc())
@@ -744,10 +744,16 @@ Func ChkLabUpgradeInProgress($name = "")
 		If $bUseBooks Then 
 			$g_sLabUpgradeTime = "" ;reset lab upgrade time
 			$iLabFinishTimeMod = 0
-			;==========Hide Red  Show Green Hide Gray===
+			;==========Show Red  Hide Green Hide Gray===
 			GUICtrlSetState($g_hPicLabGray, $GUI_HIDE)
 			GUICtrlSetState($g_hPicLabRed, $GUI_SHOW)
 			GUICtrlSetState($g_hPicLabGreen, $GUI_HIDE)
+			;===========================================
+		Else
+			;==========Hide Red  Show Green Hide Gray===
+			GUICtrlSetState($g_hPicLabGray, $GUI_HIDE)
+			GUICtrlSetState($g_hPicLabRed, $GUI_HIDE)
+			GUICtrlSetState($g_hPicLabGreen, $GUI_SHOW)
 			;===========================================
 		EndIf
 

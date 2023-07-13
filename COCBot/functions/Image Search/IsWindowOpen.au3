@@ -4,7 +4,7 @@
 ;                : Search for [X] in TR area and click if found.  Search for building text and clickaway if found
 ; Author ........: Fliegerfaust (06/2019)
 ; Modified ......: GrumpyHog (11/2022)
-; Remarks .......: This file is part of MyBot Copyright 2015-2022
+; Remarks .......: This file is part of MyBot Copyright 2015-2023
 ;                  MyBot is distributed under the terms of the GNU GPL
 ; Related .......: Returns True or False
 ; Link ..........: https://github.com/MyBotRun/MyBot/wiki
@@ -81,9 +81,13 @@ Func CloseWindow($IsinPet = False, $IsinLab = False, $IsToClickRight = False, $i
 			ClickP($aiButton, 1)
 			SetDebugLog("Window Closed!")
 			If _Sleep(1500) Then Return
-			
-			If $IsinLab Then UseLabPotion()
-;			If $IsinPet Then UsePetPotion()
+
+			Select
+				Case $IsinLab
+					UseLabPotion()
+				Case $IsinPet
+					UsePetPotion()
+			EndSelect
 
 			; clear building text - this area is needed for ZoomOut()
 			Local $sBuildingText = getNameBuilding(242, 490 + $g_iBottomOffsetY)
@@ -97,7 +101,7 @@ Func CloseWindow($IsinPet = False, $IsinLab = False, $IsToClickRight = False, $i
 				EndIf
 				If _Sleep($iDelay) Then Return
 			EndIf
-			
+
 			Return True
 		EndIf
 

@@ -6,7 +6,7 @@
 ; Return values .: None
 ; Author ........: RoroTiti, NguyenAnhHD
 ; Modified ......: AnubiS
-; Remarks .......: This file is part of MyBot, previously known as ClashGameBot. Copyright 2015-2021
+; Remarks .......: This file is part of MyBot, previously known as ClashGameBot. Copyright 2015-2023
 ;                  MyBot is distributed under the terms of the GNU GPL
 ; Related .......:
 ; Link ..........: https://github.com/MyBotRun/MyBot/wiki
@@ -3308,8 +3308,8 @@ Func ClickClanFilter($MaxTime, $FilterX, $FilterY)
 EndFunc   ;==>ClickClanFilter
 
 Func BBBattleLog()
-If $g_bDisableBB Then Return
 If Not $g_bUseBotHumanization Then Return
+Local $bNotificationRed = _ColorCheck(_GetPixelColor(50, 107 + $g_iMidOffsetY, True), Hex(0xE51525, 6), 20)
 Local $IsToViewBBBattleLog = Random(0, 100, 1)
 Local $ViewPriorityNumber = 0
 If $g_iacmbPriorityBB[0] = 0 Then Return
@@ -3319,33 +3319,41 @@ If $g_iacmbPriorityBB[0] = 3 Then $ViewPriorityNumber = 50
 If $g_iacmbPriorityBB[0] = 4 Then $ViewPriorityNumber = 30
 If $g_iacmbPriorityBB[0] = 5 Then $ViewPriorityNumber = 2
 
-If $ViewPriorityNumber > $IsToViewBBBattleLog Then Return
-	SetLog("OK, Let The Bot Being More Human Like!", $COLOR_SUCCESS1)
-	If _Sleep(Random(1500, 2500, 1)) Then Return
-	SetLog("Lets Look At BattleLog", $COLOR_OLIVE)
-	$ActionForModLog = "Look At BB BattleLog"
-	If $g_iTxtCurrentVillageName <> "" Then
-		GUICtrlSetData($g_hTxtModLog, @CRLF & _NowTime() & " [" & $g_iTxtCurrentVillageName & "] Humanization : " & $ActionForModLog & "", 1)
-	Else
-		GUICtrlSetData($g_hTxtModLog, @CRLF & _NowTime() & " [" & $g_sProfileCurrentName & "] Humanization : " & $ActionForModLog & "", 1)
+	If $ViewPriorityNumber < $IsToViewBBBattleLog Or $bNotificationRed Then
+		SetLog("OK, Let The Bot Being More Human Like!", $COLOR_SUCCESS1)
+		If _Sleep(Random(1500, 2500, 1)) Then Return
+		SetLog("Lets Look At BattleLog", $COLOR_OLIVE)
+		$ActionForModLog = "Look At BB BattleLog"
+		If $g_iTxtCurrentVillageName <> "" Then
+			GUICtrlSetData($g_hTxtModLog, @CRLF & _NowTime() & " [" & $g_iTxtCurrentVillageName & "] Humanization : " & $ActionForModLog & "", 1)
+		Else
+			GUICtrlSetData($g_hTxtModLog, @CRLF & _NowTime() & " [" & $g_sProfileCurrentName & "] Humanization : " & $ActionForModLog & "", 1)
+		EndIf
+		_FileWriteLog($g_sProfileLogsPath & "\ModLog.log", " [" & $g_sProfileCurrentName & "] - Humanization : " & $ActionForModLog & "")
+		If Not $g_bRunState Then Return
+		If _Sleep(Random(3000, 5000, 1)) Then Return
+		Click(40, 120 + $g_iMidOffsetY) ; open Messages button
+		If Not $g_bRunState Then Return
+		If _Sleep(Random(2000, 3000, 1)) Then Return
+		Local $bNotificationDefRed = _ColorCheck(_GetPixelColor(450, 87 + $g_iMidOffsetY, True), Hex(0xD80818, 6), 20)
+		If Random(1, 2, 1) = 1 Or $bNotificationDefRed Then
+			Click(380, 95 + $g_iMidOffsetY) ; click Attack Log
+			SetLog("Lets Look At Attack Log", $COLOR_DEBUG2)
+		Else
+			Click(180, 95 + $g_iMidOffsetY) ; click Defense Log
+			SetLog("Lets Look At Defense Log", $COLOR_DEBUG2)
+		EndIf
+		If _Sleep(Random(500, 1000, 1)) Then Return
+		If Not $g_bRunState Then Return
+		Scroll(Random(1, 2, 1))
+		If Not $g_bRunState Then Return
+		If _Sleep(Random(3000, 5000, 1)) Then Return
+		If Not BBBattleWatchReplay() Then CloseWindow()
+		If Not $g_bRunState Then Return
+		If _Sleep(Random(1000, 2000, 1)) Then Return
+		ZoomOut()
 	EndIf
-	_FileWriteLog($g_sProfileLogsPath & "\ModLog.log", " [" & $g_sProfileCurrentName & "] - Humanization : " & $ActionForModLog & "")
-	If Not ClickAttack() Then Return
-	If Not $g_bRunState Then Return
-	If _Sleep(Random(3000, 5000, 1)) Then Return
-	Click(795, 612 + $g_iBottomOffsetY) ; Click Battlelog
-	If Not $g_bRunState Then Return
-	If _Sleep(Random(3000, 5000, 1)) Then Return
-	If Not $g_bRunState Then Return
-	Scroll(Random(1, 3, 1))
-	If Not $g_bRunState Then Return
-	If _Sleep(Random(3000, 5000, 1)) Then Return
-	BBBattleWatchReplay()
-	If Not $g_bRunState Then Return
-	Click(61, 614 + $g_iBottomOffsetY) ; Click Attack!/Home
-	If Not $g_bRunState Then Return
-	If _Sleep(Random(4000, 6000, 1)) Then Return
-	ZoomOut()
+
 EndFunc
 
 Func BBBattleWatchReplay()
@@ -3358,7 +3366,7 @@ If $g_iacmbPriorityBB[1] = 3 Then $WatchPriorityNumber = 50
 If $g_iacmbPriorityBB[1] = 4 Then $WatchPriorityNumber = 30
 If $g_iacmbPriorityBB[1] = 5 Then $WatchPriorityNumber = 2
 
-If $WatchPriorityNumber > $IsToWatchBBReplays Then Return
+If $WatchPriorityNumber > $IsToWatchBBReplays Then Return False
 
 	SetLog("Lets Watch A Replay", $COLOR_OLIVE)
 	$ActionForModLog = "Watch A BB Replay"
@@ -3368,8 +3376,41 @@ If $WatchPriorityNumber > $IsToWatchBBReplays Then Return
 		GUICtrlSetData($g_hTxtModLog, @CRLF & _NowTime() & " [" & $g_sProfileCurrentName & "] Humanization : " & $ActionForModLog & "", 1)
 	EndIf
 	_FileWriteLog($g_sProfileLogsPath & "\ModLog.log", " [" & $g_sProfileCurrentName & "] - Humanization : " & $ActionForModLog & "")
-	Local $aSarea[4] = [200, 35, 650, 710]
-	Local $vReplayNumber = findMultipleQuick($g_sBBReplay, 6, $aSarea, True, "", False, 36)
+
+	If QuickMis("BC1", $g_sImgBBLive, 550, 160 + $g_iMidOffsetY, 710, 230 + $g_iMidOffsetY) Then
+		SetLog("Watch Live Detected", $COLOR_ACTION)
+		If _Sleep(Random(2000, 3000, 1)) Then Return
+		Click($g_iQuickMISX + 55, $g_iQuickMISY)
+		If IsReplayWindow() Then
+			Local $IsBoring = Random(1, 5, 1)
+			If $IsBoring >= 4 Then
+				If IsReplayWindow() Then
+					SetLog("This Live Is Boring, Let Me Go Out ...", $COLOR_OLIVE)
+					If _Sleep(1000) Then Return
+					SetLog("Exiting ...", $COLOR_OLIVE)
+					If _Sleep(Random(2000, 3000, 1)) Then Return
+					Click(61, 614 + $g_iBottomOffsetY) ; return home
+					If Not $g_bRunState Then Return
+					If _Sleep(Random(2000, 3000, 1)) Then Return
+				EndIf
+			Else
+				SetLog("Waiting For Live End ...", $COLOR_ACTION)
+				While IsReplayWindow()
+					If _Sleep(1000) Then Return
+					If Not $g_bRunState Then Return
+				WEnd
+					If _Sleep(1000) Then Return
+				If Not $g_bRunState Then Return
+				Click(61, 614 + $g_iBottomOffsetY) ; return home
+				If Not $g_bRunState Then Return
+				If _Sleep(Random(2000, 3000, 1)) Then Return
+			EndIf
+			Return True
+		EndIf
+	EndIf
+
+	Local $aSarea[4] = [600, 120 + $g_iMidOffsetY, 730, 590 + $g_iMidOffsetY]
+	Local $vReplayNumber = findMultipleQuick($g_sBBReplay, 3, $aSarea)
 	If UBound($vReplayNumber) > 0 And Not @error Then
 		SetLog("There Are " & UBound($vReplayNumber) & " Replays To Watch ... We Will Choose One Of Them ...", $COLOR_INFO)
 		Local $iReplayToLaunch = Random(0, UBound($vReplayNumber) - 1, 1)
@@ -3418,7 +3459,10 @@ If $WatchPriorityNumber > $IsToWatchBBReplays Then Return
 	Else
 		SetLog("No Replay To Watch ... Skipping ...", $COLOR_WARNING)
 		If Not $g_bRunState Then Return
+		CloseWindow()
 	EndIf
+
+	Return True
 EndFunc
 
 Func ReturnHomeFromHumanization()

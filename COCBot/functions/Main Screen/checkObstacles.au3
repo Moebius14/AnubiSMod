@@ -6,7 +6,7 @@
 ; Return values .: Returns True when there is something blocking
 ; Author ........: Hungle (2014)
 ; Modified ......: KnowJack (2015), Sardo (08-2015), TheMaster1st(10-2015), MonkeyHunter (08-2016), MMHK (12-2016)
-; Remarks .......: This file is part of MyBot, previously known as ClashGameBot. Copyright 2015-2019
+; Remarks .......: This file is part of MyBot, previously known as ClashGameBot. Copyright 2015-2023
 ;                  MyBot is distributed under the terms of the GNU GPL
 ; Related .......:
 ; Link ..........: https://github.com/MyBotRun/MyBot/wiki
@@ -17,6 +17,12 @@ Func checkObstacles($bBuilderBase = Default) ;Checks if something is in the way 
 	FuncEnter(checkObstacles)
 	If $bBuilderBase = Default Then $bBuilderBase = $g_bStayOnBuilderBase
 	Static $iRecursive = 0
+
+	If UBound(decodeSingleCoord(FindImageInPlace2("MinorUpdate", $g_sImgCOCUpdate, 220, 165 + $g_iMidOffsetY, 350, 260 + $g_iMidOffsetY, True))) > 1 Then ; COC Minor Update
+		SetLog("Chief, we have minor COC Update!", $COLOR_INFO)
+		ClickAway()
+		If _Sleep($DELAYCHECKOBSTACLES1) Then Return
+	EndIf
 
 	If Not TestCapture() And WinGetAndroidHandle() = 0 Then
 		; Android not available
@@ -41,7 +47,7 @@ Func _checkObstacles($bBuilderBase = False, $bRecursive = False) ;Checks if some
 	
 	_CaptureRegions()
 
-	If _Sleep(10) Then Return False
+	If _Sleep(100) Then Return False
 
 	If Not $bRecursive Then
 		If checkObstacles_Network() Then Return True
@@ -62,14 +68,6 @@ Func _checkObstacles($bBuilderBase = False, $bRecursive = False) ;Checks if some
 			If _Sleep($DELAYCHECKOBSTACLES1) Then Return
 			Return False
 		EndIf
-	EndIf
-
-	If UBound(decodeSingleCoord(FindImageInPlace2("MinorUpdate", $g_sImgCOCUpdate, 420, 450 + $g_iMidOffsetY, 580, 590 + $g_iMidOffsetY, False))) > 1 Then ; COC Minor Update
-		SetLog("Chief, we have minor coc Update!", $COLOR_INFO)
-		ClickAway()
-		$g_bMinorObstacle = True
-		If _Sleep($DELAYCHECKOBSTACLES1) Then Return
-		Return False
 	EndIf
 
 	If UBound(decodeSingleCoord(FindImageInPlace2("Error", $g_sImgError, 630, 270 + $g_iMidOffsetY, 632, 290 + $g_iMidOffsetY, False))) > 1 Then
@@ -102,7 +100,7 @@ Func _checkObstacles($bBuilderBase = False, $bRecursive = False) ;Checks if some
 
 	;;;;;;;;;;;;;;;;;;;; Amazon ,Google Play Or COC Error ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 	If CheckAllObstacles($g_bDebugImageSave, 5, 7, $bRecursive) Then Return True
-	;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+	;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 				
 	If UBound(decodeSingleCoord(FindImageInPlace2("Maintenance", $g_sImgMaintenance, 270, 40 + $g_iMidOffsetY, 640, 130 + $g_iMidOffsetY, False))) > 1 Then ; Maintenance Break
 		$Result = getOcrMaintenanceTime(300, 523 + $g_iBottomOffsetY, "Check Obstacles OCR Maintenance Break=") ; OCR text to find wait time
@@ -132,6 +130,14 @@ Func _checkObstacles($bBuilderBase = False, $bRecursive = False) ;Checks if some
 		checkObstacles_ResetSearch()
 	EndIf
 
+	If UBound(decodeSingleCoord(FindImageInPlace2("CCResults", $g_sImgClanCapitalResults, 260, 190 + $g_iMidOffsetY, 320, 250 + $g_iMidOffsetY, False))) > 1 Then ; Clan Capital Results
+		If _ColorCheck(_GetPixelColor(284, 316 + $g_iMidOffsetY), Hex(0xFFFFFF, 6), 10) And _ColorCheck(_GetPixelColor(594, 316 + $g_iMidOffsetY), Hex(0xFFFFFF, 6), 10) Then
+			$g_bMinorObstacle = True
+			CloseWindow()
+			Return False
+		EndIf
+	EndIf
+
 	Local $bHasTopBlackBar = _ColorCheck(_GetPixelColor(10, 3), Hex(0x000000, 6), 1) And _ColorCheck(_GetPixelColor(300, 6), Hex(0x000000, 6), 1) And _ColorCheck(_GetPixelColor(600, 9), Hex(0x000000, 6), 1)
 	If _ColorCheck(_GetPixelColor(420, 160 + $g_iMidOffsetY), Hex(0xB83420, 6), 20) Then
 		SetDebugLog("checkObstacles: Found Window to close")
@@ -151,7 +157,8 @@ Func _checkObstacles($bBuilderBase = False, $bRecursive = False) ;Checks if some
 	EndIf
 	 If Not $bHasTopBlackBar And _CheckPixel($aIsBuilderBaseGrayed, $g_bNoCapturePixel) Then
         SetLog("checkObstacles: Found Builder Base gray Window to close")
-        PureClickP($aAway, 1, 0, "#0133") ;Click away If things are open
+        ;PureClickP($aAway, 1, 0, "#0133") ;Click away If things are open
+		ClickAway("Left")
         $g_bMinorObstacle = True
         If _Sleep($DELAYCHECKOBSTACLES1) Then Return
         Return False

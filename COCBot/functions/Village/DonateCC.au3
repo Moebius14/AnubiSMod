@@ -7,7 +7,7 @@
 ; Author ........: Zax (2015)
 ; Modified ......: Safar46 (2015), Hervidero (2015-04), HungLe (2015-04), Sardo (2015-08), Promac (2015-12), Hervidero (2016-01), MonkeyHunter (2016-07),
 ;				   CodeSlinger69 (2017)
-; Remarks .......: This file is part of MyBot, previously known as ClashGameBot. Copyright 2015-2019
+; Remarks .......: This file is part of MyBot, previously known as ClashGameBot. Copyright 2015-2023
 ;                  MyBot is distributed under the terms of the GNU GPL
 ; Related .......:
 ; Link ..........: https://github.com/MyBotRun/MyBot/wiki
@@ -552,9 +552,9 @@ Func DonateCC($bCheckForNewMsg = False)
 					If $g_bDebugSetlog Then SetDebugLog("Troop All checkpoint.", $COLOR_DEBUG)
 
 					;;; DONATE TO ALL for Custom And Typical Donation
-					; 0 to 3 is Custom [A to D] and the 4 is the 'Typical'
-					For $x = 0 To 4
-						If $x <> 4 Then
+					; 0 to 1 is Custom [A to B] and the 2 is the 'Typical'
+					For $x = 0 To 2
+						If $x <> 2 Then
 							If $g_abChkDonateAllTroop[$eCustom[$x]] Then
 								Local $CorrectDonateCustom = $eDonateCustom[$x]
 								For $i = 0 To 2
@@ -579,7 +579,7 @@ Func DonateCC($bCheckForNewMsg = False)
 									DonateTroopType($CorrectDonateCustom[$i][0], $CorrectDonateCustom[$i][1], $abDonateQueueOnly[0], $bDonateAllTroop) ;;; Donate Custom Troop using DonateTroopType2
 								Next
 							EndIf
-						Else ; this is the $x = 4 [Typical Donation]
+						Else ; this is the $x = 2 [Typical Donation]
 							For $i = 0 To UBound($g_aiDonateTroopPriority) - 1
 								Local $iTroopIndex = $g_aiDonateTroopPriority[$i]
 								If $g_abChkDonateAllTroop[$iTroopIndex] Then
@@ -809,13 +809,7 @@ Func DonateTroopType(Const $iTroopIndex, $Quant = 0, Const $bDonateQueueOnly = F
 			_ColorCheck(_GetPixelColor(355 + ($Slot * 68), $g_iDonationWindowY + 106 + $YComp, True), Hex(0x7d0d0e, 6), 20) Or _
 			_ColorCheck(_GetPixelColor(360 + ($Slot * 68), $g_iDonationWindowY + 107 + $YComp, True), Hex(0x7d0d0e, 6), 20) Then; check for 'STroups Red'
 
-	;	SaveDebugImage("Donate")
-	;	SetLog("$Slot : " & $Slot, $COLOR_ERROR)
-	;	SetLog("$g_iDonationWindowY : " & $g_iDonationWindowY, $COLOR_ERROR)
-	;	SetLog("$YComp : " & $YComp, $COLOR_ERROR)
 		Local $RemainingTroopsToDonate = getOcrAndCapture("coc-t-d", 360 + ($Slot * 68), $g_iDonationWindowY + 98 + $YComp, 35, 14, True)
-	;	SetLog("$RemainingTroopsToDonate : " & $RemainingTroopsToDonate, $COLOR_ERROR)
-	;	Return
 		If Number($RemainingTroopsToDonate) < $Quant Then $Quant = Number($RemainingTroopsToDonate)
 
 		If $bDonateAll Then $sTextToAll = " (to all requests)"

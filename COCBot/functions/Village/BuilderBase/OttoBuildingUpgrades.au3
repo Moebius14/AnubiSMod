@@ -3,7 +3,7 @@
 ; Description ...: Upgrade Battle Machine - based on UpgradeHeroes
 ; Author ........: GrumpyHog (2022-01)
 ; Modified ......:
-; Remarks .......: This file is part of MyBot Copyright 2015-2022
+; Remarks .......: This file is part of MyBot Copyright 2015-2023
 ;                  MyBot is distributed under the terms of the GNU GPL
 ; Related .......: Returns True or False
 ; Link ..........: https://github.com/MyBotRun/MyBot/wiki
@@ -468,7 +468,7 @@ EndFunc   ;==>MegaTeslaUpgrade
 
 Func OttoBuildingUpgrades($bTest = False, $bFinishNow = False)
 
-	SetLog("OTTO Building Upgrade is disabled!", $COLOR_WARNING)
+	SetDebugLog("BOB Building Upgrade is disabled!", $COLOR_WARNING)
 	Return
 
 	If Not $g_bBattleMachineUpgrade And Not $g_bDoubleCannonUpgrade And Not $g_bArcherTowerUpgrade And Not $g_bMultiMortarUpgrade And Not $g_bMegaTeslaUpgrade Then Return False

@@ -6,7 +6,7 @@
 ; Return values .: True: Successfully switched Bases  -  False: Failed to switch Bases
 ; Author ........: Fliegerfaust (05-2017)
 ; Modified ......: GrumpyHog (08-2022)
-; Remarks .......: This file is part of MyBot, previously known as ClashGameBot. Copyright 2015-2019
+; Remarks .......: This file is part of MyBot, previously known as ClashGameBot. Copyright 2015-2023
 ;                  MyBot is distributed under the terms of the GNU GPL
 ; Related .......:
 ; Link ..........: https://github.com/MyBotRun/MyBot/wiki
@@ -37,7 +37,7 @@ Func SwitchBetweenBases($bCheckMainScreen = True)
 			$sRegionToSearch = GetDiamondFromRect("66,432,388,627")
 		EndIf
 
-		If _sleep(250) Then Return
+		If _Sleep(250) Then Return
 		If Not $g_bRunState Then Return
 
 		ZoomOut() ; ensure boat is visible
@@ -45,7 +45,10 @@ Func SwitchBetweenBases($bCheckMainScreen = True)
 		Local $iLoop = 0
 		; check if OTTO Outpost
 		While $g_iTree = $eTreeOO 
-			SwitchToBuilderBase()
+			If Not SwitchToBuilderBase() Then
+				SetLog("Drag diagonally to green BB")
+				ClickDrag(720, 610, 110, 140, 300)
+			EndIf
 			ZoomOut()
 			$iLoop += 1
 			If $iLoop > 2 Then
@@ -54,8 +57,8 @@ Func SwitchBetweenBases($bCheckMainScreen = True)
 				If _Sleep(5000) Then Return
 				ZoomOut()
 			EndIf
-		WEnd		
-		
+		WEnd	
+
 		If Not $g_bRunState Then Return
 
 		$avBoat = findMultiple($sTileDir, $sRegionToSearch, $sRegionToSearch, 0, 1000, 1, "objectname,objectpoints", True)
@@ -114,13 +117,12 @@ Func SwitchBetweenBases($bCheckMainScreen = True)
 EndFunc   ;==>SwitchBetweenBases
 
 Func SwitchToBuilderBase()
-	Local $sImgTunnel = @ScriptDir & "\imgxml\Resources\BuildersBase\Tunnel\OOTunnel_0_93.png"
 
 	Local $aiTunnel = decodeSingleCoord(findImage("OOTunnel", $sImgTunnel, "FV", 1, True))
 
 	If IsArray($aiTunnel) And UBound($aiTunnel) = 2 Then
 		SetLog("Found Tunnel", $COLOR_INFO)
-		ClickP($aiTunnel)
+		Click($aiTunnel[0] - Random(0, 80, 1), $aiTunnel[1] + Random(0, 15, 1))
 	Else
 		SetLog("Failed to locate the tunnel", $COLOR_INFO)
 		SaveDebugImage("OO2BBTunnel");

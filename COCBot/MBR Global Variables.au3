@@ -6,7 +6,7 @@
 ; Return values .: None
 ; Author ........:
 ; Modified ......: Everyone all the time  :)
-; Remarks .......: This file is part of MyBot, previously known as ClashGameBot. Copyright 2015-2021
+; Remarks .......: This file is part of MyBot, previously known as ClashGameBot. Copyright 2015-2023
 ;                  MyBot is distributed under the terms of the GNU GPL
 ; Related .......:
 ; Link ..........: https://github.com/MyBotRun/MyBot/wiki
@@ -555,7 +555,7 @@ Global Enum $eIcnVillager = 1, $eIcnModCWL, $eIcnModZZZ, $eIcnHumanization, $eIc
 		$eIcnModBBGoldRune, $eIcnModElixirRune, $eIcnModDarkElixirRune, $eIcnModCCArmyCamp, $eIcnModCCBarrack, $eIcnModCCSpellFactory, $eIcnModCCSpellStorage, $eIcnModCCCapitalHall, $eIcnModCCDistrictHall, _
 		$eIcnModCCWall1, $eIcnModCCWall5, $eIcnModCCBigBarb, $eIcnModCCBoulder, $eIcnModCCForest, $eIcnModCCGreatPyre, $eIcnModCCGrove, $eIcnModCCPillar, $eIcnModCCBarrackRuin, $eIcnModCCBowBlastRuin, $eIcnModCCBombTowerRuin, _
 		$eIcnModCCSwizardtowerRuin, $eIcnModCCWall2, $eIcnModCCWall3, $eIcnModGoldRune, $eIcnModHeroBook, $eIcnCCSleep, $eIcnCCWake, $eIcnModCCPrioritized, $eIcnCWLChampion, $eIcnPriority, _
-		$eIcnGiantSkeleton, $eIcnRoyalGhost, $eIcnPartyWizard, $eIcnIceWizard, $eIcnAllSpell, $eIcnAllSiege, $eIcnModFightingBook, $eIcnModEverythingBook, $eIcnModPetPotion
+		$eIcnGiantSkeleton, $eIcnRoyalGhost, $eIcnPartyWizard, $eIcnIceWizard, $eIcnAllSpell, $eIcnAllSiege, $eIcnModFightingBook, $eIcnModEverythingBook, $eIcnModPetPotion, $eIcnModBuilderJar
 
 Global $eIcnDonBlank = $eIcnDonBlacklist
 Global $eIcnOptions = $eIcnDonBlacklist
@@ -867,7 +867,7 @@ Global $g_bChkTreasuryCollect = False
 Global $g_iTxtTreasuryGold = 0
 Global $g_iTxtTreasuryElixir = 0
 Global $g_iTxtTreasuryDark = 0
-Global $g_iacmbMagicPotion[9] = [6, 6, 6, 6, 6, 6, 6, 6, 6]
+Global $g_iacmbMagicPotion[10] = [6, 6, 6, 6, 6, 6, 6, 6, 6, 6]
 Global $g_PotionNumberChain = "0|1|2|3|4|5|No Limit"
 Global $XForItem1 = 0, $XForItem2 = 0, $IsopenMagicWindow = False
 
@@ -876,7 +876,7 @@ Global $g_bChkCollectBuilderBase = False, $g_bChkStartClockTowerBoost = False, $
 ; Builder Base Attack
 Global $g_hChkEnableBBAttack = 0, $g_hChkBBTrophyRange = 0, $g_hTxtBBTrophyLowerLimit = 0, $g_hTxtBBTrophyUpperLimit = 0, $g_hChkBBAttIfLootAvail = 0, $g_hChkBBWaitForMachine = 0
 Global $g_bChkEnableBBAttack = False, $g_bChkBBTrophyRange = False, $g_bChkBBAttIfLootAvail = True, $g_bChkBBWaitForMachine = False
-Global $g_iTxtBBTrophyLowerLimit = 0, $g_iTxtBBTrophyUpperLimit = 5000, $g_hChkBBHaltOnGoldFull = 0, $g_hChkBBHaltOnElixirFull = 0, $g_bChkBBHaltOnGoldFull = False, $g_bChkBBHaltOnElixirFull = False
+Global $g_iTxtBBTrophyLowerLimit = 0, $g_iTxtBBTrophyUpperLimit = 5000, $g_hChkBBHaltOnResourcesFull = 0, $g_bChkBBHaltOnResourcesFull = False
 Global $g_bBBMachineReady = False, $g_hChkBBAttackForDailyChallenge = 0, $g_bChkBBAttackForDailyChallenge = False, $g_IsBBDailyChallengeAvailable = False
 Global $g_aBBMachine = [0,0] ; x,y coordinates of where to click for Battle machine on attack bar
 Global $g_iBBMachAbilityTime = 14000 ; in milliseconds, so 14 seconds between abilities
@@ -884,8 +884,6 @@ Global Const $g_iBBNextTroopDelayDefault = 2000,  $g_iBBSameTroopDelayDefault = 
 Global $g_iBBNextTroopDelay = $g_iBBNextTroopDelayDefault,  $g_iBBSameTroopDelay = $g_iBBSameTroopDelayDefault; delay time between different and same troops
 Global $g_iBBNextTroopDelayIncrement = 400,  $g_iBBSameTroopDelayIncrement = 60 ; used for math to calculate delays based on selection
 Global $g_hCmbBBNextTroopDelay = 0, $g_hCmbBBSameTroopDelay = 0
-Global $g_apTL[10][2] = [ [22, 374], [59, 348], [102, 319], [137, 288], [176, 259], [209, 232], [239, 212], [270, 188], [307, 164], [347, 139] ]
-Global $g_apTR[10][2] = [ [831, 368], [791, 334], [747, 306], [714, 277], [684, 252], [647, 227], [615, 203], [577, 177], [539, 149], [506, 123] ]
 
 ; BB Drop Order
 Global $g_hBtnBBDropOrder = 0
@@ -893,10 +891,11 @@ Global $g_hGUI_BBDropOrder = 0
 Global $g_hChkBBCustomDropOrderEnable = 0
 Global $g_hBtnBBDropOrderSet = 0, $g_hBtnBBRemoveDropOrder = 0, $g_hBtnBBClose = 0
 Global $g_bBBDropOrderSet = False
-Global Const $g_iBBTroopCount = 12
-Global Const $g_sBBDropOrderDefault = "BoxerGiant|HogGlider|SuperPekka|DropShip|Witch|BabyDrag|WallBreaker|Barbarian|CannonCart|Archer|Minion|BattleMachine"
+Global Const $g_iBBTroopCount = 13
+Global Const $g_sBBDropOrderDefault = "Barbarian|Archer|BoxerGiant|Minion|WallBreaker|BabyDrag|CannonCart|Witch|DropShip|SuperPekka|HogGlider|ElectroWizard|BattleMachine"
 Global $g_sBBDropOrder = $g_sBBDropOrderDefault
-Global $g_ahCmbBBDropOrder[$g_iBBTroopCount] = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+Global $g_ahCmbBBDropOrder[$g_iBBTroopCount] = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+Global $g_aMachinePos[3] = [0, 0, ""], $g_DeployedMachine = False, $g_aWBOnAttackBar[0][2], $g_bWBOnAttackBar = False
 
 ; <><><><> Village / Donate - Request <><><><>
 Global $g_bRequestTroopsEnable = False
@@ -1910,7 +1909,7 @@ Global $IsCGEventRunning = 0, $g_bChkForceAttackOnClanGamesWhenHalt = False, $Cu
 Global $g_bSortClanGames = True, $g_iSortClanGames = 0
 Global $g_abCGMainLootItem[6], $g_abCGMainBattleItem[22], $g_abCGMainDestructionItem[34], $g_abCGMainAirItem[13], _
 	   $g_abCGMainGroundItem[29], $g_abCGMainMiscItem[3], $g_abCGMainSpellItem[12], $g_abCGBBBattleItem[4], _
-	   $g_abCGBBDestructionItem[19], $g_abCGBBTroopsItem[12]
+	   $g_abCGBBDestructionItem[21], $g_abCGBBTroopsItem[12]
 Global $IsCGEventForGold = False, $IsCGEventForElixir = False, $IsCGEventForDE = False
 
 ; CSV Deploy Speed
@@ -2069,9 +2068,10 @@ Global $BuilderItemCapture = @ScriptDir & "\imgxml\Potions\Builder*"
 Global $ResearchItemCapture = @ScriptDir & "\imgxml\Potions\Research*"
 Global $ClockItemCapture = @ScriptDir & "\imgxml\Potions\Clock*"
 Global $SuperItemCapture = @ScriptDir & "\imgxml\Potions\Super*"
-Global $ShovelItemCapture = @ScriptDir & "\imgxml\Potions\Shovel*"
-Global $PotionsCaptures[9] = [$PowerItemCapture, $ResourceItemCapture, $TrainingItemCapture, $BuilderItemCapture, $ClockItemCapture, $HeroItemCapture, $ResearchItemCapture, $SuperItemCapture, $ShovelItemCapture]
-Global $PotionsNames[9] = ["Power", "Resource", "Training", "Builder", "Clock Tower", "Hero", "Research", "Super", "Shovel"]
+Global $PetItemCapture = @ScriptDir & "\imgxml\Potions\Pet*"
+Global $BJarItemCapture = @ScriptDir & "\imgxml\Potions\BJar*"
+Global $PotionsCaptures[10] = [$PowerItemCapture, $ResourceItemCapture, $TrainingItemCapture, $BuilderItemCapture, $ClockItemCapture, $HeroItemCapture, $ResearchItemCapture, $SuperItemCapture, $PetItemCapture, $BJarItemCapture]
+Global $PotionsNames[10] = ["Power", "Resource", "Training", "Builder", "Clock Tower", "Hero", "Research", "Super", "Pet", "Builder Jar"]
 
 ;Use Medals To Fill CC
 Global $IsForRequestEarly = True, $IsTofillWithMedals = False
@@ -2154,6 +2154,4 @@ Global $g_bChkIsPriorArmyCBS[4] = ["Army", "Barracks", "Fortress", "Storage"], $
 	   $g_bChkIsPriorArmyCSF[3] = ["Army", "Storage", "Factory"], $g_bChkIsPriorArmyBSF[4] = ["Barracks", "Fortress", "Storage", "Factory"]
 Global $g_bChkIsPriorArmyCB[3] = ["Army", "Barracks", "Fortress"], $g_bChkIsPriorArmyCS[2] = ["Army", "Storage"], $g_bChkIsPriorArmyCF[2] = ["Army", "Factory"], _
 	   $g_bChkIsPriorArmyBS[3] = ["Barracks", "Fortress", "Storage"], $g_bChkIsPriorArmyBF[3] = ["Barracks", "Fortress", "Factory"], $g_bChkIsPriorArmySF[2] = ["Storage", "Factory"]
-
-;Disable BB 2.0
-Global $g_bDisableBB = True
+Global $IsAutoForgeSlotJustCollected = 0

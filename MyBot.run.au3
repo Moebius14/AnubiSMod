@@ -3,7 +3,7 @@
 ; Description ...: This file contains the initialization and main loop sequences f0r the MBR Bot
 ; Author ........:  (2014)
 ; Modified ......:
-; Remarks .......: This file is part of MyBot, previously known as ClashGameBot. Copyright 2015-2019
+; Remarks .......: This file is part of MyBot, previously known as ClashGameBot. Copyright 2015-2023
 ;                  MyBot is distributed under the terms of the GNU GPL
 ; Related .......:
 ; Link ..........: https://github.com/MyBotRun/MyBot/wiki
@@ -175,7 +175,7 @@ EndFunc   ;==>InitializeBot
 ; Return values .: None
 ; Author ........:
 ; Modified ......: CodeSlinger69 (2017)
-; Remarks .......: This file is part of MyBot, previously known as ClashGameBot. Copyright 2015-2017
+; Remarks .......: This file is part of MyBot, previously known as ClashGameBot. Copyright 2015-2023
 ;                  MyBot is distributed under the terms of the GNU GPL
 ; Related .......:
 ; Link ..........: https://github.com/MyBotRun/MyBot/wiki
@@ -270,7 +270,7 @@ EndFunc   ;==>ProcessCommandLine
 ; Return values .: None
 ; Author ........:
 ; Modified ......: cosote (Feb-2017)
-; Remarks .......: This file is part of MyBot, previously known as ClashGameBot. Copyright 2015-2017
+; Remarks .......: This file is part of MyBot, previously known as ClashGameBot. Copyright 2015-2023
 ;                  MyBot is distributed under the terms of the GNU GPL
 ; Related .......:
 ; Link ..........: https://github.com/MyBotRun/MyBot/wiki
@@ -331,7 +331,7 @@ EndFunc   ;==>InitializeAndroid
 ; Return values .: None
 ; Author ........:
 ; Modified ......: CodeSlinger69 (2017)
-; Remarks .......: This file is part of MyBot, previously known as ClashGameBot. Copyright 2015-2017
+; Remarks .......: This file is part of MyBot, previously known as ClashGameBot. Copyright 2015-2023
 ;                  MyBot is distributed under the terms of the GNU GPL
 ; Related .......:
 ; Link ..........: https://github.com/MyBotRun/MyBot/wiki
@@ -360,7 +360,7 @@ EndFunc   ;==>SetupProfileFolder
 ; Return values .: None
 ; Author ........:
 ; Modified ......: CodeSlinger69 (2017)
-; Remarks .......: This file is part of MyBot, previously known as ClashGameBot. Copyright 2015-2017
+; Remarks .......: This file is part of MyBot, previously known as ClashGameBot. Copyright 2015-2023
 ;                  MyBot is distributed under the terms of the GNU GPL
 ; Related .......:
 ; Link ..........: https://github.com/MyBotRun/MyBot/wiki
@@ -476,7 +476,7 @@ EndFunc   ;==>InitializeMBR
 ; Return values .: None
 ; Author ........:
 ; Modified ......: CodeSlinger69 (2017)
-; Remarks .......: This file is part of MyBot, previously known as ClashGameBot. Copyright 2015-2017
+; Remarks .......: This file is part of MyBot, previously known as ClashGameBot. Copyright 2015-2023
 ;                  MyBot is distributed under the terms of the GNU GPL
 ; Related .......:
 ; Link ..........: https://github.com/MyBotRun/MyBot/wiki
@@ -549,7 +549,7 @@ EndFunc   ;==>SetupFilesAndFolders
 ; Return values .: None
 ; Author ........:
 ; Modified ......: CodeSlinger69 (2017)
-; Remarks .......: This file is part of MyBot, previously known as ClashGameBot. Copyright 2015-2017
+; Remarks .......: This file is part of MyBot, previously known as ClashGameBot. Copyright 2015-2023
 ;                  MyBot is distributed under the terms of the GNU GPL
 ; Related .......:
 ; Link ..........: https://github.com/MyBotRun/MyBot/wiki
@@ -645,7 +645,7 @@ EndFunc   ;==>FinalInitialization
 ; Return values .: None
 ; Author ........:
 ; Modified ......: CodeSlinger69 (2017)
-; Remarks .......: This file is part of MyBot, previously known as ClashGameBot. Copyright 2015-2017
+; Remarks .......: This file is part of MyBot, previously known as ClashGameBot. Copyright 2015-2023
 ;                  MyBot is distributed under the terms of the GNU GPL
 ; Related .......:
 ; Link ..........: https://github.com/MyBotRun/MyBot/wiki
@@ -983,7 +983,7 @@ Func runBot() ;Bot that runs everything in order
 			EndIf
 		Else ;When error occurs directly goes to attack
 			Local $sRestartText = $g_bIsSearchLimit ? " due search limit" : " after Out of Sync Error: Attack Now"
-			If $IsAttackStarted Then $sRestartText = "After Taking Too Much Time To Click Next Button"
+			If $IsAttackStarted Then $sRestartText = " After Taking Too Much Time To Click Next Button"
 			SetLog("Restarted" & $sRestartText, $COLOR_INFO)
 			;Use "CheckDonateOften" setting to run loop on hitting SearchLimit
 			If $g_bIsSearchLimit And $g_bCheckDonateOften Then
@@ -1057,22 +1057,20 @@ Func _Idle() ;Sequence that runs until Full Army
 			EndIf
 		EndIf
 		If $g_bRestart Then ExitLoop
-		If Random(0, 3, 1) = 0 Then ; This is prevent from collecting all the time which isn't needed anyway, chance to run is 1/4
-			CollectCCGold()
+		CollectCCGold()
+		_Sleep($DELAYRUNBOT3)
+		If SwitchBetweenBasesMod2() Then
+			ForgeClanCapitalGold()
 			_Sleep($DELAYRUNBOT3)
-			If SwitchBetweenBasesMod2() Then
-				ForgeClanCapitalGold()
-				_Sleep($DELAYRUNBOT3)
-				AutoUpgradeCC()
-				_Sleep($DELAYRUNBOT3)
-			EndIf
-			If Not $g_bRunState Then Return
+			AutoUpgradeCC()
+			_Sleep($DELAYRUNBOT3)
 		EndIf
+		If Not $g_bRunState Then Return
 		If Random(0, $g_iCollectAtCount - 1, 1) = 0 Then ; This is prevent from collecting all the time which isn't needed anyway, chance to run is 1/$g_iCollectAtCount
 			If $bChkUseOnlyCCMedals Then
-				Local $aRndFuncList = ['Collect', 'CheckTombs', 'DonateCC', 'CleanYard', 'CollectCCGold']
+				Local $aRndFuncList = ['Collect', 'CheckTombs', 'DonateCC', 'CleanYard']
 			Else
-				Local $aRndFuncList = ['Collect', 'CheckTombs', 'RequestCC', 'DonateCC', 'CleanYard', 'CollectCCGold']
+				Local $aRndFuncList = ['Collect', 'CheckTombs', 'RequestCC', 'DonateCC', 'CleanYard']
 			EndIf
 			_ArrayShuffle($aRndFuncList)
 			For $Index In $aRndFuncList
@@ -1571,9 +1569,9 @@ Func FirstCheck()
 	
 	If SwitchBetweenBasesMod2() Then
 		ForgeClanCapitalGold()
-		_Sleep($DELAYRUNBOT3)
+		If _Sleep($DELAYRUNBOT3) Then Return
 		AutoUpgradeCC()
-		_Sleep($DELAYRUNBOT3)
+		If _Sleep($DELAYRUNBOT3) Then Return
 	EndIf
 	If Not $g_bRunState Then Return
 	
@@ -1592,7 +1590,7 @@ Func FirstCheck()
 	If $g_bChkFirstStartSellMagicItem And Not $g_bFirstStartForAll Then
 		If IsToInspectMagicItems() Then
 			SetLog("Magic Items Management :", $COLOR_DEBUG1)
-			Sleep(Random(1000, 2000, 1))
+			If _Sleep(Random(1000, 2000, 1)) Then Return
 			SaleFreeMagics()
 		EndIf
 	EndIf
@@ -1652,6 +1650,10 @@ Func BuilderBase($bTest = False)
 		$g_bStayOnBuilderBase = True
 		If _Sleep($DELAYRUNBOT3) Then Return
 		If checkObstacles() Then Return
+		
+		CollectBuilderBase()
+		If _Sleep($DELAYRUNBOT3) Then Return
+		If checkObstacles() Then Return
 
 		BuilderBaseReport()
 		If _Sleep($DELAYRUNBOT3) Then Return
@@ -1661,13 +1663,9 @@ Func BuilderBase($bTest = False)
 		If _Sleep($DELAYRUNBOT3) Then Return
 		If checkObstacles() Then Return
 
-		CollectBuilderBase()
-		If _Sleep($DELAYRUNBOT3) Then Return
-		If checkObstacles() Then Return
-		
-		LocateBuilderHall()
-		If _Sleep($DELAYRUNBOT3) Then Return
-		If checkObstacles() Then Return
+	;	LocateBuilderHall()
+	;	If _Sleep($DELAYRUNBOT3) Then Return
+	;	If checkObstacles() Then Return
 		
 		Local $StartLabONGui = StarLabGuiDisplay()
 		If _Sleep($DELAYRUNBOT3) Then Return
@@ -1678,24 +1676,30 @@ Func BuilderBase($bTest = False)
 		If checkObstacles() Then Return
 		If $g_bRestart Then Return
 		
-		CollectElixirCart()
+		CollectBuilderBase(False, False, False, False)
 		If _Sleep($DELAYRUNBOT3) Then Return
 		If checkObstacles() Then Return
 		
-		If $g_bBattleMachineUpgrade Or $g_iChkBBSuggestedUpgrades Or $g_bAutoStarLabUpgradeEnable Then
+		If $g_bAutoStarLabUpgradeEnable Then
 			BuilderBaseReport(True, True)
 			If _Sleep($DELAYRUNBOT3) Then Return
 			If checkObstacles() Then Return
 		EndIf
 		
-		OttoBuildingUpgrades()
-		If _Sleep($DELAYRUNBOT3) Then Return
-		If checkObstacles() Then Return
-		If $g_bRestart Then Return
+	;	OttoBuildingUpgrades()
+	;	If _Sleep($DELAYRUNBOT3) Then Return
+	;	If checkObstacles() Then Return
+	;	If $g_bRestart Then Return
 
 		Local $StartLabON = StarLaboratory()
 		If _Sleep($DELAYRUNBOT3) Then Return
 		If checkObstacles() Then Return
+		
+		If $g_iChkBBSuggestedUpgrades Then
+			BuilderBaseReport(True, True)
+			If _Sleep($DELAYRUNBOT3) Then Return
+			If checkObstacles() Then Return
+		EndIf
 
 		MainSuggestedUpgradeCode()
 		If _Sleep($DELAYRUNBOT3) Then Return
@@ -1719,7 +1723,7 @@ Func BuilderBase($bTest = False)
 		If SwitchBetweenBases() Then $g_bStayOnBuilderBase = False
 
 		Sleep(Random(1500, 2000))
-		If Not $g_bDisableBB Then _ClanGames()
+		_ClanGames()
 		If Not $g_bRunState Then Return
 
 	EndIf
