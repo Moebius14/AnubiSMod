@@ -2095,6 +2095,7 @@ Func CapitalMainUpgradeLoop($aUpgrade)
 			If Not $g_bRunState Then Return
 			Click(645, 500 + $g_iBottomOffsetY) ;Click Contribute
 			$g_iStatsClanCapUpgrade = $g_iStatsClanCapUpgrade + 1
+			Local $costNum = _NumberFormat($cost, True)
 			AutoUpgradeCCLog($BuildingName, $costNum)
 			If _Sleep(1500) Then Return
 			ClickAway("Right")
@@ -2138,6 +2139,7 @@ Func DistrictUpgrade($aUpgrade)
 			If Not $g_bRunState Then Return
 			Click(645, 500 + $g_iBottomOffsetY) ;Click Contribute
 			$g_iStatsClanCapUpgrade = $g_iStatsClanCapUpgrade + 1
+			Local $costNum = _NumberFormat($cost, True)
 			AutoUpgradeCCLog($BuildingName, $costNum)
 			If _Sleep(1500) Then Return
 			ClickAway("Right")
