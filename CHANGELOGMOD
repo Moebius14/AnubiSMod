@@ -1,3 +1,10 @@
+* v23.07.xx **
+* Added Painter and Dark Ages Sceneries Support (Attack Only).
+* Fixed Free builder After Book Of Heroes Use.
+* Fixed Books detection in daily challenges.
+* Improved Values Display Format in Log.
+* Added Version Status Check at the botton of Bot.
+
 * v23.07.13 **
 * Added Pet Potion support.
 * Added Pet And Builder Star Jar To Magic Items Management.

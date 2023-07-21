@@ -224,7 +224,7 @@ Func UpgradeWall()
 
 			ClickAway()
 		Else
-			SetLog("No free builder, Upgrade Walls skipped..", $COLOR_ERROR)
+			SetLog("No free builder, Upgrade Walls skipped..", $COLOR_DEBUG1)
 		EndIf
 	EndIf
 	If _Sleep($DELAYUPGRADEWALL1) Then Return
@@ -496,11 +496,11 @@ Func SkipWallUpgrade($iWallCost = $g_iWallCost) ; Dynamic Upgrades
 		If Not $bMinWardenElixir Then
 			Switch $g_iUpgradeWallLootType
 				Case 1 ; Elixir
-					SetLog("Grand Warden needs " & $g_ExactWardenCost & " Elixir for next Level", $COLOR_WARNING)
+					SetLog("Grand Warden needs " & _NumberFormat($g_ExactWardenCost, True) & " Elixir for next Level", $COLOR_WARNING)
 					SetLog("Skipping Wall Upgrade", $COLOR_WARNING)
 					Return "Skip"
 				Case 2 ; Elixir & Gold
-					SetLog("Grand Warden needs " & $g_ExactWardenCost & " Elixir for next Level", $COLOR_SUCCESS1)
+					SetLog("Grand Warden needs " & _NumberFormat($g_ExactWardenCost, True) & " Elixir for next Level", $COLOR_SUCCESS1)
 					SetLog("Using Gold only for Wall Upgrade", $COLOR_SUCCESS1)
 					Return "Gold"
 			EndSwitch
@@ -514,11 +514,11 @@ Func SkipWallUpgrade($iWallCost = $g_iWallCost) ; Dynamic Upgrades
 			Case 0 ; Using gold
 				; do nothing
 			Case 1 ; Using elixir
-				SetLog("Laboratory needs Elixir to Upgrade :  " & $g_iLaboratoryElixirCost, $COLOR_SUCCESS1)
+				SetLog("Laboratory needs Elixir to Upgrade :  " & _NumberFormat($g_iLaboratoryElixirCost, True), $COLOR_SUCCESS1)
 				SetLog("Skipping Wall Upgrade", $COLOR_SUCCESS1)
 				Return "Skip"
 			Case 2 ; Using gold and elixir
-				SetLog("Laboratory needs Elixir to Upgrade :  " & $g_iLaboratoryElixirCost, $COLOR_SUCCESS1)
+				SetLog("Laboratory needs Elixir to Upgrade :  " & _NumberFormat($g_iLaboratoryElixirCost, True), $COLOR_SUCCESS1)
 				SetLog("Using Gold only for Wall Upgrade", $COLOR_SUCCESS1)
 				Return "Gold"
 		EndSwitch

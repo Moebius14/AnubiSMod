@@ -159,26 +159,28 @@ Func UpgradeBuilding()
 					If UpgradeNormal($iz) = False Then ContinueLoop
 				EndIf
 				$iUpgradeAction += 2 ^ ($iz + 1)
-				SetLog("Gold used = " & $g_avBuildingUpgrades[$iz][2], $COLOR_INFO)
+				SetLog("Gold used = " & _NumberFormat($g_avBuildingUpgrades[$iz][2], True), $COLOR_INFO)
 				$g_iNbrOfBuildingsUppedGold += 1
 				$g_iCostGoldBuilding += $g_avBuildingUpgrades[$iz][2]
 				UpdateStats()
 				$iAvailGold -= $g_avBuildingUpgrades[$iz][2]
 				If Not StringInStr($g_avBuildingUpgrades[$iz][4], "Gear") Then $iAvailBldr -= 1
 			Case "Elixir"
+				$iAvailBldrBook = False
 				If $iAvailElixir < $g_avBuildingUpgrades[$iz][2] + $g_iUpgradeMinElixir Then
 					SetLog("Insufficent Elixir for #" & $iz + 1 & ", requires: " & $g_avBuildingUpgrades[$iz][2] & " + " & $g_iUpgradeMinElixir, $COLOR_INFO)
 					ContinueLoop
 				EndIf
 				If UpgradeNormal($iz) = False Then ContinueLoop
 				$iUpgradeAction += 2 ^ ($iz + 1)
-				SetLog("Elixir used = " & $g_avBuildingUpgrades[$iz][2], $COLOR_INFO)
+				SetLog("Elixir used = " & _NumberFormat($g_avBuildingUpgrades[$iz][2], True), $COLOR_INFO)
 				$g_iNbrOfBuildingsUppedElixir += 1
 				$g_iCostElixirBuilding += $g_avBuildingUpgrades[$iz][2]
 				UpdateStats()
 				$iAvailElixir -= $g_avBuildingUpgrades[$iz][2]
-				$iAvailBldr -= 1
+				If Not $iAvailBldrBook Then $iAvailBldr -= 1
 			Case "Dark"
+				$iAvailBldrBook = False
 				If $iAvailDark < $g_avBuildingUpgrades[$iz][2] + $g_iUpgradeMinDark Then
 					SetLog("Insufficent Dark for #" & $iz + 1 & ", requires: " & $g_avBuildingUpgrades[$iz][2] & " + " & $g_iUpgradeMinDark, $COLOR_INFO)
 					ContinueLoop
@@ -191,12 +193,12 @@ Func UpgradeBuilding()
 				EndIf
 				
 				$iUpgradeAction += 2 ^ ($iz + 1)
-				SetLog("Dark Elixir used = " & $g_avBuildingUpgrades[$iz][2], $COLOR_INFO)
+				SetLog("Dark Elixir used = " & _NumberFormat($g_avBuildingUpgrades[$iz][2], True), $COLOR_INFO)
 				$g_iNbrOfHeroesUpped += 1
 				$g_iCostDElixirHero += $g_avBuildingUpgrades[$iz][2]
 				UpdateStats()
 				$iAvailDark -= $g_avBuildingUpgrades[$iz][2]
-				$iAvailBldr -= 1
+				If Not $iAvailBldrBook Then $iAvailBldr -= 1
 			Case Else
 				SetLog("Something went wrong with loot type on Upgradebuilding module on #" & $iz + 1, $COLOR_ERROR)
 				ExitLoop
@@ -402,8 +404,9 @@ Func UpgradeNormal($iUpgradeNumber)
 
 				If $g_bUseHeroBooks Then
 					If _Sleep(500) Then Return
-					Local $HeroUpgradeTime = ConvertOCRTime("UseHeroBooks", $g_aUpgradeDuration)
+					Local $HeroUpgradeTime = ConvertOCRTime("UseHeroBooks", $g_aUpgradeDuration, False)
 					If $HeroUpgradeTime >= ($g_iHeroMinUpgradeTime * 1440) Then
+						SetLog("Hero Upgrade time > than " & $g_iHeroMinUpgradeTime & " day", $COLOR_INFO)
 						Local $HeroBooks = FindButton("HeroBooks")
 						If IsArray($HeroBooks) And UBound($HeroBooks) = 2 Then
 							SetLog("Use Book Of Heroes to Complete Now this Hero Upgrade", $COLOR_INFO)
@@ -420,6 +423,7 @@ Func UpgradeNormal($iUpgradeNumber)
 								EndIf
 								_FileWriteLog($g_sProfileLogsPath & "\ModLog.log", " [" & $g_sProfileCurrentName & "] " & $bHeroShortName & " : " & $ActionForModLog)
 								If _Sleep(1000) Then Return
+								$iAvailBldrBook = True
 							EndIf
 						Else
 							SetLog("No Books of Heroes Found", $COLOR_DEBUG)
@@ -587,8 +591,9 @@ Func UpgradeHero($iUpgradeNumber)
 				
 				If $g_bUseHeroBooks Then
 					If _Sleep(500) Then Return
-					Local $HeroUpgradeTime = ConvertOCRTime("UseHeroBooks", $g_aUpgradeDuration)
+					Local $HeroUpgradeTime = ConvertOCRTime("UseHeroBooks", $g_aUpgradeDuration, False)
 					If $HeroUpgradeTime >= ($g_iHeroMinUpgradeTime * 1440) Then
+						SetLog("Hero Upgrade time > than " & $g_iHeroMinUpgradeTime & " day", $COLOR_INFO)
 						Local $HeroBooks = FindButton("HeroBooks")
 						If IsArray($HeroBooks) And UBound($HeroBooks) = 2 Then
 							SetLog("Use Book Of Heroes to Complete Now this Hero Upgrade", $COLOR_INFO)
@@ -613,6 +618,7 @@ Func UpgradeHero($iUpgradeNumber)
 								EndIf
 								_FileWriteLog($g_sProfileLogsPath & "\ModLog.log", " [" & $g_sProfileCurrentName & "] " & $bHeroShortName & " : " & $ActionForModLog)
 								If _Sleep(1000) Then Return
+								$iAvailBldrBook = True
 							EndIf
 						Else
 							SetLog("No Books of Heroes Found", $COLOR_DEBUG)

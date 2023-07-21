@@ -454,7 +454,29 @@ Func ApplyConfig_600_6($TypeReadSave)
 				  $g_sBBDropOrder &= "|ElectroWizard"
 				  SetLog("New List :" & $g_sBBDropOrder)
 			    EndIf
-			    For $i=0 To $g_iBBTroopCount - 1
+				Local $OldBBWB = False
+				For $i = 0 To $g_iBBTroopCount
+					If $asBBDropOrder[$i] = "WallBreaker" Then
+						$OldBBWB = True
+						ExitLoop
+					EndIf
+				Next
+				If $OldBBWB Then
+					Local $g_sBBDropOrderNew
+					For $i = 0 To $g_iBBTroopCount
+						If $asBBDropOrder[$i] = $g_iBBTroopCount Then ContinueLoop
+						If $asBBDropOrder[$i] = "WallBreaker" Then
+							StringReplace($g_sBBDropOrder, "WallBreaker", "Bomber", 1, 1)
+							$asBBDropOrder[$i] = "Bomber"
+						EndIf
+						$g_sBBDropOrderNew &= $asBBDropOrder[$i] & "|"
+					Next
+					$g_sBBDropOrderNew = StringTrimRight($g_sBBDropOrderNew, 1) ; Remove last '|'
+					$asBBDropOrder = StringSplit($g_sBBDropOrderNew, "|")
+					$g_sBBDropOrder = $g_sBBDropOrderNew
+					SetLog("New List :" & $g_sBBDropOrder)
+				EndIf
+			    For $i = 0 To $g_iBBTroopCount - 1
 					_GUICtrlComboBox_SetCurSel($g_ahCmbBBDropOrder[$i], _GUICtrlComboBox_SelectString($g_ahCmbBBDropOrder[$i], $asBBDropOrder[$i+1]))
 				Next
 				GUICtrlSetBkColor($g_hBtnBBDropOrder, $COLOR_GREEN)
@@ -2260,10 +2282,6 @@ Func ApplyConfig_600_35_1($TypeReadSave)
 			GUICtrlSetState($g_hChkScreenshotType, $g_bScreenshotPNGFormat ? $GUI_CHECKED : $GUI_UNCHECKED)
 			GUICtrlSetState($g_hChkScreenshotHideName, $g_bScreenshotHideName ? $GUI_CHECKED : $GUI_UNCHECKED)
 			GUICtrlSetData($g_hTxtTimeAnotherDevice, Int(Int($g_iAnotherDeviceWaitTime) / 60))
-			GUICtrlSetState($g_hChkSinglePBTForced, $g_bForceSinglePBLogoff ? $GUI_CHECKED : $GUI_UNCHECKED)
-			GUICtrlSetData($g_hTxtSinglePBTimeForced, $g_iSinglePBForcedLogoffTime)
-			GUICtrlSetData($g_hTxtPBTimeForcedExit, $g_iSinglePBForcedEarlyExitTime)
-			chkSinglePBTForced()
 			GUICtrlSetState($g_hChkAutoResume, $g_bAutoResumeEnable ? $GUI_CHECKED : $GUI_UNCHECKED)
 			GUICtrlSetData($g_hTxtAutoResumeTime, $g_iAutoResumeTime)
 			chkAutoResume()
@@ -2300,9 +2318,6 @@ Func ApplyConfig_600_35_1($TypeReadSave)
 			$g_bScreenshotPNGFormat = (GUICtrlRead($g_hChkScreenshotType) = $GUI_CHECKED)
 			$g_bScreenshotHideName = (GUICtrlRead($g_hChkScreenshotHideName) = $GUI_CHECKED)
 			$g_iAnotherDeviceWaitTime = Int(GUICtrlRead($g_hTxtTimeAnotherDevice)) * 60 ; Minutes are entered
-			$g_bForceSinglePBLogoff = (GUICtrlRead($g_hChkSinglePBTForced) = $GUI_CHECKED)
-			$g_iSinglePBForcedLogoffTime = GUICtrlRead($g_hTxtSinglePBTimeForced)
-			$g_iSinglePBForcedEarlyExitTime = GUICtrlRead($g_hTxtPBTimeForcedExit)
 			$g_bAutoResumeEnable = (GUICtrlRead($g_hChkAutoResume) = $GUI_CHECKED)
 			$g_iAutoResumeTime = GUICtrlRead($g_hTxtAutoResumeTime)
 			$g_bDisableNotifications = (GUICtrlRead($g_hChkDisableNotifications) = $GUI_CHECKED)

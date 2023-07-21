@@ -179,17 +179,17 @@ Func StarLaboratory($bTestRun = False)
 			CloseWindow()
 			Return False
 		Else
-			SetLog($g_avStarLabTroops[$iSelectedUpgrade][3] & " selected for upgrade, upgrade cost = " & $aUpgradeValue[$iSelectedUpgrade], $COLOR_INFO)
+			SetLog($g_avStarLabTroops[$iSelectedUpgrade][3] & " selected for upgrade, upgrade cost = " & _NumberFormat($aUpgradeValue[$iSelectedUpgrade], True), $COLOR_INFO)
 		EndIf
 	EndIf
 
 	; Try to upgrade - LabUpgrade(), check insufficient resource first
 	If $iAvailElixir < $aUpgradeValue[$iSelectedUpgrade] Then
-		SetLog("Insufficent Elixir for " & $g_avStarLabTroops[$iSelectedUpgrade][3] & ", Lab requires: " & $aUpgradeValue[$iSelectedUpgrade] & ", available: " & $iAvailElixir, $COLOR_INFO)
+		SetLog("Insufficent Elixir for " & $g_avStarLabTroops[$iSelectedUpgrade][3] & ", Lab requires: " & _NumberFormat($aUpgradeValue[$iSelectedUpgrade], True) & ", available: " & _NumberFormat($iAvailElixir, True), $COLOR_INFO)
 		CloseWindow()
 		Return False
 	ElseIf StarLabUpgrade($iSelectedUpgrade, $iXMoved, $iYMoved, $bTestRun) = True Then
-		SetLog("Elixir used = " & $aUpgradeValue[$iSelectedUpgrade], $COLOR_INFO)
+		SetLog("Elixir used = " & _NumberFormat($aUpgradeValue[$iSelectedUpgrade], True), $COLOR_INFO)
 		If _Sleep(1500) Then Return
 		ClickAway()
 		Return True
@@ -510,7 +510,7 @@ Func StarLabGuiDisplay()
 	; check for upgrade in process - Look for light green in upper right corner of lab window.
 	If $g_bDebugSetlog Then SetLog("_GetPixelColor(" & 720 + $iXMoved & "," & 190 + $iYMoved & "): " & _GetPixelColor(720 + $iXMoved, 190 + $iYMoved, True) & ":A2CB6C", $COLOR_DEBUG)
 	If _ColorCheck(_GetPixelColor(720 + $iXMoved, 190 + $iYMoved, True), Hex(0xA2CB6C, 6), 20) Then
-		SetLog("Laboratory Upgrade in progress, waiting for completion", $COLOR_INFO)
+		SetLog("Star Laboratory Upgrade in progress, waiting for completion", $COLOR_INFO)
 		If _Sleep($DELAYLABORATORY2) Then Return
 		; upgrade in process and time not recorded so update completion time!
 		Local $sLabTimeOCR = getRemainTLaboratory(260 + $iXMoved, 257 + $iYMoved)
@@ -529,7 +529,7 @@ Func StarLabGuiDisplay()
 			Return False
 		EndIf
 	Else
-		SetLog("No Laboratory Upgrade in progress", $COLOR_INFO)
+		SetLog("No Star Laboratory Upgrade in progress", $COLOR_INFO)
 		$g_sStarLabUpgradeTime = ""
 		GUICtrlSetData($g_hLbLStarLabTime, "")
 		StarLabStatusGUIUpdate()

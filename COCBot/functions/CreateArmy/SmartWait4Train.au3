@@ -298,7 +298,6 @@ Func SmartWait4Train($iTestSeconds = Default)
 				If $bTest Then $iShieldTime = $iTestSeconds
 				UniversalCloseWaitOpenCoC($iShieldTime * 1000, "SmartWait4Train_", $StopEmulator, $bFullRestart, $bSuspendComputer)
 				$g_bRestart = True ; Set flag to exit idle loop to deal with potential user changes to GUI
-				$IsMainScreenLocated = 0
 				ResetTrainTimeArray()
 			Else ; close game  = $iTrainWaitTime because shield is larger than train time
 				SetLog("Smart wait train time = " & StringFormat("%.2f", $iTrainWaitTime / 60) & " Minutes", $COLOR_INFO)
@@ -306,7 +305,6 @@ Func SmartWait4Train($iTestSeconds = Default)
 				If $bTest Then $iTrainWaitTime = $iTestSeconds
 				UniversalCloseWaitOpenCoC($iTrainWaitTime * 1000, "SmartWait4Train_", $StopEmulator, $bFullRestart, $bSuspendComputer)
 				$g_bRestart = True ; Set flag to exit idle loop to deal with potential user changes to GUI
-				$IsMainScreenLocated = 0
 				ResetTrainTimeArray()
 			EndIf
 			; if shield is zero, or not available, then check all 3 close without shield flags
@@ -317,7 +315,6 @@ Func SmartWait4Train($iTestSeconds = Default)
 				If $bTest Then $iTrainWaitTime = $iTestSeconds
 			UniversalCloseWaitOpenCoC($iTrainWaitTime * 1000, "SmartWait4TrainNoShield_", $StopEmulator, $bFullRestart, $bSuspendComputer)
 			$g_bRestart = True ; Set flag to exit idle loop to deal with potential user changes to GUI
-			$IsMainScreenLocated = 0
 			ResetTrainTimeArray()
 		Else
 			If $g_bDebugSetlogTrain Or $g_bDebugSetlog Then SetLog("$ichkCloseWaitSpell=" & $ichkCloseWaitSpell & ", $g_aiTimeTrain[1]=" & $g_aiTimeTrain[1], $COLOR_DEBUG)

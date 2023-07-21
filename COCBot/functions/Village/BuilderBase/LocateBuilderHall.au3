@@ -161,7 +161,7 @@ Func _LocateDoubleCannon($bCollect = False)
 	If $bIsOnBuilderBase Then
 		SetLog("You are on Builder Base!")
 	Else
-		SwitchBetweenBases(False)
+		SwitchBetweenBases(False, True)
 	EndIf
 
 	ZoomOut()
@@ -353,7 +353,7 @@ Func _LocateArcherTower($bCollect = False)
 	If $bIsOnBuilderBase Then
 		SetLog("You are on Builder Base!")
 	Else
-		SwitchBetweenBases(False)
+		SwitchBetweenBases(False, True)
 	EndIf
 
 	ZoomOut()
@@ -544,7 +544,7 @@ Func _LocateMultiMortar($bCollect = False)
 	If $bIsOnBuilderBase Then
 		SetLog("You are on Builder Base!")
 	Else
-		SwitchBetweenBases(False)
+		SwitchBetweenBases(False, True)
 	EndIf
 
 	ZoomOut()
@@ -735,7 +735,7 @@ Func _LocateMegaTesla($bCollect = False)
 	If $bIsOnBuilderBase Then
 		SetLog("You are on Builder Base!")
 	Else
-		SwitchBetweenBases(False)
+		SwitchBetweenBases(False, True)
 	EndIf
 
 	ZoomOut()

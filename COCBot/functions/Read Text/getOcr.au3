@@ -200,10 +200,6 @@ Func getCastleDonateCap($x_start, $y_start) ;  -> Gets clan castle capacity,  --
 	Return getOcrAndCapture("coc-army", $x_start, $y_start, 30, 14, True)
 EndFunc   ;==>getCastleDonateCap
 
-Func getAttackDisable($x_start, $y_start) ;  -> 346, 182 - Gets red text disabled for early warning of Personal Break
-	Return getOcrAndCapture("coc-dis", $x_start, $y_start, 118, 24, True)
-EndFunc   ;==>getAttackDisable
-
 Func getOcrLanguage($x_start, $y_start) ;  -> Get english language - main screen - "Attack" text on attack button
 	Return getOcrAndCapture("coc-ms-testl", $x_start, $y_start, 93, 16, True)
 EndFunc   ;==>getOcrLanguage

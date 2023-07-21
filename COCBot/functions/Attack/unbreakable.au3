@@ -107,8 +107,7 @@ Func Unbreakable()
 	
 	$iTime = Number($g_iUnbrkWait)
 	If $iTime < 1 Then $iTime = 1 ;error check user time input
-	Local Const $iGracePeriodTime = 5 ; 5 minutes for server to acknowledge log off.
-	$iTime = ($iTime + $iGracePeriodTime) * 60 * 1000 ; add server grace time and convert to milliseconds
+	$iTime = $iTime * 60 * 1000 ; convert to milliseconds
 
 	WaitnOpenCoC($iTime, False) ;Tell ClosenOpenCoC False to not cleanup windows
 

@@ -46,7 +46,6 @@ Func BotStart($bAutostartDelay = 0)
 	$g_bDonationEnabled = True
 	$g_bMeetCondStop = False
 	$g_bIsClientSyncError = False
-	$g_bDisableBreakCheck = False ; reset flag to check for early warning message when bot start/restart in case user stopped in middle
 	$g_bFirstStart = True
 
 	SaveConfig()
@@ -121,7 +120,6 @@ Func BotStart($bAutostartDelay = 0)
 	$iRandomAttackCGCountToday = 0
 	$IsToOpenOffers = 0
 	$g_bClanGamesCompleted = 0
-	$IsMainScreenLocated = 0
 	$DelayReturnedtocheckCGRA = 0
 	$IsToCheckBeforeStop = False
 	$IsTroopDonated = False

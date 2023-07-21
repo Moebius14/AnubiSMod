@@ -410,8 +410,9 @@ Func _AutoUpgrade()
 		
 		If $bHeroUpgrade And $g_bUseHeroBooks Then
 			If _Sleep(500) Then Return
-			Local $HeroUpgradeTime = ConvertOCRTime("UseHeroBooks", $g_aUpgradeResourceCostDuration[2])
+			Local $HeroUpgradeTime = ConvertOCRTime("UseHeroBooks", $g_aUpgradeResourceCostDuration[2], False)
 			If $HeroUpgradeTime >= ($g_iHeroMinUpgradeTime * 1440) Then
+				SetLog("Hero Upgrade time > than " & $g_iHeroMinUpgradeTime & " day", $COLOR_INFO)
 				Local $HeroBooks = FindButton("HeroBooks")
 				If IsArray($HeroBooks) And UBound($HeroBooks) = 2 Then
 					SetLog("Use Book Of Heroes to Complete Now this Hero Upgrade", $COLOR_INFO)

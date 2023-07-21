@@ -61,8 +61,8 @@ Func PetHouse($test = False)
 	; not enought Dark Elixir to upgrade lowest Pet
 	If $g_aiCurrentLoot[$eLootDarkElixir] < $g_iMinDark4PetUpgrade Then
 		If $g_iMinDark4PetUpgrade <> 999999 Then
-			SetLog("Current DE Storage: " & $g_aiCurrentLoot[$eLootDarkElixir])
-			SetLog("Minimum DE for Pet upgrade: " & $g_iMinDark4PetUpgrade)
+			SetLog("Current DE Storage: " & _NumberFormat($g_aiCurrentLoot[$eLootDarkElixir], True))
+			SetLog("Minimum DE for Pet upgrade: " & _NumberFormat($g_iMinDark4PetUpgrade, True))
 		Else
 			SetLog("No Pets available for upgrade.")
 		EndIf
@@ -123,10 +123,10 @@ Func PetHouse($test = False)
 			Local $aTmpCost = $aPet[$i][4]
 		
 			If Number($g_aiCurrentLoot[$eLootDarkElixir]) >= Number($aTmpCost) Then
-				SetLog($aPet[$i][1] & ", DE Upgrade Cost : " & $aPet[$i][4], $COLOR_SUCCESS)
+				SetLog($aPet[$i][1] & ", DE Upgrade Cost : " & _NumberFormat($aPet[$i][4], True), $COLOR_SUCCESS)
 				SetLog("Level : " & $aPet[$i][3], $COLOR_SUCCESS)
 			Else
-				SetLog($aPet[$i][1] & ", DE Upgrade Cost : " & $aPet[$i][4], $COLOR_ERROR)
+				SetLog($aPet[$i][1] & ", DE Upgrade Cost : " & _NumberFormat($aPet[$i][4], True), $COLOR_ERROR)
 				SetLog("Level : " & $aPet[$i][3], $COLOR_ERROR)
 			EndIf
 		Next
@@ -170,7 +170,7 @@ Func PetHouse($test = False)
 				SetLog($aPet[$i][1] & " is at level " & $aPet[$i][3])
 				If _Sleep($DELAYLABORATORY2) Then Return
 				Local $iDarkElixirReq = $aPet[$i][4]
-				SetLog("DE Requirement : " & $aPet[$i][4], $COLOR_SUCCESS)
+				SetLog("DE Requirement : " & _NumberFormat($aPet[$i][4], True), $COLOR_SUCCESS)
 
 				If Number($g_aiCurrentLoot[$eLootDarkElixir]) >= Number($iDarkElixirReq) Then
 					SetLog("Will now upgrade " & $aPet[$i][1])
@@ -278,7 +278,7 @@ Func PetHouse($test = False)
 				Local $iDarkElixirReq = 1000 * Number($g_aiPetUpgradeCostPerLevel[$i][$iPetLevel])
 				$iDarkElixirReq = Int($iDarkElixirReq - ($iDarkElixirReq * Number($g_iBuilderBoostDiscount) / 100))
 				
-				SetLog("DE Requirement: " & $iDarkElixirReq)
+				SetLog("DE Requirement: " & _NumberFormat($iDarkElixirReq, True))
 				
 				If $iDarkElixirReq < $g_aiCurrentLoot[$eLootDarkElixir] Then
 					SetLog("Will now upgrade " & $g_asPetNames[$i])
@@ -463,8 +463,8 @@ Func PetGuiDisplay()
 	; not enough Dark Elixir for upgrade -
 	If $g_aiCurrentLoot[$eLootDarkElixir] < $g_iMinDark4PetUpgrade And Not _DateIsValid($g_sPetUpgradeTime) Then
 		If $g_iMinDark4PetUpgrade <> 999999 Then
-			SetLog("Current DE Storage: " & $g_aiCurrentLoot[$eLootDarkElixir])
-			SetLog("Minimum DE for Pet upgrade: " & $g_iMinDark4PetUpgrade)
+			SetLog("Current DE Storage: " & _NumberFormat($g_aiCurrentLoot[$eLootDarkElixir], True))
+			SetLog("Minimum DE for Pet upgrade: " & _NumberFormat($g_iMinDark4PetUpgrade, True))
 		Else
 			SetLog("No Pets available for upgrade.")
 		EndIf
@@ -628,11 +628,11 @@ Func GetMinDark4PetUpgrade()
 			Local $iDarkElixirReq = (1000 * number($g_aiPetUpgradeCostPerLevel[$i][$iPetLevel]))
 			$iDarkElixirReq = Int($iDarkElixirReq - ($iDarkElixirReq * Number($g_iBuilderBoostDiscount) / 100))
 			
-			SetLog("DE Requirement: " & $iDarkElixirReq)
+			SetLog("DE Requirement: " & _NumberFormat($iDarkElixirReq, True))
 			
 			If $iDarkElixirReq < $iMinDark4PetUpgrade Then
 				$iMinDark4PetUpgrade = $iDarkElixirReq
-				SetLog("New Min Dark: " & $iMinDark4PetUpgrade)
+				SetLog("New Min Dark: " & _NumberFormat($iMinDark4PetUpgrade, True))
 			EndIf
 		ElseIf _ColorCheck(_GetPixelColor($iPetUnlockedxCoord[$i], 415, True), Hex(0xababab, 6), 20) Then
 			SetLog($g_asPetNames[$i] & " is Locked")
@@ -665,7 +665,7 @@ Func GetMinDark4PetUpgrade2()
 			ContinueLoop
 		EndIf
 		SetLog($aPet[$i][1] & " is at level " & $aPet[$i][3])
-		SetLog("DE Requirement: " & $aPet[$i][4])
+		SetLog("DE Requirement: " & _NumberFormat($aPet[$i][4], True))
 	Next
 	
 	If $PetMaxOrLocked = UBound($aPet) Then
@@ -685,7 +685,7 @@ Func GetMinDark4PetUpgrade2()
 		
 			If _Sleep($DELAYLABORATORY2) Then Return
 			$iMinDark4PetUpgrade = $aPet[$i][4]
-			SetLog("New Min Dark: " & $iMinDark4PetUpgrade)
+			SetLog("New Min Dark: " & _NumberFormat($iMinDark4PetUpgrade, True))
 			ExitLoop
 		EndIf
 	Next		

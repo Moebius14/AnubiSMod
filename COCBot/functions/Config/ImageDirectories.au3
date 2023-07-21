@@ -27,11 +27,9 @@ Global Const $g_sImgMaintenance = @ScriptDir & "\imgxml\other\Maintenance*"
 Global Const $g_sImgError = @ScriptDir & "\imgxml\CheckObstacles\Error*"
 Global Const $sImgConnectionLost = @ScriptDir & "\imgxml\CheckObstacles\ConnectionLost*"
 Global Const $sImgOos = @ScriptDir & "\imgxml\CheckObstacles\Oos*"
-Global Const $g_sImgPersonalBreak = @ScriptDir & "\imgxml\CheckObstacles\Break*"
 Global Const $sImgRateGame = @ScriptDir & "\imgxml\CheckObstacles\RateGame*"
 Global Const $sImgNotice = @ScriptDir & "\imgxml\CheckObstacles\Notice*"
 Global Const $sImgGPServices = @ScriptDir & "\imgxml\CheckObstacles\GPServices*"
-Global Const $sImgAmazonFailure = @ScriptDir & "\imgxml\CheckObstacles\AmazonFailure*"
 Global Const $sImgDevice = @ScriptDir & "\imgxml\CheckObstacles\device*"
 Global Const $sImgReloadBtn = @ScriptDir & "\imgxml\CheckObstacles\reloadbtn*"
 Global Const $sImgNeverBtn = @ScriptDir & "\imgxml\CheckObstacles\NeverBtn*"
@@ -43,6 +41,7 @@ Global Const $g_sImgClanCapitalResults = @ScriptDir & "\imgxml\other\CCResults*"
 #EndRegion
 
 #Region Main Village
+Global $sImgIsOnMainVillage = @ScriptDir & "\imgxml\village\Page\MainVillage\"
 Global $g_sImgCollectRessources = @ScriptDir & "\imgxml\Resources\Collect"
 Global $g_sImgCollectLootCart = @ScriptDir & "\imgxml\Resources\LootCart*"
 Global $g_sImgLaboratory = @ScriptDir & "\imgxml\Buildings\Laboratory\"
@@ -79,6 +78,7 @@ Global $g_sImgAutoForgeSlotDaily = @ScriptDir & "\imgxml\Research\DailyChallenge
 #EndRegion
 
 #Region Clan Capital
+Global $sImgIsOnClanCapital = @ScriptDir & "\imgxml\village\Page\ClanCapital\"
 Global $g_sImgCCMap = @ScriptDir & "\imgxml\Resources\ClanCapital\CCMap\"
 Global $g_sImgCCMapName = @ScriptDir & "\imgxml\Resources\ClanCapital\CapitalMap\"
 Global $g_sImgAirShip = @ScriptDir & "\imgxml\Resources\ClanCapital\CCMap\AirShip\"
@@ -116,6 +116,7 @@ Global $g_sImgStartCTBoost = @ScriptDir & "\imgxml\Resources\BuildersBase\ClockT
 Global $g_sImgCTNonAvailable = @ScriptDir & "\imgxml\Resources\BuildersBase\ClockTower\ClockTowerNonAvailable\"
 Global $g_sImgCleanBBYard = @ScriptDir & "\imgxml\Resources\ObstaclesBB"
 Global $g_sImgIsOnBB = @ScriptDir & "\imgxml\village\Page\BuilderBase\"
+Global $sImgIsOnBuilderBaseEnemyVillage = @ScriptDir & "\imgxml\village\Page\BuilderBaseEnemyVillage\"
 Global $g_sImgStarLaboratory = @ScriptDir & "\imgxml\Resources\BuildersBase\StarLaboratory"
 Global $g_sImgStarLabElex = @ScriptDir & "\imgxml\Resources\BuildersBase\StarLabElex\StarLabElex*"
 Global $g_sImgBBMachReady = @ScriptDir & "\imgxml\Attack\BuilderBase\PrepareAttackBB\BattleMachine"
@@ -134,7 +135,7 @@ Global $g_sImgBBAttackBonus = @ScriptDir & "\imgxml\Attack\BuilderBase\AttackBB\
 Global $g_sImgBBReturnHome = @ScriptDir & "\imgxml\Attack\BuilderBase\AttackBB\ReturnHome\"
 Global $g_sImgBBBattleMachine = @ScriptDir & "\imgxml\Attack\BuilderBase\AttackBB\AttackBar\Machine\"
 Global $g_sImgDirMachineAbility = @ScriptDir & "\imgxml\Attack\BuilderBase\AttackBB\AttackBar\MachineAbility\"
-Global $g_sImgDirWallBreakerAbility = @ScriptDir & "\imgxml\Attack\BuilderBase\AttackBB\AttackBar\WBAbility\"
+Global $g_sImgDirBomberAbility = @ScriptDir & "\imgxml\Attack\BuilderBase\AttackBB\AttackBar\BomberAbility\"
 #EndRegion
 
 #Region DonateCC

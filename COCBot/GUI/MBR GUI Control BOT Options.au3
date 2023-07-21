@@ -143,36 +143,6 @@ Func chkDisposeWindows()
 	EndIf
 EndFunc   ;==>chkDisposeWindows
 
-Func chkSinglePBTForced()
-	If GUICtrlRead($g_hChkSinglePBTForced) = $GUI_CHECKED Then
-		GUICtrlSetState($g_hTxtSinglePBTimeForced, $GUI_ENABLE)
-		GUICtrlSetState($g_hTxtPBTimeForcedExit, $GUI_ENABLE)
-	Else
-		GUICtrlSetState($g_hTxtSinglePBTimeForced, $GUI_DISABLE)
-		GUICtrlSetState($g_hTxtPBTimeForcedExit, $GUI_DISABLE)
-	EndIf
-	txtSinglePBTimeForced()
-EndFunc   ;==>chkSinglePBTForced
-
-Func txtSinglePBTimeForced()
-	Switch Int(GUICtrlRead($g_hTxtSinglePBTimeForced))
-		Case 0 To 15
-			GUICtrlSetBkColor($g_hTxtSinglePBTimeForced, $COLOR_ERROR)
-		Case 16
-			GUICtrlSetBkColor($g_hTxtSinglePBTimeForced, $COLOR_YELLOW)
-		Case 17 To 999
-			GUICtrlSetBkColor($g_hTxtSinglePBTimeForced, $COLOR_GREEN)
-	EndSwitch
-	Switch Int(GUICtrlRead($g_hTxtPBTimeForcedExit))
-		Case 0 To 11
-			GUICtrlSetBkColor($g_hTxtPBTimeForcedExit, $COLOR_ERROR)
-		Case 12 To 14
-			GUICtrlSetBkColor($g_hTxtPBTimeForcedExit, $COLOR_YELLOW)
-		Case 15 To 999
-			GUICtrlSetBkColor($g_hTxtPBTimeForcedExit, $COLOR_GREEN)
-	EndSwitch
-EndFunc   ;==>txtSinglePBTimeForced
-
 Func chkAutoResume()
 	GUICtrlSetState($g_hTxtAutoResumeTime, GUICtrlRead($g_hChkAutoResume) = $GUI_CHECKED ? $GUI_ENABLE : $GUI_DISABLE)
 EndFunc   ;==>chkAutoResume

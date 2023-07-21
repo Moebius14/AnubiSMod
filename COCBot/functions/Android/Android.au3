@@ -1273,11 +1273,9 @@ Func _RestartAndroidCoC($bInitAndroid = True, $bRestart = True, $bStopCoC = True
 	; reset time lag
 	InitAndroidTimeLag()
 	
-	$IsMainScreenLocated = 0
-	
 	; wait 18 sec. Before Check Main Screen 
 	If _SleepStatus(18000) Then Return False ;AndroidAdbSendShellCommand $timeout seem not working, make more time here
-		
+
 	If GetAndroidProcessPID(Default, False) = 0 And @error = 0 Then
 		If $iRetry > 2 And $iRecursive > 2 Then
 			SetLog("Unable to load Clash of Clans ! ! !", $COLOR_ERROR)

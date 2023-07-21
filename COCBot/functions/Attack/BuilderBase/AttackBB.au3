@@ -47,6 +47,7 @@ Func DoAttackBB()
 			_AttackBB()
 			$AttackForCount += 1
 			If $IsChallengeCompleted Then ExitLoop
+			If $g_bRestart = True Then Return
 			If _Sleep($DELAYRUNBOT3) Then Return
 			If checkObstacles(True) Then Return
 			$count += 1
@@ -125,8 +126,23 @@ Func WaitCloudsBB()
 			SetLog("Too long waiting Clouds", $COLOR_ERROR)
 		EndIf
 
-		If $count > 20 Then
+		If $count = 21 Then
+			SetLog("Try To Close and Search Again", $COLOR_ACTION)
+			If $g_bDebugImageSave Then SaveDebugImage("WaitCloudsBB")
+			Click(430, 535 + $g_iMidOffsetY)
+			If _Sleep(3000) Then Return
+			If Not ClickAttack() Then Return False
+			If _Sleep(1500) Then Return
+			SetLog("Try Again going to attack.", $COLOR_INFO)
+			If Not ClickFindNowButton() Then
+				ClickAway("Left")
+				Return False
+			EndIf
+		EndIf
+
+		If $count > 30 Then
 			CloseCoC(True)
+			checkMainScreen(False, True)
 			$bRet = False
 			ExitLoop
 		EndIf
@@ -152,7 +168,12 @@ Func _AttackBB()
 	If Not WaitCloudsBB() Then Return
 	If Not $g_bRunState Then Return
 
-	AndroidZoomout() ;zoomout first before any action
+	ZoomOut()
+	If Not isOnBuilderBaseEnemyVillage(True) Then
+		SetLog("Zoom Out has failed and Attack was aborted", $COLOR_DEBUG)
+		Return
+	EndIf
+
 	; Get troops on attack bar and their quantities
 	$g_aMachinePos = GetMachinePos()
 	$g_DeployedMachine = False
@@ -170,14 +191,14 @@ Func _AttackBB()
 EndFunc
 
 Func EndBattleBB() ; Find if battle has ended and click okay
-	Local $bRet = False, $bBattleMachine = True, $bWallBreaker = True
+	Local $bRet = False, $bBattleMachine = True, $bBomber = True
 	Local $sDamage = 0, $sTmpDamage = 0, $bCountSameDamage = 1
 	
 	For $i = 1 To 200
 
 		If Not $g_bRunState Then ExitLoop
 		If $bBattleMachine Then $bBattleMachine = CheckBMLoop()
-		If $bWallBreaker Then $bWallBreaker = CheckWBLoop()
+		If $bBomber Then $bBomber = CheckBomberLoop()
 		$sDamage = getOcrOverAllDamage(776, 558 + $g_iMidOffsetY)
 		SetDebugLog("[" & $i & "] EndBattleBB LoopCheck, [" & $bCountSameDamage & "] Overall Damage : " & $sDamage & "%", $COLOR_DEBUG2)
 		If Number($sDamage) = Number($sTmpDamage) Then
@@ -191,7 +212,6 @@ Func EndBattleBB() ; Find if battle has ended and click okay
 			SetLog("Preparing For Second Round", $COLOR_INFO)
 			If _SleepStatus(3000) Then Return
 
-			AndroidZoomout() ;zoomout first before any action
 			; Get troops on attack bar and their quantities
 			$g_aMachinePos = GetMachinePos()
 			$g_DeployedMachine = False
@@ -202,7 +222,7 @@ Func EndBattleBB() ; Find if battle has ended and click okay
 			If _Sleep(5000) Then Return ; Add some delay for troops making some damage
 			$sTmpDamage = 0
 			$bBattleMachine = True
-			$bWallBreaker = True
+			$bBomber = True
 		EndIf
 
 		If $bCountSameDamage > 20 Then
@@ -464,32 +484,32 @@ Func CheckBMLoop($aBMPos = $g_aMachinePos)
 	Return True
 EndFunc
 
-Func CheckWBLoop()
+Func CheckBomberLoop()
 	Local $bRet
-	If Not $g_bWBOnAttackBar Then Return
-	Local $isGreyBanner = False, $ColorPickBannerX = 0, $iTroopBanners = 583 + $g_iBottomOffsetY, $bIsWBDead = True
+	If Not $g_bBomberOnAttackBar Then Return
+	Local $isGreyBanner = False, $ColorPickBannerX = 0, $iTroopBanners = 583 + $g_iBottomOffsetY, $bIsBomberDead = True
 
-	For $i = 0 To UBound($g_aWBOnAttackBar) - 1
+	For $i = 0 To UBound($g_aBomberOnAttackBar) - 1
 		If Not $g_bRunState Then Return
-		$ColorPickBannerX = $g_aWBOnAttackBar[$i][0] + 37
+		$ColorPickBannerX = $g_aBomberOnAttackBar[$i][0] + 37
 		$isGreyBanner = _ColorCheck(_GetPixelColor($ColorPickBannerX, $iTroopBanners, True), Hex(0x707070, 6), 10, Default) ;Grey Banner on TroopSlot = Troop Die
 		If $isGreyBanner Then 
-			SetLog("WallBreaker is Dead", $COLOR_DEBUG2)
-			$bIsWBDead = True
+			SetLog("Bomber is Dead", $COLOR_DEBUG2)
+			$bIsBomberDead = True
 			ExitLoop
 		EndIf
-		If QuickMIS("BC1", $g_sImgDirWallBreakerAbility, $g_aWBOnAttackBar[$i][0], $g_aWBOnAttackBar[$i][1] - 30, $g_aWBOnAttackBar[$i][0] + 70, $g_aWBOnAttackBar[$i][1] + 30) Then
+		If QuickMIS("BC1", $g_sImgDirBomberAbility, $g_aBomberOnAttackBar[$i][0], $g_aBomberOnAttackBar[$i][1] - 30, $g_aBomberOnAttackBar[$i][0] + 70, $g_aBomberOnAttackBar[$i][1] + 30) Then
 			If StringInStr($g_iQuickMISName, "Wait") Then
-				$bIsWBDead = False
+				$bIsBomberDead = False
 			ElseIf StringInStr($g_iQuickMISName, "Ability") Then
 				Click($g_iQuickMISX, $g_iQuickMISY)
-				SetLog("Activate WallBreaker Ability", $COLOR_SUCCESS)
-				$bIsWBDead = False
+				SetLog("Activate Bomber Ability", $COLOR_SUCCESS)
+				$bIsBomberDead = False
 			EndIf
 			$bRet = True
 		EndIf
 	Next
-	If $bIsWBDead Then $bRet = False
+	If $bIsBomberDead Then $bRet = False
 	Return $bRet
 EndFunc
 

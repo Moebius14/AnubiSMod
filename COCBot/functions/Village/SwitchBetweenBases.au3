@@ -13,7 +13,7 @@
 ; Example .......: No
 ; ===============================================================================================================================
 
-Func SwitchBetweenBases($bCheckMainScreen = True)
+Func SwitchBetweenBases($bCheckMainScreen = True, $GoToBB = False)
 	Local $sSwitchFrom, $sSwitchTo, $bIsOnBuilderBase = False, $aButtonCoords, $avBoat, $avTempArray
 	Local $sTile, $sTileDir, $sRegionToSearch
 	Local $bSwitched = False
@@ -63,9 +63,16 @@ Func SwitchBetweenBases($bCheckMainScreen = True)
 
 		$avBoat = findMultiple($sTileDir, $sRegionToSearch, $sRegionToSearch, 0, 1000, 1, "objectname,objectpoints", True)
 
+		If $GoToBB Then
+			$g_bStayOnBuilderBase = True
+		Else
+			$g_bStayOnBuilderBase = False
+		EndIf
+
 		If Not IsArray($avBoat) Or UBound($avBoat, $UBOUND_ROWS) <= 0 Then
 			SetLog("Couldn't find Boat on " & $sSwitchFrom, $COLOR_ERROR)
 			If $g_bDebugImageSave Then SaveDebugImage("SwitchBetweenBases", False)
+			If $i = 2 And $g_bStayOnBuilderBase And $sSwitchFrom = "Normal Village" Then $g_bStayOnBuilderBase = False
 			Return False
 		Else
 			; loop thro the detected images
@@ -94,6 +101,7 @@ Func SwitchBetweenBases($bCheckMainScreen = True)
 						Return True
 					Else
 						SetLog("Failed to go to the " & $sSwitchTo, $COLOR_ERROR)
+						If $i = 2 And $g_bStayOnBuilderBase And $sSwitchTo = "Builder Base" Then $g_bStayOnBuilderBase = False
 					EndIf
 				Else
 					Setlog("[" & $i & "] SwitchBetweenBases Tile: " & $sTile, $COLOR_ERROR)
@@ -102,6 +110,7 @@ Func SwitchBetweenBases($bCheckMainScreen = True)
 						SetLog("Cannot find the Boat on the Coast", $COLOR_ERROR)
 					Else
 						SetLog("Cannot find the Boat on the Coast. Maybe it is still broken or not visible", $COLOR_ERROR)
+						If $i = 2 Then $g_bStayOnBuilderBase = False
 					EndIf
 
 					If $i >= 1 Then RestartAndroidCoC() ; Need to try to restart CoC

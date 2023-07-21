@@ -485,7 +485,7 @@ Func GUIControl_WM_COMMAND($hWind, $iMsg, $wParam, $lParam)
 			OpenURL_Label($nID)
 		Case $g_hFrmBot_URL_PIC, $g_hFrmBot_URL_PIC2
 			OpenURL_Label($g_hLblMyBotURL)
-		Case $g_hLblDonate
+		Case $g_hPicGreenMod, $g_hPicRedMod, $g_hPicGreyMod, $g_hLblVersionStatusMod
 			; AnubiS Mod Project Link
 			ShellExecute("https://github.com/Moebius14/AnubiSMod/releases")
 		Case $g_hBtnStart, $g_hTblStart

@@ -727,6 +727,8 @@ Func runBot() ;Bot that runs everything in order
 			If RestartBot(False) Then Return
 		EndIf
 
+		If $g_CheckModVersion Then CheckVersionStatus()
+
 		PrepareDonateCC()
 		If Not $g_bRunState Then Return
 		$g_bRestart = False
@@ -884,7 +886,6 @@ Func runBot() ;Bot that runs everything in order
 					Else
 						SetLog("CoC Will be Closed While Purging", $COLOR_INFO)
 						UniversalCloseWaitOpenCoC($iWaitTime, "CloseCocWhilePurging")
-						$IsMainScreenLocated = 0
 						$sPurgeTimeCG = 0
 						ContinueLoop
 					EndIf
@@ -1199,7 +1200,6 @@ Func AttackMain() ;Main control for attack functions
 				Else
 					SetLog("CoC Will be Closed While Purging", $COLOR_INFO)
 					UniversalCloseWaitOpenCoC($iWaitTime, "CloseCocWhilePurging")
-					$IsMainScreenLocated = 0
 					$sPurgeTimeCG = 0
 					Return
 				EndIf
@@ -1645,12 +1645,8 @@ EndFunc   ;==>FirstCheck
 Func BuilderBase($bTest = False)
 	
 	; switch to builderbase and check it is builderbase
-	If SwitchBetweenBases() And isOnBuilderBase() Then
+	If SwitchBetweenBases(True, True) And isOnBuilderBase() Then
 
-		$g_bStayOnBuilderBase = True
-		If _Sleep($DELAYRUNBOT3) Then Return
-		If checkObstacles() Then Return
-		
 		CollectBuilderBase()
 		If _Sleep($DELAYRUNBOT3) Then Return
 		If checkObstacles() Then Return
@@ -1720,7 +1716,7 @@ Func BuilderBase($bTest = False)
 		If checkObstacles() Then Return
 
 		; switch back to normal village
-		If SwitchBetweenBases() Then $g_bStayOnBuilderBase = False
+		SwitchBetweenBases()
 
 		Sleep(Random(1500, 2000))
 		_ClanGames()

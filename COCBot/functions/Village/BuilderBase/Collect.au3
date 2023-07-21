@@ -21,7 +21,7 @@ Func CollectBuilderBase($bSwitchToBB = False, $bSwitchToNV = False, $bSetLog = T
 
 	If $bSwitchToBB Then
 		ClickAway()
-		If Not SwitchBetweenBases() Then Return ; Switching to Builders Base
+		If Not SwitchBetweenBases(True, True) Then Return ; Switching to Builders Base
 	EndIf
 
 		If $bSetLog Then SetLog("Collecting Resources on Builders Base", $COLOR_INFO)
@@ -59,7 +59,7 @@ Func CollectElixirCart($bSwitchToBB = False, $bSwitchToNV = False, $b_FirstElixC
 
 	If $bSwitchToBB Then
 		ClickAway()
-		If Not SwitchBetweenBases() Then Return ; Switching to Builders Base
+		If Not SwitchBetweenBases(True, True) Then Return ; Switching to Builders Base
 	EndIf
 
 	Local $bRet, $aiElixirCart, $aiCollect, $aiAxes, $ElixirCartTimer = 0, $ElixirCartTimerDiff = 0, $bWaitOpponent = True 

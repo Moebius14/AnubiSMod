@@ -135,7 +135,6 @@
 #include "functions\Main Screen\isGemOpen.au3"
 #include "functions\Main Screen\isNoUpgradeLoot.au3"
 #include "functions\Main Screen\isProblemAffect.au3"
-#include "functions\Main Screen\checkAttackDisable.au3"
 #include "functions\Main Screen\RemoveGhostTrayIcons.au3"
 #include "functions\Main Screen\waitMainScreen.au3"
 #include "functions\Main Screen\isOnBuilderBase.au3"
@@ -208,7 +207,6 @@
 #include "functions\Read Text\getBuilderCount.au3"
 #include "functions\Read Text\BuildingInfo.au3"
 #include "functions\Read Text\getOcr.au3"
-#include "functions\Read Text\getPBTime.au3"
 #include "functions\Read Text\getShieldInfo.au3"
 
 #include "functions\Search\multiSearch.au3"

@@ -48,7 +48,7 @@ Func CreateAboutTab()
 	GUICtrlCreateLabel($sText, $x - 5, $y, 410, 20, BitOR($WS_VISIBLE, $ES_AUTOVSCROLL, $SS_LEFT), 0)
 	GUICtrlSetFont(-1, 9.5, $FW_BOLD, Default, "Arial")
 	GUICtrlSetColor(-1, $COLOR_NAVY)
-	$sText = "Moebius14, TFK Nazgul, MikeD, HarchH, GrumpyHog"
+	$sText = "HarchH, MikeD, Moebius14, TFK Nazgul"
 	GUICtrlCreateLabel($sText, $x + 5, $y + 15, 410, 50, BitOR($WS_VISIBLE, $ES_AUTOVSCROLL, $SS_LEFT), 0)
 	GUICtrlSetFont(-1, 9, $FW_MEDIUM, Default, "Arial")
 
@@ -57,7 +57,7 @@ Func CreateAboutTab()
 	GUICtrlCreateLabel($sText, $x - 5, $y, 410, 20, BitOR($WS_VISIBLE, $ES_AUTOVSCROLL, $SS_LEFT), 0)
 	GUICtrlSetFont(-1, 9.5, $FW_BOLD, Default, "Arial")
 	GUICtrlSetColor(-1, $COLOR_NAVY)
-	$sText = "Priapus Cranium, Anondad and of course Beta Tester Team"
+	$sText = "Anondad, Priapus Cranium and of course Beta Tester Team"
 	GUICtrlCreateLabel($sText, $x + 5, $y + 15, 410, 50, BitOR($WS_VISIBLE, $ES_AUTOVSCROLL, $SS_LEFT), 0)
 	GUICtrlSetFont(-1, 9, $FW_MEDIUM, Default, "Arial")
 
@@ -66,7 +66,7 @@ Func CreateAboutTab()
 	GUICtrlCreateLabel($sText, $x - 5, $y, 410, 20, BitOR($WS_VISIBLE, $ES_AUTOVSCROLL, $SS_LEFT), 0)
 	GUICtrlSetFont(-1, 9.5, $FW_BOLD, Default, "Arial")
 	GUICtrlSetColor(-1, $COLOR_NAVY)
-	$sText = "Hervidero"
+	$sText = "GrumpyHog, Hervidero, Xbebenk"
 	GUICtrlCreateLabel($sText, $x + 5, $y + 15, 410, 50, BitOR($WS_VISIBLE, $ES_AUTOVSCROLL, $SS_LEFT), 0)
 	GUICtrlSetFont(-1, 9, $FW_MEDIUM, Default, "Arial")
 

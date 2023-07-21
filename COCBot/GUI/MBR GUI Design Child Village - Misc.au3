@@ -842,7 +842,7 @@ Func CreateMiscClanCapitalSubTab()
 	$y += 68
 		GUICtrlCreateLabel(GetTranslatedFileIni("MBR GUI Design Child Village - Misc", "LblForgeUseBuilder", "Use "), $x, $y + 2, 45, 17)
 		$g_hCmbForgeBuilder = GUICtrlCreateCombo("", $x + 24, $y - 2, 40, 18, BitOR($CBS_DROPDOWNLIST, $CBS_AUTOHSCROLL))
-		GUICtrlSetData(-1, "0|1|2|3|4", "1")
+		GUICtrlSetData(-1, "0|1|2|3|4", "0")
 		GUICtrlSetOnEvent(-1, "CmbForgeBuilder")
 		_GUICtrlSetTip(-1, GetTranslatedFileIni("MBR GUI Design Child Village - Misc", "InputForgeUseBuilder", "Put How many builder to use to Forge"))
 		$g_hLbCmbForgeBuilder = GUICtrlCreateLabel(GetTranslatedFileIni("MBR GUI Design Child Village - Misc", "LblForgeBuilder", "Builder for Forge"), $x + 69, $y + 2, 100, 25)

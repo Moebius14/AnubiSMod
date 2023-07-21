@@ -29,8 +29,8 @@ Func GetAttackBarBB($bRemaining = False, $bSecondAttack = False)
 	Local $aEmpty[0][2]
 	Local $BMFound = 0
 	If Not $bRemaining Then 
-		$g_bWBOnAttackBar = False
-		$g_aWBOnAttackBar = $aEmpty
+		$g_bBomberOnAttackBar = False
+		$g_aBomberOnAttackBar = $aEmpty
 	EndIf
 
 	Local $iMaxSlot = 9, $iSlotOffset = 71
@@ -142,9 +142,9 @@ Func GetAttackBarBB($bRemaining = False, $bSecondAttack = False)
 		Else
 			SetLog("Slot[" & $aBBAttackBar[$i][3] & "] " & $aBBAttackBar[$i][0] & ", (" & $aBBAttackBar[$i][1] & "," & $aBBAttackBar[$i][2] & "), Count: " & $aBBAttackBar[$i][4], $COLOR_SUCCESS)
 		EndIf
-		If Not $bRemaining And $aBBAttackBar[$i][0] = "WallBreaker" Then
-			$g_bWBOnAttackBar = True
-			_ArrayAdd($g_aWBOnAttackBar, $aBBAttackBar[$i][1] & "|" & $aBBAttackBar[$i][2])
+		If Not $bRemaining And $aBBAttackBar[$i][0] = "Bomber" Then
+			$g_bBomberOnAttackBar = True
+			_ArrayAdd($g_aBomberOnAttackBar, $aBBAttackBar[$i][1] & "|" & $aBBAttackBar[$i][2])
 		EndIf
 	Next
 	Return $aBBAttackBar

@@ -523,7 +523,7 @@ EndFunc
 
 ; start a given upgrade
 Func LaboratoryUpgrade($name, $aCoords, $sCostResult, $debug = False)
-	SetLog("Selected upgrade: " & $name & " Cost: " & $sCostResult, $COLOR_INFO)
+	SetLog("Selected upgrade: " & $name & " Cost: " & _NumberFormat($sCostResult, True), $COLOR_INFO)
 	ClickP($aCoords) ; click troop
 	If _Sleep(2000) Then Return
 

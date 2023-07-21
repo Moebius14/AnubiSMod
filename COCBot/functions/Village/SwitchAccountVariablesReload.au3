@@ -42,7 +42,6 @@ Func SwitchAccountVariablesReload($sType = "Load", $iAccount = $g_iCurAccount)
 	Static $SLootCartTimer = $aiZero
 	Static $SLootCartFrequency = $aiZero
 	Static $SIsToOpenOffers = $aiZero
-	Static $SIsMainScreenLocated = $aiZero
 	Static $SDelayReturnedtocheckCGRA = $aiZero
 	Static $SCGRACheckTimer = $aiZero
 	Static $SIsStatusForCG = $aiZero
@@ -165,7 +164,6 @@ Func SwitchAccountVariablesReload($sType = "Load", $iAccount = $g_iCurAccount)
 			$SLootCartTimer = $aiZero
 			$SLootCartFrequency = $aiZero
 			$SIsToOpenOffers = $aiZero
-			$SIsMainScreenLocated = $aiZero
 			$SDelayReturnedtocheckCGRA = $aiZero
 	        $SCGRACheckTimer = $aiZero
 			$SIsStatusForCG = $aiZero
@@ -318,7 +316,6 @@ Func SwitchAccountVariablesReload($sType = "Load", $iAccount = $g_iCurAccount)
 			$SLootCartTimer[$iAccount] = $LootCartTimer
 			$SLootCartFrequency[$iAccount] = $LootCartFrequency
 			$SIsToOpenOffers[$iAccount] = $IsToOpenOffers
-			$SIsMainScreenLocated[$iAccount] = $IsMainScreenLocated
 			$SDelayReturnedtocheckCGRA[$iAccount] = $DelayReturnedtocheckCGRA
 	        $SCGRACheckTimer[$iAccount] = $CGRACheckTimer
 			$SIsStatusForCG[$iAccount] = $IsStatusForCG
@@ -489,7 +486,6 @@ Func SwitchAccountVariablesReload($sType = "Load", $iAccount = $g_iCurAccount)
 			$LootCartTimer = $SLootCartTimer[$iAccount]
 			$LootCartFrequency = $SLootCartFrequency[$iAccount]
 			$IsToOpenOffers = $SIsToOpenOffers[$iAccount]
-			$IsMainScreenLocated = $SIsMainScreenLocated[$iAccount]
 			$DelayReturnedtocheckCGRA = $SDelayReturnedtocheckCGRA[$iAccount]
 	        $CGRACheckTimer = $SCGRACheckTimer[$iAccount]
 			$IsStatusForCG = $SIsStatusForCG[$iAccount]

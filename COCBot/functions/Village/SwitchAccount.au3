@@ -401,7 +401,6 @@ Func SwitchCOCAcc($NextAccount)
 	;	EndIf
 	;EndIf
 	CheckObstacles()
-	If $g_bForceSinglePBLogoff Then $g_bGForcePBTUpdate = True
 
 	SetLog("Switch Account Load TownLevel : " & $g_iTownHallLevel)
 	GUICtrlSetData($g_hGrpVillageName, GetTranslatedFileIni("MBR Main GUI", "Tab_03", "Profile") & ": " & $g_sProfileCurrentName)

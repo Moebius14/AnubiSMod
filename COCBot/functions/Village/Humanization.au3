@@ -3335,10 +3335,15 @@ If $g_iacmbPriorityBB[0] = 5 Then $ViewPriorityNumber = 2
 		Click(40, 120 + $g_iMidOffsetY) ; open Messages button
 		If Not $g_bRunState Then Return
 		If _Sleep(Random(2000, 3000, 1)) Then Return
-		Local $bNotificationDefRed = _ColorCheck(_GetPixelColor(450, 87 + $g_iMidOffsetY, True), Hex(0xD80818, 6), 20)
-		If Random(1, 2, 1) = 1 Or $bNotificationDefRed Then
+		Local $bNotificationATKRed = _ColorCheck(_GetPixelColor(450, 87 + $g_iMidOffsetY, True), Hex(0xD80818, 6), 20)
+		If Random(1, 2, 1) = 1 Or $bNotificationATKRed Then
 			Click(380, 95 + $g_iMidOffsetY) ; click Attack Log
 			SetLog("Lets Look At Attack Log", $COLOR_DEBUG2)
+			If Random(1, 2, 1) = 1 And $bNotificationATKRed Then
+				If _Sleep(Random(2000, 2500, 1)) Then Return
+				Click(180, 95 + $g_iMidOffsetY) ; click Defense Log
+				SetLog("Lets Look At Defense Log", $COLOR_DEBUG2)
+			EndIf
 		Else
 			Click(180, 95 + $g_iMidOffsetY) ; click Defense Log
 			SetLog("Lets Look At Defense Log", $COLOR_DEBUG2)

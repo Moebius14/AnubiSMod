@@ -17,6 +17,7 @@ Func waitMainScreen() ;Waits for main screen to popup
 	If Not $g_bRunState Then Return
 	Local $iCount
 	SetLog("Waiting for Main Screen")
+	
 	$iCount = 0
 	Local $aPixelToCheck = $g_bStayOnBuilderBase ? $aIsOnBuilderBase : $aIsMain
 	For $i = 0 To 105 ;105*2000 = 3.5 Minutes
@@ -85,22 +86,6 @@ Func waitMainScreen() ;Waits for main screen to popup
 	WEnd
 
 EndFunc   ;==>waitMainScreen
-
-Func waitMainScreenMod() ;Waits for main screen to popup
-	Local $sLoading = ""
-	For $i = 1 To 10
-		$sLoading = getOcrAndCapture("coc-Loading", 385, 582 + $g_iBottomOffsetY, 90, 20, True)
-		If $sLoading = "Loading" Then 
-			SetLog("Still on Loading Screen...", $COLOR_INFO)
-			_Sleep(3000)
-			If Not $g_bRunState Then Return
-			ContinueLoop
-		Else
-			$IsMainScreenLocated = 1
-			ExitLoop
-		EndIf
-	Next
-EndFunc   ;==>waitMainScreenMod
 
 Func waitMainScreenMini()
 	If Not $g_bRunState Then Return

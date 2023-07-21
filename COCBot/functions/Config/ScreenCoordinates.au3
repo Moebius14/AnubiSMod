@@ -22,10 +22,10 @@ Global $aiClickAwayRegionRight2 = [760, 176, 835, 185]
 
 Global $aCenterEnemyVillageClickDrag = [65, 545] ; Scroll village using this location in the water
 Global $aCenterHomeVillageClickDrag = [430, 650] ; Scroll village using this location in the water
-Global $aIsMain[4] = [280, 9, 0x77BDE0, 20] ; Main Screen, Builder Info Icon
+Global $aIsMain[4] = [280, 9, 0x7ABDE0, 10] ; Main Screen, Builder Info Icon / July 2023 : changed Variation Tolerance to avoid loading screen detected as Main screen.
 Global $aIsMainGrayed[4] = [278, 9, 0x3C5F70, 15] ; Main Screen, Builder Info Icon grayed
 Global $aIsBuilderBaseGrayed[4] = [368, 9, 0x3F5F6F, 15] ; Builder Base, Builder Info Icon grayed
-Global $aIsOnBuilderBase[4] = [838, 18, 0xffff46, 10] ; Check the Gold Coin from resources , is a square not round
+Global $aIsOnBuilderBase[4] = [838, 18, 0xffff45, 10] ; Check the Gold Coin from resources , is a square not round
 Global $aAttackButton[2] = [60, 614 + $g_iBottomOffsetY] ; Attack Button, Main Screen
 Global $aFindMatchButton[4] = [470, 20 + $g_iBottomOffsetY, 0xD8A420, 10] ; Find Multiplayer Match Button, Attack Screen 860x780 without shield
 Global $aIsAttackShield[4] = [250, 415 + $g_iMidOffsetY, 0xE8E8E0, 10] ; Attack window, white shield verification window

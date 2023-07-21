@@ -892,10 +892,10 @@ Global $g_hChkBBCustomDropOrderEnable = 0
 Global $g_hBtnBBDropOrderSet = 0, $g_hBtnBBRemoveDropOrder = 0, $g_hBtnBBClose = 0
 Global $g_bBBDropOrderSet = False
 Global Const $g_iBBTroopCount = 13
-Global Const $g_sBBDropOrderDefault = "Barbarian|Archer|BoxerGiant|Minion|WallBreaker|BabyDrag|CannonCart|Witch|DropShip|SuperPekka|HogGlider|ElectroWizard|BattleMachine"
+Global Const $g_sBBDropOrderDefault = "Barbarian|Archer|BoxerGiant|Minion|Bomber|BabyDrag|CannonCart|Witch|DropShip|SuperPekka|HogGlider|ElectroWizard|BattleMachine"
 Global $g_sBBDropOrder = $g_sBBDropOrderDefault
 Global $g_ahCmbBBDropOrder[$g_iBBTroopCount] = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
-Global $g_aMachinePos[3] = [0, 0, ""], $g_DeployedMachine = False, $g_aWBOnAttackBar[0][2], $g_bWBOnAttackBar = False
+Global $g_aMachinePos[3] = [0, 0, ""], $g_DeployedMachine = False, $g_aBomberOnAttackBar[0][2], $g_bBomberOnAttackBar = False
 
 ; <><><><> Village / Donate - Request <><><><>
 Global $g_bRequestTroopsEnable = False
@@ -980,7 +980,7 @@ Global $g_aiLastGoodWallPos[2] = [-1, -1]
 Global $g_iHowUseWallRings = 1, $g_iCmbUseWallRings = 3
 
 ; Auto Upgrade
-Global $g_bAutoUpgradeEnabled = False, $g_bUseHeroBooks = False, $g_iHeroMinUpgradeTime = 0, $g_iCmbFreeBuilders = 1
+Global $g_bAutoUpgradeEnabled = False, $g_bUseHeroBooks = False, $g_iHeroMinUpgradeTime = 0, $g_iCmbFreeBuilders = 1, $iAvailBldrBook = False
 Global $g_iChkIgnoreTH = 0, $g_iChkIgnoreKing = 0, $g_iChkIgnoreQueen = 0, $g_iChkIgnoreWarden = 0, $g_iChkIgnoreChampion = 0, $g_iChkIgnoreCC = 0, $g_iChkIgnoreLab = 0
 Global $g_iChkIgnoreBarrack = 0, $g_iChkIgnoreDBarrack = 0, $g_iChkIgnoreFactory = 0, $g_iChkIgnoreDFactory = 0
 Global $g_iChkIgnoreGColl = 0, $g_iChkIgnoreEColl = 0, $g_iChkIgnoreDColl = 0
@@ -1278,7 +1278,7 @@ Global $g_bChkTrophyAtkWithHeroesOnly = False, $bWaitOnlyOneHeroForDT  = True, $
 Global $g_sLanguage = "English"
 Global $g_bDisableSplash = False ; Splash screen disabled = 1
 Global $g_bMyBotDance = False  ; Dancing MyBot splash screen
-Global $g_bCheckVersion = True
+Global $g_bCheckVersion = True, $g_CheckModVersion = True
 Global $g_bDeleteLogs = True, $g_iDeleteLogsDays = 1, $g_bDeleteTemp = True, $g_iDeleteTempDays = 1, $g_bDeleteLoots = True, $g_iDeleteLootsDays = 1
 Global $g_bAutoStart = False, $g_iAutoStartDelay = 10
 Global $b_iAutoRestartDelay = 0 ; Automatically restart bot after so many Seconds, 0 = disabled
@@ -1290,7 +1290,6 @@ Global $g_bHideWhenMinimized = False ; Hide bot window in taskbar when minimized
 Global $g_bUseRandomClick = False
 Global $g_bScreenshotPNGFormat = False, $g_bScreenshotHideName = True
 Global $g_iAnotherDeviceWaitTime = 120, $g_iConnectionErrorWaitTime = 60
-Global $g_bForceSinglePBLogoff = 0, $g_iSinglePBForcedLogoffTime = 18, $g_iSinglePBForcedEarlyExitTime = 15
 Global $g_bAutoResumeEnable = 0, $g_iAutoResumeTime = 5
 Global $g_bDisableNotifications = False
 Global $g_bForceClanCastleDetection = 0
@@ -1711,12 +1710,7 @@ Global $g_iGfxErrorCount = 0, $g_iGfxErrorMax = 5
 Global $g_bNetworkError = False ; True when Network Error detected that will initiate Android reboot
 Global $g_bErrorWindow = False ; True when Error window detected that will initiate Android reboot
 
-; TakeABreak - Personal Break Timer
-Global Const $g_iTaBChkAttack = 0x01 ; code for PB warning when searching attack
-Global Const $g_iTaBChkIdle = 0x02 ; code for PB warning when idle at base
-Global Const $g_iTaBChkTime = 0x04 ; code for PB created by early log off feature
-Global $g_bDisableBreakCheck = False
-Global $g_sPBStartTime = "" ; date/time string for start of next Personal Break
+; Shield Status
 Global $g_asShieldStatus = ["", "", ""] ; string shield type, string shield time, string date/time of Shield expire
 
 ; Building Side (DES/TH) Switch and DESide End Early
@@ -1964,9 +1958,6 @@ Func _ArrayIndexValid(Const ByRef $a, Const $idx)
 	Return $idx >= 0 And $idx < UBound($a)
 EndFunc   ;==>_ArrayIndexValid
 
-;Check Loading and Updates
-Global $IsMainScreenLocated = 0
-
 ; Internal & External Polygon
 Global $CocDiamondECD = "ECD"
 Global $CocDiamondDCD = "DCD"
@@ -2083,19 +2074,19 @@ Global $g_aiCmbCCDecisionTime = 0, $g_aiCmbCCDecisionThen = 0, $CCWaitChrono = 0
 ; Snow Day, Tiger Mountain, Primal(PR), Shadow(SH), Royale Scenery, Summer Scenery
 ; Classic War Base, Inferno Tower,
 ; Builder Base,
-; Capital Peak, Barbarian Camp
+; Capital Peak, Barbarian Camp, Dark Ages, Painter
 Global Enum $eTreeDSS, $eTreeDAS, $eTreeCC, $eTreePS, $eTreeEW, $eTreeHM, $eTreeJS, $eTreeEJ, $eTree9C, $eTreePG, _
 			$eTreeSD, $eTreeTM, $eTreePR, $eTreeSH, $eTreeRS, $eTreeSM, $eTreePX, $eTreeXC, $eTreeCF, $eTreeMS, _
 			$eTreeCS, $eTreeIT, _
 			$eTreeBB, $eTreeOO, _
- 			$eTreeCP, $eTreeBC, $eTreeCount
+ 			$eTreeCP, $eTreeBC, $eTreeDA, $eTreePA, $eTreeCount
 
 Global $g_asSceneryNames[$eTreeCount] = [ _
 	"Classic Spring", "Classic Autumn", "Clashy Construct", "Pirate Scenery", "Epic Winter", "Hog Mountain", "Jungle Scenery", "Epic Jungle", "9th Clashiversary", _
 	"Pumpkin Graveyard", "Snowy Day", "Tiger Mountain", "Primal Scenery", "Shadow Scenery", "Royale Scenery", "Summer Scenery", "Pixel Scenery", "10th Clashiversary", _
 	"Clash Fest", "Magic Scenery", _
 	"Classic Scenery", "Inferno Town", "Builder Base", "OTTO Outpost", _
-	"Capital Peak", "Barbarian Camp"]
+	"Capital Peak", "Barbarian Camp", "Dark Ages Scenery", "Painter Scenery"]
 
 ; village size, left, right, top, bottom, village size 2, AdjLeft, AdjRight, AdjTop, AdjBottom
 Global Const $g_afRefVillage[$eTreeCount][10] = [ _
@@ -2122,9 +2113,11 @@ Global Const $g_afRefVillage[$eTreeCount][10] = [ _
 	[480, 35, 809, 57, 632, 480, 50, 50, 42, 42], _				; CS
 	[480, 35, 809, 57, 632, 480, 50, 50, 42, 42], _				; IT
 	[379.32672221687 , 114, 720, 158, 610, 379.32672221687, 50, 46, 38, 42], _ ; BB partial [418.46093337521, 95, 765, 142, 641, 418.46093337521, 50, 46, 38, 42], _
-	[363.220939721829, 121, 702, 180, 612, 363.220939721829, 50, 46, 38, 42], _ ; OO
+	[385.070465954253, 110, 710, 182, 628, 407.273715029944, 50, 46, 38, 42], _ ; OO
 	[461.860421647731, 73, 814, 85, 637, 461.860421647731, 10, 10, 10, 10], _   ; CP partial
-	[427.945118331064, 97, 785, 91, 604, 427.945118331064, 10, 10, 10, 10]] 	; BC partial
+	[427.945118331064, 97, 785, 91, 604, 427.945118331064, 10, 10, 10, 10], _	; BC Partial
+	[484.403614426064, 39, 825, 50, 639, 484.403614426064, 50, 50, 42, 42], _	; DA Partial
+	[480.650156148271, 84, 811, 63, 612, 480.650156148271, 50, 50, 42, 42]] 	; PA partial
 
 Global $g_iTree = $eTreeDSS						; default to classic
 Global $g_aiSearchZoomOutCounter[2] = [0, 1] ; 0: Counter of SearchZoomOut calls, 1: # of post zoomouts after image found

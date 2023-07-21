@@ -82,18 +82,89 @@ Func CheckVersion()
 			SetLog(" ", $COLOR_ERROR)
 			SetLog("Click Cahaya~Fantasy To Find The Lastest Mod Version", $COLOR_ERROR)
 			SetLog(" ", $COLOR_ERROR)
+			GUICtrlSetState($g_hPicGreenMod, $GUI_HIDE)
+			GUICtrlSetState($g_hPicRedMod, $GUI_SHOW)
+			GUICtrlSetState($g_hPicGreyMod, $GUI_HIDE)
+			GUICtrlSetData($g_hLblVersionStatusMod, "Out of Date")
+			GUICtrlSetFont($g_hLblVersionStatusMod, 7, $FW_BOLD, $GUI_FONTITALIC, "comic sans ms")
+			GUICtrlSetColor($g_hLblVersionStatusMod, 0xc70249)
 			PushMsg("UpdateMod")
 		ElseIf _VersionCompare($g_iBotVersionNMod, $g_sBotModGitVersion) = 0 Then
 			SetLog("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~", $COLOR_SUCCESS)
 			SetLog("~~~~~~YOU HAVE THE LATEST MOD VERSION~~~~~", $COLOR_SUCCESS)
 			SetLog("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~", $COLOR_SUCCESS)
 			SetLog(" ", $COLOR_SUCCESS)
+			GUICtrlSetState($g_hPicGreenMod, $GUI_SHOW)
+			GUICtrlSetState($g_hPicRedMod, $GUI_HIDE)
+			GUICtrlSetState($g_hPicGreyMod, $GUI_HIDE)
+			GUICtrlSetData($g_hLblVersionStatusMod, "Up to Date")
+			GUICtrlSetFont($g_hLblVersionStatusMod, 7, $FW_BOLD, $GUI_FONTITALIC, "comic sans ms")
+			GUICtrlSetColor($g_hLblVersionStatusMod, 0x29a075)
 		EndIf
 	Else
+		GUICtrlSetState($g_hPicGreenMod, $GUI_HIDE)
+		GUICtrlSetState($g_hPicRedMod, $GUI_HIDE)
+		GUICtrlSetState($g_hPicGreyMod, $GUI_SHOW)
+		GUICtrlSetData($g_hLblVersionStatusMod, "")
 		SetDebugLog($TempMod)
 	EndIf
 
 EndFunc   ;==>CheckVersion
+
+Func CheckVersionStatus()
+	Local Static $iLastTimeVersionChecked
+	If $g_bFirstStart Then $iLastTimeVersionChecked = ""
+
+	If _DateIsValid($iLastTimeVersionChecked) Then
+		Local $iLastCheck =_DateDiff('n', $iLastTimeVersionChecked, _NowCalc()) ; elapse time from last check (minutes)
+		SetDebugLog("Version Status LastCheck: " & $iLastTimeVersionChecked & ", Check DateCalc: " & $iLastCheck)
+		If $iLastCheck <= 120 Then Return ; Check Every 120 Minutes
+	EndIf
+
+	SetDebugLog("Version Status Check", $COLOR_DEBUG2)
+
+	Local $g_sBotModGitVersion = ""
+	Local $sCorrectStdOutMod = InetRead("https://api.github.com/repos/Moebius14/AnuBisMod/releases/latest")
+	Local $TempMod = BinaryToString($sCorrectStdOutMod)	
+
+	If $TempMod <> "" And Not @error Then
+		Local $g_aBotVersionNMod = StringSplit($g_sBotVersionMod, " ", 2)
+		If @error Then
+			Local $g_iBotVersionNMod = StringReplace($g_sBotVersionMod, "v", "")
+		Else
+			Local $g_iBotVersionNMod = StringReplace($g_aBotVersionNMod[0], "v", "")
+		EndIf
+		Local $versionMod = GetLastVersion($TempMod)
+		$g_sBotModGitVersion = StringReplace($versionMod[0], "v", "")
+		SetDebugLog("Last GitHub Mod version is " & $g_sBotModGitVersion)
+		SetDebugLog("Your version is " & $g_iBotVersionNMod)
+
+		If _VersionCompare($g_iBotVersionNMod, $g_sBotModGitVersion) = -1 Then
+			GUICtrlSetState($g_hPicGreenMod, $GUI_HIDE)
+			GUICtrlSetState($g_hPicRedMod, $GUI_SHOW)
+			GUICtrlSetState($g_hPicGreyMod, $GUI_HIDE)
+			$g_CheckModVersion = False
+			GUICtrlSetData($g_hLblVersionStatusMod, "Out of Date")
+			GUICtrlSetFont($g_hLblVersionStatusMod, 7, $FW_BOLD, $GUI_FONTITALIC, "comic sans ms")
+			GUICtrlSetColor($g_hLblVersionStatusMod, 0xc70249)
+			PushMsg("UpdateMod")
+		ElseIf _VersionCompare($g_iBotVersionNMod, $g_sBotModGitVersion) = 0 Then
+			GUICtrlSetState($g_hPicGreenMod, $GUI_SHOW)
+			GUICtrlSetState($g_hPicRedMod, $GUI_HIDE)
+			GUICtrlSetState($g_hPicGreyMod, $GUI_HIDE)
+			GUICtrlSetData($g_hLblVersionStatusMod, "Up to Date")
+			GUICtrlSetFont($g_hLblVersionStatusMod, 7, $FW_BOLD, $GUI_FONTITALIC, "comic sans ms")
+			GUICtrlSetColor($g_hLblVersionStatusMod, 0x29a075)
+		EndIf
+	Else
+		GUICtrlSetState($g_hPicGreenMod, $GUI_HIDE)
+		GUICtrlSetState($g_hPicRedMod, $GUI_HIDE)
+		GUICtrlSetState($g_hPicGreyMod, $GUI_SHOW)
+		GUICtrlSetData($g_hLblVersionStatusMod, "")
+		SetDebugLog($TempMod)
+	EndIf
+	$iLastTimeVersionChecked = _NowCalc()
+EndFunc
 
 Func GetLastVersion($txt)
 	Return _StringBetween($txt, '"tag_name":"', '","')

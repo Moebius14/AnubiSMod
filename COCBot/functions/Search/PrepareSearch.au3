@@ -168,8 +168,6 @@ Func PrepareSearch($Mode = $DB) ;Click attack button and find match button, will
 
 	If _Sleep($DELAYPREPARESEARCH2) Then Return
 
-	Local $Result = getAttackDisable(346, 182) ; Grab Ocr for TakeABreak check
-
 	If isGemOpen(True) Then ; Check for gem window open)
 		SetLog(" Not enough gold to start searching!", $COLOR_ERROR)
 		Click(585, 252, 1, 0, "#0151") ; Click close gem window "X"
@@ -178,8 +176,6 @@ Func PrepareSearch($Mode = $DB) ;Click attack button and find match button, will
 		If _Sleep($DELAYPREPARESEARCH1) Then Return
 		$g_bOutOfGold = True ; Set flag for out of gold to search for attack
 	EndIf
-
-	checkAttackDisable($g_iTaBChkAttack, $Result) ;See If TakeABreak msg on screen
 
 	SetDebugLog("PrepareSearch exit check $g_bRestart= " & $g_bRestart & ", $g_bOutOfGold= " & $g_bOutOfGold, $COLOR_DEBUG)
 

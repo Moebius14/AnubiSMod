@@ -256,7 +256,6 @@ Func DonateCC($bCheckForNewMsg = False)
 	Local $aiDonateButton
 
 	While $bDonate
-		checkAttackDisable($g_iTaBChkIdle) ; Early Take-A-Break detection
 		$ClanString = ""
 		$sNewClanString = ""
 		If _Sleep($DELAYDONATECC2) Then ExitLoop

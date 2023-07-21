@@ -98,7 +98,7 @@ Func WaitForClouds()
 			;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 			; once a minute safety checks for search fail/retry msg and Personal Break events and early detection if CoC app has crashed inside emulator (Bluestacks issue mainly)
-			If chkAttackSearchFail() = 2 Or chkAttackSearchPersonalBreak() = True Or GetAndroidProcessPID() = 0 Then
+			If chkAttackSearchFail() = 2 Or GetAndroidProcessPID() = 0 Then
 				resetAttackSearch()
 				ExitLoop
 			EndIf
@@ -151,7 +151,6 @@ Func EnableLongSearch()
 	$iCount = 0 ; initialize safety loop counter #1
 	While 1
 		If chkSurrenderBtn() = True Then Return True ; check if clouds are gone.
-		If chkAttackSearchPersonalBreak() = True Then Return False ; OCR check for Personal Break while in clouds, return after PB prep
 		If chkAttackSearchFail() = 1 Then Return True ; OCR text for search fail message, and press retry if available, success continue searching
 
 		If chkSearchText() = False Then
@@ -196,27 +195,6 @@ Func chkAttackSearchFail()
 		EndIf
 	EndIf
 EndFunc   ;==>chkAttackSearchFail
-
-Func chkAttackSearchPersonalBreak()
-	; Boolean 100ms OCR check for pink text "You must wait until after your Personal Break to start an attack." error message during search for base to attack
-	Local $result
-	$result = getCloudFailShort(499, 350 + $g_iMidOffsetY, "Cloud Search PB Text: Break=", $COLOR_DEBUG, Default)
-	If $result <> "" And StringInStr($result, "break", $STR_NOCASESENSEBASIC) > 0 Then ; found "break" characters in text
-		SetLog("Prepare base before Personal Break in clouds..", $COLOR_INFO)
-		CheckBaseQuick(True, "cloud") ; check and restock base before exit.
-		Return True
-	EndIf
-	If $g_bForceSinglePBLogoff And _DateIsValid($g_sPBStartTime) Then ; silly feature to use with long clouds, but check if single PB is enabled.
-		Local $iTimeTillPBTstartSec = Int(_DateDiff('s', $g_sPBStartTime, _NowCalc())) ; time in seconds
-		SetDebugLog("PB starts in: " & $iTimeTillPBTstartSec & " Seconds", $COLOR_DEBUG)
-		If $iTimeTillPBTstartSec >= 0 Then ; test if PBT date/time in past (positive value) or future (negative value
-			SetLog("Prepare base before user forced Break..", $COLOR_INFO)
-			CheckBaseQuick(True, "cloud") ; check and restock base before exit.
-			Return True
-		EndIf
-	EndIf
-	Return False
-EndFunc   ;==>chkAttackSearchPersonalBreak
 
 Func btnSearchFailRetry()
 	Local $aRetrySearchButton = decodeSingleCoord(findImage("Retry Search", $g_sImgRetrySearchButton, GetDiamondFromRect("270,400,600,500"), 1, True))

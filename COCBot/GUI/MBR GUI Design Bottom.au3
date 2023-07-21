@@ -5,7 +5,7 @@
 ; Parameters ....: None
 ; Return values .: None
 ; Author ........: GKevinOD (2014)
-; Modified ......: DkEd, Hervidero (2015), CodeSlinger69 (2017)
+; Modified ......: DkEd, Hervidero (2015), CodeSlinger69 (2017), Moebius (07-2023)
 ; Remarks .......: This file is part of MyBot, previously known as ClashGameBot. Copyright 2015-2023
 ;                  MyBot is distributed under the terms of the GNU GPL
 ; Related .......:
@@ -34,6 +34,9 @@ Global $g_hlblLab = 0, $g_hPicLabGray = 0, $g_hPicLabRed = 0, $g_hPicLabGreen = 
 
 ; Pet House
 Global $g_hlblPet = 0, $g_hPicPetGray = 0, $g_hPicPetRed = 0, $g_hPicPetGreen = 0, $g_hLbLPetTime = 0
+
+; Mod Version Status
+Global $g_hPicRedMod = 0, $g_hPicGreenMod = 0, $g_hPicGreyMod = 0, $g_hLblVersionStatusMod = 0 
 
 Func CreateBottomPanel()
 	Local $sTxtTip = ""
@@ -96,13 +99,24 @@ Func CreateBottomPanel()
 			GUICtrlSetState(-1, $GUI_HIDE)
 		$g_hBtnAttackNowLB = GUICtrlCreateButton(GetTranslatedFileIni("MBR GUI Design Bottom", "BtnAttackNowLB", "LB Attack!"), $x + 190, $y + 23, 60, -1)
 			GUICtrlSetState(-1, $GUI_HIDE)
-		_GUICtrlCreateIcon($g_sLibModIconPath, $eIcnStorm1Mod, $x + 299, $y + 77 , 24, 24)
-		$g_hLblDonate = GUICtrlCreateLabel(GetTranslatedFileIni("MBR GUI Design Bottom", "MyClan", "Cahaya~Fantasy"), $x + 324, $y + 80, 100, 24, -1)
-			_GUICtrlSetTip(-1, GetTranslatedFileIni("MBR GUI Design Bottom", "AnubiSMod_Info_01", "Click Here To Find The Lastest Mod Version"))
-			GUICtrlSetCursor(-1, 0)
+		$g_hLblDonate = GUICtrlCreateLabel(GetTranslatedFileIni("MBR GUI Design Bottom", "VersionStatus", "Version Status : "), $x + 282, $y + 80, 100, 24, -1)
 			GUICtrlSetFont(-1, 8.5, $FW_BOLD, $GUI_FONTITALIC, "comic sans ms")
 			GUICtrlSetColor(-1, 000099)
-		_GUICtrlCreateIcon($g_sLibModIconPath, $eIcnStorm2Mod, $x + 411, $y + 77 , 24, 24)
+		$g_hPicGreenMod = _GUICtrlCreateIcon($g_sLibIconPath, $eIcnGreenShield, $x + 377, $y + 80, 16, 16)
+			GUICtrlSetState(-1, $GUI_HIDE)
+			_GUICtrlSetTip(-1, GetTranslatedFileIni("MBR GUI Design Bottom", "AnubiSMod_Info_01", "Click Here To Download The Lastest Mod Version"))
+			GUICtrlSetCursor(-1, 0)
+		$g_hPicRedMod = _GUICtrlCreateIcon($g_sLibIconPath, $eIcnRedShield, $x + 377, $y + 80, 16, 16)	
+			GUICtrlSetState(-1, $GUI_HIDE)
+			_GUICtrlSetTip(-1, GetTranslatedFileIni("MBR GUI Design Bottom", "AnubiSMod_Info_01", "Click Here To Download The Lastest Mod Version"))
+			GUICtrlSetCursor(-1, 0)
+		$g_hPicGreyMod = _GUICtrlCreateIcon($g_sLibIconPath, $eIcnGrayShield, $x + 377, $y + 80, 16, 16)
+			GUICtrlSetState(-1, $GUI_SHOW)
+			_GUICtrlSetTip(-1, GetTranslatedFileIni("MBR GUI Design Bottom", "AnubiSMod_Info_01", "Click Here To Download The Lastest Mod Version"))
+			GUICtrlSetCursor(-1, 0)
+		$g_hLblVersionStatusMod = GUICtrlCreateLabel("", $x + 397, $y + 80, 60, 24)
+			_GUICtrlSetTip(-1, GetTranslatedFileIni("MBR GUI Design Bottom", "AnubiSMod_Info_01", "Click Here To Download The Lastest Mod Version"))
+			GUICtrlSetCursor(-1, 0)
 	GUICtrlCreateGroup("", -99, -99, 1, 1)
 
 	If $g_bAndroidAdbScreencap Then chkBackground() ; update background mode GUI

@@ -207,7 +207,6 @@ Func GetVillageSize($DebugLog = Default, $sStonePrefix = Default, $sTreePrefix =
 
 				Local $asStoneName = StringSplit($findImage,"-") ; get filename only
 				Local $asStoneScenery = StringRight($asStoneName[1], 2) ; get extension
-
 				SetDeBugLog("Found Stone scenery : " & $asStoneScenery, $COLOR_INFO)
 
 				ExitLoop
@@ -300,6 +299,7 @@ Func GetVillageSize($DebugLog = Default, $sStonePrefix = Default, $sTreePrefix =
 	Local $z = 1	; for centering only
 	Local $c = 0	; for centering only
 	Local $a = 0, $b = 0, $iRefSize = 0
+	Local $d = 0, $e = 0
 
 	; Failed to locate Stone Or Tree ; zoom out
 	If $stone[0] = 0 And $tree[0] = 0 Then
