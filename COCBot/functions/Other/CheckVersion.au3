@@ -5,7 +5,7 @@
 ; Parameters ....: None
 ; Return values .: None
 ; Author ........: Sardo (2015-06)
-; Modified ......: CodeSlinger69 (2017)
+; Modified ......: CodeSlinger69 (2017), Moebius (07-2023)
 ; Remarks .......: This file is part of MyBot, previously known as ClashGameBot. Copyright 2015-2023
 ;                  MyBot is distributed under the terms of the GNU GPL
 ; Related .......:
@@ -100,6 +100,13 @@ Func CheckVersion()
 			GUICtrlSetData($g_hLblVersionStatusMod, "Up to Date")
 			GUICtrlSetFont($g_hLblVersionStatusMod, 7, $FW_BOLD, $GUI_FONTITALIC, "comic sans ms")
 			GUICtrlSetColor($g_hLblVersionStatusMod, 0x29a075)
+		Else
+			GUICtrlSetState($g_hPicGreenMod, $GUI_SHOW)
+			GUICtrlSetState($g_hPicRedMod, $GUI_HIDE)
+			GUICtrlSetState($g_hPicGreyMod, $GUI_HIDE)
+			GUICtrlSetData($g_hLblVersionStatusMod, "V Dev")
+			GUICtrlSetFont($g_hLblVersionStatusMod, 7, $FW_BOLD, $GUI_FONTITALIC, "comic sans ms")
+			GUICtrlSetColor($g_hLblVersionStatusMod, 0x29a075)
 		EndIf
 	Else
 		GUICtrlSetState($g_hPicGreenMod, $GUI_HIDE)
@@ -153,6 +160,13 @@ Func CheckVersionStatus()
 			GUICtrlSetState($g_hPicRedMod, $GUI_HIDE)
 			GUICtrlSetState($g_hPicGreyMod, $GUI_HIDE)
 			GUICtrlSetData($g_hLblVersionStatusMod, "Up to Date")
+			GUICtrlSetFont($g_hLblVersionStatusMod, 7, $FW_BOLD, $GUI_FONTITALIC, "comic sans ms")
+			GUICtrlSetColor($g_hLblVersionStatusMod, 0x29a075)
+		Else
+			GUICtrlSetState($g_hPicGreenMod, $GUI_SHOW)
+			GUICtrlSetState($g_hPicRedMod, $GUI_HIDE)
+			GUICtrlSetState($g_hPicGreyMod, $GUI_HIDE)
+			GUICtrlSetData($g_hLblVersionStatusMod, "V Dev")
 			GUICtrlSetFont($g_hLblVersionStatusMod, 7, $FW_BOLD, $GUI_FONTITALIC, "comic sans ms")
 			GUICtrlSetColor($g_hLblVersionStatusMod, 0x29a075)
 		EndIf

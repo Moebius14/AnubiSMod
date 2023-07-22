@@ -1,8 +1,8 @@
 ; #FUNCTION# ====================================================================================================================
 ; Name ..........: MBR Bot Version
 ; Description ...: This file contains the initialization and main loop sequences f0r the MBR Bot
-; Author ........:  (2014)
-; Modified ......:
+; Author ........: (2014)
+; Modified ......: Moebius14
 ; Remarks .......: This file is part of MyBot, previously known as ClashGameBot. Copyright 2015-2023
 ;                  MyBot is distributed under the terms of the GNU GPL
 ; Related .......:
@@ -21,4 +21,4 @@
 
 Global $g_sBotVersion = "v8.1.1" ;~ Don't add more here, but below. Version can't be longer than vX.y.z because it is also used in Checkversion()
 
-Global $g_sBotVersionMod = "v23.07.13" ;~ Don't add more here, but below. Version can't be longer than vX.y.z because it is also used in Checkversion()
+Global $g_sBotVersionMod = "v23.07.22" ;~ Don't add more here, but below. Version can't be longer than vX.y.z because it is also used in Checkversion()

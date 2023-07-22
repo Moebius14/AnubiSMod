@@ -19,7 +19,7 @@ Func CheckCGCompleted()
 	Local $bRet = False
 	For $x = 1 To 8
 		If Not $g_bRunState Then Return
-		SetLog("Check challenges progress #" &$x, $COLOR_ACTION)
+		SetDebugLog("Check challenges progress #" & $x, $COLOR_ACTION)
 		If _Sleep(1000) Then Return
 		If QuickMIS("BC1", $g_sImgGameComplete, 760, 450 + $g_iMidOffsetY, 820, 520 + $g_iMidOffsetY) Then
 			SetLog("Nice, Game Completed", $COLOR_INFO)
@@ -253,7 +253,7 @@ Func EndBattleBB() ; Find if battle has ended and click okay
 						SetLog("Challenge Is Not Finished...", $COLOR_ERROR)
 					EndIf
 				EndIf
-				If _Sleep(3000) Then Return
+				If _Sleep(2000) Then Return
 			Case QuickMIS("BC1", $g_sImgBBAttackBonus, 410, 460 + $g_iMidOffsetY, 454, 490 + $g_iMidOffsetY) = True
 				SetLog("Congrats Chief, Stars Bonus Awarded", $COLOR_INFO)
 				If _Sleep(2000) Then Return
