@@ -1,9 +1,13 @@
+* v23.07.23 **
+* Fixed Clan Games Challenge Type Detection.
+* Fixed Challenge finished detection when bonus awarded.
+
 * v23.07.22 **
 * Added Painter and Dark Ages Sceneries Support (Attack Only).
 * Fixed Free builder After Book Of Heroes Use.
 * Fixed Books detection in daily challenges.
 * Improved Values Display Format in Log.
-* Added Version Status Check at the botton of Bot.
+* Added Version Status Check at the bottom of Bot.
 
 * v23.07.13 **
 * Added Pet Potion support.

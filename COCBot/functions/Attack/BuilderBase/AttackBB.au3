@@ -5,7 +5,7 @@
 ; Parameters ....: None
 ; Return values .: None
 ; Author ........: Chilly-Chill (04-2019)
-; Modified ......: Moebius 14 (07.2023)
+; Modified ......: Moebius 14 (07-2023)
 ; Remarks .......: This file is part of MyBot, previously known as ClashGameBot. Copyright 2015-2023
 ;                  MyBot is distributed under the terms of the GNU GPL
 ; Related .......:
@@ -17,15 +17,15 @@ Local $bFirstAttackClick
 
 Func CheckCGCompleted()
 	Local $bRet = False
-	For $x = 1 To 8
+	For $x = 1 To 10
 		If Not $g_bRunState Then Return
 		SetDebugLog("Check challenges progress #" & $x, $COLOR_ACTION)
-		If _Sleep(1000) Then Return
 		If QuickMIS("BC1", $g_sImgGameComplete, 760, 450 + $g_iMidOffsetY, 820, 520 + $g_iMidOffsetY) Then
 			SetLog("Nice, Game Completed", $COLOR_INFO)
 			$bRet = True
 			ExitLoop
 		EndIf
+		If _Sleep(500) Then Return
 	Next
 	Return $bRet
 EndFunc
@@ -256,7 +256,7 @@ Func EndBattleBB() ; Find if battle has ended and click okay
 				If _Sleep(2000) Then Return
 			Case QuickMIS("BC1", $g_sImgBBAttackBonus, 410, 460 + $g_iMidOffsetY, 454, 490 + $g_iMidOffsetY) = True
 				SetLog("Congrats Chief, Stars Bonus Awarded", $COLOR_INFO)
-				If _Sleep(2000) Then Return
+				If Not $g_bIsBBevent Then _Sleep(2000) Then Return
 				Click($g_iQuickMISX, $g_iQuickMISY)
 				If $g_bChkForceBBAttackOnClanGames And $g_bIsBBevent Then
 					If CheckCGCompleted() Then
