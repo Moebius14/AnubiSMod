@@ -3309,7 +3309,7 @@ EndFunc   ;==>ClickClanFilter
 
 Func BBBattleLog()
 If Not $g_bUseBotHumanization Then Return
-Local $bNotificationRed = _ColorCheck(_GetPixelColor(50, 107 + $g_iMidOffsetY, True), Hex(0xE51525, 6), 20)
+;Local $bNotificationRed = _ColorCheck(_GetPixelColor(50, 107 + $g_iMidOffsetY, True), Hex(0xE51525, 6), 20)
 Local $IsToViewBBBattleLog = Random(0, 100, 1)
 Local $ViewPriorityNumber = 0
 If $g_iacmbPriorityBB[0] = 0 Then Return
@@ -3319,7 +3319,7 @@ If $g_iacmbPriorityBB[0] = 3 Then $ViewPriorityNumber = 50
 If $g_iacmbPriorityBB[0] = 4 Then $ViewPriorityNumber = 30
 If $g_iacmbPriorityBB[0] = 5 Then $ViewPriorityNumber = 2
 
-	If $ViewPriorityNumber < $IsToViewBBBattleLog Or $bNotificationRed Then
+	If $ViewPriorityNumber < $IsToViewBBBattleLog Then; Or $bNotificationRed Then
 		SetLog("OK, Let The Bot Being More Human Like!", $COLOR_SUCCESS1)
 		If _Sleep(Random(1500, 2500, 1)) Then Return
 		SetLog("Lets Look At BattleLog", $COLOR_OLIVE)

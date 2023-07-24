@@ -145,11 +145,13 @@ Func MainSuggestedUpgradeCode($bDebugImage = $g_bDebugImageSave, $bFinishNow = F
 	If _Sleep(250) Then Return
 	If Not $g_bRunState Then Return
 
-	Local $aiTunnel = decodeSingleCoord(findImage("OOTunnel", $sImgTunnel, "FV", 1, True))
-
-	If IsArray($aiTunnel) And UBound($aiTunnel) = 2 Then
+	If QuickMIS("BC1", $sImgTunnel, 0, 190 + $g_iMidOffsetY, $g_iGAME_WIDTH, $g_iGAME_HEIGHT) Then
 		SetLog("Found Tunnel, Back To Main Builder Base", $COLOR_INFO)
-		Click($aiTunnel[0] - Random(0, 80, 1), $aiTunnel[1] + Random(0, 15, 1))
+		If $g_iQuickMISName = "TunnelOO" Then
+			Click($g_iQuickMISX - Random(25, 70, 1), $g_iQuickMISY + Random(0, 30, 1))
+		Else
+			Click($g_iQuickMISX - Random(30, 50, 1), $g_iQuickMISY + Random(10, 40, 1))
+		EndIf
 	EndIf
 
 	If _Sleep(2000) Then Return

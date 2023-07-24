@@ -256,7 +256,9 @@ Func EndBattleBB() ; Find if battle has ended and click okay
 				If _Sleep(2000) Then Return
 			Case QuickMIS("BC1", $g_sImgBBAttackBonus, 410, 460 + $g_iMidOffsetY, 454, 490 + $g_iMidOffsetY) = True
 				SetLog("Congrats Chief, Stars Bonus Awarded", $COLOR_INFO)
-				If Not $g_bIsBBevent Then _Sleep(2000) Then Return
+				If Not $g_bIsBBevent Then
+					If _Sleep(2000) Then Return
+				EndIf
 				Click($g_iQuickMISX, $g_iQuickMISY)
 				If $g_bChkForceBBAttackOnClanGames And $g_bIsBBevent Then
 					If CheckCGCompleted() Then

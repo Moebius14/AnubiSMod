@@ -42,25 +42,11 @@ Func SwitchBetweenBases($bCheckMainScreen = True, $GoToBB = False)
 
 		ZoomOut() ; ensure boat is visible
 
-		Local $iLoop = 0
-		; check if OTTO Outpost
-		While $g_iTree = $eTreeOO 
-			If Not SwitchToBuilderBase() Then
-				SetLog("Drag diagonally to green BB")
-				ClickDrag(720, 610, 110, 140, 300)
-			EndIf
-			ZoomOut()
-			$iLoop += 1
-			If $iLoop > 2 Then
-				SetLog("Failed to switch to Builder Base", $COLOR_ERROR)
-				RestartAndroidCoC()
-				If _Sleep(5000) Then Return
-				ZoomOut()
-			EndIf
-		WEnd	
+		SwitchToBuilderBase()
 
 		If Not $g_bRunState Then Return
 
+		If $bIsOnBuilderBase And $g_iTree = $eTreeOO Then $sRegionToSearch = GetDiamondFromRect("675,210,765,330")
 		$avBoat = findMultiple($sTileDir, $sRegionToSearch, $sRegionToSearch, 0, 1000, 1, "objectname,objectpoints", True)
 
 		If $GoToBB Then
@@ -127,18 +113,22 @@ EndFunc   ;==>SwitchBetweenBases
 
 Func SwitchToBuilderBase()
 
-	Local $aiTunnel = decodeSingleCoord(findImage("OOTunnel", $sImgTunnel, "FV", 1, True))
-
-	If IsArray($aiTunnel) And UBound($aiTunnel) = 2 Then
-		SetLog("Found Tunnel", $COLOR_INFO)
-		Click($aiTunnel[0] - Random(0, 80, 1), $aiTunnel[1] + Random(0, 15, 1))
+	If QuickMIS("BC1", $sImgTunnel, 0, 190 + $g_iMidOffsetY, $g_iGAME_WIDTH, $g_iGAME_HEIGHT) Then
+		SetLog("Found Tunnel, Back To Main Builder Base", $COLOR_INFO)
+		If $g_iQuickMISName = "OOTunnel" Then
+			SetDebugLog("Found OOTunnel", $COLOR_INFO)
+			Click($g_iQuickMISX - Random(25, 70, 1), $g_iQuickMISY + Random(0, 30, 1))
+		Else
+			SetDebugLog("Found BBTunnel", $COLOR_INFO)
+			Click($g_iQuickMISX - Random(30, 50, 1), $g_iQuickMISY + Random(10, 40, 1))
+		EndIf
+		If _Sleep(2000) Then Return
+		ZoomOut()
+		Return True
 	Else
-		SetLog("Failed to locate the tunnel", $COLOR_INFO)
-		SaveDebugImage("OO2BBTunnel");
+		SetDebugLog("Failed to locate the tunnel", $COLOR_INFO)
+		If $g_bDebugImageSave Then SaveDebugImage("OO2BBTunnel");
 		Return False
 	EndIf	
 
-	If _Sleep(2000) Then Return
-
-	Return True
 EndFunc

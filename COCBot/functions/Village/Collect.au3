@@ -93,7 +93,7 @@ EndIf
 	If UBound($aLootCart) > 1 Then
 		$aLootCart[1] += 15
 		If IsMainPage() Then ClickP($aLootCart, 1, 0, "#0330")
-		If _Sleep(400) Then Return
+		If _Sleep(1500) Then Return
 
 		Local $aiCollectButton = findButton("CollectLootCart", Default, 1, True)
 		If IsArray($aiCollectButton) And UBound($aiCollectButton) = 2 Then

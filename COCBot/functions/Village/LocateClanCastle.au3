@@ -156,6 +156,7 @@ Func _BtnDefineCapacity()
 		
 		If $g_aiClanCastlePos[0] = -1 Then
 			SetLog("Locate Clan Castle First", $COLOR_ERROR)
+			LocateClanCastle(False)
 			Return
 		EndIf
 		

@@ -127,7 +127,7 @@ Global $g_sImgElixirCart = @ScriptDir & "\imgxml\Resources\BuildersBase\ElixirCa
 Global $g_sImgCollectElixirCart = @ScriptDir & "\imgxml\Resources\BuildersBase\ElixirCart\Collect*"
 Global $g_sImgFillTrain = @ScriptDir & "\imgxml\Attack\BuilderBase\PrepareAttackBB\TrainTroop\"
 Global $g_sImgFillCamp = @ScriptDir & "\imgxml\Attack\BuilderBase\PrepareAttackBB\TrainTroop\Camp\"
-Global $sImgTunnel = @ScriptDir & "\imgxml\Resources\BuildersBase\Tunnel\OOTunnel_0_93.xml"
+Global $sImgTunnel = @ScriptDir & "\imgxml\Resources\BuildersBase\Tunnel\"
 ; Builder Base Attack
 Global $g_sImgBBAttackStart = @ScriptDir & "\imgxml\Attack\BuilderBase\AttackBB\AttackStart\"
 Global $g_sImgChangeTroops = @ScriptDir & "\imgxml\Attack\BuilderBase\ChangeTroops\"

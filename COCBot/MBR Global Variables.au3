@@ -2078,14 +2078,14 @@ Global $g_aiCmbCCDecisionTime = 0, $g_aiCmbCCDecisionThen = 0, $CCWaitChrono = 0
 Global Enum $eTreeDSS, $eTreeDAS, $eTreeCC, $eTreePS, $eTreeEW, $eTreeHM, $eTreeJS, $eTreeEJ, $eTree9C, $eTreePG, _
 			$eTreeSD, $eTreeTM, $eTreePR, $eTreeSH, $eTreeRS, $eTreeSM, $eTreePX, $eTreeXC, $eTreeCF, $eTreeMS, _
 			$eTreeCS, $eTreeIT, _
-			$eTreeBB, $eTreeOO, _
+			$eTreeBB, $eTreeOO, $eTreeBB2, _
  			$eTreeCP, $eTreeBC, $eTreeDA, $eTreePA, $eTreeCount
 
 Global $g_asSceneryNames[$eTreeCount] = [ _
 	"Classic Spring", "Classic Autumn", "Clashy Construct", "Pirate Scenery", "Epic Winter", "Hog Mountain", "Jungle Scenery", "Epic Jungle", "9th Clashiversary", _
 	"Pumpkin Graveyard", "Snowy Day", "Tiger Mountain", "Primal Scenery", "Shadow Scenery", "Royale Scenery", "Summer Scenery", "Pixel Scenery", "10th Clashiversary", _
 	"Clash Fest", "Magic Scenery", _
-	"Classic Scenery", "Inferno Town", "Builder Base", "OTTO Outpost", _
+	"Classic Scenery", "Inferno Town", "Builder Base", "OTTO Outpost", "Builder Base2", _
 	"Capital Peak", "Barbarian Camp", "Dark Ages Scenery", "Painter Scenery"]
 
 ; village size, left, right, top, bottom, village size 2, AdjLeft, AdjRight, AdjTop, AdjBottom
@@ -2112,8 +2112,9 @@ Global Const $g_afRefVillage[$eTreeCount][10] = [ _
 	[469.703380664663, 41, 790, 66, 632, 469.703380664663, 50, 50, 42, 42], _		; MS partial
 	[480, 35, 809, 57, 632, 480, 50, 50, 42, 42], _				; CS
 	[480, 35, 809, 57, 632, 480, 50, 50, 42, 42], _				; IT
-	[379.32672221687 , 114, 720, 158, 610, 379.32672221687, 50, 46, 38, 42], _ ; BB partial [418.46093337521, 95, 765, 142, 641, 418.46093337521, 50, 46, 38, 42], _
+	[379.32672221687 , 114, 720, 158, 610, 379.32672221687, 50, 46, 38, 42], _ ;BB1
 	[385.070465954253, 110, 710, 182, 628, 407.273715029944, 50, 46, 38, 42], _ ; OO
+	[379.32672221687 , 114, 720, 158, 610, 379.32672221687, 50, 46, 38, 42], _ ;BB2
 	[461.860421647731, 73, 814, 85, 637, 461.860421647731, 10, 10, 10, 10], _   ; CP partial
 	[427.945118331064, 97, 785, 91, 604, 427.945118331064, 10, 10, 10, 10], _	; BC Partial
 	[484.403614426064, 39, 825, 50, 639, 484.403614426064, 50, 50, 42, 42], _	; DA Partial
