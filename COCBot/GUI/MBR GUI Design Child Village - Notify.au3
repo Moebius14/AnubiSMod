@@ -23,7 +23,7 @@ Global $g_hChkNotifyAlertMatchFound = 0, $g_hChkNotifyAlertLastRaidIMG = 0, $g_h
 	   $g_hChkNotifyAlertVillageStats = 0, $g_hChkNotifyAlertLastAttack = 0, $g_hChkNotifyAlertAnotherDevice = 0, $g_hChkNotifyAlertMaintenance = 0, _
 	   $g_hChkNotifyAlertBAN = 0, $g_hChkNotifyBOTUpdate = 0, $g_hChkNotifyAlertSmartWaitTime = 0, $g_hChkNotifyAlertLaboratoryIdle = 0, _
 	   $g_hChkNotifyCGScore = 0, $g_hChkNotifyStarBonusAvail = 0, $g_hChkNotifyPauseTime = 0, $g_hNotifyStopBot = 0, _
-	   $g_hChkNotifyUpgradeBM = 0, $g_hChkNotifyUpgrade = 0
+	   $g_hChkNotifyUpgradeBM = 0, $g_hChkNotifyUpgradeBC = 0, $g_hChkNotifyUpgrade = 0
 
 Global $g_hChkNotifyOnlyHours = 0, $g_hChkNotifyOnlyWeekDays = 0, $g_hChkNotifyhours[24] = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], _
 	   $g_hChkNotifyWeekdays[7] = [0, 0, 0, 0, 0, 0, 0]
@@ -132,10 +132,13 @@ Func CreateVillageNotify()
 			_GUICtrlSetTip(-1, GetTranslatedFileIni("MBR GUI Design Child Village - Notify", "ChkNotifyPauseTime_Info_01", "Give Informations When Time To Pause."))
 			GUICtrlSetState(-1, $GUI_DISABLE)
 		$g_hNotifyStopBot = GUICtrlCreateCheckbox("Bot Stop", $x + 315, $y + 40, -1, -1)
-		_GUICtrlSetTip(-1, "Notify Via Telegram When Bot Has Stopped")
-		GUICtrlSetState(-1, $GUI_DISABLE)
-		$g_hChkNotifyUpgradeBM = GUICtrlCreateCheckbox(GetTranslatedFileIni("MBR GUI Design Child Village - Notify", "ChkNotifyUpgradeBM", "Battle Machine"), $x + 10, $y + 40, -1, -1)
+			_GUICtrlSetTip(-1, "Notify Via Telegram When Bot Has Stopped")
+			GUICtrlSetState(-1, $GUI_DISABLE)
+		$g_hChkNotifyUpgradeBM = GUICtrlCreateCheckbox(GetTranslatedFileIni("MBR GUI Design Child Village - Notify", "ChkNotifyUpgradeBM", "BattleMachine"), $x + 10, $y + 40, -1, -1)
 			_GUICtrlSetTip(-1, GetTranslatedFileIni("MBR GUI Design Child Village - Notify", "ChkNotifyUpgradeBM_Info_01", "Give Informations When Upgrade Battle Machine Is Launched"))
+			GUICtrlSetState(-1, $GUI_DISABLE)
+		$g_hChkNotifyUpgradeBC = GUICtrlCreateCheckbox(GetTranslatedFileIni("MBR GUI Design Child Village - Notify", "ChkNotifyUpgradeBC", "BattleCopter"), $x + 100, $y + 40, -1, -1)
+			_GUICtrlSetTip(-1, GetTranslatedFileIni("MBR GUI Design Child Village - Notify", "ChkNotifyUpgradeBC_Info_01", "Give Informations When Upgrade Battle Copter Is Launched"))
 			GUICtrlSetState(-1, $GUI_DISABLE)
 		$g_hChkNotifyUpgrade = GUICtrlCreateCheckbox(GetTranslatedFileIni("MBR GUI Design Child Village - Notify", "ChkNotifyUpgrade", "Upgrade Started"), $x + 210, $y + 20, -1, -1)
 			_GUICtrlSetTip(-1, GetTranslatedFileIni("MBR GUI Design Child Village - Notify", "ChkNotifyUpgrade_Info_01", "Give Informations When An Upgrade is Started in Home Village"))

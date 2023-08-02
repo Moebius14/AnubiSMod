@@ -1,0 +1,129 @@
+NOTE  |Author: AnubiS
+NOTE  |Attack: IceBowitchPekParty
+NOTE  |-External Edge-
+NOTE  |*** Support TH13, TH14, TH15
+NOTE  |CC : WW Or LogL, 1 Rage, 1 Freeze
+NOTE  |Siege : Log Launcher Or Wrecker
+NOTE  |Script work on "EXTERNAL EDGES"               
+      |                                              				                                                                     			  |
+      |----------------------------------------------------IceBowitchParty Starting-------------------------------------------------------------------|
+      |                                              				                                                                     			  |
+      |_TROOPNAME_|__FLEXIBLE_|____TH06___|____TH07___|____TH08___|____TH09___|____TH10___|____TH11___|____TH12___|____TH13___|____TH14___|____TH15___|
+TRAIN |Bowl       |0          |0          |0          |0          |0          |0          |0          |0          |7          |7          |9          |
+TRAIN |Witc       |0          |0          |0          |0          |0          |0          |0          |0          |4          |4          |4          |
+TRAIN |IceG       |0          |0          |0          |0          |0          |0          |0          |0          |5          |5          |5          |
+TRAIN |PWiza      |0          |0          |0          |0          |0          |0          |0          |0          |15         |15         |17         |
+TRAIN |Pekk       |0          |0          |0          |0          |0          |0          |0          |0          |3          |3          |3          |
+      |                                                                                                                      					      |
+TRAIN |RSpell     |0          |0          |0          |0          |0          |0          |0          |0          |3          |3          |3          |
+TRAIN |Espell     |0          |0          |0          |0          |0          |0          |0          |0          |4          |4          |4          |
+TRAIN |Haspell    |0          |0          |0          |0          |0          |0          |0          |0          |1          |1          |1          |
+      |                                              				                                                                     			  |
+TRAIN |LogL       |0          |0          |0          |0          |0          |0          |0          |0          |3          |3          |3          |
+TRAIN |WallW      |0          |0          |0          |0          |0          |0          |0          |3          |0          |0          |0          |
+      |                                                                					                        		                              |
+      |_TROOPNAME_|___________|____TH06___|____TH07___|____TH08___|____TH09___|____TH10___|____TH11___|____TH12___|____TH13___|____TH14___|____TH15___|
+TRAIN |King       |0          |0          |0          |0          |0          |0          |0          |0          |32         |32         |32         |
+TRAIN |Queen      |0          |0          |0          |0          |0          |0          |0          |0          |37         |37         |37         |
+TRAIN |Warden     |0          |0          |0          |0          |0          |0          |0          |0          |34         |34         |34         |
+TRAIN |Champion   |0          |0          |0          |0          |0          |0          |0          |0          |38         |38         |38         |
+      |                                                                                                                                  			  |
+      |_TROOPNAME_|___________|____TH06___|____TH07___|____TH08___|____TH09___|____TH10___|____TH11___|____TH12___|____TH13___|____TH14___|____TH15___|
+WMODE |0	      |0          |0          |0          |0          |0          |0          |0          |0          |0          |0  	      |0       	  |
+      |                                                                                                                                  			  |
+      |___________|___________|____TH06___|____TH07___|____TH08___|____TH09___|____TH10___|____TH11___|____TH12___|____TH13___|____TH14___|____TH15___|
+REDLN |0          |0          |0          |0          |0          |0          |0          |0          |0          |4          |4          |4          |
+DRPLN |0          |0          |0          |0          |0          |0          |0          |0          |0          |0          |0          |0          |
+      |                                                                                                                       						  |
+      |___________|___________|____TH06___|____TH07___|____TH08___|____TH09___|____TH10___|____TH11___|____TH12___|____TH13___|____TH14___|____TH15___|
+CCREQ |           |           |           |           |           |           |           |           |           |           |           |           |
+CCSPL |RSpell	  |           |           |           |           |           |           |0          |0          |1          |1          |1          |
+CCSPL |FSpell     |           |           |           |           |           |           |0          |0          |0          |1          |1          |
+      |                                                                                                                                  			  |
+      |EXTR. GOLD |EXTR.ELIXIR|EXTR. DARK |DEPO. GOLD |DEPO.ELIXIR|DEPO. DARK |TOWNHALL   |FORCED SIDE|                                               |
+SIDE  |0          |0          |0          |0          |0          |0          |20         |           |                                               |
+      |EAGLE      |INFERNO    |GEMBOX     |GEMBOX     |GEMBOX     |GEMBOX     |GEMBOX     |GEMBOX     |                                               |
+SIDEB |9          |5          |0          |0          |0          |           |           |           |                                               |
+      |                                                                                                                                  			  |
+      |VECTOR_____|SIDE_______|DROP_POINTS|ADDTILES___|VERSUS_____|RANDOMX_PX_|RANDOMY_PX_|BUILDING___|_______________________________________________|
+MAKE  |A          |FRONT-RIGHT|10         |0          |INT-EXT    |0          |0          |           |                                               |
+MAKE  |B          |FRONT-LEFT |10         |0          |INT-EXT    |0          |0          |           |                                               |
+MAKE  |C          |FRONT-RIGHT|10         |-5         |INT-EXT    |0          |0          |           |                                               |
+MAKE  |E          |FRONT-LEFT |10         |-5         |INT-EXT    |0          |0          |           |                                               |
+MAKE  |F          |FRONT-LEFT |10         |-14        |INT-EXT    |0          |0          |           |                                               |
+MAKE  |G          |FRONT-RIGHT|10         |-15        |INT-EXT    |0          |0          |           |                                               |
+MAKE  |H          |FRONT-LEFT |10         |-15        |INT-EXT    |0          |0          |           |                                               |
+MAKE  |I          |FRONT-RIGHT|10         |-21        |INT-EXT    |1          |0          |           |                                               |
+MAKE  |J          |FRONT-LEFT |10         |-21        |INT-EXT    |0          |1          |           |                                               |
+MAKE  |K          |FRONT-RIGHT|1          |-1         |IGNORE     |           |           |IN-WALL    |                                               |
+MAKE  |L          |RIGHT-FRONT|10         |0          |INT-EXT    |3          |0          |           |                                               |
+MAKE  |M          |LEFT-FRONT |10         |0          |INT-EXT    |3          |0          |           |                                               |
+MAKE  |N          |FRONT-RIGHT|1          |0          |IGNORE     |0          |0          |TOWNHALL   |                                               |
+MAKE  |O          |FRONT-LEFT |1          |0          |IGNORE     |0          |0          |TOWNHALL   |                                               |
+MAKE  |P          |RIGHT-FRONT|1          |0          |IGNORE     |0          |0          |TOWNHALL   |                                               |
+MAKE  |Q          |LEFT-FRONT |1          |0          |IGNORE     |0          |0          |TOWNHALL   |                                               |
+MAKE  |R          |FRONT-RIGHT|1          |0          |IGNORE     |0          |0          |INFERNO    |                                               |
+MAKE  |S          |FRONT-LEFT |1          |0          |IGNORE     |0          |0          |INFERNO    |                                               |
+MAKE  |T          |RIGHT-FRONT|1          |0          |IGNORE     |0          |0          |INFERNO    |                                               |
+MAKE  |U          |LEFT-FRONT |1          |0          |IGNORE     |0          |0          |INFERNO    |                                               |
+MAKE  |X          |LEFT-FRONT |10         |0          |EXT-INT    |0          |0          |           |                                               |
+MAKE  |Y          |RIGHT-FRONT|10         |0          |EXT-INT    |0          |0          |           |                                               |
+      |                                                                                                                                  			  |
+      |VECTOR_____|INDEX__________|QTY_X_VECT_|TROOPNAME__|DELAY_DROP_|DELAYCHANGE|SLEEPAFTER_|_______|_______________________________________________|
+DROP  |F          |1      		  |4          |ESpell     |50-70      |0          |100-120    |       |                                               |
+WAIT  |500-1000   |               |           |           |           |           |           |       |                                               |
+DROP  |X          |5         	  |1          |IceG       |50-70      |37-50      |750-900    |       |                                               |
+DROP  |X          |1-5		      |4          |PWiza      |50-70      |137-250    |400-450    |       |                                               |
+DROP  |Y          |5              |1          |IceG       |50-70      |37-50      |750-900    |       |                                               |
+DROP  |Y          |1-5		      |4          |PWiza      |50-70      |137-250    |400-450    |       |                                               |
+DROP  |X          |2		      |1          |PWiza      |50-70      |137-250    |200-250    |       |                                               |
+DROP  |Y          |2		      |1          |PWiza      |50-70      |137-250    |200-250    |       |                                               |
+DROP  |X          |2		      |1          |PWiza      |50-70      |137-250    |200-250    |       |                                               |
+DROP  |Y          |2		      |1          |PWiza      |50-70      |137-250    |200-250    |       |                                               |
+DROP  |X          |3		      |1          |PWiza      |50-70      |137-250    |200-250    |       |                                               |
+DROP  |Y          |3		      |1          |PWiza      |50-70      |137-250    |200-250    |       |                                               |
+WAIT  |6300-7400  |               |           |           |           |           |           |       |	                                              |
+DROP  |A          |1              |1          |WallW      |50-70      |27-50      |120-150    |       |                                               |
+DROP  |A          |1              |1          |LogL       |50-70      |27-50      |120-150    |       |                                               |
+DROP  |A          |1              |1          |SiegeB     |50-70      |27-50      |120-150    |       |                                               |
+DROP  |A          |1              |1          |StoneS     |50-70      |27-50      |120-150    |       |                                               |
+DROP  |A          |1              |1          |BattleB    |50-70      |27-50      |120-150    |       |                                               |
+WAIT  |400-550    |               |           |           |           |           |           |       |                                               |
+DROP  |A          |6,1            |2          |IceG       |50-70      |127-250    |250-320    |       |                                               |
+DROP  |B          |4,5            |2          |IceG       |50-70      |127-250    |100-120    |       |                                               |
+WAIT  |400-550    |               |           |           |           |           |           |       |                                               |
+DROP  |A          |3              |1          |Pekk       |50-100     |150-200    |300-500    |       |                                               |
+DROP  |B          |3              |1          |Pekk       |50-100     |150-200    |200-400    |       |                                               |
+DROP  |B          |1              |1          |Pekk       |50-100     |150-200    |400-500    |       |                                               |
+DROP  |A          |5,2            |2          |Witc       |50-100     |150-200    |15-20      |       |                                               |
+DROP  |B          |2,5            |2          |Witc       |50-100     |150-200    |300-400    |       |                                               |
+DROP  |A          |1,3,5          |3          |Bowl       |50-100     |150-200    |15-20      |       |                                               |
+DROP  |B          |1,3,5          |3          |Bowl       |50-100     |150-200    |100-120    |       |                                               |
+DROP  |A-B        |1,3,4          |3          |Bowl       |50-100     |150-200    |300-500    |       |                                               |
+DROP  |A-B        |1,3,4          |3          |PWiza      |50-70      |137-250    |200-250    |       |                                               |
+DROP  |A          |1              |1          |Castle     |50-70      |50-100     |100-120    |       |                                               |
+DROP  |C          |3              |1          |Rspell     |27-50      |0          |400-600    |       |                                               |
+DROP  |E          |3              |1          |Rspell     |27-50      |0          |100-120    |       |                                               |
+DROP  |R          |1              |1          |FSpell     |0          |0          |100-150    |       |                                               |
+DROP  |S          |1              |1          |FSpell     |0          |0          |100-150    |       |                                               |
+DROP  |T          |1              |1          |FSpell     |0          |0          |100-150    |       |                                               |
+DROP  |U          |1              |1          |FSpell     |0          |0          |100-150    |       |                                               |
+DROP  |N          |1              |1          |FSpell     |0          |0          |100-150    |       |                                               |
+DROP  |O          |1              |1          |FSpell     |0          |0          |100-150    |       |                                               |
+DROP  |P          |1              |1          |FSpell     |0          |0          |100-150    |       |                                               |
+DROP  |Q          |1              |1          |FSpell     |0          |0          |100-150    |       |                                               |
+DROP  |A          |1              |1          |Warden     |27-50      |0          |100-250    |       |                                               |
+DROP  |A          |1              |1          |KING       |27-50      |0          |100-250    |       |                                               |
+DROP  |A          |1              |1          |Queen      |27-50      |0          |100-250    |       |                                               |
+DROP  |A          |1              |1          |Champion   |27-50      |0          |100-250    |       |                                               |
+DROP  |G          |2              |1          |Rspell     |27-50      |0          |400-600    |       |                                               |
+DROP  |H          |2              |1          |Rspell     |27-50      |0          |           |       |                                               |
+WAIT  |3100-3800  |               |           |           |           |           |           |       |                                               |
+DROP  |I          |3              |1          |HaSpell    |30-50      |0          |400-600    |       |                                               |
+DROP  |J          |3              |1          |Haspell    |30-50      |0          |400-600    |       |                                               |
+DROP  |J          |1              |1          |Rspell     |30-50      |0          |50-100     |       |                                               |
+DROP  |L-M        |3,4            |3          |Arch       |50-70      |270-500    |300-400    |       |                                               |
+WAIT  |2500-3500  |               |           |           |           |           |           |       |                                               |
+DROP  |A-B        |1,2,4,5,6      |5          |REMAIN     |50-70      |100        |50-100     |       |           |           |           |           | 
+      |                                                                                                                                               |
+      |----------------------------------------------IceBowitchParty End------------------------------------------------------------------------------|

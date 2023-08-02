@@ -33,8 +33,9 @@ Global $g_hLabelPotion5 = 0, $g_hLabelPotion6 = 0, $g_hLabelPotion7 = 0, $g_hLab
 Global $g_alblBldBaseStats[3] = ["", "", ""]
 Global $g_hChkCollectBuilderBase = 0, $g_hChkStartClockTowerBoost = 0, $g_hChkCTBoostBlderBz = 0, $g_hChkCleanBBYard = 0, $g_hChkBBaseFrequency = 0
 Global $g_hChkCollectBldGE = 0, $g_hChkCollectBldGems = 0, $g_hChkActivateClockTower = 0, $g_hChkUseClockPotion = 0
+Global $g_hBtnDelDoubleCannonCoord = 0, $g_hBtnDelArcherTowerCoord = 0, $g_hBtnDelMultiMortarCoord = 0, $g_hBtnDelCannonCoord = 0, $g_hBtnBattleMachineCoord = 0, $g_hBtnBattlecopterCoord = 0
 Global $g_hChkBattleMachineUpgrade = 0, $g_hChkDoubleCannonUpgrade = 0, $g_hChkArcherTowerUpgrade = 0, $g_hChkMultiMortarUpgrade = 0
-Global $g_hChkMegaTeslaUpgrade = 0
+Global $g_hChkBattleCopterUpgrade = 0, $g_hChkAnyDefUpgrade = 0
 Global $g_hChkBBSuggestedUpgrades = 0, $g_hChkBBSuggestedUpgradesIgnoreGold = 0 , $g_hChkBBSuggestedUpgradesIgnoreElixir , $g_hChkBBSuggestedUpgradesIgnoreHall = 0
 Global $g_hChkPlacingNewBuildings = 0, $g_hChkBBSuggestedUpgradesIgnoreWall = 0
 Global $g_ahPicBBLeague[$eBBLeagueCount] = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], $g_hLblBBLeague1 = 0, $g_hLblBBLeague2 = 0, $g_hLblBBLeague3 = 0, $g_hLblBBLeague4 = 0, $g_hLblBBLeague5 = 0
@@ -679,7 +680,7 @@ Func CreateMiscBuilderBaseSubTab()
 			_GUICtrlSetTip(-1, GetTranslatedFileIni("MBR GUI Design Child Village - Misc", "ChkActivateClockTowerBoost_Info_01", "Check this to activate the Clock Tower Boost when it is available.\r\nThis option doesn't use your Gems"))
 			GUICtrlSetOnEvent(-1, "chkStartClockTowerBoost")
 		$g_hChkUseClockPotion = GUICtrlCreateCheckbox(GetTranslatedFileIni("MBR GUI Design Child Village - Misc", "ChkUseClockPotion", "Use Clock Tower Potion"), $x + 260, $y - 40, -1, -1)
-		_GUICtrlSetTip(-1, "Use Clock Tower Potion If Builders Are Busy And StarLab Is Running" & @CRLF & _
+		_GUICtrlSetTip(-1, "Use Clock Tower Potion If All Builders Are Busy And StarLab Is Running" & @CRLF & _
 							"Remaining Time In StarLab Must Be More Than 9 Hours" & @CRLF & _
 							"Remaining Time For Upgrade Must Be More Than 9 Hours" & @CRLF & _
 							"Need A Classic Check For Starlab in Mod Tab")
@@ -692,40 +693,62 @@ Func CreateMiscBuilderBaseSubTab()
 	
 ; BB Building Upgrades
 	Local $x = 15, $y = 307
-	GUICtrlCreateGroup(GetTranslatedFileIni("MBR GUI Design Child Village - Misc", "Group_05", "BOB Building Upgrades"), $x - 10, $y - 20, 430, 49)
+	GUICtrlCreateGroup(GetTranslatedFileIni("MBR GUI Design Child Village - Misc", "Group_05", "BOB Control Upgrades"), $x - 10, $y - 20, 430, 49)
 
-		_GUICtrlCreateIcon($g_sLibIconPath, $eIcnBattleMachine, $x + 10, $y - 5 , 26, 26)
-		$g_hChkBattleMachineUpgrade = GUICtrlCreateCheckbox(GetTranslatedFileIni("MBR GUI Design Child Village - Misc", "chkBattleMachineUpgrade", " "), $x + 40, $y - 3, -1, -1)
-			_GUICtrlSetTip(-1, GetTranslatedFileIni("MBR GUI Design Child Village - Misc", "ChkBattleMachineUpgrade_Info_01", "Check to upgrade the Battle Machine to Level 30"))
-			GUICtrlSetOnEvent(-1, "chkUpgradeBattleMachine")
-			GUICtrlSetState (-1, $GUI_UNCHECKED + $GUI_DISABLE)
+		Local $sTxtRelocate = GetTranslatedFileIni("MBR GUI Design Child Village - Misc", "TxtRelocateBB_Info_01", "Click on icon to delete your") & " "
 
-		_GUICtrlCreateIcon($g_sLibIconPath, $eIcnDoubleCannon4, $x + 87, $y - 6 , 30, 30)
-		$g_hChkDoubleCannonUpgrade = GUICtrlCreateCheckbox(GetTranslatedFileIni("MBR GUI Design Child Village - Misc", "chkUpgradeDoubleCannon", " "), $x + 120, $y - 3, -1, -1)
-			_GUICtrlSetTip(-1, GetTranslatedFileIni("MBR GUI Design Child Village - Misc", "ChkUpgradeDoubleCannon_Info_01", "Check to upgrade the selected Double Cannon to Level 4"))
+		$g_hBtnDelDoubleCannonCoord = _GUICtrlCreateIcon($g_sLibIconPath, $eIcnDoubleCannon4, $x + 8, $y - 7 , 30, 30)
+			_GUICtrlSetTip(-1, $sTxtRelocate & GetTranslatedFileIni("MBR GUI Design Child Village - Misc", "BtnDoubleCannon_Info_01", "Double Cannon saved coordinates"))
+			GUICtrlSetOnEvent(-1, "DeleteDoubleCannonCoord")
+		$g_hChkDoubleCannonUpgrade = GUICtrlCreateCheckbox(GetTranslatedFileIni("MBR GUI Design Child Village - Misc", "chkUpgradeDoubleCannon", " "), $x + 40, $y - 3, -1, -1)
+			_GUICtrlSetTip(-1, GetTranslatedFileIni("MBR GUI Design Child Village - Misc", "ChkUpgradeDoubleCannon_Info_01", "Check to upgrade the selected Double Cannon to Level 4") & @CRLF & _
+			GetTranslatedFileIni("MBR GUI Design Child Village - Misc", "ChkUpgradeDoubleCannon_Info_02", "Requirement to upgrade BOB Control to Level 2"))
 			GUICtrlSetOnEvent(-1, "chkUpgradeDoubleCannon")
-			GUICtrlSetState (-1, $GUI_UNCHECKED + $GUI_DISABLE)
 
-		_GUICtrlCreateIcon($g_sLibIconPath, $eIcnArcheTower6, $x + 170, $y - 6 , 28, 28)
-		$g_hChkArcherTowerUpgrade = GUICtrlCreateCheckbox(GetTranslatedFileIni("MBR GUI Design Child Village - Misc", "chkBattleArcherTower", " "), $x + 200, $y - 3, -1, -1)
-			_GUICtrlSetTip(-1, GetTranslatedFileIni("MBR GUI Design Child Village - Misc", "ChkArcherTowerUpgrade_Info_01", "Check to upgrade the selected Archer Tower to Level 6"))
+		$g_hBtnDelArcherTowerCoord = _GUICtrlCreateIcon($g_sLibIconPath, $eIcnArcheTower6, $x + 81, $y - 6 , 28, 28)
+			_GUICtrlSetTip(-1, $sTxtRelocate & GetTranslatedFileIni("MBR GUI Design Child Village - Misc", "BtnArcherTower_Info_01", "Archer Tower saved coordinates"))
+			GUICtrlSetOnEvent(-1, "DeleteArcherTowerCoord")
+		$g_hChkArcherTowerUpgrade = GUICtrlCreateCheckbox(GetTranslatedFileIni("MBR GUI Design Child Village - Misc", "chkBattleArcherTower", " "), $x + 110, $y - 3, -1, -1)
+			_GUICtrlSetTip(-1, GetTranslatedFileIni("MBR GUI Design Child Village - Misc", "ChkArcherTowerUpgrade_Info_01", "Check to upgrade the selected Archer Tower to Level 6") & @CRLF & _
+			GetTranslatedFileIni("MBR GUI Design Child Village - Misc", "ChkArcherTowerUpgrade_Info_02", "Requirement to upgrade BOB Control to Level 2"))
 			GUICtrlSetOnEvent(-1, "chkUpgradeArcherTower")
-			GUICtrlSetState (-1, $GUI_UNCHECKED + $GUI_DISABLE)
 
-		_GUICtrlCreateIcon($g_sLibIconPath, $eIcnMultiMortar8, $x + 247, $y - 6 , 28, 28)
-		$g_hChkMultiMortarUpgrade = GUICtrlCreateCheckbox(GetTranslatedFileIni("MBR GUI Design Child Village - Misc", "chkMultiMortarUpgrade", " "), $x + 280, $y - 3, -1, -1)
-			_GUICtrlSetTip(-1, GetTranslatedFileIni("MBR GUI Design Child Village - Misc", "ChkMultiMortarUpgrade_Info_01", "Check to upgrade the Multi Mortar to Level 8"))
+		$g_hBtnDelMultiMortarCoord = _GUICtrlCreateIcon($g_sLibIconPath, $eIcnMultiMortar8, $x + 146, $y - 6 , 28, 28)
+			_GUICtrlSetTip(-1, $sTxtRelocate & GetTranslatedFileIni("MBR GUI Design Child Village - Misc", "BtnMultiMortar_Info_01", "Multi Mortar saved coordinates"))
+			GUICtrlSetOnEvent(-1, "DeleteMultiMortarCoord")
+		$g_hChkMultiMortarUpgrade = GUICtrlCreateCheckbox(GetTranslatedFileIni("MBR GUI Design Child Village - Misc", "chkMultiMortarUpgrade", " "), $x + 180, $y - 3, -1, -1)
+			_GUICtrlSetTip(-1, GetTranslatedFileIni("MBR GUI Design Child Village - Misc", "ChkMultiMortarUpgrade_Info_01", "Check to upgrade the Multi Mortar to Level 8") & @CRLF & _
+			GetTranslatedFileIni("MBR GUI Design Child Village - Misc", "ChkMultiMortarUpgrade_Info_02", "Requirement to upgrade BOB Control to Level 2"))
 			GUICtrlSetOnEvent(-1, "chkUpgradeMultiMortar")
-			GUICtrlSetState (-1, $GUI_UNCHECKED + $GUI_DISABLE)
 
-		_GUICtrlCreateIcon($g_sLibIconPath, $eIcnMegaTesla9, $x + 330, $y - 6 , 28, 28)
-		$g_hChkMegaTeslaUpgrade = GUICtrlCreateCheckbox(GetTranslatedFileIni("MBR GUI Design Child Village - Misc", "chkMegaTeslaUpgrade", " "), $x + 360, $y - 3, -1, -1)
-			_GUICtrlSetTip(-1, GetTranslatedFileIni("MBR GUI Design Child Village - Misc", "ChkMegaTeslaUpgrade_Info_01", "Check to upgrade the Mega Tesla to Level 9"))
-			GUICtrlSetOnEvent(-1, "chkUpgradeMegaTesla")
-			GUICtrlSetState (-1, $GUI_UNCHECKED + $GUI_DISABLE)	
+		$g_hBtnDelCannonCoord = _GUICtrlCreateIcon($g_sLibIconPath, $eIcnCannon9, $x + 210, $y - 15 , 44, 44)
+			_GUICtrlSetTip(-1, $sTxtRelocate & GetTranslatedFileIni("MBR GUI Design Child Village - Misc", "BtnCannon_Info_01", "Cannon Coordinates"))
+			GUICtrlSetOnEvent(-1, "DeleteCannonCoord")
+		$g_hChkAnyDefUpgrade = GUICtrlCreateCheckbox(GetTranslatedFileIni("MBR GUI Design Child Village - Misc", "chkAnyDefUpgrade", " "), $x + 250, $y - 3, -1, -1)
+			_GUICtrlSetTip(-1, GetTranslatedFileIni("MBR GUI Design Child Village - Misc", "ChkAnyDefUpgrade_Info_01", "Check to upgrade any defensive building to Level 9") & @CRLF & _
+			GetTranslatedFileIni("MBR GUI Design Child Village - Misc", "ChkAnyDefUpgrade_Info_02", "Requirement to upgrade BOB Control to Level 4") & @CRLF & _
+			GetTranslatedFileIni("MBR GUI Design Child Village - Misc", "ChkAnyDefUpgrade_Info_03", "Cannon is the cheapest defensive building"))
+			GUICtrlSetOnEvent(-1, "chkUpgradeAnyDef")
+
+		$g_hBtnBattleMachineCoord = _GUICtrlCreateIcon($g_sLibIconPath, $eIcnBattleMachine, $x + 288, $y - 5 , 26, 26)
+			_GUICtrlSetTip(-1, $sTxtRelocate & GetTranslatedFileIni("MBR GUI Design Child Village - Misc", "BtnBattleMachine_Info_01", "BattleMachine saved coordinates"))
+			GUICtrlSetOnEvent(-1, "DeleteBattleMachineCoord")
+		$g_hChkBattleMachineUpgrade = GUICtrlCreateCheckbox(GetTranslatedFileIni("MBR GUI Design Child Village - Misc", "chkBattleMachineUpgrade", " "), $x + 320, $y - 3, -1, -1)
+			_GUICtrlSetTip(-1, GetTranslatedFileIni("MBR GUI Design Child Village - Misc", "ChkBattleMachineUpgrade_Info_01", "Check to upgrade the Battle Machine to Level 35") & @CRLF & _
+			GetTranslatedFileIni("MBR GUI Design Child Village - Misc", "CChkBattleMachineUpgrade_Info_02", "Requirement to upgrade BOB Control to Level 5") & @CRLF & _
+			GetTranslatedFileIni("MBR GUI Design Child Village - Misc", "CChkBattleMachineUpgrade_Info_03", "Combined machines level must be at least 45"))
+			GUICtrlSetOnEvent(-1, "chkUpgradeBattleMachine")
+
+		$g_hBtnBattlecopterCoord = _GUICtrlCreateIcon($g_sLibIconPath, $eIcnBattleCopter, $x + 358, $y - 8 , 32, 32)
+			_GUICtrlSetTip(-1, $sTxtRelocate & GetTranslatedFileIni("MBR GUI Design Child Village - Misc", "BtnBattleCopter_Info_01", "BattleCopter saved coordinates"))
+			GUICtrlSetOnEvent(-1, "DeleteBattleCopterCoord")
+		$g_hChkBattlecopterUpgrade = GUICtrlCreateCheckbox(GetTranslatedFileIni("MBR GUI Design Child Village - Misc", "chkBattleCopterUpgrade", " "), $x + 392, $y - 3, -1, -1)
+			_GUICtrlSetTip(-1, GetTranslatedFileIni("MBR GUI Design Child Village - Misc", "ChkBattleCopterUpgrade_Info_01", "Check to upgrade the Battle Copter to Level 35") & @CRLF & _
+			GetTranslatedFileIni("MBR GUI Design Child Village - Misc", "CChkBattleMachineUpgrade_Info_02", -1) & @CRLF & _
+			GetTranslatedFileIni("MBR GUI Design Child Village - Misc", "CChkBattleMachineUpgrade_Info_03", -1))
+			GUICtrlSetOnEvent(-1, "chkUpgradeBattleCopter")
+
 	GUICtrlCreateGroup("", -99, -99, 1, 1)
-	
-	
 
 	Local $x = 15, $y = 357
 	GUICtrlCreateGroup(GetTranslatedFileIni("MBR GUI Design Child Village - Misc", "Group_06", "Suggested Upgrades"), $x - 10, $y - 20, 430, 66)

@@ -216,7 +216,7 @@ Func DonateCC($bCheckForNewMsg = False)
 	If Not $bDonate Then Return
 
 	;Opens clan tab and verbose in log
-			ClickAway()
+	ClickAway()
 
 	If _Sleep($DELAYDONATECC2) Then Return
 

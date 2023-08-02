@@ -108,16 +108,16 @@ Func StartClockTowerBoost($bSwitchToBB = False, $bSwitchToNV = False, $bConditio
 		EndIf
 		
 		If $IsCTToOpen Then
-			_Sleep(1000)
+			If _Sleep(1000) Then Return
 			For $i = 0 To 20
 				If QuickMIS("BC1", $g_sImgCTNonAvailable) Then
 					Click($g_iQuickMISX - 7, $g_iQuickMISY) ;Click On CT Non Available
 					If _Sleep($DELAYCLOCKTOWER1) Then Return
 					$IsCTOpenNonAvail = True
-					_Sleep(500)
+					If _Sleep(500) Then Return
 					ExitLoop
 				EndIf
-				_Sleep(150)
+				If _Sleep(150) Then Return
 			Next
 			$TimeGained = ClockTimeGained()
 		EndIf
@@ -130,7 +130,7 @@ Func StartClockTowerBoost($bSwitchToBB = False, $bSwitchToNV = False, $bConditio
 		EndIf
 		
 		If $bConditionsToUseClockPotion And $bUseClockPotion Then
-			_Sleep(1500)
+			If _Sleep(1500) Then Return
 			Local $click = ClickB("ClockTowerPot") ;click Clock Tower Boost potion Button
 			If $click Then
 				If _Sleep(1000) Then Return
@@ -161,6 +161,7 @@ Func StartClockTowerBoost($bSwitchToBB = False, $bSwitchToNV = False, $bConditio
 		
 	EndIf
 	ClickAway()
+	If _Sleep(1000) Then Return
 	If ProfileSwitchAccountEnabled() Then SwitchAccountVariablesReload("Save")
 
 	If $bSwitchToNV Then SwitchBetweenBases() ; Switching back to the normal Village if true
@@ -173,7 +174,7 @@ Func CheckBBuilderTime()
 	
 	getBuilderCount(False, True)
 	
-	If $g_iFreeBuilderCountBB = $g_iTotalBuilderCountBB Then Return False
+	If $g_iFreeBuilderCountBB > 0 Then Return False ; Change july 2023 : All Builders have work To use Clock Potion.
 	
 	ClickMainBBuilder()
 	If _Sleep(500) Then Return

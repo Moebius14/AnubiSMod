@@ -64,6 +64,7 @@ Func chkPBTGenabled()
 			GUICtrlSetState($g_hChkNotifyCGScore, $GUI_DISABLE)
 		EndIf
 		chkUpgradeBattleMachine()
+		chkUpgradeBattleCopter()
 	Else
 		GUICtrlSetState($g_hChkNotifyRemote, $GUI_DISABLE)
 		GUICtrlSetState($g_hTxtNotifyOrigin, $GUI_DISABLE)
@@ -89,6 +90,7 @@ Func chkPBTGenabled()
 		GUICtrlSetState($g_hNotifyStopBot, $GUI_DISABLE)
 		GUICtrlSetState($g_hChkNotifyUpgrade, $GUI_DISABLE)
 		GUICtrlSetState($g_hChkNotifyUpgradeBM, $GUI_DISABLE)
+		GUICtrlSetState($g_hChkNotifyUpgradeBC, $GUI_DISABLE)
 	EndIf
 EndFunc   ;==>chkPBTGenabled
 

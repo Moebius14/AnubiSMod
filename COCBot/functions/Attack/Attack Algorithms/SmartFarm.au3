@@ -225,7 +225,7 @@ Func SmartFarmDetection($txtBuildings = "Mines")
 				$sdirectory = @ScriptDir & "\imgxml\Storages\GoldMines"
 			EndIf
 			$iMaxReturnPoints = 7
-			$iMaxLevel = 14
+			$iMaxLevel = 15
 		Case "Collectors"
 			If $g_iDetectedImageType = 1 Then
 				$sdirectory = @ScriptDir & "\imgxml\Storages\Collectors_Snow"
@@ -233,11 +233,11 @@ Func SmartFarmDetection($txtBuildings = "Mines")
 				$sdirectory = @ScriptDir & "\imgxml\Storages\Collectors"
 			EndIf
 			$iMaxReturnPoints = 7
-			$iMaxLevel = 14
+			$iMaxLevel = 15
 		Case "Drills"
 			$sdirectory = @ScriptDir & "\imgxml\Storages\Drills"
 			$iMaxReturnPoints = 3
-			$iMaxLevel = 8
+			$iMaxLevel = 9
 		Case "All"
 			If $g_iDetectedImageType = 1 Then
 				$sdirectory = @ScriptDir & "\imgxml\Storages\All_Snow"
@@ -245,7 +245,7 @@ Func SmartFarmDetection($txtBuildings = "Mines")
 				$sdirectory = @ScriptDir & "\imgxml\Storages\All"
 			EndIf
 			$iMaxReturnPoints = 21
-			$iMaxLevel = 14
+			$iMaxLevel = 15
 	EndSwitch
 
 	; Necessary Variables
@@ -270,11 +270,14 @@ Func SmartFarmDetection($txtBuildings = "Mines")
 			$aTEMP = $aResult[$buildings]
 			$sObjectname = String($aTEMP[0])
 			SetDebugLog("Building name: " & String($aTEMP[0]), $COLOR_INFO)
+			$aTEMP[1] = StringReplace($aTEMP[1], "||", "|")
 			$aObjectpoints = $aTEMP[1] ; number of  objects returned
 			SetDebugLog("Object points: " & String($aTEMP[1]), $COLOR_INFO)
-			$sNear = $aTEMP[2] ;
+			$aTEMP[2] = StringReplace($aTEMP[2], "##", "#")
+			$sNear = $aTEMP[2]
 			SetDebugLog("Near points: " & String($aTEMP[2]), $COLOR_INFO)
-			$sRedLineDistance = $aTEMP[3] ;
+			$aTEMP[3] = StringReplace($aTEMP[3], "##", "#")
+			$sRedLineDistance = $aTEMP[3]
 			SetDebugLog("Near points: " & String($aTEMP[3]), $COLOR_INFO)
 
 			Switch String($aTEMP[0])
@@ -290,13 +293,13 @@ Func SmartFarmDetection($txtBuildings = "Mines")
 			EndSwitch
 
 			If StringInStr($aObjectpoints, "|") Then
-				$aObjectpoints = StringReplace($aObjectpoints, "||", "|")
 				$sString = StringRight($aObjectpoints, 1)
 				If $sString = "|" Then $aObjectpoints = StringTrimRight($aObjectpoints, 1)
 				$tempObbj = StringSplit($aObjectpoints, "|", $STR_NOCOUNT) ; several detected points
 				$sNearTemp = StringSplit($sNear, "#", $STR_NOCOUNT) ; several detected 5 near points
 				$Distance = StringSplit($sRedLineDistance, "#", $STR_NOCOUNT) ; several detected distances points
 				For $i = 0 To UBound($tempObbj) - 1
+					If $i > UBound($sNearTemp) - 1 Or $i > UBound($Distance) - 1 Then ExitLoop
 					; Test the coordinates
 					$tempObbjs = StringSplit($tempObbj[$i], ",", $STR_NOCOUNT) ;  will be a string : 708,360
 					If UBound($tempObbjs) <> 2 Then ContinueLoop

@@ -346,18 +346,20 @@ Func ApplyConfig_600_6($TypeReadSave)
 
 			GUICtrlSetState($g_hChkPlacingNewBuildings, $g_iChkPlacingNewBuildings = 1 ? $GUI_CHECKED : $GUI_UNCHECKED)
 			
-			; Otto Target Upgrades
+			; BOB Target Upgrades
  			GUICtrlSetState($g_hChkBattleMachineUpgrade, $g_bBattleMachineUpgrade = 1 ? $GUI_CHECKED : $GUI_UNCHECKED)
 			GUICtrlSetState($g_hChkDoubleCannonUpgrade, $g_bDoubleCannonUpgrade = 1 ? $GUI_CHECKED : $GUI_UNCHECKED)
 			GUICtrlSetState($g_hChkArcherTowerUpgrade, $g_bArcherTowerUpgrade = 1 ? $GUI_CHECKED : $GUI_UNCHECKED)
 			GUICtrlSetState($g_hChkMultiMortarUpgrade, $g_bMultiMortarUpgrade = 1 ? $GUI_CHECKED : $GUI_UNCHECKED)
-			GUICtrlSetState($g_hChkMegaTeslaUpgrade, $g_bMegaTeslaUpgrade = 1 ? $GUI_CHECKED : $GUI_UNCHECKED)
+			GUICtrlSetState($g_hChkAnyDefUpgrade, $g_bAnyDefUpgrade = 1 ? $GUI_CHECKED : $GUI_UNCHECKED)
+			GUICtrlSetState($g_hChkBattlecopterUpgrade, $g_bBattlecopterUpgrade = 1 ? $GUI_CHECKED : $GUI_UNCHECKED)
 			
 			chkActivateBBSuggestedUpgrades()
 			chkActivateBBSuggestedUpgradesGold()
 			chkActivateBBSuggestedUpgradesElixir()
 			chkPlacingNewBuildings()
 			chkUpgradeBattleMachine()
+			chkUpgradeBattleCopter()
 
 			#NEW CLANGAMES GUI
 			GUICtrlSetState($g_hChkClanGamesEnabled, $g_bChkClanGamesEnabled ? $GUI_CHECKED : $GUI_UNCHECKED)
@@ -602,7 +604,8 @@ Func ApplyConfig_600_6($TypeReadSave)
 			$g_bDoubleCannonUpgrade = (GUICtrlRead($g_hChkDoubleCannonUpgrade) = $GUI_CHECKED) ? 1 : 0
 			$g_bArcherTowerUpgrade = (GUICtrlRead($g_hChkArcherTowerUpgrade) = $GUI_CHECKED) ? 1 : 0
 			$g_bMultiMortarUpgrade = (GUICtrlRead($g_hChkMultiMortarUpgrade) = $GUI_CHECKED) ? 1 : 0
-			$g_bMegaTeslaUpgrade = (GUICtrlRead($g_hChkMegaTeslaUpgrade) = $GUI_CHECKED) ? 1 : 0
+			$g_bBattlecopterUpgrade = (GUICtrlRead($g_hChkBattlecopterUpgrade) = $GUI_CHECKED) ? 1 : 0
+			$g_bAnyDefUpgrade = (GUICtrlRead($g_hChkAnyDefUpgrade) = $GUI_CHECKED) ? 1 : 0
 
 			#NEW CLANGAMES GUI
 			$g_bChkClanGamesEnabled = (GUICtrlRead($g_hChkClanGamesEnabled) = $GUI_CHECKED) ? 1 : 0
@@ -1132,6 +1135,9 @@ Func ApplyConfig_auto($TypeReadSave)
 	Switch $TypeReadSave
 		Case "Read"
 			GUICtrlSetState($g_hChkAutoUpgrade, $g_bAutoUpgradeEnabled ? $GUI_CHECKED : $GUI_UNCHECKED)
+			_GUICtrlComboBox_SetCurSel($g_hCmbBoostBuilders, $g_iCmbBoostBuilders)
+			_GUICtrlComboBox_SetCurSel($g_hCmbBoostBuilders2, $g_iCmbBoostBuilders)
+			_GUICtrlComboBox_SetCurSel($g_hCmbBoostBuilders3, $g_iCmbBoostBuilders)
 			_GUICtrlComboBox_SetCurSel($g_hCmbFreeBuilders, $g_iCmbFreeBuilders)
 			_GUICtrlComboBox_SetCurSel($g_hCmbFreeBuilders2, $g_iCmbFreeBuilders)
 			_GUICtrlComboBox_SetCurSel($g_hCmbFreeBuilders3, $g_iCmbFreeBuilders)
@@ -1148,6 +1154,7 @@ Func ApplyConfig_auto($TypeReadSave)
 		Case "Save"
 			$g_bAutoUpgradeEnabled = (GUICtrlRead($g_hChkAutoUpgrade) = $GUI_CHECKED)
 			$g_iCmbFreeBuilders = _GUICtrlComboBox_GetCurSel($g_hCmbFreeBuilders)
+			$g_iCmbBoostBuilders = _GUICtrlComboBox_GetCurSel($g_hCmbBoostBuilders)
 			For $i = 0 To Ubound($g_iChkUpgradesToIgnore) - 1
 				$g_iChkUpgradesToIgnore[$i] = GUICtrlRead($g_hChkUpgradesToIgnore[$i]) = $GUI_CHECKED ? 1 : 0
 			Next
@@ -1241,6 +1248,7 @@ Func ApplyConfig_600_18($TypeReadSave)
 			GUICtrlSetState($g_hChkNotifyStarBonusAvail, $g_bChkNotifyStarBonusAvail ? $GUI_CHECKED : $GUI_UNCHECKED)
 			GUICtrlSetState($g_hChkNotifyPauseTime, $g_bChkNotifyPauseTime ? $GUI_CHECKED : $GUI_UNCHECKED)
 			GUICtrlSetState($g_hChkNotifyUpgradeBM, $g_bChkNotifyUpgradeBM ? $GUI_CHECKED : $GUI_UNCHECKED)
+			GUICtrlSetState($g_hChkNotifyUpgradeBC, $g_bChkNotifyUpgradeBC ? $GUI_CHECKED : $GUI_UNCHECKED)
 			GUICtrlSetState($g_hNotifyStopBot, $g_bNotifyStopBot ? $GUI_CHECKED : $GUI_UNCHECKED)
 			GUICtrlSetState($g_hChkNotifyUpgrade, $g_bChkNotifyUpgrade ? $GUI_CHECKED : $GUI_UNCHECKED)
 			ChkVillageReport()
@@ -1273,6 +1281,7 @@ Func ApplyConfig_600_18($TypeReadSave)
 			$g_bChkNotifyStarBonusAvail = (GUICtrlRead($g_hChkNotifyStarBonusAvail) = $GUI_CHECKED)
 			$g_bChkNotifyPauseTime = (GUICtrlRead($g_hChkNotifyPauseTime) = $GUI_CHECKED)
 			$g_bChkNotifyUpgradeBM = (GUICtrlRead($g_hChkNotifyUpgradeBM) = $GUI_CHECKED)
+			$g_bChkNotifyUpgradeBC = (GUICtrlRead($g_hChkNotifyUpgradeBC) = $GUI_CHECKED)
 			$g_bNotifyStopBot = (GUICtrlRead($g_hNotifyStopBot) = $GUI_CHECKED)
 			$g_bChkNotifyUpgrade = (GUICtrlRead($g_hChkNotifyUpgrade) = $GUI_CHECKED)
 	EndSwitch

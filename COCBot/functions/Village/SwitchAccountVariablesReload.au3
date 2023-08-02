@@ -138,6 +138,7 @@ Func SwitchAccountVariablesReload($sType = "Load", $iAccount = $g_iCurAccount)
 	Static $IsSAttackCGRandomEnable = $aiZero
 	Static $gSbIsBBevent = $aiZero
 	Static $SIsCGEventRunning = $aiZero
+	Static $Sb_COCClose = $aiTrue
 	
 	$g_hCoolDownTimer = 0
 	$g_bIsCGCoolDownTime = False
@@ -262,6 +263,7 @@ Func SwitchAccountVariablesReload($sType = "Load", $iAccount = $g_iCurAccount)
 			$IsSAttackCGRandomEnable = $aiZero
 			$gSbIsBBevent = $aiZero
 			$SIsCGEventRunning = $aiZero
+			$Sb_COCClose = $aiTrue
 			
 			; Hero State
 			$aiHeroAvailable = $aiZero
@@ -448,6 +450,7 @@ Func SwitchAccountVariablesReload($sType = "Load", $iAccount = $g_iCurAccount)
 			$IsSAttackCGRandomEnable[$iAccount] = $IsAttackCGRandomEnable
 			$gSbIsBBevent[$iAccount] = $g_bIsBBevent
 			$SIsCGEventRunning[$iAccount] = $IsCGEventRunning
+			$Sb_COCClose[$iAccount] = $b_COCClose
 
 			; Hero State
 			$aiHeroAvailable[$iAccount] = $g_iHeroAvailable
@@ -625,6 +628,7 @@ Func SwitchAccountVariablesReload($sType = "Load", $iAccount = $g_iCurAccount)
 			$IsAttackCGRandomEnable = $IsSAttackCGRandomEnable[$iAccount]
 			$g_bIsBBevent = $gSbIsBBevent[$iAccount]
 			$IsCGEventRunning = $SIsCGEventRunning[$iAccount]
+			$b_COCClose = $Sb_COCClose[$iAccount]
 			
 			; Hero State
 			$g_iHeroAvailable = $aiHeroAvailable[$iAccount]

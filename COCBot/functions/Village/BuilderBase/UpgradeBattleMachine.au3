@@ -2,7 +2,7 @@
 ; Name ..........: UpgradeBM
 ; Description ...: Upgrade Battle Machine - based on UpgradeHeroes
 ; Author ........: GrumpyHog (2022-01)
-; Modified ......:
+; Modified ......: Moebius14 (2023-07)
 ; Remarks .......: This file is part of MyBot Copyright 2015-2023
 ;                  MyBot is distributed under the terms of the GNU GPL
 ; Related .......: Returns True or False
@@ -23,7 +23,7 @@ Func chkUpgradeBattleMachine()
 	EndIf
 EndFunc   ;==>chkUpgradeBattleMachine
 
-Func BattleMachineUpgrade($test = False, $bFinishNow = False)
+Func BattleMachineUpgrade($test = False)
 
 	Local $aHeroLevel = 0
 
@@ -39,7 +39,6 @@ Func BattleMachineUpgrade($test = False, $bFinishNow = False)
 	
 	SetLog("Upgrade Battle Machine")
 
-	
 	If Not LocateBattleMachine() Then Return False
 
 	;Get Battle Machine info and Level
@@ -68,15 +67,30 @@ Func BattleMachineUpgrade($test = False, $bFinishNow = False)
 				If $aHeroLevel = $g_iMaxBattleMachineLevel Then ; max hero
 					SetLog("Your Battle Machine is at max level, cannot upgrade anymore!", $COLOR_INFO)
 					$g_bBattleMachineUpgrade = False ; turn Off the Battle Machine upgrade
+					GUICtrlSetState($g_hChkBattleMachineUpgrade, $GUI_UNCHECKED)
+					ClickAway()
+					Return
+				EndIf
+				$g_CombinedMachineLevel = $g_CurrentBattleMachineLevel + $g_CurrentBattleCopterLevel
+				If $g_CombinedMachineLevel >= $g_MaxCombinedMachineLevel Then ; Enough For BoB Control level 5
+					SetLog("Your combined machine level is enough !", $COLOR_INFO)
+					$g_bBattleMachineUpgrade = False ; turn Off the Battle Machine upgrade
+					$g_bBattleCopterUpgrade = False ; turn Off the Battle Copter upgrade
+					GUICtrlSetState($g_hChkBattleMachineUpgrade, $GUI_UNCHECKED)
+					GUICtrlSetState($g_hChkBattleCopterUpgrade, $GUI_UNCHECKED)
+					$g_CombinedMachineLevel = 0 ; If user wants to continue upgrade despite the combined level
+					ClickAway()
 					Return
 				EndIf
 			Else
 				SetLog("Your Battle Machine Level was not found!", $COLOR_INFO)
+				ClickAway()
 				Return
 			EndIf
 		EndIf
 	Else
 		SetLog("Bad Battle Machine OCR", $COLOR_ERROR)
+		ClickAway()
 		Return
 	EndIf
 
@@ -93,7 +107,6 @@ Func BattleMachineUpgrade($test = False, $bFinishNow = False)
 		If _Sleep($DELAYUPGRADEHERO2) Then Return
 		ClickP($aUpgradeButton)
 		If _Sleep($DELAYUPGRADEHERO3) Then Return ; Wait for window to open
-
 
 		Local $sImgBattleMachineUpgradeWindow =  @ScriptDir & "\imgxml\Windows\BattleMachineUpgradeWindow*"
 		Local $sSearchArea = "120,175,405,485"
@@ -119,7 +132,7 @@ Func BattleMachineUpgrade($test = False, $bFinishNow = False)
 					Local $text ="Village : " & $g_sNotifyOrigin & "%0A"
 					$text &="Profile : " & $g_sProfileCurrentName & "%0A"
 					Local $currentDate = Number(@MDAY)
-					$text &= "Upgrade Battle Machine Is Launched"
+					$text &= "Upgrade BattleMachine Is Launched"
 					NotifyPushToTelegram($text)
 				EndIf
 				$ActionForModLog = "Upgrade Battle Machine"
@@ -142,45 +155,18 @@ Func BattleMachineUpgrade($test = False, $bFinishNow = False)
 		SetLog("Upgrade Battle Machine error finding button", $COLOR_ERROR)
 		If $g_bDebugImageSave Then SaveDebugImage("UpgradeBMBtn1")
 	EndIf
-	
-	If $bFinishNow Then FinishNow()
 
 	ClickAway()
 EndFunc   ;==>BattleMachineUpgrade
-
-; Image Search for Battle Machine
-Func ImgLocateBattleMachine()
-	Local $sImgDir = @ScriptDir & "\imgxml\Buildings\BattleMachine\"
-
-	Local $sSearchArea = "FV"
-	Local $avBattleMachine = findMultiple($sImgDir, $sSearchArea, $sSearchArea, 0, 1000, 1, "objectname,objectpoints", True)
-
-	If Not IsArray($avBattleMachine) Or UBound($avBattleMachine, $UBOUND_ROWS) <= 0 Then
-		SetLog("Couldn't find Battle Machine in night village", $COLOR_ERROR)
-		If $g_bDebugImageSave Then SaveDebugImage("ImgLocateBattleMachine", False)
-		Return False
-	EndIf
-
-	Local $avBattleMachineRes, $aiBattleMachineCoords
-
-	; loop thro the detected images
-	For $i = 0 To UBound($avBattleMachine, $UBOUND_ROWS) - 1
-		$avBattleMachineRes = $avBattleMachine[$i]
-		$aiBattleMachineCoords = decodeSingleCoord($avBattleMachineRes[1])
-		If IsArray($aiBattleMachineCoords) And UBound($aiBattleMachineCoords, $UBOUND_ROWS) > 1 Then
-			SetLog("Battle Machine: " & $avBattleMachineRes[0] & " found at: (" & $aiBattleMachineCoords[0] & "," & $aiBattleMachineCoords[1] & ")")
-			Return $aiBattleMachineCoords
-		EndIf
-	Next
-
-	Return False
-EndFunc
 
 ; based on LocateStarLab
 Func LocateBattleMachine()
 	Local $sImgDir = @ScriptDir & "\imgxml\Buildings\BattleMachine\"
 	; Zoomout before locating
 	ZoomOut()
+
+	CollectBuilderBase()
+	If _Sleep($DELAYRUNBOT3) Then Return
 
 	If $g_aiBattleMachinePos[0] > 0 And $g_aiBattleMachinePos[1] > 0 Then
 		BuildingClickP($g_aiBattleMachinePos, "#0197")
@@ -192,6 +178,7 @@ Func LocateBattleMachine()
 			If StringInStr($aResult[1], "Machine") = True Then ; we found the Battle Machine
 				SetLog("Battle Machine located.", $COLOR_INFO)
 				SetLog("It reads as Level " & $aResult[2] & ".", $COLOR_INFO)
+				$g_CurrentBattleMachineLevel = $aResult[2]
 				Return True
 			Else
 				ClickAway()
@@ -274,6 +261,7 @@ Func LocateBattleMachine()
 			If StringInStr($aResult[1], "Machine") = True Then ; we found the Battle Machine
 				SetLog("Battle Machine located.", $COLOR_INFO)
 				SetLog("It reads as Level " & $aResult[2] & ".", $COLOR_INFO)
+				$g_CurrentBattleMachineLevel = $aResult[2]
 				Return True
 			Else
 				ClickAway()
@@ -297,5 +285,16 @@ Func LocateBattleMachine()
 	EndIf
 
 	SetLog("Can not find Battle Machine.", $COLOR_ERROR)
+	ClickAway()
 	Return False
 EndFunc   ;==>LocateBattleMachine()
+
+Func DeleteBattleMachineCoord()
+	SetLog("Deleting Coordinates of Battle Machine.", $COLOR_OLIVE)
+	$g_aiBattleMachinePos[0] = -1
+	$g_aiBattleMachinePos[1] = -1
+	IniWrite($g_sProfileBuildingPath, "other", "BattleMachinePosX", $g_aiBattleMachinePos[0])
+	IniWrite($g_sProfileBuildingPath, "other", "BattleMachinePosY", $g_aiBattleMachinePos[1])
+	$g_bBattleMachineUpgrade = False ; turn Off the Battle Machine upgrade
+	GUICtrlSetState($g_hChkBattleMachineUpgrade, $GUI_UNCHECKED)
+EndFunc

@@ -283,7 +283,8 @@
 #include "functions\Village\BuilderBase\StarLaboratory.au3"
 #include "functions\Village\BuilderBase\LocateBuilderHall.au3"
 #include "functions\Village\BuilderBase\UpgradeBattleMachine.au3"
-#include "functions\Village\BuilderBase\OttoBuildingUpgrades.au3"
+#include "functions\Village\BuilderBase\UpgradeBattleCopter.au3"
+#include "functions\Village\BuilderBase\BOBBuildingUpgrades.au3"
 
 #include "functions\Other\Api.au3"
 #include "functions\Other\ApiClient.au3"

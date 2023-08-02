@@ -74,7 +74,7 @@ Func chkPlacingNewBuildings()
 EndFunc   ;==>chkPlacingNewBuildings
 
 ; MAIN CODE
-Func MainSuggestedUpgradeCode($bDebugImage = $g_bDebugImageSave, $bFinishNow = False)
+Func MainSuggestedUpgradeCode($bDebugImage = $g_bDebugImageSave)
 
 	; If is not selected return
 	If $g_iChkBBSuggestedUpgrades = 0 Then Return
@@ -83,67 +83,87 @@ Func MainSuggestedUpgradeCode($bDebugImage = $g_bDebugImageSave, $bFinishNow = F
 
 	; Master Builder is not available return
 	If $g_iFreeBuilderCountBB = 0 Then
-		SetLog("No Master Builder available! [" & $g_iFreeBuilderCountBB & "/" & $g_iTotalBuilderCountBB & "]", $COLOR_INFO)
+		SetLog("No Master Builder available for suggested upgrades !", $COLOR_INFO)
 		Return
 	EndIf
 
 	; Check if you are on Builder island
 	If isOnBuilderBase(True) Then
+
+		While 1
+
 		; Will Open the Suggested Window and check if is OK
-		If ClickOnBuilder() Then
-			SetLog("Upgrade Window Opened successfully", $COLOR_INFO)
-			Local $y = 102, $x = 400, $x1 = 540
-			; Proceeds with icon detection
-			Local $aLine = QuickMIS("CNX", $g_sImgAutoUpgradeBB, $x, $y, $x1, 340 + $g_iMidOffsetY)
-			_ArraySort($aLine, 0, 0, 0, 2);sort by Y coord
-			; Proceeds with icon detection
-			If IsArray($aLine) And UBound($aLine) > 0 Then
-				For $i = 0 To UBound($aLine) - 1
-					Local $aResult = GetIconPosition($x, $aLine[$i][2] - 10, $x1, $aLine[$i][2] + 10, $g_sImgAutoUpgradeBB, $bScreencap, $bDebug, $bDebugImage)
-					If IsArray($aResult) And UBound($aResult) > 0 Then
-						Switch $aResult[2]
-							Case "Gold"
-								If Not $g_iChkBBSuggestedUpgradesIgnoreGold And $g_aiCurrentLootBB[$eLootGoldBB] > 250 Then
-									Click($aResult[0], $aResult[1], 1)
-									If _Sleep(2000) Then Return
-									If GetUpgradeButton($aResult[2], $bDebug, $bDebugImage) Then
-										ExitLoop
+			If ClickOnBuilder() Then
+				SetLog("Upgrade Window Opened successfully", $COLOR_INFO)
+				Local $y = 102, $x = 400, $x1 = 540
+				; Proceeds with icon detection
+				Local $aLine = QuickMIS("CNX", $g_sImgAutoUpgradeBB, $x, $y, $x1, 340 + $g_iMidOffsetY)
+				_ArraySort($aLine, 0, 0, 0, 2);sort by Y coord
+				; Proceeds with icon detection
+				If IsArray($aLine) And UBound($aLine) > 0 Then
+					For $i = 0 To UBound($aLine) - 1
+						Local $g_WallDetected = False
+						Local $aResult = GetIconPosition($x, $aLine[$i][2] - 10, $x1, $aLine[$i][2] + 10, $g_sImgAutoUpgradeBB, $bScreencap, $bDebug, $bDebugImage)
+						If IsArray($aResult) And UBound($aResult) > 0 Then
+							Switch $aResult[2]
+								Case "Gold"
+									If Not $g_iChkBBSuggestedUpgradesIgnoreGold And $g_aiCurrentLootBB[$eLootGoldBB] > 250 Then
+										Click($aResult[0], $aResult[1], 1)
+										If _Sleep(2000) Then Return
+										If IsWallDetected() Then $g_WallDetected = True
+										If GetUpgradeButton($aResult[2], $bDebug, $bDebugImage) Then
+											$g_iFreeBuilderCountBB -= 1
+											If $g_WallDetected Then
+												ExitLoop
+											Else
+												ExitLoop 2
+											EndIf
+										EndIf
 									EndIf
+								Case "Elixir"
+									If Not $g_iChkBBSuggestedUpgradesIgnoreElixir And $g_aiCurrentLootBB[$eLootElixirBB] > 250 Then
+										Click($aResult[0], $aResult[1], 1)
+										If _Sleep(2000) Then Return
+										If IsWallDetected() Then $g_WallDetected = True
+										If GetUpgradeButton($aResult[2], $bDebug, $bDebugImage) Then
+											$g_iFreeBuilderCountBB -= 1
+											If $g_WallDetected Then
+												ExitLoop
+											Else
+												ExitLoop 2
+											EndIf
+										EndIf
 								EndIf
-							Case "Elixir"
-								If Not $g_iChkBBSuggestedUpgradesIgnoreElixir And $g_aiCurrentLootBB[$eLootElixirBB] > 250 Then
-									Click($aResult[0], $aResult[1], 1)
-									If _Sleep(2000) Then Return
-									If GetUpgradeButton($aResult[2], $bDebug, $bDebugImage) Then
-										ExitLoop
+								Case "New"
+									If $g_iChkPlacingNewBuildings = 1 Then
+										SetLog("[" & $i + 1 & "]" & " New Building detected, Placing it...", $COLOR_INFO)
+										If NewBuildings($aResult, $bDebugImage) Then ExitLoop 2
+									Else
+										SetLog("[" & $i + 1 & "]" & " New Building detected, but not enabled...", $COLOR_INFO)
 									EndIf
-							EndIf
-							Case "New"
-								If $g_iChkPlacingNewBuildings = 1 Then
-									SetLog("[" & $i + 1 & "]" & " New Building detected, Placing it...", $COLOR_INFO)
-									If NewBuildings($aResult, $bDebugImage) Then ExitLoop
-								Else
-									SetLog("[" & $i + 1 & "]" & " New Building detected, but not enabled...", $COLOR_INFO)
-								EndIf
-							Case "NoResources"
-								SetLog("[" & $i + 1 & "]" & " Not enough Resource, continuing...", $COLOR_INFO)
-							Case Else
-								SetLog("[" & $i + 1 & "]" & " Unsupported icon, continuing...", $COLOR_INFO)
-						EndSwitch
-					EndIf
-				Next
+								Case "NoResources"
+									SetLog("[" & $i + 1 & "]" & " Not enough Resource, continuing...", $COLOR_INFO)
+								Case Else
+									SetLog("[" & $i + 1 & "]" & " Unsupported icon, continuing...", $COLOR_INFO)
+							EndSwitch
+						EndIf
+						Local $bRet = False
+						If $i = UBound($aLine) - 1 Then $bRet = True
+					Next
+				EndIf
 			EndIf
-		EndIf
-	EndIf
 
-	If $bFinishNow Then
-		If _Sleep(1000) Then Return
-		FinishNow($bDebugImage)
-	EndIf
+			ClickAway("Left")
+			If _Sleep(350) Then Return
+			If Not $g_bRunState Then Return
+			If $bRet Or $g_iFreeBuilderCountBB = 0 Then ExitLoop
 
-	ClickAway("Left")
-	If _Sleep(250) Then Return
-	If Not $g_bRunState Then Return
+		WEnd
+
+		ClickAway("Left")
+		If _Sleep(350) Then Return
+		If Not $g_bRunState Then Return
+	EndIf
 
 	If QuickMIS("BC1", $sImgTunnel, 0, 190 + $g_iMidOffsetY, $g_iGAME_WIDTH, $g_iGAME_HEIGHT) Then
 		SetLog("Found Tunnel, Back To Main Builder Base", $COLOR_INFO)
@@ -223,6 +243,12 @@ Func GetIconPosition($x, $y, $x1, $y1, $directory, $Screencap = True, $Debug = F
 
 	Return $aResult
 EndFunc   ;==>GetIconPosition
+
+Func IsWallDetected()
+	Local $aBuildingName = BuildingInfo(245, 490 + $g_iBottomOffsetY)
+	If StringInStr($aBuildingName[1], "Wall") And Not $g_iChkBBSuggestedUpgradesIgnoreWall Then Return True
+	Return False
+EndFunc
 
 Func GetUpgradeButton($sUpgButton = "", $Debug = False, $bDebugImage = $g_bDebugImageSave)
 	Local $sIconBarDiamond = GetDiamondFromRect2(140, 531 + $g_iBottomOffsetY, 720, 611 + $g_iBottomOffsetY)
@@ -434,47 +460,3 @@ Func NewBuildings($aResult, $bDebugImage = $g_bDebugImageSave)
 	Return False
 
 EndFunc   ;==>NewBuildings
-
-Func TestBBUp($iLoop = 0, $bFinishNow = False)
-	For $i = 0 to $iLoop
-		ZoomOut()
-		BuilderBaseReport()
-
-		OttoBuildingUpgrades(True, $bFinishNow)
-
-		BuilderBaseReport()
-
-		MainSuggestedUpgradeCode(True, $bFinishNow)
-
-		SetLog("Upgrade BB Building : " & $i)
-		If _Sleep(100) Then Return
-	Next
-
-	Return
-EndFunc
-
-Func FinishNow($bDebugImage = $g_bDebugImageSave)
-	SetLog("Using GEMS to Finish Now")
-	Local $sFshNowDir = @ScriptDir & "\imgxml\Resources\BuildersBase\AutoUpgrade\FinishNow\*"
-	Local $sImgBBFshNowWindow =  @ScriptDir & "\imgxml\Windows\BBFshNowWindow*"
-
-	Local $aFshNowSearch = GetDiamondFromRect2(140, 531 + $g_iBottomOffsetY, 720, 611 + $g_iBottomOffsetY)
-
-	Local $aiFshNowBtn = decodeSingleCoord(findImage("AutoUpgradeFshNow", $sFshNowDir, $aFshNowSearch, 1, True))
-
-	If $bDebugImage Then SaveDebugDiamondImage("AutoUpgradeFshNow", $aFshNowSearch)
-
-	If IsArray($aiFshNowBtn) And UBound($aiFshNowBtn) = 2 Then
-		ClickP($aiFshNowBtn)
-
-		If _Sleep(250) Then Return
-
-		If IsWindowOpen($sImgBBFshNowWindow, 0, 0, GetDiamondFromRect2(330, 230 + $g_iMidOffsetY, 510, 270 + $g_iMidOffsetY)) Then
-			Click(427, 393 + $g_iMidOffsetY)
-		EndIf
-	EndIf
-
-	If _Sleep(250) Then Return
-
-	Return
-EndFunc

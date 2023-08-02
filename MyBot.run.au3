@@ -878,8 +878,8 @@ Func runBot() ;Bot that runs everything in order
 			If $g_bChkCollectBuilderBase Or $g_bChkStartClockTowerBoost Or $g_iChkBBSuggestedUpgrades Or $g_bChkEnableBBAttack Then
 				_ClanGames()
 				If Not $g_bRunState Then Return
-				If IsCGCoolDownTime() And $g_bChkClanGamesPurgeAnyClose And $b_COCClose Then
-					Local $iWaitTime = Random($sPurgeTimeCG*1000, ($sPurgeTimeCG+60)*1000, 1)
+				If IsCGCoolDownTime(False) And $g_bChkClanGamesPurgeAnyClose And $b_COCClose Then
+					Local $iWaitTime = Random($sPurgeTimeCG * 1000, ($sPurgeTimeCG + 60) * 1000, 1)
 					If ProfileSwitchAccountEnabled() And $sPurgeTimeCG > 420 Then
 						SetLog("Switch Account While Purging", $COLOR_INFO)
 						checkSwitchAcc(True)
@@ -1192,8 +1192,8 @@ Func AttackMain() ;Main control for attack functions
 			EndIf
 			_ClanGames() ;Trying to do this above in the main loop
 			If Not $g_bRunState Then Return
-			If IsCGCoolDownTime() And $g_bChkClanGamesPurgeAnyClose And $b_COCClose Then
-				Local $iWaitTime = Random($sPurgeTimeCG*1000, ($sPurgeTimeCG+60)*1000, 1)
+			If IsCGCoolDownTime(False) And $g_bChkClanGamesPurgeAnyClose And $b_COCClose Then
+				Local $iWaitTime = Random($sPurgeTimeCG * 1000, ($sPurgeTimeCG + 60) * 1000, 1)
 				If ProfileSwitchAccountEnabled() And $sPurgeTimeCG > 420 Then
 					SetLog("Switch Account While Purging", $COLOR_INFO)
 					checkSwitchAcc(True)
@@ -1654,7 +1654,7 @@ Func BuilderBase($bTest = False)
 		BuilderBaseReport()
 		If _Sleep($DELAYRUNBOT3) Then Return
 		If checkObstacles() Then Return
-		
+
 		CleanBBYard()
 		If _Sleep($DELAYRUNBOT3) Then Return
 		If checkObstacles() Then Return
@@ -1662,35 +1662,35 @@ Func BuilderBase($bTest = False)
 	;	LocateBuilderHall()
 	;	If _Sleep($DELAYRUNBOT3) Then Return
 	;	If checkObstacles() Then Return
-		
+
 		Local $StartLabONGui = StarLabGuiDisplay()
 		If _Sleep($DELAYRUNBOT3) Then Return
 		If checkObstacles() Then Return
-		
+
 		DoAttackBB()
 		If _Sleep($DELAYRUNBOT3) Then Return
 		If checkObstacles() Then Return
 		If $g_bRestart Then Return
-		
+
 		CollectBuilderBase(False, False, False, False)
 		If _Sleep($DELAYRUNBOT3) Then Return
 		If checkObstacles() Then Return
-		
+
 		If $g_bAutoStarLabUpgradeEnable Then
 			BuilderBaseReport(True, True)
 			If _Sleep($DELAYRUNBOT3) Then Return
 			If checkObstacles() Then Return
 		EndIf
-		
-	;	OttoBuildingUpgrades()
-	;	If _Sleep($DELAYRUNBOT3) Then Return
-	;	If checkObstacles() Then Return
-	;	If $g_bRestart Then Return
+
+		BOBBuildingUpgrades()
+		If _Sleep($DELAYRUNBOT3) Then Return
+		If checkObstacles() Then Return
+		If $g_bRestart Then Return
 
 		Local $StartLabON = StarLaboratory()
 		If _Sleep($DELAYRUNBOT3) Then Return
 		If checkObstacles() Then Return
-		
+
 		If $g_iChkBBSuggestedUpgrades Then
 			BuilderBaseReport(True, True)
 			If _Sleep($DELAYRUNBOT3) Then Return

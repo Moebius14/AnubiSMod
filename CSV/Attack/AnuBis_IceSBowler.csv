@@ -18,7 +18,8 @@ TRAIN |RSpell     |0          |0          |0          |0          |0          |0
 TRAIN |JSpell     |0          |0          |0          |0          |0          |0          |0          |0          |2          |2          |2          |
 TRAIN |Fspell     |0          |0          |0          |0          |0          |0          |0          |0          |3          |3          |3          |
       |                                                                                                                                  			  |
-TRAIN |FlameF     |0          |0          |0          |0          |0          |0          |0          |0          |3          |3          |3          |
+TRAIN |FlameF     |0          |0          |0          |0          |0          |0          |0          |0          |0          |3          |3          |
+TRAIN |SiegeB     |0          |0          |0          |0          |0          |0          |0          |0          |3          |0          |0          |
       |                                                                					                        		                              |
       |_TROOPNAME_|___________|____TH06___|____TH07___|____TH08___|____TH09___|____TH10___|____TH11___|____TH12___|____TH13___|____TH14___|___TH15____|
 TRAIN |King       |0          |0          |0          |0          |0          |0          |0          |0          |1          |1          |1          |
@@ -72,9 +73,9 @@ MAKE  |K          |BACK-RIGHT |1          |0          |IGNORE     |0          |0
 MAKE  |D          |FRONT-LEFT |1          |0          |IGNORE     |0          |0          |MONOLITH   |           |           |           |           |
       |                                                                					                        		                              |
       |VECTOR_____|INDEX__________|QTY_X_VECT_|TROOPNAME__|DELAY_DROP_|DELAYCHANGE|SLEEPAFTER_|_______|           |           |           |           |
-DROP  |A          |7              |1          |Yeti       |50-70      |27-50      |220-350    |       |           |           |           |           |
+DROP  |A          |7,8            |2          |Yeti       |50-70      |27-50      |220-350    |       |           |           |           |           |
+DROP  |A          |7              |1          |SiegeB     |50-70      |27-50      |120-150    |       |           |           |           |           |
 DROP  |A          |7              |1          |FlameF     |50-70      |27-50      |120-150    |       |           |           |           |           |
-DROP  |A          |8              |1          |Yeti       |50-70      |27-50      |700-1000   |       |           |           |           |           |
 DROP  |B          |7              |1          |Queen      |0   		  |0          |220-350    |       |           |           |           |           |
 DROP  |B          |7-8            |4          |Heal       |100-170    |50-150     |120-150    |       |           |           |           |           |
 WAIT  |10000-12000|               |           |           |           |           |           |       |           |           |           |           |

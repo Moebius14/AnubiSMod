@@ -123,7 +123,7 @@ Func UpdateNextPageTroop()
 
 		$aiTileCoord = decodeSingleCoord(findImage("UpdateNextPageTroop", $sMinerTile, GetDiamondFromRect("25,375,840,575"), 1, True))
 		If IsArray($aiTileCoord) And Ubound($aiTileCoord, 1) = 2 And _ColorCheck(_GetPixelColor(22, 373 + $g_iMidOffsetY, True), Hex(0xD3D3CB, 6), 5) And $aiTileCoord[0] > 610 Then
-			
+
 			If PointInRect($aSlot2[0], $aSlot2[1], $aSlot2[2], $aSlot2[3], $aiTileCoord[0], $aiTileCoord[1]) Then
 				Local $aiTileCoord2 = decodeSingleCoord(findImage("UpdateNextPageTroop", $sSMinerTile, GetDiamondFromRect("25,375,840,575"), 1, True))
 				If IsArray($aiTileCoord2) And Ubound($aiTileCoord2, 1) = 2 Then

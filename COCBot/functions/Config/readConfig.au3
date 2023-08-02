@@ -117,15 +117,22 @@ Func ReadBuildingConfig()
 	
 	IniReadS($g_aiDoubleCannonPos[0], $g_sProfileBuildingPath, "other", "DoubleCannonPosX", -1, "int")
 	IniReadS($g_aiDoubleCannonPos[1], $g_sProfileBuildingPath, "other", "DoubleCannonPosY", -1, "int")
+	IniReadS($g_aiDoubleCannonPos[2], $g_sProfileBuildingPath, "other", "DoubleCannonPosV", -1, "int")
 	
 	IniReadS($g_aiArcherTowerPos[0], $g_sProfileBuildingPath, "other", "ArcherTowerPosX", -1, "int")
 	IniReadS($g_aiArcherTowerPos[1], $g_sProfileBuildingPath, "other", "ArcherTowerPosY", -1, "int")
+	IniReadS($g_aiArcherTowerPos[2], $g_sProfileBuildingPath, "other", "ArcherTowerPosV", -1, "int")
 	
 	IniReadS($g_aiMultiMortarPos[0], $g_sProfileBuildingPath, "other", "MultiMortarPosX", -1, "int")
 	IniReadS($g_aiMultiMortarPos[1], $g_sProfileBuildingPath, "other", "MultiMortarPosY", -1, "int")
+	IniReadS($g_aiMultiMortarPos[2], $g_sProfileBuildingPath, "other", "MultiMortarPosV", -1, "int")
 	
-	IniReadS($g_aiMegaTeslaPos[0], $g_sProfileBuildingPath, "other", "MegaTeslaPosX", -1, "int")
-	IniReadS($g_aiMegaTeslaPos[1], $g_sProfileBuildingPath, "other", "MegaTeslaPosY", -1, "int")
+	IniReadS($g_aiBattleCopterPos[0], $g_sProfileBuildingPath, "other", "BattleCopterPosX", -1, "int")
+	IniReadS($g_aiBattleCopterPos[1], $g_sProfileBuildingPath, "other", "BattleCopterPosY", -1, "int")
+	
+	IniReadS($g_aiAnyDefPos[0], $g_sProfileBuildingPath, "other", "AnyDefPosX", -1, "int")
+	IniReadS($g_aiAnyDefPos[1], $g_sProfileBuildingPath, "other", "AnyDefPosY", -1, "int")
+	IniReadS($g_aiAnyDefPos[2], $g_sProfileBuildingPath, "other", "AnyDefPosV", -1, "int")
 
 	IniReadS($g_aiLastGoodWallPos[0], $g_sProfileBuildingPath, "upgrade", "xLastGoodWallPos", -1, "int")
 	IniReadS($g_aiLastGoodWallPos[1], $g_sProfileBuildingPath, "upgrade", "yLastGoodWallPos", -1, "int")
@@ -447,7 +454,8 @@ Func ReadConfig_600_6()
 	IniReadS($g_bDoubleCannonUpgrade, $g_sProfileConfigPath, "other", "chkDoubleCannonUpgrade", False, "Bool")
 	IniReadS($g_bArcherTowerUpgrade, $g_sProfileConfigPath, "other", "chkArcherTowerUpgrade", False, "Bool")
 	IniReadS($g_bMultiMortarUpgrade, $g_sProfileConfigPath, "other", "chkMultiMortarUpgrade", False, "Bool")
-	IniReadS($g_bMegaTeslaUpgrade, $g_sProfileConfigPath, "other", "chkMegaTeslaUpgrade", False, "Bool")
+	IniReadS($g_bBattlecopterUpgrade, $g_sProfileConfigPath, "other", "chkBattlecopterUpgrade", False, "Bool")
+	IniReadS($g_bAnyDefUpgrade, $g_sProfileConfigPath, "other", "chkAnyDefUpgrade", False, "Bool")
 
 	# NEW CLANGAMES GUI
 	IniReadS($g_bChkClanGamesEnabled, $g_sProfileConfigPath, "other", "ChkClanGamesEnabled", False, "Bool")
@@ -828,6 +836,7 @@ EndFunc   ;==>ReadConfig_600_16
 Func ReadConfig_auto()
 	; Auto Upgrade
 	IniReadS($g_bAutoUpgradeEnabled, $g_sProfileConfigPath, "Auto Upgrade", "AutoUpgradeEnabled", False, "Bool")
+	IniReadS($g_iCmbBoostBuilders, $g_sProfileConfigPath, "Auto Upgrade", "BuildersPotionToUse", $g_iCmbBoostBuilders, "int")
 	IniReadS($g_iCmbFreeBuilders, $g_sProfileConfigPath, "Auto Upgrade", "FreeBuildersToPotion", $g_iCmbFreeBuilders, "int")
 	For $i = 0 To Ubound($g_iChkUpgradesToIgnore) - 1
 		IniReadS($g_iChkUpgradesToIgnore[$i], $g_sProfileConfigPath, "Auto Upgrade", "ChkUpgradesToIgnore[" & $i & "]", $g_iChkUpgradesToIgnore[$i], "int")
@@ -889,6 +898,7 @@ Func ReadConfig_600_18()
 	IniReadS($g_bChkNotifyStarBonusAvail, $g_sProfileConfigPath, "notify", "StarBonusStatus", False, "Bool")
 	IniReadS($g_bChkNotifyPauseTime, $g_sProfileConfigPath, "notify", "PauseTimeNotif", False, "Bool")
 	IniReadS($g_bChkNotifyUpgradeBM, $g_sProfileConfigPath, "notify", "NotifyUpgradeBM", False, "Bool")
+	IniReadS($g_bChkNotifyUpgradeBC, $g_sProfileConfigPath, "notify", "NotifyUpgradeBC", False, "Bool")
 	IniReadS($g_bNotifyStopBot, $g_sProfileConfigPath, "notify", "BotStopNotify", $g_bNotifyStopBot, "Bool")
 	IniReadS($g_bChkNotifyUpgrade, $g_sProfileConfigPath, "notify", "NotifyUpgrade", False, "Bool")
 EndFunc   ;==>ReadConfig_600_18

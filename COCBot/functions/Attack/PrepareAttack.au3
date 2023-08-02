@@ -196,10 +196,10 @@ Func SelectCastleOrSiege(ByRef $iTroopIndex, $iX, $iCmbSiege)
 
 			; wait to appears the new small window
 			Local $iLastX = $aiSwitchBtn[0] - 30, $iLastY = $aiSwitchBtn[1]
-			If _Sleep(1250) Then Return
+			If _Sleep(2000) Then Return
 
 			; Lets detect the CC & Sieges and click - search window is - X, 530, X + 390, 530 + 30
-			Local $sSearchArea = GetDiamondFromRect(_Min($iX - 50, 470) & ",539(390,37)") ; x = 470 when Castle is at slot 6+ and there are 5 slots in siege switching window
+			Local $sSearchArea = GetDiamondFromRect(_Min($iX - 50, 470) & ",539(395,37)") ; x = 470 when Castle is at slot 6+ and there are 5 slots in siege switching window
 
 			If $g_bDebugImageSave Then SaveDebugDiamondImage("SelectCastleOrSiege", $sSearchArea)
 

@@ -17,7 +17,6 @@ Func _ClanGames($test = False, $HaltMode = False)
 
 	If Not $g_bChkClanGamesEnabled Then Return
 	
-	$b_COCClose = True ;just to be sure, reset to true
 	$IsCGEventRunning = 0 ;just to be sure, reset to false
 	$g_bIsBBevent = 0 ;just to be sure, reset to false
 	$IsCGEventForGold = False
@@ -25,13 +24,13 @@ Func _ClanGames($test = False, $HaltMode = False)
 	$IsCGEventForDE = False
 
 	Local $currentDate = Number(@MDAY)
-	
+
 	;Prevent checking clangames before date 20 (clangames should start on 22 and end on 28 or 29) depends on how many tiers/maxpoint
 	If $currentDate < 20 Then
 		SetDebugLog("Current date : " & $currentDate & " --> Skip Clan Games", $COLOR_INFO)
 		Return
 	EndIf
-	
+
 	If $currentDate > 19 And $currentDate < 23 Then
 		If Not UTCTimeCG() Then
 			Local Static $iLastTimeChecked[8] = [0, 0, 0, 0, 0, 0, 0, 0]
@@ -39,7 +38,7 @@ Func _ClanGames($test = False, $HaltMode = False)
 			$iLastTimeChecked[$g_iCurAccount] = @MDAY
 		EndIf
 	EndIf
-	
+
 	Local $sFound = False
 	If $currentDate >= 28 Then
 		For $i = 1 To 10
@@ -132,9 +131,10 @@ Func _ClanGames($test = False, $HaltMode = False)
 
 		; Let's get some information , like Remain Timer, Score and limit
 		If Not _ColorCheck(_GetPixelColor(300, 236 + $g_iMidOffsetY, True), Hex(0x53E050, 6), 5) Then ;no greenbar = there is active event or completed event
-			_Sleep(3000) ; just wait few second, as completed event will need sometime to animate on score
+			If _Sleep(3000) Then Return ; just wait few second, as completed event will need sometime to animate on score
 		EndIf
 		Local $aiScoreLimit = GetTimesAndScores()
+		$b_COCClose = 1 ;Reset
 		If $aiScoreLimit = -1 Or UBound($aiScoreLimit) <> 2 Then
 			$g_bClanGamesCompleted = 1
 			ClearTempCGFiles()
@@ -151,7 +151,7 @@ Func _ClanGames($test = False, $HaltMode = False)
 				CloseWindow()
 				If $g_bAttackCGPlannerEnable And $g_bChkSTOPWhenCGPointsMax Then
 					SetLog("Bot Will Stop After Routines", $COLOR_DEBUG)
-					Sleep(Random(3500, 5500, 1))
+					If _Sleep(Random(3500, 5500, 1)) Then Return
 					If IsToFillCCWithMedalsOnly() Then
 						Local $aRndFuncList = ['DonateCC,Train', 'CollectFreeMagicItems', 'Collect', 'DailyChallenge', 'UpgradeWall', 'Laboratory', 'UpgradeHeroes', 'UpgradeBuilding', 'PetHouse', 'CheckTombs', 'CleanYard']
 					Else
@@ -174,26 +174,24 @@ Func _ClanGames($test = False, $HaltMode = False)
 						$text &= "CG Max Score Is Reached, Bot Stopped"
 						NotifyPushToTelegram($text)
 					EndIf
-					Sleep(Random(3500, 5500, 1))
+					If _Sleep(Random(3500, 5500, 1)) Then Return
 					CloseCoC(False)
-					Sleep(Random(1500, 2500, 1))
+					If _Sleep(Random(1500, 2500, 1)) Then Return
 					btnStop()
 				EndIf
 				Return
 			ElseIf $aiScoreLimit[0] + 300 > $aiScoreLimit[1] Then
 				SetLog("You have almost reached max point")
-				If $g_bChkClanGamesStopBeforeReachAndPurge Then
-					If IsEventRunning() Then Return
-					$sTimeCG = ConvertOCRTime("ClanGames()", $g_sClanGamesTimeRemaining, False)
-					Setlog("Clan Games Minute Remain: " & $sTimeCG)
-					If $g_bChkClanGamesPurgeAny And $sTimeCG > 1440 Then ; purge, but not purge on last day of clangames
-						SetLog("Stop before completing your limit and only Purge")
-						SetLog("Lets only purge 1 random challenge", $COLOR_WARNING)
-						$b_COCClose = False
-						PurgeEvent(False, True)
-						ClearTempCGFiles()
-						Return
-					EndIf
+				$sTimeCG = ConvertOCRTime("ClanGames()", $g_sClanGamesTimeRemaining, False)
+				SetDebuglog("Clan Games Minute Remain: " & $sTimeCG)
+				If $g_bChkClanGamesStopBeforeReachAndPurge And $sTimeCG > 1440 Then ; purge, but not purge on last day of clangames
+					$b_COCClose = 0
+					If CooldownTime() Or IsEventRunning() Then Return
+					SetLog("Stop before completing your limit and only Purge")
+					SetLog("Lets only purge 1 random challenge", $COLOR_WARNING)
+					PurgeEvent(False, True)
+					ClearTempCGFiles()
+					Return
 				EndIf
 			EndIf
 			If $YourAccScore[$g_iCurAccount][0] = -1 Then $YourAccScore[$g_iCurAccount][0] = $aiScoreLimit[0]
@@ -239,7 +237,7 @@ Func _ClanGames($test = False, $HaltMode = False)
 
 		$EventLoopOut = False
 		If $IsLooped > 0 Then $hTimer = TimerInit()	
-	
+
 		Local $HowManyImages = _FileListToArray($sTempChallengePath, "*", $FLTA_FILES)
 		If IsArray($HowManyImages) Then
 			Local $HowManyEvents = 0
@@ -287,7 +285,7 @@ Func _ClanGames($test = False, $HaltMode = False)
 			Setlog("ClanGames-Error on $HowManyImages: " & @error)
 			Return
 		EndIf
-		
+
 		Local $aAllDetectionsOnScreen = FindEvent()
 
 		Local $aSelectChallenges[0][5]
@@ -318,7 +316,6 @@ Func _ClanGames($test = False, $HaltMode = False)
 								Local $aArray[5] = [$AirTroopChallenges[$j][1], $aAllDetectionsOnScreen[$i][2], $aAllDetectionsOnScreen[$i][3], $AirTroopChallenges[$j][3], $aAllDetectionsOnScreen[$i][4]]
 							EndIf
 						Next
-	
 					Case "S" ; - grumpy
 						If Not $g_bChkClanGamesSpell Then ContinueLoop
 						Local $SpellChallenges = ClanGamesChallenges("$SpellChallenges") ; load all spell challenges
@@ -329,7 +326,6 @@ Func _ClanGames($test = False, $HaltMode = False)
 								Local $aArray[5] = [$SpellChallenges[$j][1], $aAllDetectionsOnScreen[$i][2], $aAllDetectionsOnScreen[$i][3], $SpellChallenges[$j][3], $aAllDetectionsOnScreen[$i][4]]
 							EndIf
 						Next
-	
 				   Case "G"
 						If Not $g_bChkClanGamesGroundTroop Then ContinueLoop
 						Local $GroundTroopChallenges = ClanGamesChallenges("$GroundTroopChallenges")
@@ -340,7 +336,6 @@ Func _ClanGames($test = False, $HaltMode = False)
 								Local $aArray[5] = [$GroundTroopChallenges[$j][1], $aAllDetectionsOnScreen[$i][2], $aAllDetectionsOnScreen[$i][3], $GroundTroopChallenges[$j][3], $aAllDetectionsOnScreen[$i][4]]
 							EndIf
 						 Next
-	
 					Case "B"
 						If Not $g_bChkClanGamesBattle Then ContinueLoop
 						Local $BattleChallenges = ClanGamesChallenges("$BattleChallenges")
@@ -357,24 +352,24 @@ Func _ClanGames($test = False, $HaltMode = False)
 								If $BattleChallenges[$j][1] = "Triumphant 12s" And ($g_iTownHallLevel < 11 Or $g_iTownHallLevel > 13) Then ExitLoop  ; TH level 11-12-13
 								If $BattleChallenges[$j][1] = "Tremendous 13s" And ($g_iTownHallLevel < 12 Or $g_iTownHallLevel > 14) Then ExitLoop  ; TH level 12-13-14
 								If $BattleChallenges[$j][1] = "Formidable 14s" And $g_iTownHallLevel < 13 Then ExitLoop  ; TH level 13-14-15
-								
+
 								; Verify your TH level and Challenge
 								If $g_iTownHallLevel < $BattleChallenges[$j][2] Then ExitLoop
-								
+
 								; If you are a TH15 , doesn't exist the TH16 yet
 								If $BattleChallenges[$j][1] = "Attack Up" And $g_iTownHallLevel = 15 Then ExitLoop
-								
+
 								; Check your Trophy Range
 								If $BattleChallenges[$j][1] = "Slaying The Titans" And (Int($g_aiCurrentLoot[$eLootTrophy]) < 4100 or Int($g_aiCurrentLoot[$eLootTrophy]) > 5000) Then ExitLoop
-	
+
 								If $BattleChallenges[$j][1] = "Clash of Legends" And Int($g_aiCurrentLoot[$eLootTrophy]) < 5000 Then ExitLoop
-	
+
 								; Check if exist a probability to use any Spell
 								If $BattleChallenges[$j][1] = "No-Magic Zone" And (($g_iMatchMode = $DB And $g_aiAttackAlgorithm[$DB] = 1) Or ($g_iMatchMode = $LB And $g_aiAttackAlgorithm[$LB] = 1)) Then ExitLoop
-								
+
 								; Check if you are using Heroes
 								If $BattleChallenges[$j][1] = "No Heroics Allowed" And ((Int($g_aiAttackUseHeroes[$DB]) > $eHeroNone And $g_iMatchMode = $DB) Or (Int($g_aiAttackUseHeroes[$LB]) > $eHeroNone And $g_iMatchMode = $LB)) Then ExitLoop
-								
+
 								; [0] Event Name Full Name  , [1] Xaxis ,  [2] Yaxis , [3] Difficulty, [4] CGMAIN/CGBB
 								Local $aArray[5] = [$BattleChallenges[$j][1], $aAllDetectionsOnScreen[$i][2], $aAllDetectionsOnScreen[$i][3], $BattleChallenges[$j][3], $aAllDetectionsOnScreen[$i][4]]
 							EndIf
@@ -387,18 +382,17 @@ Func _ClanGames($test = False, $HaltMode = False)
 							If $aAllDetectionsOnScreen[$i][1] = $DestructionChallenges[$j][0] Then
 								; Verify your TH level and Challenge kind
 								If $g_iTownHallLevel < $DestructionChallenges[$j][2] Then ExitLoop
-	
+
 								; Check if you are using Heroes
 								If	$DestructionChallenges[$j][1] = "Hero Level Hunter" Or _
 									$DestructionChallenges[$j][1] = "King Level Hunter" Or _
 									$DestructionChallenges[$j][1] = "Queen Level Hunter" Or _
 									$DestructionChallenges[$j][1] = "Warden Level Hunter" And _
 									((Int($g_aiAttackUseHeroes[$DB]) = $eHeroNone And $g_iMatchMode = $DB) Or (Int($g_aiAttackUseHeroes[$LB]) = $eHeroNone And $g_iMatchMode = $LB)) Then ExitLoop
-									
-								
+
 								If $aAllDetectionsOnScreen[$i][1] = "BBreakdown" And $aAllDetectionsOnScreen[$i][4] = "CGBB" Then ContinueLoop
 								If $aAllDetectionsOnScreen[$i][1] = "WallWhacker" And $aAllDetectionsOnScreen[$i][4] = "CGBB" Then ContinueLoop
-								
+
 								; [0] Event Name Full Name  , [1] Xaxis ,  [2] Yaxis , [3] Difficulty, [4] CGMAIN/CGBB
 								Local $aArray[5] = [$DestructionChallenges[$j][1], $aAllDetectionsOnScreen[$i][2], $aAllDetectionsOnScreen[$i][3], $DestructionChallenges[$j][3], $aAllDetectionsOnScreen[$i][4]]
 							EndIf
@@ -409,20 +403,20 @@ Func _ClanGames($test = False, $HaltMode = False)
 						For $j = 0 To UBound($MiscChallenges) - 1
 							; Match the names
 							If $aAllDetectionsOnScreen[$i][1] = $MiscChallenges[$j][0] Then
-							
+
 								; Exceptions :
 								; 1 - "Gardening Exercise" needs at least a Free Builder and "Remove Obstacles" enabled
 								If $MiscChallenges[$j][1] = "Gardening Exercise" And ($g_iFreeBuilderCount < 1 Or Not $g_bChkCleanYard) Then ExitLoop
-	
+
 								; 2 - Verify your TH level and Challenge kind
 								If $g_iTownHallLevel < $MiscChallenges[$j][2] Then ExitLoop
-	
+
 								; 3 - If you don't Donate Troops
 								If $MiscChallenges[$j][1] = "Helping Hand" And Not $g_iActiveDonate Then ExitLoop
-	
+
 								; 4 - If you don't Donate Spells , $g_aiPrepDon[2] = Donate Spells , $g_aiPrepDon[3] = Donate All Spells [PrepareDonateCC()]
 								If $MiscChallenges[$j][1] = "Donate Spells" And ($g_aiPrepDon[2] = 0 And $g_aiPrepDon[3] = 0) Then ExitLoop
-	
+
 								; [0] Event Name Full Name  , [1] Xaxis ,  [2] Yaxis , [3] Difficulty, [4] CGMAIN/CGBB
 								Local $aArray[5] = [$MiscChallenges[$j][1], $aAllDetectionsOnScreen[$i][2], $aAllDetectionsOnScreen[$i][3], $MiscChallenges[$j][3], $aAllDetectionsOnScreen[$i][4]]
 							EndIf
@@ -468,7 +462,7 @@ Func _ClanGames($test = False, $HaltMode = False)
 					$aSelectChallenges[UBound($aSelectChallenges) - 1][1] = $aArray[1] ; Xaxis
 					$aSelectChallenges[UBound($aSelectChallenges) - 1][2] = $aArray[2] ; Yaxis
 					$aSelectChallenges[UBound($aSelectChallenges) - 1][3] = $aArray[3] ; difficulty
-					$aSelectChallenges[UBound($aSelectChallenges) - 1][4] = 0 		   ; timer minutes
+					$aSelectChallenges[UBound($aSelectChallenges) - 1][4] = 0		   ; timer minutes
 					$aSelectChallenges[UBound($aSelectChallenges) - 1][5] = $aArray[4] ; EventType: MainVillage/BuilderBase
 					$aArray[0] = ""
 				EndIf
@@ -490,7 +484,7 @@ Func _ClanGames($test = False, $HaltMode = False)
 				If $EventHours > 0 Then
 					Setlog("Detected " & $aSelectChallenges[$i][0] & " difficulty of " & $aSelectChallenges[$i][3] & " Time: " & $EventHours & " min", $COLOR_INFO)
 				Else
-					Setlog("Detected " & $aSelectChallenges[$i][0] & " Will Finish After End Of Clan Games", $COLOR_ERROR)
+					Setlog("Detected " & $aSelectChallenges[$i][0] & " difficulty of " & $aSelectChallenges[$i][3] & " Time: Out Of Time", $COLOR_DEBUG1)
 				EndIf
 				Click($aSelectChallenges[$i][1], $aSelectChallenges[$i][2])
 				If _Sleep(250) Then Return
@@ -787,9 +781,9 @@ Func FindEvent()
 				Else
 					$IsBBEvent = "CGMain"
 				EndIf
-								
+
 				Local $ChallengeEvent = StringSplit($aEvent[0][0], "-", $STR_NOCOUNT)
-				
+
 				If $ChallengeEvent[0] = "D" And $IsBBEvent = "CGBB" Then
 					Switch $aEvent[0][0]
 						Case "D-BBreakdown"
@@ -831,7 +825,7 @@ Func FindEvent()
 						$aEvent[0][0] = "A-BabyD"
 					EndIf
 				EndIf
-				
+
 				If $ChallengeEvent[0] = "D" And $IsBBEvent = "CGMain" Then
 					If $aEvent[0][0] = "D-BBreakdown" And $g_abCGMainDestructionItem[23] < 1 Then ContinueLoop
 					If $aEvent[0][0] = "D-WallWhacker" And $g_abCGMainDestructionItem[22] < 1 Then ContinueLoop
@@ -892,7 +886,7 @@ Func IsClanGamesWindow()
 			$bRet = False
 			ExitLoop
 		EndIf
-		_Sleep(1000)
+		If _Sleep(1000) Then Return
 	Next
 
 	If $Found = False And $currentDate < 22 Then
@@ -914,7 +908,7 @@ Func IsClanGamesWindow2()
 	Local $sState, $bRet = False
 	Local $Found = False
 	Local $currentDate = Number(@MDAY)
-	
+
 	For $i = 1 To 10
 		If QuickMIS("BC1", $g_sImgCaravan, 200, 55, 300, 120 + $g_iMidOffsetY) Then
 			$Found = True
@@ -948,7 +942,7 @@ Func IsClanGamesWindow2()
 			$bRet = False
 			ExitLoop
 		EndIf
-		_Sleep(1000)
+		If _Sleep(1000) Then Return
 	Next
 
 	If $Found = False And $currentDate < 22 Then
@@ -1216,7 +1210,7 @@ Func IsEventRunning($bOpenWindow = False)
 						Else
 							$CurrentActiveChallenge = "BB Building"
 						EndIf
-					EndIf	
+					EndIf
 					If $aActiveEvent[0][0] = "BBD-WallDes" Or $aActiveEvent[0][0] = "D-WallWhacker" Then
 						SetDebugLog("Challenge with shared Image", $COLOR_DEBUG2)
 						If $g_abCGBBDestructionItem[14] = 0 Then
@@ -1224,7 +1218,7 @@ Func IsEventRunning($bOpenWindow = False)
 						Else
 							$CurrentActiveChallenge = "Wall WipeOut"
 						EndIf
-					EndIf	
+					EndIf
 					If $aActiveEvent[0][0] = "A-BabyD" Or $aActiveEvent[0][0] = "BBT-BabyD" Then
 						SetDebugLog("Challenge with shared Image", $COLOR_DEBUG2)
 						If $g_abCGBBTroopsItem[5] = 0 Then
@@ -1256,7 +1250,7 @@ Func IsEventRunning($bOpenWindow = False)
 						Else
 							$CurrentActiveChallenge = "Building Breakdown"
 						EndIf
-					EndIf	
+					EndIf
 					If $aActiveEvent[0][0] = "BBT-BabyD" Or $aActiveEvent[0][0] = "A-BabyD" Then
 						SetDebugLog("Challenge with shared Image", $COLOR_DEBUG2)
 						If $g_abCGMainAirItem[2] = 0 Then
@@ -1539,7 +1533,7 @@ Func GetEventTimeInMinutes($iXStartBtn, $iYStartBtn, $bIsStartBtn = True)
 	Local $Ocr = getOcrEventTime($XAxis, $YAxis)
 	If $Ocr = "1" Then $Ocr = "1d"
 	If $Ocr = "2" Then $Ocr = "2d"
-    Return ConvertOCRTime("ClanGames()", $Ocr, False)
+	Return ConvertOCRTime("ClanGames()", $Ocr, False)
 EndFunc   ;==>GetEventTimeInMinutes
 
 Func GetEventInformation()
@@ -1591,7 +1585,7 @@ Func IsBBChallenge($i = Default, $j = Default)
 			EndIf
 		Next
 	Next
-	
+
 EndFunc ;==>IsBBChallenge
 
 Func ClanGamesChallenges($sReturnArray)
@@ -1635,37 +1629,37 @@ Func ClanGamesChallenges($sReturnArray)
 			["SuperCharge", 			"Deploy SuperTroops",			 6, 0, "Deploy certain housing space of Any Super Troops"                                                           ]]
 
 	Local $DestructionChallenges[34][5] = [ _
-			["Cannon", 					"Cannon", 				 6, 1, "Destroy 5-25 Cannons in Multiplayer Battles"					], _
+			["Cannon", 					"Cannon", 				 6, 1, "Destroy 5-25 Cannons in Multiplayer Battles"				], _
 			["ArcherT", 				"Archer Tower", 		 6, 1, "Destroy 5-20 Archer Towers in Multiplayer Battles"			], _
 			["BuilderHut", 				"Builder Hut", 		     6, 1, "Destroy 4-12 BuilderHut in Multiplayer Battles"				], _
-			["Mortar", 					"Mortar", 				 6, 2, "Destroy 4-12 Mortars in Multiplayer Battles"					], _
+			["Mortar", 					"Mortar", 				 6, 2, "Destroy 4-12 Mortars in Multiplayer Battles"				], _
 			["AirD", 					"Air Defenses", 		 7, 3, "Destroy 3-12 Air Defenses in Multiplayer Battles"			], _
 			["WizardT", 				"Wizard Tower", 		 6, 3, "Destroy 4-12 Wizard Towers in Multiplayer Battles"			], _
-			["AirSweepers", 			"Air Sweepers", 		 8, 3, "Destroy 2-6 Air Sweepers in Multiplayer Battles"				], _
+			["AirSweepers", 			"Air Sweepers", 		 8, 3, "Destroy 2-6 Air Sweepers in Multiplayer Battles"			], _
 			["Tesla", 					"Tesla Towers", 		 7, 3, "Destroy 4-12 Hidden Teslas in Multiplayer Battles"			], _
 			["BombT", 					"Bomb Towers", 			 8, 3, "Destroy 2 Bomb Towers in Multiplayer Battles"				], _
 			["Xbow", 					"X-Bows", 				 9, 4, "Destroy 3-12 X-Bows in Multiplayer Battles"					], _
-			["Inferno", 				"Inferno Towers", 		11, 4, "Destroy 2 Inferno Towers in Multiplayer Battles"				], _
+			["Inferno", 				"Inferno Towers", 		11, 4, "Destroy 2 Inferno Towers in Multiplayer Battles"			], _
 			["EagleA", 					"Eagle Artillery", 	    11, 5, "Destroy 1-7 Eagle Artillery in Multiplayer Battles"			], _
 			["ClanC", 					"Clan Castle", 			 5, 3, "Destroy 1-4 Clan Castle in Multiplayer Battles"				], _
 			["GoldSRaid", 				"Gold Storage", 		 6, 3, "Destroy 3-15 Gold Storages in Multiplayer Battles"			], _
-			["ElixirSRaid", 			"Elixir Storage", 		 6, 3, "Destroy 3-15 Elixir Storages in Multiplayer Battles"			], _
+			["ElixirSRaid", 			"Elixir Storage", 		 6, 3, "Destroy 3-15 Elixir Storages in Multiplayer Battles"		], _
 			["DarkEStorageRaid", 		"Dark Elixir Storage", 	 8, 3, "Destroy 1-4 Dark Elixir Storage in Multiplayer Battles"		], _
 			["GoldM", 					"Gold Mine", 			 6, 1, "Destroy 6-20 Gold Mines in Multiplayer Battles"				], _
 			["ElixirPump", 				"Elixir Pump", 		 	 6, 1, "Destroy 6-20 Elixir Collectors in Multiplayer Battles"		], _
 			["DarkEPlumbers", 			"Dark Elixir Drill", 	 6, 1, "Destroy 2-8 Dark Elixir Drills in Multiplayer Battles"		], _
-			["Laboratory", 				"Laboratory", 			 6, 1, "Destroy 2-6 Laboratories in Multiplayer Battles"				], _
+			["Laboratory", 				"Laboratory", 			 6, 1, "Destroy 2-6 Laboratories in Multiplayer Battles"			], _
 			["SFacto", 					"Spell Factory", 		 6, 1, "Destroy 2-6 Spell Factories in Multiplayer Battles"			], _
-			["DESpell", 				"Dark Spell Factory", 	 8, 1, "Destroy 2-6 Dark Spell Factories in Multiplayer Battles"		], _
-			["WallWhacker", 			"Wall Whacker", 		10, 8, "Destroy 50-250 Walls in Multiplayer Battles"					], _
-			["BBreakdown",	 			"Building Breakdown", 	 6, 1, "Destroy 50-250 Buildings in Multiplayer Battles"				], _
+			["DESpell", 				"Dark Spell Factory", 	 8, 1, "Destroy 2-6 Dark Spell Factories in Multiplayer Battles"	], _
+			["WallWhacker", 			"Wall Whacker", 		10, 8, "Destroy 50-250 Walls in Multiplayer Battles"				], _
+			["BBreakdown",	 			"Building Breakdown", 	 6, 1, "Destroy 50-250 Buildings in Multiplayer Battles"			], _
 			["BKaltar", 				"Barbarian King Altars", 9, 4, "Destroy 2-5 Barbarian King Altars in Multiplayer Battles"	], _
 			["AQaltar", 				"Archer Queen Altars", 	10, 4, "Destroy 2-5 Archer Queen Altars in Multiplayer Battles"		], _
 			["GWaltar", 				"Grand Warden Altars", 	11, 4, "Destroy 2-5 Grand Warden Altars in Multiplayer Battles"		], _
 			["HeroLevelHunter", 		"Hero Level Hunter", 	 9, 5, "Knockout 125 Level Heroes on Multiplayer Battles"			], _
 			["KingLevelHunter", 		"King Level Hunter", 	 9, 5, "Knockout 50 Level King on Multiplayer Battles"				], _
 			["QueenLevelHunt", 			"Queen Level Hunter", 	10, 5, "Knockout 50 Level Queen on Multiplayer Battles"				], _
-			["WardenLevelHunter", 		"Warden Level Hunter", 	11, 5, "Knockout 20 Level Warden on Multiplayer Battles"				], _
+			["WardenLevelHunter", 		"Warden Level Hunter", 	11, 5, "Knockout 20 Level Warden on Multiplayer Battles"			], _
 			["ArmyCamp", 				"Destroy ArmyCamp", 	 6, 1, "Destroy 3-16 Army Camp in Multiplayer Battles"				], _
 			["ScatterShotSabotage",		"ScatterShot",			13, 5, "Destroy 1-4 ScatterShot in Multiplayer Battles" 			], _
 			["ChampionLevelHunt",		"Champion Level Hunter",13, 5, "Knockout 20 Level Champion on Multiplayer Battles"			]]
@@ -1715,7 +1709,7 @@ Func ClanGamesChallenges($sReturnArray)
 			["WallW", 					"Wall Wrecker", 				 10, 1, "Earn 1-5 Stars from Multiplayer Battles using a Wall Wrecker" 					], _
 			["SiegeB", 					"Siege Barrack", 				 10, 1, "Earn 1-5 Stars from Multiplayer Battles using a Siege Barracks" 				], _
 			["LogL", 					"Log Launcher", 				 10, 1, "Earn 1-5 Stars from Multiplayer Battles using a Log Launcher"					]]
-	
+
 	Local $MiscChallenges[3][5] = [ _
 			["Gard", 					"Gardening Exercise", 			 6, 8, "Clear 5 obstacles from your Home Village or Builder Base"		], _
 			["DonateSpell", 			"Donate Spells", 				 9, 8, "Donate a total of 3 spells"				], _
@@ -1735,39 +1729,39 @@ Func ClanGamesChallenges($sReturnArray)
 			["SkSpell",					"Skeleton", 					11, 1, "Use certain amount of Skeleton Spell to Win a Stars in Multiplayer Battles"		], _
 			["BtSpell",					"Bat", 					 		10, 1, "Use certain amount of Bat Spell to Win a Stars in Multiplayer Battles"			]]
 
-    Local $BBBattleChallenges[4][5] = [ _
-            ["StarM",					"BB Star Master",				 6, 1, "Collect certain amount of stars in Versus Battles"						], _
-            ["Victories",				"BB Victories",					 6, 3, "Get certain count of Victories in Versus Battles"						], _
+	Local $BBBattleChallenges[4][5] = [ _
+			["StarM",					"BB Star Master",				 6, 1, "Collect certain amount of stars in Versus Battles"						], _
+			["Victories",				"BB Victories",					 6, 3, "Get certain count of Victories in Versus Battles"						], _
 			["StarTimed",				"BB Star Timed",				 6, 2, "Earn stars in Versus Battles, but only stars gained below a minute counted"	], _
-            ["Destruction",				"BB Destruction",				 6, 1, "Earn certain amount of destruction percentage (%) in Versus Battles"			]]
+			["Destruction",				"BB Destruction",				 6, 1, "Earn certain amount of destruction percentage (%) in Versus Battles"			]]
 
 	Local $BBDestructionChallenges[21][5] = [ _
-            ["Airbomb",					"Air Bomb",                 	6, 4, "Destroy certain number of Air Bomb in Versus Battles"		], _
+			["Airbomb",					"Air Bomb",                 	6, 4, "Destroy certain number of Air Bomb in Versus Battles"		], _
 			["BuildingDes",             "BB Building",					6, 4, "Destroy certain number of Building in Versus Battles"		], _
 			["BuilderHall",             "BuilderHall",					6, 2, "Destroy certain number of Builder Hall in Versus Battles"	], _
-            ["Cannon",                 	"BB Cannon",                  	6, 1, "Destroy certain number of Cannon in Versus Battles"			], _
+			["Cannon",                 	"BB Cannon",                  	6, 1, "Destroy certain number of Cannon in Versus Battles"			], _
 			["ClockTower",             	"Clock Tower",                 	6, 1, "Destroy certain number of Clock Tower in Versus Battles"		], _
-            ["DoubleCannon",         	"Double Cannon",             	6, 1, "Destroy certain number of Double Cannon in Versus Battles"	], _
+			["DoubleCannon",         	"Double Cannon",             	6, 1, "Destroy certain number of Double Cannon in Versus Battles"	], _
 			["FireCrackers",         	"Fire Crackers",              	6, 2, "Destroy certain number of Fire Crackers in Versus Battles"	], _
 			["GemMine",                 "Gem Mine",                  	6, 1, "Destroy certain number of Gem Mine in Versus Battles"		], _
-			["GiantCannon",             "Giant Cannon",               	6, 4, "Destroy certain number of Giant Cannon in Versus Battles"	], _
-			["GuardPost",               "Guard Post",                 	6, 4, "Destroy certain number of Guard Post in Versus Battles"		], _
-			["MegaTesla",               "Mega Tesla",               	6, 5, "Destroy certain number of Mega Tesla in Versus Battles"		], _
+			["GiantCannon",             "Giant Cannon",               	6, 3, "Destroy certain number of Giant Cannon in Versus Battles"	], _
+			["GuardPost",               "Guard Post",                 	6, 3, "Destroy certain number of Guard Post in Versus Battles"		], _
+			["MegaTesla",               "Mega Tesla",               	6, 4, "Destroy certain number of Mega Tesla in Versus Battles"		], _
 			["MultiMortar",             "Multi Mortar",               	6, 2, "Destroy certain number of Multi Mortar in Versus Battles"	], _
 			["Roaster",                 "Roaster",			            6, 4, "Destroy certain number of Roaster in Versus Battles"			], _
 			["StarLab",                 "Star Laboratory",              6, 1, "Destroy certain number of Star Laboratory in Versus Battles"	], _
-			["WallDes",             	"Wall WipeOut",    	    		6, 2, "Destroy certain number of Wall in Versus Battles"			], _
+			["WallDes",             	"Wall WipeOut",    	    		6, 5, "Destroy certain number of Wall in Versus Battles"			], _
 			["Crusher",             	"Crusher",                 		6, 2, "Destroy certain number of Crusher in Versus Battles"			], _
 			["ArcherTower",             "Archer Tower",            		6, 1, "Destroy certain number of Archer Tower in Versus Battles"	], _
 			["LavaLauncher",            "Lava Launcher",           	   11, 5, "Destroy certain number of Lava Launcher in Versus Battles"	], _
-			["OttoOutpost",             "Otto OutPost",            		6, 7, "Destroy certain number of Otto OutPost in Builder Battle"], _
-			["Xbow",               		"Xbow Explosion",            	6, 7, "Destroy certain number of X-Bows in Builder Battle"	    ], _
-			["HealingHut",              "Healing Hut",            		6, 7, "Destroy certain number of Healing Hut in Builder Battle"	]]
+			["OttoOutpost",             "Otto OutPost",            		6, 7, "Destroy certain number of Otto OutPost in Builder Battle"    ], _
+			["Xbow",               		"Xbow Explosion",              12, 7, "Destroy certain number of X-Bows in Builder Battle"	        ], _
+			["HealingHut",              "Healing Hut",            		6, 7, "Destroy certain number of Healing Hut in Builder Battle"	    ]]
 
 	Local $BBTroopsChallenges[12][5] = [ _
-            ["RBarb",					"Raged Barbarian",              6, 1, "Win 1-5 Attacks using Raged Barbarians in Versus Battle"	], _
-            ["SArch",                 	"Sneaky Archer",                6, 1, "Win 1-5 Attacks using Sneaky Archer in Versus Battle"	], _
-            ["BGiant",         			"Boxer Giant",             		6, 1, "Win 1-5 Attacks using Boxer Giant in Versus Battle"		], _
+			["RBarb",					"Raged Barbarian",              6, 1, "Win 1-5 Attacks using Raged Barbarians in Versus Battle"	], _
+			["SArch",                 	"Sneaky Archer",                6, 1, "Win 1-5 Attacks using Sneaky Archer in Versus Battle"	], _
+			["BGiant",         			"Boxer Giant",             		6, 1, "Win 1-5 Attacks using Boxer Giant in Versus Battle"		], _
 			["BMini",         			"Beta Minion",              	6, 1, "Win 1-5 Attacks using Beta Minion in Versus Battle"		], _
 			["Bomber",                 	"Bomber",                  		6, 1, "Win 1-5 Attacks using Bomber in Versus Battle"			], _
 			["BabyD",               	"Baby Dragon",                 	6, 1, "Win 1-5 Attacks using Baby Dragon in Versus Battle"		], _
@@ -1864,7 +1858,7 @@ Func CollectClanGamesRewards($bTest = False)
 	EndIf
 
 	SaveDebugImage("ClanGamesRewardsWindow", False)
-	
+
 	Local $i = 0
 	Local $bLoop = True
 	Local $aCollectRewardsButton
@@ -1953,8 +1947,6 @@ Func CollectClanGamesRewards($bTest = False)
 
 		EndIf
 
-		;If _Sleep(250) Then Return
-
 		If $i < 4 Then
 			$aiColumn[0] = ($aiColumn[0] + $iColumnWidth)
 			$aiColumn[2] = ($aiColumn[2] + $iColumnWidth)
@@ -1966,7 +1958,7 @@ Func CollectClanGamesRewards($bTest = False)
 		EndIf
 
 		$i += 1
-		
+
 		If $i = 10 Then 
 			$bLoop = False
 			SaveDebugImage("ClanGamesRewardsWindow", False)
@@ -2109,13 +2101,13 @@ Func SetCGCoolDownTime($bTest = False)
 	$g_hCoolDownTimer = TimerInit()
 	Local $sleep = Random(500, 1500, 1)
 	If _Sleep($sleep) Then Return
-	
+
 	If $g_bChkClanGamesPurgeAnyClose And $b_COCClose Then
 		Local $sPurgeTimeRemain = getOcrTimeGameTime(500, 265 + $g_iMidOffsetY) ; read CoolDown time
 		$sPurgeTimeCG = ConvertOCRTime("SetCGCoolDownTime()", $sPurgeTimeRemain, False, "sec")
 		SetDebugLog("$sPurgeTimeCG : " & $sPurgeTimeCG & " Seconds", $COLOR_DEBUG2)
 	EndIf
-	
+
 	SetDebugLog("$g_hCoolDownTimer after: " & Round(TimerDiff($g_hCoolDownTimer)/1000/60, 2) & " Minutes", $COLOR_DEBUG2)
 
 	If $bTest Then
@@ -2126,7 +2118,7 @@ Func SetCGCoolDownTime($bTest = False)
 	EndIf
 EndFunc
 
-Func IsCGCoolDownTime()
+Func IsCGCoolDownTime($Setlog = True)
 	Local $iTimer = Round(TimerDiff($g_hCoolDownTimer)/1000/60, 2)
 	Local $iSec = Round(TimerDiff($g_hCoolDownTimer)/1000)
 	SetDebugLog("CG Cooldown Timer : " & $iTimer)
@@ -2144,10 +2136,10 @@ Func IsCGCoolDownTime()
 		If $iMin = 1 Then $sWaitTime &= $iMin & " minute "
 		If $iMin > 1 Then $sWaitTime &= $iMin & " minutes "
 		If $iSec > 1 Then $sWaitTime &= $iSec & " seconds"
-		SetLog("Cooldown Time Detected: " & $sWaitTime, $COLOR_DEBUG2)
+		If $Setlog Then SetLog("Cooldown Time Detected: " & $sWaitTime, $COLOR_DEBUG2)
 		$g_bIsCGCoolDownTime = True
 	EndIf
-	
+
 	If $g_bChkClanGamesPurgeAnyClose And $b_COCClose Then
 		If $sPurgeTimeCG = 0 Then
 			$g_bIsCGCoolDownTime = False
@@ -2155,7 +2147,7 @@ Func IsCGCoolDownTime()
 			$g_bIsCGCoolDownTime = True
 		EndIf
 	EndIf
-	
+
 	Return $g_bIsCGCoolDownTime
 EndFunc
 
@@ -2192,7 +2184,7 @@ Func UTCTimeCG()
 		If $TimeHourUTC[0] > 6 And $DayUTC[2] = 22 Then
 			If $TimeHourUTC[0] = 7 And $TimeHourUTC[1] > 50 Then Return True;Clan Games begins the 22th at 8am utc. Check from 7:50am UTC.
 			If $TimeHourUTC[0] > 7 Then Return True
-		EndIf	
+		EndIf
 	Else
 		If Number(@MDAY) = 22 Then Return True
 	EndIf

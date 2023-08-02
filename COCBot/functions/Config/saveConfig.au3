@@ -100,15 +100,22 @@ Func SaveBuildingConfig()
 	
 	_Ini_Add("other", "DoubleCannonPosX", $g_aiDoubleCannonPos[0]) ; ? not sure why this is needed
 	_Ini_Add("other", "DoubleCannonPosY", $g_aiDoubleCannonPos[1])
+	_Ini_Add("other", "DoubleCannonPosV", $g_aiDoubleCannonPos[2])
 	
 	_Ini_Add("other", "ArcherTowerPosX", $g_aiArcherTowerPos[0]) ; ? not sure why this is needed
 	_Ini_Add("other", "ArcherTowerPosY", $g_aiArcherTowerPos[1])
+	_Ini_Add("other", "ArcherTowerPosV", $g_aiArcherTowerPos[2])
 
 	_Ini_Add("other", "MultiMortarPosX", $g_aiMultiMortarPos[0]) ; ? not sure why this is needed
 	_Ini_Add("other", "MultiMortarPosY", $g_aiMultiMortarPos[1])
-	
-	_Ini_Add("other", "MegaTeslaPosX", $g_aiMegaTeslaPos[0]) ; ? not sure why this is needed
-	_Ini_Add("other", "MegaTeslaPosY", $g_aiMegaTeslaPos[1])
+	_Ini_Add("other", "MultiMortarPosV", $g_aiMultiMortarPos[2])
+
+	_Ini_Add("other", "BattleCopterPosX", $g_aiBattleCopterPos[0]) ; ? not sure why this is needed
+	_Ini_Add("other", "BattleCopterPosY", $g_aiBattleCopterPos[1])
+
+	_Ini_Add("other", "AnyDefPosX", $g_aiAnyDefPos[0]) ; ? not sure why this is needed
+	_Ini_Add("other", "AnyDefPosY", $g_aiAnyDefPos[1])
+	_Ini_Add("other", "AnyDefPosV", $g_aiAnyDefPos[2])
 
 	_Ini_Add("other", "xTownHall", $g_aiTownHallPos[0])
 	_Ini_Add("other", "yTownHall", $g_aiTownHallPos[1])
@@ -420,7 +427,8 @@ Func SaveConfig_600_6()
 	_Ini_Add("other", "chkDoubleCannonUpgrade", $g_bDoubleCannonUpgrade)
 	_Ini_Add("other", "chkArcherTowerUpgrade", $g_bArcherTowerUpgrade)
 	_Ini_Add("other", "chkMultiMortarUpgrade", $g_bMultiMortarUpgrade)
-	_Ini_Add("other", "chkMegaTeslaUpgrade", $g_bMegaTeslaUpgrade)
+	_Ini_Add("other", "chkBattlecopterUpgrade", $g_bBattlecopterUpgrade)
+	_Ini_Add("other", "chkAnyDefUpgrade", $g_bAnyDefUpgrade)
 
 	# NEW CLANGAMES GUI
 	_Ini_Add("other", "ChkClanGamesEnabled", $g_bChkClanGamesEnabled ? 1 : 0)
@@ -735,6 +743,7 @@ Func SaveConfig_auto()
 	ApplyConfig_auto(GetApplyConfigSaveAction())
 	; Auto Upgrade
 	_Ini_Add("Auto Upgrade", "AutoUpgradeEnabled", $g_bAutoUpgradeEnabled)
+	_Ini_Add("Auto Upgrade", "BuildersPotionToUse", $g_iCmbBoostBuilders)
 	_Ini_Add("Auto Upgrade", "FreeBuildersToPotion", $g_iCmbFreeBuilders)
 	For $i = 0 To Ubound($g_iChkUpgradesToIgnore) - 1
 		_Ini_Add("Auto Upgrade", "ChkUpgradesToIgnore[" & $i & "]", $g_iChkUpgradesToIgnore[$i])
@@ -796,6 +805,7 @@ Func SaveConfig_600_18()
 	_Ini_Add("notify", "StarBonusStatus", $g_bChkNotifyStarBonusAvail ? 1 : 0)
 	_Ini_Add("notify", "PauseTimeNotif", $g_bChkNotifyPauseTime ? 1 : 0)
 	_Ini_Add("notify", "NotifyUpgradeBM", $g_bChkNotifyUpgradeBM ? 1 : 0)
+	_Ini_Add("notify", "NotifyUpgradeBC", $g_bChkNotifyUpgradeBC ? 1 : 0)
 	_Ini_Add("notify", "BotStopNotify", $g_bNotifyStopBot ? 1 : 0)
 	_Ini_Add("notify", "NotifyUpgrade", $g_bChkNotifyUpgrade ? 1 : 0)
 EndFunc   ;==>SaveConfig_600_18

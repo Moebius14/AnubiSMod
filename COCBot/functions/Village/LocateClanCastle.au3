@@ -222,4 +222,4 @@ Func BtnDefineCapacity()
 	$g_bRunState = $wasRunState
 	AndroidShield("DefineCapacity 2") ; Update shield status due to manual $g_bRunState
 	Return $Result
-EndFunc   ;==>LocateDoubleCannon
+EndFunc   ;

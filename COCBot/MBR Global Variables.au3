@@ -544,9 +544,9 @@ Global Enum $eIcnArcher = 1, $eIcnDonArcher, $eIcnBalloon, $eIcnDonBalloon, $eIc
 		$eIcnSuperBarbarian, $eIcnSuperArcher, $eIcnSuperGiant, $eIcnSneakyGoblin, $eIcnSuperWallBreaker, $eIcnSuperWizard, $eIcnInfernoDragon, $eIcnSuperMinion, $eIcnSuperValkyrie, $eIcnSuperWitch, $eIcnIceHound, _
 		$eIcnPetLassi, $eIcnPetElectroOwl, $eIcnPetMightyYak, $eIcnPetUnicorn, $eIcnTH14, $eWall15, $eIcnPetHouse, $eIcnRocketBalloon, $eIcnDragonRider, $eHdV14, $eIcnSuperBowler, $eIcnSuperDragon, $eIcnFlameF, _
         $eIcnClanCapital, $eIcnCapitalGold, $eIcnCapitalMedal, $eHdV15, $eWall16, $eIcnElectroTitan, $eIcnRecallSpell, $eIcnBattleD, $eIcnTH15, $eIcnPetFrosty, $eIcnPetDiggy, $eIcnPetPoisonLizard, $eIcnPetPhoenix, _
-		$eIconTH15Weapon, $eIcnBBGold, $eIcnBBElix, $eIcnBBTrophy, $eIcnLabUpgrade, $eIcnArcheTower6, $eIcnBattleMachine, $eIcnDoubleCannon4, $eIcnMegaTesla9, $eIcnMultiMortar8, $g_sIcnMBisland, $eIcnPetHouseGreen, _
+		$eIconTH15Weapon, $eIcnBBGold, $eIcnBBElix, $eIcnBBTrophy, $eIcnLabUpgrade, $eIcnArcheTower6, $eIcnBattleMachine, $eIcnDoubleCannon4, $eIcnCannon9, $eIcnMultiMortar8, $g_sIcnMBisland, $eIcnPetHouseGreen, _
 		$eIcnSuperMiner, $eIcnCapitalTrophy, $eLigue1, $eLigue2, $eLigue3, $eIcnMonolith, $eIcnEFWizard, $eWood, $eClay, $eStone, $eCopper, $eBrass, $eIron, $eSteel, $eTitanium, $ePlatinum, $eEmerald, _
-		$eRuby, $eDiamond, $eLigue4, $eLigue5, $eIcnSuperHogRider, $eIcnAppWard, $eIcnSleepingChampion
+		$eRuby, $eDiamond, $eLigue4, $eLigue5, $eIcnSuperHogRider, $eIcnAppWard, $eIcnSleepingChampion, $eIcnBattleCopter
 
 ; enumerated Icons 1-based index to IconLibMod
 Global Enum $eIcnVillager = 1, $eIcnModCWL, $eIcnModZZZ, $eIcnHumanization, $eIcnGUIMod, $eIcnBell, $g_sIcnTrader, $eIcnAnubisMod, $eIcnStorm1Mod, $eIcnStorm2Mod, $eIcnForecast, $eIcnStop, $eIcnChrono, $eIcnModForecastBoost, _
@@ -821,7 +821,7 @@ EndFunc   ;==>TroopIndexLookup
 ; and returns the full name.
 ;--------------------------------------------------------------------------
 Func GetTroopName(Const $iIndex, $iQuantity = 1)
-	If $iIndex >= $eBarb And $iIndex <= $eAppWard Then
+	If $iIndex >= $eBarb And $iIndex <= $eIWiza Then
 		Return $iQuantity > 1 ? $g_asTroopNamesPlural[$iIndex] : $g_asTroopNames[$iIndex]
 	ElseIf $iIndex >= $eLSpell And $iIndex <= $eBtSpell Then
 		Return $iQuantity > 1 ? $g_asSpellNames[$iIndex - $eLSpell] & " Spells" : $g_asSpellNames[$iIndex - $eLSpell] & " Spell"
@@ -1005,10 +1005,17 @@ Global $g_bBattleMachineUpgrade = False, $bUseClockPotion = False
 Global $g_bDoubleCannonUpgrade = False
 Global $g_bArcherTowerUpgrade = False
 Global $g_bMultiMortarUpgrade = False
-Global $g_bMegaTeslaUpgrade = False
+Global $g_bBattlecopterUpgrade = False
+Global $g_bAnyDefUpgrade = False
 ; Battle Machine
-Global $g_iMaxBattleMachineLevel = 30
-Global Const $g_afBattleMachineUpgCost[$g_iMaxBattleMachineLevel] = [0.9, 1.0, 1.1, 1.2, 1.3, 1.5, 1.6, 1.7, 1.8, 1.9, 2.1, 2.2, 2.3, 2.4, 2.5, 2.6, 2.7, 2.8, 2.9, 3.0, 3.1, 3.2, 3.3, 3.4, 3.5, 3.6, 3.7, 3.8, 3.9, 4.0]
+Global $g_iMaxBattleMachineLevel = 35
+Global Const $g_afBattleMachineUpgCost[$g_iMaxBattleMachineLevel] = [0.9, 1.0, 1.1, 1.2, 1.3, 1.5, 1.6, 1.7, 1.8, 1.9, 2.1, 2.2, 2.3, 2.4, 2.5, 2.6, 2.7, 2.8, 2.9, 3.0, 3.1, 3.2, 3.3, 3.4, 3.5, 3.6, 3.7, 3.8, 3.9, 4.0, _
+4.1, 4.2, 4.3, 4.4, 4.5]
+;Battle Copter
+Global $g_iMaxBattleCopterLevel = 35
+Global Const $g_afBattleCopterUpgCost[$g_iMaxBattleCopterLevel] = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2.5, 2.6, 2.7, 2.8, 2.9, 3.0, 3.1, 3.2, 3.3, 3.4, 3.5, 3.6, 3.7, 3.8, 3.9, 4.0, 4.1, 4.2, 4.3, 4.4, 4.5]
+;Machines levels + Combined
+Global $g_CurrentBattleMachineLevel = 0, $g_CurrentBattleCopterLevel = 0, $g_CombinedMachineLevel = 0, $g_MaxCombinedMachineLevel = 45
 
 Global $g_iQuickMISX = 0, $g_iQuickMISY = 0, $g_iQuickMISName = ""
 
@@ -1040,7 +1047,7 @@ Global $g_bNotifyAlertMatchFound = False, $g_bNotifyAlerLastRaidIMG = False, $g_
 		$g_bNotifyAlertVillageReport = False, $g_bNotifyAlertLastAttack = False, $g_bNotifyAlertAnotherDevice = False, $g_bNotifyAlertMaintenance = False, _
 		$g_bNotifyAlertBAN = False, $g_bNotifyAlertBOTUpdate = False, $g_bNotifyAlertSmartWaitTime = False, $g_bNotifyAlertLaboratoryIdle = False, _
 		$g_bChkNotifyCGScore = False, $g_bChkNotifyStarBonusAvail = False, $StarBonusStatus = "", $g_bChkNotifyPauseTime = False, _
-		$g_bChkNotifyUpgradeBM = False, $g_bChkNotifyUpgrade = False
+		$g_bChkNotifyUpgradeBM = False, $g_bChkNotifyUpgradeBC = False, $g_bChkNotifyUpgrade = False
 ;Schedule
 Global $g_bNotifyScheduleHoursEnable = False, $g_bNotifyScheduleWeekDaysEnable = False
 Global $g_abNotifyScheduleHours[24] = [False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False]
@@ -1391,12 +1398,13 @@ Global $g_aiCurrentLootBB[$eLootCountBB] = [0, 0, 0] ; current stats on builders
 Global $g_aiStarLaboratoryPos[2] = [-1, -1] ; Position of Starlaboratory
 Global $g_iBBAttackCount = 1, $g_hCmbBBAttackCount = 0
 Global $g_aiBattleMachinePos[2] = [-1, -1] ; Position of Battle Machine
+Global $g_aiBattleCopterPos[2] = [-1, -1] ; Position of BattleCopter
 Global $g_aiBuilderHallPos[2] = [-1, -1] ; Position of BuilderHall
 Global $g_iBuilderHallLevel = 0
-Global $g_aiDoubleCannonPos[2] = [-1, -1] ; Position of Double Cannon
-Global $g_aiArcherTowerPos[2] = [-1, -1] ; Position of Archer Tower
-Global $g_aiMultiMortarPos[2] = [-1, -1] ; Position of Multi Mortar
-Global $g_aiMegaTeslaPos[2] = [-1, -1] ; Position of Mega Tesla
+Global $g_aiDoubleCannonPos[3] = [-1, -1, -1] ; Position of Double Cannon
+Global $g_aiArcherTowerPos[3] = [-1, -1, -1] ; Position of Archer Tower
+Global $g_aiMultiMortarPos[3] = [-1, -1, -1] ; Position of Multi Mortar
+Global $g_aiAnyDefPos[3] = [-1, -1, -1] ; Position of AnyDef
 
 ; Army camps
 Global $g_iArmyCapacity = 0 ; Calculated percentage of troops currently in camp / total camp space, expressed as an integer from 0 to 100
@@ -1898,7 +1906,7 @@ Global $g_sClanGamesScore = "N/A", $g_sClanGamesTimeRemaining = "N/A"
 ;ClanGames Challenges
 Global $g_bChkForceBBAttackOnClanGames = True, $g_bIsBBevent = 0
 Global $bSearchBBEventFirst = False, $bSearchMainEventFirst = False, $bSearchBothVillages = True
-Global $g_bChkClanGamesPurgeAny = 0, $g_bChkClanGamesPurgeAnyClose = 0, $sPurgeTimeCG = 0, $b_COCClose = True, $g_bIsCGCoolDownTime = False, $g_hCoolDownTimer = 0
+Global $g_bChkClanGamesPurgeAny = 0, $g_bChkClanGamesPurgeAnyClose = 0, $sPurgeTimeCG = 0, $b_COCClose = 1, $g_bIsCGCoolDownTime = False, $g_hCoolDownTimer = 0
 Global $IsCGEventRunning = 0, $g_bChkForceAttackOnClanGamesWhenHalt = False, $CurrentActiveChallenge = 0
 Global $g_bSortClanGames = True, $g_iSortClanGames = 0
 Global $g_abCGMainLootItem[6], $g_abCGMainBattleItem[22], $g_abCGMainDestructionItem[34], $g_abCGMainAirItem[13], _
@@ -2076,17 +2084,17 @@ Global $g_aiCmbCCDecisionTime = 0, $g_aiCmbCCDecisionThen = 0, $CCWaitChrono = 0
 ; Builder Base,
 ; Capital Peak, Barbarian Camp, Dark Ages, Painter
 Global Enum $eTreeDSS, $eTreeDAS, $eTreeCC, $eTreePS, $eTreeEW, $eTreeHM, $eTreeJS, $eTreeEJ, $eTree9C, $eTreePG, _
-			$eTreeSD, $eTreeTM, $eTreePR, $eTreeSH, $eTreeRS, $eTreeSM, $eTreePX, $eTreeXC, $eTreeCF, $eTreeMS, _
+			$eTreeSD, $eTreeTM, $eTreePR, $eTreeSH, $eTreeRS, $eTreeSM, $eTreePX, $eTreeXC, $eTreeCF, $eTreeMS, $eTreeEM, _
 			$eTreeCS, $eTreeIT, _
-			$eTreeBB, $eTreeOO, $eTreeBB2, _
- 			$eTreeCP, $eTreeBC, $eTreeDA, $eTreePA, $eTreeCount
+			$eTreeBB, $eTreeOO, $eTreeBB2, $eTreeBBCC, _
+ 			$eTreeCP, $eTreeBC, $eTreeDA, $eTreePA, $eTreeGC, $eTreeCount
 
 Global $g_asSceneryNames[$eTreeCount] = [ _
 	"Classic Spring", "Classic Autumn", "Clashy Construct", "Pirate Scenery", "Epic Winter", "Hog Mountain", "Jungle Scenery", "Epic Jungle", "9th Clashiversary", _
 	"Pumpkin Graveyard", "Snowy Day", "Tiger Mountain", "Primal Scenery", "Shadow Scenery", "Royale Scenery", "Summer Scenery", "Pixel Scenery", "10th Clashiversary", _
-	"Clash Fest", "Magic Scenery", _
-	"Classic Scenery", "Inferno Town", "Builder Base", "OTTO Outpost", "Builder Base2", _
-	"Capital Peak", "Barbarian Camp", "Dark Ages Scenery", "Painter Scenery"]
+	"Clash Fest", "Magic Scenery", "Epic Magic Scenery", _
+	"Classic Scenery", "Inferno Town", "Builder Base", "OTTO Outpost", "Builder Base2", "Crystal Caverns", _
+	"Capital Peak", "Barbarian Camp", "Dark Ages Scenery", "Painter Scenery", "Goblin Caves Scenery"]
 
 ; village size, left, right, top, bottom, village size 2, AdjLeft, AdjRight, AdjTop, AdjBottom
 Global Const $g_afRefVillage[$eTreeCount][10] = [ _
@@ -2109,16 +2117,19 @@ Global Const $g_afRefVillage[$eTreeCount][10] = [ _
 	[472.211078091435, 48, 803, 66, 636, 472.211078091435, 50, 50, 42, 42], _		; PX partial
 	[473.526226121564, 55, 795, 65, 619, 473.526226121564, 50, 50, 42, 42], _		; XC partial
     [477.718161770293, 38, 798, 60, 636, 477.718161770293, 50, 50, 42, 42], _		; CF partial
-	[469.703380664663, 41, 790, 66, 632, 469.703380664663, 50, 50, 42, 42], _		; MS partial
+	[497.088225054308, 42, 829, 57, 642, 497.088225054308, 50, 50, 42, 42], _		; MS partial
+	[527.91838832914, 35, 832, 58, 657, 527.91838832914, 50, 50, 42, 42], _		    ; EM partial
 	[480, 35, 809, 57, 632, 480, 50, 50, 42, 42], _				; CS
 	[480, 35, 809, 57, 632, 480, 50, 50, 42, 42], _				; IT
 	[379.32672221687 , 114, 720, 158, 610, 379.32672221687, 50, 46, 38, 42], _ ;BB1
-	[385.070465954253, 110, 710, 182, 628, 407.273715029944, 50, 46, 38, 42], _ ; OO
+	[385.070465954253, 110, 710, 182, 628, 385.070465954253, 50, 46, 38, 42], _ ; OO
 	[379.32672221687 , 114, 720, 158, 610, 379.32672221687, 50, 46, 38, 42], _ ;BB2
+	[400 , 137, 736, 166, 613, 400, 50, 46, 38, 42], _ ;BBCC To Do
 	[461.860421647731, 73, 814, 85, 637, 461.860421647731, 10, 10, 10, 10], _   ; CP partial
 	[427.945118331064, 97, 785, 91, 604, 427.945118331064, 10, 10, 10, 10], _	; BC Partial
 	[484.403614426064, 39, 825, 50, 639, 484.403614426064, 50, 50, 42, 42], _	; DA Partial
-	[480.650156148271, 84, 811, 63, 612, 480.650156148271, 50, 50, 42, 42]] 	; PA partial
+	[480.650156148271, 84, 811, 63, 612, 480.650156148271, 50, 50, 42, 42], _	; PA partial
+	[556.047580246031, 26, 838, 45, 652, 556.047580246031, 50, 50, 42, 42]]		; GC partial
 
 Global $g_iTree = $eTreeDSS						; default to classic
 Global $g_aiSearchZoomOutCounter[2] = [0, 1] ; 0: Counter of SearchZoomOut calls, 1: # of post zoomouts after image found

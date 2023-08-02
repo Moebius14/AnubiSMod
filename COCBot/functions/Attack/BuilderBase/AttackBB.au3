@@ -487,9 +487,9 @@ Func CheckBMLoop($aBMPos = $g_aMachinePos)
 EndFunc
 
 Func CheckBomberLoop()
-	Local $bRet
-	If Not $g_bBomberOnAttackBar Then Return
-	Local $isGreyBanner = False, $ColorPickBannerX = 0, $iTroopBanners = 583 + $g_iBottomOffsetY, $bIsBomberDead = True
+	Local $bRet = True
+	If Not $g_bBomberOnAttackBar Or UBound($g_aBomberOnAttackBar) = 0 Then Return False
+	Local $isGreyBanner = False, $ColorPickBannerX = 0, $iTroopBanners = 583 + $g_iBottomOffsetY
 
 	For $i = 0 To UBound($g_aBomberOnAttackBar) - 1
 		If Not $g_bRunState Then Return
@@ -497,21 +497,17 @@ Func CheckBomberLoop()
 		$isGreyBanner = _ColorCheck(_GetPixelColor($ColorPickBannerX, $iTroopBanners, True), Hex(0x707070, 6), 10, Default) ;Grey Banner on TroopSlot = Troop Die
 		If $isGreyBanner Then 
 			SetLog("Bomber is Dead", $COLOR_DEBUG2)
-			$bIsBomberDead = True
+			$bRet = False
 			ExitLoop
 		EndIf
 		If QuickMIS("BC1", $g_sImgDirBomberAbility, $g_aBomberOnAttackBar[$i][0], $g_aBomberOnAttackBar[$i][1] - 30, $g_aBomberOnAttackBar[$i][0] + 70, $g_aBomberOnAttackBar[$i][1] + 30) Then
-			If StringInStr($g_iQuickMISName, "Wait") Then
-				$bIsBomberDead = False
-			ElseIf StringInStr($g_iQuickMISName, "Ability") Then
+			If StringInStr($g_iQuickMISName, "Ability") Then
 				Click($g_iQuickMISX, $g_iQuickMISY)
 				SetLog("Activate Bomber Ability", $COLOR_SUCCESS)
-				$bIsBomberDead = False
 			EndIf
-			$bRet = True
+			ExitLoop
 		EndIf
 	Next
-	If $bIsBomberDead Then $bRet = False
 	Return $bRet
 EndFunc
 

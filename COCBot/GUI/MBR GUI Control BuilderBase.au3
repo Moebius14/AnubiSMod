@@ -69,11 +69,22 @@ Func chkUpgradeDoubleCannon()
 		LocateDoubleCannon()
 	Else
 		$g_bDoubleCannonUpgrade = False
-		GUICtrlSetState($g_hChkDoubleCannonUpgrade, $GUI_UNCHECKED)
 	EndIf
 
 	Return
 EndFunc   ;==>chkUpgradeDoubleCannon
+
+Func DeleteDoubleCannonCoord()
+	SetLog("Deleting Coordinates of Double Cannon.", $COLOR_OLIVE)
+	$g_aiDoubleCannonPos[0] = -1
+	$g_aiDoubleCannonPos[1] = -1
+	$g_aiDoubleCannonPos[2] = -1
+	IniWrite($g_sProfileBuildingPath, "other", "DoubleCannonPosX", $g_aiDoubleCannonPos[0])
+	IniWrite($g_sProfileBuildingPath, "other", "DoubleCannonPosY", $g_aiDoubleCannonPos[1])
+	IniWrite($g_sProfileBuildingPath, "other", "DoubleCannonPosV", $g_aiDoubleCannonPos[2])
+	$g_bDoubleCannonUpgrade = False ; turn Off the Double Cannon upgrade
+	GUICtrlSetState($g_hChkDoubleCannonUpgrade, $GUI_UNCHECKED)
+EndFunc
 
 Func chkUpgradeArcherTower()
 
@@ -92,6 +103,18 @@ Func chkUpgradeArcherTower()
 	Return
 EndFunc   ;==>chkUpgradeArcherTower
 
+Func DeleteArcherTowerCoord()
+	SetLog("Deleting Coordinates of Archer Tower.", $COLOR_OLIVE)
+	$g_aiArcherTowerPos[0] = -1
+	$g_aiArcherTowerPos[1] = -1
+	$g_aiArcherTowerPos[2] = -1
+	IniWrite($g_sProfileBuildingPath, "other", "ArcherTowerPosX", $g_aiArcherTowerPos[0])
+	IniWrite($g_sProfileBuildingPath, "other", "ArcherTowerPosY", $g_aiArcherTowerPos[1])
+	IniWrite($g_sProfileBuildingPath, "other", "ArcherTowerPosV", $g_aiArcherTowerPos[2])
+	$g_bArcherTowerUpgrade = False ; turn Off the Archer Tower upgrade
+	GUICtrlSetState($g_hChkArcherTowerUpgrade, $GUI_UNCHECKED)
+EndFunc
+
 Func chkUpgradeMultiMortar()
 
 	If GUICtrlRead($g_hChkMultiMortarUpgrade) = $GUI_CHECKED Then
@@ -109,22 +132,46 @@ Func chkUpgradeMultiMortar()
 	Return
 EndFunc   ;==>chkUpgradeMultiMortar
 
-Func chkUpgradeMegaTesla()
+Func DeleteMultiMortarCoord()
+	SetLog("Deleting Coordinates of Multi Mortar.", $COLOR_OLIVE)
+	$g_aiMultiMortarPos[0] = -1
+	$g_aiMultiMortarPos[1] = -1
+	$g_aiMultiMortarPos[2] = -1
+	IniWrite($g_sProfileBuildingPath, "other", "MultiMortarPosX", $g_aiMultiMortarPos[0])
+	IniWrite($g_sProfileBuildingPath, "other", "MultiMortarPosY", $g_aiMultiMortarPos[1])
+	IniWrite($g_sProfileBuildingPath, "other", "MultiMortarPosV", $g_aiMultiMortarPos[2])
+	$g_bMultiMortarUpgrade = False ; turn Off the Multi Mortar upgrade
+	GUICtrlSetState($g_hChkMultiMortarUpgrade, $GUI_UNCHECKED)
+EndFunc
 
-	If GUICtrlRead($g_hChkMegaTeslaUpgrade) = $GUI_CHECKED Then
+Func chkUpgradeAnyDef()
+
+	If GUICtrlRead($g_hChkAnyDefUpgrade) = $GUI_CHECKED Then
 		_GUICtrlTab_ClickTab($g_hTabMain, 0)
 
 		SetLog("Please wait ......", $COLOR_OLIVE)
-		SetLog("Checking for valid Coordinates of Mega Tesla ......", $COLOR_OLIVE)
+		SetLog("Checking for valid Coordinates of Defensive Building ......", $COLOR_OLIVE)
 
-		$g_bMegaTeslaUpgrade = True
-		LocateMegaTesla()
+		$g_bAnyDefUpgrade = True
+		LocateAnyDef()
 	Else
-		$g_bMegaTeslaUpgrade = False
+		$g_bAnyDefUpgrade = False
 	EndIf
 
 	Return
- EndFunc   ;==>chkUpgradeMegaTesla
+EndFunc   ;==>chkUpgradeMultiMortar
+
+Func DeleteCannonCoord()
+	SetLog("Deleting Coordinates of Cannon.", $COLOR_OLIVE)
+	$g_aiAnyDefPos[0] = -1
+	$g_aiAnyDefPos[1] = -1
+	$g_aiAnyDefPos[2] = -1
+	IniWrite($g_sProfileBuildingPath, "other", "AnyDefPosX", $g_aiAnyDefPos[0])
+	IniWrite($g_sProfileBuildingPath, "other", "AnyDefPosY", $g_aiAnyDefPos[1])
+	IniWrite($g_sProfileBuildingPath, "other", "AnyDefPosV", $g_aiAnyDefPos[2])
+	$g_bAnyDefUpgrade = False ; turn Off the Cannon upgrade
+	GUICtrlSetState($g_hChkAnyDefUpgrade, $GUI_UNCHECKED)
+EndFunc
 
 Func cmbBBAttackCount()
 	$g_iBBAttackCount = _GUICtrlComboBox_GetCurSel($g_hCmbBBAttackCount)

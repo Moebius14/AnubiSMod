@@ -14,7 +14,7 @@
 ; ===============================================================================================================================
 #include-once
 
-Func CollectBuilderBase($bSwitchToBB = False, $bSwitchToNV = False, $bSetLog = True, $b_FirstElixCartCheck = True)
+Func CollectBuilderBase($bSwitchToBB = False, $bSwitchToNV = False, $bSetLog = True, $b_FirstElixCartCheck = True, $IsOttoVillage = False)
 
 	If Not $g_bChkCollectBuilderBase Then Return
 	If Not $g_bRunState Then Return
@@ -24,7 +24,13 @@ Func CollectBuilderBase($bSwitchToBB = False, $bSwitchToNV = False, $bSetLog = T
 		If Not SwitchBetweenBases(True, True) Then Return ; Switching to Builders Base
 	EndIf
 
-		If $bSetLog Then SetLog("Collecting Resources on Builders Base", $COLOR_INFO)
+	If $bSetLog Then
+		If $IsOttoVillage Then
+			SetLog("Collecting Resources on Otto Village", $COLOR_INFO)
+		Else
+			SetLog("Collecting Resources on Builders Base", $COLOR_INFO)
+		EndIf
+	EndIf
 	If _Sleep($DELAYCOLLECT2) Then Return
 
 	; Collect function to Parallel Search , will run all pictures inside the directory
@@ -47,7 +53,7 @@ Func CollectBuilderBase($bSwitchToBB = False, $bSwitchToNV = False, $bSetLog = T
 		Next
 	EndIf
 
-	CollectElixirCart($bSwitchToBB, $bSwitchToNV, $b_FirstElixCartCheck)
+	If Not $IsOttoVillage Then CollectElixirCart($bSwitchToBB, $bSwitchToNV, $b_FirstElixCartCheck)
 
 	If _Sleep($DELAYCOLLECT3) Then Return
 	If $bSwitchToNV Then SwitchBetweenBases() ; Switching back to the normal Village
