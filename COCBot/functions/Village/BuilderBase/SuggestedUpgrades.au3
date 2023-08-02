@@ -95,7 +95,7 @@ Func MainSuggestedUpgradeCode($bDebugImage = $g_bDebugImageSave)
 		; Will Open the Suggested Window and check if is OK
 			If ClickOnBuilder() Then
 				SetLog("Upgrade Window Opened successfully", $COLOR_INFO)
-				Local $y = 102, $x = 400, $x1 = 540
+				Local $y = 102, $x = 400, $x1 = 540, $bRet = False
 				; Proceeds with icon detection
 				Local $aLine = QuickMIS("CNX", $g_sImgAutoUpgradeBB, $x, $y, $x1, 340 + $g_iMidOffsetY)
 				_ArraySort($aLine, 0, 0, 0, 2);sort by Y coord
@@ -112,11 +112,15 @@ Func MainSuggestedUpgradeCode($bDebugImage = $g_bDebugImageSave)
 										If _Sleep(2000) Then Return
 										If IsWallDetected() Then $g_WallDetected = True
 										If GetUpgradeButton($aResult[2], $bDebug, $bDebugImage) Then
-											$g_iFreeBuilderCountBB -= 1
 											If $g_WallDetected Then
 												ExitLoop
 											Else
-												ExitLoop 2
+												$g_iFreeBuilderCountBB -= 1
+												If $g_iFreeBuilderCountBB = 0 Then
+													ExitLoop 2
+												Else
+													ExitLoop
+												EndIf
 											EndIf
 										EndIf
 									EndIf
@@ -130,14 +134,26 @@ Func MainSuggestedUpgradeCode($bDebugImage = $g_bDebugImageSave)
 											If $g_WallDetected Then
 												ExitLoop
 											Else
-												ExitLoop 2
+												$g_iFreeBuilderCountBB -= 1
+												If $g_iFreeBuilderCountBB = 0 Then
+													ExitLoop 2
+												Else
+													ExitLoop
+												EndIf
 											EndIf
 										EndIf
-								EndIf
+									EndIf
 								Case "New"
 									If $g_iChkPlacingNewBuildings = 1 Then
 										SetLog("[" & $i + 1 & "]" & " New Building detected, Placing it...", $COLOR_INFO)
-										If NewBuildings($aResult, $bDebugImage) Then ExitLoop 2
+										If NewBuildings($aResult, $bDebugImage) Then
+											$g_iFreeBuilderCountBB -= 1
+											If $g_iFreeBuilderCountBB = 0 Then
+												ExitLoop 2
+											Else
+												ExitLoop
+											EndIf
+										EndIf
 									Else
 										SetLog("[" & $i + 1 & "]" & " New Building detected, but not enabled...", $COLOR_INFO)
 									EndIf
@@ -147,7 +163,6 @@ Func MainSuggestedUpgradeCode($bDebugImage = $g_bDebugImageSave)
 									SetLog("[" & $i + 1 & "]" & " Unsupported icon, continuing...", $COLOR_INFO)
 							EndSwitch
 						EndIf
-						Local $bRet = False
 						If $i = UBound($aLine) - 1 Then $bRet = True
 					Next
 				EndIf
@@ -156,7 +171,7 @@ Func MainSuggestedUpgradeCode($bDebugImage = $g_bDebugImageSave)
 			ClickAway("Left")
 			If _Sleep(350) Then Return
 			If Not $g_bRunState Then Return
-			If $bRet Or $g_iFreeBuilderCountBB = 0 Then ExitLoop
+			If $bRet Then ExitLoop
 
 		WEnd
 
