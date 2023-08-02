@@ -165,7 +165,11 @@ Func MainSuggestedUpgradeCode($bDebugImage = $g_bDebugImageSave)
 						EndIf
 						If $i = UBound($aLine) - 1 Then $bRet = True
 					Next
+				Else
+					ExitLoop
 				EndIf
+			Else
+				ExitLoop
 			EndIf
 
 			ClickAway("Left")
