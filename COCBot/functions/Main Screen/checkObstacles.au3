@@ -53,7 +53,7 @@ Func _checkObstacles($bBuilderBase = False, $bRecursive = False) ;Checks if some
 		If checkObstacles_Network() Then Return True
 		If checkObstacles_GfxError() Then Return True
 	EndIf
-
+#cs
 	Local $bIsOnBuilderBase = isOnBuilderBase()
 	Local $bIsOnMainVillage = isOnMainVillage()
 	If $bIsOnBuilderBase Or $bIsOnMainVillage Then
@@ -73,7 +73,7 @@ Func _checkObstacles($bBuilderBase = False, $bRecursive = False) ;Checks if some
 			EndIf
 		EndIf
 	EndIf
-
+#ce
 	If UBound(decodeSingleCoord(FindImageInPlace2("Error", $g_sImgError, 630, 270 + $g_iMidOffsetY, 632, 290 + $g_iMidOffsetY, False))) > 1 Then
 
 		;;;;;;;;;;;;;;;;;;;; Connection Lost & Error & OOS & Inactivity ;;;;;;;;;;;;;;;;;;;;
@@ -233,6 +233,26 @@ Func _checkObstacles($bBuilderBase = False, $bRecursive = False) ;Checks if some
 	EndIf
 
 	If CheckLoginWithSupercellIDScreen() Then Return True
+
+	Local $bIsOnBuilderBase = isOnBuilderBase()
+	Local $bIsOnMainVillage = isOnMainVillage()
+	If $bIsOnBuilderBase Or $bIsOnMainVillage Then
+		Select
+			Case $bBuilderBase And Not $bIsOnBuilderBase And $bIsOnMainVillage
+				SetLog("Detected Main Village, trying to switch back to Builder Base")
+				$b_Switch = True
+			Case Not $bBuilderBase And $bIsOnBuilderBase And Not $bIsOnMainVillage
+				SetLog("Detected Builder Base, trying to switch back to Main Village")
+				$b_Switch = True
+		EndSelect
+		If $b_Switch Then
+			If SwitchBetweenBases(True, $bBuilderBase) Then
+				$g_bMinorObstacle = True
+				If _Sleep($DELAYCHECKOBSTACLES1) Then Return
+				Return False
+			EndIf
+		EndIf
+	EndIf
 
 	Return False
 EndFunc   ;==>_checkObstacles

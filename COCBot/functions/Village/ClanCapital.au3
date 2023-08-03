@@ -1862,11 +1862,16 @@ Func AutoUpgradeCC()
 	If $g_bChkEnableSmartSwitchCC Then
 		getBuilderCount(True) ;check if we have available builder
 		Local $g_GoldenPass = _CheckPixel($aPersonalChallengeOpenButton2, $g_bCapturePixel)
-		If (Not $g_bFirstStartForAll And Number($g_iLootCCGold) = 0 And Not $bForgeEnabled And Not $g_bChkEnableCollectCCGold) Or _
-			($IsCCGoldJustCollectedDChallenge And Number($g_iLootCCGold) = 0) Or _
-			(Not $g_bFirstStartForAll And Number($g_iLootCCGold) = 0 And $g_iFreeBuilderCount = 0 And Not $bForgeEnabled And Not $g_GoldenPass) Or _
-			(Number($g_iLootCCGold) = 0 And $g_bRequestTroopsEnable And ((Not $bChkUseOnlyCCMedals And $g_aiCmbCCDecisionThen = 1) Or $bChkUseOnlyCCMedals) And ($g_abSearchCastleWaitEnable[$DB] Or _
-			$g_abSearchCastleWaitEnable[$LB]) And Not $g_bFirstStartForAll And Not $bForgeEnabled) Then
+		If $bForgeEnabled And Not $g_bFirstStartForAll And Number($g_iLootCCGold) = 0 And Not $g_GoldenPass Then
+			Local $iUpgradeBuilders = 0
+			For $iz = 0 To UBound($g_avBuildingUpgrades, 1) - 1 ; loop through all upgrades to see if any are enabled.
+				If $g_abBuildingUpgradeEnable[$iz] = True Then $iUpgradeBuilders += 1 ; count number enabled
+			Next	
+			Local $iWallReserve = $g_bUpgradeWallSaveBuilder ? 1 : 0
+			Local $FreeBuilders = $g_iFreeBuilderCount - $iWallReserve - ReservedBuildersForHeroes(False) - $iUpgradeBuilders ;check builder reserve on wall, hero upgrade, Buildings upgrade
+		EndIf
+		If (Not $g_bFirstStartForAll And Number($g_iLootCCGold) = 0 And ((Not $bForgeEnabled Or Not $g_bChkEnableCollectCCGold) Or ($FreeBuilders < 1 And $bForgeEnabled And Not $g_GoldenPass))) Or _
+			($IsCCGoldJustCollectedDChallenge And Number($g_iLootCCGold) = 0) Then
 			If _Sleep(1000) Then Return
 			If Not OpenForgeWindow() Then 
 				SetLog("Forge Window not Opened, exiting", $COLOR_ACTION)
