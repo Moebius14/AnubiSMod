@@ -111,7 +111,7 @@ Func MainSuggestedUpgradeCode($bDebugImage = $g_bDebugImageSave)
 										Click($aResult[0], $aResult[1], 1)
 										If _Sleep(2000) Then Return
 										If IsWallDetected() Then $g_WallDetected = True
-										If GetUpgradeButton($aResult[2], $bDebug, $bDebugImage) Then
+										If GetUpgradeButton($aResult[2], $bDebug, $bDebugImage, $g_WallDetected) Then
 											If $g_WallDetected Then
 												ExitLoop
 											Else
@@ -129,8 +129,7 @@ Func MainSuggestedUpgradeCode($bDebugImage = $g_bDebugImageSave)
 										Click($aResult[0], $aResult[1], 1)
 										If _Sleep(2000) Then Return
 										If IsWallDetected() Then $g_WallDetected = True
-										If GetUpgradeButton($aResult[2], $bDebug, $bDebugImage) Then
-											$g_iFreeBuilderCountBB -= 1
+										If GetUpgradeButton($aResult[2], $bDebug, $bDebugImage, $g_WallDetected) Then
 											If $g_WallDetected Then
 												ExitLoop
 											Else
@@ -269,7 +268,7 @@ Func IsWallDetected()
 	Return False
 EndFunc
 
-Func GetUpgradeButton($sUpgButton = "", $Debug = False, $bDebugImage = $g_bDebugImageSave)
+Func GetUpgradeButton($sUpgButton = "", $Debug = False, $bDebugImage = $g_bDebugImageSave, $bWallUpgrade = False)
 	Local $sIconBarDiamond = GetDiamondFromRect2(140, 531 + $g_iBottomOffsetY, 720, 611 + $g_iBottomOffsetY)
 	Local $sUpgradeButtonDiamond = GetDiamondFromRect2(350, 460 + $g_iMidOffsetY, 750, 570 + $g_iMidOffsetY)
 
@@ -294,6 +293,14 @@ Func GetUpgradeButton($sUpgButton = "", $Debug = False, $bDebugImage = $g_bDebug
 			If StringInStr($aBuildingName[1], "Wall") And $g_iChkBBSuggestedUpgradesIgnoreWall Then
 				SetLog("Ups! Wall is not to Upgrade!", $COLOR_ERROR)
 				Return False
+			EndIf
+
+			;Wall Double Button Case
+			If $bWallUpgrade Then
+				If WaitforPixel($aUpgradeIcon[0], $aUpgradeIcon[1] - 60, $aUpgradeIcon[0] + 30, $aUpgradeIcon[1] - 40, "FF887F", 20, 2) Then ; Red On First then Check Second
+					If UBound(decodeSingleCoord(FindImageInPlace2("UpgradeButton2", $g_sImgUpgradeBtn2Wall, $aUpgradeIcon[0] + 65, $aUpgradeIcon[1] - 44, _
+					$aUpgradeIcon[0] + 140, $aUpgradeIcon[1] - 10, True))) > 1 Then	$aUpgradeIcon[0] += 94
+				EndIf
 			EndIf
 
 			ClickP($aUpgradeIcon)
