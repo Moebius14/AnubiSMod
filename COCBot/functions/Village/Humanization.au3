@@ -186,6 +186,7 @@ EndFunc   ;==>EventsTabRead
 Func LookAtWarLog()
 	Local $IsToCheckRaidLog = Random(0, 3, 1)
 	Local $MaxScroll = Random(0, 2, 1)
+	If _Sleep(1000) Then Return
 	If Not ClickB("ClanChat") Then
 		SetLog("Error finding the Clan Tab Button", $COLOR_ERROR)
 		Return
@@ -277,7 +278,7 @@ Func LookAtWarLog()
 					CloseWindow()
 					SetLog("Exiting ...", $COLOR_OLIVE)
 				EndIf
-				If _Sleep(Random(2000, 3000, 1)) Then Return
+				If _Sleep(500) Then Return
 				If Not ClickB("ClanChat") Then
 					SetLog("Error finding the Clan Tab Button", $COLOR_ERROR)
 					Return
@@ -297,6 +298,7 @@ Func VisitClanmates()
 	Local $Villagemode = Random(1, 6, 1)
 	Local $ClanFilter = Random(1, 6, 1)
 	Local $bVillage = ""
+	If _Sleep(1000) Then Return
 	If Not ClickB("ClanChat") Then
 		SetLog("Error finding the Clan Tab Button", $COLOR_ERROR)
 		Return
@@ -1545,6 +1547,7 @@ Func VisitAPlayer()
 	Else
 		SetLog("Error When Trying to Find Visit Button ... Skipping ...", $COLOR_WARNING)
 		CloseWindow()
+		If _Sleep(500) Then Return
 		If Not ClickB("ClanChat") Then
 			SetLog("Error finding the Clan Tab Button", $COLOR_ERROR)
 		Return
@@ -2351,6 +2354,7 @@ Func LookAtRedNotifications()
 		SetLog("New Messages On The Chat Room ...", $COLOR_OLIVE)
 		Local $ChatNotEveryTime = Random(1, 5, 1)
 		If $ChatNotEveryTime > 3 Then
+			If _Sleep(1000) Then Return
 			If Not ClickB("ClanChat") Then
 				SetLog("Error finding the Clan Tab Button", $COLOR_ERROR)
 				Return
@@ -3004,6 +3008,7 @@ Func LookAtBestClans()
 EndFunc   ;==>LookAtBestClans
 
 Func ReadClanChat()
+	If _Sleep(1000) Then Return
 	If Not ClickB("ClanChat") Then
 		SetLog("Error finding the Clan Tab Button", $COLOR_ERROR)
 		Return
@@ -3020,6 +3025,7 @@ Func ReadClanChat()
 			ClickDrag($x, $yStart, $x, $yEnd) ; scroll the chat
 			If _Sleep(Random(1000, 3000)) Then Return
 		Next
+		If _Sleep(1000) Then Return
 		If Not ClickB("ChatDown") Then
 			SetDebugLog("No Chat Down Button", $COLOR_DEBUG)
 		EndIf

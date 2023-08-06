@@ -445,7 +445,7 @@ Func CheckBMLoop($aBMPos = $g_aMachinePos)
 	Local $BMDeadY = 664 + $g_iBottomOffsetY
 	Local $MachineName = ""
 
-	If $aBMPos = 0 Then Return False
+	If $aBMPos = 0 Or Not $g_bMachineAliveOnAttackBar Then Return False
 	If Not IsArray($aBMPos) Then Return False
 
 	If StringInStr($aBMPos[2], "Copter") Then
@@ -454,7 +454,6 @@ Func CheckBMLoop($aBMPos = $g_aMachinePos)
 		$MachineName = "Battle Machine"
 	EndIf
 
-	Local $bCountSameDamage = 1, $sTmpDamage = ""
 	For $i = 1 To 5
 		If IsProblemAffect(True) Then Return
 		If Not $g_bRunState Then Return

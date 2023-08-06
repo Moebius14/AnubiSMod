@@ -895,7 +895,7 @@ Global Const $g_iBBTroopCount = 13
 Global Const $g_sBBDropOrderDefault = "Barbarian|Archer|BoxerGiant|Minion|Bomber|BabyDrag|CannonCart|Witch|DropShip|SuperPekka|HogGlider|ElectroWizard|BattleMachine"
 Global $g_sBBDropOrder = $g_sBBDropOrderDefault
 Global $g_ahCmbBBDropOrder[$g_iBBTroopCount] = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
-Global $g_aMachinePos[3] = [0, 0, ""], $g_DeployedMachine = False, $g_aBomberOnAttackBar[0][2], $g_bBomberOnAttackBar = False
+Global $g_aMachinePos[3] = [0, 0, ""], $g_DeployedMachine = False, $g_aBomberOnAttackBar[0][2], $g_bBomberOnAttackBar = False, $g_bMachineAliveOnAttackBar = False
 
 ; <><><><> Village / Donate - Request <><><><>
 Global $g_bRequestTroopsEnable = False

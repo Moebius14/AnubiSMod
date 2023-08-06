@@ -38,13 +38,13 @@ Func GetAttackBar($bRemaining = False, $pMatchMode = $DB, $bDebug = False)
 			$sSearchDiamond = GetDiamondFromRect("0,535,835,698")
 		ElseIf _CheckPixel($a12OrMoreSlots, True) And $g_bCheckExtAttackBar Then
 			$bCheckSlot12 = True
-			SetLog("Found 12th slot for Normal Troops")
+			SetDebugLog("Check Extended Attack Bar with Normal Troop at first slot")
 		ElseIf _CheckPixel($a12OrMoreSlots2, True) And $g_bCheckExtAttackBar Then
 			$bCheckSlot12 = True
-			SetLog("Found 12th slot for Super Troops")
+			SetDebugLog("Check Extended Attack Bar with Super Troop at first slot")
 		ElseIf _CheckPixel($a12OrMoreSlots3, True) And $g_bCheckExtAttackBar Then
 			$bCheckSlot12 = True
-			SetLog("Found 12th slot for Special Troops")
+			SetDebugLog("Check Extended Attack Bar with Special Troop at first slot")
 		EndIf
 		SetDebugLog("GetBarCheck: DoubleRow= " & $bDoubleRow)
 	EndIf

@@ -1143,6 +1143,7 @@ Func ForumAccept()
 	Local $Scroll, $bRet, $Accepted = 0
 	Local $aForumWrite[2] = ["Forum", "forum"]
 	
+	If _Sleep(1000) Then Return
 	If Not ClickB("ClanChat") Then
 		SetLog("Error finding the Clan Tab Button", $COLOR_ERROR)
 		Return
@@ -1217,16 +1218,18 @@ Func ForumAccept()
 			If Not SendTextChat() Then Return False
 		EndIf
 	EndIf
-	
+
+	If _Sleep(1000) Then Return
 	If Not ClickB("ChatDown") Then
 		SetDebugLog("No Chat Down Button", $COLOR_DEBUG)
 	EndIf
-	
+
+	If _Sleep(1000) Then Return
 	If Not ClickB("ClanChat") Then
 		SetLog("Error finding the Clan Tab Button", $COLOR_ERROR)
 		Return
 	EndIf
-	
+
 	If Not $g_bRunState Then Return
 
 EndFunc

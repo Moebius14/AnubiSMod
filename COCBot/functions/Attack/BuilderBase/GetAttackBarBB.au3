@@ -28,7 +28,10 @@ Func GetAttackBarBB($bRemaining = False, $bSecondAttack = False)
 	Local $aBBAttackBar[0][5]
 	Local $aEmpty[0][2]
 	Local $BMFound = 0
+	Local $BMDeadX = 89, $BMDeadColor
+	Local $BMDeadY = 664 + $g_iBottomOffsetY
 	If Not $bRemaining Then 
+		$g_bMachineAliveOnAttackBar = True
 		$g_bBomberOnAttackBar = False
 		$g_aBomberOnAttackBar = $aEmpty
 	EndIf
@@ -54,6 +57,8 @@ Func GetAttackBarBB($bRemaining = False, $bSecondAttack = False)
 			SetDebugLog("Found Machine Ready to be deployed", $COLOR_DEBUG)
 		Else
 			SetDebugLog("Found Machine Dead Or Deployed", $COLOR_DEBUG)
+			$BMDeadColor = _GetPixelColor($BMDeadX, $BMDeadY, True)
+			If Not $bRemaining And _ColorCheck($BMDeadColor, Hex(0x484848, 6), 20, Default) Then $g_bMachineAliveOnAttackBar = False
 		EndIf
 		$BMFound += 1
 		For $i = 0 To UBound($aSlotX) - 1

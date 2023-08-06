@@ -218,7 +218,7 @@ Func DonateCC($bCheckForNewMsg = False)
 	;Opens clan tab and verbose in log
 	ClickAway()
 
-	If _Sleep($DELAYDONATECC2) Then Return
+	If _Sleep(1000) Then Return
 
 	If Not ClickB("ClanChat") Then
 		SetLog("Error finding the Clan Tab Button", $COLOR_ERROR)
@@ -665,7 +665,7 @@ Func DonateCC($bCheckForNewMsg = False)
 	WEnd
 
 	ClickAway("Left")
-	If _Sleep($DELAYDONATECC2) Then Return
+	If _Sleep(1000) Then Return
 
 	If Not ClickB("ClanChat") Then
 		SetLog("Error finding the Clan Tab Button", $COLOR_ERROR)
