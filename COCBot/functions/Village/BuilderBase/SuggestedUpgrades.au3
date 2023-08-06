@@ -172,14 +172,14 @@ Func MainSuggestedUpgradeCode($bDebugImage = $g_bDebugImageSave)
 			EndIf
 
 			ClickAway("Left")
-			If _Sleep(350) Then Return
+			If _Sleep(1500) Then Return
 			If Not $g_bRunState Then Return
 			If $bRet Then ExitLoop
 
 		WEnd
 
 		ClickAway("Left")
-		If _Sleep(350) Then Return
+		If _Sleep(500) Then Return
 		If Not $g_bRunState Then Return
 	EndIf
 
