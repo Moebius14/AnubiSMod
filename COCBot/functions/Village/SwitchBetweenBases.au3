@@ -27,14 +27,14 @@ Func SwitchBetweenBases($bCheckMainScreen = True, $GoToBB = False)
 			$bIsOnBuilderBase = True
 			$sTile = "BoatBuilderBase"
 			$sTileDir = $g_sImgBoatBB
-			$sRegionToSearch = GetDiamondFromRect("487,44,708,242")
+			$sRegionToSearch = GetDiamondFromRect("480,40,710,250")
 		Else
 			$sSwitchFrom = "Normal Village"
 			$sSwitchTo = "Builder Base"
 			$bIsOnBuilderBase = False
 			$sTile = "BoatNormalVillage"
 			$sTileDir = $g_sImgBoat
-			$sRegionToSearch = GetDiamondFromRect("66,432,388,627")
+			$sRegionToSearch = GetDiamondFromRect("60,430,390,630")
 		EndIf
 
 		If _Sleep(250) Then Return
@@ -46,8 +46,13 @@ Func SwitchBetweenBases($bCheckMainScreen = True, $GoToBB = False)
 
 		If Not $g_bRunState Then Return
 
-		If $bIsOnBuilderBase And $g_iTree = $eTreeOO Then $sRegionToSearch = GetDiamondFromRect("675,210,765,330")
-		$avBoat = findMultiple($sTileDir, $sRegionToSearch, $sRegionToSearch, 0, 1000, 1, "objectname,objectpoints", True)
+		If $bIsOnBuilderBase And $g_iTree = $eTreeOO Then $sRegionToSearch = GetDiamondFromRect("630,210,770,350")
+		
+		For $b = 0 To 9
+			$avBoat = findMultiple($sTileDir, $sRegionToSearch, $sRegionToSearch, 0, 1000, 1, "objectname,objectpoints", True)
+			If IsArray($avBoat) And UBound($avBoat, $UBOUND_ROWS) > 0 Then ExitLoop
+			If _Sleep(250) Then Return
+		Next
 
 		If $GoToBB Then
 			$g_bStayOnBuilderBase = True
