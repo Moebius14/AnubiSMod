@@ -322,11 +322,8 @@ EndFunc
 Func SwitchToOttoVillage()
 	Local $bRet = False
 	SetLog("Switch To Otto Village", $COLOR_INFO)
-	If $g_iTree = $eTreeOO Then
-		Click(195, 195 + $g_iMidOffsetY)
-	Else
-		Click(205, 165 + $g_iMidOffsetY)
-	EndIf
+	Click(210, 170 + $g_iMidOffsetY)
+	If _Sleep(1000) Then Return
 	ZoomOut()
 	If QuickMIS("BC1", $sImgTunnel, 0, 190 + $g_iMidOffsetY, $g_iGAME_WIDTH, $g_iGAME_HEIGHT) Then $bRet = True
 	Return $bRet

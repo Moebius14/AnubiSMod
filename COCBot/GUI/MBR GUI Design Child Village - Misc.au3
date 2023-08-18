@@ -634,27 +634,23 @@ Func CreateMiscBuilderBaseSubTab()
 			_GUICtrlSetTip(-1, GetTranslatedFileIni("MBR GUI Design Child Village - Misc", "ChkBBAttackForDailyChallenge_Info_01", "Attack Only When Daily BB Challenge is Available.") & @CRLF & _
 			"No Matter Loot, Machine,...")
 			GUICtrlSetOnEvent(-1, "ChkBBAttackForDailyChallenge")	
-			
+		
 		;HArchH was y+30
-		$g_hChkBBTrophyRange = GUICtrlCreateCheckbox(GetTranslatedFileIni("MBR GUI Design Child Village - Misc", "ChkBBTrophyRange", "Trophies"), $x + 230, $y + 10)
-			_GUICtrlSetTip(-1, GetTranslatedFileIni("MBR GUI Design Child Village - Misc", "ChkBBTrophyRange_Info_01", "Enable ability to set a trophy range."))
-			GUICtrlSetOnEvent(-1, "chkBBTrophyRange")
+		$g_hChkUseBuilderJar = GUICtrlCreateCheckbox(GetTranslatedFileIni("MBR GUI Design Child Village - Misc", "ChkUseBuilderJar", "Use Builder Jar"), $x + 240, $y + 10)
+			_GUICtrlSetTip(-1, GetTranslatedFileIni("MBR GUI Design Child Village - Misc", "ChkUseBuilderJar_Info_01", "Check To Use Builder Jar When Stars Are Unavailable.") & @CRLF & _
+			"Won't Be Use If Storages Are Full Or BB Event Running.")
 			GUICtrlSetState(-1, $GUI_DISABLE)
-		$g_hTxtBBTrophyLowerLimit = GUICtrlCreateInput($g_iTxtBBTrophyLowerLimit, $x + 300, $y + 10, 40, 18, BitOR($GUI_SS_DEFAULT_INPUT, $ES_CENTER, $ES_NUMBER))
-			_GUICtrlSetTip(-1, GetTranslatedFileIni("MBR GUI Design Child Village - Misc", "TxtBBTrophyLimit_Info_01", "If your trophies go below this number then attacking is stopped."))
-			GUICtrlSetState(-1, $GUI_DISABLE)
-		$g_hTxtBBTrophyUpperLimit = GUICtrlCreateInput($g_iTxtBBTrophyUpperLimit, $x + 350, $y + 10, 40, 18, BitOR($GUI_SS_DEFAULT_INPUT, $ES_CENTER, $ES_NUMBER))
-			_GUICtrlSetTip(-1, GetTranslatedFileIni("MBR GUI Design Child Village - Misc", "TxtBBTrophyLimit_Info_02", "If your trophies go above this number then the bot drops trophies"))
-			GUICtrlSetState(-1, $GUI_DISABLE)
+			_GUICtrlCreateIcon($g_sLibModIconPath, $eIcnModBuilderJar, $x + 330, $y + 10, 24, 24)
+
 		;HArchH was y+55
-		$g_hChkBBAttIfLootAvail = GUICtrlCreateCheckbox(GetTranslatedFileIni("MBR GUI Design Child Village - Misc", "ChkBBAttIfLootAvail", "Only if stars are available"), $x + 230, $y + 35)
+		$g_hChkBBAttIfLootAvail = GUICtrlCreateCheckbox(GetTranslatedFileIni("MBR GUI Design Child Village - Misc", "ChkBBAttIfLootAvail", "Only if stars are available"), $x + 240, $y + 35)
 			_GUICtrlSetTip(-1, GetTranslatedFileIni("MBR GUI Design Child Village - Misc", "ChkBBAttIfLootAvail_Info_01", "Only attack if there are stars available."))
 			GUICtrlSetState(-1, $GUI_CHECKED + $GUI_DISABLE)
 		;HArchH was Y+80
-		$g_hChkBBWaitForMachine = GUICtrlCreateCheckbox(GetTranslatedFileIni("MBR GUI Design Child Village - Misc", "ChkBBWaitForMachine", "Wait For Battle Machine"), $x + 230, $y + 60, -1, -1) ;65 is too low.
+		$g_hChkBBWaitForMachine = GUICtrlCreateCheckbox(GetTranslatedFileIni("MBR GUI Design Child Village - Misc", "ChkBBWaitForMachine", "Wait For Battle Machine"), $x + 240, $y + 60, -1, -1) ;65 is too low.
 			_GUICtrlSetTip(-1, GetTranslatedFileIni("MBR GUI Design Child Village - Misc", "ChkBBWaitForMachine_Info_01", "Makes the bot not attack while Machine is down."))
 			GUICtrlSetState(-1, $GUI_DISABLE)
-		$g_hChkBBHaltOnResourcesFull = GUICtrlCreateCheckbox(GetTranslatedFileIni("MBR GUI Design Child Village - Misc", "ChkBBHaltOnResourcesFull", "Halt if Gold And Exilir Full"), $x + 230, $y + 85)
+		$g_hChkBBHaltOnResourcesFull = GUICtrlCreateCheckbox(GetTranslatedFileIni("MBR GUI Design Child Village - Misc", "ChkBBHaltOnResourcesFull", "Halt if Gold And Exilir Full"), $x + 240, $y + 85)
 			_GUICtrlSetTip(-1, GetTranslatedFileIni("MBR GUI Design Child Village - Misc", "ChkBBHaltOnFullResources_Info_01", "Halt if Gold And Elixir Storages are Both Full."))
  			GUICtrlSetState(-1, $GUI_DISABLE)
 	GUICtrlCreateGroup("", -99, -99, 1, 1)
@@ -688,9 +684,7 @@ Func CreateMiscBuilderBaseSubTab()
 			_GUICtrlSetTip(-1, "Boost Only When The Builder Is Busy")
 			GUICtrlSetState (-1, $GUI_DISABLE)
 	GUICtrlCreateGroup("", -99, -99, 1, 1)	
-	
-	
-	
+
 ; BB Building Upgrades
 	Local $x = 15, $y = 307
 	GUICtrlCreateGroup(GetTranslatedFileIni("MBR GUI Design Child Village - Misc", "Group_05", "BOB Control Upgrades"), $x - 10, $y - 20, 430, 49)

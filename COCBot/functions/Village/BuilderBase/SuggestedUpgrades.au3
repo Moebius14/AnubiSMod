@@ -5,7 +5,7 @@
 ; Parameters ....:
 ; Return values .: None
 ; Author ........: ProMac (05-2017)
-; Modified ......: Moebius14 (07-2023)
+; Modified ......: Moebius14 (08-2023)
 ; Remarks .......: This file is part of MyBot, previously known as ClashGameBot. Copyright 2015-2023
 ;                  MyBot is distributed under the terms of the GNU GPL
 ; Related .......:
@@ -80,6 +80,7 @@ Func MainSuggestedUpgradeCode($bDebugImage = $g_bDebugImageSave)
 	If $g_iChkBBSuggestedUpgrades = 0 Then Return
 	Local $bDebug = $g_bDebugSetlog
 	Local $bScreencap = True
+	Local $y = 102, $x = 400, $x1 = 540, $bRet = False
 
 	; Master Builder is not available return
 	If $g_iFreeBuilderCountBB = 0 Then
@@ -87,15 +88,16 @@ Func MainSuggestedUpgradeCode($bDebugImage = $g_bDebugImageSave)
 		Return
 	EndIf
 
-	; Check if you are on Builder island
+	; Check if you are on Builder Base
 	If isOnBuilderBase(True) Then
+
+		SetLog("Starting Suggested Upgrades", $COLOR_INFO)
 
 		While 1
 
 		; Will Open the Suggested Window and check if is OK
 			If ClickOnBuilder() Then
-				SetLog("Upgrade Window Opened successfully", $COLOR_INFO)
-				Local $y = 102, $x = 400, $x1 = 540, $bRet = False
+				SetDebugLog("Upgrade Window Opened successfully", $COLOR_INFO)
 				; Proceeds with icon detection
 				Local $aLine = QuickMIS("CNX", $g_sImgAutoUpgradeBB, $x, $y, $x1, 340 + $g_iMidOffsetY)
 				_ArraySort($aLine, 0, 0, 0, 2);sort by Y coord
@@ -122,6 +124,14 @@ Func MainSuggestedUpgradeCode($bDebugImage = $g_bDebugImageSave)
 													ExitLoop
 												EndIf
 											EndIf
+										Else
+											If $i = UBound($aLine) - 1 Then
+												SetLog("No upgrade available... Exiting Auto Upgrade...", $COLOR_INFO)
+												$bRet = True
+												ExitLoop 2
+											EndIf
+											$y = $aLine[$i][2] + 15
+											ExitLoop
 										EndIf
 									EndIf
 								Case "Elixir"
@@ -129,7 +139,7 @@ Func MainSuggestedUpgradeCode($bDebugImage = $g_bDebugImageSave)
 										Click($aResult[0], $aResult[1], 1)
 										If _Sleep(2000) Then Return
 										If IsWallDetected() Then $g_WallDetected = True
-										If GetUpgradeButton($aResult[2], $bDebug, $bDebugImage, $g_WallDetected) Then
+										If GetUpgradeButton($aResult[2], $bDebug, $bDebugImage, $g_WallDetected, True) Then
 											If $g_WallDetected Then
 												ExitLoop
 											Else
@@ -140,6 +150,14 @@ Func MainSuggestedUpgradeCode($bDebugImage = $g_bDebugImageSave)
 													ExitLoop
 												EndIf
 											EndIf
+										Else
+											If $i = UBound($aLine) - 1 Then
+												SetLog("No upgrade available... Exiting Auto Upgrade...", $COLOR_INFO)
+												$bRet = True
+												ExitLoop 2
+											EndIf
+											$y = $aLine[$i][2] + 15
+											ExitLoop	
 										EndIf
 									EndIf
 								Case "New"
@@ -152,6 +170,14 @@ Func MainSuggestedUpgradeCode($bDebugImage = $g_bDebugImageSave)
 											Else
 												ExitLoop
 											EndIf
+										Else
+											If $i = UBound($aLine) - 1 Then
+												SetLog("No upgrade available... Exiting Auto Upgrade...", $COLOR_INFO)
+												$bRet = True
+												ExitLoop 2
+											EndIf
+											$y = $aLine[$i][2] + 15
+											ExitLoop	
 										EndIf
 									Else
 										SetLog("[" & $i + 1 & "]" & " New Building detected, but not enabled...", $COLOR_INFO)
@@ -165,12 +191,14 @@ Func MainSuggestedUpgradeCode($bDebugImage = $g_bDebugImageSave)
 						If $i = UBound($aLine) - 1 Then $bRet = True
 					Next
 				Else
+					SetLog("No upgrade available... Exiting Auto Upgrade...", $COLOR_INFO)
 					ExitLoop
 				EndIf
 			Else
 				ExitLoop
 			EndIf
 
+			If _Sleep(1500) Then Return
 			ClickAway("Left")
 			If _Sleep(1500) Then Return
 			If Not $g_bRunState Then Return
@@ -178,13 +206,14 @@ Func MainSuggestedUpgradeCode($bDebugImage = $g_bDebugImageSave)
 
 		WEnd
 
+		If _Sleep(1500) Then Return
 		ClickAway("Left")
 		If _Sleep(500) Then Return
 		If Not $g_bRunState Then Return
 	EndIf
 
 	If QuickMIS("BC1", $sImgTunnel, 0, 190 + $g_iMidOffsetY, $g_iGAME_WIDTH, $g_iGAME_HEIGHT) Then
-		SetLog("Found Tunnel, Back To Main Builder Base", $COLOR_INFO)
+		SetLog("Back To Main Builder Base", $COLOR_INFO)
 		If $g_iQuickMISName = "TunnelOO" Then
 			Click($g_iQuickMISX - Random(25, 70, 1), $g_iQuickMISY + Random(0, 30, 1))
 		Else
@@ -201,7 +230,7 @@ EndFunc   ;==>MainSuggestedUpgradeCode
 Func ClickOnBuilder()
 
 	; Master Builder Check pixel [i] icon
-	Local Const $aMasterBuilder[4] = [360, 11, 0x7cbdde, 10]
+	Local Const $aMasterBuilder[4] = [360, 11, 0x7CBDDE, 10]
 	; Debug Stuff
 	Local $sDebugText = ""
 	Local Const $Debug = False
@@ -218,7 +247,7 @@ Func ClickOnBuilder()
 			Click($aMasterBuilder[0], $aMasterBuilder[1], 1)
 			If _Sleep(2000) Then Return
 			; Let's verify if the Suggested Window open
-			If QuickMIS("BC1", $g_sImgAutoUpgradeWindow, 330, 85, 550, 145, $Screencap, $Debug) Then
+			If QuickMIS("BC1", $g_sImgAutoUpgradeWindow, 360, 50, 490, 100, $Screencap, $Debug) Then
 				Return True
 			Else
 				$sDebugText = "Window didn't opened"
@@ -268,7 +297,7 @@ Func IsWallDetected()
 	Return False
 EndFunc
 
-Func GetUpgradeButton($sUpgButton = "", $Debug = False, $bDebugImage = $g_bDebugImageSave, $bWallUpgrade = False)
+Func GetUpgradeButton($sUpgButton = "", $Debug = False, $bDebugImage = $g_bDebugImageSave, $bWallUpgrade = False, $ElixForced = False)
 	Local $sIconBarDiamond = GetDiamondFromRect2(140, 531 + $g_iBottomOffsetY, 720, 611 + $g_iBottomOffsetY)
 	Local $sUpgradeButtonDiamond = GetDiamondFromRect2(350, 460 + $g_iMidOffsetY, 750, 570 + $g_iMidOffsetY)
 
@@ -288,16 +317,22 @@ Func GetUpgradeButton($sUpgButton = "", $Debug = False, $bDebugImage = $g_bDebug
 			; Verify if is Builder Hall and If is to Upgrade
 			If StringInStr($aBuildingName[1], "Hall") And $g_iChkBBSuggestedUpgradesIgnoreHall Then
 				SetLog("Ups! Builder Hall is not to Upgrade!", $COLOR_ERROR)
+				If _Sleep(1500) Then Return
+				ClickAway("Left")
+				If _Sleep(1500) Then Return
 				Return False
 			EndIf
 			If StringInStr($aBuildingName[1], "Wall") And $g_iChkBBSuggestedUpgradesIgnoreWall Then
 				SetLog("Ups! Wall is not to Upgrade!", $COLOR_ERROR)
+				If _Sleep(1500) Then Return
+				ClickAway("Left")
+				If _Sleep(1500) Then Return
 				Return False
 			EndIf
 
 			;Wall Double Button Case
 			If $bWallUpgrade Then
-				If WaitforPixel($aUpgradeIcon[0], $aUpgradeIcon[1] - 60, $aUpgradeIcon[0] + 30, $aUpgradeIcon[1] - 40, "FF887F", 20, 2) Then ; Red On First then Check Second
+				If WaitforPixel($aUpgradeIcon[0], $aUpgradeIcon[1] - 60, $aUpgradeIcon[0] + 30, $aUpgradeIcon[1] - 40, "FF887F", 20, 2) Or $ElixForced Then ; Red On Gold Or Was Elix in Menu
 					If UBound(decodeSingleCoord(FindImageInPlace2("UpgradeButton2", $g_sImgUpgradeBtn2Wall, $aUpgradeIcon[0] + 65, $aUpgradeIcon[1] - 44, _
 					$aUpgradeIcon[0] + 140, $aUpgradeIcon[1] - 10, True))) > 1 Then	$aUpgradeIcon[0] += 94
 				EndIf

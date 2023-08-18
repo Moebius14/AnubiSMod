@@ -39,7 +39,7 @@ Func RequestCC($bClickPAtEnd = True, $sText = "")
 	If $bClickPAtEnd Then CheckCCArmy()
 
 	If Not $g_bRunState Then Return
-	If _Sleep(500) Then Return
+	If _Sleep(1000) Then Return
 
 	Local $sSearchDiamond = GetDiamondFromRect("718,580,780,614")
 	Local Static $aRequestButtonPos[2] = [-1, -1]

@@ -89,11 +89,21 @@ EndIf
 
 	SetLog("Searching for a Loot Cart", $COLOR_INFO)
 
-	Local $aLootCart = decodeSingleCoord(findImage("LootCart", $g_sImgCollectLootCart, GetDiamondFromRect("1,220,100,290"), 1, True))
+	Local $aLootCart = decodeSingleCoord(findImage("LootCart", $g_sImgCollectLootCart, GetDiamondFromRect("1,220,120,290"), 1, True))
 	If UBound($aLootCart) > 1 Then
 		$aLootCart[1] += 15
 		If IsMainPage() Then ClickP($aLootCart, 1, 0, "#0330")
-		If _Sleep(1500) Then Return
+		If _Sleep(1000) Then Return
+
+		If ChatOpen() Then ; close chat
+			If Not ClickB("ClanChat") Then
+				SetLog("Error finding the Clan Tab Button", $COLOR_ERROR)
+				Click(332, 312 + $g_iMidOffsetY)
+				Return
+			EndIf
+			Return False
+			If _Sleep(500) Then Return
+		EndIf
 
 		Local $aiCollectButton = findButton("CollectLootCart", Default, 1, True)
 		If IsArray($aiCollectButton) And UBound($aiCollectButton) = 2 Then

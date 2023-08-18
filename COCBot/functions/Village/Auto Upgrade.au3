@@ -5,7 +5,7 @@
 ; Parameters ....:
 ; Return values .:
 ; Author ........:
-; Modified ......:
+; Modified ......: Moebius14 (08-2023)
 ; Remarks .......: This file is part of MyBotRun. Copyright 2015-2023
 ;                  MyBotRun is distributed under the terms of the GNU GPL
 ; Related .......: ---
@@ -29,7 +29,7 @@ Func _AutoUpgrade()
 	Local $b_Equipment = False
 
 	While 1
-
+		
 		$iLoopAmount += 1
 		If $iLoopAmount >= $iLoopMax Or $iLoopAmount >= 12 Then ExitLoop ; 8 loops max, to avoid infinite loop
 
@@ -55,12 +55,14 @@ Func _AutoUpgrade()
 
 		; search for ressource images in builders menu, if found, a possible upgrade is available
 		Local $aTmpCoord
+		Local $IsElix = False
 		$aTmpCoord = QuickMIS("CNX", $g_sImgResourceIcon, 310, $g_iNextLineOffset, 450, 360 + $g_iMidOffsetY)
 		_ArraySort($aTmpCoord, 0, 0, 0, 2);sort by Y coord
 		If IsArray($aTmpCoord) And UBound($aTmpCoord) > 0 Then
 			$g_iNextLineOffset = $aTmpCoord[0][2] + 14
 			If QuickMIS("BC1", $g_sImgAUpgradeZero, $aTmpCoord[0][1], $aTmpCoord[0][2] - 8, $aTmpCoord[0][1] + 100, $aTmpCoord[0][2] + 7) Then
 				SetLog("Possible upgrade found !", $COLOR_SUCCESS)
+				If $aTmpCoord[0][0] = "Elix" Then $IsElix = True
 			Else
 				SetLog("Not Enough Ressource, looking next...", $COLOR_INFO)
 				ContinueLoop
@@ -120,7 +122,7 @@ Func _AutoUpgrade()
 		
 		;Wall Double Button Case
 		If $g_aUpgradeNameLevel[1] = "Wall" Then
-			If WaitforPixel($aUpgradeButton[0], $aUpgradeButton[1] - 25, $aUpgradeButton[0] + 30, $aUpgradeButton[1] - 16, "FF887F", 20, 2) Then ; Red On First then Check Second
+			If WaitforPixel($aUpgradeButton[0], $aUpgradeButton[1] - 25, $aUpgradeButton[0] + 30, $aUpgradeButton[1] - 16, "FF887F", 20, 2) Or $IsElix Then ; Red On Gold Or Was Elix in Menu
 				If UBound(decodeSingleCoord(FindImageInPlace2("UpgradeButton2", $g_sImgUpgradeBtn2Wall, $aUpgradeButton[0] + 65, $aUpgradeButton[1] - 20, _
 				$aUpgradeButton[0] + 140, $aUpgradeButton[1] + 20, True))) > 1 Then	$aUpgradeButton[0] += 94
 			EndIf
@@ -215,6 +217,8 @@ Func _AutoUpgrade()
 				$bMustIgnoreUpgrade = ($g_iChkUpgradesToIgnore[30] = 1) ? True : False
 			Case "Pet House"
 				$bMustIgnoreUpgrade = ($g_iChkUpgradesToIgnore[31] = 1) ? True : False
+			Case "Spell Tower"
+				$bMustIgnoreUpgrade = ($g_iChkUpgradesToIgnore[34] = 1) ? True : False
 			Case Else
 				$bMustIgnoreUpgrade = False
 		EndSwitch
@@ -270,6 +274,7 @@ Func _AutoUpgrade()
 				EndIf
 				SaveDebugImage("UpgradeReadError_")
 				SetLog("Error when trying to get upgrade details, looking next...", $COLOR_ERROR)
+				ClickAway()
 				ContinueLoop 2
 			EndIf
 		Next
@@ -290,6 +295,7 @@ Func _AutoUpgrade()
 		; check if the resource of the upgrade must be ignored
 		If $bMustIgnoreResource = True Then
 			SetLog("This resource must be ignored, looking next...", $COLOR_WARNING)
+			ClickAway()
 			ContinueLoop
 		EndIf
 
@@ -307,6 +313,7 @@ Func _AutoUpgrade()
 		; if boolean still False, we can't launch upgrade, exiting...
 		If Not $bSufficentResourceToUpgrade Then
 			SetLog("Insufficent " & $g_aUpgradeResourceCostDuration[0] & " to launch this upgrade, looking Next...", $COLOR_WARNING)
+			ClickAway()
 			ContinueLoop
 		EndIf
 
@@ -379,6 +386,37 @@ Func _AutoUpgrade()
 
 		SetLog(" - Cost : " & _NumberFormat($g_aUpgradeResourceCostDuration[1]) & " " & $g_aUpgradeResourceCostDuration[0], $COLOR_SUCCESS)
 		If $g_aUpgradeNameLevel[1] <> "Wall" Then SetLog(" - Duration : " & $g_aUpgradeResourceCostDuration[2], $COLOR_SUCCESS) ; Wall Case : No Upgrade Time
+
+		;Stats
+		Switch $g_aUpgradeNameLevel[1]
+			Case "Wall"
+				AutoWallsStatsMAJ($g_aUpgradeNameLevel[2])
+				If $g_aUpgradeResourceCostDuration[0] = "Gold" Then
+					$g_iNbrOfWallsUppedGold += 1
+					$g_iCostGoldWall += $g_aUpgradeResourceCostDuration[1]
+				Else
+					$g_iNbrOfWallsUppedElixir += 1
+					$g_iCostElixirWall += $g_aUpgradeResourceCostDuration[1]
+				EndIf
+			Case "Monolith"
+				$g_iNbrOfBuildingsUppedDElixir += 1
+				$g_iCostDElixirBuilding += $g_aUpgradeResourceCostDuration[1]
+			Case "Barbarian King", "Archer Queen", "Royal Champion"
+				$g_iNbrOfHeroesUpped += 1
+				$g_iCostDElixirHero += $g_aUpgradeResourceCostDuration[1]
+			Case "Grand Warden"
+				$g_iNbrOfWardenUpped += 1
+				$g_iCostElixirWarden += $g_aUpgradeResourceCostDuration[1]
+			Case Else
+				If $g_aUpgradeResourceCostDuration[0] = "Gold" Then
+					$g_iNbrOfBuildingsUppedGold += 1
+					$g_iCostGoldBuilding += $g_aUpgradeResourceCostDuration[1]
+				Else
+					$g_iNbrOfBuildingsUppedElixir += 1
+					$g_iCostElixirBuilding += $g_aUpgradeResourceCostDuration[1]
+				EndIf
+		EndSwitch
+		;
 
 		If $b_Equipment Then
 			If $g_iTxtCurrentVillageName <> "" Then
@@ -460,3 +498,11 @@ Func _AutoUpgrade()
 	ZoomOut() ; re-center village
 	
 EndFunc   ;==>AutoUpgrade
+
+Func AutoWallsStatsMAJ($CurrentWallLevel = 10)
+	$g_aiWallsCurrentCount[$CurrentWallLevel + 1] = $g_aiWallsCurrentCount[$CurrentWallLevel + 1] + 1
+	$g_aiWallsCurrentCount[$CurrentWallLevel] = $g_aiWallsCurrentCount[$CurrentWallLevel] - 1
+	GUICtrlSetData($g_ahWallsCurrentCount[$CurrentWallLevel + 1], $g_aiWallsCurrentCount[$CurrentWallLevel + 1])
+	GUICtrlSetData($g_ahWallsCurrentCount[$CurrentWallLevel], $g_aiWallsCurrentCount[$CurrentWallLevel])
+	SaveConfig()
+EndFunc   ;==>AutoWallsStatsMAJ

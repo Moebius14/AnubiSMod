@@ -23,8 +23,8 @@ Func WaitForClouds()
 	Local $hMinuteTimer, $iSearchTime
 	Local $bEnabledGUI = False
 
-	Local $maxSearchCount = 720 ; $maxSearchCount * 250ms ($DELAYGETRESOURCES1) = seconds wait time before reset in lower leagues: 720*250ms = 3 minutes
-	Local $maxLongSearchCount = 5 ; $maxLongSearchCount * $maxSearchCount = seconds total wait time in higher leagues: ; 15 minutes, set a value here but is never used unless error
+	Local $maxSearchCount = 360 ; $maxSearchCount * 250ms ($DELAYGETRESOURCES1) = seconds wait time before reset in lower leagues: 360*250ms = 1.5 minutes
+	Local $maxLongSearchCount = 3 ; $maxLongSearchCount * $maxSearchCount = seconds total wait time in higher leagues: ; 4.5 minutes, set a value here but is never used unless error
 
 	Switch Int($g_aiCurrentLoot[$eLootTrophy]) ; add randomization to SearchCounters (long cloud keep alive time) for higher leagues
 		Case 3700 To 4099 ; champion 1 league

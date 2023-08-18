@@ -46,7 +46,7 @@ Func SwitchBetweenBases($bCheckMainScreen = True, $GoToBB = False)
 
 		If Not $g_bRunState Then Return
 
-		If $bIsOnBuilderBase And $g_iTree = $eTreeOO Then $sRegionToSearch = GetDiamondFromRect("630,210,770,350")
+		If $bIsOnBuilderBase And $g_iTree = $eTreeOO Then $sRegionToSearch = GetDiamondFromRect("650,180,820,330")
 		
 		For $b = 0 To 9
 			$avBoat = findMultiple($sTileDir, $sRegionToSearch, $sRegionToSearch, 0, 1000, 1, "objectname,objectpoints", True)
@@ -64,9 +64,13 @@ Func SwitchBetweenBases($bCheckMainScreen = True, $GoToBB = False)
 			SetLog("Couldn't find Boat on " & $sSwitchFrom, $COLOR_ERROR)
 			If $g_bDebugImageSave Then SaveDebugImage("SwitchBetweenBases", False)
 			If $i = 2 And $g_bStayOnBuilderBase And $sSwitchFrom = "Normal Village" Then $g_bStayOnBuilderBase = False
+			If $i = 2 And $sSwitchFrom = "Builder Base" Then
+				CloseCoC(True)
+				checkMainScreen(False, True)
+			EndIf
 			Return False
 		Else
-			; loop thro the detected images
+			; loop through the detected images
 			For $j = 0 To UBound($avBoat, $UBOUND_ROWS) - 1
 				$avTempArray = $avBoat[$j]
 				SetLog("Boat Search find : " & $avTempArray[0])
@@ -119,7 +123,7 @@ EndFunc   ;==>SwitchBetweenBases
 Func SwitchToBuilderBase()
 
 	If QuickMIS("BC1", $sImgTunnel, 0, 190 + $g_iMidOffsetY, $g_iGAME_WIDTH, $g_iGAME_HEIGHT) Then
-		SetLog("Found Tunnel, Back To Main Builder Base", $COLOR_INFO)
+		SetLog("Back To Main Builder Base", $COLOR_INFO)
 		If $g_iQuickMISName = "OOTunnel" Then
 			SetDebugLog("Found OOTunnel", $COLOR_INFO)
 			Click($g_iQuickMISX - Random(25, 70, 1), $g_iQuickMISY + Random(0, 30, 1))

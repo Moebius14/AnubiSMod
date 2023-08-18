@@ -62,7 +62,15 @@ Func CleanBBYard()
 EndFunc   ;==>CleanBBYard
 
 Func ClickRemoveObstacleBB()
-	If ChatOpen() Then Click(332, 382) ; close chat
+	If ChatOpen() Then ; close chat
+		If Not ClickB("ClanChat") Then
+			SetLog("Error finding the Clan Tab Button", $COLOR_ERROR)
+			Click(332, 312 + $g_iMidOffsetY)
+			Return
+		EndIf
+		If _Sleep(500) Then Return
+		Return False
+	EndIf
 	Local $aiButton = findButton("RemoveObstacle", Default, 1, True)
 	If IsArray($aiButton) And UBound($aiButton) >= 2 Then
 		SetDebugLog("Remove Button found! Clicking it at X: " & $aiButton[0] & ", Y: " & $aiButton[1], $COLOR_DEBUG1)

@@ -45,8 +45,8 @@ MAKE  |A          |FRONT-LEFT |10         |0          |EXT-INT    |0          |0
 MAKE  |B          |FRONT-RIGHT|10         |0          |INT-EXT    |0          |0          |           |           |           |           |           |
 MAKE  |V          |FRONT-RIGHT|10         |0          |EXT-INT    |0          |0          |           |           |           |           |           |
 MAKE  |K          |FRONT-LEFT |10         |0          |INT-EXT    |0          |0          |           |           |           |           |           |
-MAKE  |C          |FRONT-LEFT |10         |-9         |INT-EXT    |1          |1          |           |           |           |           |           |
-MAKE  |D          |FRONT-RIGHT|10         |-9         |INT-EXT    |1          |1          |           |           |           |           |           |
+MAKE  |C          |FRONT-LEFT |10         |-11        |INT-EXT    |1          |1          |           |           |           |           |           |
+MAKE  |D          |FRONT-RIGHT|10         |-11        |INT-EXT    |1          |1          |           |           |           |           |           |
 MAKE  |E          |FRONT-LEFT |10         |-18        |INT-EXT    |1          |1          |           |           |           |           |           |
 MAKE  |F          |FRONT-RIGHT|10         |-18        |INT-EXT    |1          |1          |           |           |           |           |           |
 MAKE  |N          |RIGHT-FRONT|10         |0          |EXT-INT    |0          |0          |           |           |           |           |           |

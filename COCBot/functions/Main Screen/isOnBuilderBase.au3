@@ -20,21 +20,7 @@ Func isOnBuilderBase($bNeedCaptureRegion = False)
 	Local $asSearchResult = findMultiple($g_sImgIsOnBB, $sArea, $sArea, 0, 1000, 1, "objectname", $bNeedCaptureRegion)
 
 	If IsArray($asSearchResult) And UBound($asSearchResult) > 0 Then
-		SetDebugLog("Builder Base Builder detected", $COLOR_DEBUG)
-		Return True
-	Else
-		Return False
-	EndIf
-EndFunc
-
-Func isOnClanCapital($bNeedCaptureRegion = False)
-	If _Sleep(250) Then Return
-
-	Local $sArea = GetDiamondFromRect("305,0,400,60")
-	Local $asSearchResult = findMultiple($sImgIsOnClanCapital, $sArea, $sArea, 0, 1000, 1, "objectname", $bNeedCaptureRegion)
-
-	If IsArray($asSearchResult) And UBound($asSearchResult) > 0 Then
-		SetDebugLog("Clan Capital Builder detected", $COLOR_DEBUG)
+		SetDebugLog("Builder Base detected", $COLOR_DEBUG)
 		Return True
 	Else
 		Return False
@@ -48,7 +34,7 @@ Func isOnMainVillage($bNeedCaptureRegion = $g_bNoCapturePixel)
 	Local $asSearchResult = findMultiple($sImgIsOnMainVillage, $sArea, $sArea, 0, 1000, 1, "objectname", $bNeedCaptureRegion)
 
 	If IsArray($asSearchResult) And UBound($asSearchResult) > 0 Then
-		SetDebugLog("Main Village Builder detected", $COLOR_DEBUG)
+		SetDebugLog("Main Village detected", $COLOR_DEBUG)
 		Return True
 	Else
 		Return False
@@ -60,8 +46,6 @@ Func isOnBuilderBaseEnemyVillage($bNeedCaptureRegion = $g_bNoCapturePixel)
 
 	Local $sArea = GetDiamondFromRect("745,0,815,25")
 	Local $asSearchResult = findMultiple($sImgIsOnBuilderBaseEnemyVillage, $sArea, $sArea, 0, 1000, 1, "objectname", $bNeedCaptureRegion)
-
-	If _Sleep(250) Then Return
 
 	If IsArray($asSearchResult) And UBound($asSearchResult) > 0 Then
 		SetDebugLog("Builder Enemy Village detected", $COLOR_DEBUG)

@@ -1235,8 +1235,8 @@ Func MakingDonatedTroops($sType = "All")
 							DragIfNeeded($avDefaultTroopGroup[$i][0])
 							TrainIt($iTroopIndex, $howMuch, $g_iTrainClickDelayfinal)
 							If _Sleep($DELAYRESPOND) Then Return ; add 5ms delay to catch TrainIt errors, and force return to back to main loop
-							Local $sTroopName = ($avDefaultTroopGroup[$i][4] > 1 ? $g_asTroopNamesPlural[$iTroopIndex] : $g_asTroopNames[$iTroopIndex])
-							SetLog(" - Trained " & $avDefaultTroopGroup[$i][4] & " " & $sTroopName, $COLOR_ACTION)
+							Local $sTroopName = $g_asTroopNames[$iTroopIndex]
+							SetLog(" - Trained " & $howMuch & " " & $sTroopName, $COLOR_ACTION)
 							$avDefaultTroopGroup[$i][4] -= 1
 							If _Sleep(1000) Then Return ; Needed Delay, OCR was not picking up Troop Changes
 						Else

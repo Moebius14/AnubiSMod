@@ -17,8 +17,8 @@ Func PrepareAttackBB($AttackForCount = 0)
 
 	If $g_bChkForceBBAttackOnClanGames And $g_bIsBBevent Then
 		Setlog("Running Challenge is BB Challenge : " & $CurrentActiveChallenge, $COLOR_ACTION)
-		SetLog("Force BB Attack on Clan Games Enabled", $COLOR_DEBUG)
-		SetLog("Attack, No Matter What !!", $COLOR_DEBUG)
+		SetLog("Force BB Attack on Clan Games Enabled", $COLOR_DEBUG2)
+		SetLog("Attack, No Matter What !!", $COLOR_DEBUG2)
 		CheckLootAvail()
 		CheckBBGoldStorageFull()
 		CheckBBElixirStorageFull()
@@ -31,7 +31,7 @@ Func PrepareAttackBB($AttackForCount = 0)
 
 	If $g_bChkBBAttackForDailyChallenge Then
 		If $g_IsBBDailyChallengeAvailable Then
-			SetLog("Attack To Earn A Star, No Matter What !!", $COLOR_DEBUG)
+			SetLog("Attack To Earn A Star, No Matter What !!", $COLOR_DEBUG2)
 			$g_IsBBDailyChallengeAvailable = False
 			CheckLootAvail()
 			CheckBBGoldStorageFull()
@@ -56,15 +56,6 @@ Func PrepareAttackBB($AttackForCount = 0)
 				$g_bBBMachineReady = CheckMachReady()
 				Return True
 			EndIf
-		EndIf
-	EndIf
-
-	If $g_bChkBBTrophyRange Then
-		If ($g_aiCurrentLootBB[$eLootTrophyBB] > $g_iTxtBBTrophyUpperLimit or $g_aiCurrentLootBB[$eLootTrophyBB] < $g_iTxtBBTrophyLowerLimit) Then
-			SetLog("Trophies out of range.")
-			SetDebugLog("Current Trophies: " & $g_aiCurrentLootBB[$eLootTrophyBB] & " Lower Limit: " & $g_iTxtBBTrophyLowerLimit & " Upper Limit: " & $g_iTxtBBTrophyUpperLimit)
-			If _Sleep(1500) Then Return
-			Return False
 		EndIf
 	EndIf
 
@@ -125,7 +116,7 @@ Func CheckBBElixirStorageFull($SetLog = True)
 	Return False
 EndFunc	
 
-Func CheckLootAvail()
+Func CheckLootAvail($Setlog = True)
 	Local $bRet = False, $iRemainStars = 0, $iMaxStars = 0
 	Local $sStars = getOcrAndCapture("coc-BBAttackAvail", 40, 568  + $g_iBottomOffsetY, 50, 20)
 	
@@ -137,10 +128,10 @@ Func CheckLootAvail()
 			$iMaxStars = $aStars[1]
 		EndIf
 		If Number($iRemainStars) <= Number($iMaxStars) Then
-			SetLog("Remain Stars : " & $iRemainStars & "/" & $iMaxStars, $COLOR_INFO)
+			If $Setlog Then SetLog("Remaining Stars : " & $iRemainStars & "/" & $iMaxStars, $COLOR_INFO)
 			$bRet = True
 		Else
-			SetLog("All attacks used")
+			If $Setlog Then SetLog("All attacks used")
 		EndIf
 	EndIf
 	Return $bRet
@@ -253,4 +244,40 @@ Func ReturnHomeDropTrophyBB($bOnlySurender = False)
 	Next
 
 	Return True
+EndFunc
+
+Func BuilderJar()
+
+	If Not $g_bChkEnableBBAttack Or Not $g_bChkUseBuilderJar Or $g_bIsBBevent Or $g_bChkBBAttackForDailyChallenge Then Return
+
+	If Not CheckLootAvail(False) Then
+		If CheckBBGoldStorageFull(False) And CheckBBElixirStorageFull(False) Then
+			SetLog("Storages Are Full, Builder Jar Won't Be Used", $COLOR_DEBUG2)
+			Return
+		EndIf
+		SetLog("Use Builder Jar", $COLOR_INFO)
+		If Not ClickAttack() Then Return
+		If _Sleep(2000) Then Return
+		If QuickMIS("BC1", $g_sImgUseBuilderJar, 125, 465 + $g_iMidOffsetY, 190, 510 + $g_iMidOffsetY) Then
+			Click($g_iQuickMISX + 20, $g_iQuickMISY)
+			If _Sleep(1500) Then Return
+			If ClickB("BoostConfirm") Then
+				SetLog("Stars Unlocked With Builder Jar", $COLOR_SUCCESS)
+				$ActionForModLog = "Using Builder Jar"
+				If $g_iTxtCurrentVillageName <> "" Then
+					GUICtrlSetData($g_hTxtModLog, @CRLF & _NowTime() & " [" & $g_iTxtCurrentVillageName & "] Stars Unlocked " & $ActionForModLog, 1)
+				Else
+					GUICtrlSetData($g_hTxtModLog, @CRLF & _NowTime() & " [" & $g_sProfileCurrentName & "] Stars Unlocked " & $ActionForModLog, 1)
+				EndIf
+				_FileWriteLog($g_sProfileLogsPath & "\ModLog.log", " [" & $g_sProfileCurrentName & "] - Stars Unlocked " & $ActionForModLog & "")
+			Else
+				SetLog("No Confirm Button Found", $COLOR_DEBUG)
+			EndIf
+		Else
+			SetLog("No Builder Jar Found", $COLOR_DEBUG2)
+		EndIf
+		If _Sleep(1000) Then Return
+		CloseWindow()
+	EndIf
+
 EndFunc

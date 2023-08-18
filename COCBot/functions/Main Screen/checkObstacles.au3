@@ -44,16 +44,24 @@ Func _checkObstacles($bBuilderBase = False, $bRecursive = False) ;Checks if some
 	$g_bMinorObstacle = False
 	Local $aMessage
 	Local $b_Switch = False
-	
-	_CaptureRegions()
 
-	If _Sleep(10) Then Return False
+	_CaptureRegions()
 
 	If Not $bRecursive Then
 		If checkObstacles_Network() Then Return True
 		If checkObstacles_GfxError() Then Return True
 	EndIf
-#cs
+
+	If _ColorCheck(_GetPixelColor(825, 188 + $g_iMidOffsetY, $g_bCapturePixel), Hex(0x882A1D, 6), 20) Then
+		SetDebugLog("checkObstacles: Found Window to close")
+		PureClick(440, 515 + $g_iMidOffsetY, 1, 0, "#0132") ;See if village was attacked or upgrades finished : Click Okay
+		$g_abNotNeedAllTime[0] = True
+		$g_abNotNeedAllTime[1] = True
+		$g_bMinorObstacle = True
+		If _Sleep($DELAYCHECKOBSTACLES1) Then Return
+		Return False
+	EndIf
+
 	Local $bIsOnBuilderBase = isOnBuilderBase()
 	Local $bIsOnMainVillage = isOnMainVillage()
 	If $bIsOnBuilderBase Or $bIsOnMainVillage Then
@@ -73,12 +81,8 @@ Func _checkObstacles($bBuilderBase = False, $bRecursive = False) ;Checks if some
 			EndIf
 		EndIf
 	EndIf
-#ce
-	If UBound(decodeSingleCoord(FindImageInPlace2("Error", $g_sImgError, 630, 270 + $g_iMidOffsetY, 632, 290 + $g_iMidOffsetY, False))) > 1 Then
 
-		;;;;;;;;;;;;;;;;;;;; Connection Lost & Error & OOS & Inactivity ;;;;;;;;;;;;;;;;;;;;
-		If CheckAllObstacles($g_bDebugImageSave, 0, 3, $bRecursive) Then Return True
-		;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+	If UBound(decodeSingleCoord(FindImageInPlace2("Error", $g_sImgError, 630, 270 + $g_iMidOffsetY, 632, 290 + $g_iMidOffsetY, False))) > 1 Then
 
 		;  Add check for banned account :(
 		$Result = getOcrReloadMessage(171, 358 + $g_iMidOffsetY, "Check Obstacles OCR 'policy at super'=") ; OCR text for "policy at super"
@@ -93,19 +97,19 @@ Func _checkObstacles($bBuilderBase = False, $bRecursive = False) ;Checks if some
 			BanMsgBox()
 			Return checkObstacles_StopBot($msg) ; stop bot
 		EndIf
-		
-		SetLog("Warning: Cannot find type of Reload error message", $COLOR_ERROR)
-		If $g_bDebugImageSave Then SaveDebugImage("CheckObstacles")
-		
-		If TestCapture() Then Return "Village is out of sync or inactivity or connection lost or maintenance"
-		Return checkObstacles_ReloadCoC($bRecursive) ; Unknown Error Message, Try To Restart COC
-					
+
+		If TestCapture() Then Return "Village is out of sync or inactivity or connection lost"
+
+		;;;;;;;;;;;;;;;;;;;; Connection Lost & Error & OOS & Inactivity ;;;;;;;;;;;;;;;;;;;;
+		Return CheckAllObstacles($g_bDebugImageSave, 0, 3, $bRecursive)
+		;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;	
+
 	EndIf
 
 	;;;;;;;;;;;;;;;;;;;; Google Play Or COC Error ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 	If CheckAllObstacles($g_bDebugImageSave, 4, 5, $bRecursive) Then Return True
 	;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-				
+
 	If UBound(decodeSingleCoord(FindImageInPlace2("Maintenance", $g_sImgMaintenance, 270, 40 + $g_iMidOffsetY, 640, 130 + $g_iMidOffsetY, False))) > 1 Then ; Maintenance Break
 		$Result = getOcrMaintenanceTime(300, 523 + $g_iBottomOffsetY, "Check Obstacles OCR Maintenance Break=") ; OCR text to find wait time
 		Local $iMaintenanceWaitTime = 0
@@ -134,23 +138,15 @@ Func _checkObstacles($bBuilderBase = False, $bRecursive = False) ;Checks if some
 	EndIf
 
 	If UBound(decodeSingleCoord(FindImageInPlace2("CCResults", $g_sImgClanCapitalResults, 260, 190 + $g_iMidOffsetY, 320, 250 + $g_iMidOffsetY, False))) > 1 Then ; Clan Capital Results
-		If _ColorCheck(_GetPixelColor(284, 316 + $g_iMidOffsetY), Hex(0xFFFFFF, 6), 10) And _ColorCheck(_GetPixelColor(594, 316 + $g_iMidOffsetY), Hex(0xFFFFFF, 6), 10) Then
+		If _ColorCheck(_GetPixelColor(284, 316 + $g_iMidOffsetY, $g_bCapturePixel), Hex(0xFFFFFF, 6), 10) And _ColorCheck(_GetPixelColor(594, 316 + $g_iMidOffsetY, $g_bCapturePixel), Hex(0xFFFFFF, 6), 10) Then
 			$g_bMinorObstacle = True
 			CloseWindow()
 			Return False
 		EndIf
 	EndIf
 
-	Local $bHasTopBlackBar = _ColorCheck(_GetPixelColor(10, 3), Hex(0x000000, 6), 1) And _ColorCheck(_GetPixelColor(300, 6), Hex(0x000000, 6), 1) And _ColorCheck(_GetPixelColor(600, 9), Hex(0x000000, 6), 1)
-	If _ColorCheck(_GetPixelColor(420, 160 + $g_iMidOffsetY), Hex(0xB83420, 6), 20) Then
-		SetDebugLog("checkObstacles: Found Window to close")
-		PureClick(440, 515 + $g_iMidOffsetY, 1, 0, "#0132") ;See if village was attacked or upgrades finished : Click Okay
-		$g_abNotNeedAllTime[0] = True
-		$g_abNotNeedAllTime[1] = True
-		$g_bMinorObstacle = True
-		If _Sleep($DELAYCHECKOBSTACLES1) Then Return
-		Return False
-	EndIf
+	Local $bHasTopBlackBar = _ColorCheck(_GetPixelColor(10, 3, $g_bCapturePixel), Hex(0x000000, 6), 1) And _ColorCheck(_GetPixelColor(300, 6, $g_bCapturePixel), Hex(0x000000, 6), 1) And _
+	_ColorCheck(_GetPixelColor(600, 9, $g_bCapturePixel), Hex(0x000000, 6), 1)
 	If Not $bHasTopBlackBar And _CheckPixel($aIsMainGrayed, $g_bNoCapturePixel) Then
 		SetDebugLog("checkObstacles: Found gray Window to close")
 		PureClickP($aAway, 1, 0, "#0133") ;Click away If things are open
@@ -159,14 +155,13 @@ Func _checkObstacles($bBuilderBase = False, $bRecursive = False) ;Checks if some
 		Return False
 	EndIf
 	 If Not $bHasTopBlackBar And _CheckPixel($aIsBuilderBaseGrayed, $g_bNoCapturePixel) Then
-        SetLog("checkObstacles: Found Builder Base gray Window to close")
-        ;PureClickP($aAway, 1, 0, "#0133") ;Click away If things are open
+		SetLog("checkObstacles: Found Builder Base gray Window to close")
 		ClickAway("Left")
-        $g_bMinorObstacle = True
-        If _Sleep($DELAYCHECKOBSTACLES1) Then Return
-        Return False
-    EndIf
-	If _ColorCheck(_GetPixelColor(792, 39), Hex(0xDC0408, 6), 20) Then
+		$g_bMinorObstacle = True
+		If _Sleep($DELAYCHECKOBSTACLES1) Then Return
+		Return False
+	EndIf
+	If _ColorCheck(_GetPixelColor(792, 39, $g_bCapturePixel), Hex(0xDC0408, 6), 20) Then
 		SetDebugLog("checkObstacles: Found Window with Close Button to close")
 		PureClick(792, 39, 1, 0, "#0134") ;Clicks X
 		$g_bMinorObstacle = True
@@ -207,10 +202,10 @@ Func _checkObstacles($bBuilderBase = False, $bRecursive = False) ;Checks if some
 		EndIf
 	EndIf
 	If IsPostDefenseSummaryPage(False) Then
-		$aMessage = _PixelSearch(23, 566 + $g_iBottomOffsetY, 36, 580 + $g_iBottomOffsetY, Hex(0xE0E1CE, 6), 10, False)
+		$aMessage = _PixelSearch(23, 566 + $g_iBottomOffsetY, 36, 580 + $g_iBottomOffsetY, Hex(0xEBECDB, 6), 10, False)
 		If IsArray($aMessage) Then
 			SetDebugLog("checkObstacles: Found Post Defense Summary to close")
-			PureClick(67, 602 + $g_iBottomOffsetY, 1, 0, "#0138") ;Check if Return Home button available
+			PureClick(62, 607 + $g_iBottomOffsetY, 1, 0, "#0138") ;Check if Return Home button available
 			If _Sleep($DELAYCHECKOBSTACLES2) Then Return
 			Return True
 		EndIf
@@ -234,26 +229,6 @@ Func _checkObstacles($bBuilderBase = False, $bRecursive = False) ;Checks if some
 
 	If CheckLoginWithSupercellIDScreen() Then Return True
 
-	Local $bIsOnBuilderBase = isOnBuilderBase()
-	Local $bIsOnMainVillage = isOnMainVillage()
-	If $bIsOnBuilderBase Or $bIsOnMainVillage Then
-		Select
-			Case $bBuilderBase And Not $bIsOnBuilderBase And $bIsOnMainVillage
-				SetLog("Detected Main Village, trying to switch back to Builder Base")
-				$b_Switch = True
-			Case Not $bBuilderBase And $bIsOnBuilderBase And Not $bIsOnMainVillage
-				SetLog("Detected Builder Base, trying to switch back to Main Village")
-				$b_Switch = True
-		EndSelect
-		If $b_Switch Then
-			If SwitchBetweenBases(True, $bBuilderBase) Then
-				$g_bMinorObstacle = True
-				If _Sleep($DELAYCHECKOBSTACLES1) Then Return
-				Return False
-			EndIf
-		EndIf
-	EndIf
-
 	Return False
 EndFunc   ;==>_checkObstacles
 
@@ -268,9 +243,9 @@ Func checkObstacles_ReloadCoC($bRecursive = False)
 		If Not $bRecursive Then OpenCoC()
 		Return True
 	EndIf
-	
+
 	If Not $bRecursive Then CloseCoC(True)
-	
+
 	If _Sleep($DELAYCHECKOBSTACLES3) Then Return
 	Return True
 EndFunc   ;==>checkObstacles_ReloadCoC
@@ -297,7 +272,7 @@ Func checkObstacles_StopBot($msg)
 EndFunc   ;==>checkObstacles_StopBot
 
 Func checkObstacles_ResetSearch()
-	; reset fast restart flags to ensure base is rearmed after error event that has base offline for long duration, like PB or Maintenance
+	; reset fast restart flags to ensure base is rearmed after error event that has base offline for long duration, like Maintenance
 	$g_bIsClientSyncError = False
 	$g_bIsSearchLimit = False
 	$g_abNotNeedAllTime[0] = True
@@ -399,16 +374,16 @@ Func CheckAllObstacles($bDebugImageSave = $g_bDebugImageSave, $MinType = 0, $Max
 	["", "Detected Rate Game!", $sImgRateGame, 170, 260, 400, 320], _
 	["", "Detected Important Notice!", $sImgNotice, 170, 250, 400, 300], _
 	["", "Detected Google Play Services Has Stopped!", $sImgGPServices, 280, 300, 410, 340], _
-	["", "Detected COC isn't Responding!!", $sImgClashNotResponding, 210, 270, 360, 340], _
+	["", "Detected COC isn't Responding!!", $sImgClashNotResponding, 210, 240, 360, 310], _
 	["", "Detected Another Device Connected!!", $sImgDevice, 220, 300, 360, 360]]
 
 	Local $aiButtonType[4][6] = [["", $sImgReloadBtn, 170, 365, 330, 420], _
 	["", $sImgNeverBtn, 540, 365, 700, 420], _
 	["", $sImgOKBtn, 170, 370, 270, 430], _
 	["", $sImgOKBtn, 630, 355, 700, 385]]
-					
+
 	; Initial Timer
-	Local $hTimer = TimerInit()									
+	Local $hTimer = TimerInit()
 
 	For $i = $MinType To $MaxType
 
@@ -473,6 +448,7 @@ Func CheckAllObstacles($bDebugImageSave = $g_bDebugImageSave, $MinType = 0, $Max
 			
 				If _Sleep(100) Then Return
 				SetDebugLog("Found button....", $COLOR_SUCCESS1)
+				SetDebugLog("Click Coords : " & ($aiButtonType[$Ref][0])[0] & "," & ($aiButtonType[$Ref][0])[1], $COLOR_ERROR)
 				PureClickP($aiButtonType[$Ref][0])
 				If _Sleep($DELAYCHECKOBSTACLES1) Then Return
 
@@ -487,7 +463,7 @@ Func CheckAllObstacles($bDebugImageSave = $g_bDebugImageSave, $MinType = 0, $Max
 				If $bDebugImageSave Then SaveDebugImage("CheckObstacles")
 				SetDebugLog("Failed to find Button", $COLOR_DEBUG)
 
-				If $i = 4 Then ; 4 : Google Play Services Has Stopped Then Click on "OK"
+				If $i = 4 Then ; 4 : Google Play Services Has Stopped And "OK" Button Not Found
 					checkObstacles_RebootAndroid(False, False, True)
 				Else
 					checkObstacles_ReloadCoC($bRecursive)
@@ -498,9 +474,18 @@ Func CheckAllObstacles($bDebugImageSave = $g_bDebugImageSave, $MinType = 0, $Max
 			$bRet = True
 			ExitLoop
 
+		Else
+
+			If $i = 3 Then
+				SetLog("Warning: Cannot find type of Reload error message", $COLOR_ERROR)
+				If $bDebugImageSave Then SaveDebugImage("CheckObstacles")
+				checkObstacles_ReloadCoC($bRecursive)
+				$bRet = True
+			EndIf
+
 		EndIf
 
-	Next	
+	Next
 
 	SetDebugLog("No Obstacle Window found! (in " & Round(TimerDiff($hTimer) / 1000, 2) & " seconds)", $COLOR_DEBUG)
 

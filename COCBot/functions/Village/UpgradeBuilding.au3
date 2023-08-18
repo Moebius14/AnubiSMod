@@ -174,8 +174,13 @@ Func UpgradeBuilding()
 				If UpgradeNormal($iz) = False Then ContinueLoop
 				$iUpgradeAction += 2 ^ ($iz + 1)
 				SetLog("Elixir used = " & _NumberFormat($g_avBuildingUpgrades[$iz][2], True), $COLOR_INFO)
-				$g_iNbrOfBuildingsUppedElixir += 1
-				$g_iCostElixirBuilding += $g_avBuildingUpgrades[$iz][2]
+				If $g_avBuildingUpgrades[$iz][4] = "Grand Warden" Then
+					$g_iNbrOfWardenUpped += 1
+					$g_iCostElixirWarden += $g_avBuildingUpgrades[$iz][2]
+				Else
+					$g_iNbrOfBuildingsUppedElixir += 1
+					$g_iCostElixirBuilding += $g_avBuildingUpgrades[$iz][2]
+				EndIf
 				UpdateStats()
 				$iAvailElixir -= $g_avBuildingUpgrades[$iz][2]
 				If Not $iAvailBldrBook Then $iAvailBldr -= 1
@@ -185,17 +190,17 @@ Func UpgradeBuilding()
 					SetLog("Insufficent Dark for #" & $iz + 1 & ", requires: " & $g_avBuildingUpgrades[$iz][2] & " + " & $g_iUpgradeMinDark, $COLOR_INFO)
 					ContinueLoop
 				EndIf
-				
 				If $g_avBuildingUpgrades[$iz][4] = "Monolith" Then
 					If UpgradeNormal($iz) = False Then ContinueLoop; UpgradeNormal For Megalith
+					$g_iNbrOfBuildingsUppedDElixir += 1
+					$g_iCostDElixirBuilding += $g_avBuildingUpgrades[$iz][2]
 				Else
 					If UpgradeHero($iz) = False Then ContinueLoop
+					$g_iNbrOfHeroesUpped += 1
+					$g_iCostDElixirHero += $g_avBuildingUpgrades[$iz][2]
 				EndIf
-				
 				$iUpgradeAction += 2 ^ ($iz + 1)
 				SetLog("Dark Elixir used = " & _NumberFormat($g_avBuildingUpgrades[$iz][2], True), $COLOR_INFO)
-				$g_iNbrOfHeroesUpped += 1
-				$g_iCostDElixirHero += $g_avBuildingUpgrades[$iz][2]
 				UpdateStats()
 				$iAvailDark -= $g_avBuildingUpgrades[$iz][2]
 				If Not $iAvailBldrBook Then $iAvailBldr -= 1

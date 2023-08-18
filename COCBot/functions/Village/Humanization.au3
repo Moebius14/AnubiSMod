@@ -2772,7 +2772,7 @@ Func IsBestClans()
 EndFunc   ;==>IsBestClans
 
 Func ChatOpen()
-	Local $bResult = _Wait4Pixel(330, 412, 0xC55115, 20, 3000, "ChatOpen") ;Wait for Chat To Be Appear
+	Local $bResult = _Wait4Pixel(330, 368, 0xC55115, 20, 3000, "ChatOpen") ;Wait for Chat To Be Appear
 	Return $bResult
 EndFunc   ;==>ChatOpen
 

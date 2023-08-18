@@ -45,9 +45,7 @@ Func GetVillageSize($DebugLog = Default, $sStonePrefix = Default, $sTreePrefix =
 
 	Local $iTreeIndex = 0
 
-	Local $bOnClanCapitial = isOnClanCapital(True)
-
-	Local $bIsOnMainBase = isOnMainVillage()
+	Local $bIsOnMainBase = isOnMainVillage(True)
 
 	$g_bOnBuilderBaseEnemyVillage = isOnBuilderBaseEnemyVillage(True)
 
@@ -58,11 +56,6 @@ Func GetVillageSize($DebugLog = Default, $sStonePrefix = Default, $sTreePrefix =
 	If $bOnBuilderBase Or $g_bOnBuilderBaseEnemyVillage Then
 		$sDirectory = @ScriptDir & "\imgxml\village\BuilderBase\"
 		SetDeBugLog("GVZ using : \imgxml\village\BuilderBase\", $COLOR_INFO)
-	ElseIf $bOnClanCapitial Then
-		$sDirectory = @ScriptDir & "\imgxml\village\ClanCapital\"
-		$iAdditionalX = 600
-		$iAdditionalY = 125
-		SetDeBugLog("GVZ using : \imgxml\village\ClanCapital\", $COLOR_INFO)
 	Else
 		$sDirectory = @ScriptDir & "\imgxml\village\NormalVillage\" ; all sceneries support
 		SetDeBugLog("GVZ using : \imgxml\village\NormalVillage\", $COLOR_INFO)

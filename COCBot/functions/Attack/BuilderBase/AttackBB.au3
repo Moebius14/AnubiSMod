@@ -35,6 +35,7 @@ Func DoAttackBB()
 	If Not $g_bChkEnableBBAttack Then Return
 
 	$IsChallengeCompleted = False
+	$b_AbortedAttack = False
 	Local $AttackForCount = 0
 	
 	If $g_iBBAttackCount = 0 Then
@@ -44,12 +45,13 @@ Func DoAttackBB()
 			SetDebugLog("PrepareAttackBB(): Success.", $COLOR_SUCCESS)
 			SetLog("Attacking For Stars", $COLOR_OLIVE)
 			SetLog("Attack #" & $count & "/~", $COLOR_INFO)
+			If $b_AbortedAttack Then $b_AbortedAttack = False ; Reset Value
 			_AttackBB()
-			$AttackForCount += 1
+			If Not $b_AbortedAttack Then $AttackForCount += 1 ; Count if no Zoom Out fail
 			If $IsChallengeCompleted Then ExitLoop
 			If $g_bRestart = True Then Return
-			If _Sleep($DELAYRUNBOT3) Then Return
-			If checkObstacles(True) Then Return
+			If _Sleep($DELAYATTACKMAIN2) Then Return
+			checkObstacles()
 			$count += 1
 			If $count > 10 Then
 				SetLog("Already Attack 10 times, continue next time", $COLOR_INFO)
@@ -70,20 +72,26 @@ Func DoAttackBB()
 			If PrepareAttackBB($AttackForCount) Then
 				If $AttackNbDisplay = 0 Then
 					If $g_iBBAttackCount = 1 Then
-						SetLog("Random Number Of Attacks : " & $g_iBBAttackCountFinal & "", $COLOR_OLIVE)
+						SetLog("Random Number Of Attacks : " & $g_iBBAttackCountFinal, $COLOR_OLIVE)
 					ElseIf $g_iBBAttackCount > 1 Then
-						SetLog("Number Of Attacks : " & $g_iBBAttackCountFinal & "", $COLOR_OLIVE)
+						SetLog("Number Of Attacks : " & $g_iBBAttackCountFinal, $COLOR_OLIVE)
 					EndIf
 				EndIf
 				$AttackNbDisplay += 1
 				SetDebugLog("PrepareAttackBB(): Success.", $COLOR_SUCCESS)
 				SetLog("Attack #" & $i & "/" & $g_iBBAttackCountFinal, $COLOR_INFO)
+				If $b_AbortedAttack Then $b_AbortedAttack = False ; Reset Value
 				_AttackBB()
-				$AttackForCount += 1
+				If Not $b_AbortedAttack Then
+					$AttackForCount += 1 ; Count if no Zoom Out fail
+				Else
+					SetLog("Add one more attack due to Zoom Out Fail", $COLOR_INFO)
+					$g_iBBAttackCountFinal += 1
+				EndIf
 				If $IsChallengeCompleted Then ExitLoop
 				If $g_bRestart = True Then Return
-				If _Sleep($DELAYRUNBOT3) Then Return
-				If checkObstacles(True) Then Return
+				If _Sleep($DELAYATTACKMAIN2) Then Return
+				checkObstacles()
 			Else
 				SetLog("Skip Attack This Time..", $COLOR_DEBUG)
 				ClickAway()
@@ -171,6 +179,7 @@ Func _AttackBB()
 	ZoomOut()
 	If Not isOnBuilderBaseEnemyVillage(True) Then
 		SetLog("Zoom Out has failed and Attack was aborted", $COLOR_DEBUG)
+		$b_AbortedAttack = True
 		Return
 	EndIf
 
@@ -187,7 +196,6 @@ Func _AttackBB()
 	If EndBattleBB() Then SetLog("Battle ended", $COLOR_INFO)
 	checkObstacles($g_bStayOnBuilderBase)
 
-	SetLog("Done", $COLOR_SUCCESS)
 EndFunc
 
 Func EndBattleBB() ; Find if battle has ended and click okay
@@ -211,7 +219,13 @@ Func EndBattleBB() ; Find if battle has ended and click okay
 			If _SleepStatus(12000) Then Return
 			SetLog("Preparing For Second Round", $COLOR_INFO)
 			If _SleepStatus(3000) Then Return
-
+;#cs
+			ZoomOut()
+			If Not isOnBuilderBaseEnemyVillage(True) Then
+				SetLog("Zoom Out has failed and Attack was aborted", $COLOR_DEBUG)
+				Return False
+			EndIf
+;#ce
 			; Get troops on attack bar and their quantities
 			$g_aMachinePos = GetMachinePos()
 			$g_DeployedMachine = False
@@ -225,7 +239,7 @@ Func EndBattleBB() ; Find if battle has ended and click okay
 			$bBomber = True
 		EndIf
 
-		If $bCountSameDamage > 20 Then
+		If $bCountSameDamage > 25 Then
 			If ReturnHomeDropTrophyBB(True) Then $bRet = True
 			ExitLoop
 		EndIf
@@ -407,9 +421,9 @@ Func DeployBBTroop($sName, $x, $y, $iAmount, $ai_AttackDropPoints)
 				$b_MachineTimeOffset = TimerDiff($b_MachineTimeOffsetDiff)
 				If $bRet Then ExitLoop
 			Next
-			Local $g_DeployColor[2] = [0xC026F8, 0xFF65F]
+			Local $g_DeployColor[2] = [0xCD3AFF, 0xFF8BFF]
 			For $z = 0 To 1
-				If WaitforPixel(41, 552 + $g_iBottomOffsetY, 43, 554 + $g_iBottomOffsetY, Hex($g_DeployColor[$z], 6), 30, 20) Then
+				If WaitforPixel(24, 552 + $g_iBottomOffsetY, 26, 554 + $g_iBottomOffsetY, Hex($g_DeployColor[$z], 6), 30, 20) Then
 					$g_DeployedMachine = True
 					SetLog($sName & " Deployed", $COLOR_SUCCESS)
 					PureClickP($aBMPos) ; Activate Ability
@@ -426,7 +440,7 @@ Func DeployBBTroop($sName, $x, $y, $iAmount, $ai_AttackDropPoints)
  EndFunc
 
 Func GetMachinePos()
-	Local $aBMPos = QuickMIS("CNX", $g_sImgBBBattleMachine, 28, 540 + $g_iBottomOffsetY, 100, 665 + $g_iBottomOffsetY)
+	Local $aBMPos = QuickMIS("CNX", $g_sImgBBBattleMachine, 18, 540 + $g_iBottomOffsetY, 85, 665 + $g_iBottomOffsetY)
 	Local $aCoords[3]
 	If $aBMPos = -1 Then Return 0
 
@@ -441,7 +455,7 @@ EndFunc
 
 Func CheckBMLoop($aBMPos = $g_aMachinePos)
 	Local $count = 0, $loopcount = 0
-	Local $BMDeadX = 89, $BMDeadColor
+	Local $BMDeadX = 71, $BMDeadColor
 	Local $BMDeadY = 664 + $g_iBottomOffsetY
 	Local $MachineName = ""
 

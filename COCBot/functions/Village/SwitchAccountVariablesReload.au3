@@ -37,8 +37,6 @@ Func SwitchAccountVariablesReload($sType = "Load", $iAccount = $g_iCurAccount)
 	Static $gSbFirstStartForStarLab = $aiZero
 	
 	;Mods
-	Static $SCheckTombsTimer = $aiZero
-	Static $SCheckTombsFrequency = $aiZero
 	Static $SLootCartTimer = $aiZero
 	Static $SLootCartFrequency = $aiZero
 	Static $SIsToOpenOffers = $aiZero
@@ -89,8 +87,8 @@ Func SwitchAccountVariablesReload($sType = "Load", $iAccount = $g_iCurAccount)
 	Static $aiDroppedTrophyCount = $aiZero
 	Static $aiSearchCost = $aiZero, $aiTrainCostElixir = $aiZero, $aiTrainCostDElixir = $aiZero, $aiTrainCostGold = $aiZero ; search and train troops cost
 	Static $aiGoldFromMines = $aiZero, $aiElixirFromCollectors = $aiZero, $aiDElixirFromDrills = $aiZero ; number of resources gain by collecting mines, collectors, drills
-	Static $aiCostGoldWall = $aiZero, $aiCostElixirWall = $aiZero, $aiCostGoldBuilding = $aiZero, $aiCostElixirBuilding = $aiZero, $aiCostDElixirHero = $aiZero ; wall, building and hero upgrade costs
-	Static $aiNbrOfWallsUppedGold = $aiZero, $aiNbrOfWallsUppedElixir = $aiZero, $aiNbrOfBuildingsUppedGold = $aiZero, $aiNbrOfBuildingsUppedElixir = $aiZero, $aiNbrOfHeroesUpped = $aiZero ; number of wall, building, hero upgrades with gold, elixir, delixir
+	Static $aiCostGoldWall = $aiZero, $aiCostElixirWall = $aiZero, $aiCostGoldBuilding = $aiZero, $aiCostElixirBuilding = $aiZero, $aiCostDElixirBuilding = $aiZero, $aiCostDElixirHero = $aiZero, $aiCostElixirWarden = $aiZero ; wall, building and hero upgrade costs
+	Static $aiNbrOfWallsUppedGold = $aiZero, $aiNbrOfWallsUppedElixir = $aiZero, $aiNbrOfBuildingsUppedGold = $aiZero, $aiNbrOfBuildingsUppedElixir = $aiZero, $aiNbrOfBuildingsUppedDElixir = $aiZero, $aiNbrOfHeroesUpped = $aiZero, $aiNbrOfWardenUpped = $aiZero ; number of wall, building, hero upgrades with gold, elixir, delixir
 	Static $aiNbrOfWallsUpped = $aiZero
 
 	; Attack Stats
@@ -160,8 +158,6 @@ Func SwitchAccountVariablesReload($sType = "Load", $iAccount = $g_iCurAccount)
 			$gSbFirstStartForStarLab = $aiZero
 			
 			;Mods
-			$SCheckTombsTimer = $aiZero
-			$SCheckTombsFrequency = $aiZero
 			$SLootCartTimer = $aiZero
 			$SLootCartFrequency = $aiZero
 			$SIsToOpenOffers = $aiZero
@@ -212,12 +208,16 @@ Func SwitchAccountVariablesReload($sType = "Load", $iAccount = $g_iCurAccount)
 			$aiCostElixirWall = $aiZero
 			$aiCostGoldBuilding = $aiZero
 			$aiCostElixirBuilding = $aiZero
+			$aiCostDElixirBuilding = $aiZero
 			$aiCostDElixirHero = $aiZero
+			$aiCostElixirWarden = $aiZero
 			$aiNbrOfWallsUppedGold = $aiZero
 			$aiNbrOfWallsUppedElixir = $aiZero
 			$aiNbrOfBuildingsUppedGold = $aiZero
 			$aiNbrOfBuildingsUppedElixir = $aiZero
+			$aiNbrOfBuildingsUppedDElixir = $aiZero
 			$aiNbrOfHeroesUpped = $aiZero
+			$aiNbrOfWardenUpped = $aiZero
 			$aiNbrOfWallsUpped = $aiZero
 
 			; Attack Stats
@@ -313,8 +313,6 @@ Func SwitchAccountVariablesReload($sType = "Load", $iAccount = $g_iCurAccount)
 			$gSbFirstStartForStarLab[$iAccount] = $g_bFirstStartForStarLab
 			
 			;Mods
-			$SCheckTombsTimer[$iAccount] = $CheckTombsTimer
-			$SCheckTombsFrequency[$iAccount] = $CheckTombsFrequency
 			$SLootCartTimer[$iAccount] = $LootCartTimer
 			$SLootCartFrequency[$iAccount] = $LootCartFrequency
 			$SIsToOpenOffers[$iAccount] = $IsToOpenOffers
@@ -382,12 +380,16 @@ Func SwitchAccountVariablesReload($sType = "Load", $iAccount = $g_iCurAccount)
 			$aiCostElixirWall[$iAccount] = $g_iCostElixirWall
 			$aiCostGoldBuilding[$iAccount] = $g_iCostGoldBuilding
 			$aiCostElixirBuilding[$iAccount] = $g_iCostElixirBuilding
+			$aiCostDElixirBuilding[$iAccount] = $g_iCostDElixirBuilding
 			$aiCostDElixirHero[$iAccount] = $g_iCostDElixirHero
+			$aiCostElixirWarden[$iAccount] = $g_iCostElixirWarden
 			$aiNbrOfWallsUppedGold[$iAccount] = $g_iNbrOfWallsUppedGold
 			$aiNbrOfWallsUppedElixir[$iAccount] = $g_iNbrOfWallsUppedElixir
 			$aiNbrOfBuildingsUppedGold[$iAccount] = $g_iNbrOfBuildingsUppedGold
 			$aiNbrOfBuildingsUppedElixir[$iAccount] = $g_iNbrOfBuildingsUppedElixir
+			$aiNbrOfBuildingsUppedDElixir[$iAccount] = $g_iNbrOfBuildingsUppedDElixir
 			$aiNbrOfHeroesUpped[$iAccount] = $g_iNbrOfHeroesUpped
+			$aiNbrOfWardenUpped[$iAccount] = $g_iNbrOfWardenUpped
 			$aiNbrOfWallsUpped[$iAccount] = $g_iNbrOfWallsUpped
 
 			; Attack Stats
@@ -484,8 +486,6 @@ Func SwitchAccountVariablesReload($sType = "Load", $iAccount = $g_iCurAccount)
 			$g_bFirstStartForStarLab = $gSbFirstStartForStarLab[$iAccount]
 			
 			;Mods
-			$CheckTombsTimer = $SCheckTombsTimer[$iAccount]
-			$CheckTombsFrequency = $SCheckTombsFrequency[$iAccount]
 			$LootCartTimer = $SLootCartTimer[$iAccount]
 			$LootCartFrequency = $SLootCartFrequency[$iAccount]
 			$IsToOpenOffers = $SIsToOpenOffers[$iAccount]
@@ -559,12 +559,16 @@ Func SwitchAccountVariablesReload($sType = "Load", $iAccount = $g_iCurAccount)
 			$g_iCostElixirWall = $aiCostElixirWall[$iAccount]
 			$g_iCostGoldBuilding = $aiCostGoldBuilding[$iAccount]
 			$g_iCostElixirBuilding = $aiCostElixirBuilding[$iAccount]
+			$g_iCostDElixirBuilding = $aiCostDElixirBuilding[$iAccount]
 			$g_iCostDElixirHero = $aiCostDElixirHero[$iAccount]
+			$g_iCostElixirWarden = $aiCostElixirWarden[$iAccount]
 			$g_iNbrOfWallsUppedGold = $aiNbrOfWallsUppedGold[$iAccount]
 			$g_iNbrOfWallsUppedElixir = $aiNbrOfWallsUppedElixir[$iAccount]
 			$g_iNbrOfBuildingsUppedGold = $aiNbrOfBuildingsUppedGold[$iAccount]
 			$g_iNbrOfBuildingsUppedElixir = $aiNbrOfBuildingsUppedElixir[$iAccount]
+			$g_iNbrOfBuildingsUppedDElixir = $aiNbrOfBuildingsUppedDElixir[$iAccount]
 			$g_iNbrOfHeroesUpped = $aiNbrOfHeroesUpped[$iAccount]
+			$g_iNbrOfWardenUpped = $aiNbrOfWardenUpped[$iAccount]
 			$g_iNbrOfWallsUpped = $aiNbrOfWallsUpped[$iAccount]
 
 			; Attack Stats

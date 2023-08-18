@@ -1667,6 +1667,10 @@ Func BuilderBase($bTest = False)
 		If _Sleep($DELAYRUNBOT3) Then Return
 		If checkObstacles() Then Return
 
+		BuilderJar()
+		If _Sleep($DELAYRUNBOT3) Then Return
+		If checkObstacles() Then Return
+
 		DoAttackBB()
 		If _Sleep($DELAYRUNBOT3) Then Return
 		If checkObstacles() Then Return

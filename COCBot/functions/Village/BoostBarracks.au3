@@ -28,7 +28,7 @@ Func BoostTrainBuilding($sName, $iCmbBoost, $iCmbBoostCtrl)
 	Local $bBoosted = False
 	
 	If $g_iCommandStop = 0 Or $g_iCommandStop = 3 Then ;halt attack.. do not boost now
-		SetLog("Boost skipped, account on halt attack mode", $COLOR_ACTION)
+		If $iCmbBoost > 0 Then SetLog("Boost skipped, account on halt attack mode", $COLOR_ACTION)
 		Return False
 	EndIf
 
@@ -102,7 +102,7 @@ EndFunc   ;==>BoostTrainBuilding
 
 Func BoostEverything()
 	If $g_iCommandStop = 0 Or $g_iCommandStop = 3 Then ;halt attack.. do not boost now
-		SetLog("Boost Everything skipped, account on halt attack mode", $COLOR_ACTION)
+		If $g_iCmbBoostEverything > 0 Then SetLog("Boost Everything skipped, account on halt attack mode", $COLOR_ACTION)
 		Return False
 	EndIf
 

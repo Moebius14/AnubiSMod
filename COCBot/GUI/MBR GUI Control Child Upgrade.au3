@@ -678,6 +678,13 @@ Func chkUpgradesToIgnore()
 	Next
 EndFunc   ;==>chkUpgradesToIgnore
 
+Func IgnoreAll()
+	For $i = 0 To Ubound($g_iChkUpgradesToIgnore) - 1
+		GUICtrlSetState($g_hChkUpgradesToIgnore[$i], $GUI_CHECKED)
+		$g_iChkUpgradesToIgnore[$i] = 1
+	Next
+EndFunc
+
 Func ResetIgnore()
 	For $i = 0 To Ubound($g_iChkUpgradesToIgnore) - 1
 		GUICtrlSetState($g_hChkUpgradesToIgnore[$i], $GUI_UNCHECKED)

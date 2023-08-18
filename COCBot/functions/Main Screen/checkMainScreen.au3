@@ -6,7 +6,7 @@
 ; Parameters ....: $bCheck: [optional] Sets a Message in Bot Log. Default is True  - $bBuilderBase: [optional] Use CheckMainScreen for Builder Base instead of normal Village. Default is False
 ; Return values .: None
 ; Author ........:
-; Modified ......: KnowJack (07-2015) , TheMaster1st(2015), Fliegerfaust (06-2017)
+; Modified ......: KnowJack (07-2015) , TheMaster1st(2015), Fliegerfaust (06-2017), Moebius14 (07-2023)
 ; Remarks .......: This file is part of MyBot, previously known as ClashGameBot. Copyright 2015-2023
 ;                  MyBot is distributed under the terms of the GNU GPL
 ; Related .......: checkObstacles(), waitMainScreen()
@@ -137,9 +137,3 @@ Func checkChatTabPixel()
 	EndIf
 	Return False
 EndFunc   ;==>checkChatTabPixel
-
-Func isOnMainVillage1($bNeedCaptureRegion = $g_bNoCapturePixel)
-	Local $aPixelToCheck = $aIsMain
-	Local $bLocated = False
-	Return _checkMainScreenImage($bLocated, $aPixelToCheck)
-EndFunc

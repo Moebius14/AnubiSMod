@@ -15,7 +15,7 @@
 
 Func chkEnableBBAttack()
 	If GUICtrlRead($g_hChkEnableBBAttack) = $GUI_CHECKED Then
-		GUICtrlSetState($g_hChkBBTrophyRange, $GUI_ENABLE)
+		GUICtrlSetState($g_hChkUseBuilderJar, $GUI_ENABLE)
 		GUICtrlSetState($g_hChkBBAttIfLootAvail, $GUI_ENABLE)
 		GUICtrlSetState($g_hChkBBWaitForMachine, $GUI_ENABLE)
 		GUICtrlSetState($g_hChkBBHaltOnResourcesFull, $GUI_ENABLE)
@@ -25,10 +25,9 @@ Func chkEnableBBAttack()
 		GUICtrlSetState($g_hCmbBBAttackCount, $GUI_ENABLE)
 		GUICtrlSetState($g_hChkForceBBAttackOnClanGames, $GUI_ENABLE)
 		GUICtrlSetState($g_hChkBBAttackForDailyChallenge, $GUI_ENABLE)
-		chkBBTrophyRange()
 		cmbBBAttackCount()
 	Else
-		GUICtrlSetState($g_hChkBBTrophyRange, $GUI_DISABLE)
+		GUICtrlSetState($g_hChkUseBuilderJar, $GUI_DISABLE)
 		GUICtrlSetState($g_hChkBBAttIfLootAvail, $GUI_DISABLE)
 		GUICtrlSetState($g_hTxtBBTrophyLowerLimit, $GUI_DISABLE)
 		GUICtrlSetState($g_hTxtBBTrophyUpperLimit, $GUI_DISABLE)
@@ -197,16 +196,6 @@ Func cmbBBSameTroopDelay()
 	SetDebugLog("Same Troop Delay: " & $g_iBBSameTroopDelay)
 	SetDebugLog((_GUICtrlComboBox_GetCurSel($g_hCmbBBSameTroopDelay) + 1) - 5)
 EndFunc   ;==>cmbBBSameTroopDelay
-
-Func chkBBTrophyRange()
-	If GUICtrlRead($g_hChkBBTrophyRange) = $GUI_CHECKED Then
-		GUICtrlSetState($g_hTxtBBTrophyLowerLimit, $GUI_ENABLE)
-		GUICtrlSetState($g_hTxtBBTrophyUpperLimit, $GUI_ENABLE)
-	Else
-		GUICtrlSetState($g_hTxtBBTrophyLowerLimit, $GUI_DISABLE)
-		GUICtrlSetState($g_hTxtBBTrophyUpperLimit, $GUI_DISABLE)
-	EndIf
-EndFunc   ;==>chkBBTrophyRange
 
 Func btnBBDropOrder()
 	GUICtrlSetState($g_hBtnBBDropOrder, $GUI_DISABLE)

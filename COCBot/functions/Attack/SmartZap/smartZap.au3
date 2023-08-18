@@ -49,9 +49,9 @@ Func getDarkElixir()
 	Local $g_iSearchDark = "", $iCount = 0
 
 	;SetLog("Getting Dark Elixir Values.")
-	If _CheckPixel($aAtkHasDarkElixir, $g_bCapturePixel, Default, "HasDarkElixir") Or _ColorCheck(_GetPixelColor(31, 144, True), Hex(0x0F0617, 6), 5) Then ; check if the village have a Dark Elixir Storage
+	If _CheckPixel($aAtkHasDarkElixir, $g_bCapturePixel, Default, "HasDarkElixir") Or _ColorCheck(_GetPixelColor(31, 151, True), Hex(0x282020, 6), 5) Then ; check if the village have a Dark Elixir Storage
 		While $g_iSearchDark = ""
-			$g_iSearchDark = getDarkElixirVillageSearch(48, 126) ; Get updated Dark Elixir value
+			$g_iSearchDark = getDarkElixirVillageSearch(48, 126 + 7)
 			$iCount += 1
 			If $iCount > 15 Then ExitLoop ; Check a couple of times in case troops are blocking the image
 			If _Sleep($DELAYSMARTZAP1) Then Return

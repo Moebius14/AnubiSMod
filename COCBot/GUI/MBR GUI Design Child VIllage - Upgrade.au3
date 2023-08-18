@@ -62,8 +62,8 @@ Global $g_hHowUseWallRings = 0, $g_hCmbUseWallRings = 0
 Global $g_hChkAutoUpgrade = 0, $g_hLblAutoUpgrade = 0, $g_hCmbBoostBuilders = 0, $g_hCmbFreeBuilders = 0, $g_hCmbBoostBuilders2 = 0, $g_hCmbFreeBuilders2 = 0
 Global $g_hTxtSmartMinGold = 0, $g_hTxtSmartMinElixir = 0, $g_hTxtSmartMinDark = 0
 Global $g_hChkResourcesToIgnore[3] = [0, 0, 0]
-Global $g_hChkUpgradesToIgnore[34] = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
-Global $g_hBtnResetIgnore = 0
+Global $g_hChkUpgradesToIgnore[35] = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+Global $g_hBtnAllIgnore = 0, $g_hBtnResetIgnore = 0
 
 Func CreateVillageUpgrade()
 
@@ -775,7 +775,7 @@ Func CreateAutoUpgradeSubTab()
 		$g_hChkUpgradesToIgnore[0] = GUICtrlCreateCheckbox("", $x + 20 - $xOff, $y + $yRow1 + $yChkOff, 17, 17)
 			_GUICtrlSetTip(-1, "Ignore TownHall Upgrade")
 			GUICtrlSetOnEvent(-1, "chkUpgradesToIgnore")
-			
+
 		_GUICtrlCreateIcon($g_sLibIconPath, $eIconTH15Weapon, $x + 50, $y + $yRow1, $iIconSize, $iIconSize)
 		$g_hChkUpgradesToIgnore[15] = GUICtrlCreateCheckbox("", $x + 65 - $xOff, $y + $yRow1 + $yChkOff, 17, 17)
 			_GUICtrlSetTip(-1, "Ignore TownHall Weapon Upgrade")
@@ -850,7 +850,7 @@ Func CreateAutoUpgradeSubTab()
 		$g_hChkUpgradesToIgnore[13] = GUICtrlCreateCheckbox("", $x + 380 - $xOff, $y + $yRow2 + $yChkOff, 17, 17)
 			_GUICtrlSetTip(-1, "Ignore Dark Elixir Drill Upgrade")
 			GUICtrlSetOnEvent(-1, "chkUpgradesToIgnore")
-		
+
 		;Advanced
 		Local $LeftOffset = 37
 		$y = $y + $yRow2 + 60
@@ -930,11 +930,18 @@ Func CreateAutoUpgradeSubTab()
 		$g_hChkUpgradesToIgnore[31] = GUICtrlCreateCheckbox("Pet House", $x, $y, -1, -1)
 		_GUICtrlSetTip(-1, "Ignore Pet House Upgrade")
 		GUICtrlSetOnEvent(-1, "chkUpgradesToIgnore")
-		
-		$x += 230
+		$x += 100
+		$g_hChkUpgradesToIgnore[34] = GUICtrlCreateCheckbox("Spell Tower", $x, $y, -1, -1)
+		_GUICtrlSetTip(-1, "Ignore Spell Tower Upgrade")
+		GUICtrlSetOnEvent(-1, "chkUpgradesToIgnore")
+		;Buttons
+		$x += 100
+		$g_hBtnAllIgnore = GUICtrlCreateButton("All", $x, $y + 10, -1, -1)
+		GUICtrlSetOnEvent(-1, "IgnoreAll")
+		$x += 30
 		$g_hBtnResetIgnore = GUICtrlCreateButton("Reset", $x, $y + 10, -1, -1)
 		GUICtrlSetOnEvent(-1, "ResetIgnore")
-		
+
 	GUICtrlCreateGroup("", -99, -99, 1, 1)
 
 EndFunc   ;==>CreateAutoUpgradeGUI

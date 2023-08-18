@@ -874,9 +874,9 @@ Global $XForItem1 = 0, $XForItem2 = 0, $IsopenMagicWindow = False
 Global $g_bChkCollectBuilderBase = False, $g_bChkStartClockTowerBoost = False, $g_bChkCTBoostBlderBz = False, $g_bChkCleanBBYard = False
 
 ; Builder Base Attack
-Global $g_hChkEnableBBAttack = 0, $g_hChkBBTrophyRange = 0, $g_hTxtBBTrophyLowerLimit = 0, $g_hTxtBBTrophyUpperLimit = 0, $g_hChkBBAttIfLootAvail = 0, $g_hChkBBWaitForMachine = 0
-Global $g_bChkEnableBBAttack = False, $g_bChkBBTrophyRange = False, $g_bChkBBAttIfLootAvail = True, $g_bChkBBWaitForMachine = False
-Global $g_iTxtBBTrophyLowerLimit = 0, $g_iTxtBBTrophyUpperLimit = 5000, $g_hChkBBHaltOnResourcesFull = 0, $g_bChkBBHaltOnResourcesFull = False
+Global $g_hChkEnableBBAttack = 0, $g_hChkUseBuilderJar = 0, $g_hTxtBBTrophyLowerLimit = 0, $g_hTxtBBTrophyUpperLimit = 0, $g_hChkBBAttIfLootAvail = 0, $g_hChkBBWaitForMachine = 0
+Global $g_bChkEnableBBAttack = False, $g_bChkUseBuilderJar = False, $g_bChkBBAttIfLootAvail = True, $g_bChkBBWaitForMachine = False
+Global $g_hChkBBHaltOnResourcesFull = 0, $g_bChkBBHaltOnResourcesFull = False
 Global $g_bBBMachineReady = False, $g_hChkBBAttackForDailyChallenge = 0, $g_bChkBBAttackForDailyChallenge = False, $g_IsBBDailyChallengeAvailable = False
 Global $g_aBBMachine = [0,0] ; x,y coordinates of where to click for Battle machine on attack bar
 Global $g_iBBMachAbilityTime = 14000 ; in milliseconds, so 14 seconds between abilities
@@ -884,6 +884,7 @@ Global Const $g_iBBNextTroopDelayDefault = 2000,  $g_iBBSameTroopDelayDefault = 
 Global $g_iBBNextTroopDelay = $g_iBBNextTroopDelayDefault,  $g_iBBSameTroopDelay = $g_iBBSameTroopDelayDefault; delay time between different and same troops
 Global $g_iBBNextTroopDelayIncrement = 400,  $g_iBBSameTroopDelayIncrement = 60 ; used for math to calculate delays based on selection
 Global $g_hCmbBBNextTroopDelay = 0, $g_hCmbBBSameTroopDelay = 0
+Global $b_AbortedAttack = False
 
 ; BB Drop Order
 Global $g_hBtnBBDropOrder = 0
@@ -985,7 +986,7 @@ Global $g_iChkIgnoreTH = 0, $g_iChkIgnoreKing = 0, $g_iChkIgnoreQueen = 0, $g_iC
 Global $g_iChkIgnoreBarrack = 0, $g_iChkIgnoreDBarrack = 0, $g_iChkIgnoreFactory = 0, $g_iChkIgnoreDFactory = 0
 Global $g_iChkIgnoreGColl = 0, $g_iChkIgnoreEColl = 0, $g_iChkIgnoreDColl = 0
 Global $g_iTxtSmartMinGold = 150000, $g_iTxtSmartMinElixir = 1000, $g_iTxtSmartMinDark = 1000
-Global $g_iChkUpgradesToIgnore[34] = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+Global $g_iChkUpgradesToIgnore[35] = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
 Global $g_iChkResourcesToIgnore[3] = [0, 0, 0]
 Global $g_iNextLineOffset = 75
 Global $g_aUpgradeNameLevel ; [Nb of elements in Array, Name, Level]
@@ -1315,7 +1316,7 @@ Global $g_bChkSwitchAcc = False, $g_bChkSmartSwitch = False, $g_bDonateLikeCrazy
 Global $g_bInitiateSwitchAcc = True, $g_bReMatchAcc = False, $g_bWaitForCCTroopSpell = False, $g_iNextAccount, $g_iCurAccount
 Global $g_abAccountNo[8], $g_asProfileName[8], $g_abDonateOnly[8]
 Global $g_aiAttackedCountSwitch[8], $g_iActiveSwitchCounter = 0, $g_iDonateSwitchCounter = 0
-Global $g_asTrainTimeFinish[8], $g_abPBActive[8]
+Global $g_asTrainTimeFinish[8]
 Global $g_aiRunTime[8], $g_ahTimerSinceSwitched[8]
 ; <><><><> Bot / Stats <><><><>
 ; <<< nothing here >>>
@@ -1358,9 +1359,9 @@ Global $g_iStatsTotalGain[$eLootCount] = [0, 0, 0, 0]
 Global $g_iStatsLastAttack[$eLootCount] = [0, 0, 0, 0]
 Global $g_iStatsBonusLast[$eLootCount] = [0, 0, 0, 0]
 Global $g_iSkippedVillageCount = 0, $g_iDroppedTrophyCount = 0 ; skipped village and dropped trophy counts
-Global $g_iCostGoldWall = 0, $g_iCostElixirWall = 0, $g_iCostGoldBuilding = 0, $g_iCostElixirBuilding = 0, $g_iCostDElixirHero = 0 ; wall, building and hero upgrade costs
+Global $g_iCostGoldWall = 0, $g_iCostElixirWall = 0, $g_iCostGoldBuilding = 0, $g_iCostElixirBuilding = 0, $g_iCostDElixirBuilding = 0, $g_iCostDElixirHero = 0, $g_iCostElixirWarden = 0 ; wall, building and hero upgrade costs
 Global $g_iNbrOfWallsUpped = 0, $g_iNbrOfWallsUppedGold = 0, $g_iNbrOfWallsUppedElixir = 0
-Global $g_iNbrOfBuildingsUppedGold = 0, $g_iNbrOfBuildingsUppedElixir = 0, $g_iNbrOfHeroesUpped = 0 ; number of wall, building, hero upgrades with gold, elixir, delixir
+Global $g_iNbrOfBuildingsUppedGold = 0, $g_iNbrOfBuildingsUppedElixir = 0, $g_iNbrOfBuildingsUppedDElixir = 0, $g_iNbrOfHeroesUpped = 0, $g_iNbrOfWardenUpped = 0 ; number of wall, building, hero upgrades with gold, elixir, delixir
 Global $g_iSearchCost = 0, $g_iTrainCostElixir = 0, $g_iTrainCostDElixir = 0, $g_iTrainCostGold = 0 ; search and train troops cost
 Global $g_iNbrOfOoS = 0 ; number of Out of Sync occurred
 Global $g_iGoldFromMines = 0, $g_iElixirFromCollectors = 0, $g_iDElixirFromDrills = 0 ; number of resources gain by collecting mines, collectors, drills
@@ -2041,7 +2042,6 @@ Global $IsKingReadyForDropTrophies = 0, $IsQueenReadyForDropTrophies = 0, $IsWar
 Global $g_bChkVisitBbaseinPause = True, $g_bChkPersoChallengesinPause = True
 Global $g_bFirstStartAccountDC = 0, $g_bFirstStartAccountFMI = 0, $g_bFirstStartAccountSBB = 0
 Global $g_iTxtCurrentVillageName = ""
-Global $CheckTombsTimer = 0, $CheckTombsFrequency = 0
 Global $LootCartTimer = 0, $LootCartFrequency = 0
 Global $g_sNewChallengeTime = 0, $TimeDiffBBChallenge = 0
 
@@ -2078,39 +2078,39 @@ Global $g_sImgCCReinforceBuy = @ScriptDir & "\imgxml\imglocbuttons\Buy"
 Global $bChkUseOnlyCCMedals = False, $g_aiCmbCCMedalsSaveMin = 100
 Global $g_aiCmbCCDecisionTime = 0, $g_aiCmbCCDecisionThen = 0, $CCWaitChrono = 0, $RequestAlreadyMade = False
 
-; Spring, Autumn, Clashy, Pirate, Epic Winter, Hog Mountain, Jungle, Epic Jungle, 9th Clash, PumpKin GraveYard,
-; Snow Day, Tiger Mountain, Primal(PR), Shadow(SH), Royale Scenery, Summer Scenery
-; Classic War Base, Inferno Tower,
-; Builder Base,
-; Capital Peak, Barbarian Camp, Dark Ages, Painter
-Global Enum $eTreeDSS, $eTreeDAS, $eTreeCC, $eTreePS, $eTreeEW, $eTreeHM, $eTreeJS, $eTreeEJ, $eTree9C, $eTreePG, _
-			$eTreeSD, $eTreeTM, $eTreePR, $eTreeSH, $eTreeRS, $eTreeSM, $eTreePX, $eTreeXC, $eTreeCF, $eTreeMS, $eTreeEM, _
-			$eTreeCS, $eTreeIT, _
-			$eTreeBB, $eTreeOO, $eTreeBB2, $eTreeBBCC, _
- 			$eTreeCP, $eTreeBC, $eTreeDA, $eTreePA, $eTreeGC, $eTreeCount
+; Spring, Autumn, Clashy, Pirate, Epic Winter, Hog Mountain, Jungle, Epic Jungle, 9th Clash,
+; PumpKin GraveYard, Snow Day, Tiger Mountain, Primal(PR), Shadow(SH), Royale Scenery, Summer Scenery, Pixel Scenery, 10th Clash,
+; Clash Fest, Magic Scenery, Epic Magic Scenery, Classic Scenery, Inferno Tower, Jolly Scenery,
+; Dark Ages, Painter, Goblin Caves, Future Scenery, Books of Clash, Spooky Scenery,
+; Builder Base
+Global Enum $eTreeDSS, $eTreeDAS, $eTreeCC, $eTreePS, $eTreeEW, $eTreeHM, $eTreeJS, $eTreeEJ, $eTree9C, _
+			$eTreePG, $eTreeSD, $eTreeTM, $eTreePR, $eTreeSH, $eTreeRS, $eTreeSM, $eTreePX, $eTreeXC, _
+			$eTreeCF, $eTreeMS, $eTreeEM, $eTreeCS, $eTreeIT, $eTreeJO, _
+			$eTreeDA, $eTreePA, $eTreeGC, $eTreeFS, $eTreeBK, $eTreeSP, _
+			$eTreeBB, $eTreeOO, $eTreeCR, $eTreeCount
 
 Global $g_asSceneryNames[$eTreeCount] = [ _
 	"Classic Spring", "Classic Autumn", "Clashy Construct", "Pirate Scenery", "Epic Winter", "Hog Mountain", "Jungle Scenery", "Epic Jungle", "9th Clashiversary", _
 	"Pumpkin Graveyard", "Snowy Day", "Tiger Mountain", "Primal Scenery", "Shadow Scenery", "Royale Scenery", "Summer Scenery", "Pixel Scenery", "10th Clashiversary", _
-	"Clash Fest", "Magic Scenery", "Epic Magic Scenery", _
-	"Classic Scenery", "Inferno Town", "Builder Base", "OTTO Outpost", "Builder Base2", "Crystal Caverns", _
-	"Capital Peak", "Barbarian Camp", "Dark Ages Scenery", "Painter Scenery", "Goblin Caves Scenery"]
+	"Clash Fest", "Magic Scenery", "Epic Magic Scenery", "Classic Scenery", "Inferno Town", "Jolly Scenery", _
+	"Dark Ages Scenery", "Painter Scenery", "Goblin Caves Scenery", "Future Scenery", "Books of Clash", "Spooky Scenery", _
+	"Builder Base", "OTTO Outpost", "Crystal Caverns"]
 
 ; village size, left, right, top, bottom, village size 2, AdjLeft, AdjRight, AdjTop, AdjBottom
 Global Const $g_afRefVillage[$eTreeCount][10] = [ _
 	[476.814083840611, 36, 799, 64, 636, 470.847607649426, 50, 50, 42, 42], _		; SS complete
-	[476.470652278333, 36, 801, 63, 633, 476.470652278333, 50, 50, 42, 42], _		; AS
+	[476.470652278333, 36, 801, 63, 633, 476.470652278333, 50, 50, 42, 42], _		; AS partial
 	[463.064874687304, 56, 800, 68, 622, 473.183193210402, 50, 50, 42, 42], _		; CC complete
-	[487.190577721375, 35, 809, 57, 632, 487.190577721375, 50, 50, 42, 42], _		; PS
-	[485.292934467294, 35, 809, 57, 632, 485.292934467294, 50, 50, 42, 42], _		; EW
+	[487.190577721375, 35, 809, 57, 632, 487.190577721375, 50, 50, 42, 42], _		; PS partial
+	[485.292934467294, 35, 809, 57, 632, 485.292934467294, 50, 50, 42, 42], _		; EW partial
 	[471.591177471711, 40, 795, 62, 626, 471.591177471711, 50, 50, 42, 42], _		; HM partial
 	[469.503669847663, 46, 801, 65, 627, 469.503669847663, 50, 50, 42, 42], _		; JS complete
-	[481.531257240053, 35, 809, 57, 632, 481.531257240053, 50, 50, 42, 42], _		; EJ
-	[472.580445695883, 49, 803, 58, 625, 472.09836287867, 50, 50, 42, 42], _		; 9C
-	[481.447425356988, 35, 809, 57, 632, 481.447425356988, 50, 50, 42, 42], _		; PG
-	[482.492164166387, 35, 809, 57, 632, 482.492164166387, 50, 50, 42, 42], _		; SD
-	[503.29315963308, 35, 809, 57, 632, 503.29315963308, 50, 50, 42, 42], _		; TM
-	[481.049618717487, 35, 809, 57, 632, 481.049618717487, 50, 50, 42, 42], _		; PR
+	[481.531257240053, 35, 809, 57, 632, 481.531257240053, 50, 50, 42, 42], _		; EJ partial
+	[472.580445695883, 49, 803, 58, 625, 472.09836287867, 50, 50, 42, 42], _		; 9C partial
+	[481.447425356988, 35, 809, 57, 632, 481.447425356988, 50, 50, 42, 42], _		; PG partial
+	[482.492164166387, 35, 809, 57, 632, 482.492164166387, 50, 50, 42, 42], _		; SD partial
+	[503.29315963308, 35, 809, 57, 632, 503.29315963308, 50, 50, 42, 42], _		    ; TM partial
+	[481.049618717487, 35, 809, 57, 632, 481.049618717487, 50, 50, 42, 42], _		; PR partial
 	[486.827142073514, 35, 809, 57, 632, 486.827142073514, 50, 50, 42, 42], _		; SH partial
 	[474.160808435852, 46, 802, 61, 632, 474.160808435852, 50, 50, 42, 42], _		; RS partial
 	[462.772740076871, 55, 795, 65, 619, 462.772740076871, 50, 50, 42, 42], _		; SM partial
@@ -2119,17 +2119,18 @@ Global Const $g_afRefVillage[$eTreeCount][10] = [ _
     [477.718161770293, 38, 798, 60, 636, 477.718161770293, 50, 50, 42, 42], _		; CF partial
 	[497.088225054308, 42, 829, 57, 642, 497.088225054308, 50, 50, 42, 42], _		; MS partial
 	[527.91838832914, 35, 832, 58, 657, 527.91838832914, 50, 50, 42, 42], _		    ; EM partial
-	[480, 35, 809, 57, 632, 480, 50, 50, 42, 42], _				; CS
-	[480, 35, 809, 57, 632, 480, 50, 50, 42, 42], _				; IT
-	[379.32672221687 , 114, 720, 158, 610, 379.32672221687, 50, 46, 38, 42], _ ;BB1
-	[385.070465954253, 110, 710, 182, 628, 385.070465954253, 50, 46, 38, 42], _ ; OO
-	[379.32672221687 , 114, 720, 158, 610, 379.32672221687, 50, 46, 38, 42], _ ;BB2
-	[400 , 137, 736, 166, 613, 400, 50, 46, 38, 42], _ ;BBCC To Do
-	[461.860421647731, 73, 814, 85, 637, 461.860421647731, 10, 10, 10, 10], _   ; CP partial
-	[427.945118331064, 97, 785, 91, 604, 427.945118331064, 10, 10, 10, 10], _	; BC Partial
-	[484.403614426064, 39, 825, 50, 639, 484.403614426064, 50, 50, 42, 42], _	; DA Partial
-	[480.650156148271, 84, 811, 63, 612, 480.650156148271, 50, 50, 42, 42], _	; PA partial
-	[556.047580246031, 26, 838, 45, 652, 556.047580246031, 50, 50, 42, 42]]		; GC partial
+	[480, 35, 809, 57, 632, 480, 50, 50, 42, 42], _									; CS partial
+	[480, 35, 809, 57, 632, 480, 50, 50, 42, 42], _									; IT partial
+	[495.492313456579, 32, 808, 46, 628, 495.492313456579, 50, 50, 42, 42], _		; JO Partial
+	[484.403614426064, 39, 825, 50, 639, 484.403614426064, 50, 50, 42, 42], _		; DA Partial
+	[480.650156148271, 84, 811, 63, 612, 480.650156148271, 50, 50, 42, 42], _		; PA partial
+	[556.047580246031, 26, 838, 45, 652, 556.047580246031, 50, 50, 42, 42], _		; GC partial
+	[463.593357868925, 63, 802, 65, 622, 463.593357868925, 50, 50, 42, 42], _		; FS partial
+	[504.518620302313, 61, 824, 61, 639, 504.518620302313, 50, 50, 42, 42], _		; BK partial
+	[520.72258205014, 39, 822, 65, 652, 520.72258205014, 50, 50, 42, 42], _	    	; SP partial
+	[376.2247294568, 114, 724, 152, 610, 376.2247294568, 50, 46, 38, 42], _ 		; BB partial
+	[433.366314406842, 120, 722, 158, 604, 433.366314406842, 50, 46, 38, 42], _ 	; OO partial
+	[379.741811787463, 130, 728, 162, 608, 379.741811787463, 50, 46, 38, 42]]	    ; CR partial
 
 Global $g_iTree = $eTreeDSS						; default to classic
 Global $g_aiSearchZoomOutCounter[2] = [0, 1] ; 0: Counter of SearchZoomOut calls, 1: # of post zoomouts after image found

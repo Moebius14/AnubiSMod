@@ -5,7 +5,7 @@
 ; Parameters ....: None
 ; Return values .: None
 ; Author ........: chalicucu (6/2016), demen (4/2017)
-; Modified ......:
+; Modified ......: Moebius14 (08/2023)
 ; Remarks .......: This file is part of MyBot, previously known as ClashGameBot. Copyright 2015-2023
 ;                  MyBot is distributed under the terms of the GNU GPL
 ; Related .......:
@@ -58,7 +58,6 @@ Func InitiateSwitchAcc() ; Checking profiles setup in Mybot, First matching CoC 
 	SetSwitchAccLog("Initiating: " & $g_iTotalAcc + 1 & " acc", $COLOR_SUCCESS)
 
 	If Not $g_bRunState Then Return
-	;Local $iCurProfile = _GUICtrlComboBox_GetCurSel($g_hCmbProfile)
 	For $i = 0 To $g_iTotalAcc
 		; listing all accounts
 		Local $sBotType = "Idle"
@@ -73,10 +72,7 @@ Func InitiateSwitchAcc() ; Checking profiles setup in Mybot, First matching CoC 
 			EndIf
 		EndIf
 		SetLog("  - Account [" & $i + 1 & "]: " & $g_asProfileName[$i] & " - " & $sBotType)
-		;SetSwitchAccLog("  - Account [" & $i + 1 & "]: " & $g_asProfileName[$i] & " - " & $sBotType)
 		SetSwitchAccLog("  - Acc. " & $i + 1 & ": " & $sBotType)
-
-		$g_abPBActive[$i] = False
 	Next
 	$g_iCurAccount = $g_iNextAccount ; make sure no crash
 	SwitchAccountVariablesReload("Reset")
@@ -95,12 +91,8 @@ Func CheckSwitchAcc($IsPurging = False)
 	Local $bReachAttackLimit = ($g_aiAttackedCountSwitch[$g_iCurAccount] <= $g_aiAttackedCount - 2)
 	Local $bForceSwitch = $g_bForceSwitch
 	Local $nMinRemainTrain, $iWaitTime
-	Local $aActibePBTaccounts = _ArrayFindAll($g_abPBActive, True)
 
 	SetLog("Start Switch Account!", $COLOR_INFO)
-
-	; Force Switch when PBT detected
-	If $g_abPBActive[$g_iCurAccount] Then $bForceSwitch = True
 
 	If $g_iCommandStop = 0 Or $g_iCommandStop = 3 Then ; Forced to switch when in halt attack mode
 		SetLog("This account is in halt attack mode, switching to another account", $COLOR_ACTION)
@@ -186,25 +178,12 @@ Func CheckSwitchAcc($IsPurging = False)
 		SetDebugLog("- Current Account: " & $g_asProfileName[$g_iCurAccount] & " number: " & $g_iCurAccount + 1)
 		SetDebugLog("- Next Account: " & $g_asProfileName[$g_iNextAccount] & " number: " & $g_iNextAccount + 1)
 
-		; Check if the next account is PBT and IF the remain train time is more than 2 minutes
-		If $g_abPBActive[$g_iNextAccount] And _DateDiff("n", _NowCalc(), $g_asTrainTimeFinish[$g_iNextAccount]) > 2 Then
-			SetLog("Account " & $g_iNextAccount + 1 & " is in a Personal Break Time!", $COLOR_INFO)
-			SetSwitchAccLog(" - Account " & $g_iNextAccount + 1 & " is in PTB")
-			$g_iNextAccount = $g_iNextAccount + 1
-			If $g_iNextAccount > $g_iTotalAcc Then $g_iNextAccount = 0
-			While $abAccountNo[$g_iNextAccount] = False
-				$g_iNextAccount += 1
-				If $g_iNextAccount > $g_iTotalAcc Then $g_iNextAccount = 0 ; avoid idle Account
-			WEnd
-		EndIf
-
-		If UBound($aActibePBTaccounts) + UBound($aDonateAccount) = UBound($aActiveAccount) Then
-			SetLog("All accounts set to Donate and/or are in PBT!", $COLOR_INFO)
-			SetSwitchAccLog("All accounts in PBT/Donate:")
+		If UBound($aDonateAccount) = UBound($aActiveAccount) Then
+			SetLog("All accounts set to Donate!", $COLOR_INFO)
+			SetSwitchAccLog("All accounts in Donate:")
 			; Just a Good User Log
 			For $i = 0 To $g_iTotalAcc
 				If $g_abDonateOnly[$i] Then SetSwitchAccLog(" - Donate Acc [" & $i + 1 & "]")
-				If $g_abPBActive[$i] Then SetSwitchAccLog(" - PBT Acc [" & $i + 1 & "]")
 			Next
 		EndIf
 
@@ -681,8 +660,6 @@ Func SwitchCOCAcc_ClickAccountSCID(ByRef $bResult, $NextAccount, $iStep = 2, $bV
 
 	If Not $g_bRunState Then Return "Exit"
 
-	;SCIDragIfNeeded($NextAccount)
-
 	For $i = 0 To 30 ; Checking "New SuperCellID UI" continuously in 30sec
 		$aSuperCellIDWindowsUI = decodeSingleCoord(findImage("SupercellID Windows", $g_sImgSupercellIDWindows, GetDiamondFromRect("440,1,859,243"), 1, True, Default))
 		If _Sleep(500) Then Return "Exit"
@@ -802,7 +779,7 @@ Func CheckTroopTimeAllAccount($bExcludeCurrent = False) ; Return the minimum rem
 	If Not $g_bRunState Then Return
 	Local $abAccountNo = AccountNoActive()
 	Local $iMinRemainTrain = 999, $iRemainTrain, $bNextAccountDefined = False
-	If Not $bExcludeCurrent And Not $g_abPBActive[$g_iCurAccount] Then
+	If Not $bExcludeCurrent Then
 		$g_asTrainTimeFinish[$g_iCurAccount] = _DateAdd("n", Number(_ArrayMax($g_aiTimeTrain, 1, 0, 2)), _NowCalc())
 		SetDebugLog("Army times: Troop = " & $g_aiTimeTrain[0] & ", Spell = " & $g_aiTimeTrain[1] & ", Hero = " & $g_aiTimeTrain[2] & ", $g_asTrainTimeFinish = " & $g_asTrainTimeFinish[$g_iCurAccount])
 	EndIf
@@ -1121,12 +1098,10 @@ Func IsSCIDAccComplete($iAccounts = 3)
 	DirCreate($sFolder)
 
 	; check the barbarians are in their expected location
-	For $i = 0 to $iLoop
+	For $i = 0 to $iLoop - 1
 		Local $sProfileFolder = @ScriptDir & "\Profiles\" & $g_asProfileName[$i + $j] & "\"
 
 		SetLog("Checking SCID Slot: " & $i)
-		;SetLog($sProfileFolder)
-		;SetLog($g_asProfileName[$i + $j])
 
 		$aiHeadCoord = decodeSingleCoord(findImage("IsSCIDAccComplete", $sImgSupercellIDHead, GetDiamondFromArray($aiSearchArea), 1, True))
 
@@ -1176,7 +1151,7 @@ Func IsSCIDAccComplete($iAccounts = 3)
 
 		If _Sleep(250) Then Return
 
-		If $i = 3 Then ExitLoop
+		If $i = 2 Then ExitLoop
 	Next
 
 	If $bSaveImage = True Then SaveSCIDebugImage("SCID_Errors", False)

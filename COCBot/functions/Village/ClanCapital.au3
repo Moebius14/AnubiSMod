@@ -1138,7 +1138,7 @@ Func SwitchToCapitalMain()
 EndFunc
 
 Func SwitchToMainVillage()
-	Local $bRet = False
+	Local $bRet = False, $loop = 0
 	SetDebugLog("Going To MainVillage", $COLOR_ACTION)
 	SwitchToCapitalMain()
 	For $i = 1 To 10
@@ -1155,11 +1155,23 @@ Func SwitchToMainVillage()
 				ExitLoop
 			EndIf
 		EndIf
+		If _Sleep(500) Then Return
 	Next
-	ZoomOut()
-	If _Sleep(500) Then Return
-	If isOnMainVillage() Then 
-		$bRet = True
+
+	While 1
+		If isOnMainVillage(True) Then
+			$bRet = True
+			ExitLoop
+		EndIf
+		$loop += 1
+		If $loop = 20 Then ExitLoop
+		If _Sleep(500) Then Return
+	WEnd
+
+	If $bRet Then
+		ZoomOut()
+	Else
+		SetLog("Main Village Not Found, Restarting COC", $COLOR_ERROR)
 	EndIf
 	Return $bRet
 EndFunc
@@ -1947,7 +1959,10 @@ Func AutoUpgradeCC()
 		$IsCCGoldJustCollected = 0
 		$IsCCGoldJustCollectedDChallenge = $IsCCGoldJustCollected
 		SetLog("No Capital Gold to spend to Contribute", $COLOR_INFO)
-		SwitchToMainVillage()
+		If Not SwitchToMainVillage() Then
+			CloseCoC(True)
+			checkMainScreen()
+		EndIf
 		Return
 	EndIf
 
@@ -1994,7 +2009,10 @@ Func AutoUpgradeCC()
 	If _Sleep(500) Then Return
 	ClickAway("Right")
 	If $Failed Then 
-		SwitchToMainVillage()
+		If Not SwitchToMainVillage() Then
+			CloseCoC(True)
+			checkMainScreen()
+		EndIf
 		Return
 	EndIf
 
@@ -2065,7 +2083,10 @@ Func AutoUpgradeCC()
 		$IsCCGoldJustCollected = 0
 		$IsCCGoldJustCollectedDChallenge = $IsCCGoldJustCollected
 	EndIf
-	SwitchToMainVillage()
+	If Not SwitchToMainVillage() Then
+		CloseCoC(True)
+		checkMainScreen()
+	EndIf
 EndFunc
 
 Func CapitalMainUpgradeLoop($aUpgrade)
@@ -2089,14 +2110,14 @@ Func CapitalMainUpgradeLoop($aUpgrade)
 				$Failed = True
 				ExitLoop
 			EndIf
-			Local $BuildingName = getOcrAndCapture("coc-build", 200, 492 + $g_iBottomOffsetY, 460, 30)
+			Local $BuildingName = getOcrAndCapture("coc-build", 200, 488 + $g_iBottomOffsetY, 460, 25)
 			Click($aRet[1], $aRet[2])
 			If _Sleep(2000) Then Return
 			If Not WaitUpgradeWindowCC() Then
 				$Failed = True
 				ExitLoop
 			EndIf
-			Local $cost = getOcrAndCapture("coc-ms", 590, 490 + $g_iBottomOffsetY, 160, 25, True)
+			Local $cost = getOcrAndCapture("coc-ms", 590, 495 + $g_iBottomOffsetY, 160, 15, True)
 			If Not $g_bRunState Then Return
 			Click(645, 500 + $g_iBottomOffsetY) ;Click Contribute
 			$g_iStatsClanCapUpgrade = $g_iStatsClanCapUpgrade + 1
@@ -2134,13 +2155,13 @@ Func DistrictUpgrade($aUpgrade)
 				SetLog("Upgrade Ignored, Looking Next Upgrade", $COLOR_INFO) ; Shouldn't happen
 				ContinueLoop
 			EndIf
-			Local $BuildingName = getOcrAndCapture("coc-build", 200, 492 + $g_iBottomOffsetY, 460, 30)
+			Local $BuildingName = getOcrAndCapture("coc-build", 200, 488 + $g_iBottomOffsetY, 460, 25)
 			Click($aRet[1], $aRet[2])
 			If _Sleep(2000) Then Return
 			If Not WaitUpgradeWindowCC() Then
 				ExitLoop
 			EndIf
-			Local $cost = getOcrAndCapture("coc-ms", 590, 490 + $g_iBottomOffsetY, 160, 25, True)
+			Local $cost = getOcrAndCapture("coc-ms", 590, 495 + $g_iBottomOffsetY, 160, 15, True)
 			If Not $g_bRunState Then Return
 			Click(645, 500 + $g_iBottomOffsetY) ;Click Contribute
 			$g_iStatsClanCapUpgrade = $g_iStatsClanCapUpgrade + 1

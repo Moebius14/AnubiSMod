@@ -14,21 +14,12 @@
 ; ===============================================================================================================================
 
 Func CheckTombs()
-If $CheckTombsTimer <> 0 Then
-	Local $CheckTombsTimerDiff = TimerDiff($CheckTombsTimer)
-ElseIf $CheckTombsTimer = 0 Then
-	Local $CheckTombsTimerDiff = 0
-EndIf	
 	If Not TestCapture() Then
 		If Not $g_bChkTombstones Then Return False
-		If $CheckTombsTimerDiff <= $CheckTombsFrequency Then
-			If Not $g_abNotNeedAllTime[1] Then Return
-		EndIf	
+		If Not $g_abNotNeedAllTime[1] Then Return
 	EndIf
 	; Timer
 	Local $hTimer = __TimerInit()
-	$CheckTombsTimer = TimerInit()
-	$CheckTombsFrequency = Random((1 * 60 * 60 * 1000), (2 * 60 * 60 * 1000), 1)
 
 	; Setup arrays, including default return values for $return
 	Local $return[7] = ["None", "None", 0, 0, 0, "", ""]
@@ -201,7 +192,15 @@ Func CleanYard()
 EndFunc   ;==>CleanYard
 
 Func ClickRemoveObstacle()
-	If ChatOpen() Then Click(332, 382) ; close chat
+	If ChatOpen() Then ; close chat
+		If Not ClickB("ClanChat") Then
+			SetLog("Error finding the Clan Tab Button", $COLOR_ERROR)
+			Click(332, 312 + $g_iMidOffsetY)
+			Return
+		EndIf
+		If _Sleep(500) Then Return
+		Return False
+	EndIf
 	If QuickMIS("BC1", $g_sImgGeneralCloseButton, 605, 165, 660, 215) Then
 		Click($g_iQuickMISX, $g_iQuickMISY)
 		If _Sleep(500) Then Return

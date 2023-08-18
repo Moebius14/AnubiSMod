@@ -476,15 +476,15 @@ Func ParseAttackCSV($debug = False)
 							If $bBreakOnTHAndSiege And CheckIfSiegeDroppedTheTroops($hSleepTimer, $aSiegeSlotPos) And CheckIfTownHallGotDestroyed($hSleepTimer) Then ContinueLoop 2
 							; Read Resources and Damage
 							$Damage = getOcrOverAllDamage(780, 527 + $g_iBottomOffsetY)
-							$Gold = getGoldVillageSearch(48, 69)
-							$Elixir = getElixirVillageSearch(48, 69 + 29)
+							$Gold = getGoldVillageSearch(48, 69 + 7)
+							$Elixir = getElixirVillageSearch(48, 69 + 29 + 7)
 							If _Sleep($DELAYRESPOND) Then Return ; check for pause/stop
-							$Trophies = getTrophyVillageSearch(48, 69 + 99)
+							$Trophies = getTrophyVillageSearch(48, 69 + 99 + 7)
 							If $Trophies <> "" Then ; If trophy value found, then base has Dark Elixir
-								$DarkElixir = getDarkElixirVillageSearch(48, 69 + 57)
+								$DarkElixir = getDarkElixirVillageSearch(48, 69 + 57 + 7)
 							Else
 								$DarkElixir = ""
-								$Trophies = getTrophyVillageSearch(48, 69 + 69)
+								$Trophies = getTrophyVillageSearch(48, 69 + 69 + 7)
 							EndIf
 							If $bBreakOn50Percent And Number($Damage) > 49 Then ContinueLoop 2
 							CheckHeroesHealth()

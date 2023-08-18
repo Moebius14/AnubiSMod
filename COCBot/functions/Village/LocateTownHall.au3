@@ -24,7 +24,6 @@ Func LocateTownHall($bLocationOnly = False, $bCollect = True)
 	checkMainScreen()
 	If $bCollect Then Collect(False)
 
-
 	While 1
 		_ExtMsgBoxSet(1 + 64, 1, 0x004080, 0xFFFF00, 12, "Comic Sans MS", 600)
 		$sMsgBoxText = $sErrorText & @CRLF & GetTranslatedFileIni("MBR Popups", "Func_Locate_TownHall_01", "Click OK then click on your Town Hall") & @CRLF & @CRLF & _

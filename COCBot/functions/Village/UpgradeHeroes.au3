@@ -231,7 +231,7 @@ Func QueenUpgrade()
 				$bHeroUpgrade = True
 				If _Sleep($DELAYUPGRADEHERO2) Then Return ; Wait for window to close
 				$g_iNbrOfHeroesUpped += 1
-				$g_iCostDElixirHero += $g_afQueenUpgCost[$g_iQueenLevel - 1] * 1000 * (1 - Number($g_iBuilderBoostDiscount) / 100)
+				$g_iCostDElixirHero += 1000 * ($g_afQueenUpgCost[$g_iQueenLevel - 1] * 1000 * (1 - Number($g_iBuilderBoostDiscount) / 100))
 				UpdateStats()
 			Else
 				SetLog("Queen Upgrade Fail! No DE!", $COLOR_ERROR)
@@ -399,7 +399,7 @@ Func KingUpgrade()
 				$bHeroUpgrade = True
 				If _Sleep($DELAYUPGRADEHERO2) Then Return ; Wait for window to close
 				$g_iNbrOfHeroesUpped += 1
-				$g_iCostDElixirHero += $g_afKingUpgCost[$g_iKingLevel - 1] * 1000 * (1 - Number($g_iBuilderBoostDiscount) / 100)
+				$g_iCostDElixirHero += 1000 * ($g_afKingUpgCost[$g_iKingLevel - 1] * 1000 * (1 - Number($g_iBuilderBoostDiscount) / 100))
 				UpdateStats()
 			Else
 				SetLog("King Upgrade Fail! No DE!", $COLOR_ERROR)
@@ -580,8 +580,8 @@ Func WardenUpgrade()
 				SetLog("Warden Upgrade Started", $COLOR_SUCCESS)
 				$bHeroUpgrade = True
 				If _Sleep($DELAYUPGRADEHERO2) Then Return ; Wait for window to close
-				$g_iNbrOfHeroesUpped += 1
-				$g_iCostElixirBuilding += $g_afWardenUpgCost[$g_iWardenLevel - 1] * 1000 * (1 - Number($g_iBuilderBoostDiscount) / 100)
+				$g_iNbrOfWardenUpped += 1
+				$g_iCostElixirWarden += 1000 * ($g_afWardenUpgCost[$g_iWardenLevel - 1] * 1000 * (1 - Number($g_iBuilderBoostDiscount) / 100))
 				$g_iWardenLevel += 1
 				UpdateStats()
 			Else
@@ -750,7 +750,7 @@ Func ChampionUpgrade()
 				$bHeroUpgrade = True
 				If _Sleep($DELAYUPGRADEHERO2) Then Return ; Wait for window to close
 				$g_iNbrOfHeroesUpped += 1
-				$g_iCostDElixirHero += $g_afChampionUpgCost[$g_iChampionLevel - 1] * 1000 * (1 - Number($g_iBuilderBoostDiscount) / 100)
+				$g_iCostDElixirHero += 1000 * ($g_afChampionUpgCost[$g_iChampionLevel - 1] * 1000 * (1 - Number($g_iBuilderBoostDiscount) / 100))
 				UpdateStats()
 			Else
 				SetLog("Champion Upgrade Fail! No DE!", $COLOR_ERROR)

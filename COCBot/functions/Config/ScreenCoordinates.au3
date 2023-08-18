@@ -87,13 +87,13 @@ Global $aGreenArrowTrainSiegeMachines[2] = [623, 97 + $g_iMidOffsetY]
 Global $g_aShopWindowOpen[4] = [804, 54, 0xC00508, 15] ; Red pixel in lower right corner of RED X to close shop window
 Global $aTreasuryWindow[4] = [689, 138 + $g_iMidOffsetY, 0xFF8D95, 20] ; Redish pixel above X to close treasury window
 Global $aAttackForTreasury[4] = [88, 619 + $g_iMidOffsetY, 0xF0EBE8, 5] ; Red pixel below X to close treasury window
-Global $aAtkHasDarkElixir[4]  = [ 31, 144, 0x282020, 10] ; Attack Page, Check for DE icon
+Global $aAtkHasDarkElixir[4]  = [31, 121 + $g_iMidOffsetY, 0x282020, 10] ; Attack Page, Check for DE icon ; New 23 August offset
 Global $aVillageHasDarkElixir[4] = [837, 134, 0x3D2D3D, 10] ; Main Page, Base has dark elixir storage
 
 Global $aCheckTopProfile[4] = [200, 166, 0x868CAC, 5]
 Global $aCheckTopProfile2[4] = [220, 355, 0x4E4D79, 5]
 
-Global $aIsTabOpen[4] = [0, 145, 0xEAEAE3, 25];Check if specific Tab is opened, X Coordinate is a dummy
+Global $aIsTabOpen[4] = [0, 146, 0xEAEAE3, 25];Check if specific Tab is opened, X Coordinate is a dummy
 
 Global $aRecievedTroops[4] = [200 ,215 ,0xFFFFFF, 20] ; Y of You have recieved blabla from xx!
 Global $aRecievedTroopsTab[4] = [200 ,137 ,0xFFFFFF, 20] ; Y of You have recieved blabla from xx!
@@ -130,9 +130,9 @@ Global Const $aCloseChat[4] = [331, 330 + $g_iMidOffsetY, 0xF0951D, 20] ; duplic
 Global Const $aChatDonateBtnColors[4][4] = [[0x0d0d0d, 0, -4, 20], [0xdaf582, 10, 0, 20], [0xcdef75, 10, 5, 20], [0xFFFFFF, 24, 9, 10]]
 
 ;attackreport
-Global Const $aAtkRprtDECheck[4] = [459, 372 + $g_iMidOffsetY, 0x433350, 20]
-Global Const $aAtkRprtTrophyCheck[4] = [327, 189 + $g_iMidOffsetY, 0x3B321C, 30]
-Global Const $aAtkRprtDECheck2[4] = [678, 418 + $g_iMidOffsetY, 0x030000, 30]
+Global Const $aAtkRprtDECheck[4] = [459, 372 + $g_iMidOffsetY, 0x2F1F37, 20] ; August 23 update
+Global Const $aAtkRprtTrophyCheck[4] = [327, 189 + $g_iMidOffsetY, 0x514224, 30] ; August 23 update
+Global Const $aAtkRprtDECheck2[4] = [686, 415 + $g_iMidOffsetY, 0x302440, 30] ; August 23 update
 
 ;returnhome
 Global Const $aRtnHomeCheck1[4] = [363, 548 + $g_iMidOffsetY, 0x78C11C, 20]
@@ -185,7 +185,7 @@ Global Const $aPersonalChallengeCancelBtn[4] = [350, 380 + $g_iMidOffsetY, 0xFDC
 Global Const $aPersonalChallengeOkBtn[4] = [515, 380 + $g_iMidOffsetY, 0xDFF887, 20] ; Personal Challenge Window - Okay button at Storage Full msg
 
 ;BB Attack 2.0
-Global $aBBGoldEnd[4] = [629, 435, 0xFFE848, 20] ; Gold At the end Of BB attack
+Global $aBBGoldEnd[4] = [629, 435, 0xFFE64B, 20] ; Gold At the end Of BB attack
 Global $aOkayButton[2] = [430, 570]	; Okay button after BB attack
 Global $aOkayButtonRND[4] = [372, 560, 484, 595]	; Okay button after BB attack, RND
 
