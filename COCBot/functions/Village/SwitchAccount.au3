@@ -191,7 +191,7 @@ Func CheckSwitchAcc($IsPurging = False)
 			If $g_bRequestTroopsEnable And $g_bCanRequestCC And (Not $bChkUseOnlyCCMedals And ($g_abSearchCastleWaitEnable[$DB] Or $g_abSearchCastleWaitEnable[$LB])) Then
 				If _Sleep(1000) Then Return
 				SetLog("Try Request troops before switching account", $COLOR_INFO)
-				RequestCC(True)
+				RequestCC()
 			EndIf
 			If Not IsMainPage() Then checkMainScreen()
 			SwitchCOCAcc($g_iNextAccount)

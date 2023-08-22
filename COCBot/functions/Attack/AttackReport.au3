@@ -36,7 +36,7 @@ Func AttackReport()
 		If $iCount > 20 Then ExitLoop ; wait 20*500ms = 10 seconds max before we have call the OCR read an error
 	WEnd
 	If $iCount > 20 Then SetLog("End of Attack scene read gold error, attack values my not be correct", $COLOR_INFO)
-	;SaveDebugImage("AttackReport", True)
+	SaveDebugImage("AttackReport", True)
 	;HArchH: Subtracted 5 pixels from each getResourcesLoot call "x" value, 12 for DE.
 	;G was 290, is 285
 	;E was 290, is 285

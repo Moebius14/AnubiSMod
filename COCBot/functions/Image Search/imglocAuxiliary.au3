@@ -277,7 +277,7 @@ Func GetButtonDiamond($sButtonName)
 		Case "TrashEvent"
 			$btnDiamond = GetDiamondFromRect("100,200,840,540")
 		Case "EventFailed"
-			$btnDiamond = GetDiamondFromRect("230,130,777,560")
+			$btnDiamond = GetDiamondFromRect("230,180,777,560")
 		Case "OK"
 			$btnDiamond = "440,395|587,395|587,460|440,460"
 		Case "CANCEL"

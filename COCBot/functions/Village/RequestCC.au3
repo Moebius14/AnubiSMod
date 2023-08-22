@@ -48,6 +48,7 @@ Func RequestCC($bClickPAtEnd = True, $sText = "")
 	If Not IsArray($aRequestButton) Then
 		SetLog("Error in RequestCC(): $aRequestButton is no Array")
 		If $g_bDebugImageSave Then SaveDebugImage("RequestButtonStateError")
+		If Not $bClickPAtEnd Then ClickAway()
 		Return
 	EndIf
 

@@ -68,6 +68,8 @@ Func CollectElixirCart($bSwitchToBB = False, $bSwitchToNV = False, $b_FirstElixC
 		If Not SwitchBetweenBases(True, True) Then Return ; Switching to Builders Base
 	EndIf
 
+	If CheckBBElixirStorageFull(False) Then Return
+
 	Local $bRet, $aiElixirCart, $aiCollect, $aiAxes, $ElixirCartTimer = 0, $ElixirCartTimerDiff = 0, $bWaitOpponent = True 
 	Local $t = 0
 

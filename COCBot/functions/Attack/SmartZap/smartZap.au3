@@ -126,7 +126,7 @@ Func smartZap($minDE = -1)
 
 	If $bZapDrills Then
 		; Get Dark Elixir value, if no DE value exists, exit.
-		$g_iSearchDark = getDarkElixirVillageSearch(48, 126)
+		$g_iSearchDark = getDarkElixirVillageSearch(48, 126 + 7)
 		If Number($g_iSearchDark) = 0 Then
 			SetLog("No Dark Elixir!", $COLOR_INFO)
 			If $g_bDebugSmartZap Then SetLog("$g_iSearchDark|Current DE value: " & Number($g_iSearchDark), $COLOR_DEBUG)

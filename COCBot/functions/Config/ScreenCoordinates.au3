@@ -36,7 +36,7 @@ Global $aHaveShield[4] = [455, 19, 0xF0F8FB, 15] ; Main Screen, Silver pixel top
 Global $aHavePerGuard[4] = [454, 16, 0x7B4CD8, 15] ; Main Screen, Purple Pixel Top of Shield
 Global $aShieldInfoButton[4] = [431, 10, 0x75BDE4, 15] ; Main Screen, Blue pixel upper part of "i"
 Global $aIsShieldInfo[4] = [645, 195, 0xED1115, 20] ; Main Screen, Shield Info window, red pixel right of X
-Global $aSurrenderButton[4] = [70, 545 + $g_iBottomOffsetY, 0xC00000, 40] ; Surrender Button, Attack Screen
+Global $aSurrenderButton[4] = [70, 545 + $g_iBottomOffsetY, 0xCE0D0E, 40] ; Surrender Button, Attack Screen (End Battle August 2023)
 Global $aConfirmSurrender[4] = [515, 415 + $g_iMidOffsetY, 0x6DBC1F, 30] ; Confirm Surrender Button, Attack Screen, green color on button?
 Global $aCancelFight[4] = [822, 48, 0xD80408, 20] ; Cancel Fight Scene
 Global $aCancelFight2[4] = [830, 59, 0xD80408, 20] ; Cancel Fight Scene 2nd pixel
@@ -115,7 +115,7 @@ Global $aWonThreeStarAtkRprt[4] = [534, 180 + $g_iMidOffsetY, 0xC8CAC7, 30] ; Ce
 ; pixel color: location information								BS 850MB (Reg GFX), BS 500MB (Med GFX) : location
 
 Global $NextBtn[4] = [720, 536 + $g_iBottomOffsetY, 0xE5510D, 20] ;  Next Button
-Global $a12OrMoreSlots[4] = [24, 578 + $g_iBottomOffsetY, 0x87E3F7, 25] ; Attackbar Check if 12+ Slots exist / BS5
+Global $a12OrMoreSlots[4] = [24, 578 + $g_iBottomOffsetY, 0x88E4F8, 25] ; Attackbar Check if 12+ Slots exist / BS5
 Global $a12OrMoreSlots2[4] = [24, 579 + $g_iBottomOffsetY, 0xFF4040, 25] ; Attackbar Check if 12+ Slots exist SuperTroops / BS5
 Global $a12OrMoreSlots3[4] = [24, 579 + $g_iBottomOffsetY, 0xFFFDFF, 25] ; Attackbar Check if 12+ Slots exist Special Troops / BS5
 Global $aDoubRowAttackBar[4] = [68, 486, 0xFC5D64, 20]

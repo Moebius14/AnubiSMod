@@ -17,10 +17,10 @@ Local $bFirstAttackClick
 
 Func CheckCGCompleted()
 	Local $bRet = False
-	For $x = 1 To 10
+	For $x = 1 To 12
 		If Not $g_bRunState Then Return
 		SetDebugLog("Check challenges progress #" & $x, $COLOR_ACTION)
-		If QuickMIS("BC1", $g_sImgGameComplete, 760, 450 + $g_iMidOffsetY, 820, 520 + $g_iMidOffsetY) Then
+		If QuickMIS("BC1", $g_sImgGameComplete, 770, 474 + $g_iMidOffsetY, 830, 534 + $g_iMidOffsetY) Then
 			SetLog("Nice, Game Completed", $COLOR_INFO)
 			$bRet = True
 			ExitLoop
@@ -216,9 +216,20 @@ Func EndBattleBB() ; Find if battle has ended and click okay
 		EndIf
 		$sTmpDamage = Number($sDamage)
 		If $sTmpDamage = 100 Then
-			If _SleepStatus(12000) Then Return
+			Local $EndLoop = 0
+			While 1
+				If BBGoldEnd("EndBattleBB") Then
+					$bRet = True
+					If _Sleep(3000) Then Return
+					ExitLoop 2
+				EndIf
+				$EndLoop += 1
+				If $EndLoop = 20 Then ExitLoop
+				If _Sleep(250) Then Return
+			WEnd
+			If _SleepStatus(7000) Then Return
 			SetLog("Preparing For Second Round", $COLOR_INFO)
-			If _SleepStatus(3000) Then Return
+			If _Sleep(3000) Then Return
 ;#cs
 			ZoomOut()
 			If Not isOnBuilderBaseEnemyVillage(True) Then
@@ -258,7 +269,9 @@ Func EndBattleBB() ; Find if battle has ended and click okay
 	For $i = 1 To 3
 		Select
 			Case QuickMIS("BC1", $g_sImgBBReturnHome, 390, 515 + $g_iMidOffsetY, 470, 560 + $g_iMidOffsetY) = True
-				If _Sleep(2000) Then Return
+				If Not $g_bIsBBevent Then
+					If _Sleep(2000) Then Return
+				EndIf
 				Click($g_iQuickMISX, $g_iQuickMISY)
 				If $g_bChkForceBBAttackOnClanGames And $g_bIsBBevent Then
 					If CheckCGCompleted() Then

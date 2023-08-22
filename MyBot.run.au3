@@ -923,7 +923,7 @@ Func runBot() ;Bot that runs everything in order
 			If $g_bAutoUpgradeWallsEnable And $g_bChkWallUpFirst Then
 				If $IstoSwitchMod Then
 					If Not $g_bRunState Then Return
-					_RunFunction('BuilderBase')
+					BuilderBase()
 					If $g_bRestart Then ContinueLoop
 					If CheckAndroidReboot() Then ContinueLoop
 				EndIf
@@ -932,7 +932,7 @@ Func runBot() ;Bot that runs everything in order
 				If $IstoSwitchMod Then
 					Local $aRndFuncList = ['UpgradeWall', 'BuilderBase'] ;Copied BuilderBase to AttackMain
 					$IstoSwitchMod = 0
-				ElseIf Not $IstoSwitchMod Then
+				Else
 					Local $aRndFuncList = ['UpgradeWall']
 				EndIf
 				_ArrayShuffle($aRndFuncList)
@@ -1040,7 +1040,9 @@ Func _Idle() ;Sequence that runs until Full Army
 		If $g_iCommandStop = -1 Then SetLog("====== Waiting for full army ======", $COLOR_SUCCESS)
 		Local $hTimer = __TimerInit()
 		BotHumanization()
-		
+
+		If $g_CheckModVersion Then CheckVersionStatus()
+
 		If $g_bRequestTroopsEnable And ($g_abSearchCastleWaitEnable[$DB] Or $g_abSearchCastleWaitEnable[$LB]) And ((Not $bChkUseOnlyCCMedals And _
 		$g_aiCmbCCDecisionThen = 1) Or $bChkUseOnlyCCMedals) Then
 			If Number($g_iLootCCMedal) = 0 Then CatchCCMedals()
