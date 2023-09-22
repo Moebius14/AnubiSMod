@@ -54,7 +54,7 @@ Func chkDBMeetDeadEagle()
 	EndIf
 
 	SetLog("$g_bChkDeadEagle :" & $g_bChkDeadEagle)
-EndFunc
+EndFunc   ;==>chkDBMeetDeadEagle
 
 Func chkDBWeakBase()
 	GUICtrlSetState($g_ahCmbWeakMortar[$DB], GUICtrlRead($g_ahChkMaxMortar[$DB]) = $GUI_CHECKED ? $GUI_ENABLE : $GUI_DISABLE)
@@ -185,7 +185,7 @@ Func chkDBActivateSearches()
 		GUICtrlSetState($g_hTxtDBSearchesMax, $GUI_DISABLE)
 	EndIf
 
-	dbCheckall()
+	dbCheckAll()
 EndFunc   ;==>chkDBActivateSearches
 
 Func chkDBActivateTropies()
@@ -199,7 +199,7 @@ Func chkDBActivateTropies()
 		GUICtrlSetState($g_hTxtDBTropiesMax, $GUI_DISABLE)
 	EndIf
 
-	dbCheckall()
+	dbCheckAll()
 EndFunc   ;==>chkDBActivateTropies
 
 Func chkDBActivateCamps()
@@ -211,21 +211,21 @@ Func chkDBActivateCamps()
 		GUICtrlSetState($g_hTxtDBArmyCamps, $GUI_DISABLE)
 	EndIf
 
-	dbCheckall()
+	dbCheckAll()
 EndFunc   ;==>chkDBActivateCamps
 
 Func EnableSearchPanels($iMatchMode)
 	Switch $iMatchMode
 		Case $DB
 			If GUICtrlRead($g_hChkDBActivateSearches) = $GUI_CHECKED Or _
-			   GUICtrlRead($g_hChkDBActivateTropies) = $GUI_CHECKED Or _
-			   GUICtrlRead($g_hChkDBActivateCamps) = $GUI_CHECKED Or _
-			   GUICtrlRead($g_hChkDBKingWait) = $GUI_CHECKED Or _
-			   GUICtrlRead($g_hChkDBQueenWait) = $GUI_CHECKED Or _
-			   GUICtrlRead($g_hChkDBWardenWait) = $GUI_CHECKED Or _
-			   GUICtrlRead($g_hChkDBChampionWait) = $GUI_CHECKED Or _
-			   GUICtrlRead($g_hChkDBNotWaitHeroes) = $GUI_CHECKED Or _
-			   GUICtrlRead($g_hChkDBSpellsWait) = $GUI_CHECKED Then
+					GUICtrlRead($g_hChkDBActivateTropies) = $GUI_CHECKED Or _
+					GUICtrlRead($g_hChkDBActivateCamps) = $GUI_CHECKED Or _
+					GUICtrlRead($g_hChkDBKingWait) = $GUI_CHECKED Or _
+					GUICtrlRead($g_hChkDBQueenWait) = $GUI_CHECKED Or _
+					GUICtrlRead($g_hChkDBWardenWait) = $GUI_CHECKED Or _
+					GUICtrlRead($g_hChkDBChampionWait) = $GUI_CHECKED Or _
+					GUICtrlRead($g_hChkDBNotWaitHeroes) = $GUI_CHECKED Or _
+					GUICtrlRead($g_hChkDBSpellsWait) = $GUI_CHECKED Then
 
 				_GUI_Value_STATE("SHOW", $groupHerosDB)
 				_GUI_Value_STATE("SHOW", $g_aGroupSearchDB)
@@ -239,14 +239,14 @@ Func EnableSearchPanels($iMatchMode)
 			EndIf
 		Case $LB
 			If GUICtrlRead($g_hChkABActivateSearches) = $GUI_CHECKED Or _
-			   GUICtrlRead($g_hChkABActivateTropies) = $GUI_CHECKED Or _
-			   GUICtrlRead($g_hChkABActivateCamps) = $GUI_CHECKED Or _
-			   GUICtrlRead($g_hChkABKingWait) = $GUI_CHECKED Or _
-			   GUICtrlRead($g_hChkABQueenWait) = $GUI_CHECKED Or _
-			   GUICtrlRead($g_hChkABWardenWait) = $GUI_CHECKED Or _
-			   GUICtrlRead($g_hChkABChampionWait) = $GUI_CHECKED Or _
-			   GUICtrlRead($g_hChkABNotWaitHeroes) = $GUI_CHECKED Or _
-			   GUICtrlRead($g_hChkABSpellsWait) = $GUI_CHECKED Then
+					GUICtrlRead($g_hChkABActivateTropies) = $GUI_CHECKED Or _
+					GUICtrlRead($g_hChkABActivateCamps) = $GUI_CHECKED Or _
+					GUICtrlRead($g_hChkABKingWait) = $GUI_CHECKED Or _
+					GUICtrlRead($g_hChkABQueenWait) = $GUI_CHECKED Or _
+					GUICtrlRead($g_hChkABWardenWait) = $GUI_CHECKED Or _
+					GUICtrlRead($g_hChkABChampionWait) = $GUI_CHECKED Or _
+					GUICtrlRead($g_hChkABNotWaitHeroes) = $GUI_CHECKED Or _
+					GUICtrlRead($g_hChkABSpellsWait) = $GUI_CHECKED Then
 
 				_GUI_Value_STATE("SHOW", $groupHerosAB)
 				_GUI_Value_STATE("SHOW", $groupSearchAB)
@@ -276,7 +276,7 @@ Func chkABActivateSearches()
 		GUICtrlSetState($g_hTxtABSearchesMax, $GUI_DISABLE)
 	EndIf
 	;EnableSearchPanels($LB)
-	abCheckall()
+	abCheckAll()
 EndFunc   ;==>chkABActivateSearches
 
 Func chkABActivateTropies()
@@ -290,7 +290,7 @@ Func chkABActivateTropies()
 		GUICtrlSetState($g_hTxtABTropiesMax, $GUI_DISABLE)
 	EndIf
 	;EnableSearchPanels($LB)
-	abCheckall()
+	abCheckAll()
 EndFunc   ;==>chkABActivateTropies
 
 Func chkABActivateCamps()
@@ -307,7 +307,7 @@ Func chkABActivateCamps()
 		;_GUI_Value_STATE("HIDE", $groupHerosAB)
 	EndIf
 	;EnableSearchPanels($LB)
-	abCheckall()
+	abCheckAll()
 EndFunc   ;==>chkABActivateCamps
 
 Func chkDBKingWait()
@@ -423,7 +423,7 @@ Func ChkWaitForCastle()
 			GUICtrlSetState($i, $GUI_DISABLE)
 		Next
 	EndIf
-EndFunc
+EndFunc   ;==>ChkWaitForCastle
 
 Func ChkUseCCMedals()
 	If GUICtrlRead($g_hChkUseOnlyCCMedals) = $GUI_CHECKED Then
@@ -434,20 +434,20 @@ Func ChkUseCCMedals()
 		For $i = $g_ahCCDecisionSaveLabel To $g_ahCmbCCMedalsSaveMin
 			GUICtrlSetState($i, $GUI_SHOW + $GUI_ENABLE)
 		Next
-	Else 
+	Else
 		$bChkUseOnlyCCMedals = False
 		For $i = $g_ahCCDecisionTimeLabel To $g_ahCmbCCDecisionThen
 			GUICtrlSetState($i, $GUI_SHOW)
 		Next
 		If (GUICtrlRead($g_hChkDBWaitForCastle) = $GUI_CHECKED Or GUICtrlRead($g_hChkABWaitForCastle) = $GUI_CHECKED) And _
-			GUICtrlRead($g_hChkRequestTroopsEnable) = $GUI_CHECKED Then
+				GUICtrlRead($g_hChkRequestTroopsEnable) = $GUI_CHECKED Then
 			For $i = $g_ahCCDecisionTimeLabel To $g_ahCmbCCDecisionThen
 				GUICtrlSetState($i, $GUI_ENABLE)
 			Next
 		EndIf
 		CCDecisionTime()
 	EndIf
-EndFunc
+EndFunc   ;==>ChkUseCCMedals
 
 Func CCDecisionTime()
 	If _GUICtrlComboBox_GetCurSel($g_ahCmbCCDecisionTime) = 0 Then
@@ -461,7 +461,7 @@ Func CCDecisionTime()
 		Next
 		CCDecisionThen()
 	EndIf
-EndFunc
+EndFunc   ;==>CCDecisionTime
 
 Func CCDecisionThen()
 	If _GUICtrlComboBox_GetCurSel($g_ahCmbCCDecisionThen) = 1 Then
@@ -475,12 +475,12 @@ Func CCDecisionThen()
 			GUICtrlSetState($i, $GUI_HIDE)
 		Next
 	EndIf
-EndFunc
+EndFunc   ;==>CCDecisionThen
 
 Func IsToFillCCWithMedalsOnly()
 	If $bChkUseOnlyCCMedals And ($g_abSearchCastleWaitEnable[$DB] Or $g_abSearchCastleWaitEnable[$LB]) And $g_bRequestTroopsEnable Then Return True
 	Return False
-EndFunc
+EndFunc   ;==>IsToFillCCWithMedalsOnly
 
 Func chkABSpellsWait()
 	If $g_iTownHallLevel > 4 Or $g_iTownHallLevel = 0 Then ; Must be TH5+ to have spells
@@ -511,25 +511,25 @@ Func chkSpellWaitError()
 	Local Static $bHaveBeenWarned = False
 	Local $bErrorCondition = False
 	Local $sErrorText, $sText, $MsgBox1, $MsgBox2, $MsgBox3
-	
+
 	$g_iTotalTrainSpaceSpell = 0
 
 	For $i = 0 To $eSpellCount - 1
 		$g_iTotalTrainSpaceSpell += $g_aiArmyCustomSpells[$i] * $g_aiSpellSpace[$i]
-;		$iTotalTotalTimeSpell += $g_aiArmyCustomSpells[$i] * $g_aiSpellTrainTime[$i]
+		;		$iTotalTotalTimeSpell += $g_aiArmyCustomSpells[$i] * $g_aiSpellTrainTime[$i]
 	Next
 
 
 	; Check if spell total GUI is larger than spell count trained for wait for spells to work properly!
 	$g_iTotalTrainSpaceSpell = 0
 	For $i = 0 To $eSpellCount - 1
-	$g_iTotalTrainSpaceSpell += $g_aiArmyCustomSpells[$i] * $g_aiSpellSpace[$i]
+		$g_iTotalTrainSpaceSpell += $g_aiArmyCustomSpells[$i] * $g_aiSpellSpace[$i]
 	Next
 	If ($g_iTotalTrainSpaceSpell > GUICtrlRead($g_hTxtTotalCountSpell)) Then  ; we have an error!
-	;If ($g_iTotalTrainSpaceSpell > GUICtrlRead($g_hTxtTotalCountSpell)) And Not $g_bChkSwitchAcc Then  ; we have an error!
+		;If ($g_iTotalTrainSpaceSpell > GUICtrlRead($g_hTxtTotalCountSpell)) And Not $g_bChkSwitchAcc Then  ; we have an error!
 		$sErrorText = GetTranslatedFileIni("MBR GUI Control Tab Search", "Func_chkSpellWaitError_ErrorText_01", "Total number of trained spells exceeds total set in GUI!") & @CRLF & _
-			GetTranslatedFileIni("MBR GUI Control Tab Search", "Func_chkSpellWaitError_ErrorText_02", "Reduce number of trained spells,") & @CRLF & _
-			GetTranslatedFileIni("MBR GUI Control Tab Search", "Func_chkSpellWaitError_ErrorText_03", "OR ELSE BOT WILL NEVER ATTACK!!") & @CRLF
+				GetTranslatedFileIni("MBR GUI Control Tab Search", "Func_chkSpellWaitError_ErrorText_02", "Reduce number of trained spells,") & @CRLF & _
+				GetTranslatedFileIni("MBR GUI Control Tab Search", "Func_chkSpellWaitError_ErrorText_03", "OR ELSE BOT WILL NEVER ATTACK!!") & @CRLF
 		$bErrorCondition = True
 	Else
 		Return
@@ -552,16 +552,16 @@ Func chkSpellWaitError()
 				$bHaveBeenWarned = True
 				ExitLoop
 			Case Else
-				_ExtMsgBoxSet(1 + 64, $SS_CENTER, 0xFFFF00 , 0xE00000, 12, "Comic Sans MS", 480)
-				$stext = GetTranslatedFileIni("MBR GUI Control Tab Search", "Func_chkSpellWaitError_MsgBox_04", "Sorry, must understand warning and click Yes!") & @CRLF
-				$MsgBox2 = _ExtMsgBox(16, GetTranslatedFileIni("MBR Popups", "Ok", "Ok"), GetTranslatedFileIni("MBR GUI Control Tab Search", "Func_chkSpellWaitError_MsgBox_07", "User Input Error"), $stext, 15, $g_hFrmBot)
+				_ExtMsgBoxSet(1 + 64, $SS_CENTER, 0xFFFF00, 0xE00000, 12, "Comic Sans MS", 480)
+				$sText = GetTranslatedFileIni("MBR GUI Control Tab Search", "Func_chkSpellWaitError_MsgBox_04", "Sorry, must understand warning and click Yes!") & @CRLF
+				$MsgBox2 = _ExtMsgBox(16, GetTranslatedFileIni("MBR Popups", "Ok", "Ok"), GetTranslatedFileIni("MBR GUI Control Tab Search", "Func_chkSpellWaitError_MsgBox_07", "User Input Error"), $sText, 15, $g_hFrmBot)
 				If $iCount = 1 And $MsgBox1 = 9 And $MsgBox2 = 9 Then ExitLoop  ; If time out on both error messages happens twice then exit loop to avoid stuck
 		EndSwitch
 		$iCount += 1
 		If $iCount > 2 Then  ; You want to be crazy?  OK, then start the madness
 			$sText = GetTranslatedFileIni("MBR GUI Control Tab Search", "Func_chkSpellWaitError_MsgBox_08", "CONGRATULATIONS!!") & @CRLF & GetTranslatedFileIni("MBR GUI Control Tab Search", "Func_chkSpellWaitError_MsgBox_09", "You found the secret message in Bot!") & @CRLF & _
-				GetTranslatedFileIni("MBR GUI Control Tab Search", "Func_chkSpellWaitError_MsgBox_10", "Can you find the randomly selected button to close this message?") & @CRLF & _
-				GetTranslatedFileIni("MBR GUI Control Tab Search", "Func_chkSpellWaitError_MsgBox_11", "HaHaHaHa...") & @CRLF & @CRLF & @CRLF
+					GetTranslatedFileIni("MBR GUI Control Tab Search", "Func_chkSpellWaitError_MsgBox_10", "Can you find the randomly selected button to close this message?") & @CRLF & _
+					GetTranslatedFileIni("MBR GUI Control Tab Search", "Func_chkSpellWaitError_MsgBox_11", "HaHaHaHa...") & @CRLF & @CRLF & @CRLF
 			Local $sFunnyText = $sText
 			Local $iControl = 0
 			$iCount = 1
@@ -569,7 +569,7 @@ Func chkSpellWaitError()
 			While 1
 				$MsgBox3 = _ExtMsgBox(128, "1|2|3|4|5|6|7", GetTranslatedFileIni("MBR GUI Control Tab Search", "Func_chkSpellWaitError_MsgBox_12", "You are a WINNER!!"), $sFunnyText, 900, $g_hFrmBot)
 				If @error Then SetLog("_ExtMsgBox error: " & @error, $COLOR_ERROR)
-				If $iCount > 7 And Int($MsgBox3) = Random(1,8,1) Then
+				If $iCount > 7 And Int($MsgBox3) = Random(1, 8, 1) Then
 					ExitLoop
 				Else
 					If $iCount <= 7 Then
@@ -659,4 +659,4 @@ Func chkNotWaitHeroes()
 	If $g_abAttackTypeEnable[$LB] Then
 		If $g_iSearchNotWaitHeroesEnable <> 0 Then $g_iSearchNotWaitHeroesEnable = $g_aiSearchNotWaitHeroesEnable[$LB]
 	EndIf
-EndFunc   ;==>ChkNotWaitHeroes
+EndFunc   ;==>chkNotWaitHeroes

@@ -23,7 +23,7 @@ Global $g_hGUI_VILLAGE = 0
 #include "MBR GUI Design Child Village - Notify.au3"
 
 Global $g_hGUI_VILLAGE_TAB = 0, $g_hGUI_VILLAGE_TAB_ITEM1 = 0, $g_hGUI_VILLAGE_TAB_ITEM2 = 0, $g_hGUI_VILLAGE_TAB_ITEM3 = 0, _
-	   $g_hGUI_VILLAGE_TAB_ITEM4 = 0, $g_hGUI_VILLAGE_TAB_ITEM5 = 0
+		$g_hGUI_VILLAGE_TAB_ITEM4 = 0, $g_hGUI_VILLAGE_TAB_ITEM5 = 0
 
 Func CreateVillageTab()
 	$g_hGUI_VILLAGE = _GUICreate("", $g_iSizeWGrpTab1, $g_iSizeHGrpTab1, $_GUI_CHILD_LEFT, $_GUI_CHILD_TOP, BitOR($WS_CHILD, $WS_TABSTOP), -1, $g_hFrmBotEx)
@@ -40,7 +40,7 @@ Func CreateVillageTab()
 	$g_hGUI_VILLAGE_TAB_ITEM2 = GUICtrlCreateTabItem(GetTranslatedFileIni("MBR Main GUI", "Tab_02_STab_02", "Req. && Donate"))
 	$g_hGUI_VILLAGE_TAB_ITEM3 = GUICtrlCreateTabItem(GetTranslatedFileIni("MBR Main GUI", "Tab_02_STab_03", "Upgrade"))
 	$g_hGUI_VILLAGE_TAB_ITEM4 = GUICtrlCreateTabItem(GetTranslatedFileIni("MBR Main GUI", "Tab_02_STab_04", "Achievements"))
-		CreateVillageAchievements()
+	CreateVillageAchievements()
 	$g_hGUI_VILLAGE_TAB_ITEM5 = GUICtrlCreateTabItem(GetTranslatedFileIni("MBR Main GUI", "Tab_02_STab_05", "Notify"))
 	GUICtrlCreateTabItem("")
 

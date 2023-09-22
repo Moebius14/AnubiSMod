@@ -18,7 +18,7 @@ Func RequestCC($bClickPAtEnd = True, $sText = "")
 	If Not $g_bRequestTroopsEnable Or Not $g_bDonationEnabled Then
 		Return
 	EndIf
-	
+
 	$RequestAlreadyMade = False
 
 	If Not $g_bRunState Then Return
@@ -105,11 +105,11 @@ Func _makerequest($aRequestButtonPos)
 	Local $sSendButtonArea = GetDiamondFromRect("220,150,650,650")
 
 	ClickP($aRequestButtonPos, 1, 0, "0336") ;click button request troops
-	
+
 	If _Sleep(250) Then Return
 	isGemOpen(True)
 	If _Sleep(500) Then Return
-	
+
 	If Not IsWindowOpen($g_sImgSendRequestButton, 20, 100, $sSendButtonArea) Then
 		SetLog("Request has already been made, or request window not available", $COLOR_INFO)
 		If _Sleep($DELAYMAKEREQUEST2) Then Return
@@ -118,7 +118,7 @@ Func _makerequest($aRequestButtonPos)
 			If Not $g_bChkBackgroundMode And Not $g_bNoFocusTampering Then ControlFocus($g_hAndroidWindow, "", "")
 			; fix for Android send text bug sending symbols like ``"
 			AndroidSendText($g_sRequestTroopsText, True)
-			Click(Int($g_avWindowCoordinates[0]), Int($g_avWindowCoordinates[1] - 75), 1, 0, "#0254")
+			Click(Int($g_avWindowCoordinates[0]), Int($g_avWindowCoordinates[1] - 100), 1, 0, "#0254")
 			If _Sleep($DELAYMAKEREQUEST2) Then Return
 			If SendText($g_sRequestTroopsText) = 0 Then
 				SetLog(" Request text entry failed, try again", $COLOR_ERROR)
@@ -138,13 +138,13 @@ Func _makerequest($aRequestButtonPos)
 		If $g_abSearchCastleWaitEnable[$DB] Or $g_abSearchCastleWaitEnable[$LB] Then
 			If Not $bChkUseOnlyCCMedals And $g_aiCmbCCDecisionTime > 0 Then $CCWaitChrono = TimerInit()
 		EndIf
-		
+
 	EndIf
 
 EndFunc   ;==>_makerequest
 
 Func IsFullClanCastleType($CCType = 0) ; Troops = 0, Spells = 1, Siege Machine = 2
-	Local $aCheckCCNotFull[3] = [24, 455, 631], $sLog[3] = ["Troop", "Spell", "Siege Machine"]
+	Local $aCheckCCNotFull[3] = [27, 455, 643], $sLog[3] = ["Troop", "Spell", "Siege Machine"]
 	Local $aiRequestCountCC[3] = [Number($g_iRequestCountCCTroop), Number($g_iRequestCountCCSpell), 0]
 	If $g_abRequestType[2] Then $aiRequestCountCC[2] = 1
 	Local $bIsCCRequestTypeNotUsed = Not ($g_abRequestType[0] Or $g_abRequestType[1] Or $g_abRequestType[2])
@@ -152,13 +152,13 @@ Func IsFullClanCastleType($CCType = 0) ; Troops = 0, Spells = 1, Siege Machine =
 		If $g_bDebugSetlog Then SetLog($sLog[$CCType] & " not cared about.")
 		Return True
 	Else
-		If _ColorCheck(_GetPixelColor($aCheckCCNotFull[$CCType], 470, True), Hex(0xDC363A, 6), 30) Then ; red symbol
+		If _ColorCheck(_GetPixelColor($aCheckCCNotFull[$CCType], 443 + $g_iMidOffsetY, True), Hex(0xE84D50, 6), 30) Then ; red symbol
 			If Not $g_abRequestType[$CCType] Then
 				; Don't care about the CC limit configured in setting
 				If $g_bDebugSetlog Then SetLog("Found CC " & $sLog[$CCType] & " Not Full, But Check Is Disabled")
 				Return True
 			EndIf
-						
+
 			; avoid total expected troops / spells is less than expected CC q'ty.
 			Local $iTotalExpectedTroop = 0, $iTotalExpectedSpell = 0
 			For $i = 0 To $eTroopCount - 1
@@ -167,12 +167,12 @@ Func IsFullClanCastleType($CCType = 0) ; Troops = 0, Spells = 1, Siege Machine =
 			For $i = 0 To $eSpellCount - 1
 				$iTotalExpectedSpell += $g_aiCCSpellsExpected[$i] * $g_aiSpellSpace[$i]
 			Next
-			
+
 			If $aiRequestCountCC[0] > $iTotalExpectedTroop And $iTotalExpectedTroop > 0 Then $aiRequestCountCC[0] = $iTotalExpectedTroop
 			If $aiRequestCountCC[1] > $iTotalExpectedSpell And $iTotalExpectedSpell > 0 Then $aiRequestCountCC[1] = $iTotalExpectedSpell
-			
+
 			If ($CCType = 0 And ($aiRequestCountCC[$CCType] = 0 Or $aiRequestCountCC[$CCType] = $g_aiClanCastleTroopsCap)) Or _
-			($CCType = 1 And ($aiRequestCountCC[$CCType] = 0 Or $aiRequestCountCC[$CCType] = $g_aiClanCastleSpellsCap)) Then
+					($CCType = 1 And ($aiRequestCountCC[$CCType] = 0 Or $aiRequestCountCC[$CCType] = $g_aiClanCastleSpellsCap)) Then
 				If $CCType = 1 And $g_aiClanCastleSpellsCap = 1 Then
 					SetLog("Full CC " & $sLog[$CCType] & " Required", $COLOR_DEBUG)
 				Else
@@ -181,9 +181,9 @@ Func IsFullClanCastleType($CCType = 0) ; Troops = 0, Spells = 1, Siege Machine =
 				Return False
 			Else
 				If $CCType < 2 Then
-					Local $sCCReceived = getOcrAndCapture("coc-ms", 289 + $CCType * 183, 468, 60, 16, True, False, True) ; read CC (troops x/40 or spells x/2)
+					Local $sCCReceived = getOcrAndCapture("coc-ms", 293 + $CCType * 180, 438 + $g_iMidOffsetY, 60, 16, True, False, True) ; read CC (troops x/40 or spells x/2)
 				Else
-					Local $sCCReceived = getOcrAndCapture("coc-ms", 650, 468, 30, 16, True, False, True) ; read CC (Siege x/1)
+					Local $sCCReceived = getOcrAndCapture("coc-ms", 649, 438 + $g_iMidOffsetY, 30, 16, True, False, True) ; read CC (Siege x/1)
 				EndIf
 				If $g_bDebugSetlog Then SetLog("Read CC " & $sLog[$CCType] & "s: " & $sCCReceived)
 				Local $aCCReceived = StringSplit($sCCReceived, "#", $STR_NOCOUNT) ; split the trained troop number from the total troop number
@@ -217,7 +217,7 @@ Func IsFullClanCastle()
 
 	If ($g_abAttackTypeEnable[$DB] And $g_abSearchCastleWaitEnable[$DB]) Or ($g_abAttackTypeEnable[$LB] And $g_abSearchCastleWaitEnable[$LB]) Then
 		CheckCCArmy()
-		
+
 		Local $isCCNotFull = 0
 		For $i = 0 To 2
 			If Not IsFullClanCastleType($i) Then
@@ -225,7 +225,7 @@ Func IsFullClanCastle()
 			EndIf
 		Next
 		If $isCCNotFull > 0 Then $bNeedRequest = True
-		
+
 		If $g_aiCmbCCDecisionThen = 1 And $g_bFullArmy And $g_bCheckSpells Then
 			If $bNeedRequest Then
 				$IsForRequestEarly = False
@@ -240,7 +240,7 @@ Func IsFullClanCastle()
 			$g_bCanRequestCC = True
 			If Not $bChkUseOnlyCCMedals Then
 				If ($g_aiCmbCCDecisionThen = 1 And $IsForRequestEarly) Or $g_aiCmbCCDecisionThen <> 1 Then RequestCC(False, "IsFullClanCastle")
-			EndIf	
+			EndIf
 			$IsForRequestEarly = False
 			Return False
 		EndIf

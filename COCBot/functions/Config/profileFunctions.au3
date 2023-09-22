@@ -57,7 +57,7 @@ Func renameProfile()
 
 		; rename the directory and all files and sub folders.
 		DirMove($originalPath, $newPath, $FC_NOOVERWRITE)
-		
+
 		; rename also private pofile folder
 		$originalPath = $g_sPrivateProfilePath & "\" & GUICtrlRead($g_hCmbProfile)
 		$newPath = $g_sPrivateProfilePath & "\" & $g_sProfileCurrentName
@@ -66,7 +66,7 @@ Func renameProfile()
 			DirMove($originalPath, $newPath, $FC_NOOVERWRITE)
 		EndIf
 	EndIf
-	
+
 EndFunc   ;==>renameProfile
 
 Func deleteProfile()
@@ -91,7 +91,7 @@ Func deleteProfile()
 		EndIf
 		; Remove the directory and all files and sub folders.
 		DirRemove($deletePath, $DIR_REMOVE)
-		
+
 		$deletePath = $g_sPrivateProfilePath & "\" & $sProfile
 		If FileExists($deletePath) Then
 			; Remove the directory and all files and sub folders.

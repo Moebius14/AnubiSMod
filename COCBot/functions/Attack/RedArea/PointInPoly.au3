@@ -96,17 +96,17 @@ Func RemoveDupNearby(ByRef $sLocCoord, $iDistance = 8)
 	Local $aCoord = StringSplit($sLocCoord, "|")
 	Local $aLoc1, $aLoc2, $bRemovedDuplicate = False
 	Local $sTmpVector = ""
-#comments-start
-	If $g_bDebugSetlog Then ; debug log values till know code is working...
-		Local $sText = "INPUT $aCoord"
-		SetLog("INPUT $aCoord count= " & $aCoord[0], $COLOR_DEBUG)
-		SetLog("INPUT $sLocCoord= " & $sLocCoord, $COLOR_DEBUG)
-		For $p = 1 To $aCoord[0]
-			$sText &= "[" & $p & "}:" & $aCoord[$p] & "; "
-		Next
-		SetLog($sText, $COLOR_DEBUG)
-	EndIf
-#comments-end
+	#comments-start
+		If $g_bDebugSetlog Then ; debug log values till know code is working...
+			Local $sText = "INPUT $aCoord"
+			SetLog("INPUT $aCoord count= " & $aCoord[0], $COLOR_DEBUG)
+			SetLog("INPUT $sLocCoord= " & $sLocCoord, $COLOR_DEBUG)
+			For $p = 1 To $aCoord[0]
+				$sText &= "[" & $p & "}:" & $aCoord[$p] & "; "
+			Next
+			SetLog($sText, $COLOR_DEBUG)
+		EndIf
+	#comments-end
 	If IsArray($aCoord) Then
 		For $ep = 1 To $aCoord[0] ;loop through existing points
 			If $aCoord[$ep] = "" Then ContinueLoop ; prevent errors after removing duplicate locations
@@ -155,8 +155,8 @@ Func RemoveDupNearby(ByRef $sLocCoord, $iDistance = 8)
 				Return $aCoord[0] ; failsafe exit = always return same count as given
 			EndIf
 		Else ; have one location
-			If $sTmpVector <> "" then  ; if not empty
-				Local $aCoord2 = [ 1, $sTmpVector]
+			If $sTmpVector <> "" Then  ; if not empty
+				Local $aCoord2 = [1, $sTmpVector]
 			Else
 				SetDebugLog("Impossible error: RemoveDupNearby removed all points!", $COLOR_ERROR)
 				Return $aCoord[0]
@@ -208,22 +208,22 @@ Func AddPoints_RemoveDuplicate(ByRef $sLoc1Coord, $sLoc2Coord, $iReturnpoints, $
 	Local $aCoord2 = StringSplit($sLoc2Coord, "|")
 	Local $aLoc1, $aLoc2
 	Local $iPointsAdded = 0
-#comments-start
-	If $g_bDebugSetlog Then ; debug log values till know code is working...
-		Local $sText = "INPUT $aCoord1"
-		SetLog("INPUT $aCoord1 count " & $aCoord1[0], $COLOR_DEBUG)
-		For $p = 1 To $aCoord1[0]
-			$sText &= "[" & $p & "}:" & $aCoord1[$p] & "; "
-		Next
-		SetLog($sText, $COLOR_DEBUG)
-		$sText = "INPUT $aCoord2"
-		SetLog("INPUT $aCoord2 count " & $aCoord2[0], $COLOR_DEBUG)
-		For $p = 1 To $aCoord2[0]
-			$sText &= "[" & $p & "}:" & $aCoord2[$p] & "; "
-		Next
-		SetLog($sText, $COLOR_DEBUG)
-	EndIf
-#comments-end
+	#comments-start
+		If $g_bDebugSetlog Then ; debug log values till know code is working...
+			Local $sText = "INPUT $aCoord1"
+			SetLog("INPUT $aCoord1 count " & $aCoord1[0], $COLOR_DEBUG)
+			For $p = 1 To $aCoord1[0]
+				$sText &= "[" & $p & "}:" & $aCoord1[$p] & "; "
+			Next
+			SetLog($sText, $COLOR_DEBUG)
+			$sText = "INPUT $aCoord2"
+			SetLog("INPUT $aCoord2 count " & $aCoord2[0], $COLOR_DEBUG)
+			For $p = 1 To $aCoord2[0]
+				$sText &= "[" & $p & "}:" & $aCoord2[$p] & "; "
+			Next
+			SetLog($sText, $COLOR_DEBUG)
+		EndIf
+	#comments-end
 	If IsArray($aCoord1) And IsArray($aCoord2) Then
 		For $ep = 1 To $aCoord1[0] ;loop through existing points
 			$aLoc1 = StringSplit($aCoord1[$ep], ",") ; separate x & y
@@ -245,22 +245,22 @@ Func AddPoints_RemoveDuplicate(ByRef $sLoc1Coord, $sLoc2Coord, $iReturnpoints, $
 				SetLog("RemoveDuplicatePoints Existing string value error!", $COLOR_ERROR)
 			EndIf
 		Next
-#comments-start
-		If $g_bDebugSetlog Then ; debug log values till know code is working...
-			Local $sText = "OUTPUT $aCoord1"
-			SetLog("OUTPUT $aCoord1 count " & $aCoord1[0], $COLOR_DEBUG)
-			For $p = 1 To $aCoord1[0]
-				$sText &= "[" & $p & "}:" & $aCoord1[$p] & "; "
-			Next
-			SetLog($sText, $COLOR_DEBUG)
-			$sText = "OUTPUT $aCoord2"
-			SetLog("OUTPUT $aCoord2 count " & $aCoord2[0], $COLOR_DEBUG)
-			For $p = 1 To $aCoord2[0]
-				$sText &= "[" & $p & "}:" & $aCoord2[$p] & "; "
-			Next
-			SetLog($sText, $COLOR_DEBUG)
-		EndIf
-#comments-end
+		#comments-start
+				If $g_bDebugSetlog Then ; debug log values till know code is working...
+					Local $sText = "OUTPUT $aCoord1"
+					SetLog("OUTPUT $aCoord1 count " & $aCoord1[0], $COLOR_DEBUG)
+					For $p = 1 To $aCoord1[0]
+						$sText &= "[" & $p & "}:" & $aCoord1[$p] & "; "
+					Next
+					SetLog($sText, $COLOR_DEBUG)
+					$sText = "OUTPUT $aCoord2"
+					SetLog("OUTPUT $aCoord2 count " & $aCoord2[0], $COLOR_DEBUG)
+					For $p = 1 To $aCoord2[0]
+						$sText &= "[" & $p & "}:" & $aCoord2[$p] & "; "
+					Next
+					SetLog($sText, $COLOR_DEBUG)
+				EndIf
+		#comments-end
 		For $np = 1 To $aCoord2[0]
 			If $aCoord2[$np] <> "" Then
 				$aLoc2 = StringSplit($aCoord2[$np], ",") ; separate x & y
@@ -277,7 +277,7 @@ Func AddPoints_RemoveDuplicate(ByRef $sLoc1Coord, $sLoc2Coord, $iReturnpoints, $
 				EndIf
 			EndIf
 		Next
-		SetDebugLog("Final $sLoc1Coord= "& $sLoc1Coord, $COLOR_DEBUG)
+		SetDebugLog("Final $sLoc1Coord= " & $sLoc1Coord, $COLOR_DEBUG)
 	Else
 		SetLog("RemoveDuplicatePoints location string paramenter error!", $COLOR_ERROR)
 	EndIf

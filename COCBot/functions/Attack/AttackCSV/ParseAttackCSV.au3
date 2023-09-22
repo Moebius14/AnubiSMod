@@ -371,7 +371,7 @@ Func ParseAttackCSV($debug = False)
 						Local $bBreakOnAQandBKAct = False
 						Local $bBreakOnGWAct = False
 						Local $bBreakOnRCAct = False
-						Local $aSiegeSlotPos = [0,0]
+						Local $aSiegeSlotPos = [0, 0]
 						Local $tempvalue2 = StringStripWS($value2, $STR_STRIPALL) ; remove all whitespaces from parameter
 						If StringLen($tempvalue2) > 0 Then ; If parameter is not empty
 							$bBreakImmediately = True ; when non of the set parameters fits, break the wait immediately
@@ -410,7 +410,7 @@ Func ParseAttackCSV($debug = False)
 											$bBreakOnRCAct = True
 										EndIf
 									Case "AQ+BK", "BK+AQ"
-										If $g_bCheckQueenPower AND $g_bCheckKingPower Then ; Queen and King are dropped, automatic activation on and not activated yet
+										If $g_bCheckQueenPower And $g_bCheckKingPower Then ; Queen and King are dropped, automatic activation on and not activated yet
 											$bBreakImmediately = False
 											$bBreakOnAQandBKAct = True
 										ElseIf $g_bCheckQueenPower Then ; Only Queen is dropped, automatic activation on and not activated yet
@@ -591,32 +591,32 @@ Func CheckIfTownHallGotDestroyed($hSleepTimer)
 	Local $bWonTwoStar = _CheckPixel($aWonTwoStar, True)
 	; Check for the centrally popped up star
 	Local $bCentralStarPopup = _ColorCheck(_GetPixelColor(Int($g_iGAME_WIDTH / 2) - 2, Int($g_iGAME_HEIGHT / 2) - 2, True), Hex(0xC0C4C0, 6), 20) And _
-							   _ColorCheck(_GetPixelColor(Int($g_iGAME_WIDTH / 2) - 2, Int($g_iGAME_HEIGHT / 2) + 2, True), Hex(0xC0C4C0, 6), 20) And _
-							   _ColorCheck(_GetPixelColor(Int($g_iGAME_WIDTH / 2) + 2, Int($g_iGAME_HEIGHT / 2) + 2, True), Hex(0xC0C4C0, 6), 20) And _
-							   _ColorCheck(_GetPixelColor(Int($g_iGAME_WIDTH / 2) + 2, Int($g_iGAME_HEIGHT / 2) - 2, True), Hex(0xC0C4C0, 6), 20)
+			_ColorCheck(_GetPixelColor(Int($g_iGAME_WIDTH / 2) - 2, Int($g_iGAME_HEIGHT / 2) + 2, True), Hex(0xC0C4C0, 6), 20) And _
+			_ColorCheck(_GetPixelColor(Int($g_iGAME_WIDTH / 2) + 2, Int($g_iGAME_HEIGHT / 2) + 2, True), Hex(0xC0C4C0, 6), 20) And _
+			_ColorCheck(_GetPixelColor(Int($g_iGAME_WIDTH / 2) + 2, Int($g_iGAME_HEIGHT / 2) - 2, True), Hex(0xC0C4C0, 6), 20)
 	;Get Current Damge %
 	Local $iDamage = Number(getOcrOverAllDamage(780, 527 + $g_iBottomOffsetY))
 
 	; Optimistic Trigger on Star Popup
 	If $bCentralStarPopup Then
-	; When damage < 50% TH is destroyed
+		; When damage < 50% TH is destroyed
 		If $iDamage < 50 Then
 			$bIsTHDestroyed = True
-	; When already one star, popup star is the second one for TH
+			; When already one star, popup star is the second one for TH
 		ElseIf $bWonOneStar Then
 			$bIsTHDestroyed = True
-	; trying to catch the cornercase of two distinguishable popups within 1500 msec (time from popup to settle of a star)
-	; Initialize the Timer, when not initialized, or last initialization is more than 1500 msec old
+			; trying to catch the cornercase of two distinguishable popups within 1500 msec (time from popup to settle of a star)
+			; Initialize the Timer, when not initialized, or last initialization is more than 1500 msec old
 		ElseIf $hPopupTimer = 0 Or __TimerDiff($hPopupTimer) > 1500 Then
 			$hPopupTimer = __TimerInit()
-	; trigger, when 500ms after a star popup there is still a popped up star (the star usually stays less than half a sec)
+			; trigger, when 500ms after a star popup there is still a popped up star (the star usually stays less than half a sec)
 		ElseIf __TimerDiff($hPopupTimer) > 500 Then
 			$bIsTHDestroyed = True
 		EndIf
-	; Failsafe Trigger: If Got 1 Star and Damage % < 50% then TH was taken before 50%
+		; Failsafe Trigger: If Got 1 Star and Damage % < 50% then TH was taken before 50%
 	ElseIf $bWonOneStar And $iDamage < 50 Then
 		$bIsTHDestroyed = True
-	; Failsafe Trigger: If Got 2 Star and Damage % >= 50% then TH was taken after 50%
+		; Failsafe Trigger: If Got 2 Star and Damage % >= 50% then TH was taken after 50%
 	ElseIf $bWonTwoStar Then
 		$bIsTHDestroyed = True
 	EndIf
@@ -978,7 +978,7 @@ Func ParseAttackCSV_MainSide($debug = False)
 									EndIf
 								Next
 							EndIf
-							
+
 							Switch StringLeft(Slice8($g_aiCSVMonolithPos), 1)
 								Case 1, 2
 									$heightBottomRight += Int($value1)
@@ -1054,7 +1054,7 @@ Func ParseAttackCSV_MainSide($debug = False)
 						SetLog("No 'SIDE' or 'SIDEB' csv line found, using default attack side: " & $MAINSIDE)
 				EndSwitch
 			EndIf
-		If _Sleep($DELAYRESPOND) Then Return ; check for pause/stop after each line of CSV
+			If _Sleep($DELAYRESPOND) Then Return ; check for pause/stop after each line of CSV
 		Next
 		ReleaseClicks()
 	Else

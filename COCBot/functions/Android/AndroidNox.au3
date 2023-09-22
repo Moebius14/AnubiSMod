@@ -115,9 +115,12 @@ Func GetNoxRtPath()
 EndFunc   ;==>GetNoxRtPath
 
 Func GetNoxPath()
+	Local $sVersion = RegRead($g_sHKLM & "\SOFTWARE" & $g_sWow6432Node & "\Microsoft\Windows\CurrentVersion\Uninstall\Nox\", "DisplayVersion")
+	If @error Then
+		SetLog("Nox version not found", $COLOR_ERROR)
+	EndIf
+	$__Nox_Version = $sVersion  ; set Nox global version number
 	Local $path = RegRead($g_sHKLM & "\SOFTWARE" & $g_sWow6432Node & "\DuoDianOnline\SetupInfo\", "InstallPath")
-	$__Nox_Version = RegRead($g_sHKLM & "\SOFTWARE" & $g_sWow6432Node & "\Microsoft\Windows\CurrentVersion\Uninstall\Nox\", "DisplayVersion")
-	$g_sAndroidVersion = $__Nox_Version
 	If @error = 0 Then
 		If StringRight($path, 1) <> "\" Then $path &= "\"
 		$path &= "bin\"
@@ -190,6 +193,7 @@ Func InitNox($bCheckOnly = False)
 		If $g_sAndroidAdbPath = "" Then $g_sAndroidAdbPath = GetNoxAdbPath()
 		$__Nox_Path = $path
 		$g_sAndroidPath = $__Nox_Path
+		$g_sAndroidVersion = $__Nox_Version
 		$__VBoxManage_Path = $VBoxFile
 		$aRegexResult = StringRegExp($__VBoxVMinfo, ".*host ip = ([^,]+), .* guest port = 5555", $STR_REGEXPARRAYMATCH)
 		If Not @error Then
@@ -279,7 +283,7 @@ Func ConfigureSharedFolderNox($iMode = 0, $bSetLog = Default)
 	EndSwitch
 
 	Return SetError(0, 0, $bResult)
-EndFunc
+EndFunc   ;==>ConfigureSharedFolderNox
 
 Func SetScreenNox()
 
@@ -346,14 +350,14 @@ Func CheckScreenNox($bSetLog = True)
 					SetLog("Cannot validate " & $g_sAndroidEmulator & " property " & $aValues[$i][0], $COLOR_ERROR)
 				Else
 					SetDebugLog("Cannot validate " & $g_sAndroidEmulator & " property " & $aValues[$i][0], $COLOR_ERROR)
-				EndIF
+				EndIf
 			Else
 				$Value = $aValues[$i][1]
 				If $bSetLog Then
 					SetLog("Cannot validate " & $g_sAndroidEmulator & " property " & $aValues[$i][0] & ", assuming " & $Value, $COLOR_ERROR)
 				Else
 					SetDebugLog("Cannot validate " & $g_sAndroidEmulator & " property " & $aValues[$i][0] & ", assuming " & $Value, $COLOR_ERROR)
-				EndIF
+				EndIf
 			EndIf
 		EndIf
 

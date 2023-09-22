@@ -40,7 +40,7 @@ Func chkEnableBBAttack()
 		GUICtrlSetState($g_hChkForceBBAttackOnClanGames, $GUI_DISABLE)
 		GUICtrlSetState($g_hChkBBAttackForDailyChallenge, $GUI_DISABLE)
 	EndIf
-EndFunc
+EndFunc   ;==>chkEnableBBAttack
 
 Func ChkBBAttackForDailyChallenge()
 	If GUICtrlRead($g_hChkBBAttackForDailyChallenge) = $GUI_CHECKED Then
@@ -54,7 +54,7 @@ Func ChkBBAttackForDailyChallenge()
 			GUICtrlSetState($g_hChkBBHaltOnResourcesFull, $GUI_ENABLE)
 		EndIf
 	EndIf
-EndFunc
+EndFunc   ;==>ChkBBAttackForDailyChallenge
 
 Func chkUpgradeDoubleCannon()
 
@@ -83,7 +83,7 @@ Func DeleteDoubleCannonCoord()
 	IniWrite($g_sProfileBuildingPath, "other", "DoubleCannonPosV", $g_aiDoubleCannonPos[2])
 	$g_bDoubleCannonUpgrade = False ; turn Off the Double Cannon upgrade
 	GUICtrlSetState($g_hChkDoubleCannonUpgrade, $GUI_UNCHECKED)
-EndFunc
+EndFunc   ;==>DeleteDoubleCannonCoord
 
 Func chkUpgradeArcherTower()
 
@@ -112,7 +112,7 @@ Func DeleteArcherTowerCoord()
 	IniWrite($g_sProfileBuildingPath, "other", "ArcherTowerPosV", $g_aiArcherTowerPos[2])
 	$g_bArcherTowerUpgrade = False ; turn Off the Archer Tower upgrade
 	GUICtrlSetState($g_hChkArcherTowerUpgrade, $GUI_UNCHECKED)
-EndFunc
+EndFunc   ;==>DeleteArcherTowerCoord
 
 Func chkUpgradeMultiMortar()
 
@@ -141,7 +141,7 @@ Func DeleteMultiMortarCoord()
 	IniWrite($g_sProfileBuildingPath, "other", "MultiMortarPosV", $g_aiMultiMortarPos[2])
 	$g_bMultiMortarUpgrade = False ; turn Off the Multi Mortar upgrade
 	GUICtrlSetState($g_hChkMultiMortarUpgrade, $GUI_UNCHECKED)
-EndFunc
+EndFunc   ;==>DeleteMultiMortarCoord
 
 Func chkUpgradeAnyDef()
 
@@ -158,7 +158,7 @@ Func chkUpgradeAnyDef()
 	EndIf
 
 	Return
-EndFunc   ;==>chkUpgradeMultiMortar
+EndFunc   ;==>chkUpgradeAnyDef
 
 Func DeleteCannonCoord()
 	SetLog("Deleting Coordinates of Cannon.", $COLOR_OLIVE)
@@ -170,7 +170,7 @@ Func DeleteCannonCoord()
 	IniWrite($g_sProfileBuildingPath, "other", "AnyDefPosV", $g_aiAnyDefPos[2])
 	$g_bAnyDefUpgrade = False ; turn Off the Cannon upgrade
 	GUICtrlSetState($g_hChkAnyDefUpgrade, $GUI_UNCHECKED)
-EndFunc
+EndFunc   ;==>DeleteCannonCoord
 
 Func cmbBBAttackCount()
 	$g_iBBAttackCount = _GUICtrlComboBox_GetCurSel($g_hCmbBBAttackCount)
@@ -183,7 +183,7 @@ Func cmbBBAttackCount()
 		GUICtrlSetState($g_hChkBBAttIfLootAvail, $GUI_ENABLE)
 	EndIf
 	ChkBBAttackForDailyChallenge()
-EndFunc
+EndFunc   ;==>cmbBBAttackCount
 
 Func cmbBBNextTroopDelay()
 	$g_iBBNextTroopDelay = $g_iBBNextTroopDelayDefault + ((_GUICtrlComboBox_GetCurSel($g_hCmbBBNextTroopDelay) + 1) - 5) * $g_iBBNextTroopDelayIncrement ; +- n*increment

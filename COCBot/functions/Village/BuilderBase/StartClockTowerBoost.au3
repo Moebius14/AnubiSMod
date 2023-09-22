@@ -15,10 +15,10 @@
 #include-once
 
 Func ClockTimeGained()
-Local $aResult = BuildingInfo(242, 490 + $g_iBottomOffsetY)
-Local $TowerClockLevel = $aResult[2]
-SetLog("Clock Tower Level " & $TowerClockLevel & " Detected")
-Local $ClockTimeGained = 0
+	Local $aResult = BuildingInfo(242, 488 + $g_iBottomOffsetY)
+	Local $TowerClockLevel = $aResult[2]
+	SetLog("Clock Tower Level " & $TowerClockLevel & " Detected")
+	Local $ClockTimeGained = 0
 	Switch $TowerClockLevel
 		Case 1
 			$ClockTimeGained = 126 ;boost lenght*(10-1) <=> boost lenght*9
@@ -41,16 +41,16 @@ Local $ClockTimeGained = 0
 		Case 10
 			$ClockTimeGained = 288
 		Case Else
-			$ClockTimeGained = 270;30 minutes boost(?)
+			$ClockTimeGained = 270 ;30 minutes boost(?)
 	EndSwitch
-Return $ClockTimeGained
-EndFunc
+	Return $ClockTimeGained
+EndFunc   ;==>ClockTimeGained
 
 Func StartClockTowerBoost($bSwitchToBB = False, $bSwitchToNV = False, $bConditionsToUseClockPotion = False)
 
 	If Not $g_bChkStartClockTowerBoost Then Return
 	If Not $g_bRunState Then Return
-	
+
 	Local $TimeGained = 0
 	Local $IsCTToOpen = False
 	Local $IsCTOpenNonAvail = False
@@ -80,7 +80,7 @@ Func StartClockTowerBoost($bSwitchToBB = False, $bSwitchToNV = False, $bConditio
 			ClickP($aCTCoords)
 			If _Sleep($DELAYCLOCKTOWER1) Then Return
 			$TimeGained = ClockTimeGained()
-			
+
 			$aCTBoost = findButton("BoostCT") ; Search for Start Clock Tower Boost Button
 			If IsArray($aCTBoost) Then
 				ClickP($aCTBoost)
@@ -106,7 +106,7 @@ Func StartClockTowerBoost($bSwitchToBB = False, $bSwitchToNV = False, $bConditio
 			SetLog("Clock Tower boost is not available!")
 			If $bConditionsToUseClockPotion And $bUseClockPotion Then $IsCTToOpen = True
 		EndIf
-		
+
 		If $IsCTToOpen Then
 			If _Sleep(1000) Then Return
 			For $i = 0 To 20
@@ -121,16 +121,16 @@ Func StartClockTowerBoost($bSwitchToBB = False, $bSwitchToNV = False, $bConditio
 			Next
 			$TimeGained = ClockTimeGained()
 		EndIf
-		
+
 		If Not $g_bRunState Then Return
-		
+
 		If $IsCTToOpen And Not $IsCTOpenNonAvail Then
 			SetLog("Clock Tower Didn't Open")
 			Return
 		EndIf
-		
+
 		If $bConditionsToUseClockPotion And $bUseClockPotion Then
-			If _Sleep(1500) Then Return
+			If _Sleep(2000) Then Return
 			Local $click = ClickB("ClockTowerPot") ;click Clock Tower Boost potion Button
 			If $click Then
 				If _Sleep(1000) Then Return
@@ -153,15 +153,16 @@ Func StartClockTowerBoost($bSwitchToBB = False, $bSwitchToNV = False, $bConditio
 						GUICtrlSetData($g_hTxtModLog, @CRLF & _NowTime() & " [" & $g_sProfileCurrentName & "] BuilderBase : " & $ActionForModLog & " Using Potion", 1)
 					EndIf
 					_FileWriteLog($g_sProfileLogsPath & "\ModLog.log", " [" & $g_sProfileCurrentName & "] - BuilderBase : " & $ActionForModLog & "")
+					If _Sleep(1000) Then Return
 				EndIf
 			Else
 				SetLog("Clock Tower Potion Not Found", $COLOR_DEBUG)
+				If _Sleep(1000) Then Return
 			EndIf
 		EndIf
-		
 	EndIf
 	ClickAway()
-	If _Sleep(1000) Then Return
+
 	If ProfileSwitchAccountEnabled() Then SwitchAccountVariablesReload("Save")
 
 	If $bSwitchToNV Then SwitchBetweenBases() ; Switching back to the normal Village if true
@@ -169,13 +170,13 @@ EndFunc   ;==>StartClockTowerBoost
 
 Func CheckBBuilderTime()
 	If Not $g_bRunState Then Return
-	
+
 	If Not $bUseClockPotion Then Return False
-	
+
 	getBuilderCount(False, True)
-	
+
 	If $g_iFreeBuilderCountBB > 0 Then Return False ; Change july 2023 : All Builders have work To use Clock Potion.
-	
+
 	ClickMainBBuilder()
 	If _Sleep(500) Then Return
 	If QuickMIS("BC1", $g_sImgAUpgradeHour, 430, 105, 510, 140) Then
@@ -188,13 +189,13 @@ Func CheckBBuilderTime()
 	EndIf
 	ClickAway("Right")
 	Return False
-EndFunc		
-		
+EndFunc   ;==>CheckBBuilderTime
+
 Func ClickMainBBuilder($bTest = False, $Counter = 3)
 	Local $b_WindowOpened = False
 	If Not $g_bRunState Then Return
 	; open the builders menu
-	If Not _ColorCheck(_GetPixelColor(440,73, True), "FFFFFF", 50) Then
+	If Not _ColorCheck(_GetPixelColor(440, 73, True), "FFFFFF", 50) Then
 		Click(383, 30)
 		If _Sleep(1000) Then Return
 	EndIf
@@ -206,7 +207,7 @@ Func ClickMainBBuilder($bTest = False, $Counter = 3)
 		For $i = 1 To $Counter
 			SetLog("Upgrade Window didn't open, trying again!", $COLOR_DEBUG)
 			If IsFullBBScreenWindow() Then
-				Click(825,45)
+				Click(825, 45)
 				If _Sleep(1000) Then Return
 			EndIf
 			Click(383, 30)
@@ -221,7 +222,7 @@ Func ClickMainBBuilder($bTest = False, $Counter = 3)
 		EndIf
 	EndIf
 	Return $b_WindowOpened
-EndFunc ;==>ClickMainBBuilder
+EndFunc   ;==>ClickMainBBuilder
 
 Func IsBBuilderMenuOpen()
 	Local $bRet = False
@@ -233,34 +234,34 @@ Func IsBBuilderMenuOpen()
 	Local $aBorder5[4] = [400, 73, 0xC3CBD9, 20]
 	Local $aBorder6[4] = [400, 73, 0xF4F4F5, 20]
 	Local $sTriangle
-	
+
 	For $i = 0 To 5
 		If _CheckPixel($aBorder0, True) Or _CheckPixel($aBorder1, True) Or _CheckPixel($aBorder2, True) Or _CheckPixel($aBorder3, True) Or _CheckPixel($aBorder4, True) Or _
-		_CheckPixel($aBorder5, True) Or _CheckPixel($aBorder6, True) Then
+				_CheckPixel($aBorder5, True) Or _CheckPixel($aBorder6, True) Then
 			SetDebugLog("Found Border Color: " & _GetPixelColor($aBorder0[0], $aBorder0[1], True), $COLOR_ACTION)
 			$bRet = True ;got correct color for border
 			ExitLoop
 		EndIf
 		_Sleep(500)
-	Next	
-	
+	Next
+
 	If Not $bRet Then ;lets re check if border color check not success
 		$sTriangle = getOcrAndCapture("coc-buildermenu-main", 415, 60, 430, 73)
 		SetDebugLog("$sTriangle: " & $sTriangle)
 		If $sTriangle = "^" Then $bRet = True
 	EndIf
-	
+
 	Return $bRet
-EndFunc
+EndFunc   ;==>IsBBuilderMenuOpen
 
 Func IsFullBBScreenWindow()
 	Local $result
-	$result = WaitforPixel(823,49,825,51, "FFFFFF", 10, 2) Or WaitforPixel(823,49,825,51, "8C9CB6", 10, 2) Or WaitforPixel(823,49,825,51, "C0C9D3", 10, 2) Or _
-	WaitforPixel(823,49,825,51, "BEBFB", 10, 2) Or WaitforPixel(823,49,825,51, "F7F8F5", 10, 2) Or WaitforPixel(823,49,825,51, "C3CBD9", 10, 2)
-	
+	$result = WaitforPixel(823, 49, 825, 51, "FFFFFF", 10, 2) Or WaitforPixel(823, 49, 825, 51, "8C9CB6", 10, 2) Or WaitforPixel(823, 49, 825, 51, "C0C9D3", 10, 2) Or _
+			WaitforPixel(823, 49, 825, 51, "BEBFB", 10, 2) Or WaitforPixel(823, 49, 825, 51, "F7F8F5", 10, 2) Or WaitforPixel(823, 49, 825, 51, "C3CBD9", 10, 2)
+
 	If $result Then
 		If $g_bDebugSetlog Or $g_bDebugClick Then SetLog("Found FullScreen Window", $COLOR_ACTION)
 		Return True
 	EndIf
 	Return False
-EndFunc
+EndFunc   ;==>IsFullBBScreenWindow

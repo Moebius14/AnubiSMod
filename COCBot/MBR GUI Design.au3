@@ -202,10 +202,10 @@ Func CreateMainGUIControls($bGuiModeUpdate = False)
 			GUICtrlCreateLabel("", 0, 0, $iTitleX, $_GUI_MAIN_TOP)
 			GUICtrlSetOnEvent(-1, "BotMoveRequest")
 			GUICtrlSetBkColor(-1, $COLOR_WHITE)
-			
+
 			; AnuBis Mod little Logo
 			$g_hLblBotLogo = _GUICtrlCreateIcon($g_sLibModIconPath, $eIcnGUIMod, 5, 2, 16, 16)
-			
+
 			; title
 			$g_hLblBotTitle = GUICtrlCreateLabel($g_sBotTitle, $iTitleX, 0, $_GUI_MAIN_WIDTH - $_GUI_MAIN_BUTTON_COUNT * $aBtnSize[0] - 25, $_GUI_MAIN_TOP) ;, $SS_CENTER)
 			GUICtrlSetOnEvent(-1, "BotMoveRequest")
@@ -280,25 +280,25 @@ Func CreateMainGUIControls($bGuiModeUpdate = False)
 		$g_hFrmBotBottom = GUICreate("My Bot Buttons", $_GUI_MAIN_WIDTH, $_GUI_BOTTOM_HEIGHT, 0, $_GUI_MAIN_HEIGHT - $_GUI_BOTTOM_HEIGHT + $_GUI_MAIN_TOP, _
 				BitOR($WS_CHILD, $WS_TABSTOP), 0, $g_hFrmBot)
 
-	;~ ------------------------------------------------------
-	;~ Header Menu
-	;~ ------------------------------------------------------
+;~ ------------------------------------------------------
+;~ Header Menu
+;~ ------------------------------------------------------
 		GUISwitch($g_hFrmBot)
 		;$idMENU_DONATE = GUICtrlCreateMenu("&" & GetTranslatedFileIni("MBR GUI Design Bottom", "g_hLblDonate_Info_01", "Paypal Donate?"))
 		;_GUICtrlMenu_SetItemType(_GUICtrlMenu_GetMenu($g_hFrmBot), 0, $MFT_RIGHTJUSTIFY) ; move to right
 		;$idMENU_DONATE_SUPPORT = GUICtrlCreateMenuItem(GetTranslatedFileIni("MBR GUI Design Bottom", "g_hLblDonate", "Support the development"), $idMENU_DONATE)
 		;GUICtrlSetOnEvent(-1, "")
 
-	;~ ------------------------------------------------------
-	;~ GUI Bottom Panel
-	;~ ------------------------------------------------------
+;~ ------------------------------------------------------
+;~ GUI Bottom Panel
+;~ ------------------------------------------------------
 		SplashStep(GetTranslatedFileIni("MBR GUI Design - Loading", "SplashStep_02", "Loading GUI Bottom..."))
 		GUISwitch($g_hFrmBotBottom)
 		CreateBottomPanel()
 
-	;~ ------------------------------------------------------
-	;~ GUI Child Tab Files
-	;~ ------------------------------------------------------
+;~ ------------------------------------------------------
+;~ GUI Child Tab Files
+;~ ------------------------------------------------------
 		GUISwitch($g_hFrmBotEx)
 
 		; Bottom status bar
@@ -329,10 +329,10 @@ Func CreateMainGUIControls($bGuiModeUpdate = False)
 
 	SplashStep(GetTranslatedFileIni("MBR GUI Design - Loading", "SplashStep_05", "Loading Attack tab..."))
 	CreateAttackTab()
-	
+
 	SplashStep(GetTranslatedFileIni("MBR GUI Design - Loading", "SplashStep_09", "Loading Mod tab..."))
 	CreateModTab()
-	
+
 	SplashStep(GetTranslatedFileIni("MBR GUI Design - Loading", "SplashStep_06", "Loading Bot tab..."))
 	CreateBotTab() ; also creates  $g_hLastControlToHide
 	If Not $bGuiModeUpdate Then DistributorsUpdateGUI() ; Now loading Distributors (during GUI switch it must be called outside CreateMainGUIControls()!)
@@ -406,7 +406,7 @@ Func CreateMainGUIControls($bGuiModeUpdate = False)
 	Bind_ImageList($g_hGUI_STRATEGIES_TAB, $g_hGUI_STRATEGIES_TAB_ImageList)
 
 	Bind_ImageList($g_hGUI_BOT_TAB, $g_hGUI_BOT_TAB_ImageList)
-	
+
 	Bind_ImageList($g_hGUI_STATS_TAB, $g_hGUI_STATS_TAB_ImageList)
 
 	; Show Tab LOG
@@ -508,7 +508,7 @@ Func CheckDpiAwareness($bCheckOnlyIfAlreadyAware = False, $bForceDpiAware = Fals
 		$bDpiAware = $bForceDpiAware = True _ ; override to set DPI Awareness regardless of current state
 				Or $g_bChkBackgroundMode = False _ ; in non background mode Desktop screen capture is totally wrong due to the scaling
 				Or GetProcessDpiAwareness(GetAndroidPid()) ; in normal background mode using WinAPI and Android is DPI Aware, bot must be too or window will be scaled and blury
-				; 2019-04-19 cosote: removed "$g_bAndroidAdbScreencap = False And" from line above
+		; 2019-04-19 cosote: removed "$g_bAndroidAdbScreencap = False And" from line above
 		$bChanged = $bDpiAware And Not $sbDpiAware
 		If $bChanged Then ; only required when not running with screencap, but even if screencap is running, change it
 			$sbDpiAware = True ; do it only once, assume bot will become DPI aware

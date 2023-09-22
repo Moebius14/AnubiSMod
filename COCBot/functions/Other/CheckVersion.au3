@@ -16,15 +16,15 @@
 
 Func CheckVersion()
 
-	If not $g_bCheckVersion Then Return
+	If Not $g_bCheckVersion Then Return
 
 	; Get the last Version from API
 	Local $g_sBotGitVersion = ""
 	Local $sCorrectStdOut = InetRead("https://api.github.com/repos/MyBotRun/MyBot/releases/latest")
-	
+
 	If @error Or $sCorrectStdOut = "" Then Return
 	Local $Temp = BinaryToString($sCorrectStdOut)
-	
+
 	If $Temp <> "" And Not @error Then
 		Local $g_aBotVersionN = StringSplit($g_sBotVersion, " ", 2)
 		If @error Then
@@ -34,15 +34,15 @@ Func CheckVersion()
 		EndIf
 		Local $version = GetLastVersion($Temp)
 		$g_sBotGitVersion = StringReplace($version[0], "MBR_v", "")
-		SetDebugLog("Last GitHub version is " & $g_sBotGitVersion )
-		SetDebugLog("Your version is " & $g_iBotVersionN )
+		SetDebugLog("Last GitHub version is " & $g_sBotGitVersion)
+		SetDebugLog("Your version is " & $g_iBotVersionN)
 
 		If _VersionCompare($g_iBotVersionN, $g_sBotGitVersion) = -1 Then
 			SetLog("WARNING, YOUR VERSION (" & $g_iBotVersionN & ") IS OUT OF DATE.", $COLOR_INFO)
 			Local $ChangelogTXT = GetLastChangeLog($Temp)
 			Local $Changelog = StringSplit($ChangelogTXT[0], '\r\n', $STR_ENTIRESPLIT + $STR_NOCOUNT)
 			For $i = 0 To UBound($Changelog) - 1
-				SetLog($Changelog[$i] )
+				SetLog($Changelog[$i])
 			Next
 			PushMsg("Update")
 		ElseIf _VersionCompare($g_iBotVersionN, $g_sBotGitVersion) = 0 Then
@@ -56,7 +56,7 @@ Func CheckVersion()
 
 	Local $g_sBotModGitVersion = ""
 	Local $sCorrectStdOutMod = InetRead("https://api.github.com/repos/Moebius14/AnuBisMod/releases/latest")
-	Local $TempMod = BinaryToString($sCorrectStdOutMod)	
+	Local $TempMod = BinaryToString($sCorrectStdOutMod)
 
 	If $TempMod <> "" And Not @error Then
 		Local $g_aBotVersionNMod = StringSplit($g_sBotVersionMod, " ", 2)
@@ -77,7 +77,7 @@ Func CheckVersion()
 			Local $ChangelogTXT = GetLastChangeLog($TempMod)
 			Local $Changelog = StringSplit($ChangelogTXT[0], '\r\n', $STR_ENTIRESPLIT + $STR_NOCOUNT)
 			For $i = 0 To UBound($Changelog) - 1
-				SetLog($Changelog[$i] )
+				SetLog($Changelog[$i])
 			Next
 			SetLog(" ", $COLOR_ERROR)
 			SetLog("Click Cahaya~Fantasy To Find The Lastest Mod Version", $COLOR_ERROR)
@@ -123,7 +123,7 @@ Func CheckVersionStatus()
 	If $g_bFirstStart Then $iLastTimeVersionChecked = ""
 
 	If _DateIsValid($iLastTimeVersionChecked) Then
-		Local $iLastCheck =_DateDiff('n', $iLastTimeVersionChecked, _NowCalc()) ; elapse time from last check (minutes)
+		Local $iLastCheck = _DateDiff('n', $iLastTimeVersionChecked, _NowCalc()) ; elapse time from last check (minutes)
 		SetDebugLog("Version Status LastCheck: " & $iLastTimeVersionChecked & ", Check DateCalc: " & $iLastCheck)
 		If $iLastCheck <= 120 Then Return ; Check Every 120 Minutes
 	EndIf
@@ -132,7 +132,7 @@ Func CheckVersionStatus()
 
 	Local $g_sBotModGitVersion = ""
 	Local $sCorrectStdOutMod = InetRead("https://api.github.com/repos/Moebius14/AnuBisMod/releases/latest")
-	Local $TempMod = BinaryToString($sCorrectStdOutMod)	
+	Local $TempMod = BinaryToString($sCorrectStdOutMod)
 
 	If $TempMod <> "" And Not @error Then
 		Local $g_aBotVersionNMod = StringSplit($g_sBotVersionMod, " ", 2)
@@ -178,7 +178,7 @@ Func CheckVersionStatus()
 		SetDebugLog($TempMod)
 	EndIf
 	$iLastTimeVersionChecked = _NowCalc()
-EndFunc
+EndFunc   ;==>CheckVersionStatus
 
 Func GetLastVersion($txt)
 	Return _StringBetween($txt, '"tag_name":"', '","')

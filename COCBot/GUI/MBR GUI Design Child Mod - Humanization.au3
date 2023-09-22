@@ -77,7 +77,7 @@ Func TabHumanizationGUI()
 	$g_acmbPriority[0] = GUICtrlCreateCombo("", $x + 342, $y, 75, 25, BitOR($CBS_DROPDOWNLIST, $CBS_AUTOHSCROLL))
 	GUICtrlSetData(-1, $g_sFrequenceChain, "Sometimes")
 
-	$y += 30 
+	$y += 30
 	GUICtrlCreateIcon($g_sLibIconPath, $eIcnTroops, $x, $y + 9, 32, 32)
 	$g_hLabel5 = GUICtrlCreateLabel(GetTranslatedFileIni("MBR GUI Design Child Village - Misc", "Label_05", "Watch Defenses"), $x + 40, $y + 5, 110, 17)
 	$g_acmbPriority[1] = GUICtrlCreateCombo("", $x + 140, $y, 75, 25, BitOR($CBS_DROPDOWNLIST, $CBS_AUTOHSCROLL))
@@ -171,16 +171,16 @@ Func CreateChatWelcomeMessage()
 	$g_hGUI_WelcomeMessage = _GUICreate("Welcome Message", $_GUI_MAIN_WIDTH - 4, $_GUI_MAIN_HEIGHT - 570, $g_iFrmBotPosX, $g_iFrmBotPosY + 80, $WS_DLGFRAME, -1, $g_hFrmBot)
 
 	$g_hChkUseWelcomeMessage = GUICtrlCreateCheckbox("Use Welcome Message", $x + 70, $y)
-		_GUICtrlSetTip(-1, "Enable Welcome Chat Message")
-		GUICtrlSetOnEvent(-1, "chkUseWelcomeMessage")
+	_GUICtrlSetTip(-1, "Enable Welcome Chat Message")
+	GUICtrlSetOnEvent(-1, "chkUseWelcomeMessage")
 	$g_hTxtWelcomeMessage = GUICtrlCreateInput($g_aWelcomeMessage, $x + 70, $y + 30, 260, 20, BitOR($SS_CENTER, $ES_AUTOHSCROLL))
-		_GUICtrlSetTip(-1, "Type Your Welcome Chat Message" & @CRLF & "Will Be Written After Accept With ""Forum"" Keyword")
-		GUICtrlSetState(-1, $GUI_DISABLE)
+	_GUICtrlSetTip(-1, "Type Your Welcome Chat Message" & @CRLF & "Will Be Written After Accept With ""Forum"" Keyword")
+	GUICtrlSetState(-1, $GUI_DISABLE)
 
 	$y += 50
 	$g_hBtnWelcomeMessageClose = GUICtrlCreateButton("Close", $_GUI_MAIN_WIDTH - 110, $y, 85, 25)
-		GUICtrlSetOnEvent(-1, "CloseWelcomeMessage")
-EndFunc
+	GUICtrlSetOnEvent(-1, "CloseWelcomeMessage")
+EndFunc   ;==>CreateChatWelcomeMessage
 
 Func CreateSecondaryVillages()
 	Local $x = 25, $y = 5
@@ -219,5 +219,5 @@ Func CreateSecondaryVillages()
 
 	$y += 70
 	$g_hBtnSecondaryVillagesClose = GUICtrlCreateButton("Close", $_GUI_MAIN_WIDTH - 110, $y, 85, 25)
-		GUICtrlSetOnEvent(-1, "CloseSecondaryVillages")
-EndFunc
+	GUICtrlSetOnEvent(-1, "CloseSecondaryVillages")
+EndFunc   ;==>CreateSecondaryVillages

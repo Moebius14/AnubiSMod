@@ -9,7 +9,7 @@ Func LocateBuilderHall()
 		BuildingClickP($g_aiBuilderHallPos, "#0197")
 		If _Sleep($DELAYLABORATORY1) Then Return ; Wait for description to popup
 
-		Local $aResult = BuildingInfo(242, 490 + $g_iBottomOffsetY) ; Get building name and level with OCR
+		Local $aResult = BuildingInfo(242, 488 + $g_iBottomOffsetY) ; Get building name and level with OCR
 		If $aResult[0] = 2 Then ; We found a valid building name
 			If StringInStr($aResult[1], "Builder") = True Then ; we found the Clan Castle
 				SetLog("Builder Hall located.", $COLOR_INFO)
@@ -23,7 +23,7 @@ Func LocateBuilderHall()
 				SetLog("Village position: " & $g_aiBuilderHallPos[0] & ", " & $g_aiBuilderHallPos[1], $COLOR_DEBUG, True)
 				SetLog("Stored Builder Hall Position is not valid.", $COLOR_ERROR)
 				SetLog("Found instead: " & $aResult[1] & ", " & $aResult[2] & " !", $COLOR_DEBUG)
-				ConvertToVillagePos($g_aiBuilderHallPos[0],$g_aiBuilderHallPos[1])
+				ConvertToVillagePos($g_aiBuilderHallPos[0], $g_aiBuilderHallPos[1])
 				SetLog("Real position: " & $g_aiBuilderHallPos[0] & ", " & $g_aiBuilderHallPos[1], $COLOR_DEBUG, True)
 				$g_aiBuilderHallPos[0] = -1
 				$g_aiBuilderHallPos[1] = -1
@@ -32,7 +32,7 @@ Func LocateBuilderHall()
 			ClickAway()
 			SetDebugLog("Stored Builder Hall Position is not valid.", $COLOR_ERROR)
 			SetDebugLog("Village position: " & $g_aiBuilderHallPos[0] & ", " & $g_aiBuilderHallPos[1], $COLOR_DEBUG, True)
-			ConvertToVillagePos($g_aiBuilderHallPos[0],$g_aiBuilderHallPos[1])
+			ConvertToVillagePos($g_aiBuilderHallPos[0], $g_aiBuilderHallPos[1])
 			SetDebugLog("Real position: " & $g_aiBuilderHallPos[0] & ", " & $g_aiBuilderHallPos[1], $COLOR_DEBUG, True)
 			$g_aiBuilderHallPos[0] = -1
 			$g_aiBuilderHallPos[1] = -1
@@ -51,7 +51,7 @@ Func LocateBuilderHall()
 
 	; DETECTION IMGLOC
 	Local $aResult
-	For $j = 0 to 10
+	For $j = 0 To 10
 		SetLog("ImgLoc Builder Hall loop :" & $j & " zoom factor :" & $g_aVillageSize[1])
 		$aResult = findMultiple($sImgDir, $sCocDiamond, $sRedLines, $iMinLevel, $iMaxLevel, $iMaxReturnPoints, $sReturnProps, $bForceCapture)
 		If IsArray($aResult) And UBound($aResult) > 0 Then ; we have an array with data of images found
@@ -76,7 +76,7 @@ Func LocateBuilderHall()
 							$g_aiBuilderHallPos[0] = Number($tempObbj[0]) + 9
 							$g_aiBuilderHallPos[1] = Number($tempObbj[1]) + 15
 							SetLog("Builder Hall :" & $g_aiBuilderHallPos[0] & "," & $g_aiBuilderHallPos[1])
-							ConvertFromVillagePos($g_aiBuilderHallPos[0],$g_aiBuilderHallPos[1])
+							ConvertFromVillagePos($g_aiBuilderHallPos[0], $g_aiBuilderHallPos[1])
 							SetLog("Builder Hall VillagePos:" & $g_aiBuilderHallPos[0] & "," & $g_aiBuilderHallPos[1])
 							ExitLoop 3
 						EndIf
@@ -88,7 +88,7 @@ Func LocateBuilderHall()
 						$g_aiBuilderHallPos[0] = Number($tempObbj[0]) + 9
 						$g_aiBuilderHallPos[1] = Number($tempObbj[1]) + 15
 						SetLog("Builder Hall :" & $g_aiBuilderHallPos[0] & "," & $g_aiBuilderHallPos[1])
-						ConvertFromVillagePos($g_aiBuilderHallPos[0],$g_aiBuilderHallPos[1])
+						ConvertFromVillagePos($g_aiBuilderHallPos[0], $g_aiBuilderHallPos[1])
 						SetLog("Builder Hall VillagePos:" & $g_aiBuilderHallPos[0] & "," & $g_aiBuilderHallPos[1])
 						ExitLoop 2
 					EndIf
@@ -103,7 +103,7 @@ Func LocateBuilderHall()
 		BuildingClickP($g_aiBuilderHallPos, "#0197")
 		If _Sleep($DELAYLABORATORY1) Then Return ; Wait for description to popup
 
-		Local $aResult = BuildingInfo(242, 490 + $g_iBottomOffsetY) ; Get building name and level with OCR
+		Local $aResult = BuildingInfo(242, 488 + $g_iBottomOffsetY) ; Get building name and level with OCR
 		If $aResult[0] = 2 Then ; We found a valid building name
 			If StringInStr($aResult[1], "Builder") = True Then ; we found the Clan Castle
 				SetLog("Builder Hall located.", $COLOR_INFO)
@@ -117,7 +117,7 @@ Func LocateBuilderHall()
 				SetDebugLog("Found Builder Hall Position is not valid.", $COLOR_ERROR)
 				SetDebugLog("Found instead: " & $aResult[1] & ", " & $aResult[2] & " !", $COLOR_DEBUG)
 				SetDebugLog("Village position: " & $g_aiBuilderHallPos[0] & ", " & $g_aiBuilderHallPos[1], $COLOR_DEBUG, True)
-				ConvertToVillagePos($g_aiBuilderHallPos[0],$g_aiBuilderHallPos[1])
+				ConvertToVillagePos($g_aiBuilderHallPos[0], $g_aiBuilderHallPos[1])
 				SetDebugLog("Real position: " & $g_aiBuilderHallPos[0] & ", " & $g_aiBuilderHallPos[1], $COLOR_DEBUG, True)
 				$g_aiBuilderHallPos[0] = -1
 				$g_aiBuilderHallPos[1] = -1
@@ -127,7 +127,7 @@ Func LocateBuilderHall()
 			ClickAway()
 			SetDebugLog("Found Builder Hall Position is not valid.", $COLOR_ERROR)
 			SetDebugLog("Village position: " & $g_aiBuilderHallPos[0] & ", " & $g_aiBuilderHallPos[1], $COLOR_DEBUG, True)
-			ConvertToVillagePos($g_aiBuilderHallPos[0],$g_aiBuilderHallPos[1])
+			ConvertToVillagePos($g_aiBuilderHallPos[0], $g_aiBuilderHallPos[1])
 			SetDebugLog("Real position: " & $g_aiBuilderHallPos[0] & ", " & $g_aiBuilderHallPos[1], $COLOR_DEBUG, True)
 			$g_aiBuilderHallPos[0] = -1
 			$g_aiBuilderHallPos[1] = -1
@@ -136,7 +136,7 @@ Func LocateBuilderHall()
 
 	SetLog("Can not find Builder Hall.", $COLOR_ERROR)
 	Return False
-EndFunc   ;==>LocateBuilderHall()
+EndFunc   ;==>LocateBuilderHall
 
 Func LocateDoubleCannon($bCollect = False)
 	Local $wasRunState = $g_bRunState
@@ -152,7 +152,7 @@ EndFunc   ;==>LocateDoubleCannon
 
 Func _LocateDoubleCannon($bCollect = False)
 
-	Local $stext, $MsgBox, $iSilly = 0, $iStupid = 0, $sErrorText = "", $sInfo, $aDoubleCannonLevel=0
+	Local $stext, $MsgBox, $iSilly = 0, $iStupid = 0, $sErrorText = "", $sInfo, $aDoubleCannonLevel = 0
 
 	WinGetAndroidHandle()
 
@@ -179,7 +179,7 @@ Func _LocateDoubleCannon($bCollect = False)
 		If _Sleep($DELAYUPGRADEHERO2) Then Return
 
 		;Get Double Cannon info and Level
-		Local $sInfo = BuildingInfo(242, 492 + $g_iBottomOffsetY)
+		Local $sInfo = BuildingInfo(242, 488 + $g_iBottomOffsetY)
 
 		If @error Then SetError(0, 0, 0)
 
@@ -306,11 +306,11 @@ Func _LocateDoubleCannon($bCollect = False)
 		EndIf
 
 		;get Double Cannon info
-		$sInfo = BuildingInfo(242, 492 + $g_iBottomOffsetY); 860x780
+		$sInfo = BuildingInfo(242, 488 + $g_iBottomOffsetY) ; 860x780
 		If @error Then SetError(0, 0, 0)
 		Local $CountGetInfo = 0
 		While Not IsArray($sInfo)
-			$sInfo = BuildingInfo(242, 492 + $g_iBottomOffsetY); 860x780
+			$sInfo = BuildingInfo(242, 488 + $g_iBottomOffsetY) ; 860x780
 			If @error Then SetError(0, 0, 0)
 			Sleep(100)
 			$CountGetInfo += 1
@@ -392,7 +392,7 @@ EndFunc   ;==>LocateArcherTower
 
 Func _LocateArcherTower($bCollect = False)
 
-	Local $stext, $MsgBox, $iSilly = 0, $iStupid = 0, $sErrorText = "", $sInfo, $iArcherTowerLevel=0
+	Local $stext, $MsgBox, $iSilly = 0, $iStupid = 0, $sErrorText = "", $sInfo, $iArcherTowerLevel = 0
 
 	WinGetAndroidHandle()
 	;checkMainScreen(False)
@@ -420,7 +420,7 @@ Func _LocateArcherTower($bCollect = False)
 		If _Sleep($DELAYUPGRADEHERO2) Then Return
 
 		;Get Archer Tower info and Level
-		Local $sInfo = BuildingInfo(242, 492 + $g_iBottomOffsetY)
+		Local $sInfo = BuildingInfo(242, 488 + $g_iBottomOffsetY)
 
 		If @error Then SetError(0, 0, 0)
 
@@ -547,11 +547,11 @@ Func _LocateArcherTower($bCollect = False)
 		EndIf
 
 		;get  Archer Tower info
-		$sInfo = BuildingInfo(242, 492 + $g_iBottomOffsetY); 860x780
+		$sInfo = BuildingInfo(242, 488 + $g_iBottomOffsetY) ; 860x780
 		If @error Then SetError(0, 0, 0)
 		Local $CountGetInfo = 0
 		While Not IsArray($sInfo)
-			$sInfo = BuildingInfo(242, 492 + $g_iBottomOffsetY); 860x780
+			$sInfo = BuildingInfo(242, 488 + $g_iBottomOffsetY) ; 860x780
 			If @error Then SetError(0, 0, 0)
 			Sleep(100)
 			$CountGetInfo += 1
@@ -636,7 +636,7 @@ EndFunc   ;==>LocateMultiMortar
 
 Func _LocateMultiMortar($bCollect = False)
 
-	Local $stext, $MsgBox, $iSilly = 0, $iStupid = 0, $sErrorText = "", $sInfo, $aMultiMortarLevel=0
+	Local $stext, $MsgBox, $iSilly = 0, $iStupid = 0, $sErrorText = "", $sInfo, $aMultiMortarLevel = 0
 
 	WinGetAndroidHandle()
 
@@ -663,7 +663,7 @@ Func _LocateMultiMortar($bCollect = False)
 		If _Sleep($DELAYUPGRADEHERO2) Then Return
 
 		;Get Multi Mortar info and Level
-		Local $sInfo = BuildingInfo(242, 492 + $g_iBottomOffsetY)
+		Local $sInfo = BuildingInfo(242, 488 + $g_iBottomOffsetY)
 
 		If @error Then SetError(0, 0, 0)
 
@@ -790,11 +790,11 @@ Func _LocateMultiMortar($bCollect = False)
 		EndIf
 
 		;get Multi Mortar info
-		$sInfo = BuildingInfo(242, 492 + $g_iBottomOffsetY); 860x780
+		$sInfo = BuildingInfo(242, 488 + $g_iBottomOffsetY) ; 860x780
 		If @error Then SetError(0, 0, 0)
 		Local $CountGetInfo = 0
 		While Not IsArray($sInfo)
-			$sInfo = BuildingInfo(242, 492 + $g_iBottomOffsetY); 860x780
+			$sInfo = BuildingInfo(242, 488 + $g_iBottomOffsetY) ; 860x780
 			If @error Then SetError(0, 0, 0)
 			Sleep(100)
 			$CountGetInfo += 1
@@ -874,11 +874,11 @@ Func LocateAnyDef($bCollect = False)
 	$g_bRunState = $wasRunState
 	AndroidShield("LocateAnyDef 2") ; Update shield status due to manual $g_bRunState
 	Return $Result
-EndFunc   ;==>LocateMultiMortar
+EndFunc   ;==>LocateAnyDef
 
 Func _LocateAnyDef($bCollect = False)
 
-	Local $stext, $MsgBox, $iSilly = 0, $iStupid = 0, $sErrorText = "", $sInfo, $aCannonLevel=0
+	Local $stext, $MsgBox, $iSilly = 0, $iStupid = 0, $sErrorText = "", $sInfo, $aCannonLevel = 0
 
 	WinGetAndroidHandle()
 
@@ -905,7 +905,7 @@ Func _LocateAnyDef($bCollect = False)
 		If _Sleep($DELAYUPGRADEHERO2) Then Return
 
 		;Get Multi Mortar info and Level
-		Local $sInfo = BuildingInfo(242, 492 + $g_iBottomOffsetY)
+		Local $sInfo = BuildingInfo(242, 488 + $g_iBottomOffsetY)
 
 		If @error Then SetError(0, 0, 0)
 
@@ -1027,11 +1027,11 @@ Func _LocateAnyDef($bCollect = False)
 		EndIf
 
 		;get Cannon info
-		$sInfo = BuildingInfo(242, 492 + $g_iBottomOffsetY); 860x780
+		$sInfo = BuildingInfo(242, 488 + $g_iBottomOffsetY) ; 860x780
 		If @error Then SetError(0, 0, 0)
 		Local $CountGetInfo = 0
 		While Not IsArray($sInfo)
-			$sInfo = BuildingInfo(242, 492 + $g_iBottomOffsetY); 860x780
+			$sInfo = BuildingInfo(242, 488 + $g_iBottomOffsetY) ; 860x780
 			If @error Then SetError(0, 0, 0)
 			Sleep(100)
 			$CountGetInfo += 1

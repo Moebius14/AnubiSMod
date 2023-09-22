@@ -170,9 +170,9 @@ Func getAllEmulators()
 	EndIf
 
 	$__BlueStacks5_Version = RegRead($g_sHKLM & "\SOFTWARE\BlueStacks_nxt\", "Version")
-    If Not @error Then
-        If GetVersionNormalized($__BlueStacks5_Version) > GetVersionNormalized("5.0") Then $sEmulatorString &= "BlueStacks5|"
-    EndIf
+	If Not @error Then
+		If GetVersionNormalized($__BlueStacks5_Version) > GetVersionNormalized("5.0") Then $sEmulatorString &= "BlueStacks5|"
+	EndIf
 
 	; Nox :
 	Local $NoxEmulator = GetNoxPath()
@@ -184,12 +184,12 @@ Func getAllEmulators()
 
 	Local $sResult = StringRight($sEmulatorString, 1)
 	If $sResult == "|" Then $sEmulatorString = StringTrimRight($sEmulatorString, 1)
-	
+
 	Local $aEmulator = StringSplit($sEmulatorString, "|", $STR_NOCOUNT)
 	If $sEmulatorString <> "" Then
 		If UBound($aEmulator) = 1 Then
 			Setlog("Emulator Found In Your Machine :")
-		Else	
+		Else
 			Setlog(UBound($aEmulator) & " Emulators Found In Your Machine :")
 		EndIf
 		For $i = 0 To UBound($aEmulator) - 1
@@ -204,16 +204,15 @@ Func getAllEmulators()
 		Setlog("No Emulator found in your machine")
 		Return
 	EndIf
-	
+
 	If $sEmulatorString <> "" Then
 		Local $IsTocontact = 0
 		Local $HelpLink = "Contact Your Favorite Developer!"
 		For $i = 0 To UBound($aEmulator) - 1
 			Local $emuVer = ""
 			If StringInStr($aEmulator[$i], "BlueStacks5") Then $emuVer = GetVersionNormalized($__BlueStacks5_Version)
-	;		If StringInStr($aEmulator[$i], "Memu") Then $emuVer = GetVersionNormalized($__MEmu_Version)
 			If StringInStr($aEmulator[$i], "nox") Then $emuVer = GetVersionNormalized($__Nox_Version)
-			
+
 			Local $VersionMin = "", $VersionMax = "", $DisplayVersionMin = "", $DisplayVersionMax = ""
 
 			Switch $aEmulator[$i]
@@ -222,11 +221,6 @@ Func getAllEmulators()
 					$VersionMin = GetVersionNormalized($DisplayVersionMin)
 					$DisplayVersionMax = "5.11.100.2202"
 					$VersionMax = GetVersionNormalized($DisplayVersionMax)
-	;			Case "MEmu"
-	;				$DisplayVersionMin = "9.0.1.0"
-	;				$VersionMin = GetVersionNormalized($DisplayVersionMin)
-	;				$DisplayVersionMax = "9.0.1.0"
-	;				$VersionMax = GetVersionNormalized($DisplayVersionMax)
 				Case "Nox"
 					$DisplayVersionMin = "7.0.5.7"
 					$VersionMin = GetVersionNormalized($DisplayVersionMin)
@@ -247,7 +241,7 @@ Func getAllEmulators()
 
 			If $emuVer = "" Then
 				SetLog("You are using an unsupported Emulator : " & $aEmulator[$i], $COLOR_ERROR)
-				$IsTocontact +=1
+				$IsTocontact += 1
 				ContinueLoop
 			EndIf
 		Next
@@ -273,7 +267,7 @@ Func getAllEmulatorsInstances()
 	Local $Emulator = GUICtrlRead($g_hCmbAndroidEmulator)
 	Local $sEmulatorPath = 0
 
-	Switch $emulator
+	Switch $Emulator
 		Case "BlueStacks"
 			GUICtrlSetData($g_hCmbAndroidInstance, "Android", "Android")
 			Return
@@ -282,9 +276,9 @@ Func getAllEmulatorsInstances()
 			Local $VMsBlueStacks = ""
 			$VMsBlueStacks = RegRead($g_sHKLM & "\SOFTWARE\BlueStacks\", "DataDir")
 			$sEmulatorPath = $VMsBlueStacks ; C:\ProgramData\BlueStacks\Engine
-	   Case "BlueStacks5"
-            Local $VMsBlueStacks = RegRead($g_sHKLM & "\SOFTWARE\BlueStacks_nxt\", "DataDir")
-            $sEmulatorPath = $VMsBlueStacks ; C:\ProgramData\BlueStacks\Engine
+		Case "BlueStacks5"
+			Local $VMsBlueStacks = RegRead($g_sHKLM & "\SOFTWARE\BlueStacks_nxt\", "DataDir")
+			$sEmulatorPath = $VMsBlueStacks ; C:\ProgramData\BlueStacks\Engine
 		Case "Nox"
 			$sEmulatorPath = GetNoxPath() & "\BignoxVMS"
 		Case "MEmu"
@@ -310,7 +304,7 @@ Func getAllEmulatorsInstances()
 		GUICtrlSetData($g_hCmbAndroidInstance, StringReplace(_ArrayToString($aEmulatorFolders, "|", 1), "\", ""))
 	EndIf
 
-	If $emulator == $g_sAndroidEmulator Then
+	If $Emulator == $g_sAndroidEmulator Then
 		_GUICtrlComboBox_SelectString($g_hCmbAndroidInstance, $g_sAndroidInstance)
 	Else
 		_GUICtrlComboBox_SetCurSel($g_hCmbAndroidInstance, 0)

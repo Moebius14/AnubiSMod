@@ -36,7 +36,6 @@ Func AttackReport()
 		If $iCount > 20 Then ExitLoop ; wait 20*500ms = 10 seconds max before we have call the OCR read an error
 	WEnd
 	If $iCount > 20 Then SetLog("End of Attack scene read gold error, attack values my not be correct", $COLOR_INFO)
-	SaveDebugImage("AttackReport", True)
 	;HArchH: Subtracted 5 pixels from each getResourcesLoot call "x" value, 12 for DE.
 	;G was 290, is 285
 	;E was 290, is 285
@@ -67,7 +66,20 @@ Func AttackReport()
 	EndIf
 
 	If $g_iStatsLastAttack[$eLootTrophy] >= 0 Then
-		$iBonusLast = Number(getResourcesBonusPerc(570, 309 + $g_iMidOffsetY))
+		$iBonusLast = Number(getResourcesBonusPerc(578, 309 + $g_iMidOffsetY))
+		If $iBonusLast > 100 Then ; If % is detected as 7.
+			SaveDebugImage("AttackReport", True)
+			Local $Loop = 0
+			While $iBonusLast > 100
+				If $Loop = 20 Then
+					If $iBonusLast > 100 Then $iBonusLast = StringTrimRight($iBonusLast, 1)
+					ExitLoop
+				EndIf
+				$iBonusLast = Number(getResourcesBonusPerc(578, 309 + $g_iMidOffsetY))
+				$Loop += 1
+				If _Sleep(250) Then Return
+			WEnd
+		EndIf
 		If $iBonusLast > 0 Then
 			SetLog("Bonus Percentage: " & $iBonusLast & "%")
 			Local $iCalcMaxBonus = 0, $iCalcMaxBonusDark = 0
@@ -175,8 +187,8 @@ Func AttackReport()
 	SetLog("Stars earned: " & $iStarsEarned)
 
 	Local $AtkLogTxt
-	$g_iStatsBonusLast[$eLootGold]=$g_iStatsBonusLast[$eLootGold]/1000
-	
+	$g_iStatsBonusLast[$eLootGold] = $g_iStatsBonusLast[$eLootGold] / 1000
+
 	$AtkLogTxt = "| " & String($g_iCurAccount + 1) & "|" & _NowTime(4) & "|"
 	$AtkLogTxt &= StringFormat("%6d", $g_aiCurrentLoot[$eLootTrophy]) & "|"
 	$AtkLogTxt &= StringFormat("%3d", $g_iSearchCount) & "|"
@@ -190,9 +202,9 @@ Func AttackReport()
 	$AtkLogTxt &= StringFormat("%5d", $g_iStatsBonusLast[$eLootGold]) & "k|"
 	$AtkLogTxt &= StringFormat("%4d", $g_iStatsBonusLast[$eLootDarkElixir]) & "|"
 	$AtkLogTxt &= $g_asLeagueDetailsShort & "|"
-	
-	$g_iStatsBonusLast[$eLootGold]=$g_iStatsBonusLast[$eLootGold]*1000
-		
+
+	$g_iStatsBonusLast[$eLootGold] = $g_iStatsBonusLast[$eLootGold] * 1000
+
 	; Stats Attack
 	$g_sTotalDamage = $g_iPercentageDamage
 	$g_sAttacksides = $g_iSidesAttack
@@ -208,7 +220,7 @@ Func AttackReport()
 	Local $AtkLogTxtExtend
 	$AtkLogTxtExtend = "|"
 	$AtkLogTxtExtend &= $g_CurrentCampUtilization & "/" & $g_iTotalCampSpace & "|"
-	
+
 	If Int($g_iStatsLastAttack[$eLootTrophy]) >= 0 Then
 		If $g_bChkColorfulAttackLog = 1 Then
 			Local $aColorful[4] = [0xFF0000, 0x8F8F8F, 0x0047D6, 0x378c04]

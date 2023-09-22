@@ -26,7 +26,7 @@ Func SetComboTroopComp()
 	EndIf
 
 	Local $TotalTroopsToTrain = 0
-	
+
 	lblTotalCountTroop1()
 	HideSpellsFctTH()
 	lblTotalCountSpell()
@@ -114,7 +114,7 @@ EndFunc   ;==>lblTotalCountTroop1
 Func lblTotalCountTroop2()
 	; Calculate time for troops
 	Local $TotalTotalTimeTroop = 0
-	
+
 	For $i = 0 To $eTroopCount - 1
 		$TotalTotalTimeTroop += $g_aiArmyCustomTroops[$i] * $g_aiTroopTrainTime[$i]
 	Next
@@ -158,7 +158,7 @@ Func lblTotalCountSpell()
 	Else
 		GUICtrlSetState($g_hCalTotalSpells, $GUI_HIDE)
 	EndIf
-	
+
 	If $g_iTotalSpellValue > 0 Then
 		If $g_iTotalTrainSpaceSpell = $g_iTotalSpellValue Then
 			GUICtrlSetBkColor($g_hLblCountTotalSpells, $COLOR_GREEN)
@@ -220,7 +220,7 @@ Func HideSiegesFctTH()
 	$g_iTownHallLevel = Int($g_iTownHallLevel)
 	$g_iTotalTrainSpaceSiege = 0
 	_GUI_Value_STATE("DISABLE", $groupListSieges)
-		
+
 	If $g_iTownHallLevel > 11 Or $g_iTownHallLevel = 0 Then
 		_GUI_Value_STATE("ENABLE", $groupWallWrecker)
 		_GUI_Value_STATE("ENABLE", $groupBattleBlimp)
@@ -231,7 +231,7 @@ Func HideSiegesFctTH()
 		Next
 		$g_iTotalTrainSpaceSiege = 0
 	EndIf
-	
+
 	If $g_iTownHallLevel > 12 Or $g_iTownHallLevel = 0 Then
 		_GUI_Value_STATE("ENABLE", $groupSiegeBarracks)
 		_GUI_Value_STATE("ENABLE", $groupLogLauncher)
@@ -239,21 +239,21 @@ Func HideSiegesFctTH()
 		GUICtrlSetData($g_ahTxtTrainArmySiegeCount[$eSiegeFlameFlinger], 0)
 		GUICtrlSetData($g_ahTxtTrainArmySiegeCount[$eSiegeBattleDrill], 0)
 	EndIf
-	
+
 	If $g_iTownHallLevel > 13 Or $g_iTownHallLevel = 0 Then
 		_GUI_Value_STATE("ENABLE", $groupFlameFlinger)
 	Else
 		GUICtrlSetData($g_ahTxtTrainArmySiegeCount[$eSiegeBattleDrill], 0)
 	EndIf
-	
+
 	If $g_iTownHallLevel > 14 Or $g_iTownHallLevel = 0 Then
 		_GUI_Value_STATE("ENABLE", $groupBattleDrill)
 	EndIf
-	
+
 	For $i = 0 To $eSiegeMachineCount - 1
 		GUICtrlSetData($g_aiArmyCompSiegeMachines[$i], GUICtrlRead($g_ahTxtTrainArmySiegeCount[$i]))
 	Next
-	
+
 EndFunc   ;==>HideSiegesFctTH
 
 Func HideSpellsFctTH()
@@ -318,7 +318,7 @@ Func HideSpellsFctTH()
 		GUICtrlSetData($g_ahTxtTrainArmySpellCount[$eSpellInvisibility], 0)
 		GUICtrlSetData($g_ahTxtTrainArmySpellCount[$eSpellRecall], 0)
 	EndIf
-	
+
 	If $g_iTownHallLevel > 10 Or $g_iTownHallLevel = 0 Then
 		_GUI_Value_STATE("ENABLE", $groupInvisibility)
 	Else
@@ -368,24 +368,24 @@ Func chkCloseWaitEnable()
 			If GUICtrlRead($g_hdRadio_RandomClassic) = $GUI_CHECKED Then
 				GUICtrlSetState($g_hdRadio_RandomClassic, $GUI_ENABLE)
 				GUICtrlSetState($g_hdRadio_RandomMod, $GUI_ENABLE)
-				For $i = $g_hRandomCloseOptionPercentLabel to $g_hRandomCloseOptionPercentLabel2
-				GUICtrlSetState($i, $GUI_DISABLE)
+				For $i = $g_hRandomCloseOptionPercentLabel To $g_hRandomCloseOptionPercentLabel2
+					GUICtrlSetState($i, $GUI_DISABLE)
 				Next
 			Else
-				For $i = $g_hdRadio_RandomClassic to $g_hRandomCloseOptionPercentLabel2
+				For $i = $g_hdRadio_RandomClassic To $g_hRandomCloseOptionPercentLabel2
 					GUICtrlSetState($i, $GUI_ENABLE)
 				Next
 			EndIf
 		ElseIf GUICtrlRead($g_hChkRandomClose) = $GUI_CHECKED Then
-		For $i = $g_hdRadio_RandomClassic to $g_hRandomCloseOptionPercentLabel2
-			GUICtrlSetState($i, $GUI_DISABLE)
-		Next
+			For $i = $g_hdRadio_RandomClassic To $g_hRandomCloseOptionPercentLabel2
+				GUICtrlSetState($i, $GUI_DISABLE)
+			Next
 		EndIf
 	Else
 		$g_bCloseWhileTrainingEnable = False
 		_GUI_Value_STATE("DISABLE", $groupCloseWhileTraining)
 		_GUI_Value_STATE("DISABLE", $g_hLblCloseWaitingTroops & "#" & $g_hCmbMinimumTimeCloseMin & "#" & $g_hCmbMinimumTimeCloseMax & "#" & $g_hLblSymbolWaiting & "#" & $g_hLblWaitingInMinutes)
-		For $i = $g_hdRadio_RandomClassic to $g_hRandomCloseOptionPercentLabel2
+		For $i = $g_hdRadio_RandomClassic To $g_hRandomCloseOptionPercentLabel2
 			GUICtrlSetState($i, $GUI_DISABLE)
 		Next
 	EndIf
@@ -393,12 +393,12 @@ Func chkCloseWaitEnable()
 		GUICtrlSetState($g_hChkCloseEmulator, BitOR($GUI_DISABLE, $GUI_UNCHECKED))
 		GUICtrlSetState($g_hChkSuspendComputer, BitOR($GUI_DISABLE, $GUI_UNCHECKED))
 		If GUICtrlRead($g_hChkCloseWhileTraining) = $GUI_UNCHECKED Then
-		For $i = $g_hdRadio_RandomClassic to $g_hRandomCloseOptionPercentLabel2
-			GUICtrlSetState($i, $GUI_DISABLE)
-		Next
+			For $i = $g_hdRadio_RandomClassic To $g_hRandomCloseOptionPercentLabel2
+				GUICtrlSetState($i, $GUI_DISABLE)
+			Next
 		EndIf
 	Else
-		For $i = $g_hdRadio_RandomClassic to $g_hRandomCloseOptionPercentLabel2
+		For $i = $g_hdRadio_RandomClassic To $g_hRandomCloseOptionPercentLabel2
 			GUICtrlSetState($i, $GUI_DISABLE)
 		Next
 		If GUICtrlRead($g_hChkCloseWhileTraining) = $GUI_CHECKED Then
@@ -442,11 +442,11 @@ Func btnCloseWaitStopRandom()
 		GUICtrlSetState($g_hChkCloseEmulator, BitOR($GUI_DISABLE, $GUI_UNCHECKED))
 		GUICtrlSetState($g_hChkSuspendComputer, BitOR($GUI_DISABLE, $GUI_UNCHECKED))
 		If GUICtrlRead($g_hChkCloseWhileTraining) = $GUI_CHECKED Then
-			For $i = $g_hdRadio_RandomClassic to $g_hRandomCloseOptionPercentLabel2
+			For $i = $g_hdRadio_RandomClassic To $g_hRandomCloseOptionPercentLabel2
 				GUICtrlSetState($i, $GUI_ENABLE)
 			Next
 		Else
-			For $i = $g_hdRadio_RandomClassic to $g_hRandomCloseOptionPercentLabel2
+			For $i = $g_hdRadio_RandomClassic To $g_hRandomCloseOptionPercentLabel2
 				GUICtrlSetState($i, $GUI_DISABLE)
 			Next
 		EndIf
@@ -457,8 +457,8 @@ Func btnCloseWaitStopRandom()
 		If GUICtrlRead($g_hChkCloseWhileTraining) = $GUI_CHECKED Then
 			GUICtrlSetState($g_hChkCloseEmulator, $GUI_ENABLE)
 			GUICtrlSetState($g_hChkSuspendComputer, $GUI_ENABLE)
-			For $i = $g_hdRadio_RandomClassic to $g_hRandomCloseOptionPercentLabel2
-			GUICtrlSetState($i, $GUI_DISABLE)
+			For $i = $g_hdRadio_RandomClassic To $g_hRandomCloseOptionPercentLabel2
+				GUICtrlSetState($i, $GUI_DISABLE)
 			Next
 		EndIf
 	EndIf
@@ -466,39 +466,39 @@ EndFunc   ;==>btnCloseWaitStopRandom
 
 Func FctRadio_RandomClassic()
 	If GUICtrlRead($g_hdRadio_RandomClassic) = $GUI_CHECKED Then
-		For $i = $g_hRandomCloseOptionPercentLabel to $g_hRandomCloseOptionPercentLabel2
+		For $i = $g_hRandomCloseOptionPercentLabel To $g_hRandomCloseOptionPercentLabel2
 			GUICtrlSetState($i, $GUI_DISABLE)
 		Next
 	Else
 		If GUICtrlRead($g_hChkRandomClose) = $GUI_CHECKED And GUICtrlRead($g_hChkCloseWhileTraining) = $GUI_CHECKED Then
-			For $i = $g_hRandomCloseOptionPercentLabel to $g_hRandomCloseOptionPercentLabel2
+			For $i = $g_hRandomCloseOptionPercentLabel To $g_hRandomCloseOptionPercentLabel2
 				GUICtrlSetState($i, $GUI_ENABLE)
 			Next
-		ElseIf GUICtrlRead($g_hChkRandomClose) = $GUI_UNCHECKED OR GUICtrlRead($g_hChkCloseWhileTraining) = $GUI_UNCHECKED Then
-			For $i = $g_hRandomCloseOptionPercentLabel to $g_hRandomCloseOptionPercentLabel2
-			GUICtrlSetState($i, $GUI_DISABLE)
+		ElseIf GUICtrlRead($g_hChkRandomClose) = $GUI_UNCHECKED Or GUICtrlRead($g_hChkCloseWhileTraining) = $GUI_UNCHECKED Then
+			For $i = $g_hRandomCloseOptionPercentLabel To $g_hRandomCloseOptionPercentLabel2
+				GUICtrlSetState($i, $GUI_DISABLE)
 			Next
 		EndIf
 	EndIf
-EndFunc
+EndFunc   ;==>FctRadio_RandomClassic
 
 Func FctRadio_RandomMod()
 	If GUICtrlRead($g_hdRadio_RandomMod) = $GUI_CHECKED Then
 		If GUICtrlRead($g_hChkRandomClose) = $GUI_CHECKED And GUICtrlRead($g_hChkCloseWhileTraining) = $GUI_CHECKED Then
-			For $i = $g_hRandomCloseOptionPercentLabel to $g_hRandomCloseOptionPercentLabel2
+			For $i = $g_hRandomCloseOptionPercentLabel To $g_hRandomCloseOptionPercentLabel2
 				GUICtrlSetState($i, $GUI_ENABLE)
 			Next
-		ElseIf GUICtrlRead($g_hChkRandomClose) = $GUI_UNCHECKED OR GUICtrlRead($g_hChkCloseWhileTraining) = $GUI_UNCHECKED Then
-			For $i = $g_hRandomCloseOptionPercentLabel to $g_hRandomCloseOptionPercentLabel2
+		ElseIf GUICtrlRead($g_hChkRandomClose) = $GUI_UNCHECKED Or GUICtrlRead($g_hChkCloseWhileTraining) = $GUI_UNCHECKED Then
+			For $i = $g_hRandomCloseOptionPercentLabel To $g_hRandomCloseOptionPercentLabel2
 				GUICtrlSetState($i, $GUI_DISABLE)
 			Next
 		EndIf
 	Else
-		For $i = $g_hRandomCloseOptionPercentLabel to $g_hRandomCloseOptionPercentLabel2
+		For $i = $g_hRandomCloseOptionPercentLabel To $g_hRandomCloseOptionPercentLabel2
 			GUICtrlSetState($i, $GUI_DISABLE)
 		Next
 	EndIf
-EndFunc
+EndFunc   ;==>FctRadio_RandomMod
 
 Func btnCloseWaitRandom()
 	If GUICtrlRead($g_hRdoCloseWaitExact) = $GUI_CHECKED Then
@@ -509,7 +509,7 @@ Func btnCloseWaitRandom()
 	ElseIf GUICtrlRead($g_hRdoCloseWaitRandom) = $GUI_CHECKED Then
 		$g_bCloseExactTime = False
 		$g_bCloseRandomTime = True
-		If GUICtrlRead($g_hChkCloseWhileTraining) = $GUI_CHECKED Then 
+		If GUICtrlRead($g_hChkCloseWhileTraining) = $GUI_CHECKED Then
 			GUICtrlSetState($g_hCmbCloseWaitRdmPercentMin, $GUI_ENABLE)
 			GUICtrlSetState($g_hCmbCloseWaitRdmPercentMax, $GUI_ENABLE)
 		EndIf
@@ -672,7 +672,7 @@ Func BtnRemoveTroops()
 	For $j = 0 To UBound($g_asTroopOrderList) - 1
 		$sComboData &= $g_asTroopOrderList[$j] & "|"
 	Next
-	For $i = 0 To Ubound($g_ahCmbTroopOrder) - 1
+	For $i = 0 To UBound($g_ahCmbTroopOrder) - 1
 		$g_aiCmbCustomTrainOrder[$i] = -1
 		_GUICtrlComboBox_ResetContent($g_ahCmbTroopOrder[$i])
 		GUICtrlSetData($g_ahCmbTroopOrder[$i], $sComboData, "")
@@ -689,7 +689,7 @@ Func BtnTroopOrderSet()
 
 	Local $aiUsedTroop = $g_aiTrainOrder
 	Local $aTmpTrainOrder[0], $iStartShuffle = 0
-	
+
 	For $i = 0 To UBound($g_ahCmbTroopOrder) - 1
 		Local $iValue = _GUICtrlComboBox_GetCurSel($g_ahCmbTroopOrder[$i])
 		If $iValue <> -1 Then
@@ -698,17 +698,17 @@ Func BtnTroopOrderSet()
 			If $iEmpty > -1 Then $aiUsedTroop[$iEmpty] = -1
 		EndIf
 	Next
-		
-	$iStartShuffle = Ubound($aTmpTrainOrder)
-	
+
+	$iStartShuffle = UBound($aTmpTrainOrder)
+
 	_ArraySort($aiUsedTroop)
-	
+
 	For $i = 0 To UBound($aTmpTrainOrder) - 1
 		If $aiUsedTroop[$i] = -1 Then $aiUsedTroop[$i] = $aTmpTrainOrder[$i]
 	Next
-	
+
 	_ArrayShuffle($aiUsedTroop, $iStartShuffle)
-	
+
 	For $i = 0 To UBound($g_ahCmbTroopOrder) - 1
 		_GUICtrlComboBox_SetCurSel($g_ahCmbTroopOrder[$i], $aiUsedTroop[$i])
 		If $aiUsedTroop[$i] + 1 < $eTroopCount - 3 Then
@@ -717,7 +717,7 @@ Func BtnTroopOrderSet()
 			_GUICtrlSetImage($g_ahImgTroopOrder[$i], $g_sLibModIconPath, $g_aiTroopOrderIcon[$aiUsedTroop[$i] + 1])
 		EndIf
 	Next
-	
+
 	$g_aiCmbCustomTrainOrder = $aiUsedTroop
 	If $bReady Then
 		ChangeTroopTrainOrder() ; code function to record new training order
@@ -756,10 +756,10 @@ Func ChangeTroopTrainOrder()
 		SetError(2, 0, False)
 		Return
 	EndIf
-	
+
 	$aUnique = _ArrayUnique($g_aiCmbCustomTrainOrder, 0, 0, 0, 0)
 	$iUpdateCount = UBound($aUnique)
-	
+
 	If $iUpdateCount = $eTroopCount Then ; safety check that all troops properly assigned to new array.
 		$g_aiTrainOrder = $aUnique
 		_GUICtrlSetImage($g_ahImgTroopOrderSet, $g_sLibIconPath, $eIcnGreenLight)
@@ -1044,13 +1044,13 @@ Func chkAddRandomClickTimingDelay()
 		GUICtrlSetState($i, $g_bTrainAddRandomClickTimingDelayEnable ? $GUI_ENABLE : $GUI_DISABLE)
 	Next
 	$g_iTrainAddRandomClickTimingDelayMax = $g_iTrainAddRandomClickTimingDelayMax * 5
-EndFunc   ;==>chkAddRandomTrainClickDelay
+EndFunc   ;==>chkAddRandomClickTimingDelay
 
 Func IschkAddRandomClickTimingDelay1()
 	If $g_bTrainAddRandomClickTimingDelayEnable = 1 Then
 		SetLog("Random TrainClick in this round : " & $g_iTrainClickDelayfinal & "ms", $COLOR_BLUE)
 	EndIf
-EndFunc
+EndFunc   ;==>IschkAddRandomClickTimingDelay1
 
 Func IschkAddRandomClickTimingDelay2()
 	$RandomClickTrainAddTime = Round(Random($g_iTrainAddRandomClickTimingDelayMin, $g_iTrainAddRandomClickTimingDelayMax))
@@ -1060,7 +1060,7 @@ Func IschkAddRandomClickTimingDelay2()
 	Else
 		$g_iTrainClickDelayfinal = $g_iTrainClickDelay
 	EndIf
-EndFunc
+EndFunc   ;==>IschkAddRandomClickTimingDelay2
 
 Func chkSuperTroops()
 	If GUICtrlRead($g_hChkSuperTroops) = $GUI_CHECKED Then
@@ -1094,7 +1094,7 @@ Func chkSuperTroops()
 	Else
 		$g_bSuperTroopsBoostUsePotionFirst = False
 	EndIf
-EndFunc
+EndFunc   ;==>chkSuperTroops
 
 Func cmbSuperTroops()
 	For $i = 0 To $iMaxSupersTroop - 1
@@ -1108,15 +1108,15 @@ Func cmbSuperTroops()
 			EndIf
 		Next
 	Next
- EndFunc
- 
- Func ChkPreciseArmy()
+EndFunc   ;==>cmbSuperTroops
+
+Func ChkPreciseArmy()
 	If GUICtrlRead($g_hChkPreciseArmy) = $GUI_CHECKED Then
 		$g_bPreciseArmy = True
 	Else
 		$g_bPreciseArmy = False
 	EndIf
-EndFunc ;==>ChkPreciseArmy
+EndFunc   ;==>ChkPreciseArmy
 
 Func RemoveAllTmpTrain($sWhat = "All")
 	If $sWhat = "All" Or $sWhat = "Troop" Then
@@ -1139,7 +1139,7 @@ Func RemoveAllTmpTrain($sWhat = "All")
 			GUICtrlSetState($g_ahLblTrainArmySiegeTmp[$i], $GUI_HIDE)
 		Next
 	EndIf
-EndFunc
+EndFunc   ;==>RemoveAllTmpTrain
 
 Func HideAllTroops()
 	For $i = $g_ahPicTrainArmyTroop[$eTroopMinion] To $g_ahPicTrainArmyTroop[$eTroopAppWard]
@@ -1178,7 +1178,7 @@ Func HideAllTroops()
 	For $i = $g_ahTxtTrainArmyTroopCount[$eTroopGiantSkeleton] To $g_ahTxtTrainArmyTroopCount[$eTroopIceWizard]
 		GUICtrlSetState($i, $GUI_HIDE)
 	Next
-EndFunc
+EndFunc   ;==>HideAllTroops
 
 Func SetBtnSelector($sType = "All")
 	For $i = $g_hBtnElixirTroops To $g_hBtnEventTroops
@@ -1200,7 +1200,7 @@ Func SetBtnSelector($sType = "All")
 		Case "EventTroops"
 			GUICtrlSetColor($g_hBtnEventTroops, $COLOR_YELLOW)
 	EndSwitch
-EndFunc
+EndFunc   ;==>SetBtnSelector
 
 Func BtnElixirTroops()
 	HideAllTroops()
@@ -1211,7 +1211,7 @@ Func BtnElixirTroops()
 		GUICtrlSetState($i, $GUI_SHOW)
 	Next
 	SetBtnSelector("ElixirTroops")
-EndFunc
+EndFunc   ;==>BtnElixirTroops
 
 Func BtnDarkElixirTroops()
 	HideAllTroops()
@@ -1222,7 +1222,7 @@ Func BtnDarkElixirTroops()
 		GUICtrlSetState($i, $GUI_SHOW)
 	Next
 	SetBtnSelector("DarkElixirTroops")
-EndFunc
+EndFunc   ;==>BtnDarkElixirTroops
 
 Func BtnSuperTroops()
 	HideAllTroops()
@@ -1233,7 +1233,7 @@ Func BtnSuperTroops()
 		GUICtrlSetState($i, $GUI_SHOW)
 	Next
 	SetBtnSelector("SuperTroops")
-EndFunc
+EndFunc   ;==>BtnSuperTroops
 
 Func BtnSpells()
 	HideAllTroops()
@@ -1244,7 +1244,7 @@ Func BtnSpells()
 		GUICtrlSetState($i, $GUI_SHOW)
 	Next
 	SetBtnSelector("Spells")
-EndFunc
+EndFunc   ;==>BtnSpells
 
 Func BtnSieges()
 	HideAllTroops()
@@ -1255,7 +1255,7 @@ Func BtnSieges()
 		GUICtrlSetState($i, $GUI_SHOW)
 	Next
 	SetBtnSelector("Sieges")
-EndFunc
+EndFunc   ;==>BtnSieges
 
 Func BtnEventTroops()
 	HideAllTroops()
@@ -1266,12 +1266,12 @@ Func BtnEventTroops()
 		GUICtrlSetState($i, $GUI_SHOW)
 	Next
 	SetBtnSelector("EventTroops")
-EndFunc
+EndFunc   ;==>BtnEventTroops
 
 Func BtnCampSizeAdjust()
 	GUISetState(@SW_SHOW, $g_hGUI_CampSizeAdjust)
-EndFunc
+EndFunc   ;==>BtnCampSizeAdjust
 
 Func CloseCampSizeAdjust()
 	GUISetState(@SW_HIDE, $g_hGUI_CampSizeAdjust)
-EndFunc
+EndFunc   ;==>CloseCampSizeAdjust

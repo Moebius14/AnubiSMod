@@ -57,7 +57,7 @@ Func GUIDropOrder()
 	Local $iGUI_CtrlId = @GUI_CtrlId
 	Local $iCtrlIdImage = $iGUI_CtrlId + 1 ; record control ID for $g_ahImgTroopOrder[$z] based on control of combobox that called this function
 	Local $iDropIndex = _GUICtrlComboBox_GetCurSel($iGUI_CtrlId) + 1 ; find zero based index number of troop selected in combo box, add one for enum of proper icon
-	
+
 	If $iDropIndex < $eDropOrderCount - 5 Or $iDropIndex > $eDropOrderCount - 2 Then
 		_GUICtrlSetImage($iCtrlIdImage, $g_sLibIconPath, $g_aiDropOrderIcon[$iDropIndex]) ; set proper troop icon
 	Else
@@ -87,7 +87,7 @@ Func BtnRemoveDropOrder()
 	For $j = 0 To UBound($g_asDropOrderList) - 1
 		$sComboData &= $g_asDropOrderList[$j] & "|"
 	Next
-	For $i = 0 To Ubound($g_ahCmbDropOrder) - 1
+	For $i = 0 To UBound($g_ahCmbDropOrder) - 1
 		$g_aiCmbCustomDropOrder[$i] = -1
 		_GUICtrlComboBox_ResetContent($g_aiCmbCustomDropOrder[$i])
 		GUICtrlSetData($g_ahCmbDropOrder[$i], $sComboData, "")
@@ -104,7 +104,7 @@ Func BtnDropOrderSet()
 
 	Local $aiDropOrder = $g_aiDropOrder
 	Local $aTmpDropOrder[0], $iStartShuffle = 0
-	
+
 	For $i = 0 To UBound($g_ahCmbDropOrder) - 1
 		Local $iValue = _GUICtrlComboBox_GetCurSel($g_ahCmbDropOrder[$i])
 		If $iValue <> -1 Then
@@ -113,15 +113,15 @@ Func BtnDropOrderSet()
 			If $iEmpty > -1 Then $aiDropOrder[$iEmpty] = -1
 		EndIf
 	Next
-	
-	$iStartShuffle = Ubound($aTmpDropOrder)
-	
+
+	$iStartShuffle = UBound($aTmpDropOrder)
+
 	_ArraySort($aiDropOrder)
-	
+
 	For $i = 0 To UBound($aTmpDropOrder) - 1
 		If $aiDropOrder[$i] = -1 Then $aiDropOrder[$i] = $aTmpDropOrder[$i]
 	Next
-	
+
 	_ArrayShuffle($aiDropOrder, $iStartShuffle)
 	For $i = 0 To UBound($g_ahCmbDropOrder) - 1
 		_GUICtrlComboBox_SetCurSel($g_ahCmbDropOrder[$i], $aiDropOrder[$i])
@@ -132,7 +132,7 @@ Func BtnDropOrderSet()
 		EndIf
 	Next
 	$g_aiCmbCustomDropOrder = $aiDropOrder
-	
+
 	If $bReady Then
 		ChangeDropOrder() ; code function to record new training order
 
@@ -179,10 +179,10 @@ Func ChangeDropOrder()
 		SetError(2, 0, False)
 		Return
 	EndIf
-	
+
 	$aUnique = _ArrayUnique($g_aiCmbCustomDropOrder, 0, 0, 0, 0)
 	$iUpdateCount = UBound($aUnique)
-	
+
 	If $iUpdateCount = $eDropOrderCount Then ; safety check that all troops properly assigned to new array.
 		$g_aiDropOrder = $aUnique
 		For $i = 0 To $eDropOrderCount - 1

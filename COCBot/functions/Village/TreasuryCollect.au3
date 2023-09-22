@@ -34,14 +34,14 @@ Func TreasuryCollect()
 	If _Sleep($DELAYCOLLECT3) Then Return
 	BuildingClick($g_aiClanCastlePos[0], $g_aiClanCastlePos[1], "#0250") ; select CC
 	If _Sleep($DELAYTREASURY2) Then Return
-	Local $BuildingInfo = BuildingInfo(242, 490 + $g_iBottomOffsetY)
+	Local $BuildingInfo = BuildingInfo(242, 488 + $g_iBottomOffsetY)
 
 	If $BuildingInfo[1] = "Clan Castle" Then
 		If _Sleep($DELAYTREASURY1) Then Return
 	Else
 		For $i = 1 To 10
-			Local $NewX = Number($g_aiClanCastlePos[0] + (2*$i))
-			Local $NewY = Number($g_aiClanCastlePos[1] - (2*$i))
+			Local $NewX = Number($g_aiClanCastlePos[0] + (2 * $i))
+			Local $NewY = Number($g_aiClanCastlePos[1] - (2 * $i))
 			SetLog("Clan Castle Windows Didn't Open", $COLOR_DEBUG1)
 			SetLog("New Try...", $COLOR_DEBUG1)
 			ClickAway()
@@ -49,17 +49,17 @@ Func TreasuryCollect()
 			PureClickVisit($NewX, $NewY) ; select CC
 			If _Sleep($DELAYBUILDINGINFO1) Then Return
 
-			$BuildingInfo = BuildingInfo(242, 490 + $g_iBottomOffsetY)
+			$BuildingInfo = BuildingInfo(242, 488 + $g_iBottomOffsetY)
 
 			If $BuildingInfo[1] = "Clan Castle" Then ExitLoop
 			ClickAway()
-			$NewX = Number($g_aiClanCastlePos[0] - (2*$i))
-			$NewY = Number($g_aiClanCastlePos[1] + (2*$i))
+			$NewX = Number($g_aiClanCastlePos[0] - (2 * $i))
+			$NewY = Number($g_aiClanCastlePos[1] + (2 * $i))
 			If _Sleep(Random(1000, 1500, 1)) Then Return
 			PureClickVisit($NewX, $NewY) ; select CC
 			If _Sleep($DELAYBUILDINGINFO1) Then Return
 
-			$BuildingInfo = BuildingInfo(242, 490 + $g_iBottomOffsetY)
+			$BuildingInfo = BuildingInfo(242, 488 + $g_iBottomOffsetY)
 
 			If $BuildingInfo[1] = "Clan Castle" Then ExitLoop
 		Next
@@ -80,7 +80,7 @@ Func TreasuryCollect()
 	EndIf
 
 	Local $bForceCollect = False
-	Local $aResult = _PixelSearch(689, 237 + $g_iMidOffsetY, 691, 325 + $g_iMidOffsetY, Hex(0x50BD10, 6), 20) ; search for green pixels showing treasury bars are full
+	Local $aResult = _PixelSearch(695, 195 + $g_iMidOffsetY, 700, 320 + $g_iMidOffsetY, Hex(0x50BD10, 6), 20) ; search for green pixels showing treasury bars are full
 	If IsArray($aResult) Then
 		SetLog("Found full Treasury, collecting loot...", $COLOR_SUCCESS)
 		$bForceCollect = True

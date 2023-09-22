@@ -24,35 +24,35 @@ EndFunc   ;==>NotifyRemoteControl
 Func NotifyReport()
 	SetDebugLog("Notify | NotifyReport()")
 	If $g_bNotifyAlertVillageReport = True Then
-		Local $text ="Report :" & "%0A"
-		$text &="Village : " & $g_sNotifyOrigin & "%0A"
-		$text &="Profile : " & $g_sProfileCurrentName & "%0A"
+		Local $text = "Report :" & "%0A"
+		$text &= "Village : " & $g_sNotifyOrigin & "%0A"
+		$text &= "Profile : " & $g_sProfileCurrentName & "%0A"
 		Local $currentDate = Number(@MDAY)
 		If $g_bChkClanGamesEnabled And $g_bChkNotifyCGScore And $currentDate >= 21 And $g_bClanGamesCompleted Then
-			$text &="Clan Games Completed" & "%0A"
+			$text &= "Clan Games Completed" & "%0A"
 		ElseIf $g_bChkClanGamesEnabled And $g_bChkNotifyCGScore And $currentDate >= 21 And Not $g_bClanGamesCompleted Then
 			If IsClanGamesWindow2() Then
 				If IsClanGamesRunning2() = "Running" Then
 					GetTimesAndScores()
-					$text &="Clan Games Score : " & $g_sClanGamesScore & "%0A"
+					$text &= "Clan Games Score : " & $g_sClanGamesScore & "%0A"
 				EndIf
 			Else
 				Local $sState = IsClanGamesRunning2()
 				Switch $sState
 					Case "Prepare"
-						$text &="Clan Games will start in " & $g_sClanGamesTimeRemaining & "%0A"
+						$text &= "Clan Games will start in " & $g_sClanGamesTimeRemaining & "%0A"
 					Case "Cannot open ClanGames"
-						$text &="CG Not Running" & "%0A"
+						$text &= "CG Not Running" & "%0A"
 					Case "Ended"
-						$text &="Clan Games Ended" & "%0A"
+						$text &= "Clan Games Ended" & "%0A"
 				EndSwitch
 			EndIf
 			_Sleep(Random(800, 1500, 1))
 			CloseWindow()
 		EndIf
 		If $g_bChkNotifyStarBonusAvail Then
-		IsStarBonusAvailNotif()
-		$text &="" & $StarBonusStatus & "%0A"
+			IsStarBonusAvailNotif()
+			$text &= "" & $StarBonusStatus & "%0A"
 		EndIf
 		$text &= "[" & GetTranslatedFileIni("MBR Func_Notify", "Stats-G_Info_01", "G") & "]: " & _NumberFormat($g_aiCurrentLoot[$eLootGold])
 		$text &= " [" & GetTranslatedFileIni("MBR Func_Notify", "Stats-E_Info_01", "E") & "]: " & _NumberFormat($g_aiCurrentLoot[$eLootElixir]) & "%0A"
@@ -83,20 +83,20 @@ Func NotifyReport()
 EndFunc   ;==>NotifyReport
 
 Func ChkVillageReport()
-If GUICtrlRead($g_hChkNotifyAlertVillageStats) = $GUI_CHECKED And GUICtrlRead($g_hChkClanGamesEnabled) = $GUI_CHECKED Then
-	GUICtrlSetState($g_hChkNotifyCGScore, $GUI_ENABLE)
-ElseIf GUICtrlRead($g_hChkNotifyAlertVillageStats) = $GUI_UNCHECKED And GUICtrlRead($g_hChkClanGamesEnabled) = $GUI_CHECKED Then
-	GUICtrlSetState($g_hChkNotifyCGScore, $GUI_DISABLE)
-ElseIf GUICtrlRead($g_hChkNotifyAlertVillageStats) = $GUI_CHECKED And GUICtrlRead($g_hChkClanGamesEnabled) = $GUI_UNCHECKED Then
-	GUICtrlSetState($g_hChkNotifyCGScore, $GUI_DISABLE)
-EndIf
+	If GUICtrlRead($g_hChkNotifyAlertVillageStats) = $GUI_CHECKED And GUICtrlRead($g_hChkClanGamesEnabled) = $GUI_CHECKED Then
+		GUICtrlSetState($g_hChkNotifyCGScore, $GUI_ENABLE)
+	ElseIf GUICtrlRead($g_hChkNotifyAlertVillageStats) = $GUI_UNCHECKED And GUICtrlRead($g_hChkClanGamesEnabled) = $GUI_CHECKED Then
+		GUICtrlSetState($g_hChkNotifyCGScore, $GUI_DISABLE)
+	ElseIf GUICtrlRead($g_hChkNotifyAlertVillageStats) = $GUI_CHECKED And GUICtrlRead($g_hChkClanGamesEnabled) = $GUI_UNCHECKED Then
+		GUICtrlSetState($g_hChkNotifyCGScore, $GUI_DISABLE)
+	EndIf
 
-If GUICtrlRead($g_hChkNotifyAlertVillageStats) = $GUI_CHECKED Then
-	GUICtrlSetState($g_hChkNotifyStarBonusAvail, $GUI_ENABLE)
-Else
-	GUICtrlSetState($g_hChkNotifyStarBonusAvail, $GUI_DISABLE)
-EndIf
-EndFunc
+	If GUICtrlRead($g_hChkNotifyAlertVillageStats) = $GUI_CHECKED Then
+		GUICtrlSetState($g_hChkNotifyStarBonusAvail, $GUI_ENABLE)
+	Else
+		GUICtrlSetState($g_hChkNotifyStarBonusAvail, $GUI_DISABLE)
+	EndIf
+EndFunc   ;==>ChkVillageReport
 
 ; GENERAL FUNCTION TO PUSH MSG
 Func PushMsg($Message, $Source = "")
@@ -438,12 +438,12 @@ Func NotifyRemoteControlProc()
 						GUICtrlSetData($g_hLblResultRuntime, $day > 0 ? StringFormat("%2u Day(s) %02i:%02i:%02i", $day, $hour, $min, $sec) : StringFormat("%02i:%02i:%02i", $hour, $min, $sec))
 						$txtStats &= "%0A" & GetTranslatedFileIni("MBR Func_Notify", "LOG_Info_07", "Run Time") & ": " & GUICtrlRead($g_hLblResultRuntime) ;This label only changes when on the stats screen, so update it here.
 						;Optionally show Clan Games stats
-						If (GUICtrlRead($g_hLblRemainTime) <> "N/A" AND GUICtrlRead($g_hLblRemainTime) <> "0d 00h") Then
+						If (GUICtrlRead($g_hLblRemainTime) <> "N/A" And GUICtrlRead($g_hLblRemainTime) <> "0d 00h") Then
 							$txtStats &= "%0A%0A" & "Clan Games:"
 							$txtStats &= "%0A" & "[T]: " & GUICtrlRead($g_hLblRemainTime) & " [S]: " & GUICtrlRead($g_hLblYourScore)
 						EndIf
 						;Optionally show Clan Capital Stats
-						if ($g_iStatsClanCapCollected > 0 Or $g_iStatsClanCapUpgrade > 0) Then
+						If ($g_iStatsClanCapCollected > 0 Or $g_iStatsClanCapUpgrade > 0) Then
 							$txtStats &= "%0A%0A" & "Clan Capital:"
 							$txtStats &= "%0A" & "Collected: " & $g_iStatsClanCapCollected & ", Upgrades: " & $g_iStatsClanCapUpgrade
 						EndIf
@@ -604,18 +604,18 @@ Func NotifyPushMessageToBoth($Message, $Source = "")
 				$g_iStatsLastAttack[$eLootGold] = Round($g_iStatsLastAttack[$eLootGold], -1)
 				$g_iStatsLastAttack[$eLootElixir] = Round($g_iStatsLastAttack[$eLootElixir], -1)
 				$g_iStatsLastAttack[$eLootDarkElixir] = Round($g_iStatsLastAttack[$eLootDarkElixir], 1)
-				
+
 				NotifyPushToTelegram("Last Raid :" & _
-					"%0A" & "Village : " & $g_sNotifyOrigin & _
-					"%0A" & "Profile : " & $g_sProfileCurrentName & _
-					"%0A" & "[" & GetTranslatedFileIni("MBR Func_Notify", "Stats-G_Info_01", "G") & "]: " & _NumberFormat($g_iStatsLastAttack[$eLootGold]) & _
-					"k  [" & GetTranslatedFileIni("MBR Func_Notify", "Stats-E_Info_01", "E") & "]: " & _NumberFormat($g_iStatsLastAttack[$eLootElixir]) & _
-					"k  [" & GetTranslatedFileIni("MBR Func_Notify", "Stats-DE_Info_01", "DE") & "]: " & _NumberFormat($g_iStatsLastAttack[$eLootDarkElixir]) & _
-					"k %0A[" & GetTranslatedFileIni("MBR Func_Notify", "Stats-T_Info_01", "T") & "]: " & $g_iStatsLastAttack[$eLootTrophy] & _
-					"  [" & GetTranslatedFileIni("MBR Func_Notify", "Stats-T_Info_01", "%") & "]: " & $g_sTotalDamage & _
-					"  [" & GetTranslatedFileIni("MBR Func_Notify", "Stats-T_Info_01", "*") & "]: " & $g_sStarsEarned & _
-					"  [Tr#]: " & $g_aiCurrentLoot[$eLootTrophy])
-				
+						"%0A" & "Village : " & $g_sNotifyOrigin & _
+						"%0A" & "Profile : " & $g_sProfileCurrentName & _
+						"%0A" & "[" & GetTranslatedFileIni("MBR Func_Notify", "Stats-G_Info_01", "G") & "]: " & _NumberFormat($g_iStatsLastAttack[$eLootGold]) & _
+						"k  [" & GetTranslatedFileIni("MBR Func_Notify", "Stats-E_Info_01", "E") & "]: " & _NumberFormat($g_iStatsLastAttack[$eLootElixir]) & _
+						"k  [" & GetTranslatedFileIni("MBR Func_Notify", "Stats-DE_Info_01", "DE") & "]: " & _NumberFormat($g_iStatsLastAttack[$eLootDarkElixir]) & _
+						"k %0A[" & GetTranslatedFileIni("MBR Func_Notify", "Stats-T_Info_01", "T") & "]: " & $g_iStatsLastAttack[$eLootTrophy] & _
+						"  [" & GetTranslatedFileIni("MBR Func_Notify", "Stats-T_Info_01", "%") & "]: " & $g_sTotalDamage & _
+						"  [" & GetTranslatedFileIni("MBR Func_Notify", "Stats-T_Info_01", "*") & "]: " & $g_sStarsEarned & _
+						"  [Tr#]: " & $g_aiCurrentLoot[$eLootTrophy])
+
 				If _Sleep($DELAYPUSHMSG1) Then Return
 				SetLog("Notify Telegram: Last Raid Text has been sent!", $COLOR_SUCCESS)
 			EndIf
@@ -836,67 +836,67 @@ Func __ObjEventEnds()
 EndFunc   ;==>__ObjEventEnds
 
 Func IsStarBonusAvail()
-If StarBonusSearch() Then
-	$StarBonusStatus = "Star Bonus Available"
-	If Not $g_bChkBotStop Or ($g_bChkBotStop And (($g_iCmbBotCond <> 23) Or ($g_iCmbBotCond <= 14 And Not $g_bCollectStarBonus And $g_iCmbBotCommand <> 0))) Then SetLog("Star Bonus Available", $COLOR_SUCCESS1)
-Else
-	$StarBonusStatus = "Star Bonus Unavailable"
-	If Not $g_bChkBotStop Or ($g_bChkBotStop And (($g_iCmbBotCond <> 23) Or ($g_iCmbBotCond <= 14 And Not $g_bCollectStarBonus And $g_iCmbBotCommand <> 0))) Then SetLog("Star Bonus Unavailable", $COLOR_DEBUG1)
-EndIf
-If _Sleep(500) Then Return
-EndFunc
+	If StarBonusSearch() Then
+		$StarBonusStatus = "Star Bonus Available"
+		If Not $g_bChkBotStop Or ($g_bChkBotStop And (($g_iCmbBotCond <> 23) Or ($g_iCmbBotCond <= 14 And Not $g_bCollectStarBonus And $g_iCmbBotCommand <> 0))) Then SetLog("Star Bonus Available", $COLOR_SUCCESS1)
+	Else
+		$StarBonusStatus = "Star Bonus Unavailable"
+		If Not $g_bChkBotStop Or ($g_bChkBotStop And (($g_iCmbBotCond <> 23) Or ($g_iCmbBotCond <= 14 And Not $g_bCollectStarBonus And $g_iCmbBotCommand <> 0))) Then SetLog("Star Bonus Unavailable", $COLOR_DEBUG1)
+	EndIf
+	If _Sleep(500) Then Return
+EndFunc   ;==>IsStarBonusAvail
 
 Func IsStarBonusAvailNotif()
-If StarBonusSearch() Then
-	$StarBonusStatus = "Star Bonus Available"
-Else
-	$StarBonusStatus = "Star Bonus Unavailable"
-EndIf
-If _Sleep(500) Then Return
-EndFunc
+	If StarBonusSearch() Then
+		$StarBonusStatus = "Star Bonus Available"
+	Else
+		$StarBonusStatus = "Star Bonus Unavailable"
+	EndIf
+	If _Sleep(500) Then Return
+EndFunc   ;==>IsStarBonusAvailNotif
 
 Func NotifyWhenStop($Type = "Stop")
-Local $text ="Village : " & $g_sNotifyOrigin & "%0A"
-$text &="Profile : " & $g_sProfileCurrentName & "%0A"
-Local $currentDate = Number(@MDAY)
-If $g_bChkClanGamesEnabled And $g_bChkNotifyCGScore And $currentDate >= 21 And $currentDate < 29 Then
-	$text &="CG Score : " & $g_sClanGamesScore & "%0A"
-EndIf
-$text &= "[" & GetTranslatedFileIni("MBR Func_Notify", "Stats-G_Info_01", "G") & "]: " & _NumberFormat($g_aiCurrentLoot[$eLootGold])
-$text &= " [" & GetTranslatedFileIni("MBR Func_Notify", "Stats-E_Info_01", "E") & "]: " & _NumberFormat($g_aiCurrentLoot[$eLootElixir]) & "%0A"
-$text &= "[" & GetTranslatedFileIni("MBR Func_Notify", "Stats-DE_Info_01", "DE") & "]: " & _NumberFormat($g_aiCurrentLoot[$eLootDarkElixir])
-$text &= " [" & GetTranslatedFileIni("MBR Func_Notify", "Stats-T_Info_01", "T") & "]: " & _NumberFormat($g_aiCurrentLoot[$eLootTrophy]) & "%0A"
-If Number($g_iFreeBuilderCount) < 2 Then
-	$text &= "Free Builder : " & $g_iFreeBuilderCount & "%0A"
-Else
-	$text &= "Free Builders : " & $g_iFreeBuilderCount & "%0A"
-EndIf
-Switch $Type
-	Case "StopStar"
-		$text &= "Star Bonus Unavailable, Bot Stopped"
-	Case "Stop"
-		$text &= "Bot Stopped"
-	Case "CloseBotStar"
-		$text &= "Star Bonus Unavailable, Bot Closed"
-	Case "CloseBot"
-		$text &= "Bot Closed"
-	Case "CloseANBStar"
-		$text &= "Star Bonus Unavailable, Android and Bot Closed"
-	Case "CloseANB"
-		$text &= "Android and Bot Closed"
-	Case "ShutdownStar"
-		$text &= "Star Bonus Unavailable, Computer ShutDown"
-	Case "Shutdown"
-		$text &= "Computer ShutDown"
-	Case "CPUSleepStar"
-		$text &= "Star Bonus Unavailable, Computer Sleep Mode Started"
-	Case "CPUSleep"
-		$text &= "Computer Sleep Mode Started"
-	Case "RebootingStar"
-		$text &= "Star Bonus Unavailable, Computer Rebooted"
-	Case "Rebooting"
-		$text &= "Computer Rebooted"
-EndSwitch
-NotifyPushToTelegram($text)
-EndFunc
+	Local $text = "Village : " & $g_sNotifyOrigin & "%0A"
+	$text &= "Profile : " & $g_sProfileCurrentName & "%0A"
+	Local $currentDate = Number(@MDAY)
+	If $g_bChkClanGamesEnabled And $g_bChkNotifyCGScore And $currentDate >= 21 And $currentDate < 29 Then
+		$text &= "CG Score : " & $g_sClanGamesScore & "%0A"
+	EndIf
+	$text &= "[" & GetTranslatedFileIni("MBR Func_Notify", "Stats-G_Info_01", "G") & "]: " & _NumberFormat($g_aiCurrentLoot[$eLootGold])
+	$text &= " [" & GetTranslatedFileIni("MBR Func_Notify", "Stats-E_Info_01", "E") & "]: " & _NumberFormat($g_aiCurrentLoot[$eLootElixir]) & "%0A"
+	$text &= "[" & GetTranslatedFileIni("MBR Func_Notify", "Stats-DE_Info_01", "DE") & "]: " & _NumberFormat($g_aiCurrentLoot[$eLootDarkElixir])
+	$text &= " [" & GetTranslatedFileIni("MBR Func_Notify", "Stats-T_Info_01", "T") & "]: " & _NumberFormat($g_aiCurrentLoot[$eLootTrophy]) & "%0A"
+	If Number($g_iFreeBuilderCount) < 2 Then
+		$text &= "Free Builder : " & $g_iFreeBuilderCount & "%0A"
+	Else
+		$text &= "Free Builders : " & $g_iFreeBuilderCount & "%0A"
+	EndIf
+	Switch $Type
+		Case "StopStar"
+			$text &= "Star Bonus Unavailable, Bot Stopped"
+		Case "Stop"
+			$text &= "Bot Stopped"
+		Case "CloseBotStar"
+			$text &= "Star Bonus Unavailable, Bot Closed"
+		Case "CloseBot"
+			$text &= "Bot Closed"
+		Case "CloseANBStar"
+			$text &= "Star Bonus Unavailable, Android and Bot Closed"
+		Case "CloseANB"
+			$text &= "Android and Bot Closed"
+		Case "ShutdownStar"
+			$text &= "Star Bonus Unavailable, Computer ShutDown"
+		Case "Shutdown"
+			$text &= "Computer ShutDown"
+		Case "CPUSleepStar"
+			$text &= "Star Bonus Unavailable, Computer Sleep Mode Started"
+		Case "CPUSleep"
+			$text &= "Computer Sleep Mode Started"
+		Case "RebootingStar"
+			$text &= "Star Bonus Unavailable, Computer Rebooted"
+		Case "Rebooting"
+			$text &= "Computer Rebooted"
+	EndSwitch
+	NotifyPushToTelegram($text)
+EndFunc   ;==>NotifyWhenStop
 

@@ -18,7 +18,7 @@ Func isDarkElixirFull($Reduction = False)
 	If Not _CheckPixel($aVillageHasDarkElixir, $g_bCapturePixel) Then Return ; check if the village have a Dark Elixir Storage
 
 	If _CheckPixel($aIsDarkElixirFull, $g_bCapturePixel) Then ;Check for black/purple pixel in full bar
- 		SetLog("Dark Elixir Storage is full!", $COLOR_SUCCESS)
+		SetLog("Dark Elixir Storage is full!", $COLOR_SUCCESS)
 		$g_abFullStorage[$eLootDarkElixir] = True
 	ElseIf $g_abFullStorage[$eLootDarkElixir] Then
 		If Number($g_aiCurrentLoot[$eLootDarkElixir]) >= Number($g_aiResumeAttackLoot[$eLootDarkElixir]) And Not $Reduction Then

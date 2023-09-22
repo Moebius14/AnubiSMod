@@ -45,7 +45,7 @@ Func _VillageSearch() ;Control for searching a village that meets conditions
 	Local $abHeroUse[$eHeroCount] = [False, False, False, False]
 	For $i = 0 To $eHeroCount - 1
 		$abHeroUse[$i] = ($g_abSearchSearchesEnable[$DB] ? IsUnitUsed($DB, $eKing + $i) : False) _
-							Or ($g_abSearchSearchesEnable[$LB] ? IsUnitUsed($LB, $eKing + $i) : False)
+				Or ($g_abSearchSearchesEnable[$LB] ? IsUnitUsed($LB, $eKing + $i) : False)
 	Next
 
 	If $g_bDebugDeadBaseImage Or $g_aiSearchEnableDebugDeadBaseImage > 0 Then
@@ -53,13 +53,13 @@ Func _VillageSearch() ;Control for searching a village that meets conditions
 		DirCreate($g_sProfileTempDebugPath & "\Zombies\")
 		setZombie()
 	EndIf
-	
+
 	Local $g_aiFilterMinGoldMod[$g_iModeCount] = [0, 0, 0]
 	Local $g_aiFilterMinElixirMod[$g_iModeCount] = [0, 0, 0]
 	Local $g_aiFilterMeetDEMinMod[$g_iModeCount] = [0, 0, 0]
 	Local $g_aiFilterGAndE_DB = False, $g_aiFilterGAndE_LB = False
 	Local $DEFilterIsenabled_DB = False, $DEFilterIsenabled_LB = False
-	
+
 	For $i = 0 To $g_iModeCount - 1
 		If $g_abFullStorage[$eLootGold] And $g_bSearchReductionStorageEnable And $g_aiFilterMeetGE[$i] = 0 Then
 			$g_aiFilterMinGoldMod[$i] = $g_iSearchReductionGoldMod
@@ -98,7 +98,7 @@ Func _VillageSearch() ;Control for searching a village that meets conditions
 			$g_aiFilterMeetDEMinMod[$i] = $g_aiFilterMeetDEMin[$i]
 		EndIf
 	Next
-	
+
 	If $g_bSearchReductionStorageEnable Then
 		If $g_abFullStorage[$eLootGold] And ($g_aiFilterGAndE_DB Or $g_aiFilterGAndE_LB) Then
 			If $IsCGEventForGold Then
@@ -476,7 +476,7 @@ Func _VillageSearch() ;Control for searching a village that meets conditions
 			Else
 				SetDebugLog("Wait to see Next Button... " & $i, $COLOR_DEBUG)
 			EndIf
-			
+
 			If $i >= 99 Or isProblemAffect() Or (Mod($i, 10) = 0 And checkObstacles_Network(False, False)) Then ; if we can't find the next button or there is an error, then restart
 				If Not (_ColorCheck(_GetPixelColor($NextBtn[0], $NextBtn[1]), Hex($NextBtn[2], 6), $NextBtn[3])) And IsAttackPage(False) Then $IsAttackStarted = True
 				$g_bIsClientSyncError = True
@@ -501,9 +501,8 @@ Func _VillageSearch() ;Control for searching a village that meets conditions
 		If _Sleep($DELAYRESPOND) Then Return
 		If $g_bRestart = True Then Return ; exit func
 
-		If isGemOpen(True) = True Then
+		If isGemOpen(True) Then
 			SetLog(" Not enough gold to keep searching.....", $COLOR_ERROR)
-			Click(585, 252, 1, 0, "#0156") ; Click close gem window "X"
 			If _Sleep($DELAYVILLAGESEARCH3) Then Return
 			$g_bOutOfGold = True ; Set flag for out of gold to search for attack
 			ReturnHome(False, False)
@@ -534,7 +533,7 @@ Func _VillageSearch() ;Control for searching a village that meets conditions
 	If $g_bSearchAlertMe Then
 		TrayTip($g_sProfileCurrentName & ": " & $g_asModeText[$g_iMatchMode] & " Match Found!", "Gold: " & $g_iSearchGold & "; Elixir: " & $g_iSearchElixir & "; Dark: " & $g_iSearchDark & "; Trophy: " & $g_iSearchTrophy, "", 0)
 		SetDebugLog("Trying to play sound.  Set volume to 50%", $COLOR_DEBUG)
-		SoundSetWaveVolume( 50 ) ;50% WAV volume setting
+		SoundSetWaveVolume(50)   ;50% WAV volume setting
 		If FileExists(@WindowsDir & "\media\Festival\Windows Exclamation.wav") Then
 			SetDebugLog("Playing first sound.", $COLOR_DEBUG)
 			SoundPlay(@WindowsDir & "\media\Festival\Windows Exclamation.wav", 1)
@@ -573,7 +572,7 @@ Func SearchLimit($iSkipped, $bReturnToPickupHero = False)
 		$g_bIsSearchLimit = True
 		ReturnHome(False, False) ;If End battle is available
 		If _Sleep(5000) Then Return
-		Local $iWaitTime = $g_iSearchRestartLimitPauseTime * 60 * 1000; compute mseconds
+		Local $iWaitTime = $g_iSearchRestartLimitPauseTime * 60 * 1000 ; compute mseconds
 		Local $StopEmulator = False
 		Local $bFullRestart = True
 		Local $bSuspendComputer = False

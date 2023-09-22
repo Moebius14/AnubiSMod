@@ -34,7 +34,7 @@ Func CompareResources($pMode) ;Compares resources and returns true if conditions
 			EndIf
 		EndIf
 	EndIf
-	
+
 	If $g_bSearchReductionStorageEnable Then
 		If $g_abFullStorage[$eLootGold] And $g_aiFilterMeetGE[$pMode] = 0 Then
 			If Not $IsCGEventForGold Then $g_iAimGold[$pMode] = $g_iSearchReductionGoldMod
@@ -55,9 +55,9 @@ Func CompareResources($pMode) ;Compares resources and returns true if conditions
 	EndIf
 
 	Local $bGoldMet = (Number($g_iSearchGold) >= Number($g_iAimGold[$pMode])), $bElixirMet = (Number($g_iSearchElixir) >= Number($g_iAimElixir[$pMode]))
-    Local $bDarkElixirMet = (Number($g_iSearchDark) >= Number($g_iAimDark[$pMode]))
-    Local $bTrophiesMet = (Number($g_iSearchTrophy) >= Number($g_iAimTrophy[$pMode])) And (Number($g_iSearchTrophy) <= Number($g_iAimTrophyMax[$pMode]))
-    Local $bGoldPlusElxirMet = ((Number($g_iSearchGold) + Number($g_iSearchElixir)) >= Number($g_iAimGoldPlusElixir[$pMode]))
+	Local $bDarkElixirMet = (Number($g_iSearchDark) >= Number($g_iAimDark[$pMode]))
+	Local $bTrophiesMet = (Number($g_iSearchTrophy) >= Number($g_iAimTrophy[$pMode])) And (Number($g_iSearchTrophy) <= Number($g_iAimTrophyMax[$pMode]))
+	Local $bGoldPlusElxirMet = ((Number($g_iSearchGold) + Number($g_iSearchElixir)) >= Number($g_iAimGoldPlusElixir[$pMode]))
 
 	If $g_abFilterMeetOneConditionEnable[$pMode] Then
 		If $g_aiFilterMeetGE[$pMode] = 0 Then

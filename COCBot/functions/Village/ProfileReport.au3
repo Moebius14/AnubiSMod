@@ -33,9 +33,9 @@ Func ProfileReport()
 	WEnd
 	If $iCount >= 25 Then SetDebugLog("Profile Page did not open after " & $iCount & " Loops", $COLOR_DEBUG)
 
-   ; Check If exist 'Claim Reward' button , click and return to Top of the Profile Page
+	; Check If exist 'Claim Reward' button , click and return to Top of the Profile Page
 	Local $aSearchResult
-	For $i = 0 to 1 ; Check twice,  because the button is animated
+	For $i = 0 To 1 ; Check twice,  because the button is animated
 		$aSearchResult = decodeSingleCoord(findImage("CollectReward", $g_sImgCollectReward, GetDiamondFromRect("680,165,855,680"), 1, True))
 		If IsArray($aSearchResult) And UBound($aSearchResult) = 2 Then
 			Click($aSearchResult[0], $aSearchResult[1])
@@ -43,8 +43,8 @@ Func ProfileReport()
 			For $i = 0 To 9
 				ClickDrag(421, 200, 421, 630, 2000)
 				If _Sleep(2000) Then Return ; 2000ms
-				If _ColorCheck(_GetPixelColor($aCheckTopProfile[0], $aCheckTopProfile[1], True), Hex($aCheckTopProfile[2], 6), $aCheckTopProfile[3])= True _
-				  And _ColorCheck(_GetPixelColor($aCheckTopProfile2[0], $aCheckTopProfile2[1], True), Hex($aCheckTopProfile2[2], 6), $aCheckTopProfile2[3]) = True Then ExitLoop
+				If _ColorCheck(_GetPixelColor($aCheckTopProfile[0], $aCheckTopProfile[1], True), Hex($aCheckTopProfile[2], 6), $aCheckTopProfile[3]) = True _
+						And _ColorCheck(_GetPixelColor($aCheckTopProfile2[0], $aCheckTopProfile2[1], True), Hex($aCheckTopProfile2[2], 6), $aCheckTopProfile2[3]) = True Then ExitLoop
 			Next
 			ExitLoop ; ok task was done , lets exit from here|
 		EndIf

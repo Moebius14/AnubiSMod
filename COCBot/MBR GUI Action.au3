@@ -29,7 +29,7 @@ Func BotStart($bAutostartDelay = 0)
 	;CalCostSpell()
 	;CalCostSiege()
 	sldAdditionalClickDelay(True)
-	
+
 	$g_bRunState = True
 	$g_bTogglePauseAllowed = True
 	$g_bSkipFirstZoomout = False
@@ -124,7 +124,7 @@ Func BotStart($bAutostartDelay = 0)
 	$IsSpellDonated = False
 	$IsSiegeDonated = False
 	$IsopenMagicWindow = False
-	For $z = 0 to 1
+	For $z = 0 To 1
 		$g_abNotNeedAllTime[$z] = True
 	Next
 	$g_iMinDark4PetUpgrade = 0
@@ -134,7 +134,7 @@ Func BotStart($bAutostartDelay = 0)
 	$g_iLootCCMedal = 0
 	$g_iCCTrophies = 0
 	$IsRaidRunning = 0
-	
+
 	LoadCurrentProfile()
 	LoadCurrentAlias()
 	btnModLogClear()
@@ -151,7 +151,7 @@ Func BotStart($bAutostartDelay = 0)
 	CloseSecondaryVillages()
 	CloseCampSizeAdjust()
 	;Mod>
-	
+
 	; wait for slot
 	LockBotSlot(True)
 	If $g_bRunState = False Then Return FuncReturn()
@@ -185,7 +185,7 @@ Func BotStart($bAutostartDelay = 0)
 			WinActivate($activeHWnD) ; restore current active window
 		EndIf
 		If Not $g_bRunState Then Return FuncReturn()
-		If $hWndActive = $g_hAndroidWindow And ($g_bAndroidBackgroundLaunched = True Or AndroidControlAvailable())  Then ; Really?
+		If $hWndActive = $g_hAndroidWindow And ($g_bAndroidBackgroundLaunched = True Or AndroidControlAvailable()) Then  ; Really?
 			Initiate() ; Initiate and run bot
 		Else
 			SetLog("Cannot use " & $g_sAndroidEmulator & ", please check log", $COLOR_ERROR)
@@ -212,7 +212,7 @@ Func BotStop()
 	$g_bBotPaused = False
 	$g_bTogglePauseAllowed = True
 	$g_bRestart = False
-	
+
 	;WinSetState($g_hFrmBotBottom, "", @SW_DISABLE)
 	Local $aCtrlState
 	EnableControls($g_hFrmBotBottom, False, $g_aFrmBotBottomCtrlState)
@@ -265,15 +265,15 @@ Func BotStop()
 		;AdlibUnRegister("SetTime")
 		;$g_bRestart = True
 
-	   If $g_hLogFile <> 0 Then
-		  FileClose($g_hLogFile)
-		  $g_hLogFile = 0
-	   EndIf
+		If $g_hLogFile <> 0 Then
+			FileClose($g_hLogFile)
+			$g_hLogFile = 0
+		EndIf
 
-	   If $g_hAttackLogFile <> 0 Then
-		  FileClose($g_hAttackLogFile)
-		  $g_hAttackLogFile = 0
-	   EndIf
+		If $g_hAttackLogFile <> 0 Then
+			FileClose($g_hAttackLogFile)
+			$g_hAttackLogFile = 0
+		EndIf
 	Else
 		$g_bSearchMode = False
 	EndIf

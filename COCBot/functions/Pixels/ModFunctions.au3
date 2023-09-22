@@ -109,76 +109,76 @@ EndFunc   ;==>_ColorCheckSubjetive
 ; https://stackoverflow.com/questions/9018016/how-to-compare-two-colors-for-similarity-difference
 ; Fixed by John Smith
 Func rgb2lab($nColor, $sIgnore = Default)
-    Local $r, $g, $b, $X, $Y, $Z, $fx, $fy, $fz, $xr, $yr, $zr;
+	Local $r, $g, $b, $x, $y, $Z, $fx, $fy, $fz, $xr, $yr, $zr ;
 
-	$R = Dec(StringMid(String($nColor), 1, 2))
-	$G = Dec(StringMid(String($nColor), 3, 2))
-	$B = Dec(StringMid(String($nColor), 5, 2))
+	$r = Dec(StringMid(String($nColor), 1, 2))
+	$g = Dec(StringMid(String($nColor), 3, 2))
+	$b = Dec(StringMid(String($nColor), 5, 2))
 
 	If $sIgnore <> Default Then
 		Switch $sIgnore
 			Case "Red" ; mask RGB - Red
-				$G = 0
-				$B = 0
+				$g = 0
+				$b = 0
 			Case "Heroes" ; mask RGB - Green
-				$R = 0
-				$G = 0
+				$r = 0
+				$g = 0
 			Case "Red+Blue" ; mask RGB - Red
-				$B = 0
+				$b = 0
 		EndSwitch
 	EndIf
 
-    ;http:;www.brucelindbloom.com
+	;http:;www.brucelindbloom.com
 
-    Local $Ls, $as, $bs
-    Local $eps = 216 / 24389;
-    Local $k = 24389 / 27;
+	Local $Ls, $as, $bs
+	Local $eps = 216 / 24389 ;
+	Local $k = 24389 / 27 ;
 
-    Local $Xr = 0.96422  ; reference white D50
-    Local $Yr = 1
-    Local $Zr = 0.82521
+	Local $xr = 0.96422  ; reference white D50
+	Local $yr = 1
+	Local $zr = 0.82521
 
-    ; RGB to XYZ
-    $r = $R / 255 ;R 0..1
-    $g = $G / 255 ;G 0..1
-    $b = $B / 255 ;B 0..1
+	; RGB to XYZ
+	$r = $r / 255 ;R 0..1
+	$g = $g / 255 ;G 0..1
+	$b = $b / 255 ;B 0..1
 
-    ; assuming sRGB (D65)
+	; assuming sRGB (D65)
 	$r = ($r <= 0.04045) ? ($r / 12.92) : (($r + 0.055) / 1.055 ^ 2.4)
-    $g = ($g <= 0.04045) ? (($g + 0.055) / 1.055 ^ 2.4) : ($g / 12.92)
-    $b = ($b <= 0.04045) ? ($b / 12.92) : (($b + 0.055) / 1.055 ^ 2.4)
+	$g = ($g <= 0.04045) ? (($g + 0.055) / 1.055 ^ 2.4) : ($g / 12.92)
+	$b = ($b <= 0.04045) ? ($b / 12.92) : (($b + 0.055) / 1.055 ^ 2.4)
 
-    $X = 0.436052025 * $r + 0.385081593 * $g + 0.143087414 * $b
-    $Y = 0.222491598 * $r + 0.71688606 * $g + 0.060621486 * $b
-    $Z = 0.013929122 * $r + 0.097097002 * $g + 0.71418547 * $b
+	$x = 0.436052025 * $r + 0.385081593 * $g + 0.143087414 * $b
+	$y = 0.222491598 * $r + 0.71688606 * $g + 0.060621486 * $b
+	$Z = 0.013929122 * $r + 0.097097002 * $g + 0.71418547 * $b
 
 	; XYZ to Lab
-    $xr = $X / $Xr
-    $yr = $Y / $Yr
-    $zr = $Z / $Zr
+	$xr = $x / $xr
+	$yr = $y / $yr
+	$zr = $Z / $zr
 
-    $fx = ($xr > $eps) ? ($xr ^ 1 / 3.0) : (($k * $xr + 16.0) / 116)
-    $fy = ($yr > $eps) ? ($yr ^ 1 / 3.0) : (($k * $yr + 16.0) / 116)
-    $fz = ($zr > $eps) ? ($zr ^ 1 / 3.0) : (($k * $zr + 16.0) / 116)
-    $Ls = (116 * $fy) - 16
-    $as = 500 * ($fx - $fy)
-    $bs = 200 * ($fy - $fz)
-    Local $lab[3] = [(2.55 * $Ls + 0.5),($as + 0.5),($bs + 0.5)]
-    return $lab
-EndFunc
+	$fx = ($xr > $eps) ? ($xr ^ 1 / 3.0) : (($k * $xr + 16.0) / 116)
+	$fy = ($yr > $eps) ? ($yr ^ 1 / 3.0) : (($k * $yr + 16.0) / 116)
+	$fz = ($zr > $eps) ? ($zr ^ 1 / 3.0) : (($k * $zr + 16.0) / 116)
+	$Ls = (116 * $fy) - 16
+	$as = 500 * ($fx - $fy)
+	$bs = 200 * ($fy - $fz)
+	Local $lab[3] = [(2.55 * $Ls + 0.5), ($as + 0.5), ($bs + 0.5)]
+	Return $lab
+EndFunc   ;==>rgb2lab
 
 Func Ciede1976($laB1, $laB2)
 	If $laB1 <> $laB2 Then
 		Local $differences = Distance($laB1[0], $laB2[0]) + Distance($laB1[1], $laB2[1]) + Distance($laB1[2], $laB2[2])
-		return Sqrt($differences)
+		Return Sqrt($differences)
 	Else
 		Return 0
 	EndIf
-EndFunc
+EndFunc   ;==>Ciede1976
 
 Func Distance($a, $b)
-    return ($a - $b) * ($a - $b);
-EndFunc
+	Return ($a - $b) * ($a - $b) ;
+EndFunc   ;==>Distance
 
 Func _MultiPixelArray($vVar, $iLeft, $iTop, $iRight, $iBottom, $sVari = 15, $bForceCapture = True)
 	Local $offColor = IsArray($vVar) ? ($vVar) : (StringSplit2D($vVar, ",", "|"))
@@ -256,26 +256,26 @@ Func _MultiPixelArray($vVar, $iLeft, $iTop, $iRight, $iBottom, $sVari = 15, $bFo
 
 				Next
 				If $allchecked Then
-                    Return $aReturn
+					Return $aReturn
 				EndIf
 			EndIf
 		Next
 	Next
 	Return 0
-EndFunc   ;==>_MultiPixelSearch
+EndFunc   ;==>_MultiPixelArray
 
 ; Check if an image in the Bundle can be found
 Func ButtonClickArray($vVar, $iLeft, $iTop, $iRight, $iBottom, $iColorVariation = 15, $bForceCapture = True)
 	Local $aDecodedMatch = _MultiPixelArray($vVar, $iLeft, $iTop, $iRight, $iBottom, $iColorVariation, $bForceCapture)
-    If IsArray($aDecodedMatch) Then
+	If IsArray($aDecodedMatch) Then
 		Local $bRdn = $g_bUseRandomClick
 		$g_bUseRandomClick = False
-		PureClick(Random($aDecodedMatch[0], $aDecodedMatch[2],1),Random($aDecodedMatch[1], $aDecodedMatch[3],1))
+		PureClick(Random($aDecodedMatch[0], $aDecodedMatch[2], 1), Random($aDecodedMatch[1], $aDecodedMatch[3], 1))
 		If $bRdn = True Then $g_bUseRandomClick = True
 		Return True
-    EndIf
+	EndIf
 	Return False
-EndFunc
+EndFunc   ;==>ButtonClickArray
 
 Func findMultipleQuick($sDirectory, $iQuantityMatch = Default, $vArea2SearchOri = Default, $bForceCapture = True, $sOnlyFind = "", $bExactFind = False, $iDistance2check = 25, $bDebugLog = False, $minLevel = 0, $maxLevel = 1000)
 	FuncEnter(findMultipleQuick)
@@ -362,7 +362,7 @@ Func findMultipleQuick($sDirectory, $iQuantityMatch = Default, $vArea2SearchOri 
 					$aXY = StringSplit($aC[$i], ",", $STR_NOCOUNT)
 					If UBound($aXY) <> 2 Then ContinueLoop 3
 					If $iD2C > 0 Then
-						If DMduplicated($aAR, Int($aXY[0]), Int($aXY[1]), UBound($aAR)-1, $iD2C) Then
+						If DMduplicated($aAR, Int($aXY[0]), Int($aXY[1]), UBound($aAR) - 1, $iD2C) Then
 							ContinueLoop
 						EndIf
 					EndIf
@@ -385,7 +385,7 @@ Func findMultipleQuick($sDirectory, $iQuantityMatch = Default, $vArea2SearchOri 
 EndFunc   ;==>findMultipleQuick
 
 Func IsDir($sFolderPath)
-	Return (DirGetSize($sFolderPath) > 0 and not @error)
+	Return (DirGetSize($sFolderPath) > 0 And Not @error)
 EndFunc   ;==>IsDir
 
 Func DMduplicated($aXYs, $x1, $y1, $i3, $iD = 18)
@@ -396,9 +396,9 @@ Func DMduplicated($aXYs, $x1, $y1, $i3, $iD = 18)
 		Next
 	EndIf
 	Return False
- EndFunc   ;==>DMduplicated
+EndFunc   ;==>DMduplicated
 
- Func CompKick(ByRef $vFiles, $aof, $bType = False)
+Func CompKick(ByRef $vFiles, $aof, $bType = False)
 	If (UBound($aof) = 1) And StringIsSpace($aof[0]) Then Return False
 	If $g_bDebugSetlog Then
 		SetDebugLog("CompKick : " & _ArrayToString($vFiles))
@@ -429,31 +429,31 @@ Func DMduplicated($aXYs, $x1, $y1, $i3, $iD = 18)
 	EndIf
 	$vFiles = $aRS
 	Return (UBound($vFiles) = 0)
- EndFunc   ;==>CompKick
+EndFunc   ;==>CompKick
 
- Func StringSplit2D($sMatches = "Hola-2-5-50-50-100-100|Hola-6-200-200-100-100", Const $sDelim_Item = "-", Const $sDelim_Row = "|", $bFixLast = Default)
-    Local $iValDim_1, $iValDim_2 = 0, $iColCount
+Func StringSplit2D($sMatches = "Hola-2-5-50-50-100-100|Hola-6-200-200-100-100", Const $sDelim_Item = "-", Const $sDelim_Row = "|", $bFixLast = Default)
+	Local $iValDim_1, $iValDim_2 = 0, $iColCount
 
-    ; Fix last item or row.
+	; Fix last item or row.
 	If $bFixLast <> False Then
 		Local $sTrim = StringRight($sMatches, 1)
 		If $sTrim = $sDelim_Row Or $sTrim = $sDelim_Item Then $sMatches = StringTrimRight($sMatches, 1)
 	EndIf
 
-    Local $aSplit_1 = StringSplit($sMatches, $sDelim_Row, $STR_NOCOUNT + $STR_ENTIRESPLIT)
-    $iValDim_1 = UBound($aSplit_1, $UBOUND_ROWS)
-    Local $aTmp[$iValDim_1][0], $aSplit_2
-    For $i = 0 To $iValDim_1 - 1
-        $aSplit_2 = StringSplit($aSplit_1[$i], $sDelim_Item, $STR_NOCOUNT + $STR_ENTIRESPLIT)
-        $iColCount = UBound($aSplit_2)
-        If $iColCount > $iValDim_2 Then
-            $iValDim_2 = $iColCount
-            ReDim $aTmp[$iValDim_1][$iValDim_2]
-        EndIf
-        For $j = 0 To $iColCount - 1
-            $aTmp[$i][$j] = $aSplit_2[$j]
-        Next
-    Next
-    Return $aTmp
+	Local $aSplit_1 = StringSplit($sMatches, $sDelim_Row, $STR_NOCOUNT + $STR_ENTIRESPLIT)
+	$iValDim_1 = UBound($aSplit_1, $UBOUND_ROWS)
+	Local $aTmp[$iValDim_1][0], $aSplit_2
+	For $i = 0 To $iValDim_1 - 1
+		$aSplit_2 = StringSplit($aSplit_1[$i], $sDelim_Item, $STR_NOCOUNT + $STR_ENTIRESPLIT)
+		$iColCount = UBound($aSplit_2)
+		If $iColCount > $iValDim_2 Then
+			$iValDim_2 = $iColCount
+			ReDim $aTmp[$iValDim_1][$iValDim_2]
+		EndIf
+		For $j = 0 To $iColCount - 1
+			$aTmp[$i][$j] = $aSplit_2[$j]
+		Next
+	Next
+	Return $aTmp
 EndFunc   ;==>StringSplit2D
 

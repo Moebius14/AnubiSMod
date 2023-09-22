@@ -30,19 +30,19 @@ Func applyConfig($bRedrawAtExit = True, $TypeReadSave = "Read") ;Applies the dat
 	; Saved window positions
 	If $g_bAndroidEmbedded = False Then
 		If $g_iFrmBotPosX > -30000 And $g_iFrmBotPosY > -30000 And $g_bFrmBotMinimized = False _
-			And $g_iFrmBotPosX <> $g_WIN_POS_DEFAULT And $g_iFrmBotPosY <> $g_WIN_POS_DEFAULT Then WinMove($g_hFrmBot, "", $g_iFrmBotPosX, $g_iFrmBotPosY)
+				And $g_iFrmBotPosX <> $g_WIN_POS_DEFAULT And $g_iFrmBotPosY <> $g_WIN_POS_DEFAULT Then WinMove($g_hFrmBot, "", $g_iFrmBotPosX, $g_iFrmBotPosY)
 		If $g_iAndroidPosX > -30000 And $g_iAndroidPosY > -30000 And $g_bIsHidden = False _
-			And $g_iAndroidPosX <> $g_WIN_POS_DEFAULT And $g_iAndroidPosY <> $g_WIN_POS_DEFAULT Then HideAndroidWindow(False, False, Default, "applyConfig", 0)
+				And $g_iAndroidPosX <> $g_WIN_POS_DEFAULT And $g_iAndroidPosY <> $g_WIN_POS_DEFAULT Then HideAndroidWindow(False, False, Default, "applyConfig", 0)
 	Else
 		If $g_iFrmBotDockedPosX > -30000 And $g_iFrmBotDockedPosY > -30000 And $g_bFrmBotMinimized = False _
-			And $g_iFrmBotDockedPosX <> $g_WIN_POS_DEFAULT And $g_iFrmBotDockedPosY <> $g_WIN_POS_DEFAULT Then WinMove($g_hFrmBot, "", $g_iFrmBotDockedPosX, $g_iFrmBotDockedPosY)
+				And $g_iFrmBotDockedPosX <> $g_WIN_POS_DEFAULT And $g_iFrmBotDockedPosY <> $g_WIN_POS_DEFAULT Then WinMove($g_hFrmBot, "", $g_iFrmBotDockedPosX, $g_iFrmBotDockedPosY)
 	EndIf
 
 	If $g_iGuiMode <> 1 Then
 		If $g_iGuiMode = 2 Then ; mini mode controls
 			Switch $TypeReadSave
-                Case "Read"
-                    GUICtrlSetState($g_hChkBackgroundMode, $g_bChkBackgroundMode = True ? $GUI_CHECKED : $GUI_UNCHECKED)
+				Case "Read"
+					GUICtrlSetState($g_hChkBackgroundMode, $g_bChkBackgroundMode = True ? $GUI_CHECKED : $GUI_UNCHECKED)
 				Case "Save"
 					$g_bChkBackgroundMode = (GUICtrlRead($g_hChkBackgroundMode) = $GUI_CHECKED)
 			EndSwitch
@@ -345,15 +345,15 @@ Func ApplyConfig_600_6($TypeReadSave)
 			GUICtrlSetState($g_hChkBBSuggestedUpgradesIgnoreWall, $g_iChkBBSuggestedUpgradesIgnoreWall = 1 ? $GUI_CHECKED : $GUI_UNCHECKED)
 
 			GUICtrlSetState($g_hChkPlacingNewBuildings, $g_iChkPlacingNewBuildings = 1 ? $GUI_CHECKED : $GUI_UNCHECKED)
-			
+
 			; BOB Target Upgrades
- 			GUICtrlSetState($g_hChkBattleMachineUpgrade, $g_bBattleMachineUpgrade = 1 ? $GUI_CHECKED : $GUI_UNCHECKED)
+			GUICtrlSetState($g_hChkBattleMachineUpgrade, $g_bBattleMachineUpgrade = 1 ? $GUI_CHECKED : $GUI_UNCHECKED)
 			GUICtrlSetState($g_hChkDoubleCannonUpgrade, $g_bDoubleCannonUpgrade = 1 ? $GUI_CHECKED : $GUI_UNCHECKED)
 			GUICtrlSetState($g_hChkArcherTowerUpgrade, $g_bArcherTowerUpgrade = 1 ? $GUI_CHECKED : $GUI_UNCHECKED)
 			GUICtrlSetState($g_hChkMultiMortarUpgrade, $g_bMultiMortarUpgrade = 1 ? $GUI_CHECKED : $GUI_UNCHECKED)
 			GUICtrlSetState($g_hChkAnyDefUpgrade, $g_bAnyDefUpgrade = 1 ? $GUI_CHECKED : $GUI_UNCHECKED)
 			GUICtrlSetState($g_hChkBattlecopterUpgrade, $g_bBattlecopterUpgrade = 1 ? $GUI_CHECKED : $GUI_UNCHECKED)
-			
+
 			chkActivateBBSuggestedUpgrades()
 			chkActivateBBSuggestedUpgradesGold()
 			chkActivateBBSuggestedUpgradesElixir()
@@ -447,12 +447,12 @@ Func ApplyConfig_600_6($TypeReadSave)
 				GUICtrlSetState($g_hBtnBBRemoveDropOrder, $GUI_ENABLE)
 				Local $asBBDropOrder = StringSplit($g_sBBDropOrder, "|")
 				If $asBBDropOrder[0] = 12 Then
-				  SetLog("Old Custom Troop List, appending Electro Wizard")
-				  ReDim $asBBDropOrder[14]
-				  $asBBDropOrder[13] = "ElectroWizard"
-				  $g_sBBDropOrder &= "|ElectroWizard"
-				  SetLog("New List :" & $g_sBBDropOrder)
-			    EndIf
+					SetLog("Old Custom Troop List, appending Electro Wizard")
+					ReDim $asBBDropOrder[14]
+					$asBBDropOrder[13] = "ElectroWizard"
+					$g_sBBDropOrder &= "|ElectroWizard"
+					SetLog("New List :" & $g_sBBDropOrder)
+				EndIf
 				Local $OldBBWB = False
 				For $i = 0 To $g_iBBTroopCount
 					If $asBBDropOrder[$i] = "WallBreaker" Then
@@ -475,8 +475,8 @@ Func ApplyConfig_600_6($TypeReadSave)
 					$g_sBBDropOrder = $g_sBBDropOrderNew
 					SetLog("New List :" & $g_sBBDropOrder)
 				EndIf
-			    For $i = 0 To $g_iBBTroopCount - 1
-					_GUICtrlComboBox_SetCurSel($g_ahCmbBBDropOrder[$i], _GUICtrlComboBox_SelectString($g_ahCmbBBDropOrder[$i], $asBBDropOrder[$i+1]))
+				For $i = 0 To $g_iBBTroopCount - 1
+					_GUICtrlComboBox_SetCurSel($g_ahCmbBBDropOrder[$i], _GUICtrlComboBox_SelectString($g_ahCmbBBDropOrder[$i], $asBBDropOrder[$i + 1]))
 				Next
 				GUICtrlSetBkColor($g_hBtnBBDropOrder, $COLOR_GREEN)
 			EndIf
@@ -521,7 +521,7 @@ Func ApplyConfig_600_6($TypeReadSave)
 			ChkEnablePriorArmyCC()
 			ChkPriorRuinsCC()
 			CCBaseFrequencyDatas()
-			
+
 			;Planner
 			GUICtrlSetState($g_hChkAttackCGPlannerEnable, $g_bAttackCGPlannerEnable = True ? $GUI_CHECKED : $GUI_UNCHECKED)
 			GUICtrlSetState($g_hChkAttackCGPlannerRandom, $g_bAttackCGPlannerRandomEnable ? $GUI_CHECKED : $GUI_UNCHECKED)
@@ -537,13 +537,13 @@ Func ApplyConfig_600_6($TypeReadSave)
 			_cmbAttackCGPlannerDayLimit()
 			chkAttackCGPlannerEnable()
 			LiveDailyCount()
-			
+
 			For $i = 0 To 6
 				GUICtrlSetState($g_ahChkAttackCGWeekdays[$i], $g_abPlannedAttackCGWeekDays[$i] ? $GUI_CHECKED : $GUI_UNCHECKED)
 			Next
 			For $i = 0 To 23
 				GUICtrlSetState($g_ahChkAttackCGHours[$i], $g_abPlannedattackCGHours[$i] ? $GUI_CHECKED : $GUI_UNCHECKED)
-			Next			
+			Next
 
 		Case "Save"
 			$g_bChkBotStop = (GUICtrlRead($g_hChkBotStop) = $GUI_CHECKED)
@@ -595,9 +595,9 @@ Func ApplyConfig_600_6($TypeReadSave)
 			$g_iChkBBSuggestedUpgradesIgnoreWall = (GUICtrlRead($g_hChkBBSuggestedUpgradesIgnoreWall) = $GUI_CHECKED) ? 1 : 0
 
 			$g_iChkPlacingNewBuildings = (GUICtrlRead($g_hChkPlacingNewBuildings) = $GUI_CHECKED) ? 1 : 0
-			
+
 			; OTTO Building Upgrades
- 			$g_bBattleMachineUpgrade = (GUICtrlRead($g_hChkBattleMachineUpgrade) = $GUI_CHECKED) ? 1 : 0
+			$g_bBattleMachineUpgrade = (GUICtrlRead($g_hChkBattleMachineUpgrade) = $GUI_CHECKED) ? 1 : 0
 			$g_bDoubleCannonUpgrade = (GUICtrlRead($g_hChkDoubleCannonUpgrade) = $GUI_CHECKED) ? 1 : 0
 			$g_bArcherTowerUpgrade = (GUICtrlRead($g_hChkArcherTowerUpgrade) = $GUI_CHECKED) ? 1 : 0
 			$g_bMultiMortarUpgrade = (GUICtrlRead($g_hChkMultiMortarUpgrade) = $GUI_CHECKED) ? 1 : 0
@@ -674,7 +674,7 @@ Func ApplyConfig_600_6($TypeReadSave)
 			$g_bChkBBAttIfLootAvail = (GUICtrlRead($g_hChkBBAttIfLootAvail) = $GUI_CHECKED)
 			$g_bChkBBWaitForMachine = (GUICtrlRead($g_hChkBBWaitForMachine) = $GUI_CHECKED)
 			$g_bChkBBHaltOnResourcesFull = (GUICtrlRead($g_hChkBBHaltOnResourcesFull) = $GUI_CHECKED)
-			
+
 			;ClanCapital
 			$g_bChkEnableCollectCCGold = (GUICtrlRead($g_hChkEnableCollectCCGold) = $GUI_CHECKED)
 			$g_bChkEnableForgeGold = (GUICtrlRead($g_hChkEnableForgeGold) = $GUI_CHECKED)
@@ -706,7 +706,7 @@ Func ApplyConfig_600_6($TypeReadSave)
 			$g_iacmdBBGoldSaveMin = GUICtrlRead($g_acmdBBGoldSaveMin)
 			$g_iacmdBBElixSaveMin = GUICtrlRead($g_acmdBBElixSaveMin)
 			$g_bChkStartWeekendRaid = (GUICtrlRead($g_hChkStartWeekendRaid) = $GUI_CHECKED)
-			
+
 			;Planner
 			$g_bAttackCGPlannerEnable = (GUICtrlRead($g_hChkAttackCGPlannerEnable) = $GUI_CHECKED)
 			$g_bAttackCGPlannerRandomEnable = (GUICtrlRead($g_hChkAttackCGPlannerRandom) = $GUI_CHECKED)
@@ -719,7 +719,7 @@ Func ApplyConfig_600_6($TypeReadSave)
 			$bCGPlannerThenContinue = (GUICtrlRead($hCGPlannerThenContinue) = $GUI_CHECKED)
 			$bCGPlannerThenStopBot = (GUICtrlRead($hCGPlannerThenStopBot) = $GUI_CHECKED)
 			$g_bChkSTOPWhenCGPointsMax = (GUICtrlRead($g_hChkSTOPWhenCGPointsMax) = $GUI_CHECKED)
-						
+
 			Local $string = ""
 			For $i = 0 To 6
 				$g_abPlannedAttackCGWeekDays[$i] = (GUICtrlRead($g_ahChkAttackCGWeekdays[$i]) = $GUI_CHECKED)
@@ -762,8 +762,8 @@ Func ApplyConfig_600_11($TypeReadSave)
 		Case "Read"
 			GUICtrlSetState($g_hChkRequestTroopsEnable, $g_bRequestTroopsEnable ? $GUI_CHECKED : $GUI_UNCHECKED)
 			GUICtrlSetState($g_hChkUseOnlyCCMedals, $bChkUseOnlyCCMedals ? $GUI_CHECKED : $GUI_UNCHECKED)
-			_GUICtrlComboBox_SetCurSel($g_ahCmbCCDecisionTime , $g_aiCmbCCDecisionTime)
-			_GUICtrlComboBox_SetCurSel($g_ahCmbCCDecisionThen , $g_aiCmbCCDecisionThen)
+			_GUICtrlComboBox_SetCurSel($g_ahCmbCCDecisionTime, $g_aiCmbCCDecisionTime)
+			_GUICtrlComboBox_SetCurSel($g_ahCmbCCDecisionThen, $g_aiCmbCCDecisionThen)
 			GUICtrlSetData($g_ahCmbCCMedalsSaveMin, $g_aiCmbCCMedalsSaveMin)
 			; Request Type - Demen
 			GUICtrlSetState($g_hChkRequestType_Troops, $g_abRequestType[0] ? $GUI_CHECKED : $GUI_UNCHECKED)
@@ -772,13 +772,13 @@ Func ApplyConfig_600_11($TypeReadSave)
 			GUICtrlSetData($g_hTxtRequestCountCCTroop, $g_iRequestCountCCTroop)
 			GUICtrlSetData($g_hTxtRequestCountCCSpell, $g_iRequestCountCCSpell)
 			For $i = 0 To 2
-				_GUICtrlComboBox_SetCurSel($g_ahCmbClanCastleTroop[$i] , $g_aiClanCastleTroopWaitType[$i])
+				_GUICtrlComboBox_SetCurSel($g_ahCmbClanCastleTroop[$i], $g_aiClanCastleTroopWaitType[$i])
 				GUICtrlSetData($g_ahTxtClanCastleTroop[$i], $g_aiClanCastleTroopWaitQty[$i])
 
-				_GUICtrlComboBox_SetCurSel($g_ahCmbClanCastleSpell[$i] , $g_aiClanCastleSpellWaitType[$i])
+				_GUICtrlComboBox_SetCurSel($g_ahCmbClanCastleSpell[$i], $g_aiClanCastleSpellWaitType[$i])
 
 				If $i > 1 Then ContinueLoop ; Siege has only 2 combobox
-				_GUICtrlComboBox_SetCurSel($g_ahCmbClanCastleSiege[$i] , $g_aiClanCastleSiegeWaitType[$i])
+				_GUICtrlComboBox_SetCurSel($g_ahCmbClanCastleSiege[$i], $g_aiClanCastleSiegeWaitType[$i])
 			Next
 			chkRequestCountCC()
 			chkRequestCCHours()
@@ -861,7 +861,7 @@ Func ApplyConfig_600_12($TypeReadSave)
 				GUICtrlSetData($g_ahTxtBlacklistSpell[$i], $g_asTxtBlacklistSpell[$i])
 			Next
 
-			For $i = $eSiegeWallWrecker to $eSiegeMachineCount - 1
+			For $i = $eSiegeWallWrecker To $eSiegeMachineCount - 1
 				Local $index = $eTroopCount + $g_iCustomDonateConfigs
 				GUICtrlSetState($g_ahChkDonateTroop[$index + $i], $g_abChkDonateTroop[$index + $i] ? $GUI_CHECKED : $GUI_UNCHECKED)
 				If $g_abChkDonateTroop[$index + $i] Then
@@ -918,7 +918,7 @@ Func ApplyConfig_600_12($TypeReadSave)
 				$g_asTxtBlacklistSpell[$i] = GUICtrlRead($g_ahTxtBlacklistSpell[$i])
 			Next
 
-			For $i = $eSiegeWallWrecker to $eSiegeMachineCount - 1
+			For $i = $eSiegeWallWrecker To $eSiegeMachineCount - 1
 				Local $index = $eTroopCount + $g_iCustomDonateConfigs
 				$g_abChkDonateTroop[$index + $i] = (GUICtrlRead($g_ahChkDonateTroop[$index + $i]) = $GUI_CHECKED)
 				$g_abChkDonateAllTroop[$index + $i] = (GUICtrlRead($g_ahChkDonateAllTroop[$index + $i]) = $GUI_CHECKED)
@@ -1011,11 +1011,11 @@ Func ApplyConfig_600_14($TypeReadSave)
 				$g_aCmbLabUpgradeOrder[$i] = _GUICtrlComboBox_GetCurSel($g_ahCmbLabUpgradeOrder[$i])
 			Next
 			$g_bUseBOF = (GUICtrlRead($g_hUseBOF) = $GUI_CHECKED)
-			$g_iUseBOFTime =  GUICtrlRead($g_hUseBOFTime)
+			$g_iUseBOFTime = GUICtrlRead($g_hUseBOFTime)
 			$g_bUseBOS = (GUICtrlRead($g_hUseBOS) = $GUI_CHECKED)
-			$g_iUseBOSTime =  GUICtrlRead($g_hUseBOSTime)
+			$g_iUseBOSTime = GUICtrlRead($g_hUseBOSTime)
 			$g_bUseBOE = (GUICtrlRead($g_hUseBOE) = $GUI_CHECKED)
-			$g_iUseBOETime =  GUICtrlRead($g_hUseBOETime)
+			$g_iUseBOETime = GUICtrlRead($g_hUseBOETime)
 			$g_bAutoStarLabUpgradeEnable = (GUICtrlRead($g_hChkAutoStarLabUpgrades) = $GUI_CHECKED)
 			$g_iCmbStarLaboratory = _GUICtrlComboBox_GetCurSel($g_hCmbStarLaboratory)
 	EndSwitch
@@ -1045,8 +1045,8 @@ Func ApplyConfig_600_15($TypeReadSave)
 			cmbHeroReservedBuilder()
 			GUICtrlSetState($g_hUseHeroBooks, $g_bUseHeroBooks ? $GUI_CHECKED : $GUI_UNCHECKED)
 			GUICtrlSetData($g_hHeroMinUpgradeTime, $g_iHeroMinUpgradeTime)
-			
-			For $i = 0 to $ePetCount - 1
+
+			For $i = 0 To $ePetCount - 1
 				GUICtrlSetState($g_hChkUpgradePets[$i], $g_bUpgradePetsEnable[$i] ? $GUI_CHECKED : $GUI_UNCHECKED)
 			Next
 			GUICtrlSetState($g_hChkSortPetUpgrade, $g_bChkSortPetUpgrade ? $GUI_CHECKED : $GUI_UNCHECKED)
@@ -1061,9 +1061,9 @@ Func ApplyConfig_600_15($TypeReadSave)
 			$g_bUpgradeChampionEnable = (GUICtrlRead($g_hChkUpgradeChampion) = $GUI_CHECKED)
 			$g_iHeroReservedBuilder = _GUICtrlComboBox_GetCurSel($g_hCmbHeroReservedBuilder)
 			$g_bUseHeroBooks = (GUICtrlRead($g_hUseHeroBooks) = $GUI_CHECKED)
-			$g_iHeroMinUpgradeTime =  GUICtrlRead($g_hHeroMinUpgradeTime)
+			$g_iHeroMinUpgradeTime = GUICtrlRead($g_hHeroMinUpgradeTime)
 
-			For $i = 0 to $ePetCount - 1
+			For $i = 0 To $ePetCount - 1
 				$g_bUpgradePetsEnable[$i] = (GUICtrlRead($g_hChkUpgradePets[$i]) = $GUI_CHECKED)
 			Next
 			$g_bChkSortPetUpgrade = (GUICtrlRead($g_hChkSortPetUpgrade) = $GUI_CHECKED)
@@ -1075,16 +1075,16 @@ EndFunc   ;==>ApplyConfig_600_15
 
 Func ApplyConfig_600_16($TypeReadSave)
 	; <><><><> Village / Upgrade - Buildings <><><><>
-	Local $j=0
+	Local $j = 0
 	Switch $TypeReadSave
 		Case "Read"
 			For $iz = 0 To UBound($g_avBuildingUpgrades, 1) - 1 ; Apply the buildings upgrade variable to GUI
 				;SetDebugLog("Setting image to " & $g_aiPicUpgradeStatus[$iz])
 				;$eIcnTroops=43, $eIcnGreenLight=69, $eIcnRedLight=71 or $eIcnYellowLight=73
 				;I have no idea why this crap is necessary...
-				$j=$eIcnRedLight
-				if $g_aiPicUpgradeStatus[$iz]=$eIcnYellowLight Then $j=$eIcnYellowLight
-				If $g_aiPicUpgradeStatus[$iz]=$eIcnGreenLight Then $j=$eIcnGreenLight
+				$j = $eIcnRedLight
+				If $g_aiPicUpgradeStatus[$iz] = $eIcnYellowLight Then $j = $eIcnYellowLight
+				If $g_aiPicUpgradeStatus[$iz] = $eIcnGreenLight Then $j = $eIcnGreenLight
 				;Should be no other value...otherwise will default to Red.
 				_GUICtrlSetImage($g_hPicUpgradeStatus[$iz], $g_sLibIconPath, $j) ; Set GUI status pic
 				If $g_avBuildingUpgrades[$iz][2] > 0 Then
@@ -1136,7 +1136,7 @@ Func ApplyConfig_auto($TypeReadSave)
 			_GUICtrlComboBox_SetCurSel($g_hCmbFreeBuilders, $g_iCmbFreeBuilders)
 			_GUICtrlComboBox_SetCurSel($g_hCmbFreeBuilders2, $g_iCmbFreeBuilders)
 			_GUICtrlComboBox_SetCurSel($g_hCmbFreeBuilders3, $g_iCmbFreeBuilders)
-			For $i = 0 To Ubound($g_iChkUpgradesToIgnore) - 1
+			For $i = 0 To UBound($g_iChkUpgradesToIgnore) - 1
 				GUICtrlSetState($g_hChkUpgradesToIgnore[$i], $g_iChkUpgradesToIgnore[$i] = 1 ? $GUI_CHECKED : $GUI_UNCHECKED)
 			Next
 			For $i = 0 To 2
@@ -1150,7 +1150,7 @@ Func ApplyConfig_auto($TypeReadSave)
 			$g_bAutoUpgradeEnabled = (GUICtrlRead($g_hChkAutoUpgrade) = $GUI_CHECKED)
 			$g_iCmbFreeBuilders = _GUICtrlComboBox_GetCurSel($g_hCmbFreeBuilders)
 			$g_iCmbBoostBuilders = _GUICtrlComboBox_GetCurSel($g_hCmbBoostBuilders)
-			For $i = 0 To Ubound($g_iChkUpgradesToIgnore) - 1
+			For $i = 0 To UBound($g_iChkUpgradesToIgnore) - 1
 				$g_iChkUpgradesToIgnore[$i] = GUICtrlRead($g_hChkUpgradesToIgnore[$i]) = $GUI_CHECKED ? 1 : 0
 			Next
 			For $i = 0 To 2
@@ -1159,7 +1159,7 @@ Func ApplyConfig_auto($TypeReadSave)
 			$g_iTxtSmartMinGold = GUICtrlRead($g_hTxtSmartMinGold)
 			$g_iTxtSmartMinElixir = GUICtrlRead($g_hTxtSmartMinElixir)
 			$g_iTxtSmartMinDark = GUICtrlRead($g_hTxtSmartMinDark)
-    EndSwitch
+	EndSwitch
 EndFunc   ;==>ApplyConfig_auto
 
 Func ApplyConfig_600_17($TypeReadSave)
@@ -1220,7 +1220,7 @@ Func ApplyConfig_600_18($TypeReadSave)
 			;Remote Control
 			GUICtrlSetState($g_hChkNotifyRemote, $g_bNotifyRemoteEnable ? $GUI_CHECKED : $GUI_UNCHECKED)
 			If $g_iTxtCurrentVillageName = "" Then
-			GUICtrlSetData($g_hTxtNotifyOrigin, $g_sNotifyOrigin)
+				GUICtrlSetData($g_hTxtNotifyOrigin, $g_sNotifyOrigin)
 			EndIf
 			;Alerts
 			GUICtrlSetState($g_hChkNotifyAlertMatchFound, $g_bNotifyAlertMatchFound ? $GUI_CHECKED : $GUI_UNCHECKED)
@@ -1909,7 +1909,7 @@ Func ApplyConfig_600_29_DB_SmartFarm($TypeReadSave)
 			$g_iTxtOutsidePercentage = GUICtrlRead($g_hTxtOutsidePercentage)
 			$g_bDebugSmartFarm = (GUICtrlRead($g_hChkDebugSmartFarm) = $GUI_CHECKED)
 	EndSwitch
-EndFunc
+EndFunc   ;==>ApplyConfig_600_29_DB_SmartFarm
 
 Func ApplyConfig_600_29_LB($TypeReadSave)
 	; <><><><> Attack Plan / Search & Attack / Activebase / Attack <><><><>
@@ -2149,7 +2149,7 @@ Func ApplyConfig_600_31($TypeReadSave)
 		Case "Read"
 			For $i = 6 To 15
 				GUICtrlSetState($g_ahChkDBCollectorLevel[$i], $g_abCollectorLevelEnabled[$i] ? $GUI_CHECKED : $GUI_UNCHECKED)
-                GUICtrlSetState($g_ahCmbDBCollectorLevel[$i], $g_abCollectorLevelEnabled[$i] ? $GUI_ENABLE : $GUI_DISABLE)
+				GUICtrlSetState($g_ahCmbDBCollectorLevel[$i], $g_abCollectorLevelEnabled[$i] ? $GUI_ENABLE : $GUI_DISABLE)
 				_GUICtrlComboBox_SetCurSel($g_ahCmbDBCollectorLevel[$i], $g_aiCollectorLevelFill[$i])
 			Next
 			GUICtrlSetState($g_hChkDBDisableCollectorsFilter, $g_bCollectorFilterDisable ? $GUI_CHECKED : $GUI_UNCHECKED)
@@ -2214,7 +2214,7 @@ Func ApplyConfig_600_33($TypeReadSave)
 			chkDropOrder()
 			For $p = 0 To UBound($g_ahCmbDropOrder) - 1
 				_GUICtrlComboBox_SetCurSel($g_ahCmbDropOrder[$p], $g_aiCmbCustomDropOrder[$p])
-				If $g_aiCmbCustomDropOrder[$p] + 1 < $eDropOrderCount - 5  Or $g_aiCmbCustomDropOrder[$p] + 1 > $eDropOrderCount - 2 Then
+				If $g_aiCmbCustomDropOrder[$p] + 1 < $eDropOrderCount - 5 Or $g_aiCmbCustomDropOrder[$p] + 1 > $eDropOrderCount - 2 Then
 					_GUICtrlSetImage($g_ahImgDropOrder[$p], $g_sLibIconPath, $g_aiDropOrderIcon[$g_aiCmbCustomDropOrder[$p] + 1])
 				Else
 					_GUICtrlSetImage($g_ahImgDropOrder[$p], $g_sLibModIconPath, $g_aiDropOrderIcon[$g_aiCmbCustomDropOrder[$p] + 1])
@@ -2436,7 +2436,7 @@ Func ApplyConfig_600_54($TypeReadSave)
 					_GUICtrlSetImage($g_ahImgTroopOrder[$z], $g_sLibModIconPath, $g_aiTroopOrderIcon[$g_aiCmbCustomTrainOrder[$z] + 1])
 				EndIf
 			Next
-			
+
 			If $g_bCustomTrainOrderEnable Then ; only update troop train order if enabled
 				Local $iValueSet = 0
 				For $i = 0 To UBound($g_ahCmbTroopOrder) - 1
@@ -2548,8 +2548,8 @@ Func ApplyConfig_641_1($TypeReadSave)
 				GUICtrlSetState($g_hChkCloseWhileTraining, $GUI_CHECKED)
 				_GUI_Value_STATE("ENABLE", $groupCloseWhileTraining)
 				GUICtrlSetState($g_hLblCloseWaitingTroops, $GUI_ENABLE)
-				For $i = $g_hLblSymbolWaiting to $g_hLblWaitingInMinutes
-				GUICtrlSetState($i, $GUI_ENABLE)
+				For $i = $g_hLblSymbolWaiting To $g_hLblWaitingInMinutes
+					GUICtrlSetState($i, $GUI_ENABLE)
 				Next
 				GUICtrlSetState($g_hLblSymbolWaiting, $GUI_ENABLE)
 				GUICtrlSetState($g_hLblWaitingInMinutes, $GUI_ENABLE)
@@ -2557,8 +2557,8 @@ Func ApplyConfig_641_1($TypeReadSave)
 				GUICtrlSetState($g_hChkCloseWhileTraining, $GUI_UNCHECKED)
 				_GUI_Value_STATE("DISABLE", $groupCloseWhileTraining)
 				GUICtrlSetState($g_hLblCloseWaitingTroops, $GUI_DISABLE)
-				For $i = $g_hLblSymbolWaiting to $g_hLblWaitingInMinutes
-				GUICtrlSetState($i, $GUI_DISABLE)
+				For $i = $g_hLblSymbolWaiting To $g_hLblWaitingInMinutes
+					GUICtrlSetState($i, $GUI_DISABLE)
 				Next
 				GUICtrlSetState($g_hLblSymbolWaiting, $GUI_DISABLE)
 				GUICtrlSetState($g_hLblWaitingInMinutes, $GUI_DISABLE)
@@ -2599,7 +2599,7 @@ Func ApplyConfig_641_1($TypeReadSave)
 			GUICtrlSetState($g_hChkTrainAddRandomClickTimingDelayEnable, $g_bTrainAddRandomClickTimingDelayEnable ? $GUI_CHECKED : $GUI_UNCHECKED)
 			GUICtrlSetData($g_hTxtAddRandomClickTimingDelayMin, $g_iTrainAddRandomClickTimingDelayMin)
 			_GUICtrlComboBox_SetCurSel($g_hTxtAddRandomClickTimingDelayMax, $g_iTrainAddRandomClickTimingDelayMax)
-			chkAddRandomClickTimingDelay()		
+			chkAddRandomClickTimingDelay()
 			GUICtrlSetState($g_hChkColorfulAttackLog, $g_bChkColorfulAttackLog ? $GUI_CHECKED : $GUI_UNCHECKED)
 		Case "Save"
 			; Training idle time
@@ -2697,7 +2697,7 @@ Func ApplyConfig_MOD_Advanced($TypeReadSave)
 			GUICtrlSetState($g_hChkBBaseFrequency, $g_bChkBBaseFrequency ? $GUI_CHECKED : $GUI_UNCHECKED)
 			_GUICtrlComboBox_SetCurSel($g_hCmbPriorityBBaseFrequency, $g_iCmbPriorityBBaseFrequency)
 			_GUICtrlComboBox_SetCurSel($g_hCmbPriorityPersoChallengesFrequency, $g_iCmbPriorityPersoChallengesFrequency)
-			For $i = 0 To UBound($g_icmbAdvancedVariation) -1
+			For $i = 0 To UBound($g_icmbAdvancedVariation) - 1
 				_GUICtrlComboBox_SetCurSel($g_hcmbAdvancedVariation[$i], $g_icmbAdvancedVariation[$i])
 			Next
 			GUICtrlSetState($g_hChkTrophyDropinPause, $g_bChkTrophyDropinPause ? $GUI_CHECKED : $GUI_UNCHECKED)

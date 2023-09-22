@@ -46,7 +46,7 @@ Func getArmyTroops($bOpenArmyWindow = False, $bCloseArmyWindow = False, $bCheckW
 	Local $aCurrentTroops = findMultiple(@ScriptDir & "\imgxml\ArmyOverview\Troops", $sTroopDiamond, $sTroopDiamond, 0, 1000, 0, "objectname,objectpoints", $bNeedCapture) ; Returns $aCurrentTroops[index] = $aArray[2] = ["TroopShortName", CordX,CordY]
 	If $g_bDebugFuncTime Then StopWatchStopLog()
 
-   ;_ArrayDisplay($aCurrentTroops, "$aCurrentTroops")
+	;_ArrayDisplay($aCurrentTroops, "$aCurrentTroops")
 
 	Local $aTempTroopArray, $aTroopCoords
 	Local $sTroopName = ""

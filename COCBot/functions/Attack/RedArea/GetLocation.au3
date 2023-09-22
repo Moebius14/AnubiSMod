@@ -135,7 +135,7 @@ Func GetLocationMineWithLevel()
 	; Lvl 8 gold mine level 12
 	; Lvl 9 gold mine level 13
 	; Lvl 10 gold mine level 14
-	
+
 	If $g_iDetectedImageType = 0 Then
 		Local $aEndResult = DllCallMyBot("getLocationMineExtractorWithLevel", "ptr", $g_hHBitmap2)
 		If $g_bDebugBuildingPos Then SetLog("#*# getLocationMineExtractorWithLevel: " & $aEndResult[0], $COLOR_DEBUG)
@@ -180,7 +180,7 @@ EndFunc   ;==>GetLocationDarkElixirWithLevel
 Func GetLocationBuilding($iBuildingType, $iAttackingTH = $g_iMaxTHLevel, $bForceCaptureRegion = True)
 	$aNumResultBuildingDetect = 0
 	$aResultBuildingDetect = 0
-		
+
 	If $g_bDebugSetlog Then SetDebugLog("Begin GetLocationBuilding: " & $g_sBldgNames[$iBuildingType], $COLOR_DEBUG1)
 	Local $hTimer = __TimerInit() ; timer to track image detection time
 
@@ -336,18 +336,18 @@ Func GetLocationBuilding($iBuildingType, $iAttackingTH = $g_iMaxTHLevel, $bForce
 			EndIf
 		Next
 	EndIf
-	
+
 	$aResultBuildingDetect = $sLocCoord
 	If $TotalBuildings = 0 Then
 		$aNumResultBuildingDetect = 0
-	Else 
+	Else
 		$aNumResultBuildingDetect = $TotalBuildings
 	EndIf
 
 	$aBldgCoord = decodeMultipleCoords($sLocCoord) ; change string into array with location x,y sub-arrays inside each row
 	;$aBldgCoord = GetListPixel($sLocCoord, ",", "GetLocationBuilding" & $g_sBldgNames[$iBuildingType]) ; change string into array with debugattackcsv message instead of general log msg?
-	
-	If $g_bDebugBuildingPos Or  $g_bDebugSetlog Then ; temp debug message to display building location string returned, and convert "_LOCATION" array to string message for comparison
+
+	If $g_bDebugBuildingPos Or $g_bDebugSetlog Then  ; temp debug message to display building location string returned, and convert "_LOCATION" array to string message for comparison
 		SetLog("Bldg Loc Coord String: " & $sLocCoord, $COLOR_DEBUG)
 		Local $sText
 		Select

@@ -77,13 +77,13 @@ Func _MultiPixelSearchDebug($iLeft, $iTop, $iRight, $iBottom, $xSkip, $ySkip, $f
 	For $x = 0 To $xRange Step $xSkip
 		For $y = 0 To $yRange Step $ySkip
 			$sPixelColor = _GetPixelColor($x, $y, $g_bNoCapturePixel)
-			If _ColorCheck($sPixelColor , $firstColor, $iColorVariation) Then
-				SetDebugLog("Search At Loc: " & $x+$iLeft & " , " & $y+$iTop & ", MPSDebug Pix#1: " & $sPixelColor)
+			If _ColorCheck($sPixelColor, $firstColor, $iColorVariation) Then
+				SetDebugLog("Search At Loc: " & $x + $iLeft & " , " & $y + $iTop & ", MPSDebug Pix#1: " & $sPixelColor)
 				Local $allchecked = True
 				Local $iCV = $iColorVariation
 				For $i = 0 To UBound($offColor) - 1
 					If $offColorVariation = True Then $iCV = $offColor[$i][3]
-					If _ColorCheck(_GetPixelColor($x + $offColor[$i][1], $y + $offColor[$i][2], $g_bNoCapturePixel, ">>> MPSDebug Pix#" & $i+2), Hex($offColor[$i][0], 6), $iCV) = False Then
+					If _ColorCheck(_GetPixelColor($x + $offColor[$i][1], $y + $offColor[$i][2], $g_bNoCapturePixel, ">>> MPSDebug Pix#" & $i + 2), Hex($offColor[$i][0], 6), $iCV) = False Then
 						$allchecked = False
 						ExitLoop
 					EndIf

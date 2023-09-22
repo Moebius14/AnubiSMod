@@ -14,7 +14,7 @@
 ; ===============================================================================================================================
 #include-once
 
-#include "functions\Other\GUICtrlGetBkColor.au3" ; Included here to use on GUI Control
+#include "functions\Other\GUICtrlGetBkColor.au3" ; Included here To use on GUI Control
 
 Global $g_bRedrawBotWindow[3] = [True, False, False] ; [0] = window redraw enabled, [1] = window redraw required, [2] = window redraw requird by some controls, see CheckRedrawControls()
 Global $g_hFrmBot_WNDPROC = 0
@@ -204,7 +204,7 @@ Func GUIControl_WM_SHELLHOOK($hWin, $iMsg, $wParam, $lParam)
 					; show Android without activating
 					HideAndroidWindow(False, False)
 					;AndroidToFront()
-				#ce
+				#ce moved to GUIControl_WM_ACTIVATEAPP as it enters here without activating the bot
 		EndSelect
 	EndIf
 EndFunc   ;==>GUIControl_WM_SHELLHOOK
@@ -523,7 +523,7 @@ Func GUIControl_WM_COMMAND($hWind, $iMsg, $wParam, $lParam)
 		Case $g_hChkDebugSetlog
 			chkDebugSetlog()
 		Case $g_hChkDebugImageSaveMod
-			chkDebugImageSaveMod()	
+			chkDebugImageSaveMod()
 		Case $g_hChkDebugAndroid
 			chkDebugAndroid()
 		Case $g_hChkDebugClick
@@ -583,7 +583,7 @@ Func GUIControl_WM_COMMAND($hWind, $iMsg, $wParam, $lParam)
 			Local $RuntimeA = $g_bRunState
 			$g_bRunState = True
 			Setlog("Army Window Test")
-			_checkArmyCamp(False,False,False, True)
+			_checkArmyCamp(False, False, False, True)
 			$g_bRunState = $RuntimeA
 		Case $g_hBtnTestBuildingLocation
 			btnTestGetLocationBuilding()
@@ -840,7 +840,7 @@ Func CheckBotZOrder($bCheckOnly = False, $bForceZOrder = False)
 		Local $hCtrlTarget = $g_aiAndroidEmbeddedCtrlTarget[0]
 		Local $targetIsHWnD = $hCtrlTarget = $g_hAndroidWindow
 		If Not $targetIsHWnD Then
-			Local $bCheck = ($bForceZOrder Or _WinAPI_GetWindow($hCtrlTarget, $GW_HWNDNEXT) <>  $g_hAndroidWindow)
+			Local $bCheck = ($bForceZOrder Or _WinAPI_GetWindow($hCtrlTarget, $GW_HWNDNEXT) <> $g_hAndroidWindow)
 			If $bCheckOnly Then Return $bCheck
 			If $bCheck Then
 				SetDebugLog("CheckBotZOrder: Ajust docked Android Window")
@@ -1173,10 +1173,10 @@ Func BotGuiModeToggle()
 			For $i = $g_hFirstControlToHide To $g_hLastControlToHide
 				GUICtrlDelete($i)
 			Next
-			
+
 			$g_hFirstControlToHide = 0
 			$g_hLastControlToHide = 0
-			
+
 			; destroy windows
 			For $hGUI In $g_oGuiNotInMini
 				SetDebugLog("GUIDelete: " & $hGUI)
@@ -1218,7 +1218,7 @@ Func BotGuiModeToggle()
 			UpdateMultiStats()
 
 			DistributorsUpdateGUI() ; Now loading Distributors (during GUI switch it must be called outside CreateMainGUIControls()!)
-			
+
 			getAllEmulators()
 
 			DestroySplashScreen()
@@ -1316,7 +1316,7 @@ Func BotClose($SaveConfig = Default, $bExit = True)
 	ResumeAndroid()
 	SetLog("Closing " & $g_sBotTitle & " now ...")
 	LockBotSlot(False)
-	
+
 	If $SaveConfig = True Then
 		setupProfile()
 		SaveConfig()
@@ -1667,7 +1667,7 @@ Func SetTime($bForceUpdate = False)
 			$g_sLabUpgradeTime = ""
 		EndIf
 	EndIf
-	
+
 	If _DateIsValid($g_sStarLabUpgradeTime) Then
 		Local $iStarLabTime = _DateDiff("s", _NowCalc(), $g_sStarLabUpgradeTime) * 1000
 		If $iStarLabTime > 0 Then
@@ -1712,7 +1712,7 @@ Func SetTime($bForceUpdate = False)
 						GUICtrlSetColor($g_ahLblTroopTime[$i], $COLOR_BLACK)
 						GUICtrlSetColor($g_ahLblTroopTimeRep[$i], $COLOR_BLACK)
 					EndIf
-					
+
 				EndIf
 			Next
 			SwitchAccountVariablesReload("SetTime")
@@ -1749,15 +1749,15 @@ Func tabMain()
 			GUISetState(@SW_HIDE, $g_hGUI_ABOUT)
 			GUISetState(@SW_SHOWNOACTIVATE, $g_hGUI_ATTACK)
 			tabAttack()
-			
+
 		Case $tabidx = 3 ; Mod
 			GUISetState(@SW_HIDE, $g_hGUI_LOG)
 			GUISetState(@SW_HIDE, $g_hGUI_VILLAGE)
 			GUISetState(@SW_HIDE, $g_hGUI_ATTACK)
 			GUISetState(@SW_HIDE, $g_hGUI_BOT)
-			GUISetState(@SW_HIDE, $g_hGUI_ABOUT)	
+			GUISetState(@SW_HIDE, $g_hGUI_ABOUT)
 			GUISetState(@SW_SHOWNOACTIVATE, $g_hGUI_MOD)
-									
+
 		Case $tabidx = 4 ; Options
 			GUISetState(@SW_HIDE, $g_hGUI_LOG)
 			GUISetState(@SW_HIDE, $g_hGUI_VILLAGE)
@@ -1774,7 +1774,7 @@ Func tabMain()
 			GUISetState(@SW_HIDE, $g_hGUI_MOD)
 			GUISetState(@SW_HIDE, $g_hGUI_BOT)
 			GUISetState(@SW_SHOWNOACTIVATE, $g_hGUI_ABOUT)
-			
+
 		Case Else
 			GUISetState(@SW_HIDE, $g_hGUI_LOG)
 			GUISetState(@SW_HIDE, $g_hGUI_VILLAGE)
@@ -1992,12 +1992,12 @@ Func tabMod()
 	Select
 		Case $tabidx = 0
 
-		Case $tabidx = 1 
-		
+		Case $tabidx = 1
+
 		Case $tabidx = 2
-		
+
 		Case $tabidx = 3
-		
+
 		Case $tabidx = 4
 	EndSelect
 EndFunc   ;==>tabMod
@@ -2129,10 +2129,10 @@ Func Bind_ImageList($nCtrl, ByRef $hImageList)
 		Case $g_hGUI_ATTACKOPTION_TAB
 			; the icons for Attack Options tab
 			Local $aIconIndex = [$eIcnMagnifier, $eIcnCamp, $eIcnLightSpell, $eIcnSilverStar, $eIcnTrophy]
-			
+
 		Case $g_hGUI_MOD_TAB
 			; the icons for main tab
-			Local $aIconIndex = [$eIcnHumanization, $eIcnAdvanced, $eIcnStrongMan, $eIcnModLog]	
+			Local $aIconIndex = [$eIcnHumanization, $eIcnAdvanced, $eIcnStrongMan, $eIcnModLog]
 
 		Case $g_hGUI_BOT_TAB
 			; the icons for Bot tab
@@ -2162,7 +2162,7 @@ Func Bind_ImageList($nCtrl, ByRef $hImageList)
 				AddImageToModTab($nCtrl, $hImageList, $i, $tTcItem, $g_sLibModIconPath, $aIconIndex[$i] - 1)
 			ElseIf $nCtrl = $g_hGUI_BOT_TAB And $i = 2 Then
 				AddImageToModTab($nCtrl, $hImageList, $i, $tTcItem, $g_sLibModIconPath, $aIconIndex[$i] - 1)
-			Else	
+			Else
 				AddImageToTab($nCtrl, $hImageList, $i, $tTcItem, $g_sLibIconPath, $aIconIndex[$i] - 1)
 			EndIf
 		Next
@@ -2341,4 +2341,4 @@ Func ConsoleWindow($bShow = Default)
 		_WinAPI_FreeConsole()
 		$bConsoleAllocated = False
 	EndIf
-EndFunc
+EndFunc   ;==>ConsoleWindow

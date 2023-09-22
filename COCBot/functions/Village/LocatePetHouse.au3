@@ -15,21 +15,21 @@
 Func LocatePetHouse($bCollect = True)
 	; reset position
 	$g_aiPetHousePos[0] = -1
-	$g_aiPetHousePos[0] = -1
+	$g_aiPetHousePos[1] = -1
 
 	If $g_iTownHallLevel < 14 Then
 		SetLog("Townhall Lvl " & $g_iTownHallLevel & " has no Pet House, so skip locating.", $COLOR_DEBUG)
 		Return
 	EndIf
 
-	; auto locate 
+	; auto locate
 	ImgLocatePetHouse()
-	
+
 	SetLog("PetHouse: (" & $g_aiPetHousePos[0] & "," & $g_aiPetHousePos[1] & ")", $COLOR_DEBUG)
 	If $g_aiPetHousePos[0] > 0 And $g_aiPetHousePos[1] > 0 Then Return True
- 
+
 	If $g_aiPetHousePos[1] = "" Or $g_aiPetHousePos[1] = -1 Then _LocatePetHouse($bCollect) ; manual locate
-EndFunc
+EndFunc   ;==>LocatePetHouse
 
 Func _LocatePetHouse($bCollect = True)
 	Local $stext, $MsgBox, $iStupid = 0, $iSilly = 0, $sErrorText = ""
@@ -78,12 +78,12 @@ Func _LocatePetHouse($bCollect = True)
 			ClickAway()
 			Return
 		EndIf
-		Local $sPetHouseInfo = BuildingInfo(242, 490 + $g_iBottomOffsetY)
+		Local $sPetHouseInfo = BuildingInfo(242, 488 + $g_iBottomOffsetY)
 		If $sPetHouseInfo[0] > 1 Or $sPetHouseInfo[0] = "" Then
 			If StringInStr($sPetHouseInfo[1], "House") = 0 Then
 				Local $sLocMsg = ($sPetHouseInfo[0] = "" ? "Nothing" : $sPetHouseInfo[1])
 
-			    $iSilly += 1
+				$iSilly += 1
 				Select
 					Case $iSilly = 1
 						$sErrorText = "Wait, That is not the Pet House?, It was a " & $sLocMsg & @CRLF
@@ -115,7 +115,7 @@ Func _LocatePetHouse($bCollect = True)
 	WEnd
 	ClickAway()
 
-EndFunc   ;==>LocatePetHouse
+EndFunc   ;==>_LocatePetHouse
 
 ; Image Search for Pet House
 Func ImgLocatePetHouse()
@@ -131,7 +131,7 @@ Func ImgLocatePetHouse()
 	EndIf
 
 	Local $avPetHouseRes, $aiPetHouseCoords
-	
+
 	; active/inactive Pet House have different images
 	; loop thro the detected images
 	For $i = 0 To UBound($avPetHouse, $UBOUND_ROWS) - 1
@@ -145,6 +145,6 @@ Func ImgLocatePetHouse()
 		$g_aiPetHousePos[1] = $aiPetHouseCoords[1]
 		Return True
 	EndIf
-	
+
 	Return False
-EndFunc
+EndFunc   ;==>ImgLocatePetHouse

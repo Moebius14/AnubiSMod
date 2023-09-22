@@ -16,9 +16,9 @@
 Func DropTrophy()
 
 	If $g_bDropTrophyEnable Then
-	
+
 		SetDebugLog("Drop Trophy()", $COLOR_DEBUG)
-		
+
 		If $g_bDebugDeadBaseImage Then
 			DirCreate($g_sProfileTempDebugPath & "\SkippedZombies\")
 			DirCreate($g_sProfileTempDebugPath & "\Zombies\")
@@ -37,47 +37,47 @@ Func DropTrophy()
 			$IsdroptrophiesActive = 0
 			Return ; exit on trophy count to avoid other checks
 		EndIf
-		
+
 		$IsdroptrophiesActive = 1
-		
+
 		SetLog("Check Train/Donate/Request Before Drop Trophies", $COLOR_BLUE)
-		
-			If Not IsToFillCCWithMedalsOnly() Then RequestCC()
-			
-			If Not _Sleep($DELAYRUNBOT1) Then checkMainScreen(False)
-	
-			If $g_iActiveDonate And $g_bChkDonate Then
-				If $g_bFirstStart Then
-					getArmyTroopCapacity(True, False)
-					If _Sleep($DELAYRESPOND) Then Return
-					getArmySpellCapacity(False, True)
-					If _Sleep($DELAYRESPOND) Then Return
-				EndIf
-				; if in "Halt/Donate" don't skip near full army
-				If (Not SkipDonateNearFullTroops(True) Or $g_iCommandStop = 3 Or $g_iCommandStop = 0) And BalanceDonRec(True) Then DonateCC()
+
+		If Not IsToFillCCWithMedalsOnly() Then RequestCC()
+
+		If Not _Sleep($DELAYRUNBOT1) Then checkMainScreen(False)
+
+		If $g_iActiveDonate And $g_bChkDonate Then
+			If $g_bFirstStart Then
+				getArmyTroopCapacity(True, False)
+				If _Sleep($DELAYRESPOND) Then Return
+				getArmySpellCapacity(False, True)
+				If _Sleep($DELAYRESPOND) Then Return
 			EndIf
-			If Not _Sleep($DELAYRUNBOT1) Then checkMainScreen(False)
-			If $g_bTrainEnabled Then ; check for training enabled in halt mode
-				If $g_iActualTrainSkip < $g_iMaxTrainSkip Then
+			; if in "Halt/Donate" don't skip near full army
+			If (Not SkipDonateNearFullTroops(True) Or $g_iCommandStop = 3 Or $g_iCommandStop = 0) And BalanceDonRec(True) Then DonateCC()
+		EndIf
+		If Not _Sleep($DELAYRUNBOT1) Then checkMainScreen(False)
+		If $g_bTrainEnabled Then     ; check for training enabled in halt mode
+			If $g_iActualTrainSkip < $g_iMaxTrainSkip Then
 				IschkAddRandomClickTimingDelay2()
 				IschkAddRandomClickTimingDelay1()
-					TrainSystem()
-					_Sleep($DELAYRUNBOT1)
-				Else
-					SetLog("Humanize bot, prevent to delete and recreate troops " & $g_iActualTrainSkip + 1 & "/" & $g_iMaxTrainSkip, $color_blue)
-					$g_iActualTrainSkip = $g_iActualTrainSkip + 1
-					If $g_iActualTrainSkip >= $g_iMaxTrainSkip Then
-						$g_iActualTrainSkip = 0
-					EndIf
-					CheckOverviewFullArmy(True, False) ; use true parameter to open train overview window
-					If _Sleep($DELAYRESPOND) Then Return
-					getArmySpells()
-					If _Sleep($DELAYRESPOND) Then Return
-					getArmyHeroCount(False, True)
-				EndIf
+				TrainSystem()
+				_Sleep($DELAYRUNBOT1)
 			Else
-				If $g_bDebugSetlogTrain Then SetLog("Halt mode - training disabled", $COLOR_DEBUG)
+				SetLog("Humanize bot, prevent to delete and recreate troops " & $g_iActualTrainSkip + 1 & "/" & $g_iMaxTrainSkip, $color_blue)
+				$g_iActualTrainSkip = $g_iActualTrainSkip + 1
+				If $g_iActualTrainSkip >= $g_iMaxTrainSkip Then
+					$g_iActualTrainSkip = 0
+				EndIf
+				CheckOverviewFullArmy(True, False)     ; use true parameter to open train overview window
+				If _Sleep($DELAYRESPOND) Then Return
+				getArmySpells()
+				If _Sleep($DELAYRESPOND) Then Return
+				getArmyHeroCount(False, True)
 			EndIf
+		Else
+			If $g_bDebugSetlogTrain Then SetLog("Halt mode - training disabled", $COLOR_DEBUG)
+		EndIf
 
 		;Check if proper troop types avail during last checkarmycamp(), no need to call separately since droptrophy checked often
 		Local $bHaveTroops = 0
@@ -92,28 +92,28 @@ Func DropTrophy()
 				EndIf
 			EndIf
 		Next
-		
+
 		If $g_bDropTrophyUseHeroes = 1 Then
 			$IsKingReadyForDropTrophies = 0
 			$IsQueenReadyForDropTrophies = 0
-			$IsWardenReadyForDropTrophies = 0 
+			$IsWardenReadyForDropTrophies = 0
 			$IsChampionReadyForDropTrophies = 0
 			getArmyHeroCount(True, True)
 		EndIf
-		
-		Local $g_iHeroAvailableForTrophies =  $IsKingReadyForDropTrophies + $IsQueenReadyForDropTrophies + $IsWardenReadyForDropTrophies + $IsChampionReadyForDropTrophies		
+
+		Local $g_iHeroAvailableForTrophies = $IsKingReadyForDropTrophies + $IsQueenReadyForDropTrophies + $IsWardenReadyForDropTrophies + $IsChampionReadyForDropTrophies
 		Local $bHaveHero = 0
 
 		; if heroes enabled, check them and reset drop trophy disable
 		If $g_iHeroAvailableForTrophies > 0 Then
 			SetDebugLog("Drop Trophy Found Hero BK|AQ|GW|RC: " & BitOR($g_iHeroAvailable, $eHeroKing) & "|" & BitOR($g_iHeroAvailable, $eHeroQueen) & "|" & BitOR($g_iHeroAvailable, $eHeroWarden) & "|" & BitOR($g_iHeroAvailable, $eHeroChampion), $COLOR_DEBUG)
 			$bHaveHero = 1
-		If $g_bDropTrophyUseHeroes = 1 Then	SetLog("Heroes available !", $COLOR_OLIVE)
+			If $g_bDropTrophyUseHeroes = 1 Then SetLog("Heroes available !", $COLOR_OLIVE)
 			SetLog("Number of heroes : " & $g_iHeroAvailableForTrophies & "", $COLOR_OLIVE)
 		EndIf
-		
+
 		Local $bReadyToDrop = 0
-		
+
 		If $g_bDropTrophyUseHeroes = 1 And $g_bChkTrophyAtkWithHeroesOnly = True Then
 			$bReadyToDrop = $bHaveHero
 		ElseIf $g_bDropTrophyUseHeroes = 1 And $g_bChkTrophyAtkWithHeroesOnly = False Then
@@ -125,10 +125,10 @@ Func DropTrophy()
 
 		If $bReadyToDrop = 0 Then ; troops Or Heroe(s) available?
 			SetLog("Drop Trophy temporarily disabled, missing proper troop type", $COLOR_ERROR)
-			If $g_bDropTrophyUseHeroes = 1 Then	SetLog("No Heroe available !", $COLOR_ERROR)
-			If $g_bDropTrophyUseHeroes = 0 Then	SetLog("Please Train DT Troops !", $COLOR_ERROR)
+			If $g_bDropTrophyUseHeroes = 1 Then SetLog("No Heroe available !", $COLOR_ERROR)
+			If $g_bDropTrophyUseHeroes = 0 Then SetLog("Please Train DT Troops !", $COLOR_ERROR)
 			SetDebugLog("Drop Trophy(): No troops in $g_avDTtroopsToBeUsed array", $COLOR_DEBUG)
-			
+
 			CollectCCGold()
 			If SwitchBetweenBasesMod2() Then
 				ForgeClanCapitalGold()
@@ -136,27 +136,27 @@ Func DropTrophy()
 				AutoUpgradeCC()
 				_Sleep($DELAYRUNBOT3)
 			EndIf
-			
+
 			If $g_bChkClanGamesEnabled And $g_bChkEnableBBAttack And $g_bDropTrophyUseHeroes = 1 Then
-			SetLog("Check Clan Games !", $COLOR_OLIVE)
-			_ClanGames()
-				If $g_bChkForceBBAttackOnClanGames And $g_bIsBBevent Then	
+				SetLog("Check Clan Games !", $COLOR_OLIVE)
+				_ClanGames()
+				If $g_bChkForceBBAttackOnClanGames And $g_bIsBBevent Then
 					SwitchBetweenBasesMod()
 					If $IstoSwitchMod Then
 						$ActionForModLog = "Switch To Builder Base - BB Event Detected"
 						If $g_iTxtCurrentVillageName <> "" Then
-						GUICtrlSetData($g_hTxtModLog, @CRLF & _NowTime() & " [" & $g_iTxtCurrentVillageName & "] Avanced : " & $ActionForModLog & "", 1)
+							GUICtrlSetData($g_hTxtModLog, @CRLF & _NowTime() & " [" & $g_iTxtCurrentVillageName & "] Avanced : " & $ActionForModLog & "", 1)
 						Else
-						GUICtrlSetData($g_hTxtModLog, @CRLF & _NowTime() & " [" & $g_sProfileCurrentName & "] Avanced : " & $ActionForModLog & "", 1)
+							GUICtrlSetData($g_hTxtModLog, @CRLF & _NowTime() & " [" & $g_sProfileCurrentName & "] Avanced : " & $ActionForModLog & "", 1)
 						EndIf
 						_FileWriteLog($g_sProfileLogsPath & "\ModLog.log", " [" & $g_sProfileCurrentName & "] - Advanced : " & $ActionForModLog & "")
 						BuilderBase()
 					EndIf
 				EndIf
 			EndIf
-			
+
 			_Sleep($DELAYRUNBOT3)
-			
+
 			If $g_bDropTrophyUseHeroes = 1 And $g_bChkTrophyAtkWithHeroesOnly = True Then
 				If ProfileSwitchAccountEnabled() And $g_bChkSmartSwitch Then
 					SetLog("Switching Account While Waiting For Heroes", $COLOR_OLIVE)
@@ -167,16 +167,16 @@ Func DropTrophy()
 					SmartWait4Train()
 				EndIf
 			EndIf
-			
+
 			Return
 		EndIf
-		
+
 		If $bReadyToDrop = 1 And $g_bChkTrophyAtkWithHeroesOnly = False Then
-		SetLog("Drop Trophies using Heroe(s) Or DT Troops", $COLOR_OLIVE)
+			SetLog("Drop Trophies using Heroe(s) Or DT Troops", $COLOR_OLIVE)
 		ElseIf $bReadyToDrop = 1 And $g_bChkTrophyAtkWithHeroesOnly = True Then
-		SetLog("Drop Trophies using Heroe(s) Only", $COLOR_OLIVE)
+			SetLog("Drop Trophies using Heroe(s) Only", $COLOR_OLIVE)
 		EndIf
-		
+
 		Local $iCount, $aRandomEdge, $iRandomXY
 		Local Const $DTArmyPercent = Round(Int($g_iDropTrophyArmyMinPct) / 100, 2)
 		Local $g_iDropTrophyMaxNeedCheck = $g_iDropTrophyMax ; set trophy target to max trophy
@@ -190,106 +190,106 @@ Func DropTrophy()
 			$g_aiCurrentLoot[$eLootTrophy] = getTrophyMainScreen($aTrophies[0], $aTrophies[1])
 			SetLog("Trophy Count : " & $g_aiCurrentLoot[$eLootTrophy], $COLOR_SUCCESS)
 			If Number($g_aiCurrentLoot[$eLootTrophy]) > Number($g_iDropTrophyMaxNeedCheck) Then
-		;Check everytime if Troop/Heroe Still available
-		;Check if proper troop types avail during last checkarmycamp(), no need to call separately since droptrophy checked often
-		If $g_bDropTrophyUseHeroes = 0 Then CheckOverviewFullArmy(True, True)
-		Local $bHaveTroops = 0
-		For $i = 0 To UBound($g_avDTtroopsToBeUsed, 1) - 1
-			If $g_avDTtroopsToBeUsed[$i][1] > 0 Then
-				$bHaveTroops = 1
-				If $g_bDebugSetlog Then
-					SetDebugLog("Drop Trophy Found " & StringFormat("%3s", $g_avDTtroopsToBeUsed[$i][1]) & " " & $g_avDTtroopsToBeUsed[$i][0], $COLOR_DEBUG)
-					ContinueLoop ; display all troop counts if debug flag set
-				Else
-					ExitLoop ; Finding 1 troop type is enough to use trophy drop, stop checking rest when no debug flag
-				EndIf
-			EndIf
-		Next	
-			
-		If $g_bDropTrophyUseHeroes = 1 Then
-			$IsKingReadyForDropTrophies = 0
-			$IsQueenReadyForDropTrophies = 0
-			$IsWardenReadyForDropTrophies = 0 
-			$IsChampionReadyForDropTrophies = 0
-			getArmyHeroCount(True, True)
-		EndIf
-		
-		Local $g_iHeroAvailableForTrophies =  $IsKingReadyForDropTrophies + $IsQueenReadyForDropTrophies + $IsWardenReadyForDropTrophies + $IsChampionReadyForDropTrophies		
-		Local $bHaveHero = 0
-
-		; if heroes enabled, check them and reset drop trophy disable
-		If $g_iHeroAvailableForTrophies > 0 Then
-			SetDebugLog("Drop Trophy Found Hero BK|AQ|GW|RC: " & BitOR($g_iHeroAvailable, $eHeroKing) & "|" & BitOR($g_iHeroAvailable, $eHeroQueen) & "|" & BitOR($g_iHeroAvailable, $eHeroWarden) & "|" & BitOR($g_iHeroAvailable, $eHeroChampion), $COLOR_DEBUG)
-			$bHaveHero = 1
-		If $g_bDropTrophyUseHeroes = 1 Then	SetLog("Heroes available !", $COLOR_OLIVE)
-			SetLog("Number of heroes : " & $g_iHeroAvailableForTrophies & "", $COLOR_OLIVE)
-		EndIf
-		
-		Local $bReadyToDrop = 0
-		
-		If $g_bDropTrophyUseHeroes = 1 And $g_bChkTrophyAtkWithHeroesOnly = True Then
-			$bReadyToDrop = $bHaveHero
-		ElseIf $g_bDropTrophyUseHeroes = 1 And $g_bChkTrophyAtkWithHeroesOnly = False Then
-			If $bHaveTroops = 1 Then $bReadyToDrop = $bHaveTroops
-			If $bHaveHero = 1 Then $bReadyToDrop = $bHaveHero
-		ElseIf $g_bDropTrophyUseHeroes = 0 Then
-			$bReadyToDrop = $bHaveTroops
-		EndIf
-
-		If $bReadyToDrop = 0 Then ; troops available?
-			SetLog("Drop Trophy temporarily disabled, missing proper troop type", $COLOR_ERROR)
-			If $g_bDropTrophyUseHeroes = 1 Then	SetLog("No Heroe available !", $COLOR_ERROR)
-			If $g_bDropTrophyUseHeroes = 0 Then	SetLog("Please Train DT Troops !", $COLOR_ERROR)
-			SetDebugLog("Drop Trophy(): No troops in $g_avDTtroopsToBeUsed array", $COLOR_DEBUG)
-			$IsDropTrophyBreaked = 1
-			
-			CollectCCGold()
-			If SwitchBetweenBasesMod2() Then
-				ForgeClanCapitalGold()
-				_Sleep($DELAYRUNBOT3)
-				AutoUpgradeCC()
-				_Sleep($DELAYRUNBOT3)
-			EndIf
-			
-			If $g_bChkClanGamesEnabled And $g_bChkEnableBBAttack And $g_bDropTrophyUseHeroes = 1 Then
-			SetLog("Check Clan Games !", $COLOR_OLIVE)
-			_ClanGames()
-				If $g_bChkForceBBAttackOnClanGames And $g_bIsBBevent Then	
-					SwitchBetweenBasesMod()
-					If $IstoSwitchMod Then
-						$ActionForModLog = "Switch To Builder Base - BB Event Detected"
-						If $g_iTxtCurrentVillageName <> "" Then
-						GUICtrlSetData($g_hTxtModLog, @CRLF & _NowTime() & " [" & $g_iTxtCurrentVillageName & "] Avanced : " & $ActionForModLog & "", 1)
+				;Check everytime if Troop/Heroe Still available
+				;Check if proper troop types avail during last checkarmycamp(), no need to call separately since droptrophy checked often
+				If $g_bDropTrophyUseHeroes = 0 Then CheckOverviewFullArmy(True, True)
+				Local $bHaveTroops = 0
+				For $i = 0 To UBound($g_avDTtroopsToBeUsed, 1) - 1
+					If $g_avDTtroopsToBeUsed[$i][1] > 0 Then
+						$bHaveTroops = 1
+						If $g_bDebugSetlog Then
+							SetDebugLog("Drop Trophy Found " & StringFormat("%3s", $g_avDTtroopsToBeUsed[$i][1]) & " " & $g_avDTtroopsToBeUsed[$i][0], $COLOR_DEBUG)
+							ContinueLoop ; display all troop counts if debug flag set
 						Else
-						GUICtrlSetData($g_hTxtModLog, @CRLF & _NowTime() & " [" & $g_sProfileCurrentName & "] Avanced : " & $ActionForModLog & "", 1)
+							ExitLoop ; Finding 1 troop type is enough to use trophy drop, stop checking rest when no debug flag
 						EndIf
-						_FileWriteLog($g_sProfileLogsPath & "\ModLog.log", " [" & $g_sProfileCurrentName & "] - Advanced : " & $ActionForModLog & "")
-						BuilderBase()
 					EndIf
+				Next
+
+				If $g_bDropTrophyUseHeroes = 1 Then
+					$IsKingReadyForDropTrophies = 0
+					$IsQueenReadyForDropTrophies = 0
+					$IsWardenReadyForDropTrophies = 0
+					$IsChampionReadyForDropTrophies = 0
+					getArmyHeroCount(True, True)
 				EndIf
-			EndIf
-			
-			_Sleep($DELAYRUNBOT3)
-			
-			If $g_bDropTrophyUseHeroes = 1 And $g_bChkTrophyAtkWithHeroesOnly = True Then
-				If ProfileSwitchAccountEnabled() And $g_bChkSmartSwitch Then
-					SetLog("Switching Account While Waiting For Heroes", $COLOR_OLIVE)
-					$g_iNextAccount = $g_iCurAccount + 1
-					SwitchCoCAcc($g_iNextAccount)
-				Else
-					SetLog("Check/Close Bot To Wait For Heroes", $COLOR_OLIVE)
-					SmartWait4Train()
+
+				Local $g_iHeroAvailableForTrophies = $IsKingReadyForDropTrophies + $IsQueenReadyForDropTrophies + $IsWardenReadyForDropTrophies + $IsChampionReadyForDropTrophies
+				Local $bHaveHero = 0
+
+				; if heroes enabled, check them and reset drop trophy disable
+				If $g_iHeroAvailableForTrophies > 0 Then
+					SetDebugLog("Drop Trophy Found Hero BK|AQ|GW|RC: " & BitOR($g_iHeroAvailable, $eHeroKing) & "|" & BitOR($g_iHeroAvailable, $eHeroQueen) & "|" & BitOR($g_iHeroAvailable, $eHeroWarden) & "|" & BitOR($g_iHeroAvailable, $eHeroChampion), $COLOR_DEBUG)
+					$bHaveHero = 1
+					If $g_bDropTrophyUseHeroes = 1 Then SetLog("Heroes available !", $COLOR_OLIVE)
+					SetLog("Number of heroes : " & $g_iHeroAvailableForTrophies & "", $COLOR_OLIVE)
 				EndIf
-			EndIf
-			Return
-		EndIf
-		
-		If $bReadyToDrop = 1 And $g_bChkTrophyAtkWithHeroesOnly = False Then
-		SetLog("Drop Trophies using Heroe(s) Or DT Troops", $COLOR_OLIVE)
-		ElseIf $bReadyToDrop = 1 And $g_bChkTrophyAtkWithHeroesOnly = True Then
-		SetLog("Drop Trophies using Heroe(s) Only", $COLOR_OLIVE)
-		EndIf	
-			;
+
+				Local $bReadyToDrop = 0
+
+				If $g_bDropTrophyUseHeroes = 1 And $g_bChkTrophyAtkWithHeroesOnly = True Then
+					$bReadyToDrop = $bHaveHero
+				ElseIf $g_bDropTrophyUseHeroes = 1 And $g_bChkTrophyAtkWithHeroesOnly = False Then
+					If $bHaveTroops = 1 Then $bReadyToDrop = $bHaveTroops
+					If $bHaveHero = 1 Then $bReadyToDrop = $bHaveHero
+				ElseIf $g_bDropTrophyUseHeroes = 0 Then
+					$bReadyToDrop = $bHaveTroops
+				EndIf
+
+				If $bReadyToDrop = 0 Then ; troops available?
+					SetLog("Drop Trophy temporarily disabled, missing proper troop type", $COLOR_ERROR)
+					If $g_bDropTrophyUseHeroes = 1 Then SetLog("No Heroe available !", $COLOR_ERROR)
+					If $g_bDropTrophyUseHeroes = 0 Then SetLog("Please Train DT Troops !", $COLOR_ERROR)
+					SetDebugLog("Drop Trophy(): No troops in $g_avDTtroopsToBeUsed array", $COLOR_DEBUG)
+					$IsDropTrophyBreaked = 1
+
+					CollectCCGold()
+					If SwitchBetweenBasesMod2() Then
+						ForgeClanCapitalGold()
+						_Sleep($DELAYRUNBOT3)
+						AutoUpgradeCC()
+						_Sleep($DELAYRUNBOT3)
+					EndIf
+
+					If $g_bChkClanGamesEnabled And $g_bChkEnableBBAttack And $g_bDropTrophyUseHeroes = 1 Then
+						SetLog("Check Clan Games !", $COLOR_OLIVE)
+						_ClanGames()
+						If $g_bChkForceBBAttackOnClanGames And $g_bIsBBevent Then
+							SwitchBetweenBasesMod()
+							If $IstoSwitchMod Then
+								$ActionForModLog = "Switch To Builder Base - BB Event Detected"
+								If $g_iTxtCurrentVillageName <> "" Then
+									GUICtrlSetData($g_hTxtModLog, @CRLF & _NowTime() & " [" & $g_iTxtCurrentVillageName & "] Avanced : " & $ActionForModLog & "", 1)
+								Else
+									GUICtrlSetData($g_hTxtModLog, @CRLF & _NowTime() & " [" & $g_sProfileCurrentName & "] Avanced : " & $ActionForModLog & "", 1)
+								EndIf
+								_FileWriteLog($g_sProfileLogsPath & "\ModLog.log", " [" & $g_sProfileCurrentName & "] - Advanced : " & $ActionForModLog & "")
+								BuilderBase()
+							EndIf
+						EndIf
+					EndIf
+
+					_Sleep($DELAYRUNBOT3)
+
+					If $g_bDropTrophyUseHeroes = 1 And $g_bChkTrophyAtkWithHeroesOnly = True Then
+						If ProfileSwitchAccountEnabled() And $g_bChkSmartSwitch Then
+							SetLog("Switching Account While Waiting For Heroes", $COLOR_OLIVE)
+							$g_iNextAccount = $g_iCurAccount + 1
+							SwitchCoCAcc($g_iNextAccount)
+						Else
+							SetLog("Check/Close Bot To Wait For Heroes", $COLOR_OLIVE)
+							SmartWait4Train()
+						EndIf
+					EndIf
+					Return
+				EndIf
+
+				If $bReadyToDrop = 1 And $g_bChkTrophyAtkWithHeroesOnly = False Then
+					SetLog("Drop Trophies using Heroe(s) Or DT Troops", $COLOR_OLIVE)
+				ElseIf $bReadyToDrop = 1 And $g_bChkTrophyAtkWithHeroesOnly = True Then
+					SetLog("Drop Trophies using Heroe(s) Only", $COLOR_OLIVE)
+				EndIf
+				;
 				; Check for enough troops before starting base search to save search costs
 				If $g_bDropTrophyAtkDead Then
 					; If attack dead bases during trophy drop is enabled then make sure we have enough army troops
@@ -371,14 +371,14 @@ Func DropTrophy()
 					Local $g_iHeroesPriorityMod = Random(0, 3, 1)
 					Local $g_iDropTrophyHeroesPriority0
 					Switch $g_iHeroesPriorityMod
-							Case 0
-								$g_iDropTrophyHeroesPriority0 = $g_iDropTrophyHeroesPriority
-							Case 1
-								$g_iDropTrophyHeroesPriority0 = $g_iDropTrophyHeroesPriority1
-							Case 2
-								$g_iDropTrophyHeroesPriority0 = $g_iDropTrophyHeroesPriority2
-							Case 3
-								$g_iDropTrophyHeroesPriority0 = $g_iDropTrophyHeroesPriority3
+						Case 0
+							$g_iDropTrophyHeroesPriority0 = $g_iDropTrophyHeroesPriority
+						Case 1
+							$g_iDropTrophyHeroesPriority0 = $g_iDropTrophyHeroesPriority1
+						Case 2
+							$g_iDropTrophyHeroesPriority0 = $g_iDropTrophyHeroesPriority2
+						Case 3
+							$g_iDropTrophyHeroesPriority0 = $g_iDropTrophyHeroesPriority3
 					EndSwitch
 					SetSlotSpecialTroops()
 
@@ -395,7 +395,7 @@ Func DropTrophy()
 						$aRandomEdge = $g_aaiEdgeDropPoints2[Round(Random(0, 3))]
 					Else
 						$aRandomEdge = $g_aaiEdgeDropPoints[Round(Random(0, 3))]
-					EndIf		
+					EndIf
 					$iRandomXY = Round(Random(0, 4))
 					SetDebugLog("Hero Loc = " & $iRandomXY & ", X:Y= " & $aRandomEdge[$iRandomXY][0] & "|" & $aRandomEdge[$iRandomXY][1], $COLOR_DEBUG)
 
@@ -517,7 +517,7 @@ Func DropTrophy()
 				$IsdroptrophiesActive = 0
 				$IsDropTrophyBreaked = 0
 				IsSearchAttackEnabled()
-				TrainSystem()				
+				TrainSystem()
 			EndIf
 		WEnd
 		SetDebugLog("DropTrophy(): End", $COLOR_DEBUG)

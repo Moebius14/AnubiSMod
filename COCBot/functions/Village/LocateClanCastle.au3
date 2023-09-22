@@ -67,12 +67,12 @@ Func LocateClanCastle($bCollect = True)
 			ClickAway()
 			Return
 		EndIf
-		$sInfo = BuildingInfo(242, 490 + $g_iBottomOffsetY) ; 860x780
-		If IsArray($sInfo) and ($sInfo[0] > 1 Or $sInfo[0] = "") Then
+		$sInfo = BuildingInfo(242, 488 + $g_iBottomOffsetY) ; 860x780
+		If IsArray($sInfo) And ($sInfo[0] > 1 Or $sInfo[0] = "") Then
 			If StringInStr($sInfo[1], "clan") = 0 Then
 				Local $sLocMsg = ($sInfo[0] = "" ? "Nothing" : $sInfo[1])
 
-			    $iSilly += 1
+				$iSilly += 1
 				Select
 					Case $iSilly = 1
 						$sErrorText = "Wait, That is not the Clan Castle?, It was a " & $sLocMsg & @CRLF
@@ -99,37 +99,37 @@ Func LocateClanCastle($bCollect = True)
 			Else
 				SetLog("Your Clan Castle is at level: " & $sInfo[2], $COLOR_SUCCESS)
 				$g_aiClanCastleLvl = $sInfo[2]
-				
+
 				Switch $g_aiClanCastleLvl
-				Case 4
-					$g_aiClanCastleTroopsCap = 25
-					$g_aiClanCastleSpellsCap = 1
-				Case 5
-					$g_aiClanCastleTroopsCap = 30
-					$g_aiClanCastleSpellsCap = 1
-				Case 6
-					$g_aiClanCastleTroopsCap = 35
-					$g_aiClanCastleSpellsCap = 1
-				Case 7
-					$g_aiClanCastleTroopsCap = 35
-					$g_aiClanCastleSpellsCap = 2
-				Case 8
-					$g_aiClanCastleTroopsCap = 40
-					$g_aiClanCastleSpellsCap = 2
-				Case 9
-					$g_aiClanCastleTroopsCap = 45
-					$g_aiClanCastleSpellsCap = 2
-				Case 10
-					$g_aiClanCastleTroopsCap = 45
-					$g_aiClanCastleSpellsCap = 3
-				Case 11
-					$g_aiClanCastleTroopsCap = 50
-					$g_aiClanCastleSpellsCap = 3
-			EndSwitch
-			SetLog("CC Troops/Spells Capacities Set", $COLOR_SUCCESS1)
-			SetLog("CC Troops Capacity : " & $g_aiClanCastleTroopsCap, $COLOR_ACTION)
-			SetLog("CC Spells Capacity : " & $g_aiClanCastleSpellsCap, $COLOR_ACTION)
-				
+					Case 4
+						$g_aiClanCastleTroopsCap = 25
+						$g_aiClanCastleSpellsCap = 1
+					Case 5
+						$g_aiClanCastleTroopsCap = 30
+						$g_aiClanCastleSpellsCap = 1
+					Case 6
+						$g_aiClanCastleTroopsCap = 35
+						$g_aiClanCastleSpellsCap = 1
+					Case 7
+						$g_aiClanCastleTroopsCap = 35
+						$g_aiClanCastleSpellsCap = 2
+					Case 8
+						$g_aiClanCastleTroopsCap = 40
+						$g_aiClanCastleSpellsCap = 2
+					Case 9
+						$g_aiClanCastleTroopsCap = 45
+						$g_aiClanCastleSpellsCap = 2
+					Case 10
+						$g_aiClanCastleTroopsCap = 45
+						$g_aiClanCastleSpellsCap = 3
+					Case 11
+						$g_aiClanCastleTroopsCap = 50
+						$g_aiClanCastleSpellsCap = 3
+				EndSwitch
+				SetLog("CC Troops/Spells Capacities Set", $COLOR_SUCCESS1)
+				SetLog("CC Troops Capacity : " & $g_aiClanCastleTroopsCap, $COLOR_ACTION)
+				SetLog("CC Spells Capacity : " & $g_aiClanCastleSpellsCap, $COLOR_ACTION)
+
 			EndIf
 		Else
 			SetLog(" Operator Error - Bad Clan Castle Location: " & "(" & $g_aiClanCastlePos[0] & "," & $g_aiClanCastlePos[1] & ")", $COLOR_ERROR)
@@ -145,72 +145,72 @@ Func LocateClanCastle($bCollect = True)
 EndFunc   ;==>LocateClanCastle
 
 Func _BtnDefineCapacity()
-	
-		WinGetAndroidHandle()
-		Local $bIsOnMainVillage = isOnMainVillage(True)
-		If $bIsOnMainVillage Then
-			If $g_bDebugSetlog Then SetLog("You Are On Home Village!")
-		Else
-			SwitchBetweenBases(False)
-		EndIf
-		
-		If $g_aiClanCastlePos[0] = -1 Then
-			SetLog("Locate Clan Castle First", $COLOR_ERROR)
-			LocateClanCastle(False)
-			Return
-		EndIf
-		
-		ZoomOut()
-		
-		SetLog("Define Clan Castle Capacities", $COLOR_INFO)
 
+	WinGetAndroidHandle()
+	Local $bIsOnMainVillage = isOnMainVillage(True)
+	If $bIsOnMainVillage Then
+		If $g_bDebugSetlog Then SetLog("You Are On Home Village!")
+	Else
+		SwitchBetweenBases(False)
+	EndIf
+
+	If $g_aiClanCastlePos[0] = -1 Then
+		SetLog("Locate Clan Castle First", $COLOR_ERROR)
+		LocateClanCastle(False)
+		Return
+	EndIf
+
+	ZoomOut()
+
+	SetLog("Define Clan Castle Capacities", $COLOR_INFO)
+
+	ClickAway()
+	If _Sleep($DELAYCOLLECT3) Then Return
+	BuildingClick($g_aiClanCastlePos[0], $g_aiClanCastlePos[1], "#0250")     ; select CC
+	If _Sleep($DELAYTREASURY2) Then Return
+
+	Local $sInfo = BuildingInfo(242, 488 + $g_iBottomOffsetY)     ; 860x780
+	If $sInfo[1] = "Clan Castle" And $sInfo[2] > 0 Then
+		SetLog("Your Clan Castle is at level: " & $sInfo[2], $COLOR_SUCCESS)
+		$g_aiClanCastleLvl = $sInfo[2]
+	Else
+		SetLog("Clan Castle Windows Didn't Open, Please Retry", $COLOR_ERROR)
 		ClickAway()
-		If _Sleep($DELAYCOLLECT3) Then Return
-		BuildingClick($g_aiClanCastlePos[0], $g_aiClanCastlePos[1], "#0250") ; select CC
-		If _Sleep($DELAYTREASURY2) Then Return
-	
-		Local $sInfo = BuildingInfo(242, 490 + $g_iBottomOffsetY) ; 860x780
-		If $sInfo[1] = "Clan Castle" And $sInfo[2] > 0 Then
-			SetLog("Your Clan Castle is at level: " & $sInfo[2], $COLOR_SUCCESS)
-			$g_aiClanCastleLvl = $sInfo[2]
-		Else
-			SetLog("Clan Castle Windows Didn't Open, Please Retry", $COLOR_ERROR)
-			ClickAway()
-			Return
-		EndIf
-	
-		Switch $g_aiClanCastleLvl
-			Case 4
-				$g_aiClanCastleTroopsCap = 25
-				$g_aiClanCastleSpellsCap = 1
-			Case 5
-				$g_aiClanCastleTroopsCap = 30
-				$g_aiClanCastleSpellsCap = 1
-			Case 6
-				$g_aiClanCastleTroopsCap = 35
-				$g_aiClanCastleSpellsCap = 1
-			Case 7
-				$g_aiClanCastleTroopsCap = 35
-				$g_aiClanCastleSpellsCap = 2
-			Case 8
-				$g_aiClanCastleTroopsCap = 40
-				$g_aiClanCastleSpellsCap = 2
-			Case 9
-				$g_aiClanCastleTroopsCap = 45
-				$g_aiClanCastleSpellsCap = 2
-			Case 10
-				$g_aiClanCastleTroopsCap = 45
-				$g_aiClanCastleSpellsCap = 3
-			Case 11
-				$g_aiClanCastleTroopsCap = 50
-				$g_aiClanCastleSpellsCap = 3
-		EndSwitch
-		SetLog("CC Troops/Spells Capacities Set", $COLOR_SUCCESS1)
-		SetLog("CC Troops Capacity : " & $g_aiClanCastleTroopsCap, $COLOR_ACTION)
-		SetLog("CC Spells Capacity : " & $g_aiClanCastleSpellsCap, $COLOR_ACTION)
-		SaveConfig()
-		ClickAway()
-EndFunc   ;==>LocateClanCastle
+		Return
+	EndIf
+
+	Switch $g_aiClanCastleLvl
+		Case 4
+			$g_aiClanCastleTroopsCap = 25
+			$g_aiClanCastleSpellsCap = 1
+		Case 5
+			$g_aiClanCastleTroopsCap = 30
+			$g_aiClanCastleSpellsCap = 1
+		Case 6
+			$g_aiClanCastleTroopsCap = 35
+			$g_aiClanCastleSpellsCap = 1
+		Case 7
+			$g_aiClanCastleTroopsCap = 35
+			$g_aiClanCastleSpellsCap = 2
+		Case 8
+			$g_aiClanCastleTroopsCap = 40
+			$g_aiClanCastleSpellsCap = 2
+		Case 9
+			$g_aiClanCastleTroopsCap = 45
+			$g_aiClanCastleSpellsCap = 2
+		Case 10
+			$g_aiClanCastleTroopsCap = 45
+			$g_aiClanCastleSpellsCap = 3
+		Case 11
+			$g_aiClanCastleTroopsCap = 50
+			$g_aiClanCastleSpellsCap = 3
+	EndSwitch
+	SetLog("CC Troops/Spells Capacities Set", $COLOR_SUCCESS1)
+	SetLog("CC Troops Capacity : " & $g_aiClanCastleTroopsCap, $COLOR_ACTION)
+	SetLog("CC Spells Capacity : " & $g_aiClanCastleSpellsCap, $COLOR_ACTION)
+	SaveConfig()
+	ClickAway()
+EndFunc   ;==>_BtnDefineCapacity
 
 Func BtnDefineCapacity()
 	Local $wasRunState = $g_bRunState
@@ -222,4 +222,4 @@ Func BtnDefineCapacity()
 	$g_bRunState = $wasRunState
 	AndroidShield("DefineCapacity 2") ; Update shield status due to manual $g_bRunState
 	Return $Result
-EndFunc   ;
+EndFunc   ;==>BtnDefineCapacity

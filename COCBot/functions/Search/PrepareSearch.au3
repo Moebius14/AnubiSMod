@@ -14,7 +14,7 @@
 ; ===============================================================================================================================
 Func PrepareSearch($Mode = $DB) ;Click attack button and find match button, will break shield
 	$g_iSearchRestartLimit = Random($g_iSearchRestartLimitMin, $g_iSearchRestartLimitMax, 1)
-	If Not $IsdroptrophiesActive Then
+	If Not $IsdroptrophiesActive And $g_bSearchRestartEnable Then
 		SetLog("Number of search limit for this loop : " & $g_iSearchRestartLimit & " searches", $COLOR_BLUE)
 		SetLog("Number of search limit for Break : " & $g_iSearchRestartLimitPause & " searches", $COLOR_BLUE)
 	EndIf
@@ -83,13 +83,13 @@ Func PrepareSearch($Mode = $DB) ;Click attack button and find match button, will
 			If StringInStr($sButtonState, "Ended", 0) > 0 Then
 				SetLog("League Day ended already! Trying again later", $COLOR_INFO)
 				$g_bRestart = True
-				ClickAway()
+				CloseWindow()
 				$g_bForceSwitch = True     ; set this switch accounts next check
 				Return
 			ElseIf StringInStr($sButtonState, "Made", 0) > 0 Then
 				SetLog("All Attacks already made! Returning home", $COLOR_INFO)
 				$g_bRestart = True
-				ClickAway()
+				CloseWindow()
 				$g_bForceSwitch = True     ; set this switch accounts next check
 				Return
 			ElseIf StringInStr($sButtonState, "FindMatchLegend", 0) > 0 Then
@@ -124,15 +124,11 @@ Func PrepareSearch($Mode = $DB) ;Click attack button and find match button, will
 				Local $aCoordinates = StringSplit($avAttackButtonSubResult[1], ",", $STR_NOCOUNT)
 				ClickP($aCoordinates, 1, 0, "#0000")
 				If _Sleep(1000) Then Return
-				$aCoordinates = findButton("OK")
-				If UBound($aCoordinates) > 1 Then
-					SetLog("Sign-up to Legend League done", $COLOR_INFO)
-					$bSignedUpLegendLeague = True
-					ClickP($aCoordinates, 1, 0, "#0000")
-					If _Sleep(1000) Then Return
-				Else
-					SetLog("Cannot find OK button to sign-up for Legend League", $COLOR_WARNING)
-				EndIf
+				SetLog("Sign-up to Legend League done", $COLOR_INFO)
+				If _Sleep(2000) Then Return
+				SetLog("Finding opponents! Waiting 5 minutes and then try again to find a match", $COLOR_INFO)
+				If _Sleep(300000) Then Return     ; Wait 5mins before searching again
+				$bSignedUpLegendLeague = True
 			ElseIf StringInStr($sButtonState, "Oppo", 0) > 0 Then
 				SetLog("Finding opponents! Waiting 5 minutes and then try again to find a match", $COLOR_INFO)
 				If _Sleep(300000) Then Return     ; Wait 5mins before searching again
@@ -148,18 +144,6 @@ Func PrepareSearch($Mode = $DB) ;Click attack button and find match button, will
 		EndIf
 	Until Not $bSignedUpLegendLeague
 
-	#cs
-		If Not $g_bLeagueAttack Then
-			Local $aFindMatch = findButton("FindMatch", Default, 1, True)
-			If IsArray($aFindMatch) And UBound($aFindMatch, 1) = 2 Then
-				ClickP($aFindMatch, 1, 0, "#0150")
-			Else
-				SetLog("Couldn't find the Find a Match Button!", $COLOR_ERROR)
-				If $g_bDebugImageSave Then SaveDebugImage("FindAMatchBUttonNotFound")
-				Return
-			EndIf
-		EndIf
-	#ce
 	If $g_iTownHallLevel <> "" And $g_iTownHallLevel > 0 Then
 		$g_iSearchCost += $g_aiSearchCost[$g_iTownHallLevel - 1]
 		$g_iStatsTotalGain[$eLootGold] -= $g_aiSearchCost[$g_iTownHallLevel - 1]
@@ -170,9 +154,8 @@ Func PrepareSearch($Mode = $DB) ;Click attack button and find match button, will
 
 	If isGemOpen(True) Then ; Check for gem window open)
 		SetLog(" Not enough gold to start searching!", $COLOR_ERROR)
-		Click(585, 252, 1, 0, "#0151") ; Click close gem window "X"
 		If _Sleep($DELAYPREPARESEARCH1) Then Return
-		Click(822, 32, 1, 0, "#0152") ; Click close attack window "X"
+		CloseWindow() ; Click close attack window "X"
 		If _Sleep($DELAYPREPARESEARCH1) Then Return
 		$g_bOutOfGold = True ; Set flag for out of gold to search for attack
 	EndIf

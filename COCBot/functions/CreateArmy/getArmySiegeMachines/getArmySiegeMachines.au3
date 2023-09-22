@@ -54,10 +54,10 @@ Func getArmySiegeMachines($bOpenArmyWindow = False, $bCloseArmyWindow = False, $
 	Local $sSiegeInfo = getSiegeCampCap(756, 134 + $g_iMidOffsetY, $bNeedCapture) ; OCR read Siege built and total
 	If $g_bDebugSetlogTrain Then SetLog("OCR $sSiegeInfo = " & $sSiegeInfo, $COLOR_DEBUG)
 	Local $aGetSiegeCap = StringSplit($sSiegeInfo, "#", $STR_NOCOUNT) ; split the built Siege number from the total Siege number
-	If Ubound($aGetSiegeCap) = 2 Then
+	If UBound($aGetSiegeCap) = 2 Then
 		If $bSetLog Then SetLog("Total Siege Workshop Capacity: " & $aGetSiegeCap[0] & "/" & $aGetSiegeCap[1])
 		$g_aiCurrentSiegeMachines = $aCurrentTroopsEmpty ; Reset Current Siege Machine Array
-		If Number($aGetSiegeCap[0]) = 0 then Return
+		If Number($aGetSiegeCap[0]) = 0 Then Return
 	Else
 		Return
 	EndIf

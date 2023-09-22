@@ -47,7 +47,7 @@ Func SwitchBetweenBases($bCheckMainScreen = True, $GoToBB = False)
 		If Not $g_bRunState Then Return
 
 		If $bIsOnBuilderBase And $g_iTree = $eTreeOO Then $sRegionToSearch = GetDiamondFromRect("650,180,820,330")
-		
+
 		For $b = 0 To 9
 			$avBoat = findMultiple($sTileDir, $sRegionToSearch, $sRegionToSearch, 0, 1000, 1, "objectname,objectpoints", True)
 			If IsArray($avBoat) And UBound($avBoat, $UBOUND_ROWS) > 0 Then ExitLoop
@@ -136,8 +136,8 @@ Func SwitchToBuilderBase()
 		Return True
 	Else
 		SetDebugLog("Failed to locate the tunnel", $COLOR_INFO)
-		If $g_bDebugImageSave Then SaveDebugImage("OO2BBTunnel");
+		If $g_bDebugImageSave Then SaveDebugImage("OO2BBTunnel") ;
 		Return False
-	EndIf	
+	EndIf
 
-EndFunc
+EndFunc   ;==>SwitchToBuilderBase

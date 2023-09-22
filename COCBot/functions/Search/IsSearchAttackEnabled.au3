@@ -16,7 +16,7 @@
 Func IsSearchAttackEnabled()
 
 	SetDebugLog("Begin IsSearchAttackScheduled:", $COLOR_DEBUG1)
-	
+
 	If Not $g_bAttackPlannerEnable Then Return True ; return true if attack planner is not enabled
 
 	Local $sStartTime = "", $sEndTime = ""
@@ -26,82 +26,82 @@ Func IsSearchAttackEnabled()
 	Local $bCloseGame = $g_bAttackPlannerCloseCoC Or $g_bAttackPlannerCloseAll Or $g_bAttackPlannerSuspendComputer ; flag summary for closing game from GUI values
 	SetDebugLog("$bCloseGame:" & $bCloseGame, $COLOR_DEBUG)
 
-	If $g_bChkTrophyDropinPause Then 
+	If $g_bChkTrophyDropinPause Then
 		DropTrophy()
 	EndIf
-	
+
 	If $g_bAttackPlannerDayLimit And _OverAttackLimit() Then ; check daily attack limit before checking schedule
 		SetLog("Daily attack limit reached, skip attacks till new day starts!", $COLOR_INFO)
 		If _Sleep($DELAYRESPOND) Then Return True
 		SetLog("Prepare Bot before pause...", $COLOR_WARNING)
-			If $g_bChkVisitBbaseinPause And ($g_bChkCollectBuilderBase Or $g_bChkStartClockTowerBoost Or $g_iChkBBSuggestedUpgrades Or $g_bChkEnableBBAttack Or $g_bChkCleanBBYard) Then SwitchBetweenBasesMod()
-			If $IstoSwitchMod And $g_bChkVisitBbaseinPause And ($g_bChkCollectBuilderBase Or $g_bChkStartClockTowerBoost Or $g_iChkBBSuggestedUpgrades Or $g_bChkEnableBBAttack Or $g_bChkCleanBBYard) Then
-				If $g_bAutoUpgradeWallsEnable And $g_bChkWallUpFirst Then
-					UpgradeWall()
-					If _Sleep($DELAYRUNBOT3) Then Return
-					UpgradeBuilding()
-					If _Sleep($DELAYRUNBOT3) Then Return
-					AutoUpgrade()
-					If _Sleep($DELAYRUNBOT3) Then Return
-					If IsToFillCCWithMedalsOnly() Then
-						Local $aRndFuncList = ['CleanYard', 'DonateCC,Train', 'CollectFreeMagicItems', 'Collect', 'Laboratory', 'UpgradeHeroes', _
-						'PetHouse', 'BuilderBase']
-					Else
-						Local $aRndFuncList = ['CleanYard', 'DonateCC,Train', 'RequestCC', 'CollectFreeMagicItems', 'Collect', 'Laboratory', 'UpgradeHeroes', _ 
-						'PetHouse', 'BuilderBase']
-					EndIf
-				Else	
-					If IsToFillCCWithMedalsOnly() Then
-						Local $aRndFuncList = ['CleanYard', 'DonateCC,Train', 'CollectFreeMagicItems', 'Collect', 'UpgradeWall', 'Laboratory', 'UpgradeHeroes', _
-						'UpgradeBuilding', 'PetHouse', 'BuilderBase']
-					Else
-						Local $aRndFuncList = ['CleanYard', 'DonateCC,Train', 'RequestCC', 'CollectFreeMagicItems', 'Collect', 'UpgradeWall', 'Laboratory', 'UpgradeHeroes', _ 
-						'UpgradeBuilding', 'PetHouse', 'BuilderBase']
-					EndIf
+		If $g_bChkVisitBbaseinPause And ($g_bChkCollectBuilderBase Or $g_bChkStartClockTowerBoost Or $g_iChkBBSuggestedUpgrades Or $g_bChkEnableBBAttack Or $g_bChkCleanBBYard) Then SwitchBetweenBasesMod()
+		If $IstoSwitchMod And $g_bChkVisitBbaseinPause And ($g_bChkCollectBuilderBase Or $g_bChkStartClockTowerBoost Or $g_iChkBBSuggestedUpgrades Or $g_bChkEnableBBAttack Or $g_bChkCleanBBYard) Then
+			If $g_bAutoUpgradeWallsEnable And $g_bChkWallUpFirst Then
+				UpgradeWall()
+				If _Sleep($DELAYRUNBOT3) Then Return
+				UpgradeBuilding()
+				If _Sleep($DELAYRUNBOT3) Then Return
+				AutoUpgrade()
+				If _Sleep($DELAYRUNBOT3) Then Return
+				If IsToFillCCWithMedalsOnly() Then
+					Local $aRndFuncList = ['CleanYard', 'DonateCC,Train', 'CollectFreeMagicItems', 'Collect', 'Laboratory', 'UpgradeHeroes', _
+							'PetHouse', 'BuilderBase']
+				Else
+					Local $aRndFuncList = ['CleanYard', 'DonateCC,Train', 'RequestCC', 'CollectFreeMagicItems', 'Collect', 'Laboratory', 'UpgradeHeroes', _
+							'PetHouse', 'BuilderBase']
 				EndIf
-				$IstoSwitchMod = 0
 			Else
-				If $g_bAutoUpgradeWallsEnable And $g_bChkWallUpFirst Then
-					UpgradeWall()
-					If _Sleep($DELAYRUNBOT3) Then Return
-					UpgradeBuilding()
-					If _Sleep($DELAYRUNBOT3) Then Return
-					AutoUpgrade()
-					If _Sleep($DELAYRUNBOT3) Then Return
-					If IsToFillCCWithMedalsOnly() Then
-						Local $aRndFuncList = ['CleanYard', 'DonateCC,Train', 'CollectFreeMagicItems', 'Collect', 'Laboratory', 'UpgradeHeroes', _
-						'PetHouse']
-					Else
-						Local $aRndFuncList = ['CleanYard', 'DonateCC,Train', 'RequestCC', 'CollectFreeMagicItems', 'Collect', 'Laboratory', 'UpgradeHeroes', _ 
-						'PetHouse']
-					EndIf
-				Else	
-					If IsToFillCCWithMedalsOnly() Then
-						Local $aRndFuncList = ['CleanYard', 'DonateCC,Train', 'CollectFreeMagicItems', 'Collect', 'UpgradeWall', 'Laboratory', 'UpgradeHeroes', _
-						'UpgradeBuilding', 'PetHouse']
-					Else
-						Local $aRndFuncList = ['CleanYard', 'DonateCC,Train', 'RequestCC', 'CollectFreeMagicItems', 'Collect', 'UpgradeWall', 'Laboratory', 'UpgradeHeroes', _ 
-						'UpgradeBuilding', 'PetHouse']
-					EndIf
+				If IsToFillCCWithMedalsOnly() Then
+					Local $aRndFuncList = ['CleanYard', 'DonateCC,Train', 'CollectFreeMagicItems', 'Collect', 'UpgradeWall', 'Laboratory', 'UpgradeHeroes', _
+							'UpgradeBuilding', 'PetHouse', 'BuilderBase']
+				Else
+					Local $aRndFuncList = ['CleanYard', 'DonateCC,Train', 'RequestCC', 'CollectFreeMagicItems', 'Collect', 'UpgradeWall', 'Laboratory', 'UpgradeHeroes', _
+							'UpgradeBuilding', 'PetHouse', 'BuilderBase']
 				EndIf
 			EndIf
-			For $Index In $aRndFuncList
-				_RunFunction($Index)
-			Next
-			If _Sleep(1000) Then Return
-			If $g_bChkPersoChallengesinPause Then DailyChallenges(False)
-			If _Sleep(1000) Then Return
-			CollectCCGold()
-			If SwitchBetweenBasesMod2() Then
-				ForgeClanCapitalGold()
-				_Sleep($DELAYRUNBOT3)
-				AutoUpgradeCC()
-				_Sleep($DELAYRUNBOT3)
+			$IstoSwitchMod = 0
+		Else
+			If $g_bAutoUpgradeWallsEnable And $g_bChkWallUpFirst Then
+				UpgradeWall()
+				If _Sleep($DELAYRUNBOT3) Then Return
+				UpgradeBuilding()
+				If _Sleep($DELAYRUNBOT3) Then Return
+				AutoUpgrade()
+				If _Sleep($DELAYRUNBOT3) Then Return
+				If IsToFillCCWithMedalsOnly() Then
+					Local $aRndFuncList = ['CleanYard', 'DonateCC,Train', 'CollectFreeMagicItems', 'Collect', 'Laboratory', 'UpgradeHeroes', _
+							'PetHouse']
+				Else
+					Local $aRndFuncList = ['CleanYard', 'DonateCC,Train', 'RequestCC', 'CollectFreeMagicItems', 'Collect', 'Laboratory', 'UpgradeHeroes', _
+							'PetHouse']
+				EndIf
+			Else
+				If IsToFillCCWithMedalsOnly() Then
+					Local $aRndFuncList = ['CleanYard', 'DonateCC,Train', 'CollectFreeMagicItems', 'Collect', 'UpgradeWall', 'Laboratory', 'UpgradeHeroes', _
+							'UpgradeBuilding', 'PetHouse']
+				Else
+					Local $aRndFuncList = ['CleanYard', 'DonateCC,Train', 'RequestCC', 'CollectFreeMagicItems', 'Collect', 'UpgradeWall', 'Laboratory', 'UpgradeHeroes', _
+							'UpgradeBuilding', 'PetHouse']
+				EndIf
 			EndIf
-			If _Sleep($DELAYRUNBOT3) Then Return
+		EndIf
+		For $Index In $aRndFuncList
+			_RunFunction($Index)
+		Next
+		If _Sleep(1000) Then Return
+		If $g_bChkPersoChallengesinPause Then DailyChallenges(False)
+		If _Sleep(1000) Then Return
+		CollectCCGold()
+		If SwitchBetweenBasesMod2() Then
+			ForgeClanCapitalGold()
+			_Sleep($DELAYRUNBOT3)
+			AutoUpgradeCC()
+			_Sleep($DELAYRUNBOT3)
+		EndIf
+		If _Sleep($DELAYRUNBOT3) Then Return
 		If $bCloseGame Then
 			$iWaitTime = _getTimeRemainTimeToday() ; get seconds left in day till Midnight
-			
+
 			If $g_bAttackPlannerEnable And $g_bAttackPlannerCloseCoC And $g_bNotifyTGEnable And $g_bChkNotifyPauseTime And $g_bNotifyAlertVillageReport Then
 				Local $sWaitTime = ""
 				Local $iMin, $iHour, $iWaitSec
@@ -111,24 +111,24 @@ Func IsSearchAttackEnabled()
 				If $iHour > 0 Then $sWaitTime &= $iHour & " hours "
 				If $iMin > 0 Then $sWaitTime &= $iMin & " minutes "
 				If $iWaitSec <= 60 Then $sWaitTime = "< 1 Minute"
-				
-				Local $text ="Village : " & $g_sNotifyOrigin & "%0A"
-				$text &="Profile : " & $g_sProfileCurrentName & "%0A"
+
+				Local $text = "Village : " & $g_sNotifyOrigin & "%0A"
+				$text &= "Profile : " & $g_sProfileCurrentName & "%0A"
 				;CG Score option
 				If $g_bChkClanGamesEnabled And $g_bChkNotifyCGScore Then
-				$text &="CG Score : " & $g_sClanGamesScore & "%0A"
+					$text &= "CG Score : " & $g_sClanGamesScore & "%0A"
 				EndIf
 				;Star Bonus option
-				If $g_bChkNotifyStarBonusAvail Then $text &="" & $StarBonusStatus & "%0A"
+				If $g_bChkNotifyStarBonusAvail Then $text &= "" & $StarBonusStatus & "%0A"
 				$text &= "[" & GetTranslatedFileIni("MBR Func_Notify", "Stats-G_Info_01", "G") & "]: " & _NumberFormat($g_aiCurrentLoot[$eLootGold])
 				$text &= " [" & GetTranslatedFileIni("MBR Func_Notify", "Stats-E_Info_01", "E") & "]: " & _NumberFormat($g_aiCurrentLoot[$eLootElixir]) & "%0A"
 				$text &= "[" & GetTranslatedFileIni("MBR Func_Notify", "Stats-DE_Info_01", "DE") & "]: " & _NumberFormat($g_aiCurrentLoot[$eLootDarkElixir])
 				$text &= " [" & GetTranslatedFileIni("MBR Func_Notify", "Stats-T_Info_01", "T") & "]: " & _NumberFormat($g_aiCurrentLoot[$eLootTrophy]) & "%0A"
 				$text &= "[" & GetTranslatedFileIni("MBR Func_Notify", "Free-Builders_Info_01", "Free Builder(s)") & "]: " & $g_iFreeBuilderCount & "%0A"
-				$text &="Bot Will Pause For : " & $sWaitTime
-				NotifyPushToTelegram($text)		
+				$text &= "Bot Will Pause For : " & $sWaitTime
+				NotifyPushToTelegram($text)
 			EndIf
-			
+
 			UniversalCloseWaitOpenCoC($iWaitTime * 1000, "IsSearchAttackScheduled_", $g_bAttackPlannerCloseAll, True, $g_bAttackPlannerSuspendComputer) ; Close and Wait for attacking to start
 			$g_bRestart = True
 			Return
@@ -159,18 +159,18 @@ Func IsSearchAttackEnabled()
 					If _Sleep($DELAYRUNBOT3) Then Return
 					If IsToFillCCWithMedalsOnly() Then
 						Local $aRndFuncList = ['CleanYard', 'DonateCC,Train', 'CollectFreeMagicItems', 'Collect', 'Laboratory', 'UpgradeHeroes', _
-						'PetHouse', 'BuilderBase']
+								'PetHouse', 'BuilderBase']
 					Else
-						Local $aRndFuncList = ['CleanYard', 'DonateCC,Train', 'RequestCC', 'CollectFreeMagicItems', 'Collect', 'Laboratory', 'UpgradeHeroes', _ 
-						'PetHouse', 'BuilderBase']
+						Local $aRndFuncList = ['CleanYard', 'DonateCC,Train', 'RequestCC', 'CollectFreeMagicItems', 'Collect', 'Laboratory', 'UpgradeHeroes', _
+								'PetHouse', 'BuilderBase']
 					EndIf
-				Else	
+				Else
 					If IsToFillCCWithMedalsOnly() Then
 						Local $aRndFuncList = ['CleanYard', 'DonateCC,Train', 'CollectFreeMagicItems', 'Collect', 'UpgradeWall', 'Laboratory', 'UpgradeHeroes', _
-						'UpgradeBuilding', 'PetHouse', 'BuilderBase']
+								'UpgradeBuilding', 'PetHouse', 'BuilderBase']
 					Else
-						Local $aRndFuncList = ['CleanYard', 'DonateCC,Train', 'RequestCC', 'CollectFreeMagicItems', 'Collect', 'UpgradeWall', 'Laboratory', 'UpgradeHeroes', _ 
-						'UpgradeBuilding', 'PetHouse', 'BuilderBase']
+						Local $aRndFuncList = ['CleanYard', 'DonateCC,Train', 'RequestCC', 'CollectFreeMagicItems', 'Collect', 'UpgradeWall', 'Laboratory', 'UpgradeHeroes', _
+								'UpgradeBuilding', 'PetHouse', 'BuilderBase']
 					EndIf
 				EndIf
 				$IstoSwitchMod = 0
@@ -184,18 +184,18 @@ Func IsSearchAttackEnabled()
 					If _Sleep($DELAYRUNBOT3) Then Return
 					If IsToFillCCWithMedalsOnly() Then
 						Local $aRndFuncList = ['CleanYard', 'DonateCC,Train', 'CollectFreeMagicItems', 'Collect', 'Laboratory', 'UpgradeHeroes', _
-						'PetHouse']
+								'PetHouse']
 					Else
-						Local $aRndFuncList = ['CleanYard', 'DonateCC,Train', 'RequestCC', 'CollectFreeMagicItems', 'Collect', 'Laboratory', 'UpgradeHeroes', _ 
-						'PetHouse']
+						Local $aRndFuncList = ['CleanYard', 'DonateCC,Train', 'RequestCC', 'CollectFreeMagicItems', 'Collect', 'Laboratory', 'UpgradeHeroes', _
+								'PetHouse']
 					EndIf
-				Else	
+				Else
 					If IsToFillCCWithMedalsOnly() Then
 						Local $aRndFuncList = ['CleanYard', 'DonateCC,Train', 'CollectFreeMagicItems', 'Collect', 'UpgradeWall', 'Laboratory', 'UpgradeHeroes', _
-						'UpgradeBuilding', 'PetHouse']
+								'UpgradeBuilding', 'PetHouse']
 					Else
-						Local $aRndFuncList = ['CleanYard', 'DonateCC,Train', 'RequestCC', 'CollectFreeMagicItems', 'Collect', 'UpgradeWall', 'Laboratory', 'UpgradeHeroes', _ 
-						'UpgradeBuilding', 'PetHouse']
+						Local $aRndFuncList = ['CleanYard', 'DonateCC,Train', 'RequestCC', 'CollectFreeMagicItems', 'Collect', 'UpgradeWall', 'Laboratory', 'UpgradeHeroes', _
+								'UpgradeBuilding', 'PetHouse']
 					EndIf
 				EndIf
 			EndIf
@@ -220,7 +220,7 @@ Func IsSearchAttackEnabled()
 					SetError(1, "Can not find NoAttack wait time", True)
 					Return True
 				EndIf
-				
+
 				If $g_bAttackPlannerEnable And $g_bAttackPlannerCloseCoC And $g_bNotifyTGEnable And $g_bChkNotifyPauseTime And $g_bNotifyAlertVillageReport Then
 					Local $sWaitTime = ""
 					Local $iMin, $iHour, $iWaitSec
@@ -230,24 +230,24 @@ Func IsSearchAttackEnabled()
 					If $iHour > 0 Then $sWaitTime &= $iHour & " hours "
 					If $iMin > 0 Then $sWaitTime &= $iMin & " minutes "
 					If $iWaitSec <= 60 Then $sWaitTime = "< 1 Minute"
-				
-					Local $text ="Village : " & $g_sNotifyOrigin & "%0A"
-					$text &="Profile : " & $g_sProfileCurrentName & "%0A"
+
+					Local $text = "Village : " & $g_sNotifyOrigin & "%0A"
+					$text &= "Profile : " & $g_sProfileCurrentName & "%0A"
 					;CG Score option
 					If $g_bChkClanGamesEnabled And $g_bChkNotifyCGScore Then
-					$text &="CG Score : " & $g_sClanGamesScore & "%0A"
+						$text &= "CG Score : " & $g_sClanGamesScore & "%0A"
 					EndIf
 					;Star Bonus option
-					If $g_bChkNotifyStarBonusAvail Then $text &="" & $StarBonusStatus & "%0A"
+					If $g_bChkNotifyStarBonusAvail Then $text &= "" & $StarBonusStatus & "%0A"
 					$text &= "[" & GetTranslatedFileIni("MBR Func_Notify", "Stats-G_Info_01", "G") & "]: " & _NumberFormat($g_aiCurrentLoot[$eLootGold])
 					$text &= " [" & GetTranslatedFileIni("MBR Func_Notify", "Stats-E_Info_01", "E") & "]: " & _NumberFormat($g_aiCurrentLoot[$eLootElixir]) & "%0A"
 					$text &= "[" & GetTranslatedFileIni("MBR Func_Notify", "Stats-DE_Info_01", "DE") & "]: " & _NumberFormat($g_aiCurrentLoot[$eLootDarkElixir])
 					$text &= " [" & GetTranslatedFileIni("MBR Func_Notify", "Stats-T_Info_01", "T") & "]: " & _NumberFormat($g_aiCurrentLoot[$eLootTrophy]) & "%0A"
 					$text &= "[" & GetTranslatedFileIni("MBR Func_Notify", "Free-Builders_Info_01", "Free Builder(s)") & "]: " & $g_iFreeBuilderCount & "%0A"
-					$text &="Bot Will Pause For : " & $sWaitTime
-					NotifyPushToTelegram($text)		
+					$text &= "Bot Will Pause For : " & $sWaitTime
+					NotifyPushToTelegram($text)
 				EndIf
-				
+
 				UniversalCloseWaitOpenCoC($iWaitTime * 1000, "IsSearchAttackScheduled_", $g_bAttackPlannerCloseAll, True, $g_bAttackPlannerSuspendComputer) ; Close and Wait for attacking to start
 				$g_bRestart = True
 				Return
@@ -273,18 +273,18 @@ Func IsSearchAttackEnabled()
 					If _Sleep($DELAYRUNBOT3) Then Return
 					If IsToFillCCWithMedalsOnly() Then
 						Local $aRndFuncList = ['CleanYard', 'DonateCC,Train', 'CollectFreeMagicItems', 'Collect', 'Laboratory', 'UpgradeHeroes', _
-						'PetHouse', 'BuilderBase']
+								'PetHouse', 'BuilderBase']
 					Else
-						Local $aRndFuncList = ['CleanYard', 'DonateCC,Train', 'RequestCC', 'CollectFreeMagicItems', 'Collect', 'Laboratory', 'UpgradeHeroes', _ 
-						'PetHouse', 'BuilderBase']
+						Local $aRndFuncList = ['CleanYard', 'DonateCC,Train', 'RequestCC', 'CollectFreeMagicItems', 'Collect', 'Laboratory', 'UpgradeHeroes', _
+								'PetHouse', 'BuilderBase']
 					EndIf
-				Else	
+				Else
 					If IsToFillCCWithMedalsOnly() Then
 						Local $aRndFuncList = ['CleanYard', 'DonateCC,Train', 'CollectFreeMagicItems', 'Collect', 'UpgradeWall', 'Laboratory', 'UpgradeHeroes', _
-						'UpgradeBuilding', 'PetHouse', 'BuilderBase']
+								'UpgradeBuilding', 'PetHouse', 'BuilderBase']
 					Else
-						Local $aRndFuncList = ['CleanYard', 'DonateCC,Train', 'RequestCC', 'CollectFreeMagicItems', 'Collect', 'UpgradeWall', 'Laboratory', 'UpgradeHeroes', _ 
-						'UpgradeBuilding', 'PetHouse', 'BuilderBase']
+						Local $aRndFuncList = ['CleanYard', 'DonateCC,Train', 'RequestCC', 'CollectFreeMagicItems', 'Collect', 'UpgradeWall', 'Laboratory', 'UpgradeHeroes', _
+								'UpgradeBuilding', 'PetHouse', 'BuilderBase']
 					EndIf
 				EndIf
 				$IstoSwitchMod = 0
@@ -298,18 +298,18 @@ Func IsSearchAttackEnabled()
 					If _Sleep($DELAYRUNBOT3) Then Return
 					If IsToFillCCWithMedalsOnly() Then
 						Local $aRndFuncList = ['CleanYard', 'DonateCC,Train', 'CollectFreeMagicItems', 'Collect', 'Laboratory', 'UpgradeHeroes', _
-						'PetHouse']
+								'PetHouse']
 					Else
-						Local $aRndFuncList = ['CleanYard', 'DonateCC,Train', 'RequestCC', 'CollectFreeMagicItems', 'Collect', 'Laboratory', 'UpgradeHeroes', _ 
-						'PetHouse']
+						Local $aRndFuncList = ['CleanYard', 'DonateCC,Train', 'RequestCC', 'CollectFreeMagicItems', 'Collect', 'Laboratory', 'UpgradeHeroes', _
+								'PetHouse']
 					EndIf
-				Else	
+				Else
 					If IsToFillCCWithMedalsOnly() Then
 						Local $aRndFuncList = ['CleanYard', 'DonateCC,Train', 'CollectFreeMagicItems', 'Collect', 'UpgradeWall', 'Laboratory', 'UpgradeHeroes', _
-						'UpgradeBuilding', 'PetHouse']
+								'UpgradeBuilding', 'PetHouse']
 					Else
-						Local $aRndFuncList = ['CleanYard', 'DonateCC,Train', 'RequestCC', 'CollectFreeMagicItems', 'Collect', 'UpgradeWall', 'Laboratory', 'UpgradeHeroes', _ 
-						'UpgradeBuilding', 'PetHouse']
+						Local $aRndFuncList = ['CleanYard', 'DonateCC,Train', 'RequestCC', 'CollectFreeMagicItems', 'Collect', 'UpgradeWall', 'Laboratory', 'UpgradeHeroes', _
+								'UpgradeBuilding', 'PetHouse']
 					EndIf
 				EndIf
 			EndIf
@@ -357,7 +357,7 @@ Func IsSearchAttackEnabled()
 					EndIf
 				EndIf
 				SetDebugLog("Stop attack wait time= " & $iWaitTime & " Seconds", $COLOR_DEBUG)
-				
+
 				If $g_bAttackPlannerEnable And $g_bAttackPlannerCloseCoC And $g_bNotifyTGEnable And $g_bChkNotifyPauseTime And $g_bNotifyAlertVillageReport Then
 					Local $sWaitTime = ""
 					Local $iMin, $iHour, $iWaitSec
@@ -367,24 +367,24 @@ Func IsSearchAttackEnabled()
 					If $iHour > 0 Then $sWaitTime &= $iHour & " hours "
 					If $iMin > 0 Then $sWaitTime &= $iMin & " minutes "
 					If $iWaitSec <= 60 Then $sWaitTime = "< 1 Minute"
-				
-					Local $text ="Village : " & $g_sNotifyOrigin & "%0A"
-					$text &="Profile : " & $g_sProfileCurrentName & "%0A"
+
+					Local $text = "Village : " & $g_sNotifyOrigin & "%0A"
+					$text &= "Profile : " & $g_sProfileCurrentName & "%0A"
 					;CG Score option
 					If $g_bChkClanGamesEnabled And $g_bChkNotifyCGScore Then
-					$text &="CG Score : " & $g_sClanGamesScore & "%0A"
+						$text &= "CG Score : " & $g_sClanGamesScore & "%0A"
 					EndIf
 					;Star Bonus option
-					If $g_bChkNotifyStarBonusAvail Then $text &="" & $StarBonusStatus & "%0A"
+					If $g_bChkNotifyStarBonusAvail Then $text &= "" & $StarBonusStatus & "%0A"
 					$text &= "[" & GetTranslatedFileIni("MBR Func_Notify", "Stats-G_Info_01", "G") & "]: " & _NumberFormat($g_aiCurrentLoot[$eLootGold])
 					$text &= " [" & GetTranslatedFileIni("MBR Func_Notify", "Stats-E_Info_01", "E") & "]: " & _NumberFormat($g_aiCurrentLoot[$eLootElixir]) & "%0A"
 					$text &= "[" & GetTranslatedFileIni("MBR Func_Notify", "Stats-DE_Info_01", "DE") & "]: " & _NumberFormat($g_aiCurrentLoot[$eLootDarkElixir])
 					$text &= " [" & GetTranslatedFileIni("MBR Func_Notify", "Stats-T_Info_01", "T") & "]: " & _NumberFormat($g_aiCurrentLoot[$eLootTrophy]) & "%0A"
 					$text &= "[" & GetTranslatedFileIni("MBR Func_Notify", "Free-Builders_Info_01", "Free Builder(s)") & "]: " & $g_iFreeBuilderCount & "%0A"
-					$text &="Bot Will Pause For : " & $sWaitTime
-					NotifyPushToTelegram($text)		
+					$text &= "Bot Will Pause For : " & $sWaitTime
+					NotifyPushToTelegram($text)
 				EndIf
-				
+
 				; close emulator as directed
 				UniversalCloseWaitOpenCoC($iWaitTime * 1000, "IsSearchAttackScheduled_", $g_bAttackPlannerCloseAll, True, $g_bAttackPlannerSuspendComputer) ; Close and Wait for attacking to start
 				$g_bRestart = True

@@ -68,4 +68,4 @@ EndFunc   ;==>sldCollectorTolerance
 
 Func cmbMinCollectorMatches()
 	$g_iCollectorMatchesMin = _GUICtrlComboBox_GetCurSel($g_hCmbMinCollectorMatches) + 1
-EndFunc   ;==>cmbLvl12
+EndFunc   ;==>cmbMinCollectorMatches

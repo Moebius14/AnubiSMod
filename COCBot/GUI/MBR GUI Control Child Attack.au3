@@ -24,19 +24,19 @@ Func cmbDBAlgorithm()
 			Case $iCmbValue = 0 ; Standard Attack
 				GUISetState(@SW_SHOWNOACTIVATE, $g_hGUI_DEADBASE_ATTACK_STANDARD)
 				GUISetState(@SW_HIDE, $g_hGUI_DEADBASE_ATTACK_SCRIPTED)
-				GUISetState(@SW_HIDE,$g_hGUI_DEADBASE_ATTACK_SMARTFARM)
+				GUISetState(@SW_HIDE, $g_hGUI_DEADBASE_ATTACK_SMARTFARM)
 			Case $iCmbValue = 1 ; Scripted Attack
 				GUISetState(@SW_HIDE, $g_hGUI_DEADBASE_ATTACK_STANDARD)
 				GUISetState(@SW_SHOWNOACTIVATE, $g_hGUI_DEADBASE_ATTACK_SCRIPTED)
-				GUISetState(@SW_HIDE,$g_hGUI_DEADBASE_ATTACK_SMARTFARM)
+				GUISetState(@SW_HIDE, $g_hGUI_DEADBASE_ATTACK_SMARTFARM)
 			Case $iCmbValue = 2 ; Smart Farm Attack
 				GUISetState(@SW_HIDE, $g_hGUI_DEADBASE_ATTACK_STANDARD)
 				GUISetState(@SW_HIDE, $g_hGUI_DEADBASE_ATTACK_SCRIPTED)
-				GUISetState(@SW_SHOWNOACTIVATE,$g_hGUI_DEADBASE_ATTACK_SMARTFARM)
+				GUISetState(@SW_SHOWNOACTIVATE, $g_hGUI_DEADBASE_ATTACK_SMARTFARM)
 			Case Else
 				GUISetState(@SW_HIDE, $g_hGUI_DEADBASE_ATTACK_STANDARD)
 				GUISetState(@SW_HIDE, $g_hGUI_DEADBASE_ATTACK_SCRIPTED)
-				GUISetState(@SW_HIDE,$g_hGUI_DEADBASE_ATTACK_SMARTFARM)
+				GUISetState(@SW_HIDE, $g_hGUI_DEADBASE_ATTACK_SMARTFARM)
 		EndSelect
 	EndIf
 EndFunc   ;==>cmbDBAlgorithm
@@ -195,14 +195,14 @@ EndFunc   ;==>IschkAttackWeekdays
 Func chkAttackPlannerEnable()
 	If GUICtrlRead($g_hChkAttackPlannerEnable) = $GUI_CHECKED Then
 		$g_bAttackPlannerEnable = True
-		
+
 		If GUICtrlRead($g_hChkAttackPlannerCloseAll) = $GUI_UNCHECKED Then
 			GUICtrlSetState($g_hChkAttackPlannerCloseAll, $GUI_ENABLE)
 			GUICtrlSetState($g_hChkAttackPlannerCloseCoC, $GUI_ENABLE)
 			GUICtrlSetState($g_hChkTrophyDropinPause, $GUI_ENABLE)
 			GUICtrlSetState($g_hChkVisitBbaseinPause, $GUI_ENABLE)
 			GUICtrlSetState($g_acmdRandomDelay, $GUI_ENABLE)
-			If GUICtrlRead($g_acmdRandomDelay) = $GUI_CHECKED Then 
+			If GUICtrlRead($g_acmdRandomDelay) = $GUI_CHECKED Then
 				GUICtrlSetState($g_acmdRandomDelayMin, $GUI_ENABLE)
 				GUICtrlSetState($g_hLabelDelayPauseIntervalAnd, $GUI_ENABLE)
 				GUICtrlSetState($g_acmdRandomDelayMax, $GUI_ENABLE)
@@ -224,7 +224,7 @@ Func chkAttackPlannerEnable()
 		GUICtrlSetState($g_hChkAttackPlannerDayLimit, $GUI_ENABLE)
 		chkAttackPlannerDayLimit()
 		cmbAttackPlannerRandom() ; check and update label is needed
-		
+
 		If GUICtrlRead($g_hChkAttackPlannerRandom) = $GUI_CHECKED Then
 			GUICtrlSetState($g_hCmbAttackPlannerRandom, $GUI_ENABLE)
 			GUICtrlSetState($g_hLbAttackPlannerRandom, $GUI_ENABLE)

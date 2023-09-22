@@ -44,7 +44,7 @@ Func PrepareAttack($pMatchMode, $bRemaining = False) ;Assigns troops
 		SetLog("Checking remaining unused troops for: " & $g_asModeText[$pMatchMode], $COLOR_INFO)
 	Else
 		SetLog("Initiating attack for: " & $g_asModeText[$pMatchMode], $COLOR_ERROR)
-		If $pMatchMode = $DB And $g_aiAttackAlgorithm[$DB] = 1 Then 
+		If $pMatchMode = $DB And $g_aiAttackAlgorithm[$DB] = 1 Then
 			$icmbCSVSpeedSetLog = ($icmbCSVSpeed[$DB] * 2)
 			SetLog("CSV Deployment Speed Max Variation : " & $icmbCSVSpeedSetLog & "%", $COLOR_OLIVE)
 		ElseIf $pMatchMode = $LB And $g_aiAttackAlgorithm[$LB] = 1 Then
@@ -52,7 +52,7 @@ Func PrepareAttack($pMatchMode, $bRemaining = False) ;Assigns troops
 			SetLog("CSV Deployment Speed Max Variation : " & $icmbCSVSpeedSetLog & "%", $COLOR_OLIVE)
 		EndIf
 	EndIf
-	
+
 	If _Sleep($DELAYPREPAREATTACK1) Then Return
 
 	Local $iTroopNumber = 0
@@ -82,7 +82,7 @@ Func PrepareAttack($pMatchMode, $bRemaining = False) ;Assigns troops
 			EndIf
 			If $bDropped = True Then
 				;If $bSlotDetectedAgain Then
-					; ok, hero was dropped, really? don't know yet... TODO add check if hero was really dropped...
+				; ok, hero was dropped, really? don't know yet... TODO add check if hero was really dropped...
 				;EndIf
 				SetDebugLog("Discard updating hero " & GetTroopName($g_avAttackTroops[$i][0]) & " because already dropped")
 				$iTroopNumber += $g_avAttackTroops[$i][2]
@@ -105,7 +105,7 @@ Func PrepareAttack($pMatchMode, $bRemaining = False) ;Assigns troops
 										If $g_aiAttackUseSiege[$pMatchMode] <= $eSiegeMachineCount + 1 Then
 											SelectCastleOrSiege($avAttackBar[$j][0], Number($avAttackBar[$j][5]), $g_aiAttackUseSiege[$pMatchMode])
 
-											If $g_aiAttackUseSiege[$pMatchMode] = 0 And Not($avAttackBar[$j][0] = $eCastle) Then ; if the user wanted to drop castle and no troops were available, do not drop a siege
+											If $g_aiAttackUseSiege[$pMatchMode] = 0 And Not ($avAttackBar[$j][0] = $eCastle) Then ; if the user wanted to drop castle and no troops were available, do not drop a siege
 												SetDebugLog("Discard use of " & GetTroopName($avAttackBar[$j][0]) & " (" & $avAttackBar[$j][0] & ")", $COLOR_ERROR)
 												ContinueLoop
 											EndIf
@@ -300,7 +300,7 @@ Func SelectWardenMode($iMode, $XCoord)
 					If $aAvailableModeArray[0] = $aSelectSymbol[$iMode] Then
 						Local $aSymbolCoords = StringSplit($aAvailableModeArray[1], ",", $STR_NOCOUNT)
 						ClickP($aSymbolCoords, 1, 0)
-						$sLogText =  " (" & $aSelectMode[$iMode] & " mode)"
+						$sLogText = " (" & $aSelectMode[$iMode] & " mode)"
 						ExitLoop
 					EndIf
 				Next
@@ -318,7 +318,7 @@ Func IsUnitUsed($iMatchMode, $iTroopIndex)
 		If $iMatchMode = $DT Or $iMatchMode = $TB Then Return True
 		Local $aTempArray = $g_aaiTroopsToBeUsed[$g_aiAttackTroopSelection[$iMatchMode]]
 		Local $iFoundAt = _ArraySearch($aTempArray, $iTroopIndex)
-		If $iFoundAt <> -1 Then	Return True
+		If $iFoundAt <> -1 Then Return True
 		Return False
 	Else ; Index is a Hero/Siege/Castle/Spell
 		If $iMatchMode <> $DB And $iMatchMode <> $LB Then

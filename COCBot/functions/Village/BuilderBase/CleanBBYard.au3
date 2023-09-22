@@ -62,7 +62,7 @@ Func CleanBBYard()
 EndFunc   ;==>CleanBBYard
 
 Func ClickRemoveObstacleBB()
-	If _ColorCheck(_GetPixelColor(330, 338  + $g_iMidOffsetY, True), Hex(0xC55115, 6), 20) Then ; close chat
+	If _ColorCheck(_GetPixelColor(330, 338 + $g_iMidOffsetY, True), Hex(0xC55115, 6), 20) Then  ; close chat
 		If Not ClickB("ClanChat") Then
 			SetLog("Error finding the Clan Tab Button", $COLOR_ERROR)
 			Click(332, 312 + $g_iMidOffsetY)
@@ -85,11 +85,11 @@ Func ClickRemoveObstacleBB()
 					$IsCleaningRunning = False
 				EndIf
 			WEnd
-		Else  
+		Else
 			If _Sleep(1000) Then Return
 		EndIf
 		Return True
 	Else
 		Return False
 	EndIf
-EndFunc
+EndFunc   ;==>ClickRemoveObstacleBB

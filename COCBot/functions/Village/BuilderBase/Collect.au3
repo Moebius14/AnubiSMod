@@ -57,7 +57,7 @@ Func CollectBuilderBase($bSwitchToBB = False, $bSwitchToNV = False, $bSetLog = T
 
 	If _Sleep($DELAYCOLLECT3) Then Return
 	If $bSwitchToNV Then SwitchBetweenBases() ; Switching back to the normal Village
-EndFunc
+EndFunc   ;==>CollectBuilderBase
 
 Func CollectElixirCart($bSwitchToBB = False, $bSwitchToNV = False, $b_FirstElixCartCheck = True)
 
@@ -70,7 +70,7 @@ Func CollectElixirCart($bSwitchToBB = False, $bSwitchToNV = False, $b_FirstElixC
 
 	If CheckBBElixirStorageFull(False) Then Return
 
-	Local $bRet, $aiElixirCart, $aiCollect, $aiAxes, $ElixirCartTimer = 0, $ElixirCartTimerDiff = 0, $bWaitOpponent = True 
+	Local $bRet, $aiElixirCart, $aiCollect, $aiAxes, $ElixirCartTimer = 0, $ElixirCartTimerDiff = 0, $bWaitOpponent = True
 	Local $t = 0
 
 	If $b_FirstElixCartCheck Then
@@ -92,7 +92,7 @@ Func CollectElixirCart($bSwitchToBB = False, $bSwitchToNV = False, $b_FirstElixC
 		If _Sleep(1000) Then Return
 		$bRet = False
 		For $i = 0 To 10
-			$aiCollect = decodeSingleCoord(FindImageInPlace2("CollectElixirCart", $g_sImgCollectElixirCart, 620, 515 + $g_iMidOffsetY, 720, 560 + $g_iMidOffsetY))
+			$aiCollect = decodeSingleCoord(FindImageInPlace2("CollectElixirCart", $g_sImgCollectElixirCart, 600, 500 + $g_iMidOffsetY, 700, 540 + $g_iMidOffsetY))
 			If IsArray($aiCollect) And UBound($aiCollect, 1) = 2 Then
 				$bRet = True
 				If _Sleep(2000) Then Return
@@ -106,7 +106,7 @@ Func CollectElixirCart($bSwitchToBB = False, $bSwitchToNV = False, $b_FirstElixC
 			If _Sleep(3000) Then Return
 		Else
 			SetLog("Collect Button Not Found", $COLOR_ERROR)
-		EndIf	
+		EndIf
 		CloseWindow(False, False, False, 20)
 	ElseIf $g_bChkBBaseFrequency Then
 		$bRet = False
@@ -123,7 +123,7 @@ Func CollectElixirCart($bSwitchToBB = False, $bSwitchToNV = False, $b_FirstElixC
 			Local $WaitOpponentTime = 30 ; 30 seconds
 			While 1
 				If $t = 0 Then SetLog("Wait " & $WaitOpponentTime & " seconds for the opponent to finish its attack...", $COLOR_ACTION)
-				$t +=1
+				$t += 1
 				If $ElixirCartTimerDiff > 0 Then
 					Local $Countdown = Floor((($WaitOpponentTime * 1000) - $ElixirCartTimerDiff) / 1000)
 					SetDebugLog("Waiting for opponent : " & $Countdown & " seconds", $COLOR_DEBUG)
@@ -146,7 +146,7 @@ Func CollectElixirCart($bSwitchToBB = False, $bSwitchToNV = False, $b_FirstElixC
 			If _Sleep(1000) Then Return
 			$bRet = False
 			For $i = 0 To 10
-				$aiCollect = decodeSingleCoord(FindImageInPlace2("CollectElixirCart", $g_sImgCollectElixirCart, 620, 515 + $g_iMidOffsetY, 720, 560 + $g_iMidOffsetY))
+				$aiCollect = decodeSingleCoord(FindImageInPlace2("CollectElixirCart", $g_sImgCollectElixirCart, 600, 500 + $g_iMidOffsetY, 700, 540 + $g_iMidOffsetY))
 				If IsArray($aiCollect) And UBound($aiCollect, 1) = 2 Then
 					$bRet = True
 					If _Sleep(2000) Then Return
@@ -160,11 +160,11 @@ Func CollectElixirCart($bSwitchToBB = False, $bSwitchToNV = False, $b_FirstElixC
 				If _Sleep(3000) Then Return
 			Else
 				SetLog("Collect Button Not Found", $COLOR_ERROR)
-			EndIf	
+			EndIf
 			CloseWindow(False, False, False, 20)
 		Else
 			SetDebugLog("Elixir Cart Empty", $COLOR_DEBUG)
 		EndIf
 	EndIf
 
-EndFunc
+EndFunc   ;==>CollectElixirCart

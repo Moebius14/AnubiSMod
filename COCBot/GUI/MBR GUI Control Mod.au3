@@ -61,7 +61,7 @@ Func ChkForumRequestOnly()
 		$g_bForumRequestOnly = False
 		GUICtrlSetState($g_hBtnWelcomeMessage, $GUI_DISABLE)
 	EndIf
-EndFunc
+EndFunc   ;==>ChkForumRequestOnly
 
 Func cmbStandardReplay()
 	If GUICtrlRead($g_hChkUseBotHumanization) = $GUI_CHECKED Then
@@ -84,14 +84,14 @@ Func cmbWarReplay()
 				GUICtrlSetState($i, $GUI_ENABLE)
 			Next
 			For $i = $g_HowManyinCWLabel To $g_HowManyinCWLCombo
-			GUICtrlSetState($i, $GUI_ENABLE)
+				GUICtrlSetState($i, $GUI_ENABLE)
 			Next
 		Else
 			For $i = $g_hLabel13 To $g_acmbPause[1]
 				GUICtrlSetState($i, $GUI_DISABLE)
 			Next
 			For $i = $g_HowManyinCWLabel To $g_HowManyinCWLCombo
-			GUICtrlSetState($i, $GUI_DISABLE)
+				GUICtrlSetState($i, $GUI_DISABLE)
 			Next
 		EndIf
 	EndIf
@@ -101,15 +101,15 @@ Func GuiLookatCurrentWar()
 	If GUICtrlRead($g_hChkUseBotHumanization) = $GUI_CHECKED Then
 		If _GUICtrlComboBox_GetCurSel($g_acmbPriority[7]) > 0 Then
 			For $i = $g_HowManyinCWLabel To $g_HowManyinCWLCombo
-			GUICtrlSetState($i, $GUI_ENABLE)
+				GUICtrlSetState($i, $GUI_ENABLE)
 			Next
 		Else
 			For $i = $g_HowManyinCWLabel To $g_HowManyinCWLCombo
-			GUICtrlSetState($i, $GUI_DISABLE)
+				GUICtrlSetState($i, $GUI_DISABLE)
 			Next
 		EndIf
 	EndIf
-EndFunc   ;==>cmbWarReplay
+EndFunc   ;==>GuiLookatCurrentWar
 
 Func DisplayChkNoLabCheck()
 	Switch _GUICtrlComboBox_GetCurSel($g_hChkNoLabCheck)
@@ -121,7 +121,7 @@ Func DisplayChkNoLabCheck()
 			$g_hChkNoLabCheckLabelTypo = "Check Regulary (2->5 hours)"
 	EndSwitch
 	GUICtrlSetData($g_hChkNoLabCheckLabel, $g_hChkNoLabCheckLabelTypo)
-EndFunc
+EndFunc   ;==>DisplayChkNoLabCheck
 
 Func DisplayChkNoPetHouseCheck()
 	Switch _GUICtrlComboBox_GetCurSel($g_hChkNoPetHouseCheck)
@@ -132,21 +132,21 @@ Func DisplayChkNoPetHouseCheck()
 		Case 2
 			$g_hChkNoPetHouseCheckLabelTypo = "Check Regulary (2->5 hours)"
 	EndSwitch
-If $g_iTownHallLevel > 13 Then ; Must be TH14 to Have Pet House
-	GUICtrlSetState($g_hChkNoPetHouseCheck, $GUI_ENABLE)
-ElseIf $g_iTownHallLevel > 0 And $g_iTownHallLevel < 14 Then
-	GUICtrlSetData($g_hChkNoPetHouseCheck, "Never")
-	_Ini_Add("Advanced", "NoPetHouseCheck", 0)
-	GUICtrlSetState($g_hChkNoPetHouseCheck, $GUI_DISABLE)
-	$g_hChkNoPetHouseCheckLabelTypo = "TownHall Is Not Level 14"
-ElseIf $g_iTownHallLevel = 0 Then
-	GUICtrlSetData($g_hChkNoPetHouseCheck, "Never")
-	_Ini_Add("Advanced", "NoPetHouseCheck", 0)
-	GUICtrlSetState($g_hChkNoPetHouseCheck, $GUI_DISABLE)
-	$g_hChkNoPetHouseCheckLabelTypo = "TH Level 14 Required, Please Locate TH"
-EndIf
-GUICtrlSetData($g_hChkNoPetHouseCheckLabel, $g_hChkNoPetHouseCheckLabelTypo)
-EndFunc
+	If $g_iTownHallLevel > 13 Then ; Must be TH14 to Have Pet House
+		GUICtrlSetState($g_hChkNoPetHouseCheck, $GUI_ENABLE)
+	ElseIf $g_iTownHallLevel > 0 And $g_iTownHallLevel < 14 Then
+		GUICtrlSetData($g_hChkNoPetHouseCheck, "Never")
+		_Ini_Add("Advanced", "NoPetHouseCheck", 0)
+		GUICtrlSetState($g_hChkNoPetHouseCheck, $GUI_DISABLE)
+		$g_hChkNoPetHouseCheckLabelTypo = "TownHall Is Not Level 14"
+	ElseIf $g_iTownHallLevel = 0 Then
+		GUICtrlSetData($g_hChkNoPetHouseCheck, "Never")
+		_Ini_Add("Advanced", "NoPetHouseCheck", 0)
+		GUICtrlSetState($g_hChkNoPetHouseCheck, $GUI_DISABLE)
+		$g_hChkNoPetHouseCheckLabelTypo = "TH Level 14 Required, Please Locate TH"
+	EndIf
+	GUICtrlSetData($g_hChkNoPetHouseCheckLabel, $g_hChkNoPetHouseCheckLabelTypo)
+EndFunc   ;==>DisplayChkNoPetHouseCheck
 
 Func DisplayChkNoStarLabCheck()
 	Switch _GUICtrlComboBox_GetCurSel($g_hChkNoStarLabCheck)
@@ -157,16 +157,16 @@ Func DisplayChkNoStarLabCheck()
 		Case 2
 			$g_hChkNoStarLabCheckLabelTypo = "Check Regulary (2->5 hours)"
 	EndSwitch
-GUICtrlSetData($g_hChkNoStarLabCheckLabel, $g_hChkNoStarLabCheckLabelTypo)
-EndFunc
+	GUICtrlSetData($g_hChkNoStarLabCheckLabel, $g_hChkNoStarLabCheckLabelTypo)
+EndFunc   ;==>DisplayChkNoStarLabCheck
 
 Func MagicItemsFrequencyDatas()
 	If _GUICtrlComboBox_GetCurSel($g_hCmbPriorityMagicItemsFrequency) = 0 Or GUICtrlRead($g_hChkFreeMagicItems) = $GUI_UNCHECKED Then
 		GUICtrlSetState($g_hcmbAdvancedVariation[0], $GUI_DISABLE)
-	ElseIf GUICtrlRead($g_hChkFreeMagicItems) = $GUI_CHECKED And _GUICtrlComboBox_GetCurSel($g_hCmbPriorityMagicItemsFrequency) > 0 Then 
+	ElseIf GUICtrlRead($g_hChkFreeMagicItems) = $GUI_CHECKED And _GUICtrlComboBox_GetCurSel($g_hCmbPriorityMagicItemsFrequency) > 0 Then
 		GUICtrlSetState($g_hcmbAdvancedVariation[0], $GUI_ENABLE)
 	EndIf
-EndFunc
+EndFunc   ;==>MagicItemsFrequencyDatas
 
 Func BBaseFrequencyDatas()
 	If _GUICtrlComboBox_GetCurSel($g_hCmbPriorityBBaseFrequency) = 0 Then
@@ -174,7 +174,7 @@ Func BBaseFrequencyDatas()
 	Else
 		If GUICtrlRead($g_hChkBBaseFrequency) = $GUI_CHECKED Then GUICtrlSetState($g_hcmbAdvancedVariation[1], $GUI_ENABLE)
 	EndIf
-EndFunc
+EndFunc   ;==>BBaseFrequencyDatas
 
 Func ChkBBaseFrequency()
 	If GUICtrlRead($g_hChkBBaseFrequency) = $GUI_CHECKED Then
@@ -188,7 +188,7 @@ Func ChkBBaseFrequency()
 			GUICtrlSetState($i, $GUI_DISABLE)
 		Next
 	EndIf
-EndFunc
+EndFunc   ;==>ChkBBaseFrequency
 
 Func PersoChallengesFrequencyDatas()
 	If _GUICtrlComboBox_GetCurSel($g_hCmbPriorityPersoChallengesFrequency) = 0 Then
@@ -196,10 +196,10 @@ Func PersoChallengesFrequencyDatas()
 	Else
 		If GUICtrlRead($g_hChkCollectRewards) = $GUI_CHECKED Then GUICtrlSetState($g_hcmbAdvancedVariation[2], $GUI_ENABLE)
 	EndIf
-EndFunc
+EndFunc   ;==>PersoChallengesFrequencyDatas
 
 Func ChkCollectRewards()
-If GUICtrlRead($g_hChkCollectRewards) = $GUI_CHECKED Then
+	If GUICtrlRead($g_hChkCollectRewards) = $GUI_CHECKED Then
 		$g_bChkCollectRewards = True
 		For $i = $g_hChkPersoChallengesFrequencyLabel To $g_hcmbAdvancedVariation[2]
 			GUICtrlSetState($i, $GUI_ENABLE)
@@ -213,137 +213,67 @@ If GUICtrlRead($g_hChkCollectRewards) = $GUI_CHECKED Then
 		Next
 		GUICtrlSetState($g_hChkPersoChallengesinPause, $GUI_DISABLE)
 	EndIf
-EndFunc
+EndFunc   ;==>ChkCollectRewards
 
 Func SwitchBetweenBasesMod()
-If Not $g_bFirstStartAccountSBB Then
-	$IstoSwitchMod = 0
-	$BBaseCheckTimer = 0
-	$DelayReturnedtocheckBBaseMS = 0
-	$g_bFirstStartAccountSBB = 1
-EndIf
+	If Not $g_bFirstStartAccountSBB Then
+		$IstoSwitchMod = 0
+		$BBaseCheckTimer = 0
+		$DelayReturnedtocheckBBaseMS = 0
+		$g_bFirstStartAccountSBB = 1
+	EndIf
 
 	$g_iCmbPriorityBBaseFrequency = _GUICtrlComboBox_GetCurSel($g_hCmbPriorityBBaseFrequency) * 60 * 60 * 1000
 	$g_icmbAdvancedVariation[1] = _GUICtrlComboBox_GetCurSel($g_hcmbAdvancedVariation[1]) / 10
-	
-If Not $g_bChkCollectBuilderBase And Not $g_bChkStartClockTowerBoost And Not $g_iChkBBSuggestedUpgrades And Not $g_bChkEnableBBAttack And Not $g_bChkCleanBBYard Then
-	If $g_bIsBBevent Then SetLog("Please Enable BB Attack To Complete Challenge !", $COLOR_ERROR)
-	$IstoSwitchMod = 0
-	Return
-EndIf	
 
-If $g_bIsBBevent And Not $g_bChkEnableBBAttack Then
-	SetLog("Please Enable BB Attack To Complete Challenge !", $COLOR_ERROR)
-	$IstoSwitchMod = 0
-	Return
-EndIf
-
-If Not $g_bChkBBaseFrequency Then ; Return True and End fonction Without Timing
-	If ($g_bChkEnableForgeBBGold Or $g_bChkEnableForgeBBElix) And ($g_aiCurrentLootBB[$eLootGoldBB] = 0 Or $g_aiCurrentLootBB[$eLootElixirBB] = 0) Then
-		$IstoSwitchMod = 1
-		Return
-	EndIf
-	If Not IsBBDailyChallengeAvailable() Then
+	If Not $g_bChkCollectBuilderBase And Not $g_bChkStartClockTowerBoost And Not $g_iChkBBSuggestedUpgrades And Not $g_bChkEnableBBAttack And Not $g_bChkCleanBBYard Then
+		If $g_bIsBBevent Then SetLog("Please Enable BB Attack To Complete Challenge !", $COLOR_ERROR)
 		$IstoSwitchMod = 0
 		Return
 	EndIf
-	$IstoSwitchMod = 1
-	Return
-	
-ElseIf $g_bChkBBaseFrequency Then ; Cases Check Frequency enable
 
-	If $g_iCmbPriorityBBaseFrequency = 0 Then ; Case Everytime, Return True and End fonction Without Timing
-		$IstoSwitchMod = 1
+	If $g_bIsBBevent And Not $g_bChkEnableBBAttack Then
+		SetLog("Please Enable BB Attack To Complete Challenge !", $COLOR_ERROR)
+		$IstoSwitchMod = 0
 		Return
 	EndIf
 
-	If Not $BBaseCheckTimer And Not $g_bIsBBevent Then; First Time
-	
-		$BBaseCheckTimer = TimerInit()
-	
-		Local $DelayReturnedtocheckBBaseInf = ($g_iCmbPriorityBBaseFrequency - ($g_iCmbPriorityBBaseFrequency * $g_icmbAdvancedVariation[1]))
-		Local $DelayReturnedtocheckBBaseSup = ($g_iCmbPriorityBBaseFrequency + ($g_iCmbPriorityBBaseFrequency * $g_icmbAdvancedVariation[1]))
-		$DelayReturnedtocheckBBaseMS = Random($DelayReturnedtocheckBBaseInf, $DelayReturnedtocheckBBaseSup, 1)
-		
-		Local $iWaitTime = $DelayReturnedtocheckBBaseMS
-		Local $sWaitTime = ""
-		Local $iMin, $iHour, $iWaitSec
-	
-			$iWaitSec = Round($iWaitTime / 1000)
-			$iHour = Floor(Floor($iWaitSec / 60) / 60)
-			$iMin = Floor(Mod(Floor($iWaitSec / 60), 60))
-			If $iHour > 0 Then $sWaitTime &= $iHour & " hours "
-			If $iMin > 0 Then $sWaitTime &= $iMin & " minutes "
-		SetLog("Time to Check Builder Base", $COLOR_OLIVE)
-		SetLog("Next Builder Base Check : " & $sWaitTime & "", $COLOR_OLIVE)
+	If Not $g_bChkBBaseFrequency Then ; Return True and End fonction Without Timing
+		If ($g_bChkEnableForgeBBGold Or $g_bChkEnableForgeBBElix) And ($g_aiCurrentLootBB[$eLootGoldBB] = 0 Or $g_aiCurrentLootBB[$eLootElixirBB] = 0) Then
+			$IstoSwitchMod = 1
+			Return
+		EndIf
 		If Not IsBBDailyChallengeAvailable() Then
 			$IstoSwitchMod = 0
 			Return
 		EndIf
 		$IstoSwitchMod = 1
 		Return
-	EndIf
 
-	If $g_bIsBBevent Then ; Case BB Event Detected
-		SetLog("BB Event Detected : Time to Switch To Builder Base", $COLOR_OLIVE)
-		$BBaseCheckTimer = TimerInit()
-	
-		Local $DelayReturnedtocheckBBaseInf = ($g_iCmbPriorityBBaseFrequency - ($g_iCmbPriorityBBaseFrequency * $g_icmbAdvancedVariation[1]))
-		Local $DelayReturnedtocheckBBaseSup = ($g_iCmbPriorityBBaseFrequency + ($g_iCmbPriorityBBaseFrequency * $g_icmbAdvancedVariation[1]))
-		$DelayReturnedtocheckBBaseMS = Random($DelayReturnedtocheckBBaseInf, $DelayReturnedtocheckBBaseSup, 1)
-		
-		Local $iWaitTime = $DelayReturnedtocheckBBaseMS
-		Local $sWaitTime = ""
-		Local $iMin, $iHour, $iWaitSec
-	
-			$iWaitSec = Round($iWaitTime / 1000)
-			$iHour = Floor(Floor($iWaitSec / 60) / 60)
-			$iMin = Floor(Mod(Floor($iWaitSec / 60), 60))
-			If $iHour > 0 Then $sWaitTime &= $iHour & " hours "
-			If $iMin > 0 Then $sWaitTime &= $iMin & " minutes "
-		SetLog("Next Regular Switch To Builder Base : " & $sWaitTime & "", $COLOR_OLIVE)
-		$IstoSwitchMod = 1
-		Return
-	EndIf
+	ElseIf $g_bChkBBaseFrequency Then ; Cases Check Frequency enable
 
-	Local $BBaseCheckTimerDiff = TimerDiff($BBaseCheckTimer)
-	
-	If $BBaseCheckTimer > 0 And $BBaseCheckTimerDiff < $DelayReturnedtocheckBBaseMS Then ;Delay not reached : return False
-	
-		Local $iWaitTime = ($DelayReturnedtocheckBBaseMS - $BBaseCheckTimerDiff)
-		Local $sWaitTime = ""
-		Local $iMin, $iHour, $iWaitSec
-	
-			$iWaitSec = Round($iWaitTime / 1000)
-			$iHour = Floor(Floor($iWaitSec / 60) / 60)
-			$iMin = Floor(Mod(Floor($iWaitSec / 60), 60))
-			If $iHour > 0 Then $sWaitTime &= $iHour & " hours "
-			If $iMin > 0 Then $sWaitTime &= $iMin & " minutes "
-			If $iWaitSec <= 60 Then $sWaitTime = "Imminent"
-		
-			SetLog("Next Builder Base Check : " & $sWaitTime & "", $COLOR_OLIVE)
-			$IstoSwitchMod = 0
-		Return
-	EndIf
-	
-	If $BBaseCheckTimer > 0 And $BBaseCheckTimerDiff > $DelayReturnedtocheckBBaseMS Then ;Delay reached : reset chrono ans set new delay. Return True
+		If $g_iCmbPriorityBBaseFrequency = 0 Then ; Case Everytime, Return True and End fonction Without Timing
+			$IstoSwitchMod = 1
+			Return
+		EndIf
+
+		If Not $BBaseCheckTimer And Not $g_bIsBBevent Then ; First Time
 
 			$BBaseCheckTimer = TimerInit()
-				
+
 			Local $DelayReturnedtocheckBBaseInf = ($g_iCmbPriorityBBaseFrequency - ($g_iCmbPriorityBBaseFrequency * $g_icmbAdvancedVariation[1]))
 			Local $DelayReturnedtocheckBBaseSup = ($g_iCmbPriorityBBaseFrequency + ($g_iCmbPriorityBBaseFrequency * $g_icmbAdvancedVariation[1]))
 			$DelayReturnedtocheckBBaseMS = Random($DelayReturnedtocheckBBaseInf, $DelayReturnedtocheckBBaseSup, 1)
-	
+
 			Local $iWaitTime = $DelayReturnedtocheckBBaseMS
 			Local $sWaitTime = ""
 			Local $iMin, $iHour, $iWaitSec
-	
-				$iWaitSec = Round($iWaitTime / 1000)
-				$iHour = Floor(Floor($iWaitSec / 60) / 60)
-				$iMin = Floor(Mod(Floor($iWaitSec / 60), 60))
-				If $iHour > 0 Then $sWaitTime &= $iHour & " hours "
-				If $iMin > 0 Then $sWaitTime &= $iMin & " minutes "
-		
+
+			$iWaitSec = Round($iWaitTime / 1000)
+			$iHour = Floor(Floor($iWaitSec / 60) / 60)
+			$iMin = Floor(Mod(Floor($iWaitSec / 60), 60))
+			If $iHour > 0 Then $sWaitTime &= $iHour & " hours "
+			If $iMin > 0 Then $sWaitTime &= $iMin & " minutes "
 			SetLog("Time to Check Builder Base", $COLOR_OLIVE)
 			SetLog("Next Builder Base Check : " & $sWaitTime & "", $COLOR_OLIVE)
 			If Not IsBBDailyChallengeAvailable() Then
@@ -351,54 +281,124 @@ ElseIf $g_bChkBBaseFrequency Then ; Cases Check Frequency enable
 				Return
 			EndIf
 			$IstoSwitchMod = 1
-		Return
+			Return
+		EndIf
+
+		If $g_bIsBBevent Then ; Case BB Event Detected
+			SetLog("BB Event Detected : Time to Switch To Builder Base", $COLOR_OLIVE)
+			$BBaseCheckTimer = TimerInit()
+
+			Local $DelayReturnedtocheckBBaseInf = ($g_iCmbPriorityBBaseFrequency - ($g_iCmbPriorityBBaseFrequency * $g_icmbAdvancedVariation[1]))
+			Local $DelayReturnedtocheckBBaseSup = ($g_iCmbPriorityBBaseFrequency + ($g_iCmbPriorityBBaseFrequency * $g_icmbAdvancedVariation[1]))
+			$DelayReturnedtocheckBBaseMS = Random($DelayReturnedtocheckBBaseInf, $DelayReturnedtocheckBBaseSup, 1)
+
+			Local $iWaitTime = $DelayReturnedtocheckBBaseMS
+			Local $sWaitTime = ""
+			Local $iMin, $iHour, $iWaitSec
+
+			$iWaitSec = Round($iWaitTime / 1000)
+			$iHour = Floor(Floor($iWaitSec / 60) / 60)
+			$iMin = Floor(Mod(Floor($iWaitSec / 60), 60))
+			If $iHour > 0 Then $sWaitTime &= $iHour & " hours "
+			If $iMin > 0 Then $sWaitTime &= $iMin & " minutes "
+			SetLog("Next Regular Switch To Builder Base : " & $sWaitTime & "", $COLOR_OLIVE)
+			$IstoSwitchMod = 1
+			Return
+		EndIf
+
+		Local $BBaseCheckTimerDiff = TimerDiff($BBaseCheckTimer)
+
+		If $BBaseCheckTimer > 0 And $BBaseCheckTimerDiff < $DelayReturnedtocheckBBaseMS Then ;Delay not reached : return False
+
+			Local $iWaitTime = ($DelayReturnedtocheckBBaseMS - $BBaseCheckTimerDiff)
+			Local $sWaitTime = ""
+			Local $iMin, $iHour, $iWaitSec
+
+			$iWaitSec = Round($iWaitTime / 1000)
+			$iHour = Floor(Floor($iWaitSec / 60) / 60)
+			$iMin = Floor(Mod(Floor($iWaitSec / 60), 60))
+			If $iHour > 0 Then $sWaitTime &= $iHour & " hours "
+			If $iMin > 0 Then $sWaitTime &= $iMin & " minutes "
+			If $iWaitSec <= 60 Then $sWaitTime = "Imminent"
+
+			SetLog("Next Builder Base Check : " & $sWaitTime & "", $COLOR_OLIVE)
+			$IstoSwitchMod = 0
+			Return
+		EndIf
+
+		If $BBaseCheckTimer > 0 And $BBaseCheckTimerDiff > $DelayReturnedtocheckBBaseMS Then ;Delay reached : reset chrono ans set new delay. Return True
+
+			$BBaseCheckTimer = TimerInit()
+
+			Local $DelayReturnedtocheckBBaseInf = ($g_iCmbPriorityBBaseFrequency - ($g_iCmbPriorityBBaseFrequency * $g_icmbAdvancedVariation[1]))
+			Local $DelayReturnedtocheckBBaseSup = ($g_iCmbPriorityBBaseFrequency + ($g_iCmbPriorityBBaseFrequency * $g_icmbAdvancedVariation[1]))
+			$DelayReturnedtocheckBBaseMS = Random($DelayReturnedtocheckBBaseInf, $DelayReturnedtocheckBBaseSup, 1)
+
+			Local $iWaitTime = $DelayReturnedtocheckBBaseMS
+			Local $sWaitTime = ""
+			Local $iMin, $iHour, $iWaitSec
+
+			$iWaitSec = Round($iWaitTime / 1000)
+			$iHour = Floor(Floor($iWaitSec / 60) / 60)
+			$iMin = Floor(Mod(Floor($iWaitSec / 60), 60))
+			If $iHour > 0 Then $sWaitTime &= $iHour & " hours "
+			If $iMin > 0 Then $sWaitTime &= $iMin & " minutes "
+
+			SetLog("Time to Check Builder Base", $COLOR_OLIVE)
+			SetLog("Next Builder Base Check : " & $sWaitTime & "", $COLOR_OLIVE)
+			If Not IsBBDailyChallengeAvailable() Then
+				$IstoSwitchMod = 0
+				Return
+			EndIf
+			$IstoSwitchMod = 1
+			Return
+		EndIf
 	EndIf
-EndIf
-EndFunc
+EndFunc   ;==>SwitchBetweenBasesMod
 
 Func ChkTrophyDropinPause()
-If GUICtrlRead($g_hChkTrophyDropinPause) = $GUI_CHECKED Then
+	If GUICtrlRead($g_hChkTrophyDropinPause) = $GUI_CHECKED Then
 		$g_bChkTrophyDropinPause = True
 	Else
 		$g_bChkTrophyDropinPause = False
-EndIf
-EndFunc
+	EndIf
+EndFunc   ;==>ChkTrophyDropinPause
 
 Func ChkVisitBbaseinPause()
-If GUICtrlRead($g_hChkVisitBbaseinPause) = $GUI_CHECKED Then
+	If GUICtrlRead($g_hChkVisitBbaseinPause) = $GUI_CHECKED Then
 		$g_bChkVisitBbaseinPause = True
 	Else
 		$g_bChkVisitBbaseinPause = False
-EndIf
-EndFunc
+	EndIf
+EndFunc   ;==>ChkVisitBbaseinPause
 
 Func ChkPersoChallengesinPause()
-If GUICtrlRead($g_hChkPersoChallengesinPause) = $GUI_CHECKED Then
+	If GUICtrlRead($g_hChkPersoChallengesinPause) = $GUI_CHECKED Then
 		$g_bChkPersoChallengesinPause = True
 	Else
 		$g_bChkPersoChallengesinPause = False
-EndIf
-EndFunc
+	EndIf
+EndFunc   ;==>ChkPersoChallengesinPause
 
 Func chkRandomPauseDelayEnable()
-If GUICtrlRead($g_acmdRandomDelay) = $GUI_CHECKED And $g_bAttackPlannerEnable = True Then
+	If GUICtrlRead($g_acmdRandomDelay) = $GUI_CHECKED And $g_bAttackPlannerEnable = True Then
 		$g_iacmdRandomDelay = True
 		For $i = $g_acmdRandomDelayMin To $g_hLabelDelayPauseIntervalUnit
 			GUICtrlSetState($i, $GUI_ENABLE)
 		Next
-ElseIf GUICtrlRead($g_acmdRandomDelay) = $GUI_UNCHECKED And $g_bAttackPlannerEnable = True Then
+	ElseIf GUICtrlRead($g_acmdRandomDelay) = $GUI_UNCHECKED And $g_bAttackPlannerEnable = True Then
 		$g_iacmdRandomDelay = False
 		For $i = $g_acmdRandomDelayMin To $g_hLabelDelayPauseIntervalUnit
 			GUICtrlSetState($i, $GUI_DISABLE)
 		Next
-ElseIf GUICtrlRead($g_acmdRandomDelay) = $GUI_UNCHECKED And $g_bAttackPlannerEnable = False Then
+	ElseIf GUICtrlRead($g_acmdRandomDelay) = $GUI_UNCHECKED And $g_bAttackPlannerEnable = False Then
 		$g_iacmdRandomDelay = False
 		For $i = $g_acmdRandomDelayMin To $g_hLabelDelayPauseIntervalUnit
 			GUICtrlSetState($i, $GUI_DISABLE)
 		Next
-EndIf
-$g_iacmdRandomDelayFinal = Random(($g_iacmdRandomDelayMin * 60), ($g_iacmdRandomDelayMax * 60), 1) ; seconds
-EndFunc
+	EndIf
+	$g_iacmdRandomDelayFinal = Random(($g_iacmdRandomDelayMin * 60), ($g_iacmdRandomDelayMax * 60), 1) ; seconds
+EndFunc   ;==>chkRandomPauseDelayEnable
 
 Func cmdRandomDelayMin()
 	If Int(GUICtrlRead($g_acmdRandomDelayMax)) < Int(GUICtrlRead($g_acmdRandomDelayMin)) Then
@@ -415,44 +415,44 @@ Func cmdRandomDelayMax()
 EndFunc   ;==>cmdRandomDelayMax
 
 Func btnModLogClear()
-_GUICtrlRichEdit_SetText($g_hTxtModLog, "")
-GUICtrlSetData($g_hTxtModLog, "------------------------------------------------------- Log of Mod Events -------------------------------------------------")
+	_GUICtrlRichEdit_SetText($g_hTxtModLog, "")
+	GUICtrlSetData($g_hTxtModLog, "------------------------------------------------------- Log of Mod Events -------------------------------------------------")
 EndFunc   ;==>btnModLogClear
 
 Func btnCGRALogClear()
-_GUICtrlRichEdit_SetText($g_hTxtCGRandomLog, "")
-GUICtrlSetData($g_hTxtCGRandomLog, "--------------------------------------------- Log of Clan Games Enabling------------------------------------------")
-EndFunc   ;==>btnModLogClear
+	_GUICtrlRichEdit_SetText($g_hTxtCGRandomLog, "")
+	GUICtrlSetData($g_hTxtCGRandomLog, "--------------------------------------------- Log of Clan Games Enabling------------------------------------------")
+EndFunc   ;==>btnCGRALogClear
 
 Func CGLogClear()
-_GUICtrlRichEdit_SetText($g_hTxtClanGamesLog, "")
-GUICtrlSetData($g_hTxtClanGamesLog, "--------------------------------------------------------- Clan Games LOG ------------------------------------------------")
+	_GUICtrlRichEdit_SetText($g_hTxtClanGamesLog, "")
+	GUICtrlSetData($g_hTxtClanGamesLog, "--------------------------------------------------------- Clan Games LOG ------------------------------------------------")
 EndFunc   ;==>CGLogClear
 
 Func HowManyinCWCombo()
-$g_HowManyPlayersInCW = ($g_iHowManyinCWCombo * 5) + 5
-EndFunc
+	$g_HowManyPlayersInCW = ($g_iHowManyinCWCombo * 5) + 5
+EndFunc   ;==>HowManyinCWCombo
 
 Func HowManyinCWLCombo()
-$g_HowManyPlayersInCWL = ($g_iHowManyinCWLCombo * 5) + 5
-EndFunc
+	$g_HowManyPlayersInCWL = ($g_iHowManyinCWLCombo * 5) + 5
+EndFunc   ;==>HowManyinCWLCombo
 
 Func LoadCurrentProfile()
-If $g_iTxtCurrentVillageName <> "" Then
-	GUICtrlSetData($g_hTxtNotifyOrigin, $g_iTxtCurrentVillageName)
-ElseIf $g_iTxtCurrentVillageName = "" Then
-	GUICtrlSetData($g_hTxtNotifyOrigin, $g_sProfileCurrentName)
-EndIf
-GUICtrlSetData($g_hGrpVillageName, GetTranslatedFileIni("MBR Main GUI", "Tab_03", "Profile") & ": " & $g_sProfileCurrentName)
-GUICtrlSetData($g_hGrpVillage, GetTranslatedFileIni("MBR Main GUI", "Tab_02", "Village") & "[TH" & $g_iTownHallLevel & "]" & " : " & $g_iTxtCurrentVillageName)
-Endfunc
+	If $g_iTxtCurrentVillageName <> "" Then
+		GUICtrlSetData($g_hTxtNotifyOrigin, $g_iTxtCurrentVillageName)
+	ElseIf $g_iTxtCurrentVillageName = "" Then
+		GUICtrlSetData($g_hTxtNotifyOrigin, $g_sProfileCurrentName)
+	EndIf
+	GUICtrlSetData($g_hGrpVillageName, GetTranslatedFileIni("MBR Main GUI", "Tab_03", "Profile") & ": " & $g_sProfileCurrentName)
+	GUICtrlSetData($g_hGrpVillage, GetTranslatedFileIni("MBR Main GUI", "Tab_02", "Village") & "[TH" & $g_iTownHallLevel & "]" & " : " & $g_iTxtCurrentVillageName)
+EndFunc   ;==>LoadCurrentProfile
 
 Func LoadCurrentAlias()
-If $g_iTxtCurrentVillageName = "" Then
-	GUICtrlSetData($g_iTxtCurrentVillageName, $g_sProfileCurrentName)
-EndIf
-GUICtrlSetData($g_hGrpVillage, GetTranslatedFileIni("MBR Main GUI", "Tab_02", "Village") & "[TH" & $g_iTownHallLevel & "]" & " : " & $g_iTxtCurrentVillageName)
-EndFunc
+	If $g_iTxtCurrentVillageName = "" Then
+		GUICtrlSetData($g_iTxtCurrentVillageName, $g_sProfileCurrentName)
+	EndIf
+	GUICtrlSetData($g_hGrpVillage, GetTranslatedFileIni("MBR Main GUI", "Tab_02", "Village") & "[TH" & $g_iTownHallLevel & "]" & " : " & $g_iTxtCurrentVillageName)
+EndFunc   ;==>LoadCurrentAlias
 
 Func chkAttackCGPlannerEnable()
 	If GUICtrlRead($g_hChkAttackCGPlannerEnable) = $GUI_CHECKED Then
@@ -463,8 +463,8 @@ Func chkAttackCGPlannerEnable()
 		chkAttackCGPlannerDayLimit()
 		cmbAttackCGPlannerRandom()
 		If GUICtrlRead($g_hChkAttackCGPlannerRandom) = $GUI_CHECKED Then
-			For $i = $g_hCmbAttackCGPlannerRandomTime to $g_hCmbAttackCGPlannerRandomProba
-			GUICtrlSetState($i, $GUI_ENABLE)
+			For $i = $g_hCmbAttackCGPlannerRandomTime To $g_hCmbAttackCGPlannerRandomProba
+				GUICtrlSetState($i, $GUI_ENABLE)
 			Next
 			GUICtrlSetState($g_hTxtCGRandomLog, $GUI_ENABLE)
 			For $i = 0 To 6
@@ -477,8 +477,8 @@ Func chkAttackCGPlannerEnable()
 			GUICtrlSetState($g_ahChkAttackCGHoursE1, $GUI_DISABLE)
 			GUICtrlSetState($g_ahChkAttackCGHoursE2, $GUI_DISABLE)
 		Else
-			For $i = $g_hCmbAttackCGPlannerRandomTime to $g_hCmbAttackCGPlannerRandomProba
-			GUICtrlSetState($i, $GUI_DISABLE)
+			For $i = $g_hCmbAttackCGPlannerRandomTime To $g_hCmbAttackCGPlannerRandomProba
+				GUICtrlSetState($i, $GUI_DISABLE)
 			Next
 			If GUICtrlRead($g_hChkAttackCGPlannerDayLimit) = $GUI_CHECKED Then
 				GUICtrlSetState($g_hTxtCGRandomLog, $GUI_ENABLE)
@@ -506,13 +506,13 @@ Func chkAttackCGPlannerEnable()
 			GUICtrlSetState($i, $GUI_DISABLE)
 		Next
 	EndIf
-EndFunc   ;==>chkAttackPlannerEnable
+EndFunc   ;==>chkAttackCGPlannerEnable
 
 Func chkAttackCGPlannerRandom()
 	If GUICtrlRead($g_hChkAttackCGPlannerRandom) = $GUI_CHECKED Then
 		$g_bAttackCGPlannerRandomEnable = True
-		For $i = $g_hCmbAttackCGPlannerRandomTime to $g_hCmbAttackCGPlannerRandomProba
-		GUICtrlSetState($i, $GUI_ENABLE)
+		For $i = $g_hCmbAttackCGPlannerRandomTime To $g_hCmbAttackCGPlannerRandomProba
+			GUICtrlSetState($i, $GUI_ENABLE)
 		Next
 		GUICtrlSetState($g_hTxtCGRandomLog, $GUI_ENABLE)
 		For $i = 0 To 6
@@ -527,7 +527,7 @@ Func chkAttackCGPlannerRandom()
 		GUICtrlSetState($g_ahChkAttackCGHoursE2, $GUI_DISABLE)
 	Else
 		$g_bAttackCGPlannerRandomEnable = False
-		For $i = $g_hCmbAttackCGPlannerRandomTime to $g_hCmbAttackCGPlannerRandomProba
+		For $i = $g_hCmbAttackCGPlannerRandomTime To $g_hCmbAttackCGPlannerRandomProba
 			GUICtrlSetState($i, $GUI_DISABLE)
 		Next
 		If GUICtrlRead($g_hChkAttackCGPlannerDayLimit) = $GUI_CHECKED Then
@@ -584,9 +584,9 @@ Func chkAttackCGPlannerDayLimit()
 			GUICtrlSetState($i, $GUI_DISABLE)
 		Next
 		If GUICtrlRead($g_hChkAttackCGPlannerRandom) = $GUI_CHECKED Then
-		GUICtrlSetState($g_hTxtCGRandomLog, $GUI_ENABLE)
+			GUICtrlSetState($g_hTxtCGRandomLog, $GUI_ENABLE)
 		Else
-		GUICtrlSetState($g_hTxtCGRandomLog, $GUI_DISABLE)
+			GUICtrlSetState($g_hTxtCGRandomLog, $GUI_DISABLE)
 		EndIf
 	EndIf
 	_cmbAttackCGPlannerDayLimit()
@@ -609,11 +609,11 @@ Func cmbAttackCGPlannerDayMax()
 EndFunc   ;==>cmbAttackCGPlannerDayMax
 
 Func LiveDailyCount()
-If $g_bAttackCGPlannerEnable And $g_bAttackCGPlannerDayLimit And $iRandomAttackCGCountToday > 0 Then
-	GUICtrlSetData($MaxDailyLimit, $iRandomAttackCGCountToday)
-	GUICtrlSetData($ActualNbrsAttacks, $g_aiAttackedCGCount)
-EndIf
-EndFunc
+	If $g_bAttackCGPlannerEnable And $g_bAttackCGPlannerDayLimit And $iRandomAttackCGCountToday > 0 Then
+		GUICtrlSetData($MaxDailyLimit, $iRandomAttackCGCountToday)
+		GUICtrlSetData($ActualNbrsAttacks, $g_aiAttackedCGCount)
+	EndIf
+EndFunc   ;==>LiveDailyCount
 
 Func _cmbAttackCGPlannerDayLimit()
 	Switch Int(GUICtrlRead($g_hCmbAttackCGPlannerDayMin))
@@ -698,16 +698,16 @@ Func IschkAttackCGWeekdays()
 EndFunc   ;==>IschkAttackCGWeekdays
 
 Func SwitchBetweenBasesMod2()
-If Not $g_bFirstStartAccountSBB2 Then
-	$CCBaseCheckTimer = 0
-	$DelayReturnedtocheckCCBaseMS = 0
-	$g_bFirstStartAccountSBB2 = 1
-EndIf
+	If Not $g_bFirstStartAccountSBB2 Then
+		$CCBaseCheckTimer = 0
+		$DelayReturnedtocheckCCBaseMS = 0
+		$g_bFirstStartAccountSBB2 = 1
+	EndIf
 
 	Local $aForgeType[5] = [$g_bChkEnableForgeGold, $g_bChkEnableForgeElix, $g_bChkEnableForgeDE, $g_bChkEnableForgeBBGold, $g_bChkEnableForgeBBElix]
 	Local $bForgeEnabled = False
 	For $i In $aForgeType ;check for every option enabled
-		If $i = True Then 
+		If $i = True Then
 			$bForgeEnabled = True
 			ExitLoop
 		EndIf
@@ -720,28 +720,28 @@ EndIf
 	If $g_iCmbPriorityCCBaseFrequency = 0 Then ; Case Everytime, Return True and End fonction Without Timing
 		Return True
 	EndIf
-	
-	If Not $CCBaseCheckTimer Then; First Time
-	
+
+	If Not $CCBaseCheckTimer Then ; First Time
+
 		$CCBaseCheckTimer = TimerInit()
-		
+
 		Local $DelayReturnedtocheckCCBaseInf = ($g_iCmbPriorityCCBaseFrequency - ($g_iCmbPriorityCCBaseFrequency * $g_icmbAdvancedVariationCC))
 		Local $DelayReturnedtocheckCCBaseSup = ($g_iCmbPriorityCCBaseFrequency + ($g_iCmbPriorityCCBaseFrequency * $g_icmbAdvancedVariationCC))
 		$DelayReturnedtocheckCCBaseMS = Random($DelayReturnedtocheckCCBaseInf, $DelayReturnedtocheckCCBaseSup, 1)
-		
+
 		Local $iWaitTime = $DelayReturnedtocheckCCBaseMS
 		Local $sWaitTime = ""
 		Local $iMin, $iHour, $iWaitSec
-	
-			$iWaitSec = Round($iWaitTime / 1000)
-			$iHour = Floor(Floor($iWaitSec / 60) / 60)
-			$iMin = Floor(Mod(Floor($iWaitSec / 60), 60))
-			If $iHour > 0 Then $sWaitTime &= $iHour & " hours "
-			If $iMin > 0 Then $sWaitTime &= $iMin & " minutes "
+
+		$iWaitSec = Round($iWaitTime / 1000)
+		$iHour = Floor(Floor($iWaitSec / 60) / 60)
+		$iMin = Floor(Mod(Floor($iWaitSec / 60), 60))
+		If $iHour > 0 Then $sWaitTime &= $iHour & " hours "
+		If $iMin > 0 Then $sWaitTime &= $iMin & " minutes "
 		If $IsCCGoldJustCollected Or $IsCCGoldJustCollectedDChallenge Then
 			SetLog("Time To Check Clan Capital Stuff, CC Gold Just Collected", $COLOR_OLIVE)
 		ElseIf $IsAutoForgeSlotJustCollected Then
-				SetLog("Time To Check Clan Capital Stuff, Auto Forge Slot Just Unlocked", $COLOR_OLIVE)
+			SetLog("Time To Check Clan Capital Stuff, Auto Forge Slot Just Unlocked", $COLOR_OLIVE)
 		Else
 			SetLog("Time To Check Clan Capital Stuff", $COLOR_OLIVE)
 		EndIf
@@ -750,53 +750,53 @@ EndIf
 	EndIf
 
 	Local $CCBaseCheckTimerDiff = TimerDiff($CCBaseCheckTimer)
-	
+
 	If $CCBaseCheckTimer > 0 And $CCBaseCheckTimerDiff < $DelayReturnedtocheckCCBaseMS And Not ($IsCCGoldJustCollected Or $IsCCGoldJustCollectedDChallenge) Then ;Delay not reached And no CCGold : Return False
-	
+
 		Local $iWaitTime = ($DelayReturnedtocheckCCBaseMS - $CCBaseCheckTimerDiff)
 		Local $sWaitTime = ""
 		Local $iMin, $iHour, $iWaitSec
-	
-			$iWaitSec = Round($iWaitTime / 1000)
-			$iHour = Floor(Floor($iWaitSec / 60) / 60)
-			$iMin = Floor(Mod(Floor($iWaitSec / 60), 60))
-			If $iHour > 0 Then $sWaitTime &= $iHour & " hours "
-			If $iMin > 0 Then $sWaitTime &= $iMin & " minutes "
-			If $iWaitSec <= 60 Then $sWaitTime = "Imminent"
-		
-			SetLog("Next Check For Clan Capital Stuff : " & $sWaitTime & "", $COLOR_OLIVE)
+
+		$iWaitSec = Round($iWaitTime / 1000)
+		$iHour = Floor(Floor($iWaitSec / 60) / 60)
+		$iMin = Floor(Mod(Floor($iWaitSec / 60), 60))
+		If $iHour > 0 Then $sWaitTime &= $iHour & " hours "
+		If $iMin > 0 Then $sWaitTime &= $iMin & " minutes "
+		If $iWaitSec <= 60 Then $sWaitTime = "Imminent"
+
+		SetLog("Next Check For Clan Capital Stuff : " & $sWaitTime & "", $COLOR_OLIVE)
 		Return False
 	EndIf
-	
+
 	If ($CCBaseCheckTimer > 0 And $CCBaseCheckTimerDiff > $DelayReturnedtocheckCCBaseMS) Or $IsCCGoldJustCollected Or $IsCCGoldJustCollectedDChallenge Or $IsAutoForgeSlotJustCollected Then ;Delay reached or CCgold: reset chrono ans set new delay. Return True
 
-			$CCBaseCheckTimer = TimerInit()
-			
-			Local $DelayReturnedtocheckCCBaseInf = ($g_iCmbPriorityCCBaseFrequency - ($g_iCmbPriorityCCBaseFrequency * $g_icmbAdvancedVariationCC))
-			Local $DelayReturnedtocheckCCBaseSup = ($g_iCmbPriorityCCBaseFrequency + ($g_iCmbPriorityCCBaseFrequency * $g_icmbAdvancedVariationCC))
-			$DelayReturnedtocheckCCBaseMS = Random($DelayReturnedtocheckCCBaseInf, $DelayReturnedtocheckCCBaseSup, 1)
-	
-			Local $iWaitTime = $DelayReturnedtocheckCCBaseMS
-			Local $sWaitTime = ""
-			Local $iMin, $iHour, $iWaitSec
-	
-				$iWaitSec = Round($iWaitTime / 1000)
-				$iHour = Floor(Floor($iWaitSec / 60) / 60)
-				$iMin = Floor(Mod(Floor($iWaitSec / 60), 60))
-				If $iHour > 0 Then $sWaitTime &= $iHour & " hours "
-				If $iMin > 0 Then $sWaitTime &= $iMin & " minutes "
-		
-			If $IsCCGoldJustCollected Or $IsCCGoldJustCollectedDChallenge Then
-				SetLog("Time To Check Clan Capital Stuff, CC Gold Just Collected", $COLOR_OLIVE)
-			ElseIf $IsAutoForgeSlotJustCollected Then
-				SetLog("Time To Check Clan Capital Stuff, Auto Forge Slot Just Unlocked", $COLOR_OLIVE)
-			Else
-				SetLog("Time To Check Clan Capital Stuff", $COLOR_OLIVE)
-			EndIf
-			SetLog("Next Check For Clan Capital Stuff : " & $sWaitTime & "", $COLOR_OLIVE)
+		$CCBaseCheckTimer = TimerInit()
+
+		Local $DelayReturnedtocheckCCBaseInf = ($g_iCmbPriorityCCBaseFrequency - ($g_iCmbPriorityCCBaseFrequency * $g_icmbAdvancedVariationCC))
+		Local $DelayReturnedtocheckCCBaseSup = ($g_iCmbPriorityCCBaseFrequency + ($g_iCmbPriorityCCBaseFrequency * $g_icmbAdvancedVariationCC))
+		$DelayReturnedtocheckCCBaseMS = Random($DelayReturnedtocheckCCBaseInf, $DelayReturnedtocheckCCBaseSup, 1)
+
+		Local $iWaitTime = $DelayReturnedtocheckCCBaseMS
+		Local $sWaitTime = ""
+		Local $iMin, $iHour, $iWaitSec
+
+		$iWaitSec = Round($iWaitTime / 1000)
+		$iHour = Floor(Floor($iWaitSec / 60) / 60)
+		$iMin = Floor(Mod(Floor($iWaitSec / 60), 60))
+		If $iHour > 0 Then $sWaitTime &= $iHour & " hours "
+		If $iMin > 0 Then $sWaitTime &= $iMin & " minutes "
+
+		If $IsCCGoldJustCollected Or $IsCCGoldJustCollectedDChallenge Then
+			SetLog("Time To Check Clan Capital Stuff, CC Gold Just Collected", $COLOR_OLIVE)
+		ElseIf $IsAutoForgeSlotJustCollected Then
+			SetLog("Time To Check Clan Capital Stuff, Auto Forge Slot Just Unlocked", $COLOR_OLIVE)
+		Else
+			SetLog("Time To Check Clan Capital Stuff", $COLOR_OLIVE)
+		EndIf
+		SetLog("Next Check For Clan Capital Stuff : " & $sWaitTime & "", $COLOR_OLIVE)
 		Return True
 	EndIf
-EndFunc
+EndFunc   ;==>SwitchBetweenBasesMod2
 
 Func CCBaseFrequencyDatas()
 	If _GUICtrlComboBox_GetCurSel($g_hCmbPriorityCCBaseFrequency) = 0 Then
@@ -804,7 +804,7 @@ Func CCBaseFrequencyDatas()
 	Else
 		GUICtrlSetState($g_hcmbAdvancedVariationCC, $GUI_ENABLE)
 	EndIf
-EndFunc
+EndFunc   ;==>CCBaseFrequencyDatas
 
 Func ChkEnableForgeGold()
 	If GUICtrlRead($g_hChkEnableForgeGold) = $GUI_CHECKED Then
@@ -812,7 +812,7 @@ Func ChkEnableForgeGold()
 		For $i = $g_hLbacmdGoldSaveMin To $g_acmdGoldSaveMin
 			GUICtrlSetState($i, $GUI_ENABLE)
 		Next
-	Else	
+	Else
 		$g_bChkEnableForgeGold = False
 		For $i = $g_hLbacmdGoldSaveMin To $g_acmdGoldSaveMin
 			GUICtrlSetState($i, $GUI_DISABLE)
@@ -826,7 +826,7 @@ Func ChkEnableForgeElix()
 		For $i = $g_hLbacmdElixSaveMin To $g_acmdElixSaveMin
 			GUICtrlSetState($i, $GUI_ENABLE)
 		Next
-	Else	
+	Else
 		$g_bChkEnableForgeElix = False
 		For $i = $g_hLbacmdElixSaveMin To $g_acmdElixSaveMin
 			GUICtrlSetState($i, $GUI_DISABLE)
@@ -840,7 +840,7 @@ Func ChkEnableForgeDE()
 		For $i = $g_hLbacmdDarkSaveMin To $g_acmdDarkSaveMin
 			GUICtrlSetState($i, $GUI_ENABLE)
 		Next
-	Else	
+	Else
 		$g_bChkEnableForgeDE = False
 		For $i = $g_hLbacmdDarkSaveMin To $g_acmdDarkSaveMin
 			GUICtrlSetState($i, $GUI_DISABLE)
@@ -854,7 +854,7 @@ Func ChkEnableForgeBBGold()
 		For $i = $g_hLbacmdBBGoldSaveMin To $g_acmdBBGoldSaveMin
 			GUICtrlSetState($i, $GUI_ENABLE)
 		Next
-	Else	
+	Else
 		$g_bChkEnableForgeBBGold = False
 		For $i = $g_hLbacmdBBGoldSaveMin To $g_acmdBBGoldSaveMin
 			GUICtrlSetState($i, $GUI_DISABLE)
@@ -868,7 +868,7 @@ Func ChkEnableForgeBBElix()
 		For $i = $g_hLbacmdBBElixSaveMin To $g_acmdBBElixSaveMin
 			GUICtrlSetState($i, $GUI_ENABLE)
 		Next
-	Else	
+	Else
 		$g_bChkEnableForgeBBElix = False
 		For $i = $g_hLbacmdBBElixSaveMin To $g_acmdBBElixSaveMin
 			GUICtrlSetState($i, $GUI_DISABLE)
@@ -879,22 +879,22 @@ EndFunc   ;==>ChkEnableForgeBBElix
 Func CmbForgeBuilder()
 	$g_iCmbForgeBuilder = Int(_GUICtrlComboBox_GetCurSel($g_hCmbForgeBuilder))
 	GUICtrlSetData($g_hLbCmbForgeBuilder, $g_iCmbForgeBuilder > 1 ? GetTranslatedFileIni("MBR GUI Design Child Village - Misc", "LblForgeBuilder", "Builders for Forge") : _
-	GetTranslatedFileIni("MBR GUI Design Child Village - Misc", "LblForgeBuilder", "Builder for Forge"))
+			GetTranslatedFileIni("MBR GUI Design Child Village - Misc", "LblForgeBuilder", "Builder for Forge"))
 EndFunc   ;==>CmbForgeBuilder
 
 Func EnableAutoUpgradeCC()
-If GUICtrlRead($g_hChkEnableAutoUpgradeCC) = $GUI_CHECKED Then
-	GUICtrlSetState($g_hChkStartWeekendRaid, $GUI_ENABLE)
-	GUICtrlSetState($g_hBtnCCUpgradesSettingsOpen, $GUI_ENABLE)
-	GUICtrlSetState($g_hChkEnableSmartSwitchCC, $GUI_ENABLE)
-	GUICtrlSetState($g_acmbPriorityChkRaid, $GUI_ENABLE)
-Else
-	GUICtrlSetState($g_hChkStartWeekendRaid, $GUI_DISABLE)
-	GUICtrlSetState($g_hBtnCCUpgradesSettingsOpen, $GUI_DISABLE)
-	GUICtrlSetState($g_hChkEnableSmartSwitchCC, $GUI_DISABLE)
-	GUICtrlSetState($g_acmbPriorityChkRaid, $GUI_DISABLE)
-EndIf
-EndFunc
+	If GUICtrlRead($g_hChkEnableAutoUpgradeCC) = $GUI_CHECKED Then
+		GUICtrlSetState($g_hChkStartWeekendRaid, $GUI_ENABLE)
+		GUICtrlSetState($g_hBtnCCUpgradesSettingsOpen, $GUI_ENABLE)
+		GUICtrlSetState($g_hChkEnableSmartSwitchCC, $GUI_ENABLE)
+		GUICtrlSetState($g_acmbPriorityChkRaid, $GUI_ENABLE)
+	Else
+		GUICtrlSetState($g_hChkStartWeekendRaid, $GUI_DISABLE)
+		GUICtrlSetState($g_hBtnCCUpgradesSettingsOpen, $GUI_DISABLE)
+		GUICtrlSetState($g_hChkEnableSmartSwitchCC, $GUI_DISABLE)
+		GUICtrlSetState($g_acmbPriorityChkRaid, $GUI_DISABLE)
+	EndIf
+EndFunc   ;==>EnableAutoUpgradeCC
 
 Func ViewBattleLog()
 	If _GUICtrlComboBox_GetCurSel($g_acmbPriorityBB[0]) = 0 Then
@@ -912,7 +912,7 @@ Func ViewBattleLog()
 			GUICtrlSetState($i, $GUI_DISABLE)
 		Next
 	EndIf
-EndFunc
+EndFunc   ;==>ViewBattleLog
 
 Func WatchBBBattles()
 	If _GUICtrlComboBox_GetCurSel($g_acmbPriorityBB[1]) = 0 Then
@@ -924,51 +924,51 @@ Func WatchBBBattles()
 			GUICtrlSetState($i, $GUI_ENABLE)
 		Next
 	EndIf
-EndFunc
+EndFunc   ;==>WatchBBBattles
 
 Func CheckDonateOften()
-If Not $g_bCheckDonateOften Or Not $g_bChkDonate Then Return
+	If Not $g_bCheckDonateOften Or Not $g_bChkDonate Then Return
 
-If _ColorCheck(_GetPixelColor(32, 354, True), "BF0718", 20) Then
-	SetLog("Check Donate Often", $COLOR_DEBUG1)
-	checkArmyCamp(True, True)
-		
-	; if in "Halt/Donate" don't skip near full army
-	If (Not SkipDonateNearFullTroops(True) Or $g_iCommandStop = 3 Or $g_iCommandStop = 0) And BalanceDonRec(True) Then DonateCC()
-	Local $IsAnythingDonated = False
-	If $IsTroopDonated Or $IsSpellDonated Or $IsSiegeDonated Then $IsAnythingDonated = True
+	If _ColorCheck(_GetPixelColor(32, 354, True), "BF0718", 20) Then
+		SetLog("Check Donate Often", $COLOR_DEBUG1)
+		checkArmyCamp(True, True)
 
-	If Not _Sleep($DELAYRUNBOT1) Then checkMainScreen(False)
-	If $g_bTrainEnabled And $IsAnythingDonated Then ; check for training enabled in halt mode
-		If $g_iActualTrainSkip < $g_iMaxTrainSkip Then
-			IschkAddRandomClickTimingDelay2()
-			IschkAddRandomClickTimingDelay1()
-			TrainSystem()
-			_Sleep($DELAYRUNBOT1)
-		Else
-			SetLog("Humanize bot, prevent to delete and recreate troops " & $g_iActualTrainSkip + 1 & "/" & $g_iMaxTrainSkip, $color_blue)
-			$g_iActualTrainSkip = $g_iActualTrainSkip + 1
-			If $g_iActualTrainSkip >= $g_iMaxTrainSkip Then
-				$g_iActualTrainSkip = 0
+		; if in "Halt/Donate" don't skip near full army
+		If (Not SkipDonateNearFullTroops(True) Or $g_iCommandStop = 3 Or $g_iCommandStop = 0) And BalanceDonRec(True) Then DonateCC()
+		Local $IsAnythingDonated = False
+		If $IsTroopDonated Or $IsSpellDonated Or $IsSiegeDonated Then $IsAnythingDonated = True
+
+		If Not _Sleep($DELAYRUNBOT1) Then checkMainScreen(False)
+		If $g_bTrainEnabled And $IsAnythingDonated Then ; check for training enabled in halt mode
+			If $g_iActualTrainSkip < $g_iMaxTrainSkip Then
+				IschkAddRandomClickTimingDelay2()
+				IschkAddRandomClickTimingDelay1()
+				TrainSystem()
+				_Sleep($DELAYRUNBOT1)
+			Else
+				SetLog("Humanize bot, prevent to delete and recreate troops " & $g_iActualTrainSkip + 1 & "/" & $g_iMaxTrainSkip, $color_blue)
+				$g_iActualTrainSkip = $g_iActualTrainSkip + 1
+				If $g_iActualTrainSkip >= $g_iMaxTrainSkip Then
+					$g_iActualTrainSkip = 0
+				EndIf
+				CheckOverviewFullArmy(True, False) ; use true parameter to open train overview window
+				If _Sleep($DELAYRESPOND) Then Return
+				getArmySpells()
+				If _Sleep($DELAYRESPOND) Then Return
+				getArmyHeroCount(False, True)
 			EndIf
-			CheckOverviewFullArmy(True, False) ; use true parameter to open train overview window
-			If _Sleep($DELAYRESPOND) Then Return
-			getArmySpells()
-			If _Sleep($DELAYRESPOND) Then Return
-			getArmyHeroCount(False, True)
+		Else
+			If $g_bDebugSetlogTrain Then SetLog("Halt mode - training disabled", $COLOR_DEBUG)
 		EndIf
-	Else
-		If $g_bDebugSetlogTrain Then SetLog("Halt mode - training disabled", $COLOR_DEBUG)
+		$IsTroopDonated = False
+		$IsSpellDonated = False
+		$IsSiegeDonated = False
 	EndIf
-	$IsTroopDonated = False
-	$IsSpellDonated = False
-	$IsSiegeDonated = False
-EndIf
-EndFunc
+EndFunc   ;==>CheckDonateOften
 
 Func StarBonusSearch()
 	Local $bRet = False
-	For $i = 1 to 10
+	For $i = 1 To 10
 		If WaitforPixel(84, 570 + $g_iBottomOffsetY, 97, 575 + $g_iBottomOffsetY, "AF5725", 20, 0.2) Then
 			$bRet = True
 			ExitLoop
@@ -977,38 +977,38 @@ Func StarBonusSearch()
 		If Not $g_bRunState Then Return
 	Next
 	Return $bRet
-EndFunc
+EndFunc   ;==>StarBonusSearch
 
 Func IsBBDailyChallengeAvailable()
 
 	If Not $g_bChkBBAttackForDailyChallenge Or Not $g_bChkEnableBBAttack Then Return True
-	
+
 	Local $iWaitTime = 0
 	Local $sWaitTime = ""
 	Local $iMin, $iHour, $iWaitSec
-	
-	
+
+
 	If _DateIsValid($g_sNewChallengeTime) Then
 		$TimeDiffBBChallenge = _DateDiff("n", _NowCalc(), $g_sNewChallengeTime)
 		If ProfileSwitchAccountEnabled() Then SwitchAccountVariablesReload("Save")
 		If $TimeDiffBBChallenge > 0 Then
-		
+
 			$iWaitTime = $TimeDiffBBChallenge * 60 * 1000
 			$sWaitTime = ""
-				
+
 			$iWaitSec = Round($iWaitTime / 1000)
 			$iHour = Floor(Floor($iWaitSec / 60) / 60)
 			$iMin = Floor(Mod(Floor($iWaitSec / 60), 60))
 			If $iHour > 0 Then $sWaitTime &= $iHour & " hours "
 			If $iMin > 0 Then $sWaitTime &= $iMin & " minutes "
-		
+
 			SetLog("Daily BB Challenge Unavailable", $COLOR_DEBUG1)
 			SetLog("New Challenge in " & $sWaitTime, $COLOR_ACTION)
 			SetLog("Check Builder Base Later", $COLOR_NAVY)
 			Return False
 		EndIf
 	EndIf
-	
+
 	ClickAway()
 	If _Sleep($DELAYRUNBOT1) Then Return
 
@@ -1023,8 +1023,8 @@ Func IsBBDailyChallengeAvailable()
 			$bRet = True
 			ExitLoop
 		EndIf
-		If _Sleep(200) Then Return		
-	Next	
+		If _Sleep(200) Then Return
+	Next
 	If $bRet = False Then
 		SetLog("Can't find button", $COLOR_ERROR)
 		ClickAway()
@@ -1038,19 +1038,19 @@ Func IsBBDailyChallengeAvailable()
 		$counter += 1
 		If $counter > 40 Then Return False
 	WEnd
-	
+
 	If _Sleep(5000) Then Return
-	
-	If QuickMIS("BC1", $g_sImgBBDailyAvail, 65, 320 + $g_iMidOffsetY, 105, 345 + $g_iMidOffsetY) Then
+
+	If QuickMIS("BC1", $g_sImgBBDailyAvail, 60, 305 + $g_iMidOffsetY, 110, 365 + $g_iMidOffsetY) Then
 		SetLog("Check Builder Base Now, Daily Challenge Available", $COLOR_SUCCESS1)
 		$g_IsBBDailyChallengeAvailable = True
 		CloseWindow()
 		Return True
 	Else
 		SetLog("Daily BB Challenge Unavailable", $COLOR_DEBUG1)
-		Local $Result = getOcrAndCapture("coc-uptime", 65, 570 + $g_iBottomOffsetY, 80, 18, True)
+		Local $Result = getOcrAndCapture("coc-uptime", 65, 600 + $g_iMidOffsetY, 80, 18, True)
 		Local $iBBDailyNewChalTime = ConvertOCRTime("Challenge Time", $Result, False)
-		
+
 		SetDebugLog("New Challenge OCR Time = " & $Result & ", $iBBDailyNewChalTime = " & $iBBDailyNewChalTime & " m", $COLOR_INFO)
 		Local $StartTime = _NowCalc() ; what is date:time now
 		If $iBBDailyNewChalTime > 0 Then
@@ -1059,19 +1059,19 @@ Func IsBBDailyChallengeAvailable()
 			$TimeDiffBBChallenge = _DateDiff("n", _NowCalc(), $g_sNewChallengeTime) ; what is difference between end time and now in minutes?
 			If ProfileSwitchAccountEnabled() Then SwitchAccountVariablesReload("Save")
 			If $TimeDiffBBChallenge > 0 Then
-			
+
 				$iWaitTime = $TimeDiffBBChallenge * 60 * 1000
 				$sWaitTime = ""
-					
+
 				$iWaitSec = Round($iWaitTime / 1000)
 				$iHour = Floor(Floor($iWaitSec / 60) / 60)
 				$iMin = Floor(Mod(Floor($iWaitSec / 60), 60))
 				If $iHour > 0 Then $sWaitTime &= $iHour & " hours "
 				If $iMin > 0 Then $sWaitTime &= $iMin & " minutes "
-		
+
 				SetLog("New Challenge in " & $sWaitTime, $COLOR_ACTION)
 				SetLog("Check Builder Base Later", $COLOR_NAVY)
-				
+
 				$g_IsBBDailyChallengeAvailable = False
 				CloseWindow()
 				Return False
@@ -1083,12 +1083,12 @@ Func IsBBDailyChallengeAvailable()
 		EndIf
 	EndIf
 
-EndFunc
+EndFunc   ;==>IsBBDailyChallengeAvailable
 
 Func IsBBDailyChallengeStillAvailable()
 
 	If Not $g_bChkBBAttackForDailyChallenge Then Return True
-	
+
 	ClickAway("Right")
 	If _Sleep($DELAYRUNBOT1) Then Return
 	Local $bRet = False
@@ -1102,8 +1102,8 @@ Func IsBBDailyChallengeStillAvailable()
 			$bRet = True
 			ExitLoop
 		EndIf
-		If _Sleep(200) Then Return		
-	Next	
+		If _Sleep(200) Then Return
+	Next
 	If $bRet = False Then
 		SetLog("Can't find button", $COLOR_ERROR)
 		ClickAway()
@@ -1117,10 +1117,10 @@ Func IsBBDailyChallengeStillAvailable()
 		$counter += 1
 		If $counter > 40 Then Return False
 	WEnd
-	
+
 	If _Sleep(5000) Then Return
-	
-	If QuickMIS("BC1", $g_sImgBBDailyAvail, 65, 320 + $g_iMidOffsetY, 105, 345 + $g_iMidOffsetY) Then
+
+	If QuickMIS("BC1", $g_sImgBBDailyAvail, 60, 305 + $g_iMidOffsetY, 110, 365 + $g_iMidOffsetY) Then
 		SetLog("Builder Base Daily Challenge Available", $COLOR_SUCCESS1)
 		$g_IsBBDailyChallengeAvailable = True
 		CloseWindow()
@@ -1132,17 +1132,17 @@ Func IsBBDailyChallengeStillAvailable()
 		Return False
 	EndIf
 
-EndFunc
+EndFunc   ;==>IsBBDailyChallengeStillAvailable
 
 Func ForumAccept()
 
 	If Not $g_bForumRequestOnly Then Return
-	
+
 	SetLog("Checking Requests From Forum", $COLOR_ACTION)
-	
+
 	Local $Scroll, $bRet, $Accepted = 0
 	Local $aForumWrite[2] = ["Forum", "forum"]
-	
+
 	If _Sleep(1000) Then Return
 	If Not ClickB("ClanChat") Then
 		SetLog("Error finding the Clan Tab Button", $COLOR_ERROR)
@@ -1150,7 +1150,7 @@ Func ForumAccept()
 	EndIf
 	If Not $g_bRunState Then Return
 	If _Sleep(1500) Then Return
-	
+
 	While 1
 		ForceCaptureRegion()
 		$Scroll = _PixelSearch(294, 81, 297, 93, Hex(0xFFFFFF, 6), 20)
@@ -1209,7 +1209,7 @@ Func ForumAccept()
 		EndIf
 		ExitLoop
 	WEnd
-	
+
 	If $Accepted > 0 Then
 		If $g_bUseWelcomeMessage And $g_aWelcomeMessage <> "" Then
 			SetLog("Sending Welcome Message", $COLOR_ACTION)
@@ -1232,13 +1232,13 @@ Func ForumAccept()
 
 	If Not $g_bRunState Then Return
 
-EndFunc
+EndFunc   ;==>ForumAccept
 
 Func SelectChatInput() ; select the textbox for Global chat or Clan Chat
 
 	Click($aChatSelectTextBox[0], $aChatSelectTextBox[1] + 5, 1, 0, "SelectTextBoxBtn")
 	If _Sleep(2000) Then Return
-	
+
 	If _WaitForCheckPixel($aOpenedChatSelectTextBox, $g_bCapturePixel, Default, "Wait for Chat Select Text Box:") Then
 		SetDebugLog("Chat TextBox Appeared.", $COLOR_INFO)
 		Return True
@@ -1246,7 +1246,7 @@ Func SelectChatInput() ; select the textbox for Global chat or Clan Chat
 		SetDebugLog("Not find $aOpenedChatSelectTextBox | Pixel was:" & _GetPixelColor($aOpenedChatSelectTextBox[0], $aOpenedChatSelectTextBox[1], True), $COLOR_ERROR)
 		Return False
 	EndIf
-	
+
 EndFunc   ;==>SelectChatInput
 
 Func ChatTextInput($g_sMessage)
@@ -1257,7 +1257,7 @@ Func ChatTextInput($g_sMessage)
 	SendText($g_sMessage)
 	If _Sleep(1000) Then Return
 	Return True
-	
+
 EndFunc   ;==>ChatTextInput
 
 Func SendTextChat() ; click send for clan chat
@@ -1270,7 +1270,7 @@ Func SendTextChat() ; click send for clan chat
 		SetDebugLog("Not find $aChatSendBtn | Pixel was:" & _GetPixelColor($aChatSendBtn[0], $aChatSendBtn[1], True), $COLOR_ERROR)
 		Return False
 	EndIf
-	
+
 EndFunc   ;==>SendTextChat
 
 Func chkUseWelcomeMessage()
@@ -1281,20 +1281,20 @@ Func chkUseWelcomeMessage()
 		$g_bUseWelcomeMessage = False
 		GUICtrlSetState($g_hTxtWelcomeMessage, $GUI_DISABLE)
 	EndIf
-EndFunc
+EndFunc   ;==>chkUseWelcomeMessage
 
 Func BtnWelcomeMessage()
 	GUISetState(@SW_SHOW, $g_hGUI_WelcomeMessage)
-EndFunc
+EndFunc   ;==>BtnWelcomeMessage
 
 Func CloseWelcomeMessage()
 	GUISetState(@SW_HIDE, $g_hGUI_WelcomeMessage)
-EndFunc
+EndFunc   ;==>CloseWelcomeMessage
 
 Func BtnSecondaryVillages()
 	GUISetState(@SW_SHOW, $g_hGUI_SecondaryVillages)
-EndFunc
+EndFunc   ;==>BtnSecondaryVillages
 
 Func CloseSecondaryVillages()
 	GUISetState(@SW_HIDE, $g_hGUI_SecondaryVillages)
-EndFunc
+EndFunc   ;==>CloseSecondaryVillages

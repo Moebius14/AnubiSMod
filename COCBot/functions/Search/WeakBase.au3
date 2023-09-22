@@ -143,13 +143,13 @@ EndFunc   ;==>getMinUISetting
 
 Func getIsWeak($aResults, $searchType)
 	Return $aResults[$eWeakEagle][2] <= Number($g_aiFilterMaxEagleLevel[$searchType]) _
-		And $aResults[$eWeakInferno][2] <= Number($g_aiFilterMaxInfernoLevel[$searchType]) _
-		And $aResults[$eWeakXBow][2] <= Number($g_aiFilterMaxXBowLevel[$searchType]) _
-		And $aResults[$eWeakWizard][2] <= Number($g_aiFilterMaxWizTowerLevel[$searchType]) _
-		And $aResults[$eWeakMortar][2] <= Number($g_aiFilterMaxMortarLevel[$searchType]) _
-		And $aResults[$eWeakAirDefense][2] <= Number($g_aiFilterMaxAirDefenseLevel[$searchType]) _
-		And $aResults[$eWeakScatter][2] <= Number($g_aiFilterMaxScatterLevel[$searchType]) _
-		And $aResults[$eWeakMonolith][2] <= Number($g_aiFilterMaxMonolithLevel[$searchType])
+			And $aResults[$eWeakInferno][2] <= Number($g_aiFilterMaxInfernoLevel[$searchType]) _
+			And $aResults[$eWeakXBow][2] <= Number($g_aiFilterMaxXBowLevel[$searchType]) _
+			And $aResults[$eWeakWizard][2] <= Number($g_aiFilterMaxWizTowerLevel[$searchType]) _
+			And $aResults[$eWeakMortar][2] <= Number($g_aiFilterMaxMortarLevel[$searchType]) _
+			And $aResults[$eWeakAirDefense][2] <= Number($g_aiFilterMaxAirDefenseLevel[$searchType]) _
+			And $aResults[$eWeakScatter][2] <= Number($g_aiFilterMaxScatterLevel[$searchType]) _
+			And $aResults[$eWeakMonolith][2] <= Number($g_aiFilterMaxMonolithLevel[$searchType])
 
 	Local $text = "DB"
 	If $searchType = 1 Then $text = "LB"
@@ -391,7 +391,7 @@ Func DefenseSearchMultiMatch($iDefenseType, $directory, $redlines = "DCD", $stat
 	Else
 		$maxLevelSearch = $maxLevel
 	EndIf
-	#ce
+	#ce Not required!
 	$maxLevelSearch = $maxLevel
 
 	; verify if red line data exists in dictionary, or was passed as parameter, to set flag for later retrevial of red line data and storage if needed.
@@ -439,7 +439,7 @@ Func DefenseSearchMultiMatch($iDefenseType, $directory, $redlines = "DCD", $stat
 		SetDebugLog("> Max return points: " & $maxReturnPoints, $COLOR_DEBUG)
 		SetDebugLog("> Red Line Exists:" & $bRedLineExists & " , redlines=" & $redlines, $COLOR_DEBUG)
 	EndIf
-	If _Sleep($DELAYCHECKARMYCAMP6) Then Return $return; 10ms improve pause button response
+	If _Sleep($DELAYCHECKARMYCAMP6) Then Return $return ; 10ms improve pause button response
 
 	; Capture the screen
 	If $bForceCaptureRegion = True Then _CaptureRegion2()

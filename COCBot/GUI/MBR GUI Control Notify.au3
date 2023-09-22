@@ -49,10 +49,10 @@ Func chkPBTGenabled()
 		GUICtrlSetState($g_hChkNotifyUpgrade, $GUI_ENABLE)
 		If GUICtrlRead($g_hChkAttackPlannerEnable) = $GUI_CHECKED And GUICtrlRead($g_hChkAttackPlannerCloseCoC) = $GUI_CHECKED Then
 			GUICtrlSetState($g_hChkNotifyPauseTime, $GUI_ENABLE)
-		EndIf	
+		EndIf
 		If GUICtrlRead($g_hChkAttackPlannerEnable) = $GUI_CHECKED And GUICtrlRead($g_hChkAttackPlannerCloseCoC) = $GUI_UNCHECKED Then
 			GUICtrlSetState($g_hChkNotifyPauseTime, $GUI_DISABLE)
-		EndIf	
+		EndIf
 		If GUICtrlRead($g_hChkAttackPlannerEnable) = $GUI_UNCHECKED Then
 			GUICtrlSetState($g_hChkNotifyPauseTime, $GUI_DISABLE)
 		EndIf
@@ -99,7 +99,7 @@ Func chkNotifyHours()
 	For $i = 0 To 23
 		GUICtrlSetState($g_hChkNotifyhours[$i], $b ? $GUI_ENABLE : $GUI_DISABLE)
 	Next
-	_GUI_Value_STATE($b ? "ENABLE" : "DISABLE", $g_hChkNotifyOnlyWeekDays&"#"&$g_hChkNotifyhoursE1&"#"&$g_hChkNotifyhoursE2)
+	_GUI_Value_STATE($b ? "ENABLE" : "DISABLE", $g_hChkNotifyOnlyWeekDays & "#" & $g_hChkNotifyhoursE1 & "#" & $g_hChkNotifyhoursE2)
 
 	If $b = False Then
 		GUICtrlSetState($g_hChkNotifyOnlyWeekDays, $GUI_UNCHECKED)
@@ -108,22 +108,22 @@ Func chkNotifyHours()
 EndFunc   ;==>chkNotifyHours
 
 Func chkNotifyhoursE1()
-    Local $b = GUICtrlRead($g_hChkNotifyhoursE1) = $GUI_CHECKED And GUICtrlRead($g_hChkNotifyhours[0]) = $GUI_CHECKED
-    For $i = 0 To 11
-	   GUICtrlSetState($g_hChkNotifyhours[$i], $b ? $GUI_UNCHECKED : $GUI_CHECKED)
-    Next
+	Local $b = GUICtrlRead($g_hChkNotifyhoursE1) = $GUI_CHECKED And GUICtrlRead($g_hChkNotifyhours[0]) = $GUI_CHECKED
+	For $i = 0 To 11
+		GUICtrlSetState($g_hChkNotifyhours[$i], $b ? $GUI_UNCHECKED : $GUI_CHECKED)
+	Next
 	Sleep(300)
 	GUICtrlSetState($g_hChkNotifyhoursE1, $GUI_UNCHECKED)
 EndFunc   ;==>chkNotifyhoursE1
 
 Func chkNotifyhoursE2()
-    Local $b = GUICtrlRead($g_hChkNotifyhoursE2) = $GUI_CHECKED And GUICtrlRead($g_hChkNotifyhours[12]) = $GUI_CHECKED
+	Local $b = GUICtrlRead($g_hChkNotifyhoursE2) = $GUI_CHECKED And GUICtrlRead($g_hChkNotifyhours[12]) = $GUI_CHECKED
 	For $i = 12 To 23
-	   GUICtrlSetState($g_hChkNotifyhours[$i], $b ? $GUI_UNCHECKED : $GUI_CHECKED)
-    Next
+		GUICtrlSetState($g_hChkNotifyhours[$i], $b ? $GUI_UNCHECKED : $GUI_CHECKED)
+	Next
 	Sleep(300)
 	GUICtrlSetState($g_hChkNotifyhoursE2, $GUI_UNCHECKED)
-EndFunc		;==>chkNotifyhoursE2
+EndFunc   ;==>chkNotifyhoursE2
 
 Func chkNotifyWeekDays()
 	Local $b = GUICtrlRead($g_hChkNotifyOnlyWeekDays) = $GUI_CHECKED
@@ -131,7 +131,7 @@ Func chkNotifyWeekDays()
 		GUICtrlSetState($g_hChkNotifyWeekdays[$i], $b ? $GUI_ENABLE : $GUI_DISABLE)
 	Next
 	GUICtrlSetState($g_ahChkNotifyWeekdaysE, $b ? $GUI_ENABLE : $GUI_DISABLE)
-EndFunc	;==>chkNotifyWeekDays
+EndFunc   ;==>chkNotifyWeekDays
 
 Func ChkNotifyWeekdaysE()
 	Local $b = BitOR(GUICtrlRead($g_hChkNotifyWeekdays[0]), GUICtrlRead($g_hChkNotifyWeekdays[1]), GUICtrlRead($g_hChkNotifyWeekdays[2]), GUICtrlRead($g_hChkNotifyWeekdays[3]), GUICtrlRead($g_hChkNotifyWeekdays[4]), GUICtrlRead($g_hChkNotifyWeekdays[5]), GUICtrlRead($g_hChkNotifyWeekdays[6])) = $GUI_CHECKED

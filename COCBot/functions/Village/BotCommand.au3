@@ -20,12 +20,12 @@ Func BotCommand()
 	Static $TimeToStop = -1
 
 	Local $bChkBotStop, $iCmbBotCond, $iCmbBotCommand
-	
+
 	If $g_bOutOfElixir Or $g_bOutOfGold Then ; Check for out of loot conditions
 		$bChkBotStop = True ; set halt attack mode
 		$iCmbBotCond = 18 ; set stay online/collect only mode
 		$iCmbBotCommand = 0 ; set stop mode to stay online
-		Local $sOutOf = ($g_bOutOfGold ? "Gold" : "") & (($g_bOutOfGold And $g_bOutOfElixir)? " and " : "") & ($g_bOutOfElixir ? "Elixir" : "")
+		Local $sOutOf = ($g_bOutOfGold ? "Gold" : "") & (($g_bOutOfGold And $g_bOutOfElixir) ? " and " : "") & ($g_bOutOfElixir ? "Elixir" : "")
 		SetLog("Out of " & $sOutOf & " condition detected, force HALT mode!", $COLOR_WARNING)
 	Else
 		$bChkBotStop = $g_bChkBotStop ; Normal use GUI halt mode values
@@ -38,7 +38,7 @@ Func BotCommand()
 	$g_bDonationEnabled = True
 
 	If $bChkBotStop Then
-		
+
 		If $iCmbBotCond < 15 Then
 			isGoldFull()
 			isElixirFull()
@@ -114,7 +114,7 @@ Func BotCommand()
 		EndSwitch
 
 		If $g_bMeetCondStop Then
-		
+
 			Switch $iCmbBotCommand
 				Case 0
 					If ($iCmbBotCond <= 14 And $g_bCollectStarBonus) Or $iCmbBotCond = 23 And StarBonusSearch() Then
@@ -174,23 +174,23 @@ Func BotCommand()
 							If _Sleep($DELAYRUNBOT3) Then Return
 							If IsToFillCCWithMedalsOnly() Then
 								Local $aRndFuncList = ['CleanYard', 'DonateCC,Train', 'CollectFreeMagicItems', 'Collect', 'Laboratory', 'UpgradeHeroes', _
-								'PetHouse']
+										'PetHouse']
 							Else
-								Local $aRndFuncList = ['CleanYard', 'DonateCC,Train', 'RequestCC', 'CollectFreeMagicItems', 'Collect', 'Laboratory', 'UpgradeHeroes', _ 
-								'PetHouse']
+								Local $aRndFuncList = ['CleanYard', 'DonateCC,Train', 'RequestCC', 'CollectFreeMagicItems', 'Collect', 'Laboratory', 'UpgradeHeroes', _
+										'PetHouse']
 							EndIf
-						Else	
+						Else
 							If IsToFillCCWithMedalsOnly() Then
 								Local $aRndFuncList = ['CleanYard', 'DonateCC,Train', 'CollectFreeMagicItems', 'Collect', 'UpgradeWall', 'Laboratory', 'UpgradeHeroes', _
-								'UpgradeBuilding', 'PetHouse']
+										'UpgradeBuilding', 'PetHouse']
 							Else
-								Local $aRndFuncList = ['CleanYard', 'DonateCC,Train', 'RequestCC', 'CollectFreeMagicItems', 'Collect', 'UpgradeWall', 'Laboratory', 'UpgradeHeroes', _ 
-								'UpgradeBuilding', 'PetHouse']
+								Local $aRndFuncList = ['CleanYard', 'DonateCC,Train', 'RequestCC', 'CollectFreeMagicItems', 'Collect', 'UpgradeWall', 'Laboratory', 'UpgradeHeroes', _
+										'UpgradeBuilding', 'PetHouse']
 							EndIf
 						EndIf
 						_ArrayShuffle($aRndFuncList)
 						For $Index In $aRndFuncList
-						_RunFunction($Index)
+							_RunFunction($Index)
 						Next
 						If _Sleep(1000) Then Return
 						DailyChallenges()
@@ -213,6 +213,14 @@ Func BotCommand()
 						SetLog("MyBot.run Bot Stop as requested", $COLOR_INFO)
 						If _Sleep($DELAYBOTCOMMAND1) Then Return
 						Return True
+					Else
+						If $g_bChkForceAttackOnClanGamesWhenHalt Then
+							_ClanGames(False, True)
+							If $IsCGEventRunning Then
+								SetLog("Clan Games Challenge Running, Finish it First.", $COLOR_ACTION)
+								Return False
+							EndIf
+						EndIf
 					EndIf
 					If $g_bNotifyStopBot Then
 						NotifyWhenStop("Stop")
@@ -257,23 +265,23 @@ Func BotCommand()
 							If _Sleep($DELAYRUNBOT3) Then Return
 							If IsToFillCCWithMedalsOnly() Then
 								Local $aRndFuncList = ['CleanYard', 'DonateCC,Train', 'CollectFreeMagicItems', 'Collect', 'Laboratory', 'UpgradeHeroes', _
-								'PetHouse']
+										'PetHouse']
 							Else
-								Local $aRndFuncList = ['CleanYard', 'DonateCC,Train', 'RequestCC', 'CollectFreeMagicItems', 'Collect', 'Laboratory', 'UpgradeHeroes', _ 
-								'PetHouse']
+								Local $aRndFuncList = ['CleanYard', 'DonateCC,Train', 'RequestCC', 'CollectFreeMagicItems', 'Collect', 'Laboratory', 'UpgradeHeroes', _
+										'PetHouse']
 							EndIf
-						Else	
+						Else
 							If IsToFillCCWithMedalsOnly() Then
 								Local $aRndFuncList = ['CleanYard', 'DonateCC,Train', 'CollectFreeMagicItems', 'Collect', 'UpgradeWall', 'Laboratory', 'UpgradeHeroes', _
-								'UpgradeBuilding', 'PetHouse']
+										'UpgradeBuilding', 'PetHouse']
 							Else
-								Local $aRndFuncList = ['CleanYard', 'DonateCC,Train', 'RequestCC', 'CollectFreeMagicItems', 'Collect', 'UpgradeWall', 'Laboratory', 'UpgradeHeroes', _ 
-								'UpgradeBuilding', 'PetHouse']
+								Local $aRndFuncList = ['CleanYard', 'DonateCC,Train', 'RequestCC', 'CollectFreeMagicItems', 'Collect', 'UpgradeWall', 'Laboratory', 'UpgradeHeroes', _
+										'UpgradeBuilding', 'PetHouse']
 							EndIf
 						EndIf
 						_ArrayShuffle($aRndFuncList)
 						For $Index In $aRndFuncList
-						_RunFunction($Index)
+							_RunFunction($Index)
 						Next
 						If _Sleep(1000) Then Return
 						DailyChallenges()
@@ -293,6 +301,14 @@ Func BotCommand()
 						BotClose()
 						Sleep(Random(1500, 2500, 1))
 						Return True ; HaHa - No Return possible!
+					Else
+						If $g_bChkForceAttackOnClanGamesWhenHalt Then
+							_ClanGames(False, True)
+							If $IsCGEventRunning Then
+								SetLog("Clan Games Challenge Running, Finish it First.", $COLOR_ACTION)
+								Return False
+							EndIf
+						EndIf
 					EndIf
 					If $g_bNotifyStopBot Then
 						NotifyWhenStop("CloseBot")
@@ -335,23 +351,23 @@ Func BotCommand()
 							If _Sleep($DELAYRUNBOT3) Then Return
 							If IsToFillCCWithMedalsOnly() Then
 								Local $aRndFuncList = ['CleanYard', 'DonateCC,Train', 'CollectFreeMagicItems', 'Collect', 'Laboratory', 'UpgradeHeroes', _
-								'PetHouse']
+										'PetHouse']
 							Else
-								Local $aRndFuncList = ['CleanYard', 'DonateCC,Train', 'RequestCC', 'CollectFreeMagicItems', 'Collect', 'Laboratory', 'UpgradeHeroes', _ 
-								'PetHouse']
+								Local $aRndFuncList = ['CleanYard', 'DonateCC,Train', 'RequestCC', 'CollectFreeMagicItems', 'Collect', 'Laboratory', 'UpgradeHeroes', _
+										'PetHouse']
 							EndIf
-						Else	
+						Else
 							If IsToFillCCWithMedalsOnly() Then
 								Local $aRndFuncList = ['CleanYard', 'DonateCC,Train', 'CollectFreeMagicItems', 'Collect', 'UpgradeWall', 'Laboratory', 'UpgradeHeroes', _
-								'UpgradeBuilding', 'PetHouse']
+										'UpgradeBuilding', 'PetHouse']
 							Else
-								Local $aRndFuncList = ['CleanYard', 'DonateCC,Train', 'RequestCC', 'CollectFreeMagicItems', 'Collect', 'UpgradeWall', 'Laboratory', 'UpgradeHeroes', _ 
-								'UpgradeBuilding', 'PetHouse']
+								Local $aRndFuncList = ['CleanYard', 'DonateCC,Train', 'RequestCC', 'CollectFreeMagicItems', 'Collect', 'UpgradeWall', 'Laboratory', 'UpgradeHeroes', _
+										'UpgradeBuilding', 'PetHouse']
 							EndIf
 						EndIf
 						_ArrayShuffle($aRndFuncList)
 						For $Index In $aRndFuncList
-						_RunFunction($Index)
+							_RunFunction($Index)
 						Next
 						If _Sleep(1000) Then Return
 						DailyChallenges()
@@ -372,6 +388,14 @@ Func BotCommand()
 						BotClose()
 						Sleep(Random(1500, 2500, 1))
 						Return True ; HaHa - No Return possible!
+					Else
+						If $g_bChkForceAttackOnClanGamesWhenHalt Then
+							_ClanGames(False, True)
+							If $IsCGEventRunning Then
+								SetLog("Clan Games Challenge Running, Finish it First.", $COLOR_ACTION)
+								Return False
+							EndIf
+						EndIf
 					EndIf
 					If $g_bNotifyStopBot Then
 						NotifyWhenStop("CloseANB")
@@ -415,23 +439,23 @@ Func BotCommand()
 							If _Sleep($DELAYRUNBOT3) Then Return
 							If IsToFillCCWithMedalsOnly() Then
 								Local $aRndFuncList = ['CleanYard', 'DonateCC,Train', 'CollectFreeMagicItems', 'Collect', 'Laboratory', 'UpgradeHeroes', _
-								'PetHouse']
+										'PetHouse']
 							Else
-								Local $aRndFuncList = ['CleanYard', 'DonateCC,Train', 'RequestCC', 'CollectFreeMagicItems', 'Collect', 'Laboratory', 'UpgradeHeroes', _ 
-								'PetHouse']
+								Local $aRndFuncList = ['CleanYard', 'DonateCC,Train', 'RequestCC', 'CollectFreeMagicItems', 'Collect', 'Laboratory', 'UpgradeHeroes', _
+										'PetHouse']
 							EndIf
-						Else	
+						Else
 							If IsToFillCCWithMedalsOnly() Then
 								Local $aRndFuncList = ['CleanYard', 'DonateCC,Train', 'CollectFreeMagicItems', 'Collect', 'UpgradeWall', 'Laboratory', 'UpgradeHeroes', _
-								'UpgradeBuilding', 'PetHouse']
+										'UpgradeBuilding', 'PetHouse']
 							Else
-								Local $aRndFuncList = ['CleanYard', 'DonateCC,Train', 'RequestCC', 'CollectFreeMagicItems', 'Collect', 'UpgradeWall', 'Laboratory', 'UpgradeHeroes', _ 
-								'UpgradeBuilding', 'PetHouse']
+								Local $aRndFuncList = ['CleanYard', 'DonateCC,Train', 'RequestCC', 'CollectFreeMagicItems', 'Collect', 'UpgradeWall', 'Laboratory', 'UpgradeHeroes', _
+										'UpgradeBuilding', 'PetHouse']
 							EndIf
 						EndIf
 						_ArrayShuffle($aRndFuncList)
 						For $Index In $aRndFuncList
-						_RunFunction($Index)
+							_RunFunction($Index)
 						Next
 						If _Sleep(1000) Then Return
 						DailyChallenges()
@@ -452,6 +476,14 @@ Func BotCommand()
 						Shutdown(BitOR($SD_SHUTDOWN, $SD_FORCE)) ; Force Shutdown
 						Sleep(Random(1500, 2500, 1))
 						Return True ; HaHa - No Return possible!
+					Else
+						If $g_bChkForceAttackOnClanGamesWhenHalt Then
+							_ClanGames(False, True)
+							If $IsCGEventRunning Then
+								SetLog("Clan Games Challenge Running, Finish it First.", $COLOR_ACTION)
+								Return False
+							EndIf
+						EndIf
 					EndIf
 					If $g_bNotifyStopBot Then
 						NotifyWhenStop("Shutdown")
@@ -494,23 +526,23 @@ Func BotCommand()
 							If _Sleep($DELAYRUNBOT3) Then Return
 							If IsToFillCCWithMedalsOnly() Then
 								Local $aRndFuncList = ['CleanYard', 'DonateCC,Train', 'CollectFreeMagicItems', 'Collect', 'Laboratory', 'UpgradeHeroes', _
-								'PetHouse']
+										'PetHouse']
 							Else
-								Local $aRndFuncList = ['CleanYard', 'DonateCC,Train', 'RequestCC', 'CollectFreeMagicItems', 'Collect', 'Laboratory', 'UpgradeHeroes', _ 
-								'PetHouse']
+								Local $aRndFuncList = ['CleanYard', 'DonateCC,Train', 'RequestCC', 'CollectFreeMagicItems', 'Collect', 'Laboratory', 'UpgradeHeroes', _
+										'PetHouse']
 							EndIf
-						Else	
+						Else
 							If IsToFillCCWithMedalsOnly() Then
 								Local $aRndFuncList = ['CleanYard', 'DonateCC,Train', 'CollectFreeMagicItems', 'Collect', 'UpgradeWall', 'Laboratory', 'UpgradeHeroes', _
-								'UpgradeBuilding', 'PetHouse']
+										'UpgradeBuilding', 'PetHouse']
 							Else
-								Local $aRndFuncList = ['CleanYard', 'DonateCC,Train', 'RequestCC', 'CollectFreeMagicItems', 'Collect', 'UpgradeWall', 'Laboratory', 'UpgradeHeroes', _ 
-								'UpgradeBuilding', 'PetHouse']
+								Local $aRndFuncList = ['CleanYard', 'DonateCC,Train', 'RequestCC', 'CollectFreeMagicItems', 'Collect', 'UpgradeWall', 'Laboratory', 'UpgradeHeroes', _
+										'UpgradeBuilding', 'PetHouse']
 							EndIf
 						EndIf
 						_ArrayShuffle($aRndFuncList)
 						For $Index In $aRndFuncList
-						_RunFunction($Index)
+							_RunFunction($Index)
 						Next
 						If _Sleep(1000) Then Return
 						DailyChallenges()
@@ -531,6 +563,14 @@ Func BotCommand()
 						Shutdown($SD_STANDBY) ; Sleep / Stand by
 						Sleep(Random(1500, 2500, 1))
 						Return True ; HaHa - No Return possible!
+					Else
+						If $g_bChkForceAttackOnClanGamesWhenHalt Then
+							_ClanGames(False, True)
+							If $IsCGEventRunning Then
+								SetLog("Clan Games Challenge Running, Finish it First.", $COLOR_ACTION)
+								Return False
+							EndIf
+						EndIf
 					EndIf
 					If $g_bNotifyStopBot Then
 						NotifyWhenStop("CPUSleep")
@@ -573,23 +613,23 @@ Func BotCommand()
 							If _Sleep($DELAYRUNBOT3) Then Return
 							If IsToFillCCWithMedalsOnly() Then
 								Local $aRndFuncList = ['CleanYard', 'DonateCC,Train', 'CollectFreeMagicItems', 'Collect', 'Laboratory', 'UpgradeHeroes', _
-								'PetHouse']
+										'PetHouse']
 							Else
-								Local $aRndFuncList = ['CleanYard', 'DonateCC,Train', 'RequestCC', 'CollectFreeMagicItems', 'Collect', 'Laboratory', 'UpgradeHeroes', _ 
-								'PetHouse']
+								Local $aRndFuncList = ['CleanYard', 'DonateCC,Train', 'RequestCC', 'CollectFreeMagicItems', 'Collect', 'Laboratory', 'UpgradeHeroes', _
+										'PetHouse']
 							EndIf
-						Else	
+						Else
 							If IsToFillCCWithMedalsOnly() Then
 								Local $aRndFuncList = ['CleanYard', 'DonateCC,Train', 'CollectFreeMagicItems', 'Collect', 'UpgradeWall', 'Laboratory', 'UpgradeHeroes', _
-								'UpgradeBuilding', 'PetHouse']
+										'UpgradeBuilding', 'PetHouse']
 							Else
-								Local $aRndFuncList = ['CleanYard', 'DonateCC,Train', 'RequestCC', 'CollectFreeMagicItems', 'Collect', 'UpgradeWall', 'Laboratory', 'UpgradeHeroes', _ 
-								'UpgradeBuilding', 'PetHouse']
+								Local $aRndFuncList = ['CleanYard', 'DonateCC,Train', 'RequestCC', 'CollectFreeMagicItems', 'Collect', 'UpgradeWall', 'Laboratory', 'UpgradeHeroes', _
+										'UpgradeBuilding', 'PetHouse']
 							EndIf
 						EndIf
 						_ArrayShuffle($aRndFuncList)
 						For $Index In $aRndFuncList
-						_RunFunction($Index)
+							_RunFunction($Index)
 						Next
 						If _Sleep(1000) Then Return
 						DailyChallenges()
@@ -610,6 +650,14 @@ Func BotCommand()
 						Shutdown(BitOR($SD_REBOOT, $SD_FORCE)) ; Reboot
 						Sleep(Random(1500, 2500, 1))
 						Return True ; HaHa - No Return possible!
+					Else
+						If $g_bChkForceAttackOnClanGamesWhenHalt Then
+							_ClanGames(False, True)
+							If $IsCGEventRunning Then
+								SetLog("Clan Games Challenge Running, Finish it First.", $COLOR_ACTION)
+								Return False
+							EndIf
+						EndIf
 					EndIf
 					If $g_bNotifyStopBot Then
 						NotifyWhenStop("Rebooting")
@@ -654,6 +702,14 @@ Func BotCommand()
 								EndIf
 								CloseCoC()
 								Return True
+							EndIf
+						EndIf
+					Else
+						If $g_bChkForceAttackOnClanGamesWhenHalt Then
+							_ClanGames(False, True)
+							If $IsCGEventRunning Then
+								SetLog("Clan Games Challenge Running, Finish it First.", $COLOR_ACTION)
+								Return False
 							EndIf
 						EndIf
 					EndIf
@@ -753,7 +809,7 @@ Func IsCCTreasuryFull()
 
 	Local $CCTreasuryCheckTimerDiff = TimerDiff($TreasuryCheckChrono)
 	If $TreasuryCheckChrono <> 0 Then
-		If $CCTreasuryCheckTimerDiff < 2*60*60*1000 Then
+		If $CCTreasuryCheckTimerDiff < 2 * 60 * 60 * 1000 Then
 			Switch $IsToCheckCCTreasury
 				Case True
 					Return False
@@ -781,33 +837,33 @@ Func IsCCTreasuryFull()
 	If _Sleep($DELAYCOLLECT3) Then Return
 	BuildingClick($g_aiClanCastlePos[0], $g_aiClanCastlePos[1], "#0250") ; select CC
 	If _Sleep($DELAYTREASURY2) Then Return
-	Local $BuildingInfo = BuildingInfo(242, 490 + $g_iBottomOffsetY)
+	Local $BuildingInfo = BuildingInfo(242, 488 + $g_iBottomOffsetY)
 
 	If $BuildingInfo[1] = "Clan Castle" Then
 		SetDebugLog("Clan Castle Windows Is Open", $COLOR_DEBUG1)
 	Else
 		For $i = 1 To 10
-			Local $NewX = Number($g_aiClanCastlePos[0] + (2*$i))
-			Local $NewY = Number($g_aiClanCastlePos[1] - (2*$i))
+			Local $NewX = Number($g_aiClanCastlePos[0] + (2 * $i))
+			Local $NewY = Number($g_aiClanCastlePos[1] - (2 * $i))
 			SetLog("Clan Castle Windows Didn't Open", $COLOR_DEBUG1)
 			SetLog("New Try...", $COLOR_DEBUG1)
 			ClickAway()
 			If _Sleep(Random(1000, 1500, 1)) Then Return
 			PureClickVisit($NewX, $NewY) ; select CC
 			If _Sleep($DELAYBUILDINGINFO1) Then Return
-			
-			$BuildingInfo = BuildingInfo(242, 490 + $g_iBottomOffsetY)
-			
+
+			$BuildingInfo = BuildingInfo(242, 488 + $g_iBottomOffsetY)
+
 			If $BuildingInfo[1] = "Clan Castle" Then ExitLoop
 			ClickAway()
-			$NewX = Number($g_aiClanCastlePos[0] - (2*$i))
-			$NewY = Number($g_aiClanCastlePos[1] + (2*$i))
+			$NewX = Number($g_aiClanCastlePos[0] - (2 * $i))
+			$NewY = Number($g_aiClanCastlePos[1] + (2 * $i))
 			If _Sleep(Random(1000, 1500, 1)) Then Return
 			PureClickVisit($NewX, $NewY) ; select CC
 			If _Sleep($DELAYBUILDINGINFO1) Then Return
-			
-			$BuildingInfo = BuildingInfo(242, 490 + $g_iBottomOffsetY)
-			
+
+			$BuildingInfo = BuildingInfo(242, 488 + $g_iBottomOffsetY)
+
 			If $BuildingInfo[1] = "Clan Castle" Then ExitLoop
 		Next
 	EndIf
@@ -848,4 +904,4 @@ Func IsCCTreasuryFull()
 		$IsToCheckCCTreasury = True
 		Return False
 	EndIf
-EndFunc
+EndFunc   ;==>IsCCTreasuryFull

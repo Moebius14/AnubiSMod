@@ -23,7 +23,7 @@ Global $g_hGUI_ATTACKOPTION = 0
 #include "MBR GUI Design Child Attack - Options-TrophySettings.au3"
 
 Global $g_hGUI_ATTACKOPTION_TAB = 0, $g_hGUI_ATTACKOPTION_TAB_ITEM1 = 0, $g_hGUI_ATTACKOPTION_TAB_ITEM2 = 0, $g_hGUI_ATTACKOPTION_TAB_ITEM3 = 0, _
-	   $g_hGUI_ATTACKOPTION_TAB_ITEM4 = 0, $g_hGUI_ATTACKOPTION_TAB_ITEM5 = 0
+		$g_hGUI_ATTACKOPTION_TAB_ITEM4 = 0, $g_hGUI_ATTACKOPTION_TAB_ITEM5 = 0
 
 Func CreateAttackSearchOptions()
 	$g_hGUI_ATTACKOPTION = _GUICreate("", $g_iSizeWGrpTab3, $g_iSizeHGrpTab3, 5, 25, BitOR($WS_CHILD, $WS_TABSTOP), -1, $g_hGUI_SEARCH)
@@ -32,15 +32,15 @@ Func CreateAttackSearchOptions()
 	GUISwitch($g_hGUI_ATTACKOPTION)
 	$g_hGUI_ATTACKOPTION_TAB = GUICtrlCreateTab(0, 0, $g_iSizeWGrpTab3, $g_iSizeHGrpTab3, BitOR($TCS_MULTILINE, $TCS_RIGHTJUSTIFY))
 	$g_hGUI_ATTACKOPTION_TAB_ITEM1 = GUICtrlCreateTabItem(GetTranslatedFileIni("MBR Main GUI", "Tab_03_STab_02_STab_0X_STab_01", -1))
-		CreateAttackSearchOptionsSearch()
+	CreateAttackSearchOptionsSearch()
 	$g_hGUI_ATTACKOPTION_TAB_ITEM2 = GUICtrlCreateTabItem(GetTranslatedFileIni("MBR Main GUI", "Tab_03_STab_02_STab_0X_STab_02", -1))
-		CreateAttackSearchOptionsAttack()
+	CreateAttackSearchOptionsAttack()
 	$g_hGUI_ATTACKOPTION_TAB_ITEM3 = GUICtrlCreateTabItem(GetTranslatedFileIni("MBR Main GUI", "Tab_03_STab_02_STab_05_STab_01", "SmartZap"))
-		CreateAttackNewSmartZap()
+	CreateAttackNewSmartZap()
 	$g_hGUI_ATTACKOPTION_TAB_ITEM4 = GUICtrlCreateTabItem(GetTranslatedFileIni("MBR Main GUI", "Tab_03_STab_02_STab_0X_STab_03", -1))
-		CreateAttackSearchOptionsEndBattle()
+	CreateAttackSearchOptionsEndBattle()
 	$g_hGUI_ATTACKOPTION_TAB_ITEM5 = GUICtrlCreateTabItem(GetTranslatedFileIni("MBR Main GUI", "Tab_03_STab_02_STab_05_STab_02", "Trophy Settings"))
-		CreateAttackSearchOptionsTrophySettings()
+	CreateAttackSearchOptionsTrophySettings()
 	GUICtrlCreateTabItem("")
 
 EndFunc   ;==>CreateAttackSearchOptions

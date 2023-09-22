@@ -48,7 +48,7 @@ Func getBuilderCount($bSuppressLog = False, $bBuilderBase = False)
 		Else
 			SetLog("Bad OCR read Free/Total Builders", $COLOR_ERROR) ; OCR returned unusable value?
 			$g_iGfxErrorCount += 1
-			If $g_iGfxErrorCount > $g_iGfxErrorMax Then 
+			If $g_iGfxErrorCount > $g_iGfxErrorMax Then
 				SetLog("gfxError occured, set to Reboot Android Instance", $COLOR_INFO)
 				$g_bGfxError = True
 				CheckAndroidReboot()

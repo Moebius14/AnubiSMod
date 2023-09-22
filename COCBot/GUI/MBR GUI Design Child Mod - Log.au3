@@ -19,7 +19,7 @@
 Global $g_hTxtModLog = 0, $g_hBtnModLogClear
 
 Func TabModLogGUI()
-Local $x = 0, $y = 0
+	Local $x = 0, $y = 0
 	$g_hTxtModLog = GUICtrlCreateEdit("", 10, 40, $g_iSizeWGrpTab3 - 3, 350, BitOR($GUI_SS_DEFAULT_EDIT, $ES_READONLY, $ES_AUTOVSCROLL))
 	GUICtrlSetData(-1, "------------------------------------------------------- Log of Mod Events -------------------------------------------------")
 
@@ -27,4 +27,4 @@ Local $x = 0, $y = 0
 	GUICtrlSetResizing(-1, $GUI_DOCKLEFT + $GUI_DOCKBOTTOM + $GUI_DOCKWIDTH + $GUI_DOCKHEIGHT)
 	_GUICtrlSetTip(-1, GetTranslatedFileIni("MBR GUI Design Log", "BtnModLogClear_Info_01", "Use this to clear the Mod Log."))
 	GUICtrlSetOnEvent(-1, "btnModLogClear")
-EndFunc   ;==>CreateAdvancedTab	
+EndFunc   ;==>TabModLogGUI

@@ -106,7 +106,7 @@ Func smartZap($minDE = -1)
 	Local $drillLvlOffset, $spellAdjust, $numDrills, $testX, $testY, $tempTestX, $tempTestY, $strikeGain, $expectedDE
 	Local $error = 5 ; 5 pixel error margin for DE drill search
 	Local $g_iSearchDark, $oldSearchDark = 0, $performedZap = False, $dropPoint
-	Local $aSpells[3][5] = [["Own", $eLSpell, -1, -1, 0] _		 ; Own/Donated, SpellType, AttackbarPosition, Level, Count
+	Local $aSpells[3][5] = [["Own", $eLSpell, -1, -1, 0] _         ; Own/Donated, SpellType, AttackbarPosition, Level, Count
 			, ["Donated", $eLSpell, -1, -1, 0] _
 			, ["Donated", $eESpell, -1, -1, 0]]
 	Local $bZapDrills = True
@@ -287,7 +287,7 @@ Func smartZap($minDE = -1)
 					If $tLastZap = 0 Then
 						$tLastZap = __TimerDiff($aDarkDrills[($aCluster[3])[$i]][4])
 					Else
-						$tLastZap = _Min(__TimerDiff($aDarkDrills[($aCluster[3])[$i]][4]),$tLastZap)
+						$tLastZap = _Min(__TimerDiff($aDarkDrills[($aCluster[3])[$i]][4]), $tLastZap)
 					EndIf
 				EndIf
 			Next
@@ -305,7 +305,7 @@ Func smartZap($minDE = -1)
 							Else
 								$sToDelete &= ";" & ($aCluster[3])[$i]
 							EndIf
-							$iToDelete +=1
+							$iToDelete += 1
 						EndIf
 					EndIf
 				Next
@@ -434,7 +434,7 @@ Func smartZap($minDE = -1)
 			SetDebugLog("$g_iSearchDark = " & Number($g_iSearchDark))
 			; Update statistics, if we zapped
 			If $skippedZap = False Then
-				If $Spellused = $eESpell  Then
+				If $Spellused = $eESpell Then
 					$g_iNumEQSpellsUsed += 1
 				Else
 					$g_iNumLSpellsUsed += 1
@@ -593,7 +593,7 @@ Func smartZap($minDE = -1)
 		SetLog("Count of easy targets: " & $iTargetCount, $COLOR_INFO)
 		; Get the number of zappable targets
 		$iTargetCount = 0
-		For $iTargets = 0 To _Min(Number(UBound($aEasyPrey) - 1),Number($aSpells[0][4] + $aSpells[1][4]) - 1)
+		For $iTargets = 0 To _Min(Number(UBound($aEasyPrey) - 1), Number($aSpells[0][4] + $aSpells[1][4]) - 1)
 			$iTargetCount += $aEasyPrey[$iTargets][2]
 		Next
 		SetLog("Easy targets, we can zap: " & $iTargetCount, $COLOR_INFO)
@@ -609,7 +609,7 @@ Func smartZap($minDE = -1)
 		$Spellused = zapBuilding($aSpells, $aEasyPrey[0][0] + 5, $aEasyPrey[0][1] + 5)
 		_ArrayDelete($aEasyPrey, 0)
 		If _Sleep(6000) Then Return
-	Wend
+	WEnd
 
 	If _CheckPixel($aWonOneStar, True) Then
 		SetLog("Hooray, One Star reached, we have won!", $COLOR_INFO)

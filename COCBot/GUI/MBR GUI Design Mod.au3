@@ -28,17 +28,17 @@ Func CreateMODTab()
 	GUISwitch($g_hGUI_MOD)
 	$g_hGUI_MOD_TAB = GUICtrlCreateTab(0, 0, $g_iSizeWGrpTab1, $g_iSizeHGrpTab1, BitOR($TCS_MULTILINE, $TCS_RIGHTJUSTIFY))
 
-		$g_hGUI_MOD_TAB_ITEM1 = GUICtrlCreateTabItem(GetTranslatedFileIni("MBR Main GUI", "Tab_Mod_Tab_01", "Humanization"))
-			TabHumanizationGUI()
-		$g_hGUI_MOD_TAB_ITEM2 = GUICtrlCreateTabItem(GetTranslatedFileIni("MBR Main GUI", "Tab_Mod_Tab_02", "Advanced"))
-			TabAdvancedGUI()
-		$g_hGUI_MOD_TAB_ITEM3 = GUICtrlCreateTabItem(GetTranslatedFileIni("MBR Main GUI", "Tab_Mod_Tab_03", "CG Planner"))
-			TabCGPlannerGUI()	
-		$g_hGUI_MOD_TAB_ITEM4 = GUICtrlCreateTabItem(GetTranslatedFileIni("MBR Main GUI", "Tab_Mod_Tab_04", "Mod Log"))
-			TabModLogGUI()
-			CreateChatWelcomeMessage()
-			CreateSecondaryVillages()
-			
+	$g_hGUI_MOD_TAB_ITEM1 = GUICtrlCreateTabItem(GetTranslatedFileIni("MBR Main GUI", "Tab_Mod_Tab_01", "Humanization"))
+	TabHumanizationGUI()
+	$g_hGUI_MOD_TAB_ITEM2 = GUICtrlCreateTabItem(GetTranslatedFileIni("MBR Main GUI", "Tab_Mod_Tab_02", "Advanced"))
+	TabAdvancedGUI()
+	$g_hGUI_MOD_TAB_ITEM3 = GUICtrlCreateTabItem(GetTranslatedFileIni("MBR Main GUI", "Tab_Mod_Tab_03", "CG Planner"))
+	TabCGPlannerGUI()
+	$g_hGUI_MOD_TAB_ITEM4 = GUICtrlCreateTabItem(GetTranslatedFileIni("MBR Main GUI", "Tab_Mod_Tab_04", "Mod Log"))
+	TabModLogGUI()
+	CreateChatWelcomeMessage()
+	CreateSecondaryVillages()
+
 	GUICtrlCreateTabItem("")
 EndFunc   ;==>CreateMODTab
 

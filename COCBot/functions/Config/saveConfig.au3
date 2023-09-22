@@ -61,7 +61,7 @@ EndFunc   ;==>SaveProfileConfig
 Func _SaveProfileConfigAdbPath($sIniFile = Default, $sAdbPath = $g_sAndroidAdbPath)
 	If $sIniFile = Default Then $sIniFile = $g_sProfilePath & "\profile.ini"
 	IniWrite($sIniFile, "general", "adb.path", $sAdbPath)
-EndFunc   ;==>SaveProfileConfigAdbPath
+EndFunc   ;==>_SaveProfileConfigAdbPath
 
 Func SaveWeakBaseStats()
 	_Ini_Clear()
@@ -90,18 +90,18 @@ Func SaveBuildingConfig()
 
 	_Ini_Add("upgrade", "StarLabPosX", $g_aiStarLaboratoryPos[0])
 	_Ini_Add("upgrade", "StarLabPosY", $g_aiStarLaboratoryPos[1])
-	
+
 	_Ini_Add("upgrade", "BattleMachinePosX", $g_aiBattleMachinePos[0])
 	_Ini_Add("upgrade", "BattleMachinePosY", $g_aiBattleMachinePos[1])
 
 	_Ini_Add("other", "BuilderHallPosX", $g_aiBuilderHallPos[0])
 	_Ini_Add("other", "BuilderHallPosY", $g_aiBuilderHallPos[1])
 	_Ini_Add("other", "LevelBuilderHall", $g_iBuilderHallLevel)
-	
+
 	_Ini_Add("other", "DoubleCannonPosX", $g_aiDoubleCannonPos[0]) ; ? not sure why this is needed
 	_Ini_Add("other", "DoubleCannonPosY", $g_aiDoubleCannonPos[1])
 	_Ini_Add("other", "DoubleCannonPosV", $g_aiDoubleCannonPos[2])
-	
+
 	_Ini_Add("other", "ArcherTowerPosX", $g_aiArcherTowerPos[0]) ; ? not sure why this is needed
 	_Ini_Add("other", "ArcherTowerPosY", $g_aiArcherTowerPos[1])
 	_Ini_Add("other", "ArcherTowerPosV", $g_aiArcherTowerPos[2])
@@ -123,7 +123,7 @@ Func SaveBuildingConfig()
 
 	_Ini_Add("other", "xCCPos", $g_aiClanCastlePos[0])
 	_Ini_Add("other", "yCCPos", $g_aiClanCastlePos[1])
-	
+
 	_Ini_Add("other", "CCLvl", $g_aiClanCastleLvl)
 	_Ini_Add("other", "CCTCap", $g_aiClanCastleTroopsCap)
 	_Ini_Add("other", "CCSCap", $g_aiClanCastleSpellsCap)
@@ -161,8 +161,8 @@ Func SaveBuildingConfig()
 	_Ini_Add("upgrade", "usebookspellMinTime", $g_iUseBOSTime)
 	_Ini_Add("upgrade", "usebookeverything", $g_bUseBOE ? 1 : 0)
 	_Ini_Add("upgrade", "usebookeverythingMinTime", $g_iUseBOETime)
-;	_Ini_Add("upgrade", "upgradelabelexircost", $g_iLaboratoryElixirCost)
-;	_Ini_Add("upgrade", "upgradelabdelexircost", $g_iLaboratoryDElixirCost)
+	;	_Ini_Add("upgrade", "upgradelabelexircost", $g_iLaboratoryElixirCost)
+	;	_Ini_Add("upgrade", "upgradelabdelexircost", $g_iLaboratoryDElixirCost)
 	_Ini_Add("upgrade", "upgradestartroops", $g_bAutoStarLabUpgradeEnable ? 1 : 0)
 	_Ini_Add("upgrade", "upgradestartroopname", $g_iCmbStarLaboratory)
 
@@ -283,7 +283,7 @@ Func SaveRegularConfig()
 	SaveConfig_641_1()
 	; <><><><> Bot / Debug <><><><>
 	SaveConfig_Debug()
-		; <><><><> Attack Plan / Strategies <><><><>
+	; <><><><> Attack Plan / Strategies <><><><>
 	; <<< nothing here >>>
 
 	; <><><><> Bot / Profiles <><><><>
@@ -345,7 +345,7 @@ Func SaveConfig_Debug()
 	_Ini_Add("debug", "debugsetclick", $g_bDebugClick ? 1 : 0)
 	_Ini_Add("debug", "ChkClanGamesDebug", $g_bChkClanGamesDebug ? 1 : 0)
 	_Ini_Add("debug", "ChkCCGDebugNoneFound", $g_bChkCCGDebugNoneFound ? 1 : 0)
-	_Ini_Add("debug", "debugFunc", ($g_bDebugFuncTime And $g_bDebugFuncCall)? 1 : 0)
+	_Ini_Add("debug", "debugFunc", ($g_bDebugFuncTime And $g_bDebugFuncCall) ? 1 : 0)
 	_Ini_Add("debug", "disablezoomout", $g_bDebugDisableZoomout ? 1 : 0)
 	_Ini_Add("debug", "disablevillagecentering", $g_bDebugDisableVillageCentering ? 1 : 0)
 	_Ini_Add("debug", "debugdeadbaseimage", $g_bDebugDeadBaseImage ? 1 : 0)
@@ -421,9 +421,9 @@ Func SaveConfig_600_6()
 	_Ini_Add("other", "ChkBBSuggestedUpgradesIgnoreWall", $g_iChkBBSuggestedUpgradesIgnoreWall)
 
 	_Ini_Add("other", "ChkPlacingNewBuildings", $g_iChkPlacingNewBuildings)
-	
+
 	; OTTO Building Upgrades
- 	_Ini_Add("other", "chkBattleMachineUpgrade", $g_bBattleMachineUpgrade)
+	_Ini_Add("other", "chkBattleMachineUpgrade", $g_bBattleMachineUpgrade)
 	_Ini_Add("other", "chkDoubleCannonUpgrade", $g_bDoubleCannonUpgrade)
 	_Ini_Add("other", "chkArcherTowerUpgrade", $g_bArcherTowerUpgrade)
 	_Ini_Add("other", "chkMultiMortarUpgrade", $g_bMultiMortarUpgrade)
@@ -448,7 +448,7 @@ Func SaveConfig_600_6()
 	_Ini_Add("other", "ChkClanGamesMiscellaneous", $g_bChkClanGamesMiscellaneous ? 1 : 0)
 	_Ini_Add("other", "ChkClanGamesSpell", $g_bChkClanGamesSpell ? 1 : 0)
 	_Ini_Add("other", "ChkClanGamesBBBattle", $g_bChkClanGamesBBBattle ? 1 : 0)
-    _Ini_Add("other", "ChkClanGamesBBDestruction", $g_bChkClanGamesBBDes ? 1 : 0)
+	_Ini_Add("other", "ChkClanGamesBBDestruction", $g_bChkClanGamesBBDes ? 1 : 0)
 	_Ini_Add("other", "ChkClanGamesBBTroops", $g_bChkClanGamesBBTroops ? 1 : 0)
 	_Ini_Add("other", "ChkForceBBAttackOnClanGames", $g_bChkForceBBAttackOnClanGames ? 1 : 0)
 	_Ini_Add("other", "ChkForceAttackOnClanGamesWhenHalt", $g_bChkForceAttackOnClanGamesWhenHalt ? 1 : 0)
@@ -536,7 +536,7 @@ Func SaveConfig_600_6()
 	; Builder Base Drop Order
 	_Ini_Add("other", "bBBDropOrderSet", $g_bBBDropOrderSet)
 	_Ini_Add("other", "sBBDropOrder", $g_sBBDropOrder)
-	
+
 	;Clan Capital
 	_Ini_Add("ClanCapital", "ChkCollectCCGold", $g_bChkEnableCollectCCGold)
 	_Ini_Add("ClanCapital", "ChkEnableForgeGold", $g_bChkEnableForgeGold)
@@ -567,7 +567,7 @@ Func SaveConfig_600_6()
 	_Ini_Add("ClanCapital", "cmdBBGoldSaveMin", $g_iacmdBBGoldSaveMin)
 	_Ini_Add("ClanCapital", "cmdBBElixSaveMin", $g_iacmdBBElixSaveMin)
 	_Ini_Add("ClanCapital", "ChkStartWeekendRaid", $g_bChkStartWeekendRaid)
-	
+
 	;Planner
 	_Ini_Add("CGplanned", "chkAttackCGPlannerEnable", $g_bAttackCGPlannerEnable ? 1 : 0)
 	_Ini_Add("CGplanned", "chkAttackCGPlannerRandom", $g_bAttackCGPlannerRandomEnable ? 1 : 0)
@@ -580,7 +580,7 @@ Func SaveConfig_600_6()
 	_Ini_Add("CGplanned", "CGPlannerThenContinue", $bCGPlannerThenContinue ? 1 : 0)
 	_Ini_Add("CGplanned", "CGPlannerThenStopBot", $bCGPlannerThenStopBot ? 1 : 0)
 	_Ini_Add("CGplanned", "STOPWhenCGPointsMax", $g_bChkSTOPWhenCGPointsMax ? 1 : 0)
-	
+
 	Local $string = ""
 	For $i = 0 To 6
 		$string &= ($g_abPlannedAttackCGWeekDays[$i] ? 1 : 0) & "|"
@@ -676,7 +676,7 @@ Func SaveConfig_600_12()
 		_Ini_Add("donate", "chkDonateAll" & $sIniName, $g_abChkDonateAllTroop[$index + $i] ? 1 : 0)
 		_Ini_Add("donate", "txtDonate" & $sIniName, StringReplace($g_asTxtDonateTroop[$index + $i], @CRLF, "|"))
 		_Ini_Add("donate", "txtBlacklist" & $sIniName, StringReplace($g_asTxtBlacklistTroop[$index + $i], @CRLF, "|"))
-	NExt
+	Next
 
 	For $i = 0 To 2
 		_Ini_Add("donate", "cmbDonateCustomA" & $i + 1, $g_aiDonateCustomTrpNumA[$i][0])
@@ -721,7 +721,7 @@ Func SaveConfig_600_15()
 	_Ini_Add("upgrade", "HeroReservedBuilder", $g_iHeroReservedBuilder)
 	_Ini_Add("upgrade", "UseHeroBooks", $g_bUseHeroBooks ? 1 : 0)
 	_Ini_Add("upgrade", "HeroMinUpgradeTime", $g_iHeroMinUpgradeTime)
-	For $i = 0 to $ePetCount - 1
+	For $i = 0 To $ePetCount - 1
 		_Ini_Add("upgrade", "UpgradePet[" & $g_asPetShortNames[$i] & "]", $g_bUpgradePetsEnable[$i] ? 1 : 0)
 	Next
 	_Ini_Add("upgrade", "ChkSortPetUpgrade", $g_bChkSortPetUpgrade ? 1 : 0)
@@ -743,7 +743,7 @@ Func SaveConfig_auto()
 	_Ini_Add("Auto Upgrade", "AutoUpgradeEnabled", $g_bAutoUpgradeEnabled)
 	_Ini_Add("Auto Upgrade", "BuildersPotionToUse", $g_iCmbBoostBuilders)
 	_Ini_Add("Auto Upgrade", "FreeBuildersToPotion", $g_iCmbFreeBuilders)
-	For $i = 0 To Ubound($g_iChkUpgradesToIgnore) - 1
+	For $i = 0 To UBound($g_iChkUpgradesToIgnore) - 1
 		_Ini_Add("Auto Upgrade", "ChkUpgradesToIgnore[" & $i & "]", $g_iChkUpgradesToIgnore[$i])
 	Next
 	For $i = 0 To 2
@@ -870,14 +870,14 @@ Func SaveConfig_600_28()
 	_Ini_Add("general", "attacknow", $g_bSearchAttackNowEnable ? 1 : 0)
 	_Ini_Add("general", "attacknowdelay", $g_iSearchAttackNowDelay)
 	_Ini_Add("search", "ChkRestartSearchLimit", $g_bSearchRestartEnable ? 1 : 0)
-    _Ini_Add("search", "RestartSearchLimitMin", $g_iSearchRestartLimitMin)
+	_Ini_Add("search", "RestartSearchLimitMin", $g_iSearchRestartLimitMin)
 	_Ini_Add("search", "RestartSearchLimitMax", $g_iSearchRestartLimitMax)
-	
+
 	_Ini_Add("search", "RestartSearchLimitMinPause", $g_iSearchRestartLimitMinPause)
 	_Ini_Add("search", "RestartSearchLimitMaxPause", $g_iSearchRestartLimitMaxPause)
 	_Ini_Add("search", "RestartSearchLimitMinPauseTime", $g_iSearchesPauseIntervalMin)
 	_Ini_Add("search", "RestartSearchLimitMaxPauseTime", $g_iSearchesPauseIntervalMax)
-	
+
 	_Ini_Add("search", "RestartSearchPickupHero", $g_bSearchRestartPickupHero ? 1 : 0)
 	_Ini_Add("general", "AlertSearch", $g_bSearchAlertMe ? 1 : 0)
 EndFunc   ;==>SaveConfig_600_28
@@ -1086,7 +1086,7 @@ Func SaveConfig_600_29_DB_SmartFarm()
 	_Ini_Add("SmartFarm", "InsidePercentage", $g_iTxtInsidePercentage)
 	_Ini_Add("SmartFarm", "OutsidePercentage", $g_iTxtOutsidePercentage)
 	_Ini_Add("SmartFarm", "DebugSmartFarm", $g_bDebugSmartFarm)
-EndFunc
+EndFunc   ;==>SaveConfig_600_29_DB_SmartFarm
 
 Func SaveConfig_600_29_LB()
 	; <><><><> Attack Plan / Search & Attack / Activebase / Attack <><><><>

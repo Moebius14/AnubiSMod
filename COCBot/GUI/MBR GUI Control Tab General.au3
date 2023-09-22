@@ -31,9 +31,9 @@ Func cmbLog()
 	If ($g_iLogDividerY > $h + Int($h / 2) + $y And $g_iLogDividerY < $h * 2 + $g_iLogDividerHeight + $y) Or $g_iLogDividerY > $h * 2 + $g_iLogDividerHeight + $y Then $g_iLogDividerY = $h + Int($h / 2) + $y
 	If ($g_iLogDividerY < Int($h / 2) + $y And $g_iLogDividerY > 0) Or $g_iLogDividerY < 0 Then $g_iLogDividerY = Int($h / 2)
 	_SendMessage($g_hTxtLog, $WM_SETREDRAW, False, 0) ; disable redraw so disabling has no visiual effect
-	_WINAPI_EnableWindow($g_hTxtLog, False) ; disable RichEdit
+	_WinAPI_EnableWindow($g_hTxtLog, False) ; disable RichEdit
 	_SendMessage($g_hTxtAtkLog, $WM_SETREDRAW, False, 0) ; disable redraw so disabling has no visiual effect
-	_WINAPI_EnableWindow($g_hTxtAtkLog, False) ; disable RichEdit
+	_WinAPI_EnableWindow($g_hTxtAtkLog, False) ; disable RichEdit
 	Switch _GUICtrlComboBox_GetCurSel($g_hCmbLogDividerOption)
 		Case 0
 			ControlShow($g_hGUI_LOG, "", $g_hDivider)
@@ -78,11 +78,11 @@ Func cmbLog()
 			ControlHide($g_hGUI_LOG, "", $g_hDivider)
 	EndSwitch
 	_SendMessage($g_hTxtLog, $WM_SETREDRAW, True, 0) ; enabled RechEdit redraw again
-	_WINAPI_EnableWindow($g_hTxtLog, True) ; enable RichEdit
+	_WinAPI_EnableWindow($g_hTxtLog, True) ; enable RichEdit
 	;_WinAPI_RedrawWindow($g_hTxtLog, 0, 0, $RDW_INVALIDATE + $RDW_ALLCHILDREN) ; redraw RichEdit
 	;_WinAPI_UpdateWindow($g_hTxtLog)
 	_SendMessage($g_hTxtAtkLog, $WM_SETREDRAW, True, 0) ; enabled RechEdit redraw again
-	_WINAPI_EnableWindow($g_hTxtAtkLog, True) ; enable RichEdit
+	_WinAPI_EnableWindow($g_hTxtAtkLog, True) ; enable RichEdit
 	;_WinAPI_RedrawWindow($g_hTxtAtkLog, 0, 0, $RDW_INVALIDATE + $RDW_ALLCHILDREN) ; redraw RichEdit
 	;_WinAPI_UpdateWindow($g_hTxtAtkLog)
 
@@ -133,8 +133,8 @@ Func MoveDivider()
 
 	Until $pos[2] = 0
 
-	_GUICtrlRichEdit_SetSel($g_hTxtLog, - 1, -1) ; select end
-	_GUICtrlRichEdit_SetSel($g_hTxtAtkLog, - 1, -1) ; select end
+	_GUICtrlRichEdit_SetSel($g_hTxtLog, -1, -1)  ; select end
+	_GUICtrlRichEdit_SetSel($g_hTxtAtkLog, -1, -1)  ; select end
 
 	SetDebugLog("MoveDivider exit", Default, True)
 

@@ -129,7 +129,7 @@ Func chkSkipSnowDetection()
 	Else
 		$g_bSkipSnowDetection = False
 	EndIf
-EndFunc ;==> chkSkipSnowDetection
+EndFunc   ;==>chkSkipSnowDetection
 
 Func chkDisposeWindows()
 	If GUICtrlRead($g_hChkAutoAlign) = $GUI_CHECKED Then
@@ -491,12 +491,12 @@ Func btnTestAttackBar()
 	_GUICtrlTab_ClickTab($g_hTabMain, 0)
 
 	$g_bDebugOcr = True
-    $g_bDebugImageSave = True
+	$g_bDebugImageSave = True
 	$g_bRunState = True
 
 	If MsgBox($MB_YESNO, "Screenshot or Live Image", "Do you want to use a Screenshot instead of a Live Image?") = $IDYES Then
-	 Local $sImageFile = BeginImageTest() ; get image for testing
-	 If $sImageFile = False Then $sImageFile = "Live Screenshot"
+		Local $sImageFile = BeginImageTest() ; get image for testing
+		If $sImageFile = False Then $sImageFile = "Live Screenshot"
 	EndIf
 
 
@@ -505,10 +505,10 @@ Func btnTestAttackBar()
 	Local $avAttackBar = GetAttackBar(False, $DB, True)
 
 	If IsArray($avAttackBar) And UBound($avAttackBar, 1) >= 1 Then
-	SetLog("Found " & UBound($avAttackBar, 1) & " Slots", $COlOR_SUCCESS)
-	For $i = 0 To UBound($avAttackBar, 1) - 1
-		SetLog("- Slot " & $avAttackBar[$i][1] & ": " & $avAttackBar[$i][2] & " " & GetTroopName($avAttackBar[$i][0], $avAttackBar[$i][2]) & " (X: " & $avAttackBar[$i][3] & "|Y: " & $avAttackBar[$i][4] & "|OCR X: " & $avAttackBar[$i][5] & "|OCR Y: " & $avAttackBar[$i][6] & ")", $COLOR_SUCCESS)
-	Next
+		SetLog("Found " & UBound($avAttackBar, 1) & " Slots", $COlOR_SUCCESS)
+		For $i = 0 To UBound($avAttackBar, 1) - 1
+			SetLog("- Slot " & $avAttackBar[$i][1] & ": " & $avAttackBar[$i][2] & " " & GetTroopName($avAttackBar[$i][0], $avAttackBar[$i][2]) & " (X: " & $avAttackBar[$i][3] & "|Y: " & $avAttackBar[$i][4] & "|OCR X: " & $avAttackBar[$i][5] & "|OCR Y: " & $avAttackBar[$i][6] & ")", $COLOR_SUCCESS)
+		Next
 	EndIf
 	SetLog(_PadStringCenter(" End AttackBar Detection ", 54, "="), $COlOR_INFO)
 
@@ -549,7 +549,7 @@ EndFunc   ;==>btnTestClickDrag
 
 Func btnTestImage()
 	_GUICtrlTab_ClickTab($g_hTabMain, 0)
-	
+
 	Local $sImageFile = BeginImageTest() ; get image for testing
 	If $sImageFile = False Then $sImageFile = "Live Screenshot"
 
@@ -593,7 +593,7 @@ EndFunc   ;==>btnTestImage
 
 Func btnTestVillageSize()
 	SetLog("Test Village Size")
-	
+
 	_GUICtrlTab_ClickTab($g_hTabMain, 0)
 
 	BeginImageTest()
@@ -621,7 +621,7 @@ Func btnTestVillageSize()
 			SetLog("Village offset y: " & $village[3])
 			SetLog("Village stone " & $village[6] & ": " & $village[4] & ", " & $village[5])
 			SetLog("Village tree " & $village[9] & ": " & $village[7] & ", " & $village[8])
-			
+
 			If $village[4] > 0 And $village[5] > 0 And $village[7] > 0 And $village[8] > 0 And $i < 1 Then
 				; reset village measures
 				setVillageOffset(0, 0, 1)
@@ -635,9 +635,9 @@ Func btnTestVillageSize()
 
 				SaveVillageDebugImage()
 			EndIf
-			
-			
-			
+
+
+
 		EndIf
 	Next
 	EndImageTest()
@@ -929,7 +929,7 @@ Func btnTestGetLocationBuildingImage()
 			Next
 		EndIf
 	EndIf
-	
+
 	; - DRAW Monolith -------------------------------------------------------------------
 	If $g_oBldgAttackInfo.exists($eBldgMonolith & "_LOCATION") Then
 		$g_aiCSVMonolithPos = $g_oBldgAttackInfo.item($eBldgMonolith & "_LOCATION")
@@ -987,7 +987,7 @@ EndFunc   ;==>btnTestGetLocationBuildingImage
 Func btnRunFunction()
 	Local $currentRunState = $g_bRunState
 	$g_bRunState = True
-	
+
 	_GUICtrlTab_ClickTab($g_hTabMain, 0)
 
 	Local $sFunc = GUICtrlRead($g_hTxtRunFunction)
@@ -1004,7 +1004,7 @@ Func btnRunFunction()
 	EndIf
 
 	$g_bRunState = $currentRunState
-EndFunc
+EndFunc   ;==>btnRunFunction
 
 Func btnTestCleanYard()
 	Local $currentRunState = $g_bRunState
@@ -1131,16 +1131,16 @@ Func btnTestUpgradeWindow()
 EndFunc   ;==>btnTestUpgradeWindow
 
 Func btnTestSmartWait()
-    Local $currentRunState = $g_bRunState
-    Local $bCloseWhileTrainingEnable = $g_bCloseWhileTrainingEnable
+	Local $currentRunState = $g_bRunState
+	Local $bCloseWhileTrainingEnable = $g_bCloseWhileTrainingEnable
 
-    $g_bRunState = True
-    $g_bCloseWhileTrainingEnable = True
+	$g_bRunState = True
+	$g_bCloseWhileTrainingEnable = True
 
-    SmartWait4Train(20)
+	SmartWait4Train(20)
 
-    $g_bRunState = $currentRunState
-    $g_bCloseWhileTrainingEnable = $bCloseWhileTrainingEnable
+	$g_bRunState = $currentRunState
+	$g_bCloseWhileTrainingEnable = $bCloseWhileTrainingEnable
 EndFunc   ;==>btnTestSmartWait
 
 Func btnConsoleWindow()
@@ -1193,7 +1193,7 @@ Func SaveVillageDebugImage()
 	_GDIPlus_GraphicsDrawLine($hGraphic, $ExternalArea[1][0], $ExternalArea[1][1], $ExternalArea[2][0], $ExternalArea[2][1], $hPenLtGreen)
 	_GDIPlus_GraphicsDrawLine($hGraphic, $ExternalArea[1][0], $ExternalArea[1][1], $ExternalArea[3][0], $ExternalArea[3][1], $hPenLtGreen)
 
-	SetLog($ExternalArea[0][0] &  $ExternalArea[0][1] & $ExternalArea[2][0] & $ExternalArea[2][1])
+	SetLog($ExternalArea[0][0] & $ExternalArea[0][1] & $ExternalArea[2][0] & $ExternalArea[2][1])
 
 	;-- DRAW EXTERNAL PERIMETER LINES
 	_GDIPlus_GraphicsDrawLine($hGraphic, $InternalArea[0][0], $InternalArea[0][1], $InternalArea[2][0], $InternalArea[2][1], $hPenDkGreen)
@@ -1232,14 +1232,14 @@ Func SaveVillageDebugImage()
 	_GDIPlus_PenDispose($hPenLtGrey)
 	_GDIPlus_PenDispose($hPenWhite)
 	_GDIPlus_PenDispose($hPenMagenta)
-   _GDIPlus_BrushDispose($hBrush)
+	_GDIPlus_BrushDispose($hBrush)
 
 	_GDIPlus_GraphicsDispose($hGraphic)
 	_GDIPlus_BitmapDispose($EditedImage)
-	
+
 	; open image
 	If TestCapture() = True Then
 		ShellExecute($filename)
 	EndIf
 
-EndFunc
+EndFunc   ;==>SaveVillageDebugImage

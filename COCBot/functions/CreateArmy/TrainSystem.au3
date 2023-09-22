@@ -21,9 +21,9 @@ Func TrainSystem()
 		If $g_bDebugSetlogTrain Then SetLog("Halt mode - training disabled", $COLOR_DEBUG)
 		Return
 	EndIf
-	
+
 	If $g_bRequestTroopsEnable And ($g_abSearchCastleWaitEnable[$DB] Or $g_abSearchCastleWaitEnable[$LB]) And ((Not $bChkUseOnlyCCMedals And _
-	$g_aiCmbCCDecisionThen = 1) Or $bChkUseOnlyCCMedals) Then
+			$g_aiCmbCCDecisionThen = 1) Or $bChkUseOnlyCCMedals) Then
 		If Number($g_iLootCCMedal) = 0 Then CatchCCMedals()
 	EndIf
 
@@ -33,7 +33,7 @@ Func TrainSystem()
 	BoostSuperTroop()
 
 	CheckIfArmyIsReady()
-	
+
 	TrainCustomArmy()
 
 	TrainSiege()
@@ -160,7 +160,7 @@ Func CheckIfArmyIsReady()
 			SetLog("Waiting for Heroes to drop trophies!", $COLOR_ACTION)
 		EndIf
 	EndIf
-	
+
 	If $g_bFullArmy And $g_bCheckSpells And $bFullArmyHero And $bFullArmyCC And $bFullSiege Then
 		$g_bIsFullArmywithHeroesAndSpells = True
 	Else
@@ -180,7 +180,7 @@ Func CheckIfArmyIsReady()
 			Else
 				$g_bWaitForCCTroopSpell = True
 			EndIf
-		EndIf	
+		EndIf
 	EndIf
 
 	Local $sLogText = ""
@@ -211,7 +211,7 @@ Func CheckIfArmyIsReady()
 			EndIf
 		EndIf
 	EndIf
-	
+
 	If $g_bFullArmy And $g_bCheckSpells And $bFullArmyHero And $bFullSiege Then
 		If Not $bFullArmyCC And $g_bRequestTroopsEnable And ((Not $bChkUseOnlyCCMedals And $g_aiCmbCCDecisionThen = 1 And $IsTofillWithMedals) Or $bChkUseOnlyCCMedals) Then
 			Local $IsCCFilled = FillCCWMedals(True, True, True, True, False)
@@ -241,7 +241,7 @@ Func CheckIfArmyIsReady()
 				SetLog("Check Immediatly Your Settings !!", $COLOR_ERROR)
 			EndIf
 		EndIf
-	EndIf	
+	EndIf
 
 	; Force to Request CC troops or Spells
 	If Not $bFullArmyCC Then $g_bCanRequestCC = True
@@ -299,7 +299,7 @@ Func TrainUsingWhatToTrain($rWTT, $bQueue = $g_bIsFullArmywithHeroesAndSpells)
 	If UBound($rWTT) = 1 And $rWTT[0][0] = "Arch" And $rWTT[0][1] = 0 Then Return True ; If was default Result of WhatToTrain
 
 	If Not OpenTroopsTab(True, "TrainUsingWhatToTrain()") Then Return
-	
+
 	; Loop through needed troops to Train
 	For $i = 0 To (UBound($rWTT) - 1)
 		If Not $g_bRunState Then Return
@@ -327,9 +327,9 @@ Func TrainUsingWhatToTrain($rWTT, $bQueue = $g_bIsFullArmywithHeroesAndSpells)
 				If $iTroopIndex >= $eBarb And $iTroopIndex <= $eIWiza Then
 					Local $sTroopName = ($rWTT[$i][1] > 1 ? $g_asTroopNamesPlural[$iTroopIndex] : $g_asTroopNames[$iTroopIndex])
 				EndIf
-				
+
 				SetLog("Training " & $rWTT[$i][1] & "x " & $sTroopName, $COLOR_SUCCESS)
-				TrainIt($iTroopIndex, $rWTT[$i][1], $g_iTrainClickDelayfinal)				
+				TrainIt($iTroopIndex, $rWTT[$i][1], $g_iTrainClickDelayfinal)
 
 			EndIf
 		EndIf
@@ -609,7 +609,7 @@ Func RemoveExtraTroopsQueue() ; Will remove All Extra troops in queue If there's
 	;Local Const $DecreaseBy = 70
 	;Local $x = 834
 
-	Local Const $y = 156 + $g_iMidOffsetY, $yRemoveBtn = 170 + $g_iMidOffsetY, $xDecreaseRemoveBtn = 10
+	Local Const $y = 158 + $g_iMidOffsetY, $yRemoveBtn = 170 + $g_iMidOffsetY, $xDecreaseRemoveBtn = 10
 	Local $bColorCheck = False, $bGotRemoved = False
 	For $x = 834 To 58 Step -70
 		If Not $g_bRunState Then Return
@@ -648,10 +648,10 @@ Func IsQueueEmpty($sType = "Troops", $bSkipTabCheck = False, $removeExtraTroopsQ
 		Return
 	EndIf
 
-	If Not _ColorCheck(_GetPixelColor($iArrowX, $iArrowY, True), Hex(0xa0d077, 6), 30) And Not _ColorCheck(_GetPixelColor($iArrowX, $iArrowY + 4, True), Hex(0x6ab320, 6), 30) Then
+	If Not _ColorCheck(_GetPixelColor($iArrowX, $iArrowY, True), Hex(0xA0D077, 6), 30) And Not _ColorCheck(_GetPixelColor($iArrowX, $iArrowY + 4, True), Hex(0x69B320, 6), 30) Then
 		Return True ; Check Green Arrows at top first, if not there -> Return
-	ElseIf _ColorCheck(_GetPixelColor($iArrowX, $iArrowY, True), Hex(0xa0d077, 6), 30) And _ColorCheck(_GetPixelColor($iArrowX, $iArrowY + 4, True), Hex(0x6ab320, 6), 30) And Not $removeExtraTroopsQueue Then
-		If Not WaitforPixel($iArrowX - 11, $iArrowY - 1, $iArrowX - 9, $iArrowY + 1, Hex(0xa0d077, 6), 30, 2) Then Return False  ; check if boost arrow
+	ElseIf _ColorCheck(_GetPixelColor($iArrowX, $iArrowY, True), Hex(0xA0D077, 6), 30) And _ColorCheck(_GetPixelColor($iArrowX, $iArrowY + 4, True), Hex(0x69B320, 6), 30) And Not $removeExtraTroopsQueue Then
+		If Not WaitforPixel($iArrowX - 11, $iArrowY - 1, $iArrowX - 9, $iArrowY + 1, Hex(0xA0D077, 6), 30, 2) Then Return False  ; check if boost arrow
 	EndIf
 
 	If Not $bSkipTabCheck Or $removeExtraTroopsQueue Then
@@ -870,7 +870,7 @@ Func CheckQueueTroops($bGetQuantity = True, $bSetLog = True, $x = 839, $bQtyWSlo
 
 	Local $Dir = @ScriptDir & "\imgxml\ArmyOverview\TroopsQueued"
 
-	Local $aSearchResult = SearchArmy($Dir, 18, 152 + $g_iMidOffsetY , $x, 231 + $g_iMidOffsetY, $bGetQuantity ? "Queue" : "")
+	Local $aSearchResult = SearchArmy($Dir, 18, 152 + $g_iMidOffsetY, $x, 231 + $g_iMidOffsetY, $bGetQuantity ? "Queue" : "")
 
 	ReDim $aResult[UBound($aSearchResult)]
 
@@ -1288,7 +1288,7 @@ Func MakingDonatedTroops($sType = "All")
 		Local $sImgSieges = @ScriptDir & "\imgxml\Train\Siege_Train\" ; "25,410,840,515"
 		Local $sSearchArea = GetDiamondFromRect2(25, 380 + $g_iMidOffsetY, 840, 485 + $g_iMidOffsetY)
 		Local $iPage = 0
-		
+
 		; Refill
 		For $iSiegeIndex = $eSiegeWallWrecker To $eSiegeMachineCount - 1
 			If Not $g_bRunState Then Return
@@ -1297,7 +1297,7 @@ Func MakingDonatedTroops($sType = "All")
 
 			If $HowMany > 0 Then
 				DragSiegeIfNeeded($iSiegeIndex, $iPage)
-				
+
 				Local $sFilename = $sImgSieges & $g_asSiegeMachineShortNames[$iSiegeIndex] & "*"
 				Local $aiSiegeCoord = decodeSingleCoord(findImage("TrainSiege", $sFilename, $sSearchArea, 1, True))
 
@@ -1411,15 +1411,15 @@ Func FillCCWMedals($g_bFullArmy = False, $g_bCheckSpells = False, $bFullArmyHero
 	If Number($g_iLootCCMedal) <= Number($g_aiCmbCCMedalsSaveMin) Then
 		$bRet = "NoMedal"
 		Return $bRet
-	EndIf	
-	
+	EndIf
+
 	Local $IsCCOpen = False
 	Local $g_iCCMedalCost = 0
-	
+
 	SetLog("Trying To Fill Clan Castle With Medals", $COLOR_DEBUG1)
 	ClickAway()
 	If _Sleep(1000) Then Return
-	
+
 	If ($g_aiClanCastlePos[0] = "-1" Or $g_aiClanCastlePos[1] = "-1") Then ;check for valid CC location
 		SetLog("Need Clan Castle location, Please locate your Clan Castle.", $COLOR_WARNING)
 		LocateClanCastle()
@@ -1428,28 +1428,28 @@ Func FillCCWMedals($g_bFullArmy = False, $g_bCheckSpells = False, $bFullArmyHero
 			Return False
 		EndIf
 	EndIf
-	
+
 	ClickAway()
-	
+
 	If _Sleep($DELAYCOLLECT3) Then Return
 	BuildingClick($g_aiClanCastlePos[0], $g_aiClanCastlePos[1], "#0250") ; select CC
 	If _Sleep($DELAYBUILDINGINFO1) Then Return
-	
-	Local $BuildingInfo = BuildingInfo(242, 490 + $g_iBottomOffsetY)
-	
+
+	Local $BuildingInfo = BuildingInfo(242, 488 + $g_iBottomOffsetY)
+
 	If $BuildingInfo[1] = "Clan Castle" Then
 		If ClickB("Reinforce") Then
 			If _Sleep(1000) Then Return
-			If Number($g_iLootCCMedal) = 0 Then $g_iLootCCMedal = getOcrAndCapture("coc-cc-trophy", 540, 379, 44, 14, True)
+			If Number($g_iLootCCMedal) = 0 Then $g_iLootCCMedal = getOcrAndCapture("coc-events", 570, 384, 55, 16, True)
 			If _Sleep(250) Then Return
-			If QuickMIS("BC1", $g_sImgCCReinforceBuy, 540, 430 + $g_iMidOffsetY, 565, 460 + $g_iMidOffsetY) Then
-				If WaitforPixel(575, 445 + $g_iMidOffsetY, 585, 455 + $g_iMidOffsetY, "6CBB1F", 10, 2) Then
-					$g_iCCMedalCost = getOcrAndCapture("coc-reinforcement", 500, 435 + $g_iMidOffsetY, 36, 20, True)
-					If $g_bDebugImageSaveMod Then SaveDebugRectImageCrop("CCMedalCost", "500,465,536,485")
+			If QuickMIS("BC1", $g_sImgCCReinforceBuy, 560, 450 + $g_iMidOffsetY, 610, 500 + $g_iMidOffsetY) Then
+				If WaitforPixel(518, 478 + $g_iMidOffsetY, 522, 482 + $g_iMidOffsetY, "6CBB1F", 10, 2) Then
+					$g_iCCMedalCost = getOcrAndCapture("coc-uptime2", 525, 460 + $g_iMidOffsetY, 40, 20, True)
+					If $g_bDebugImageSaveMod Then SaveDebugRectImageCrop("CCMedalCost", "525,490,565,510")
 					SetLog("Cost Of Filling : " & $g_iCCMedalCost & " Medals", $COLOR_ACTION)
 					$g_iLootCCMedal -= $g_iCCMedalCost
 					If $g_iLootCCMedal <= $g_aiCmbCCMedalsSaveMin Then
-						Click(337, 435 + $g_iMidOffsetY)
+						Click(315, 460 + $g_iMidOffsetY)
 						If _Sleep($DELAYBUILDINGINFO1) Then Return
 						ClickAway()
 						$bRet = "NoMedal"
@@ -1469,30 +1469,30 @@ Func FillCCWMedals($g_bFullArmy = False, $g_bCheckSpells = False, $bFullArmyHero
 		EndIf
 	Else
 		For $i = 1 To 10
-			Local $NewX = Number($g_aiClanCastlePos[0] + (2*$i))
-			Local $NewY = Number($g_aiClanCastlePos[1] - (2*$i))
+			Local $NewX = Number($g_aiClanCastlePos[0] + (2 * $i))
+			Local $NewY = Number($g_aiClanCastlePos[1] - (2 * $i))
 			SetLog("Clan Castle Windows Didn't Open", $COLOR_DEBUG1)
 			SetLog("New Try...", $COLOR_DEBUG1)
 			ClickAway()
 			If _Sleep(1500) Then Return
 			PureClickVisit($NewX, $NewY) ; select CC
 			If _Sleep($DELAYBUILDINGINFO1) Then Return
-			
-			Local $BuildingInfo = BuildingInfo(242, 490 + $g_iBottomOffsetY)
-			
+
+			Local $BuildingInfo = BuildingInfo(242, 488 + $g_iBottomOffsetY)
+
 			If $BuildingInfo[1] = "Clan Castle" Then
 				If ClickB("Reinforce") Then
 					If _Sleep(1000) Then Return
-					If Number($g_iLootCCMedal) = 0 Then $g_iLootCCMedal = getOcrAndCapture("coc-cc-trophy", 540, 379, 44, 14, True)
+					If Number($g_iLootCCMedal) = 0 Then $g_iLootCCMedal = getOcrAndCapture("coc-events", 570, 384, 55, 16, True)
 					If _Sleep(250) Then Return
-					If QuickMIS("BC1", $g_sImgCCReinforceBuy, 540, 430 + $g_iMidOffsetY, 565, 460 + $g_iMidOffsetY) Then
-						If WaitforPixel(575, 445 + $g_iMidOffsetY, 585, 455 + $g_iMidOffsetY, "6CBB1F", 10, 2) Then
-							$g_iCCMedalCost = getOcrAndCapture("coc-reinforcement", 500, 435 + $g_iMidOffsetY, 36, 20, True)
-							If $g_bDebugImageSaveMod Then SaveDebugRectImageCrop("CCMedalCost", "500,465,536,485")
+					If QuickMIS("BC1", $g_sImgCCReinforceBuy, 560, 450 + $g_iMidOffsetY, 610, 500 + $g_iMidOffsetY) Then
+						If WaitforPixel(518, 478 + $g_iMidOffsetY, 522, 482 + $g_iMidOffsetY, "6CBB1F", 10, 2) Then
+							$g_iCCMedalCost = getOcrAndCapture("coc-uptime2", 525, 460 + $g_iMidOffsetY, 40, 20, True)
+							If $g_bDebugImageSaveMod Then SaveDebugRectImageCrop("CCMedalCost", "525,490,565,510")
 							SetLog("Cost Of Filling : " & $g_iCCMedalCost & " Medals", $COLOR_ACTION)
 							$g_iLootCCMedal -= $g_iCCMedalCost
 							If $g_iLootCCMedal <= $g_aiCmbCCMedalsSaveMin Then
-								Click(337, 435 + $g_iMidOffsetY)
+								Click(315, 460 + $g_iMidOffsetY)
 								If _Sleep($DELAYBUILDINGINFO1) Then Return
 								ClickAway()
 								$bRet = "NoMedal"
@@ -1508,29 +1508,29 @@ Func FillCCWMedals($g_bFullArmy = False, $g_bCheckSpells = False, $bFullArmyHero
 					SetLog("Reinforce Button Not Found", $COLOR_DEBUG)
 					ClickAway()
 				EndIf
-			EndIf	
+			EndIf
 			ClickAway()
-			$NewX = Number($g_aiClanCastlePos[0] - (2*$i))
-			$NewY = Number($g_aiClanCastlePos[1] + (2*$i))
+			$NewX = Number($g_aiClanCastlePos[0] - (2 * $i))
+			$NewY = Number($g_aiClanCastlePos[1] + (2 * $i))
 			If _Sleep(1500) Then Return
 			PureClickVisit($NewX, $NewY) ; select CC
 			If _Sleep($DELAYBUILDINGINFO1) Then Return
-			
-			$BuildingInfo = BuildingInfo(242, 490 + $g_iBottomOffsetY)
-			
+
+			$BuildingInfo = BuildingInfo(242, 488 + $g_iBottomOffsetY)
+
 			If $BuildingInfo[1] = "Clan Castle" Then
 				If ClickB("Reinforce") Then
 					If _Sleep(1000) Then Return
-					If Number($g_iLootCCMedal) = 0 Then $g_iLootCCMedal = getOcrAndCapture("coc-cc-trophy", 540, 379, 44, 14, True)
+					If Number($g_iLootCCMedal) = 0 Then $g_iLootCCMedal = getOcrAndCapture("coc-events", 570, 384, 55, 16, True)
 					If _Sleep(250) Then Return
-					If QuickMIS("BC1", $g_sImgCCReinforceBuy, 540, 430 + $g_iMidOffsetY, 565, 460 + $g_iMidOffsetY) Then
-						If WaitforPixel(575, 445 + $g_iMidOffsetY, 585, 455 + $g_iMidOffsetY, "6CBB1F", 10, 2) Then
-							$g_iCCMedalCost = getOcrAndCapture("coc-reinforcement", 500, 435 + $g_iMidOffsetY, 36, 20, True)
-							If $g_bDebugImageSaveMod Then SaveDebugRectImageCrop("CCMedalCost", "500,465,536,485")
+					If QuickMIS("BC1", $g_sImgCCReinforceBuy, 560, 450 + $g_iMidOffsetY, 610, 500 + $g_iMidOffsetY) Then
+						If WaitforPixel(518, 478 + $g_iMidOffsetY, 522, 482 + $g_iMidOffsetY, "6CBB1F", 10, 2) Then
+							$g_iCCMedalCost = getOcrAndCapture("coc-uptime2", 525, 460 + $g_iMidOffsetY, 40, 20, True)
+							If $g_bDebugImageSaveMod Then SaveDebugRectImageCrop("CCMedalCost", "525,490,565,510")
 							SetLog("Cost Of Filling : " & $g_iCCMedalCost & " Medals", $COLOR_ACTION)
 							$g_iLootCCMedal -= $g_iCCMedalCost
 							If $g_iLootCCMedal <= $g_aiCmbCCMedalsSaveMin Then
-								Click(337, 435 + $g_iMidOffsetY)
+								Click(315, 460 + $g_iMidOffsetY)
 								If _Sleep($DELAYBUILDINGINFO1) Then Return
 								ClickAway()
 								$bRet = "NoMedal"
@@ -1549,47 +1549,47 @@ Func FillCCWMedals($g_bFullArmy = False, $g_bCheckSpells = False, $bFullArmyHero
 			EndIf
 		Next
 	EndIf
-	
+
 	GUICtrlSetData($g_lblCapitalMedal, _NumberFormat($g_iLootCCMedal, True))
 	UpdateStats()
 	If ProfileSwitchAccountEnabled() Then SwitchAccountVariablesReload("Save")
-	
+
 	If $bRet = "NoMedal" Then Return $bRet
-	
+
 	If Not $IsCCOpen Then SetLog("Clan Castle Windows Didn't Open", $COLOR_ERROR)
-	
+
 	ClickAway()
-	
-	If $g_bDebugImageSaveMod Then 
+
+	If $g_bDebugImageSaveMod Then
 		If _Sleep(2000) Then Return
 		CatchCCMedals()
 	EndIf
-	
+
 	If _Sleep(2000) Then Return
 	OpenArmyOverview(False)
 	If _Sleep(2000) Then Return
 	$bRet = IsFullClanCastle()
 	If $bRet Then $bRet = "Filled"
 	Return $bRet
-EndFunc
+EndFunc   ;==>FillCCWMedals
 
 Func IsTimeWaitForCC($g_bFullArmy = False, $g_bCheckSpells = False, $bFullArmyHero = False, $bFullSiege = False, $SetLog = True, $bFullArmyCC = False)
 
 	If Not $g_bFullArmy Or Not $g_bCheckSpells Or Not $bFullArmyHero Or Not $bFullSiege Then Return True
-	
+
 	If $bChkUseOnlyCCMedals Then Return False
-	
+
 	If $g_aiCmbCCDecisionTime = 0 Then Return True
-	
+
 	If $CCWaitChrono = 0 And $RequestAlreadyMade Then Return True
-	
+
 	If $CCWaitChrono = 0 Then Return False
-	
+
 	Local $CCWaitTimerDiff = TimerDiff($CCWaitChrono)
 	Local $DelayReturnedCCDecisionTime = ($g_aiCmbCCDecisionTime * 60 * 1000)
-		
+
 	If $CCWaitTimerDiff < $DelayReturnedCCDecisionTime Then
-		
+
 		Local $iWaitTime = ($DelayReturnedCCDecisionTime - $CCWaitTimerDiff)
 		Local $sWaitTime = ""
 		Local $iMin, $iWaitSec, $iWaitSec2
@@ -1601,7 +1601,7 @@ Func IsTimeWaitForCC($g_bFullArmy = False, $g_bCheckSpells = False, $bFullArmyHe
 			$iWaitSec2 = (Round($iWaitTime / 1000)) - ($iMin * 60)
 			$sWaitTime &= $iWaitSec2 & " seconds "
 		EndIf
-		
+
 		If $SetLog And Not $bFullArmyCC Then SetLog("Waiting For Clan Castle For : " & $sWaitTime, $COLOR_FUCHSIA)
 		Return True
 	Else
@@ -1609,4 +1609,4 @@ Func IsTimeWaitForCC($g_bFullArmy = False, $g_bCheckSpells = False, $bFullArmyHe
 		Return False
 	EndIf
 
-EndFunc
+EndFunc   ;==>IsTimeWaitForCC

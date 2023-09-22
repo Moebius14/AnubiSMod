@@ -15,6 +15,7 @@
 #include-once
 
 Global $g_aFrmBotBottomCtrlState, $g_hFrmBotEmbeddedShield = 0, $g_hFrmBotEmbeddedMouse = 0, $g_hFrmBotEmbeddedGraphics = 0
+Global $sGameVersionSupported = "15.352.22"
 
 Func Initiate()
 	WinGetAndroidHandle()
@@ -23,6 +24,20 @@ Func Initiate()
 
 		Local $Compiled = @ScriptName & (@Compiled ? " Executable" : " Script")
 		SetLog($Compiled & " running on " & @OSVersion & " " & @OSServicePack & " " & @OSArch)
+
+		Local $sGameVersion = GetCoCAppVersion()
+		If Not @error Then
+			If _VersionCompare($sGameVersion, $sGameVersionSupported) = -1 Then
+				SetLog(">>  CoC Game App Version = " & $sGameVersion, $COLOR_ERROR)
+				SetLog("Plz Update COC to Version = " & $sGameVersionSupported, $COLOR_ERROR)
+				CloseCoC(False)
+				BotStop()
+				Return
+			Else
+				SetLog(">>  CoC Game App Version = " & $sGameVersion, $COLOR_SUCCESS)
+			EndIf
+		EndIf
+
 		If Not $g_bSearchMode Then
 			SetLogCentered(" Bot Start ", Default, $COLOR_SUCCESS)
 		Else
@@ -384,7 +399,7 @@ Func ToggleGuiControls($bEnabled, $bOptimizedRedraw = True)
 			; Restore previous state of controls
 			If $g_aiControlPrevState[$i] Then GUICtrlSetState($i, $g_aiControlPrevState[$i])
 			If $i >= $g_hChkForceBBAttackOnClanGames And $i <= $g_hBtnCGSettingsClose Then GUICtrlSetState($i, $GUI_ENABLE)
-		EndIf	
+		EndIf
 	Next
 	If Not $bEnabled Then
 		ControlDisable("", "", $g_hCmbGUILanguage)
@@ -394,3 +409,16 @@ Func ToggleGuiControls($bEnabled, $bOptimizedRedraw = True)
 	$g_bGUIControlDisabled = False
 	If $bOptimizedRedraw Then SetRedrawBotWindow($bWasRedraw, Default, Default, Default, "ToggleGuiControls")
 EndFunc   ;==>ToggleGuiControls
+
+Func GetCoCAppVersion()
+	Local $sCMD = "dumpsys package com.supercell.clashofclans | grep versionName"  ;Get info from APK and grep version number line from text string
+	Local $sReturn = AndroidAdbSendShellCommand($sCMD) ; Grep return string = versionName=15.352.8
+	If @error Then
+		SetLog("Failed to get CoC vesion, Result= " & $sReturn, $COLOR_ERROR)
+		SetError(1)
+		Return
+	EndIf
+	Local $sCleanReturn = StringStripWS($sReturn, $STR_STRIPALL)  ; strip white space
+	SetDebugLog("Clash of Clans Game App = " & $sCleanReturn)
+	Return StringTrimLeft($sCleanReturn, 12)  ; return version number string
+EndFunc   ;==>GetCoCAppVersion

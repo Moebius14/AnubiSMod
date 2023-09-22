@@ -17,7 +17,7 @@ Func WaitForClouds()
 
 	SetDebugLog("Begin WaitForClouds:", $COLOR_DEBUG1)
 	$g_bCloudsActive = True
-	
+
 	Local $iCount = 0
 	Local $bigCount = 0, $iLastTime = 0
 	Local $hMinuteTimer, $iSearchTime
@@ -88,15 +88,6 @@ Func WaitForClouds()
 		If $iSearchTime >= $iLastTime + 1 Then
 			SetLog("Cloud wait time " & StringFormat("%.1f", $iSearchTime) & " minute(s)", $COLOR_INFO)
 			$iLastTime += 1
-
-			;Temp Fix
-			;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-		;	$g_bIsClientSyncError = True
-		;	$g_bRestart = True
-		;	CloseCoC(True)
-		;	ExitLoop
-			;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-
 			; once a minute safety checks for search fail/retry msg and Personal Break events and early detection if CoC app has crashed inside emulator (Bluestacks issue mainly)
 			If chkAttackSearchFail() = 2 Or GetAndroidProcessPID() = 0 Then
 				resetAttackSearch()

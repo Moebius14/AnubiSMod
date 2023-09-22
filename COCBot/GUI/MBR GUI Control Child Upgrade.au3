@@ -17,13 +17,13 @@
 Func InitTranslatedTextUpgradeTab()
 	GetTranslatedFileIni("MBR GUI Design - AutoUpgrade", "MsgBox_Warning_Title", "Warning about your settings...")
 	GetTranslatedFileIni("MBR GUI Design - AutoUpgrade", "MsgBox_Warning_Text", "Warning ! You selected 2 resources to ignore... That can be a problem,\r\n" & _
-		"and Auto Upgrade can be ineffective, by not launching any upgrade...\r\n" & _
-		"I recommend you to select only one resource, not more...")
+			"and Auto Upgrade can be ineffective, by not launching any upgrade...\r\n" & _
+			"I recommend you to select only one resource, not more...")
 	GetTranslatedFileIni("MBR GUI Design - AutoUpgrade", "MsgBox_Invalid_Title", "Invalid settings...")
 	GetTranslatedFileIni("MBR GUI Design - AutoUpgrade", "MsgBox_Invalid_Text", "Warning ! You selected 3 resources to ignore... And you can't...\r\n" & _
-		"With your settings, Auto Upgrade will be completely ineffective\r\n" & _
-		"and will not launch any upgrade... You must deselect one or more\r\n" & _
-		"ignored resource.")
+			"With your settings, Auto Upgrade will be completely ineffective\r\n" & _
+			"and will not launch any upgrade... You must deselect one or more\r\n" & _
+			"ignored resource.")
 EndFunc   ;==>InitTranslatedTextUpgradeTab
 
 Func btnLocateUpgrades()
@@ -84,122 +84,122 @@ Func picUpgradeTypeLocation()
 EndFunc   ;==>picUpgradeTypeLocation
 
 Func btnResetUpgrade()
-	Local $iEmptyRow=-1 ;-1 means no empty row found yet.
-	Local $j=0 ;temp upgrade type or status
+	Local $iEmptyRow = -1 ;-1 means no empty row found yet.
+	Local $j = 0 ;temp upgrade type or status
 	;Sleep(5000)
 	;SetDebugLog("Reset Upgarde *******************************************")
 	For $i = 0 To UBound($g_avBuildingUpgrades, 1) - 1
 		If GUICtrlRead($g_hChkUpgradeRepeat[$i]) = $GUI_CHECKED Then
-		;SetDebugLog("Row to keep " & $i)
-		  If $iEmptyRow<>-1 Then  ;Is there an empty row to fill?
-		    ;SetDebugLog("Moving from " & $i)
-			;SetDebugLog("Moving to " & $iEmptyRow)
-		    ;Move this row up...
-			$g_aiPicUpgradeStatus[$iEmptyRow] = $g_aiPicUpgradeStatus[$i] ; Upgrade status
-		    $g_avBuildingUpgrades[$iEmptyRow][0] = $g_avBuildingUpgrades[$i][0] ;Upgrade Location X
-		    $g_avBuildingUpgrades[$iEmptyRow][1] = $g_avBuildingUpgrades[$i][1] ;Upgrade Location Y
-		    $g_avBuildingUpgrades[$iEmptyRow][2] = $g_avBuildingUpgrades[$i][2] ;Upgrade Value
-			;SetDebugLog("Type setting to " & $g_avBuildingUpgrades[$i][3])
-		    $g_avBuildingUpgrades[$iEmptyRow][3] = $g_avBuildingUpgrades[$i][3] ;Upgrade Type
-			;SetDebugLog("Name in global setting to " & $g_avBuildingUpgrades[$i][4])
-		    $g_avBuildingUpgrades[$iEmptyRow][4] = $g_avBuildingUpgrades[$i][4] ;Upgrade Unit Name
-			;SetDebugLog("Level in global setting to " & $g_avBuildingUpgrades[$i][5])
-		    $g_avBuildingUpgrades[$iEmptyRow][5] = $g_avBuildingUpgrades[$i][5] ;Upgrade Level
-		    $g_avBuildingUpgrades[$iEmptyRow][6] = $g_avBuildingUpgrades[$i][6] ;Upgrade Duration
-		    $g_avBuildingUpgrades[$iEmptyRow][7] = $g_avBuildingUpgrades[$i][7] ;Upgrade Finish Time
+			;SetDebugLog("Row to keep " & $i)
+			If $iEmptyRow <> -1 Then ;Is there an empty row to fill?
+				;SetDebugLog("Moving from " & $i)
+				;SetDebugLog("Moving to " & $iEmptyRow)
+				;Move this row up...
+				$g_aiPicUpgradeStatus[$iEmptyRow] = $g_aiPicUpgradeStatus[$i] ; Upgrade status
+				$g_avBuildingUpgrades[$iEmptyRow][0] = $g_avBuildingUpgrades[$i][0] ;Upgrade Location X
+				$g_avBuildingUpgrades[$iEmptyRow][1] = $g_avBuildingUpgrades[$i][1] ;Upgrade Location Y
+				$g_avBuildingUpgrades[$iEmptyRow][2] = $g_avBuildingUpgrades[$i][2] ;Upgrade Value
+				;SetDebugLog("Type setting to " & $g_avBuildingUpgrades[$i][3])
+				$g_avBuildingUpgrades[$iEmptyRow][3] = $g_avBuildingUpgrades[$i][3] ;Upgrade Type
+				;SetDebugLog("Name in global setting to " & $g_avBuildingUpgrades[$i][4])
+				$g_avBuildingUpgrades[$iEmptyRow][4] = $g_avBuildingUpgrades[$i][4] ;Upgrade Unit Name
+				;SetDebugLog("Level in global setting to " & $g_avBuildingUpgrades[$i][5])
+				$g_avBuildingUpgrades[$iEmptyRow][5] = $g_avBuildingUpgrades[$i][5] ;Upgrade Level
+				$g_avBuildingUpgrades[$iEmptyRow][6] = $g_avBuildingUpgrades[$i][6] ;Upgrade Duration
+				$g_avBuildingUpgrades[$iEmptyRow][7] = $g_avBuildingUpgrades[$i][7] ;Upgrade Finish Time
 
-			;Set the GUI data for new row and clear the GUI data for the cleared row.
-			;GUI Unit Name
-			;SetDebugLog("Setting name " & $g_avBuildingUpgrades[$iEmptyRow][4])
-			GUICtrlSetData($g_hTxtUpgradeName[$iEmptyRow], $g_avBuildingUpgrades[$iEmptyRow][4])
-			GUICtrlSetData($g_hTxtUpgradeName[$i], "")
-			;GUI Unit Level
-			;SetDebugLog("Setting level " & $g_avBuildingUpgrades[$iEmptyRow][5])
-			GUICtrlSetData($g_hTxtUpgradeLevel[$iEmptyRow], $g_avBuildingUpgrades[$iEmptyRow][5])
-		    GUICtrlSetData($g_hTxtUpgradeLevel[$i], "")
-			;Upgrade value in GUI
-			GUICtrlSetData($g_hTxtUpgradeValue[$iEmptyRow], $g_avBuildingUpgrades[$iEmptyRow][2])
-		    GUICtrlSetData($g_hTxtUpgradeValue[$i], "")
-		    ;Upgrade duration in GUI
-			GUICtrlSetData($g_hTxtUpgradeTime[$iEmptyRow], $g_avBuildingUpgrades[$iEmptyRow][6])
-			GUICtrlSetData($g_hTxtUpgradeTime[$i], "")
+				;Set the GUI data for new row and clear the GUI data for the cleared row.
+				;GUI Unit Name
+				;SetDebugLog("Setting name " & $g_avBuildingUpgrades[$iEmptyRow][4])
+				GUICtrlSetData($g_hTxtUpgradeName[$iEmptyRow], $g_avBuildingUpgrades[$iEmptyRow][4])
+				GUICtrlSetData($g_hTxtUpgradeName[$i], "")
+				;GUI Unit Level
+				;SetDebugLog("Setting level " & $g_avBuildingUpgrades[$iEmptyRow][5])
+				GUICtrlSetData($g_hTxtUpgradeLevel[$iEmptyRow], $g_avBuildingUpgrades[$iEmptyRow][5])
+				GUICtrlSetData($g_hTxtUpgradeLevel[$i], "")
+				;Upgrade value in GUI
+				GUICtrlSetData($g_hTxtUpgradeValue[$iEmptyRow], $g_avBuildingUpgrades[$iEmptyRow][2])
+				GUICtrlSetData($g_hTxtUpgradeValue[$i], "")
+				;Upgrade duration in GUI
+				GUICtrlSetData($g_hTxtUpgradeTime[$iEmptyRow], $g_avBuildingUpgrades[$iEmptyRow][6])
+				GUICtrlSetData($g_hTxtUpgradeTime[$i], "")
 
-			;GUI upgrade type image
-			$j = $eIcnElixir
-			If $g_avBuildingUpgrades[$iEmptyRow][3] = "GOLD" Then $j = $eIcnGold
-			;SetDebugLog("Setting GUI type to " & $j)
-			_GUICtrlSetImage($g_hPicUpgradeType[$iEmptyRow], $g_sLibIconPath, $j)
-		    _GUICtrlSetImage($g_hPicUpgradeType[$i], $g_sLibIconPath, $eIcnBlank)
+				;GUI upgrade type image
+				$j = $eIcnElixir
+				If $g_avBuildingUpgrades[$iEmptyRow][3] = "GOLD" Then $j = $eIcnGold
+				;SetDebugLog("Setting GUI type to " & $j)
+				_GUICtrlSetImage($g_hPicUpgradeType[$iEmptyRow], $g_sLibIconPath, $j)
+				_GUICtrlSetImage($g_hPicUpgradeType[$i], $g_sLibIconPath, $eIcnBlank)
 
-			;GUI Status icon : Still not working right!
-			;$eIcnTroops=43, $eIcnGreenLight=69, $eIcnRedLight=71 or $eIcnYellowLight=73
-			;SetDebugLog("Setting status to " & $g_aiPicUpgradeStatus[$i])
-			;$j=$g_aiPicUpgradeStatus[$i]
-			;No idea why this crap is needed, but I can't pass a variable to _GUICtrlSetImage
-			$j=$eIcnGreenLight
-			If $g_aiPicUpgradeStatus[$i] = $eIcnYellowLight Then $j=$eIcnYellowLight
-			$g_aiPicUpgradeStatus[$iEmptyRow] = $j
-			_GUICtrlSetImage($g_hPicUpgradeStatus[$iEmptyRow], $g_sLibIconPath, $j)
-		    ;SetDebugLog("Clearing old status to red light " & $eIcnRedLight)
-			$g_aiPicUpgradeStatus[$i] = $eIcnRedLight ;blank row goes red
-			_GUICtrlSetImage($g_hPicUpgradeStatus[$i], $g_sLibIconPath, $eIcnRedLight)
+				;GUI Status icon : Still not working right!
+				;$eIcnTroops=43, $eIcnGreenLight=69, $eIcnRedLight=71 or $eIcnYellowLight=73
+				;SetDebugLog("Setting status to " & $g_aiPicUpgradeStatus[$i])
+				;$j=$g_aiPicUpgradeStatus[$i]
+				;No idea why this crap is needed, but I can't pass a variable to _GUICtrlSetImage
+				$j = $eIcnGreenLight
+				If $g_aiPicUpgradeStatus[$i] = $eIcnYellowLight Then $j = $eIcnYellowLight
+				$g_aiPicUpgradeStatus[$iEmptyRow] = $j
+				_GUICtrlSetImage($g_hPicUpgradeStatus[$iEmptyRow], $g_sLibIconPath, $j)
+				;SetDebugLog("Clearing old status to red light " & $eIcnRedLight)
+				$g_aiPicUpgradeStatus[$i] = $eIcnRedLight ;blank row goes red
+				_GUICtrlSetImage($g_hPicUpgradeStatus[$i], $g_sLibIconPath, $eIcnRedLight)
 
-			;Upgrade selection box
-			GUICtrlSetState($g_hChkUpgrade[$iEmptyRow], $GUI_CHECKED)
-			GUICtrlSetState($g_hChkUpgrade[$i], $GUI_UNCHECKED)
-			;Upgrade finish time in GUI
-			GUICtrlSetData($g_hTxtUpgradeEndTime[$iEmptyRow], $g_avBuildingUpgrades[$iEmptyRow][7])
-		    GUICtrlSetData($g_hTxtUpgradeEndTime[$i], "")
-			;Repeat box
-			GUICtrlSetState($g_hChkUpgradeRepeat[$iEmptyRow], $GUI_CHECKED)
-		    GUICtrlSetState($g_hChkUpgradeRepeat[$i], $GUI_UNCHECKED)
+				;Upgrade selection box
+				GUICtrlSetState($g_hChkUpgrade[$iEmptyRow], $GUI_CHECKED)
+				GUICtrlSetState($g_hChkUpgrade[$i], $GUI_UNCHECKED)
+				;Upgrade finish time in GUI
+				GUICtrlSetData($g_hTxtUpgradeEndTime[$iEmptyRow], $g_avBuildingUpgrades[$iEmptyRow][7])
+				GUICtrlSetData($g_hTxtUpgradeEndTime[$i], "")
+				;Repeat box
+				GUICtrlSetState($g_hChkUpgradeRepeat[$iEmptyRow], $GUI_CHECKED)
+				GUICtrlSetState($g_hChkUpgradeRepeat[$i], $GUI_UNCHECKED)
 
-			;Now clear the row we just moved from.
-			$g_avBuildingUpgrades[$i][0] = -1 ;Upgrade Location X
-		    $g_avBuildingUpgrades[$i][1] = -1 ;Upgrade Location Y
-		    $g_avBuildingUpgrades[$i][2] = -1 ;Upgrade Value
-		    $g_avBuildingUpgrades[$i][3] = "" ;Upgrade Type
-		    $g_avBuildingUpgrades[$i][4] = "" ;Upgrade Unit Name
-		    $g_avBuildingUpgrades[$i][5] = "" ;Upgrade Level
-		    $g_avBuildingUpgrades[$i][6] = "" ;Upgrade Duration
-		    $g_avBuildingUpgrades[$i][7] = "" ;Upgrade Finish Time
+				;Now clear the row we just moved from.
+				$g_avBuildingUpgrades[$i][0] = -1 ;Upgrade Location X
+				$g_avBuildingUpgrades[$i][1] = -1 ;Upgrade Location Y
+				$g_avBuildingUpgrades[$i][2] = -1 ;Upgrade Value
+				$g_avBuildingUpgrades[$i][3] = "" ;Upgrade Type
+				$g_avBuildingUpgrades[$i][4] = "" ;Upgrade Unit Name
+				$g_avBuildingUpgrades[$i][5] = "" ;Upgrade Level
+				$g_avBuildingUpgrades[$i][6] = "" ;Upgrade Duration
+				$g_avBuildingUpgrades[$i][7] = "" ;Upgrade Finish Time
 
 
-			$i = $iEmptyRow ;Reset counter to this row so we continue forward from here.
-			$iEmptyRow = -1 ;This should be the first empty row now.
+				$i = $iEmptyRow ;Reset counter to this row so we continue forward from here.
+				$iEmptyRow = -1 ;This should be the first empty row now.
 
-		  Else
-			;set these to clear up old status icon issues on rows not moved
-		    ;SetDebugLog("Not moving row " & $i)
-			$j=$g_aiPicUpgradeStatus[$i]
-			;SetDebugLog("Setting GUI status to " & $j) ;
-			;Following works if a constant is used, but not an variable?
-			if $j=69 then _GUICtrlSetImage($g_hPicUpgradeStatus[$i], $g_sLibIconPath, 69)
-			if $j=73 then _GUICtrlSetImage($g_hPicUpgradeStatus[$i], $g_sLibIconPath, 73)
-			ContinueLoop
-		  Endif
+			Else
+				;set these to clear up old status icon issues on rows not moved
+				;SetDebugLog("Not moving row " & $i)
+				$j = $g_aiPicUpgradeStatus[$i]
+				;SetDebugLog("Setting GUI status to " & $j) ;
+				;Following works if a constant is used, but not an variable?
+				If $j = 69 Then _GUICtrlSetImage($g_hPicUpgradeStatus[$i], $g_sLibIconPath, 69)
+				If $j = 73 Then _GUICtrlSetImage($g_hPicUpgradeStatus[$i], $g_sLibIconPath, 73)
+				ContinueLoop
+			EndIf
 		Else ;Row not checked.  Clear it.
-		  ;SetDebugLog("Row not checked, clearing row " & $i)
-		  $g_avBuildingUpgrades[$i][0] = -1 ;Upgrade position x
-		  $g_avBuildingUpgrades[$i][1] = -1 ;Upgrade position y
-		  $g_avBuildingUpgrades[$i][2] = -1 ;Upgrade value
-		  $g_avBuildingUpgrades[$i][3] = "" ;Upgrade Type
-		  $g_avBuildingUpgrades[$i][4] = "" ;Upgrade Unit Name
-		  $g_avBuildingUpgrades[$i][5] = "" ;Upgrade Level
-		  $g_avBuildingUpgrades[$i][6] = "" ;Upgrade Duration
-		  $g_avBuildingUpgrades[$i][7] = "" ;Upgrade Finish Time
-		  GUICtrlSetData($g_hTxtUpgradeName[$i], "")  ;GUI Unit Name
-		  GUICtrlSetData($g_hTxtUpgradeLevel[$i], "") ;GUI Unit Level
-		  GUICtrlSetData($g_hTxtUpgradeValue[$i], "") ;Upgrade value in GUI
-		  GUICtrlSetData($g_hTxtUpgradeTime[$i], "")  ;Upgrade duration in GUI
-		  _GUICtrlSetImage($g_hPicUpgradeType[$i], $g_sLibIconPath, $eIcnBlank) ;Upgrade type blank
-		  $g_aiPicUpgradeStatus[$i] = $eIcnRedLight
-		  _GUICtrlSetImage($g_hPicUpgradeStatus[$i], $g_sLibIconPath, $eIcnRedLight) ;Upgrade status to not ready
-		  GUICtrlSetState($g_hChkUpgrade[$i], $GUI_UNCHECKED) ;Change upgrade selection box to unchecked
-		  GUICtrlSetData($g_hTxtUpgradeEndTime[$i], "") ;Clear Upgrade time in GUI
-		  GUICtrlSetState($g_hChkUpgradeRepeat[$i], $GUI_UNCHECKED) ;Change repeat box to unchecked
-		  If $iEmptyRow = -1 Then $iEmptyRow=$i ;This row is now empty.
-		Endif
+			;SetDebugLog("Row not checked, clearing row " & $i)
+			$g_avBuildingUpgrades[$i][0] = -1 ;Upgrade position x
+			$g_avBuildingUpgrades[$i][1] = -1 ;Upgrade position y
+			$g_avBuildingUpgrades[$i][2] = -1 ;Upgrade value
+			$g_avBuildingUpgrades[$i][3] = "" ;Upgrade Type
+			$g_avBuildingUpgrades[$i][4] = "" ;Upgrade Unit Name
+			$g_avBuildingUpgrades[$i][5] = "" ;Upgrade Level
+			$g_avBuildingUpgrades[$i][6] = "" ;Upgrade Duration
+			$g_avBuildingUpgrades[$i][7] = "" ;Upgrade Finish Time
+			GUICtrlSetData($g_hTxtUpgradeName[$i], "") ;GUI Unit Name
+			GUICtrlSetData($g_hTxtUpgradeLevel[$i], "") ;GUI Unit Level
+			GUICtrlSetData($g_hTxtUpgradeValue[$i], "") ;Upgrade value in GUI
+			GUICtrlSetData($g_hTxtUpgradeTime[$i], "") ;Upgrade duration in GUI
+			_GUICtrlSetImage($g_hPicUpgradeType[$i], $g_sLibIconPath, $eIcnBlank) ;Upgrade type blank
+			$g_aiPicUpgradeStatus[$i] = $eIcnRedLight
+			_GUICtrlSetImage($g_hPicUpgradeStatus[$i], $g_sLibIconPath, $eIcnRedLight) ;Upgrade status to not ready
+			GUICtrlSetState($g_hChkUpgrade[$i], $GUI_UNCHECKED) ;Change upgrade selection box to unchecked
+			GUICtrlSetData($g_hTxtUpgradeEndTime[$i], "") ;Clear Upgrade time in GUI
+			GUICtrlSetState($g_hChkUpgradeRepeat[$i], $GUI_UNCHECKED) ;Change repeat box to unchecked
+			If $iEmptyRow = -1 Then $iEmptyRow = $i ;This row is now empty.
+		EndIf
 	Next
 EndFunc   ;==>btnResetUpgrade
 
@@ -258,11 +258,11 @@ Func btnRemoveLabUpgradeOrder()
 	For $i = 0 To UBound($g_ahCmbLabUpgradeOrder) - 1
 		_GUICtrlComboBox_SetCurSel($g_ahCmbLabUpgradeOrder[$i], -1)
 	Next
-EndFunc
+EndFunc   ;==>btnRemoveLabUpgradeOrder
 
 Func btnSetLabUpgradeOrder()
 	Local $d
-	SetLog("Set Laboratory Upgrade Order",$COLOR_SUCCESS)
+	SetLog("Set Laboratory Upgrade Order", $COLOR_SUCCESS)
 	SetLog("1 : " & $g_avLabTroops[$g_iCmbLaboratory][0], $COLOR_SUCCESS)
 	For $i = 0 To UBound($g_ahCmbLabUpgradeOrder) - 1
 		$g_aCmbLabUpgradeOrder[$i] = _GUICtrlComboBox_GetCurSel($g_ahCmbLabUpgradeOrder[$i])
@@ -271,9 +271,9 @@ Func btnSetLabUpgradeOrder()
 			$d = 0
 			_GUICtrlComboBox_SetCurSel($g_ahCmbLabUpgradeOrder[$i], $g_avLabTroops[$d][0])
 		EndIf
-		SetLog($i+2 & " : " & $g_avLabTroops[$d][0], $COLOR_SUCCESS)
+		SetLog($i + 2 & " : " & $g_avLabTroops[$d][0], $COLOR_SUCCESS)
 	Next
-EndFunc
+EndFunc   ;==>btnSetLabUpgradeOrder
 
 Func chkStarLab()
 	If GUICtrlRead($g_hChkAutoStarLabUpgrades) = $GUI_CHECKED Then
@@ -356,7 +356,7 @@ Func ResetLabUpgradeTime()
 	Local $stext = @CRLF & GetTranslatedFileIni("MBR Func_Village_Upgrade", "Lab_GUIUpdate_Info_07", "Are you 100% sure you want to reset lab upgrade timer?") & @CRLF & _
 			GetTranslatedFileIni("MBR Func_Village_Upgrade", "Lab_GUIUpdate_Info_08", "Click OK to reset") & @CRLF & GetTranslatedFileIni("MBR Func_Village_Upgrade", "Lab_GUIUpdate_Info_09", "Or Click Cancel to exit") & @CRLF
 	Local $MsgBox = _ExtMsgBox(0, GetTranslatedFileIni("MBR Func_Village_Upgrade", "Lab_GUIUpdate_Info_10", "Reset timer") & "|" & GetTranslatedFileIni("MBR Func_Village_Upgrade", "Lab_GUIUpdate_Info_11", "Cancel and Return"), _
-							   GetTranslatedFileIni("MBR Func_Village_Upgrade", "Lab_GUIUpdate_Info_12", "Reset laboratory upgrade timer?"), $stext, 120, $g_hFrmBot)
+			GetTranslatedFileIni("MBR Func_Village_Upgrade", "Lab_GUIUpdate_Info_12", "Reset laboratory upgrade timer?"), $stext, 120, $g_hFrmBot)
 	If $g_bDebugSetlog Then SetDebugLog("$MsgBox= " & $MsgBox, $COLOR_DEBUG)
 	If $MsgBox = 1 Then
 		$g_sLabUpgradeTime = ""
@@ -381,7 +381,7 @@ Func ResetStarLabUpgradeTime()
 	Local $stext = @CRLF & GetTranslatedFileIni("MBR Func_Village_Upgrade", "Lab_GUIUpdate_Info_07", "Are you 100% sure you want to reset lab upgrade timer?") & @CRLF & _
 			GetTranslatedFileIni("MBR Func_Village_Upgrade", "Lab_GUIUpdate_Info_08", "Click OK to reset") & @CRLF & GetTranslatedFileIni("MBR Func_Village_Upgrade", "Lab_GUIUpdate_Info_09", "Or Click Cancel to exit") & @CRLF
 	Local $MsgBox = _ExtMsgBox(0, GetTranslatedFileIni("MBR Func_Village_Upgrade", "Lab_GUIUpdate_Info_10", "Reset timer") & "|" & GetTranslatedFileIni("MBR Func_Village_Upgrade", "Lab_GUIUpdate_Info_11", "Cancel and Return"), _
-							   GetTranslatedFileIni("MBR Func_Village_Upgrade", "Lab_GUIUpdate_Info_12", "Reset laboratory upgrade timer?"), $stext, 120, $g_hFrmBot)
+			GetTranslatedFileIni("MBR Func_Village_Upgrade", "Lab_GUIUpdate_Info_12", "Reset laboratory upgrade timer?"), $stext, 120, $g_hFrmBot)
 	If $g_bDebugSetlog Then SetDebugLog("$MsgBox= " & $MsgBox, $COLOR_DEBUG)
 	If $MsgBox = 1 Then
 		$g_sStarLabUpgradeTime = ""
@@ -398,7 +398,7 @@ Func ResetStarLabUpgradeTime()
 		GUICtrlSetState($g_hBtnResetStarLabUpgradeTime, $GUI_HIDE)
 		GUICtrlSetState($g_hBtnResetStarLabUpgradeTime, $GUI_DISABLE)
 	EndIf
-EndFunc   ;==>ResetLabUpgradeTime
+EndFunc   ;==>ResetStarLabUpgradeTime
 
 Func chkUpgradeKing()
 	If $g_iTownHallLevel > 6 Then ; Must be TH7 or above to have King
@@ -412,7 +412,7 @@ Func chkUpgradeKing()
 
 		Local $ahGroupKingWait[4] = [$g_hChkDBKingWait, $g_hChkABKingWait, $g_hPicDBKingWait, $g_hPicABKingWait]
 		Local $TxtTip = GetTranslatedFileIni("MBR GUI Design Child Attack - Search", "TxtKingWait_Info_01", -1) & @CRLF & _
-						GetTranslatedFileIni("MBR GUI Design Child Attack - Search", "TxtKingWait_Info_02", -1)
+				GetTranslatedFileIni("MBR GUI Design Child Attack - Search", "TxtKingWait_Info_02", -1)
 		Local $TxtWarningTip = GetTranslatedFileIni("MBR GUI Design Child Attack - Search", "TxtKingWait_Info_03", "ATTENTION: King auto upgrade is currently enable.")
 		If GUICtrlRead($g_hChkUpgradeKing) = $GUI_CHECKED Then
 			$g_bUpgradeKingEnable = True
@@ -445,7 +445,7 @@ Func chkUpgradeQueen()
 
 		Local $ahGroupQueenWait[4] = [$g_hChkDBQueenWait, $g_hChkABQueenWait, $g_hPicDBQueenWait, $g_hPicABQueenWait]
 		Local $TxtTip = GetTranslatedFileIni("MBR GUI Design Child Attack - Search", "TxtQueenWait_Info_01", -1) & @CRLF & _
-						GetTranslatedFileIni("MBR GUI Design Child Attack - Search", "TxtQueenWait_Info_02", -1)
+				GetTranslatedFileIni("MBR GUI Design Child Attack - Search", "TxtQueenWait_Info_02", -1)
 		Local $TxtWarningTip = GetTranslatedFileIni("MBR GUI Design Child Attack - Search", "TxtQueenWait_Info_03", "ATTENTION: Queen auto upgrade is currently enable.")
 		If GUICtrlRead($g_hChkUpgradeQueen) = $GUI_CHECKED Then
 			$g_bUpgradeQueenEnable = True
@@ -477,7 +477,7 @@ Func chkUpgradeWarden()
 
 		Local $ahGroupWardenWait[4] = [$g_hChkDBWardenWait, $g_hChkABWardenWait, $g_hPicDBWardenWait, $g_hPicABWardenWait]
 		Local $TxtTip = GetTranslatedFileIni("MBR GUI Design Child Attack - Search", "TxtWardenWait_Info_01", -1) & @CRLF & _
-						GetTranslatedFileIni("MBR GUI Design Child Attack - Search", "TxtWardenWait_Info_02", -1)
+				GetTranslatedFileIni("MBR GUI Design Child Attack - Search", "TxtWardenWait_Info_02", -1)
 		Local $TxtWarningTip = GetTranslatedFileIni("MBR GUI Design Child Attack - Search", "TxtWardenWait_Info_03", "ATTENTION: Warden auto upgrade is currently enable.")
 		If GUICtrlRead($g_hChkUpgradeWarden) = $GUI_CHECKED Then
 			$g_bUpgradeWardenEnable = True
@@ -509,7 +509,7 @@ Func chkUpgradeChampion()
 
 		Local $ahGroupChampionWait[4] = [$g_hChkDBChampionWait, $g_hChkABChampionWait, $g_hPicDBChampionWait, $g_hPicABChampionWait]
 		Local $TxtTip = GetTranslatedFileIni("MBR GUI Design Child Attack - Search", "TxtChampionWait_Info_01", -1) & @CRLF & _
-						GetTranslatedFileIni("MBR GUI Design Child Attack - Search", "TxtChampionWait_Info_02", -1)
+				GetTranslatedFileIni("MBR GUI Design Child Attack - Search", "TxtChampionWait_Info_02", -1)
 		Local $TxtWarningTip = GetTranslatedFileIni("MBR GUI Design Child Attack - Search", "TxtChampionWait_Info_03", "ATTENTION: Champion auto upgrade is currently enable.")
 		If GUICtrlRead($g_hChkUpgradeChampion) = $GUI_CHECKED Then
 			$g_bUpgradeChampionEnable = True
@@ -558,7 +558,7 @@ EndFunc   ;==>cmbHeroReservedBuilder2
 Func ReducecmbHeroReservedBuilder()
 	Local $IsToUpNrbHeroes = 0
 	Local $CheckedHeroes[4] = [$g_bUpgradeKingEnable, $g_bUpgradeQueenEnable, $g_bUpgradeWardenEnable, $g_bUpgradeChampionEnable]
-	For $i = 0 to UBound($CheckedHeroes) - 1
+	For $i = 0 To UBound($CheckedHeroes) - 1
 		If $CheckedHeroes[$i] Then $IsToUpNrbHeroes += 1
 	Next
 	If $g_iHeroReservedBuilder > $IsToUpNrbHeroes Then
@@ -569,10 +569,10 @@ Func ReducecmbHeroReservedBuilder()
 		EndIf
 		$g_iHeroReservedBuilder = $IsToUpNrbHeroes
 		_GUICtrlComboBox_SetCurSel($g_hCmbHeroReservedBuilder, $g_iHeroReservedBuilder)
-;		applyConfig()
-;		saveConfig()
+		;		applyConfig()
+		;		saveConfig()
 	EndIf
-EndFunc
+EndFunc   ;==>ReducecmbHeroReservedBuilder
 
 Func chkWalls()
 	If GUICtrlRead($g_hChkWalls) = $GUI_CHECKED Then
@@ -611,22 +611,22 @@ Func cmbWallRingsCB()
 	Else
 		GUICtrlSetState($g_hCmbUseWallRings, $GUI_ENABLE)
 	EndIf
-EndFunc
+EndFunc   ;==>cmbWallRingsCB
 
 Func cmbWalls()
 	$g_iCmbUpgradeWallsLevel = _GUICtrlComboBox_GetCurSel($g_hCmbWalls)
 	$g_iWallCost = $g_aiWallCost[$g_iCmbUpgradeWallsLevel]
 	GUICtrlSetData($g_hLblWallCost, _NumberFormat($g_iWallCost))
 
-    For $i = 4 To $g_iCmbUpgradeWallsLevel+5
+	For $i = 4 To $g_iCmbUpgradeWallsLevel + 5
 		GUICtrlSetState($g_ahWallsCurrentCount[$i], $GUI_SHOW)
-	    GUICtrlSetState($g_ahPicWallsLevel[$i], $GUI_SHOW)
+		GUICtrlSetState($g_ahPicWallsLevel[$i], $GUI_SHOW)
 	Next
-   
-    For $i = $g_iCmbUpgradeWallsLevel+6 To 16
-	    GUICtrlSetState($g_ahWallsCurrentCount[$i], $GUI_HIDE)
-	    GUICtrlSetState($g_ahPicWallsLevel[$i], $GUI_HIDE)
-    Next
+
+	For $i = $g_iCmbUpgradeWallsLevel + 6 To 16
+		GUICtrlSetState($g_ahWallsCurrentCount[$i], $GUI_HIDE)
+		GUICtrlSetState($g_ahPicWallsLevel[$i], $GUI_HIDE)
+	Next
 EndFunc   ;==>cmbWalls
 
 Func btnWalls()
@@ -673,24 +673,24 @@ Func chkResourcesToIgnore()
 EndFunc   ;==>chkResourcesToIgnore
 
 Func chkUpgradesToIgnore()
-	For $i = 0 To Ubound($g_iChkUpgradesToIgnore) - 1
+	For $i = 0 To UBound($g_iChkUpgradesToIgnore) - 1
 		$g_iChkUpgradesToIgnore[$i] = GUICtrlRead($g_hChkUpgradesToIgnore[$i]) = $GUI_CHECKED ? 1 : 0
 	Next
 EndFunc   ;==>chkUpgradesToIgnore
 
 Func IgnoreAll()
-	For $i = 0 To Ubound($g_iChkUpgradesToIgnore) - 1
+	For $i = 0 To UBound($g_iChkUpgradesToIgnore) - 1
 		GUICtrlSetState($g_hChkUpgradesToIgnore[$i], $GUI_CHECKED)
 		$g_iChkUpgradesToIgnore[$i] = 1
 	Next
-EndFunc
+EndFunc   ;==>IgnoreAll
 
 Func ResetIgnore()
-	For $i = 0 To Ubound($g_iChkUpgradesToIgnore) - 1
+	For $i = 0 To UBound($g_iChkUpgradesToIgnore) - 1
 		GUICtrlSetState($g_hChkUpgradesToIgnore[$i], $GUI_UNCHECKED)
 		$g_iChkUpgradesToIgnore[$i] = 0
 	Next
-EndFunc
+EndFunc   ;==>ResetIgnore
 
 Func chkUpgradePets()
 	If $g_iTownHallLevel = 14 Then ; Must be TH14 to have Pets 1->4
@@ -727,7 +727,7 @@ Func chkUpgradePets()
 		GUICtrlSetState($g_hCmbSortPetUpgrade, $GUI_ENABLE)
 		GUICtrlSetState($g_hUsePetPotion, $GUI_ENABLE)
 	Else
-		For $i = 0 to $ePetCount - 1
+		For $i = 0 To $ePetCount - 1
 			GUICtrlSetState($g_hChkUpgradePets[$i], $GUI_DISABLE + $GUI_UNCHECKED)
 			$g_bUpgradePetsEnable[$i] = False
 		Next
@@ -736,7 +736,7 @@ Func chkUpgradePets()
 		GUICtrlSetState($g_hUsePetPotion, $GUI_DISABLE + $GUI_UNCHECKED)
 	EndIf
 	SortPetUpgrade()
-EndFunc
+EndFunc   ;==>chkUpgradePets
 
 Func SortPetUpgrade()
 	If GUICtrlRead($g_hChkSortPetUpgrade) = $GUI_CHECKED Then
@@ -757,64 +757,64 @@ Func SortPetUpgrade()
 	EndIf
 	$g_iCmbSortPetUpgrade = _GUICtrlComboBox_GetCurSel($g_hCmbSortPetUpgrade)
 	$g_iCmbSortPetUpgradeLvLCost = _GUICtrlComboBox_GetCurSel($g_hCmbSortPetUpgradeLvLCost)
-EndFunc
+EndFunc   ;==>SortPetUpgrade
 
 Func BtnBoostBuilders()
 	GUISetState(@SW_SHOW, $g_hGUI_BoostBuilders)
 	CloseBoostBuilders2()
 	CloseBoostBuilders3()
-EndFunc
+EndFunc   ;==>BtnBoostBuilders
 
 Func CloseBoostBuilders()
 	GUISetState(@SW_HIDE, $g_hGUI_BoostBuilders)
-EndFunc
+EndFunc   ;==>CloseBoostBuilders
 
 Func BtnBoostBuilders2()
 	GUISetState(@SW_SHOW, $g_hGUI_BoostBuilders2)
 	CloseBoostBuilders()
 	CloseBoostBuilders3()
-EndFunc
+EndFunc   ;==>BtnBoostBuilders2
 
 Func CloseBoostBuilders2()
 	GUISetState(@SW_HIDE, $g_hGUI_BoostBuilders2)
-EndFunc
+EndFunc   ;==>CloseBoostBuilders2
 
 Func BtnBoostBuilders3()
 	GUISetState(@SW_SHOW, $g_hGUI_BoostBuilders3)
 	CloseBoostBuilders()
 	CloseBoostBuilders2()
-EndFunc
+EndFunc   ;==>BtnBoostBuilders3
 
 Func CloseBoostBuilders3()
 	GUISetState(@SW_HIDE, $g_hGUI_BoostBuilders3)
-EndFunc
+EndFunc   ;==>CloseBoostBuilders3
 
 Func CmbBoostBuilders()
-GUICtrlSetData($g_hCmbBoostBuilders2, _GUICtrlComboBox_GetCurSel($g_hCmbBoostBuilders))
-GUICtrlSetData($g_hCmbBoostBuilders3, _GUICtrlComboBox_GetCurSel($g_hCmbBoostBuilders))
-EndFunc
+	GUICtrlSetData($g_hCmbBoostBuilders2, _GUICtrlComboBox_GetCurSel($g_hCmbBoostBuilders))
+	GUICtrlSetData($g_hCmbBoostBuilders3, _GUICtrlComboBox_GetCurSel($g_hCmbBoostBuilders))
+EndFunc   ;==>CmbBoostBuilders
 
 Func CmbFreeBuilders()
-GUICtrlSetData($g_hCmbFreeBuilders2, _GUICtrlComboBox_GetCurSel($g_hCmbFreeBuilders) + 1)
-GUICtrlSetData($g_hCmbFreeBuilders3, _GUICtrlComboBox_GetCurSel($g_hCmbFreeBuilders) + 1)
-EndFunc
+	GUICtrlSetData($g_hCmbFreeBuilders2, _GUICtrlComboBox_GetCurSel($g_hCmbFreeBuilders) + 1)
+	GUICtrlSetData($g_hCmbFreeBuilders3, _GUICtrlComboBox_GetCurSel($g_hCmbFreeBuilders) + 1)
+EndFunc   ;==>CmbFreeBuilders
 
 Func CmbBoostBuilders2()
-GUICtrlSetData($g_hCmbBoostBuilders, _GUICtrlComboBox_GetCurSel($g_hCmbBoostBuilders2))
-GUICtrlSetData($g_hCmbBoostBuilders3, _GUICtrlComboBox_GetCurSel($g_hCmbBoostBuilders2))
-EndFunc
+	GUICtrlSetData($g_hCmbBoostBuilders, _GUICtrlComboBox_GetCurSel($g_hCmbBoostBuilders2))
+	GUICtrlSetData($g_hCmbBoostBuilders3, _GUICtrlComboBox_GetCurSel($g_hCmbBoostBuilders2))
+EndFunc   ;==>CmbBoostBuilders2
 
 Func CmbFreeBuilders2()
-GUICtrlSetData($g_hCmbFreeBuilders, _GUICtrlComboBox_GetCurSel($g_hCmbFreeBuilders2) + 1)
-GUICtrlSetData($g_hCmbFreeBuilders3, _GUICtrlComboBox_GetCurSel($g_hCmbFreeBuilders2) + 1)
-EndFunc
+	GUICtrlSetData($g_hCmbFreeBuilders, _GUICtrlComboBox_GetCurSel($g_hCmbFreeBuilders2) + 1)
+	GUICtrlSetData($g_hCmbFreeBuilders3, _GUICtrlComboBox_GetCurSel($g_hCmbFreeBuilders2) + 1)
+EndFunc   ;==>CmbFreeBuilders2
 
 Func CmbBoostBuilders3()
-GUICtrlSetData($g_hCmbBoostBuilders, _GUICtrlComboBox_GetCurSel($g_hCmbBoostBuilders3))
-GUICtrlSetData($g_hCmbBoostBuilders2, _GUICtrlComboBox_GetCurSel($g_hCmbBoostBuilders3))
-EndFunc
+	GUICtrlSetData($g_hCmbBoostBuilders, _GUICtrlComboBox_GetCurSel($g_hCmbBoostBuilders3))
+	GUICtrlSetData($g_hCmbBoostBuilders2, _GUICtrlComboBox_GetCurSel($g_hCmbBoostBuilders3))
+EndFunc   ;==>CmbBoostBuilders3
 
 Func CmbFreeBuilders3()
-GUICtrlSetData($g_hCmbFreeBuilders, _GUICtrlComboBox_GetCurSel($g_hCmbFreeBuilders3) + 1)
-GUICtrlSetData($g_hCmbFreeBuilders2, _GUICtrlComboBox_GetCurSel($g_hCmbFreeBuilders3) + 1)
-EndFunc
+	GUICtrlSetData($g_hCmbFreeBuilders, _GUICtrlComboBox_GetCurSel($g_hCmbFreeBuilders3) + 1)
+	GUICtrlSetData($g_hCmbFreeBuilders2, _GUICtrlComboBox_GetCurSel($g_hCmbFreeBuilders3) + 1)
+EndFunc   ;==>CmbFreeBuilders3

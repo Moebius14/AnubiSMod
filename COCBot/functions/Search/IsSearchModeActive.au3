@@ -23,7 +23,7 @@ Func IsSearchModeActive($g_iMatchMode, $bDontCheckHeroes = False, $bNoLog = Fals
 	Local $checkTropies = Int($currentTropies) >= Int($g_aiSearchTrophiesMin[$g_iMatchMode]) And Int($currentTropies) <= Int($g_aiSearchTrophiesMax[$g_iMatchMode]) And $g_abSearchTropiesEnable[$g_iMatchMode]
 	Local $checkArmyCamps = Int($currentArmyCamps) >= Int($g_aiSearchCampsPct[$g_iMatchMode]) And $g_abSearchCampsEnable[$g_iMatchMode]
 	; true if we have correct needed heroes or we do not need to check our heroes... this variable decides if your heroes are ready for this particular search mode
-	Local $bCheckHeroes = ($g_aiSearchHeroWaitEnable[$g_iMatchMode] = $eHeroNone) or ($g_aiSearchHeroWaitEnable[$g_iMatchMode] > $eHeroNone And BitAND($g_aiSearchHeroWaitEnable[$g_iMatchMode], $g_iHeroAvailable) = $g_aiSearchHeroWaitEnable[$g_iMatchMode]) Or $bDontCheckHeroes
+	Local $bCheckHeroes = ($g_aiSearchHeroWaitEnable[$g_iMatchMode] = $eHeroNone) Or ($g_aiSearchHeroWaitEnable[$g_iMatchMode] > $eHeroNone And BitAND($g_aiSearchHeroWaitEnable[$g_iMatchMode], $g_iHeroAvailable) = $g_aiSearchHeroWaitEnable[$g_iMatchMode]) Or $bDontCheckHeroes
 
 	Local $g_bCheckSpells = ($g_bFullArmySpells And $g_abSearchSpellsWaitEnable[$g_iMatchMode]) Or $g_abSearchSpellsWaitEnable[$g_iMatchMode] = False
 	Local $totalSpellsToBrew = 0
@@ -55,11 +55,11 @@ Func IsSearchModeActive($g_iMatchMode, $bDontCheckHeroes = False, $bNoLog = Fals
 	Local $bcheckSiege = False
 	If $g_abSearchSiegeWaitEnable[$g_iMatchMode] Then
 		If (($g_aiAttackUseSiege[$g_iMatchMode] = 1 And ($g_aiCurrentSiegeMachines[$eSiegeWallWrecker] > 0 Or $g_aiCurrentCCSiegeMachines[$eSiegeWallWrecker] > 0)) Or _
-			($g_aiAttackUseSiege[$g_iMatchMode] = 2 And ($g_aiCurrentSiegeMachines[$eSiegeBattleBlimp] > 0 Or $g_aiCurrentCCSiegeMachines[$eSiegeBattleBlimp] > 0)) Or _
-			($g_aiAttackUseSiege[$g_iMatchMode] = 3 And ($g_aiCurrentSiegeMachines[$eSiegeStoneSlammer] > 0 Or $g_aiCurrentCCSiegeMachines[$eSiegeStoneSlammer] > 0)) Or _
-			($g_aiAttackUseSiege[$g_iMatchMode] = 4 And ($g_aiCurrentSiegeMachines[$eSiegeBarracks] > 0 Or $g_aiCurrentCCSiegeMachines[$eSiegeBarracks] > 0)) Or _
-			($g_aiAttackUseSiege[$g_iMatchMode] = 5 And ($g_aiCurrentSiegeMachines[$eSiegeLogLauncher] > 0 Or $g_aiCurrentCCSiegeMachines[$eSiegeLogLauncher] > 0)) Or _
-			$g_aiAttackUseSiege[$g_iMatchMode] = 0) Then
+				($g_aiAttackUseSiege[$g_iMatchMode] = 2 And ($g_aiCurrentSiegeMachines[$eSiegeBattleBlimp] > 0 Or $g_aiCurrentCCSiegeMachines[$eSiegeBattleBlimp] > 0)) Or _
+				($g_aiAttackUseSiege[$g_iMatchMode] = 3 And ($g_aiCurrentSiegeMachines[$eSiegeStoneSlammer] > 0 Or $g_aiCurrentCCSiegeMachines[$eSiegeStoneSlammer] > 0)) Or _
+				($g_aiAttackUseSiege[$g_iMatchMode] = 4 And ($g_aiCurrentSiegeMachines[$eSiegeBarracks] > 0 Or $g_aiCurrentCCSiegeMachines[$eSiegeBarracks] > 0)) Or _
+				($g_aiAttackUseSiege[$g_iMatchMode] = 5 And ($g_aiCurrentSiegeMachines[$eSiegeLogLauncher] > 0 Or $g_aiCurrentCCSiegeMachines[$eSiegeLogLauncher] > 0)) Or _
+				$g_aiAttackUseSiege[$g_iMatchMode] = 0) Then
 			$bcheckSiege = True
 		EndIf
 	Else
@@ -71,11 +71,11 @@ Func IsSearchModeActive($g_iMatchMode, $bDontCheckHeroes = False, $bNoLog = Fals
 	If $bCheckHeroes And $g_bCheckSpells And $bcheckSiege Then ;If $bCheckHeroes Then
 		If ($checkSearches Or $g_abSearchSearchesEnable[$g_iMatchMode] = False) And ($checkTropies Or $g_abSearchTropiesEnable[$g_iMatchMode] = False) And ($checkArmyCamps Or $g_abSearchCampsEnable[$g_iMatchMode] = False) Then
 			If $g_bDebugSetlog And Not $bNoLog Then SetLog($g_asModeText[$g_iMatchMode] & " active! ($checkSearches=" & $checkSearches & _
-																						  ",$checkTropies=" & $checkTropies & _
-																						  ",$checkArmyCamps=" & $checkArmyCamps & _
-																						  ",$bCheckHeroes=" & $bCheckHeroes & _
-																						  ",$g_bCheckSpells=" & $g_bCheckSpells & _
-																						  ",$bcheckSiege=" & $bcheckSiege & ")", $COLOR_INFO)
+					",$checkTropies=" & $checkTropies & _
+					",$checkArmyCamps=" & $checkArmyCamps & _
+					",$bCheckHeroes=" & $bCheckHeroes & _
+					",$g_bCheckSpells=" & $g_bCheckSpells & _
+					",$bcheckSiege=" & $bcheckSiege & ")", $COLOR_INFO)
 			Return True
 		Else
 			If $g_bDebugSetlog And Not $bNoLog Then

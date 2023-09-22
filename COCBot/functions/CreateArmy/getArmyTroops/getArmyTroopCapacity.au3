@@ -77,7 +77,7 @@ Func getArmyTroopCapacity($bOpenArmyWindow = False, $bCloseArmyWindow = False, $
 		$g_CurrentCampUtilization = 0
 		CheckOverviewFullArmy()
 	EndIf
-	
+
 	If $iHoldCamp <> $g_iTotalCampForcedValue And $iHoldCamp > 0 Then
 		SetLog("Adjusting Camp Capacity To : " & $iHoldCamp & " Slots", $COLOR_ACTION)
 		Local $CampCapDiff = Number($tmpTotalCamp - $g_iTotalCampForcedValue)
@@ -115,21 +115,21 @@ EndFunc   ;==>getArmyTroopCapacity
 Func CorrectArmyComp($CampCapDiff = 5)
 	Switch $g_iArmyCampUpgrade
 		Case 0
-			$g_aiArmyCustomTroops[10] += Number($CampCapDiff)/5;Loons
+			$g_aiArmyCustomTroops[10] += Number($CampCapDiff) / 5 ;Loons
 		Case 1
-			$g_aiArmyCustomTroops[2] += Number($CampCapDiff);Archers
+			$g_aiArmyCustomTroops[2] += Number($CampCapDiff) ;Archers
 		Case 2
-			$g_aiArmyCustomTroops[0] += Number($CampCapDiff);Barbs
+			$g_aiArmyCustomTroops[0] += Number($CampCapDiff) ;Barbs
 		Case 3
-			$g_aiArmyCustomTroops[6] += Number($CampCapDiff);Goblins
+			$g_aiArmyCustomTroops[6] += Number($CampCapDiff) ;Goblins
 		Case 4
-			$g_aiArmyCustomTroops[4] += Number($CampCapDiff)/5;Giants
+			$g_aiArmyCustomTroops[4] += Number($CampCapDiff) / 5 ;Giants
 		Case 5
-			$g_aiArmyCustomTroops[28] += Number($CampCapDiff)/5;Hogs		
+			$g_aiArmyCustomTroops[28] += Number($CampCapDiff) / 5 ;Hogs
 	EndSwitch
-	For $i= 0 To $eTroopCount - 1
+	For $i = 0 To $eTroopCount - 1
 		GUICtrlSetData($g_ahTxtTrainArmyTroopCount[$i], $g_aiArmyCustomTroops[$i])
 		$g_aiArmyCompTroops[$i] = $g_aiArmyCustomTroops[$i]
 	Next
 	SetComboTroopComp()
-EndFunc
+EndFunc   ;==>CorrectArmyComp

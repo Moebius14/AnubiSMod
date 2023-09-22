@@ -196,7 +196,7 @@ Func BtnSaveAlias()
 	readConfig()
 	applyConfig()
 	Setlog("Done!", $COLOR_SUCCESS)
-EndFunc   ;==>BtnSaveprofile
+EndFunc   ;==>BtnSaveAlias
 
 Func BtnDeleteAlias()
 	Setlog("Clear your Village Name", $COLOR_INFO)
@@ -205,7 +205,7 @@ Func BtnDeleteAlias()
 	readConfig()
 	applyConfig()
 	Setlog("Done!", $COLOR_SUCCESS)
-EndFunc   ;==>BtnSaveprofile
+EndFunc   ;==>BtnDeleteAlias
 
 Func OnlySCIDAccounts()
 	; $g_hChkOnlySCIDAccounts
@@ -276,7 +276,7 @@ Func ChkCollectStarBonus()
 	Else
 		GUICtrlSetState($g_hChkCCTreasuryFull, $GUI_DISABLE)
 	EndIf
-EndFunc
+EndFunc   ;==>ChkCollectStarBonus
 
 Func chkBotStop()
 	If GUICtrlRead($g_hChkBotStop) = $GUI_CHECKED Then
@@ -449,7 +449,7 @@ Func btnResetDistributor()
 				$g_sUserGameClass = "com.supercell.titan.amazon.GameAppAmazon"
 			EndIf
 			Local $stext = @CRLF & GetTranslatedFileIni("MBR Popups", "Sure_Game_Distributor_Info", "Are you 100% sure of Game Distributor ?") & @CRLF & @CRLF & _
-			GetTranslatedFileIni("MBR Popups", "Reset_then_restart_bot", "Click Confirm to Reset and then restart the bot (manually)") & @CRLF & @CRLF & GetTranslatedFileIni("MBR Popups", "Cancel_to_exit", -1) & @CRLF
+					GetTranslatedFileIni("MBR Popups", "Reset_then_restart_bot", "Click Confirm to Reset and then restart the bot (manually)") & @CRLF & @CRLF & GetTranslatedFileIni("MBR Popups", "Cancel_to_exit", -1) & @CRLF
 			Local $MsgBox = _ExtMsgBox(0, GetTranslatedFileIni("MBR Popups", "Confirm_Cancel", "Confirm|Cancel"), GetTranslatedFileIni("MBR Popups", "Reset_Game_Distributor_Info", -1), $stext, 120)
 			If $g_bDebugSetlog Then SetDebugLog("$MsgBox= " & $MsgBox, $COLOR_DEBUG)
 			If $MsgBox = 1 Then
@@ -512,10 +512,10 @@ Func chkTrophyRange()
 		GUICtrlSetState($g_hLblDropTrophyArmyMin, $GUI_DISABLE)
 		GUICtrlSetState($g_hLblDropTrophyArmyPercent, $GUI_DISABLE)
 		For $i = $g_hLblTrophyHeroesPriority To $g_hCmbTrophyHeroesPriority3
-		GUICtrlSetState($i, $GUI_DISABLE)
+			GUICtrlSetState($i, $GUI_DISABLE)
 		Next
 		For $i = $g_hChkTrophyAtkWithHeroesOnly To $hWaitAllHeroesForDT
-		GUICtrlSetState($i, $GUI_DISABLE)
+			GUICtrlSetState($i, $GUI_DISABLE)
 		Next
 	EndIf
 EndFunc   ;==>chkTrophyRange
@@ -678,31 +678,31 @@ EndFunc   ;==>TxtMaxTrophy
 Func chkTrophyHeroes()
 	If GUICtrlRead($g_hChkTrophyHeroes) = $GUI_CHECKED Then
 		For $i = $g_hLblTrophyHeroesPriority To $g_hCmbTrophyHeroesPriority3
-		GUICtrlSetState($i, $GUI_ENABLE)
+			GUICtrlSetState($i, $GUI_ENABLE)
 		Next
 		GUICtrlSetState($g_hChkTrophyAtkWithHeroesOnly, $GUI_ENABLE)
 		ChkTrophyAtkWithHeroesOnly()
 	Else
 		For $i = $g_hLblTrophyHeroesPriority To $g_hCmbTrophyHeroesPriority3
-		GUICtrlSetState($i, $GUI_DISABLE)
+			GUICtrlSetState($i, $GUI_DISABLE)
 		Next
 		For $i = $g_hChkTrophyAtkWithHeroesOnly To $hWaitAllHeroesForDT
-		GUICtrlSetState($i, $GUI_DISABLE)
+			GUICtrlSetState($i, $GUI_DISABLE)
 		Next
 	EndIf
 EndFunc   ;==>chkTrophyHeroes
 
 Func ChkTrophyAtkWithHeroesOnly()
-If GUICtrlRead($g_hChkTrophyAtkWithHeroesOnly) = $GUI_CHECKED Then
+	If GUICtrlRead($g_hChkTrophyAtkWithHeroesOnly) = $GUI_CHECKED Then
 		For $i = $hWaitOnlyOneHeroForDT To $hWaitAllHeroesForDT
-		GUICtrlSetState($i, $GUI_ENABLE)
+			GUICtrlSetState($i, $GUI_ENABLE)
 		Next
 	Else
 		For $i = $hWaitOnlyOneHeroForDT To $hWaitAllHeroesForDT
-		GUICtrlSetState($i, $GUI_DISABLE)
+			GUICtrlSetState($i, $GUI_DISABLE)
 		Next
 	EndIf
-EndFunc
+EndFunc   ;==>ChkTrophyAtkWithHeroesOnly
 
 Func ChkCollect()
 	If GUICtrlRead($g_hChkCollect) = $GUI_CHECKED Then
@@ -736,17 +736,17 @@ Func ChkTreasuryCollect()
 EndFunc   ;==>ChkTreasuryCollect
 
 Func ChkFreeMagicItems()
-If GUICtrlRead($g_hChkFreeMagicItems) = $GUI_CHECKED Then
-	GUICtrlSetState($g_hChkSellMagicItem, $GUI_ENABLE)
-	For $i = $g_hChkMagicItemsFrequencyLabel To $g_hcmbAdvancedVariation[0]
-		GUICtrlSetState($i, $GUI_ENABLE)
-	Next
-Else
-	GUICtrlSetState($g_hChkSellMagicItem, $GUI_DISABLE)
-	For $i = $g_hChkMagicItemsFrequencyLabel To $g_hcmbAdvancedVariation[0]
-		GUICtrlSetState($i, $GUI_DISABLE)
-	Next
-EndIf	
+	If GUICtrlRead($g_hChkFreeMagicItems) = $GUI_CHECKED Then
+		GUICtrlSetState($g_hChkSellMagicItem, $GUI_ENABLE)
+		For $i = $g_hChkMagicItemsFrequencyLabel To $g_hcmbAdvancedVariation[0]
+			GUICtrlSetState($i, $GUI_ENABLE)
+		Next
+	Else
+		GUICtrlSetState($g_hChkSellMagicItem, $GUI_DISABLE)
+		For $i = $g_hChkMagicItemsFrequencyLabel To $g_hcmbAdvancedVariation[0]
+			GUICtrlSetState($i, $GUI_DISABLE)
+		Next
+	EndIf
 EndFunc   ;==>ChkFreeMagicItems
 
 Func chkStartClockTowerBoost()
@@ -767,24 +767,24 @@ Func chkActivateClangames()
 		GUICtrlSetState($g_hChkClanGamesDebug, $GUI_ENABLE)
 		GUICtrlSetState($g_hChkCCGDebugNoneFound, $GUI_ENABLE)
 		GUICtrlSetState($g_hChkClanGamesCollectRewards, $GUI_ENABLE)
-		
+
 		If GUICtrlRead($g_hChkNotifyAlertVillageStats) = $GUI_CHECKED Then
 			GUICtrlSetState($g_hChkNotifyCGScore, $GUI_ENABLE)
 		Else
 			GUICtrlSetState($g_hChkNotifyCGScore, $GUI_DISABLE)
 		EndIf
-		
+
 		;CG Planner
 		GUICtrlSetState($g_hChkAttackCGPlannerEnable, $GUI_ENABLE)
 		If $g_bAttackCGPlannerEnable = True Then
 			GUICtrlSetState($g_hChkAttackCGPlannerRandom, $GUI_ENABLE)
 			If GUICtrlRead($g_hChkAttackCGPlannerRandom) = $GUI_CHECKED Then
-				For $i = $g_hCmbAttackCGPlannerRandomTime to $g_hCmbAttackCGPlannerRandomProba
-				GUICtrlSetState($i, $GUI_ENABLE)
+				For $i = $g_hCmbAttackCGPlannerRandomTime To $g_hCmbAttackCGPlannerRandomProba
+					GUICtrlSetState($i, $GUI_ENABLE)
 				Next
 			Else
-				For $i = $g_hCmbAttackCGPlannerRandomTime to $g_hCmbAttackCGPlannerRandomProba
-				GUICtrlSetState($i, $GUI_DISABLE)
+				For $i = $g_hCmbAttackCGPlannerRandomTime To $g_hCmbAttackCGPlannerRandomProba
+					GUICtrlSetState($i, $GUI_DISABLE)
 				Next
 			EndIf
 			GUICtrlSetState($g_hChkAttackCGPlannerDayLimit, $GUI_ENABLE)
@@ -795,8 +795,8 @@ Func chkActivateClangames()
 					GUICtrlSetData($MaxDailyLimit, "0")
 					GUICtrlSetData($ActualNbrsAttacks, "0")
 				EndIf
-				For $i = $TitleDailyLimit to $MaxDailyLimit
-				GUICtrlSetState($i, $GUI_ENABLE)
+				For $i = $TitleDailyLimit To $MaxDailyLimit
+					GUICtrlSetState($i, $GUI_ENABLE)
 				Next
 			Else
 				GUICtrlSetState($hCGPlannerThenContinue, $GUI_DISABLE)
@@ -809,9 +809,9 @@ Func chkActivateClangames()
 				GUICtrlSetState($g_hCmbAttackCGPlannerRandomTime, $GUI_ENABLE)
 				GUICtrlSetState($g_hLbAttackCGPlannerRandom, $GUI_ENABLE)
 				For $i = $g_hLbAttackCGPlannerRandomProba To $g_hCmbAttackCGPlannerRandomVariation
-				GUICtrlSetState($i, $GUI_ENABLE)
+					GUICtrlSetState($i, $GUI_ENABLE)
 				Next
-				GUICtrlSetState($g_hTxtCGRandomLog, $GUI_ENABLE)				
+				GUICtrlSetState($g_hTxtCGRandomLog, $GUI_ENABLE)
 				For $i = 0 To 6
 					GUICtrlSetState($g_ahChkAttackCGWeekdays[$i], $GUI_DISABLE)
 				Next
@@ -829,9 +829,9 @@ Func chkActivateClangames()
 					GUICtrlSetState($i, $GUI_DISABLE)
 				Next
 				If GUICtrlRead($g_hChkAttackCGPlannerDayLimit) = $GUI_CHECKED Then
-				GUICtrlSetState($g_hTxtCGRandomLog, $GUI_ENABLE)
+					GUICtrlSetState($g_hTxtCGRandomLog, $GUI_ENABLE)
 				Else
-				GUICtrlSetState($g_hTxtCGRandomLog, $GUI_DISABLE)
+					GUICtrlSetState($g_hTxtCGRandomLog, $GUI_DISABLE)
 				EndIf
 				For $i = 0 To 6
 					GUICtrlSetState($g_ahChkAttackCGWeekdays[$i], $GUI_ENABLE)
@@ -846,12 +846,12 @@ Func chkActivateClangames()
 			EndIf
 			If $g_bAttackCGPlannerDayLimit = True Then
 				For $i = $g_hCmbAttackCGPlannerDayMin To $g_hCmbAttackCGPlannerDayMax
-				GUICtrlSetState($i, $GUI_ENABLE)
+					GUICtrlSetState($i, $GUI_ENABLE)
 				Next
 				If GUICtrlRead($g_hChkAttackCGPlannerRandom) = $GUI_CHECKED Then
-				GUICtrlSetState($g_hTxtCGRandomLog, $GUI_ENABLE)
+					GUICtrlSetState($g_hTxtCGRandomLog, $GUI_ENABLE)
 				Else
-				GUICtrlSetState($g_hTxtCGRandomLog, $GUI_DISABLE)
+					GUICtrlSetState($g_hTxtCGRandomLog, $GUI_DISABLE)
 				EndIf
 			EndIf
 		Else
@@ -860,7 +860,7 @@ Func chkActivateClangames()
 			GUICtrlSetState($g_hLbAttackCGPlannerRandom, $GUI_DISABLE)
 			GUICtrlSetState($g_hChkSTOPWhenCGPointsMax, $GUI_DISABLE)
 			For $i = $g_hLbAttackCGPlannerRandomProba To $g_hCmbAttackCGPlannerRandomVariation
-					GUICtrlSetState($i, $GUI_DISABLE)
+				GUICtrlSetState($i, $GUI_DISABLE)
 			Next
 			GUICtrlSetState($g_hTxtCGRandomLog, $GUI_DISABLE)
 			For $i = $g_hChkAttackCGPlannerDayLimit To $g_hCmbAttackCGPlannerDayMax
@@ -876,7 +876,7 @@ Func chkActivateClangames()
 			Next
 			GUICtrlSetState($g_ahChkAttackCGHoursE2, $GUI_DISABLE)
 		EndIf
-		;Planner	
+		;Planner
 	Else
 		GUICtrlSetState($g_hBtnCGRewardsSettingsOpen, $GUI_DISABLE)
 		GUICtrlSetState($g_hBtnCGSettingsOpen, $GUI_DISABLE)
@@ -917,7 +917,7 @@ Func ChkClanGamesAllTimes()
 			Next
 		EndIf
 	EndIf
-EndFunc
+EndFunc   ;==>ChkClanGamesAllTimes
 
 Func ChkClanGamesNoOneDay()
 	If GUICtrlRead($g_hChkClanGamesNoOneDay) = $GUI_CHECKED Then
@@ -940,7 +940,7 @@ Func ChkClanGamesNoOneDay()
 			Next
 		EndIf
 	EndIf
-EndFunc
+EndFunc   ;==>ChkClanGamesNoOneDay
 
 Func ChkClanGamesCollectRewards()
 	If GUICtrlRead($g_hChkClanGamesCollectRewards) = $GUI_CHECKED Then
@@ -952,41 +952,41 @@ Func ChkClanGamesCollectRewards()
 	Else
 		GUICtrlSetState($g_hBtnCGRewardsSettingsOpen, $GUI_DISABLE)
 	EndIf
-EndFunc
+EndFunc   ;==>ChkClanGamesCollectRewards
 
 Func CGRewardsSettingsDefault()
-GUICtrlSetData($g_acmbPriorityReward[0], 3)
-GUICtrlSetData($g_acmbPriorityReward[1], 7)
-GUICtrlSetData($g_acmbPriorityReward[2], 2)
-GUICtrlSetData($g_acmbPriorityReward[3], 7)
-GUICtrlSetData($g_acmbPriorityReward[4], 5)
-GUICtrlSetData($g_acmbPriorityReward[5], 6)
-GUICtrlSetData($g_acmbPriorityReward[6], 2)
-GUICtrlSetData($g_acmbPriorityReward[7], 7)
-GUICtrlSetData($g_acmbPriorityReward[8], 9)
-GUICtrlSetData($g_acmbPriorityReward[9], 8)
-GUICtrlSetData($g_acmbPriorityReward[10], 8)
-GUICtrlSetData($g_acmbPriorityReward[11], 1)
-GUICtrlSetData($g_acmbPriorityReward[12], 6)
-GUICtrlSetData($g_acmbPriorityReward[13], 4)
-GUICtrlSetData($g_acmbPriorityReward[14], 4)
-GUICtrlSetData($g_acmbPriorityReward[15], 6)
-GUICtrlSetData($g_acmbPriorityReward[16], 4)
-GUICtrlSetData($g_acmbPriorityReward[17], 6)
-GUICtrlSetData($g_acmbPriorityReward[18], 7)
-GUICtrlSetData($g_acmbPriorityReward[19], 7)
-GUICtrlSetData($g_acmbPriorityReward[20], 7)
-GUICtrlSetData($g_acmbPriorityReward[21], 6)
-EndFunc
+	GUICtrlSetData($g_acmbPriorityReward[0], 3)
+	GUICtrlSetData($g_acmbPriorityReward[1], 7)
+	GUICtrlSetData($g_acmbPriorityReward[2], 2)
+	GUICtrlSetData($g_acmbPriorityReward[3], 7)
+	GUICtrlSetData($g_acmbPriorityReward[4], 5)
+	GUICtrlSetData($g_acmbPriorityReward[5], 6)
+	GUICtrlSetData($g_acmbPriorityReward[6], 2)
+	GUICtrlSetData($g_acmbPriorityReward[7], 7)
+	GUICtrlSetData($g_acmbPriorityReward[8], 9)
+	GUICtrlSetData($g_acmbPriorityReward[9], 8)
+	GUICtrlSetData($g_acmbPriorityReward[10], 8)
+	GUICtrlSetData($g_acmbPriorityReward[11], 1)
+	GUICtrlSetData($g_acmbPriorityReward[12], 6)
+	GUICtrlSetData($g_acmbPriorityReward[13], 4)
+	GUICtrlSetData($g_acmbPriorityReward[14], 4)
+	GUICtrlSetData($g_acmbPriorityReward[15], 6)
+	GUICtrlSetData($g_acmbPriorityReward[16], 4)
+	GUICtrlSetData($g_acmbPriorityReward[17], 6)
+	GUICtrlSetData($g_acmbPriorityReward[18], 7)
+	GUICtrlSetData($g_acmbPriorityReward[19], 7)
+	GUICtrlSetData($g_acmbPriorityReward[20], 7)
+	GUICtrlSetData($g_acmbPriorityReward[21], 6)
+EndFunc   ;==>CGRewardsSettingsDefault
 
 Func chkClanGamesBB()
-	If GUICtrlRead($g_hChkClanGamesEnabled) = $GUI_CHECKED And _ 
-		GUICtrlRead($g_hChkForceBBAttackOnClanGames) = $GUI_CHECKED Then
+	If GUICtrlRead($g_hChkClanGamesEnabled) = $GUI_CHECKED And _
+			GUICtrlRead($g_hChkForceBBAttackOnClanGames) = $GUI_CHECKED Then
 		$g_bChkForceBBAttackOnClanGames = True
 	Else
 		$g_bChkForceBBAttackOnClanGames = False
 	EndIf
-EndFunc
+EndFunc   ;==>chkClanGamesBB
 
 Func ChkClanGamesPurgeAny()
 	If GUICtrlRead($g_hChkClanGamesPurgeAny) = $GUI_CHECKED Then
@@ -996,18 +996,18 @@ Func ChkClanGamesPurgeAny()
 		$g_bChkClanGamesPurgeAny = False
 		GUICtrlSetState($g_hChkClanGamesPurgeAnyClose, $GUI_DISABLE)
 	EndIf
-EndFunc
+EndFunc   ;==>ChkClanGamesPurgeAny
 
 Func btnCCUpgradesSettings()
 	GUISetState(@SW_SHOW, $g_hGUI_CCUpgradesSettings)
-EndFunc
+EndFunc   ;==>btnCCUpgradesSettings
 
 Func CloseCCUpgradesSettings()
 	GUISetState(@SW_HIDE, $g_hGUI_CCUpgradesSettings)
-EndFunc
+EndFunc   ;==>CloseCCUpgradesSettings
 
 Func ChkEnablePriorArmyCC()
-	If GUICtrlRead($g_hChkEnablePriorArmyCC) = $GUI_CHECKED Then 
+	If GUICtrlRead($g_hChkEnablePriorArmyCC) = $GUI_CHECKED Then
 		For $i = $g_hChkEnablePriorArmyCamp To $g_hChkEnablePriorStorage
 			GUICtrlSetState($i, $GUI_ENABLE)
 		Next
@@ -1020,10 +1020,10 @@ Func ChkEnablePriorArmyCC()
 		Next
 		GUICtrlSetData($g_hChkEnablePriorArmyWarning, "")
 	EndIf
-EndFunc
+EndFunc   ;==>ChkEnablePriorArmyCC
 
 Func ChkEnablePriorArmyCCLive()
-	If GUICtrlRead($g_hChkEnablePriorArmyCC) = $GUI_CHECKED Then 
+	If GUICtrlRead($g_hChkEnablePriorArmyCC) = $GUI_CHECKED Then
 		For $i = $g_hChkEnablePriorArmyCamp To $g_hChkEnablePriorStorage
 			GUICtrlSetState($i, $GUI_ENABLE)
 			GUICtrlSetState($i, $GUI_CHECKED)
@@ -1043,55 +1043,55 @@ Func ChkEnablePriorArmyCCLive()
 			GUICtrlSetState($g_hChkEnableOnlyRuinsCC, $GUI_DISABLE)
 		EndIf
 	EndIf
-EndFunc
+EndFunc   ;==>ChkEnablePriorArmyCCLive
 
 Func ChkEnablePriorArmyCamp()
 	If GUICtrlRead($g_hChkEnablePriorArmyCamp) = $GUI_UNCHECKED And GUICtrlRead($g_hChkEnablePriorArmyCC) = $GUI_CHECKED Then
-		If GUICtrlRead($g_hChkEnablePriorBarracks) = $GUI_UNCHECKED And GUICtrlRead($g_hChkEnablePriorFactory) = $GUI_UNCHECKED And GUICtrlRead($g_hChkEnablePriorStorage) = $GUI_UNCHECKED Then 
+		If GUICtrlRead($g_hChkEnablePriorBarracks) = $GUI_UNCHECKED And GUICtrlRead($g_hChkEnablePriorFactory) = $GUI_UNCHECKED And GUICtrlRead($g_hChkEnablePriorStorage) = $GUI_UNCHECKED Then
 			GUICtrlSetData($g_hChkEnablePriorArmyWarning, "Check At Least 1 Item !")
 		EndIf
-	ElseIf GUICtrlRead($g_hChkEnablePriorArmyCamp) = $GUI_CHECKED And GUICtrlRead($g_hChkEnablePriorArmyCC) = $GUI_CHECKED Then 
-		GUICtrlSetData($g_hChkEnablePriorArmyWarning, "")	
-	ElseIf GUICtrlRead($g_hChkEnablePriorArmyCC) = $GUI_UNCHECKED Then 
+	ElseIf GUICtrlRead($g_hChkEnablePriorArmyCamp) = $GUI_CHECKED And GUICtrlRead($g_hChkEnablePriorArmyCC) = $GUI_CHECKED Then
+		GUICtrlSetData($g_hChkEnablePriorArmyWarning, "")
+	ElseIf GUICtrlRead($g_hChkEnablePriorArmyCC) = $GUI_UNCHECKED Then
 		GUICtrlSetData($g_hChkEnablePriorArmyWarning, "")
 	EndIf
-EndFunc
+EndFunc   ;==>ChkEnablePriorArmyCamp
 
 Func ChkEnablePriorBarracks()
 	If GUICtrlRead($g_hChkEnablePriorBarracks) = $GUI_UNCHECKED And GUICtrlRead($g_hChkEnablePriorArmyCC) = $GUI_CHECKED Then
-		If GUICtrlRead($g_hChkEnablePriorArmyCamp) = $GUI_UNCHECKED And GUICtrlRead($g_hChkEnablePriorFactory) = $GUI_UNCHECKED And GUICtrlRead($g_hChkEnablePriorStorage) = $GUI_UNCHECKED Then 
+		If GUICtrlRead($g_hChkEnablePriorArmyCamp) = $GUI_UNCHECKED And GUICtrlRead($g_hChkEnablePriorFactory) = $GUI_UNCHECKED And GUICtrlRead($g_hChkEnablePriorStorage) = $GUI_UNCHECKED Then
 			GUICtrlSetData($g_hChkEnablePriorArmyWarning, "Check At Least 1 Item !")
 		EndIf
-	ElseIf GUICtrlRead($g_hChkEnablePriorBarracks) = $GUI_CHECKED And GUICtrlRead($g_hChkEnablePriorArmyCC) = $GUI_CHECKED Then 
-		GUICtrlSetData($g_hChkEnablePriorArmyWarning, "")	
-	ElseIf GUICtrlRead($g_hChkEnablePriorArmyCC) = $GUI_UNCHECKED Then 
+	ElseIf GUICtrlRead($g_hChkEnablePriorBarracks) = $GUI_CHECKED And GUICtrlRead($g_hChkEnablePriorArmyCC) = $GUI_CHECKED Then
+		GUICtrlSetData($g_hChkEnablePriorArmyWarning, "")
+	ElseIf GUICtrlRead($g_hChkEnablePriorArmyCC) = $GUI_UNCHECKED Then
 		GUICtrlSetData($g_hChkEnablePriorArmyWarning, "")
 	EndIf
-EndFunc
+EndFunc   ;==>ChkEnablePriorBarracks
 
 Func ChkEnablePriorFactory()
 	If GUICtrlRead($g_hChkEnablePriorFactory) = $GUI_UNCHECKED And GUICtrlRead($g_hChkEnablePriorArmyCC) = $GUI_CHECKED Then
-		If GUICtrlRead($g_hChkEnablePriorArmyCamp) = $GUI_UNCHECKED And GUICtrlRead($g_hChkEnablePriorBarracks) = $GUI_UNCHECKED And GUICtrlRead($g_hChkEnablePriorStorage) = $GUI_UNCHECKED Then 
+		If GUICtrlRead($g_hChkEnablePriorArmyCamp) = $GUI_UNCHECKED And GUICtrlRead($g_hChkEnablePriorBarracks) = $GUI_UNCHECKED And GUICtrlRead($g_hChkEnablePriorStorage) = $GUI_UNCHECKED Then
 			GUICtrlSetData($g_hChkEnablePriorArmyWarning, "Check At Least 1 Item !")
 		EndIf
-	ElseIf GUICtrlRead($g_hChkEnablePriorFactory) = $GUI_CHECKED And GUICtrlRead($g_hChkEnablePriorArmyCC) = $GUI_CHECKED Then 
-		GUICtrlSetData($g_hChkEnablePriorArmyWarning, "")	
-	ElseIf GUICtrlRead($g_hChkEnablePriorArmyCC) = $GUI_UNCHECKED Then 
+	ElseIf GUICtrlRead($g_hChkEnablePriorFactory) = $GUI_CHECKED And GUICtrlRead($g_hChkEnablePriorArmyCC) = $GUI_CHECKED Then
+		GUICtrlSetData($g_hChkEnablePriorArmyWarning, "")
+	ElseIf GUICtrlRead($g_hChkEnablePriorArmyCC) = $GUI_UNCHECKED Then
 		GUICtrlSetData($g_hChkEnablePriorArmyWarning, "")
 	EndIf
-EndFunc
+EndFunc   ;==>ChkEnablePriorFactory
 
 Func ChkEnablePriorStorage()
 	If GUICtrlRead($g_hChkEnablePriorStorage) = $GUI_UNCHECKED And GUICtrlRead($g_hChkEnablePriorArmyCC) = $GUI_CHECKED Then
-		If GUICtrlRead($g_hChkEnablePriorArmyCamp) = $GUI_UNCHECKED And GUICtrlRead($g_hChkEnablePriorBarracks) = $GUI_UNCHECKED And GUICtrlRead($g_hChkEnablePriorFactory) = $GUI_UNCHECKED Then 
+		If GUICtrlRead($g_hChkEnablePriorArmyCamp) = $GUI_UNCHECKED And GUICtrlRead($g_hChkEnablePriorBarracks) = $GUI_UNCHECKED And GUICtrlRead($g_hChkEnablePriorFactory) = $GUI_UNCHECKED Then
 			GUICtrlSetData($g_hChkEnablePriorArmyWarning, "Check At Least 1 Item !")
 		EndIf
-	ElseIf GUICtrlRead($g_hChkEnablePriorStorage) = $GUI_CHECKED And GUICtrlRead($g_hChkEnablePriorArmyCC) = $GUI_CHECKED Then 
-		GUICtrlSetData($g_hChkEnablePriorArmyWarning, "")	
-	ElseIf GUICtrlRead($g_hChkEnablePriorArmyCC) = $GUI_UNCHECKED Then 
+	ElseIf GUICtrlRead($g_hChkEnablePriorStorage) = $GUI_CHECKED And GUICtrlRead($g_hChkEnablePriorArmyCC) = $GUI_CHECKED Then
+		GUICtrlSetData($g_hChkEnablePriorArmyWarning, "")
+	ElseIf GUICtrlRead($g_hChkEnablePriorArmyCC) = $GUI_UNCHECKED Then
 		GUICtrlSetData($g_hChkEnablePriorArmyWarning, "")
 	EndIf
-EndFunc
+EndFunc   ;==>ChkEnablePriorStorage
 
 Func ChkPriorHallsCC()
 	If GUICtrlRead($g_hChkEnablePriorHallsCC) = $GUI_CHECKED Then
@@ -1105,7 +1105,7 @@ Func ChkPriorHallsCC()
 			GUICtrlSetState($g_hChkEnableOnlyRuinsCC, $GUI_DISABLE)
 		EndIf
 	EndIf
-EndFunc
+EndFunc   ;==>ChkPriorHallsCC
 
 Func ChkPriorRuinsCC()
 	If GUICtrlRead($g_hChkEnablePriorRuinsCC) = $GUI_CHECKED Then
@@ -1121,25 +1121,25 @@ Func ChkPriorRuinsCC()
 	Else
 		GUICtrlSetState($g_hChkEnableOnlyRuinsCC, $GUI_DISABLE)
 	EndIf
-EndFunc
+EndFunc   ;==>ChkPriorRuinsCC
 
 Func btnCGSettings()
 	GUISetState(@SW_SHOW, $g_hGUI_CGSettings)
-EndFunc
+EndFunc   ;==>btnCGSettings
 
 Func CloseCGSettings()
 	GUISetState(@SW_HIDE, $g_hGUI_CGSettings)
-EndFunc
+EndFunc   ;==>CloseCGSettings
 
 Func btnCGRewardsSettings()
 	GUISetState(@SW_SHOW, $g_hGUI_CGRewardsSettings)
-EndFunc
+EndFunc   ;==>btnCGRewardsSettings
 
 Func CloseCGRewardsSettings()
 	GUISetState(@SW_HIDE, $g_hGUI_CGRewardsSettings)
-EndFunc
+EndFunc   ;==>CloseCGRewardsSettings
 
-Func CGLootTVRoot()	
+Func CGLootTVRoot()
 	If BitAND(GUICtrlRead($g_hChkCGMainLoot), $GUI_CHECKED) And GUICtrlRead($g_hChkCGRootEnabledAll) = $GUI_CHECKED Then ;root Clangames MainVillage Loot
 		For $i = 0 To UBound($g_ahCGMainLootItem) - 1
 			GUICtrlSetState($g_ahCGMainLootItem[$i], $GUI_CHECKED)
@@ -1151,263 +1151,263 @@ Func CGLootTVRoot()
 		Next
 	EndIf
 	GUICtrlSetData($g_hLabelClangamesDesc, "Enable/Disable Main Village Loot Challenges")
-EndFunc
+EndFunc   ;==>CGLootTVRoot
 
-Func CGLootTVItem()	
+Func CGLootTVItem()
 	Local $tmpChallenges = ClanGamesChallenges("$LootChallenges")
 	For $i = 0 To UBound($g_ahCGMainLootItem) - 1
 		If GUICtrlRead($g_hClanGamesTV) = $g_ahCGMainLootItem[$i] Then
 			GUICtrlSetData($g_hLabelClangamesDesc, $tmpChallenges[$i][4] & @CRLF & "Required TH Level : " & $tmpChallenges[$i][2] _
-				& @CRLF & "Difficulty : " & $tmpChallenges[$i][3])
+					 & @CRLF & "Difficulty : " & $tmpChallenges[$i][3])
 			ExitLoop
 		Else
 			GUICtrlSetData($g_hLabelClangamesDesc, "")
 		EndIf
 	Next
-EndFunc
+EndFunc   ;==>CGLootTVItem
 
-Func CGMainBattleTVRoot()	
-	If BitAND(GUICtrlRead($g_hChkCGMainBattle), $GUI_CHECKED) And GUICtrlRead($g_hChkCGRootEnabledAll) = $GUI_CHECKED Then ;root Clangames MainVillage Battle 
+Func CGMainBattleTVRoot()
+	If BitAND(GUICtrlRead($g_hChkCGMainBattle), $GUI_CHECKED) And GUICtrlRead($g_hChkCGRootEnabledAll) = $GUI_CHECKED Then ;root Clangames MainVillage Battle
 		For $i = 0 To UBound($g_ahCGMainBattleItem) - 1
 			GUICtrlSetState($g_ahCGMainBattleItem[$i], $GUI_CHECKED)
 		Next
 	EndIf
-	If Not BitAND(GUICtrlRead($g_hChkCGMainBattle), $GUI_CHECKED) And GUICtrlRead($g_hChkCGRootEnabledAll) = $GUI_CHECKED Then ;root Clangames MainVillage Battle 
+	If Not BitAND(GUICtrlRead($g_hChkCGMainBattle), $GUI_CHECKED) And GUICtrlRead($g_hChkCGRootEnabledAll) = $GUI_CHECKED Then ;root Clangames MainVillage Battle
 		For $i = 0 To UBound($g_ahCGMainBattleItem) - 1
 			GUICtrlSetState($g_ahCGMainBattleItem[$i], $GUI_UNCHECKED)
 		Next
 	EndIf
 	GUICtrlSetData($g_hLabelClangamesDesc, "Enable/Disable Main Village Battle Challenges")
-EndFunc
+EndFunc   ;==>CGMainBattleTVRoot
 
-Func CGMainBattleTVItem()	
+Func CGMainBattleTVItem()
 	Local $tmpChallenges = ClanGamesChallenges("$BattleChallenges")
 	For $i = 0 To UBound($g_ahCGMainBattleItem) - 1
 		If GUICtrlRead($g_hClanGamesTV) = $g_ahCGMainBattleItem[$i] Then
 			GUICtrlSetData($g_hLabelClangamesDesc, $tmpChallenges[$i][4] & @CRLF & "Required TH Level : " & $tmpChallenges[$i][2] _
-				& @CRLF & "Difficulty : " & $tmpChallenges[$i][3])
+					 & @CRLF & "Difficulty : " & $tmpChallenges[$i][3])
 			ExitLoop
 		Else
 			GUICtrlSetData($g_hLabelClangamesDesc, "")
 		EndIf
 	Next
-EndFunc
+EndFunc   ;==>CGMainBattleTVItem
 
-Func CGMainDestructionTVRoot()	
-	If BitAND(GUICtrlRead($g_hChkCGMainDestruction), $GUI_CHECKED) And GUICtrlRead($g_hChkCGRootEnabledAll) = $GUI_CHECKED Then ;root Clangames MainVillage DestructionChallenges 
+Func CGMainDestructionTVRoot()
+	If BitAND(GUICtrlRead($g_hChkCGMainDestruction), $GUI_CHECKED) And GUICtrlRead($g_hChkCGRootEnabledAll) = $GUI_CHECKED Then ;root Clangames MainVillage DestructionChallenges
 		For $i = 0 To UBound($g_ahCGMainDestructionItem) - 1
 			GUICtrlSetState($g_ahCGMainDestructionItem[$i], $GUI_CHECKED)
 		Next
 	EndIf
-	If Not BitAND(GUICtrlRead($g_hChkCGMainDestruction), $GUI_CHECKED) And GUICtrlRead($g_hChkCGRootEnabledAll) = $GUI_CHECKED Then ;root Clangames MainVillage DestructionChallenges 
+	If Not BitAND(GUICtrlRead($g_hChkCGMainDestruction), $GUI_CHECKED) And GUICtrlRead($g_hChkCGRootEnabledAll) = $GUI_CHECKED Then ;root Clangames MainVillage DestructionChallenges
 		For $i = 0 To UBound($g_ahCGMainDestructionItem) - 1
 			GUICtrlSetState($g_ahCGMainDestructionItem[$i], $GUI_UNCHECKED)
 		Next
 	EndIf
 	GUICtrlSetData($g_hLabelClangamesDesc, "Enable/Disable Main Village Destruction Challenges")
-EndFunc
+EndFunc   ;==>CGMainDestructionTVRoot
 
-Func CGMainDestructionTVItem()	
+Func CGMainDestructionTVItem()
 	Local $tmpChallenges = ClanGamesChallenges("$DestructionChallenges")
 	For $i = 0 To UBound($g_ahCGMainDestructionItem) - 1
 		If GUICtrlRead($g_hClanGamesTV) = $g_ahCGMainDestructionItem[$i] Then
 			GUICtrlSetData($g_hLabelClangamesDesc, $tmpChallenges[$i][4] & @CRLF & "Required TH Level : " & $tmpChallenges[$i][2] _
-				& @CRLF & "Difficulty : " & $tmpChallenges[$i][3])
+					 & @CRLF & "Difficulty : " & $tmpChallenges[$i][3])
 			ExitLoop
 		Else
 			GUICtrlSetData($g_hLabelClangamesDesc, "")
 		EndIf
 	Next
-EndFunc
+EndFunc   ;==>CGMainDestructionTVItem
 
-Func CGMainAirTVRoot()	
-	If BitAND(GUICtrlRead($g_hChkCGMainAir), $GUI_CHECKED) And GUICtrlRead($g_hChkCGRootEnabledAll) = $GUI_CHECKED Then ;root Clangames MainVillage Air Troops Challenges 
+Func CGMainAirTVRoot()
+	If BitAND(GUICtrlRead($g_hChkCGMainAir), $GUI_CHECKED) And GUICtrlRead($g_hChkCGRootEnabledAll) = $GUI_CHECKED Then ;root Clangames MainVillage Air Troops Challenges
 		For $i = 0 To UBound($g_ahCGMainAirItem) - 1
 			GUICtrlSetState($g_ahCGMainAirItem[$i], $GUI_CHECKED)
 		Next
 	EndIf
-	If Not BitAND(GUICtrlRead($g_hChkCGMainAir), $GUI_CHECKED) And GUICtrlRead($g_hChkCGRootEnabledAll) = $GUI_CHECKED Then ;root Clangames MainVillage Air Troops Challenges 
+	If Not BitAND(GUICtrlRead($g_hChkCGMainAir), $GUI_CHECKED) And GUICtrlRead($g_hChkCGRootEnabledAll) = $GUI_CHECKED Then ;root Clangames MainVillage Air Troops Challenges
 		For $i = 0 To UBound($g_ahCGMainAirItem) - 1
 			GUICtrlSetState($g_ahCGMainAirItem[$i], $GUI_UNCHECKED)
 		Next
 	EndIf
 	GUICtrlSetData($g_hLabelClangamesDesc, "Enable/Disable Main Village Air Troops Challenges")
-EndFunc
+EndFunc   ;==>CGMainAirTVRoot
 
-Func CGMainAirTVItem()	
+Func CGMainAirTVItem()
 	Local $tmpChallenges = ClanGamesChallenges("$AirTroopChallenges")
 	For $i = 0 To UBound($g_ahCGMainAirItem) - 1
 		If GUICtrlRead($g_hClanGamesTV) = $g_ahCGMainAirItem[$i] Then
 			GUICtrlSetData($g_hLabelClangamesDesc, $tmpChallenges[$i][4] & @CRLF & "Required TH Level : " & $tmpChallenges[$i][2] _
-				& @CRLF & "Difficulty : " & $tmpChallenges[$i][3])
+					 & @CRLF & "Difficulty : " & $tmpChallenges[$i][3])
 			ExitLoop
 		Else
 			GUICtrlSetData($g_hLabelClangamesDesc, "")
 		EndIf
 	Next
-EndFunc
+EndFunc   ;==>CGMainAirTVItem
 
-Func CGMainGroundTVRoot()	
-	If BitAND(GUICtrlRead($g_hChkCGMainGround), $GUI_CHECKED) And GUICtrlRead($g_hChkCGRootEnabledAll) = $GUI_CHECKED Then ;root Clangames MainVillage Ground Troops Challenges 
+Func CGMainGroundTVRoot()
+	If BitAND(GUICtrlRead($g_hChkCGMainGround), $GUI_CHECKED) And GUICtrlRead($g_hChkCGRootEnabledAll) = $GUI_CHECKED Then ;root Clangames MainVillage Ground Troops Challenges
 		For $i = 0 To UBound($g_ahCGMainGroundItem) - 1
 			GUICtrlSetState($g_ahCGMainGroundItem[$i], $GUI_CHECKED)
 		Next
 	EndIf
-	If Not BitAND(GUICtrlRead($g_hChkCGMainGround), $GUI_CHECKED) And GUICtrlRead($g_hChkCGRootEnabledAll) = $GUI_CHECKED Then ;root Clangames MainVillage Ground Troops Challenges 
+	If Not BitAND(GUICtrlRead($g_hChkCGMainGround), $GUI_CHECKED) And GUICtrlRead($g_hChkCGRootEnabledAll) = $GUI_CHECKED Then ;root Clangames MainVillage Ground Troops Challenges
 		For $i = 0 To UBound($g_ahCGMainGroundItem) - 1
 			GUICtrlSetState($g_ahCGMainGroundItem[$i], $GUI_UNCHECKED)
 		Next
 	EndIf
 	GUICtrlSetData($g_hLabelClangamesDesc, "Enable/Disable Main Village Ground Troops Challenges")
-EndFunc
+EndFunc   ;==>CGMainGroundTVRoot
 
-Func CGMainGroundTVItem()	
+Func CGMainGroundTVItem()
 	Local $tmpChallenges = ClanGamesChallenges("$GroundTroopChallenges")
 	For $i = 0 To UBound($g_ahCGMainGroundItem) - 1
 		If GUICtrlRead($g_hClanGamesTV) = $g_ahCGMainGroundItem[$i] Then
 			GUICtrlSetData($g_hLabelClangamesDesc, $tmpChallenges[$i][4] & @CRLF & "Required TH Level : " & $tmpChallenges[$i][2] _
-				& @CRLF & "Difficulty : " & $tmpChallenges[$i][3])
+					 & @CRLF & "Difficulty : " & $tmpChallenges[$i][3])
 			ExitLoop
 		Else
 			GUICtrlSetData($g_hLabelClangamesDesc, "")
 		EndIf
 	Next
-EndFunc
+EndFunc   ;==>CGMainGroundTVItem
 
-Func CGMainMiscTVRoot()	
-	If BitAND(GUICtrlRead($g_hChkCGMainMisc), $GUI_CHECKED) And GUICtrlRead($g_hChkCGRootEnabledAll) = $GUI_CHECKED Then ;root Clangames MainVillage Miscellaneous Challenges 
+Func CGMainMiscTVRoot()
+	If BitAND(GUICtrlRead($g_hChkCGMainMisc), $GUI_CHECKED) And GUICtrlRead($g_hChkCGRootEnabledAll) = $GUI_CHECKED Then ;root Clangames MainVillage Miscellaneous Challenges
 		For $i = 0 To UBound($g_ahCGMainMiscItem) - 1
 			GUICtrlSetState($g_ahCGMainMiscItem[$i], $GUI_CHECKED)
 		Next
 	EndIf
-	If Not BitAND(GUICtrlRead($g_hChkCGMainMisc), $GUI_CHECKED) And GUICtrlRead($g_hChkCGRootEnabledAll) = $GUI_CHECKED Then ;root Clangames MainVillage Miscellaneous Challenges 
+	If Not BitAND(GUICtrlRead($g_hChkCGMainMisc), $GUI_CHECKED) And GUICtrlRead($g_hChkCGRootEnabledAll) = $GUI_CHECKED Then ;root Clangames MainVillage Miscellaneous Challenges
 		For $i = 0 To UBound($g_ahCGMainMiscItem) - 1
 			GUICtrlSetState($g_ahCGMainMiscItem[$i], $GUI_UNCHECKED)
 		Next
 	EndIf
 	GUICtrlSetData($g_hLabelClangamesDesc, "Enable/Disable Main Village Miscellaneous Challenges")
-EndFunc
+EndFunc   ;==>CGMainMiscTVRoot
 
-Func CGMainMiscTVItem()	
+Func CGMainMiscTVItem()
 	Local $tmpChallenges = ClanGamesChallenges("$MiscChallenges")
 	For $i = 0 To UBound($g_ahCGMainMiscItem) - 1
 		If GUICtrlRead($g_hClanGamesTV) = $g_ahCGMainMiscItem[$i] Then
 			GUICtrlSetData($g_hLabelClangamesDesc, $tmpChallenges[$i][4] & @CRLF & "Required TH Level : " & $tmpChallenges[$i][2] _
-				& @CRLF & "Difficulty : " & $tmpChallenges[$i][3])
+					 & @CRLF & "Difficulty : " & $tmpChallenges[$i][3])
 			ExitLoop
 		Else
 			GUICtrlSetData($g_hLabelClangamesDesc, "")
 		EndIf
 	Next
-EndFunc
+EndFunc   ;==>CGMainMiscTVItem
 
-Func CGMainSpellTVRoot()	
-	If BitAND(GUICtrlRead($g_hChkCGMainSpell), $GUI_CHECKED) And GUICtrlRead($g_hChkCGRootEnabledAll) = $GUI_CHECKED Then ;root Clangames MainVillage Spell Challenges 
+Func CGMainSpellTVRoot()
+	If BitAND(GUICtrlRead($g_hChkCGMainSpell), $GUI_CHECKED) And GUICtrlRead($g_hChkCGRootEnabledAll) = $GUI_CHECKED Then ;root Clangames MainVillage Spell Challenges
 		For $i = 0 To UBound($g_ahCGMainSpellItem) - 1
 			GUICtrlSetState($g_ahCGMainSpellItem[$i], $GUI_CHECKED)
 		Next
 	EndIf
-	If Not BitAND(GUICtrlRead($g_hChkCGMainSpell), $GUI_CHECKED) And GUICtrlRead($g_hChkCGRootEnabledAll) = $GUI_CHECKED Then ;root Clangames MainVillage Spell Challenges 
+	If Not BitAND(GUICtrlRead($g_hChkCGMainSpell), $GUI_CHECKED) And GUICtrlRead($g_hChkCGRootEnabledAll) = $GUI_CHECKED Then ;root Clangames MainVillage Spell Challenges
 		For $i = 0 To UBound($g_ahCGMainSpellItem) - 1
 			GUICtrlSetState($g_ahCGMainSpellItem[$i], $GUI_UNCHECKED)
 		Next
 	EndIf
 	GUICtrlSetData($g_hLabelClangamesDesc, "Enable/Disable Main Village Spell Challenges")
-EndFunc
+EndFunc   ;==>CGMainSpellTVRoot
 
-Func CGMainSpellTVItem()	
+Func CGMainSpellTVItem()
 	Local $tmpChallenges = ClanGamesChallenges("$SpellChallenges")
 	For $i = 0 To UBound($g_ahCGMainSpellItem) - 1
 		If GUICtrlRead($g_hClanGamesTV) = $g_ahCGMainSpellItem[$i] Then
 			GUICtrlSetData($g_hLabelClangamesDesc, $tmpChallenges[$i][4] & @CRLF & "Required TH Level : " & $tmpChallenges[$i][2] _
-				& @CRLF & "Difficulty : " & $tmpChallenges[$i][3])
+					 & @CRLF & "Difficulty : " & $tmpChallenges[$i][3])
 			ExitLoop
 		Else
 			GUICtrlSetData($g_hLabelClangamesDesc, "")
 		EndIf
 	Next
-EndFunc
+EndFunc   ;==>CGMainSpellTVItem
 
-Func CGBBBattleTVRoot()	
-	If BitAND(GUICtrlRead($g_hChkCGBBBattle), $GUI_CHECKED) And GUICtrlRead($g_hChkCGRootEnabledAll) = $GUI_CHECKED Then ;root Clangames Builder Base Battle Challenges 
+Func CGBBBattleTVRoot()
+	If BitAND(GUICtrlRead($g_hChkCGBBBattle), $GUI_CHECKED) And GUICtrlRead($g_hChkCGRootEnabledAll) = $GUI_CHECKED Then ;root Clangames Builder Base Battle Challenges
 		For $i = 0 To UBound($g_ahCGBBBattleItem) - 1
 			GUICtrlSetState($g_ahCGBBBattleItem[$i], $GUI_CHECKED)
 		Next
 	EndIf
-	If Not BitAND(GUICtrlRead($g_hChkCGBBBattle), $GUI_CHECKED) And GUICtrlRead($g_hChkCGRootEnabledAll) = $GUI_CHECKED Then ;root Clangames Builder Base Battle Challenges 
+	If Not BitAND(GUICtrlRead($g_hChkCGBBBattle), $GUI_CHECKED) And GUICtrlRead($g_hChkCGRootEnabledAll) = $GUI_CHECKED Then ;root Clangames Builder Base Battle Challenges
 		For $i = 0 To UBound($g_ahCGBBBattleItem) - 1
 			GUICtrlSetState($g_ahCGBBBattleItem[$i], $GUI_UNCHECKED)
 		Next
 	EndIf
 	GUICtrlSetData($g_hLabelClangamesDesc, "Enable/Disable Builder Base Battle Challenges")
-EndFunc
+EndFunc   ;==>CGBBBattleTVRoot
 
-Func CGBBBattleTVItem()	
+Func CGBBBattleTVItem()
 	Local $tmpChallenges = ClanGamesChallenges("$BBBattleChallenges")
 	For $i = 0 To UBound($g_ahCGBBBattleItem) - 1
 		If GUICtrlRead($g_hClanGamesTV) = $g_ahCGBBBattleItem[$i] Then
 			GUICtrlSetData($g_hLabelClangamesDesc, $tmpChallenges[$i][4] & @CRLF & "Required TH Level : " & $tmpChallenges[$i][2] _
-				& @CRLF & "Difficulty : " & $tmpChallenges[$i][3])
+					 & @CRLF & "Difficulty : " & $tmpChallenges[$i][3])
 			ExitLoop
 		Else
 			GUICtrlSetData($g_hLabelClangamesDesc, "")
 		EndIf
 	Next
-EndFunc
+EndFunc   ;==>CGBBBattleTVItem
 
-Func CGBBDestructionTVRoot()	
-	If BitAND(GUICtrlRead($g_hChkCGBBDestruction), $GUI_CHECKED) And GUICtrlRead($g_hChkCGRootEnabledAll) = $GUI_CHECKED Then ;root Clangames Builder Base Destruction Challenges 
+Func CGBBDestructionTVRoot()
+	If BitAND(GUICtrlRead($g_hChkCGBBDestruction), $GUI_CHECKED) And GUICtrlRead($g_hChkCGRootEnabledAll) = $GUI_CHECKED Then ;root Clangames Builder Base Destruction Challenges
 		For $i = 0 To UBound($g_ahCGBBDestructionItem) - 1
 			GUICtrlSetState($g_ahCGBBDestructionItem[$i], $GUI_CHECKED)
 		Next
 	EndIf
-	If Not BitAND(GUICtrlRead($g_hChkCGBBDestruction), $GUI_CHECKED) And GUICtrlRead($g_hChkCGRootEnabledAll) = $GUI_CHECKED Then ;root Clangames Builder Base Destruction Challenges 
+	If Not BitAND(GUICtrlRead($g_hChkCGBBDestruction), $GUI_CHECKED) And GUICtrlRead($g_hChkCGRootEnabledAll) = $GUI_CHECKED Then ;root Clangames Builder Base Destruction Challenges
 		For $i = 0 To UBound($g_ahCGBBDestructionItem) - 1
 			GUICtrlSetState($g_ahCGBBDestructionItem[$i], $GUI_UNCHECKED)
 		Next
 	EndIf
 	GUICtrlSetData($g_hLabelClangamesDesc, "Enable/Disable Builder Base Destruction Challenges")
-EndFunc
+EndFunc   ;==>CGBBDestructionTVRoot
 
-Func CGBBDestructionTVItem()	
+Func CGBBDestructionTVItem()
 	Local $tmpChallenges = ClanGamesChallenges("$BBDestructionChallenges")
 	For $i = 0 To UBound($g_ahCGBBDestructionItem) - 1
 		If GUICtrlRead($g_hClanGamesTV) = $g_ahCGBBDestructionItem[$i] Then
 			GUICtrlSetData($g_hLabelClangamesDesc, $tmpChallenges[$i][4] & @CRLF & "Required TH Level : " & $tmpChallenges[$i][2] _
-				& @CRLF & "Difficulty : " & $tmpChallenges[$i][3])
+					 & @CRLF & "Difficulty : " & $tmpChallenges[$i][3])
 			ExitLoop
 		Else
 			GUICtrlSetData($g_hLabelClangamesDesc, "")
 		EndIf
 	Next
-EndFunc
+EndFunc   ;==>CGBBDestructionTVItem
 
-Func CGBBTroopsTVRoot()	
-	If BitAND(GUICtrlRead($g_hChkCGBBTroops), $GUI_CHECKED) And GUICtrlRead($g_hChkCGRootEnabledAll) = $GUI_CHECKED Then ;root Clangames Builder Base Troops Challenges 
+Func CGBBTroopsTVRoot()
+	If BitAND(GUICtrlRead($g_hChkCGBBTroops), $GUI_CHECKED) And GUICtrlRead($g_hChkCGRootEnabledAll) = $GUI_CHECKED Then ;root Clangames Builder Base Troops Challenges
 		For $i = 0 To UBound($g_ahCGBBTroopsItem) - 1
 			GUICtrlSetState($g_ahCGBBTroopsItem[$i], $GUI_CHECKED)
 		Next
 	EndIf
-	If Not BitAND(GUICtrlRead($g_hChkCGBBTroops), $GUI_CHECKED) And GUICtrlRead($g_hChkCGRootEnabledAll) = $GUI_CHECKED Then ;root Clangames Builder Base Troops Challenges 
+	If Not BitAND(GUICtrlRead($g_hChkCGBBTroops), $GUI_CHECKED) And GUICtrlRead($g_hChkCGRootEnabledAll) = $GUI_CHECKED Then ;root Clangames Builder Base Troops Challenges
 		For $i = 0 To UBound($g_ahCGBBTroopsItem) - 1
 			GUICtrlSetState($g_ahCGBBTroopsItem[$i], $GUI_UNCHECKED)
 		Next
 	EndIf
 	GUICtrlSetData($g_hLabelClangamesDesc, "Enable/Disable Builder Base Troops Challenges")
-EndFunc
+EndFunc   ;==>CGBBTroopsTVRoot
 
-Func CGBBTroopsTVItem()	
+Func CGBBTroopsTVItem()
 	Local $tmpChallenges = ClanGamesChallenges("$BBTroopsChallenges")
 	For $i = 0 To UBound($g_ahCGBBTroopsItem) - 1
 		If GUICtrlRead($g_hClanGamesTV) = $g_ahCGBBTroopsItem[$i] Then
 			GUICtrlSetData($g_hLabelClangamesDesc, $tmpChallenges[$i][4] & @CRLF & "Required TH Level : " & $tmpChallenges[$i][2] _
-				& @CRLF & "Difficulty : " & $tmpChallenges[$i][3])
+					 & @CRLF & "Difficulty : " & $tmpChallenges[$i][3])
 			ExitLoop
 		Else
 			GUICtrlSetData($g_hLabelClangamesDesc, "")
 		EndIf
 	Next
-EndFunc
+EndFunc   ;==>CGBBTroopsTVItem
 
 Func chkSortClanGames()
 	If GUICtrlRead($g_hChkClanGamesSort) = $GUI_CHECKED Then
@@ -1417,4 +1417,4 @@ Func chkSortClanGames()
 		$g_bSortClanGames = False
 		GUICtrlSetState($g_hCmbClanGamesSort, $GUI_DISABLE)
 	EndIf
-EndFunc
+EndFunc   ;==>chkSortClanGames

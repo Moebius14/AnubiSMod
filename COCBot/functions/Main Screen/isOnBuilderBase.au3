@@ -25,7 +25,7 @@ Func isOnBuilderBase($bNeedCaptureRegion = False)
 	Else
 		Return False
 	EndIf
-EndFunc
+EndFunc   ;==>isOnBuilderBase
 
 Func isOnMainVillage($bNeedCaptureRegion = $g_bNoCapturePixel)
 	If _Sleep(250) Then Return
@@ -39,7 +39,7 @@ Func isOnMainVillage($bNeedCaptureRegion = $g_bNoCapturePixel)
 	Else
 		Return False
 	EndIf
-EndFunc
+EndFunc   ;==>isOnMainVillage
 
 Func isOnBuilderBaseEnemyVillage($bNeedCaptureRegion = $g_bNoCapturePixel)
 	If _Sleep(250) Then Return
@@ -53,4 +53,4 @@ Func isOnBuilderBaseEnemyVillage($bNeedCaptureRegion = $g_bNoCapturePixel)
 	Else
 		Return False
 	EndIf
-EndFunc
+EndFunc   ;==>isOnBuilderBaseEnemyVillage

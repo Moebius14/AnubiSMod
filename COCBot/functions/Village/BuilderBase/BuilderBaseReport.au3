@@ -16,7 +16,7 @@
 Func BuilderBaseReport($bBypass = False, $bSetLog = True)
 	ClickAway()
 	If _Sleep($DELAYVILLAGEREPORT1) Then Return
-	
+
 	Switch $bBypass
 		Case False
 			If $bSetLog Then SetLog("Builder Base Report", $COLOR_INFO)
@@ -41,7 +41,7 @@ Func BuilderBaseReport($bBypass = False, $bSetLog = True)
 	If Not $bBypass Then ; update stats
 		UpdateStats()
 	EndIf
-	
+
 	If ProfileSwitchAccountEnabled() Then SwitchAccountVariablesReload("Save")
 EndFunc   ;==>BuilderBaseReport
 
@@ -191,4 +191,4 @@ Func PicBBTrophies()
 		GUICtrlSetState($g_hLblBBLeague4, $GUI_HIDE)
 		GUICtrlSetState($g_hLblBBLeague5, $GUI_HIDE)
 	EndIf
-EndFunc   ;==>PicCCTrophies
+EndFunc   ;==>PicBBTrophies

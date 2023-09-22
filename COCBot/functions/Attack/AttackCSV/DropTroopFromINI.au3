@@ -31,20 +31,20 @@
 #include <MsgBoxConstants.au3>
 
 Func DropTroopFromINI($sDropVectors, $iStartIndex, $iEndIndex, $aiIndexArray, $iMinQuantity, $iMaxQuantity, $sTroopName, $delayPointmin, $delayPointmax, $delayDropMin, $delayDropMax, $sleepafterMin, $sleepAfterMax, $bDebug = False)
-	
+
 	;Mod CSV Deployment Speed
 	If ($g_iMatchMode = $DB And $g_aiAttackAlgorithm[$DB] = 1) Or ($g_iMatchMode = $LB And $g_aiAttackAlgorithm[$LB]) = 1 Then
 		For $i = $DB To $LB
 			If $icmbCSVSpeed[$i] = 0 Then
 				$g_CSVSpeedDivider[$i] = 1        ; $g_CSVSpeedDivider = 1 if CSV Deployment Speed max variability
 			Else
-				$g_CSVSpeedDivider[$i] = Round(Random(((100 - ($icmbCSVSpeed[$i] * 2)) / 100), ((100 + ($icmbCSVSpeed[$i] * 2)) / 100)),2); $g_CSVSpeedDivider = -x, x
+				$g_CSVSpeedDivider[$i] = Round(Random(((100 - ($icmbCSVSpeed[$i] * 2)) / 100), ((100 + ($icmbCSVSpeed[$i] * 2)) / 100)), 2) ; $g_CSVSpeedDivider = -x, x
 			EndIf
 		Next
 	Else
 		$g_CSVSpeedDivider[$i] = 1
 	EndIf
-	
+
 	If IsArray($aiIndexArray) = 0 Then
 		debugAttackCSV("drop using vectors " & $sDropVectors & " index " & $iStartIndex & "-" & $iEndIndex & " and using " & $iMinQuantity & "-" & $iMaxQuantity & " of " & $sTroopName)
 	Else
@@ -116,7 +116,7 @@ Func DropTroopFromINI($sDropVectors, $iStartIndex, $iEndIndex, $aiIndexArray, $i
 		If $g_bDraggedAttackBar Then DragAttackBar($g_iTotalAttackSlot, True) ; return drag
 	ElseIf $troopSlotConst > 10 Then ; can only be selected when in 2nd page of troopbar
 		If $g_bDraggedAttackBar = False Then DragAttackBar($g_iTotalAttackSlot, False) ; drag forward
-		EndIf
+	EndIf
 
 	If $g_bDraggedAttackBar And $troopPosition > -1 Then
 		$troopPosition = $troopSlotConst - ($g_iTotalAttackSlot - 10)
@@ -141,7 +141,7 @@ Func DropTroopFromINI($sDropVectors, $iStartIndex, $iEndIndex, $aiIndexArray, $i
 		Case $eISpell
 			If Not $g_abAttackUseInvisibilitySpell[$g_iMatchMode] Then $bUseSpell = False
 		Case $eReSpell
-			If Not $g_abAttackUseRecallSpell[$g_iMatchMode] Then $bUseSpell = False	
+			If Not $g_abAttackUseRecallSpell[$g_iMatchMode] Then $bUseSpell = False
 		Case $ePSpell
 			If Not $g_abAttackUsePoisonSpell[$g_iMatchMode] Then $bUseSpell = False
 		Case $eESpell
@@ -195,7 +195,7 @@ Func DropTroopFromINI($sDropVectors, $iStartIndex, $iEndIndex, $aiIndexArray, $i
 				Else
 					$delayDrop = $delayDropMin
 				EndIf
-				$delayDrop = Int($delayDrop / $g_CSVSpeedDivider[$g_iMatchMode]); CSV Deploy Speed
+				$delayDrop = Int($delayDrop / $g_CSVSpeedDivider[$g_iMatchMode]) ; CSV Deploy Speed
 				debugAttackCSV("- delay change drop point: " & $delayDrop & " (x" & $g_CSVSpeedDivider[$g_iMatchMode] & " faster)")
 			EndIf
 
@@ -211,11 +211,11 @@ Func DropTroopFromINI($sDropVectors, $iStartIndex, $iEndIndex, $aiIndexArray, $i
 					;delay time between 2 drops in same point
 					If $delayPointmin <> $delayPointmax Then
 						Local $delayPoint = Random($delayPointmin, $delayPointmax, 1)
-						$delayPoint = Int($delayPoint / $g_CSVSpeedDivider[$g_iMatchMode]); CSV Deploy Speed
+						$delayPoint = Int($delayPoint / $g_CSVSpeedDivider[$g_iMatchMode]) ; CSV Deploy Speed
 						debugAttackCSV("- random delay deploy point: " & $delayPoint & " (x" & $g_CSVSpeedDivider[$g_iMatchMode] & " faster)")
 					Else
 						Local $delayPoint = $delayPointmin
-						$delayPoint = Int($delayPoint / $g_CSVSpeedDivider[$g_iMatchMode]); CSV Deploy Speed
+						$delayPoint = Int($delayPoint / $g_CSVSpeedDivider[$g_iMatchMode]) ; CSV Deploy Speed
 					EndIf
 					debugAttackCSV("- Delay change deploy point: " & $delayPoint & " (x" & $g_CSVSpeedDivider[$g_iMatchMode] & " faster)")
 

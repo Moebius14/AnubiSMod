@@ -29,8 +29,8 @@ Func isInsideDiamond($aCoords)
 	Local $Left = $g_afRefVillage[$g_iTree][1]
 	Local $Right = $g_afRefVillage[$g_iTree][2]
 	Local $Top = $g_afRefVillage[$g_iTree][3]
-	Local $Bottom = $g_afRefVillage[$g_iTree][4] 
-	
+	Local $Bottom = $g_afRefVillage[$g_iTree][4]
+
 	Local $aDiamond[2][2] = [[$Left, $Top], [$Right, $Bottom]]
 	Local $aMiddle = [($aDiamond[0][0] + $aDiamond[1][0]) / 2, ($aDiamond[0][1] + $aDiamond[1][1]) / 2]
 
@@ -95,13 +95,13 @@ Func GetReduceDiamond($iPercent = 100)
 
 	If $iPercent > 80 Then $iPercent = 80
 	If $iPercent < 0 Then $iPercent = 0
-	
 
-	Local $iAdj = round(($iSize * $iPercent) / 100)
 
-	Local $DiamondLeft =  $InnerDiamondLeft + $iAdj
+	Local $iAdj = Round(($iSize * $iPercent) / 100)
+
+	Local $DiamondLeft = $InnerDiamondLeft + $iAdj
 	Local $DiamondRight = $InnerDiamondRight - $iAdj
-	Local $DiamondTop =  $InnerDiamondTop + $iAdj
+	Local $DiamondTop = $InnerDiamondTop + $iAdj
 	Local $DiamondBottom = $InnerDiamondBottom - $iAdj
 
 	Local $DiamondMiddleX = ($DiamondLeft + $DiamondRight) / 2
@@ -132,4 +132,4 @@ Func GetReduceDiamond($iPercent = 100)
 
 	;SetLog("Diamond : " & String($aiDiamond))
 	Return $aiDiamond
-EndFunc
+EndFunc   ;==>GetReduceDiamond

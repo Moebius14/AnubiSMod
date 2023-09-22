@@ -61,9 +61,9 @@ Func Collect($bCheckTreasury = True)
 			EndIf
 		Next
 	EndIf
-	
+
 	ClickAway("Right")
-	
+
 	If _Sleep($DELAYCOLLECT3) Then Return
 	checkMainScreen(False) ; check if errors during function
 
@@ -73,29 +73,29 @@ Func Collect($bCheckTreasury = True)
 EndFunc   ;==>Collect
 
 Func CollectLootCart()
-If $LootCartTimer <> 0 Then
-	Local $LootCartTimerDiff = TimerDiff($LootCartTimer)
-ElseIf $LootCartTimer = 0 Then
-	Local $LootCartTimerDiff = 0
-EndIf	
+	If $LootCartTimer <> 0 Then
+		Local $LootCartTimerDiff = TimerDiff($LootCartTimer)
+	ElseIf $LootCartTimer = 0 Then
+		Local $LootCartTimerDiff = 0
+	EndIf
 	If $LootCartTimerDiff <= $LootCartFrequency Then
-		If Not $g_abNotNeedAllTime[0] Then 
+		If Not $g_abNotNeedAllTime[0] Then
 			SetLog("Skipping loot cart check", $COLOR_INFO)
 			Return
 		EndIf
 	EndIf
 	$LootCartTimer = TimerInit()
-	$LootCartFrequency = Random((1 * 60 * 60 * 1000), (2 * 60 * 60 * 1000), 1)	
+	$LootCartFrequency = Random((1 * 60 * 60 * 1000), (2 * 60 * 60 * 1000), 1)
 
 	SetLog("Searching for a Loot Cart", $COLOR_INFO)
 
-	Local $aLootCart = decodeSingleCoord(findImage("LootCart", $g_sImgCollectLootCart, GetDiamondFromRect("1,220,120,290"), 1, True))
+	Local $aLootCart = decodeSingleCoord(findImage("LootCart", $g_sImgCollectLootCart, GetDiamondFromRect("1,220,110,280"), 1, True))
 	If UBound($aLootCart) > 1 Then
 		$aLootCart[1] += 15
 		If IsMainPage() Then ClickP($aLootCart, 1, 0, "#0330")
 		If _Sleep(1000) Then Return
 
-		If _ColorCheck(_GetPixelColor(330, 338  + $g_iMidOffsetY, True), Hex(0xC55115, 6), 20) Then ; close chat
+		If _ColorCheck(_GetPixelColor(330, 338 + $g_iMidOffsetY, True), Hex(0xC55115, 6), 20) Then  ; close chat
 			If Not ClickB("ClanChat") Then
 				SetLog("Error finding the Clan Tab Button", $COLOR_ERROR)
 				Click(332, 312 + $g_iMidOffsetY)

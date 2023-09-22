@@ -147,7 +147,7 @@ Func ClickB($sButtonName, $buttonTileArrayOrPatternOrFullPath = Default, $iDelay
 EndFunc   ;==>ClickB
 
 Func ClickButton($sButtonName, $buttonTileArrayOrPatternOrFullPath = Default, $iDelay = 100, $iLoop = 5)
-	For $i = 1 to $iLoop
+	For $i = 1 To $iLoop
 		Local $aiButton = findButton($sButtonName, $buttonTileArrayOrPatternOrFullPath, 1, True)
 		If IsArray($aiButton) And UBound($aiButton) >= 2 Then
 			ClickP($aiButton, 1)
@@ -156,13 +156,13 @@ Func ClickButton($sButtonName, $buttonTileArrayOrPatternOrFullPath = Default, $i
 		EndIf
 	Next
 	Return False
-EndFunc   ;==>ClickB
+EndFunc   ;==>ClickButton
 
 ; $sButtonName = search area X1Y1|X1Y2|X2Y2|X2Y1
 ; $buttonTileArrayOrPatternOrFullPath = image path
 ; Capture = FV
 ; Test : findButton($sButtonName, Default,1,1,1,1)
-Func findButton($sButtonName, $buttonTileArrayOrPatternOrFullPath = Default, $maxReturnPoints = 1, $bForceCapture = True, $bDebuglog = $g_bDebugSetlog,  $bDebugImageSave = $g_bDebugImageSave)
+Func findButton($sButtonName, $buttonTileArrayOrPatternOrFullPath = Default, $maxReturnPoints = 1, $bForceCapture = True, $bDebuglog = $g_bDebugSetlog, $bDebugImageSave = $g_bDebugImageSave)
 
 	If $buttonTileArrayOrPatternOrFullPath = Default Then $buttonTileArrayOrPatternOrFullPath = $sButtonName & "*"
 
@@ -171,7 +171,7 @@ Func findButton($sButtonName, $buttonTileArrayOrPatternOrFullPath = Default, $ma
 	Local $aCoords = "" ; use AutoIt mixed varaible type and initialize array of coordinates to null
 	Local $aButtons
 	Local $sButtons = ""
-	
+
 	If $bDebugImageSave Then SaveDebugDiamondImage("findButton", $searchArea)
 
 	; check if file tile is a pattern
@@ -258,18 +258,16 @@ Func GetButtonDiamond($sButtonName)
 	;$g_iMidOffsetY $g_iBottomOffsetY
 
 	Switch $sButtonName
-		case "ClanGamesStorageFullYes"
+		Case "ClanGamesStorageFullYes"
 			$btnDiamond = GetDiamondFromRect("245,250,615,480")
-		case "ClanGamesCollectRewards"
+		Case "ClanGamesCollectRewards"
 			$btnDiamond = GetDiamondFromRect("570,505,830,570")
-		case "ClanGamesClaimReward"
+		Case "ClanGamesClaimReward"
 			$btnDiamond = GetDiamondFromRect("570,505,830,570")
-		case "UpgradePets"
-			$btnDiamond = GetDiamondFromRect("590,530,735,595")
+		Case "UpgradePets"
+			$btnDiamond = GetDiamondFromRect("730,530,800,600")
 		Case "ReloadButton"
-			$btnDiamond = GetDiamondFromRect("550,450,850,700")
-		Case "CloseFindMatch" ;Find Match Screen
-			$btnDiamond = "780,15|830,15|830,60|780,60"
+			$btnDiamond = GetDiamondFromRect("650,560,850,675")
 		Case "AttackButton" ;Main Window Screen
 			$btnDiamond = GetDiamondFromRect2(0, 540 + $g_iBottomOffsetY, 160, 660 + $g_iBottomOffsetY)
 		Case "OpenTrainWindow" ;Main Window Screen
@@ -278,20 +276,11 @@ Func GetButtonDiamond($sButtonName)
 			$btnDiamond = GetDiamondFromRect("100,200,840,540")
 		Case "EventFailed"
 			$btnDiamond = GetDiamondFromRect("230,180,777,560")
-		Case "OK"
-			$btnDiamond = "440,395|587,395|587,460|440,460"
-		Case "CANCEL"
-			$btnDiamond = "272,395|420,395|420,460|272,460"
-		Case "ReturnHome"
-			$btnDiamond = "357,545|502,545|502,607|357,607"
-		Case "Next" ; attackpage attackwindow
-			$btnDiamond = "697,542|850,542|850,610|697,610"
 		Case "ObjectButtons", "BoostOne", "BoostCT", "ClockTowerPot", "Upgrade", "Research", "Treasury", "RemoveObstacle", "CollectLootCart", "Pets", "MagicItem", "HeroBooks", _
-		"LabPotion", "LabBoosted", "BuilderPot", "Reinforce", "Info", "THWeapon", "WallRing", "GearUp", "PetPotion", "PetBoosted"; Full size of object buttons at the bottom
+				"LabPotion", "LabBoosted", "BuilderPot", "Reinforce", "Info", "THWeapon", "WallRing", "GearUp", "PetPotion", "PetBoosted" ; Full size of object buttons at the bottom
 			$btnDiamond = GetDiamondFromRect2(140, 531 + $g_iBottomOffsetY, 720, 611 + $g_iBottomOffsetY)
-			If $g_bDebugImageSave Then SaveDebugDiamondImage("ObjectButtons", $btnDiamond)
 		Case "GEM", "BOOSTBtn", "BoostConfirm" ; Boost window button (full button size)
-			$btnDiamond = GetDiamondFromRect2(359, 382 + $g_iMidOffsetY, 507, 448 + $g_iMidOffsetY)
+			$btnDiamond = GetDiamondFromRect2(359, 382 + $g_iMidOffsetY, 507, 477 + $g_iMidOffsetY)
 		Case "WallRingConfirm" ; Upgrade Wall With Wall Rings
 			$btnDiamond = GetDiamondFromRect2(359, 465 + $g_iMidOffsetY, 507, 530 + $g_iMidOffsetY)
 		Case "EnterShop"
@@ -319,13 +308,13 @@ Func GetButtonDiamond($sButtonName)
 		Case "ArmyTab", "TrainTroopsTab", "BrewSpellsTab", "BuildSiegeMachinesTab"
 			$btnDiamond = GetDiamondFromRect2(18, 70 + $g_iMidOffsetY, 800, 120 + $g_iMidOffsetY)
 		Case "MessagesButton"
-			$btnDiamond = GetDiamondFromRect("0,0,250,250")
+			$btnDiamond = GetDiamondFromRect2(0, 0, 90, 170 + $g_iMidOffsetY)
 		Case "AttackLogTab", "ShareReplayButton"
-			$btnDiamond = GetDiamondFromRect("280,85,600,300")
+			$btnDiamond = GetDiamondFromRect2(280, 65, 600, 160 + $g_iMidOffsetY)
 		Case "EndBattle", "Surrender"
 			$btnDiamond = GetDiamondFromRect("1,570,140,628")
 		Case "Okay"
-			$btnDiamond = GetDiamondFromRect("241,249,616,478")
+			$btnDiamond = GetDiamondFromRect("240,250,630,630")
 		Case "ChatDown" ; AnubiS Mod
 			$btnDiamond = GetDiamondFromRect2(10, 575 + $g_iBottomOffsetY, 45, 620 + $g_iBottomOffsetY)
 		Case Else
@@ -348,7 +337,6 @@ Func UpdateImgeTile(ByRef $sImageTile, $AndroidTag = Default)
 			$AndroidTag = False
 		EndIf
 	EndIf
-
 
 	If $AndroidTag Then
 		; add [Android Code Name] at the end, see https://en.wikipedia.org/wiki/Android_version_history
@@ -633,7 +621,7 @@ Func GetDiamondFromRect2($iX1 = -1, $iY1 = -1, $iX2 = -1, $iY2 = -1)
 	EndIf
 
 	Local $sReturnDiamond = ""
-	$sReturnDiamond = $iX1  & "," & $iY1 & "|" & $iX2 & "," & $iY1 & "|" & $iX2 & "," & $iY2 & "|" & $iX1 & "," & $iY2
+	$sReturnDiamond = $iX1 & "," & $iY1 & "|" & $iX2 & "," & $iY1 & "|" & $iX2 & "," & $iY2 & "|" & $iX1 & "," & $iY2
 	Return $sReturnDiamond
 EndFunc   ;==>GetDiamondFromRect2
 
@@ -664,7 +652,7 @@ Func FindImageInPlace($sImageName, $sImageTile, $place, $bForceCaptureRegion = T
 EndFunc   ;==>FindImageInPlace
 
 ; Same as FindImageInPlace but takes individual coords instead of a string
-Func FindImageInPlace2($sImageName, $sImageTile, $iX1=-1, $iY1=-1, $iX2=-1, $iY2=-1, $bForceCaptureRegion = True, $AndroidTag = Default)
+Func FindImageInPlace2($sImageName, $sImageTile, $iX1 = -1, $iY1 = -1, $iX2 = -1, $iY2 = -1, $bForceCaptureRegion = True, $AndroidTag = Default)
 	;creates a reduced capture of the place area a finds the image in that area
 	;returns string with X,Y of ACTUALL FULL SCREEN coordinates or Empty if not found
 	If $g_bDebugSetlog Then SetDebugLog("FindImageInPlace2 : > " & $sImageName & " - " & $sImageTile, $COLOR_INFO)
@@ -676,7 +664,7 @@ Func FindImageInPlace2($sImageName, $sImageTile, $iX1=-1, $iY1=-1, $iX2=-1, $iY2
 
 	Local $returnvalue = ""
 	;Local $aPlaces = GetRectArray($place)
-	Local $sImageArea = $iX1  & "," & $iY1 & "|" & $iX2 & "," & $iY1 & "|" & $iX2 & "," & $iY2 & "|" & $iX1 & "," & $iY2
+	Local $sImageArea = $iX1 & "," & $iY1 & "|" & $iX2 & "," & $iY1 & "|" & $iX2 & "," & $iY2 & "|" & $iX1 & "," & $iY2
 	If $bForceCaptureRegion = True Then
 		$sImageArea = "FV"
 		_CaptureRegion2(Number($iX1), Number($iY1), Number($iX2), Number($iY2))

@@ -13,7 +13,7 @@
 ; Example .......: No
 ; ===============================================================================================================================
 
-Func PrepareAttackBB($AttackForCount = 0)
+Func PrepareAttackBB($AttackCount = 0)
 
 	If $g_bChkForceBBAttackOnClanGames And $g_bIsBBevent Then
 		Setlog("Running Challenge is BB Challenge : " & $CurrentActiveChallenge, $COLOR_ACTION)
@@ -43,7 +43,7 @@ Func PrepareAttackBB($AttackForCount = 0)
 			Return True
 		EndIf
 
-		If $AttackForCount > 0 Then
+		If $AttackCount > 0 Then
 			If Not IsBBDailyChallengeStillAvailable() Then Return False
 			If $g_IsBBDailyChallengeAvailable Then
 				$g_IsBBDailyChallengeAvailable = False
@@ -60,13 +60,13 @@ Func PrepareAttackBB($AttackForCount = 0)
 	EndIf
 
 	If Not $g_bRunState Then Return ; Stop Button
-	
+
 	If $g_bChkBBHaltOnResourcesFull Then
 		If CheckBBGoldStorageFull() And CheckBBElixirStorageFull() Then
 			If _Sleep(1500) Then Return
 			Return False
 		EndIf
-	EndIf	
+	EndIf
 
 	If $g_bChkBBAttIfLootAvail Then
 		If Not CheckLootAvail() Then
@@ -94,7 +94,7 @@ Func PrepareAttackBB($AttackForCount = 0)
 	EndIf
 
 	Return True ; returns true if all checks succeed
-EndFunc
+EndFunc   ;==>PrepareAttackBB
 
 Func CheckBBGoldStorageFull($SetLog = True)
 	Local $aBBGoldFull[4] = [661, 35, 0xE7C00D, 10]
@@ -103,8 +103,8 @@ Func CheckBBGoldStorageFull($SetLog = True)
 		If $SetLog Then SetLog("BB Gold Full")
 		Return True
 	EndIf
- 	Return False
-EndFunc
+	Return False
+EndFunc   ;==>CheckBBGoldStorageFull
 
 Func CheckBBElixirStorageFull($SetLog = True)
 	Local $aBBElixirFull[4] = [661, 85, 0x7945C5, 10]
@@ -114,43 +114,43 @@ Func CheckBBElixirStorageFull($SetLog = True)
 		Return True
 	EndIf
 	Return False
-EndFunc	
+EndFunc   ;==>CheckBBElixirStorageFull
 
-Func CheckLootAvail($Setlog = True)
+Func CheckLootAvail($SetLog = True)
 	Local $bRet = False, $iRemainStars = 0, $iMaxStars = 0
-	Local $sStars = getOcrAndCapture("coc-BBAttackAvail", 40, 568  + $g_iBottomOffsetY, 50, 20)
-	
+	Local $sStars = getOcrAndCapture("coc-BBAttackAvail", 40, 568 + $g_iBottomOffsetY, 50, 20)
+
 	If $g_bDebugSetLog Then SetLog("Stars: " & $sStars, $COLOR_DEBUG2)
-	If $sStars <> "" And StringInStr($sStars, "#") Then 
+	If $sStars <> "" And StringInStr($sStars, "#") Then
 		Local $aStars = StringSplit($sStars, "#", $STR_NOCOUNT)
-		If IsArray($aStars) Then 
+		If IsArray($aStars) Then
 			$iRemainStars = $aStars[0]
 			$iMaxStars = $aStars[1]
 		EndIf
 		If Number($iRemainStars) <= Number($iMaxStars) Then
-			If $Setlog Then SetLog("Remaining Stars : " & $iRemainStars & "/" & $iMaxStars, $COLOR_INFO)
+			If $SetLog Then SetLog("Remaining Stars : " & $iRemainStars & "/" & $iMaxStars, $COLOR_INFO)
 			$bRet = True
 		Else
-			If $Setlog Then SetLog("All attacks used")
+			If $SetLog Then SetLog("All attacks used")
 		EndIf
 	EndIf
 	Return $bRet
-EndFunc
+EndFunc   ;==>CheckLootAvail
 
 Func CheckMachReady()
 	Local $bRet = False
-	If QuickMis("BC1", $g_sImgBBMachReady, 120, 270 + $g_iMidOffsetY, 180, 325 + $g_iMidOffsetY) Then
+	If QuickMis("BC1", $g_sImgBBMachReady, 125, 275 + $g_iMidOffsetY, 180, 325 + $g_iMidOffsetY) Then
 		$bRet = True
 		SetLog("Battle Machine ready.")
 	EndIf
 	Return $bRet
-EndFunc
+EndFunc   ;==>CheckMachReady
 
 Func CheckArmyReady()
-	local $i = 0
-	local $bReady = True, $bNeedTrain = False, $bTraining = False
+	Local $i = 0
+	Local $bReady = True, $bNeedTrain = False, $bTraining = False
 
-	If _ColorCheck(_GetPixelColor(126, 246 + $g_iMidOffsetY, True), Hex(0xE84C50, 6), 20) Then 
+	If _ColorCheck(_GetPixelColor(123, 245 + $g_iMidOffsetY, True), Hex(0xE84E52, 6), 20) Then
 		SetLog("Army is not Ready", $COLOR_DEBUG)
 		$bNeedTrain = True ;need train, so will train cannon cart
 		$bReady = False
@@ -166,20 +166,20 @@ Func CheckArmyReady()
 		For $i = 1 To 5
 			SetLog("Waiting for Army Window #" & $i, $COLOR_ACTION)
 			If _Sleep(500) Then Return
-			If QuickMis("BC1", $g_sImgGeneralCloseButton, 760, 140 + $g_iMidOffsetY, 800, 190 + $g_iMidOffsetY) Then ExitLoop
+			If QuickMis("BC1", $g_sImgGeneralCloseButton, 790, 120 + $g_iMidOffsetY, 835, 165 + $g_iMidOffsetY) Then ExitLoop
 		Next
 
-		Local $Camp = QuickMIS("CNX", $g_sImgFillCamp, 70, 210 + $g_iMidOffsetY, 800, 250 + $g_iMidOffsetY)
+		Local $Camp = QuickMIS("CNX", $g_sImgFillCamp, 45, 210 + $g_iMidOffsetY, 800, 250 + $g_iMidOffsetY)
 		For $i = 1 To UBound($Camp)
-			If QuickMIS("BC1", $g_sImgFillTrain, 75, 390 + $g_iMidOffsetY, 800, 530 + $g_iMidOffsetY) Then
+			If QuickMIS("BC1", $g_sImgFillTrain, 45, 390 + $g_iMidOffsetY, 800, 550 + $g_iMidOffsetY) Then
 				Setlog("Fill ArmyCamp with : " & $g_iQuickMISName, $COLOR_DEBUG)
 				Click($g_iQuickMISX, $g_iQuickMISY)
 				If _Sleep(500) Then Return
 			EndIf
 		Next
 
-		$Camp = QuickMIS("CNX", $g_sImgFillCamp, 70, 210 + $g_iMidOffsetY, 800, 250 + $g_iMidOffsetY)
-		If UBound($Camp) > 0 Then 
+		$Camp = QuickMIS("CNX", $g_sImgFillCamp, 45, 210 + $g_iMidOffsetY, 800, 250 + $g_iMidOffsetY)
+		If UBound($Camp) > 0 Then
 			$bReady = False
 		Else
 			$bReady = True
@@ -196,12 +196,12 @@ Func CheckArmyReady()
 		SetLog("Army is ready.")
 	EndIf
 	Return $bReady
-EndFunc
+EndFunc   ;==>CheckArmyReady
 
 Func ClickAttack()
 	Local $sSearchDiamond = GetDiamondFromRect2(10, 560 + $g_iBottomOffsetY, 115, 660 + $g_iBottomOffsetY)
 	Local $aCoords = decodeSingleCoord(findImage("ClickAttack", $g_sImgBBAttackButton, $sSearchDiamond, 1, True)) ; bottom
-	local $bRet = False
+	Local $bRet = False
 
 	If IsArray($aCoords) And UBound($aCoords) = 2 Then
 		SetDebugLog(String($aCoords[0]) & " " & String($aCoords[1]))
@@ -213,7 +213,7 @@ Func ClickAttack()
 	EndIf
 
 	Return $bRet
-EndFunc
+EndFunc   ;==>ClickAttack
 
 Func ReturnHomeDropTrophyBB($bOnlySurender = False)
 	SetLog("Returning Home", $COLOR_SUCCESS)
@@ -224,7 +224,7 @@ Func ReturnHomeDropTrophyBB($bOnlySurender = False)
 				Click(65, 550) ;click surrender
 				If _Sleep(1000) Then Return
 			Case QuickMIS("BC1", $g_sImgBBReturnHome, 390, 515 + $g_iMidOffsetY, 470, 560 + $g_iMidOffsetY) = True
-				If $bOnlySurender Then 
+				If $bOnlySurender Then
 					Return True
 				EndIf
 				Click($g_iQuickMISX, $g_iQuickMISY)
@@ -237,14 +237,14 @@ Func ReturnHomeDropTrophyBB($bOnlySurender = False)
 			Case isOnBuilderBase() = True
 				Return True
 			Case IsOKCancelPage() = True
-				ClickOkay("BB Attack Surrender"); Click Okay to Confirm surrender
+				ClickOkay("BB Attack Surrender") ; Click Okay to Confirm surrender
 				If _Sleep(1000) Then Return
 		EndSelect
 		If _Sleep(500) Then Return
 	Next
 
 	Return True
-EndFunc
+EndFunc   ;==>ReturnHomeDropTrophyBB
 
 Func BuilderJar()
 
@@ -258,7 +258,7 @@ Func BuilderJar()
 		SetLog("Use Builder Jar", $COLOR_INFO)
 		If Not ClickAttack() Then Return
 		If _Sleep(2000) Then Return
-		If QuickMIS("BC1", $g_sImgUseBuilderJar, 125, 465 + $g_iMidOffsetY, 190, 510 + $g_iMidOffsetY) Then
+		If QuickMIS("BC1", $g_sImgUseBuilderJar, 125, 465 + $g_iMidOffsetY, 190, 505 + $g_iMidOffsetY) Then
 			Click($g_iQuickMISX + 20, $g_iQuickMISY)
 			If _Sleep(1500) Then Return
 			If ClickB("BoostConfirm") Then
@@ -280,4 +280,4 @@ Func BuilderJar()
 		CloseWindow()
 	EndIf
 
-EndFunc
+EndFunc   ;==>BuilderJar

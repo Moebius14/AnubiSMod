@@ -20,15 +20,15 @@ Global $g_hGUI_SEARCH = 0
 ;   MBR GUI Design Child Attack - Deadbase-Search.au3
 ;   MBR GUI Design Child Attack - Activebase-Search.au3
 Global $g_ahChkMaxMortar[$g_iModeCount] = [0, 0, 0], $g_ahChkMaxWizTower[$g_iModeCount] = [0, 0, 0], $g_ahChkMaxAirDefense[$g_iModeCount] = [0, 0, 0], _
-	   $g_ahChkMaxXBow[$g_iModeCount] = [0, 0, 0], $g_ahChkMaxInferno[$g_iModeCount] = [0, 0, 0], $g_ahChkMaxEagle[$g_iModeCount] = [0, 0, 0], $g_ahChkMaxScatter[$g_iModeCount] = [0, 0, 0], _
-	   $g_ahChkMaxMonolith[$g_iModeCount] = [0, 0, 0]
-Global $g_ahCmbWeakMortar[$g_iModeCount] = [0, 0, 0], $g_ahCmbWeakWizTower[$g_iModeCount] = [0, 0, 0],  $g_ahCmbWeakAirDefense[$g_iModeCount] = [0, 0, 0], _
-	   $g_ahCmbWeakXBow[$g_iModeCount] = [0, 0, 0], $g_ahCmbWeakInferno[$g_iModeCount] = [0, 0, 0], $g_ahCmbWeakEagle[$g_iModeCount] = [0, 0, 0], $g_ahCmbWeakScatter[$g_iModeCount] = [0, 0, 0], _
-	   $g_ahCmbWeakMonolith[$g_iModeCount] = [0, 0, 0]
+		$g_ahChkMaxXBow[$g_iModeCount] = [0, 0, 0], $g_ahChkMaxInferno[$g_iModeCount] = [0, 0, 0], $g_ahChkMaxEagle[$g_iModeCount] = [0, 0, 0], $g_ahChkMaxScatter[$g_iModeCount] = [0, 0, 0], _
+		$g_ahChkMaxMonolith[$g_iModeCount] = [0, 0, 0]
+Global $g_ahCmbWeakMortar[$g_iModeCount] = [0, 0, 0], $g_ahCmbWeakWizTower[$g_iModeCount] = [0, 0, 0], $g_ahCmbWeakAirDefense[$g_iModeCount] = [0, 0, 0], _
+		$g_ahCmbWeakXBow[$g_iModeCount] = [0, 0, 0], $g_ahCmbWeakInferno[$g_iModeCount] = [0, 0, 0], $g_ahCmbWeakEagle[$g_iModeCount] = [0, 0, 0], $g_ahCmbWeakScatter[$g_iModeCount] = [0, 0, 0], _
+		$g_ahCmbWeakMonolith[$g_iModeCount] = [0, 0, 0]
 
 Global $g_ahPicWeakMortar[$g_iModeCount] = [0, 0, 0], $g_ahPicWeakWizTower[$g_iModeCount] = [0, 0, 0], $g_ahPicWeakAirDefense[$g_iModeCount] = [0, 0, 0], _
-	   $g_ahPicWeakXBow[$g_iModeCount] = [0, 0, 0], $g_ahPicWeakInferno[$g_iModeCount] = [0, 0, 0], $g_ahPicWeakEagle[$g_iModeCount] = [0, 0, 0], $g_ahPicWeakScatter[$g_iModeCount] = [0, 0, 0], _
-	   $g_ahPicWeakMonolith[$g_iModeCount] = [0, 0, 0]
+		$g_ahPicWeakXBow[$g_iModeCount] = [0, 0, 0], $g_ahPicWeakInferno[$g_iModeCount] = [0, 0, 0], $g_ahPicWeakEagle[$g_iModeCount] = [0, 0, 0], $g_ahPicWeakScatter[$g_iModeCount] = [0, 0, 0], _
+		$g_ahPicWeakMonolith[$g_iModeCount] = [0, 0, 0]
 Global $g_ahChkMeetOne[$g_iModeCount] = [0, 0, 0]
 
 #include "MBR GUI Design Child Attack - Deadbase.au3"
@@ -50,14 +50,14 @@ Func CreateAttackSearch()
 	Local $x = 82
 	; ---
 	$g_hChkDeadbase = GUICtrlCreateCheckbox("", $x, 6, 13, 13)
-		GUICtrlSetState(-1, $GUI_CHECKED)
-		GUICtrlSetOnEvent(-1, "DBcheck")
+	GUICtrlSetState(-1, $GUI_CHECKED)
+	GUICtrlSetOnEvent(-1, "DBcheck")
 	$g_hChkActivebase = GUICtrlCreateCheckbox("", $x + 100, 4, 13, 13)
-		GUICtrlSetState(-1, $GUI_UNCHECKED)
-		GUICtrlSetOnEvent(-1, "Abcheck")
+	GUICtrlSetState(-1, $GUI_UNCHECKED)
+	GUICtrlSetOnEvent(-1, "Abcheck")
 	$g_hChkBully = GUICtrlCreateCheckbox("", $x + 180, 4, 13, 13)
-		GUICtrlSetState(-1, $GUI_UNCHECKED)
-		GUICtrlSetOnEvent(-1, "Bullycheck")
+	GUICtrlSetState(-1, $GUI_UNCHECKED)
+	GUICtrlSetOnEvent(-1, "Bullycheck")
 
 	;creating subchilds first!
 	CreateAttackSearchDeadBase()
@@ -72,25 +72,25 @@ Func CreateAttackSearch()
 	$g_hGUI_SEARCH_TAB_ITEM1 = GUICtrlCreateTabItem(GetTranslatedFileIni("MBR Main GUI", "Tab_03_STab_02_STab_01", "DeadBase") & "    ") ; MUST add 4 spaces to make room for the Checkmark box!
 	; this tab will be empty because it is only used to display a child GUI
 	; below controls are only shown when the strategy is disabled and the child gui will be hidden.
-		$g_hLblDeadbaseDisabled = GUICtrlCreateLabel(GetTranslatedFileIni("MBR Main GUI", "disabled_Tab_03_STab_02_STab_Info_01", "Note: This Strategy is disabled, tick the checkmark on the") & " " & _
-													 GetTranslatedFileIni("MBR Main GUI", "Tab_03_STab_02_STab_01", -1) & " " & _
-													 GetTranslatedFileIni("MBR Main GUI", "disabled_Tab_03_STab_02_STab_Info_02", "tab to enable it!"), 20, 30, $_GUI_MAIN_WIDTH - 40, -1)
-		GUICtrlSetState(-1, $GUI_HIDE)
+	$g_hLblDeadbaseDisabled = GUICtrlCreateLabel(GetTranslatedFileIni("MBR Main GUI", "disabled_Tab_03_STab_02_STab_Info_01", "Note: This Strategy is disabled, tick the checkmark on the") & " " & _
+			GetTranslatedFileIni("MBR Main GUI", "Tab_03_STab_02_STab_01", -1) & " " & _
+			GetTranslatedFileIni("MBR Main GUI", "disabled_Tab_03_STab_02_STab_Info_02", "tab to enable it!"), 20, 30, $_GUI_MAIN_WIDTH - 40, -1)
+	GUICtrlSetState(-1, $GUI_HIDE)
 
 	$g_hGUI_SEARCH_TAB_ITEM2 = GUICtrlCreateTabItem(GetTranslatedFileIni("MBR Main GUI", "Tab_03_STab_02_STab_02", "ActiveBase") & "    ")
 	; this tab will be empty because it is only used to display a child GUI
 	; below controls are only shown when the strategy is disabled and the child gui will be hidden.
-		$g_hLblActivebaseDisabled = GUICtrlCreateLabel(GetTranslatedFileIni("MBR Main GUI", "disabled_Tab_03_STab_02_STab_Info_01", -1) & " " & _
-													   GetTranslatedFileIni("MBR Main GUI", "Tab_03_STab_02_STab_02", -1) & " " & _
-													   GetTranslatedFileIni("MBR Main GUI", "disabled_Tab_03_STab_02_STab_Info_02", -1), 20, 30, $_GUI_MAIN_WIDTH - 40, -1)
-		GUICtrlSetState(-1, $GUI_HIDE)
+	$g_hLblActivebaseDisabled = GUICtrlCreateLabel(GetTranslatedFileIni("MBR Main GUI", "disabled_Tab_03_STab_02_STab_Info_01", -1) & " " & _
+			GetTranslatedFileIni("MBR Main GUI", "Tab_03_STab_02_STab_02", -1) & " " & _
+			GetTranslatedFileIni("MBR Main GUI", "disabled_Tab_03_STab_02_STab_Info_02", -1), 20, 30, $_GUI_MAIN_WIDTH - 40, -1)
+	GUICtrlSetState(-1, $GUI_HIDE)
 
 	$g_hGUI_SEARCH_TAB_ITEM3 = GUICtrlCreateTabItem(GetTranslatedFileIni("MBR Main GUI", "Tab_03_STab_02_STab_04", "Bully") & "    ")
 	; this tab will be empty because it is only used to display a child GUI
-		$g_hLblBullyDisabled = GUICtrlCreateLabel(GetTranslatedFileIni("MBR Main GUI", "disabled_Tab_03_STab_02_STab_Info_01", -1) & " " & _
-												  GetTranslatedFileIni("MBR Main GUI", "Tab_03_STab_02_STab_04", -1) & " " & _
-												  GetTranslatedFileIni("MBR Main GUI", "disabled_Tab_03_STab_02_STab_Info_02", -1), 20, 30, $_GUI_MAIN_WIDTH - 40, -1)
-		GUICtrlSetState(-1, $GUI_HIDE)
+	$g_hLblBullyDisabled = GUICtrlCreateLabel(GetTranslatedFileIni("MBR Main GUI", "disabled_Tab_03_STab_02_STab_Info_01", -1) & " " & _
+			GetTranslatedFileIni("MBR Main GUI", "Tab_03_STab_02_STab_04", -1) & " " & _
+			GetTranslatedFileIni("MBR Main GUI", "disabled_Tab_03_STab_02_STab_Info_02", -1), 20, 30, $_GUI_MAIN_WIDTH - 40, -1)
+	GUICtrlSetState(-1, $GUI_HIDE)
 
 	$g_hGUI_SEARCH_TAB_ITEM4 = GUICtrlCreateTabItem(GetTranslatedFileIni("MBR Main GUI", "Tab_03_STab_02_STab_05", "Options"))
 	; this tab will be empty because it is only used to display a child GUI

@@ -15,11 +15,11 @@
 #include-once
 
 Global $g_aiDonIcons[$eTroopCount + 1] = [$eIcnDonBarbarian, $eIcnSuperBarbarian, $eIcnDonArcher, $eIcnSuperArcher, $eIcnDonGiant, $eIcnSuperGiant, $eIcnDonGoblin, $eIcnSneakyGoblin, _
-							$eIcnDonWallBreaker, $eIcnSuperWallBreaker, $eIcnDonBalloon, $eIcnRocketBalloon, $eIcnDonWizard, $eIcnSuperWizard, _
-							$eIcnDonHealer, $eIcnDonDragon, $eIcnSuperDragon, $eIcnDonPekka, $eIcnDonBabyDragon, _							
-							$eIcnInfernoDragon, $eIcnDonMiner, $eIcnSuperMiner, $eIcnElectroDragon, $eIcnYeti, $eIcnDragonRider, $eIcnElectroTitan, _
-							$eIcnDonMinion, $eIcnSuperMinion, $eIcnDonHogRider, $eIcnSuperHogRider, $eIcnDonValkyrie, $eIcnSuperValkyrie, $eIcnDonGolem, _
-							$eIcnDonWitch, $eIcnSuperWitch, $eIcnDonLavaHound, $eIcnIceHound, $eIcnDonBowler, $eIcnSuperBowler, $eIcnIceGolem, $eIcnHeadhunter, $eIcnAppWard, $eIcnDonBlank]
+		$eIcnDonWallBreaker, $eIcnSuperWallBreaker, $eIcnDonBalloon, $eIcnRocketBalloon, $eIcnDonWizard, $eIcnSuperWizard, _
+		$eIcnDonHealer, $eIcnDonDragon, $eIcnSuperDragon, $eIcnDonPekka, $eIcnDonBabyDragon, _
+		$eIcnInfernoDragon, $eIcnDonMiner, $eIcnSuperMiner, $eIcnElectroDragon, $eIcnYeti, $eIcnDragonRider, $eIcnElectroTitan, _
+		$eIcnDonMinion, $eIcnSuperMinion, $eIcnDonHogRider, $eIcnSuperHogRider, $eIcnDonValkyrie, $eIcnSuperValkyrie, $eIcnDonGolem, _
+		$eIcnDonWitch, $eIcnSuperWitch, $eIcnDonLavaHound, $eIcnIceHound, $eIcnDonBowler, $eIcnSuperBowler, $eIcnIceGolem, $eIcnHeadhunter, $eIcnAppWard, $eIcnDonBlank]
 
 Func btnDonateTroop()
 	For $i = 0 To $eTroopCount - 1 + $g_iCustomDonateConfigs + $eSiegeMachineCount
@@ -70,7 +70,7 @@ Func btnDonateBlacklist()
 EndFunc   ;==>btnDonateBlacklist
 
 Func chkDonateTroop()
-	For $i = 0 To $eTroopCount-1 + $g_iCustomDonateConfigs + $eSiegeMachineCount
+	For $i = 0 To $eTroopCount - 1 + $g_iCustomDonateConfigs + $eSiegeMachineCount
 		If @GUI_CtrlId = $g_ahChkDonateTroop[$i] Then
 			If GUICtrlRead($g_ahChkDonateTroop[$i]) = $GUI_CHECKED Then
 				_DonateControls($i)
@@ -150,7 +150,7 @@ Func cmbDonateCustomB()
 EndFunc   ;==>cmbDonateCustomB
 
 Func _DonateBtn($hFirstControl, $hLastControl)
-    Static $hLastDonateBtn1 = -1, $hLastDonateBtn2 = -1
+	Static $hLastDonateBtn1 = -1, $hLastDonateBtn2 = -1
 
 	; Hide Controls
 	If $hLastDonateBtn1 = -1 Then
@@ -173,7 +173,7 @@ Func _DonateBtn($hFirstControl, $hLastControl)
 EndFunc   ;==>_DonateBtn
 
 Func _DonateControls($iTroopIndex)
-;	Local $bWasRedraw = SetRedrawBotWindow(False, Default, Default, Default, "_DonateControls")
+	;	Local $bWasRedraw = SetRedrawBotWindow(False, Default, Default, Default, "_DonateControls")
 
 	Local $iFirstTroop = 0, $iLastTroop = $eTroopCount - 1 + $g_iCustomDonateConfigs + $eSiegeMachineCount
 	If $iTroopIndex <= $eTroopCount - 1 + $g_iCustomDonateConfigs Then
@@ -194,7 +194,7 @@ Func _DonateControls($iTroopIndex)
 		If BitAND(GUICtrlGetState($g_ahTxtDonateTroop[$i]), $GUI_DISABLE) = $GUI_DISABLE Then GUICtrlSetState($g_ahTxtDonateTroop[$i], $GUI_ENABLE)
 		If BitAND(GUICtrlGetState($g_ahTxtBlacklistTroop[$i]), $GUI_DISABLE) = $GUI_DISABLE Then GUICtrlSetState($g_ahTxtBlacklistTroop[$i], $GUI_ENABLE)
 	Next
-;	SetRedrawBotWindowControls($bWasRedraw, $g_hGUI_DONATE_TAB, "_DonateControls") ; cannot use tab item here
+	;	SetRedrawBotWindowControls($bWasRedraw, $g_hGUI_DONATE_TAB, "_DonateControls") ; cannot use tab item here
 EndFunc   ;==>_DonateControls
 
 Func _DonateAllControls($iTroopIndex, $Set)
@@ -239,14 +239,14 @@ Func _DonateControlsSpell($iSpellIndex)
 			GUICtrlSetBkColor($g_ahLblDonateSpell[$i], $COLOR_OLIVE)
 		Else
 			If GUICtrlGetBkColor($g_ahLblDonateSpell[$i]) = $COLOR_NAVY Then GUICtrlSetBkColor($g_ahLblDonateSpell[$i], $GUI_BKCOLOR_TRANSPARENT)
-	    EndIf
+		EndIf
 
 		If GUICtrlRead($g_ahChkDonateAllSpell[$i]) = $GUI_CHECKED Then GUICtrlSetState($g_ahChkDonateAllSpell[$i], $GUI_UNCHECKED)
 
 		If BitAND(GUICtrlGetState($g_ahTxtDonateSpell[$i]), $GUI_DISABLE) = $GUI_DISABLE Then GUICtrlSetState($g_ahTxtDonateSpell[$i], $GUI_ENABLE)
 		If BitAND(GUICtrlGetState($g_ahTxtBlacklistSpell[$i]), $GUI_DISABLE) = $GUI_DISABLE Then GUICtrlSetState($g_ahTxtBlacklistSpell[$i], $GUI_ENABLE)
 	Next
- EndFunc   ;==>_DonateControlsSpell
+EndFunc   ;==>_DonateControlsSpell
 
 Func _DonateAllControlsSpell($iSpellIndex, $Set)
 	Local $bWasRedraw = SetRedrawBotWindow(False, Default, Default, Default, "_DonateAllControlsSpell")
@@ -294,7 +294,7 @@ Func SetStateTxtGeneralBlacklist()
 	ElseIf $bDonateToAll Then
 		If BitAND(GUICtrlGetState($g_hTxtGeneralBlacklist), $GUI_ENABLE) = $GUI_ENABLE Then GUICtrlSetState($g_hTxtGeneralBlacklist, $GUI_DISABLE)
 	EndIf
-EndFunc
+EndFunc   ;==>SetStateTxtGeneralBlacklist
 
 Func btnFilterDonationsCC()
 	SetLog("open folder " & $g_sProfileDonateCapturePath, $COLOR_AQUA)

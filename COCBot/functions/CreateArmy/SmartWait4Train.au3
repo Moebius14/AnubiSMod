@@ -148,7 +148,7 @@ Func SmartWait4Train($iTestSeconds = Default)
 		If $g_bDebugSetlogTrain Or $g_bDebugSetlog Then SetLog("getArmyHeroTime returned: " & $aHeroResult[0] & ":" & $aHeroResult[1] & ":" & $aHeroResult[2], $COLOR_DEBUG)
 		If _Sleep($DELAYRESPOND) Then Return
 		If $aHeroResult[0] > 0 Or $aHeroResult[1] > 0 Or $aHeroResult[2] > 0 Or $aHeroResult[3] > 0 Then ; check if hero is enabled to use/wait and set wait time
-		If $IsdroptrophiesActive And $bWaitOnlyOneHeroForDT  Then $g_aiTimeTrain[2] = 60; Dumb number 60 minutes for heal any heroe !!
+			If $IsdroptrophiesActive And $bWaitOnlyOneHeroForDT Then $g_aiTimeTrain[2] = 60 ; Dumb number 60 minutes for heal any heroe !!
 			For $pTroopType = $eKing To $eChampion ; check all 4 hero
 				Local $iHeroIdx = $pTroopType - $eKing
 				For $pMatchMode = $DB To $LB ; check only DB and LB (TS has no wait option!)
@@ -240,19 +240,19 @@ Func SmartWait4Train($iTestSeconds = Default)
 			SetLog("SmartWait cannot determine time to close CoC!", $COLOR_ERROR)
 			Return ; stop trying to close while training this time
 	EndSwitch
-	
+
 	If $g_bDropTrophyUseHeroes = 1 And $g_bDropTrophyEnable = 1 And (Number($g_aiCurrentLoot[$eLootTrophy]) > Number($g_iDropTrophyMax) Or $IsDropTrophyBreaked) Then
 		If IsToFillCCWithMedalsOnly() Then
 			Local $aRndFuncList = ['DonateCC,Train']
 		Else
 			Local $aRndFuncList = ['DonateCC,Train', 'RequestCC']
-		EndIf	
+		EndIf
 		For $Index In $aRndFuncList
 			_RunFunction($Index)
 		Next
-	$iTrainWaitTime = $g_aiTimeTrain[2]
+		$iTrainWaitTime = $g_aiTimeTrain[2]
 	EndIf
-	
+
 	If $g_bDebugSetlogTrain Or $g_bDebugSetlog Or $bTest Then
 		SetLog("Training time values: " & StringFormat("%.2f", $g_aiTimeTrain[0]) & " : " & StringFormat("%.2f", $g_aiTimeTrain[1]) & " : " & StringFormat("%.2f", $g_aiTimeTrain[2]), $COLOR_DEBUG)
 		SetLog("$iTrainWaitTime = " & StringFormat("%.2f", $iTrainWaitTime) & " minutes", $COLOR_DEBUG)
@@ -266,7 +266,7 @@ Func SmartWait4Train($iTestSeconds = Default)
 	EndIf
 
 	$iTrainWaitTime = $iTrainWaitTime * 60 ; convert $iTrainWaitTime to seconds instead of minutes returned from OCR
-	
+
 	$sNowTime = _NowCalc() ; find/store time right now
 	If $g_bDebugSetlogTrain Or $g_bDebugSetlog Then SetLog("Train end time: " & _DateAdd("s", Int($iTrainWaitTime), $sNowTime), $COLOR_DEBUG)
 
@@ -285,7 +285,7 @@ Func SmartWait4Train($iTestSeconds = Default)
 
 	$iDiffTime = $iShieldTime - ($iTrainWaitTime) ; Find difference between train and shield time.
 	If $g_bDebugSetlogTrain Or $g_bDebugSetlog Then SetLog("Time Train:Shield:Diff " & ($iTrainWaitTime) & ":" & $iShieldTime & ":" & $iDiffTime, $COLOR_DEBUG)
-	
+
 	Local $RandomAddPercentDisplay = Round($RandomAddPercent * 100)
 	SetLog("Percentage of additional time : " & $RandomAddPercentDisplay & " %", $COLOR_DEBUG1)
 
@@ -312,7 +312,7 @@ Func SmartWait4Train($iTestSeconds = Default)
 			;when no shield close game for $iTrainWaitTime time as determined above
 			SetLog("Smart Wait time = " & StringFormat("%.2f", $iTrainWaitTime / 60) & " Minutes", $COLOR_INFO)
 			If $g_bNotifyTGEnable And $g_bNotifyAlertSmartWaitTime Then NotifyPushToTelegram($g_sNotifyOrigin & " : " & "%0A" & GetTranslatedFileIni("MBR Func_Notify", "Smart-Wait-Time_Info_05", "Smart Wait Time = ") & StringFormat("%.2f", $iTrainWaitTime / 60) & GetTranslatedFileIni("MBR Func_Notify", "Smart-Wait-Time_Info_02", " Minutes") & "%0A" & GetTranslatedFileIni("MBR Func_Notify", "Smart-Wait-Time_Info_03", "Wait For Troops Ready"))
-				If $bTest Then $iTrainWaitTime = $iTestSeconds
+			If $bTest Then $iTrainWaitTime = $iTestSeconds
 			UniversalCloseWaitOpenCoC($iTrainWaitTime * 1000, "SmartWait4TrainNoShield_", $StopEmulator, $bFullRestart, $bSuspendComputer)
 			$g_bRestart = True ; Set flag to exit idle loop to deal with potential user changes to GUI
 			ResetTrainTimeArray()

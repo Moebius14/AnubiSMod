@@ -66,15 +66,15 @@ Func chkEarthQuakeZap()
 EndFunc   ;==>chkEarthQuakeZap
 
 Func chkSmartZapDB()
-    $g_bSmartZapDB = (GUICtrlRead($g_hChkSmartZapDB) = $GUI_CHECKED)
+	$g_bSmartZapDB = (GUICtrlRead($g_hChkSmartZapDB) = $GUI_CHECKED)
 EndFunc   ;==>chkSmartZapDB
 
 Func chkSmartZapFTW()
-    $g_bSmartZapFTW = (GUICtrlRead($g_hChkSmartZapFTW) = $GUI_CHECKED)
+	$g_bSmartZapFTW = (GUICtrlRead($g_hChkSmartZapFTW) = $GUI_CHECKED)
 EndFunc   ;==>chkSmartZapFTW
 
 Func chkSmartZapSaveHeroes()
-    $g_bSmartZapSaveHeroes = (GUICtrlRead($g_hChkSmartZapSaveHeroes) = $GUI_CHECKED)
+	$g_bSmartZapSaveHeroes = (GUICtrlRead($g_hChkSmartZapSaveHeroes) = $GUI_CHECKED)
 EndFunc   ;==>chkSmartZapSaveHeroes
 
 Func txtMinDark()
@@ -83,4 +83,4 @@ EndFunc   ;==>txtMinDark
 
 Func txtExpectedDE()
 	$g_iSmartZapExpectedDE = GUICtrlRead($g_hTxtSmartExpectedDE)
-EndFunc   ;==>TxtExpectedDE
+EndFunc   ;==>txtExpectedDE

@@ -80,11 +80,11 @@ Func CreateAboutTab()
 	GUICtrlSetFont(-1, 9, $FW_MEDIUM, Default, "Arial")
 
 	$y += 95
-;	$sText = "Special thanks to all contributing forum members helping to make this" & @CRLF & "software better! And a special note to: @KevinM our server admin!"
-;	GUICtrlCreateLabel($sText, $x + 14, $y, 390, 30, BitOR($WS_VISIBLE, $ES_AUTOVSCROLL, $ES_CENTER), 0)
-;	GUICtrlSetFont(-1, 9, $FW_MEDIUM, Default, "Arial")
-;
-;	$y += 40
+	;	$sText = "Special thanks to all contributing forum members helping to make this" & @CRLF & "software better! And a special note to: @KevinM our server admin!"
+	;	GUICtrlCreateLabel($sText, $x + 14, $y, 390, 30, BitOR($WS_VISIBLE, $ES_AUTOVSCROLL, $ES_CENTER), 0)
+	;	GUICtrlSetFont(-1, 9, $FW_MEDIUM, Default, "Arial")
+	;
+	;	$y += 40
 	$sText = "The latest release of 'My Bot' can be found at:"
 	GUICtrlCreateLabel($sText, $x - 5, $y, 400, 15, BitOR($WS_VISIBLE, $ES_AUTOVSCROLL, $SS_LEFT), 0)
 	GUICtrlSetFont(-1, 10, $FW_BOLD, Default, "Arial")
@@ -116,13 +116,13 @@ EndFunc   ;==>ShowControlHelp
 
 Func ShowHelp($Source = Default)
 
-	SetDebugLog ("Help File called from: " & $source)
+	SetDebugLog("Help File called from: " & $Source)
 
 	Local $PathHelp = "CommandLineParameter"
 
 	; This can be use for several Help Files
-	Switch $source
-		Case $g_lblHelpBot; Bot/Android/Help Handle
+	Switch $Source
+		Case $g_lblHelpBot ; Bot/Android/Help Handle
 			$PathHelp = "CommandLineParameter"
 		Case $g_lblHepNotify
 			$PathHelp = "NotifyHelp"

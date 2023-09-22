@@ -410,7 +410,7 @@ Func InitializeMBR(ByRef $sAI, $bConfigRead)
 	Else
 		UpdateSplashTitle("Loading Profile: " & $g_sProfileCurrentName & ", Village: " & $g_iTxtCurrentVillageName & " [TH" & $g_iTownHallLevel & "]")
 	EndIf
-	
+
 	If $g_bBotLaunchOption_Restart = True Then
 		If CloseRunningBot($g_sBotTitle, True) Then
 			SplashStep(GetTranslatedFileIni("MBR GUI Design - Loading", "Closing_previous", "Closing previous bot..."), False)
@@ -620,7 +620,7 @@ Func FinalInitialization(Const $sAI)
 	SetLog("-----------------------------------------------------------------------", $COLOR_GREEN)
 	SetLog(" ", $COLOR_GRAY)
 	; Message - end
-	
+
 	; InitializeVariables();initialize variables used in extrawindows
 	CheckVersion() ; check latest version on mybot.run site
 	UpdateMultiStats()
@@ -668,7 +668,7 @@ Func MainLoop($bCheckPrerequisitesOK = True)
 	Local $hStarttime = _Timer_Init()
 
 	; Check the Supported Emulator versions
-;	CheckEmuNewVersions()
+	;	CheckEmuNewVersions()
 
 	;Reset Telegram message
 	NotifyGetLastMessageFromTelegram()
@@ -788,9 +788,9 @@ Func runBot() ;Bot that runs everything in order
 				_RunFunction($Index)
 				If $g_bRestart Then ContinueLoop 2 ; must be level 2 due to loop-in-loop
 			Next
-			
+
 			If $g_bRequestTroopsEnable And ($g_abSearchCastleWaitEnable[$DB] Or $g_abSearchCastleWaitEnable[$LB]) And ((Not $bChkUseOnlyCCMedals And _
-			$g_aiCmbCCDecisionThen = 1) Or $bChkUseOnlyCCMedals) Then
+					$g_aiCmbCCDecisionThen = 1) Or $bChkUseOnlyCCMedals) Then
 				If Number($g_iLootCCMedal) = 0 Then CatchCCMedals()
 			EndIf
 
@@ -800,7 +800,7 @@ Func runBot() ;Bot that runs everything in order
 			If IsSearchAttackEnabled() Then ; if attack is disabled skip reporting, requesting and boosting
 
 				If Not $g_bRunState Then Return
-				
+
 				IsStarBonusAvail()
 
 				NotifyReport()
@@ -943,7 +943,7 @@ Func runBot() ;Bot that runs everything in order
 					If CheckAndroidReboot() Then ContinueLoop 2 ; must be level 2 due to loop-in-loop
 				Next
 			EndIf
-				If Not $g_bRunState Then Return
+			If Not $g_bRunState Then Return
 
 			If $g_bFirstStart Then SetDebugLog("First loop completed!")
 			$g_bFirstStart = False ; already finished first loop since bot started.
@@ -1044,7 +1044,7 @@ Func _Idle() ;Sequence that runs until Full Army
 		If $g_CheckModVersion Then CheckVersionStatus()
 
 		If $g_bRequestTroopsEnable And ($g_abSearchCastleWaitEnable[$DB] Or $g_abSearchCastleWaitEnable[$LB]) And ((Not $bChkUseOnlyCCMedals And _
-		$g_aiCmbCCDecisionThen = 1) Or $bChkUseOnlyCCMedals) Then
+				$g_aiCmbCCDecisionThen = 1) Or $bChkUseOnlyCCMedals) Then
 			If Number($g_iLootCCMedal) = 0 Then CatchCCMedals()
 		EndIf
 
@@ -1206,7 +1206,7 @@ Func AttackMain() ;Main control for attack functions
 					Return
 				EndIf
 			EndIf
-			
+
 			While $g_bIsBBevent
 				SwitchBetweenBasesMod()
 				If $IstoSwitchMod Then
@@ -1388,7 +1388,7 @@ Func __RunFunction($action)
 			_Sleep($DELAYRESPOND)
 		Case "BoostBuilders"
 			CheckBuilderPotion()
-			_Sleep($DELAYRESPOND)	
+			_Sleep($DELAYRESPOND)
 		Case "DailyChallenge"
 			DailyChallenges()
 			_Sleep($DELAYRUNBOT3)
@@ -1411,7 +1411,7 @@ Func __RunFunction($action)
 				SetLog("Re-Check Laboratory For " & $g_avLabTroops[$g_iCmbLaboratory][0], $COLOR_SUCCESS)
 				If _Sleep(1000) Then Return
 				Laboratory()
-			Wend
+			WEnd
 		Case "PetHouse"
 			PetHouse()
 			If Not _Sleep($DELAYRUNBOT3) Then checkMainScreen(False)
@@ -1471,21 +1471,21 @@ Func FirstCheck()
 	$g_iCommandStop = -1
 
 	If Not $g_bFirstStartForAll Then
-	;;;;;Check Clan Games Temp Files
+		;;;;;Check Clan Games Temp Files
 		ClearTempCGFiles()
-	;;;;;Check Clan Castle Capacities	
+		;;;;;Check Clan Castle Capacities
 		If $g_aiClanCastleLvl = -1 Or $g_aiClanCastleTroopsCap = -1 Then
 			SetLog("Define CC Troops/Spells Capacities", $COLOR_INFO)
 			_BtnDefineCapacity()
 		EndIf
-	EndIf	
+	EndIf
 
 	;;;;;Check Town Hall level
 	Local $iTownHallLevel = $g_iTownHallLevel
-	SetLog("Town Hall is currently saved as level " &  $g_iTownHallLevel, $COLOR_INFO)
+	SetLog("Town Hall is currently saved as level " & $g_iTownHallLevel, $COLOR_INFO)
 
 	imglocTHSearch(False, True, True) ;Sets $g_iTownHallLevel
-	SetDebugLog("Detected Town Hall level is " &  $g_iTownHallLevel, $COLOR_INFO)
+	SetDebugLog("Detected Town Hall level is " & $g_iTownHallLevel, $COLOR_INFO)
 
 	If $g_iTownHallLevel = 0 And $g_aiTownHallPos[0] > -1 Then
 		BuildingClick($g_aiTownHallPos[0], $g_aiTownHallPos[1])
@@ -1504,7 +1504,7 @@ Func FirstCheck()
 		SetDebugLog("Town Hall level has not changed", $COLOR_INFO)
 	Else
 		SetLog("Town Hall level has changed!", $COLOR_INFO)
-		SetLog("New Town hall level detected as " &  $g_iTownHallLevel, $COLOR_INFO)
+		SetLog("New Town hall level detected as " & $g_iTownHallLevel, $COLOR_INFO)
 		applyConfig()
 		saveConfig()
 	EndIf
@@ -1513,7 +1513,7 @@ Func FirstCheck()
 	If $g_bChkCollectCartFirst Then CollectLootCart()
 
 	VillageReport()
-	
+
 	If Not $g_bRunState Then Return
 
 	If $g_bOutOfGold And (Number($g_aiCurrentLoot[$eLootGold]) >= Number($g_iTxtRestartGold)) Then ; check if enough gold to begin searching again
@@ -1539,28 +1539,28 @@ Func FirstCheck()
 		isDarkElixirFull(True)
 	EndIf
 	If Not $g_bRunState Then Return
-	
+
 	IsSearchAttackEnabled()
 	If Not $g_bRunState Then Return
 	If _Sleep($DELAYRUNBOT5) Then Return
 	checkMainScreen(False)
 	If $g_bRestart Then Return
-	
+
 	If Not $bChkUseOnlyCCMedals And $g_bRequestTroopsEnable And ($g_abSearchCastleWaitEnable[$DB] Or $g_abSearchCastleWaitEnable[$LB]) Then
 		If ($g_bFirstStartForAll And $IsForRequestEarly) Or Not $g_bFirstStartForAll Then
 			SetLog("Wait For CC Enable : Request Early", $COLOR_DEBUG1)
 			RequestCC()
 		EndIf
 	EndIf
-	
+
 	If Not $g_bFirstStartForAll Then
 		DailyChallenges(False)
 		If Not $g_bRunState Then Return
 	EndIf
-		
+
 	CollectCCGold()
 	If Not $g_bRunState Then Return
-	
+
 	If ($g_bChkEnableForgeBBGold Or $g_bChkEnableForgeBBElix) And ($g_aiCurrentLootBB[$eLootGoldBB] = 0 Or $g_aiCurrentLootBB[$eLootElixirBB] = 0) Then
 		SetLog("Switch To Builder Base Early To Check BB Loot", $COLOR_DEBUG1)
 		SwitchBetweenBasesMod()
@@ -1568,7 +1568,7 @@ Func FirstCheck()
 			BuilderBase()
 		EndIf
 	EndIf
-	
+
 	If SwitchBetweenBasesMod2() Then
 		ForgeClanCapitalGold()
 		If _Sleep($DELAYRUNBOT3) Then Return
@@ -1576,16 +1576,16 @@ Func FirstCheck()
 		If _Sleep($DELAYRUNBOT3) Then Return
 	EndIf
 	If Not $g_bRunState Then Return
-	
+
 	If (Not $g_bChkEnableAutoUpgradeCC Or (Not $g_bChkEnableSmartSwitchCC And $g_bChkEnableAutoUpgradeCC)) And $bChkUseOnlyCCMedals And $g_bRequestTroopsEnable And _
-	($g_abSearchCastleWaitEnable[$DB] Or $g_abSearchCastleWaitEnable[$LB]) And ((Not $bChkUseOnlyCCMedals And $g_aiCmbCCDecisionThen = 1) Or _
-	$bChkUseOnlyCCMedals) And Not $g_bFirstStartForAll Then CatchCCMedals()
+			($g_abSearchCastleWaitEnable[$DB] Or $g_abSearchCastleWaitEnable[$LB]) And ((Not $bChkUseOnlyCCMedals And $g_aiCmbCCDecisionThen = 1) Or _
+			$bChkUseOnlyCCMedals) And Not $g_bFirstStartForAll Then CatchCCMedals()
 	If _Sleep($DELAYRUNBOT1) Then Return
 	If Not $g_bRunState Then Return
-	
+
 	IsStarBonusAvail()
 	If Not $g_bRunState Then Return
-	
+
 	BotHumanization()
 	If Not $g_bRunState Then Return
 
@@ -1645,7 +1645,7 @@ Func FirstCheck()
 EndFunc   ;==>FirstCheck
 
 Func BuilderBase($bTest = False)
-	
+
 	; switch to builderbase and check it is builderbase
 	If SwitchBetweenBases(True, True) And isOnBuilderBase() Then
 
@@ -1661,9 +1661,9 @@ Func BuilderBase($bTest = False)
 		If _Sleep($DELAYRUNBOT3) Then Return
 		If checkObstacles() Then Return
 
-	;	LocateBuilderHall()
-	;	If _Sleep($DELAYRUNBOT3) Then Return
-	;	If checkObstacles() Then Return
+		;	LocateBuilderHall()
+		;	If _Sleep($DELAYRUNBOT3) Then Return
+		;	If checkObstacles() Then Return
 
 		Local $StartLabONGui = StarLabGuiDisplay()
 		If _Sleep($DELAYRUNBOT3) Then Return
@@ -1712,7 +1712,7 @@ Func BuilderBase($bTest = False)
 		StartClockTowerBoost(False, False, $bUseCTPot)
 		If _Sleep($DELAYRUNBOT3) Then Return
 		If checkObstacles() Then Return
-		
+
 		BBBattleLog()
 		If _Sleep($DELAYRUNBOT3) Then Return
 		If checkObstacles() Then Return

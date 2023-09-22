@@ -38,7 +38,7 @@ Func UpgradeWall()
 							Case "Cancel", "Locked"
 								CloseWindow()
 								ExitLoop
-							Case "NoButton","NotEnough"
+							Case "NoButton", "NotEnough"
 								ExitLoop
 						EndSwitch
 					ElseIf SwitchToNextWallLevel() Then
@@ -50,7 +50,7 @@ Func UpgradeWall()
 				Else
 					ExitLoop
 				EndIf
-			Wend
+			WEnd
 
 			ClickAway()
 
@@ -198,7 +198,7 @@ Func UpgradeWall()
 									Case "WRUsed"
 										ClickAway()
 										ContinueLoop
-									Case "NoButton","NotEnough"
+									Case "NoButton", "NotEnough"
 										ClickAway()
 										Return
 									Case "Cancel", "Locked"
@@ -214,11 +214,11 @@ Func UpgradeWall()
 						Else
 							ExitLoop 2
 						EndIf
-					Wend
+					WEnd
 				Else
 					If ($g_iUpgradeWallLootTypeRestricted = 0 And $MinWallGold) Or ($g_iUpgradeWallLootTypeRestricted = 1 And $MinWallElixir) Or _
-						($g_iUpgradeWallLootTypeRestricted = 2 And ($MinWallGold Or $MinWallElixir)) Then ContinueLoop
-				EndIf	
+							($g_iUpgradeWallLootTypeRestricted = 2 And ($MinWallGold Or $MinWallElixir)) Then ContinueLoop
+				EndIf
 
 			WEnd
 
@@ -242,7 +242,7 @@ Func UseWallRingsWOU()
 					Case "WRUsed"
 						ClickAway()
 						ContinueLoop
-					Case "NoButton","NotEnough"
+					Case "NoButton", "NotEnough"
 						ClickAway()
 						Return
 					Case "Cancel", "Locked"
@@ -258,9 +258,9 @@ Func UseWallRingsWOU()
 		Else
 			ExitLoop
 		EndIf
-	Wend
+	WEnd
 	ClickAway()
-EndFunc
+EndFunc   ;==>UseWallRingsWOU
 
 
 Func UpgradeWallGold($iWallCost = $g_iWallCost)
@@ -281,8 +281,8 @@ Func UpgradeWallGold($iWallCost = $g_iWallCost)
 
 	If _Sleep($DELAYUPGRADEWALLGOLD2) Then Return
 
-	If _ColorCheck(_GetPixelColor(677, 150 + $g_iMidOffsetY, True), Hex(0xE1090E, 6), 20) Then ; wall upgrade window red x
-	
+	If _ColorCheck(_GetPixelColor(752, 117 + $g_iMidOffsetY, True), Hex(0xCD1315, 6), 20) Then ; wall upgrade window red x
+
 		If Not IsUpgradeWallsPossible() Then
 			ClickAway()
 			Return "Locked"
@@ -292,13 +292,13 @@ Func UpgradeWallGold($iWallCost = $g_iWallCost)
 			SetLog("Upgrade stopped due no loot", $COLOR_ERROR)
 			Return "No"
 		EndIf
-		Click(440, 480 + $g_iMidOffsetY, 1, 0, "#0317")
+		Click(425, 540 + $g_iMidOffsetY, 1, 0, "#0317")
 		If _Sleep(1000) Then Return
 		If isGemOpen(True) Then
 			ClickAway()
 			SetLog("Upgrade stopped due no loot", $COLOR_ERROR)
 			Return "No"
-		ElseIf _ColorCheck(_GetPixelColor(677, 150 + $g_iMidOffsetY, True), Hex(0xE1090E, 6), 20) Then ; wall upgrade window red x, didnt closed on upgradeclick, so not able to upgrade
+		ElseIf _ColorCheck(_GetPixelColor(752, 117 + $g_iMidOffsetY, True), Hex(0xCD1315, 6), 20) Then ; wall upgrade window red x, didnt closed on upgradeclick, so not able to upgrade
 			ClickAway()
 			SetLog("unable to upgrade", $COLOR_ERROR)
 			Return "No"
@@ -340,7 +340,7 @@ Func UpgradeWallElixir($iWallCost)
 
 	If _Sleep($DELAYUPGRADEWALLELIXIR2) Then Return
 
-	If _ColorCheck(_GetPixelColor(677, 150 + $g_iMidOffsetY, True), Hex(0xE1090E, 6), 20) Then
+	If _ColorCheck(_GetPixelColor(752, 117 + $g_iMidOffsetY, True), Hex(0xCD1315, 6), 20) Then
 
 		If Not IsUpgradeWallsPossible() Then
 			ClickAway()
@@ -351,13 +351,13 @@ Func UpgradeWallElixir($iWallCost)
 			SetLog("Upgrade stopped due to insufficient loot", $COLOR_ERROR)
 			Return "No"
 		EndIf
-		Click(440, 480 + $g_iMidOffsetY, 1, 0, "#0318")
+		Click(425, 540 + $g_iMidOffsetY, 1, 0, "#0317")
 		If _Sleep(1000) Then Return
 		If isGemOpen(True) Then
 			ClickAway()
 			SetLog("Upgrade stopped due to insufficient loot", $COLOR_ERROR)
 			Return "No"
-		ElseIf _ColorCheck(_GetPixelColor(677, 150 + $g_iMidOffsetY, True), Hex(0xE1090E, 6), 20) Then ; wall upgrade window red x, didnt closed on upgradeclick, so not able to upgrade
+		ElseIf _ColorCheck(_GetPixelColor(752, 117 + $g_iMidOffsetY, True), Hex(0xCD1315, 6), 20) Then ; wall upgrade window red x, didnt closed on upgradeclick, so not able to upgrade
 			ClickAway()
 			SetLog("unable to upgrade", $COLOR_ERROR)
 			Return "No"
@@ -490,7 +490,7 @@ Func SkipWallUpgrade($iWallCost = $g_iWallCost) ; Dynamic Upgrades
 
 	;   Is Warden Level updated |          Is Warden not max yet           |  Is Upgrade enabled       |               Is Warden not already upgrading                |               Is a Builder available
 	If ($g_iWardenLevel <> -1) And ($g_iWardenLevel < $g_iMaxWardenLevel) And $g_bUpgradeWardenEnable And BitAND($g_iHeroUpgradingBit, $eHeroWarden) <> $eHeroWarden And ($g_iFreeBuilderCount > ($g_bUpgradeWallSaveBuilder ? 1 : 0)) Then
-;		Local $bMinWardenElixir = Number($g_aiCurrentLoot[$eLootElixir]) > ($iWallCost + $g_afWardenUpgCost[$g_iWardenLevel] * 1000000 + Number($g_iUpgradeWallMinElixir))
+		;		Local $bMinWardenElixir = Number($g_aiCurrentLoot[$eLootElixir]) > ($iWallCost + $g_afWardenUpgCost[$g_iWardenLevel] * 1000000 + Number($g_iUpgradeWallMinElixir))
 		Local $g_ExactWardenCost = ($g_afWardenUpgCost[$g_iWardenLevel] * 1000000) - ($g_afWardenUpgCost[$g_iWardenLevel] * 1000000) * Number($g_iBuilderBoostDiscount) / 100
 		Local $bMinWardenElixir = Number($g_aiCurrentLoot[$eLootElixir]) > $iWallCost + $g_ExactWardenCost + Number($g_iUpgradeWallMinElixir)
 		If Not $bMinWardenElixir Then
@@ -554,11 +554,11 @@ Func WallRings()
 		Click($WallRing[0] - 14, $WallRing[1])
 		If _Sleep(1000) Then Return
 
-		If Not _ColorCheck(_GetPixelColor(688, 176, True), "FFFFFF", 10) Then Return "NotEnough"
+		If Not _ColorCheck(_GetPixelColor(752, 98 + $g_iMidOffsetY, True), "FFFFFF", 10) Then Return "NotEnough"
 
 		If Not IsUpgradeWallsPossible() Then Return "Locked"
 
-		$WRNeeded = getOcrAndCapture("coc-WR", 410, 483 + $g_iMidOffsetY, 35, 28)
+		$WRNeeded = getOcrAndCapture("coc-RemainLaboratory", 410, 522 + $g_iMidOffsetY, 35, 28)
 		If $WRNeeded = "" Then
 			SetLog("Bad OCR Read, Skip", $COLOR_ERROR)
 			SaveDebugImage("WallRings")
@@ -601,7 +601,7 @@ Func WallRings()
 		If _Sleep(500) Then Return
 		Return "NoButton"
 	EndIf
-EndFunc
+EndFunc   ;==>WallRings
 
 Func IsUpgradeWallsPossible()
 	If QuickMIS("BC1", $g_sImgLockedWall, 380, 410 + $g_iMidOffsetY, 480, 440 + $g_iMidOffsetY) Then
@@ -614,7 +614,7 @@ Func IsUpgradeWallsPossible()
 		chkWalls()
 		Return False
 	EndIf
-	If _ColorCheck(_GetPixelColor(300, 500 + $g_iMidOffsetY, True), Hex(0xE1433F, 6), 20) Then
+	If _ColorCheck(_GetPixelColor(300, 540 + $g_iMidOffsetY, True), Hex(0xE1433F, 6), 20) Then
 		SetLog("Walls need TH upgrade - Skipped!", $COLOR_ERROR)
 		$g_bUpgradeWallSaveBuilder = False
 		GUICtrlSetState($g_hChkSaveWallBldr, $GUI_UNCHECKED)
@@ -625,4 +625,4 @@ Func IsUpgradeWallsPossible()
 		Return False
 	EndIf
 	Return True
-EndFunc
+EndFunc   ;==>IsUpgradeWallsPossible

@@ -50,9 +50,9 @@ MAKE  |M          |LEFT-BACK  |10         |0          |EXT-INT    |0          |0
 MAKE  |N          |RIGHT-BACK |10         |0          |EXT-INT    |0          |0          |    		  |           |           |           |           |
 MAKE  |S          |FRONT-LEFT |10         |-9         |INT-EXT    |0          |0          |           |           |           |           |           |
 MAKE  |T          |FRONT-RIGHT|10         |-9         |INT-EXT    |0          |0          |           |           |           |           |           |
-MAKE  |J          |FRONT-RIGHT|10         |-12        |INT-EXT    |0          |0          |           |           |           |           |           |
-MAKE  |U          |FRONT-LEFT |10         |-18        |INT-EXT    |0          |0          |           |           |           |           |           |
-MAKE  |V          |FRONT-RIGHT|10         |-18        |INT-EXT    |0          |0          |           |           |           |           |           |
+MAKE  |J          |FRONT-RIGHT|10         |-14        |INT-EXT    |0          |0          |           |           |           |           |           |
+MAKE  |U          |FRONT-LEFT |10         |-20        |INT-EXT    |0          |0          |           |           |           |           |           |
+MAKE  |V          |FRONT-RIGHT|10         |-20        |INT-EXT    |0          |0          |           |           |           |           |           |
 MAKE  |X          |FRONT-RIGHT|10         |-23        |INT-EXT    |0          |0          |           |           |           |           |           |
 MAKE  |C          |LEFT-FRONT |10         |0          |EXT-INT    |0          |0          |           |           |           |           |           |
 MAKE  |D          |RIGHT-FRONT|10         |0          |EXT-INT    |0          |0          |           |           |           |           |           |
@@ -97,7 +97,7 @@ DROP  |S          |5          |1          |RSpell     |0          |0          |4
 DROP  |S          |1          |1          |RSpell     |0          |0          |400-600    |           |           |           |           |           |
 DROP  |T          |4          |1          |RSpell     |0          |0          |830-890    |           |           |           |           |           |
 DROP  |J          |1          |1          |ISpell     |0          |0          |400-600    |           |           |           |           |           |
-DROP  |Q          |10         |1          |King       |0          |0          |150-200    |           |    ﻿       |           |           |           |
+DROP  |Q          |10         |1          |King       |0          |0          |150-200    |           |  		  |           |           |           |
 DROP  |Q          |10         |1          |SiegeB     |0          |50-70      |350-470    |           |           |           |           |           |
 DROP  |Q          |10         |1          |Queen      |0          |0          |900-950    |           |           |           |           |           |
 DROP  |Q          |10         |1          |Champion   |0          |0          |900-950    |           |           |           |           |           |
@@ -124,6 +124,6 @@ DROP  |M          |5          |1          |EDrag      |55-70      |27-50      |5
 DROP  |M          |5          |1          |RBall      |55-70      |27-50      |150-370    |           |           |           |           |           |
 DROP  |N          |5          |1          |EDrag      |55-70      |27-50      |500-540    |           |           |           |           |           |
 DROP  |N          |5          |1          |RBall      |55-70      |27-50      |150-370    |           |           |           |           |           |
-DROP  |Q          |8-10       |3          |REMAIN     |50-70      |100        |50-100     |           |           |﻿﻿﻿           |           |           |
+DROP  |Q          |8-10       |3          |REMAIN     |50-70      |100        |50-100     |           |           |           |           |           |
       |                                                                                                                                  			  |
       |-------------------------------------------------------------ELoonsRocketIce End---------------------------------------------------------------|

@@ -5,7 +5,7 @@
 ; Parameters ....: None
 ; Return values .: None
 ; Author ........: Cosote (12-2015)
-; Modified ......: CodeSlinger69 (01-2017)
+; Modified ......: CodeSlinger69 (01-2017), TFKNazgul (08-2023)
 ; Remarks .......: This file is part of MyBot, previously known as ClashGameBot. Copyright 2015-2023
 ;                  MyBot is distributed under the terms of the GNU GPL
 ; Related .......:
@@ -775,10 +775,10 @@ Func FindPreferredAdbPath()
 	; Using From MyBotRun
 	If $g_iAndroidAdbReplace = 1 Then
 		; Stop Adb from Emulator
-        Local $aAdbProcess = ProcessesExist($sAdbPath)
-        For $i = 0 To UBound($aAdbProcess) -1
-            KillProcess($aAdbProcess[$i], "FindPreferredAdbPath")
-        Next
+		Local $aAdbProcess = ProcessesExist($sAdbPath)
+		For $i = 0 To UBound($aAdbProcess) - 1
+			KillProcess($aAdbProcess[$i], "FindPreferredAdbPath")
+		Next
 
 		; Use Boot Root Folder
 		Local $sBootPathAdb = @ScriptDir & "\lib\adb\adb.exe"
@@ -1266,14 +1266,14 @@ Func _RestartAndroidCoC($bInitAndroid = True, $bRestart = True, $bStopCoC = True
 	If Not IsAdbConnected($cmdOutput) Then
 		If Not ConnectAndroidAdb() Then Return False
 	EndIf
-	
+
 	If Not $g_bRunState Then Return False
 	AndroidAdbLaunchShellInstance()
 
 	; reset time lag
 	InitAndroidTimeLag()
-	
-	; wait 18 sec. Before Check Main Screen 
+
+	; wait 18 sec. Before Check Main Screen
 	If _SleepStatus(18000) Then Return False ;AndroidAdbSendShellCommand $timeout seem not working, make more time here
 
 	If GetAndroidProcessPID(Default, False) = 0 And @error = 0 Then
@@ -1971,7 +1971,7 @@ Func _AndroidAdbLaunchShellInstance($wasRunState = Default, $rebootAndroidIfNecc
 				$s = AndroidAdbSendShellCommand($renice & "$$", Default, $wasRunState, False) ; increase shell priority to maximum
 				EndIf
 				$s &= AndroidAdbSendShellCommand("stop media", Default, $wasRunState, False) ; stop media service as it can consume up to 30% Android CPU
-			#ce
+			#ce 2016-04-08 cosote Replaced by shell.init.script
 			Local $scriptFile = ""
 			If $scriptFile = "" And FileExists($g_sAdbScriptsPath & "\shell.init." & $g_sAndroidEmulator & ".script") = 1 Then $scriptFile = "shell.init." & $g_sAndroidEmulator & ".script"
 			If $scriptFile = "" Then $scriptFile = "shell.init.script"
@@ -2900,9 +2900,9 @@ Func AndroidZoomOut($loopCount = 0, $timeout = Default, $bMinitouch = Default, $
 		Return AndroidAdbScript("ZoomOutTop", Default, $timeout, $bMinitouch, $wasRunState)
 	Else
 		Local $iCounter = $g_aiSearchZoomOutCounter[0]
-		
+
 		If $iCounter > 5 Then $iCounter -= 5
-		
+
 		Local $sScript = "ZoomOut" & $iCounter
 		SetDebugLog("Running minitouch script " & $sScript, $COLOR_INFO)
 		Return AndroidAdbScript($sScript, Default, $timeout, $bMinitouch, $wasRunState)
@@ -3696,7 +3696,7 @@ Func AndroidMinitouchClick($x, $y, $times = 1, $speed = 0, $checkProblemAffect =
 						AndroidAdbSendMinitouchShellCommand($send)
 					EndIf
 					_SleepMicro(($iDelay + $sleep) * 1000)
-					If $g_bDebugClick Then SetDebugLog("minitouch: d 0 " & $x & " " & $y & " "  & $iTimesCopy & ", speed=" & $sleep & ", delay=" & $iDelay)
+					If $g_bDebugClick Then SetDebugLog("minitouch: d 0 " & $x & " " & $y & " " & $iTimesCopy & ", speed=" & $sleep & ", delay=" & $iDelay)
 					;_SleepMicro(10000)
 				EndIf
 
@@ -4140,7 +4140,7 @@ Func GetAndroidProcessPID($sPackage = Default, $bForeground = True, $iRetryCount
 	;u0_a54    12560 84    1336996 189660 10    -10   0     0     futex_wait b7725424 S com.supercell.clashofclans
 	;u0_a54    13303 84    1338548 188464 16    -4    0     0     sys_epoll_ b7725424 S com.supercell.clashofclans
 	If AndroidInvalidState() Then Return 0
-	
+
 	If $g_iAndroidVersionAPI = $g_iAndroidPie Then
 		$cmd = "set result=$(ps -A -o USER,PID,NAME|grep """ & $g_sAndroidGamePackage & """ >&2)"
 		; ps -A|grep "com.supercell.clashofclans" >&2
@@ -4152,7 +4152,7 @@ Func GetAndroidProcessPID($sPackage = Default, $bForeground = True, $iRetryCount
 
 	Local $output = AndroidAdbSendShellCommand($cmd)
 	Local $error = @error
-	
+
 	;SetLog("$g_sAndroidGamePackage: " & $g_sAndroidGamePackage)
 	;SetLog("GetAndroidProcessPID StdOut :" & $output)
 
@@ -4333,11 +4333,11 @@ Func ConfigureSharedFolder($iMode = 0, $bSetLog = Default)
 
 	Switch $iMode
 		Case 0 ; check that shared folder is configured in VM
-			Local $aRegexResult = StringRegExp($__VBoxVMinfo, "Name: '" & $g_sAndroidSharedFolderName & "', Host path: '(.*)'.*", $STR_REGEXPARRAYGLOBALMATCH)
+			Local $aRegExResult = StringRegExp($__VBoxVMinfo, "Name: '" & $g_sAndroidSharedFolderName & "', Host path: '(.*)'.*", $STR_REGEXPARRAYGLOBALMATCH)
 			If Not @error Then
 				$bResult = True
 				$g_bAndroidSharedFolderAvailable = True
-				$g_sAndroidPicturesHostPath = $aRegexResult[UBound($aRegexResult) - 1] & "\"
+				$g_sAndroidPicturesHostPath = $aRegExResult[UBound($aRegExResult) - 1] & "\"
 			Else
 				SetLog($g_sAndroidEmulator & " shared folder is not available", $COLOR_ERROR)
 				$g_sAndroidPicturesHostPath = ""
@@ -4358,8 +4358,8 @@ Func ConfigureSharedFolder($iMode = 0, $bSetLog = Default)
 			EndIf
 	EndSwitch
 
-	Return SetError(0,0, $bResult)
-EndFunc
+	Return SetError(0, 0, $bResult)
+EndFunc   ;==>ConfigureSharedFolder
 
 Func OpenAdbShell()
 	Local $bWasRunState = $g_bRunState
@@ -4446,10 +4446,10 @@ Func LaunchAndroid($sProgramPath, $sCmdParam, $sPath, $iWaitInSecAfterLaunch = D
 	If $sCmdParam And StringLeft($sCmdParam, 1) <> " " Then
 		$sCmdParam = " " & $sCmdParam
 	EndIf
-		; if shared folder is not available, configure it
-		If Not $g_sAndroidPicturesHostPath Then
-			SetScreenAndroid()
-		EndIf
+	; if shared folder is not available, configure it
+	If Not $g_sAndroidPicturesHostPath Then
+		SetScreenAndroid()
+	EndIf
 	SetLog("Please wait while " & $g_sAndroidEmulator & " and CoC start...", $COLOR_SUCCESS)
 	Local $pid = 0
 	;$PID = ShellExecute($g_sAndroidProgramPath, $cmdPar, $__MEmu_Path)
@@ -4733,7 +4733,7 @@ Func PushSharedPrefs($sProfile = $g_sProfileCurrentName, $bCloseGameIfRunning = 
 	Local $iFiles = UBound($aNewFiles) - 1
 	Local $iFilesPushed = 0
 
-	_Sleep(1000)
+	If _Sleep(1000, Default, False) Then Return
 	; use ADB push to transfer files
 	If $g_bPullPushSharedPrefsAbdCommand Then
 		$cmdOutput = LaunchConsole($g_sAndroidAdbPath, AddSpace($g_sAndroidAdbGlobalOptions) & "-s " & $g_sAndroidAdbDevice & " push """ & $g_sPrivateProfilePath & "\" & $sProfile & "\shared_prefs"" /data/data/" & $g_sAndroidGamePackage & "/shared_prefs", $process_killed)
@@ -4891,9 +4891,11 @@ Func CheckEmuNewVersions()
 
 	Switch $g_sAndroidEmulator
 		Case "BlueStacks2"
-			$NewVersion = GetVersionNormalized("5.11.100.2202")
+			$NewVersion = GetVersionNormalized("0.0.0.0")
+		Case "BlueStacks5"
+ 			$NewVersion = GetVersionNormalized("5.11.100.2102")
 		Case "MEmu"
-			$NewVersion = GetVersionNormalized("9.0.1.0")
+			$NewVersion = GetVersionNormalized("0.0.0.0")
 		Case "Nox"
 			$NewVersion = GetVersionNormalized("7.0.5.7")
 		Case Else

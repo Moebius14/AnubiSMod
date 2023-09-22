@@ -61,11 +61,11 @@ Func CollectAchievements($bTestMode = False) ;Run with True parameter if testing
 		Return
 	EndIf
 
-;HArchH : Test fix for never-ending scrolling.  Now will claim 1 reward only each time.
-;	While $g_iFoundScrollEnd <> 2
-		CollectAchievementsClaimReward()
-;		CollectAchievementsScroll()
-;	WEnd
+	;HArchH : Test fix for never-ending scrolling.  Now will claim 1 reward only each time.
+	;	While $g_iFoundScrollEnd <> 2
+	CollectAchievementsClaimReward()
+	;		CollectAchievementsScroll()
+	;	WEnd
 
 	If _Sleep(1000) Then Return
 	SetDebugLog("All achievment rewards collected successfully", $COLOR_SUCCESS)

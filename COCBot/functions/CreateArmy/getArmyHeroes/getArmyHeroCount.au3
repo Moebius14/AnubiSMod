@@ -48,28 +48,28 @@ Func getArmyHeroCount($bOpenArmyWindow = False, $bCloseArmyWindow = False, $Chec
 					$g_iHeroAvailable = BitOR($g_iHeroAvailable, $eHeroKing)
 					; unset King upgrading
 					$g_iHeroUpgrading[0] = 0
-					$g_iHeroUpgradingBit = BitAND($g_iHeroUpgradingBit, BitOr($eHeroQueen,$eHeroWarden,$eHeroChampion))
+					$g_iHeroUpgradingBit = BitAND($g_iHeroUpgradingBit, BitOR($eHeroQueen, $eHeroWarden, $eHeroChampion))
 				Case StringInStr($sResult, "queen", $STR_NOCASESENSEBASIC)
 					If $bSetLog Then SetLog(" - Archer Queen Available", $COLOR_SUCCESS)
 					If $bSetLog Then $IsQueenReadyForDropTrophies = 1
 					$g_iHeroAvailable = BitOR($g_iHeroAvailable, $eHeroQueen)
 					; unset Queen upgrading
 					$g_iHeroUpgrading[1] = 0
-					$g_iHeroUpgradingBit = BitAND($g_iHeroUpgradingBit, BitOr($eHeroKing,$eHeroWarden,$eHeroChampion))
+					$g_iHeroUpgradingBit = BitAND($g_iHeroUpgradingBit, BitOR($eHeroKing, $eHeroWarden, $eHeroChampion))
 				Case StringInStr($sResult, "warden", $STR_NOCASESENSEBASIC)
 					If $bSetLog Then SetLog(" - Grand Warden Available", $COLOR_SUCCESS)
 					If $bSetLog Then $IsWardenReadyForDropTrophies = 1
 					$g_iHeroAvailable = BitOR($g_iHeroAvailable, $eHeroWarden)
 					; unset Warden upgrading
 					$g_iHeroUpgrading[2] = 0
-					$g_iHeroUpgradingBit = BitAND($g_iHeroUpgradingBit, BitOr($eHeroKing,$eHeroQueen,$eHeroChampion))
+					$g_iHeroUpgradingBit = BitAND($g_iHeroUpgradingBit, BitOR($eHeroKing, $eHeroQueen, $eHeroChampion))
 				Case StringInStr($sResult, "champion", $STR_NOCASESENSEBASIC)
 					If $bSetLog Then SetLog(" - Royal Champion Available", $COLOR_SUCCESS)
 					If $bSetLog Then $IsChampionReadyForDropTrophies = 1
 					$g_iHeroAvailable = BitOR($g_iHeroAvailable, $eHeroChampion)
 					; unset Champion upgrading
 					$g_iHeroUpgrading[3] = 0
-					$g_iHeroUpgradingBit = BitAND($g_iHeroUpgradingBit, BitOr($eHeroKing,$eHeroQueen,$eHeroWarden))
+					$g_iHeroUpgradingBit = BitAND($g_iHeroUpgradingBit, BitOR($eHeroKing, $eHeroQueen, $eHeroWarden))
 				Case StringInStr($sResult, "heal", $STR_NOCASESENSEBASIC)
 					If $g_bDebugSetlogTrain Or $iDebugArmyHeroCount = 1 Then
 						Switch $i
@@ -77,25 +77,25 @@ Func getArmyHeroCount($bOpenArmyWindow = False, $bCloseArmyWindow = False, $Chec
 								$sMessage = "-Barbarian King"
 								; unset King upgrading
 								$g_iHeroUpgrading[0] = 0
-								$g_iHeroUpgradingBit = BitAND($g_iHeroUpgradingBit, BitOr($eHeroQueen,$eHeroWarden,$eHeroChampion))
+								$g_iHeroUpgradingBit = BitAND($g_iHeroUpgradingBit, BitOR($eHeroQueen, $eHeroWarden, $eHeroChampion))
 								$IsKingReadyForDropTrophies = 0
 							Case 1
 								$sMessage = "-Archer Queen"
 								; unset Queen upgrading
 								$g_iHeroUpgrading[1] = 0
-								$g_iHeroUpgradingBit = BitAND($g_iHeroUpgradingBit, BitOr($eHeroKing,$eHeroWarden,$eHeroChampion))
+								$g_iHeroUpgradingBit = BitAND($g_iHeroUpgradingBit, BitOR($eHeroKing, $eHeroWarden, $eHeroChampion))
 								$IsQueenReadyForDropTrophies = 0
 							Case 2
 								$sMessage = "-Grand Warden"
 								; unset Warden upgrading
 								$g_iHeroUpgrading[2] = 0
-								$g_iHeroUpgradingBit = BitAND($g_iHeroUpgradingBit, BitOr($eHeroKing,$eHeroQueen,$eHeroChampion))
+								$g_iHeroUpgradingBit = BitAND($g_iHeroUpgradingBit, BitOR($eHeroKing, $eHeroQueen, $eHeroChampion))
 								$IsWardenReadyForDropTrophies = 0
 							Case 3
 								$sMessage = "-Royal Champion"
 								; unset Champion upgrading
 								$g_iHeroUpgrading[3] = 0
-								$g_iHeroUpgradingBit = BitAND($g_iHeroUpgradingBit, BitOr($eHeroKing,$eHeroQueen,$eHeroWarden))
+								$g_iHeroUpgradingBit = BitAND($g_iHeroUpgradingBit, BitOR($eHeroKing, $eHeroQueen, $eHeroWarden))
 								$IsChampionReadyForDropTrophies = 0
 							Case Else
 								$sMessage = "-Very Bad Monkey Needs"
@@ -192,10 +192,10 @@ EndFunc   ;==>getArmyHeroCount
 
 Func ArmyHeroStatus($i)
 	Local $sResult = ""
-	Local Const $aHeroesRect[$eHeroCount][4] = [[566, 310 + $g_iMidOffsetY, 616, 350 + $g_iMidOffsetY], _
-												[666, 310 + $g_iMidOffsetY, 691, 340 + $g_iMidOffsetY], _
-												[741, 310 + $g_iMidOffsetY, 766, 340 + $g_iMidOffsetY], _
-												[815, 310 + $g_iMidOffsetY, 840, 350 + $g_iMidOffsetY]] ; Review
+	Local Const $aHeroesRect[$eHeroCount][4] = [[545, 310 + $g_iMidOffsetY, 614, 370 + $g_iMidOffsetY], _
+			[619, 310 + $g_iMidOffsetY, 688, 370 + $g_iMidOffsetY], _
+			[692, 310 + $g_iMidOffsetY, 761, 370 + $g_iMidOffsetY], _
+			[766, 310 + $g_iMidOffsetY, 836, 370 + $g_iMidOffsetY]]                                     ; Review
 
 	; Perform the search
 	_CaptureRegion2($aHeroesRect[$i][0], $aHeroesRect[$i][1], $aHeroesRect[$i][2], $aHeroesRect[$i][3])
@@ -320,13 +320,13 @@ EndFunc   ;==>ArmyHeroStatus
 Func LabGuiDisplay() ; called from main loop to get an early status for indictors in bot bottom
 
 	If ($g_bNoLabCheck = 0 Or $g_bNoLabCheck = 1) And $g_bFirstStartForLab Then Return
-	
+
 	If $g_bNoLabCheck = 0 And Not $g_bFirstStartForLab Then
 		SetLog("Lab Won't Be Checked !", $COLOR_BLUE)
 		$g_bFirstStartForLab = 1
 		Return
 	EndIf
-	
+
 	If $g_bNoLabCheck = 1 And Not $g_bFirstStartForLab Then
 		SetLog("Lab Will Be Checked Just One Time !", $COLOR_BLUE)
 		$g_bFirstStartForLab = 1
@@ -334,13 +334,13 @@ Func LabGuiDisplay() ; called from main loop to get an early status for indictor
 
 	Local Static $iLastTimeChecked[8]
 	If $g_bFirstStart Then $iLastTimeChecked[$g_iCurAccount] = ""
-	
+
 	If ($g_bUseBOF And $IsBOFJustCollected) Or ($g_bUseBOS And $IsBOSJustCollected) Or ($g_bUseLabPotion And $IsResPotJustCollected) Then $iLastTimeChecked[$g_iCurAccount] = ""
 
 	; Check if is a valid date and Calculated the number of minutes from remain time Lab and now
 	If _DateIsValid($g_sLabUpgradeTime) And _DateIsValid($iLastTimeChecked[$g_iCurAccount]) Then
 		Local $iLabTime = _DateDiff('n', _NowCalc(), $g_sLabUpgradeTime)
-		Local $iLastCheck =_DateDiff('n', $iLastTimeChecked[$g_iCurAccount], _NowCalc()) ; elapse time from last check (minutes)
+		Local $iLastCheck = _DateDiff('n', $iLastTimeChecked[$g_iCurAccount], _NowCalc()) ; elapse time from last check (minutes)
 		SetDebugLog("Lab LabUpgradeTime: " & $g_sLabUpgradeTime & ", Lab DateCalc: " & $iLabTime)
 		SetDebugLog("Lab LastCheck: " & $iLastTimeChecked[$g_iCurAccount] & ", Check DateCalc: " & $iLastCheck)
 		; A check each from 2 to 5 hours [2*60 = 120 to 5*60 = 300] or when Lab research time finishes
@@ -408,7 +408,7 @@ Func LabGuiDisplay() ; called from main loop to get an early status for indictor
 	EndIf
 
 	; check for upgrade in process - look for green in finish upgrade with gems button
-	If _ColorCheck(_GetPixelColor(730, 170 + $g_iMidOffsetY, True), Hex(0xA2CB6C, 6), 20) Then ; Look for light green in upper right corner of lab window.
+	If _ColorCheck(_GetPixelColor(775, 135 + $g_iMidOffsetY, True), Hex(0xA2CB6C, 6), 20) Then ; Look for light green in upper right corner of lab window.
 		SetLog("Laboratory is Running", $COLOR_INFO)
 		;==========Hide Red  Show Green Hide Gray===
 		GUICtrlSetState($g_hPicLabGray, $GUI_HIDE)
@@ -416,7 +416,7 @@ Func LabGuiDisplay() ; called from main loop to get an early status for indictor
 		GUICtrlSetState($g_hPicLabGreen, $GUI_SHOW)
 		;===========================================
 		If _Sleep($DELAYLABORATORY2) Then Return
-		Local $sLabTimeOCR = getRemainTLaboratory(270, 227 + $g_iMidOffsetY)
+		Local $sLabTimeOCR = getRemainTLaboratory2(250, 210 + $g_iMidOffsetY)
 		Local $iLabFinishTime = ConvertOCRTime("Lab Time", $sLabTimeOCR, False) + 1
 		SetDebugLog("$sLabTimeOCR: " & $sLabTimeOCR & ", $iLabFinishTime = " & $iLabFinishTime & " m")
 		If $iLabFinishTime > 0 Then
@@ -424,17 +424,17 @@ Func LabGuiDisplay() ; called from main loop to get an early status for indictor
 			SetLog("Research will finish in " & $sLabTimeOCR & " (" & $g_sLabUpgradeTime & ")")
 			$iLabFinishTimeMod = $iLabFinishTime
 		EndIf
-		
+
 		Local $bUseBooks = False
 		Local $iLabFinishTimeDay = ConvertOCRTime("Lab Time (Day)", $sLabTimeOCR, False, "day")
 
 		If Not $bUseBooks And $g_bUseBOE And $iLabFinishTimeDay >= $g_iUseBOETime Then
 			SetLog("Use Book of Everything Enabled", $COLOR_INFO)
 			SetLog("Lab Upgrade time > than " & $g_iUseBOETime & " day", $COLOR_INFO)
-			If QuickMIS("BFI", $g_sImgBooks & "BOE*", 650, 230 + $g_iMidOffsetY, 730, 290 + $g_iMidOffsetY) Then
+			If QuickMIS("BFI", $g_sImgBooks & "BOE*", 720, 225 + $g_iMidOffsetY, 770, 270 + $g_iMidOffsetY) Then
 				Click($g_iQuickMISX, $g_iQuickMISY)
 				If _Sleep(1000) Then Return
-				If QuickMIS("BC1", $g_sImgBooks, 400, 360 + $g_iMidOffsetY, 500, 430 + $g_iMidOffsetY) Then
+				If QuickMIS("BC1", $g_sImgBooks, 400, 360 + $g_iMidOffsetY, 515, 450 + $g_iMidOffsetY) Then
 					Click($g_iQuickMISX, $g_iQuickMISY)
 					SetLog("Successfully use Book of Everything", $COLOR_SUCCESS)
 					$bUseBooks = True
@@ -455,10 +455,10 @@ Func LabGuiDisplay() ; called from main loop to get an early status for indictor
 		If Not $bUseBooks And $g_bUseBOS And $iLabFinishTimeDay >= $g_iUseBOSTime Then
 			SetLog("Use Book of Spells Enabled", $COLOR_INFO)
 			SetLog("Lab Upgrade time > than " & $g_iUseBOSTime & " day", $COLOR_INFO)
-			If QuickMIS("BFI", $g_sImgBooks & "BOS*", 650, 230 + $g_iMidOffsetY, 730, 290 + $g_iMidOffsetY) Then
+			If QuickMIS("BFI", $g_sImgBooks & "BOS*", 720, 225 + $g_iMidOffsetY, 770, 270 + $g_iMidOffsetY) Then
 				Click($g_iQuickMISX, $g_iQuickMISY)
 				If _Sleep(1000) Then Return
-				If QuickMIS("BC1", $g_sImgBooks, 400, 360 + $g_iMidOffsetY, 500, 430 + $g_iMidOffsetY) Then
+				If QuickMIS("BC1", $g_sImgBooks, 400, 360 + $g_iMidOffsetY, 515, 450 + $g_iMidOffsetY) Then
 					Click($g_iQuickMISX, $g_iQuickMISY)
 					SetLog("Successfully use Book of Spells", $COLOR_SUCCESS)
 					$bUseBooks = True
@@ -475,14 +475,14 @@ Func LabGuiDisplay() ; called from main loop to get an early status for indictor
 				SetLog("Book of Spell Not Found", $COLOR_ERROR)
 			EndIf
 		EndIf
-	
+
 		If Not $bUseBooks And $g_bUseBOF And $iLabFinishTimeDay >= $g_iUseBOFTime Then
 			SetLog("Use Book of Fighting Enabled", $COLOR_INFO)
 			SetLog("Lab Upgrade time > than " & $g_iUseBOFTime & " day", $COLOR_INFO)
-			If QuickMIS("BFI", $g_sImgBooks & "BOF*", 650, 230 + $g_iMidOffsetY, 730, 290 + $g_iMidOffsetY) Then
+			If QuickMIS("BFI", $g_sImgBooks & "BOF*", 720, 225 + $g_iMidOffsetY, 770, 270 + $g_iMidOffsetY) Then
 				Click($g_iQuickMISX, $g_iQuickMISY)
 				If _Sleep(1000) Then Return
-				If QuickMIS("BC1", $g_sImgBooks, 400, 360 + $g_iMidOffsetY, 500, 430 + $g_iMidOffsetY) Then
+				If QuickMIS("BC1", $g_sImgBooks, 400, 360 + $g_iMidOffsetY, 515, 450 + $g_iMidOffsetY) Then
 					Click($g_iQuickMISX, $g_iQuickMISY)
 					SetLog("Successfully use Book of Fighting", $COLOR_SUCCESS)
 					$bUseBooks = True
@@ -500,7 +500,7 @@ Func LabGuiDisplay() ; called from main loop to get an early status for indictor
 			EndIf
 		EndIf
 
-		If $bUseBooks Then 
+		If $bUseBooks Then
 			$g_sLabUpgradeTime = "" ;reset lab upgrade time
 			$iLabFinishTimeMod = 0
 			;==========Hide Red  Show Green Hide Gray===
@@ -514,7 +514,7 @@ Func LabGuiDisplay() ; called from main loop to get an early status for indictor
 		If ProfileSwitchAccountEnabled() Then SwitchAccountVariablesReload("Save") ; saving $asLabUpgradeTime[$g_iCurAccount] = $g_sLabUpgradeTime for instantly displaying in multi-stats
 		CloseWindow(False, True)
 		Return True
-	ElseIf _ColorCheck(_GetPixelColor(730, 170 + $g_iMidOffsetY, True), Hex(0x8088B0, 6), 20) Then ; Look for light purple in upper right corner of lab window.
+	ElseIf _ColorCheck(_GetPixelColor(775, 170 + $g_iMidOffsetY, True), Hex(0x8088B0, 6), 20) Then ; Look for light purple in upper right corner of lab window.
 		SetLog("Laboratory has Stopped", $COLOR_INFO)
 		If $g_bNotifyTGEnable And $g_bNotifyAlertLaboratoryIdle Then NotifyPushToTelegram($g_sNotifyOrigin & " | " & GetTranslatedFileIni("MBR Func_Notify", "Laboratory-Idle_Info_01", "Laboratory Idle") & "%0A" & GetTranslatedFileIni("MBR Func_Notify", "Laboratory-Idle_Info_02", "Laboratory has Stopped"))
 		CloseWindow()
@@ -556,9 +556,9 @@ Func HideShields($bHide = False)
 		$counter = 0
 		For $i = $g_hPicKingGray To $g_hLbLLabTime
 			If $ShieldState[$counter] = 80 Then
-				GUICtrlSetState($i, $GUI_SHOW )
+				GUICtrlSetState($i, $GUI_SHOW)
 			EndIf
 			$counter += 1
 		Next
 	EndIf
-EndFunc
+EndFunc   ;==>HideShields

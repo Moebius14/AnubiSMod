@@ -148,12 +148,12 @@ Func GetAttackBar($bRemaining = False, $pMatchMode = $DB, $bDebug = False)
 			If StringRegExp($aAttackBar[$i][0], "(King)|(Queen)|(Warden)|(Champion)|(Castle)|(WallW)|(BattleB)|(StoneS)|(SiegeB)|(LogL)|(FlameF)|(BattleD)", 0) Then
 				If Not $bRemoved Then $aAttackBar[$i][4] = 1
 				If ($pMatchMode = $DB Or $pMatchMode = $LB) And StringRegExp($aAttackBar[$i][0], "(WallW)|(BattleB)|(StoneS)|(SiegeB)|(LogL)|(FlameF)|(BattleD)", 0) And $g_abAttackDropCC[$pMatchMode] And _
-				$g_aiAttackUseSiege[$pMatchMode] > 0 And $g_aiAttackUseSiege[$pMatchMode] <= $eSiegeMachineCount + 1 Then
+						$g_aiAttackUseSiege[$pMatchMode] > 0 And $g_aiAttackUseSiege[$pMatchMode] <= $eSiegeMachineCount + 1 Then
 					$g_iSiegeLevel = Number(getSiegeLevel(Number($aAttackBar[$i][5]) - 31, 643 + $g_iBottomOffsetY))
 					Local $NewTry = 0
 					While $g_iSiegeLevel = ""
 						$NewTry += 1
-						$g_iSiegeLevel =  Number(getSiegeLevel(Number($aAttackBar[$i][5]) - 31, 643 + $g_iBottomOffsetY));Recheck Loop
+						$g_iSiegeLevel = Number(getSiegeLevel(Number($aAttackBar[$i][5]) - 31, 643 + $g_iBottomOffsetY)) ;Recheck Loop
 						_Sleep(100)
 						If $NewTry = 15 Then ExitLoop
 					WEnd
@@ -171,11 +171,11 @@ Func GetAttackBar($bRemaining = False, $pMatchMode = $DB, $bDebug = False)
 						Local $NewTry = 0
 						While $iSpellLevel = ""
 							$NewTry += 1
-							$iSpellLevel = Number(getTroopsSpellsLevel(Number($aAttackBar[$i][1]) - 18, 642 + $g_iBottomOffsetY));Recheck Loop
+							$iSpellLevel = Number(getTroopsSpellsLevel(Number($aAttackBar[$i][1]) - 18, 642 + $g_iBottomOffsetY)) ;Recheck Loop
 							_Sleep(100)
 							If $NewTry = 15 Then ExitLoop
 						WEnd
-						If $iSpellLevel > 0 And $iSpellLevel <= $g_iMaxLSpellLevel Then 
+						If $iSpellLevel > 0 And $iSpellLevel <= $g_iMaxLSpellLevel Then
 							$g_iLSpellLevel = $iSpellLevel
 							SetLog("Lightning Spell Level : " & $iSpellLevel, $COLOR_INFO)
 						Else
@@ -189,11 +189,11 @@ Func GetAttackBar($bRemaining = False, $pMatchMode = $DB, $bDebug = False)
 						Local $NewTry = 0
 						While $iSpellLevel = ""
 							$NewTry += 1
-							$iSpellLevel = Number(getTroopsSpellsLevel(Number($aAttackBar[$i][1]) - 25, 642 + $g_iBottomOffsetY));Recheck Loop
+							$iSpellLevel = Number(getTroopsSpellsLevel(Number($aAttackBar[$i][1]) - 25, 642 + $g_iBottomOffsetY)) ;Recheck Loop
 							_Sleep(100)
 							If $NewTry = 15 Then ExitLoop
 						WEnd
-						If $iSpellLevel > 0 And $iSpellLevel <= $g_iMaxESpellLevel Then 
+						If $iSpellLevel > 0 And $iSpellLevel <= $g_iMaxESpellLevel Then
 							$g_iESpellLevel = $iSpellLevel
 							SetLog("Earth Quake Spell Level : " & $iSpellLevel, $COLOR_INFO)
 						Else
@@ -231,7 +231,7 @@ Func GetAttackBar($bRemaining = False, $pMatchMode = $DB, $bDebug = False)
 
 	Return $aFinalAttackBar
 
-EndFunc   ;==>GetBarCheck
+EndFunc   ;==>GetAttackBar
 
 Func ExtendedAttackBarCheck($aAttackBarFirstSearch, $bRemaining, $sSearchDiamond)
 	;DebugAB($aAttackBarFirstSearch, "ExtendedAttackBarCheck")
@@ -354,11 +354,11 @@ Func ExtendedAttackBarCheck($aAttackBarFirstSearch, $bRemaining, $sSearchDiamond
 				Local $aTempSlot = AttackSlot(Number($aAttackBar[$i][1]), Number($aAttackBar[$i][7]), $aSlotAmountX)
 				$aAttackBar[$i][5] = Number($aTempSlot[0])
 				$aAttackBar[$i][6] = Number($aTempSlot[1])
-                If UBound($aAttackBar, 1) > 1 Then
-                    $aAttackBar[$i][3] = Number($aTempSlot[2] + $iLastSlotNumber + 1)
-                Else
-                    $aAttackBar[$i][3] = Number($iLastSlotNumber + 1)
-                EndIf
+				If UBound($aAttackBar, 1) > 1 Then
+					$aAttackBar[$i][3] = Number($aTempSlot[2] + $iLastSlotNumber + 1)
+				Else
+					$aAttackBar[$i][3] = Number($iLastSlotNumber + 1)
+				EndIf
 				If StringRegExp($aAttackBar[$i][0], "(King)|(Queen)|(Warden)|(Champion)", 0) And $aiOCRY[$aAttackBar[$i][7] - 1] <> -1 Then $aAttackBar[$i][6] = ($aiOCRY[$aAttackBar[$i][7] - 1] - 7)
 			EndIf
 
@@ -383,7 +383,7 @@ Func ExtendedAttackBarCheck($aAttackBarFirstSearch, $bRemaining, $sSearchDiamond
 
 					If StringInStr($aAttackBar[$i][0], "ESpell") <> 0 Then
 						Local $iSpellLevel = Number(getTroopsSpellsLevel(Number($aAttackBar[$i][1]) - 25, 642 + $g_iBottomOffsetY)) ; use image location as 'x' changes with quantity
-						If $iSpellLevel > 0 And $iSpellLevel <= $g_iMaxESpellLevel Then 
+						If $iSpellLevel > 0 And $iSpellLevel <= $g_iMaxESpellLevel Then
 							$g_iESpellLevel = $iSpellLevel
 							SetLog("Earth Quake Spell Level : " & $iSpellLevel, $COLOR_INFO)
 						Else
@@ -487,39 +487,39 @@ EndFunc   ;==>AttackSlot
 Func DebugAttackBarImage($aAttackBarResult)
 	#comments-start
 		SetDebugLog("Attackbar OCR completed in " & StringFormat("%.2f", __TimerDiff($iAttackbarStart)) & " ms")
-
+	
 		If $bDebug Then
 		Local $iX1 = 0, $iY1 = 635, $iX2 = 853, $iY2 = 698
 		_CaptureRegion2($iX1, $iY1, $iX2, $iY2)
-
+	
 		Local $sSubDir = $g_sProfileTempDebugPath & "AttackBarDetection"
-
+	
 		DirCreate($sSubDir)
-
+	
 		Local $sDate = @YEAR & "-" & @MON & "-" & @MDAY, $sTime = @HOUR & "." & @MIN & "." & @SEC
 		Local $sDebugImageName = String($sDate & "_" & $sTime & "_.png")
 		Local $hEditedImage = _GDIPlus_BitmapCreateFromHBITMAP($g_hHBitmap2)
 		Local $hGraphic = _GDIPlus_ImageGetGraphicsContext($hEditedImage)
 		Local $hPenRED = _GDIPlus_PenCreate(0xFFFF0000, 3)
-
+	
 		For $i = 0 To UBound($aResult) - 1
 		addInfoToDebugImage($hGraphic, $hPenRED, $aResult[$i][0], $aResult[$i][1], $aResult[$i][2])
 		Next
-
+	
 		_GDIPlus_ImageSaveToFile($hEditedImage, $sSubDir & "\" & $sDebugImageName)
 		_GDIPlus_PenDispose($hPenRED)
 		_GDIPlus_GraphicsDispose($hGraphic)
 		_GDIPlus_BitmapDispose($hEditedImage)
 		EndIf
-		#comments-end
+	#comments-end
 EndFunc   ;==>DebugAttackBarImage
 
-Func DebugAB($aAttackBar, $sText="")
+Func DebugAB($aAttackBar, $sText = "")
 	For $i = 0 To UBound($aAttackBar, 1) - 1
 		If IsInt($aAttackBar[$i][0]) Then
-			SetDebugLog("AttackBarCheck(): Slot(" & $aAttackBar[$i][1] & ")-"& $sText & " Troop(index) " & GetTroopName($aAttackBar[$i][0]) & " Qty : " & $aAttackBar[$i][2])
+			SetDebugLog("AttackBarCheck(): Slot(" & $aAttackBar[$i][1] & ")-" & $sText & " Troop(index) " & GetTroopName($aAttackBar[$i][0]) & " Qty : " & $aAttackBar[$i][2])
 		Else
-			SetDebugLog("AttackBarCheck(): Slot(" & $aAttackBar[$i][1] & ")-"& $sText & " Troop " & $aAttackBar[$i][0] & " Qty : " & $aAttackBar[$i][2])
+			SetDebugLog("AttackBarCheck(): Slot(" & $aAttackBar[$i][1] & ")-" & $sText & " Troop " & $aAttackBar[$i][0] & " Qty : " & $aAttackBar[$i][2])
 		EndIf
 	Next
-EndFunc
+EndFunc   ;==>DebugAB

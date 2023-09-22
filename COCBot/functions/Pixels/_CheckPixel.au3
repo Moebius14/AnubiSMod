@@ -64,4 +64,4 @@ Func _WaitForCheckPixel($aScreenCode, $bNeedCapture = Default, $Ignore = Default
 		EndIf
 	WEnd
 	Return True
-EndFunc
+EndFunc   ;==>_WaitForCheckPixel
