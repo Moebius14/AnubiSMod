@@ -25,7 +25,7 @@ Func PrepareAttackBB($AttackCount = 0)
 		If Not ClickAttack() Then Return False
 		If _Sleep(1500) Then Return
 		CheckArmyReady()
-		$g_bBBMachineReady = CheckMachReady()
+		CheckMachReady()
 		Return True
 	EndIf
 
@@ -39,7 +39,7 @@ Func PrepareAttackBB($AttackCount = 0)
 			If Not ClickAttack() Then Return False
 			If _Sleep(1500) Then Return
 			CheckArmyReady()
-			$g_bBBMachineReady = CheckMachReady()
+			CheckMachReady()
 			Return True
 		EndIf
 
@@ -53,7 +53,7 @@ Func PrepareAttackBB($AttackCount = 0)
 				If Not ClickAttack() Then Return False
 				If _Sleep(1500) Then Return
 				CheckArmyReady()
-				$g_bBBMachineReady = CheckMachReady()
+				CheckMachReady()
 				Return True
 			EndIf
 		EndIf

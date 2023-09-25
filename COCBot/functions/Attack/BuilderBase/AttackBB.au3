@@ -52,9 +52,10 @@ Func DoAttackBB()
 			SetLog("Attack #" & $count & "/~", $COLOR_INFO)
 			If $b_AbortedAttack Then $b_AbortedAttack = False ; Reset Value
 			_AttackBB()
+			If Not $g_bRunState Then Return
 			If Not $b_AbortedAttack Then $AttackCount += 1 ; Count if no Zoom Out fail
 			If $IsChallengeCompleted Then ExitLoop
-			If $g_bRestart = True Then Return
+			If $g_bRestart Then ExitLoop
 			If _Sleep($DELAYATTACKMAIN2) Then Return
 			checkObstacles()
 			$count += 1
@@ -87,6 +88,7 @@ Func DoAttackBB()
 				SetLog("Attack #" & $i & "/" & $g_iBBAttackCountFinal, $COLOR_INFO)
 				If $b_AbortedAttack Then $b_AbortedAttack = False ; Reset Value
 				_AttackBB()
+				If Not $g_bRunState Then Return
 				If Not $b_AbortedAttack Then
 					$AttackCount += 1 ; Count if no Zoom Out fail
 				Else
@@ -94,7 +96,7 @@ Func DoAttackBB()
 					$g_iBBAttackCountFinal += 1
 				EndIf
 				If $IsChallengeCompleted Then ExitLoop
-				If $g_bRestart = True Then Return
+				If $g_bRestart Then ExitLoop
 				If _Sleep($DELAYATTACKMAIN2) Then Return
 				checkObstacles()
 				If $AttackCount > 10 Then
@@ -271,9 +273,11 @@ Func EndBattleBB() ; Find if battle has ended and click okay
 		EndIf
 
 		If IsProblemAffect(True) Then Return
-		If Not $g_bRunState Then Return
+		If Not $g_bRunState Then ExitLoop
 		If _Sleep(1000) Then Return
 	Next
+
+	If Not $g_bRunState Then Return
 
 	For $i = 1 To 3
 		Select
@@ -487,7 +491,7 @@ Func CheckBMLoop($aBMPos = $g_aMachinePos)
 
 	For $i = 1 To 5
 		If IsProblemAffect(True) Then Return
-		If Not $g_bRunState Then Return
+		If Not $g_bRunState Then Return False
 
 		If QuickMIS("BC1", $g_sImgDirMachineAbility, $aBMPos[0] - 35, $aBMPos[1] - 40, $aBMPos[0] + 35, $aBMPos[1] + 40) Then
 			If StringInStr($g_iQuickMISName, "Wait") Then

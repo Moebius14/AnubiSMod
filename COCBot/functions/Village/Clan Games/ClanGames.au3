@@ -1020,30 +1020,11 @@ Func IsClanGamesRunning() ;to check whether clangames current state, return stri
 	Return $sState
 EndFunc   ;==>IsClanGamesRunning
 
-Func IsClanGamesRunning2() ;to check whether clangames current state, return string of the state "prepare" "running" "end"
-	Local $aGameTime[4] = [384, 428 + $g_iMidOffsetY, 0xFFFFFF, 10]
-	Local $sState = "Running"
-	If QuickMIS("BC1", $g_sImgWindow, 80, 70 + $g_iMidOffsetY, 160, 220 + $g_iMidOffsetY) Then
-		If QuickMIS("BC1", $g_sImgReward, 580, 490 + $g_iMidOffsetY, 830, 580 + $g_iMidOffsetY) Then
-			$sState = "Ended"
-		EndIf
-	Else
-		If _CheckPixel($aGameTime, True) Then
-			Local $sTimeRemain = getOcrTimeGameTime(370, 471 + $g_iMidOffsetY) ; read Clan Games waiting time
-			$g_sClanGamesTimeRemaining = $sTimeRemain
-			$sState = "Prepare"
-		Else
-			$sState = "Cannot open ClanGames"
-		EndIf
-	EndIf
-	Return $sState
-EndFunc   ;==>IsClanGamesRunning2
-
 Func GetTimesAndScores()
 	Local $iRestScore = -1, $sYourGameScore = "", $aiScoreLimit, $sTimeRemain = 0
 
 	;Ocr for game time remaining
-	$sTimeRemain = StringReplace(getOcrTimeGameTime(55, 496 + $g_iMidOffsetY), " ", "") ; read Clan Games waiting time
+	$sTimeRemain = getOcrTimeGameTime(55, 495 + $g_iMidOffsetY) ; read Clan Games waiting time
 
 	;Check if OCR returned a valid timer format
 	If Not StringRegExp($sTimeRemain, "([0-2]?[0-9]?[DdHhSs]+)", $STR_REGEXPMATCH, 1) Then
@@ -1078,8 +1059,8 @@ Func GetTimesAndScores()
 EndFunc   ;==>GetTimesAndScores
 
 Func IsEventRunning($bOpenWindow = False)
-	Local $aEventFailed[4] = [295, 280 + $g_iMidOffsetY, 0xEA2B24, 20]
-	Local $aEventPurged[4] = [295, 280 + $g_iMidOffsetY, 0x58C790, 20]
+	Local $aEventFailed[4] = [295, 265 + $g_iMidOffsetY, 0xEA2B24, 20]
+	Local $aEventPurged[4] = [295, 285 + $g_iMidOffsetY, 0x58C890, 20]
 	Local $sTempChallengePath = @TempDir & "\" & $g_sProfileCurrentName & "\Challenges\"
 
 	If $bOpenWindow Then
@@ -1579,7 +1560,8 @@ Func GetEventTimeInMinutes($iXStartBtn, $iYStartBtn, $bIsStartBtn = True)
 	EndIf
 
 	Local $Ocr = getOcrEventTime($XAxis, $YAxis)
-	StringReplace($Ocr, "#", "")
+	$Ocr = StringReplace($Ocr, " ", "", 0)
+	$Ocr = StringReplace($Ocr, "#", "", 0)
 	If $Ocr = "1" Then $Ocr = "1d"
 	If $Ocr = "2" Then $Ocr = "2d"
 	Return ConvertOCRTime("ClanGames()", $Ocr, False)

@@ -1440,9 +1440,13 @@ Func CreateClanGamesSettings()
 	$x -= 135
 	$y += 50
 	$g_hChkCGRootEnabledAll = GUICtrlCreateCheckbox(GetTranslatedFileIni("MBR GUI Design Child Village - Misc", "ChkCGRootEnableAllItem", "Challenges inherit Challenge Category"), $x, $y, -1, -1)
-	_GUICtrlSetTip(-1, GetTranslatedFileIni("MBR GUI Design Child Village - Misc", "ChkCGRootEnableAllItem02", "Enable/Disable this to quickly enable or disable all item per category"))
+	_GUICtrlSetTip(-1, GetTranslatedFileIni("MBR GUI Design Child Village - Misc", "ChkCGRootEnableAllItem02", "Enable/Disable this to quickly set/clear all group sub-elements"))
 	GUICtrlSetState(-1, $GUI_UNCHECKED)
-	$g_hBtnCGSettingsClose = GUICtrlCreateButton(GetTranslatedFileIni("MBR GUI Design Child Village - Misc", "BtnCGSettings", "Close"), $_GUI_MAIN_WIDTH - 100, $_GUI_MAIN_HEIGHT - 160, 85, 25)
+
+	$y += 20
+	GUICtrlCreateLabel(GetTranslatedFileIni("MBR GUI Design Child Village - Misc", "ChkCGRootEnableHelp", "You must pick the container and its sub-element(s) to enable challenge(s)."), $x + 17, $y, 230, 30)
+
+	$g_hBtnCGSettingsClose = GUICtrlCreateButton(GetTranslatedFileIni("MBR GUI Design Child Village - Misc", "BtnCGSettings", "Close"), $_GUI_MAIN_WIDTH - 100, $_GUI_MAIN_HEIGHT - 180, 85, 25)
 	GUICtrlSetOnEvent(-1, "CloseCGSettings")
 EndFunc   ;==>CreateClanGamesSettings
 
