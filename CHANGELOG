@@ -11,7 +11,7 @@
 ** Adjusted IsSettingPage color for check.
 ** Improved all super troops detection.
 ** Updated TH Weapon level OCR.
-** Increased Tolerance for Stone Pixel scenery detection.
+** Increased Tolerance for Stone Pixel ccenery detection.
 ** Improved red costs OCR.
 ** Improved Sneaky Goblin Detection.
 ** Improved Bonus OCR.
@@ -32,6 +32,10 @@
 ** Improved OCR for upgrades costs (Red).
 ** Updated Train and Laboratory templates.
 ** Clean up Android Nox code, remove unused code for no longer supported Nox versions.
+* Return of clangames.ini file; requires updating your GC settings.
+* Lots of improvements to Clan Games
+* Addressed issues with Giant vs SuperGiant detection in training queue.
+* Updated Clan Games Rewards Collect.
 
 * v8.1 **
 * Added Clan Capital Trophies and League.

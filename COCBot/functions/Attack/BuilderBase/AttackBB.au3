@@ -17,6 +17,7 @@ Local $bFirstAttackClick
 
 Func CheckCGCompleted()
 	Local $bRet = False
+	Local $CompleteBar = 0
 	For $x = 1 To 12
 		If QuickMIS("BC1", $g_sImgBBAttackBonus, 380, 450 + $g_iMidOffsetY, 480, 505 + $g_iMidOffsetY) Then
 			SetLog("Congrats Chief, Stars Bonus Awarded", $COLOR_INFO)
@@ -27,8 +28,15 @@ Func CheckCGCompleted()
 		SetDebugLog("Check challenges progress #" & $x, $COLOR_ACTION)
 		If QuickMIS("BC1", $g_sImgGameComplete, 770, 474 + $g_iMidOffsetY, 830, 534 + $g_iMidOffsetY) Then
 			SetLog("Nice, Game Completed", $COLOR_INFO)
+			$g_bIsBBevent = 0
 			$bRet = True
 			ExitLoop
+		EndIf
+		If _ColorCheck(_GetPixelColor(830, 500 + $g_iMidOffsetY, True), Hex(0xFFD53D, 6), 10, Default) Then $CompleteBar += 1
+		If $x = 12 And $CompleteBar = 0 Then
+			SetDebugLog("No Complete Bar Detected, Stop Attack To Check", $COLOR_DEBUG)
+			$g_bIsBBevent = 0
+			$bRet = True
 		EndIf
 		If _Sleep(500) Then Return
 	Next
@@ -55,13 +63,17 @@ Func DoAttackBB()
 			If Not $g_bRunState Then Return
 			If Not $b_AbortedAttack Then $AttackCount += 1 ; Count if no Zoom Out fail
 			If $IsChallengeCompleted Then ExitLoop
-			If $g_bRestart Then ExitLoop
 			If _Sleep($DELAYATTACKMAIN2) Then Return
 			checkObstacles()
 			$count += 1
 			If $count > 10 Then
 				SetLog("Already Attack 10 times, continue next time", $COLOR_INFO)
 				ExitLoop
+			EndIf
+			If $count = 6 Then
+				ZoomOut()
+				CollectElixirCart(False, False, False, True)
+				If _Sleep(2000) Then Return
 			EndIf
 		WEnd
 		SetLog("Skip Attack This Time..", $COLOR_DEBUG)
@@ -95,13 +107,20 @@ Func DoAttackBB()
 					SetLog("Add one more attack due to Zoom Out Fail", $COLOR_INFO)
 					$g_iBBAttackCountFinal += 1
 				EndIf
-				If $IsChallengeCompleted Then ExitLoop
-				If $g_bRestart Then ExitLoop
+				If $IsChallengeCompleted Then
+					SetLog("Skip Attack This Time..", $COLOR_DEBUG)
+					ExitLoop
+				EndIf
 				If _Sleep($DELAYATTACKMAIN2) Then Return
 				checkObstacles()
 				If $AttackCount > 10 Then
 					SetLog("Already Attack 10 times, continue next time", $COLOR_INFO)
 					ExitLoop
+				EndIf
+				If $AttackCount = 6 Then
+					ZoomOut()
+					CollectElixirCart(False, False, False, True)
+					If _Sleep(2000) Then Return
 				EndIf
 			Else
 				SetLog("Skip Attack This Time..", $COLOR_DEBUG)
@@ -205,7 +224,8 @@ Func _AttackBB()
 	If Not $g_bRunState Then Return
 
 	If EndBattleBB() Then SetLog("Battle ended", $COLOR_INFO)
-	checkObstacles($g_bStayOnBuilderBase)
+	If _Sleep($DELAYATTACKMAIN2) Then Return
+	checkObstacles()
 
 EndFunc   ;==>_AttackBB
 
@@ -284,7 +304,7 @@ Func EndBattleBB() ; Find if battle has ended and click okay
 			Case QuickMIS("BC1", $g_sImgBBReturnHome, 370, 510 + $g_iMidOffsetY, 490, 565 + $g_iMidOffsetY) = True
 				If _Sleep(2000) Then Return
 				Click($g_iQuickMISX, $g_iQuickMISY)
-				If $g_bChkForceBBAttackOnClanGames And $g_bIsBBevent Then
+				If $g_bIsBBevent Then
 					If CheckCGCompleted() Then
 						$IsChallengeCompleted = True
 					Else
@@ -444,7 +464,7 @@ Func DeployBBTroop($sName, $x, $y, $iAmount, $ai_AttackDropPoints)
 					SetLog($sName & " Deployed", $COLOR_SUCCESS)
 					ExitLoop
 				EndIf
-				If WaitforPixel(24, 552 + $g_iBottomOffsetY, 26, 554 + $g_iBottomOffsetY, Hex($g_DeployColor[$z], 6), 30, 20) Then ;BM with Capacity
+				If WaitforPixel(24, 552 + $g_iBottomOffsetY, 30, 554 + $g_iBottomOffsetY, Hex($g_DeployColor[$z], 6), 30, 5) Then ;BM with Capacity
 					$g_DeployedMachine = True
 					SetLog($sName & " Deployed", $COLOR_SUCCESS)
 					PureClickP($aBMPos) ; Activate Ability
@@ -522,24 +542,36 @@ EndFunc   ;==>CheckBMLoop
 
 Func CheckBomberLoop()
 	Local $bRet = True
+	Local $nbrDeadBomber = 0
 	If Not $g_bBomberOnAttackBar Or UBound($g_aBomberOnAttackBar) = 0 Then Return False
 	Local $isGreyBanner = False, $ColorPickBannerX = 0, $iTroopBanners = 583 + $g_iBottomOffsetY
 
 	For $i = 0 To UBound($g_aBomberOnAttackBar) - 1
-		If Not $g_bRunState Then Return
+		If Not $g_bRunState Then Return False
 		$ColorPickBannerX = $g_aBomberOnAttackBar[$i][0] + 37
 		$isGreyBanner = _ColorCheck(_GetPixelColor($ColorPickBannerX, $iTroopBanners, True), Hex(0x707070, 6), 10, Default) ;Grey Banner on TroopSlot = Troop Die
 		If $isGreyBanner Then
-			SetLog("Bomber is Dead", $COLOR_DEBUG2)
-			$bRet = False
-			ExitLoop
+			If UBound($g_aBomberOnAttackBar) = 1 Then
+				SetLog("Bomber is Dead", $COLOR_DEBUG2)
+			Else
+				If $BomberDead[$i] = 0 Then SetLog("Bomber " & $i + 1 & " is Dead", $COLOR_DEBUG2)
+				$BomberDead[$i] = 1
+			EndIf
+			$nbrDeadBomber += 1
+			If $nbrDeadBomber = UBound($g_aBomberOnAttackBar) Then
+				$bRet = False
+				ExitLoop
+			EndIf
 		EndIf
 		If QuickMIS("BC1", $g_sImgDirBomberAbility, $g_aBomberOnAttackBar[$i][0], $g_aBomberOnAttackBar[$i][1] - 30, $g_aBomberOnAttackBar[$i][0] + 70, $g_aBomberOnAttackBar[$i][1] + 30) Then
 			If StringInStr($g_iQuickMISName, "Ability") Then
 				Click($g_iQuickMISX, $g_iQuickMISY)
-				SetLog("Activate Bomber Ability", $COLOR_SUCCESS)
+				If UBound($g_aBomberOnAttackBar) = 1 Then
+					SetLog("Activate Bomber Ability", $COLOR_SUCCESS)
+				Else
+					SetLog("Activate Bomber " & $i + 1 & " Ability", $COLOR_SUCCESS)
+				EndIf
 			EndIf
-			ExitLoop
 		EndIf
 	Next
 	Return $bRet
@@ -547,7 +579,7 @@ EndFunc   ;==>CheckBomberLoop
 
 Func IsBBAttackPage()
 	Local $bRet = False
-	If _ColorCheck(_GetPixelColor(22, 550 + $g_iMidOffsetY, True), Hex(0xCD0D0D, 6), 20) Then ;check red color on surrender button
+	If _ColorCheck(_GetPixelColor(30, 550 + $g_iMidOffsetY, True), Hex(0xCF0D0E, 6), 20) Then ;check red color on surrender button
 		$bRet = True
 	EndIf
 	Return $bRet

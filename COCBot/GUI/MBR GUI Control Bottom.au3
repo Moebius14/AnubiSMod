@@ -15,7 +15,7 @@
 #include-once
 
 Global $g_aFrmBotBottomCtrlState, $g_hFrmBotEmbeddedShield = 0, $g_hFrmBotEmbeddedMouse = 0, $g_hFrmBotEmbeddedGraphics = 0
-Global $sGameVersionSupported = "15.352.22"
+;Global $sGameVersionSupported = "15.547.8"
 
 Func Initiate()
 	WinGetAndroidHandle()
@@ -26,17 +26,17 @@ Func Initiate()
 		SetLog($Compiled & " running on " & @OSVersion & " " & @OSServicePack & " " & @OSArch)
 
 		Local $sGameVersion = GetCoCAppVersion()
-		If Not @error Then
-			If _VersionCompare($sGameVersion, $sGameVersionSupported) = -1 Then
-				SetLog(">>  CoC Game App Version = " & $sGameVersion, $COLOR_ERROR)
-				SetLog("Plz Update COC to Version = " & $sGameVersionSupported, $COLOR_ERROR)
-				CloseCoC(False)
-				BotStop()
-				Return
-			Else
-				SetLog(">>  CoC Game App Version = " & $sGameVersion, $COLOR_SUCCESS)
-			EndIf
-		EndIf
+		If Not @error Then SetLog(">>  CoC Game App Version = " & $sGameVersion, $COLOR_SUCCESS)
+;			If _VersionCompare($sGameVersion, $sGameVersionSupported) = -1 Then
+;				SetLog(">>  CoC Game App Version = " & $sGameVersion, $COLOR_ERROR)
+;				SetLog("Plz Update COC to Version = " & $sGameVersionSupported, $COLOR_ERROR)
+;				CloseCoC(False)
+;				BotStop()
+;				Return
+;			Else
+;				SetLog(">>  CoC Game App Version = " & $sGameVersion, $COLOR_SUCCESS)
+;			EndIf
+;		EndIf
 
 		If Not $g_bSearchMode Then
 			SetLogCentered(" Bot Start ", Default, $COLOR_SUCCESS)
@@ -411,7 +411,7 @@ Func ToggleGuiControls($bEnabled, $bOptimizedRedraw = True)
 EndFunc   ;==>ToggleGuiControls
 
 Func GetCoCAppVersion()
-	Local $sCMD = "dumpsys package com.supercell.clashofclans | grep versionName"  ;Get info from APK and grep version number line from text string
+	Local $sCMD = "dumpsys package " & $g_sAndroidGamePackage & " | grep versionName"  ;Get info from APK and grep version number line from text string
 	Local $sReturn = AndroidAdbSendShellCommand($sCMD) ; Grep return string = versionName=15.352.8
 	If @error Then
 		SetLog("Failed to get CoC vesion, Result= " & $sReturn, $COLOR_ERROR)

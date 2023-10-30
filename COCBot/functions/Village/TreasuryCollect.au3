@@ -34,7 +34,7 @@ Func TreasuryCollect()
 	If _Sleep($DELAYCOLLECT3) Then Return
 	BuildingClick($g_aiClanCastlePos[0], $g_aiClanCastlePos[1], "#0250") ; select CC
 	If _Sleep($DELAYTREASURY2) Then Return
-	Local $BuildingInfo = BuildingInfo(242, 488 + $g_iBottomOffsetY)
+	Local $BuildingInfo = BuildingInfo(242, 468 + $g_iBottomOffsetY)
 
 	If $BuildingInfo[1] = "Clan Castle" Then
 		If _Sleep($DELAYTREASURY1) Then Return
@@ -49,7 +49,7 @@ Func TreasuryCollect()
 			PureClickVisit($NewX, $NewY) ; select CC
 			If _Sleep($DELAYBUILDINGINFO1) Then Return
 
-			$BuildingInfo = BuildingInfo(242, 488 + $g_iBottomOffsetY)
+			$BuildingInfo = BuildingInfo(242, 468 + $g_iBottomOffsetY)
 
 			If $BuildingInfo[1] = "Clan Castle" Then ExitLoop
 			ClickAway()
@@ -59,7 +59,7 @@ Func TreasuryCollect()
 			PureClickVisit($NewX, $NewY) ; select CC
 			If _Sleep($DELAYBUILDINGINFO1) Then Return
 
-			$BuildingInfo = BuildingInfo(242, 488 + $g_iBottomOffsetY)
+			$BuildingInfo = BuildingInfo(242, 468 + $g_iBottomOffsetY)
 
 			If $BuildingInfo[1] = "Clan Castle" Then ExitLoop
 		Next

@@ -181,7 +181,7 @@ Func _ClanGames($test = False, $HaltMode = False)
 					btnStop()
 				EndIf
 				Return
-			ElseIf $aiScoreLimit[0] + 300 > $aiScoreLimit[1] Then
+			ElseIf $aiScoreLimit[0] + 300 >= $aiScoreLimit[1] Then
 				SetLog("You have almost reached max point")
 				$sTimeCG = ConvertOCRTime("ClanGames()", $g_sClanGamesTimeRemaining, False)
 				SetDebuglog("Clan Games Minute Remain: " & $sTimeCG)
@@ -219,7 +219,7 @@ Func _ClanGames($test = False, $HaltMode = False)
 	If Not $g_bRunState Then Return ;trap pause or stop bot
 
 	If $g_bChkCCGDebugNoneFound Then
-		SaveDebugImage("CG_All_Challenges", True, True, "P1")
+		SaveDebugImage("CG_All_Challenges", True, True, "_P1 ")
 		If _Sleep(1000) Then Return
 	EndIf
 
@@ -233,6 +233,7 @@ Func _ClanGames($test = False, $HaltMode = False)
 
 	Local $EventLoopOut = True
 	Local $IsLooped = 0
+	Local $IsSomethingWrong = False
 	Local $iRow = 2
 
 	While $EventLoopOut
@@ -628,6 +629,15 @@ Func _ClanGames($test = False, $HaltMode = False)
 						If _Sleep(2000) Then Return
 						$EventLoopOut = True
 						$IsLooped += 1
+						If $IsLooped > 4 Then
+							SetLog("Something went wrong, Come Back Here Later", $COLOR_ACTION)
+							$IsSomethingWrong = True
+							ExitLoop 2
+						EndIf
+						; Clear
+						$aAllDetectionsOnScreen = ""
+						$aSelectChallenges = ""
+						$aTempSelectChallenges = ""
 						$sEventName = ""
 						ChallengeNextPage(1, $iRow)
 						ContinueLoop 2
@@ -640,6 +650,12 @@ Func _ClanGames($test = False, $HaltMode = False)
 			EndIf
 		EndIf
 	WEnd
+
+	If $IsSomethingWrong Then
+		CloseWindow()
+		ClearTempCGFiles()
+		If _Sleep(2000) Then Return
+	EndIf
 
 	If $g_bChkClanGamesPurgeAny Then ; still have to purge, because no enabled event on setting found
 		SetLog("Purge needed, because no enabled challenge on setting found", $COLOR_WARNING)
@@ -793,13 +809,13 @@ Func ChallengeNextPage($iRowTarget, ByRef $iRow)
 		$iXMidPoint = Random(810, 840, 1)
 
 		If $iRow < $iRowTarget Then
-			ClickDrag($iXMidPoint, 450 + $g_iMidOffsetY, $iXMidPoint, 270 + $g_iMidOffsetY)
+			ClickDrag($iXMidPoint, 470 + $g_iMidOffsetY, $iXMidPoint, 270 + $g_iMidOffsetY)
 			$iRow += 1
 			If _Sleep(2500) Then Return
 		EndIf
 
 		If $iRow > $iRowTarget Then
-			ClickDrag($iXMidPoint, 270 + $g_iMidOffsetY, $iXMidPoint, 450 + $g_iMidOffsetY)
+			ClickDrag($iXMidPoint, 250 + $g_iMidOffsetY, $iXMidPoint, 450 + $g_iMidOffsetY)
 			$iRow -= 1
 			If _Sleep(2500) Then Return
 		EndIf
@@ -819,7 +835,7 @@ Func FindEvent()
 	Local $aEvent, $aReturn[0][7]
 	Local $iRow = 1
 	Local $aX[4] = [284, 418, 550, 685]
-	Local $aY[3] = [155 + $g_iMidOffsetY, 325 + $g_iMidOffsetY, 318 + $g_iMidOffsetY]
+	Local $aY[3] = [155 + $g_iMidOffsetY, 325 + $g_iMidOffsetY, 305 + $g_iMidOffsetY]
 
 	For $y = 0 To UBound($aY) - 1
 		If $y = UBound($aY) - 1 Then
@@ -831,7 +847,7 @@ Func FindEvent()
 			EndIf
 		EndIf
 		For $x = 0 To UBound($aX) - 1
-			$aEvent = QuickMIS("CNX", $sTempChallengePath, $aX[$x], $aY[$y], $aX[$x] + 114, $aY[$y] + 110) ;275,170|800,170|800,500|275,500 Diamond For Check
+			$aEvent = QuickMIS("CNX", $sTempChallengePath, $aX[$x], $aY[$y], $aX[$x] + 114, $aY[$y] + 130) ;275,170|800,170|800,500|275,500 Diamond For Check
 			If IsArray($aEvent) And UBound($aEvent) > 0 Then
 				Local $IsBBEvent = IsBBChallenge($aEvent[0][1], $aEvent[0][2])
 				If $IsBBEvent Then
@@ -1000,7 +1016,7 @@ Func IsClanGamesRunning() ;to check whether clangames current state, return stri
 	Local $sState = "Running"
 	If QuickMIS("BC1", $g_sImgWindow, 80, 70 + $g_iMidOffsetY, 160, 220 + $g_iMidOffsetY) Then
 		SetLog("Window Opened", $COLOR_DEBUG)
-		If QuickMIS("BC1", $g_sImgReward, 580, 490 + $g_iMidOffsetY, 830, 580 + $g_iMidOffsetY) Then
+		If QuickMIS("BC1", $g_sImgReward, 580, 440 + $g_iMidOffsetY, 830, 500 + $g_iMidOffsetY) Then
 			SetLog("Your Reward is Ready", $COLOR_INFO)
 			CollectClanGamesRewards()
 			$sState = "Ended"
@@ -1019,6 +1035,25 @@ Func IsClanGamesRunning() ;to check whether clangames current state, return stri
 	EndIf
 	Return $sState
 EndFunc   ;==>IsClanGamesRunning
+
+Func IsClanGamesRunning2() ;to check whether clangames current state, return string of the state "prepare" "running" "end"
+	Local $aGameTime[4] = [384, 428 + $g_iMidOffsetY, 0xFFFFFF, 10]
+	Local $sState = "Running"
+	If QuickMIS("BC1", $g_sImgWindow, 80, 70 + $g_iMidOffsetY, 160, 220 + $g_iMidOffsetY) Then
+		If QuickMIS("BC1", $g_sImgReward, 580, 440 + $g_iMidOffsetY, 830, 500 + $g_iMidOffsetY) Then
+			$sState = "Ended"
+		EndIf
+	Else
+		If _CheckPixel($aGameTime, True) Then
+			Local $sTimeRemain = getOcrTimeGameTime(370, 471 + $g_iMidOffsetY) ; read Clan Games waiting time
+			$g_sClanGamesTimeRemaining = $sTimeRemain
+			$sState = "Prepare"
+		Else
+			$sState = "Cannot open ClanGames"
+		EndIf
+	EndIf
+	Return $sState
+EndFunc   ;==>IsClanGamesRunning2
 
 Func GetTimesAndScores()
 	Local $iRestScore = -1, $sYourGameScore = "", $aiScoreLimit, $sTimeRemain = 0
@@ -1285,6 +1320,11 @@ Func IsEventRunning($bOpenWindow = False)
 				EndIf
 			Else
 				Setlog("Active Challenge Not Enabled on Setting! started by mistake?", $COLOR_ERROR)
+				If $g_bChkCCGDebugNoneFound Then
+					If _Sleep(1000) Then Return
+					SaveDebugImage("CG_Mistake", True, True)
+					If _Sleep(1000) Then Return
+				EndIf
 				PurgeEvent(False, False, False)
 				CloseWindow()
 				ClearTempCGFiles()
@@ -1366,10 +1406,15 @@ Func StartsEvent($sEventName, $getCapture = True, $g_bChkClanGamesDebug = False)
 		If _Sleep(500) Then Return
 		Click(340, 210 + $g_iMidOffsetY) ;Click Active Challenge
 		If _Sleep(1000) Then Return
-		SetLog("Re-Check Challenge Type", $COLOR_DEBUG1)
+		SetLog("Re-Check Event Type", $COLOR_DEBUG1)
 		If QuickMIS("BC1", $g_sImgVersus, 425, 180 + $g_iMidOffsetY, 700, 245 + $g_iMidOffsetY, True, False) Then
-			Setlog("Running Challenge is BB Challenge : " & $sEventName, $COLOR_ACTION)
-			$g_bIsBBevent = 1
+			If $sEventName = "Builder Hut" Then
+				Setlog("Running Challenge is MainVillage Challenge : " & $sEventName, $COLOR_ACTION)
+				$g_bIsBBevent = 0
+			Else
+				Setlog("Running Challenge is BB Challenge : " & $sEventName, $COLOR_ACTION)
+				$g_bIsBBevent = 1
+			EndIf
 		Else
 			Setlog("Running Challenge is MainVillage Challenge : " & $sEventName, $COLOR_ACTION)
 			$g_bIsBBevent = 0
@@ -1681,16 +1726,16 @@ Func ClanGamesChallenges($sReturnArray)
 			["DESpell", "Dark Spell Factory", 8, 1, "Destroy 2-6 Dark Spell Factories in Multiplayer Battles"], _
 			["WallWhacker", "Wall Whacker", 10, 8, "Destroy 50-250 Walls in Multiplayer Battles"], _
 			["BBreakdown", "Building Breakdown", 6, 1, "Destroy 50-250 Buildings in Multiplayer Battles"], _
-			["BKaltar", "Barbarian King Altars", 9, 4, "Destroy 2-5 Barbarian King Altars in Multiplayer Battles"], _
-			["AQaltar", "Archer Queen Altars", 10, 4, "Destroy 2-5 Archer Queen Altars in Multiplayer Battles"], _
-			["GWaltar", "Grand Warden Altars", 11, 4, "Destroy 2-5 Grand Warden Altars in Multiplayer Battles"], _
-			["HeroLevelHunter", "Hero Level Hunter", 9, 5, "Knockout 125 Level Heroes on Multiplayer Battles"], _
-			["KingLevelHunter", "King Level Hunter", 9, 5, "Knockout 50 Level King on Multiplayer Battles"], _
-			["QueenLevelHunt", "Queen Level Hunter", 10, 5, "Knockout 50 Level Queen on Multiplayer Battles"], _
-			["WardenLevelHunter", "Warden Level Hunter", 11, 5, "Knockout 20 Level Warden on Multiplayer Battles"], _
+			["BKaltar", "Barbarian King Altars", 9, 3, "Destroy 2-5 Barbarian King Altars in Multiplayer Battles"], _
+			["AQaltar", "Archer Queen Altars", 10, 3, "Destroy 2-5 Archer Queen Altars in Multiplayer Battles"], _
+			["GWaltar", "Grand Warden Altars", 11, 3, "Destroy 2-5 Grand Warden Altars in Multiplayer Battles"], _
+			["HeroLevelHunter", "Hero Level Hunter", 9, 4, "Knockout 125 Level Heroes on Multiplayer Battles"], _
+			["KingLevelHunter", "King Level Hunter", 9, 3, "Knockout 50 Level King on Multiplayer Battles"], _
+			["QueenLevelHunt", "Queen Level Hunter", 10, 3, "Knockout 50 Level Queen on Multiplayer Battles"], _
+			["WardenLevelHunter", "Warden Level Hunter", 11, 3, "Knockout 20 Level Warden on Multiplayer Battles"], _
 			["ArmyCamp", "Destroy ArmyCamp", 6, 1, "Destroy 3-16 Army Camp in Multiplayer Battles"], _
 			["ScatterShotSabotage", "ScatterShot", 13, 5, "Destroy 1-4 ScatterShot in Multiplayer Battles"], _
-			["ChampionLevelHunt", "Champion Level Hunter", 13, 5, "Knockout 20 Level Champion on Multiplayer Battles"]]
+			["ChampionLevelHunt", "Champion Level Hunter", 13, 3, "Knockout 20 Level Champion on Multiplayer Battles"]]
 
 	Local $AirTroopChallenges[13][5] = [ _
 			["Ball", "Balloon", 4, 1, "Earn 1-5 Stars (accumulated from many attacks) from Multiplayer Battles using certain count of Balloons"], _
@@ -1874,8 +1919,14 @@ Func CollectClanGamesRewards($bTest = False)
 			["FullPotPower", $g_iacmbPriorityReward[8]], _
 			["FullPotSuper", $g_iacmbPriorityReward[8]]]
 
-	Local $aiColumn[4] = [224, 246, 331, 453]
-	Local $iColumnWidth = 91
+	Local $aiColumn[4] = [276, 246, 348, 453]
+	Local $aColWinOffColors[1][3] = [[0xD2D259, 2, 0]]
+	Local $aFirstColumn = _MultiPixelSearch(260, 205 + $g_iMidOffsetY, 290, 205 + $g_iMidOffsetY, 1, 1, Hex(0xD2D259, 6), $aColWinOffColors, 10)
+	If IsArray($aFirstColumn) And $aFirstColumn[0] < 270 Then
+		$aiColumn[0] = $aFirstColumn[0] - 2
+		$aiColumn[2] = $aiColumn[0] + 73
+	EndIf
+	Local $iColumnWidth = 92
 	Local $sImgClanGamesReceivedWindow = @ScriptDir & "\imgxml\Windows\ClanGamesReceivedWindow*"
 	Local $sImgClanGamesRewardsTab = @ScriptDir & "\imgxml\Windows\ClanGamesRewardsTab*"
 	Local $sImgClanGamesExtraRewardWindow = @ScriptDir & "\imgxml\Windows\ClanGamesExtraRewardWindow*"
@@ -1973,7 +2024,7 @@ Func CollectClanGamesRewards($bTest = False)
 
 		EndIf
 
-		If $i < 4 Then
+		If $i < 6 Then
 			$aiColumn[0] = ($aiColumn[0] + $iColumnWidth)
 			$aiColumn[2] = ($aiColumn[2] + $iColumnWidth)
 		Else
@@ -1983,15 +2034,12 @@ Func CollectClanGamesRewards($bTest = False)
 			$aiColumn[3] = 453
 		EndIf
 
+		If ($i = 5 And _ColorCheck(_GetPixelColor(823, 200 + $g_iMidOffsetY, True), Hex(0xE8E8E0, 6), 20)) Or $i = 6 Then $bLoop = False
+
 		$i += 1
 
-		If $i = 10 Then
-			$bLoop = False
-			If $g_bDebugImageSave Then SaveDebugImage("ClanGamesRewardsWindow", False)
-		EndIf
+		If $g_bDebugImageSave Then SaveDebugImage("ClanGamesRewardsWindow", False)
 	WEnd
-
-	SetLog("Failed to locate Collect Rewards Button")
 
 	Return False
 EndFunc   ;==>CollectClanGamesRewards
@@ -2036,7 +2084,6 @@ Func SearchColumn($aiColumn, $aRewardsList)
 		Next
 
 		If IsDeclared("aArray") And $aArray[0] <> "" Then
-			;SetLog("Added!")
 			ReDim $aSelectReward[UBound($aSelectReward) + 1][4]
 			$aSelectReward[UBound($aSelectReward) - 1][0] = $aArray[0] ; Reward
 			$aSelectReward[UBound($aSelectReward) - 1][1] = $aArray[1] ; Xaxis
@@ -2052,10 +2099,9 @@ Func SearchColumn($aiColumn, $aRewardsList)
 	Return $aSelectReward
 EndFunc   ;==>SearchColumn
 
-;Remaining Function To Do For COC 15.352.22
 Func SelectReward($iX, $iY)
 	Local $sImgClanGamesStorageFullWindow = @ScriptDir & "\imgxml\Windows\ClanGamesStorageFull*"
-	Local $sSearchArea = "245,250,615,480" ; To Do
+	Local $sSearchArea = "420,200,560,300"
 
 	; click reward
 	Click($iX, $iY)
@@ -2063,9 +2109,9 @@ Func SelectReward($iX, $iY)
 	If _Sleep(1000) Then Return
 
 	; check for storage full window
-	If IsWindowOpen($sImgClanGamesStorageFullWindow, 0, 0, GetDiamondFromRect($sSearchArea)) Then ; To Do
+	If IsWindowOpen($sImgClanGamesStorageFullWindow, 0, 0, GetDiamondFromRect($sSearchArea)) Then
 
-		Local $aYesButton = findButton("ClanGamesStorageFullYes", Default, 1, True) ; To Do
+		Local $aYesButton = findButton("ClanGamesStorageFullYes", Default, 1, True)
 
 		If IsArray($aYesButton) And UBound($aYesButton, 1) = 2 Then
 			If _Sleep(250) Then Return
@@ -2090,10 +2136,8 @@ EndFunc   ;==>DebugClanGamesRewards
 
 Func DragRewardColumnIfNeeded($iColumn = 0)
 
-	If $iColumn <= 5 Then Return
-
-	ClickDrag(755, 220, 755 - 108, 220, 200)
-
+	If $iColumn < 6 Then Return
+	If $iColumn = 6 Then ClickDrag(755, 220, 755 - 108, 220, 200)
 	If _Sleep(100) Then Return
 
 	Return

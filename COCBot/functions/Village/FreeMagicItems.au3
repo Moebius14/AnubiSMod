@@ -74,7 +74,7 @@ Func CollectFreeMagicItems($bTest = False)
 		$iLastTimeChecked[$g_iCurAccount] = @MDAY
 	EndIf
 
-	Local $aOcrPositions[3][2] = [[270, 350], [480, 350], [690, 350]]
+	Local $aOcrPositions[3][2] = [[275, 357], [480, 357], [685, 357]]
 	Local $ItemPosition = ""
 	Local $Collected = 0
 	Local $aResults = GetFreeMagic()
@@ -201,7 +201,7 @@ Func CollectFreeMagicItems($bTest = False)
 EndFunc   ;==>CollectFreeMagicItems
 
 Func GetFreeMagic()
-	Local $aOcrPositions[3][2] = [[270, 350], [480, 350], [690, 350]]
+	Local $aOcrPositions[3][2] = [[275, 357], [480, 357], [685, 357]]
 	Local $aClickFreeItemPositions[3][2] = [[305, 280], [512, 280], [723, 280]]
 	Local $aResults[0][3]
 
@@ -240,13 +240,21 @@ Func OpenTraderWindow()
 		EndIf
 		If _Sleep(1000) Then Return
 	Next
-	If $Found = False Then
+	If Not $Found Then
 		SetLog("Trader unavailable", $COLOR_INFO)
 		SetLog("Bot will recheck next loop", $COLOR_OLIVE)
 		$IstoRecheckTrader = 1
+	Else
+		Local $aTabButton = findButton("WeeklyDeals", Default, 1, True)
+		If IsArray($aTabButton) And UBound($aTabButton, 1) = 2 Then
+			SetDebugLog("Weekly Deals is already selected", $COLOR_DEBUG)
+		Else
+			Click(90, 245 + $g_iMidOffsetY)
+			If _Sleep(1000) Then Return
+		EndIf
 	EndIf
 
-	Local $aiDailyDiscount = decodeSingleCoord(findImage("DailyDiscount", $g_sImgDailyDiscountWindow, GetDiamondFromRect("310,175,375,210"), 1, True, Default))
+	Local $aiDailyDiscount = decodeSingleCoord(findImage("DailyDiscount", $g_sImgDailyDiscountWindow, GetDiamondFromRect("420,105,510,155"), 1, True, Default))
 	If Not IsArray($aiDailyDiscount) Or UBound($aiDailyDiscount, 1) < 1 Then
 		ClickAway()
 		$IstoRecheckTrader = 1
@@ -905,11 +913,11 @@ Func OpenMagicItemWindow()
 	BuildingClick($g_aiTownHallPos[0], $g_aiTownHallPos[1])
 	If _Sleep($DELAYBUILDINGINFO1) Then Return
 
-	Local $BuildingInfo = BuildingInfo(242, 488 + $g_iBottomOffsetY)
+	Local $BuildingInfo = BuildingInfo(242, 468 + $g_iBottomOffsetY)
 
 	If $BuildingInfo[1] = "Town Hall" Then
 		SetDebugLog("Opening Magic Item Window")
-		If ClickB("MagicItem") Then
+		If ClickB("MagicItems") Then
 			$bRet = True
 		EndIf
 	Else
@@ -925,9 +933,9 @@ Func OpenMagicItemWindow()
 		If _Sleep(Random(1000, 1500, 1)) Then Return
 		BuildingClick($g_aiTownHallPos[0], $g_aiTownHallPos[1])
 		If _Sleep($DELAYBUILDINGINFO1) Then Return
-		Local $BuildingInfo = BuildingInfo(242, 488 + $g_iBottomOffsetY)
+		Local $BuildingInfo = BuildingInfo(242, 468 + $g_iBottomOffsetY)
 		If $BuildingInfo[1] = "Town Hall" Then
-			If ClickB("MagicItem") Then
+			If ClickB("MagicItems") Then
 				$bRet = True
 			EndIf
 		EndIf

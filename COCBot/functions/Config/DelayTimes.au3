@@ -212,7 +212,7 @@ Global Const $DELAYCHECKFULLARMY3 = 500
 ;Collect
 Global Const $DELAYCOLLECT1 = 100
 Global Const $DELAYCOLLECT2 = 250
-Global Const $DELAYCOLLECT3 = 800
+Global Const $DELAYCOLLECT3 = 500
 
 ;DonateCC
 Global Const $DELAYDONATECC1 = 200

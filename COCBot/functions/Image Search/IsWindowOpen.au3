@@ -90,7 +90,8 @@ Func CloseWindow($IsinPet = False, $IsinLab = False, $IsToClickRight = False, $i
 			EndSelect
 
 			; clear building text - this area is needed for ZoomOut()
-			Local $sBuildingText = getNameBuilding(242, 490 + $g_iBottomOffsetY)
+			Local $sBuildingText = getNameBuilding(242, 468 + $g_iBottomOffsetY)
+			If $IsToClickRight Then $sBuildingText = getNameBuilding(242, 514 + $g_iBottomOffsetY)
 
 			If $sBuildingText <> "" Then
 				SetDebugLog("Clearing Building Text", $COLOR_INFO)
@@ -115,3 +116,37 @@ Func CloseWindow($IsinPet = False, $IsinLab = False, $IsToClickRight = False, $i
 
 	Return False
 EndFunc   ;==>CloseWindow
+
+Func CloseWindow2($iLoopCount = 5, $iDelay = 200, $aSearchArea = Default, $bDebuglog = $g_bDebugSetlog, $bDebugImageSave = $g_bDebugImageSave)
+	Local $aiButton
+	Local $sImageDir = @ScriptDir & "\imgxml\Windows\CloseButton\*"
+
+	If $aSearchArea = Default Then
+		Local $iMidPointX = Round($g_iGAME_WIDTH / 2)
+		Local $iMidPointY = Round($g_iGAME_HEIGHT / 2)
+
+		Local $iX1 = $iMidPointX
+		Local $iX2 = $g_iGAME_WIDTH
+		Local $iY1 = 0
+		Local $iY2 = $iMidPointY
+
+		$aSearchArea = $iX1 & "," & $iY1 & "|" & $iX2 & "," & $iY1 & "|" & $iX2 & "," & $iY2 & "|" & $iX1 & "," & $iY2
+	EndIf
+
+	For $i = 1 To $iLoopCount
+		$aiButton = decodeSingleCoord(findImage("CloseWindow", $sImageDir, $aSearchArea, 1, True))
+
+		If $bDebugImageSave Then SaveDebugDiamondImage("CloseWindow", $aSearchArea)
+
+		If IsArray($aiButton) And UBound($aiButton) >= 2 Then
+			ClickP($aiButton, 1)
+			Return True
+		EndIf
+
+		If _Sleep($iDelay) Then Return
+	Next
+
+	If _Sleep($iDelay) Then Return
+
+	Return False
+EndFunc   ;==>CloseWindow2

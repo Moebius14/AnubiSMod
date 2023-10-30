@@ -5,7 +5,7 @@
 ; Parameters ....:
 ; Return values .:
 ; Author ........:
-; Modified ......: Moebius14 (08-2023)
+; Modified ......: Moebius14 (10-2023)
 ; Remarks .......: This file is part of MyBotRun. Copyright 2015-2023
 ;                  MyBotRun is distributed under the terms of the GNU GPL
 ; Related .......: ---
@@ -44,19 +44,19 @@ Func _AutoUpgrade()
 		EndIf
 
 		; check if builder head is clickable
-		If Not (_ColorCheck(_GetPixelColor(275, 15, True), "F5F5ED", 20) = True) Then
+		If Not (_ColorCheck(_GetPixelColor(383, 15, True), "F5F5ED", 20) = True) Then
 			SetLog("Unable to find the Builder menu button... Exiting Auto Upgrade...", $COLOR_ERROR)
 			ExitLoop
 		EndIf
 
 		; open the builders menu
-		Click(295, 30)
+		Click(435, 30)
 		If _Sleep($DELAYAUTOUPGRADEBUILDING1) Then Return
 
 		; search for ressource images in builders menu, if found, a possible upgrade is available
 		Local $aTmpCoord
 		Local $IsElix = False
-		$aTmpCoord = QuickMIS("CNX", $g_sImgResourceIcon, 310, $g_iNextLineOffset, 450, 360 + $g_iMidOffsetY)
+		$aTmpCoord = QuickMIS("CNX", $g_sImgResourceIcon, 410, $g_iNextLineOffset, 550, 370 + $g_iMidOffsetY)
 		_ArraySort($aTmpCoord, 0, 0, 0, 2) ;sort by Y coord
 		If IsArray($aTmpCoord) And UBound($aTmpCoord) > 0 Then
 			$g_iNextLineOffset = $aTmpCoord[0][2] + 14
@@ -90,7 +90,7 @@ Func _AutoUpgrade()
 		Click($aTmpCoord[0][1] + 20, $aTmpCoord[0][2])
 		If _Sleep($DELAYAUTOUPGRADEBUILDING1) Then Return
 
-		$g_aUpgradeNameLevel = BuildingInfo(242, 488 + $g_iBottomOffsetY)
+		$g_aUpgradeNameLevel = BuildingInfo(242, 468 + $g_iBottomOffsetY)
 		Local $aUpgradeButton, $aTmpUpgradeButton
 
 		; check if any wrong click by verifying the presence of the Upgrade button (the hammer)
@@ -237,52 +237,16 @@ Func _AutoUpgrade()
 			$g_aUpgradeResourceCostDuration[0] = "Gold"
 			$g_aUpgradeResourceCostDuration[1] = getCostsUpgrade(372, 474 + $g_iMidOffsetY) ; get cost
 			$g_aUpgradeResourceCostDuration[2] = getBldgUpgradeTime(190, 401 + $g_iMidOffsetY) ; get duration
-			Local $g_Xtype = 372
-			Local $g_Ytype = 475 + $g_iMidOffsetY
 		Else
-			Switch $g_aUpgradeNameLevel[1]
-				Case "Barbarian King", "Archer Queen", "Grand Warden", "Royal Champion"
-					$g_aUpgradeResourceCostDuration[0] = QuickMIS("N1", $g_sImgAUpgradeRes, 730, 535 + $g_iMidOffsetY, 790, 595 + $g_iMidOffsetY) ; get resource
-					$g_aUpgradeResourceCostDuration[1] = getCostsUpgradeHeroe(630, 552 + $g_iMidOffsetY) ; get cost
-					$g_aUpgradeResourceCostDuration[2] = getHeroUpgradeTime(595, 490 + $g_iMidOffsetY) ; get duration
-					Local $g_Xtype = 630
-					Local $g_Ytype = 553 + $g_iMidOffsetY
-				Case Else
-					$g_aUpgradeResourceCostDuration[0] = QuickMIS("N1", $g_sImgAUpgradeRes, 470, 510 + $g_iMidOffsetY, 525, 570 + $g_iMidOffsetY) ; get resource
-					$g_aUpgradeResourceCostDuration[1] = getCostsUpgrade(345, 527 + $g_iMidOffsetY) ; get cost
-					$g_aUpgradeResourceCostDuration[2] = getBldgUpgradeTime(115, 299 + $g_iMidOffsetY) ; get duration
-					Local $g_Xtype = 345
-					Local $g_Ytype = 528 + $g_iMidOffsetY
-			EndSwitch
+			$g_aUpgradeResourceCostDuration[0] = QuickMIS("N1", $g_sImgAUpgradeRes, 670, 535 + $g_iMidOffsetY, 700, 565 + $g_iMidOffsetY) ; get resource
+			$g_aUpgradeResourceCostDuration[1] = getCostsUpgrade(552, 541 + $g_iMidOffsetY) ; get cost
+			$g_aUpgradeResourceCostDuration[2] = getBldgUpgradeTime(730, 544 + $g_iMidOffsetY) ; get duration
 		EndIf
-
-		Local $g_ReadCorrect = StringRight($g_aUpgradeResourceCostDuration[1], 1)
 
 		; if one of the value is empty, there is an error, we must exit Auto Upgrade
 		For $i = 0 To 2
 			If $g_aUpgradeNameLevel[1] = "Wall" And $i = 2 Then ExitLoop ; Wall Case : No Upgrade Time
-			If $g_aUpgradeResourceCostDuration[$i] = "" Or ($i = 1 And ($g_aUpgradeResourceCostDuration[$i] < 1000 Or $g_ReadCorrect <> 0)) Then
-				If $i = 1 Then
-					Switch $g_aUpgradeNameLevel[1]
-						Case "Barbarian King", "Archer Queen", "Grand Warden", "Royal Champion"
-							$g_aUpgradeResourceCostDuration[$i] = getCostsUpgrade1Heroe($g_Xtype, $g_Ytype)
-							$g_ReadCorrect = StringRight($g_aUpgradeResourceCostDuration[$i], 1)
-							If $g_aUpgradeResourceCostDuration[$i] = "" Or $g_aUpgradeResourceCostDuration[$i] < 1000 Or $g_ReadCorrect <> 0 Then
-								$g_aUpgradeResourceCostDuration[$i] = getCostsUpgrade2Heroe($g_Xtype, $g_Ytype)
-								$g_ReadCorrect = StringRight($g_aUpgradeResourceCostDuration[$i], 1)
-								If $g_ReadCorrect <> 0 Then $g_aUpgradeResourceCostDuration[$i] = ""
-							EndIf
-						Case Else
-							$g_aUpgradeResourceCostDuration[$i] = getCostsUpgrade1($g_Xtype, $g_Ytype)
-							$g_ReadCorrect = StringRight($g_aUpgradeResourceCostDuration[$i], 1)
-							If $g_aUpgradeResourceCostDuration[$i] = "" Or $g_aUpgradeResourceCostDuration[$i] < 1000 Or $g_ReadCorrect <> 0 Then
-								$g_aUpgradeResourceCostDuration[$i] = getCostsUpgrade2($g_Xtype, $g_Ytype)
-								$g_ReadCorrect = StringRight($g_aUpgradeResourceCostDuration[$i], 1)
-								If $g_ReadCorrect <> 0 Then $g_aUpgradeResourceCostDuration[$i] = ""
-							EndIf
-					EndSwitch
-					If $g_aUpgradeResourceCostDuration[$i] <> "" And $g_aUpgradeResourceCostDuration[$i] > 0 Then ContinueLoop
-				EndIf
+			If $g_aUpgradeResourceCostDuration[$i] = "" Then
 				SaveDebugImage("UpgradeReadError_")
 				SetLog("Error when trying to get upgrade details, looking next...", $COLOR_ERROR)
 				ClickAway()
@@ -338,12 +302,7 @@ Func _AutoUpgrade()
 				ContinueLoop
 			EndIf
 		Else
-			Switch $g_aUpgradeNameLevel[1]
-				Case "Barbarian King", "Archer Queen", "Grand Warden", "Royal Champion"
-					Click(705, 570 + $g_iMidOffsetY)
-				Case Else
-					Click(430, 540 + $g_iMidOffsetY)
-			EndSwitch
+			Click(630, 540 + $g_iMidOffsetY)
 		EndIf
 
 		If _Sleep(1000) Then Return

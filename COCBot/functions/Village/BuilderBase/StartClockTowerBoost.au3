@@ -15,7 +15,7 @@
 #include-once
 
 Func ClockTimeGained()
-	Local $aResult = BuildingInfo(242, 488 + $g_iBottomOffsetY)
+	Local $aResult = BuildingInfo(242, 468 + $g_iBottomOffsetY)
 	Local $TowerClockLevel = $aResult[2]
 	SetLog("Clock Tower Level " & $TowerClockLevel & " Detected")
 	Local $ClockTimeGained = 0
@@ -177,9 +177,10 @@ Func CheckBBuilderTime()
 
 	If $g_iFreeBuilderCountBB > 0 Then Return False ; Change july 2023 : All Builders have work To use Clock Potion.
 
-	ClickMainBBuilder()
+	If Not ClickOnBuilder2() Then Return False
+
 	If _Sleep(500) Then Return
-	If QuickMIS("BC1", $g_sImgAUpgradeHour, 430, 105, 510, 140) Then
+	If QuickMIS("BC1", $g_sImgAUpgradeHour, 550, 105, 630, 140) Then
 		Local $sUpgradeTime = getBuilderLeastUpgradeTime($g_iQuickMISX - 50, $g_iQuickMISY - 8)
 		Local $mUpgradeTime = ConvertOCRTime("Least Upgrade", $sUpgradeTime, False)
 		If $mUpgradeTime > 540 Then
@@ -191,77 +192,29 @@ Func CheckBBuilderTime()
 	Return False
 EndFunc   ;==>CheckBBuilderTime
 
-Func ClickMainBBuilder($bTest = False, $Counter = 3)
-	Local $b_WindowOpened = False
-	If Not $g_bRunState Then Return
-	; open the builders menu
-	If Not _ColorCheck(_GetPixelColor(440, 73, True), "FFFFFF", 50) Then
-		Click(383, 30)
-		If _Sleep(1000) Then Return
-	EndIf
+Func ClickOnBuilder2()
 
-	If IsBBuilderMenuOpen() Then
-		SetDebugLog("Open Upgrade Window, Success", $COLOR_SUCCESS)
-		$b_WindowOpened = True
+	; Master Builder Check pixel [i] icon
+	Local Const $aMasterBuilder[4] = [463, 10, 0x7ABDE3, 10]
+	; Debug Stuff
+	Local $sDebugText = ""
+
+	; Check the Color and click
+	If _CheckPixel($aMasterBuilder, True) Then
+		; Click on Builder
+		Click($aMasterBuilder[0], $aMasterBuilder[1], 1)
+		If _Sleep(2000) Then Return
+		; Let's verify if the Suggested Window open
+		If QuickMIS("BC1", $g_sImgAutoUpgradeWindow, 455, 50, 585, 100) Then
+			Return True
+		Else
+			$sDebugText = "Window didn't opened"
+		EndIf
 	Else
-		For $i = 1 To $Counter
-			SetLog("Upgrade Window didn't open, trying again!", $COLOR_DEBUG)
-			If IsFullBBScreenWindow() Then
-				Click(825, 45)
-				If _Sleep(1000) Then Return
-			EndIf
-			Click(383, 30)
-			If _Sleep(1000) Then Return
-			If IsBBuilderMenuOpen() Then
-				$b_WindowOpened = True
-				ExitLoop
-			EndIf
-		Next
-		If Not $b_WindowOpened Then
-			SetLog("Something is wrong with upgrade window, already tried 3 times!", $COLOR_DEBUG)
-		EndIf
-	EndIf
-	Return $b_WindowOpened
-EndFunc   ;==>ClickMainBBuilder
-
-Func IsBBuilderMenuOpen()
-	Local $bRet = False
-	Local $aBorder0[4] = [400, 73, 0x8C9CB6, 20]
-	Local $aBorder1[4] = [400, 73, 0xC0C9D3, 20]
-	Local $aBorder2[4] = [400, 73, 0xBEBFBC, 20]
-	Local $aBorder3[4] = [400, 73, 0xFFFFFF, 20]
-	Local $aBorder4[4] = [400, 73, 0xF7F8F5, 20]
-	Local $aBorder5[4] = [400, 73, 0xC3CBD9, 20]
-	Local $aBorder6[4] = [400, 73, 0xF4F4F5, 20]
-	Local $sTriangle
-
-	For $i = 0 To 5
-		If _CheckPixel($aBorder0, True) Or _CheckPixel($aBorder1, True) Or _CheckPixel($aBorder2, True) Or _CheckPixel($aBorder3, True) Or _CheckPixel($aBorder4, True) Or _
-				_CheckPixel($aBorder5, True) Or _CheckPixel($aBorder6, True) Then
-			SetDebugLog("Found Border Color: " & _GetPixelColor($aBorder0[0], $aBorder0[1], True), $COLOR_ACTION)
-			$bRet = True ;got correct color for border
-			ExitLoop
-		EndIf
-		_Sleep(500)
-	Next
-
-	If Not $bRet Then ;lets re check if border color check not success
-		$sTriangle = getOcrAndCapture("coc-buildermenu-main", 415, 60, 430, 73)
-		SetDebugLog("$sTriangle: " & $sTriangle)
-		If $sTriangle = "^" Then $bRet = True
+		$sDebugText = "BB Pixel problem"
 	EndIf
 
-	Return $bRet
-EndFunc   ;==>IsBBuilderMenuOpen
-
-Func IsFullBBScreenWindow()
-	Local $result
-	$result = WaitforPixel(823, 49, 825, 51, "FFFFFF", 10, 2) Or WaitforPixel(823, 49, 825, 51, "8C9CB6", 10, 2) Or WaitforPixel(823, 49, 825, 51, "C0C9D3", 10, 2) Or _
-			WaitforPixel(823, 49, 825, 51, "BEBFB", 10, 2) Or WaitforPixel(823, 49, 825, 51, "F7F8F5", 10, 2) Or WaitforPixel(823, 49, 825, 51, "C3CBD9", 10, 2)
-
-	If $result Then
-		If $g_bDebugSetlog Or $g_bDebugClick Then SetLog("Found FullScreen Window", $COLOR_ACTION)
-		Return True
-	EndIf
+	If $sDebugText <> "" Then SetLog("Problem on Suggested Upg Window: [" & $sDebugText & "]", $COLOR_ERROR)
 	Return False
-EndFunc   ;==>IsFullBBScreenWindow
+
+EndFunc   ;==>ClickOnBuilder

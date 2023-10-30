@@ -74,7 +74,7 @@ Func InitializeMainGUI($bGuiModeUpdate = False)
 	selectProfile() ; Choose the profile
 
 	; Read saved settings
-	If FileExists($g_sProfileConfigPath) Or FileExists($g_sProfileBuildingPath) Then
+	If FileExists($g_sProfileConfigPath) Or FileExists($g_sProfileBuildingPath) Or FileExists($g_sProfileClanGamesPath) Then
 		readConfig()
 		applyConfig()
 	EndIf

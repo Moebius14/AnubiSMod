@@ -192,10 +192,10 @@ EndFunc   ;==>getArmyHeroCount
 
 Func ArmyHeroStatus($i)
 	Local $sResult = ""
-	Local Const $aHeroesRect[$eHeroCount][4] = [[545, 310 + $g_iMidOffsetY, 614, 370 + $g_iMidOffsetY], _
-			[619, 310 + $g_iMidOffsetY, 688, 370 + $g_iMidOffsetY], _
-			[692, 310 + $g_iMidOffsetY, 761, 370 + $g_iMidOffsetY], _
-			[766, 310 + $g_iMidOffsetY, 836, 370 + $g_iMidOffsetY]]                                     ; Review
+	Local Const $aHeroesRect[$eHeroCount][4] = [[543, 315 + $g_iMidOffsetY, 610, 375 + $g_iMidOffsetY], _
+			[615, 315 + $g_iMidOffsetY, 682, 375 + $g_iMidOffsetY], _
+			[686, 315 + $g_iMidOffsetY, 755, 375 + $g_iMidOffsetY], _
+			[758, 315 + $g_iMidOffsetY, 825, 375 + $g_iMidOffsetY]]                                     ; Review
 
 	; Perform the search
 	_CaptureRegion2($aHeroesRect[$i][0], $aHeroesRect[$i][1], $aHeroesRect[$i][2], $aHeroesRect[$i][3])
@@ -380,6 +380,16 @@ Func LabGuiDisplay() ; called from main loop to get an early status for indictor
 		;============================================
 		Return
 	EndIf
+
+	$GobBuilderPresent = False
+	$GobBuilderOffsetRunning = 0
+	$GobBuilderOffsetRunningBooks = 0
+	If UBound(decodeSingleCoord(FindImageInPlace2("GobBuilder", $g_sImgGobBuilder, 275, 45, 430, 70, True))) > 1 Then
+		$GobBuilderPresent = True
+		$GobBuilderOffsetRunning = 355
+		$GobBuilderOffsetRunningBooks = 435
+	EndIf
+
 	BuildingClickP($g_aiLaboratoryPos, "#0197") ;Click Laboratory
 	If _Sleep(1500) Then Return ; Wait for window to open
 	; Find Research Button
@@ -408,7 +418,7 @@ Func LabGuiDisplay() ; called from main loop to get an early status for indictor
 	EndIf
 
 	; check for upgrade in process - look for green in finish upgrade with gems button
-	If _ColorCheck(_GetPixelColor(775, 135 + $g_iMidOffsetY, True), Hex(0xA2CB6C, 6), 20) Then ; Look for light green in upper right corner of lab window.
+	If _ColorCheck(_GetPixelColor(775 - $GobBuilderOffsetRunning, 135 + $g_iMidOffsetY, True), Hex(0xA1CA6B, 6), 20) Then ; Look for light green in upper right corner of lab window.
 		SetLog("Laboratory is Running", $COLOR_INFO)
 		;==========Hide Red  Show Green Hide Gray===
 		GUICtrlSetState($g_hPicLabGray, $GUI_HIDE)
@@ -416,7 +426,11 @@ Func LabGuiDisplay() ; called from main loop to get an early status for indictor
 		GUICtrlSetState($g_hPicLabGreen, $GUI_SHOW)
 		;===========================================
 		If _Sleep($DELAYLABORATORY2) Then Return
-		Local $sLabTimeOCR = getRemainTLaboratory2(250, 210 + $g_iMidOffsetY)
+		If $GobBuilderPresent Then
+			Local $sLabTimeOCR = getRemainTLaboratoryGob(210, 190 + $g_iMidOffsetY)
+		Else
+			Local $sLabTimeOCR = getRemainTLaboratory2(250, 210 + $g_iMidOffsetY)
+		EndIf
 		Local $iLabFinishTime = ConvertOCRTime("Lab Time", $sLabTimeOCR, False) + 1
 		SetDebugLog("$sLabTimeOCR: " & $sLabTimeOCR & ", $iLabFinishTime = " & $iLabFinishTime & " m")
 		If $iLabFinishTime > 0 Then
@@ -431,7 +445,7 @@ Func LabGuiDisplay() ; called from main loop to get an early status for indictor
 		If Not $bUseBooks And $g_bUseBOE And $iLabFinishTimeDay >= $g_iUseBOETime Then
 			SetLog("Use Book of Everything Enabled", $COLOR_INFO)
 			SetLog("Lab Upgrade time > than " & $g_iUseBOETime & " day", $COLOR_INFO)
-			If QuickMIS("BFI", $g_sImgBooks & "BOE*", 720, 225 + $g_iMidOffsetY, 770, 270 + $g_iMidOffsetY) Then
+			If QuickMIS("BFI", $g_sImgBooks & "BOE*", 720 - $GobBuilderOffsetRunningBooks, 225 + $g_iMidOffsetY, 770 - $GobBuilderOffsetRunningBooks, 275 + $g_iMidOffsetY) Then
 				Click($g_iQuickMISX, $g_iQuickMISY)
 				If _Sleep(1000) Then Return
 				If QuickMIS("BC1", $g_sImgBooks, 400, 360 + $g_iMidOffsetY, 515, 450 + $g_iMidOffsetY) Then
@@ -455,7 +469,7 @@ Func LabGuiDisplay() ; called from main loop to get an early status for indictor
 		If Not $bUseBooks And $g_bUseBOS And $iLabFinishTimeDay >= $g_iUseBOSTime Then
 			SetLog("Use Book of Spells Enabled", $COLOR_INFO)
 			SetLog("Lab Upgrade time > than " & $g_iUseBOSTime & " day", $COLOR_INFO)
-			If QuickMIS("BFI", $g_sImgBooks & "BOS*", 720, 225 + $g_iMidOffsetY, 770, 270 + $g_iMidOffsetY) Then
+			If QuickMIS("BFI", $g_sImgBooks & "BOS*", 720 - $GobBuilderOffsetRunningBooks, 225 + $g_iMidOffsetY, 770 - $GobBuilderOffsetRunningBooks, 275 + $g_iMidOffsetY) Then
 				Click($g_iQuickMISX, $g_iQuickMISY)
 				If _Sleep(1000) Then Return
 				If QuickMIS("BC1", $g_sImgBooks, 400, 360 + $g_iMidOffsetY, 515, 450 + $g_iMidOffsetY) Then
@@ -479,7 +493,7 @@ Func LabGuiDisplay() ; called from main loop to get an early status for indictor
 		If Not $bUseBooks And $g_bUseBOF And $iLabFinishTimeDay >= $g_iUseBOFTime Then
 			SetLog("Use Book of Fighting Enabled", $COLOR_INFO)
 			SetLog("Lab Upgrade time > than " & $g_iUseBOFTime & " day", $COLOR_INFO)
-			If QuickMIS("BFI", $g_sImgBooks & "BOF*", 720, 225 + $g_iMidOffsetY, 770, 270 + $g_iMidOffsetY) Then
+			If QuickMIS("BFI", $g_sImgBooks & "BOF*", 720 - $GobBuilderOffsetRunningBooks, 225 + $g_iMidOffsetY, 770 - $GobBuilderOffsetRunningBooks, 275 + $g_iMidOffsetY) Then
 				Click($g_iQuickMISX, $g_iQuickMISY)
 				If _Sleep(1000) Then Return
 				If QuickMIS("BC1", $g_sImgBooks, 400, 360 + $g_iMidOffsetY, 515, 450 + $g_iMidOffsetY) Then
@@ -514,7 +528,7 @@ Func LabGuiDisplay() ; called from main loop to get an early status for indictor
 		If ProfileSwitchAccountEnabled() Then SwitchAccountVariablesReload("Save") ; saving $asLabUpgradeTime[$g_iCurAccount] = $g_sLabUpgradeTime for instantly displaying in multi-stats
 		CloseWindow(False, True)
 		Return True
-	ElseIf _ColorCheck(_GetPixelColor(775, 170 + $g_iMidOffsetY, True), Hex(0x8088B0, 6), 20) Then ; Look for light purple in upper right corner of lab window.
+	ElseIf _ColorCheck(_GetPixelColor(775 - $GobBuilderOffsetRunning, 170 + $g_iMidOffsetY, True), Hex(0x8089AF, 6), 20) Then ; Look for light purple in upper right corner of lab window.
 		SetLog("Laboratory has Stopped", $COLOR_INFO)
 		If $g_bNotifyTGEnable And $g_bNotifyAlertLaboratoryIdle Then NotifyPushToTelegram($g_sNotifyOrigin & " | " & GetTranslatedFileIni("MBR Func_Notify", "Laboratory-Idle_Info_01", "Laboratory Idle") & "%0A" & GetTranslatedFileIni("MBR Func_Notify", "Laboratory-Idle_Info_02", "Laboratory has Stopped"))
 		CloseWindow()

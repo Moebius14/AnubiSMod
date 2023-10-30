@@ -56,7 +56,7 @@ Func getArmySpellCapacity($bOpenArmyWindow = False, $bCloseArmyWindow = False, $
 				$g_iTotalSpells = Number($aGetSpellCap[2])
 				$g_iCurrentSpells = Number($aGetSpellCap[1])
 			Else
-				SetLog("Error in getArmySpellCapacity: Couldn't reall all Capacity Values", $COLOR_ERROR) ; log if there is read error
+				SetLog("Error in getArmySpellCapacity: Couldn't read all Capacity Values", $COLOR_ERROR) ; log if there is read error
 				$g_iCurrentSpells = 0
 				$g_iTotalSpells = $g_iTotalSpellValue
 			EndIf

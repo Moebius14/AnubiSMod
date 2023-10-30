@@ -26,7 +26,7 @@ Func BoostStructure($sName, $sOcrName, $aPos, ByRef $icmbBoostValue, $cmbBoostCt
 		BuildingClickP($aPos, "#0462")
 		If _Sleep($DELAYBOOSTHEROES2) Then Return
 		ForceCaptureRegion()
-		Local $aResult = BuildingInfo(242, 488 + $g_iBottomOffsetY)
+		Local $aResult = BuildingInfo(242, 468 + $g_iBottomOffsetY)
 		If $aResult[0] > 1 Then
 			Local $sN = $aResult[1] ; Store bldg name
 			Local $sL = $aResult[2] ; Sotre bdlg level
@@ -98,7 +98,7 @@ Func BoostPotion($sName, $sOcrName, $aPos, ByRef $icmbBoostValue, $cmbBoostCtrl)
 	BuildingClick($g_aiTownHallPos[0], $g_aiTownHallPos[1])
 	If _Sleep($DELAYBUILDINGINFO1) Then Return
 
-	Local $BuildingInfo = BuildingInfo(242, 488 + $g_iBottomOffsetY)
+	Local $BuildingInfo = BuildingInfo(242, 468 + $g_iBottomOffsetY)
 
 	If $BuildingInfo[1] = "Town Hall" Then
 		$ok = True
@@ -111,12 +111,12 @@ Func BoostPotion($sName, $sOcrName, $aPos, ByRef $icmbBoostValue, $cmbBoostCtrl)
 		Sleep(Random(1000, 1500, 1))
 		BuildingClick($g_aiTownHallPos[0], $g_aiTownHallPos[1])
 		If _Sleep($DELAYBUILDINGINFO1) Then Return
-		$BuildingInfo = BuildingInfo(242, 488 + $g_iBottomOffsetY)
+		$BuildingInfo = BuildingInfo(242, 468 + $g_iBottomOffsetY)
 		If $BuildingInfo[1] = "Town Hall" Then $ok = True
 	EndIf
 
 	If $ok Then
-		Local $sTile = "BoostPotion_0_90.xml", $sRegionToSearch = "172,238,684,469"
+		Local $sTile = "BoostPotion_0_90.xml", $sRegionToSearch = "172,238,684,439"
 		Local $Boost = findButton("MagicItems")
 		If UBound($Boost) > 1 Then
 			If $g_bDebugSetlog Then SetDebugLog("Magic Items Button X|Y = " & $Boost[0] & "|" & $Boost[1], $COLOR_DEBUG)
@@ -127,12 +127,12 @@ Func BoostPotion($sName, $sOcrName, $aPos, ByRef $icmbBoostValue, $cmbBoostCtrl)
 				If $g_bDebugSetlog Then SetDebugLog("Boost Potion Button X|Y = " & $Boost[0] & "|" & $Boost[1], $COLOR_DEBUG)
 				ClickP($Boost)
 				If _Sleep($DELAYBOOSTHEROES1) Then Return
-				If Not _ColorCheck(_GetPixelColor(255, 535, True), Hex(0xFFFFFF, 6), 25) Then
+				If Not _ColorCheck(_GetPixelColor(256, 500 + $g_iMidOffsetY, True), Hex(0xFFFFFF, 6), 25) Then
 					SetLog("Cannot find/verify 'Use' Button", $COLOR_WARNING)
 					ClickAway()
 					Return False ; Exit Function
 				EndIf
-				Click(260, 536) ; Click on 'Use'
+				Click(260, 505 + $g_iMidOffsetY) ; Click on 'Use'
 				If _Sleep($DELAYBOOSTHEROES2) Then Return
 				If Not $g_bRunState Then Return
 				$Boost = findButton("BoostPotionGreen")
@@ -196,22 +196,22 @@ Func CheckBuilderPotion()
 	Local $IsForge = False
 	ClickMainBuilder()
 	If _Sleep(500) Then Return
-	If QuickMIS("BC1", $g_sImgAUpgradeHour, 330, 105, 440, 140) Then
+	If QuickMIS("BC1", $g_sImgAUpgradeHour, 430, 75 + $g_iMidOffsetY, 540, 110 + $g_iMidOffsetY) Then
 		Local $sUpgradeTime = getBuilderLeastUpgradeTime($g_iQuickMISX - 50, $g_iQuickMISY - 8)
 		Local $mUpgradeTime = ConvertOCRTime("Least Upgrade", $sUpgradeTime, False)
 		If $mUpgradeTime > 540 Then
 			Click($g_iQuickMISX, $g_iQuickMISY)
 			If _Sleep(2000) Then Return
 
-			If QuickMIS("BC1", $g_sImgGeneralCloseButton, 715, 180, 760, 225) Then
+			If QuickMIS("BC1", $g_sImgGeneralCloseButton, 765, 130 + $g_iMidOffsetY, 815, 175 + $g_iMidOffsetY) Then
 				SetLog("Forge Time > 9h, will use Builder Potion", $COLOR_INFO)
 				$IsForge = True
 			Else
 				SetLog("Upgrade Time > 9h, will use Builder Potion", $COLOR_INFO)
 			EndIf
 
-			If QuickMIS("BC1", $g_sBoostBuilderInForge, 620, 470, 665, 520) Then
-				Click($g_iQuickMISX + 42, $g_iQuickMISY)
+			If QuickMIS("BC1", $g_sBoostBuilderInForge, 650, 450 + $g_iMidOffsetY, 720, 510 + $g_iMidOffsetY) Then
+				Click($g_iQuickMISX + 50, $g_iQuickMISY)
 				If _Sleep(1000) Then Return
 				If Not $g_bRunState Then Return
 				If ClickB("BoostConfirm") Then
@@ -285,8 +285,8 @@ Func ClickMainBuilder($bTest = False, $Counter = 3)
 	Local $b_WindowOpened = False
 	If Not $g_bRunState Then Return
 	; open the builders menu
-	If Not _ColorCheck(_GetPixelColor(350, 73, True), "FFFFFF", 50) Then
-		Click(292, 30)
+	If Not _ColorCheck(_GetPixelColor(385, 73, True), "FFFFFF", 50) Then
+		Click(402, 30)
 		If _Sleep(1000) Then Return
 	EndIf
 
@@ -296,11 +296,7 @@ Func ClickMainBuilder($bTest = False, $Counter = 3)
 	Else
 		For $i = 1 To $Counter
 			SetLog("Upgrade Window didn't open, trying again!", $COLOR_DEBUG)
-			If IsFullScreenWindow() Then
-				Click(825, 45)
-				If _Sleep(1000) Then Return
-			EndIf
-			Click(292, 30)
+			Click(402, 30)
 			If _Sleep(1000) Then Return
 			If IsBuilderMenuOpen() Then
 				$b_WindowOpened = True
@@ -336,22 +332,10 @@ Func IsBuilderMenuOpen()
 	Next
 
 	If Not $bRet Then ;lets re check if border color check not success
-		$sTriangle = getOcrAndCapture("coc-buildermenu-main", 320, 60, 345, 73)
+		$sTriangle = getOcrAndCapture("coc-buildermenu-main", 420, 60, 445, 73)
 		SetDebugLog("$sTriangle: " & $sTriangle)
 		If $sTriangle = "^" Then $bRet = True
 	EndIf
 
 	Return $bRet
 EndFunc   ;==>IsBuilderMenuOpen
-
-Func IsFullScreenWindow()
-	Local $result
-	$result = WaitforPixel(823, 49, 825, 51, "FFFFFF", 10, 2) Or WaitforPixel(823, 49, 825, 51, "8C9CB6", 10, 2) Or WaitforPixel(823, 49, 825, 51, "C0C9D3", 10, 2) Or _
-			WaitforPixel(823, 49, 825, 51, "BEBFB", 10, 2) Or WaitforPixel(823, 49, 825, 51, "F7F8F5", 10, 2) Or WaitforPixel(823, 49, 825, 51, "C3CBD9", 10, 2)
-
-	If $result Then
-		If $g_bDebugSetlog Or $g_bDebugClick Then SetLog("Found FullScreen Window", $COLOR_ACTION)
-		Return True
-	EndIf
-	Return False
-EndFunc   ;==>IsFullScreenWindow

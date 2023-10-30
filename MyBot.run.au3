@@ -342,6 +342,7 @@ Func SetupProfileFolder()
 	$g_sProfileConfigPath = $g_sProfilePath & "\" & $g_sProfileCurrentName & "\config.ini"
 	$g_sProfileBuildingStatsPath = $g_sProfilePath & "\" & $g_sProfileCurrentName & "\stats_buildings.ini"
 	$g_sProfileBuildingPath = $g_sProfilePath & "\" & $g_sProfileCurrentName & "\building.ini"
+	$g_sProfileClanGamesPath = $g_sProfilePath & "\" & $g_sProfileCurrentName & "\clangames.ini"
 	$g_sProfileLogsPath = $g_sProfilePath & "\" & $g_sProfileCurrentName & "\Logs\"
 	$g_sProfileLootsPath = $g_sProfilePath & "\" & $g_sProfileCurrentName & "\Loots\"
 	$g_sProfileTempPath = $g_sProfilePath & "\" & $g_sProfileCurrentName & "\Temp\"
@@ -790,7 +791,7 @@ Func runBot() ;Bot that runs everything in order
 			Next
 
 			If $g_bRequestTroopsEnable And ($g_abSearchCastleWaitEnable[$DB] Or $g_abSearchCastleWaitEnable[$LB]) And ((Not $bChkUseOnlyCCMedals And _
-					$g_aiCmbCCDecisionThen = 1) Or $bChkUseOnlyCCMedals) Then
+					$g_aiCmbCCDecisionThen = 1 And $g_aiCmbCCDecisionTime > 0) Or $bChkUseOnlyCCMedals) Then
 				If Number($g_iLootCCMedal) = 0 Then CatchCCMedals()
 			EndIf
 
@@ -1044,7 +1045,7 @@ Func _Idle() ;Sequence that runs until Full Army
 		If $g_CheckModVersion Then CheckVersionStatus()
 
 		If $g_bRequestTroopsEnable And ($g_abSearchCastleWaitEnable[$DB] Or $g_abSearchCastleWaitEnable[$LB]) And ((Not $bChkUseOnlyCCMedals And _
-				$g_aiCmbCCDecisionThen = 1) Or $bChkUseOnlyCCMedals) Then
+				$g_aiCmbCCDecisionThen = 1 And $g_aiCmbCCDecisionTime > 0) Or $bChkUseOnlyCCMedals) Then
 			If Number($g_iLootCCMedal) = 0 Then CatchCCMedals()
 		EndIf
 
@@ -1255,6 +1256,9 @@ Func AttackMain() ;Main control for attack functions
 			ReturnHome($g_bTakeLootSnapShot)
 			If Not $g_bRunState Then Return
 			If _Sleep($DELAYATTACKMAIN2) Then Return
+			If $g_abSearchCastleWaitEnable[$DB] Or $g_abSearchCastleWaitEnable[$LB] Then
+				If Not $bChkUseOnlyCCMedals And $g_aiCmbCCDecisionTime > 0 Then $CCWaitChrono = 0
+			EndIf
 			Return True
 		Else
 			SetLog("None of search condition match:", $COLOR_WARNING)
@@ -1578,7 +1582,7 @@ Func FirstCheck()
 	If Not $g_bRunState Then Return
 
 	If (Not $g_bChkEnableAutoUpgradeCC Or (Not $g_bChkEnableSmartSwitchCC And $g_bChkEnableAutoUpgradeCC)) And $bChkUseOnlyCCMedals And $g_bRequestTroopsEnable And _
-			($g_abSearchCastleWaitEnable[$DB] Or $g_abSearchCastleWaitEnable[$LB]) And ((Not $bChkUseOnlyCCMedals And $g_aiCmbCCDecisionThen = 1) Or _
+			($g_abSearchCastleWaitEnable[$DB] Or $g_abSearchCastleWaitEnable[$LB]) And ((Not $bChkUseOnlyCCMedals And $g_aiCmbCCDecisionThen = 1 And $g_aiCmbCCDecisionTime > 0) Or _
 			$bChkUseOnlyCCMedals) And Not $g_bFirstStartForAll Then CatchCCMedals()
 	If _Sleep($DELAYRUNBOT1) Then Return
 	If Not $g_bRunState Then Return
@@ -1622,9 +1626,6 @@ Func FirstCheck()
 				Setlog("Before any other routine let's attack!", $COLOR_INFO)
 				If Not $g_bRunState Then Return
 				AttackMain()
-				If $g_abSearchCastleWaitEnable[$DB] Or $g_abSearchCastleWaitEnable[$LB] Then
-					If Not $bChkUseOnlyCCMedals And $g_aiCmbCCDecisionTime > 0 Then $CCWaitChrono = 0
-				EndIf
 				$g_bSkipFirstZoomout = False
 				If $g_bOutOfGold Then
 					SetLog("Switching to Halt Attack, Stay Online/Collect mode", $COLOR_ERROR)

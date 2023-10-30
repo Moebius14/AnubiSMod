@@ -18,8 +18,8 @@ Func checkObstacles($bBuilderBase = Default) ;Checks if something is in the way 
 	If $bBuilderBase = Default Then $bBuilderBase = $g_bStayOnBuilderBase
 	Static $iRecursive = 0
 
-	If UBound(decodeSingleCoord(FindImageInPlace2("MinorUpdate", $g_sImgCOCUpdate, 220, 165 + $g_iMidOffsetY, 350, 260 + $g_iMidOffsetY, True))) > 1 Then ; COC Minor Update
-		SetLog("Chief, we have minor COC Update!", $COLOR_INFO)
+	If UBound(decodeSingleCoord(FindImageInPlace2("Update", $g_sImgCOCUpdate, 220, 165 + $g_iMidOffsetY, 350, 260 + $g_iMidOffsetY, True))) > 1 Then ; COC Minor Update
+		SetLog("Chief, we have COC Update!", $COLOR_INFO)
 		ClickAway()
 		If _Sleep($DELAYCHECKOBSTACLES1) Then Return
 	EndIf
@@ -52,9 +52,9 @@ Func _checkObstacles($bBuilderBase = False, $bRecursive = False) ;Checks if some
 		If checkObstacles_GfxError() Then Return True
 	EndIf
 
-	If _ColorCheck(_GetPixelColor(825, 170 + $g_iMidOffsetY, $g_bCapturePixel), Hex(0x882C1E, 6), 20) Then
+	If _ColorCheck(_GetPixelColor(810, 185 + $g_iMidOffsetY, $g_bCapturePixel), Hex(0x892B1F, 6), 20) Then
 		SetDebugLog("checkObstacles: Found Window to close")
-		PureClick(440, 525 + $g_iMidOffsetY, 1, 0, "#0132") ;See if village was attacked or upgrades finished : Click Okay
+		PureClick(440, 510 + $g_iMidOffsetY, 1, 0, "#0132") ;See if village was attacked or upgrades finished : Click Okay
 		$g_abNotNeedAllTime[0] = True
 		$g_abNotNeedAllTime[1] = True
 		$g_bMinorObstacle = True
@@ -100,14 +100,14 @@ Func _checkObstacles($bBuilderBase = False, $bRecursive = False) ;Checks if some
 
 		If TestCapture() Then Return "Village is out of sync or inactivity or connection lost"
 
-		;;;;;;;;;;;;;;;;;;;; Connection Lost & Error & OOS & Inactivity ;;;;;;;;;;;;;;;;;;;;
-		Return CheckAllObstacles($g_bDebugImageSave, 0, 3, $bRecursive)
+		;;;;;;;;;;;;;;;;;;;; Connection Lost & Error & OOS & Inactivity & Major Update;;;;;;;;;;;;;;;;;;;;
+		Return CheckAllObstacles($g_bDebugImageSave, 0, 4, $bRecursive)
 		;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 	EndIf
 
 	;;;;;;;;;;;;;;;;;;;; Google Play Or COC Error ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-	If CheckAllObstacles($g_bDebugImageSave, 4, 5, $bRecursive) Then Return True
+	If CheckAllObstacles($g_bDebugImageSave, 5, 6, $bRecursive) Then Return True
 	;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 	If UBound(decodeSingleCoord(FindImageInPlace2("Maintenance", $g_sImgMaintenance, 250, 40, 500, 110, False))) > 1 Then ; Maintenance Break
@@ -355,7 +355,7 @@ Func ClashOfMagicAdvert($bDebugImageSave = $g_bDebugImageSave)
 	Return False
 EndFunc   ;==>ClashOfMagicAdvert
 
-Func CheckAllObstacles($bDebugImageSave = $g_bDebugImageSave, $MinType = 0, $MaxType = 5, $bRecursive = False)
+Func CheckAllObstacles($bDebugImageSave = $g_bDebugImageSave, $MinType = 0, $MaxType = 6, $bRecursive = False)
 
 	Local $bRet = False, $Ref
 	Local $aiIsAnotherDevice = False
@@ -365,14 +365,16 @@ Func CheckAllObstacles($bDebugImageSave = $g_bDebugImageSave, $MinType = 0, $Max
 	;; 1 : Error! (Out of Sync)/OOS Then Click on "Reload Game"
 	;; 2 : Rate Clash Of Clans Then click On "Never"
 	;; 3 : Important Notice Then Click On "OK"
-	;; 4 : Google Play Services Has Stopped Then Click on "OK"
-	;; 5 : Clash Of Clan isn't responding Then Reboot Emulator
-	;; 6 : Another Device Connected Then Wait $g_iAnotherDeviceWaitTime Then Click on "Reload"
+	;; 4 : Major Update, Stop bot
+	;; 5 : Google Play Services Has Stopped Then Click on "OK"
+	;; 6 : Clash Of Clan isn't responding Then Reboot Emulator
+	;; 7 : Another Device Connected Then Wait $g_iAnotherDeviceWaitTime Then Click on "Reload"
 
-	Local $aiObstacleType[7][7] = [["", "Detected Connection Lost!", $sImgConnectionLost, 170, 260, 400, 320], _
+	Local $aiObstacleType[8][7] = [["", "Detected Connection Lost!", $sImgConnectionLost, 170, 260, 400, 320], _
 			["", "Detected Out Of Sync!", $sImgOos, 330, 310, 460, 350], _
 			["", "Detected Rate Game!", $sImgRateGame, 170, 260, 400, 320], _
 			["", "Detected Important Notice!", $sImgNotice, 170, 250, 400, 300], _
+			["", "Detected Major Update!", $sImgMajorUpdate, 210, 270, 350, 360], _
 			["", "Detected Google Play Services Has Stopped!", $sImgGPServices, 280, 300, 410, 340], _
 			["", "Detected COC isn't Responding!!", $sImgClashNotResponding, 210, 240, 360, 310], _
 			["", "Detected Another Device Connected!!", $sImgDevice, 220, 300, 360, 360]]
@@ -395,10 +397,10 @@ Func CheckAllObstacles($bDebugImageSave = $g_bDebugImageSave, $MinType = 0, $Max
 			SetLog($aiObstacleType[$i][1] & " (in " & Round(TimerDiff($hTimer) / 1000, 2) & " seconds)", $COLOR_INFO)
 
 			If $i = 0 Then
-				$aiObstacleType[6][0] = decodeSingleCoord(FindImageInPlace2("Device", $aiObstacleType[6][2], $aiObstacleType[6][3], $aiObstacleType[6][4] + _
-						$g_iMidOffsetY, $aiObstacleType[6][5], $aiObstacleType[6][6] + $g_iMidOffsetY, False))
-				If IsArray($aiObstacleType[6][0]) And UBound($aiObstacleType[6][0], 1) = 2 Then
-					SetLog($aiObstacleType[6][1] & " (in " & Round(TimerDiff($hTimer) / 1000, 2) & " seconds)", $COLOR_INFO)
+				$aiObstacleType[7][0] = decodeSingleCoord(FindImageInPlace2("Device", $aiObstacleType[7][2], $aiObstacleType[7][3], $aiObstacleType[7][4] + _
+						$g_iMidOffsetY, $aiObstacleType[7][5], $aiObstacleType[7][6] + $g_iMidOffsetY, False))
+				If IsArray($aiObstacleType[7][0]) And UBound($aiObstacleType[7][0], 1) = 2 Then
+					SetLog($aiObstacleType[7][1] & " (in " & Round(TimerDiff($hTimer) / 1000, 2) & " seconds)", $COLOR_INFO)
 					If $g_iAnotherDeviceWaitTime > 3600 Then
 						SetLog("Another Device has connected, waiting " & Floor(Floor($g_iAnotherDeviceWaitTime / 60) / 60) & " hours " & Floor(Mod(Floor($g_iAnotherDeviceWaitTime / 60), 60)) & " minutes " & Floor(Mod($g_iAnotherDeviceWaitTime, 60)) & " seconds", $COLOR_ERROR)
 						PushMsg("AnotherDevice3600")
@@ -413,7 +415,11 @@ Func CheckAllObstacles($bDebugImageSave = $g_bDebugImageSave, $MinType = 0, $Max
 					If _SleepStatus($g_iAnotherDeviceWaitTime * 1000) Then Return ; Wait as long as user setting in GUI, default 120 seconds
 					$aiIsAnotherDevice = True
 				EndIf
-			ElseIf $i = 5 Then ;Clash Of Clan isn't responding Then Reboot Emulator
+			ElseIf $i = 4 Then ;Major Update, Stop bot
+				SetLog("Stop Bot Due To COC Update Required", $COLOR_ERROR)
+				BotStop()
+				Return True
+			ElseIf $i = 6 Then ;Clash Of Clan isn't responding Then Reboot Emulator
 				checkObstacles_RebootAndroid(False, False, True)
 				$bRet = True
 				ExitLoop
@@ -436,8 +442,8 @@ Func CheckAllObstacles($bDebugImageSave = $g_bDebugImageSave, $MinType = 0, $Max
 					;; 3 : Important Notice Then Click On "OK"
 				Case 3
 					$Ref = 2
-					;; 4 : Google Play Services Has Stopped Then Click on "OK"
-				Case 4
+					;; 5 : Google Play Services Has Stopped Then Click on "OK"
+				Case 5
 					$Ref = 3
 			EndSwitch
 
@@ -463,7 +469,7 @@ Func CheckAllObstacles($bDebugImageSave = $g_bDebugImageSave, $MinType = 0, $Max
 				If $bDebugImageSave Then SaveDebugImage("CheckObstacles")
 				SetDebugLog("Failed to find Button", $COLOR_DEBUG)
 
-				If $i = 4 Then ; 4 : Google Play Services Has Stopped And "OK" Button Not Found
+				If $i = 5 Then ; 5 : Google Play Services Has Stopped And "OK" Button Not Found
 					checkObstacles_RebootAndroid(False, False, True)
 				Else
 					checkObstacles_ReloadCoC($bRecursive)

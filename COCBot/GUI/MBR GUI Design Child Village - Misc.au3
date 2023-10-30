@@ -177,6 +177,7 @@ Func CreateMiscNormalVillageSubTab()
 	_GUICtrlCreateIcon($g_sLibIconPath, $eIcnTrophy, $x + 56, $y, 16, 16)     ;HArchH Was 65, now 56.
 
 	$g_hChkCollectStarBonus = GUICtrlCreateCheckbox(GetTranslatedFileIni("MBR GUI Design Child Village - Misc", "ChkCollectStarBonus", "When star bonus available"), $x + 15, $y + 20, -1, -1)
+	_GUICtrlSetTip(-1, "Bot Won't Attack For Star Bonus if Max Trophy is reached")
 	GUICtrlSetOnEvent(-1, "ChkCollectStarBonus")
 
 	$g_hChkCCTreasuryFull = GUICtrlCreateCheckbox(GetTranslatedFileIni("MBR GUI Design Child Village - Misc", "ChkCCTreasuryFull", "Don't Attack if Treasury Full"), $x + 165, $y + 20, -1, -1)
@@ -1408,7 +1409,7 @@ Func CreateClanGamesSettings()
 	GUICtrlSetState(-1, $GUI_UNCHECKED)
 
 	$y += 35
-	$g_hChkClanGamesSort = GUICtrlCreateCheckbox(GetTranslatedFileIni("MBR GUI Design Child Village - Misc", "ChkClanGamesSort", "Sort Clan Games By :"), $x, $y, -1, -1)
+	$g_hChkClanGamesSort = GUICtrlCreateCheckbox(GetTranslatedFileIni("MBR GUI Design Child Village - Misc", "ChkClanGamesSort", "Sort Challenges By :"), $x, $y, -1, -1)
 	GUICtrlSetOnEvent(-1, "chkSortClanGames")
 	GUICtrlSetState(-1, $GUI_CHECKED)
 

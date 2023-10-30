@@ -67,7 +67,7 @@ Func LocateClanCastle($bCollect = True)
 			ClickAway()
 			Return
 		EndIf
-		$sInfo = BuildingInfo(242, 488 + $g_iBottomOffsetY) ; 860x780
+		$sInfo = BuildingInfo(242, 468 + $g_iBottomOffsetY) ; 860x780
 		If IsArray($sInfo) And ($sInfo[0] > 1 Or $sInfo[0] = "") Then
 			If StringInStr($sInfo[1], "clan") = 0 Then
 				Local $sLocMsg = ($sInfo[0] = "" ? "Nothing" : $sInfo[1])
@@ -169,7 +169,7 @@ Func _BtnDefineCapacity()
 	BuildingClick($g_aiClanCastlePos[0], $g_aiClanCastlePos[1], "#0250")     ; select CC
 	If _Sleep($DELAYTREASURY2) Then Return
 
-	Local $sInfo = BuildingInfo(242, 488 + $g_iBottomOffsetY)     ; 860x780
+	Local $sInfo = BuildingInfo(242, 468 + $g_iBottomOffsetY)     ; 860x780
 	If $sInfo[1] = "Clan Castle" And $sInfo[2] > 0 Then
 		SetLog("Your Clan Castle is at level: " & $sInfo[2], $COLOR_SUCCESS)
 		$g_aiClanCastleLvl = $sInfo[2]

@@ -33,7 +33,7 @@ Func CleanBBYard()
 						If $g_bDebugSetlog Then SetDebugLog($Filename & " found (" & $CleanBBYardXY[0] & "," & $CleanBBYardXY[1] & ")", $COLOR_SUCCESS)
 						If IsMainPageBuilderBase() Then Click($CleanBBYardXY[0], $CleanBBYardXY[1], 1, 0, "#0430")
 						$Locate = True
-						If _Sleep(1500) Then Return
+						If _Sleep($DELAYCOLLECT3) Then Return
 						If Not ClickRemoveObstacleBB() Then ContinueLoop
 						If _Sleep($DELAYCHECKTOMBS2) Then Return
 						ClickAway()
@@ -62,15 +62,24 @@ Func CleanBBYard()
 EndFunc   ;==>CleanBBYard
 
 Func ClickRemoveObstacleBB()
-	If _ColorCheck(_GetPixelColor(330, 338 + $g_iMidOffsetY, True), Hex(0xC55115, 6), 20) Then  ; close chat
+	If _ColorCheck(_GetPixelColor(385, 338 + $g_iMidOffsetY, True), Hex(0xC75215, 6), 20) Then  ; close chat
 		If Not ClickB("ClanChat") Then
 			SetLog("Error finding the Clan Tab Button", $COLOR_ERROR)
-			Click(332, 312 + $g_iMidOffsetY)
+			Click(390, 312 + $g_iMidOffsetY)
 			Return
 		EndIf
 		If _Sleep(500) Then Return
 		Return False
 	EndIf
+
+	Local $bLoop = 0
+	While 1
+		Local $aiButton = findButton("RemoveObstacle", Default, 1, True)
+		If (IsArray($aiButton) And UBound($aiButton) >= 2) Or $bLoop = 20 Then ExitLoop
+		If _Sleep(200) Then Return
+		$bLoop += 1
+	WEnd
+
 	Local $aiButton = findButton("RemoveObstacle", Default, 1, True)
 	If IsArray($aiButton) And UBound($aiButton) >= 2 Then
 		SetDebugLog("Remove Button found! Clicking it at X: " & $aiButton[0] & ", Y: " & $aiButton[1], $COLOR_DEBUG1)
@@ -79,7 +88,7 @@ Func ClickRemoveObstacleBB()
 		If $g_iFreeBuilderCountBB = 1 Then
 			Local $IsCleaningRunning = True
 			While $IsCleaningRunning
-				If _ColorCheck(_GetPixelColor(410, 620, True), "EDE1DE", 20) Then
+				If _ColorCheck(_GetPixelColor(410, 595, True), "F4E7E6", 20) Then
 					Sleep(1000)
 				Else
 					$IsCleaningRunning = False

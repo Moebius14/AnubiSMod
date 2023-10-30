@@ -148,28 +148,28 @@ Func OpenPersonalChallenges()
 		Local $xMarge = Random(0, 6, 1)
 		If _CheckPixel($aPersonalChallengeRewardsAvail, $g_bCapturePixel) Then
 			If Random(0, 2, 1) > 1 Then
-				Click(545 + ($xMarge * 10), 75) ; Perks
+				Click(545 + ($xMarge * 10), 120) ; Perks
 				If _Sleep(Random(2000, 4000, 1)) Then Return
 			EndIf
 			If Random(0, 2, 1) > 1 Then
-				Click(710 + ($xMarge * 10), 75) ; Bank
+				Click(710 + ($xMarge * 10), 120) ; Bank
 				If _Sleep(Random(2000, 4000, 1)) Then Return
 			EndIf
 		Else
-			Click(385 + ($xMarge * 10), 75) ; Rewards
+			Click(385 + ($xMarge * 10), 120) ; Rewards
 			If _Sleep(Random(2000, 4000, 1)) Then Return
 			If Random(0, 2, 1) > 1 Then
-				Click(545 + ($xMarge * 10), 75) ; Perks
+				Click(545 + ($xMarge * 10), 120) ; Perks
 				If _Sleep(Random(2000, 4000, 1)) Then Return
 			EndIf
 			If Random(0, 2, 1) > 1 Then
-				Click(710 + ($xMarge * 10), 75) ; Bank
+				Click(710 + ($xMarge * 10), 120) ; Bank
 				If _Sleep(Random(2000, 4000, 1)) Then Return
 			EndIf
 		EndIf
 
-		If Not _ColorCheck(_GetPixelColor(185, 90, True), "A8D0EC", 20) Then
-			Click(225 + ($xMarge * 10), 75)
+		If Not _ColorCheck(_GetPixelColor(185, 135, True), "A8D0EC", 20) Then
+			Click(220 + ($xMarge * 10), 120)
 		EndIf
 		If _Sleep(Random(2000, 3000, 1)) Then Return
 
@@ -208,7 +208,7 @@ Func CollectDailyRewards($bGoldPass = False)
 	If _Sleep(Random(2000, 3000, 1)) Then Return
 	If Not $g_bRunState Then Return
 
-	If QuickMIS("BC1", $g_sImgGreenButton, 790, 360 + $g_iMidOffsetY, 820, 400 + $g_iMidOffsetY) Then
+	If QuickMIS("BC1", $g_sImgGreenButton, 770, 360 + $g_iMidOffsetY, 820, 410 + $g_iMidOffsetY) Then
 		Click($g_iQuickMISX - 8, $g_iQuickMISY + 7)
 		If _Sleep(1500) Then Return
 	EndIf
@@ -220,9 +220,9 @@ Func CollectDailyRewards($bGoldPass = False)
 	Local $IsResPotPresent = 0
 	Local $IsPetPotPresent = 0
 	Local $IsAutoForgeSlotPresent = 0
-	For $i = 0 To 13
+	For $i = 0 To 14
 		If Not $g_bRunState Then Return
-		Local $SearchArea = $bGoldPass ? GetDiamondFromRect("25,336(810,240)") : GetDiamondFromRect("25,535(810,35)")
+		Local $SearchArea = $bGoldPass ? GetDiamondFromRect("25,336(810,270)") : GetDiamondFromRect("25,550(810,60)")
 		Local $aResult = findMultiple(@ScriptDir & "\imgxml\DailyChallenge\", $SearchArea, $SearchArea, 0, 1000, $bGoldPass ? 5 : 2, "objectname,objectpoints", True)
 		If $aResult <> "" And IsArray($aResult) Then
 			For $i = 0 To UBound($aResult) - 1
@@ -313,7 +313,7 @@ Func CollectDailyRewards($bGoldPass = False)
 			Else
 				SetLog($i & ".. ", Default, Default, Default, Default, Default, 0, $i < 13 ? False : Default) ; no time
 			EndIf
-			ClickDrag(100, 385 + $g_iMidOffsetY, 750, 385 + $g_iMidOffsetY, 1000) ;x1 was 50. x2 was 810  Change for Dec '20 update
+			ClickDrag(120, 400 + $g_iMidOffsetY, 740, 400 + $g_iMidOffsetY, 1000) ;x1 was 50. x2 was 810  Change for Dec '20 update
 			If _Sleep(500) Then ExitLoop
 		Else
 			If $i > 0 Then SetLog($i & ".", Default, Default, Default, Default, Default, False) ; no time + end line

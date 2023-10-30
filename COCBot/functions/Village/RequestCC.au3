@@ -78,14 +78,13 @@ Func RequestCC($bClickPAtEnd = True, $sText = "")
 				Next
 				If $isCCNotFull > 0 Then $bNeedRequest = True
 			EndIf
-
 			If $bNeedRequest Then
 				If Not $g_bRunState Then Return
 				Local $x = _makerequest($aRequestButtonPos)
 			EndIf
 		ElseIf StringInStr($sButtonState, "Already", 0) > 0 Then
 			SetLog("Clan Castle Request has already been made", $COLOR_INFO)
-			If $CCWaitChrono = 0 Then $RequestAlreadyMade = True
+			$RequestAlreadyMade = True
 		ElseIf StringInStr($sButtonState, "Full", 0) > 0 Then
 			SetLog("Clan Castle is full or not available", $COLOR_INFO)
 		Else
@@ -136,7 +135,13 @@ Func _makerequest($aRequestButtonPos)
 		ClickP($g_avWindowCoordinates, 1, 100, "#0256")
 		$g_bCanRequestCC = False
 		If $g_abSearchCastleWaitEnable[$DB] Or $g_abSearchCastleWaitEnable[$LB] Then
-			If Not $bChkUseOnlyCCMedals And $g_aiCmbCCDecisionTime > 0 Then $CCWaitChrono = TimerInit()
+			If Not $bChkUseOnlyCCMedals And $g_aiCmbCCDecisionTime > 0 Then
+				Local $CCWaitTimerDiff = TimerDiff($CCWaitChrono)
+				If $CCWaitChrono = 0 Or $CCWaitTimerDiff > (30 * 60 * 1000) Then
+					$CCWaitChrono = TimerInit()
+					SetDebugLog("Timer initiated", $COLOR_ERROR)
+				EndIf
+			EndIf
 		EndIf
 
 	EndIf
@@ -144,7 +149,7 @@ Func _makerequest($aRequestButtonPos)
 EndFunc   ;==>_makerequest
 
 Func IsFullClanCastleType($CCType = 0) ; Troops = 0, Spells = 1, Siege Machine = 2
-	Local $aCheckCCNotFull[3] = [27, 455, 643], $sLog[3] = ["Troop", "Spell", "Siege Machine"]
+	Local $aCheckCCNotFull[3] = [38, 456, 628], $sLog[3] = ["Troop", "Spell", "Siege Machine"]
 	Local $aiRequestCountCC[3] = [Number($g_iRequestCountCCTroop), Number($g_iRequestCountCCSpell), 0]
 	If $g_abRequestType[2] Then $aiRequestCountCC[2] = 1
 	Local $bIsCCRequestTypeNotUsed = Not ($g_abRequestType[0] Or $g_abRequestType[1] Or $g_abRequestType[2])
@@ -152,7 +157,7 @@ Func IsFullClanCastleType($CCType = 0) ; Troops = 0, Spells = 1, Siege Machine =
 		If $g_bDebugSetlog Then SetLog($sLog[$CCType] & " not cared about.")
 		Return True
 	Else
-		If _ColorCheck(_GetPixelColor($aCheckCCNotFull[$CCType], 443 + $g_iMidOffsetY, True), Hex(0xE84D50, 6), 30) Then ; red symbol
+		If _ColorCheck(_GetPixelColor($aCheckCCNotFull[$CCType], 447 + $g_iMidOffsetY, True), Hex(0xEA5054, 6), 30) Then ; red symbol
 			If Not $g_abRequestType[$CCType] Then
 				; Don't care about the CC limit configured in setting
 				If $g_bDebugSetlog Then SetLog("Found CC " & $sLog[$CCType] & " Not Full, But Check Is Disabled")
@@ -181,9 +186,9 @@ Func IsFullClanCastleType($CCType = 0) ; Troops = 0, Spells = 1, Siege Machine =
 				Return False
 			Else
 				If $CCType < 2 Then
-					Local $sCCReceived = getOcrAndCapture("coc-ms", 293 + $CCType * 180, 438 + $g_iMidOffsetY, 60, 16, True, False, True) ; read CC (troops x/40 or spells x/2)
+					Local $sCCReceived = getOcrAndCapture("coc-camps", 296 + $CCType * 177, 438 + $g_iMidOffsetY, 60, 16, True, False, True) ; read CC (troops x/40 or spells x/2)
 				Else
-					Local $sCCReceived = getOcrAndCapture("coc-ms", 649, 438 + $g_iMidOffsetY, 30, 16, True, False, True) ; read CC (Siege x/1)
+					Local $sCCReceived = getOcrAndCapture("coc-camps", 645, 438 + $g_iMidOffsetY, 30, 16, True, False, True) ; read CC (Siege x/1)
 				EndIf
 				If $g_bDebugSetlog Then SetLog("Read CC " & $sLog[$CCType] & "s: " & $sCCReceived)
 				Local $aCCReceived = StringSplit($sCCReceived, "#", $STR_NOCOUNT) ; split the trained troop number from the total troop number

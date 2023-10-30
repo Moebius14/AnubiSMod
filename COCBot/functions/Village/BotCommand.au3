@@ -36,6 +36,7 @@ Func BotCommand()
 	$g_bMeetCondStop = False ; reset flags so bot can restart farming when conditions change.
 	$g_bTrainEnabled = True
 	$g_bDonationEnabled = True
+	Local $MaxTrophiesReached = False
 
 	If $bChkBotStop Then
 
@@ -49,35 +50,37 @@ Func BotCommand()
 			isDarkElixirFull(True)
 		EndIf
 
+		If isTrophyMax() Then $MaxTrophiesReached = True
+
 		If $iCmbBotCond = 15 And $g_iCmbHoursStop <> 0 Then $TimeToStop = $g_iCmbHoursStop * 3600000 ; 3600000 = 1 Hours
 
 		Switch $iCmbBotCond
 			Case 0
-				If $g_abFullStorage[$eLootGold] And $g_abFullStorage[$eLootElixir] And isTrophyMax() Then $g_bMeetCondStop = True
+				If $g_abFullStorage[$eLootGold] And $g_abFullStorage[$eLootElixir] And $MaxTrophiesReached Then $g_bMeetCondStop = True
 			Case 1
-				If ($g_abFullStorage[$eLootGold] And $g_abFullStorage[$eLootElixir]) Or isTrophyMax() Then $g_bMeetCondStop = True
+				If ($g_abFullStorage[$eLootGold] And $g_abFullStorage[$eLootElixir]) Or $MaxTrophiesReached Then $g_bMeetCondStop = True
 			Case 2
-				If ($g_abFullStorage[$eLootGold] Or $g_abFullStorage[$eLootElixir]) And isTrophyMax() Then $g_bMeetCondStop = True
+				If ($g_abFullStorage[$eLootGold] Or $g_abFullStorage[$eLootElixir]) And $MaxTrophiesReached Then $g_bMeetCondStop = True
 			Case 3
-				If $g_abFullStorage[$eLootGold] Or $g_abFullStorage[$eLootElixir] Or isTrophyMax() Then $g_bMeetCondStop = True
+				If $g_abFullStorage[$eLootGold] Or $g_abFullStorage[$eLootElixir] Or $MaxTrophiesReached Then $g_bMeetCondStop = True
 			Case 4
 				If $g_abFullStorage[$eLootGold] And $g_abFullStorage[$eLootElixir] Then $g_bMeetCondStop = True
 			Case 5
 				If $g_abFullStorage[$eLootGold] Or $g_abFullStorage[$eLootElixir] Or $g_abFullStorage[$eLootDarkElixir] Then $g_bMeetCondStop = True
 			Case 6
-				If $g_abFullStorage[$eLootGold] And isTrophyMax() Then $g_bMeetCondStop = True
+				If $g_abFullStorage[$eLootGold] And $MaxTrophiesReached Then $g_bMeetCondStop = True
 			Case 7
-				If $g_abFullStorage[$eLootElixir] And isTrophyMax() Then $g_bMeetCondStop = True
+				If $g_abFullStorage[$eLootElixir] And $MaxTrophiesReached Then $g_bMeetCondStop = True
 			Case 8
-				If $g_abFullStorage[$eLootGold] Or isTrophyMax() Then $g_bMeetCondStop = True
+				If $g_abFullStorage[$eLootGold] Or $MaxTrophiesReached Then $g_bMeetCondStop = True
 			Case 9
-				If $g_abFullStorage[$eLootElixir] Or isTrophyMax() Then $g_bMeetCondStop = True
+				If $g_abFullStorage[$eLootElixir] Or $MaxTrophiesReached Then $g_bMeetCondStop = True
 			Case 10
 				If $g_abFullStorage[$eLootGold] Then $g_bMeetCondStop = True
 			Case 11
 				If $g_abFullStorage[$eLootElixir] Then $g_bMeetCondStop = True
 			Case 12
-				If isTrophyMax() Then $g_bMeetCondStop = True
+				If $MaxTrophiesReached Then $g_bMeetCondStop = True
 			Case 13
 				If $g_abFullStorage[$eLootDarkElixir] Then $g_bMeetCondStop = True
 			Case 14
@@ -117,8 +120,8 @@ Func BotCommand()
 
 			Switch $iCmbBotCommand
 				Case 0
-					If ($iCmbBotCond <= 14 And $g_bCollectStarBonus) Or $iCmbBotCond = 23 And StarBonusSearch() Then
-						If Not IsCCTreasuryFull() Then
+					If (($iCmbBotCond <= 14 And $g_bCollectStarBonus) Or $iCmbBotCond = 23) And StarBonusSearch() Then
+						If Not IsCCTreasuryFull() And Not $MaxTrophiesReached Then
 							Return False
 						EndIf
 					ElseIf $iCmbBotCond = 23 Then
@@ -750,7 +753,7 @@ EndFunc   ;==>BotCommand
 ; Example .......: No
 ; ===============================================================================================================================
 Func isTrophyMax()
-	If Number($g_aiCurrentLoot[$eLootTrophy]) > Number($g_iDropTrophyMax) Then
+	If Number($g_aiCurrentLoot[$eLootTrophy]) >= Number($g_iDropTrophyMax) Then
 		SetLog("Max. Trophy Reached!", $COLOR_SUCCESS)
 		If _Sleep($DELAYBOTCOMMAND1) Then Return
 		$g_abFullStorage[$eLootTrophy] = True
@@ -837,7 +840,7 @@ Func IsCCTreasuryFull()
 	If _Sleep($DELAYCOLLECT3) Then Return
 	BuildingClick($g_aiClanCastlePos[0], $g_aiClanCastlePos[1], "#0250") ; select CC
 	If _Sleep($DELAYTREASURY2) Then Return
-	Local $BuildingInfo = BuildingInfo(242, 488 + $g_iBottomOffsetY)
+	Local $BuildingInfo = BuildingInfo(242, 468 + $g_iBottomOffsetY)
 
 	If $BuildingInfo[1] = "Clan Castle" Then
 		SetDebugLog("Clan Castle Windows Is Open", $COLOR_DEBUG1)
@@ -852,7 +855,7 @@ Func IsCCTreasuryFull()
 			PureClickVisit($NewX, $NewY) ; select CC
 			If _Sleep($DELAYBUILDINGINFO1) Then Return
 
-			$BuildingInfo = BuildingInfo(242, 488 + $g_iBottomOffsetY)
+			$BuildingInfo = BuildingInfo(242, 468 + $g_iBottomOffsetY)
 
 			If $BuildingInfo[1] = "Clan Castle" Then ExitLoop
 			ClickAway()
@@ -862,7 +865,7 @@ Func IsCCTreasuryFull()
 			PureClickVisit($NewX, $NewY) ; select CC
 			If _Sleep($DELAYBUILDINGINFO1) Then Return
 
-			$BuildingInfo = BuildingInfo(242, 488 + $g_iBottomOffsetY)
+			$BuildingInfo = BuildingInfo(242, 468 + $g_iBottomOffsetY)
 
 			If $BuildingInfo[1] = "Clan Castle" Then ExitLoop
 		Next

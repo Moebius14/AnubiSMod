@@ -35,24 +35,24 @@ Func CollectCCGold($bTest = False)
 		Click($g_iQuickMISX - 5, $g_iQuickMISY + 30)
 		For $i = 1 To 5
 			SetDebugLog("Waiting for Forge Window #" & $i, $COLOR_ACTION)
-			If QuickMIS("BC1", $g_sImgGeneralCloseButton, 785, 120 + $g_iMidOffsetY, 845, 170 + $g_iMidOffsetY) Then
+			If QuickMIS("BC1", $g_sImgGeneralCloseButton, 770, 130 + $g_iMidOffsetY, 810, 180 + $g_iMidOffsetY) Then
 				$bWindowOpened = True
 				ExitLoop
 			EndIf
 			If _Sleep(500) Then Return
 		Next
 		If $bWindowOpened Then
-			$aCollect = QuickMIS("CNX", $g_sImgCCGoldCollect, 30, 340 + $g_iMidOffsetY, 795, 430 + $g_iMidOffsetY)
+			$aCollect = QuickMIS("CNX", $g_sImgCCGoldCollect, 60, 350 + $g_iMidOffsetY, 770, 415 + $g_iMidOffsetY)
 			_ArraySort($aCollect, 0, 0, 0, 1)
 			If IsArray($aCollect) And UBound($aCollect) > 0 And UBound($aCollect, $UBOUND_COLUMNS) > 1 Then
 				For $i = 0 To UBound($aCollect) - 1
 					If Not $bTest Then
-						$CollectingCCGold = getOcrAndCapture("coc-forge-ccgold", $aCollect[$i][1] - 75, $aCollect[$i][2] - 15, 64, 18, True)
+						$CollectingCCGold = getOcrAndCapture("coc-forge-ccgold", $aCollect[$i][1] - 75, $aCollect[$i][2] - 15, 60, 18, True);150/409
 						SetLog("Collecting " & _NumberFormat($CollectingCCGold, True) & " Clan Capital Gold", $COLOR_INFO)
 						$CollectedCCGold += $CollectingCCGold
 						Click($aCollect[$i][1], $aCollect[$i][2]) ;Click Collect
 					Else
-						$CollectingCCGold = getOcrAndCapture("coc-forge-ccgold", $aCollect[$i][1] - 75, $aCollect[$i][2] - 15, 64, 18, True)
+						$CollectingCCGold = getOcrAndCapture("coc-forge-ccgold", $aCollect[$i][1] - 75, $aCollect[$i][2] - 15, 60, 18, True)
 						SetLog("Test Only, Should Collecting " & _NumberFormat($CollectingCCGold, True) & " Clan Capital Gold", $COLOR_INFO)
 						$CollectedCCGold += $CollectingCCGold
 						SetLog("Test Only, Should Click on [" & $aCollect[$i][1] & "," & $aCollect[$i][2] & "]")
@@ -65,16 +65,16 @@ Func CollectCCGold($bTest = False)
 			If $g_iTownHallLevel > 11 Then
 				If $g_iTownHallLevel < 14 Then
 					SetLog("Checking 3rd forge result", $COLOR_INFO)
-					ClickDrag(790, 310 + $g_iMidOffsetY, 640, 310 + $g_iMidOffsetY)
+					ClickDrag(770, 290 + $g_iMidOffsetY, 640, 290 + $g_iMidOffsetY)
 					If _Sleep(2000) Then Return
-					If QuickMIS("BC1", $g_sImgCCGoldCollect, 600, 340 + $g_iMidOffsetY, 790, 430 + $g_iMidOffsetY) Then
+					If QuickMIS("BC1", $g_sImgCCGoldCollect, 610, 350 + $g_iMidOffsetY, 790, 415 + $g_iMidOffsetY) Then
 						If Not $bTest Then
-							$CollectingCCGold = getOcrAndCapture("coc-forge-ccgold", $g_iQuickMISX - 75, $g_iQuickMISY - 15, 64, 18, True)
+							$CollectingCCGold = getOcrAndCapture("coc-forge-ccgold", $g_iQuickMISX - 75, $g_iQuickMISY - 15, 60, 18, True)
 							SetLog("Collecting " & _NumberFormat($CollectingCCGold, True) & " Clan Capital Gold", $COLOR_INFO)
 							$CollectedCCGold += $CollectingCCGold
 							Click($g_iQuickMISX, $g_iQuickMISY) ;Click Collect
 						Else
-							$CollectingCCGold = getOcrAndCapture("coc-forge-ccgold", $g_iQuickMISX - 75, $g_iQuickMISY - 15, 64, 18, True)
+							$CollectingCCGold = getOcrAndCapture("coc-forge-ccgold", $g_iQuickMISX - 75, $g_iQuickMISY - 15, 60, 18, True)
 							SetLog("Test Only, Should Collecting " & _NumberFormat($CollectingCCGold, True) & " Clan Capital Gold", $COLOR_INFO)
 							$CollectedCCGold += $CollectingCCGold
 							SetLog("Test Only, Should Click on [" & $g_iQuickMISX & "," & $g_iQuickMISY & "]")
@@ -83,19 +83,19 @@ Func CollectCCGold($bTest = False)
 					EndIf
 				Else
 					SetLog("Checking 3rd and 4th forge result", $COLOR_INFO)
-					ClickDrag(790, 310 + $g_iMidOffsetY, 510, 310 + $g_iMidOffsetY)
+					ClickDrag(770, 290 + $g_iMidOffsetY, 490, 290 + $g_iMidOffsetY)
 					If _Sleep(2000) Then Return
-					$aCollect = QuickMIS("CNX", $g_sImgCCGoldCollect, 450, 340 + $g_iMidOffsetY, 825, 430 + $g_iMidOffsetY)
+					$aCollect = QuickMIS("CNX", $g_sImgCCGoldCollect, 450, 350 + $g_iMidOffsetY, 800, 415 + $g_iMidOffsetY)
 					_ArraySort($aCollect, 0, 0, 0, 1)
 					If IsArray($aCollect) And UBound($aCollect) > 0 And UBound($aCollect, $UBOUND_COLUMNS) > 1 Then
 						For $i = 0 To UBound($aCollect) - 1
 							If Not $bTest Then
-								$CollectingCCGold = getOcrAndCapture("coc-forge-ccgold", $aCollect[$i][1] - 75, $aCollect[$i][2] - 15, 64, 18, True)
+								$CollectingCCGold = getOcrAndCapture("coc-forge-ccgold", $aCollect[$i][1] - 75, $aCollect[$i][2] - 15, 60, 18, True)
 								SetLog("Collecting " & _NumberFormat($CollectingCCGold, True) & " Clan Capital Gold", $COLOR_INFO)
 								$CollectedCCGold += $CollectingCCGold
 								Click($aCollect[$i][1], $aCollect[$i][2]) ;Click Collect
 							Else
-								$CollectingCCGold = getOcrAndCapture("coc-forge-ccgold", $aCollect[$i][1] - 75, $aCollect[$i][2] - 15, 64, 18, True)
+								$CollectingCCGold = getOcrAndCapture("coc-forge-ccgold", $aCollect[$i][1] - 75, $aCollect[$i][2] - 15, 60, 18, True)
 								SetLog("Test Only, Should Collecting " & _NumberFormat($CollectingCCGold, True) & " Clan Capital Gold", $COLOR_INFO)
 								$CollectedCCGold += $CollectingCCGold
 								SetLog("Test Only, Should Click on [" & $aCollect[$i][1] & "," & $aCollect[$i][2] & "]")
@@ -107,7 +107,7 @@ Func CollectCCGold($bTest = False)
 			EndIf
 			$IsCCGoldJustCollected = 1
 			SetLog("Collected " & _NumberFormat($CollectedCCGold, True) & " Clan Capital Gold Successfully !", $COLOR_SUCCESS1)
-			Local $ReadCCGoldOCR = getOcrAndCapture("coc-forge-ccgold", 280, 490 + $g_iMidOffsetY, 180, 16, True)
+			Local $ReadCCGoldOCR = getOcrAndCapture("coc-forge-ccgold", 280, 474 + $g_iMidOffsetY, 180, 16, True)
 			$g_iLootCCGold = StringTrimRight($ReadCCGoldOCR, 5)
 			SetLog(_NumberFormat($g_iLootCCGold, True) & " Clan Capital Total Gold Detected", $COLOR_SUCCESS1)
 			GUICtrlSetData($g_lblCapitalGold, _NumberFormat($g_iLootCCGold, True))
@@ -160,7 +160,7 @@ Func ClanCapitalReport($SetLog = True)
 			EndIf
 			If QuickMIS("BC1", $g_sImgCCRaid, 360, 445 + $g_iMidOffsetY, 500, 500 + $g_iMidOffsetY) Then
 				Click($g_iQuickMISX, $g_iQuickMISY)
-				If _Sleep(5000) Then Return
+				If _Sleep(Random(5000, 7000)) Then Return
 				SwitchToCapitalMain()
 			EndIf
 			CheckRaidMap()
@@ -213,7 +213,7 @@ Func StartRaidWeekend()
 					If _Sleep(3000) Then Return
 				EndIf
 				SwitchToCapitalMain()
-				If _Sleep(3000) Then Return
+				If _Sleep(4000) Then Return
 			Else
 				SetLog("Start Raid Button not Available, Maybe You Don't Be A Chief", $COLOR_ACTION)
 				ClickAway("Right")
@@ -341,7 +341,7 @@ Func ForgeClanCapitalGold($bTest = False)
 	If _Sleep(1000) Then Return
 	$IsAutoForgeSlotJustCollected = 0
 
-	Local $ReadCCGoldOCR = getOcrAndCapture("coc-forge-ccgold", 280, 490 + $g_iMidOffsetY, 180, 16, True)
+	Local $ReadCCGoldOCR = getOcrAndCapture("coc-forge-ccgold", 280, 474 + $g_iMidOffsetY, 180, 16, True)
 	$g_iLootCCGold = StringTrimRight($ReadCCGoldOCR, 5)
 	If $g_iLootCCGold > 0 Then
 		SetLog(_NumberFormat($g_iLootCCGold, True) & " Clan Capital Total Gold Detected", $COLOR_SUCCESS1)
@@ -356,8 +356,8 @@ Func ForgeClanCapitalGold($bTest = False)
 
 	If TimeForge() Then
 		SetLog("Forge Time > 9h, will use Builder Potion", $COLOR_INFO)
-		If QuickMIS("BC1", $g_sBoostBuilderInForge, 660, 460 + $g_iMidOffsetY, 760, 530 + $g_iMidOffsetY) Then
-			Click($g_iQuickMISX + 42, $g_iQuickMISY)
+		If QuickMIS("BC1", $g_sBoostBuilderInForge, 650, 450 + $g_iMidOffsetY, 720, 510 + $g_iMidOffsetY) Then
+			Click($g_iQuickMISX + 50, $g_iQuickMISY)
 			If _Sleep(1000) Then Return
 			If Not $g_bRunState Then Return
 			If ClickB("BoostConfirm") Then
@@ -417,12 +417,12 @@ Func ForgeClanCapitalGold($bTest = False)
 	;check if we have forge in progress
 	If $g_iTownHallLevel > 11 Then
 		If $g_iTownHallLevel < 14 Then
-			Local $iActiveForge = QuickMIS("CNX", $g_sImgActiveForge, 220, 290 + $g_iMidOffsetY, 825, 350 + $g_iMidOffsetY)
+			Local $iActiveForge = QuickMIS("CNX", $g_sImgActiveForge, 260, 285 + $g_iMidOffsetY, 805, 340 + $g_iMidOffsetY)
 		Else
-			Local $iActiveForge = QuickMIS("CNX", $g_sImgActiveForge, 60, 290 + $g_iMidOffsetY, 825, 350 + $g_iMidOffsetY)
+			Local $iActiveForge = QuickMIS("CNX", $g_sImgActiveForge, 95, 285 + $g_iMidOffsetY, 805, 340 + $g_iMidOffsetY)
 		EndIf
 	Else
-		Local $iActiveForge = QuickMIS("CNX", $g_sImgActiveForge, 410, 290 + $g_iMidOffsetY, 825, 350 + $g_iMidOffsetY)
+		Local $iActiveForge = QuickMIS("CNX", $g_sImgActiveForge, 415, 285 + $g_iMidOffsetY, 770, 340 + $g_iMidOffsetY)
 	EndIf
 	RemoveDupCNX($iActiveForge)
 	If IsArray($iActiveForge) And UBound($iActiveForge) > 0 Then
@@ -440,12 +440,12 @@ Func ForgeClanCapitalGold($bTest = False)
 	;check if we have craft ready to start
 	If $g_iTownHallLevel > 11 Then
 		If $g_iTownHallLevel < 14 Then
-			Local $aCraft = QuickMIS("CNX", $g_sImgCCGoldCraft, 220, 340 + $g_iMidOffsetY, 825, 430 + $g_iMidOffsetY)
+			Local $aCraft = QuickMIS("CNX", $g_sImgCCGoldCraft, 260, 350 + $g_iMidOffsetY, 805, 410 + $g_iMidOffsetY)
 		Else
-			Local $aCraft = QuickMIS("CNX", $g_sImgCCGoldCraft, 60, 340 + $g_iMidOffsetY, 825, 430 + $g_iMidOffsetY)
+			Local $aCraft = QuickMIS("CNX", $g_sImgCCGoldCraft, 95, 350 + $g_iMidOffsetY, 805, 410 + $g_iMidOffsetY)
 		EndIf
 	Else
-		Local $aCraft = QuickMIS("CNX", $g_sImgCCGoldCraft, 410, 340 + $g_iMidOffsetY, 825, 430 + $g_iMidOffsetY)
+		Local $aCraft = QuickMIS("CNX", $g_sImgCCGoldCraft, 415, 350 + $g_iMidOffsetY, 770, 410 + $g_iMidOffsetY)
 	EndIf
 	RemoveDupCNX($aCraft)
 	_ArraySort($aCraft, 0, 0, 0, 1) ;sort by column 1 (x coord)
@@ -522,8 +522,8 @@ Func ForgeClanCapitalGold($bTest = False)
 						SetLog("Try Forge using " & $aResource[$i][0], $COLOR_INFO)
 						Click($aResource[$i][2], 270 + $g_iMidOffsetY)
 						If _Sleep(1000) Then Return
-						Local $cost = getOcrAndCapture("coc-forge", 240, 350 + $g_iMidOffsetY, 160, 25, True)
-						Local $gain = getOcrAndCapture("coc-forge", 528, 365 + $g_iMidOffsetY, 100, 25, True)
+						Local $cost = getOcrAndCapture("coc-forge", 250, 350 + $g_iMidOffsetY, 110, 25, True)
+						Local $gain = getOcrAndCapture("coc-forge", 530, 365 + $g_iMidOffsetY, 65, 25, True)
 						Local $bSafeToForge = False
 						Switch $aResource[$i][0]
 							Case "Gold"
@@ -625,8 +625,8 @@ Func ForgeClanCapitalGold($bTest = False)
 					SetLog("Try Forge using " & $aResource[$i][0], $COLOR_INFO)
 					Click($aResource[$i][2], 270 + $g_iMidOffsetY)
 					If _Sleep(1000) Then Return
-					Local $cost = getOcrAndCapture("coc-forge", 240, 350 + $g_iMidOffsetY, 160, 25, True)
-					Local $gain = getOcrAndCapture("coc-forge", 528, 365 + $g_iMidOffsetY, 100, 25, True)
+					Local $cost = getOcrAndCapture("coc-forge", 250, 350 + $g_iMidOffsetY, 110, 25, True)
+					Local $gain = getOcrAndCapture("coc-forge", 530, 365 + $g_iMidOffsetY, 65, 25, True)
 					Local $ResCostDiff = -1
 					Switch $aResource[$i][0]
 						Case "Gold"
@@ -774,10 +774,10 @@ Func ForgeClanCapitalGold($bTest = False)
 	If $g_iTownHallLevel > 11 Then
 		If $g_iTownHallLevel < 14 Then
 			SetDebugLog("Back From 3rd forge", $COLOR_INFO)
-			ClickDrag(220, 310 + $g_iMidOffsetY, 400, 310 + $g_iMidOffsetY)
+			ClickDrag(220, 290 + $g_iMidOffsetY, 400, 290 + $g_iMidOffsetY)
 		Else
 			SetDebugLog("Back From 3rd and 4th forge", $COLOR_INFO)
-			ClickDrag(65, 310 + $g_iMidOffsetY, 340, 310 + $g_iMidOffsetY)
+			ClickDrag(90, 290 + $g_iMidOffsetY, 370, 290 + $g_iMidOffsetY)
 		EndIf
 	EndIf
 
@@ -785,8 +785,8 @@ Func ForgeClanCapitalGold($bTest = False)
 
 	If TimeForge() Then
 		SetLog("Forge Time > 9h, will use Builder Potion", $COLOR_INFO)
-		If QuickMIS("BC1", $g_sBoostBuilderInForge, 660, 460 + $g_iMidOffsetY, 760, 530 + $g_iMidOffsetY) Then
-			Click($g_iQuickMISX + 42, $g_iQuickMISY)
+		If QuickMIS("BC1", $g_sBoostBuilderInForge, 650, 450 + $g_iMidOffsetY, 720, 510 + $g_iMidOffsetY) Then
+			Click($g_iQuickMISX + 50, $g_iQuickMISY)
 			If _Sleep(1000) Then Return
 			If Not $g_bRunState Then Return
 			If ClickB("BoostConfirm") Then
@@ -825,7 +825,7 @@ EndFunc   ;==>ForgeClanCapitalGold
 Func AutoForgeSlot($bTest, ByRef $iCurrentGold, ByRef $iCurrentElix, ByRef $iCurrentDE, ByRef $isFullGold, ByRef $isFullElix, ByRef $isFullDark, ByRef $NumberOfCraftLaunched, ByRef $SkipGold, ByRef $SkipElix, ByRef $SkipDE)
 	Local $aResource
 
-	If QuickMIS("BC1", $g_sImgCCGoldCraft, 220, 330 + $g_iMidOffsetY, 410, 420 + $g_iMidOffsetY) Then ;check if we have craft ready to start
+	If QuickMIS("BC1", $g_sImgCCGoldCraft, 240, 350 + $g_iMidOffsetY, 415, 420 + $g_iMidOffsetY) Then ;check if we have craft ready to start
 		Click($g_iQuickMISX, $g_iQuickMISY)
 		If _Sleep(500) Then Return
 		If Not WaitStartCraftWindow() Then
@@ -842,7 +842,7 @@ Func AutoForgeSlot($bTest, ByRef $iCurrentGold, ByRef $iCurrentElix, ByRef $iCur
 					Click($aResource[$i][2], 270 + $g_iMidOffsetY)
 					If _Sleep(1000) Then Return
 					Local $cost = getOcrAndCapture("coc-forge", 240, 358 + $g_iMidOffsetY, 160, 25, True)
-					Local $gain = getOcrAndCapture("coc-forge", 528, 365 + $g_iMidOffsetY, 100, 25, True)
+					Local $gain = getOcrAndCapture("coc-forge", 530, 365 + $g_iMidOffsetY, 65, 25, True)
 					Local $bSafeToForge = False
 					Switch $aResource[$i][0]
 						Case "Gold"
@@ -944,7 +944,7 @@ Func AutoForgeSlot($bTest, ByRef $iCurrentGold, ByRef $iCurrentElix, ByRef $iCur
 				Click($aResource[$i][2], 270 + $g_iMidOffsetY)
 				If _Sleep(1000) Then Return
 				Local $cost = getOcrAndCapture("coc-forge", 240, 358 + $g_iMidOffsetY, 160, 25, True)
-				Local $gain = getOcrAndCapture("coc-forge", 528, 365 + $g_iMidOffsetY, 100, 25, True)
+				Local $gain = getOcrAndCapture("coc-forge", 530, 365 + $g_iMidOffsetY, 65, 25, True)
 				Local $ResCostDiff = -1
 				Switch $aResource[$i][0]
 					Case "Gold"
@@ -1889,7 +1889,7 @@ Func AutoUpgradeCC()
 				Return
 			EndIf
 			If _Sleep(1000) Then Return
-			Local $ReadCCGoldOCR = getOcrAndCapture("coc-forge-ccgold", 280, 490 + $g_iMidOffsetY, 180, 16, True)
+			Local $ReadCCGoldOCR = getOcrAndCapture("coc-forge-ccgold", 280, 474 + $g_iMidOffsetY, 180, 16, True)
 			$g_iLootCCGold = StringTrimRight($ReadCCGoldOCR, 5)
 			If $g_iLootCCGold > 0 Then
 				SetLog(_NumberFormat($g_iLootCCGold, True) & " Clan Capital Total Gold Detected", $COLOR_SUCCESS1)
@@ -2015,7 +2015,7 @@ Func AutoUpgradeCC()
 	EndIf
 
 	;Upgrade through districts map
-	Local $aMapCoord[8][3] = [["Skeleton Park", 375, 620], ["Golem Quarry", 185, 590], ["Dragon Cliffs", 630, 465], ["Builder's Workshop", 490, 525], ["Balloon Lagoon", 300, 490], _
+	Local $aMapCoord[9][3] = [["Goblin Mines", 580, 620], ["Skeleton Park", 375, 620], ["Golem Quarry", 185, 590], ["Dragon Cliffs", 630, 465], ["Builder's Workshop", 490, 525], ["Balloon Lagoon", 300, 490], _
 			["Wizard Valley", 410, 400], ["Barbarian Camp", 530, 340], ["Capital Peak", 400, 225]]
 	If Number($g_iLootCCGold) > 0 Then
 		SetLog("Checking Upgrades From Districts", $COLOR_INFO)
@@ -2108,19 +2108,17 @@ Func CapitalMainUpgradeLoop($aUpgrade)
 				$Failed = True
 				ExitLoop
 			EndIf
-			Local $BuildingName = getOcrAndCapture("coc-build", 200, 488 + $g_iBottomOffsetY, 460, 25)
+			Local $BuildingName = getOcrAndCapture("coc-build", 200, 512 + $g_iBottomOffsetY, 460, 25)
 			Click($aRet[1], $aRet[2])
 			If _Sleep(2000) Then Return
 			If Not WaitUpgradeWindowCC() Then
 				$Failed = True
 				ExitLoop
 			EndIf
-			Local $cost = getOcrAndCapture("coc-bonus", 640, 574 + $g_iMidOffsetY, 80, 15, True)
 			If Not $g_bRunState Then Return
 			Click(700, 575 + $g_iMidOffsetY) ;Click Contribute
 			$g_iStatsClanCapUpgrade = $g_iStatsClanCapUpgrade + 1
-			Local $costNum = _NumberFormat($cost, True)
-			AutoUpgradeCCLog($BuildingName, $costNum)
+			AutoUpgradeCCLog($BuildingName)
 			If _Sleep(1500) Then Return
 			ClickAway("Right")
 			If _Sleep(2000) Then Return
@@ -2153,18 +2151,16 @@ Func DistrictUpgrade($aUpgrade)
 				SetLog("Upgrade Ignored, Looking Next Upgrade", $COLOR_INFO) ; Shouldn't happen
 				ContinueLoop
 			EndIf
-			Local $BuildingName = getOcrAndCapture("coc-build", 200, 488 + $g_iBottomOffsetY, 460, 25)
+			Local $BuildingName = getOcrAndCapture("coc-build", 200, 512 + $g_iBottomOffsetY, 460, 25)
 			Click($aRet[1], $aRet[2])
 			If _Sleep(2000) Then Return
 			If Not WaitUpgradeWindowCC() Then
 				ExitLoop
 			EndIf
-			Local $cost = getOcrAndCapture("coc-bonus", 640, 574 + $g_iMidOffsetY, 80, 15, True)
 			If Not $g_bRunState Then Return
 			Click(700, 575 + $g_iMidOffsetY) ;Click Contribute
 			$g_iStatsClanCapUpgrade = $g_iStatsClanCapUpgrade + 1
-			Local $costNum = _NumberFormat($cost, True)
-			AutoUpgradeCCLog($BuildingName, $costNum)
+			AutoUpgradeCCLog($BuildingName)
 			If _Sleep(1500) Then Return
 			ClickAway("Right")
 			If _Sleep(1500) Then Return
@@ -2252,13 +2248,13 @@ Func IsUpgradeCCIgnore()
 	Return $bRet
 EndFunc   ;==>IsUpgradeCCIgnore
 
-Func AutoUpgradeCCLog($BuildingName = "", $cost = "")
+Func AutoUpgradeCCLog($BuildingName = "")
 	If $BuildingName = "puins" Then $BuildingName = "Ruins"
-	SetLog("Successfully upgrade " & $BuildingName & ", Contribute " & $cost & " CapitalGold", $COLOR_SUCCESS)
+	SetLog("Successfully upgrade " & $BuildingName, $COLOR_SUCCESS)
 	If $g_iTxtCurrentVillageName <> "" Then
-		GUICtrlSetData($g_hTxtAutoUpgradeCCLog, @CRLF & _NowTime() & " [" & $g_iTxtCurrentVillageName & "] - Upgrade " & $BuildingName & ", contribute " & $cost & " CapitalGold", 1)
+		GUICtrlSetData($g_hTxtAutoUpgradeCCLog, @CRLF & _NowTime() & " [" & $g_iTxtCurrentVillageName & "] - Upgrade " & $BuildingName, 1)
 	Else
-		GUICtrlSetData($g_hTxtAutoUpgradeCCLog, @CRLF & _NowTime() & " [" & $g_sProfileCurrentName & "] - Upgrade " & $BuildingName & ", contribute " & $cost & " CapitalGold", 1)
+		GUICtrlSetData($g_hTxtAutoUpgradeCCLog, @CRLF & _NowTime() & " [" & $g_sProfileCurrentName & "] - Upgrade " & $BuildingName, 1)
 	EndIf
 EndFunc   ;==>AutoUpgradeCCLog
 
@@ -2271,7 +2267,7 @@ Func TimeForge()
 	Local $aResult[0]
 	Local $aResultForBoost[0]
 
-	If QuickMIS("BC1", $g_sImgActiveForge, 220, 250 + $g_iMidOffsetY, 410, 360 + $g_iMidOffsetY) Then ;check if we have Auto forge in progress
+	If QuickMIS("BC1", $g_sImgActiveForge, 240, 250 + $g_iMidOffsetY, 415, 360 + $g_iMidOffsetY) Then ;check if we have Auto forge in progress
 		Local $TimeForForge = getTimeForForge($g_iQuickMISX - 75, $g_iQuickMISY - 82)
 		Local $iConvertedTime = ConvertOCRTime("Forge Time", $TimeForForge, False)
 		_ArrayAdd($aResult, $iConvertedTime)
@@ -2280,27 +2276,27 @@ Func TimeForge()
 	If $g_iTownHallLevel > 11 Then
 		If $g_iTownHallLevel < 14 Then
 			SetDebugLog("Checking 3rd forge", $COLOR_INFO)
-			ClickDrag(790, 310 + $g_iMidOffsetY, 640, 310 + $g_iMidOffsetY)
+			ClickDrag(770, 290 + $g_iMidOffsetY, 640, 290 + $g_iMidOffsetY)
 		Else
 			SetDebugLog("Checking 3rd and 4th forge", $COLOR_INFO)
-			ClickDrag(790, 310 + $g_iMidOffsetY, 510, 310 + $g_iMidOffsetY)
+			ClickDrag(770, 290 + $g_iMidOffsetY, 490, 290 + $g_iMidOffsetY)
 		EndIf
 	EndIf
 
 	If _Sleep(2000) Then Return
 	If $g_iTownHallLevel > 11 Then
 		If $g_iTownHallLevel < 14 Then
-			Local $iActiveForgeMod = QuickMIS("CNX", $g_sImgActiveForge, 220, 290 + $g_iMidOffsetY, 825, 350 + $g_iMidOffsetY)
+			Local $iActiveForgeMod = QuickMIS("CNX", $g_sImgActiveForge, 260, 285 + $g_iMidOffsetY, 805, 340 + $g_iMidOffsetY)
 		Else
-			Local $iActiveForgeMod = QuickMIS("CNX", $g_sImgActiveForge, 60, 290 + $g_iMidOffsetY, 825, 350 + $g_iMidOffsetY)
+			Local $iActiveForgeMod = QuickMIS("CNX", $g_sImgActiveForge, 95, 285 + $g_iMidOffsetY, 805, 340 + $g_iMidOffsetY)
 		EndIf
 	Else
-		Local $iActiveForgeMod = QuickMIS("CNX", $g_sImgActiveForge, 410, 290 + $g_iMidOffsetY, 825, 350 + $g_iMidOffsetY)
+		Local $iActiveForgeMod = QuickMIS("CNX", $g_sImgActiveForge, 415, 285 + $g_iMidOffsetY, 770, 340 + $g_iMidOffsetY)
 	EndIf
 
 	If IsArray($iActiveForgeMod) And UBound($iActiveForgeMod) > 0 Then
 		For $i = 0 To UBound($iActiveForgeMod) - 1
-			Local $TimeForForge = getTimeForForge($iActiveForgeMod[$i][1] - 75, $iActiveForgeMod[$i][2] - 82)
+			Local $TimeForForge = getTimeForForge($iActiveForgeMod[$i][1] - 75, $iActiveForgeMod[$i][2] - 80)
 			Local $iConvertedTime = ConvertOCRTime("Forge Time", $TimeForForge, False)
 			_ArrayAdd($aResultForBoost, $iConvertedTime) ;Only Boost For Craft using Builders
 		Next
@@ -2395,13 +2391,18 @@ Func CatchCCMedals()
 		EndIf
 	EndIf
 
-	Click(80, 235 + $g_iMidOffsetY)
+	Local $aTabButton = findButton("WeeklyDeals", Default, 1, True)
+	If IsArray($aTabButton) And UBound($aTabButton, 1) = 2 Then
+		SetDebugLog("Weekly Deals is already selected", $COLOR_DEBUG)
+	Else
+		Click(90, 290 + $g_iMidOffsetY)
+	EndIf
 	SetLog("Opening Raid Medals Menu", $COLOR_BLUE)
 	If _Sleep(1500) Then Return
 
 	If $g_bDebugImageSaveMod Then SaveDebugRectImageCrop("CCMedalsTrader", "110,562,160,576")
 
-	Local $ReadCCMedalsOCR = getOcrAndCapture("coc-ccmedals-trader", 50, 569 + $g_iMidOffsetY, 60, 14, True)
+	Local $ReadCCMedalsOCR = getOcrAndCapture("coc-ccmedals-trader", 60, 567 + $g_iMidOffsetY, 60, 14, True)
 	$g_iLootCCMedal = $ReadCCMedalsOCR
 	If $g_iLootCCMedal > 0 Then
 		SetLog(_NumberFormat($g_iLootCCMedal, True) & " Clan Capital Medals Detected", $COLOR_SUCCESS1)
@@ -2438,20 +2439,23 @@ Func CatchSmallCCTrophies($StartRaidConditions = False)
 	If Not $g_bRunState Then Return
 
 	If $StartRaidConditions Then
-		Click(175, 90 + $g_iMidOffsetY) ; open My Profile Tab
+		Click(185, 105 + $g_iMidOffsetY) ; open My Profile Tab
 		If _Sleep(2000) Then Return
-		If QuickMIS("BC1", $g_sImgLeaderRank, 70, 225 + $g_iMidOffsetY, 170, 260 + $g_iMidOffsetY) Then $g_iRank = "Leader"
-		Click(355, 90 + $g_iMidOffsetY) ; Back To My Clan Tab
+		If QuickMIS("BC1", $g_sImgLeaderRank, 90, 237 + $g_iMidOffsetY, 180, 265 + $g_iMidOffsetY) Then
+			SetLog("You Have Credit To Start Week-end Raid", $COLOR_FUCHSIA)
+			$g_iRank = "Leader"
+		EndIf
+		Click(355, 105 + $g_iMidOffsetY) ; Back To My Clan Tab
 		If _Sleep(2000) Then Return
 		If Not $g_bRunState Then Return
 	Else
-		Click(700, 145 + $g_iMidOffsetY) ; open the clan capital tab
+		Click(700, 155 + $g_iMidOffsetY) ; open the clan capital tab
 		If _Sleep(2000) Then Return
 		If Not $g_bRunState Then Return
 
 		If $g_bDebugImageSaveMod Then SaveDebugRectImageCrop("CCtrophySmall", "735,223,780,237")
 
-		$g_iCCTrophies = getOcrAndCapture("coc-cc-trophySmall", 735, 243 + $g_iMidOffsetY, 45, 14, True)
+		$g_iCCTrophies = getOcrAndCapture("coc-cc-trophySmall", 725, 248 + $g_iMidOffsetY, 37, 14, True)
 		If $g_iCCTrophies > 0 Then
 			SetLog(_NumberFormat($g_iCCTrophies, True) & " Clan Capital Trophies Detected", $COLOR_SUCCESS1)
 		Else

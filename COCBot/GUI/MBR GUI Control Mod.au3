@@ -1153,8 +1153,8 @@ Func ForumAccept()
 
 	While 1
 		ForceCaptureRegion()
-		$Scroll = _PixelSearch(294, 81, 297, 93, Hex(0xFFFFFF, 6), 20)
-		If IsArray($Scroll) And _ColorCheck(_GetPixelColor(301, 85, True), Hex(0x95CD0E, 6), 20) Then
+		$Scroll = _PixelSearch(356, 59, 360, 75, Hex(0xFFFFFF, 6), 20)
+		If IsArray($Scroll) And _ColorCheck(_GetPixelColor(363, 73, True), Hex(0x60A618, 6), 20) Then ; a second pixel for the green
 			ClickP($Scroll)
 			If _Sleep(350) Then ExitLoop
 			ContinueLoop
@@ -1198,13 +1198,22 @@ Func ForumAccept()
 				ContinueLoop
 			Else
 				ForceCaptureRegion()
-				$Scroll = _PixelSearch(294, 591 + $g_iBottomOffsetY, 297, 603 + $g_iBottomOffsetY, Hex(0xFFFFFF, 6), 20)
+				$Scroll = _PixelSearch(356, 590 + $g_iBottomOffsetY, 360, 605 + $g_iBottomOffsetY, Hex(0xFFFFFF, 6), 20)
 				If IsArray($Scroll) Then
 					Click($Scroll[0], $Scroll[1])
 					If _Sleep(250) Then ExitLoop
 					ContinueLoop
 				EndIf
-				ExitLoop
+			EndIf
+		Else
+			ForceCaptureRegion()
+			$Scroll = _PixelSearch(356, 590 + $g_iBottomOffsetY, 360, 605 + $g_iBottomOffsetY, Hex(0xFFFFFF, 6), 20)
+			If IsArray($Scroll) Then
+				Click($Scroll[0], $Scroll[1])
+				If _Sleep(250) Then ExitLoop
+				ContinueLoop
+			Else
+				If ClickB("ChatDown") Then ContinueLoop
 			EndIf
 		EndIf
 		ExitLoop
@@ -1217,11 +1226,6 @@ Func ForumAccept()
 			If Not ChatTextInput($g_aWelcomeMessage) Then Return False
 			If Not SendTextChat() Then Return False
 		EndIf
-	EndIf
-
-	If _Sleep(1000) Then Return
-	If Not ClickB("ChatDown") Then
-		SetDebugLog("No Chat Down Button", $COLOR_DEBUG)
 	EndIf
 
 	If _Sleep(1000) Then Return

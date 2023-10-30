@@ -383,8 +383,6 @@ Func btnLocateTownHall()
 	AndroidShield("btnLocateTownHall") ; Update shield status due to manual $g_bRunState
 EndFunc   ;==>btnLocateTownHall
 
-
-
 Func btnResetBuilding()
 	Local $wasRunState = $g_bRunState
 	$g_bRunState = True
