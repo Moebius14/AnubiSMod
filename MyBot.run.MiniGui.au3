@@ -770,9 +770,9 @@ Func GUIControl_WM_COMMAND($hWind, $iMsg, $wParam, $lParam)
 		Case $g_hFrmBot_URL_PIC, $g_hFrmBot_URL_PIC2
 			;OpenURL_Label($g_hLblMyBotURL)
 			OpenURL_Label("https://mybot.run/forums")
-		;Case $g_hLblDonate
+			;Case $g_hLblDonate
 			; Donate URL is not in text nor tooltip
-		;	ShellExecute("https://mybot.run/forums/index.php?/donate/make-donation/")
+			;	ShellExecute("https://mybot.run/forums/index.php?/donate/make-donation/")
 		Case $g_hBtnStart, $g_hTblStart
 			btnStart()
 		Case $g_hBtnStop, $g_hTblStop
@@ -795,7 +795,7 @@ Func GUIControl_WM_COMMAND($hWind, $iMsg, $wParam, $lParam)
 		If $lParam = $g_hCmbGUILanguage Then
 		If $nNotifyCode = $CBN_SELCHANGE Then cmbLanguage()
 		EndIf
-	#ce
+	#ce mini
 	$g_bTogglePauseAllowed = $wasAllowed
 	Return $GUI_RUNDEFMSG
 EndFunc   ;==>GUIControl_WM_COMMAND
@@ -863,7 +863,7 @@ Func SetTime($bForceUpdate = False)
 		_TicksToDay(Int(__TimerDiff($g_hTimerSinceStarted) + $g_iTimePassed), $day, $hour, $min, $sec)
 		GUICtrlSetData($g_hLblResultRuntime, $day > 0 ? StringFormat("%2u Day(s) %02i:%02i:%02i", $day, $hour, $min, $sec) : StringFormat("%02i:%02i:%02i", $hour, $min, $sec))
 		EndIf
-	#ce
+	#ce mini
 	If GUICtrlGetState($g_hLblResultGoldNow) <> $GUI_ENABLE + $GUI_SHOW Or $bForceUpdate = True Then
 		_TicksToTime(Int(__TimerDiff($g_hTimerSinceStarted) + $g_iTimePassed), $hour, $min, $sec)
 		GUICtrlSetData($g_hLblResultRuntimeNow, StringFormat("%02i:%02i:%02i", $hour, $min, $sec))
@@ -1414,13 +1414,13 @@ While 1
 			Case $eBotStart
 			BotStart()
 			If $g_iBotAction = $eBotStart Then $g_iBotAction = $eBotNoAction
-
+		
 			; test error handling when bot started and then stopped
 			; force app crash for debugging/testing purposes
 			;DllCallAddress("NONE", 0)
 			; force au3 script error for debugging/testing purposes
 			;Local $iTmp = $iStartDelay[0]
-
+		
 			Case $eBotStop
 			BotStop()
 			If $g_iBotAction = $eBotStop Then $g_iBotAction = $eBotNoAction

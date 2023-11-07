@@ -25,7 +25,8 @@ Global $g_hUseBOF = 0, $g_hUseBOFTime = 0, $g_hUseBOS = 0, $g_hUseBOSTime = 0, $
 
 
 Global $g_hChkAutoLabUpgrades = 0, $g_hCmbLaboratory = 0, $g_hLblNextUpgrade = 0, $g_hBtnResetLabUpgradeTime = 0, $g_hPicLabUpgrade = 0, _
-		$g_hGUI_BoostBuilders = 0, $g_hBtnBoostBuilders = 0, $g_hBtnBoostBuildersClose = 0, $g_hGUI_BoostBuilders2 = 0, $g_hBtnBoostBuildersClose2 = 0
+		$g_hLblHeroReservedBuilderMod = 0, $g_hNbrHeroReservedBuilderMod = 0, $g_hGUI_BoostBuilders = 0, $g_hBtnBoostBuilders = 0, $g_hBtnBoostBuildersClose = 0, _
+		$g_hGUI_BoostBuilders2 = 0, $g_hBtnBoostBuildersClose2 = 0
 Global $g_hChkAutoStarLabUpgrades = 0, $g_hCmbStarLaboratory = 0, $g_hLblNextSLUpgrade = 0, $g_hBtnResetStarLabUpgradeTime = 0, $g_hPicStarLabUpgrade = 0
 Global $g_hUseLabPotion = 0
 
@@ -529,8 +530,11 @@ Func CreateBuildingsSubTab()
 	Next
 	GUICtrlCreateGroup("", -99, -99, 1, 1)
 
-	_GUICtrlCreateIcon($g_sLibModIconPath, $eIcnModBuilderPotion, $x + 110, $y + 13, 24, 24)
-	$g_hBtnBoostBuilders = GUICtrlCreateButton("Builders Boost Settings", $x + 140, $y + 13, -1, -1)
+	$g_hLblHeroReservedBuilderMod = GUICtrlCreateLabel("Reserved builder/s for hero upgrade :", $x + 10, $y + 19, -1, -1)
+	$g_hNbrHeroReservedBuilderMod = GUICtrlCreateLabel("0", $x + 195, $y + 19, -1, -1)
+
+	_GUICtrlCreateIcon($g_sLibModIconPath, $eIcnModBuilderPotion, $x + 250, $y + 13, 24, 24)
+	$g_hBtnBoostBuilders = GUICtrlCreateButton("Builders Boost Settings", $x + 280, $y + 13, -1, -1)
 	_GUICtrlSetTip(-1, "Use this to boost builders with POTIONS! Use with caution!")
 	GUICtrlSetOnEvent(-1, "BtnBoostBuilders")
 

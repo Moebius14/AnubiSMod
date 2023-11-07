@@ -1683,11 +1683,9 @@ Func BuilderBase($bTest = False)
 		If _Sleep($DELAYRUNBOT3) Then Return
 		If checkObstacles() Then Return
 
-		If $g_bAutoStarLabUpgradeEnable Then
-			BuilderBaseReport(True, True)
-			If _Sleep($DELAYRUNBOT3) Then Return
-			If checkObstacles() Then Return
-		EndIf
+		BuilderBaseReport(True, True)
+		If _Sleep($DELAYRUNBOT3) Then Return
+		If checkObstacles() Then Return
 
 		BOBBuildingUpgrades()
 		If _Sleep($DELAYRUNBOT3) Then Return
@@ -1698,12 +1696,6 @@ Func BuilderBase($bTest = False)
 		If _Sleep($DELAYRUNBOT3) Then Return
 		If checkObstacles() Then Return
 
-		If $g_iChkBBSuggestedUpgrades Then
-			BuilderBaseReport(True, True)
-			If _Sleep($DELAYRUNBOT3) Then Return
-			If checkObstacles() Then Return
-		EndIf
-
 		MainSuggestedUpgradeCode()
 		If _Sleep($DELAYRUNBOT3) Then Return
 		If checkObstacles() Then Return
@@ -1711,6 +1703,10 @@ Func BuilderBase($bTest = False)
 		Local $bUseCTPot = False
 		If ($StartLabON Or $StartLabONGui) And $iStarLabFinishTimeMod > 540 And CheckBBuilderTime() Then $bUseCTPot = True
 		StartClockTowerBoost(False, False, $bUseCTPot)
+		If _Sleep($DELAYRUNBOT3) Then Return
+		If checkObstacles() Then Return
+
+		BuilderJarCheck()
 		If _Sleep($DELAYRUNBOT3) Then Return
 		If checkObstacles() Then Return
 

@@ -125,11 +125,11 @@ EndFunc   ;==>OutputWmiData
 
 ; Dummy functions
 Func _GUICtrlStatusBar_SetText($a, $b)
-EndFunc
+EndFunc   ;==>_GUICtrlStatusBar_SetText
 Func GetTranslated($a, $b, $c)
-EndFunc
+EndFunc   ;==>GetTranslated
 Func GetTranslatedFileIni($a, $b, $c)
-EndFunc
+EndFunc   ;==>GetTranslatedFileIni
 Func _GUICtrlStatusBar_SetTextEx($hWnd, $sText = "", $iPart = 0, $iUFlag = 0)
-EndFunc
+EndFunc   ;==>_GUICtrlStatusBar_SetTextEx
 

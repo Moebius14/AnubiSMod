@@ -267,7 +267,7 @@ Func GetButtonDiamond($sButtonName)
 		Case "UpgradePets"
 			$btnDiamond = GetDiamondFromRect("730,530,800,600")
 		Case "ReloadButton"
-			$btnDiamond = GetDiamondFromRect("650,560,850,675")
+			$btnDiamond = GetDiamondFromRect2(650, 530 + $g_iMidOffsetY, 850, 645 + $g_iMidOffsetY)
 		Case "AttackButton" ;Main Window Screen
 			$btnDiamond = GetDiamondFromRect2(0, 540 + $g_iBottomOffsetY, 160, 660 + $g_iBottomOffsetY)
 		Case "OpenTrainWindow" ;Main Window Screen
@@ -284,7 +284,7 @@ Func GetButtonDiamond($sButtonName)
 		Case "GEM", "BOOSTBtn", "BoostConfirm" ; Boost window button (full button size)
 			$btnDiamond = GetDiamondFromRect2(359, 382 + $g_iMidOffsetY, 507, 477 + $g_iMidOffsetY)
 		Case "WallRingConfirm" ; Upgrade Wall With Wall Rings
-			$btnDiamond = GetDiamondFromRect2(359, 465 + $g_iMidOffsetY, 507, 530 + $g_iMidOffsetY)
+			$btnDiamond = GetDiamondFromRect2(445, 530 + $g_iMidOffsetY, 500, 570 + $g_iMidOffsetY)
 		Case "EnterShop"
 			$btnDiamond = GetDiamondFromRect("359,392(148,66)")
 		Case "EndBattleSurrender" ;surrender - attackwindow
@@ -309,12 +309,12 @@ Func GetButtonDiamond($sButtonName)
 			$btnDiamond = GetDiamondFromRect("630,280,850,360")
 		Case "ArmyTab", "TrainTroopsTab", "BrewSpellsTab", "BuildSiegeMachinesTab"
 			$btnDiamond = GetDiamondFromRect2(30, 80 + $g_iMidOffsetY, 640, 135 + $g_iMidOffsetY)
-		Case "WeeklyDeals"
-			$btnDiamond = GetDiamondFromRect2(20, 120 + $g_iMidOffsetY, 130, 320 + $g_iMidOffsetY)
+		Case "WeeklyDeals", "RaidMedals"
+			$btnDiamond = GetDiamondFromRect2(30, 115 + $g_iMidOffsetY, 170, 320 + $g_iMidOffsetY)
 		Case "MessagesButton"
 			$btnDiamond = GetDiamondFromRect2(0, 0, 90, 170 + $g_iMidOffsetY)
 		Case "AttackLogTab", "ShareReplayButton"
-			$btnDiamond = GetDiamondFromRect2(280, 65, 600, 160 + $g_iMidOffsetY)
+			$btnDiamond = GetDiamondFromRect2(280, 80, 600, 160 + $g_iMidOffsetY)
 		Case "EndBattle", "Surrender"
 			$btnDiamond = GetDiamondFromRect("1,570,140,628")
 		Case "Okay"
@@ -819,11 +819,11 @@ Func Slot($iX, $iY) ; Return Slots for Quantity Reading on Army Window
 			Case 603 To 670 ; Slot 8
 				Return 615 ; Siege Machines slot 1
 
-			Case 676 To 743 ; Slot 9
-				Return 688 ; Siege Machines slot 2
+			Case 675 To 743 ; Slot 9
+				Return 687 ; Siege Machines slot 2
 
-			Case 746 To 813 ; Slot 10
-				Return 761 ; Siege Machines slot 2
+			Case 746 To 814 ; Slot 10
+				Return 758 ; Siege Machines slot 2
 		EndSwitch
 	Else ;CC Troops & Spells
 		Switch $iX

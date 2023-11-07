@@ -27,7 +27,7 @@ Func UpgradeBuilding()
 	Local $iDTDiff
 	Local $bChkAllRptUpgrade = False
 	Local $sTime
-	Local $IsGearUp = False, $b_GearUpCount = 0
+	Local $IsGearUp = False, $b_GearUpCount = 0, $IsUpgradeAnHero = False, $b_HeroCount = 0
 
 	Static Local $sNextCheckTime = _DateAdd("n", -1, _NowCalc()) ; initialize with date/time of NOW minus one minute
 	If @error Then _logErrorDateAdd(@error)
@@ -39,6 +39,13 @@ Func UpgradeBuilding()
 	; check to see if anything is enabled before wasting time.
 	For $iz = 0 To UBound($g_avBuildingUpgrades, 1) - 1
 		If $g_abBuildingUpgradeEnable[$iz] = True Then
+			If StringInStr($g_avBuildingUpgrades[$iz][4], "King") Or _
+					StringInStr($g_avBuildingUpgrades[$iz][4], "Queen") Or _
+					StringInStr($g_avBuildingUpgrades[$iz][4], "Warden") Or _
+					StringInStr($g_avBuildingUpgrades[$iz][4], "Champion") Then
+				$b_HeroCount += 1
+				$IsUpgradeAnHero = True
+			EndIf
 			If StringInStr($g_avBuildingUpgrades[$iz][4], "Gear") Then
 				$b_GearUpCount += 1
 				$IsGearUp = True
@@ -49,7 +56,6 @@ Func UpgradeBuilding()
 	If $iUpgradeAction < 0 Then Return False
 	$iUpgradeAction = 0 ; Reset action
 
-	ZoomOut()
 	CleanYard()
 
 	SetLog("Checking Upgrades", $COLOR_INFO)
@@ -64,37 +70,73 @@ Func UpgradeBuilding()
 	$iAvailBldr = $g_iFreeBuilderCount - ($g_bAutoUpgradeWallsEnable And $g_bUpgradeWallSaveBuilder ? 1 : 0) - ReservedBuildersForHeroes()
 
 	If $iAvailBldr <= 0 Then
-		SetLog("No builder available for upgrade process")
+		If $g_iFreeBuilderCount - ($g_bAutoUpgradeWallsEnable And $g_bUpgradeWallSaveBuilder ? 1 : 0) >= ReservedBuildersForHeroes() And $IsUpgradeAnHero Then
+			SetLog("We have builder available for upgrade Hero")
+		Else	
+			SetLog("No builder available for upgrade process")
+		EndIf
 		If $IsGearUp Then
 			SetLog("But let's Try To Start Gear Up upgrade process", $COLOR_ACTION)
 			$iAvailBldrAtStart = False
 		Else
-			Return False
+			If $IsUpgradeAnHero Then
+				If ($g_iFreeBuilderCount - ($g_bAutoUpgradeWallsEnable And $g_bUpgradeWallSaveBuilder ? 1 : 0)) <= 0 Then Return False
+				SetLog("Let's Try To Start Hero upgrade process", $COLOR_ACTION)
+			Else
+				Return False
+			EndIf
 		EndIf
 	EndIf
 
+	ZoomOut()
+
 	For $iz = 0 To UBound($g_avBuildingUpgrades, 1) - 1
+
+		Local $isHeroSelected = False
+		If StringInStr($g_avBuildingUpgrades[$iz][4], "King") Or _
+				StringInStr($g_avBuildingUpgrades[$iz][4], "Queen") Or _
+				StringInStr($g_avBuildingUpgrades[$iz][4], "Warden") Or _
+				StringInStr($g_avBuildingUpgrades[$iz][4], "Champion") Then $isHeroSelected = True
+
+		Local $IsGearSelected = False
+		If StringInStr($g_avBuildingUpgrades[$iz][4], "Gear") Then $IsGearSelected = True
 
 		If $g_bDebugSetlog Then SetlogUpgradeValues($iz) ; massive debug data dump for each upgrade
 
 		If Not $g_abBuildingUpgradeEnable[$iz] Then ContinueLoop ; Is the upgrade checkbox selected?
 
-		If $g_avBuildingUpgrades[$iz][0] <= 0 Or $g_avBuildingUpgrades[$iz][1] <= 0 Or $g_avBuildingUpgrades[$iz][3] = "" Then ContinueLoop ; Now check to see if upgrade has locatation?
+		If $g_avBuildingUpgrades[$iz][0] <= 0 Or $g_avBuildingUpgrades[$iz][1] <= 0 Or $g_avBuildingUpgrades[$iz][3] = "" Then ContinueLoop ; Now check to see if upgrade has location?
 
-		If $IsGearUp And Not $iAvailBldrAtStart And Not StringInStr($g_avBuildingUpgrades[$iz][4], "Gear") Then ContinueLoop
+		If $IsGearUp And Not $iAvailBldrAtStart And Not $IsGearSelected And Not $isHeroSelected Then ContinueLoop
 
 		; Check free builder in case of multiple upgrades, but skip check when time to check repeated upgrades.
 		; Why? Can't do repeat upgrades if there are no builders?  Does it correct the upgrade list?
-		;If $iAvailBldr <= 0 And Not $bChkAllRptUpgrade Then
 		If $iAvailBldr <= 0 Then
-			If Not StringInStr($g_avBuildingUpgrades[$iz][4], "Gear") Then SetLog("No builder available for #" & $iz + 1 & ", " & $g_avBuildingUpgrades[$iz][4], $COLOR_DEBUG)
-			If $IsGearUp And Not StringInStr($g_avBuildingUpgrades[$iz][4], "Gear") Then
-				If $b_GearUpCount = 0 Then Return False
-				SetLog("Check Next Upgrades To find Gear Up Upgrade", $COLOR_ACTION)
-				ContinueLoop
-			ElseIf $b_GearUpCount = 0 Then
-				Return False
-			EndIf
+			Select
+				Case $b_GearUpCount = 0 And $b_HeroCount = 0
+					SetLog("No more building to check", $COLOR_DEBUG)
+					Return False
+				Case Not $IsGearSelected And $isHeroSelected And $b_HeroCount > 0
+					If getBuilderCount() Then
+						If ($g_iFreeBuilderCount - ($g_bAutoUpgradeWallsEnable And $g_bUpgradeWallSaveBuilder ? 1 : 0)) <= 0 Then
+							SetLog("No builder available for #" & $iz + 1 & ", " & $g_avBuildingUpgrades[$iz][4], $COLOR_DEBUG)
+							If $b_GearUpCount = 0 Then Return False
+						EndIf
+					EndIf
+				Case Not $IsGearSelected And Not $isHeroSelected And ($b_GearUpCount > 0 Or $b_HeroCount > 0)
+					Select
+						Case $b_GearUpCount > 0 And $b_HeroCount = 0
+							SetLog("No builder available for #" & $iz + 1 & ", " & $g_avBuildingUpgrades[$iz][4], $COLOR_DEBUG)
+							SetLog("Check Next Upgrades To find Gear Up Upgrade", $COLOR_ACTION)
+						Case $b_GearUpCount = 0 And $b_HeroCount > 0
+							SetLog("No builder available for #" & $iz + 1 & ", " & $g_avBuildingUpgrades[$iz][4], $COLOR_DEBUG)
+							SetLog("Check Next Upgrades To find Hero Upgrade", $COLOR_ACTION)
+						Case $b_GearUpCount > 0 And $b_HeroCount > 0
+							SetLog("No builder available for #" & $iz + 1 & ", " & $g_avBuildingUpgrades[$iz][4], $COLOR_DEBUG)
+							SetLog("Check Next Upgrades To find Gear Up And HeroUpgrade", $COLOR_ACTION)
+					EndSelect
+					ContinueLoop
+			EndSelect
 		EndIf
 
 		If $g_abUpgradeRepeatEnable[$iz] Then ; if repeated upgrade, may need to check upgrade value
@@ -132,13 +174,28 @@ Func UpgradeBuilding()
 					; must stop upgrade attempt if no builder here, due bypass of available builder check when $bChkAllRptUpgrade=true to get updated building values.
 					SetLog("No builder available for " & $g_avBuildingUpgrades[$iz][4])
 					SetLog("Testing Return False now as no builders available.", $COLOR_DEBUG)
-					If $IsGearUp And Not StringInStr($g_avBuildingUpgrades[$iz][4], "Gear") Then
-						If $b_GearUpCount = 0 Then Return False
-						SetLog("Check Next Upgrades To find Gear Up Upgrade", $COLOR_ACTION)
-						ContinueLoop
-					ElseIf $b_GearUpCount = 0 Then
-						Return False
-					EndIf
+					Select
+						Case $b_GearUpCount = 0 And $b_HeroCount = 0
+							Return False
+						Case Not $IsGearSelected And $isHeroSelected And ($b_GearUpCount > 0 Or $b_HeroCount > 0)
+							If getBuilderCount() Then
+								If $g_iFreeBuilderCount - ($g_bAutoUpgradeWallsEnable And $g_bUpgradeWallSaveBuilder ? 1 : 0) <= 0 Then
+									If $b_GearUpCount = 0 Then Return False
+								EndIf
+								SetLog("Check Next Upgrades To find Hero Upgrade", $COLOR_ACTION)
+								ContinueLoop
+							EndIf
+						Case Not $IsGearSelected And Not $isHeroSelected And ($b_GearUpCount > 0 Or $b_HeroCount > 0)
+							Select
+								Case $b_GearUpCount > 0 And $b_HeroCount = 0
+									SetLog("Check Next Upgrades To find Gear Up Upgrade", $COLOR_ACTION)
+								Case $b_GearUpCount = 0 And $b_HeroCount > 0
+									SetLog("Check Next Upgrades To find Hero Upgrade", $COLOR_ACTION)
+								Case $b_GearUpCount > 0 And $b_HeroCount > 0
+									SetLog("Check Next Upgrades To find Gear Up And HeroUpgrade", $COLOR_ACTION)
+							EndSelect
+							ContinueLoop
+					EndSelect
 				EndIf
 			EndIf
 		EndIf
@@ -149,12 +206,12 @@ Func UpgradeBuilding()
 
 		Switch $g_avBuildingUpgrades[$iz][3] ;Change action based on upgrade type!
 			Case "Gold"
+				If $IsGearSelected Then $b_GearUpCount -= 1
 				If $iAvailGold < $g_avBuildingUpgrades[$iz][2] + $g_iUpgradeMinGold Then ; Do we have enough Gold?
 					SetLog("Insufficent Gold for #" & $iz + 1 & ", requires: " & $g_avBuildingUpgrades[$iz][2] & " + " & $g_iUpgradeMinGold, $COLOR_INFO)
 					ContinueLoop
 				EndIf
-				If StringInStr($g_avBuildingUpgrades[$iz][4], "Gear") Then
-					$b_GearUpCount -= 1
+				If $IsGearSelected Then
 					If UpgradeGearUp($iz) = False Then ContinueLoop
 				Else
 					If UpgradeNormal($iz) = False Then ContinueLoop
@@ -168,6 +225,7 @@ Func UpgradeBuilding()
 				If Not StringInStr($g_avBuildingUpgrades[$iz][4], "Gear") Then $iAvailBldr -= 1
 			Case "Elixir"
 				$iAvailBldrBook = False
+				If $isHeroSelected Then $b_HeroCount -= 1
 				If $iAvailElixir < $g_avBuildingUpgrades[$iz][2] + $g_iUpgradeMinElixir Then
 					SetLog("Insufficent Elixir for #" & $iz + 1 & ", requires: " & $g_avBuildingUpgrades[$iz][2] & " + " & $g_iUpgradeMinElixir, $COLOR_INFO)
 					ContinueLoop
@@ -187,6 +245,7 @@ Func UpgradeBuilding()
 				If Not $iAvailBldrBook Then $iAvailBldr -= 1
 			Case "Dark"
 				$iAvailBldrBook = False
+				If $isHeroSelected Then $b_HeroCount -= 1
 				If $iAvailDark < $g_avBuildingUpgrades[$iz][2] + $g_iUpgradeMinDark Then
 					SetLog("Insufficent Dark for #" & $iz + 1 & ", requires: " & $g_avBuildingUpgrades[$iz][2] & " + " & $g_iUpgradeMinDark, $COLOR_INFO)
 					ContinueLoop

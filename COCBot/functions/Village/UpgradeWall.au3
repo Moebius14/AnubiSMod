@@ -28,6 +28,7 @@ Func UpgradeWall()
 		SetDebugLog("$g_iFreeBuilderCount:" & $g_iFreeBuilderCount)
 		If $g_iFreeBuilderCount > 0 Then
 			ClickAway()
+			ZoomOut()
 
 			While 1
 				If $g_iHowUseWallRings = 1 Then ; First
@@ -35,10 +36,10 @@ Func UpgradeWall()
 						Switch WallRings()
 							Case "WRUsed"
 								ContinueLoop
-							Case "Cancel", "Locked"
+							Case "Cancel", "Locked", "NotEnough"
 								CloseWindow()
 								ExitLoop
-							Case "NoButton", "NotEnough"
+							Case "NoButton"
 								ExitLoop
 						EndSwitch
 					ElseIf SwitchToNextWallLevel() Then
@@ -198,10 +199,10 @@ Func UpgradeWall()
 									Case "WRUsed"
 										ClickAway()
 										ContinueLoop
-									Case "NoButton", "NotEnough"
+									Case "NoButton"
 										ClickAway()
 										Return
-									Case "Cancel", "Locked"
+									Case "Cancel", "Locked", "NotEnough"
 										CloseWindow()
 										Return
 								EndSwitch
@@ -242,10 +243,10 @@ Func UseWallRingsWOU()
 					Case "WRUsed"
 						ClickAway()
 						ContinueLoop
-					Case "NoButton", "NotEnough"
+					Case "NoButton"
 						ClickAway()
 						Return
-					Case "Cancel", "Locked"
+					Case "Cancel", "Locked", "NotEnough"
 						CloseWindow()
 						Return
 				EndSwitch
@@ -545,23 +546,32 @@ Func SwitchToNextWallLevel() ; switches wall level to upgrade to next level
 	Return False
 EndFunc   ;==>SwitchToNextWallLevel
 
-Func WallRings()
-	_Sleep(1000)
+Func WallRingstest()
+	If _Sleep(1000) Then Return
 	Local $WRNeeded = ""
 	Local $WallRing = FindButton("WallRing")
 	If IsArray($WallRing) And UBound($WallRing) = 2 Then
+		$WRNeeded = getOcrAndCapture("coc-RemainLabGob", $WallRing[0] - 34, $WallRing[1] - 37, 40, 20)
+	EndIf
+	Return $WRNeeded
+EndFunc   ;==>WallRingstest
+
+Func WallRings()
+	If _Sleep(1000) Then Return
+	Local $WRNeeded = ""
+	Local $WallRing = FindButton("WallRing")
+	If IsArray($WallRing) And UBound($WallRing) = 2 Then
+		$WRNeeded = getOcrAndCapture("coc-RemainLabGob", $WallRing[0] - 34, $WallRing[1] - 37, 40, 20)
 		SetLog("Trying Upgrade Wall Using Wall Rings", $COLOR_INFO)
 		Click($WallRing[0] - 14, $WallRing[1])
 		If _Sleep(1000) Then Return
 
-		If Not _ColorCheck(_GetPixelColor(752, 98 + $g_iMidOffsetY, True), "FFFFFF", 10) Then Return "NotEnough"
+		If Not _ColorCheck(_GetPixelColor(460, 565 + $g_iMidOffsetY, True), "3079E0", 20) Then Return "NotEnough"
 
 		If Not IsUpgradeWallsPossible() Then Return "Locked"
 
-		$WRNeeded = getOcrAndCapture("coc-RemainLaboratory", 410, 522 + $g_iMidOffsetY, 35, 28)
 		If $WRNeeded = "" Then
 			SetLog("Bad OCR Read, Skip", $COLOR_ERROR)
-			SaveDebugImage("WallRings")
 			Return "Cancel"
 		Else
 			SetLog("Wall Rings Needed : " & $WRNeeded, $COLOR_ACTION)
@@ -593,7 +603,6 @@ Func WallRings()
 			Return "WRUsed"
 		Else
 			SetLog("Not Enough Wall Rings To Upgrade Wall", $COLOR_DEBUG) ; Should never happens
-			If _Sleep(500) Then Return
 			Return "Cancel"
 		EndIf
 	Else
@@ -614,7 +623,7 @@ Func IsUpgradeWallsPossible()
 		chkWalls()
 		Return False
 	EndIf
-	If _ColorCheck(_GetPixelColor(300, 540 + $g_iMidOffsetY, True), Hex(0xE1433F, 6), 20) Then
+	If _ColorCheck(_GetPixelColor(510, 455 + $g_iMidOffsetY, True), Hex(0xD62F47, 6), 20) Then
 		SetLog("Walls need TH upgrade - Skipped!", $COLOR_ERROR)
 		$g_bUpgradeWallSaveBuilder = False
 		GUICtrlSetState($g_hChkSaveWallBldr, $GUI_UNCHECKED)

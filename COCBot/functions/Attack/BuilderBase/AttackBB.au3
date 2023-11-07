@@ -52,32 +52,28 @@ Func DoAttackBB()
 	Local $AttackCount = 0
 
 	If $g_iBBAttackCount = 0 Then
-		Local $count = 1
 		While PrepareAttackBB($AttackCount)
-			If Not $g_bRunState Then Return
+			If Not $g_bRunState Then ExitLoop
 			SetDebugLog("PrepareAttackBB(): Success.", $COLOR_SUCCESS)
 			SetLog("Attacking For Stars", $COLOR_OLIVE)
-			SetLog("Attack #" & $count & "/~", $COLOR_INFO)
-			If $b_AbortedAttack Then $b_AbortedAttack = False ; Reset Value
+			SetLog("Attack #" & $AttackCount + 1 & "/~", $COLOR_INFO)
 			_AttackBB()
-			If Not $g_bRunState Then Return
-			If Not $b_AbortedAttack Then $AttackCount += 1 ; Count if no Zoom Out fail
+			If Not $g_bRunState Then ExitLoop
 			If $IsChallengeCompleted Then ExitLoop
-			If _Sleep($DELAYATTACKMAIN2) Then Return
-			checkObstacles()
-			$count += 1
-			If $count > 10 Then
+			$AttackCount += 1
+			If $AttackCount > 10 Then
 				SetLog("Already Attack 10 times, continue next time", $COLOR_INFO)
 				ExitLoop
 			EndIf
-			If $count = 6 Then
+			If $AttackCount = 6 Then
 				ZoomOut()
 				CollectElixirCart(False, False, False, True)
-				If _Sleep(2000) Then Return
+				If _Sleep(2000) Then ExitLoop
 			EndIf
+			If _Sleep($DELAYATTACKMAIN2) Then ExitLoop
+			checkObstacles()
 		WEnd
 		SetLog("Skip Attack This Time..", $COLOR_DEBUG)
-		ClickAway()
 	Else
 		Local $g_iBBAttackCountFinal = 0
 		Local $AttackNbDisplay = 0
@@ -87,6 +83,7 @@ Func DoAttackBB()
 			$g_iBBAttackCountFinal = $g_iBBAttackCount - 1
 		EndIf
 		For $i = 1 To $g_iBBAttackCountFinal
+			If Not $g_bRunState Then ExitLoop
 			If PrepareAttackBB($AttackCount) Then
 				If $AttackNbDisplay = 0 Then
 					If $g_iBBAttackCount = 1 Then
@@ -100,7 +97,7 @@ Func DoAttackBB()
 				SetLog("Attack #" & $i & "/" & $g_iBBAttackCountFinal, $COLOR_INFO)
 				If $b_AbortedAttack Then $b_AbortedAttack = False ; Reset Value
 				_AttackBB()
-				If Not $g_bRunState Then Return
+				If Not $g_bRunState Then ExitLoop
 				If Not $b_AbortedAttack Then
 					$AttackCount += 1 ; Count if no Zoom Out fail
 				Else
@@ -111,8 +108,10 @@ Func DoAttackBB()
 					SetLog("Skip Attack This Time..", $COLOR_DEBUG)
 					ExitLoop
 				EndIf
-				If _Sleep($DELAYATTACKMAIN2) Then Return
-				checkObstacles()
+				If $i = $g_iBBAttackCountFinal Then
+					SetLog("Skip Attack This Time..", $COLOR_DEBUG)
+					ExitLoop
+				EndIf
 				If $AttackCount > 10 Then
 					SetLog("Already Attack 10 times, continue next time", $COLOR_INFO)
 					ExitLoop
@@ -120,17 +119,20 @@ Func DoAttackBB()
 				If $AttackCount = 6 Then
 					ZoomOut()
 					CollectElixirCart(False, False, False, True)
-					If _Sleep(2000) Then Return
+					If _Sleep(2000) Then ExitLoop
 				EndIf
+				If _Sleep($DELAYATTACKMAIN2) Then ExitLoop
+				checkObstacles()
 			Else
 				SetLog("Skip Attack This Time..", $COLOR_DEBUG)
-				ClickAway()
 				ExitLoop
 			EndIf
 		Next
 	EndIf
-	ZoomOut()
+	If Not $g_bRunState Then Return
 	If $AttackCount > 0 Then SetLog("BB Attack Cycle Done", $COLOR_SUCCESS1)
+	ClickAway()
+	ZoomOut()
 EndFunc   ;==>DoAttackBB
 
 Func ClickFindNowButton()
@@ -261,13 +263,11 @@ Func EndBattleBB() ; Find if battle has ended and click okay
 			If _SleepStatus(7000) Then Return
 			SetLog("Preparing For Second Round", $COLOR_INFO)
 			If _Sleep(3000) Then Return
-			;#cs
 			ZoomOut()
 			If Not isOnBuilderBaseEnemyVillage(True) Then
 				SetLog("Zoom Out has failed and Attack was aborted", $COLOR_DEBUG)
 				Return False
 			EndIf
-			;#ce
 			; Get troops on attack bar and their quantities
 			$g_aMachinePos = GetMachinePos()
 			$g_DeployedMachine = False
@@ -282,6 +282,10 @@ Func EndBattleBB() ; Find if battle has ended and click okay
 		EndIf
 
 		If $bCountSameDamage > 25 Then
+			If $sDamage = "" And Not isOnBuilderBaseEnemyVillage(True) Then
+				If checkObstacles(True) Then waitMainScreen()
+				Return False
+			EndIf
 			If ReturnHomeDropTrophyBB(True) Then $bRet = True
 			ExitLoop
 		EndIf
@@ -382,7 +386,7 @@ Func AttackBB($aBBAttackBar = True)
 				If $sTroopName <> $aBBAttackBar[$i][0] Then
 					If _Sleep($g_iBBNextTroopDelay) Then Return ; wait before next troop
 				Else
-					_Sleep($DELAYRESPOND) ; we are still on same troop so lets drop them all down a bit faster
+					If _Sleep($DELAYRESPOND) Then Return ; we are still on same troop so lets drop them all down a bit faster
 				EndIf
 				$sTroopName = $aBBAttackBar[$i][0]
 				If $i = $iNumSlots - 1 Then $bLoop += 1
@@ -568,8 +572,10 @@ Func CheckBomberLoop()
 				Click($g_iQuickMISX, $g_iQuickMISY)
 				If UBound($g_aBomberOnAttackBar) = 1 Then
 					SetLog("Activate Bomber Ability", $COLOR_SUCCESS)
+					ExitLoop
 				Else
 					SetLog("Activate Bomber " & $i + 1 & " Ability", $COLOR_SUCCESS)
+					If _Sleep(Random(500, 1000, 1)) Then ExitLoop
 				EndIf
 			EndIf
 		EndIf

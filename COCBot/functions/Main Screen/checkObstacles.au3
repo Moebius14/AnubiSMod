@@ -110,8 +110,8 @@ Func _checkObstacles($bBuilderBase = False, $bRecursive = False) ;Checks if some
 	If CheckAllObstacles($g_bDebugImageSave, 5, 6, $bRecursive) Then Return True
 	;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-	If UBound(decodeSingleCoord(FindImageInPlace2("Maintenance", $g_sImgMaintenance, 250, 40, 500, 110, False))) > 1 Then ; Maintenance Break
-		$Result = getOcrMaintenanceTime(280, 591 + $g_iMidOffsetY, "Check Obstacles OCR Maintenance Break=") ; OCR text to find wait time
+	If UBound(decodeSingleCoord(FindImageInPlace2("Maintenance", $g_sImgMaintenance, 250, 40, 500, 100 + $g_iMidOffsetY, False))) > 1 Then ; Maintenance Break
+		$Result = getOcrMaintenanceTime(285, 581 + $g_iMidOffsetY, "Check Obstacles OCR Maintenance Break=") ; OCR text to find wait time
 		Local $iMaintenanceWaitTime = 0
 		Local $avTime = StringRegExp($Result, "([\d]+)[Mm]|(soon)|([\d]+[Hh])", $STR_REGEXPARRAYMATCH)
 		If UBound($avTime, 1) = 1 And Not @error Then
@@ -123,7 +123,7 @@ Func _checkObstacles($bBuilderBase = False, $bRecursive = False) ;Checks if some
 			EndIf
 		Else
 			$iMaintenanceWaitTime = $DELAYCHECKOBSTACLES4 ; Wait 2 min
-			$Result = getOcrMaintenanceTime(70, 591 + $g_iMidOffsetY, "Check Obstacles OCR Maintenance Break=")
+			$Result = getOcrMaintenanceTime(82, 581 + $g_iMidOffsetY, "Check Obstacles OCR Maintenance Break=")
 			If StringInStr($Result, "soon", $STR_NOCASESENSEBASIC) Then
 				SetLog("End Of Maintenance Break : Soon!, Waiting 2 Minutes", $COLOR_SUCCESS1)
 			Else
@@ -298,7 +298,7 @@ EndFunc   ;==>BanMsgBox
 Func checkObstacles_Network($bForceCapture = False, $bReloadCoC = True)
 	Static $hCocReconnectingTimer = 0 ; TimerHandle of first CoC reconnecting animation
 
-	If UBound(decodeSingleCoord(FindImageInPlace2("CocReconnecting", $g_sImgCocReconnecting, 420, 325 + $g_iMidOffsetY, 440, 345 + $g_iMidOffsetY, False))) > 1 Then
+	If UBound(decodeSingleCoord(FindImageInPlace2("CocReconnecting", $g_sImgCocReconnecting, 420, 325 + $g_iMidOffsetY, 440, 345 + $g_iMidOffsetY, $bForceCapture))) > 1 Then
 		If $hCocReconnectingTimer = 0 Then
 			SetLog("Network Connection lost...", $COLOR_ERROR)
 			$hCocReconnectingTimer = __TimerInit()

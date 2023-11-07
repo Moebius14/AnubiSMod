@@ -26,8 +26,10 @@ Func chkEnableBBAttack()
 		GUICtrlSetState($g_hChkForceBBAttackOnClanGames, $GUI_ENABLE)
 		GUICtrlSetState($g_hChkBBAttackForDailyChallenge, $GUI_ENABLE)
 		cmbBBAttackCount()
+		chkEnableUseBuilderJar()
 	Else
 		GUICtrlSetState($g_hChkUseBuilderJar, $GUI_DISABLE)
+		GUICtrlSetState($g_hCmbBuilderJar, $GUI_DISABLE)
 		GUICtrlSetState($g_hChkBBAttIfLootAvail, $GUI_DISABLE)
 		GUICtrlSetState($g_hTxtBBTrophyLowerLimit, $GUI_DISABLE)
 		GUICtrlSetState($g_hTxtBBTrophyUpperLimit, $GUI_DISABLE)
@@ -41,6 +43,14 @@ Func chkEnableBBAttack()
 		GUICtrlSetState($g_hChkBBAttackForDailyChallenge, $GUI_DISABLE)
 	EndIf
 EndFunc   ;==>chkEnableBBAttack
+
+Func chkEnableUseBuilderJar()
+	If GUICtrlRead($g_hChkUseBuilderJar) = $GUI_CHECKED Then
+		GUICtrlSetState($g_hCmbBuilderJar, $GUI_ENABLE)
+	Else
+		GUICtrlSetState($g_hCmbBuilderJar, $GUI_DISABLE)
+	EndIf
+EndFunc   ;==>chkEnableUseBuilderJar
 
 Func ChkBBAttackForDailyChallenge()
 	If GUICtrlRead($g_hChkBBAttackForDailyChallenge) = $GUI_CHECKED Then

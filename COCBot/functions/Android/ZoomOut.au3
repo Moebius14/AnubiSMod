@@ -481,7 +481,19 @@ Func SearchZoomOut($CenterVillageBoolOrScrollPos = $aCenterHomeVillageClickDrag,
 			$aResult[0] = "zoomout:" & $village[6]
 			$aResult[1] = $x
 			$aResult[2] = $y
-
+#cs
+			If StringInStr($village[9], "treeOO") And (Abs($x) > 20 Or Abs($y) > 20) And Not $g_bOnBuilderBaseEnemyVillage Then
+				If $DebugLog Then SetDeBugLog("Centering using tree only", $COLOR_INFO) ; OO BBUilder Home
+				CenterVillage($tree[0], $tree[1], $x, $y)
+				If _Sleep(250) Then Return $aResult
+				Local $aResult2 = SearchZoomOut(False, $UpdateMyVillage, "SearchZoomOut:" & $sSource, True, $DebugLog)
+				; update difference in offset
+				$aResult2[3] = $aResult2[1] - $aResult[1]
+				$aResult2[4] = $aResult2[2] - $aResult[2]
+				If $DebugLog Then SetDebugLog("Centered Village Offset" & $sSource & ": " & $aResult2[1] & ", " & $aResult2[2] & ", change: " & $aResult2[3] & ", " & $aResult2[4])
+				Return $aResult2
+			EndIf
+#ce
 			If $bCenterVillage And ($x <> 0 Or $y <> 0) And ($UpdateMyVillage = False Or $x <> $g_iVILLAGE_OFFSET[0] Or $y <> $g_iVILLAGE_OFFSET[1]) And Not $g_bOnBuilderBaseEnemyVillage Then
 				If $DebugLog Then SetDebugLog("Center Village" & $sSource & " by: " & $x & ", " & $y)
 				If IsCoordSafe($stone[0], $stone[1]) Then

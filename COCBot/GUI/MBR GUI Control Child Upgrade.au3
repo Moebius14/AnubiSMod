@@ -549,10 +549,12 @@ Func cmbHeroReservedBuilder()
 		GUICtrlSetState($g_hLblHeroReservedBuilderBottom, $GUI_DISABLE)
 	EndIf
 	_GUICtrlComboBox_SetCurSel($g_hCmbHeroReservedBuilder, $g_iHeroReservedBuilder)
+	GUICtrlSetData($g_hNbrHeroReservedBuilderMod, $g_iHeroReservedBuilder)
 EndFunc   ;==>cmbHeroReservedBuilder
 
 Func cmbHeroReservedBuilder2()
 	$g_iHeroReservedBuilder = _GUICtrlComboBox_GetCurSel($g_hCmbHeroReservedBuilder)
+	GUICtrlSetData($g_hNbrHeroReservedBuilderMod, $g_iHeroReservedBuilder)
 EndFunc   ;==>cmbHeroReservedBuilder2
 
 Func ReducecmbHeroReservedBuilder()
@@ -569,8 +571,7 @@ Func ReducecmbHeroReservedBuilder()
 		EndIf
 		$g_iHeroReservedBuilder = $IsToUpNrbHeroes
 		_GUICtrlComboBox_SetCurSel($g_hCmbHeroReservedBuilder, $g_iHeroReservedBuilder)
-		;		applyConfig()
-		;		saveConfig()
+		GUICtrlSetData($g_hNbrHeroReservedBuilderMod, $g_iHeroReservedBuilder)
 	EndIf
 EndFunc   ;==>ReducecmbHeroReservedBuilder
 

@@ -24,7 +24,7 @@ Global $g_acmbPriority[11] = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
 Global $g_acmbMaxSpeed[3] = [0, 0, 0]
 Global $g_acmbPause[3] = [0, 0, 0]
 Global $g_hLabelBB1 = 0, $g_hLabelBB2 = 0, $g_hLabelBB3 = 0, $g_hLabelBB4 = 0
-Global $g_hGUI_WelcomeMessage = 0, $g_hBtnWelcomeMessage = 0, $g_hChkUseWelcomeMessage = 0, $g_hTxtWelcomeMessage = 0, $g_hBtnWelcomeMessageClose = 0
+Global $g_hGUI_WelcomeMessage = 0, $g_hBtnWelcomeMessage = 0, $g_hChkUseWelcomeMessage = 0, $g_hTxtRequestMessage = 0, $g_hTxtWelcomeMessage = 0, $g_hBtnWelcomeMessageClose = 0
 Global $g_hGUI_SecondaryVillages = 0, $g_hBtnSecondaryVillages = 0, $g_hBtnSecondaryVillagesClose = 0
 Global $g_acmbPriorityBB[2] = [0, 0]
 Global $g_hLabelCC1 = 0, $g_acmbPriorityChkRaid = 0
@@ -54,8 +54,8 @@ Func TabHumanizationGUI()
 	GUICtrlSetState(-1, $GUI_CHECKED)
 
 	GUICtrlCreateIcon($g_sLibIconPath, $eIcnGUI, $x + 20, $y + 55, 16, 16)
-	$g_hChkForumRequestOnly = GUICtrlCreateCheckbox(GetTranslatedFileIni("MBR GUI Design Child Village - Misc", "ChkForumRequestOnly", "Accept ""Forum"" Requests"), 50, $y + 52, -1, -1)
-	_GUICtrlSetTip(-1, GetTranslatedFileIni("MBR GUI Design Child Village - Misc", "Label_03", "Will Click ""Accept"" With ""Forum"" in Requests But Won't Do Anything For Other Requests"))
+	$g_hChkForumRequestOnly = GUICtrlCreateCheckbox(GetTranslatedFileIni("MBR GUI Design Child Village - Misc", "ChkForumRequestOnly", "Accept Joining Requests"), 50, $y + 52, -1, -1)
+	_GUICtrlSetTip(-1, GetTranslatedFileIni("MBR GUI Design Child Village - Misc", "Label_03", "Will Click ""Accept"" With Keywords in Requests But Won't Do Anything For Other Requests"))
 	GUICtrlSetOnEvent(-1, "ChkForumRequestOnly")
 	GUICtrlSetState(-1, $GUI_UNCHECKED)
 	$g_hBtnWelcomeMessage = GUICtrlCreateButton("Chat", $x + 190, $y + 50, -1, -1)
@@ -168,16 +168,22 @@ EndFunc   ;==>TabHumanizationGUI
 
 Func CreateChatWelcomeMessage()
 	Local $x = 25, $y = 5
-	$g_hGUI_WelcomeMessage = _GUICreate("Welcome Message", $_GUI_MAIN_WIDTH - 4, $_GUI_MAIN_HEIGHT - 570, $g_iFrmBotPosX, $g_iFrmBotPosY + 80, $WS_DLGFRAME, -1, $g_hFrmBot)
+	$g_hGUI_WelcomeMessage = _GUICreate("Welcome Message", $_GUI_MAIN_WIDTH - 4, $_GUI_MAIN_HEIGHT - 460, $g_iFrmBotPosX, $g_iFrmBotPosY + 80, $WS_DLGFRAME, -1, $g_hFrmBot)
 
 	$g_hChkUseWelcomeMessage = GUICtrlCreateCheckbox("Use Welcome Message", $x + 70, $y)
 	_GUICtrlSetTip(-1, "Enable Welcome Chat Message")
 	GUICtrlSetOnEvent(-1, "chkUseWelcomeMessage")
-	$g_hTxtWelcomeMessage = GUICtrlCreateInput($g_aWelcomeMessage, $x + 70, $y + 30, 260, 20, BitOR($SS_CENTER, $ES_AUTOHSCROLL))
-	_GUICtrlSetTip(-1, "Type Your Welcome Chat Message" & @CRLF & "Will Be Written After Accept With ""Forum"" Keyword")
+
+	$g_hTxtRequestMessage = GUICtrlCreateEdit("", $x + 100, $y + 30, 120, 72, BitOR($ES_WANTRETURN, $ES_CENTER, $ES_AUTOVSCROLL))
+	GUICtrlSetData(-1, StringFormat("Forum\r\nforum"))
+	_GUICtrlSetTip(-1, "Request Keywords To Detect")
 	GUICtrlSetState(-1, $GUI_DISABLE)
 
-	$y += 50
+	$g_hTxtWelcomeMessage = GUICtrlCreateInput($g_aWelcomeMessage, $x + 70, $y + 120, 260, 20, BitOR($SS_CENTER, $ES_AUTOHSCROLL))
+	_GUICtrlSetTip(-1, "Type Your Welcome Chat Message" & @CRLF & "Will Be Written After Accept With Keywords")
+	GUICtrlSetState(-1, $GUI_DISABLE)
+
+	$y += 160
 	$g_hBtnWelcomeMessageClose = GUICtrlCreateButton("Close", $_GUI_MAIN_WIDTH - 110, $y, 85, 25)
 	GUICtrlSetOnEvent(-1, "CloseWelcomeMessage")
 EndFunc   ;==>CreateChatWelcomeMessage

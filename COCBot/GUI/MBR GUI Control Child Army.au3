@@ -1104,12 +1104,12 @@ Func cmbSuperTroops()
 			If $i = $j Then ContinueLoop
 			If $g_iCmbSuperTroops[$i] <> 0 And $g_iCmbSuperTroops[$i] = $g_iCmbSuperTroops[$j] Then
 				_GUICtrlComboBox_SetCurSel($g_ahCmbSuperTroops[$j], 0)
-				_GUICtrlSetImage($g_ahImgTroopOrder[$j], $g_sLibIconPath, $eIcnOptions)
+				_GUICtrlSetImage($g_ahPicSuperTroops[$j], $g_sLibIconPath, $eIcnOptions)
 			EndIf
 		Next
 	Next
-EndFunc   ;==>cmbSuperTroops
-
+ EndFunc
+ 
 Func ChkPreciseArmy()
 	If GUICtrlRead($g_hChkPreciseArmy) = $GUI_CHECKED Then
 		$g_bPreciseArmy = True

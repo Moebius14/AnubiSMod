@@ -81,6 +81,7 @@ Func SwitchAccountVariablesReload($sType = "Load", $iAccount = $g_iCurAccount)
 	Static $gSaiCurrentLootBB = $aiZero83
 	Static $gSiFreeBuilderCountBB = $aiZero
 	Static $gSiTotalBuilderCountBB = $aiZero
+	Static $g_SIsBuilderJarAvl = $aiTrue
 
 	; Misc Stats
 	Static $aiNbrOfOoS = $aiZero
@@ -298,6 +299,7 @@ Func SwitchAccountVariablesReload($sType = "Load", $iAccount = $g_iCurAccount)
 			$gSaiCurrentLootBB = $aiZero83
 			$gSiFreeBuilderCountBB = $aiZero
 			$gSiTotalBuilderCountBB = $aiZero
+			$g_SIsBuilderJarAvl = $aiTrue
 
 		Case "Save"
 			$abFirstStart[$iAccount] = $g_bFirstStart
@@ -364,6 +366,7 @@ Func SwitchAccountVariablesReload($sType = "Load", $iAccount = $g_iCurAccount)
 			Next
 			$gSiFreeBuilderCountBB[$iAccount] = $g_iFreeBuilderCountBB
 			$gSiTotalBuilderCountBB[$iAccount] = $g_iTotalBuilderCountBB
+			$g_SIsBuilderJarAvl[$iAccount] = $g_IsBuilderJarAvl
 
 			; Misc Stats
 			$aiNbrOfOoS[$iAccount] = $g_iNbrOfOoS
@@ -543,6 +546,7 @@ Func SwitchAccountVariablesReload($sType = "Load", $iAccount = $g_iCurAccount)
 			PicBBTrophies()
 			$g_iFreeBuilderCountBB = $gSiFreeBuilderCountBB[$iAccount]
 			$g_iTotalBuilderCountBB = $gSiTotalBuilderCountBB[$iAccount]
+			$g_IsBuilderJarAvl = $g_SIsBuilderJarAvl[$iAccount]
 
 			; Misc Stats
 			$g_iNbrOfOoS = $aiNbrOfOoS[$iAccount]

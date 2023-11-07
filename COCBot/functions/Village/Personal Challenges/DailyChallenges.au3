@@ -241,7 +241,7 @@ Func CollectDailyRewards($bGoldPass = False)
 
 					For $j = 0 To UBound($aAllCoords) - 1
 						For $z = 0 To UBound($RewardImagesTypes) - 1
-							If QuickMIS("BC1", $RewardImagesTypes[$z][0], ($aAllCoords[$j])[0] - 50, ($aAllCoords[$j])[1] - 86, ($aAllCoords[$j])[0] + 45, ($aAllCoords[$j])[1] - 20) Then $RewardImagesTypes[$z][1] += 1
+							If QuickMIS("BC1", $RewardImagesTypes[$z][0], ($aAllCoords[$j])[0] - 50, ($aAllCoords[$j])[1] - 90, ($aAllCoords[$j])[0] + 45, ($aAllCoords[$j])[1] - 20) Then $RewardImagesTypes[$z][1] += 1
 						Next
 						ClickP($aAllCoords[$j], 1, 0, "Claim " & $j + 1) ; Click Claim button
 						If WaitforPixel(329, 390 + $g_iMidOffsetY, 331, 392 + $g_iMidOffsetY, Hex(0xFDC875, 6), 20, 3) Then ; wait for Cancel Button popped up in 1.5 second
@@ -258,7 +258,7 @@ Func CollectDailyRewards($bGoldPass = False)
 							If _Sleep(Random(3000, 4000, 1)) Then ExitLoop
 							$iClaim += 1
 							For $z = 0 To UBound($RewardImagesTypes) - 1
-								If Not QuickMIS("BC1", $RewardImagesTypes[$z][0], ($aAllCoords[$j])[0] - 50, ($aAllCoords[$j])[1] - 86, ($aAllCoords[$j])[0] + 45, ($aAllCoords[$j])[1] - 20) And $RewardImagesTypes[$z][1] > 0 Then
+								If Not QuickMIS("BC1", $RewardImagesTypes[$z][0], ($aAllCoords[$j])[0] - 50, ($aAllCoords[$j])[1] - 90, ($aAllCoords[$j])[0] + 45, ($aAllCoords[$j])[1] - 20) And $RewardImagesTypes[$z][1] > 0 Then
 									Switch $z
 										Case 0
 											$IsCCGoldJustCollected = 1

@@ -668,7 +668,7 @@ Func IsQueueEmpty($sType = "Troops", $bSkipTabCheck = False, $removeExtraTroopsQ
 			_ColorCheck(_GetPixelColor($iArrowX, $iArrowY + 3, True, $g_bDebugSetlogTrain ? $sType & " GreenArrow:0x6FB424" : Default), Hex(0x6FB424, 6), 30) And _
 			Not $removeExtraTroopsQueue Then
 
-		If Not WaitforPixel($iArrowX - 11, $iArrowY - 1, $iArrowX - 9, $iArrowY + 1, Hex(0xA5D27B, 6), 30, 2) Then Return False  ; check if boost arrow to do again
+		If Not WaitforPixel($iArrowX - 11, $iArrowY - 1, $iArrowX - 9, $iArrowY + 1, Hex(0xA5D27B, 6), 30, 2) Then Return False  ; check if boost arrow
 
 	EndIf
 
@@ -1015,7 +1015,7 @@ Func SearchArmy($sImageDir = "", $x = 0, $y = 0, $x1 = 0, $y1 = 0, $sArmyType = 
 								ReDim $aResult[UBound($aKeys) + $iResultAddDup][4]
 								$aResult[$i + $iResultAddDup][0] = $aResult[$i + $iResultAddDup - 1][0] ; same objectname
 								$aResult[$i + $iResultAddDup][1] = $aCoordsSplit2[0] + $x
-								$aResult[$i + $iResultAddDup][2] = $aCoordsSplit2[1]
+								$aResult[$i + $iResultAddDup][2] = $aCoordsSplit2[1] + $y
 								SetDebugLog($aResult[$i + $iResultAddDup][0] & " | $aCoordArray: " & $aResult[$i + $iResultAddDup][1] & "-" & $aResult[$i + $iResultAddDup][2])
 							EndIf
 						Next
@@ -1436,6 +1436,7 @@ Func FillCCWMedals($g_bFullArmy = False, $g_bCheckSpells = False, $bFullArmyHero
 
 	SetLog("Trying To Fill Clan Castle With Medals", $COLOR_DEBUG1)
 	ClickAway()
+	Zoomout()
 	If _Sleep(1000) Then Return
 
 	If ($g_aiClanCastlePos[0] = "-1" Or $g_aiClanCastlePos[1] = "-1") Then ;check for valid CC location

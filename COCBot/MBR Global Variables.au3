@@ -883,6 +883,7 @@ Global $g_bChkCollectBuilderBase = False, $g_bChkStartClockTowerBoost = False, $
 
 ; Builder Base Attack
 Global $g_hChkEnableBBAttack = 0, $g_hChkUseBuilderJar = 0, $g_hTxtBBTrophyLowerLimit = 0, $g_hTxtBBTrophyUpperLimit = 0, $g_hChkBBAttIfLootAvail = 0, $g_hChkBBWaitForMachine = 0
+Global $g_hCmbBuilderJar = 0, $g_iCmbBuilderJar = 0, $g_IsBuilderJarAvl = 1
 Global $g_bChkEnableBBAttack = False, $g_bChkUseBuilderJar = False, $g_bChkBBAttIfLootAvail = True, $g_bChkBBWaitForMachine = False
 Global $g_hChkBBHaltOnResourcesFull = 0, $g_bChkBBHaltOnResourcesFull = False
 Global $g_bBBMachineReady = False, $g_hChkBBAttackForDailyChallenge = 0, $g_bChkBBAttackForDailyChallenge = False, $g_IsBBDailyChallengeAvailable = False
@@ -2034,6 +2035,7 @@ Global $g_aImageSearchXML = -1, $ActionForModLog = 0
 Global $g_iHowManyinCWCombo = 0, $g_iHowManyinCWLCombo = 2, $g_HowManyPlayersInCW = 0, $g_HowManyPlayersInCWL = 0
 Global $aResultBuildingDetect = 0, $aNumResultBuildingDetect = 0, $THVisitCoord = 0
 Global $g_bUseWelcomeMessage = False
+Global $g_sRequestMessage = "Forum|forum"
 Global $g_aWelcomeMessage = "Welcome ! Please read the clan rules and enjoy !"
 
 ;Advanced
@@ -2142,7 +2144,7 @@ Global Const $g_afRefVillage[$eTreeCount][10] = [ _
 		[525.959020068643, 24, 812, 66, 660, 525.959020068643, 50, 50, 42, 42], _    ; CH partial
 		[606.96375086645, 21, 838, 36, 650, 606.96375086645, 50, 50, 42, 42], _      ; GH partial
 		[376.2247294568, 114, 724, 152, 610, 376.2247294568, 50, 46, 38, 42], _      ; BB partial
-		[433.366314406842, 120, 722, 158, 604, 433.366314406842, 50, 46, 38, 42], _  ; OO partial
+		[440.179472132523, 120, 732, 152, 608, 440.179472132523, 50, 46, 38, 42], _  ; OO partial
 		[379.741811787463, 130, 728, 162, 608, 379.741811787463, 50, 46, 38, 42]]    ; CR partial
 
 Global $g_iTree = $eTreeDSS                        ; default to classic

@@ -641,7 +641,12 @@ Func CreateMiscBuilderBaseSubTab()
 	_GUICtrlSetTip(-1, GetTranslatedFileIni("MBR GUI Design Child Village - Misc", "ChkUseBuilderJar_Info_01", "Check To Use Builder Jar When Stars Are Unavailable.") & @CRLF & _
 			"Won't Be Use If Storages Are Full Or BB Event Running.")
 	GUICtrlSetState(-1, $GUI_DISABLE)
+	GUICtrlSetOnEvent(-1, "chkEnableUseBuilderJar")
 	_GUICtrlCreateIcon($g_sLibModIconPath, $eIcnModBuilderJar, $x + 330, $y + 10, 24, 24)
+
+	$g_hCmbBuilderJar = GUICtrlCreateCombo("", $x + 365, $y + 10, 40, 25, BitOR($CBS_DROPDOWNLIST, $CBS_AUTOHSCROLL))
+	_GUICtrlSetTip(-1, GetTranslatedFileIni("MBR GUI Design Child Village - Misc", "ChkUseBuilderJar_Info_02", "Number Of Iterations."))
+	GUICtrlSetData(-1, "0|1|2|3|4|5", "0")
 
 	;HArchH was y+55
 	$g_hChkBBAttIfLootAvail = GUICtrlCreateCheckbox(GetTranslatedFileIni("MBR GUI Design Child Village - Misc", "ChkBBAttIfLootAvail", "Only if stars are available"), $x + 240, $y + 35)

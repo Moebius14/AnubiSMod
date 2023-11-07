@@ -81,16 +81,18 @@ Func PrepareAttackBB($AttackCount = 0)
 
 	If Not CheckArmyReady() Then
 		If _Sleep(1500) Then Return
-		ClickAway()
+		CloseWindow()
 		Return False
 	EndIf
 
-	$g_bBBMachineReady = CheckMachReady()
-	If $g_bChkBBWaitForMachine And Not $g_bBBMachineReady Then
-		SetLog("Battle Machine is not ready.")
-		If _Sleep(1500) Then Return
-		ClickAway()
-		Return False
+	If $g_bChkBBWaitForMachine Then
+		$g_bBBMachineReady = CheckMachReady()
+		If Not $g_bBBMachineReady Then
+			SetLog("Battle Machine is not ready.")
+			If _Sleep(1500) Then Return
+			CloseWindow()
+			Return False
+		EndIf
 	EndIf
 
 	Return True ; returns true if all checks succeed
@@ -248,7 +250,7 @@ EndFunc   ;==>ReturnHomeDropTrophyBB
 
 Func BuilderJar()
 
-	If Not $g_bChkEnableBBAttack Or Not $g_bChkUseBuilderJar Or $g_bIsBBevent Or $g_bChkBBAttackForDailyChallenge Then Return
+	If Not $g_bChkEnableBBAttack Or Not $g_bChkUseBuilderJar Or $g_iCmbBuilderJar = 0 Or $g_bIsBBevent Or $g_bChkBBAttackForDailyChallenge Then Return
 
 	If Not CheckLootAvail(False) Then
 		If CheckBBGoldStorageFull(False) And CheckBBElixirStorageFull(False) Then
@@ -258,11 +260,24 @@ Func BuilderJar()
 		SetLog("Use Builder Jar", $COLOR_INFO)
 		If Not ClickAttack() Then Return
 		If _Sleep(2000) Then Return
+		If $g_bChkBBWaitForMachine Then
+			$g_bBBMachineReady = CheckMachReady()
+			If Not $g_bBBMachineReady Then
+				If _Sleep(1500) Then Return
+				CloseWindow()
+				Return
+			EndIf
+		EndIf
 		If QuickMIS("BC1", $g_sImgUseBuilderJar, 125, 465 + $g_iMidOffsetY, 190, 505 + $g_iMidOffsetY) Then
 			Click($g_iQuickMISX + 20, $g_iQuickMISY)
 			If _Sleep(1500) Then Return
 			If ClickB("BoostConfirm") Then
 				SetLog("Stars Unlocked With Builder Jar", $COLOR_SUCCESS)
+				If $g_iCmbBuilderJar <= 5 Then
+					$g_iCmbBuilderJar -= 1
+					SetLog("Builder Jar Used. Remaining iterations: " & $g_iCmbBuilderJar, $COLOR_SUCCESS)
+					_GUICtrlComboBox_SetCurSel($g_hCmbBuilderJar, $g_iCmbBuilderJar)
+				EndIf
 				$ActionForModLog = "Using Builder Jar"
 				If $g_iTxtCurrentVillageName <> "" Then
 					GUICtrlSetData($g_hTxtModLog, @CRLF & _NowTime() & " [" & $g_iTxtCurrentVillageName & "] Stars Unlocked " & $ActionForModLog, 1)
@@ -275,9 +290,30 @@ Func BuilderJar()
 			EndIf
 		Else
 			SetLog("No Builder Jar Found", $COLOR_DEBUG2)
+			$g_IsBuilderJarAvl = 0
 		EndIf
 		If _Sleep(1000) Then Return
 		CloseWindow()
 	EndIf
 
 EndFunc   ;==>BuilderJar
+
+Func BuilderJarCheck()
+
+	If Not $g_bChkUseBuilderJar Or $g_iCmbBuilderJar = 0 Then Return
+
+	If Not $g_bChkEnableBBAttack Or CheckLootAvail(False) Or $g_bIsBBevent Or $g_bChkBBAttackForDailyChallenge Then Return
+
+	If Not ClickAttack() Then Return
+	If _Sleep(2000) Then Return
+
+	If QuickMIS("BC1", $g_sImgUseBuilderJar, 125, 465 + $g_iMidOffsetY, 190, 505 + $g_iMidOffsetY) Then
+		$g_IsBuilderJarAvl = 1
+	Else
+		$g_IsBuilderJarAvl = 0
+	EndIf
+
+	If _Sleep(1000) Then Return
+	CloseWindow()
+
+EndFunc   ;==>BuilderJarCheck

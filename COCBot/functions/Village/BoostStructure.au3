@@ -169,8 +169,10 @@ Func AllowBoostingBuilders($Masked = False)
 	If $g_iCmbBoostBuilders = 0 Then Return False
 
 	Local $g_iTimerBoostBuildersDiff = TimerDiff($g_iTimerBoostBuilders)
-	If $g_iTimerBoostBuildersDiff > 0 And $g_iTimerBoostBuildersDiff < Number(60 * 60 * 1000) Then
-		SetLog("Last iteration < 60 minutes, Recheck later", $COLOR_NAVY)
+	If $g_iTimerBoostBuildersDiff > 0 And $g_iTimerBoostBuildersDiff < Number(60 * 60 * 1000) Then ; < 1 Hour
+		Local $BoostedMin = Round($g_iTimerBoostBuildersDiff / 60 / 1000) ; Convert in Minutes
+		SetLog("Builder Potion :", $COLOR_NAVY)
+		SetLog("Last iteration " & $BoostedMin & " minutes ago, Recheck later", $COLOR_NAVY)
 		Return False
 	EndIf
 
@@ -285,10 +287,8 @@ Func ClickMainBuilder($bTest = False, $Counter = 3)
 	Local $b_WindowOpened = False
 	If Not $g_bRunState Then Return
 	; open the builders menu
-	If Not _ColorCheck(_GetPixelColor(385, 73, True), "FFFFFF", 50) Then
-		Click(402, 30)
-		If _Sleep(1000) Then Return
-	EndIf
+	Click(435, 30)
+	If _Sleep(1000) Then Return
 
 	If IsBuilderMenuOpen() Then
 		SetDebugLog("Open Upgrade Window, Success", $COLOR_SUCCESS)
@@ -296,7 +296,7 @@ Func ClickMainBuilder($bTest = False, $Counter = 3)
 	Else
 		For $i = 1 To $Counter
 			SetLog("Upgrade Window didn't open, trying again!", $COLOR_DEBUG)
-			Click(402, 30)
+			Click(435, 30)
 			If _Sleep(1000) Then Return
 			If IsBuilderMenuOpen() Then
 				$b_WindowOpened = True

@@ -238,6 +238,39 @@ Func SwitchBetweenBasesMod()
 		Return
 	EndIf
 
+	If $g_bChkUseBuilderJar Then
+		If $g_IsBuilderJarAvl And $g_iCmbBuilderJar > 0 And Not $g_bIsBBevent Then
+
+			SetLog("Time to Check Builder Base", $COLOR_OLIVE)
+			SetLog("Let's Use Builder Jar", $COLOR_ACTION)
+
+			If Not $BBaseCheckTimer And ($g_bChkBBaseFrequency And $g_iCmbPriorityBBaseFrequency > 0) Then $BBaseCheckTimer = TimerInit()
+
+			If $g_bChkBBaseFrequency And $g_iCmbPriorityBBaseFrequency > 0 Then
+
+				Local $DelayReturnedtocheckBBaseInf = ($g_iCmbPriorityBBaseFrequency - ($g_iCmbPriorityBBaseFrequency * $g_icmbAdvancedVariation[1]))
+				Local $DelayReturnedtocheckBBaseSup = ($g_iCmbPriorityBBaseFrequency + ($g_iCmbPriorityBBaseFrequency * $g_icmbAdvancedVariation[1]))
+				$DelayReturnedtocheckBBaseMS = Random($DelayReturnedtocheckBBaseInf, $DelayReturnedtocheckBBaseSup, 1)
+
+				Local $iWaitTime = $DelayReturnedtocheckBBaseMS
+				Local $sWaitTime = ""
+				Local $iMin, $iHour, $iWaitSec
+
+				$iWaitSec = Round($iWaitTime / 1000)
+				$iHour = Floor(Floor($iWaitSec / 60) / 60)
+				$iMin = Floor(Mod(Floor($iWaitSec / 60), 60))
+				If $iHour > 0 Then $sWaitTime &= $iHour & " hours "
+				If $iMin > 0 Then $sWaitTime &= $iMin & " minutes "
+				SetLog("Next Regular Switch To Builder Base : " & $sWaitTime & "", $COLOR_OLIVE)
+
+			EndIf
+
+			$IstoSwitchMod = 1
+			Return
+
+		EndIf
+	EndIf
+
 	If Not $g_bChkBBaseFrequency Then ; Return True and End fonction Without Timing
 		If ($g_bChkEnableForgeBBGold Or $g_bChkEnableForgeBBElix) And ($g_aiCurrentLootBB[$eLootGoldBB] = 0 Or $g_aiCurrentLootBB[$eLootElixirBB] = 0) Then
 			$IstoSwitchMod = 1
@@ -929,7 +962,7 @@ EndFunc   ;==>WatchBBBattles
 Func CheckDonateOften()
 	If Not $g_bCheckDonateOften Or Not $g_bChkDonate Then Return
 
-	If _ColorCheck(_GetPixelColor(32, 354, True), "BF0718", 20) Then
+	If _ColorCheck(_GetPixelColor(22, 272 + $g_iMidOffsetY, True), "EC0A12", 20) Then
 		SetLog("Check Donate Often", $COLOR_DEBUG1)
 		checkArmyCamp(True, True)
 
@@ -987,7 +1020,6 @@ Func IsBBDailyChallengeAvailable()
 	Local $sWaitTime = ""
 	Local $iMin, $iHour, $iWaitSec
 
-
 	If _DateIsValid($g_sNewChallengeTime) Then
 		$TimeDiffBBChallenge = _DateDiff("n", _NowCalc(), $g_sNewChallengeTime)
 		If ProfileSwitchAccountEnabled() Then SwitchAccountVariablesReload("Save")
@@ -1041,14 +1073,14 @@ Func IsBBDailyChallengeAvailable()
 
 	If _Sleep(5000) Then Return
 
-	If QuickMIS("BC1", $g_sImgBBDailyAvail, 60, 305 + $g_iMidOffsetY, 110, 365 + $g_iMidOffsetY) Then
+	If QuickMIS("BC1", $g_sImgBBDailyAvail, 50, 350 + $g_iMidOffsetY, 120, 430 + $g_iMidOffsetY) Then
 		SetLog("Check Builder Base Now, Daily Challenge Available", $COLOR_SUCCESS1)
 		$g_IsBBDailyChallengeAvailable = True
 		CloseWindow()
 		Return True
 	Else
 		SetLog("Daily BB Challenge Unavailable", $COLOR_DEBUG1)
-		Local $Result = getOcrAndCapture("coc-uptime", 65, 600 + $g_iMidOffsetY, 80, 18, True)
+		Local $Result = getOcrAndCapture("coc-forgetime", 210, 558 + $g_iMidOffsetY, 95, 18, True)
 		Local $iBBDailyNewChalTime = ConvertOCRTime("Challenge Time", $Result, False)
 
 		SetDebugLog("New Challenge OCR Time = " & $Result & ", $iBBDailyNewChalTime = " & $iBBDailyNewChalTime & " m", $COLOR_INFO)
@@ -1120,7 +1152,7 @@ Func IsBBDailyChallengeStillAvailable()
 
 	If _Sleep(5000) Then Return
 
-	If QuickMIS("BC1", $g_sImgBBDailyAvail, 60, 305 + $g_iMidOffsetY, 110, 365 + $g_iMidOffsetY) Then
+	If QuickMIS("BC1", $g_sImgBBDailyAvail, 50, 350 + $g_iMidOffsetY, 120, 430 + $g_iMidOffsetY) Then
 		SetLog("Builder Base Daily Challenge Available", $COLOR_SUCCESS1)
 		$g_IsBBDailyChallengeAvailable = True
 		CloseWindow()
@@ -1138,10 +1170,11 @@ Func ForumAccept()
 
 	If Not $g_bForumRequestOnly Then Return
 
-	SetLog("Checking Requests From Forum", $COLOR_ACTION)
+	SetLog("Checking Joining Requests", $COLOR_ACTION)
 
 	Local $Scroll, $bRet, $Accepted = 0
-	Local $aForumWrite[2] = ["Forum", "forum"]
+	Local $aForumWrite = StringSplit($g_sRequestMessage, "|")
+	_ArrayDelete($aForumWrite, 0)
 
 	If _Sleep(1000) Then Return
 	If Not ClickB("ClanChat") Then
@@ -1163,31 +1196,36 @@ Func ForumAccept()
 	WEnd
 
 	While 1
-		Local $aTmpCoord = QuickMIS("CNX", $g_sImgACCEPT, 10, 115, 270, 615 + $g_iBottomOffsetY)
+		Local $aTmpCoord = QuickMIS("CNX", $g_sImgACCEPT, 200, 115, 300, 615 + $g_iBottomOffsetY)
 		If _Sleep(1000) Then ExitLoop
 		_ArraySort($aTmpCoord, 0, 0, 0, 2)
 		If IsArray($aTmpCoord) And UBound($aTmpCoord) > 0 Then
-			SetLog("Request Detected", $COLOR_SUCCESS1)
+			SetLog("Joining Request Detected", $COLOR_SUCCESS1)
 			$bRet = False
-			Local $Result = getOcrAndCapture("coc-latinA", 25, $aTmpCoord[0][2] - 56, 285, 20)
-			Local $Result2 = getOcrAndCapture("coc-latinA", 25, $aTmpCoord[0][2] - 69, 285, 20)
+			Local $Result = getOcrAndCapture("coc-latinA", 45, $aTmpCoord[0][2] - 49, 285, 16)
+			Local $Result2 = getOcrAndCapture("coc-latinA", 45, $aTmpCoord[0][2] - 62, 285, 16)
 			If _Sleep(500) Then ExitLoop
 			Local $bForumWordFound = 0
-			For $y In $aForumWrite
-				If StringInStr($Result, $y) Or StringInStr($Result2, $y) Then
-					SetLog("Forum Request Detected", $COLOR_FUCHSIA)
-					$bRet = True
-					$bForumWordFound += 1
-					ExitLoop
-				EndIf
-			Next
-			If $bForumWordFound = 0 Then SetLog("But No ""Forum"" Detected", $COLOR_WARNING)
+			If IsArray($aForumWrite) And $aForumWrite[0] <> "" Then
+				For $i = 0 To UBound($aForumWrite) - 1
+					If StringInStr($Result, $aForumWrite[$i]) Or StringInStr($Result2, $aForumWrite[$i]) Then
+						SetLog("Request With Keyword Detected (" & $aForumWrite[$i] & ")", $COLOR_FUCHSIA)
+						$bRet = True
+						$bForumWordFound += 1
+						ExitLoop
+					EndIf
+				Next
+			Else
+				SetLog("No Keyword Saved In Settings", $COLOR_ERROR)
+				ExitLoop
+			EndIf
+			If $bForumWordFound = 0 Then SetLog("But No Keyword Detected", $COLOR_WARNING)
 			If Not $g_bRunState Then ExitLoop
 			If $bRet Then
 				SetLog("Click Accept", $COLOR_SUCCESS1)
 				Click($aTmpCoord[0][1], $aTmpCoord[0][2] + 5)
 				$Accepted += 1
-				$ActionForModLog = "Accept Forum Request"
+				$ActionForModLog = "Accept Joining Request"
 				If $g_iTxtCurrentVillageName <> "" Then
 					GUICtrlSetData($g_hTxtModLog, @CRLF & _NowTime() & " [" & $g_iTxtCurrentVillageName & "] Humanization : " & $ActionForModLog & "", 1)
 				Else
@@ -1240,7 +1278,7 @@ EndFunc   ;==>ForumAccept
 
 Func SelectChatInput() ; select the textbox for Global chat or Clan Chat
 
-	Click($aChatSelectTextBox[0], $aChatSelectTextBox[1] + 5, 1, 0, "SelectTextBoxBtn")
+	Click($aChatSelectTextBox[0], $aChatSelectTextBox[1], 1, 0, "SelectTextBoxBtn")
 	If _Sleep(2000) Then Return
 
 	If _WaitForCheckPixel($aOpenedChatSelectTextBox, $g_bCapturePixel, Default, "Wait for Chat Select Text Box:") Then
@@ -1255,7 +1293,7 @@ EndFunc   ;==>SelectChatInput
 
 Func ChatTextInput($g_sMessage)
 
-	Click($aOpenedChatSelectTextBox[0], $aOpenedChatSelectTextBox[1] + 5, 1, 0, "ChatInput")
+	Click($aOpenedChatSelectTextBox[0], $aOpenedChatSelectTextBox[1], 1, 0, "ChatInput")
 	If _Sleep(1500) Then Return
 
 	SendText($g_sMessage)
@@ -1280,9 +1318,11 @@ EndFunc   ;==>SendTextChat
 Func chkUseWelcomeMessage()
 	If GUICtrlRead($g_hChkUseWelcomeMessage) = $GUI_CHECKED Then
 		$g_bUseWelcomeMessage = True
+		GUICtrlSetState($g_hTxtRequestMessage, $GUI_ENABLE)
 		GUICtrlSetState($g_hTxtWelcomeMessage, $GUI_ENABLE)
 	Else
 		$g_bUseWelcomeMessage = False
+		GUICtrlSetState($g_hTxtRequestMessage, $GUI_DISABLE)
 		GUICtrlSetState($g_hTxtWelcomeMessage, $GUI_DISABLE)
 	EndIf
 EndFunc   ;==>chkUseWelcomeMessage

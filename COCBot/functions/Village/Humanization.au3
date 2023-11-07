@@ -2332,7 +2332,7 @@ Func LookAtRedNotifications()
 	EndIf
 	ReturnAtHome()
 
-	If _ColorCheck(_GetPixelColor(32, 324 + $g_iMidOffsetY, True), "BF0718", 20) Then
+	If _ColorCheck(_GetPixelColor(22, 272 + $g_iMidOffsetY, True), "EC0A12", 20) Then
 		SetLog("New Messages On The Chat Room ...", $COLOR_OLIVE)
 		Local $ChatNotEveryTime = Random(1, 5, 1)
 		If $ChatNotEveryTime > 3 Then
@@ -2360,10 +2360,10 @@ Func LookAtRedNotifications()
 		Local $EsportNotEveryTime = Random(1, 5, 1)
 		If $EsportNotEveryTime = 5 Then
 			SetLog("Esport Live", $COLOR_BLUE)
-			Click(715, 630 + $g_iBottomOffsetY) ; open events
+			Click(715, 630 + $g_iBottomOffsetY) ; open SC Messages
 			If _Sleep(3000) Then Return
 			SetLog("Open Esports Tab", $COLOR_DEBUG)
-			Click(705, 85)
+			Click(525, 95)
 			While 1
 				If WaitforPixel(700, 145 + $g_iMidOffsetY, 705, 150 + $g_iMidOffsetY, Hex(0xE8E8E0, 6), 15, 10) Then
 					If _Sleep(500) Then Return
@@ -3285,6 +3285,7 @@ Func BBBattleLog()
 	If Not $g_bUseBotHumanization Then Return
 	Local $IsToViewBBBattleLog = Random(0, 100, 1)
 	Local $ViewPriorityNumber = 0
+	Local $RedSignal = _ColorCheck(_GetPixelColor(51, 103 + $g_iMidOffsetY, True), Hex(0xF61621, 6), 20)
 	If $g_iacmbPriorityBB[0] = 0 Then Return
 	If $g_iacmbPriorityBB[0] = 1 Then $ViewPriorityNumber = 85
 	If $g_iacmbPriorityBB[0] = 2 Then $ViewPriorityNumber = 70
@@ -3292,7 +3293,7 @@ Func BBBattleLog()
 	If $g_iacmbPriorityBB[0] = 4 Then $ViewPriorityNumber = 30
 	If $g_iacmbPriorityBB[0] = 5 Then $ViewPriorityNumber = 2
 
-	If $ViewPriorityNumber < $IsToViewBBBattleLog Then
+	If $ViewPriorityNumber < $IsToViewBBBattleLog Or $RedSignal Then
 		SetLog("OK, Let The Bot Being More Human Like!", $COLOR_SUCCESS1)
 		If _Sleep(Random(1500, 2500, 1)) Then Return
 		SetLog("Lets Look At BattleLog", $COLOR_OLIVE)

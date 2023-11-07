@@ -284,7 +284,7 @@ Func UpgradeValue($inum, $bRepeat = False) ;function to find the value and type 
 		If $bOopsFlag And $g_bDebugImageSave Then SaveDebugImage("UpgradeView")
 
 		If $IsTHWeapon Then
-			Local $THWLevelUp = getOcrAndCapture("coc-RemainLaboratory2", 518, 89 + $g_iMidOffsetY, 22, 22)
+			Local $THWLevelUp = getOcrAndCapture("coc-THWeapon", 503, 113 + $g_iMidOffsetY, 18, 17)
 			If $THWLevelUp > 0 And $THWLevelUp <= 5 Then $g_avBuildingUpgrades[$inum][5] = Number($THWLevelUp - 1)
 			GUICtrlSetData($g_hTxtUpgradeLevel[$inum], $g_avBuildingUpgrades[$inum][5])
 		EndIf
