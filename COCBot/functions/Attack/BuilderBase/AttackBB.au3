@@ -212,6 +212,7 @@ Func _AttackBB()
 	If Not isOnBuilderBaseEnemyVillage(True) Then
 		SetLog("Zoom Out has failed and Attack was aborted", $COLOR_DEBUG)
 		$b_AbortedAttack = True
+		$g_bStayOnBuilderBase = True
 		Return
 	EndIf
 
@@ -284,6 +285,7 @@ Func EndBattleBB() ; Find if battle has ended and click okay
 		If $bCountSameDamage > 25 Then
 			If $sDamage = "" And Not isOnBuilderBaseEnemyVillage(True) Then
 				If checkObstacles(True) Then waitMainScreen()
+				$g_bStayOnBuilderBase = True
 				Return False
 			EndIf
 			If ReturnHomeDropTrophyBB(True) Then $bRet = True

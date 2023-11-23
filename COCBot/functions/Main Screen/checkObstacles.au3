@@ -140,6 +140,7 @@ Func _checkObstacles($bBuilderBase = False, $bRecursive = False) ;Checks if some
 	If UBound(decodeSingleCoord(FindImageInPlace2("CCResults", $g_sImgClanCapitalResults, 210, 130 + $g_iMidOffsetY, 320, 240 + $g_iMidOffsetY, False))) > 1 Then ; Clan Capital Results
 		If _ColorCheck(_GetPixelColor(232, 312 + $g_iMidOffsetY, $g_bCapturePixel), Hex(0xFFFFFF, 6), 10) And _ColorCheck(_GetPixelColor(664, 242 + $g_iMidOffsetY, $g_bCapturePixel), Hex(0xFFFFFF, 6), 10) Then
 			$g_bMinorObstacle = True
+			$bControlCCMedal = True
 			CloseWindow()
 			Return False
 		EndIf

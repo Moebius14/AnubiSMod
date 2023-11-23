@@ -51,11 +51,14 @@ Func _WaitForCheckPixel($aScreenCode, $bNeedCapture = Default, $Ignore = Default
 		If _Sleep($iWaitLoop) Then Return
 		$wCount += 1
 		If $wCount > 20 Then ; wait for 20*250ms=5 seconds for pixel to appear
-			If _CheckPixel($aRecievedTroops, $bNeedCapture) Or _CheckPixel($aRecievedTroopsTab, $bNeedCapture) Or _CheckPixel($aRecievedTroopsTab2, $bNeedCapture) Then
+			If _CheckPixel($aReceivedTroopsTab, True) Then
 				SetLog("Detected Clan Castle Message. Waiting until it's gone", $COLOR_INFO)
 				_CaptureRegion2()
-				While (_CheckPixel($aRecievedTroops, False) Or _CheckPixel($aRecievedTroopsTab, $bNeedCapture) Or _CheckPixel($aRecievedTroopsTab2, $bNeedCapture))
+				Local $Safetyexit = 0
+				While _CheckPixel($aReceivedTroopsTab, True)
 					If _Sleep($DELAYTRAIN1) Then Return
+					$Safetyexit = $Safetyexit + 1
+					If $Safetyexit > 60 Then ExitLoop  ;If waiting longer than 1 min, something is wrong
 				WEnd
 				ContinueLoop
 			EndIf

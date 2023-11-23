@@ -769,14 +769,20 @@ Func Algorithm_AttackCSV($testattack = False, $captureredarea = True)
 	If $sMainSide = "BOTTOM-LEFT" Then
 		SetDebugLog("BOTTOM LEFT as MainSide, checking boost button")
 		Local $OneTimeLog = 0
-		Local $aBoostButtons
+		Local $aBoostButtons, $aBoostedButtons = 0
 		For $i = 1 To 15
 			$aBoostButtons = QuickMIS("CNX", $g_sImgBoostButtons, 130, 520 + $g_iBottomOffsetY, 390, 555 + $g_iBottomOffsetY)
 			If IsArray($aBoostButtons) And UBound($aBoostButtons) > 0 Then
+				For $t = 0 To UBound($aBoostButtons) - 1
+					If QuickMIS("BC1", $g_sImgBoostedButtons, $aBoostButtons[$t][1] - 5, $aBoostButtons[$t][2] - 8, $aBoostButtons[$t][1] + 42, $aBoostButtons[$t][2] + 8) Then $aBoostedButtons += 1
+					If $aBoostedButtons = UBound($aBoostButtons) Then ExitLoop 2
+					If _Sleep(200) Then Return
+				Next
 				If $OneTimeLog = 0 Then SetLog("Boost Button" & (Number(UBound($aBoostButtons)) = 1 ? " Detected On MainSide" : "s Detected On MainSide"), $COLOR_NAVY)
 				If _Sleep(2000) Then Return
 				SetLog("Wait Battle Start #" & $i, $COLOR_ACTION)
 				$OneTimeLog += 1
+				If $OneTimeLog = 20 Then ExitLoop
 			Else
 				If _Sleep(3000) Then Return
 				ExitLoop
@@ -785,15 +791,21 @@ Func Algorithm_AttackCSV($testattack = False, $captureredarea = True)
 	ElseIf $sMainSide = "BOTTOM-RIGHT" Then
 		SetDebugLog("BOTTOM RIGHT as MainSide, checking boost button")
 		Local $OneTimeLog = 0
-		Local $aBoostButtons
+		Local $aBoostButtons, $aBoostedButtons = 0
 		For $i = 1 To 15
 			$aBoostButtons = QuickMIS("CNX", $g_sImgBoostButtons, 130, 520 + $g_iBottomOffsetY, 390, 555 + $g_iBottomOffsetY)
 			If IsArray($aBoostButtons) And UBound($aBoostButtons) > 0 Then
 				If UBound($aBoostButtons) = 1 Then ExitLoop
+				For $t = 0 To UBound($aBoostButtons) - 1
+					If QuickMIS("BC1", $g_sImgBoostedButtons, $aBoostButtons[$t][1] - 5, $aBoostButtons[$t][2] - 8, $aBoostButtons[$t][1] + 42, $aBoostButtons[$t][2] + 8) Then $aBoostedButtons += 1
+					If $aBoostedButtons = UBound($aBoostButtons) Then ExitLoop 2
+					If _Sleep(200) Then Return
+				Next
 				If $OneTimeLog = 0 Then SetLog("Boost Button Detected On Border Of MainSide", $COLOR_NAVY)
 				If _Sleep(2000) Then Return
 				SetLog("Wait Battle Start #" & $i, $COLOR_ACTION)
 				$OneTimeLog += 1
+				If $OneTimeLog = 20 Then ExitLoop
 			Else
 				If _Sleep(3000) Then Return
 				ExitLoop

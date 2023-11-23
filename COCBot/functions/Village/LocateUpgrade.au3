@@ -323,18 +323,18 @@ Func UpgradeValue($inum, $bRepeat = False) ;function to find the value and type 
 				SetLog("Upgrade #" & $inum + 1 & " Time = " & $g_avBuildingUpgrades[$inum][6], $COLOR_INFO)
 				If $g_avBuildingUpgrades[$inum][6] <> "" Then $g_avBuildingUpgrades[$inum][7] = "" ; Clear old upgrade end time
 
-			Case _ColorCheck(_GetPixelColor(733, 167 + $g_iMidOffsetY, True), Hex(0xCD1218, 6), 20) ; Check if the Gear Up Building window is open
+			Case _ColorCheck(_GetPixelColor(737, 134 + $g_iMidOffsetY, True), Hex(0xFF8D95, 6), 20) ; Check if the Gear Up Building window is open
 				SetDebugLog("Selection #" & $inum + 1 & " can not repeat upgrade, need TH upgrade", $COLOR_ACTION)
 				$g_abUpgradeRepeatEnable[$inum] = False
 				GUICtrlSetState($g_hChkUpgradeRepeat[$inum], $GUI_UNCHECKED) ; Change repeat selection box to unchecked
 				$g_avBuildingUpgrades[$inum][3] = "Gold"
 
-				$g_avBuildingUpgrades[$inum][2] = Number(getCostsUpgrade(552, 541 + $g_iMidOffsetY)) ; Try to read white text.
-				If $g_avBuildingUpgrades[$inum][2] = "" Then $g_avBuildingUpgrades[$inum][2] = Number(getCostsUpgradeRed(552, 541 + $g_iMidOffsetY)) ;read RED upgrade text
+				$g_avBuildingUpgrades[$inum][2] = Number(getCostsUpgradeGear(375, 476 + $g_iMidOffsetY)) ; Try to read white text.
+				If $g_avBuildingUpgrades[$inum][2] = "" Then $g_avBuildingUpgrades[$inum][2] = Number(getCostsUpgradeGearRed(375, 476 + $g_iMidOffsetY)) ;read RED upgrade text
 				If $g_avBuildingUpgrades[$inum][2] = "" And $g_abUpgradeRepeatEnable[$inum] = False Then $bOopsFlag = True ; set error flag for user to set value if not repeat upgrade
 
 				;HArchH X value was 195
-				$g_avBuildingUpgrades[$inum][6] = getBldgUpgradeTime(190, 401 + $g_iMidOffsetY) ; Try to read white text showing time for upgrade
+				$g_avBuildingUpgrades[$inum][6] = getGearUpgradeTime(185, 401 + $g_iMidOffsetY) ; Try to read white text showing time for upgrade
 				SetLog("Upgrade #" & $inum + 1 & " Time = " & $g_avBuildingUpgrades[$inum][6], $COLOR_INFO)
 				If $g_avBuildingUpgrades[$inum][6] <> "" Then $g_avBuildingUpgrades[$inum][7] = "" ; Clear old upgrade end time
 

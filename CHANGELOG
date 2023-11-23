@@ -1,3 +1,12 @@
+* v8.1.4 **
+* Fixed Legend League Sign-up.
+* Improved LatinA OCR.
+* Try To Fix BS5.12+ resize issue.
+* Changed CheckObstacle Results from SetLog to SetDebugLog.
+* Improved blocking donate message on screen detection.
+* Improved sieges making.
+* Changed timings for detections on Clan Capital.
+
 * v8.1.3 **
 * Fixed Costs OCR in Labs.
 * Improved Super Dragon Training.

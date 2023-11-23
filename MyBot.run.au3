@@ -507,9 +507,6 @@ Func SetupFilesAndFolders()
 	DirCreate($g_sProfileTempPath)
 	DirCreate($g_sProfileTempDebugPath)
 
-	$g_sProfileDonateCapturePath = $g_sProfilePath & "\" & $g_sProfileCurrentName & '\Donate\'
-	$g_sProfileDonateCaptureWhitelistPath = $g_sProfilePath & "\" & $g_sProfileCurrentName & '\Donate\White List\'
-	$g_sProfileDonateCaptureBlacklistPath = $g_sProfilePath & "\" & $g_sProfileCurrentName & '\Donate\Black List\'
 	DirCreate($g_sProfileDonateCapturePath)
 	DirCreate($g_sProfileDonateCaptureWhitelistPath)
 	DirCreate($g_sProfileDonateCaptureBlacklistPath)
@@ -779,9 +776,9 @@ Func runBot() ;Bot that runs everything in order
 			checkMainScreen(False)
 			If $g_bRestart Then ContinueLoop
 			If $g_bIsSearchLimit Then
-				Local $aRndFuncList = ['LabCheck', 'Collect', 'CollectCCGold', 'PetCheck']
+				Local $aRndFuncList = ['LabCheck', 'Collect', 'CollectCCGold', 'PetCheck', 'PurgeMedals']
 			Else
-				Local $aRndFuncList = ['LabCheck', 'Collect', 'CollectCCGold', 'CheckTombs', 'CleanYard', 'CollectAchievements', 'CollectFreeMagicItems', 'DailyChallenge', 'PetCheck']
+				Local $aRndFuncList = ['LabCheck', 'Collect', 'CollectCCGold', 'CheckTombs', 'CleanYard', 'CollectAchievements', 'CollectFreeMagicItems', 'DailyChallenge', 'PetCheck', 'PurgeMedals']
 			EndIf
 			_ArrayShuffle($aRndFuncList)
 			For $Index In $aRndFuncList
@@ -792,7 +789,7 @@ Func runBot() ;Bot that runs everything in order
 
 			If $g_bRequestTroopsEnable And ($g_abSearchCastleWaitEnable[$DB] Or $g_abSearchCastleWaitEnable[$LB]) And ((Not $bChkUseOnlyCCMedals And _
 					$g_aiCmbCCDecisionThen = 1 And $g_aiCmbCCDecisionTime > 0) Or $bChkUseOnlyCCMedals) Then
-				If Number($g_iLootCCMedal) = 0 Then CatchCCMedals()
+				If Number($g_iLootCCMedal) = 0 Or $bControlCCMedal Then CatchCCMedals()
 			EndIf
 
 			AddIdleTime()
@@ -1454,6 +1451,9 @@ Func __RunFunction($action)
 			_Sleep($DELAYRUNBOT3)
 		Case "CollectCCGold"
 			CollectCCGold()
+			_Sleep($DELAYRUNBOT3)
+		Case "PurgeMedals"
+			SoldAndBuyItems()
 			_Sleep($DELAYRUNBOT3)
 		Case ""
 			SetDebugLog("Function call doesn't support empty string, please review array size", $COLOR_ERROR)

@@ -952,6 +952,7 @@ Global $g_abDonateHours[24] = [False, False, False, False, False, False, False, 
 Global $g_iCmbDonateFilter = 0 ; 0 no filter, 1 capture only images, 2 white list, 3 black list
 Global $g_bDonateSkipNearFullEnable = 1
 Global $g_iDonateSkipNearFullPercent = 90
+Global $g_bChkDeleteOldFiles = False, $g_iaTxtDeleteOldFilesDays = 5
 
 ; <><><><> Village / Upgrade <><><><>
 ; Lab
@@ -2034,7 +2035,7 @@ Global $g_iQuickMISX = 0, $g_iQuickMISY = 0
 Global $g_aImageSearchXML = -1, $ActionForModLog = 0
 Global $g_iHowManyinCWCombo = 0, $g_iHowManyinCWLCombo = 2, $g_HowManyPlayersInCW = 0, $g_HowManyPlayersInCWL = 0
 Global $aResultBuildingDetect = 0, $aNumResultBuildingDetect = 0, $THVisitCoord = 0
-Global $g_bUseWelcomeMessage = False
+Global $g_bUseWelcomeMessage = False, $g_bChkAcceptAllRequests = False
 Global $g_sRequestMessage = "Forum|forum"
 Global $g_aWelcomeMessage = "Welcome ! Please read the clan rules and enjoy !"
 
@@ -2083,6 +2084,8 @@ Global $PetItemCapture = @ScriptDir & "\imgxml\Potions\Pet*"
 Global $BJarItemCapture = @ScriptDir & "\imgxml\Potions\BJar*"
 Global $PotionsCaptures[10] = [$PowerItemCapture, $ResourceItemCapture, $TrainingItemCapture, $BuilderItemCapture, $ClockItemCapture, $HeroItemCapture, $ResearchItemCapture, $SuperItemCapture, $PetItemCapture, $BJarItemCapture]
 Global $PotionsNames[10] = ["Power", "Resource", "Training", "Builder", "Clock Tower", "Hero", "Research", "Super", "Pet", "Builder Jar"]
+Global $PotionsCapturesMedal[7] = [$PowerItemCapture, $ResourceItemCapture, $TrainingItemCapture, $ClockItemCapture, $HeroItemCapture, $ResearchItemCapture, $BJarItemCapture]
+Global $PotionsNamesMedal[7] = ["Power", "Resource", "Training", "Clock Tower", "Hero", "Research", "Builder Jar"]
 
 ;Use Medals To Fill CC
 Global $IsForRequestEarly = True, $IsTofillWithMedals = False
@@ -2158,6 +2161,7 @@ Global $g_iNextPageTroop = $eETitan
 
 ;ClanCapital
 Global $g_iLootCCGold = 0, $g_iLootCCMedal = 0, $g_iCCTrophies = 0, $g_bChkEnableAutoUpgradeCC = False, $g_bChkAutoUpgradeCCIgnore = False, $g_bChkEnableSmartSwitchCC = False
+Global $g_bChkEnablePurgeMedal = False, $g_iacmdMedalsExpected = 1500, $bControlCCMedal = False
 Global $IsRaidRunning = 0, $g_iRank = ""
 Global $g_bChkEnableCollectCCGold = False, $g_bChkEnableForgeGold = False, $g_bChkEnableForgeElix = False, $g_bChkEnableSmartUse = False
 Global $g_bChkEnableForgeDE = False, $g_bChkEnableForgeBBGold = False, $g_bChkEnableForgeBBElix = False, $g_iCmbForgeBuilder = 0

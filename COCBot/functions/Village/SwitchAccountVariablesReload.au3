@@ -124,6 +124,7 @@ Func SwitchAccountVariablesReload($sType = "Load", $iAccount = $g_iCurAccount)
 
 	Static $abNotNeedAllTime0 = $aiTrue
 	Static $abNotNeedAllTime1 = $aiTrue
+	Static $SbControlCCMedal = $aiZero
 
 	;Daily Challenge
 	Static $gaSsNewChallengeTime = $aiZero
@@ -278,6 +279,7 @@ Func SwitchAccountVariablesReload($sType = "Load", $iAccount = $g_iCurAccount)
 			$aiBuilderBoostDiscount = $aiZero
 			$abNotNeedAllTime0 = $aiTrue
 			$abNotNeedAllTime1 = $aiTrue
+			$SbControlCCMedal = $aiZero
 
 			;Humanization
 			$gSiTimerBoostBuilders = $aiZero
@@ -474,6 +476,7 @@ Func SwitchAccountVariablesReload($sType = "Load", $iAccount = $g_iCurAccount)
 			$aiBuilderBoostDiscount[$iAccount] = $g_iBuilderBoostDiscount
 			$abNotNeedAllTime0[$iAccount] = $g_abNotNeedAllTime[0]
 			$abNotNeedAllTime1[$iAccount] = $g_abNotNeedAllTime[1]
+			$SbControlCCMedal[$iAccount] = $bControlCCMedal
 
 		Case "Load"
 			$g_bFirstStart = $abFirstStart[$iAccount]
@@ -654,6 +657,7 @@ Func SwitchAccountVariablesReload($sType = "Load", $iAccount = $g_iCurAccount)
 			$g_iBuilderBoostDiscount = $aiBuilderBoostDiscount[$iAccount]
 			$g_abNotNeedAllTime[0] = $abNotNeedAllTime0[$iAccount]
 			$g_abNotNeedAllTime[1] = $abNotNeedAllTime1[$iAccount]
+			$bControlCCMedal = $SbControlCCMedal[$iAccount]
 
 			ResetVariables("donated") ; reset for new account
 			$g_aiAttackedCountSwitch[$iAccount] = $aiAttackedCount[$iAccount]

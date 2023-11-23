@@ -127,6 +127,7 @@ Func BotStart($bAutostartDelay = 0)
 	For $z = 0 To 1
 		$g_abNotNeedAllTime[$z] = True
 	Next
+	$bControlCCMedal = False
 	$g_iMinDark4PetUpgrade = 0
 	$g_sNewChallengeTime = 0
 	$TimeDiffBBChallenge = 0

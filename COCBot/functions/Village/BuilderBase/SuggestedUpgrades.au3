@@ -5,7 +5,7 @@
 ; Parameters ....:
 ; Return values .: None
 ; Author ........: ProMac (05-2017)
-; Modified ......: Moebius14 (08-2023)
+; Modified ......: Moebius14 (11-2023)
 ; Remarks .......: This file is part of MyBot, previously known as ClashGameBot. Copyright 2015-2023
 ;                  MyBot is distributed under the terms of the GNU GPL
 ; Related .......:
@@ -16,14 +16,14 @@
 Func chkActivateBBSuggestedUpgrades()
 	; CheckBox Enable Suggested Upgrades [Update values][Update GUI State]
 	If GUICtrlRead($g_hChkBBSuggestedUpgrades) = $GUI_CHECKED Then
-		$g_iChkBBSuggestedUpgrades = 1
 		GUICtrlSetState($g_hChkBBSuggestedUpgradesIgnoreGold, $GUI_ENABLE)
 		GUICtrlSetState($g_hChkBBSuggestedUpgradesIgnoreElixir, $GUI_ENABLE)
 		GUICtrlSetState($g_hChkBBSuggestedUpgradesIgnoreHall, $GUI_ENABLE)
 		GUICtrlSetState($g_hChkBBSuggestedUpgradesIgnoreWall, $GUI_ENABLE)
 		GUICtrlSetState($g_hChkPlacingNewBuildings, $GUI_ENABLE)
+		chkActivateBBSuggestedUpgradesGold()
+		chkActivateBBSuggestedUpgradesElixir()
 	Else
-		$g_iChkBBSuggestedUpgrades = 0
 		GUICtrlSetState($g_hChkBBSuggestedUpgradesIgnoreGold, BitOR($GUI_UNCHECKED, $GUI_DISABLE))
 		GUICtrlSetState($g_hChkBBSuggestedUpgradesIgnoreElixir, BitOR($GUI_UNCHECKED, $GUI_DISABLE))
 		GUICtrlSetState($g_hChkBBSuggestedUpgradesIgnoreHall, BitOR($GUI_UNCHECKED, $GUI_DISABLE))
@@ -33,40 +33,21 @@ Func chkActivateBBSuggestedUpgrades()
 EndFunc   ;==>chkActivateBBSuggestedUpgrades
 
 Func chkActivateBBSuggestedUpgradesGold()
-	; if disabled, why continue?
-	If $g_iChkBBSuggestedUpgrades = 0 Then Return
-	; Ignore Upgrade Building with Gold [Update values]
-	$g_iChkBBSuggestedUpgradesIgnoreGold = (GUICtrlRead($g_hChkBBSuggestedUpgradesIgnoreGold) = $GUI_CHECKED) ? 1 : 0
-	; If Gold is Selected Than we can disable the Builder Hall [is gold] and Wall almost [is Gold]
-	If $g_iChkBBSuggestedUpgradesIgnoreGold = 0 Then
-		GUICtrlSetState($g_hChkBBSuggestedUpgradesIgnoreElixir, $GUI_ENABLE)
-		GUICtrlSetState($g_hChkBBSuggestedUpgradesIgnoreHall, $GUI_ENABLE)
-		GUICtrlSetState($g_hChkBBSuggestedUpgradesIgnoreWall, $GUI_ENABLE)
-	Else
+	If GUICtrlRead($g_hChkBBSuggestedUpgradesIgnoreGold) = $GUI_CHECKED Then
 		GUICtrlSetState($g_hChkBBSuggestedUpgradesIgnoreElixir, BitOR($GUI_UNCHECKED, $GUI_DISABLE))
 		GUICtrlSetState($g_hChkBBSuggestedUpgradesIgnoreHall, BitOR($GUI_UNCHECKED, $GUI_DISABLE))
-		GUICtrlSetState($g_hChkBBSuggestedUpgradesIgnoreWall, BitOR($GUI_UNCHECKED, $GUI_DISABLE))
+	Else
+		GUICtrlSetState($g_hChkBBSuggestedUpgradesIgnoreElixir, $GUI_ENABLE)
+		GUICtrlSetState($g_hChkBBSuggestedUpgradesIgnoreHall, $GUI_ENABLE)
 	EndIf
-	; Ignore Upgrade Builder Hall [Update values]
-	$g_iChkBBSuggestedUpgradesIgnoreHall = (GUICtrlRead($g_hChkBBSuggestedUpgradesIgnoreHall) = $GUI_CHECKED) ? 1 : 0
-	; Update Elixir value
-	$g_iChkBBSuggestedUpgradesIgnoreElixir = (GUICtrlRead($g_hChkBBSuggestedUpgradesIgnoreElixir) = $GUI_CHECKED) ? 1 : 0
-	; Ignore Wall
-	$g_iChkBBSuggestedUpgradesIgnoreWall = (GUICtrlRead($g_hChkBBSuggestedUpgradesIgnoreWall) = $GUI_CHECKED) ? 1 : 0
 EndFunc   ;==>chkActivateBBSuggestedUpgradesGold
 
 Func chkActivateBBSuggestedUpgradesElixir()
-	; if disabled, why continue?
-	If $g_iChkBBSuggestedUpgrades = 0 Then Return
-	; Ignore Upgrade Building with Elixir [Update values]
-	$g_iChkBBSuggestedUpgradesIgnoreElixir = (GUICtrlRead($g_hChkBBSuggestedUpgradesIgnoreElixir) = $GUI_CHECKED) ? 1 : 0
-	If $g_iChkBBSuggestedUpgradesIgnoreElixir = 0 Then
-		GUICtrlSetState($g_hChkBBSuggestedUpgradesIgnoreGold, $GUI_ENABLE)
-	Else
+	If GUICtrlRead($g_hChkBBSuggestedUpgradesIgnoreElixir) = $GUI_CHECKED Then
 		GUICtrlSetState($g_hChkBBSuggestedUpgradesIgnoreGold, BitOR($GUI_UNCHECKED, $GUI_DISABLE))
+	Else
+		GUICtrlSetState($g_hChkBBSuggestedUpgradesIgnoreGold, $GUI_ENABLE)
 	EndIf
-	; Update Gold value
-	$g_iChkBBSuggestedUpgradesIgnoreGold = (GUICtrlRead($g_hChkBBSuggestedUpgradesIgnoreGold) = $GUI_CHECKED) ? 1 : 0
 EndFunc   ;==>chkActivateBBSuggestedUpgradesElixir
 
 Func chkPlacingNewBuildings()
@@ -87,7 +68,6 @@ Func MainSuggestedUpgradeCode($bDebugImage = $g_bDebugImageSave)
 	; Master Builder is not available return
 	If $g_iFreeBuilderCountBB = 0 Then
 		SetLog("No Master Builder available for suggested upgrades !", $COLOR_INFO)
-		SetLog("$g_iFreeBuilderCountBB = " & $g_iFreeBuilderCountBB, $COLOR_INFO)
 		Return
 	EndIf
 
@@ -112,48 +92,44 @@ Func MainSuggestedUpgradeCode($bDebugImage = $g_bDebugImageSave)
 						If IsArray($aResult) And UBound($aResult) > 0 Then
 							Switch $aResult[2]
 								Case "Gold"
-									If Not $g_iChkBBSuggestedUpgradesIgnoreGold And $g_aiCurrentLootBB[$eLootGoldBB] > 250 Then
-										Click($aResult[0], $aResult[1], 1)
-										If _Sleep(2000) Then Return
-										If IsWallDetected() Then $g_WallDetected = True
-										If GetUpgradeButton($aResult[2], $bDebug, $bDebugImage, $g_WallDetected) Then
-											If $g_WallDetected Then
-												ExitLoop
-											Else
-												$g_iFreeBuilderCountBB -= 1
-												If $g_iFreeBuilderCountBB = 0 Then
-													ExitLoop 2
-												Else
-													ExitLoop
-												EndIf
-											EndIf
-										Else
-											If $i = UBound($aLine) - 1 Then ExitLoop 2
-											$y = $aLine[$i][2] + 15
+									Click($aResult[0], $aResult[1], 1)
+									If _Sleep(2000) Then Return
+									If IsWallDetected() Then $g_WallDetected = True
+									If GetUpgradeButton($aResult[2], $bDebug, $bDebugImage, $g_WallDetected) Then
+										If $g_WallDetected Then
 											ExitLoop
+										Else
+											$g_iFreeBuilderCountBB -= 1
+											If $g_iFreeBuilderCountBB = 0 Then
+												ExitLoop 2
+											Else
+												ExitLoop
+											EndIf
 										EndIf
+									Else
+										If $i = UBound($aLine) - 1 Then ExitLoop 2
+										$y = $aLine[$i][2] + 15
+										ExitLoop
 									EndIf
 								Case "Elixir"
-									If Not $g_iChkBBSuggestedUpgradesIgnoreElixir And $g_aiCurrentLootBB[$eLootElixirBB] > 250 Then
-										Click($aResult[0], $aResult[1], 1)
-										If _Sleep(2000) Then Return
-										If IsWallDetected() Then $g_WallDetected = True
-										If GetUpgradeButton($aResult[2], $bDebug, $bDebugImage, $g_WallDetected, True) Then
-											If $g_WallDetected Then
-												ExitLoop
-											Else
-												$g_iFreeBuilderCountBB -= 1
-												If $g_iFreeBuilderCountBB = 0 Then
-													ExitLoop 2
-												Else
-													ExitLoop
-												EndIf
-											EndIf
-										Else
-											If $i = UBound($aLine) - 1 Then ExitLoop 2
-											$y = $aLine[$i][2] + 15
+									Click($aResult[0], $aResult[1], 1)
+									If _Sleep(2000) Then Return
+									If IsWallDetected() Then $g_WallDetected = True
+									If GetUpgradeButton($aResult[2], $bDebug, $bDebugImage, $g_WallDetected) Then
+										If $g_WallDetected Then
 											ExitLoop
+										Else
+											$g_iFreeBuilderCountBB -= 1
+											If $g_iFreeBuilderCountBB = 0 Then
+												ExitLoop 2
+											Else
+												ExitLoop
+											EndIf
 										EndIf
+									Else
+										If $i = UBound($aLine) - 1 Then ExitLoop 2
+										$y = $aLine[$i][2] + 15
+										ExitLoop
 									EndIf
 								Case "New"
 									If $g_iChkPlacingNewBuildings = 1 Then
@@ -188,9 +164,7 @@ Func MainSuggestedUpgradeCode($bDebugImage = $g_bDebugImageSave)
 				ExitLoop
 			EndIf
 
-			If _Sleep(1500) Then Return
-			ClickAway("Right")
-			If _Sleep(1500) Then Return
+			If _Sleep(1000) Then Return
 			If Not $g_bRunState Then Return
 
 		WEnd
@@ -220,14 +194,16 @@ EndFunc   ;==>MainSuggestedUpgradeCode
 Func ClickOnBuilder()
 
 	Local $asSearchResult = decodeSingleCoord(FindImageInPlace2("MasterBuilderHead", $g_sImgMasterBuilderHead, 445, 0, 500, 54, True))
+	; Debug Stuff
 	Local $sDebugText = ""
+	Local Const $Debug = False
+	Local Const $Screencap = True
+
+	If QuickMIS("BC1", $g_sImgAutoUpgradeWindow, $asSearchResult[0] - 23, 50, $asSearchResult[0] + 107, 100) Then Return True
 
 	If IsArray($asSearchResult) And UBound($asSearchResult) = 2 Then
 		; Master Builder Check pixel [i] icon
 		Local Const $aMasterBuilder[4] = [$asSearchResult[0] - 15, $asSearchResult[1] - 9, 0x7ABDE3, 10]
-		; Debug Stuff
-		Local Const $Debug = False
-		Local Const $Screencap = True
 
 		; Master Builder is not available return
 		If $g_iFreeBuilderCountBB = 0 Then SetLog("No Master Builder available! [" & $g_iFreeBuilderCountBB & "/" & $g_iTotalBuilderCountBB & "]", $COLOR_INFO)
@@ -302,12 +278,27 @@ Func IsWallDetected()
 	Return False
 EndFunc   ;==>IsWallDetected
 
-Func GetUpgradeButton($sUpgButton = "", $Debug = False, $bDebugImage = $g_bDebugImageSave, $bWallUpgrade = False, $ElixForced = False)
+Func GetUpgradeButton($sUpgButton = "", $Debug = False, $bDebugImage = $g_bDebugImageSave, $bWallUpgrade = False)
 	Local $sIconBarDiamond = GetDiamondFromRect2(140, 500 + $g_iBottomOffsetY, 720, 590 + $g_iBottomOffsetY)
 	Local $sUpgradeButtonDiamond = GetDiamondFromRect2(350, 500 + $g_iMidOffsetY, 805, 600 + $g_iMidOffsetY)
 
 	If $sUpgButton = "" Then Return
 
+	If Not $bWallUpgrade Then
+		If $sUpgButton = "Gold" Then
+			If $g_iChkBBSuggestedUpgradesIgnoreGold Or $g_aiCurrentLootBB[$eLootGoldBB] < 250 Then
+				If _Sleep(1000) Then Return
+				Return False
+			EndIf
+		ElseIf $sUpgButton = "Elixir" Then
+			If $g_iChkBBSuggestedUpgradesIgnoreElixir Or $g_aiCurrentLootBB[$eLootElixirBB] < 250 Then
+				If _Sleep(1000) Then Return
+				Return False
+			EndIf
+		EndIf
+	EndIf
+
+	Local $ResType = $sUpgButton
 	$sUpgButton = @ScriptDir & "\imgxml\Resources\BuildersBase\AutoUpgrade\ButtonUpg\*"
 
 	If $bDebugImage Then SaveDebugDiamondImage("GetUpgradeButton", $sIconBarDiamond)
@@ -322,25 +313,69 @@ Func GetUpgradeButton($sUpgButton = "", $Debug = False, $bDebugImage = $g_bDebug
 			; Verify if is Builder Hall and If is to Upgrade
 			If StringInStr($aBuildingName[1], "Hall") And $g_iChkBBSuggestedUpgradesIgnoreHall Then
 				SetLog("Ups! Builder Hall is not to Upgrade!", $COLOR_ERROR)
-				If _Sleep(1500) Then Return
-				ClickAway("Right")
-				If _Sleep(1500) Then Return
+				If _Sleep(1000) Then Return
 				Return False
 			EndIf
 			If StringInStr($aBuildingName[1], "Wall") And $g_iChkBBSuggestedUpgradesIgnoreWall Then
 				SetLog("Ups! Wall is not to Upgrade!", $COLOR_ERROR)
-				If _Sleep(1500) Then Return
-				ClickAway("Right")
-				If _Sleep(1500) Then Return
+				If _Sleep(1000) Then Return
 				Return False
 			EndIf
 
 			;Wall Double Button Case
 			If $bWallUpgrade Then
-				If WaitforPixel($aUpgradeIcon[0], $aUpgradeIcon[1] - 60, $aUpgradeIcon[0] + 30, $aUpgradeIcon[1] - 40, "FF887F", 20, 2) Or $ElixForced Then ; Red On Gold Or Was Elix in Menu
-					If UBound(decodeSingleCoord(FindImageInPlace2("UpgradeButton2", $g_sImgUpgradeBtn2Wall, $aUpgradeIcon[0] + 65, $aUpgradeIcon[1] - 44, _
-							$aUpgradeIcon[0] + 140, $aUpgradeIcon[1] - 10, True))) > 1 Then $aUpgradeIcon[0] += 94
-				EndIf
+
+				Select
+					Case $ResType = "Elixir" And $g_iChkBBSuggestedUpgradesIgnoreElixir
+						SetLog("Elixir upgrade must be ignored", $COLOR_WARNING)
+						If $g_iChkBBSuggestedUpgradesIgnoreGold Then
+							SetLog("Gold upgrade must be ignored, looking next...", $COLOR_WARNING)
+							If _Sleep(1000) Then Return
+							Return False
+						Else
+							If WaitforPixel($aUpgradeIcon[0], $aUpgradeIcon[1] - 60, $aUpgradeIcon[0] + 30, $aUpgradeIcon[1] - 40, "FF887F", 20, 2) Then
+								SetLog("Not enough Gold to upgrade Wall, looking next...", $COLOR_WARNING)
+								If _Sleep(1000) Then Return
+								Return False
+							Else
+								If _Sleep($DELAYAUTOUPGRADEBUILDING1) Then Return
+							EndIf
+						EndIf
+					Case $ResType = "Elixir" And Not $g_iChkBBSuggestedUpgradesIgnoreElixir
+						If UBound(decodeSingleCoord(FindImageInPlace2("UpgradeButton2", $g_sImgUpgradeBtn2Wall, $aUpgradeIcon[0] + 65, $aUpgradeIcon[1] - 44, _
+								$aUpgradeIcon[0] + 140, $aUpgradeIcon[1] - 10, True))) > 1 Then $aUpgradeIcon[0] += 94
+						SetDebugLog("Resource check passed", $COLOR_DEBUG)
+						If _Sleep($DELAYAUTOUPGRADEBUILDING1) Then Return
+					Case $ResType = "Gold" And $g_iChkBBSuggestedUpgradesIgnoreGold
+						SetLog("Gold upgrade must be ignored", $COLOR_WARNING)
+						If $g_iChkBBSuggestedUpgradesIgnoreElixir Then
+							SetLog("Elixir upgrade must be ignored, looking next...", $COLOR_WARNING)
+							If _Sleep(1000) Then Return
+							Return False
+						Else
+							If UBound(decodeSingleCoord(FindImageInPlace2("UpgradeButton2", $g_sImgUpgradeBtn2Wall, $aUpgradeIcon[0] + 65, $aUpgradeIcon[1] - 44, _
+									$aUpgradeIcon[0] + 140, $aUpgradeIcon[1] - 10, True))) > 1 Then
+								$aUpgradeIcon[0] += 94
+								If WaitforPixel($aUpgradeIcon[0], $aUpgradeIcon[1] - 60, $aUpgradeIcon[0] + 30, $aUpgradeIcon[1] - 40, "FF887F", 20, 2) Then
+									SetLog("Not enough Elixir to upgrade Wall, looking next...", $COLOR_WARNING)
+									If _Sleep(1000) Then Return
+									Return False
+								Else
+									If _Sleep($DELAYAUTOUPGRADEBUILDING1) Then Return
+								EndIf
+							Else
+								SetLog("Elixir button not found, looking next...", $COLOR_WARNING)
+								If _Sleep(1000) Then Return
+								Return False
+							EndIf
+						EndIf
+					Case $ResType = "Gold" And Not $g_iChkBBSuggestedUpgradesIgnoreGold
+						SetDebugLog("Resource check passed", $COLOR_DEBUG)
+						If _Sleep($DELAYAUTOUPGRADEBUILDING1) Then Return
+					Case Else
+						SetDebugLog("Any case above not found ?? Bad programmer !", $COLOR_DEBUG)
+				EndSelect
+
 			EndIf
 
 			ClickP($aUpgradeIcon)

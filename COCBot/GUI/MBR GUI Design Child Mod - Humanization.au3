@@ -24,7 +24,7 @@ Global $g_acmbPriority[11] = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
 Global $g_acmbMaxSpeed[3] = [0, 0, 0]
 Global $g_acmbPause[3] = [0, 0, 0]
 Global $g_hLabelBB1 = 0, $g_hLabelBB2 = 0, $g_hLabelBB3 = 0, $g_hLabelBB4 = 0
-Global $g_hGUI_WelcomeMessage = 0, $g_hBtnWelcomeMessage = 0, $g_hChkUseWelcomeMessage = 0, $g_hTxtRequestMessage = 0, $g_hTxtWelcomeMessage = 0, $g_hBtnWelcomeMessageClose = 0
+Global $g_hGUI_WelcomeMessage = 0, $g_hBtnWelcomeMessage = 0, $g_hChkUseWelcomeMessage = 0, $g_hTxtRequestMessage = 0, $g_hTxtWelcomeMessage = 0, $g_hBtnWelcomeMessageClose = 0, $g_hChkAcceptAllRequests = 0
 Global $g_hGUI_SecondaryVillages = 0, $g_hBtnSecondaryVillages = 0, $g_hBtnSecondaryVillagesClose = 0
 Global $g_acmbPriorityBB[2] = [0, 0]
 Global $g_hLabelCC1 = 0, $g_acmbPriorityChkRaid = 0
@@ -177,6 +177,11 @@ Func CreateChatWelcomeMessage()
 	$g_hTxtRequestMessage = GUICtrlCreateEdit("", $x + 100, $y + 30, 120, 72, BitOR($ES_WANTRETURN, $ES_CENTER, $ES_AUTOVSCROLL))
 	GUICtrlSetData(-1, StringFormat("Forum\r\nforum"))
 	_GUICtrlSetTip(-1, "Request Keywords To Detect")
+	GUICtrlSetState(-1, $GUI_DISABLE)
+
+	$g_hChkAcceptAllRequests = GUICtrlCreateCheckbox("Accept All Joining Requests", $x + 250, $y + 60)
+	_GUICtrlSetTip(-1, "Accept All Joining Requests, What Ever The Request Message")
+	GUICtrlSetOnEvent(-1, "chkAcceptAllRequests")
 	GUICtrlSetState(-1, $GUI_DISABLE)
 
 	$g_hTxtWelcomeMessage = GUICtrlCreateInput($g_aWelcomeMessage, $x + 70, $y + 120, 260, 20, BitOR($SS_CENTER, $ES_AUTOHSCROLL))

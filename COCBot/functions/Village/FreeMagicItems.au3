@@ -246,6 +246,16 @@ Func OpenTraderWindow()
 		$IstoRecheckTrader = 1
 	Else
 		Local $aIsWeekyDealsOpen[4] = [40, 0, 0x8BC11D, 20]
+		If _CheckPixel($aReceivedTroopsWeeklyDeals, True) Then ; Found the "You have received" Message on Screen, wait till its gone.
+			SetDebugLog("Detected Clan Castle Message Blocking Raid Medals Button. Waiting until it's gone", $COLOR_INFO)
+			_CaptureRegion2()
+			Local $Safetyexit = 0
+			While _CheckPixel($aReceivedTroopsWeeklyDeals, True)
+				If _Sleep($DELAYTRAIN1) Then Return
+				$Safetyexit = $Safetyexit + 1
+				If $Safetyexit > 60 Then ExitLoop  ;If waiting longer than 1 min, something is wrong
+			WEnd
+		EndIf
 		Local $aTabButton = findButton("WeeklyDeals", Default, 1, True)
 		If IsArray($aTabButton) And UBound($aTabButton, 1) = 2 Then
 			$aIsWeekyDealsOpen[1] = $aTabButton[1]
@@ -893,10 +903,10 @@ Func DeleteItemLine1($ItemTime)
 		Click($XForItem1, $aMagicPosYToClick)
 		If _Sleep(Random(2000, 3500, 1)) Then Return
 		If Not $g_bRunState Then Return
-		Click(600, 500 + $g_iMidOffsetY)
+		Click(600, 505 + $g_iMidOffsetY)
 		If _Sleep(Random(2000, 3500, 1)) Then Return
 		If Not $g_bRunState Then Return
-		Click(510, 410 + $g_iMidOffsetY)
+		Click(535, 425 + $g_iMidOffsetY)
 		If Not $g_bRunState Then Return
 		If _Sleep(Random(2000, 3500, 1)) Then Return
 	Next
@@ -908,10 +918,10 @@ Func DeleteItemLine2($ItemTime2)
 		Click($XForItem2, $aMagicPosY2ToClick)
 		If _Sleep(Random(2000, 3500, 1)) Then Return
 		If Not $g_bRunState Then Return
-		Click(600, 500 + $g_iMidOffsetY)
+		Click(600, 505 + $g_iMidOffsetY)
 		If _Sleep(Random(2000, 3500, 1)) Then Return
 		If Not $g_bRunState Then Return
-		Click(510, 410 + $g_iMidOffsetY)
+		Click(535, 425 + $g_iMidOffsetY)
 		If Not $g_bRunState Then Return
 		If _Sleep(Random(2000, 3500, 1)) Then Return
 	Next

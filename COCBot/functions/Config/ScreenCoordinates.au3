@@ -83,7 +83,7 @@ Global $aGreenArrowTrainTroops[2] = [316, 95 + $g_iMidOffsetY]
 Global $aGreenArrowBrewSpells[2] = [469, 95 + $g_iMidOffsetY]
 Global $aGreenArrowTrainSiegeMachines[2] = [621, 95 + $g_iMidOffsetY]
 Global $g_aShopWindowOpen[4] = [804, 54, 0xC00508, 15] ; Red pixel in lower right corner of RED X to close shop window
-Global $aTreasuryWindow[4] = [689, 138 + $g_iMidOffsetY, 0xFF8D95, 20] ; Redish pixel above X to close treasury window
+Global $aTreasuryWindow[4] = [695, 138 + $g_iMidOffsetY, 0xFF8D95, 20] ; Redish pixel above X to close treasury window
 Global $aAttackForTreasury[4] = [88, 619 + $g_iMidOffsetY, 0xF0EBE8, 5] ; Red pixel below X to close treasury window
 Global $aAtkHasDarkElixir[4] = [31, 121 + $g_iMidOffsetY, 0x282020, 10]  ; Attack Page, Check for DE icon ; New 23 August offset
 Global $aVillageHasDarkElixir[4] = [837, 134, 0x3D2D3D, 10] ; Main Page, Base has dark elixir storage
@@ -93,9 +93,15 @@ Global $aCheckTopProfile2[4] = [160, 455 + $g_iMidOffsetY, 0x4E4D79, 5]
 
 Global $aIsTabOpen[4] = [0, 115 + $g_iMidOffsetY, 0xEDEDE6, 25] ;Check if specific Tab is opened, X Coordinate is a dummy
 
-Global $aRecievedTroops[4] = [200, 215, 0xFFFFFF, 20] ; Y of You have recieved blabla from xx!
-Global $aRecievedTroopsTab[4] = [200, 137, 0xFFFFFF, 20] ; Y of You have recieved blabla from xx!
-Global $aRecievedTroopsTab2[4] = [192, 137, 0xFFFFFF, 20] ; Y of You have recieved blabla from xx!
+Global $aReceivedTroops[4] = [145, 215 + $g_iMidOffsetY, 0xFFFFFF, 20] ; Y of You have received blabla from xx!
+Global $aReceivedTroopsOCR[4] = [400, 153 + $g_iMidOffsetY, 0xFFFFFF, 20] ; Y of You have received blabla from xx!
+Global $aReceivedSieges[4] = [650, 215 + $g_iMidOffsetY, 0xFFFFFF, 20] ; Y of You have received blabla from xx!
+Global $aReceivedTroopsDoubleOCR[4] = [400, 145 + $g_iMidOffsetY, 0xFFFFFF, 20] ; Y of You have received blabla from xx!
+Global $aReceivedTroopsDouble[4] = [380, 200 + $g_iMidOffsetY, 0xFFFFFF, 20] ; Y of You have received blabla from xx!
+Global $aReceivedTroopsTab[4] = [200, 112 + $g_iMidOffsetY, 0xFFFFFF, 20] ; Y of You have received blabla from xx!
+Global $aReceivedTroopsTreasury[4] = [660, 140 + $g_iMidOffsetY, 0xFFFFFF, 20] ; Y of You have received blabla from xx!
+Global $aReceivedTroopsWeeklyDeals[4] = [185, 195 + $g_iMidOffsetY, 0xFFFFFF, 20] ; Y of You have received blabla from xx!
+Global $aReceivedTroopsRaidMedals[4] = [185, 244 + $g_iMidOffsetY, 0xFFFFFF, 20] ; Y of You have received blabla from xx!
 
 ; King Health Bar, check at the middle of the bar, index 4 is x-offset added to middle of health bar
 Global $aKingHealth = [-1, 569 + $g_iBottomOffsetY, 0x00D500, 15, 13]

@@ -28,6 +28,7 @@ Func _AutoUpgrade()
 	Local $iLoopMax = 8
 	Local $b_Equipment = False
 	Local $UpgradeDone = True
+	Local $UpWindowOpen = False
 
 	While 1
 
@@ -47,6 +48,8 @@ Func _AutoUpgrade()
 			EndIf
 		EndIf
 
+		$UpWindowOpen = False
+
 		; check if builder head is clickable
 		Local $g_iBuilderMenu = _PixelSearch(381, 13, 384, 15, Hex(0xF5F5ED, 6), 20)
 		If Not IsArray($g_iBuilderMenu) Then
@@ -61,7 +64,7 @@ Func _AutoUpgrade()
 		; search for ressource images in builders menu, if found, a possible upgrade is available
 		Local $aTmpCoord
 		Local $IsElix = False
-		$aTmpCoord = QuickMIS("CNX", $g_sImgResourceIcon, 410, $g_iNextLineOffset, 550, 370 + $g_iMidOffsetY)
+		$aTmpCoord = QuickMIS("CNX", $g_sImgResourceIcon, 410, $g_iNextLineOffset, 550, 370 + $g_iMidOffsetY) ;QuickMIS("CNX", $g_sImgResourceIcon, 410, 75, 550, 370 + $g_iMidOffsetY)
 		_ArraySort($aTmpCoord, 0, 0, 0, 2) ;sort by Y coord
 		If IsArray($aTmpCoord) And UBound($aTmpCoord) > 0 Then
 			$g_iNextLineOffset = $aTmpCoord[0][2] + 14
@@ -155,10 +158,11 @@ Func _AutoUpgrade()
 							If $g_aiCurrentLoot[$eLootGold] < ($bWallGoldCost + $g_iTxtSmartMinGold) Then
 								SetLog("Not enough Gold to upgrade Wall, looking next...", $COLOR_WARNING)
 								CloseWindow2()
+								If _Sleep($DELAYAUTOUPGRADEBUILDING1) Then Return
 								$UpgradeDone = False
 								ContinueLoop
 							Else
-								CloseWindow2()
+								$UpWindowOpen = True
 							EndIf
 						EndIf
 					EndIf
@@ -172,6 +176,7 @@ Func _AutoUpgrade()
 					If $g_aiCurrentLoot[$eLootElixir] < ($bWallElixCost + $g_iTxtSmartMinElixir) Then
 						SetLog("Insufficent Elixir to upgrade wall, checking Gold", $COLOR_WARNING)
 						CloseWindow2()
+						If _Sleep($DELAYAUTOUPGRADEBUILDING1) Then Return
 						If $g_iChkResourcesToIgnore[0] Then
 							SetLog("Gold upgrade must be ignored, looking next...", $COLOR_WARNING)
 							$UpgradeDone = False
@@ -186,10 +191,11 @@ Func _AutoUpgrade()
 								If $g_aiCurrentLoot[$eLootGold] < ($bWallGoldCost + $g_iTxtSmartMinGold) Then
 									SetLog("Not enough Gold to upgrade Wall, looking next...", $COLOR_WARNING)
 									CloseWindow2()
+									If _Sleep($DELAYAUTOUPGRADEBUILDING1) Then Return
 									$UpgradeDone = False
 									ContinueLoop
 								Else
-									CloseWindow2()
+									$UpWindowOpen = True
 								EndIf
 							Else
 								SetLog("Not enough Gold to upgrade Wall, looking next...", $COLOR_WARNING)
@@ -197,6 +203,8 @@ Func _AutoUpgrade()
 								ContinueLoop
 							EndIf
 						EndIf
+					Else
+						$UpWindowOpen = True
 					EndIf
 				Case Not $IsElix And $g_iChkResourcesToIgnore[0]
 					SetLog("Gold upgrade must be ignored", $COLOR_WARNING)
@@ -219,10 +227,11 @@ Func _AutoUpgrade()
 								If $g_aiCurrentLoot[$eLootElixir] < ($bWallElixCost + $g_iTxtSmartMinElixir) Then
 									SetLog("Not enough Elixir to upgrade Wall, looking next...", $COLOR_WARNING)
 									CloseWindow2()
+									If _Sleep($DELAYAUTOUPGRADEBUILDING1) Then Return
 									$UpgradeDone = False
 									ContinueLoop
 								Else
-									CloseWindow2()
+									$UpWindowOpen = True
 								EndIf
 							EndIf
 						Else
@@ -239,6 +248,7 @@ Func _AutoUpgrade()
 					If $g_aiCurrentLoot[$eLootGold] < ($bWallGoldCost + $g_iTxtSmartMinGold) Then
 						SetLog("Insufficent Gold to upgrade wall, checking Elixir", $COLOR_WARNING)
 						CloseWindow2()
+						If _Sleep($DELAYAUTOUPGRADEBUILDING1) Then Return
 						If $g_iChkResourcesToIgnore[1] Then
 							SetLog("Elixir upgrade must be ignored, looking next...", $COLOR_WARNING)
 							$UpgradeDone = False
@@ -255,10 +265,11 @@ Func _AutoUpgrade()
 									If $g_aiCurrentLoot[$eLootElixir] < ($bWallElixCost + $g_iTxtSmartMinElixir) Then
 										SetLog("Not enough Elixir to upgrade Wall, looking next...", $COLOR_WARNING)
 										CloseWindow2()
+										If _Sleep($DELAYAUTOUPGRADEBUILDING1) Then Return
 										$UpgradeDone = False
 										ContinueLoop
 									Else
-										CloseWindow2()
+										$UpWindowOpen = True
 									EndIf
 								Else
 									SetLog("Not enough Elixir to upgrade Wall, looking next...", $COLOR_WARNING)
@@ -271,6 +282,8 @@ Func _AutoUpgrade()
 								ContinueLoop
 							EndIf
 						EndIf
+					Else
+						$UpWindowOpen = True
 					EndIf
 				Case Else
 					SetDebugLog("Any case above not found ?? Bad programmer !", $COLOR_DEBUG)
@@ -381,13 +394,15 @@ Func _AutoUpgrade()
 		EndIf
 
 		; if upgrade don't have to be ignored, click on the Upgrade button to open Upgrade window
-		ClickP($aUpgradeButton)
-		If _Sleep($DELAYAUTOUPGRADEBUILDING1) Then Return
+		If Not $UpWindowOpen Then
+			ClickP($aUpgradeButton)
+			If _Sleep($DELAYAUTOUPGRADEBUILDING1) Then Return
+		EndIf
 
 		If $b_Equipment Then
 			$g_aUpgradeResourceCostDuration[0] = "Gold"
-			$g_aUpgradeResourceCostDuration[1] = getCostsUpgrade(372, 474 + $g_iMidOffsetY) ; get cost
-			$g_aUpgradeResourceCostDuration[2] = getBldgUpgradeTime(190, 401 + $g_iMidOffsetY) ; get duration
+			$g_aUpgradeResourceCostDuration[1] = getCostsUpgradeGear(375, 476 + $g_iMidOffsetY) ; get cost
+			$g_aUpgradeResourceCostDuration[2] = getGearUpgradeTime(185, 401 + $g_iMidOffsetY) ; get duration
 		Else
 			$g_aUpgradeResourceCostDuration[0] = QuickMIS("N1", $g_sImgAUpgradeRes, 670, 535 + $g_iMidOffsetY, 700, 565 + $g_iMidOffsetY) ; get resource
 			$g_aUpgradeResourceCostDuration[1] = getCostsUpgrade(552, 541 + $g_iMidOffsetY) ; get cost
@@ -449,7 +464,7 @@ Func _AutoUpgrade()
 		; final click on upgrade button, click coord is get looking at upgrade type (heroes have a different place for Upgrade button)
 		Local $bHeroUpgrade = False
 		If $b_Equipment Then
-			Click(450, 485 + $g_iMidOffsetY)
+			Click(460, 485 + $g_iMidOffsetY)
 			If _Sleep(1000) Then Return
 			If isGemOpen(True) Then
 				SetLog("No Master Builder Available, looking Next...", $COLOR_INFO)

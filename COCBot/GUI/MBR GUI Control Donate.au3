@@ -334,3 +334,11 @@ Func Doncheck()
 	tabDONATE() ; just call tabDONATE()
 EndFunc   ;==>Doncheck
 
+Func ChkDeleteOldFiles()
+	If GUICtrlRead($g_hChkDeleteOldFiles) = $GUI_CHECKED Then
+		GUICtrlSetState($g_hTxtDeleteOldFilesDays, $GUI_ENABLE)
+	Else
+		GUICtrlSetState($g_hTxtDeleteOldFilesDays, $GUI_DISABLE)
+	EndIf
+EndFunc   ;==>ChkDeleteOldFiles
+

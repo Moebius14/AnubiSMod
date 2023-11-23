@@ -48,7 +48,6 @@ Func donateCCWBLUserImageCollect($x, $y)
 	SetDebugLog("Search into blacklist...", $color_purple)
 	Local $xyz1 = _FileListToArrayRec($g_sProfileDonateCaptureBlacklistPath, "*.png", $FLTAR_FILES, $FLTAR_NORECUR, $FLTAR_SORT, $FLTAR_NOPATH)
 	If UBound($xyz1) > 1 Then
-		;_CaptureRegion2()
 		For $i = 1 To UBound($xyz1) - 1
 			Local $result1 = FindImageInPlace("DCCWBL", $g_sProfileDonateCaptureBlacklistPath & $xyz1[$i], "0," & $y - $g_TopDividerSearch & "," & $x - 30 & "," & $y, False)
 			If StringInStr($result1, ",") > 0 Then
@@ -67,7 +66,6 @@ Func donateCCWBLUserImageCollect($x, $y)
 		;try to search into images to Assign
 		Local $xyzw = _FileListToArrayRec($g_sProfileDonateCapturePath, "*.png", $FLTAR_FILES, $FLTAR_NORECUR, $FLTAR_SORT, $FLTAR_NOPATH)
 		If UBound($xyzw) > 1 Then
-			;_CaptureRegion2()
 			For $i = 1 To UBound($xyzw) - 1
 				Local $resultxyzw = FindImageInPlace("DCCWBL", $g_sProfileDonateCapturePath & $xyzw[$i], "0," & $y - $g_TopDividerSearch & "," & $x - 30 & "," & $y, False)
 				If StringInStr($resultxyzw, ",") > 0 Then
@@ -163,8 +161,8 @@ Func donateCCWBLUserImageCollect($x, $y)
 				_GDIPlus_BitmapDispose($hClone)
 				_GDIPlus_BitmapDispose($oBitmap)
 				If $g_iCmbDonateFilter = 1 Then SetLog("IMAGES TO ASSIGN: stored!", $COLOR_SUCCESS)
-				;remove old files into folder images to assign if are older than 2 days
-				Deletefiles($g_sProfileDonateCapturePath, "*.png", 2, 0)
+				;remove old files into folder images to assign if are older than x days
+				If $g_bChkDeleteOldFiles Then Deletefiles($g_sProfileDonateCapturePath, "*.png", $g_iaTxtDeleteOldFilesDays, 0)
 			EndIf
 		EndIf
 	EndIf

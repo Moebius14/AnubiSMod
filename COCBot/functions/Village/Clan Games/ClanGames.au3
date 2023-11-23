@@ -295,7 +295,8 @@ Func _ClanGames($test = False, $HaltMode = False)
 				SetDebuglog($HowManyImages[0] & " Images to detect")
 			EndIf
 		Else
-			Setlog("ClanGames-Error on $HowManyImages: " & @error)
+			Setlog("ClanGames-Error, no event category selected", $COLOR_ERROR)
+			Setlog("Please check your events settings!", $COLOR_DEBUG2)
 			Return
 		EndIf
 

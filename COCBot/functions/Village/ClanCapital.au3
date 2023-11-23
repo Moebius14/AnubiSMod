@@ -1160,25 +1160,46 @@ EndFunc   ;==>AutoForgeSlot
 Func SwitchToClanCapital()
 	Local $bRet = False
 	Local $bAirShipFound = False
-	For $z = 0 To 10
+	For $z = 0 To 14
 		If QuickMIS("BC1", $g_sImgAirShip, 200, 510 + $g_iBottomOffsetY, 400, 670 + $g_iBottomOffsetY) Then
 			$bAirShipFound = True
 			Click($g_iQuickMISX, $g_iQuickMISY)
+			If _Sleep(3000) Then Return
 			ExitLoop
 		EndIf
-		If _Sleep(350) Then Return
+		If _Sleep(250) Then Return
 	Next
 	If $bAirShipFound = False Then Return $bRet
-	If _Sleep(3000) Then Return
-	If QuickMIS("BC1", $g_sImgGeneralCloseButton, 780, 90, 840, 130 + $g_iMidOffsetY) Then
-		SetLog("Found Raid Window Covering Map, Close it!", $COLOR_INFO)
-		Click($g_iQuickMISX, $g_iQuickMISY)
-		If _Sleep(3000) Then Return
-	EndIf
-	If QuickMIS("BC1", $g_sImgCCRaid, 360, 445 + $g_iMidOffsetY, 500, 500 + $g_iMidOffsetY) Then
-		Click($g_iQuickMISX, $g_iQuickMISY)
-		If _Sleep(5000) Then Return
-	EndIf
+	For $i = 0 To 14
+		If QuickMIS("BC1", $g_sImgGeneralCloseButton, 780, 90, 840, 130 + $g_iMidOffsetY) Then
+			SetLog("Found Raid Window Covering Map, Close it!", $COLOR_INFO)
+			If _Sleep(Random(1250, 2000, 1)) Then Return
+			Click($g_iQuickMISX, $g_iQuickMISY)
+			If _Sleep(3000) Then Return
+			ExitLoop
+		EndIf
+		If _Sleep(250) Then Return
+		If QuickMIS("BC1", $g_sImgCCMap, 15, 550 + $g_iBottomOffsetY, 115, 640 + $g_iBottomOffsetY) Then
+			If $g_iQuickMISName = "ReturnHome" Then
+				SetDebugLog("We are on Clan Capital", $COLOR_ACTION)
+				ExitLoop
+			EndIf
+		EndIf
+	Next
+	For $t = 0 To 14
+		If QuickMIS("BC1", $g_sImgCCRaid, 360, 445 + $g_iMidOffsetY, 500, 500 + $g_iMidOffsetY) Then
+			Click($g_iQuickMISX, $g_iQuickMISY)
+			If _Sleep(6000) Then Return
+			ExitLoop
+		EndIf
+		If _Sleep(250) Then Return
+		If QuickMIS("BC1", $g_sImgCCMap, 15, 550 + $g_iBottomOffsetY, 115, 640 + $g_iBottomOffsetY) Then
+			If $g_iQuickMISName = "ReturnHome" Then
+				SetDebugLog("We are on Clan Capital", $COLOR_ACTION)
+				ExitLoop
+			EndIf
+		EndIf
+	Next
 	SwitchToCapitalMain()
 	For $i = 1 To 10
 		SetDebugLog("Waiting for Travel to Clan Capital Map #" & $i, $COLOR_ACTION)
@@ -1196,7 +1217,7 @@ EndFunc   ;==>SwitchToClanCapital
 Func SwitchToCapitalMain()
 	Local $bRet = False
 	SetDebugLog("Going to Clan Capital", $COLOR_ACTION)
-	For $i = 1 To 5
+	For $i = 1 To 14
 		If QuickMIS("BC1", $g_sImgCCMap, 15, 550 + $g_iBottomOffsetY, 115, 640 + $g_iBottomOffsetY) Then
 			If $g_iQuickMISName = "MapButton" Then
 				Click(60, 610 + $g_iBottomOffsetY) ;Click Map
@@ -1210,6 +1231,7 @@ Func SwitchToCapitalMain()
 				ExitLoop
 			EndIf
 		EndIf
+		If _Sleep(250) Then Return
 	Next
 	Return $bRet
 EndFunc   ;==>SwitchToCapitalMain
@@ -1218,11 +1240,12 @@ Func SwitchToMainVillage()
 	Local $bRet = False, $loop = 0
 	SetDebugLog("Going To MainVillage", $COLOR_ACTION)
 	SwitchToCapitalMain()
-	For $i = 1 To 10
+	For $i = 1 To 20
 		If QuickMIS("BC1", $g_sImgGeneralCloseButton, 780, 90, 840, 130 + $g_iMidOffsetY) Then ; check if we have window covering map, close it!
+			SetLog("Found Raid Window Covering Map, Close it!", $COLOR_INFO)
+			If _Sleep(Random(1250, 2000, 1)) Then Return
 			Click($g_iQuickMISX, $g_iQuickMISY)
-			SetLog("Found a window covering map, close it!", $COLOR_INFO)
-			If _Sleep(2000) Then Return
+			If _Sleep(3000) Then Return
 			SwitchToCapitalMain()
 		EndIf
 		If QuickMIS("BC1", $g_sImgCCMap, 15, 550 + $g_iBottomOffsetY, 115, 640 + $g_iBottomOffsetY) Then
@@ -1232,7 +1255,7 @@ Func SwitchToMainVillage()
 				ExitLoop
 			EndIf
 		EndIf
-		If _Sleep(500) Then Return
+		If _Sleep(250) Then Return
 	Next
 
 	While 1
@@ -1264,7 +1287,7 @@ Func IsCCBuilderMenuOpen()
 	Local $aBorder6[4] = [400, 73, 0xF4F4F5, 20]
 	Local $sTriangle
 
-	For $i = 0 To 10
+	For $i = 0 To 14
 		If _CheckPixel($aBorder0, True) Or _CheckPixel($aBorder1, True) Or _CheckPixel($aBorder2, True) Or _CheckPixel($aBorder3, True) Or _CheckPixel($aBorder4, True) Or _
 				_CheckPixel($aBorder5, True) Or _CheckPixel($aBorder6, True) Then
 			SetDebugLog("Found Border Color: " & _GetPixelColor($aBorder0[0], $aBorder0[1], True), $COLOR_ACTION)
@@ -2186,7 +2209,7 @@ Func CapitalMainUpgradeLoop($aUpgrade)
 				$Failed = True
 				ExitLoop
 			EndIf
-			Local $BuildingName = getOcrAndCapture("coc-build", 200, 512 + $g_iBottomOffsetY, 460, 25)
+			Local $BuildingName = getOcrAndCapture("coc-build", 180, 512 + $g_iBottomOffsetY, 510, 25)
 			Click($aRet[1], $aRet[2])
 			If _Sleep(2000) Then Return
 			If Not WaitUpgradeWindowCC() Then
@@ -2229,7 +2252,7 @@ Func DistrictUpgrade($aUpgrade)
 				SetLog("Upgrade Ignored, Looking Next Upgrade", $COLOR_INFO) ; Shouldn't happen
 				ContinueLoop
 			EndIf
-			Local $BuildingName = getOcrAndCapture("coc-build", 200, 512 + $g_iBottomOffsetY, 460, 25)
+			Local $BuildingName = getOcrAndCapture("coc-build", 180, 512 + $g_iBottomOffsetY, 510, 25)
 			Click($aRet[1], $aRet[2])
 			If _Sleep(2000) Then Return
 			If Not WaitUpgradeWindowCC() Then
@@ -2253,41 +2276,38 @@ Func DistrictUpgrade($aUpgrade)
 EndFunc   ;==>DistrictUpgrade
 
 Func WaitForMap($sMapName = "Capital Peak")
-	Local $bRet
+	Local $bRet = False
 	For $i = 1 To 10
 		SetDebugLog("Waiting for " & $sMapName & "#" & $i, $COLOR_ACTION)
-		If _Sleep(2000) Then Return
-		If QuickMIS("BC1", $g_sImgCCMap, 300, 10, 430, 40) Then ExitLoop
-	Next
-	Local $aMapName = StringSplit($sMapName, " ", $STR_NOCOUNT)
-	Local $Text = getOcrAndCapture("coc-mapname", $g_iQuickMISX, $g_iQuickMISY - 12, 230, 35)
-	SetDebugLog("$Text: " & $Text)
-	For $i In $aMapName
-		If StringInStr($Text, $i) Then
-			SetDebugLog("Match with: " & $i)
-			$bRet = True
-			SetLog("We are on " & $sMapName, $COLOR_INFO)
+		If QuickMIS("BC1", $g_sImgCCMap, 300, 10, 430, 40) Then
+			If _Sleep(500) Then Return
 			ExitLoop
 		EndIf
+		If _Sleep(1000) Then Return
+		If $i = 10 Then Return $bRet
 	Next
-	If Not $bRet Then
-		SetDebugLog("checking with image")
-		Local $ccMap = QuickMIS("CNX", $g_sImgCCMapName, $g_iQuickMISX, $g_iQuickMISY - 10, $g_iQuickMISX + 200, $g_iQuickMISY + 50)
-		If IsArray($ccMap) And UBound($ccMap) > 0 Then
-			Local $mapName = "dummyName"
-			For $z = 0 To UBound($ccMap) - 1
-				$mapName = String($ccMap[$z][0])
-				For $i In $aMapName
-					If StringInStr($mapName, $i) Then
-						SetDebugLog("Match with: " & $i)
-						$bRet = True
-						SetLog("We are on " & $sMapName, $COLOR_INFO)
-						ExitLoop
-					EndIf
-				Next
-			Next
-		EndIf
-	EndIf
+	Local $aMapName = StringSplit($sMapName, " ", $STR_NOCOUNT)
+	SetDebugLog("checking with image", $COLOR_DEBUG)
+	Local $bLoop = 0
+	While 1
+		Local $ccMap = QuickMIS("CNX", $g_sImgCCMapName, $g_iQuickMISX, $g_iQuickMISY - 10, $g_iQuickMISX + 220, $g_iQuickMISY + 20)
+		If IsArray($ccMap) And UBound($ccMap) > 0 Then ExitLoop
+		$bLoop += 1
+		If _Sleep(250) Then Return
+		If $bLoop = 20 Then Return $bRet
+	WEnd
+	Local $mapName = "dummyName"
+	For $z = 0 To UBound($ccMap) - 1
+		$mapName = String($ccMap[$z][0])
+		For $i In $aMapName
+			If StringInStr($mapName, $i) Then
+				SetDebugLog("Match with: " & $i)
+				$bRet = True
+				SetLog("We are on " & $sMapName, $COLOR_INFO)
+				ExitLoop
+			EndIf
+		Next
+	Next
 	Return $bRet
 EndFunc   ;==>WaitForMap
 
@@ -2484,10 +2504,20 @@ Func CatchCCMedals()
 	EndIf
 
 	Local $aIsRaidMedalsOpen[4] = [40, 0, 0x8CC11D, 20]
+	If _CheckPixel($aReceivedTroopsRaidMedals, True) Then ; Found the "You have received" Message on Screen, wait till its gone.
+		SetDebugLog("Detected Clan Castle Message Blocking Raid Medals Button. Waiting until it's gone", $COLOR_INFO)
+		_CaptureRegion2()
+		Local $Safetyexit = 0
+		While _CheckPixel($aReceivedTroopsRaidMedals, True)
+			If _Sleep($DELAYTRAIN1) Then Return
+			$Safetyexit = $Safetyexit + 1
+			If $Safetyexit > 60 Then ExitLoop  ;If waiting longer than 1 min, something is wrong
+		WEnd
+	EndIf
 	Local $aTabButton = findButton("RaidMedals", Default, 1, True)
 	If IsArray($aTabButton) And UBound($aTabButton, 1) = 2 Then
 		$aIsRaidMedalsOpen[1] = $aTabButton[1]
-		If Not _CheckPixel($aIsRaidMedalsOpen, True) Then 
+		If Not _CheckPixel($aIsRaidMedalsOpen, True) Then
 			ClickP($aTabButton)
 			If Not _WaitForCheckPixel($aIsRaidMedalsOpen, True) Then
 				SetLog("Error : Cannot open Raid Medals Menu. Pixel to check did not appear", $COLOR_ERROR)
@@ -2518,6 +2548,7 @@ Func CatchCCMedals()
 
 	If _Sleep(1000) Then Return
 	CloseWindow()
+	$bControlCCMedal = False
 EndFunc   ;==>CatchCCMedals
 
 Func CatchSmallCCTrophies($StartRaidConditions = False)
@@ -2830,3 +2861,571 @@ Func SkipCraftStart($b_ResType = "Gold", $cost = 0, $iCurrentGold = 0, $iCurrent
 	Return False
 
 EndFunc   ;==>SkipCraftStart
+
+Func CheckAvailableMagicItems()
+
+	Local $Found = False
+	Local $aWDItems[0][3]
+	Local $MagicPot[7][4] = [["Training", 715, 717, 698], ["Clock Tower", 300, 302, 290], ["Builder Jar", 512, 514, 495], ["Power", 715, 717, 698], _
+			["Hero", 300, 302, 290], ["Resource", 512, 514, 495], ["Research", 715, 717, 698]]
+
+	Local $aItemTileOffColors[1][3] = [[0xCDCDCD, 0, 2]]
+	Local $aItemTileOffColors2[1][3] = [[0xDACABA, 0, 2]]
+	Local $g_iItemNumberY = 0
+	Local $aItemTile = 0
+
+	ClickAway()
+	ZoomOut()
+	SetLog("Check Magic Items in Trader Menu", $COLOR_BLUE)
+	If _Sleep(1000) Then Return
+
+	For $i = 1 To 9
+		If QuickMIS("BC1", $g_sImgTrader, 90, 100 + $g_iMidOffsetY, 210, 210 + $g_iMidOffsetY) Then
+			Click($g_iQuickMISX, $g_iQuickMISY)
+			If _Sleep(1500) Then Return
+			$Found = True
+			ExitLoop
+		EndIf
+		If _Sleep(1000) Then Return
+	Next
+
+	If Not $Found Then
+		SetLog("Unable To Check Magic Items with Trader, Re-Try", $COLOR_ERROR)
+		If _Sleep(2000) Then Return
+		For $i = 1 To 9
+			If QuickMIS("BC1", $g_sImgTrader, 90, 100 + $g_iMidOffsetY, 210, 210 + $g_iMidOffsetY) Then
+				Click($g_iQuickMISX, $g_iQuickMISY)
+				If _Sleep(1500) Then Return
+				$Found = True
+				ExitLoop
+			EndIf
+			If _Sleep(1000) Then Return
+		Next
+		If Not $Found Then
+			SetLog("Unable To Check Magic Items with Trader", $COLOR_ERROR)
+			Return
+		EndIf
+	EndIf
+
+	Local $aIsRaidMedalsOpen[4] = [40, 0, 0x8CC11D, 20]
+	If _CheckPixel($aReceivedTroopsRaidMedals, True) Then ; Found the "You have received" Message on Screen, wait till its gone.
+		SetDebugLog("Detected Clan Castle Message Blocking Raid Medals Button. Waiting until it's gone", $COLOR_INFO)
+		_CaptureRegion2()
+		Local $Safetyexit = 0
+		While _CheckPixel($aReceivedTroopsRaidMedals, True)
+			If _Sleep($DELAYTRAIN1) Then Return
+			$Safetyexit = $Safetyexit + 1
+			If $Safetyexit > 60 Then ExitLoop  ;If waiting longer than 1 min, something is wrong
+		WEnd
+	EndIf
+	Local $aTabButton = findButton("RaidMedals", Default, 1, True)
+	If IsArray($aTabButton) And UBound($aTabButton, 1) = 2 Then
+		$aIsRaidMedalsOpen[1] = $aTabButton[1]
+		If Not _CheckPixel($aIsRaidMedalsOpen, True) Then
+			ClickP($aTabButton)
+			If Not _WaitForCheckPixel($aIsRaidMedalsOpen, True) Then
+				SetLog("Error : Cannot open Raid Medals Menu. Pixel to check did not appear", $COLOR_ERROR)
+				CloseWindow()
+				Return FuncReturn(SetError(1, 0, False), $g_bDebugSetlog)
+			EndIf
+		EndIf
+	Else
+		SetDebugLog("Error when opening Raid Medals Menu: $aTabButton is no valid Array", $COLOR_ERROR)
+		CloseWindow()
+		Return FuncReturn(SetError(1, 0, False), $g_bDebugSetlog)
+	EndIf
+
+	If _Sleep(2000) Then Return
+
+	For $i = 0 To UBound($MagicPot) - 1
+
+		; Reset
+		$g_iItemNumberY = 0
+		$aItemTile = 0
+		;
+
+		$aItemTile = _MultiPixelSearch($MagicPot[$i][1], 405, $MagicPot[$i][2], 470, 1, 1, Hex(0xCDCDCD, 6), $aItemTileOffColors, 10)
+		If $aItemTile = 0 Then $aItemTile = _MultiPixelSearch($MagicPot[$i][1], 405, $MagicPot[$i][2], 470, 1, 1, Hex(0xDACABA, 6), $aItemTileOffColors2, 10)
+
+		If IsArray($aItemTile) Then
+			$g_iItemNumberY = $aItemTile[1]
+		Else
+			SetLog("Could not find the Tile!", $COLOR_ERROR)
+		EndIf
+
+		Local $Number = getOcrAndCapture("coc-MedalCost", $MagicPot[$i][3], $g_iItemNumberY + 42, 35, 15, True)
+
+		If $Number <> "" And StringInStr($Number, "#") Then
+			; Splitting the XX/XX
+			Local $aTempCapItem = StringSplit($Number, "#")
+
+			; Local Variables to use
+			If $aTempCapItem[0] >= 2 Then
+				;  Note - stringsplit always returns an array even if no values split!
+				If $aTempCapItem[2] > 0 Then
+					Local $iAvailItem = $aTempCapItem[1]
+					Local $iItemTotal = $aTempCapItem[2]
+				EndIf
+			EndIf
+
+			SetDebugLog("Item : " & $MagicPot[$i][0])
+			SetDebugLog("Availability : " & $iAvailItem & "/" & $iItemTotal)
+
+		EndIf
+
+		_ArrayAdd($aWDItems, $i & "|" & $MagicPot[$i][0] & "|" & $iAvailItem)
+
+		If $i = 0 Or $i = 3 Then
+			ClickDrag(605, 510 + $g_iMidOffsetY, 620, 295 + $g_iMidOffsetY)
+			If _Sleep(1500) Then ExitLoop
+		Else
+			If _Sleep(1000) Then ExitLoop
+		EndIf
+
+	Next
+
+	CloseWindow()
+
+	Return $aWDItems
+
+EndFunc   ;==>CheckAvailableMagicItems
+
+Func CheckStockMagicItems()
+	;Items Count
+	Local $aMagicPosX[5] = [198, 302, 406, 510, 614]
+	Local $aMagicPosY = 308
+	Local $aMagicPosY2 = 410
+	;Items Capture Coordonates
+	Local $aMagicPosXBC1Start[5] = [196, 300, 404, 508, 612]
+	Local $aMagicPosYBC1StartFirstRow = 269
+	Local $aMagicPosXBC1End[5] = [239, 343, 447, 551, 655]
+	Local $aMagicPosYBC1EndFirstRow = 308
+	Local $aMagicPosYBC1StartSecondRow = 369
+	Local $aMagicPosYBC1EndSecondRow = 408
+	;Array
+	Local $aStockItems[0][3]
+
+	If Not $g_bRunState Then Return
+	If Not OpenMagicItemWindow() Then Return
+	If Not $g_bRunState Then Return
+
+	For $i = 0 To UBound($aMagicPosX) - 1
+		Local $ReadItemCount = MagicItemCount($aMagicPosX[$i], $aMagicPosY)
+		Local $ItemCount = StringSplit($ReadItemCount, "#", $STR_NOCOUNT)
+		For $t = 0 To UBound($PotionsCapturesMedal) - 1
+			Local $FindPotion = decodeSingleCoord(FindImageInPlace2("Potion", $PotionsCapturesMedal[$t], $aMagicPosXBC1Start[$i], $aMagicPosYBC1StartFirstRow, $aMagicPosXBC1End[$i], $aMagicPosYBC1EndFirstRow))
+			If IsArray($FindPotion) And UBound($FindPotion, 1) = 2 Then
+				_ArrayAdd($aStockItems, $i & "|" & $PotionsNamesMedal[$t] & "|" & $ItemCount[0])
+			EndIf
+		Next
+	Next
+
+	For $i = 0 To UBound($aMagicPosX) - 1
+		Local $ReadItemCount = MagicItemCount($aMagicPosX[$i], $aMagicPosY2)
+		Local $ItemCount = StringSplit($ReadItemCount, "#", $STR_NOCOUNT)
+		For $t = 0 To UBound($PotionsCapturesMedal) - 1
+			Local $FindPotion = decodeSingleCoord(FindImageInPlace2("Potion", $PotionsCapturesMedal[$t], $aMagicPosXBC1Start[$i], $aMagicPosYBC1StartSecondRow, $aMagicPosXBC1End[$i], $aMagicPosYBC1EndSecondRow))
+			If IsArray($FindPotion) And UBound($FindPotion, 1) = 2 Then
+				_ArrayAdd($aStockItems, $i + 6 & "|" & $PotionsNamesMedal[$t] & "|" & $ItemCount[0])
+			EndIf
+		Next
+	Next
+
+	If _Sleep(1500) Then Return
+
+	If Not $g_bRunState Then Return
+
+	Return $aStockItems
+
+EndFunc   ;==>CheckStockMagicItems
+
+Func MagicItemsCalc()
+
+	Local $aWDCalcItems[0][3], $aWDCalcItemsFinal[0][3]
+	Local $TotalMedals = 0, $TempTotalMedals = 0
+	Local $TraderArray = CheckAvailableMagicItems()
+	Local $StockArray = CheckStockMagicItems()
+	Local $GetOut = False
+
+	If IsArray($TraderArray) And IsArray($StockArray) Then
+		For $i = 0 To UBound($TraderArray) - 1
+			For $t = 0 To UBound($StockArray) - 1
+				If $StockArray[$t][1] = $TraderArray[$i][1] Then
+					If $StockArray[$t][2] > 5 And $TraderArray[$i][2] > 0 Then ; Sold Priority to Items > 6
+						_ArrayAdd($aWDCalcItems, $TraderArray[$i][1] & "|" & $TraderArray[$i][2] & "|" & $StockArray[$t][2])
+						ContinueLoop 2
+					EndIf
+				EndIf
+			Next
+		Next
+		For $i = 0 To UBound($TraderArray) - 1
+			If _ArraySearch($aWDCalcItems, $TraderArray[$i][1]) >= 0 Then ContinueLoop
+			For $t = 0 To UBound($StockArray) - 1
+				If $StockArray[$t][1] = $TraderArray[$i][1] Then
+					If $StockArray[$t][2] = 5 And $TraderArray[$i][2] > 0 Then ; Sold Priority to Items = 5
+						_ArrayAdd($aWDCalcItems, $TraderArray[$i][1] & "|" & $TraderArray[$i][2] & "|" & $StockArray[$t][2])
+						ContinueLoop 2
+					EndIf
+				EndIf
+			Next
+		Next
+		For $i = 0 To UBound($TraderArray) - 1
+			If _ArraySearch($aWDCalcItems, $TraderArray[$i][1]) >= 0 Then ContinueLoop
+			For $t = 0 To UBound($StockArray) - 1
+				If $StockArray[$t][1] = $TraderArray[$i][1] Then
+					If $StockArray[$t][2] > 0 And $TraderArray[$i][2] > 0 Then ; Sold Priority : Else
+						_ArrayAdd($aWDCalcItems, $TraderArray[$i][1] & "|" & $TraderArray[$i][2] & "|" & $StockArray[$t][2])
+						ContinueLoop 2
+					EndIf
+				EndIf
+			Next
+		Next
+		For $i = 0 To UBound($TraderArray) - 1
+			If _ArraySearch($StockArray, $TraderArray[$i][1]) = -1 Then ; Item not in Stock (Low Priority)
+				_ArrayAdd($aWDCalcItems, $TraderArray[$i][1] & "|" & $TraderArray[$i][2] & "|0")
+				ContinueLoop
+			EndIf
+		Next
+	EndIf
+
+	Local $DiffMedalsMax = Abs(Number(5000 - ($g_iLootCCMedal + $g_iacmdMedalsExpected)))
+
+	If IsArray($aWDCalcItems) Then
+		For $i = 0 To UBound($aWDCalcItems) - 1
+			$TempTotalMedals = 0
+			$GetOut = False
+			If $TotalMedals < $DiffMedalsMax Then
+				Switch $aWDCalcItems[$i][0]
+					Case "Training", "Clock Tower"
+						$TotalMedals += $aWDCalcItems[$i][1] * 100
+						$TempTotalMedals = $aWDCalcItems[$i][1] * 100
+						If $TotalMedals > $DiffMedalsMax + 100 And $aWDCalcItems[$i][1] > 0 Then
+							For $t = 1 To $aWDCalcItems[$i][1]
+								If ($aWDCalcItems[$i][1] - $t) * 100 <= $DiffMedalsMax Then
+									$aWDCalcItems[$i][1] = $aWDCalcItems[$i][1] - $t
+									$TotalMedals -= $t * 100
+									$TempTotalMedals = $aWDCalcItems[$i][1] * 100
+									$GetOut = True
+									ExitLoop
+								EndIf
+							Next
+						EndIf
+					Case "Builder Jar", "Power", "Hero"
+						$TotalMedals += $aWDCalcItems[$i][1] * 150
+						$TempTotalMedals = $aWDCalcItems[$i][1] * 150
+						If $TotalMedals > $DiffMedalsMax + 150 And $aWDCalcItems[$i][1] > 0 Then
+							For $t = 1 To $aWDCalcItems[$i][1]
+								If ($aWDCalcItems[$i][1] - $t) * 150 <= $DiffMedalsMax Then
+									$aWDCalcItems[$i][1] = $aWDCalcItems[$i][1] - $t
+									$TotalMedals -= $t * 150
+									$TempTotalMedals = $aWDCalcItems[$i][1] * 150
+									$GetOut = True
+									ExitLoop
+								EndIf
+							Next
+						EndIf
+					Case "Resource", "Research"
+						$TotalMedals += $aWDCalcItems[$i][1] * 200
+						$TempTotalMedals = $aWDCalcItems[$i][1] * 200
+						If $TotalMedals > $DiffMedalsMax + 200 And $aWDCalcItems[$i][1] > 0 Then
+							For $t = 1 To $aWDCalcItems[$i][1]
+								If ($aWDCalcItems[$i][1] - $t) * 200 <= $DiffMedalsMax Then
+									$aWDCalcItems[$i][1] = $aWDCalcItems[$i][1] - $t
+									$TotalMedals -= $t * 200
+									$TempTotalMedals = $aWDCalcItems[$i][1] * 200
+									$GetOut = True
+									ExitLoop
+								EndIf
+							Next
+						EndIf
+				EndSwitch
+
+
+				If $aWDCalcItems[$i][1] < 2 Then
+					SetLog("Medals To use for " & $aWDCalcItems[$i][1] & " " & $aWDCalcItems[$i][0] & " : " & $TempTotalMedals)
+				Else
+					SetLog("Medals To use for " & $aWDCalcItems[$i][1] & " " & $aWDCalcItems[$i][0] & "s : " & $TempTotalMedals)
+				EndIf
+
+				; 0 : Name, 1 : Item To Buy, 2 : Stock of Item
+				If $aWDCalcItems[$i][1] > 0 Then _ArrayAdd($aWDCalcItemsFinal, $aWDCalcItems[$i][0] & "|" & $aWDCalcItems[$i][1] & "|" & $aWDCalcItems[$i][2])
+
+			Else
+
+				$GetOut = True
+
+			EndIf
+
+			If $GetOut Then ExitLoop
+			If Not $g_bRunState Then Return
+
+		Next
+
+		SetLog("Medals To use for Items : " & $TotalMedals & "/" & $DiffMedalsMax, $COLOR_DEBUG)
+
+		$g_iLootCCMedal += $TotalMedals
+
+		Return $aWDCalcItemsFinal
+
+	EndIf
+
+EndFunc   ;==>MagicItemsCalc
+
+Func SoldAndBuyItems($TestDebug = False)
+
+	If Not $g_bChkEnablePurgeMedal And Not $TestDebug Then Return
+
+	If UTCTimeMedals() Then
+		Local Static $iLastTimeChecked[8] = [0, 0, 0, 0, 0, 0, 0, 0]
+		If $iLastTimeChecked[$g_iCurAccount] = @MDAY And Not $TestDebug Then Return
+	Else
+		If Not $TestDebug Then Return
+	EndIf
+
+	If $TestDebug Then
+		$g_iLootCCMedal = 4840 ; Just For Test
+	Else
+		If $g_iLootCCMedal = 0 Then
+			CatchCCMedals()
+			Return
+		EndIf
+	EndIf
+
+	If Not $TestDebug Then
+		If Number($g_iLootCCMedal + $g_iacmdMedalsExpected) <= 5000 Then Return
+	EndIf
+
+	If Not $TestDebug Then $iLastTimeChecked[$g_iCurAccount] = @MDAY
+
+	Local $ArraySold = MagicItemsCalc()
+	Local $NumberToSold = 0
+
+	If IsArray($ArraySold) Then
+
+		; 1 SOLD Items
+		SetLog("1. Selling Magic Items", $COLOR_ACTION)
+		For $i = 0 To UBound($ArraySold) - 1
+			$NumberToSold = 0
+			If $ArraySold[$i][2] < 3 Then ContinueLoop
+			For $t = 0 To UBound($PotionsCapturesMedal) - 1
+				If $PotionsNamesMedal[$t] <> $ArraySold[$i][0] Then ContinueLoop
+				Local $FindItem = decodeSingleCoord(FindImageInPlace2("Potions", $PotionsCapturesMedal[$t], 165, 195 + $g_iMidOffsetY, 695, 410 + $g_iMidOffsetY))
+				If IsArray($FindItem) And UBound($FindItem, 1) = 2 Then
+					$NumberToSold = Number($ArraySold[$i][2] - (5 - $ArraySold[$i][1]))
+					SetLog($ArraySold[$i][0] & " To Sold : " & $NumberToSold, $COLOR_INFO)
+					SoldMagicItems($FindItem[0], $FindItem[1], $NumberToSold, $TestDebug)
+					If _Sleep(1000) Then ExitLoop
+					ExitLoop
+				Else
+					SetLog("Could not find Item!", $COLOR_ERROR)
+				EndIf
+				If Not $g_bRunState Then Return
+			Next
+			If Not $g_bRunState Then Return
+		Next
+		CloseWindow()
+		If _Sleep(2000) Then Return
+
+		; 2 Buy Items with Medals
+		SetLog("2. Buying Magic Items", $COLOR_ACTION)
+		If Not $g_bRunState Then Return
+		Local $Found = False
+		For $i = 1 To 9
+			If QuickMIS("BC1", $g_sImgTrader, 90, 100 + $g_iMidOffsetY, 210, 210 + $g_iMidOffsetY) Then
+				Click($g_iQuickMISX, $g_iQuickMISY)
+				If _Sleep(1500) Then Return
+				$Found = True
+				ExitLoop
+			EndIf
+			If _Sleep(1000) Then Return
+		Next
+
+		If Not $Found Then
+			SetLog("Unable To Check Magic Items with Trader, Re-Try", $COLOR_ERROR)
+			If _Sleep(2000) Then Return
+			For $i = 1 To 9
+				If QuickMIS("BC1", $g_sImgTrader, 90, 100 + $g_iMidOffsetY, 210, 210 + $g_iMidOffsetY) Then
+					Click($g_iQuickMISX, $g_iQuickMISY)
+					If _Sleep(1500) Then Return
+					$Found = True
+					ExitLoop
+				EndIf
+				If _Sleep(1000) Then Return
+			Next
+			If Not $Found Then
+				SetLog("Unable To Check Magic Items with Trader", $COLOR_ERROR)
+				Return
+			EndIf
+		EndIf
+
+		Local $aIsRaidMedalsOpen[4] = [40, 0, 0x8CC11D, 20]
+		If _CheckPixel($aReceivedTroopsRaidMedals, True) Then ; Found the "You have received" Message on Screen, wait till its gone.
+			SetDebugLog("Detected Clan Castle Message Blocking Raid Medals Button. Waiting until it's gone", $COLOR_INFO)
+			_CaptureRegion2()
+			Local $Safetyexit = 0
+			While _CheckPixel($aReceivedTroopsRaidMedals, True)
+				If _Sleep($DELAYTRAIN1) Then Return
+				$Safetyexit = $Safetyexit + 1
+				If $Safetyexit > 120 Then ExitLoop ;If waiting longer than 2 min, something is wrong
+			WEnd
+		EndIf
+		Local $aTabButton = findButton("RaidMedals", Default, 1, True)
+		If IsArray($aTabButton) And UBound($aTabButton, 1) = 2 Then
+			$aIsRaidMedalsOpen[1] = $aTabButton[1]
+			If Not _CheckPixel($aIsRaidMedalsOpen, True) Then
+				ClickP($aTabButton)
+				If Not _WaitForCheckPixel($aIsRaidMedalsOpen, True) Then
+					SetLog("Error : Cannot open Raid Medals Menu. Pixel to check did not appear", $COLOR_ERROR)
+					CloseWindow()
+					Return FuncReturn(SetError(1, 0, False), $g_bDebugSetlog)
+				EndIf
+			EndIf
+		Else
+			SetDebugLog("Error when opening Raid Medals Menu: $aTabButton is no valid Array", $COLOR_ERROR)
+			CloseWindow()
+			Return FuncReturn(SetError(1, 0, False), $g_bDebugSetlog)
+		EndIf
+
+		If _Sleep(2000) Then Return
+
+		Local $iRow = 1, $iRowTarget = 1
+		For $z = 0 To UBound($ArraySold) - 1
+			Switch $ArraySold[$z][0]
+				Case "Training"
+					ItemsNextPage(1, $iRow)
+					SetLog($ArraySold[$z][0] & " To Buy : " & $ArraySold[$z][1], $COLOR_INFO)
+					BuyMagicItems(720, 515 + $g_iMidOffsetY, $ArraySold[$z][1], $TestDebug)
+				Case "Clock Tower"
+					ItemsNextPage(2, $iRow)
+					SetLog($ArraySold[$z][0] & " To Buy : " & $ArraySold[$z][1], $COLOR_INFO)
+					BuyMagicItems(310, 515 + $g_iMidOffsetY, $ArraySold[$z][1], $TestDebug)
+				Case "Builder Jar"
+					ItemsNextPage(2, $iRow)
+					SetLog($ArraySold[$z][0] & " To Buy : " & $ArraySold[$z][1], $COLOR_INFO)
+					BuyMagicItems(512, 515 + $g_iMidOffsetY, $ArraySold[$z][1], $TestDebug)
+				Case "Power"
+					ItemsNextPage(2, $iRow)
+					SetLog($ArraySold[$z][0] & " To Buy : " & $ArraySold[$z][1], $COLOR_INFO)
+					BuyMagicItems(720, 515 + $g_iMidOffsetY, $ArraySold[$z][1], $TestDebug)
+				Case "Hero"
+					ItemsNextPage(3, $iRow)
+					SetLog($ArraySold[$z][0] & " To Buy : " & $ArraySold[$z][1], $COLOR_INFO)
+					BuyMagicItems(310, 515 + $g_iMidOffsetY, $ArraySold[$z][1], $TestDebug)
+				Case "Resource"
+					ItemsNextPage(3, $iRow)
+					SetLog($ArraySold[$z][0] & " To Buy : " & $ArraySold[$z][1], $COLOR_INFO)
+					BuyMagicItems(512, 515 + $g_iMidOffsetY, $ArraySold[$z][1], $TestDebug)
+				Case "Research"
+					ItemsNextPage(3, $iRow)
+					SetLog($ArraySold[$z][0] & " To Buy : " & $ArraySold[$z][1], $COLOR_INFO)
+					BuyMagicItems(720, 515 + $g_iMidOffsetY, $ArraySold[$z][1], $TestDebug)
+			EndSwitch
+			If _Sleep(1000) Then Return
+		Next
+
+		CloseWindow()
+
+		GUICtrlSetData($g_lblCapitalMedal, _NumberFormat($g_iLootCCMedal, True))
+		If ProfileSwitchAccountEnabled() Then SwitchAccountVariablesReload("Save")
+
+	EndIf
+
+EndFunc   ;==>SoldAndBuyItems
+
+Func ItemsNextPage($iRowTarget, ByRef $iRow)
+	Local $iXMidPoint
+
+	While 1
+
+		$iXMidPoint = Random(605, 620, 1)
+
+		If $iRow < $iRowTarget Then
+			ClickDrag($iXMidPoint, 510 + $g_iMidOffsetY, $iXMidPoint, 295 + $g_iMidOffsetY, 500)
+			$iRow += 1
+		EndIf
+
+		If $iRow > $iRowTarget Then
+			ClickDrag($iXMidPoint, 295 + $g_iMidOffsetY, $iXMidPoint, 510 + $g_iMidOffsetY, 500)
+			$iRow -= 1
+		EndIf
+
+		If $iRow = $iRowTarget Then ExitLoop
+
+		If _Sleep(1500) Then Return
+
+	WEnd
+
+EndFunc   ;==>ItemsNextPage
+
+Func SoldMagicItems($x, $y, $ItemTime, $Test = False)
+	If Not $Test Then
+		For $z = 1 To $ItemTime
+			Click($x, $y)
+			If _Sleep(Random(2000, 3500, 1)) Then Return
+			If Not $g_bRunState Then Return
+			Click(600, 505 + $g_iMidOffsetY)
+			If _Sleep(Random(2000, 3500, 1)) Then Return
+			If Not $g_bRunState Then Return
+			Click(535, 425 + $g_iMidOffsetY)
+			If Not $g_bRunState Then Return
+			If _Sleep(Random(2000, 3500, 1)) Then Return
+		Next
+	Else
+		SetLog("Bot Should Click " & $ItemTime & " Times on this Item", $COLOR_DEBUG)
+	EndIf
+EndFunc   ;==>SoldMagicItems
+
+Func BuyMagicItems($x, $y, $ItemTime, $Test = False)
+	If Not $Test Then
+		For $z = 1 To $ItemTime
+			Click($x, $y)
+			If _Sleep(Random(2000, 3500, 1)) Then Return
+			If Not $g_bRunState Then Return
+			Click(430, 410 + $g_iMidOffsetY)
+			If _Sleep(Random(2000, 3500, 1)) Then Return
+		Next
+	Else
+		SetLog("Bot Should Click " & $ItemTime & " Times on this Item", $COLOR_DEBUG)
+	EndIf
+EndFunc   ;==>BuyMagicItems
+
+Func UTCTimeMedals()
+	Local $Time, $DayUTC, $DayOfTheWeek, $TimeHourUTC
+	If _Sleep(100) Then Return
+	Local $String = BinaryToString(InetRead("http://worldtimeapi.org/api/timezone/Etc/UTC.txt", 1))
+	Local $ErrorCycle = 0
+	While @error <> 0
+		$String = BinaryToString(InetRead("http://worldtimeapi.org/api/timezone/Etc/UTC.txt", 1))
+		If @error <> 0 Then
+			$ErrorCycle += 1
+		Else
+			ExitLoop
+		EndIf
+		If _Sleep(200) Then Return
+		If $ErrorCycle = 15 Then ExitLoop
+	WEnd
+	If $ErrorCycle = 15 Then
+		If Number(@WDAY) = 2 Then
+			Return True
+		Else
+			Return False
+		EndIf
+	EndIf
+	$Time = StringRegExp($String, 'datetime: (.+?)T(\d+:\d+:\d+)', $STR_REGEXPARRAYMATCH)
+	$DayOfTheWeek = StringRegExp($String, 'day_of_week: (\d)', $STR_REGEXPARRAYMATCH)
+	If IsArray($Time) And UBound($Time) > 0 Then
+		$DayUTC = StringSplit($Time[0], "-", $STR_NOCOUNT)
+		$TimeHourUTC = StringSplit($Time[1], ":", $STR_NOCOUNT)
+	Else
+		If Number(@WDAY) = 2 Then Return True
+	EndIf
+
+	If IsArray($TimeHourUTC) And UBound($TimeHourUTC) > 0 And IsArray($DayOfTheWeek) And UBound($DayOfTheWeek) > 0 Then
+		If $TimeHourUTC[0] > 0 And $DayOfTheWeek[0] = 1 Then ; Will check Only Monday From 00:00 To 08:00 UTC
+			If $TimeHourUTC[0] < 8 Then Return True
+		EndIf
+	Else
+		If Number(@WDAY) = 2 Then Return True
+	EndIf
+	Return False
+EndFunc   ;==>UTCTimeMedals

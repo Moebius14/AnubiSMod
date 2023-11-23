@@ -32,11 +32,14 @@ Func getArmySiegeMachines($bOpenArmyWindow = False, $bCloseArmyWindow = False, $
 		If _Sleep($DELAYCHECKARMYCAMP5) Then Return
 	EndIf
 
-	If _CheckPixel($aRecievedTroops, $bNeedCapture) Then ; Found the "You have recieved" Message on Screen, wait till its gone.
-		If $bSetLog Then SetLog("Detected Clan Castle Message Blocking Troop Images. Waiting until it's gone", $COLOR_INFO)
+	If _CheckPixel($aReceivedSieges, $bNeedCapture) Or _CheckPixel($aReceivedTroopsOCR, $bNeedCapture) Then ; Found the "You have received" Message on Screen, wait till its gone.
+		If $bSetLog Then SetDebugLog("Detected Clan Castle Message Blocking Siege Images. Waiting until it's gone", $COLOR_INFO)
 		_CaptureRegion2()
-		While _CheckPixel($aRecievedTroops, False)
+		Local $Safetyexit = 0
+		While (_CheckPixel($aReceivedSieges, $bNeedCapture) Or _CheckPixel($aReceivedTroopsOCR, $bNeedCapture))
 			If _Sleep($DELAYTRAIN1) Then Return
+			$Safetyexit = $Safetyexit + 1
+			If $Safetyexit > 60 Then ExitLoop  ;If waiting longer than 1 min, something is wrong
 		WEnd
 	EndIf
 

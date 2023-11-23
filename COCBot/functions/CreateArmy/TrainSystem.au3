@@ -194,18 +194,18 @@ Func CheckIfArmyIsReady()
 	If $g_bIsFullArmywithHeroesAndSpells Then
 		If $g_bNotifyTGEnable And $g_bNotifyAlertCampFull Then PushMsg("CampFull")
 		SetLog("Chief, is your Army ready? Yes, it is!", $COLOR_SUCCESS)
-	Else
-		If IsTimeWaitForCC($g_bFullArmy, $g_bCheckSpells, $bFullArmyHero, $bFullSiege, True, $bFullArmyCC) Then
+	Else ; Missing stuff
+		If IsTimeWaitForCC($g_bFullArmy, $g_bCheckSpells, $bFullArmyHero, $bFullSiege, True, $bFullArmyCC) Then ; Wait For Time Then Medals filling
 			SetLog("Chief, is your Army ready? No, not yet!", $COLOR_ACTION)
 			If $sLogText <> "" Then SetLog(@TAB & "Waiting for " & $sLogText, $COLOR_ACTION)
 		Else
-			If $g_aiCmbCCDecisionThen = 0 And Not $bChkUseOnlyCCMedals Then
+			If $g_aiCmbCCDecisionTime > 0 And $g_aiCmbCCDecisionThen = 0 And Not $bChkUseOnlyCCMedals And $g_bRequestTroopsEnable Then ; Wait For Time Then Attack (Time reached)
 				If $g_bNotifyTGEnable And $g_bNotifyAlertCampFull Then PushMsg("CampFull")
 				SetLog("Chief, is your Army ready? Yes, it is!", $COLOR_SUCCESS)
 				$bFullArmyCC = True
 				$g_bIsFullArmywithHeroesAndSpells = True
 				$g_bWaitForCCTroopSpell = False ; To Not Switch if fill with medals
-			Else
+			Else ; No Wait For CC (unchecked request)
 				SetLog("Chief, is your Army ready? No, not yet!", $COLOR_ACTION)
 				If $sLogText <> "" Then SetLog(@TAB & "Waiting for " & $sLogText, $COLOR_ACTION)
 			EndIf
@@ -656,6 +656,17 @@ Func IsQueueEmpty($sType = "Troops", $bSkipTabCheck = False, $removeExtraTroopsQ
 		$iArrowY = $aGreenArrowTrainSiegeMachines[1]
 	Else
 		Return
+	EndIf
+
+	If _CheckPixel($aReceivedTroopsTab, True) Then
+		SetLog("Detected Clan Castle Message. Waiting until it's gone", $COLOR_INFO)
+		_CaptureRegion2()
+		Local $Safetyexit = 0
+		While _CheckPixel($aReceivedTroopsTab, True)
+			If _Sleep($DELAYTRAIN1) Then Return
+			$Safetyexit = $Safetyexit + 1
+			If $Safetyexit > 60 Then ExitLoop  ;If waiting longer than 1 min, something is wrong
+		WEnd
 	EndIf
 
 	If Not _ColorCheck(_GetPixelColor($iArrowX, $iArrowY, True, $g_bDebugSetlogTrain ? $sType & " GreenArrow:0xA5D27B" : Default), Hex(0xA5D27B, 6), 30) And _
@@ -1425,6 +1436,8 @@ Func FillCCWMedals($g_bFullArmy = False, $g_bCheckSpells = False, $bFullArmyHero
 		$bRet = "WaitForCC"
 		Return $bRet
 	EndIf
+
+	If $bControlCCMedal Then CatchCCMedals()
 
 	If Number($g_iLootCCMedal) <= Number($g_aiCmbCCMedalsSaveMin) Then
 		$bRet = "NoMedal"

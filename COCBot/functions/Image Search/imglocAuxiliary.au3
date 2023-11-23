@@ -282,7 +282,7 @@ Func GetButtonDiamond($sButtonName)
 		Case "Info"
 			$btnDiamond = GetDiamondFromRect2(140, 540 + $g_iBottomOffsetY, 720, 640 + $g_iBottomOffsetY)
 		Case "GEM", "BOOSTBtn", "BoostConfirm" ; Boost window button (full button size)
-			$btnDiamond = GetDiamondFromRect2(359, 382 + $g_iMidOffsetY, 507, 477 + $g_iMidOffsetY)
+			$btnDiamond = GetDiamondFromRect2(340, 370 + $g_iMidOffsetY, 525, 495 + $g_iMidOffsetY)
 		Case "WallRingConfirm" ; Upgrade Wall With Wall Rings
 			$btnDiamond = GetDiamondFromRect2(445, 530 + $g_iMidOffsetY, 500, 570 + $g_iMidOffsetY)
 		Case "EnterShop"
@@ -306,7 +306,7 @@ Func GetButtonDiamond($sButtonName)
 		Case "Collect"
 			$btnDiamond = "350,450|505,450|505,521|350,521"
 		Case "BoostBarrack", "BarrackBoosted"
-			$btnDiamond = GetDiamondFromRect("630,280,850,360")
+			$btnDiamond = GetDiamondFromRect2(700, 270 + $g_iMidOffsetY, 830, 330 + $g_iMidOffsetY)
 		Case "ArmyTab", "TrainTroopsTab", "BrewSpellsTab", "BuildSiegeMachinesTab"
 			$btnDiamond = GetDiamondFromRect2(30, 80 + $g_iMidOffsetY, 640, 135 + $g_iMidOffsetY)
 		Case "WeeklyDeals", "RaidMedals"

@@ -218,9 +218,9 @@ Func getAllEmulators()
 
 			Switch $aEmulator[$i]
 				Case "BlueStacks5"
-					$DisplayVersionMin = "5.10.220.1008"
+					$DisplayVersionMin = "5.13.220.1001"
 					$VersionMin = GetVersionNormalized($DisplayVersionMin)
-					$DisplayVersionMax = "5.11.100.2202"
+					$DisplayVersionMax = "5.13.220.1002"
 					$VersionMax = GetVersionNormalized($DisplayVersionMax)
 				Case "Nox"
 					$DisplayVersionMin = "7.0.5.7"
@@ -230,7 +230,7 @@ Func getAllEmulators()
 				Case "MEmu"
 					$DisplayVersionMin = "9.0.1.0"
 					$VersionMin = GetVersionNormalized($DisplayVersionMin)
-					$DisplayVersionMax = "9.0.6.5"
+					$DisplayVersionMax = "9.0.8.0"
 					$VersionMax = GetVersionNormalized($DisplayVersionMax)
 			EndSwitch
 

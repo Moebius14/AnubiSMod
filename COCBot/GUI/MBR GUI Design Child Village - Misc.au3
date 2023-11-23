@@ -41,7 +41,7 @@ Global $g_hChkPlacingNewBuildings = 0, $g_hChkBBSuggestedUpgradesIgnoreWall = 0
 Global $g_ahPicBBLeague[$eBBLeagueCount] = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], $g_hLblBBLeague1 = 0, $g_hLblBBLeague2 = 0, $g_hLblBBLeague3 = 0, $g_hLblBBLeague4 = 0, $g_hLblBBLeague5 = 0
 
 Global $g_lblCapitalGold = 0, $g_lblCapitalMedal = 0, $g_hCmbForgeBuilder = 0, $g_hLbCmbForgeBuilder = 0, $g_hChkEnableAutoUpgradeCC = 0, _
-		$g_hChkAutoUpgradeCCIgnore = 0, $g_hChkStartWeekendRaid = 0, $g_hChkEnableSmartSwitchCC = 0
+		$g_hChkAutoUpgradeCCIgnore = 0, $g_hChkStartWeekendRaid = 0, $g_hChkEnableSmartSwitchCC = 0, $g_hChkEnablePurgeMedal = 0, $g_acmdMedalsExpected = 0
 Global $g_lblCapitalTrophies = 0, $g_ahPicCCLeague[$eLeagueCount] = [0, 0, 0, 0, 0, 0, 0, 0, 0], $g_hLblCCLeague1 = 0, $g_hLblCCLeague2 = 0, $g_hLblCCLeague3 = 0
 Global $g_hChkEnableCollectCCGold = 0, $g_hChkEnableForgeGold = 0, $g_hChkEnableForgeElix = 0, $g_hChkEnableForgeDE = 0, $g_hChkEnableForgeBBGold = 0, $g_hChkEnableForgeBBElix = 0, $g_hChkEnableSmartUse = 0
 Global $g_hCmbPriorityCCBaseFrequency = 0, $g_hChkCCBaseFrequencyLabel = 0, $g_hChkCCBaseFrequencyLabel1 = 0, $g_hcmbAdvancedVariationCC = 0, $g_hTxtAutoUpgradeCCLog = 0
@@ -788,8 +788,8 @@ Func CreateMiscClanCapitalSubTab()
 
 	$g_hChkEnableCollectCCGold = GUICtrlCreateCheckbox(GetTranslatedFileIni("MBR GUI Design Child Village - Misc", "CollectCCGold", "Collect Clan Capital Gold"), $x, $y, -1, -1)
 
-	$g_hChkStartWeekendRaid = GUICtrlCreateCheckbox(GetTranslatedFileIni("MBR GUI Design Child Village - Misc", "StartWeekendRaid", "Start Weekend Raid"), $x + 180, $y, -1, -1)
-	_GUICtrlSetTip(-1, "Only Chiefs Or Co-Chiefs Can Start Weekend Raids")
+	$g_hChkStartWeekendRaid = GUICtrlCreateCheckbox(GetTranslatedFileIni("MBR GUI Design Child Village - Misc", "StartWeekendRaid", "Start Raid Week-End"), $x + 180, $y, -1, -1)
+	_GUICtrlSetTip(-1, "Only Chiefs Or Co-Chiefs Can Start Raid Week-End")
 
 	GUICtrlCreateLabel("", $x + 313, $y - 39, 1, 63)
 	GUICtrlSetBkColor(-1, 0xC3C3C3)
@@ -876,20 +876,33 @@ Func CreateMiscClanCapitalSubTab()
 	GUICtrlCreateGroup("", -99, -99, 1, 1)
 
 	$y += 52
-	GUICtrlCreateGroup(GetTranslatedFileIni("MBR GUI Design Child Village - Misc", "Group_ClanCapital_03", "Auto Upgrade Clan Capital"), $x - 10, $y - 15, $g_iSizeWGrpTab3 - 3, 45)
+	GUICtrlCreateGroup(GetTranslatedFileIni("MBR GUI Design Child Village - Misc", "Group_ClanCapital_03", "Auto Upgrade Clan Capital"), $x - 10, $y - 15, 265, 45)
 	$g_hChkEnableAutoUpgradeCC = GUICtrlCreateCheckbox(GetTranslatedFileIni("MBR GUI Design Child Village - Misc", "ChkEnableAutoUpgradeCC", "Enable"), $x, $y + 1, -1, -1)
 	GUICtrlSetOnEvent(-1, "EnableAutoUpgradeCC")
 
-	$g_hChkEnableSmartSwitchCC = GUICtrlCreateCheckbox("Smart Switch", $x + 70, $y + 1, -1, -1)
+	$g_hChkEnableSmartSwitchCC = GUICtrlCreateCheckbox("Smart Switch", $x + 60, $y + 1, -1, -1)
 	_GUICtrlSetTip(-1, "Switch Only If Necessary, When CC Gold Detected or Week-End Raid To Start")
 
-	$g_hBtnCCUpgradesSettingsOpen = GUICtrlCreateButton("Upgrades Settings", $x + 170, $y - 2, -1, -1)
+	$g_hBtnCCUpgradesSettingsOpen = GUICtrlCreateButton("Upgrades Settings", $x + 150, $y - 2, -1, -1)
 	_GUICtrlSetTip(-1, "Settings For Priorities and Exclusions")
 	GUICtrlSetOnEvent(-1, "btnCCUpgradesSettings")
 	GUICtrlCreateGroup("", -99, -99, 1, 1)
 
+	GUICtrlCreateGroup(GetTranslatedFileIni("MBR GUI Design Child Village - Misc", "Group_ClanCapital_04", "Purge Medals"), $x + 265, $y - 15, 150, 45)
+	$g_hChkEnablePurgeMedal = GUICtrlCreateCheckbox(GetTranslatedFileIni("MBR GUI Design Child Village - Misc", "ChkEnablePurgeMedal", "Enable"), $x + 275, $y + 1, -1, -1)
+	_GUICtrlSetTip(-1, "Bot Will Sell and Buy Magic Items When : " & @CRLF & _
+			"- Early Monday" & @CRLF & _
+			"- Actual Medals Amount + Expected > 5000" & @CRLF & @CRLF & _
+			"**Bot Will Sell Magic Items In Greater Quantities**")
+	GUICtrlSetOnEvent(-1, "EnablePurgeMedal")
+
+	$g_acmdMedalsExpected = GUICtrlCreateInput("1500", $x + 340, $y + 2, 50, 18, BitOR($GUI_SS_DEFAULT_INPUT, $ES_CENTER, $ES_NUMBER))
+	GUICtrlSetLimit(-1, 4)
+	_GUICtrlSetTip(-1, "Expected Medals From Raid Week-End")
+	GUICtrlCreateGroup("", -99, -99, 1, 1)
+
 	$y += 50
-	GUICtrlCreateGroup(GetTranslatedFileIni("MBR GUI Design Child Village - Misc", "Group_ClanCapital_04", "Forge And Upgrade Check Frequency"), $x - 10, $y - 15, $g_iSizeWGrpTab3 - 3, 48)
+	GUICtrlCreateGroup(GetTranslatedFileIni("MBR GUI Design Child Village - Misc", "Group_ClanCapital_05", "Forge And Upgrade Check Frequency"), $x - 10, $y - 15, $g_iSizeWGrpTab3 - 3, 48)
 	$g_hChkCCBaseFrequencyLabel = GUICtrlCreateLabel("Check Every :", $x + 55, $y + 5, -1, -1)
 	$g_hCmbPriorityCCBaseFrequency = GUICtrlCreateCombo("", $x + 130, $y + 2, 75, 10, BitOR($CBS_DROPDOWNLIST, $CBS_AUTOHSCROLL))
 	GUICtrlSetData(-1, "Everytime|1 Hour|2 Hours|3 Hours|4 Hours|5 Hours|6 Hours|7 Hours|8 Hours", "3 Hours")

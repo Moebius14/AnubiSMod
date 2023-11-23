@@ -33,10 +33,21 @@ Func TrainSiege($bTrainFullSiege = False, $bDebugSetLog = $g_bDebugSetLog)
 	Local $aiQueueSiegeMachine[$eSiegeMachineCount] = [0, 0, 0, 0, 0, 0, 0]
 	Local $aiTotalSiegeMachine = $g_aiCurrentSiegeMachines
 
+	If _CheckPixel($aReceivedTroopsDouble, True) Or _CheckPixel($aReceivedTroopsDoubleOCR, True) Then ; Found the "You have received" Message on Screen, wait till its gone.
+		SetDebugLog("Detected Clan Castle Message Blocking Siege Count. Waiting until it's gone", $COLOR_INFO)
+		_CaptureRegion2()
+		Local $Safetyexit = 0
+		While (_CheckPixel($aReceivedTroopsDouble, True) Or _CheckPixel($aReceivedTroopsDoubleOCR, True))
+			If _Sleep($DELAYTRAIN1) Then Return
+			$Safetyexit = $Safetyexit + 1
+			If $Safetyexit > 60 Then ExitLoop  ;If waiting longer than 1 min, something is wrong
+		WEnd
+	EndIf
+
 	; check queueing siege
 	If _CheckPixel($aCheckIsFilled, True, Default, "Siege is Filled") Or _CheckPixel($aCheckIsOccupied, True, Default, "Siege is Queued") Then
 		Local $Dir = @ScriptDir & "\imgxml\ArmyOverview\SiegeMachinesQueued"
-		Local $aSearchResult = SearchArmy($Dir, 30, 165 + $g_iMidOffsetY, 835, 230 + $g_iMidOffsetY, "Queue")
+		Local $aSearchResult = SearchArmy($Dir, 35, 165 + $g_iMidOffsetY, 830, 230 + $g_iMidOffsetY, "Queue")
 		If $aSearchResult[0][0] <> "" Then
 			For $i = 0 To UBound($aSearchResult) - 1
 				Local $iSiegeIndex = TroopIndexLookup($aSearchResult[$i][0]) - $eWallW
@@ -113,48 +124,6 @@ Func TrainSiege($bTrainFullSiege = False, $bDebugSetLog = $g_bDebugSetLog)
 		SetLog("Remaining Siege build time: " & StringFormat("%.2f", $g_aiTimeTrain[3]), $COLOR_INFO)
 	EndIf
 EndFunc   ;==>TrainSiege
-
-Func CheckQueueSieges($bGetQuantity = True, $bSetLog = True, $x = 835, $bQtyWSlot = False)
-	Local $aResult[1] = [""]
-	If $bSetLog Then SetLog("Checking siege queue", $COLOR_INFO)
-
-	Local $Dir = @ScriptDir & "\imgxml\ArmyOverview\SiegeMachinesQueued"
-
-	Local $aSearchResult = SearchArmy($Dir, 30, 165 + $g_iMidOffsetY, $x, 230 + $g_iMidOffsetY, $bGetQuantity ? "queue" : "")
-	ReDim $aResult[UBound($aSearchResult)]
-
-	If $aSearchResult[0][0] = "" Then
-		Setlog("No siege detected!", $COLOR_ERROR)
-		Return
-	EndIf
-
-	For $i = 0 To (UBound($aSearchResult) - 1)
-		If Not $g_bRunState Then Return
-		$aResult[$i] = $aSearchResult[$i][0]
-	Next
-
-	If $bGetQuantity Then
-		Local $aQuantities[UBound($aResult)][2]
-		Local $aQueueTroop[$eSiegeMachineCount]
-		For $i = 0 To (UBound($aQuantities) - 1)
-			$aQuantities[$i][0] = $aSearchResult[$i][0]
-			$aQuantities[$i][1] = $aSearchResult[$i][3]
-			Local $iSiegeIndex = Int(TroopIndexLookup($aQuantities[$i][0]) - $eWallW)
-			If $iSiegeIndex >= 0 And $iSiegeIndex < $eSiegeMachineCount Then
-				If $bSetLog Then SetLog("  - " & $g_asSiegeMachineNames[TroopIndexLookup($aQuantities[$i][0], "CheckQueueSieges")] & ": " & $aQuantities[$i][1] & "x", $COLOR_SUCCESS)
-				$aQueueTroop[$iSiegeIndex] += $aQuantities[$i][1]
-			Else
-				; TODO check what to do with others
-				SetDebugLog("Unsupport siege index: " & $iSiegeIndex)
-			EndIf
-		Next
-		If $bQtyWSlot Then Return $aQuantities
-		Return $aQueueTroop
-	EndIf
-
-	_ArrayReverse($aResult)
-	Return $aResult
-EndFunc   ;==>CheckQueueSieges
 
 Func DragSiegeIfNeeded($iSiegeIndex, ByRef $iPage)
 

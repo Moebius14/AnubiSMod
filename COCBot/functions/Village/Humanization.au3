@@ -552,11 +552,11 @@ Func LookAtCurrentWar()
 							Switch $FirstMenu
 								Case 1
 									SetLog("Looking At War Stats ...", $COLOR_DEBUG)
-									Click(170, 90 + $g_iMidOffsetY) ; click first tab
+									Click(180, 100 + $g_iMidOffsetY) ; click first tab
 									Scroll(Random(0, 1, 1))
 								Case 2
 									SetLog("Looking At War Events ...", $COLOR_DEBUG)
-									Click(390, 90 + $g_iMidOffsetY) ; click second tab
+									Click(355, 100 + $g_iMidOffsetY) ; click second tab
 									If $g_bClanWar Then
 										If Not $IsWarEnded Then
 											If $g_HowManyPlayersInCW < 10 Then
@@ -610,7 +610,7 @@ Func LookAtCurrentWar()
 							Switch $FirstMenu
 								Case 1
 									SetLog("Looking At My Team Tab ...", $COLOR_DEBUG)
-									Click(180, 90 + $g_iMidOffsetY) ; click first tab
+									Click(180, 100 + $g_iMidOffsetY) ; click first tab
 									If $g_bClanWar Then
 										If $g_HowManyPlayersInCW < 10 Then
 											SetLog("Little War : No Scroll", $COLOR_OLIVE)
@@ -638,7 +638,7 @@ Func LookAtCurrentWar()
 									EndIf
 								Case 2
 									SetLog("Looking At Enemy Team Tab ...", $COLOR_DEBUG)
-									Click(360, 90 + $g_iMidOffsetY) ; click second tab
+									Click(360, 100 + $g_iMidOffsetY) ; click second tab
 									If $g_bClanWar Then
 										If $g_HowManyPlayersInCW < 10 Then
 											SetLog("Little War : No Scroll", $COLOR_OLIVE)
@@ -674,7 +674,7 @@ Func LookAtCurrentWar()
 							Switch $SecondMenu
 								Case 1
 									SetLog("Looking At Attacks Tab ...", $COLOR_DEBUG)
-									Click(260, 105 + $g_iMidOffsetY) ; click the Attacks tab
+									Click(260, 155 + $g_iMidOffsetY) ; click the Attacks tab
 									If $g_bClanWar Then
 										If $g_HowManyPlayersInCW < 10 Then
 											SetLog("Little War : No Scroll", $COLOR_OLIVE)
@@ -700,7 +700,7 @@ Func LookAtCurrentWar()
 									If Not $g_bRunState Then Return
 								Case 2
 									SetLog("Looking At Defenses Tab ...", $COLOR_DEBUG)
-									Click(630, 105 + $g_iMidOffsetY) ; click the Defenses tab
+									Click(630, 155 + $g_iMidOffsetY) ; click the Defenses tab
 									If $g_bClanWar Then
 										If $g_HowManyPlayersInCW < 10 Then
 											SetLog("Little War : No Scroll", $COLOR_OLIVE)
@@ -730,16 +730,16 @@ Func LookAtCurrentWar()
 							Switch $SecondMenu
 								Case 1
 									SetLog("Looking At My Team Tab ...", $COLOR_DEBUG)
-									Click(525, 90 + $g_iMidOffsetY) ; click the third tab
+									Click(525, 100 + $g_iMidOffsetY) ; click the third tab
 									If _Sleep(Random(2000, 4000, 1)) Then Return
 									Local $SecondSubMenu = Random(1, 2, 1)
 									Switch $SecondSubMenu
 										Case 1
 											SetLog("Looking At Attacks Tab ...", $COLOR_DEBUG)
-											Click(230, 145 + $g_iMidOffsetY) ; click the Attacks tab
+											Click(260, 155 + $g_iMidOffsetY) ; click the Attacks tab
 										Case 2
 											SetLog("Looking At Defenses Tab ...", $COLOR_DEBUG)
-											Click(620, 145 + $g_iMidOffsetY) ; click the Defenses tab
+											Click(630, 155 + $g_iMidOffsetY) ; click the Defenses tab
 									EndSwitch
 									If _Sleep(1500) Then Return
 									If Not $g_bRunState Then Return
@@ -766,16 +766,16 @@ Func LookAtCurrentWar()
 									EndIf
 								Case 2
 									SetLog("Looking At Enemy Team Tab ...", $COLOR_DEBUG)
-									Click(720, 90 + $g_iMidOffsetY) ; click the fourth tab
+									Click(690, 100 + $g_iMidOffsetY) ; click the fourth tab
 									If _Sleep(Random(2000, 4000, 1)) Then Return
 									Local $SecondSubMenu = Random(1, 2, 1)
 									Switch $SecondSubMenu
 										Case 1
 											SetLog("Looking At Attacks Tab ...", $COLOR_DEBUG)
-											Click(230, 145 + $g_iMidOffsetY) ; click the Attacks tab
+											Click(260, 155 + $g_iMidOffsetY) ; click the Attacks tab
 										Case 2
 											SetLog("Looking At Defenses Tab ...", $COLOR_DEBUG)
-											Click(620, 145 + $g_iMidOffsetY) ; click the Defenses tab
+											Click(630, 155 + $g_iMidOffsetY) ; click the Defenses tab
 									EndSwitch
 									If _Sleep(1500) Then Return
 									If Not $g_bRunState Then Return
@@ -893,7 +893,7 @@ Func WatchWarReplays()
 				If IsClanOverview() Then
 					If _Sleep(Random(1000, 2000, 1)) Then Return
 					SetLog("Looking At Second Tab ...", $COLOR_DEBUG)
-					Click(350, 90 + $g_iMidOffsetY) ; go to replays tab
+					Click(350, 100 + $g_iMidOffsetY) ; go to replays tab
 					If _Sleep(Random(1500, 2000, 1)) Then Return
 					If Not $g_bRunState Then Return
 
@@ -2306,10 +2306,11 @@ Func LookAtRedNotifications()
 	EndIf
 	ReturnAtHome()
 
-	If _ColorCheck(_GetPixelColor(45, 500, True), "ED151D", 20) Or _ColorCheck(_GetPixelColor(53, 508, True), "DD1525", 20) Then
+	Local $bRedColor_InWarButton = _PixelSearch(45, 439 + $g_iBottomOffsetY, 55, 441 + $g_iBottomOffsetY, Hex(0xF81720, 6), 20) ; Red color in war buttons*
+	If IsArray($bRedColor_InWarButton) Then
 		SetLog("Something To Check In War Area ...", $COLOR_OLIVE)
 		If _Sleep(Random(1000, 2000, 1)) Then Return
-		If QuickMIS("BC1", $ImInWar, 40, 492, 66, 512, True, False) Then
+		If QuickMIS("BC1", $ImInWar, 40, 432 + $g_iBottomOffsetY, 66, 452 + $g_iBottomOffsetY) Then
 			SetLog("-----------------------------------", $COLOR_ERROR)
 			SetLog("|  You Have To Fight In War ! |", $COLOR_ERROR)
 			SetLog("-----------------------------------", $COLOR_ERROR)
@@ -3026,14 +3027,19 @@ Func CheckWarTime(ByRef $sResult, ByRef $bResult, $bReturnFrom = True, $WWR = Fa
 	EndIf
 
 	_CaptureRegion()
-	$bRedColor_InWarButton = _ColorCheck(_GetPixelColor(45, 470 + $g_iMidOffsetY, True), "ED151D", 20) Or _ColorCheck(_GetPixelColor(53, 508, True), "DD1525", 20) ; Red color in war buttons*
+	$bRedColor_InWarButton = _PixelSearch(45, 439 + $g_iBottomOffsetY, 55, 441 + $g_iBottomOffsetY, Hex(0xF81720, 6), 20) ; Red color in war buttons*
+	If IsArray($bRedColor_InWarButton) Then
+		$bRedColor_InWarButton = True
+	Else
+		$bRedColor_InWarButton = False
+	EndIf
 	$g_bClanWarLeague = _ColorCheck(_GetPixelColor(10, 480 + $g_iMidOffsetY, True), "FFEF71", 20) ; Golden color at left side of clan war button
-	$g_bClanWar = _ColorCheck(_GetPixelColor(36, 472 + $g_iMidOffsetY, True), "F0B345", 20) ; Ordinary war color at left side of clan war button
+	$g_bClanWar = _ColorCheck(_GetPixelColor(36, 472 + $g_iMidOffsetY, True), "F9B445", 20) ; Ordinary war color at left side of clan war button
 	If $g_bClanWarLeague Then SetDebugLog("Your Clan Is Doing Clan War League.", $COLOR_INFO)
 
 	If $bRedColor_InWarButton Then
 		SetLog("Red color on war button :", $COLOR_BLUE)
-		If QuickMIS("BC1", $ImInWar, 40, 432 + $g_iBottomOffsetY, 66, 452 + $g_iBottomOffsetY, True, False) Then
+		If QuickMIS("BC1", $ImInWar, 40, 432 + $g_iBottomOffsetY, 66, 452 + $g_iBottomOffsetY) Then
 			SetLog("-----------------------------------", $COLOR_ERROR)
 			SetLog("|  You Have To Fight In War ! |", $COLOR_ERROR)
 			SetLog("-----------------------------------", $COLOR_ERROR)

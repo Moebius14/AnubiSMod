@@ -22,7 +22,7 @@ Func ProfileReport()
 	If _Sleep($DELAYPROFILEREPORT1) Then Return
 
 	SetLog("Profile Report", $COLOR_INFO)
-	SetLog("Opening Profile page to read Attacks, Defenses, Donations and Recieved Troops", $COLOR_INFO)
+	SetLog("Opening Profile page to read Attacks, Defenses, Donations and received Troops", $COLOR_INFO)
 	Click(40, 32, 1, 0, "#0222") ; Click Info Profile Button
 	If _Sleep($DELAYPROFILEREPORT2) Then Return
 

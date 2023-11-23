@@ -62,6 +62,7 @@ Global $g_hChkDonateQueueTroopOnly = 0, $g_hChkDonateQueueSpellOnly = 0
 ; Schedule
 Global $g_hChkDonateHoursEnable = 0, $g_ahChkDonateHours[24] = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
 Global $g_hCmbFilterDonationsCC = 0, $g_hChkSkipDonateNearFullTroopsEnable = 0
+Global $g_hChkDeleteOldFiles = 0, $g_hTxtDeleteOldFilesDays = 0
 Global $g_hLblDonateHours1 = 0, $g_hLblDonateHoursPM = 0
 Global $g_hLblSkipDonateNearFullTroopsText = 0, $g_hTxtSkipDonateNearFullTroopsPercentage = 0, $g_hLblSkipDonateNearFullTroopsText1 = 0
 
@@ -3256,12 +3257,20 @@ Func CreateScheduleSubTab()
 	GUICtrlCreateLabel(GetTranslatedFileIni("MBR GUI Design Child Village - Donate_Schedule", "LblOption_donate_members", "Using this option you can choose to donate to all members of your team (No Filter), donate only to certain friends (White List) or give everyone except a few members of your team (Black List)"), $x, $y - 10, 380, 40, $BS_MULTILINE)
 	$y += 35
 
-	$g_hCmbFilterDonationsCC = GUICtrlCreateCombo("", $x, $y, 300, 25, BitOR($CBS_DROPDOWNLIST, $CBS_AUTOHSCROLL))
+	$g_hCmbFilterDonationsCC = GUICtrlCreateCombo("", $x, $y, 240, 25, BitOR($CBS_DROPDOWNLIST, $CBS_AUTOHSCROLL))
 	GUICtrlSetData(-1, GetTranslatedFileIni("MBR GUI Design Child Village - Donate_Schedule", "CmbFilterDonationsCC_Item_01", "No Filter, donate at all Clan Mates") & "|" & _
 			GetTranslatedFileIni("MBR GUI Design Child Village - Donate_Schedule", "CmbFilterDonationsCC_Item_02", "No Filter but collect Clan Mates Images") & "|" & _
 			GetTranslatedFileIni("MBR GUI Design Child Village - Donate_Schedule", "CmbFilterDonationsCC_Item_03", "Donate only at Clan Mates in White List") & "|" & _
 			GetTranslatedFileIni("MBR GUI Design Child Village - Donate_Schedule", "CmbFilterDonationsCC_Item_04", "Donate at all Except at Clan Mates in Black List"), GetTranslatedFileIni("MBR GUI Design Child Village - Donate_Schedule", "CmbFilterDonationsCC_Item_01", -1))
-	GUICtrlSetOnEvent(-1, "cmbABAlgorithm")
+
+	$g_hChkDeleteOldFiles = GUICtrlCreateCheckbox(GetTranslatedFileIni("MBR GUI Design Child Village - Donate_Schedule", "mbFilterDonationsCC_Item_05", "Delete Old Files") & ":", $x + 250, $y, -1, -1)
+	_GUICtrlSetTip(-1, GetTranslatedFileIni("MBR GUI Design Child Village - Donate_Schedule", "mbFilterDonationsCC_Item_06", "Delete old files older than this specified No. of days, in Donate Folder."))
+	GUICtrlSetOnEvent(-1, "ChkDeleteOldFiles")
+
+	$g_hTxtDeleteOldFilesDays = GUICtrlCreateInput("5", $x + 350, $y + 2, 25, 16, BitOR($GUI_SS_DEFAULT_INPUT, $ES_CENTER, $ES_NUMBER))
+	_GUICtrlSetTip(-1, GetTranslatedFileIni("MBR GUI Design Child Village - Donate_Schedule", "mbFilterDonationsCC_Item_06", "Delete old files older than this specified No. of days, in Donate Folder."))
+	GUICtrlSetLimit(-1, 2)
+	GUICtrlCreateLabel(GetTranslatedFileIni("MBR GUI Design Child Village - Donate_Schedule", "days", "days"), $x + 380, $y + 4, 27, 15)
 
 	$y += 35
 	GUICtrlCreateLabel(GetTranslatedFileIni("MBR GUI Design Child Village - Donate_Schedule", "LblImages_of_Clan_Mates", "Images of Clan Mates are captured and stored in main folder, move to appropriate folder (White or Black List)"), $x, $y - 10, 380, 30, $BS_MULTILINE)

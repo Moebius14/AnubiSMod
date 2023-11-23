@@ -929,6 +929,14 @@ Func EnableAutoUpgradeCC()
 	EndIf
 EndFunc   ;==>EnableAutoUpgradeCC
 
+Func EnablePurgeMedal()
+	If GUICtrlRead($g_hChkEnablePurgeMedal) = $GUI_CHECKED Then
+		GUICtrlSetState($g_acmdMedalsExpected, $GUI_ENABLE)
+	Else
+		GUICtrlSetState($g_acmdMedalsExpected, $GUI_DISABLE)
+	EndIf
+EndFunc   ;==>EnablePurgeMedal
+
 Func ViewBattleLog()
 	If _GUICtrlComboBox_GetCurSel($g_acmbPriorityBB[0]) = 0 Then
 		For $i = $g_hLabelBB2 To $g_acmbPause[2]
@@ -1202,24 +1210,30 @@ Func ForumAccept()
 		If IsArray($aTmpCoord) And UBound($aTmpCoord) > 0 Then
 			SetLog("Joining Request Detected", $COLOR_SUCCESS1)
 			$bRet = False
-			Local $Result = getOcrAndCapture("coc-latinA", 45, $aTmpCoord[0][2] - 49, 285, 16)
-			Local $Result2 = getOcrAndCapture("coc-latinA", 45, $aTmpCoord[0][2] - 62, 285, 16)
 			If _Sleep(500) Then ExitLoop
-			Local $bForumWordFound = 0
-			If IsArray($aForumWrite) And $aForumWrite[0] <> "" Then
-				For $i = 0 To UBound($aForumWrite) - 1
-					If StringInStr($Result, $aForumWrite[$i]) Or StringInStr($Result2, $aForumWrite[$i]) Then
-						SetLog("Request With Keyword Detected (" & $aForumWrite[$i] & ")", $COLOR_FUCHSIA)
-						$bRet = True
-						$bForumWordFound += 1
-						ExitLoop
-					EndIf
-				Next
+			If $g_bChkAcceptAllRequests Then
+				SetLog("Accept Any Request", $COLOR_FUCHSIA)
+				$bRet = True
 			Else
-				SetLog("No Keyword Saved In Settings", $COLOR_ERROR)
-				ExitLoop
+				Local $bForumWordFound = 0
+				Local $Result = getOcrAndCapture("coc-latinA", 45, $aTmpCoord[0][2] - 49, 285, 16)
+				Local $Result2 = getOcrAndCapture("coc-latinA", 45, $aTmpCoord[0][2] - 62, 285, 16)
+				If _Sleep(500) Then ExitLoop
+				If IsArray($aForumWrite) And $aForumWrite[0] <> "" Then
+					For $i = 0 To UBound($aForumWrite) - 1
+						If StringInStr($Result, $aForumWrite[$i]) Or StringInStr($Result2, $aForumWrite[$i]) Then
+							SetLog("Request With Keyword Detected (" & $aForumWrite[$i] & ")", $COLOR_FUCHSIA)
+							$bRet = True
+							$bForumWordFound += 1
+							ExitLoop
+						EndIf
+					Next
+				Else
+					SetLog("No Keyword Saved In Settings", $COLOR_ERROR)
+					ExitLoop
+				EndIf
+				If $bForumWordFound = 0 Then SetLog("But No Keyword Detected", $COLOR_WARNING)
 			EndIf
-			If $bForumWordFound = 0 Then SetLog("But No Keyword Detected", $COLOR_WARNING)
 			If Not $g_bRunState Then ExitLoop
 			If $bRet Then
 				SetLog("Click Accept", $COLOR_SUCCESS1)
@@ -1319,13 +1333,26 @@ Func chkUseWelcomeMessage()
 	If GUICtrlRead($g_hChkUseWelcomeMessage) = $GUI_CHECKED Then
 		$g_bUseWelcomeMessage = True
 		GUICtrlSetState($g_hTxtRequestMessage, $GUI_ENABLE)
+		GUICtrlSetState($g_hChkAcceptAllRequests, $GUI_ENABLE)
 		GUICtrlSetState($g_hTxtWelcomeMessage, $GUI_ENABLE)
+		chkAcceptAllRequests()
 	Else
 		$g_bUseWelcomeMessage = False
 		GUICtrlSetState($g_hTxtRequestMessage, $GUI_DISABLE)
+		GUICtrlSetState($g_hChkAcceptAllRequests, $GUI_DISABLE)
 		GUICtrlSetState($g_hTxtWelcomeMessage, $GUI_DISABLE)
 	EndIf
 EndFunc   ;==>chkUseWelcomeMessage
+
+Func chkAcceptAllRequests()
+	If GUICtrlRead($g_hChkAcceptAllRequests) = $GUI_CHECKED Then
+		$g_bChkAcceptAllRequests = True
+		GUICtrlSetState($g_hTxtRequestMessage, $GUI_DISABLE)
+	Else
+		$g_bChkAcceptAllRequests = False
+		GUICtrlSetState($g_hTxtRequestMessage, $GUI_ENABLE)
+	EndIf
+EndFunc   ;==>chkAcceptAllRequests
 
 Func BtnWelcomeMessage()
 	GUISetState(@SW_SHOW, $g_hGUI_WelcomeMessage)

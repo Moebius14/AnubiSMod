@@ -94,8 +94,16 @@ Func getCostsUpgrade($x_start, $y_start) ; -> Gets complete value of Gold/Elixir
 	Return getOcrAndCapture("coc-CostsUpgrades", $x_start, $y_start, 120, 18, True)
 EndFunc   ;==>getCostsUpgrade
 
+Func getCostsUpgradeGear($x_start, $y_start) ; -> Gets complete value of Gold/Elixir bonus loot in "AttackReport.au3"
+	Return getOcrAndCapture("coc-CostsUpgrades-Gear", $x_start, $y_start, 130, 20, True)
+EndFunc   ;==>getCostsUpgrade
+
 Func getCostsUpgradeRed($x_start, $y_start) ; -> Gets complete value of Gold/Elixir xxx,xxx , RED text on green upgrade button."UpgradeBuildings.au3"
 	Return getOcrAndCapture("coc-u-r", $x_start, $y_start, 120, 18, True)
+EndFunc   ;==>getCostsUpgradeRed
+
+Func getCostsUpgradeGearRed($x_start, $y_start) ; -> Gets complete value of Gold/Elixir xxx,xxx , RED text on green upgrade button."UpgradeBuildings.au3"
+	Return getOcrAndCapture("coc-u-r", $x_start, $y_start, 130, 20, True)
 EndFunc   ;==>getCostsUpgradeRed
 
 Func getResourcesBonusPerc($x_start, $y_start) ; -> Gets complete value of Bonus % in "AttackReport.au3"
@@ -120,6 +128,10 @@ EndFunc   ;==>getStarLabUpgrdResourceRed
 
 Func getBldgUpgradeTime($x_start, $y_start) ; -> Gets complete remain building upgrade time
 	Return getOcrAndCapture("coc-uptime", $x_start, $y_start, 105, 18) ; "12d 19h"
+EndFunc   ;==>getBldgUpgradeTime
+
+Func getGearUpgradeTime($x_start, $y_start) ; -> Gets complete remain building upgrade time
+	Return getOcrAndCapture("coc-uptime-Gear", $x_start, $y_start, 80, 20) ; "12d 19h"
 EndFunc   ;==>getBldgUpgradeTime
 
 Func getLabUpgradeTime($x_start, $y_start) ; -> Gets complete remain lab upgrade time V3 for Dec2022 update

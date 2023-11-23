@@ -13,6 +13,7 @@
 
 Global $g_sImgImgLocButtons = @ScriptDir & "\imgxml\imglocbuttons"
 Global $g_sImgBoostButtons = @ScriptDir & "\imgxml\imglocbuttons\BoostButtons\"
+Global $g_sImgBoostedButtons = @ScriptDir & "\imgxml\imglocbuttons\BoostedButtons\"
 
 #Region Windows
 Global Const $g_sImgGeneralCloseButton = @ScriptDir & "\imgxml\Windows\CloseButton\"
