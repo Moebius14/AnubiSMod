@@ -852,9 +852,9 @@ Func runBot() ;Bot that runs everything in order
 				_RunFunction('UpgradeWall')
 				If $g_bRestart Then ContinueLoop
 				If CheckAndroidReboot() Then ContinueLoop
-				Local $aRndFuncList = ['UpgradeHeroes', 'UpgradeBuilding', 'PetHouse']
+				Local $aRndFuncList = ['UpgradeHeroes', 'UpgradeBuilding', 'PetHouse', 'Blacksmith']
 			Else
-				Local $aRndFuncList = ['Laboratory', 'UpgradeHeroes', 'UpgradeBuilding', 'PetHouse']
+				Local $aRndFuncList = ['Laboratory', 'UpgradeHeroes', 'UpgradeBuilding', 'PetHouse', 'Blacksmith']
 			EndIf
 			_ArrayShuffle($aRndFuncList)
 			For $Index In $aRndFuncList
@@ -1454,6 +1454,9 @@ Func __RunFunction($action)
 			_Sleep($DELAYRUNBOT3)
 		Case "PurgeMedals"
 			SoldAndBuyItems()
+			_Sleep($DELAYRUNBOT3)
+		Case "Blacksmith"
+			Blacksmith()
 			_Sleep($DELAYRUNBOT3)
 		Case ""
 			SetDebugLog("Function call doesn't support empty string, please review array size", $COLOR_ERROR)

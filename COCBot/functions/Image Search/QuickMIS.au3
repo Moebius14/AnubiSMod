@@ -114,6 +114,11 @@ Func QuickMIS($ValueReturned, $directory, $Left = 0, $Top = 0, $Right = $g_iGAME
 					Next
 					If StringRight($Result, 1) = "|" Then $Result = StringLeft($Result, (StringLen($Result) - 1))
 					Local $aCords = decodeSingleCoord($Result)
+					If UBound($aCords) < 2 Then
+						SetDebugLog("Error: decodeSingleCoord failed, retcoord: " & UBound($aCords), $COLOR_ERROR)
+						Return False
+					EndIf
+
 					$g_iQuickMISX = $aCords[0] + $Left
 					$g_iQuickMISY = $aCords[1] + $Top
 

@@ -932,8 +932,10 @@ EndFunc   ;==>EnableAutoUpgradeCC
 Func EnablePurgeMedal()
 	If GUICtrlRead($g_hChkEnablePurgeMedal) = $GUI_CHECKED Then
 		GUICtrlSetState($g_acmdMedalsExpected, $GUI_ENABLE)
+		GUICtrlSetState($g_hBtnForcePurgeMedals, $GUI_ENABLE)
 	Else
 		GUICtrlSetState($g_acmdMedalsExpected, $GUI_DISABLE)
+		GUICtrlSetState($g_hBtnForcePurgeMedals, $GUI_DISABLE)
 	EndIf
 EndFunc   ;==>EnablePurgeMedal
 

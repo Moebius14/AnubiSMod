@@ -85,7 +85,7 @@ Func CollectElixirCart($bSwitchToBB = False, $bSwitchToNV = False, $b_FirstElixC
 	ClickAway("Left")
 	If _Sleep($DELAYCOLLECT2) Then Return
 
-	$aiElixirCart = decodeSingleCoord(FindImageInPlace2("ElixirCart", $g_sImgElixirCart, 470, 90 + $g_iMidOffsetY, 610, 190 + $g_iMidOffsetY))
+	$aiElixirCart = decodeSingleCoord(FindImageInPlace2("ElixirCart", $g_sImgElixirCart, 470, 90 + $g_iMidOffsetY, 620, 190 + $g_iMidOffsetY))
 	If IsArray($aiElixirCart) And UBound($aiElixirCart, 1) = 2 Then
 		SetLog("Found Filled Elixir Cart", $COLOR_SUCCESS)
 		PureClick($aiElixirCart[0], $aiElixirCart[1] + 16)
@@ -128,7 +128,7 @@ Func CollectElixirCart($bSwitchToBB = False, $bSwitchToNV = False, $b_FirstElixC
 					Local $Countdown = Floor((($WaitOpponentTime * 1000) - $ElixirCartTimerDiff) / 1000)
 					SetDebugLog("Waiting for opponent : " & $Countdown & " seconds", $COLOR_DEBUG)
 				EndIf
-				$aiElixirCart = decodeSingleCoord(FindImageInPlace2("ElixirCart", $g_sImgElixirCart, 470, 90 + $g_iMidOffsetY, 610, 190 + $g_iMidOffsetY))
+				$aiElixirCart = decodeSingleCoord(FindImageInPlace2("ElixirCart", $g_sImgElixirCart, 470, 90 + $g_iMidOffsetY, 620, 190 + $g_iMidOffsetY))
 				If IsArray($aiElixirCart) And UBound($aiElixirCart, 1) = 2 Then ExitLoop
 				$ElixirCartTimerDiff = TimerDiff($ElixirCartTimer)
 				If $ElixirCartTimerDiff > $WaitOpponentTime * 1000 Then
@@ -169,7 +169,7 @@ Func CollectElixirCart($bSwitchToBB = False, $bSwitchToNV = False, $b_FirstElixC
 		$bRet = False
 		For $i = 0 To 15
 			$aiAxes = decodeSingleCoord(FindImageInPlace2("Axes", $g_sImgAxes, 470, 90 + $g_iMidOffsetY, 610, 190 + $g_iMidOffsetY))
-			$aiElixirCart = decodeSingleCoord(FindImageInPlace2("ElixirCart", $g_sImgElixirCart, 470, 90 + $g_iMidOffsetY, 610, 190 + $g_iMidOffsetY))
+			$aiElixirCart = decodeSingleCoord(FindImageInPlace2("ElixirCart", $g_sImgElixirCart, 470, 90 + $g_iMidOffsetY, 620, 190 + $g_iMidOffsetY))
 			If (IsArray($aiAxes) And UBound($aiAxes, 1) = 2) Or (IsArray($aiElixirCart) And UBound($aiElixirCart, 1) = 2) Then
 				$bRet = True
 				ExitLoop

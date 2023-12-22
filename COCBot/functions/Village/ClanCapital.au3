@@ -206,6 +206,7 @@ Func ClanCapitalReport($SetLog = True)
 				SwitchToCapitalMain()
 			EndIf
 			CheckRaidMap()
+			If _Sleep(1500) Then Return
 		Else
 			$IsRaidRunning = 0
 			Local $sRaidTimeOCR = getTimeToRaid(760, 543 + $g_iBottomOffsetY)
@@ -421,7 +422,11 @@ Func ForgeClanCapitalGold($bTest = False)
 					Else
 						$g_iTimerBoostBuilders = 0
 					EndIf
-					SetLog("Builders Boost completed. Remaining iterations: " & $g_iCmbBoostBuilders, $COLOR_SUCCESS)
+					If $g_iCmbBoostBuilders > 1 Then
+						SetLog("Builders Boost completed. Remaining iterations: " & $g_iCmbBoostBuilders, $COLOR_SUCCESS)
+					Else
+						SetLog("Builders Boost completed. Remaining iteration: " & $g_iCmbBoostBuilders, $COLOR_SUCCESS)
+					EndIf
 					_GUICtrlComboBox_SetCurSel($g_hCmbBoostBuilders, $g_iCmbBoostBuilders)
 				EndIf
 				$ActionForModLog = "Boosting Builders"
@@ -876,7 +881,11 @@ Func ForgeClanCapitalGold($bTest = False)
 					Else
 						$g_iTimerBoostBuilders = 0
 					EndIf
-					SetLog("Builders Boost completed. Remaining iterations: " & $g_iCmbBoostBuilders, $COLOR_SUCCESS)
+					If $g_iCmbBoostBuilders > 1 Then
+						SetLog("Builders Boost completed. Remaining iterations: " & $g_iCmbBoostBuilders, $COLOR_SUCCESS)
+					Else
+						SetLog("Builders Boost completed. Remaining iteration: " & $g_iCmbBoostBuilders, $COLOR_SUCCESS)
+					EndIf
 					_GUICtrlComboBox_SetCurSel($g_hCmbBoostBuilders, $g_iCmbBoostBuilders)
 				EndIf
 				$ActionForModLog = "Boosting Builders"
@@ -1312,7 +1321,7 @@ Func ClickCCBuilder()
 	If Not $bRet Then
 		If QuickMIS("BC1", $g_sImgCCMap, 300, 10, 430, 40) Then
 			Click($g_iQuickMISX, $g_iQuickMISY)
-			If _Sleep(1000) Then Return
+			If _Sleep(2000) Then Return
 			If IsCCBuilderMenuOpen() Then $bRet = True
 		EndIf
 	EndIf
@@ -2536,7 +2545,7 @@ Func CatchCCMedals()
 
 	If $g_bDebugImageSaveMod Then SaveDebugRectImageCrop("CCMedalsTrader", "110,562,160,576")
 
-	Local $ReadCCMedalsOCR = getOcrAndCapture("coc-ccmedals-trader", 60, 567 + $g_iMidOffsetY, 60, 14, True)
+	Local $ReadCCMedalsOCR = getOcrAndCapture("coc-ccmedals-trader", 65, 567 + $g_iMidOffsetY, 60, 15, True)
 	$g_iLootCCMedal = $ReadCCMedalsOCR
 	If $g_iLootCCMedal > 0 Then
 		SetLog(_NumberFormat($g_iLootCCMedal, True) & " Clan Capital Medals Detected", $COLOR_SUCCESS1)
@@ -2862,7 +2871,7 @@ Func SkipCraftStart($b_ResType = "Gold", $cost = 0, $iCurrentGold = 0, $iCurrent
 
 EndFunc   ;==>SkipCraftStart
 
-Func CheckAvailableMagicItems()
+Func CheckAvailableMagicItems($TestDebug = False)
 
 	Local $Found = False
 	Local $aWDItems[0][3]
@@ -2876,7 +2885,7 @@ Func CheckAvailableMagicItems()
 
 	ClickAway()
 	ZoomOut()
-	SetLog("Check Magic Items in Trader Menu", $COLOR_BLUE)
+	SetLog("Purging Medals", $COLOR_ACTION)
 	If _Sleep(1000) Then Return
 
 	For $i = 1 To 9
@@ -2890,7 +2899,7 @@ Func CheckAvailableMagicItems()
 	Next
 
 	If Not $Found Then
-		SetLog("Unable To Check Magic Items with Trader, Re-Try", $COLOR_ERROR)
+		SetDebugLog("Unable To Check Magic Items with Trader, Re-Try", $COLOR_ERROR)
 		If _Sleep(2000) Then Return
 		For $i = 1 To 9
 			If QuickMIS("BC1", $g_sImgTrader, 90, 100 + $g_iMidOffsetY, 210, 210 + $g_iMidOffsetY) Then
@@ -2902,7 +2911,7 @@ Func CheckAvailableMagicItems()
 			If _Sleep(1000) Then Return
 		Next
 		If Not $Found Then
-			SetLog("Unable To Check Magic Items with Trader", $COLOR_ERROR)
+			SetDebugLog("Unable To Check Magic Items with Trader", $COLOR_ERROR)
 			Return
 		EndIf
 	EndIf
@@ -2924,7 +2933,7 @@ Func CheckAvailableMagicItems()
 		If Not _CheckPixel($aIsRaidMedalsOpen, True) Then
 			ClickP($aTabButton)
 			If Not _WaitForCheckPixel($aIsRaidMedalsOpen, True) Then
-				SetLog("Error : Cannot open Raid Medals Menu. Pixel to check did not appear", $COLOR_ERROR)
+				SetDebugLog("Error : Cannot open Raid Medals Menu. Pixel to check did not appear", $COLOR_ERROR)
 				CloseWindow()
 				Return FuncReturn(SetError(1, 0, False), $g_bDebugSetlog)
 			EndIf
@@ -2933,6 +2942,22 @@ Func CheckAvailableMagicItems()
 		SetDebugLog("Error when opening Raid Medals Menu: $aTabButton is no valid Array", $COLOR_ERROR)
 		CloseWindow()
 		Return FuncReturn(SetError(1, 0, False), $g_bDebugSetlog)
+	EndIf
+
+	If _Sleep(1000) Then Return
+
+	If $g_bDebugImageSaveMod Then SaveDebugRectImageCrop("CCMedalsTrader", "110,562,160,576")
+
+	Local $ReadCCMedalsOCR = getOcrAndCapture("coc-ccmedals-trader", 65, 567 + $g_iMidOffsetY, 60, 15, True)
+	$g_iLootCCMedal = $ReadCCMedalsOCR
+	GUICtrlSetData($g_lblCapitalMedal, _NumberFormat($g_iLootCCMedal, True))
+	If ProfileSwitchAccountEnabled() Then SwitchAccountVariablesReload("Save")
+
+	If Not $TestDebug Then
+		If Number($g_iLootCCMedal + $g_iacmdMedalsExpected) <= 5000 Then
+			SetLog("Purging Medals is not required", $COLOR_SUCCESS1)
+			Return False
+		EndIf
 	EndIf
 
 	If _Sleep(2000) Then Return
@@ -3039,11 +3064,15 @@ Func CheckStockMagicItems()
 
 EndFunc   ;==>CheckStockMagicItems
 
-Func MagicItemsCalc()
+Func MagicItemsCalc($TestDebug = False)
 
 	Local $aWDCalcItems[0][3], $aWDCalcItemsFinal[0][3]
 	Local $TotalMedals = 0, $TempTotalMedals = 0
-	Local $TraderArray = CheckAvailableMagicItems()
+	Local $TraderArray = CheckAvailableMagicItems($TestDebug)
+	If $TraderArray = False Then
+		CloseWindow()
+		Return False
+	EndIf
 	Local $StockArray = CheckStockMagicItems()
 	Local $GetOut = False
 
@@ -3051,7 +3080,7 @@ Func MagicItemsCalc()
 		For $i = 0 To UBound($TraderArray) - 1
 			For $t = 0 To UBound($StockArray) - 1
 				If $StockArray[$t][1] = $TraderArray[$i][1] Then
-					If $StockArray[$t][2] > 5 And $TraderArray[$i][2] > 0 Then ; Sold Priority to Items > 6
+					If $StockArray[$t][2] > 5 And $TraderArray[$i][2] > 0 Then ; Sold Priority to Items > 5 ; Support From 0 To 7.
 						_ArrayAdd($aWDCalcItems, $TraderArray[$i][1] & "|" & $TraderArray[$i][2] & "|" & $StockArray[$t][2])
 						ContinueLoop 2
 					EndIf
@@ -3171,33 +3200,23 @@ Func MagicItemsCalc()
 
 EndFunc   ;==>MagicItemsCalc
 
-Func SoldAndBuyItems($TestDebug = False)
+Func SoldAndBuyItems($TestDebug = False, $ForceTime = False)
 
 	If Not $g_bChkEnablePurgeMedal And Not $TestDebug Then Return
 
-	If UTCTimeMedals() Then
+	If UTCTimeMedals() Or $ForceTime Then
 		Local Static $iLastTimeChecked[8] = [0, 0, 0, 0, 0, 0, 0, 0]
 		If $iLastTimeChecked[$g_iCurAccount] = @MDAY And Not $TestDebug Then Return
 	Else
 		If Not $TestDebug Then Return
 	EndIf
 
-	If $TestDebug Then
-		$g_iLootCCMedal = 4840 ; Just For Test
-	Else
-		If $g_iLootCCMedal = 0 Then
-			CatchCCMedals()
-			Return
-		EndIf
-	EndIf
-
-	If Not $TestDebug Then
-		If Number($g_iLootCCMedal + $g_iacmdMedalsExpected) <= 5000 Then Return
-	EndIf
+	If $TestDebug Then $g_iLootCCMedal = 4840 ; Just For Test
 
 	If Not $TestDebug Then $iLastTimeChecked[$g_iCurAccount] = @MDAY
 
-	Local $ArraySold = MagicItemsCalc()
+	Local $ArraySold = MagicItemsCalc($TestDebug)
+	If $ArraySold = False Then Return
 	Local $NumberToSold = 0
 
 	If IsArray($ArraySold) Then
@@ -3429,3 +3448,13 @@ Func UTCTimeMedals()
 	EndIf
 	Return False
 EndFunc   ;==>UTCTimeMedals
+
+Func BtnForcePurgeMedals()
+	Local $wasRunState = $g_bRunState
+	$g_bRunState = True
+	AndroidShield("BtnForcePurgeMedals 1") ; Update shield status due to manual $g_bRunState
+	Local $Result = SoldAndBuyItems(False, True)
+	$g_bRunState = $wasRunState
+	AndroidShield("BtnForcePurgeMedals 2") ; Update shield status due to manual $g_bRunState
+	Return $Result
+EndFunc   ;==>BtnForcePurgeMedals

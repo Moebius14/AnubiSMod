@@ -3033,7 +3033,7 @@ Func CheckWarTime(ByRef $sResult, ByRef $bResult, $bReturnFrom = True, $WWR = Fa
 	Else
 		$bRedColor_InWarButton = False
 	EndIf
-	$g_bClanWarLeague = _ColorCheck(_GetPixelColor(10, 480 + $g_iMidOffsetY, True), "FFEF71", 20) ; Golden color at left side of clan war button
+	$g_bClanWarLeague = _ColorCheck(_GetPixelColor(30, 473 + $g_iMidOffsetY, True), "FFFFD5", 20) ; Golden color at left side of clan war button
 	$g_bClanWar = _ColorCheck(_GetPixelColor(36, 472 + $g_iMidOffsetY, True), "F9B445", 20) ; Ordinary war color at left side of clan war button
 	If $g_bClanWarLeague Then SetDebugLog("Your Clan Is Doing Clan War League.", $COLOR_INFO)
 
@@ -3058,20 +3058,26 @@ Func CheckWarTime(ByRef $sResult, ByRef $bResult, $bReturnFrom = True, $WWR = Fa
 	If _Sleep(Random(3000, 4000, 1)) Then Return
 	If Not $g_bRunState Then Return
 
-	If _ColorCheck(_GetPixelColor(826, 95, True), "FFFFFF", 20) Then
-		SetLog("War is finished.", $COLOR_WARNING)
-		$IsWarEnded = True
-		Local $iSleepForWindow = Random(3000, 5000)
-		If _Sleep($iSleepForWindow) Then Return
-		Click(60 + Random(0, 700, 1), 25 + Random(0, 5, 1)) ; Click to get any window away
-		Local $iSleepForWindow2 = Random(1000, 2000)
-		If _Sleep($iSleepForWindow2) Then Return
+	If $g_bClanWarLeague Then
+		Local $WhiteInfo = _PixelSearch(824, 94, 827, 96, Hex(0xFFFFFF, 6), 20)
+		If IsArray($WhiteInfo) Then
+			SetLog("War is finished.", $COLOR_WARNING)
+			$IsWarEnded = True
+			Local $iSleepForWindow = Random(3000, 5000)
+			If _Sleep($iSleepForWindow) Then Return
+			Click(60 + Random(0, 700, 1), 25 + Random(0, 5, 1)) ; Click to get any window away
+			Local $iSleepForWindow2 = Random(1000, 2000)
+			If _Sleep($iSleepForWindow2) Then Return
+		EndIf
 	EndIf
 	If Not $g_bRunState Then Return
 
-	If _ColorCheck(_GetPixelColor(275, 75, True), "A22D2D", 20) Then
-		SetLog("War is finished.", $COLOR_WARNING)
-		$IsWarEnded = True
+	If $g_bClanWar Then
+		Local $WhiteInfo = _PixelSearch(744, 48, 746, 50, Hex(0x9D2C2C, 6), 20)
+		If IsArray($WhiteInfo) Then
+			SetLog("War is finished.", $COLOR_WARNING)
+			$IsWarEnded = True
+		EndIf
 	EndIf
 
 	If _ColorCheck(_GetPixelColor(200, 470 + $g_iBottomOffsetY, True), "FFFFFF", 20) And _ColorCheck(_GetPixelColor(670, 470 + $g_iBottomOffsetY, True), "FFFFFF", 20) And _
@@ -3249,7 +3255,7 @@ Func CheckWarTime(ByRef $sResult, ByRef $bResult, $bReturnFrom = True, $WWR = Fa
 
 	If $g_bClanWar And $IsWarEnded Then
 		If _Sleep(Random(3000, 5000, 1)) Then Return
-		Click(430, 556 + $g_iBottomOffsetY) ; Click On view map
+		Click(430, 590 + $g_iBottomOffsetY) ; Click On view map
 		If _Sleep(Random(3000, 5000, 1)) Then Return
 		If Not $g_bRunState Then Return
 	EndIf
@@ -3291,7 +3297,7 @@ Func BBBattleLog()
 	If Not $g_bUseBotHumanization Then Return
 	Local $IsToViewBBBattleLog = Random(0, 100, 1)
 	Local $ViewPriorityNumber = 0
-	Local $RedSignal = _ColorCheck(_GetPixelColor(51, 103 + $g_iMidOffsetY, True), Hex(0xF61621, 6), 20)
+	Local $RedSignal = _ColorCheck(_GetPixelColor(50, 103 + $g_iMidOffsetY, True), Hex(0xF61621, 6), 20)
 	If $g_iacmbPriorityBB[0] = 0 Then Return
 	If $g_iacmbPriorityBB[0] = 1 Then $ViewPriorityNumber = 85
 	If $g_iacmbPriorityBB[0] = 2 Then $ViewPriorityNumber = 70
@@ -3312,21 +3318,27 @@ Func BBBattleLog()
 		_FileWriteLog($g_sProfileLogsPath & "\ModLog.log", " [" & $g_sProfileCurrentName & "] - Humanization : " & $ActionForModLog & "")
 		If Not $g_bRunState Then Return
 		If _Sleep(Random(3000, 5000, 1)) Then Return
-		Click(40, 120 + $g_iMidOffsetY) ; open Messages button
+		Click(38, 120 + $g_iMidOffsetY) ; open Messages button
 		If Not $g_bRunState Then Return
 		If _Sleep(Random(2000, 3000, 1)) Then Return
-		Local $bNotificationATKRed = _ColorCheck(_GetPixelColor(453, 90, True), Hex(0xE90914, 6), 20)
+		Local $bNotificationDEFRed = _ColorCheck(_GetPixelColor(243, 90, True), Hex(0xE80914, 6), 20)
+		Local $bNotificationATKRed = _ColorCheck(_GetPixelColor(452, 90, True), Hex(0xE80914, 6), 20)
 		If Random(1, 2, 1) = 1 Or $bNotificationATKRed Then
 			Click(375, 75 + $g_iMidOffsetY) ; click Attack Log
 			SetLog("Lets Look At Attack Log", $COLOR_DEBUG2)
-			If Random(1, 2, 1) = 1 And $bNotificationATKRed Then
+			If Random(1, 2, 1) = 1 And $bNotificationDEFRed Then
 				If _Sleep(Random(2000, 2500, 1)) Then Return
-				Click(160, 75 + $g_iMidOffsetY) ; click Defense Log
+				Click(165, 75 + $g_iMidOffsetY) ; click Defense Log
 				SetLog("Lets Look At Defense Log", $COLOR_DEBUG2)
 			EndIf
 		Else
-			Click(160, 75 + $g_iMidOffsetY) ; click Defense Log
-			SetLog("Lets Look At Defense Log", $COLOR_DEBUG2)
+			If Random(1, 2, 1) = 1 Then
+				Click(165, 75 + $g_iMidOffsetY) ; click Defense Log
+				SetLog("Lets Look At Defense Log", $COLOR_DEBUG2)
+			Else
+				Click(375, 75 + $g_iMidOffsetY) ; click Attack Log
+				SetLog("Lets Look At Attack Log", $COLOR_DEBUG2)
+			EndIf
 		EndIf
 		If _Sleep(Random(500, 1000, 1)) Then Return
 		If Not $g_bRunState Then Return

@@ -19,7 +19,7 @@ Func CheckCGCompleted()
 	Local $bRet = False
 	Local $CompleteBar = 0
 	For $x = 1 To 12
-		If QuickMIS("BC1", $g_sImgBBAttackBonus, 380, 450 + $g_iMidOffsetY, 480, 505 + $g_iMidOffsetY) Then
+		If QuickMIS("BC1", $g_sImgBBAttackBonus, 360, 450 + $g_iMidOffsetY, 500, 510 + $g_iMidOffsetY) Then
 			SetLog("Congrats Chief, Stars Bonus Awarded", $COLOR_INFO)
 			Click($g_iQuickMISX, $g_iQuickMISY)
 			If _Sleep(250) Then Return
@@ -65,7 +65,7 @@ Func DoAttackBB()
 				SetLog("Already Attack 10 times, continue next time", $COLOR_INFO)
 				ExitLoop
 			EndIf
-			If $AttackCount = 6 Then
+			If $AttackCount = 5 Then
 				ZoomOut()
 				CollectElixirCart(False, False, False, True)
 				If _Sleep(2000) Then ExitLoop
@@ -116,7 +116,7 @@ Func DoAttackBB()
 					SetLog("Already Attack 10 times, continue next time", $COLOR_INFO)
 					ExitLoop
 				EndIf
-				If $AttackCount = 6 Then
+				If $AttackCount = 5 Then
 					ZoomOut()
 					CollectElixirCart(False, False, False, True)
 					If _Sleep(2000) Then ExitLoop
@@ -307,7 +307,7 @@ Func EndBattleBB() ; Find if battle has ended and click okay
 
 	For $i = 1 To 3
 		Select
-			Case QuickMIS("BC1", $g_sImgBBReturnHome, 370, 510 + $g_iMidOffsetY, 490, 565 + $g_iMidOffsetY) = True
+			Case QuickMIS("BC1", $g_sImgBBReturnHome, 380, 510 + $g_iMidOffsetY, 480, 570 + $g_iMidOffsetY) = True
 				If _Sleep(2000) Then Return
 				Click($g_iQuickMISX, $g_iQuickMISY)
 				If $g_bIsBBevent Then
@@ -318,7 +318,7 @@ Func EndBattleBB() ; Find if battle has ended and click okay
 					EndIf
 				EndIf
 				If _Sleep(2000) Then Return
-			Case QuickMIS("BC1", $g_sImgBBAttackBonus, 380, 450 + $g_iMidOffsetY, 480, 505 + $g_iMidOffsetY) = True
+			Case QuickMIS("BC1", $g_sImgBBAttackBonus, 360, 450 + $g_iMidOffsetY, 500, 510 + $g_iMidOffsetY) = True
 				SetLog("Congrats Chief, Stars Bonus Awarded", $COLOR_INFO)
 				If _Sleep(2000) Then Return
 				Click($g_iQuickMISX, $g_iQuickMISY)
@@ -435,6 +435,7 @@ Func DeployBBTroop($sName, $x, $y, $iAmount, $ai_AttackDropPoints)
 	If _Sleep($g_iBBSameTroopDelay) Then Return ; slow down selecting then dropping troops
 
 	For $j = 0 To $iAmount - 1
+		If Not $g_bRunState Then Return
 		; get random drop point
 		Local $iPoint = Random(0, UBound($ai_AttackDropPoints) - 1, 1)
 		Local $iPixel = $ai_AttackDropPoints[$iPoint]
@@ -450,6 +451,7 @@ Func DeployBBTroop($sName, $x, $y, $iAmount, $ai_AttackDropPoints)
 			Local $b_MachineTimeOffsetDiff = TimerInit()
 			Local $bRet = False
 			For $i = 1 To 16 ; 4 seconds limit
+				If Not $g_bRunState Then Return
 				If _Sleep(250) Then Return
 				Local $aBMPosCheck = GetMachinePos()
 				If IsArray($aBMPosCheck) And $aBMPosCheck <> 0 And Number($aBMPos[1]) <> Number($aBMPosCheck[1]) Then
@@ -464,6 +466,7 @@ Func DeployBBTroop($sName, $x, $y, $iAmount, $ai_AttackDropPoints)
 			Next
 			Local $g_DeployColor[2] = [0xCD3AFF, 0xFF8BFF]
 			For $z = 0 To 1
+				If Not $g_bRunState Then Return
 				If _ColorCheck(_GetPixelColor(71, 663 + $g_iBottomOffsetY, True), Hex(0x4E4E4E, 6), 20, Default) Then ;BM lvl<5
 					$g_DeployedMachine = True
 					$g_bMachineAliveOnAttackBar = False

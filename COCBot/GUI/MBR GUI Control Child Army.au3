@@ -1108,8 +1108,8 @@ Func cmbSuperTroops()
 			EndIf
 		Next
 	Next
- EndFunc
- 
+EndFunc   ;==>cmbSuperTroops
+
 Func ChkPreciseArmy()
 	If GUICtrlRead($g_hChkPreciseArmy) = $GUI_CHECKED Then
 		$g_bPreciseArmy = True
@@ -1148,10 +1148,10 @@ Func HideAllTroops()
 	For $i = $g_ahTxtTrainArmyTroopCount[$eTroopMinion] To $g_ahTxtTrainArmyTroopCount[$eTroopAppWard]
 		GUICtrlSetState($i, $GUI_HIDE)
 	Next
-	For $i = $g_ahPicTrainArmyTroop[$eTroopBarbarian] To $g_ahPicTrainArmyTroop[$eTroopElectroTitan]
+	For $i = $g_ahPicTrainArmyTroop[$eTroopBarbarian] To $g_ahPicTrainArmyTroop[$eTroopRootRider]
 		GUICtrlSetState($i, $GUI_HIDE)
 	Next
-	For $i = $g_ahTxtTrainArmyTroopCount[$eTroopBarbarian] To $g_ahTxtTrainArmyTroopCount[$eTroopElectroTitan]
+	For $i = $g_ahTxtTrainArmyTroopCount[$eTroopBarbarian] To $g_ahTxtTrainArmyTroopCount[$eTroopRootRider]
 		GUICtrlSetState($i, $GUI_HIDE)
 	Next
 	For $i = $g_ahPicTrainArmyTroop[$eTroopSuperBarbarian] To $g_ahPicTrainArmyTroop[$eTroopSuperHogRider]
@@ -1204,10 +1204,10 @@ EndFunc   ;==>SetBtnSelector
 
 Func BtnElixirTroops()
 	HideAllTroops()
-	For $i = $g_ahPicTrainArmyTroop[$eTroopBarbarian] To $g_ahPicTrainArmyTroop[$eTroopElectroTitan]
+	For $i = $g_ahPicTrainArmyTroop[$eTroopBarbarian] To $g_ahPicTrainArmyTroop[$eTroopRootRider]
 		GUICtrlSetState($i, $GUI_SHOW)
 	Next
-	For $i = $g_ahTxtTrainArmyTroopCount[$eTroopBarbarian] To $g_ahTxtTrainArmyTroopCount[$eTroopElectroTitan]
+	For $i = $g_ahTxtTrainArmyTroopCount[$eTroopBarbarian] To $g_ahTxtTrainArmyTroopCount[$eTroopRootRider]
 		GUICtrlSetState($i, $GUI_SHOW)
 	Next
 	SetBtnSelector("ElixirTroops")

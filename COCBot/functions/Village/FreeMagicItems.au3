@@ -209,7 +209,7 @@ Func GetFreeMagic()
 
 		Local $Read = getOcrAndCapture("coc-freemagicitems", $aOcrPositions[$i][0], $aOcrPositions[$i][1], 60, 25, True)
 		If $Read = "FREE" Then
-			If WaitforPixel($aOcrPositions[$i][0] + 25, $aOcrPositions[$i][1] - 30, $aOcrPositions[$i][0] + 35, $aOcrPositions[$i][1] - 25, "AD590D", 10, 1) Then
+			If WaitforPixel($aOcrPositions[$i][0] + 25, $aOcrPositions[$i][1] - 30, $aOcrPositions[$i][0] + 35, $aOcrPositions[$i][1] - 25, "AD590D", 15, 1) Then;AD5C0E for Nox
 				$Read = "SoldOut"
 			EndIf
 			If WaitforPixel($aOcrPositions[$i][0] + 33, $aOcrPositions[$i][1] + 30, $aOcrPositions[$i][0] + 35, $aOcrPositions[$i][1] + 31, "969696", 10, 1) Then
@@ -245,7 +245,7 @@ Func OpenTraderWindow()
 		SetLog("Bot will recheck next loop", $COLOR_OLIVE)
 		$IstoRecheckTrader = 1
 	Else
-		Local $aIsWeekyDealsOpen[4] = [40, 0, 0x8BC11D, 20]
+		Local $aIsWeekyDealsOpen[4] = [40, 0, 0x8DC11D, 20]
 		If _CheckPixel($aReceivedTroopsWeeklyDeals, True) Then ; Found the "You have received" Message on Screen, wait till its gone.
 			SetDebugLog("Detected Clan Castle Message Blocking Raid Medals Button. Waiting until it's gone", $COLOR_INFO)
 			_CaptureRegion2()

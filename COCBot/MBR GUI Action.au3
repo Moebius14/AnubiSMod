@@ -152,6 +152,7 @@ Func BotStart($bAutostartDelay = 0)
 	CloseWelcomeMessage()
 	CloseSecondaryVillages()
 	CloseCampSizeAdjust()
+	CloseHeroEquipment()
 	;Mod>
 
 	; wait for slot

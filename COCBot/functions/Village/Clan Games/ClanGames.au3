@@ -958,6 +958,13 @@ Func IsClanGamesWindow()
 		If _Sleep(1000) Then Return
 	Next
 
+	If $Found = False And $currentDate = 22 Then
+		SetLog("Caravan not available", $COLOR_WARNING)
+		SetLog("Clan Games is preparing")
+		$sState = "Prepare"
+		$bRet = False
+	EndIf
+
 	If $Found = False And $currentDate >= 28 Then
 		SetLog("Caravan not available", $COLOR_WARNING)
 		SetLog("Clan Games has already been completed")
@@ -1558,11 +1565,11 @@ Func StartAndPurgeEvent($bTest = False)
 				Click($g_iQuickMISX, $g_iQuickMISY)
 				SetLog("Start And Purge Any Challenge!", $COLOR_SUCCESS)
 				If $g_iTxtCurrentVillageName <> "" Then
-					GUICtrlSetData($g_hTxtClanGamesLog, @CRLF & _NowTime() & " [" & $g_iTxtCurrentVillageName & "] - Start And Purge Any Challenge : No Challenge Found ", 1)
+					GUICtrlSetData($g_hTxtClanGamesLog, @CRLF & _NowTime() & " [" & $g_iTxtCurrentVillageName & "] - Start And Purge Any Challenge", 1)
 				Else
-					GUICtrlSetData($g_hTxtClanGamesLog, @CRLF & _NowTime() & " [" & $g_sProfileCurrentName & "] - Start And Purge Any Challenge : No Challenge Found ", 1)
+					GUICtrlSetData($g_hTxtClanGamesLog, @CRLF & _NowTime() & " [" & $g_sProfileCurrentName & "] - Start And Purge Any Challenge", 1)
 				EndIf
-				_FileWriteLog($g_sProfileLogsPath & "\ClanGames.log", " [" & $g_sProfileCurrentName & "] - Start And Purge Any Challenge : No Challenge Found ")
+				_FileWriteLog($g_sProfileLogsPath & "\ClanGames.log", " [" & $g_sProfileCurrentName & "] - Start And Purge Any Challenge")
 			Else
 				SetLog("$g_sImgOkayPurge Issue", $COLOR_ERROR)
 				Return False
@@ -1608,8 +1615,8 @@ Func GetEventTimeInMinutes($iXStartBtn, $iYStartBtn, $bIsStartBtn = True)
 	Local $Ocr = getOcrEventTime($XAxis, $YAxis)
 	$Ocr = StringReplace($Ocr, " ", "", 0)
 	$Ocr = StringReplace($Ocr, "#", "", 0)
-	If $Ocr = "1" Then $Ocr = "1d"
-	If $Ocr = "2" Then $Ocr = "2d"
+	If $Ocr = "1" Or $Ocr = "11" Or $Ocr = "111" Then $Ocr = "1d"
+	If $Ocr = "2" Or $Ocr = "21" Or $Ocr = "211" Then $Ocr = "2d"
 	Return ConvertOCRTime("ClanGames()", $Ocr, False)
 EndFunc   ;==>GetEventTimeInMinutes
 

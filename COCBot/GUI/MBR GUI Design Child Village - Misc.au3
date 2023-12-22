@@ -23,7 +23,7 @@ Global $g_hTxtRestartGold = 0, $g_hTxtRestartElixir = 0, $g_hTxtRestartDark = 0
 Global $g_hChkTrap = 0, $g_hChkCollect = 0, $g_hChkTombstones = 0, $g_hChkCleanYard = 0, $g_hChkGemsBox = 0
 Global $g_hChkCollectCartFirst = 0, $g_hTxtCollectGold = 0, $g_hTxtCollectElixir = 0, $g_hTxtCollectDark = 0
 Global $g_hBtnLocateSpellfactory = 0, $g_hBtnLocateDarkSpellFactory = 0
-Global $g_hBtnLocateKingAltar = 0, $g_hBtnLocateQueenAltar = 0, $g_hBtnLocateWardenAltar = 0, $g_hBtnLocateChampionAltar = 0, $g_hBtnLocateLaboratory = 0, $g_hBtnLocatePetHouse = 0, $g_hBtnResetBuilding = 0
+Global $g_hBtnLocateKingAltar = 0, $g_hBtnLocateQueenAltar = 0, $g_hBtnLocateWardenAltar = 0, $g_hBtnLocateChampionAltar = 0, $g_hBtnLocateLaboratory = 0, $g_hBtnLocatePetHouse = 0, $g_hBtnResetBuilding = 0, $g_hBtnLocateBlacksmith = 0
 Global $g_hChkTreasuryCollect = 0, $g_hTxtTreasuryGold = 0, $g_hTxtTreasuryElixir = 0, $g_hTxtTreasuryDark = 0, $g_hChkCollectAchievements = 0, $g_hChkFreeMagicItems = 0, $g_hChkCollectRewards = 0, $g_hChkSellRewards = 0
 
 Global $g_hChkSellMagicItem = 0, $g_hChkFirstStartSellMagicItem = 0, $g_acmbMagicPotion[10] = [0, 0, 0, 0, 0, 0, 0, 0, 0]
@@ -41,7 +41,7 @@ Global $g_hChkPlacingNewBuildings = 0, $g_hChkBBSuggestedUpgradesIgnoreWall = 0
 Global $g_ahPicBBLeague[$eBBLeagueCount] = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], $g_hLblBBLeague1 = 0, $g_hLblBBLeague2 = 0, $g_hLblBBLeague3 = 0, $g_hLblBBLeague4 = 0, $g_hLblBBLeague5 = 0
 
 Global $g_lblCapitalGold = 0, $g_lblCapitalMedal = 0, $g_hCmbForgeBuilder = 0, $g_hLbCmbForgeBuilder = 0, $g_hChkEnableAutoUpgradeCC = 0, _
-		$g_hChkAutoUpgradeCCIgnore = 0, $g_hChkStartWeekendRaid = 0, $g_hChkEnableSmartSwitchCC = 0, $g_hChkEnablePurgeMedal = 0, $g_acmdMedalsExpected = 0
+		$g_hChkAutoUpgradeCCIgnore = 0, $g_hChkStartWeekendRaid = 0, $g_hChkEnableSmartSwitchCC = 0, $g_hChkEnablePurgeMedal = 0, $g_acmdMedalsExpected = 0, $g_hBtnForcePurgeMedals = 0
 Global $g_lblCapitalTrophies = 0, $g_ahPicCCLeague[$eLeagueCount] = [0, 0, 0, 0, 0, 0, 0, 0, 0], $g_hLblCCLeague1 = 0, $g_hLblCCLeague2 = 0, $g_hLblCCLeague3 = 0
 Global $g_hChkEnableCollectCCGold = 0, $g_hChkEnableForgeGold = 0, $g_hChkEnableForgeElix = 0, $g_hChkEnableForgeDE = 0, $g_hChkEnableForgeBBGold = 0, $g_hChkEnableForgeBBElix = 0, $g_hChkEnableSmartUse = 0
 Global $g_hCmbPriorityCCBaseFrequency = 0, $g_hChkCCBaseFrequencyLabel = 0, $g_hChkCCBaseFrequencyLabel1 = 0, $g_hcmbAdvancedVariationCC = 0, $g_hTxtAutoUpgradeCCLog = 0
@@ -344,7 +344,7 @@ Func CreateMiscNormalVillageSubTab()
 	GUICtrlSetState(-1, $GUI_UNCHECKED)
 
 	$y += 21
-	_GUICtrlCreateIcon($g_sLibIconPath, $eIcnCollectAchievements, $x + 22, $y - 8, 48, 48)
+	_GUICtrlCreateIcon($g_sLibIconPath, $eIcnCollectAchievements, $x + 22, $y - 9, 48, 48)
 	$g_hChkCollectAchievements = GUICtrlCreateCheckbox(GetTranslatedFileIni("MBR GUI Design Child Village - Misc", "ChkCollectAchievements", "Collect Achievements"), $x + 100, $y + 4, -1, -1)
 	_GUICtrlSetTip(-1, GetTranslatedFileIni("MBR GUI Design Child Village - Misc", "ChkCollectAchievements_Info", "Check this to automatically collect achievement rewards."))
 	GUICtrlSetState(-1, $GUI_CHECKED)
@@ -356,11 +356,13 @@ Func CreateMiscNormalVillageSubTab()
 	GUICtrlSetState(-1, $GUI_CHECKED)
 
 	$y += 21
+	GUICtrlCreateIcon($g_sLibModIconPath, $eIcnChallenge, $x + 32, $y + 1, 24, 24)
 	$g_hChkCollectRewards = GUICtrlCreateCheckbox(GetTranslatedFileIni("MBR GUI Design Child Village - Misc", "ChkCollectRewards", "Collect Challenge Rewards"), $x + 100, $y + 4, -1, -1)
+	_GUICtrlSetTip(-1, GetTranslatedFileIni("MBR GUI Design Child Village - Misc", "ChkCollectRewards_Info", "Check this to automatically collect daily challenges rewards."))
 	GUICtrlSetState(-1, $GUI_CHECKED)
 	GUICtrlSetOnEvent(-1, "ChkCollectRewards")
 	$g_hChkSellRewards = GUICtrlCreateCheckbox(GetTranslatedFileIni("MBR GUI Design Child Village - Misc", "ChkSellRewards", "Sell Extras"), $x + 265, $y + 4, -1, -1)
-	_GUICtrlSetTip(-1, GetTranslatedFileIni("MBR GUI Design Child Village - Misc", "ChkSellExtra_Info_01", "Check to automatically sell all extra magic item rewards for gems."))
+	_GUICtrlSetTip(-1, GetTranslatedFileIni("MBR GUI Design Child Village - Misc", "ChkSellExtra_Info_01", "Check to automatically sell all extra daily challenges rewards for gems."))
 
 	GUICtrlCreateGroup("", -99, -99, 1, 1)
 
@@ -370,7 +372,7 @@ Func CreateMiscNormalVillageSubTab()
 	$x -= 11
 	$y -= 2
 	GUICtrlCreateButton(GetTranslatedFileIni("MBR Global GUI Design", "LblTownhall", -1), $x, $y, 36, 36, $BS_ICON)
-	_GUICtrlSetImage(-1, $g_sLibIconPath, $eIcnTH15, 1)
+	_GUICtrlSetImage(-1, $g_sLibIconPath, $eIcnTH16, 1)
 	_GUICtrlSetTip(-1, $sTxtRelocate & GetTranslatedFileIni("MBR GUI Design Child Village - Misc", "BtnTownhall", "Town Hall"))
 	GUICtrlSetOnEvent(-1, "btnLocateTownHall")
 
@@ -416,7 +418,13 @@ Func CreateMiscNormalVillageSubTab()
 	_GUICtrlSetTip(-1, $sTxtRelocate & GetTranslatedFileIni("MBR GUI Design Child Village - Misc", "BtnLocatePetHouse_Info_01", "PetHouse"))
 	GUICtrlSetOnEvent(-1, "btnPet")
 
-	$x += 119
+	$x += 38
+	$g_hBtnLocateBlacksmith = GUICtrlCreateButton(GetTranslatedFileIni("MBR GUI Design Child Village - Misc", "BtnLocateBlacksmith", "Blacksmith"), $x, $y, 36, 36, $BS_ICON)
+	_GUICtrlSetImage(-1, $g_sLibIconPath, $eIcnBlacksmithgreen)
+	_GUICtrlSetTip(-1, $sTxtRelocate & GetTranslatedFileIni("MBR GUI Design Child Village - Misc", "BtnLocateBlacksmith_Info_01", "Blacksmith"))
+	GUICtrlSetOnEvent(-1, "btnBsmith")
+
+	$x += 81
 	GUICtrlCreateButton(GetTranslatedFileIni("MBR GUI Design Child Village - Misc", "BtnReset", "Reset."), $x, $y, 36, 36, $BS_ICON)
 	_GUICtrlSetImage(-1, $g_sLibIconPath, $eIcnBldgX)
 	_GUICtrlSetTip(-1, GetTranslatedFileIni("MBR GUI Design Child Village - Misc", "BtnReset_Info_01", "Click here to reset all building locations,") & @CRLF & _
@@ -888,7 +896,7 @@ Func CreateMiscClanCapitalSubTab()
 	GUICtrlSetOnEvent(-1, "btnCCUpgradesSettings")
 	GUICtrlCreateGroup("", -99, -99, 1, 1)
 
-	GUICtrlCreateGroup(GetTranslatedFileIni("MBR GUI Design Child Village - Misc", "Group_ClanCapital_04", "Purge Medals"), $x + 265, $y - 15, 150, 45)
+	GUICtrlCreateGroup(GetTranslatedFileIni("MBR GUI Design Child Village - Misc", "Group_ClanCapital_04", "Purge Medals"), $x + 265, $y - 15, 155, 45)
 	$g_hChkEnablePurgeMedal = GUICtrlCreateCheckbox(GetTranslatedFileIni("MBR GUI Design Child Village - Misc", "ChkEnablePurgeMedal", "Enable"), $x + 275, $y + 1, -1, -1)
 	_GUICtrlSetTip(-1, "Bot Will Sell and Buy Magic Items When : " & @CRLF & _
 			"- Early Monday" & @CRLF & _
@@ -896,9 +904,16 @@ Func CreateMiscClanCapitalSubTab()
 			"**Bot Will Sell Magic Items In Greater Quantities**")
 	GUICtrlSetOnEvent(-1, "EnablePurgeMedal")
 
-	$g_acmdMedalsExpected = GUICtrlCreateInput("1500", $x + 340, $y + 2, 50, 18, BitOR($GUI_SS_DEFAULT_INPUT, $ES_CENTER, $ES_NUMBER))
+	$g_acmdMedalsExpected = GUICtrlCreateInput("1500", $x + 335, $y + 2, 45, 18, BitOR($GUI_SS_DEFAULT_INPUT, $ES_CENTER, $ES_NUMBER))
 	GUICtrlSetLimit(-1, 4)
 	_GUICtrlSetTip(-1, "Expected Medals From Raid Week-End")
+
+	$g_hBtnForcePurgeMedals = GUICtrlCreateButton("P", $x + 396, $y - 2, -1, -1)
+	GUICtrlSetBkColor(-1, 0xFFFFFF)
+	GUICtrlSetColor(-1, $COLOR_ERROR)
+	_GUICtrlSetTip(-1, "Purge Right Now !")
+	GUICtrlSetOnEvent(-1, "BtnForcePurgeMedals")
+
 	GUICtrlCreateGroup("", -99, -99, 1, 1)
 
 	$y += 50

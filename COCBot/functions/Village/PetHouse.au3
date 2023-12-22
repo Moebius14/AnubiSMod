@@ -53,7 +53,10 @@ Func PetHouse($test = False)
 		EndIf
 	EndIf
 
-	If PetUpgradeInProgress() Then Return False  ; see if we know about an upgrade in progress without checking the Pet House
+	If PetUpgradeInProgress() Then ; see if we know about an upgrade in progress without checking the Pet House
+		$g_iMinDark4PetUpgrade = 0
+		Return False
+	EndIf
 
 	; Get updated village elixir and dark elixir values
 	VillageReport()
@@ -80,6 +83,8 @@ Func PetHouse($test = False)
 		Return
 	EndIf
 
+	If CheckPetUpgrade() Then Return False ; cant start if something upgrading
+
 	If $g_iMinDark4PetUpgrade = 0 Then
 		If $g_bChkSortPetUpgrade And $g_iCmbSortPetUpgrade = 0 And $g_iCmbSortPetUpgradeLvLCost = 1 Then
 			$g_iMinDark4PetUpgrade = GetMinDark4PetUpgrade2()
@@ -87,24 +92,20 @@ Func PetHouse($test = False)
 			$g_iMinDark4PetUpgrade = GetMinDark4PetUpgrade()
 		EndIf
 		If ProfileSwitchAccountEnabled() Then SwitchAccountVariablesReload("Save")
-		Local $IsPage2 = False
-		For $i = 4 To $ePetCount - 1
+		For $i = 4 To $ePetCount - 2
 			If $g_bUpgradePetsEnable[$i] Then
-				$IsPage2 = True
+				$iPage = 1
 			EndIf
 		Next
-		If $IsPage2 Then
-			Local $iY1 = Random(450 + $g_iMidOffsetY, 490 + $g_iMidOffsetY, 1)
-			Local $iY2 = Random(450 + $g_iMidOffsetY, 490 + $g_iMidOffsetY, 1)
-			ClickDrag(135, $iY1, 690, $iY2, 250)
-			$iPage = 0
+		If $g_bUpgradePetsEnable[8] Then $iPage = 2
+		If $iPage > 0 Then
+			DragPetHouse(0, $iPage)
+			$iPage = 0 ; To be sure
 			If _Sleep(2000) Then Return
 		EndIf
 	EndIf
 
-	If CheckPetUpgrade() Then Return False ; cant start if something upgrading
-
-	Local $iPetLevelxCoord[8] = [55, 238, 419, 602, 104, 287, 470, 652]
+	Local $iPetLevelxCoord[9] = [54, 236, 419, 602, 54, 236, 419, 602, 651]
 
 	If $g_bChkSortPetUpgrade Then
 		Local $aPet = GetPetUpgradeList()
@@ -174,8 +175,7 @@ Func PetHouse($test = False)
 				If Number($g_aiCurrentLoot[$eLootDarkElixir]) >= Number($iDarkElixirReq) Then
 					SetLog("Will now upgrade " & $aPet[$i][1])
 
-					Local $iPetIndex = $i
-					DragPetHouse($iPetIndex, $iPage)
+					DragPetHouse($i, $iPage)
 					If _Sleep(2000) Then Return
 
 					; Randomise X,Y click
@@ -200,7 +200,7 @@ Func PetHouse($test = False)
 								If _Sleep($DELAYLABORATORY1) Then Return ; Wait for window to close
 								; Just incase the buy Gem Window pop up!
 								If isGemOpen(True) Then
-									SetDebugLog("Not enough DE for to upgrade: " & $g_asPetNames[$i], $COLOR_DEBUG)
+									SetDebugLog("Not enough DE for to upgrade: " & $aPet[$i][1], $COLOR_DEBUG)
 									For $i = 0 To 1
 										CloseWindow()
 									Next
@@ -249,15 +249,14 @@ Func PetHouse($test = False)
 			If Not $g_bUpgradePetsEnable[$i] Then ContinueLoop
 			$SelectedPetsCount += 1
 
-			Local $iPetIndex = $i
-			DragPetHouse($iPetIndex, $iPage)
+			DragPetHouse($i, $iPage)
 
 			If $g_iTownHallLevel = 14 Then
 				If $i = 0 Or $i = 2 Then $g_ePetLevels[$i] = 10 ; Max level 10 for TH14
 			EndIf
 
-			; check if pet upgrade unlocked ; c3b6a5 nox c1b7a5 memu?
-			If _ColorCheck(_GetPixelColor($iPetLevelxCoord[$i], 380 + $g_iMidOffsetY, True), Hex(0xC5BBA7, 6), 20) Then
+			; check if pet upgrade unlocked
+			If _ColorCheck(_GetPixelColor($iPetLevelxCoord[$i], 380 + $g_iMidOffsetY, True), Hex(0xC6BCAA, 6), 15) Then
 
 				; get the Pet Level
 				Local $iPetLevel = getPetsLevel($iPetLevelxCoord[$i], 544 + $g_iMidOffsetY)
@@ -333,7 +332,7 @@ Func PetHouse($test = False)
 							Else
 								CloseWindow() ; close pet upgrade window
 							EndIf
-							SetLog("Started upgrade for : " & $aPet[$i][1])
+							SetLog("Started upgrade for : " & $g_asPetNames[$i])
 							If ProfileSwitchAccountEnabled() Then SwitchAccountVariablesReload("Save")
 							CloseWindow(True)
 							Return True
@@ -524,12 +523,6 @@ Func PetGuiDisplay()
 		Return
 	EndIf
 
-	If $g_bChkSortPetUpgrade And $g_iCmbSortPetUpgrade = 0 And $g_iCmbSortPetUpgradeLvLCost = 1 Then
-		$g_iMinDark4PetUpgrade = GetMinDark4PetUpgrade2()
-	Else
-		$g_iMinDark4PetUpgrade = GetMinDark4PetUpgrade()
-	EndIf
-
 	Local $IsRunning = False
 	Local $IsStopped = False
 
@@ -562,6 +555,7 @@ Func PetGuiDisplay()
 			SetLog("Pet House will finish in " & $sPetTimeOCR & " (" & $g_sPetUpgradeTime & ")")
 			$iPetFinishTimeMod = $iPetFinishTime
 		EndIf
+		$g_iMinDark4PetUpgrade = 0
 		If ProfileSwitchAccountEnabled() Then SwitchAccountVariablesReload("Save")
 		CloseWindow(True)
 		Return True
@@ -574,6 +568,11 @@ Func PetGuiDisplay()
 		GUICtrlSetData($g_hLbLPetTime, "")
 		;============================================
 		$g_sPetUpgradeTime = ""
+		If $g_bChkSortPetUpgrade And $g_iCmbSortPetUpgrade = 0 And $g_iCmbSortPetUpgradeLvLCost = 1 Then
+			$g_iMinDark4PetUpgrade = GetMinDark4PetUpgrade2()
+		Else
+			$g_iMinDark4PetUpgrade = GetMinDark4PetUpgrade()
+		EndIf
 		If ProfileSwitchAccountEnabled() Then SwitchAccountVariablesReload("Save")
 		CloseWindow()
 		Return
@@ -594,7 +593,7 @@ Func PetGuiDisplay()
 EndFunc   ;==>PetGuiDisplay
 
 Func GetMinDark4PetUpgrade()
-	Local $iPetLevelxCoord[8] = [55, 238, 419, 602, 104, 287, 470, 652]
+	Local $iPetLevelxCoord[9] = [54, 236, 419, 602, 54, 236, 419, 602, 651]
 	Local $iMinDark4PetUpgrade = 999999
 	Local $iPage = 0
 
@@ -602,15 +601,14 @@ Func GetMinDark4PetUpgrade()
 		; check if pet upgrade enabled
 		If Not $g_bUpgradePetsEnable[$i] Then ContinueLoop
 
-		Local $iPetIndex = $i
-		DragPetHouse($iPetIndex, $iPage)
+		DragPetHouse($i, $iPage)
 
 		If $g_iTownHallLevel = 14 Then
 			If $i = 0 Or $i = 2 Then $g_ePetLevels[$i] = 10 ; Max level 10 for TH14
 		EndIf
 
-		; check if pet upgrade enabled and unlocked ; c3b6a5 nox c1b7a5 memu?
-		If _ColorCheck(_GetPixelColor($iPetLevelxCoord[$i], 380 + $g_iMidOffsetY, True), Hex(0xC5BBA7, 6), 20) Then
+		; check if pet upgrade enabled and unlocked
+		If _ColorCheck(_GetPixelColor($iPetLevelxCoord[$i], 380 + $g_iMidOffsetY, True), Hex(0xC6BCAA, 6), 15) Then
 
 			; get the Pet Level
 			Local $iPetLevel = getPetsLevel($iPetLevelxCoord[$i], 544 + $g_iMidOffsetY)
@@ -638,7 +636,7 @@ Func GetMinDark4PetUpgrade()
 				$iMinDark4PetUpgrade = $iDarkElixirReq
 				SetLog("New Min Dark: " & _NumberFormat($iMinDark4PetUpgrade, True))
 			EndIf
-		ElseIf _ColorCheck(_GetPixelColor($iPetLevelxCoord[$i], 380 + $g_iMidOffsetY, True), Hex(0xABABAB, 6), 20) Then
+		ElseIf _ColorCheck(_GetPixelColor($iPetLevelxCoord[$i], 380 + $g_iMidOffsetY, True), Hex(0xB5B5B5, 6), 15) Then
 			SetLog($g_asPetNames[$i] & " is Locked")
 		EndIf
 	Next
@@ -698,35 +696,42 @@ EndFunc   ;==>GetMinDark4PetUpgrade2
 
 Func GetPetUpgradeList()
 	; Pet upgrade is not in progress and not upgrading, so we need to start an upgrade.
-	Local $iPetLevelxCoord[8] = [55, 238, 419, 602, 104, 287, 470, 652]
-	Local $iDarkElixirReq = 0
+	Local $iPetLevelxCoord[9] = [54, 236, 419, 602, 54, 236, 419, 602, 651]
+	Local $iDarkElixirReq = 0, $iPetLevel = 0
 	Local $aPet[0][6]
 	Local $iPage = 0
 	For $i = 0 To $ePetCount - 1
 		If $g_bUpgradePetsEnable[$i] Then ; skip detection for unchecked pets
 
-			Local $iPetIndex = $i
-			DragPetHouse($iPetIndex, $iPage)
+			DragPetHouse($i, $iPage)
 
 			If $g_iTownHallLevel = 14 Then
 				If $i = 0 Or $i = 2 Then $g_ePetLevels[$i] = 10 ; Max level 10 for TH14
 			EndIf
 
 			Local $Name = $g_asPetNames[$i]
-			Local $Unlocked = String(_ColorCheck(_GetPixelColor($iPetLevelxCoord[$i], 380 + $g_iMidOffsetY, True), Hex(0xC5BBA7, 6), 20))
-			Local $iPetLevel = getPetsLevel($iPetLevelxCoord[$i], 544 + $g_iMidOffsetY)
+			Local $x = $iPetLevelxCoord[$i]
+			Local $Unlocked = String(_ColorCheck(_GetPixelColor($iPetLevelxCoord[$i], 380 + $g_iMidOffsetY, True), Hex(0xC6BCAA, 6), 15))
+			$iDarkElixirReq = 0 ;reset value
+			$iPetLevel = 0
+
+			If Not $Unlocked Then
+				If _ColorCheck(_GetPixelColor($iPetLevelxCoord[$i], 380 + $g_iMidOffsetY, True), Hex(0xB5B5B5, 6), 15) Then
+					$Unlocked = "Locked"
+					SetLog($Name & " is Locked")
+					_ArrayAdd($aPet, $i & "|" & $Name & "|" & $Unlocked & "|" & $iPetLevel & "|" & $iDarkElixirReq & "|" & $x)
+					ContinueLoop
+				EndIf
+			EndIf
+
+			$iPetLevel = getPetsLevel($iPetLevelxCoord[$i], 544 + $g_iMidOffsetY)
 			If Not ($iPetLevel > 0 And $iPetLevel <= $g_ePetLevels[$i]) Then ;If detected level is not between 1 and 10 Or 15, To Prevent Crash
 				If $g_bDebugSetlog Then SetDebugLog("Pet Level OCR Misdetection, Detected Level is : " & $iPetLevel, $COLOR_WARNING)
 				ContinueLoop
 			EndIf
-			Local $x = $iPetLevelxCoord[$i]
-			$iDarkElixirReq = 0 ;reset value
+
 			If Number($iPetLevel) = $g_ePetLevels[$i] Then ;skip read upgrade cost because pet is maxed
 				$Unlocked = "MaxLevel"
-				SetLog($Name & " is at Max level (" & $g_ePetLevels[$i] & ")")
-			ElseIf _ColorCheck(_GetPixelColor($iPetLevelxCoord[$i], 380 + $g_iMidOffsetY, True), Hex(0xABABAB, 6), 20) Then
-				$Unlocked = "Locked"
-				SetLog($Name & " is Locked")
 			Else
 				$iDarkElixirReq = 1000 * Number($g_aiPetUpgradeCostPerLevel[$i][$iPetLevel])
 				$iDarkElixirReq = Int($iDarkElixirReq - ($iDarkElixirReq * Number($g_iBuilderBoostDiscount) / 100))
@@ -738,35 +743,59 @@ Func GetPetUpgradeList()
 EndFunc   ;==>GetPetUpgradeList
 
 Func DragPetHouse($iPetIndex, ByRef $iPage)
-	Local $iY1 = Random(450 + $g_iMidOffsetY, 490 + $g_iMidOffsetY, 1)
-	Local $iY2 = Random(450 + $g_iMidOffsetY, 490 + $g_iMidOffsetY, 1)
+	Local $iY1
+	Local $iY2
+	Local $iPageTarget
+	Local $bLoop = 0
 
-	If $iPage = 0 Then
-		If $iPetIndex < 4 Then
-			Return True
-		Else
-			ClickDrag(725, $iY1, 175, $iY2, 250)
+	Switch $iPetIndex
+		Case 0, 1, 2, 3
+			$iPageTarget = 0
+		Case 4, 5, 6, 7
+			$iPageTarget = 1
+		Case 8
+			$iPageTarget = 2
+	EndSwitch
+
+	While 1
+
+		If $iPage = $iPageTarget Then ExitLoop
+
+		Local $iYPoint = Random(500 + $g_iMidOffsetY, 530 + $g_iMidOffsetY, 1)
+
+		If $iPage < $iPageTarget Then
+			If $iPage = 0 Then
+				ClickDrag(770, $iYPoint, 190, $iYPoint, 300)
+				SetDebugLog("Moving from page 0 to 1")
+			Else
+				ClickDrag(585, $iYPoint, 370, $iYPoint, 300)
+				SetDebugLog("Moving from page 1 to 2")
+			EndIf
+			If _Sleep(2500) Then Return
 			$iPage += 1
-			_Sleep(500)
-			Return True
 		EndIf
-	EndIf
 
-	If $iPage = 1 Then
-		If $iPetIndex >= 4 Then
-			Return True
-		Else
-			ClickDrag(135, $iY1, 690, $iY2, 250)
+		If $iPage > $iPageTarget Then
+			If $iPage = 2 Then
+				ClickDrag(270, $iYPoint, 372, $iYPoint, 300)
+				SetDebugLog("Moving from page 2 to 1")
+			Else
+				ClickDrag(60, $iYPoint, 660, $iYPoint, 300)
+				SetDebugLog("Moving from page 1 to 0")
+			EndIf
+			If _Sleep(2500) Then Return
 			$iPage -= 1
-			_Sleep(500)
-			Return True
 		EndIf
-	EndIf
 
-	Return False
+		$bLoop += 1
+		If $bLoop = 10 Then ExitLoop
+
+	WEnd
+
 EndFunc   ;==>DragPetHouse
 
 Func UsePetPotion()
+	If $g_iCmbPetPotion = 0 Then Return
 	If $g_bUsePetPotion And $iPetFinishTimeMod > 1440 Then ; only use potion if Pet upgrade time is more than 1 day
 		If _Sleep(1000) Then Return
 		Local $PetPotion = FindButton("PetPotion")
@@ -785,6 +814,15 @@ Func UsePetPotion()
 			If Not $g_bRunState Then Return
 			If ClickB("BoostConfirm") Then
 				SetLog("Pet House Boosted With Pet Potion", $COLOR_SUCCESS)
+				If $g_iCmbPetPotion <= 5 Then
+					$g_iCmbPetPotion -= 1
+					If $g_iCmbPetPotion > 1 Then
+						SetLog("Remaining iterations: " & $g_iCmbPetPotion, $COLOR_SUCCESS)
+					Else
+						SetLog("Remaining iteration: " & $g_iCmbPetPotion, $COLOR_SUCCESS)
+					EndIf
+					_GUICtrlComboBox_SetCurSel($g_hCmbPetPotion, $g_iCmbPetPotion)
+				EndIf
 				$g_sPetUpgradeTime = _DateAdd('n', Ceiling($iPetFinishTimeMod - 1380), _NowCalc())
 				SetLog("Recalculate Pet House time, using potion (" & $g_sPetUpgradeTime & ")")
 				$ActionForModLog = "Boosting Pet Upgrade"

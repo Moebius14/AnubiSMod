@@ -6,6 +6,29 @@
 * Improved blocking donate message on screen detection.
 * Improved sieges making.
 * Changed timings for detections on Clan Capital.
+* Improved Clan Games Challenges detection.
+* Improved Clan Games Rewards detection.
+* Improved District detection (Clan capital).
+* Improved Suggested upgrades (Builder Base).
+* Fixed TH Search Filter.
+* Improved Jungle scenery detection (Home village).
+* Improved New Buildings support (Builder Base).
+* Updated Heroes, Pets and Walls Costs.
+* Updated Walls Count.
+* Updated Lighting level and Hitpoint.
+* Updated few GUI images.
+** Added Support for COC 16.0.4+
+* Added support for Root Rider.
+* Added support for Spirit Fox (GUI for now)
+* Updated BB end of Battle images.
+* Added support for new training UI.
+* Added new GUI for Training.
+* Added GingerBread Scenery support (Attack only).
+* Added XBow lvl 11, TH lvl 16, Air def lvl 14 and Lab lvl 14 templates.
+* Added Root Rider templates for donation.
+* Updated Pet House upgrade function.
+* Improved Laboratory upgrades.
+* Improved Check Heroes Health Status while attacking.
 
 * v8.1.3 **
 * Fixed Costs OCR in Labs.

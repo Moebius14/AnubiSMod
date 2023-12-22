@@ -55,7 +55,11 @@ Func BoostStructure($sName, $sOcrName, $aPos, ByRef $icmbBoostValue, $cmbBoostCt
 				Else
 					If $icmbBoostValue <= 24 Then
 						$icmbBoostValue -= 1
-						SetLog($sName & ' Boost completed. Remaining iterations: ' & $icmbBoostValue, $COLOR_SUCCESS)
+						If $icmbBoostValue > 1 Then
+							SetLog($sName & ' Boost completed. Remaining iterations: ' & $icmbBoostValue, $COLOR_SUCCESS)
+						Else
+							SetLog($sName & ' Boost completed. Remaining iteration: ' & $icmbBoostValue, $COLOR_SUCCESS)
+						EndIf
 						_GUICtrlComboBox_SetCurSel($cmbBoostCtrl, $icmbBoostValue)
 					Else
 						SetLog($sName & ' Boost completed. Remaining iterations: Unlimited', $COLOR_SUCCESS)
@@ -141,7 +145,11 @@ Func BoostPotion($sName, $sOcrName, $aPos, ByRef $icmbBoostValue, $cmbBoostCtrl)
 					If _Sleep($DELAYBOOSTHEROES4) Then Return
 					If $icmbBoostValue <= 5 Then
 						$icmbBoostValue -= 1
-						SetLog($sName & ' Boost completed. Remaining iterations: ' & $icmbBoostValue, $COLOR_SUCCESS)
+						If $icmbBoostValue > 1 Then
+							SetLog($sName & ' Boost completed. Remaining iterations: ' & $icmbBoostValue, $COLOR_SUCCESS)
+						Else
+							SetLog($sName & ' Boost completed. Remaining iteration: ' & $icmbBoostValue, $COLOR_SUCCESS)
+						EndIf
 						_GUICtrlComboBox_SetCurSel($cmbBoostCtrl, $icmbBoostValue)
 					EndIf
 					$boosted = True
@@ -225,7 +233,11 @@ Func CheckBuilderPotion()
 						Else
 							$g_iTimerBoostBuilders = 0
 						EndIf
-						SetLog("Builders Boost completed. Remaining iterations: " & $g_iCmbBoostBuilders, $COLOR_SUCCESS)
+						If $g_iCmbBoostBuilders > 1 Then
+							SetLog("Builders Boost completed. Remaining iterations: " & $g_iCmbBoostBuilders, $COLOR_SUCCESS)
+						Else
+							SetLog("Builders Boost completed. Remaining iteration: " & $g_iCmbBoostBuilders, $COLOR_SUCCESS)
+						EndIf
 						_GUICtrlComboBox_SetCurSel($g_hCmbBoostBuilders, $g_iCmbBoostBuilders)
 					EndIf
 					$ActionForModLog = "Boosting Builders"
@@ -252,7 +264,11 @@ Func CheckBuilderPotion()
 						Else
 							$g_iTimerBoostBuilders = 0
 						EndIf
-						SetLog("Builders Boost completed. Remaining iterations: " & $g_iCmbBoostBuilders, $COLOR_SUCCESS)
+						If $g_iCmbBoostBuilders > 1 Then
+							SetLog("Builders Boost completed. Remaining iterations: " & $g_iCmbBoostBuilders, $COLOR_SUCCESS)
+						Else
+							SetLog("Builders Boost completed. Remaining iteration: " & $g_iCmbBoostBuilders, $COLOR_SUCCESS)
+						EndIf
 						_GUICtrlComboBox_SetCurSel($g_hCmbBoostBuilders, $g_iCmbBoostBuilders)
 					EndIf
 					$ActionForModLog = "Boosting Builders"

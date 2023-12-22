@@ -18,7 +18,7 @@ Global $g_hGUI_STATS = 0, $g_hGUI_STATS_TAB = 0, $g_hGUI_STATS_TAB_ITEM1 = 0, $g
 Global $btnResetStats = 0
 
 ; Gain
-Global $g_ahPicTHLevels[16], $g_hLblTHLevels = 0
+Global $g_ahPicTHLevels[17], $g_hLblTHLevels = 0
 Global $g_ahPicLeague[$eLeagueCount] = [0, 0, 0, 0, 0, 0, 0, 0, 0], $g_hLblLeague = 0
 Global $g_ahLblStatsStartedWith[$eLootCount] = [0, 0, 0, 0], $g_ahLblStatsGainPerHour[$eLootCount] = [0, 0, 0, 0]
 Global $g_ahLblStatsTotalGain[$eLootCount] = [0, 0, 0, 0], $g_ahLblStatsLastAttack[$eLootCount] = [0, 0, 0, 0]
@@ -38,7 +38,7 @@ Global $g_hLblNbrOfDetectedMines[$g_iModeCount] = [0, 0, 0], $g_hLblNbrOfDetecte
 		$g_hLblNbrOfDetectedDrills[$g_iModeCount] = [0, 0, 0], $g_hLblSmartZap = 0, $g_hLblSmartLightningUsed = 0, $g_hLblSmartEarthQuakeUsed = 0
 
 ; Donations
-Global $g_hLblDonTroop[$eTroopCount - 4] = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+Global $g_hLblDonTroop[$eTroopCount - 4] = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
 Global $g_hLblDonSpell[$eSpellCount] = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
 Global $g_hLblDonSiegel[$eSiegeMachineCount] = [0, 0, 0, 0, 0, 0, 0]
 Global $g_hLblTotalTroopsQ = 0, $g_hLblTotalTroopsXP = 0, $g_hLblTotalSiegesQ = 0, $g_hLblTotalSiegesXP = 0, $g_hLblTotalSpellsQ = 0, $g_hLblTotalSpellsXP = 0
@@ -115,6 +115,8 @@ Func CreateGainSubTab()
 	$g_ahPicTHLevels[14] = _GUICtrlCreateIcon($g_sLibIconPath, $eHdV14, $x - 11, $y + 15, 52, 52)
 	GUICtrlSetState(-1, $GUI_HIDE)
 	$g_ahPicTHLevels[15] = _GUICtrlCreateIcon($g_sLibIconPath, $eHdV15, $x - 11, $y + 15, 52, 52)
+	GUICtrlSetState(-1, $GUI_HIDE)
+	$g_ahPicTHLevels[16] = _GUICtrlCreateIcon($g_sLibIconPath, $eHdV16, $x - 11, $y + 15, 52, 52)
 	GUICtrlSetState(-1, $GUI_HIDE)
 
 	GUICtrlCreateLabel(GetTranslatedFileIni("MBR Global GUI Design", "LblTownhall", "TownHall"), $x - 11, $y, -1, -1, $SS_CENTER)
@@ -488,39 +490,7 @@ Func CreateMiscSubTab()
 	GUICtrlSetFont(-1, 9, $FW_BOLD, Default, "Arial", $CLEARTYPE_QUALITY)
 	GUICtrlSetColor(-1, $COLOR_BLACK)
 	_GUICtrlSetTip(-1, $sTxtTip)
-	#cs
-		$y += 20
-			_GUICtrlCreateIcon($g_sLibIconPath, $eIcnArcher, $x + 22, $y, 16, 16)
-				$sTxtTip = GetTranslatedFileIni("MBR GUI Design Child Bot - Stats", "LblTrain-Cost-Elixir_Info_01", "Elixir spent for training Barrack Troops")
-				_GUICtrlSetTip(-1, $sTxtTip)
-			GUICtrlCreateLabel(GetTranslatedFileIni("MBR GUI Design Child Bot - Stats", "LblTrain-Cost-Elixir", "Train Cost Elixir") & ":", $x + 45, $y + 2, -1, 17)
-				_GUICtrlSetTip(-1, $sTxtTip)
-			$g_hLblTrainCostElixir = GUICtrlCreateLabel("0", $x + 150, $y + 2, 70, 17, $SS_RIGHT)
-				GUICtrlSetFont(-1, 9, $FW_BOLD, Default, "Arial", $CLEARTYPE_QUALITY)
-				GUICtrlSetColor(-1, $COLOR_BLACK)
-				_GUICtrlSetTip(-1, $sTxtTip)
-		$y += 20
-			_GUICtrlCreateIcon($g_sLibIconPath, $eIcnMinion, $x + 22, $y, 16, 16)
-				$sTxtTip = GetTranslatedFileIni("MBR GUI Design Child Bot - Stats", "LblTrain-Cost-DElixir_Info_01", "Dark Elixir spent for training Dark Barrack Troops")
-				_GUICtrlSetTip(-1, $sTxtTip)
-			GUICtrlCreateLabel(GetTranslatedFileIni("MBR GUI Design Child Bot - Stats", "LblTrain-Cost-DElixir", "Train Cost DElixir") & ":", $x + 45, $y + 2, -1, 17)
-				_GUICtrlSetTip(-1, $sTxtTip)
-			$g_hLblTrainCostDElixir = GUICtrlCreateLabel("0", $x + 150, $y + 2, 70, 17, $SS_RIGHT)
-				GUICtrlSetFont(-1, 9, $FW_BOLD, Default, "Arial", $CLEARTYPE_QUALITY)
-				GUICtrlSetColor(-1, $COLOR_BLACK)
-				_GUICtrlSetTip(-1, $sTxtTip)
-	
-		$y += 20
-			_GUICtrlCreateIcon($g_sLibIconPath, $eIcnWallW, $x + 22, $y, 16, 16)
-				$sTxtTip = GetTranslatedFileIni("MBR GUI Design Child Bot - Stats", "LblTrain-Cost-Gold_Info_01", "Gold spent for Building Siege Machines")
-				_GUICtrlSetTip(-1, $sTxtTip)
-			GUICtrlCreateLabel(GetTranslatedFileIni("MBR GUI Design Child Bot - Stats", "LblTrain-Cost-Gold", "Build Cost Gold") & ":", $x + 45, $y + 2, -1, 17)
-				_GUICtrlSetTip(-1, $sTxtTip)
-			$g_hLblTrainCostGold = GUICtrlCreateLabel("0", $x + 150, $y + 2, 70, 17, $SS_RIGHT)
-				GUICtrlSetFont(-1, 9, $FW_BOLD, Default, "Arial", $CLEARTYPE_QUALITY)
-				GUICtrlSetColor(-1, $COLOR_BLACK)
-				_GUICtrlSetTip(-1, $sTxtTip)
-	#ce
+
 	$y += 20
 	_GUICtrlCreateIcon($g_sLibIconPath, $eIcnMine, $x + 22, $y, 16, 16)
 	$sTxtTip = GetTranslatedFileIni("MBR GUI Design Child Bot - Stats", "LblGold-collected_Info_01", "Gold gained by collecting mines")
@@ -988,444 +958,488 @@ Func CreateDonationsSubTab()
 	Local $sTxtTip = ""
 	Local $xStart = 25, $yStart = 40
 	Local $x = $xStart, $y = $yStart + 20
+	Local $xOffset = 54
 	GUICtrlCreateLabel(GetTranslatedFileIni("MBR GUI Design Child Bot - Stats", "LblStatsDon-AllTroops", "All Troops"), $x - 20, $y - 32, 431, 15, $SS_CENTER)
 	GUICtrlSetBkColor(-1, 0xC3C3C3)
-	$x += 5
+	$x = 5
 	$y -= 12
-	_GUICtrlCreateIcon($g_sLibIconPath, $eIcnBarbarian, $x - 10, $y, 24, 24)
+	_GUICtrlCreateIcon($g_sLibIconPath, $eIcnBarbarian, $x, $y, 24, 24)
 	$sTxtTip = ""
 	_GUICtrlSetTip(-1, $sTxtTip)
-	GUICtrlCreateLabel(":", $x + 18, $y + 4, -1, 17)
+	GUICtrlCreateLabel(":", $x + 28, $y + 4, -1, 17)
 	GUICtrlSetFont(-1, 9, $FW_BOLD, Default, "Arial", $CLEARTYPE_QUALITY)
-	$g_hLblDonTroop[$eTroopBarbarian] = GUICtrlCreateLabel("0", $x + 3, $y + 4, 40, 17, $SS_RIGHT)
-	GUICtrlSetFont(-1, 9, $FW_BOLD, Default, "Arial", $CLEARTYPE_QUALITY)
+	$g_hLblDonTroop[$eTroopBarbarian] = GUICtrlCreateLabel("0", $x + 15, $y + 6, 35, 17, $SS_RIGHT)
+	GUICtrlSetFont(-1, 8, $FW_BOLD, Default, "Arial", $CLEARTYPE_QUALITY)
 	GUICtrlSetColor(-1, $COLOR_BLACK)
 	_GUICtrlSetTip(-1, $sTxtTip)
 
-	_GUICtrlCreateIcon($g_sLibIconPath, $eIcnWizard, $x + 47, $y, 24, 24)
+	$x += $xOffset
+	_GUICtrlCreateIcon($g_sLibIconPath, $eIcnWizard, $x, $y, 24, 24)
 	$sTxtTip = ""
 	_GUICtrlSetTip(-1, $sTxtTip)
-	GUICtrlCreateLabel(":", $x + 75, $y + 4, -1, 17)
+	GUICtrlCreateLabel(":", $x + 28, $y + 4, -1, 17)
 	GUICtrlSetFont(-1, 9, $FW_BOLD, Default, "Arial", $CLEARTYPE_QUALITY)
-	$g_hLblDonTroop[$eTroopWizard] = GUICtrlCreateLabel("0", $x + 50, $y + 4, 50, 17, $SS_RIGHT)
-	GUICtrlSetFont(-1, 9, $FW_BOLD, Default, "Arial", $CLEARTYPE_QUALITY)
+	$g_hLblDonTroop[$eTroopWizard] = GUICtrlCreateLabel("0", $x + 15, $y + 6, 35, 17, $SS_RIGHT)
+	GUICtrlSetFont(-1, 8, $FW_BOLD, Default, "Arial", $CLEARTYPE_QUALITY)
 	GUICtrlSetColor(-1, $COLOR_BLACK)
 	_GUICtrlSetTip(-1, $sTxtTip)
 
-	_GUICtrlCreateIcon($g_sLibIconPath, $eIcnElectroDragon, $x + 104, $y, 24, 24)
+	$x += $xOffset
+	_GUICtrlCreateIcon($g_sLibIconPath, $eIcnElectroDragon, $x, $y, 24, 24)
 	$sTxtTip = ""
 	_GUICtrlSetTip(-1, $sTxtTip)
-	GUICtrlCreateLabel(":", $x + 132, $y + 4, -1, 17)
+	GUICtrlCreateLabel(":", $x + 28, $y + 4, -1, 17)
 	GUICtrlSetFont(-1, 9, $FW_BOLD, Default, "Arial", $CLEARTYPE_QUALITY)
-	$g_hLblDonTroop[$eTroopElectroDragon] = GUICtrlCreateLabel("0", $x + 107, $y + 4, 50, 17, $SS_RIGHT)
-	GUICtrlSetFont(-1, 9, $FW_BOLD, Default, "Arial", $CLEARTYPE_QUALITY)
+	$g_hLblDonTroop[$eTroopElectroDragon] = GUICtrlCreateLabel("0", $x + 15, $y + 6, 35, 17, $SS_RIGHT)
+	GUICtrlSetFont(-1, 8, $FW_BOLD, Default, "Arial", $CLEARTYPE_QUALITY)
 	GUICtrlSetColor(-1, $COLOR_BLACK)
 	_GUICtrlSetTip(-1, $sTxtTip)
 
-	_GUICtrlCreateIcon($g_sLibIconPath, $eIcnValkyrie, $x + 161, $y, 24, 24)
+	$x += $xOffset
+	_GUICtrlCreateIcon($g_sLibIconPath, $eIcnHogRider, $x, $y, 24, 24)
 	$sTxtTip = ""
 	_GUICtrlSetTip(-1, $sTxtTip)
-	GUICtrlCreateLabel(":", $x + 189, $y + 4, -1, 17)
+	GUICtrlCreateLabel(":", $x + 28, $y + 4, -1, 17)
 	GUICtrlSetFont(-1, 9, $FW_BOLD, Default, "Arial", $CLEARTYPE_QUALITY)
-	$g_hLblDonTroop[$eTroopValkyrie] = GUICtrlCreateLabel("0", $x + 164, $y + 4, 50, 17, $SS_RIGHT)
-	GUICtrlSetFont(-1, 9, $FW_BOLD, Default, "Arial", $CLEARTYPE_QUALITY)
+	$g_hLblDonTroop[$eTroopHogRider] = GUICtrlCreateLabel("0", $x + 15, $y + 6, 35, 17, $SS_RIGHT)
+	GUICtrlSetFont(-1, 8, $FW_BOLD, Default, "Arial", $CLEARTYPE_QUALITY)
 	GUICtrlSetColor(-1, $COLOR_BLACK)
 	_GUICtrlSetTip(-1, $sTxtTip)
 
+	$x += $xOffset
+	_GUICtrlCreateIcon($g_sLibIconPath, $eIcnIceGolem, $x, $y, 24, 24)
+	$sTxtTip = ""
+	_GUICtrlSetTip(-1, $sTxtTip)
+	GUICtrlCreateLabel(":", $x + 28, $y + 4, -1, 17)
+	GUICtrlSetFont(-1, 9, $FW_BOLD, Default, "Arial", $CLEARTYPE_QUALITY)
+	$g_hLblDonTroop[$eTroopIceGolem] = GUICtrlCreateLabel("0", $x + 15, $y + 6, 35, 17, $SS_RIGHT)
+	GUICtrlSetFont(-1, 8, $FW_BOLD, Default, "Arial", $CLEARTYPE_QUALITY)
+	GUICtrlSetColor(-1, $COLOR_BLACK)
+	_GUICtrlSetTip(-1, $sTxtTip)
+
+	$x += $xOffset
+	_GUICtrlCreateIcon($g_sLibIconPath, $eIcnSneakyGoblin, $x, $y, 24, 24)
+	$sTxtTip = ""
+	_GUICtrlSetTip(-1, $sTxtTip)
+	GUICtrlCreateLabel(":", $x + 28, $y + 4, -1, 17)
+	GUICtrlSetFont(-1, 9, $FW_BOLD, Default, "Arial", $CLEARTYPE_QUALITY)
+	$g_hLblDonTroop[$eTroopSneakyGoblin] = GUICtrlCreateLabel("0", $x + 15, $y + 6, 35, 17, $SS_RIGHT)
+	GUICtrlSetFont(-1, 8, $FW_BOLD, Default, "Arial", $CLEARTYPE_QUALITY)
+	GUICtrlSetColor(-1, $COLOR_BLACK)
+	_GUICtrlSetTip(-1, $sTxtTip)
+
+	$x += $xOffset
+	_GUICtrlCreateIcon($g_sLibIconPath, $eIcnSuperMinion, $x, $y, 24, 24)
+	$sTxtTip = ""
+	_GUICtrlSetTip(-1, $sTxtTip)
+	GUICtrlCreateLabel(":", $x + 28, $y + 4, -1, 17)
+	GUICtrlSetFont(-1, 9, $FW_BOLD, Default, "Arial", $CLEARTYPE_QUALITY)
+	$g_hLblDonTroop[$eTroopSuperMinion] = GUICtrlCreateLabel("0", $x + 15, $y + 6, 35, 17, $SS_RIGHT)
+	GUICtrlSetFont(-1, 8, $FW_BOLD, Default, "Arial", $CLEARTYPE_QUALITY)
+	GUICtrlSetColor(-1, $COLOR_BLACK)
+	_GUICtrlSetTip(-1, $sTxtTip)
+
+	$x += $xOffset
+	_GUICtrlCreateIcon($g_sLibIconPath, $eIcnSuperHogRider, $x, $y, 24, 24)
+	$sTxtTip = ""
+	_GUICtrlSetTip(-1, $sTxtTip)
+	GUICtrlCreateLabel(":", $x + 28, $y + 4, -1, 17)
+	GUICtrlSetFont(-1, 9, $FW_BOLD, Default, "Arial", $CLEARTYPE_QUALITY)
+	$g_hLblDonTroop[$eTroopSuperHogRider] = GUICtrlCreateLabel("0", $x + 15, $y + 6, 35, 17, $SS_RIGHT)
+	GUICtrlSetFont(-1, 8, $FW_BOLD, Default, "Arial", $CLEARTYPE_QUALITY)
+	GUICtrlSetColor(-1, $COLOR_BLACK)
+	_GUICtrlSetTip(-1, $sTxtTip)
+
+	$x = 5
 	$y += 28
-	_GUICtrlCreateIcon($g_sLibIconPath, $eIcnArcher, $x - 10, $y, 24, 24)
+	_GUICtrlCreateIcon($g_sLibIconPath, $eIcnArcher, $x, $y, 24, 24)
 	$sTxtTip = ""
 	_GUICtrlSetTip(-1, $sTxtTip)
-	GUICtrlCreateLabel(":", $x + 18, $y + 4, -1, 17)
+	GUICtrlCreateLabel(":", $x + 28, $y + 4, -1, 17)
 	GUICtrlSetFont(-1, 9, $FW_BOLD, Default, "Arial", $CLEARTYPE_QUALITY)
-	$g_hLblDonTroop[$eTroopArcher] = GUICtrlCreateLabel("0", $x + 3, $y + 4, 40, 17, $SS_RIGHT)
-	GUICtrlSetFont(-1, 9, $FW_BOLD, Default, "Arial", $CLEARTYPE_QUALITY)
+	$g_hLblDonTroop[$eTroopArcher] = GUICtrlCreateLabel("0", $x + 15, $y + 6, 35, 17, $SS_RIGHT)
+	GUICtrlSetFont(-1, 8, $FW_BOLD, Default, "Arial", $CLEARTYPE_QUALITY)
 	GUICtrlSetColor(-1, $COLOR_BLACK)
 	_GUICtrlSetTip(-1, $sTxtTip)
 
-	_GUICtrlCreateIcon($g_sLibIconPath, $eIcnHealer, $x + 47, $y, 24, 24)
+	$x += $xOffset
+	_GUICtrlCreateIcon($g_sLibIconPath, $eIcnHealer, $x, $y, 24, 24)
 	$sTxtTip = ""
 	_GUICtrlSetTip(-1, $sTxtTip)
-	GUICtrlCreateLabel(":", $x + 75, $y + 4, -1, 17)
+	GUICtrlCreateLabel(":", $x + 28, $y + 4, -1, 17)
 	GUICtrlSetFont(-1, 9, $FW_BOLD, Default, "Arial", $CLEARTYPE_QUALITY)
-	$g_hLblDonTroop[$eTroopHealer] = GUICtrlCreateLabel("0", $x + 50, $y + 4, 50, 17, $SS_RIGHT)
-	GUICtrlSetFont(-1, 9, $FW_BOLD, Default, "Arial", $CLEARTYPE_QUALITY)
+	$g_hLblDonTroop[$eTroopHealer] = GUICtrlCreateLabel("0", $x + 15, $y + 6, 35, 17, $SS_RIGHT)
+	GUICtrlSetFont(-1, 8, $FW_BOLD, Default, "Arial", $CLEARTYPE_QUALITY)
 	GUICtrlSetColor(-1, $COLOR_BLACK)
 	_GUICtrlSetTip(-1, $sTxtTip)
 
-	_GUICtrlCreateIcon($g_sLibIconPath, $eIcnYeti, $x + 104, $y, 24, 24)
+	$x += $xOffset
+	_GUICtrlCreateIcon($g_sLibIconPath, $eIcnYeti, $x, $y, 24, 24)
 	$sTxtTip = ""
 	_GUICtrlSetTip(-1, $sTxtTip)
-	GUICtrlCreateLabel(":", $x + 132, $y + 4, -1, 17)
+	GUICtrlCreateLabel(":", $x + 28, $y + 4, -1, 17)
 	GUICtrlSetFont(-1, 9, $FW_BOLD, Default, "Arial", $CLEARTYPE_QUALITY)
-	$g_hLblDonTroop[$eTroopYeti] = GUICtrlCreateLabel("0", $x + 107, $y + 4, 50, 17, $SS_RIGHT)
-	GUICtrlSetFont(-1, 9, $FW_BOLD, Default, "Arial", $CLEARTYPE_QUALITY)
+	$g_hLblDonTroop[$eTroopYeti] = GUICtrlCreateLabel("0", $x + 15, $y + 6, 35, 17, $SS_RIGHT)
+	GUICtrlSetFont(-1, 8, $FW_BOLD, Default, "Arial", $CLEARTYPE_QUALITY)
 	GUICtrlSetColor(-1, $COLOR_BLACK)
 	_GUICtrlSetTip(-1, $sTxtTip)
 
-	_GUICtrlCreateIcon($g_sLibIconPath, $eIcnGolem, $x + 161, $y, 24, 24)
+	$x += $xOffset
+	_GUICtrlCreateIcon($g_sLibIconPath, $eIcnValkyrie, $x, $y, 24, 24)
 	$sTxtTip = ""
 	_GUICtrlSetTip(-1, $sTxtTip)
-	GUICtrlCreateLabel(":", $x + 189, $y + 4, -1, 17)
+	GUICtrlCreateLabel(":", $x + 28, $y + 4, -1, 17)
 	GUICtrlSetFont(-1, 9, $FW_BOLD, Default, "Arial", $CLEARTYPE_QUALITY)
-	$g_hLblDonTroop[$eTroopGolem] = GUICtrlCreateLabel("0", $x + 164, $y + 4, 50, 17, $SS_RIGHT)
-	GUICtrlSetFont(-1, 9, $FW_BOLD, Default, "Arial", $CLEARTYPE_QUALITY)
+	$g_hLblDonTroop[$eTroopValkyrie] = GUICtrlCreateLabel("0", $x + 15, $y + 6, 35, 17, $SS_RIGHT)
+	GUICtrlSetFont(-1, 8, $FW_BOLD, Default, "Arial", $CLEARTYPE_QUALITY)
 	GUICtrlSetColor(-1, $COLOR_BLACK)
 	_GUICtrlSetTip(-1, $sTxtTip)
 
+	$x += $xOffset
+	_GUICtrlCreateIcon($g_sLibIconPath, $eIcnHeadhunter, $x, $y, 24, 24)
+	$sTxtTip = ""
+	_GUICtrlSetTip(-1, $sTxtTip)
+	GUICtrlCreateLabel(":", $x + 28, $y + 4, -1, 17)
+	GUICtrlSetFont(-1, 9, $FW_BOLD, Default, "Arial", $CLEARTYPE_QUALITY)
+	$g_hLblDonTroop[$eTroopHeadhunter] = GUICtrlCreateLabel("0", $x + 15, $y + 6, 35, 17, $SS_RIGHT)
+	GUICtrlSetFont(-1, 8, $FW_BOLD, Default, "Arial", $CLEARTYPE_QUALITY)
+	GUICtrlSetColor(-1, $COLOR_BLACK)
+	_GUICtrlSetTip(-1, $sTxtTip)
+
+	$x += $xOffset
+	_GUICtrlCreateIcon($g_sLibIconPath, $eIcnSuperWallBreaker, $x, $y, 24, 24)
+	$sTxtTip = ""
+	_GUICtrlSetTip(-1, $sTxtTip)
+	GUICtrlCreateLabel(":", $x + 28, $y + 4, -1, 17)
+	GUICtrlSetFont(-1, 9, $FW_BOLD, Default, "Arial", $CLEARTYPE_QUALITY)
+	$g_hLblDonTroop[$eTroopSuperWallBreaker] = GUICtrlCreateLabel("0", $x + 15, $y + 6, 35, 17, $SS_RIGHT)
+	GUICtrlSetFont(-1, 8, $FW_BOLD, Default, "Arial", $CLEARTYPE_QUALITY)
+	GUICtrlSetColor(-1, $COLOR_BLACK)
+	_GUICtrlSetTip(-1, $sTxtTip)
+
+	$x += $xOffset
+	_GUICtrlCreateIcon($g_sLibIconPath, $eIcnSuperValkyrie, $x, $y, 24, 24)
+	$sTxtTip = ""
+	_GUICtrlSetTip(-1, $sTxtTip)
+	GUICtrlCreateLabel(":", $x + 28, $y + 4, -1, 17)
+	GUICtrlSetFont(-1, 9, $FW_BOLD, Default, "Arial", $CLEARTYPE_QUALITY)
+	$g_hLblDonTroop[$eTroopSuperValkyrie] = GUICtrlCreateLabel("0", $x + 15, $y + 6, 35, 17, $SS_RIGHT)
+	GUICtrlSetFont(-1, 8, $FW_BOLD, Default, "Arial", $CLEARTYPE_QUALITY)
+	GUICtrlSetColor(-1, $COLOR_BLACK)
+	_GUICtrlSetTip(-1, $sTxtTip)
+
+	$x = 5
 	$y += 28
-	_GUICtrlCreateIcon($g_sLibIconPath, $eIcnGiant, $x - 10, $y, 24, 24)
+	_GUICtrlCreateIcon($g_sLibIconPath, $eIcnGiant, $x, $y, 24, 24)
 	$sTxtTip = ""
 	_GUICtrlSetTip(-1, $sTxtTip)
-	GUICtrlCreateLabel(":", $x + 18, $y + 4, -1, 17)
+	GUICtrlCreateLabel(":", $x + 28, $y + 4, -1, 17)
 	GUICtrlSetFont(-1, 9, $FW_BOLD, Default, "Arial", $CLEARTYPE_QUALITY)
-	$g_hLblDonTroop[$eTroopGiant] = GUICtrlCreateLabel("0", $x + 3, $y + 4, 40, 17, $SS_RIGHT)
-	GUICtrlSetFont(-1, 9, $FW_BOLD, Default, "Arial", $CLEARTYPE_QUALITY)
+	$g_hLblDonTroop[$eTroopGiant] = GUICtrlCreateLabel("0", $x + 15, $y + 6, 35, 17, $SS_RIGHT)
+	GUICtrlSetFont(-1, 8, $FW_BOLD, Default, "Arial", $CLEARTYPE_QUALITY)
 	GUICtrlSetColor(-1, $COLOR_BLACK)
 	_GUICtrlSetTip(-1, $sTxtTip)
 
-	_GUICtrlCreateIcon($g_sLibIconPath, $eIcnDragon, $x + 47, $y, 24, 24)
+	$x += $xOffset
+	_GUICtrlCreateIcon($g_sLibIconPath, $eIcnDragon, $x, $y, 24, 24)
 	$sTxtTip = ""
 	_GUICtrlSetTip(-1, $sTxtTip)
-	GUICtrlCreateLabel(":", $x + 75, $y + 4, -1, 17)
+	GUICtrlCreateLabel(":", $x + 28, $y + 4, -1, 17)
 	GUICtrlSetFont(-1, 9, $FW_BOLD, Default, "Arial", $CLEARTYPE_QUALITY)
-	$g_hLblDonTroop[$eTroopDragon] = GUICtrlCreateLabel("0", $x + 50, $y + 4, 50, 17, $SS_RIGHT)
-	GUICtrlSetFont(-1, 9, $FW_BOLD, Default, "Arial", $CLEARTYPE_QUALITY)
+	$g_hLblDonTroop[$eTroopDragon] = GUICtrlCreateLabel("0", $x + 15, $y + 6, 35, 17, $SS_RIGHT)
+	GUICtrlSetFont(-1, 8, $FW_BOLD, Default, "Arial", $CLEARTYPE_QUALITY)
 	GUICtrlSetColor(-1, $COLOR_BLACK)
 	_GUICtrlSetTip(-1, $sTxtTip)
 
-	_GUICtrlCreateIcon($g_sLibIconPath, $eIcnDragonRider, $x + 104, $y, 24, 24)
+	$x += $xOffset
+	_GUICtrlCreateIcon($g_sLibIconPath, $eIcnDragonRider, $x, $y, 24, 24)
 	$sTxtTip = ""
 	_GUICtrlSetTip(-1, $sTxtTip)
-	GUICtrlCreateLabel(":", $x + 132, $y + 4, -1, 17)
+	GUICtrlCreateLabel(":", $x + 28, $y + 4, -1, 17)
 	GUICtrlSetFont(-1, 9, $FW_BOLD, Default, "Arial", $CLEARTYPE_QUALITY)
-	$g_hLblDonTroop[$eTroopDragonRider] = GUICtrlCreateLabel("0", $x + 107, $y + 4, 50, 17, $SS_RIGHT)
-	GUICtrlSetFont(-1, 9, $FW_BOLD, Default, "Arial", $CLEARTYPE_QUALITY)
+	$g_hLblDonTroop[$eTroopDragonRider] = GUICtrlCreateLabel("0", $x + 15, $y + 6, 35, 17, $SS_RIGHT)
+	GUICtrlSetFont(-1, 8, $FW_BOLD, Default, "Arial", $CLEARTYPE_QUALITY)
 	GUICtrlSetColor(-1, $COLOR_BLACK)
 	_GUICtrlSetTip(-1, $sTxtTip)
 
-	_GUICtrlCreateIcon($g_sLibIconPath, $eIcnWitch, $x + 161, $y, 24, 24)
+	$x += $xOffset
+	_GUICtrlCreateIcon($g_sLibIconPath, $eIcnGolem, $x, $y, 24, 24)
 	$sTxtTip = ""
 	_GUICtrlSetTip(-1, $sTxtTip)
-	GUICtrlCreateLabel(":", $x + 189, $y + 4, -1, 17)
+	GUICtrlCreateLabel(":", $x + 28, $y + 4, -1, 17)
 	GUICtrlSetFont(-1, 9, $FW_BOLD, Default, "Arial", $CLEARTYPE_QUALITY)
-	$g_hLblDonTroop[$eTroopWitch] = GUICtrlCreateLabel("0", $x + 164, $y + 4, 50, 17, $SS_RIGHT)
-	GUICtrlSetFont(-1, 9, $FW_BOLD, Default, "Arial", $CLEARTYPE_QUALITY)
+	$g_hLblDonTroop[$eTroopGolem] = GUICtrlCreateLabel("0", $x + 15, $y + 6, 35, 17, $SS_RIGHT)
+	GUICtrlSetFont(-1, 8, $FW_BOLD, Default, "Arial", $CLEARTYPE_QUALITY)
 	GUICtrlSetColor(-1, $COLOR_BLACK)
 	_GUICtrlSetTip(-1, $sTxtTip)
 
+	$x += $xOffset
+	_GUICtrlCreateIcon($g_sLibIconPath, $eIcnAppWard, $x, $y, 24, 24)
+	$sTxtTip = ""
+	_GUICtrlSetTip(-1, $sTxtTip)
+	GUICtrlCreateLabel(":", $x + 28, $y + 4, -1, 17)
+	GUICtrlSetFont(-1, 9, $FW_BOLD, Default, "Arial", $CLEARTYPE_QUALITY)
+	$g_hLblDonTroop[$eTroopAppWard] = GUICtrlCreateLabel("0", $x + 15, $y + 6, 35, 17, $SS_RIGHT)
+	GUICtrlSetFont(-1, 8, $FW_BOLD, Default, "Arial", $CLEARTYPE_QUALITY)
+	GUICtrlSetColor(-1, $COLOR_BLACK)
+	_GUICtrlSetTip(-1, $sTxtTip)
+
+	$x += $xOffset
+	_GUICtrlCreateIcon($g_sLibIconPath, $eIcnRocketBalloon, $x, $y, 24, 24)
+	$sTxtTip = ""
+	_GUICtrlSetTip(-1, $sTxtTip)
+	GUICtrlCreateLabel(":", $x + 28, $y + 4, -1, 17)
+	GUICtrlSetFont(-1, 9, $FW_BOLD, Default, "Arial", $CLEARTYPE_QUALITY)
+	$g_hLblDonTroop[$eTroopRocketBalloon] = GUICtrlCreateLabel("0", $x + 15, $y + 6, 35, 17, $SS_RIGHT)
+	GUICtrlSetFont(-1, 8, $FW_BOLD, Default, "Arial", $CLEARTYPE_QUALITY)
+	GUICtrlSetColor(-1, $COLOR_BLACK)
+	_GUICtrlSetTip(-1, $sTxtTip)
+
+	$x += $xOffset
+	_GUICtrlCreateIcon($g_sLibIconPath, $eIcnSuperWitch, $x, $y, 24, 24)
+	$sTxtTip = ""
+	_GUICtrlSetTip(-1, $sTxtTip)
+	GUICtrlCreateLabel(":", $x + 28, $y + 4, -1, 17)
+	GUICtrlSetFont(-1, 9, $FW_BOLD, Default, "Arial", $CLEARTYPE_QUALITY)
+	$g_hLblDonTroop[$eTroopSuperWitch] = GUICtrlCreateLabel("0", $x + 15, $y + 6, 35, 17, $SS_RIGHT)
+	GUICtrlSetFont(-1, 8, $FW_BOLD, Default, "Arial", $CLEARTYPE_QUALITY)
+	GUICtrlSetColor(-1, $COLOR_BLACK)
+	_GUICtrlSetTip(-1, $sTxtTip)
+
+	$x = 5
 	$y += 28
-	_GUICtrlCreateIcon($g_sLibIconPath, $eIcnGoblin, $x - 10, $y, 24, 24)
+	_GUICtrlCreateIcon($g_sLibIconPath, $eIcnGoblin, $x, $y, 24, 24)
 	$sTxtTip = ""
 	_GUICtrlSetTip(-1, $sTxtTip)
-	GUICtrlCreateLabel(":", $x + 18, $y + 4, -1, 17)
+	GUICtrlCreateLabel(":", $x + 28, $y + 4, -1, 17)
 	GUICtrlSetFont(-1, 9, $FW_BOLD, Default, "Arial", $CLEARTYPE_QUALITY)
-	$g_hLblDonTroop[$eTroopGoblin] = GUICtrlCreateLabel("0", $x + 3, $y + 4, 40, 17, $SS_RIGHT)
-	GUICtrlSetFont(-1, 9, $FW_BOLD, Default, "Arial", $CLEARTYPE_QUALITY)
+	$g_hLblDonTroop[$eTroopGoblin] = GUICtrlCreateLabel("0", $x + 15, $y + 6, 35, 17, $SS_RIGHT)
+	GUICtrlSetFont(-1, 8, $FW_BOLD, Default, "Arial", $CLEARTYPE_QUALITY)
 	GUICtrlSetColor(-1, $COLOR_BLACK)
 	_GUICtrlSetTip(-1, $sTxtTip)
 
-	_GUICtrlCreateIcon($g_sLibIconPath, $eIcnPekka, $x + 47, $y, 24, 24)
+	$x += $xOffset
+	_GUICtrlCreateIcon($g_sLibIconPath, $eIcnPekka, $x, $y, 24, 24)
 	$sTxtTip = ""
 	_GUICtrlSetTip(-1, $sTxtTip)
-	GUICtrlCreateLabel(":", $x + 75, $y + 4, -1, 17)
+	GUICtrlCreateLabel(":", $x + 28, $y + 4, -1, 17)
 	GUICtrlSetFont(-1, 9, $FW_BOLD, Default, "Arial", $CLEARTYPE_QUALITY)
-	$g_hLblDonTroop[$eTroopPekka] = GUICtrlCreateLabel("0", $x + 50, $y + 4, 50, 17, $SS_RIGHT)
-	GUICtrlSetFont(-1, 9, $FW_BOLD, Default, "Arial", $CLEARTYPE_QUALITY)
+	$g_hLblDonTroop[$eTroopPekka] = GUICtrlCreateLabel("0", $x + 15, $y + 6, 35, 17, $SS_RIGHT)
+	GUICtrlSetFont(-1, 8, $FW_BOLD, Default, "Arial", $CLEARTYPE_QUALITY)
 	GUICtrlSetColor(-1, $COLOR_BLACK)
 	_GUICtrlSetTip(-1, $sTxtTip)
 
-	_GUICtrlCreateIcon($g_sLibIconPath, $eIcnElectroTitan, $x + 104, $y, 24, 24)
+	$x += $xOffset
+	_GUICtrlCreateIcon($g_sLibIconPath, $eIcnElectroTitan, $x, $y, 24, 24)
 	$sTxtTip = ""
 	_GUICtrlSetTip(-1, $sTxtTip)
-	GUICtrlCreateLabel(":", $x + 132, $y + 4, -1, 17)
+	GUICtrlCreateLabel(":", $x + 28, $y + 4, -1, 17)
 	GUICtrlSetFont(-1, 9, $FW_BOLD, Default, "Arial", $CLEARTYPE_QUALITY)
-	$g_hLblDonTroop[$eTroopElectroTitan] = GUICtrlCreateLabel("0", $x + 107, $y + 4, 50, 17, $SS_RIGHT)
-	GUICtrlSetFont(-1, 9, $FW_BOLD, Default, "Arial", $CLEARTYPE_QUALITY)
+	$g_hLblDonTroop[$eTroopElectroTitan] = GUICtrlCreateLabel("0", $x + 15, $y + 6, 35, 17, $SS_RIGHT)
+	GUICtrlSetFont(-1, 8, $FW_BOLD, Default, "Arial", $CLEARTYPE_QUALITY)
 	GUICtrlSetColor(-1, $COLOR_BLACK)
 	_GUICtrlSetTip(-1, $sTxtTip)
 
-	_GUICtrlCreateIcon($g_sLibIconPath, $eIcnLavaHound, $x + 161, $y, 24, 24)
+	$x += $xOffset
+	_GUICtrlCreateIcon($g_sLibIconPath, $eIcnWitch, $x, $y, 24, 24)
 	$sTxtTip = ""
 	_GUICtrlSetTip(-1, $sTxtTip)
-	GUICtrlCreateLabel(":", $x + 189, $y + 4, -1, 17)
+	GUICtrlCreateLabel(":", $x + 28, $y + 4, -1, 17)
 	GUICtrlSetFont(-1, 9, $FW_BOLD, Default, "Arial", $CLEARTYPE_QUALITY)
-	$g_hLblDonTroop[$eTroopLavaHound] = GUICtrlCreateLabel("0", $x + 164, $y + 4, 50, 17, $SS_RIGHT)
-	GUICtrlSetFont(-1, 9, $FW_BOLD, Default, "Arial", $CLEARTYPE_QUALITY)
+	$g_hLblDonTroop[$eTroopWitch] = GUICtrlCreateLabel("0", $x + 15, $y + 6, 35, 17, $SS_RIGHT)
+	GUICtrlSetFont(-1, 8, $FW_BOLD, Default, "Arial", $CLEARTYPE_QUALITY)
 	GUICtrlSetColor(-1, $COLOR_BLACK)
 	_GUICtrlSetTip(-1, $sTxtTip)
 
+	$x += $xOffset
+	_GUICtrlCreateIcon($g_sLibIconPath, $eIcnSuperBarbarian, $x, $y, 24, 24)
+	$sTxtTip = ""
+	_GUICtrlSetTip(-1, $sTxtTip)
+	GUICtrlCreateLabel(":", $x + 28, $y + 4, -1, 17)
+	GUICtrlSetFont(-1, 9, $FW_BOLD, Default, "Arial", $CLEARTYPE_QUALITY)
+	$g_hLblDonTroop[$eTroopSuperBarbarian] = GUICtrlCreateLabel("0", $x + 15, $y + 6, 35, 17, $SS_RIGHT)
+	GUICtrlSetFont(-1, 8, $FW_BOLD, Default, "Arial", $CLEARTYPE_QUALITY)
+	GUICtrlSetColor(-1, $COLOR_BLACK)
+	_GUICtrlSetTip(-1, $sTxtTip)
+
+	$x += $xOffset
+	_GUICtrlCreateIcon($g_sLibIconPath, $eIcnSuperWizard, $x, $y, 24, 24)
+	$sTxtTip = ""
+	_GUICtrlSetTip(-1, $sTxtTip)
+	GUICtrlCreateLabel(":", $x + 28, $y + 4, -1, 17)
+	GUICtrlSetFont(-1, 9, $FW_BOLD, Default, "Arial", $CLEARTYPE_QUALITY)
+	$g_hLblDonTroop[$eTroopSuperWizard] = GUICtrlCreateLabel("0", $x + 15, $y + 6, 35, 17, $SS_RIGHT)
+	GUICtrlSetFont(-1, 8, $FW_BOLD, Default, "Arial", $CLEARTYPE_QUALITY)
+	GUICtrlSetColor(-1, $COLOR_BLACK)
+	_GUICtrlSetTip(-1, $sTxtTip)
+
+	$x += $xOffset
+	_GUICtrlCreateIcon($g_sLibIconPath, $eIcnIceHound, $x, $y, 24, 24)
+	$sTxtTip = ""
+	_GUICtrlSetTip(-1, $sTxtTip)
+	GUICtrlCreateLabel(":", $x + 28, $y + 4, -1, 17)
+	GUICtrlSetFont(-1, 9, $FW_BOLD, Default, "Arial", $CLEARTYPE_QUALITY)
+	$g_hLblDonTroop[$eTroopIceHound] = GUICtrlCreateLabel("0", $x + 15, $y + 6, 35, 17, $SS_RIGHT)
+	GUICtrlSetFont(-1, 8, $FW_BOLD, Default, "Arial", $CLEARTYPE_QUALITY)
+	GUICtrlSetColor(-1, $COLOR_BLACK)
+	_GUICtrlSetTip(-1, $sTxtTip)
+
+	$x = 5
 	$y += 28
-	_GUICtrlCreateIcon($g_sLibIconPath, $eIcnWallBreaker, $x - 10, $y, 24, 24)
+	_GUICtrlCreateIcon($g_sLibIconPath, $eIcnWallBreaker, $x, $y, 24, 24)
 	$sTxtTip = ""
 	_GUICtrlSetTip(-1, $sTxtTip)
-	GUICtrlCreateLabel(":", $x + 18, $y + 4, -1, 17)
+	GUICtrlCreateLabel(":", $x + 28, $y + 4, -1, 17)
 	GUICtrlSetFont(-1, 9, $FW_BOLD, Default, "Arial", $CLEARTYPE_QUALITY)
-	$g_hLblDonTroop[$eTroopWallBreaker] = GUICtrlCreateLabel("0", $x + 3, $y + 4, 40, 17, $SS_RIGHT)
-	GUICtrlSetFont(-1, 9, $FW_BOLD, Default, "Arial", $CLEARTYPE_QUALITY)
+	$g_hLblDonTroop[$eTroopWallBreaker] = GUICtrlCreateLabel("0", $x + 15, $y + 6, 35, 17, $SS_RIGHT)
+	GUICtrlSetFont(-1, 8, $FW_BOLD, Default, "Arial", $CLEARTYPE_QUALITY)
 	GUICtrlSetColor(-1, $COLOR_BLACK)
 	_GUICtrlSetTip(-1, $sTxtTip)
 
-	_GUICtrlCreateIcon($g_sLibIconPath, $eIcnMinion, $x + 104, $y, 24, 24)
+	$x += $xOffset
+	_GUICtrlCreateIcon($g_sLibIconPath, $eIcnMinion, $x, $y, 24, 24)
 	$sTxtTip = ""
 	_GUICtrlSetTip(-1, $sTxtTip)
-	GUICtrlCreateLabel(":", $x + 132, $y + 4, -1, 17)
+	GUICtrlCreateLabel(":", $x + 28, $y + 4, -1, 17)
 	GUICtrlSetFont(-1, 9, $FW_BOLD, Default, "Arial", $CLEARTYPE_QUALITY)
-	$g_hLblDonTroop[$eTroopMinion] = GUICtrlCreateLabel("0", $x + 107, $y + 4, 50, 17, $SS_RIGHT)
-	GUICtrlSetFont(-1, 9, $FW_BOLD, Default, "Arial", $CLEARTYPE_QUALITY)
+	$g_hLblDonTroop[$eTroopMinion] = GUICtrlCreateLabel("0", $x + 15, $y + 6, 35, 17, $SS_RIGHT)
+	GUICtrlSetFont(-1, 8, $FW_BOLD, Default, "Arial", $CLEARTYPE_QUALITY)
 	GUICtrlSetColor(-1, $COLOR_BLACK)
 	_GUICtrlSetTip(-1, $sTxtTip)
 
-	_GUICtrlCreateIcon($g_sLibIconPath, $eIcnBabyDragon, $x + 47, $y, 24, 24)
+	$x += $xOffset
+	_GUICtrlCreateIcon($g_sLibIconPath, $eIcnRootRider, $x, $y, 24, 24)
 	$sTxtTip = ""
 	_GUICtrlSetTip(-1, $sTxtTip)
-	GUICtrlCreateLabel(":", $x + 75, $y + 4, -1, 17)
+	GUICtrlCreateLabel(":", $x + 28, $y + 4, -1, 17)
 	GUICtrlSetFont(-1, 9, $FW_BOLD, Default, "Arial", $CLEARTYPE_QUALITY)
-	$g_hLblDonTroop[$eTroopBabyDragon] = GUICtrlCreateLabel("0", $x + 50, $y + 4, 50, 17, $SS_RIGHT)
-	GUICtrlSetFont(-1, 9, $FW_BOLD, Default, "Arial", $CLEARTYPE_QUALITY)
+	$g_hLblDonTroop[$eTroopRootRider] = GUICtrlCreateLabel("0", $x + 15, $y + 6, 35, 17, $SS_RIGHT)
+	GUICtrlSetFont(-1, 8, $FW_BOLD, Default, "Arial", $CLEARTYPE_QUALITY)
 	GUICtrlSetColor(-1, $COLOR_BLACK)
 	_GUICtrlSetTip(-1, $sTxtTip)
 
-	_GUICtrlCreateIcon($g_sLibIconPath, $eIcnBowler, $x + 161, $y, 24, 24)
+	$x += $xOffset
+	_GUICtrlCreateIcon($g_sLibIconPath, $eIcnLavaHound, $x, $y, 24, 24)
 	$sTxtTip = ""
 	_GUICtrlSetTip(-1, $sTxtTip)
-	GUICtrlCreateLabel(":", $x + 189, $y + 4, -1, 17)
+	GUICtrlCreateLabel(":", $x + 28, $y + 4, -1, 17)
 	GUICtrlSetFont(-1, 9, $FW_BOLD, Default, "Arial", $CLEARTYPE_QUALITY)
-	$g_hLblDonTroop[$eTroopBowler] = GUICtrlCreateLabel("0", $x + 164, $y + 4, 50, 17, $SS_RIGHT)
-	GUICtrlSetFont(-1, 9, $FW_BOLD, Default, "Arial", $CLEARTYPE_QUALITY)
+	$g_hLblDonTroop[$eTroopLavaHound] = GUICtrlCreateLabel("0", $x + 15, $y + 6, 35, 17, $SS_RIGHT)
+	GUICtrlSetFont(-1, 8, $FW_BOLD, Default, "Arial", $CLEARTYPE_QUALITY)
 	GUICtrlSetColor(-1, $COLOR_BLACK)
 	_GUICtrlSetTip(-1, $sTxtTip)
 
+	$x += $xOffset
+	_GUICtrlCreateIcon($g_sLibIconPath, $eIcnSuperArcher, $x, $y, 24, 24)
+	$sTxtTip = ""
+	_GUICtrlSetTip(-1, $sTxtTip)
+	GUICtrlCreateLabel(":", $x + 28, $y + 4, -1, 17)
+	GUICtrlSetFont(-1, 9, $FW_BOLD, Default, "Arial", $CLEARTYPE_QUALITY)
+	$g_hLblDonTroop[$eTroopSuperArcher] = GUICtrlCreateLabel("0", $x + 15, $y + 6, 35, 17, $SS_RIGHT)
+	GUICtrlSetFont(-1, 8, $FW_BOLD, Default, "Arial", $CLEARTYPE_QUALITY)
+	GUICtrlSetColor(-1, $COLOR_BLACK)
+	_GUICtrlSetTip(-1, $sTxtTip)
+
+	$x += $xOffset
+	_GUICtrlCreateIcon($g_sLibIconPath, $eIcnSuperDragon, $x, $y, 24, 24)
+	$sTxtTip = ""
+	_GUICtrlSetTip(-1, $sTxtTip)
+	GUICtrlCreateLabel(":", $x + 28, $y + 4, -1, 17)
+	GUICtrlSetFont(-1, 9, $FW_BOLD, Default, "Arial", $CLEARTYPE_QUALITY)
+	$g_hLblDonTroop[$eTroopSuperDragon] = GUICtrlCreateLabel("0", $x + 15, $y + 6, 35, 17, $SS_RIGHT)
+	GUICtrlSetFont(-1, 8, $FW_BOLD, Default, "Arial", $CLEARTYPE_QUALITY)
+	GUICtrlSetColor(-1, $COLOR_BLACK)
+	_GUICtrlSetTip(-1, $sTxtTip)
+
+	$x += $xOffset
+	_GUICtrlCreateIcon($g_sLibIconPath, $eIcnSuperBowler, $x, $y, 24, 24)
+	$sTxtTip = ""
+	_GUICtrlSetTip(-1, $sTxtTip)
+	GUICtrlCreateLabel(":", $x + 28, $y + 4, -1, 17)
+	GUICtrlSetFont(-1, 9, $FW_BOLD, Default, "Arial", $CLEARTYPE_QUALITY)
+	$g_hLblDonTroop[$eTroopSuperBowler] = GUICtrlCreateLabel("0", $x + 15, $y + 6, 35, 17, $SS_RIGHT)
+	GUICtrlSetFont(-1, 8, $FW_BOLD, Default, "Arial", $CLEARTYPE_QUALITY)
+	GUICtrlSetColor(-1, $COLOR_BLACK)
+	_GUICtrlSetTip(-1, $sTxtTip)
+
+	$x = 5
 	$y += 28
-	_GUICtrlCreateIcon($g_sLibIconPath, $eIcnBalloon, $x - 10, $y, 24, 24)
+	_GUICtrlCreateIcon($g_sLibIconPath, $eIcnBalloon, $x, $y, 24, 24)
 	$sTxtTip = ""
 	_GUICtrlSetTip(-1, $sTxtTip)
-	GUICtrlCreateLabel(":", $x + 18, $y + 4, -1, 17)
+	GUICtrlCreateLabel(":", $x + 28, $y + 4, -1, 17)
 	GUICtrlSetFont(-1, 9, $FW_BOLD, Default, "Arial", $CLEARTYPE_QUALITY)
-	$g_hLblDonTroop[$eTroopBalloon] = GUICtrlCreateLabel("0", $x + 3, $y + 4, 40, 17, $SS_RIGHT)
-	GUICtrlSetFont(-1, 9, $FW_BOLD, Default, "Arial", $CLEARTYPE_QUALITY)
+	$g_hLblDonTroop[$eTroopBalloon] = GUICtrlCreateLabel("0", $x + 15, $y + 6, 35, 17, $SS_RIGHT)
+	GUICtrlSetFont(-1, 8, $FW_BOLD, Default, "Arial", $CLEARTYPE_QUALITY)
 	GUICtrlSetColor(-1, $COLOR_BLACK)
 	_GUICtrlSetTip(-1, $sTxtTip)
 
-	_GUICtrlCreateIcon($g_sLibIconPath, $eIcnMiner, $x + 47, $y, 24, 24)
+	$x += $xOffset
+	_GUICtrlCreateIcon($g_sLibIconPath, $eIcnMiner, $x, $y, 24, 24)
 	$sTxtTip = ""
 	_GUICtrlSetTip(-1, $sTxtTip)
-	GUICtrlCreateLabel(":", $x + 75, $y + 4, -1, 17)
+	GUICtrlCreateLabel(":", $x + 28, $y + 4, -1, 17)
 	GUICtrlSetFont(-1, 9, $FW_BOLD, Default, "Arial", $CLEARTYPE_QUALITY)
-	$g_hLblDonTroop[$eTroopMiner] = GUICtrlCreateLabel("0", $x + 50, $y + 4, 50, 17, $SS_RIGHT)
-	GUICtrlSetFont(-1, 9, $FW_BOLD, Default, "Arial", $CLEARTYPE_QUALITY)
+	$g_hLblDonTroop[$eTroopMiner] = GUICtrlCreateLabel("0", $x + 15, $y + 6, 35, 17, $SS_RIGHT)
+	GUICtrlSetFont(-1, 8, $FW_BOLD, Default, "Arial", $CLEARTYPE_QUALITY)
 	GUICtrlSetColor(-1, $COLOR_BLACK)
 	_GUICtrlSetTip(-1, $sTxtTip)
 
-	_GUICtrlCreateIcon($g_sLibIconPath, $eIcnHogRider, $x + 104, $y, 24, 24)
+	$x += $xOffset
+	_GUICtrlCreateIcon($g_sLibIconPath, $eIcnBabyDragon, $x, $y, 24, 24)
 	$sTxtTip = ""
 	_GUICtrlSetTip(-1, $sTxtTip)
-	GUICtrlCreateLabel(":", $x + 132, $y + 4, -1, 17)
+	GUICtrlCreateLabel(":", $x + 28, $y + 4, -1, 17)
 	GUICtrlSetFont(-1, 9, $FW_BOLD, Default, "Arial", $CLEARTYPE_QUALITY)
-	$g_hLblDonTroop[$eTroopHogRider] = GUICtrlCreateLabel("0", $x + 107, $y + 4, 50, 17, $SS_RIGHT)
-	GUICtrlSetFont(-1, 9, $FW_BOLD, Default, "Arial", $CLEARTYPE_QUALITY)
+	$g_hLblDonTroop[$eTroopBabyDragon] = GUICtrlCreateLabel("0", $x + 15, $y + 6, 35, 17, $SS_RIGHT)
+	GUICtrlSetFont(-1, 8, $FW_BOLD, Default, "Arial", $CLEARTYPE_QUALITY)
 	GUICtrlSetColor(-1, $COLOR_BLACK)
 	_GUICtrlSetTip(-1, $sTxtTip)
 
-	_GUICtrlCreateIcon($g_sLibIconPath, $eIcnIceGolem, $x + 161, $y, 24, 24)
+	$x += $xOffset
+	_GUICtrlCreateIcon($g_sLibIconPath, $eIcnBowler, $x, $y, 24, 24)
 	$sTxtTip = ""
 	_GUICtrlSetTip(-1, $sTxtTip)
-	GUICtrlCreateLabel(":", $x + 189, $y + 4, -1, 17)
+	GUICtrlCreateLabel(":", $x + 28, $y + 4, -1, 17)
 	GUICtrlSetFont(-1, 9, $FW_BOLD, Default, "Arial", $CLEARTYPE_QUALITY)
-	$g_hLblDonTroop[$eTroopIceGolem] = GUICtrlCreateLabel("0", $x + 164, $y + 4, 50, 17, $SS_RIGHT)
-	GUICtrlSetFont(-1, 9, $FW_BOLD, Default, "Arial", $CLEARTYPE_QUALITY)
-	GUICtrlSetColor(-1, $COLOR_BLACK)
-	_GUICtrlSetTip(-1, $sTxtTip)
-	GUICtrlCreateGroup("", -99, -99, 1, 1)
-
-	$x = $xStart + 235
-	$y = $yStart + 23
-	$y -= 15
-
-	_GUICtrlCreateIcon($g_sLibIconPath, $eIcnHeadhunter, $x - 10, $y, 24, 24)
-	$sTxtTip = ""
-	_GUICtrlSetTip(-1, $sTxtTip)
-	GUICtrlCreateLabel(":", $x + 18, $y + 4, -1, 17)
-	GUICtrlSetFont(-1, 9, $FW_BOLD, Default, "Arial", $CLEARTYPE_QUALITY)
-	$g_hLblDonTroop[$eTroopHeadhunter] = GUICtrlCreateLabel("0", $x + 3, $y + 4, 40, 17, $SS_RIGHT)
-	GUICtrlSetFont(-1, 9, $FW_BOLD, Default, "Arial", $CLEARTYPE_QUALITY)
+	$g_hLblDonTroop[$eTroopBowler] = GUICtrlCreateLabel("0", $x + 15, $y + 6, 35, 17, $SS_RIGHT)
+	GUICtrlSetFont(-1, 8, $FW_BOLD, Default, "Arial", $CLEARTYPE_QUALITY)
 	GUICtrlSetColor(-1, $COLOR_BLACK)
 	_GUICtrlSetTip(-1, $sTxtTip)
 
-	_GUICtrlCreateIcon($g_sLibIconPath, $eIcnSuperWallBreaker, $x + 47, $y, 24, 24)
+	$x += $xOffset
+	_GUICtrlCreateIcon($g_sLibIconPath, $eIcnSuperGiant, $x, $y, 24, 24)
 	$sTxtTip = ""
 	_GUICtrlSetTip(-1, $sTxtTip)
-	GUICtrlCreateLabel(":", $x + 75, $y + 4, -1, 17)
+	GUICtrlCreateLabel(":", $x + 28, $y + 4, -1, 17)
 	GUICtrlSetFont(-1, 9, $FW_BOLD, Default, "Arial", $CLEARTYPE_QUALITY)
-	$g_hLblDonTroop[$eTroopSuperWallBreaker] = GUICtrlCreateLabel("0", $x + 50, $y + 4, 50, 17, $SS_RIGHT)
-	GUICtrlSetFont(-1, 9, $FW_BOLD, Default, "Arial", $CLEARTYPE_QUALITY)
+	$g_hLblDonTroop[$eTroopSuperGiant] = GUICtrlCreateLabel("0", $x + 15, $y + 6, 35, 17, $SS_RIGHT)
+	GUICtrlSetFont(-1, 8, $FW_BOLD, Default, "Arial", $CLEARTYPE_QUALITY)
 	GUICtrlSetColor(-1, $COLOR_BLACK)
 	_GUICtrlSetTip(-1, $sTxtTip)
 
-	_GUICtrlCreateIcon($g_sLibIconPath, $eIcnSuperValkyrie, $x + 104, $y, 24, 24)
+	$x += $xOffset
+	_GUICtrlCreateIcon($g_sLibIconPath, $eIcnInfernoDragon, $x, $y, 24, 24)
 	$sTxtTip = ""
 	_GUICtrlSetTip(-1, $sTxtTip)
-	GUICtrlCreateLabel(":", $x + 132, $y + 4, -1, 17)
+	GUICtrlCreateLabel(":", $x + 28, $y + 4, -1, 17)
 	GUICtrlSetFont(-1, 9, $FW_BOLD, Default, "Arial", $CLEARTYPE_QUALITY)
-	$g_hLblDonTroop[$eTroopSuperValkyrie] = GUICtrlCreateLabel("0", $x + 107, $y + 4, 50, 17, $SS_RIGHT)
-	GUICtrlSetFont(-1, 9, $FW_BOLD, Default, "Arial", $CLEARTYPE_QUALITY)
+	$g_hLblDonTroop[$eTroopInfernoDragon] = GUICtrlCreateLabel("0", $x + 15, $y + 6, 35, 17, $SS_RIGHT)
+	GUICtrlSetFont(-1, 8, $FW_BOLD, Default, "Arial", $CLEARTYPE_QUALITY)
 	GUICtrlSetColor(-1, $COLOR_BLACK)
 	_GUICtrlSetTip(-1, $sTxtTip)
 
-	$y += 28
-	_GUICtrlCreateIcon($g_sLibIconPath, $eIcnAppWard, $x - 10, $y, 24, 24)
+	$x += $xOffset
+	_GUICtrlCreateIcon($g_sLibIconPath, $eIcnSuperMiner, $x, $y, 24, 24)
 	$sTxtTip = ""
 	_GUICtrlSetTip(-1, $sTxtTip)
-	GUICtrlCreateLabel(":", $x + 18, $y + 4, -1, 17)
+	GUICtrlCreateLabel(":", $x + 28, $y + 4, -1, 17)
 	GUICtrlSetFont(-1, 9, $FW_BOLD, Default, "Arial", $CLEARTYPE_QUALITY)
-	$g_hLblDonTroop[$eTroopAppWard] = GUICtrlCreateLabel("0", $x + 3, $y + 4, 40, 17, $SS_RIGHT)
-	GUICtrlSetFont(-1, 9, $FW_BOLD, Default, "Arial", $CLEARTYPE_QUALITY)
+	$g_hLblDonTroop[$eTroopSuperMiner] = GUICtrlCreateLabel("0", $x + 15, $y + 6, 35, 17, $SS_RIGHT)
+	GUICtrlSetFont(-1, 8, $FW_BOLD, Default, "Arial", $CLEARTYPE_QUALITY)
 	GUICtrlSetColor(-1, $COLOR_BLACK)
 	_GUICtrlSetTip(-1, $sTxtTip)
 
-	_GUICtrlCreateIcon($g_sLibIconPath, $eIcnRocketBalloon, $x + 47, $y, 24, 24)
-	$sTxtTip = ""
-	_GUICtrlSetTip(-1, $sTxtTip)
-	GUICtrlCreateLabel(":", $x + 75, $y + 4, -1, 17)
-	GUICtrlSetFont(-1, 9, $FW_BOLD, Default, "Arial", $CLEARTYPE_QUALITY)
-	$g_hLblDonTroop[$eTroopRocketBalloon] = GUICtrlCreateLabel("0", $x + 50, $y + 4, 50, 17, $SS_RIGHT)
-	GUICtrlSetFont(-1, 9, $FW_BOLD, Default, "Arial", $CLEARTYPE_QUALITY)
-	GUICtrlSetColor(-1, $COLOR_BLACK)
-	_GUICtrlSetTip(-1, $sTxtTip)
-
-	_GUICtrlCreateIcon($g_sLibIconPath, $eIcnSuperWitch, $x + 104, $y, 24, 24)
-	$sTxtTip = ""
-	_GUICtrlSetTip(-1, $sTxtTip)
-	GUICtrlCreateLabel(":", $x + 132, $y + 4, -1, 17)
-	GUICtrlSetFont(-1, 9, $FW_BOLD, Default, "Arial", $CLEARTYPE_QUALITY)
-	$g_hLblDonTroop[$eTroopSuperWitch] = GUICtrlCreateLabel("0", $x + 107, $y + 4, 50, 17, $SS_RIGHT)
-	GUICtrlSetFont(-1, 9, $FW_BOLD, Default, "Arial", $CLEARTYPE_QUALITY)
-	GUICtrlSetColor(-1, $COLOR_BLACK)
-	_GUICtrlSetTip(-1, $sTxtTip)
-
-	$y += 28
-	_GUICtrlCreateIcon($g_sLibIconPath, $eIcnSuperBarbarian, $x - 10, $y, 24, 24)
-	$sTxtTip = ""
-	_GUICtrlSetTip(-1, $sTxtTip)
-	GUICtrlCreateLabel(":", $x + 18, $y + 4, -1, 17)
-	GUICtrlSetFont(-1, 9, $FW_BOLD, Default, "Arial", $CLEARTYPE_QUALITY)
-	$g_hLblDonTroop[$eTroopSuperBarbarian] = GUICtrlCreateLabel("0", $x + 3, $y + 4, 40, 17, $SS_RIGHT)
-	GUICtrlSetFont(-1, 9, $FW_BOLD, Default, "Arial", $CLEARTYPE_QUALITY)
-	GUICtrlSetColor(-1, $COLOR_BLACK)
-	_GUICtrlSetTip(-1, $sTxtTip)
-
-	_GUICtrlCreateIcon($g_sLibIconPath, $eIcnSuperWizard, $x + 47, $y, 24, 24)
-	$sTxtTip = ""
-	_GUICtrlSetTip(-1, $sTxtTip)
-	GUICtrlCreateLabel(":", $x + 75, $y + 4, -1, 17)
-	GUICtrlSetFont(-1, 9, $FW_BOLD, Default, "Arial", $CLEARTYPE_QUALITY)
-	$g_hLblDonTroop[$eTroopSuperWizard] = GUICtrlCreateLabel("0", $x + 50, $y + 4, 50, 17, $SS_RIGHT)
-	GUICtrlSetFont(-1, 9, $FW_BOLD, Default, "Arial", $CLEARTYPE_QUALITY)
-	GUICtrlSetColor(-1, $COLOR_BLACK)
-	_GUICtrlSetTip(-1, $sTxtTip)
-
-	_GUICtrlCreateIcon($g_sLibIconPath, $eIcnIceHound, $x + 104, $y, 24, 24)
-	$sTxtTip = ""
-	_GUICtrlSetTip(-1, $sTxtTip)
-	GUICtrlCreateLabel(":", $x + 132, $y + 4, -1, 17)
-	GUICtrlSetFont(-1, 9, $FW_BOLD, Default, "Arial", $CLEARTYPE_QUALITY)
-	$g_hLblDonTroop[$eTroopIceHound] = GUICtrlCreateLabel("0", $x + 107, $y + 4, 50, 17, $SS_RIGHT)
-	GUICtrlSetFont(-1, 9, $FW_BOLD, Default, "Arial", $CLEARTYPE_QUALITY)
-	GUICtrlSetColor(-1, $COLOR_BLACK)
-	_GUICtrlSetTip(-1, $sTxtTip)
-
-	$y += 28
-	_GUICtrlCreateIcon($g_sLibIconPath, $eIcnSuperArcher, $x - 10, $y, 24, 24)
-	$sTxtTip = ""
-	_GUICtrlSetTip(-1, $sTxtTip)
-	GUICtrlCreateLabel(":", $x + 18, $y + 4, -1, 17)
-	GUICtrlSetFont(-1, 9, $FW_BOLD, Default, "Arial", $CLEARTYPE_QUALITY)
-	$g_hLblDonTroop[$eTroopSuperArcher] = GUICtrlCreateLabel("0", $x + 3, $y + 4, 40, 17, $SS_RIGHT)
-	GUICtrlSetFont(-1, 9, $FW_BOLD, Default, "Arial", $CLEARTYPE_QUALITY)
-	GUICtrlSetColor(-1, $COLOR_BLACK)
-	_GUICtrlSetTip(-1, $sTxtTip)
-
-	_GUICtrlCreateIcon($g_sLibIconPath, $eIcnSuperDragon, $x + 47, $y, 24, 24)
-	$sTxtTip = ""
-	_GUICtrlSetTip(-1, $sTxtTip)
-	GUICtrlCreateLabel(":", $x + 75, $y + 4, -1, 17)
-	GUICtrlSetFont(-1, 9, $FW_BOLD, Default, "Arial", $CLEARTYPE_QUALITY)
-	$g_hLblDonTroop[$eTroopSuperDragon] = GUICtrlCreateLabel("0", $x + 50, $y + 4, 50, 17, $SS_RIGHT)
-	GUICtrlSetFont(-1, 9, $FW_BOLD, Default, "Arial", $CLEARTYPE_QUALITY)
-	GUICtrlSetColor(-1, $COLOR_BLACK)
-	_GUICtrlSetTip(-1, $sTxtTip)
-
-	_GUICtrlCreateIcon($g_sLibIconPath, $eIcnSuperBowler, $x + 104, $y, 24, 24)
-	$sTxtTip = ""
-	_GUICtrlSetTip(-1, $sTxtTip)
-	GUICtrlCreateLabel(":", $x + 132, $y + 4, -1, 17)
-	GUICtrlSetFont(-1, 9, $FW_BOLD, Default, "Arial", $CLEARTYPE_QUALITY)
-	$g_hLblDonTroop[$eTroopSuperBowler] = GUICtrlCreateLabel("0", $x + 107, $y + 4, 50, 17, $SS_RIGHT)
-	GUICtrlSetFont(-1, 9, $FW_BOLD, Default, "Arial", $CLEARTYPE_QUALITY)
-	GUICtrlSetColor(-1, $COLOR_BLACK)
-	_GUICtrlSetTip(-1, $sTxtTip)
-
-	$y += 28
-	_GUICtrlCreateIcon($g_sLibIconPath, $eIcnSuperGiant, $x - 10, $y, 24, 24)
-	$sTxtTip = ""
-	_GUICtrlSetTip(-1, $sTxtTip)
-	GUICtrlCreateLabel(":", $x + 18, $y + 4, -1, 17)
-	GUICtrlSetFont(-1, 9, $FW_BOLD, Default, "Arial", $CLEARTYPE_QUALITY)
-	$g_hLblDonTroop[$eTroopSuperGiant] = GUICtrlCreateLabel("0", $x + 3, $y + 4, 40, 17, $SS_RIGHT)
-	GUICtrlSetFont(-1, 9, $FW_BOLD, Default, "Arial", $CLEARTYPE_QUALITY)
-	GUICtrlSetColor(-1, $COLOR_BLACK)
-	_GUICtrlSetTip(-1, $sTxtTip)
-
-	_GUICtrlCreateIcon($g_sLibIconPath, $eIcnInfernoDragon, $x + 47, $y, 24, 24)
-	$sTxtTip = ""
-	_GUICtrlSetTip(-1, $sTxtTip)
-	GUICtrlCreateLabel(":", $x + 75, $y + 4, -1, 17)
-	GUICtrlSetFont(-1, 9, $FW_BOLD, Default, "Arial", $CLEARTYPE_QUALITY)
-	$g_hLblDonTroop[$eTroopInfernoDragon] = GUICtrlCreateLabel("0", $x + 50, $y + 4, 50, 17, $SS_RIGHT)
-	GUICtrlSetFont(-1, 9, $FW_BOLD, Default, "Arial", $CLEARTYPE_QUALITY)
-	GUICtrlSetColor(-1, $COLOR_BLACK)
-	_GUICtrlSetTip(-1, $sTxtTip)
-
-	_GUICtrlCreateIcon($g_sLibIconPath, $eIcnSuperMiner, $x + 104, $y, 24, 24)
-	$sTxtTip = ""
-	_GUICtrlSetTip(-1, $sTxtTip)
-	GUICtrlCreateLabel(":", $x + 132, $y + 4, -1, 17)
-	GUICtrlSetFont(-1, 9, $FW_BOLD, Default, "Arial", $CLEARTYPE_QUALITY)
-	$g_hLblDonTroop[$eTroopSuperMiner] = GUICtrlCreateLabel("0", $x + 107, $y + 4, 50, 17, $SS_RIGHT)
-	GUICtrlSetFont(-1, 9, $FW_BOLD, Default, "Arial", $CLEARTYPE_QUALITY)
-	GUICtrlSetColor(-1, $COLOR_BLACK)
-	_GUICtrlSetTip(-1, $sTxtTip)
-
-	$y += 28
-	_GUICtrlCreateIcon($g_sLibIconPath, $eIcnSneakyGoblin, $x - 10, $y, 24, 24)
-	$sTxtTip = ""
-	_GUICtrlSetTip(-1, $sTxtTip)
-	GUICtrlCreateLabel(":", $x + 18, $y + 4, -1, 17)
-	GUICtrlSetFont(-1, 9, $FW_BOLD, Default, "Arial", $CLEARTYPE_QUALITY)
-	$g_hLblDonTroop[$eTroopSneakyGoblin] = GUICtrlCreateLabel("0", $x + 3, $y + 4, 40, 17, $SS_RIGHT)
-	GUICtrlSetFont(-1, 9, $FW_BOLD, Default, "Arial", $CLEARTYPE_QUALITY)
-	GUICtrlSetColor(-1, $COLOR_BLACK)
-	_GUICtrlSetTip(-1, $sTxtTip)
-
-	_GUICtrlCreateIcon($g_sLibIconPath, $eIcnSuperMinion, $x + 47, $y, 24, 24)
-	$sTxtTip = ""
-	_GUICtrlSetTip(-1, $sTxtTip)
-	GUICtrlCreateLabel(":", $x + 75, $y + 4, -1, 17)
-	GUICtrlSetFont(-1, 9, $FW_BOLD, Default, "Arial", $CLEARTYPE_QUALITY)
-	$g_hLblDonTroop[$eTroopSuperMinion] = GUICtrlCreateLabel("0", $x + 50, $y + 4, 50, 17, $SS_RIGHT)
-	GUICtrlSetFont(-1, 9, $FW_BOLD, Default, "Arial", $CLEARTYPE_QUALITY)
-	GUICtrlSetColor(-1, $COLOR_BLACK)
-	_GUICtrlSetTip(-1, $sTxtTip)
-
-	_GUICtrlCreateIcon($g_sLibIconPath, $eIcnSuperHogRider, $x + 104, $y, 24, 24)
-	$sTxtTip = ""
-	_GUICtrlSetTip(-1, $sTxtTip)
-	GUICtrlCreateLabel(":", $x + 132, $y + 4, -1, 17)
-	GUICtrlSetFont(-1, 9, $FW_BOLD, Default, "Arial", $CLEARTYPE_QUALITY)
-	$g_hLblDonTroop[$eTroopSuperHogRider] = GUICtrlCreateLabel("0", $x + 107, $y + 4, 50, 17, $SS_RIGHT)
-	GUICtrlSetFont(-1, 9, $FW_BOLD, Default, "Arial", $CLEARTYPE_QUALITY)
-	GUICtrlSetColor(-1, $COLOR_BLACK)
-	_GUICtrlSetTip(-1, $sTxtTip)
 	GUICtrlCreateGroup("", -99, -99, 1, 1)
 
 	$x = $xStart

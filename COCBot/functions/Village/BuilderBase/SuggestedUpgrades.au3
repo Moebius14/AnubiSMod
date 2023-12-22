@@ -1,11 +1,11 @@
 ; #FUNCTION# ====================================================================================================================
 ; Name ..........: SuggestedUpgrades()
-; Description ...: Goes to Builders Island and Upgrades buildings with 'suggested upgrades window'.
+; Description ...: Goes to Builders Base and Upgrades buildings with 'suggested upgrades window'.
 ; Syntax ........: SuggestedUpgrades()
 ; Parameters ....:
 ; Return values .: None
 ; Author ........: ProMac (05-2017)
-; Modified ......: Moebius14 (11-2023)
+; Modified ......: Moebius14 (12-2023)
 ; Remarks .......: This file is part of MyBot, previously known as ClashGameBot. Copyright 2015-2023
 ;                  MyBot is distributed under the terms of the GNU GPL
 ; Related .......:
@@ -415,22 +415,6 @@ EndFunc   ;==>GetUpgradeButton
 Func NewBuildings($aResult, $bDebugImage = $g_bDebugImageSave)
 
 	Local $sImgDir = @ScriptDir & "\imgxml\Resources\BuildersBase\AutoUpgrade\NewBuildings\Buildings\*"
-	Local $Screencap = True, $Debug = False
-
-	If $g_BBBuildingPlacementFailed > 0 Then
-		$g_BBBuildingPlacementFailed = 0
-		$g_BBVillageDrag += 1
-		If $g_BBVillageDrag > 3 Then $g_BBVillageDrag = 0
-		; write to config?
-	EndIf
-
-	If $g_BBVillageDrag > 0 Then
-		If $g_BBVillageDrag = 1 Then ClickDrag(300, 85, 250, 85) ; drag left
-		If $g_BBVillageDrag = 2 Then ClickDrag(300, 85, 350, 85) ; drag right
-		If $g_BBVillageDrag = 3 Then ClickDrag(300, 85, 300, 135) ; drag down
-
-		If Not ClickOnBuilder() Then Return False
-	EndIf
 
 	If UBound($aResult) = 3 And $aResult[2] = "New" Then
 
@@ -444,7 +428,7 @@ Func NewBuildings($aResult, $bDebugImage = $g_bDebugImageSave)
 
 		If $bDebugImage Then SaveDebugDiamondImage("AutoUpgradeClock", $sSearchDiamond)
 
-		If IsArray($ClocksCoordinates) And UBound($ClocksCoordinates) > 0 Then
+		If IsArray($ClocksCoordinates) And UBound($ClocksCoordinates) > 1 Then
 			SetLog("[Clocks]: " & UBound($ClocksCoordinates), $COLOR_DEBUG)
 			For $i = 0 To UBound($ClocksCoordinates) - 1
 				SetLog("Clock " & $i + 1 & " Found at : " & $ClocksCoordinates[$i][1] & ", " & $ClocksCoordinates[$i][2])
@@ -456,31 +440,32 @@ Func NewBuildings($aResult, $bDebugImage = $g_bDebugImageSave)
 				EndIf
 
 				; Coordinates for Slot & Tile Zone from Clock position
-				Local $aCostArea = $ClocksCoordinates[$i][1] & "," & $ClocksCoordinates[$i][2] & "," & $ClocksCoordinates[$i][1] + 160 & "," & $ClocksCoordinates[$i][2] + 75
-				Local $aTileArea = $ClocksCoordinates[$i][1] + 120 & "," & $ClocksCoordinates[$i][2] - 177 & "," & $ClocksCoordinates[$i][1] + 160 & "," & $ClocksCoordinates[$i][2] - 127
+				Local $aCostArea = $ClocksCoordinates[$i][1] & "," & $ClocksCoordinates[$i][2] + 18 & "," & $ClocksCoordinates[$i][1] + 150 & "," & $ClocksCoordinates[$i][2] + 54
+				Local $aTileArea = $ClocksCoordinates[$i][1] + 120 & "," & $ClocksCoordinates[$i][2] - 167 & "," & $ClocksCoordinates[$i][1] + 160 & "," & $ClocksCoordinates[$i][2] - 137
 
 				; Lets see if exist resources
 				; look for white zeros
-				If QuickMIS("BC1", $g_sImgAutoUpgradeZero, $ClocksCoordinates[$i][1], $ClocksCoordinates[$i][2], $ClocksCoordinates[$i][1] + 160, $ClocksCoordinates[$i][2] + 75) Then
+				If QuickMIS("BC1", $g_sImgAutoUpgradeZero, $ClocksCoordinates[$i][1], $ClocksCoordinates[$i][2] + 18, $ClocksCoordinates[$i][1] + 150, $ClocksCoordinates[$i][2] + 54) Then
 
 					; Lets se if exist or NOT the Yellow Arrow, If Doesnt exist the [i] icon than exist the Yellow arrow , DONE
 					Local $InfoButton = False
-					If QuickMIS("BC1", $g_sImgAutoUpgradeInfo, $ClocksCoordinates[$i][1] + 120, $ClocksCoordinates[$i][2] - 177, $ClocksCoordinates[$i][1] + 160, $ClocksCoordinates[$i][2] - 127) Then $InfoButton = True
+					If QuickMIS("BC1", $g_sImgAutoUpgradeInfo, $ClocksCoordinates[$i][1] + 120, $ClocksCoordinates[$i][2] - 167, $ClocksCoordinates[$i][1] + 160, $ClocksCoordinates[$i][2] - 137) Then $InfoButton = True
 
 					If $InfoButton Then
 						SetLog("Failed to locate Arrow, looking next...")
 						If $bDebugImage Then SaveDebugRectImage("FoundInfo", $aTileArea)
 
 						If $i = UBound($ClocksCoordinates) - 1 Then
-							If $g_bDebugSetlog Then SetDebugLog("Slot without enough resources![1]", $COLOR_DEBUG)
+							If $g_bDebugSetlog Then SetDebugLog("Slot without enough resources!", $COLOR_DEBUG)
 							CloseWindow()
 							ExitLoop
 						EndIf
+
 						ContinueLoop
 					Else
 
 						; look for wall
-						If QuickMIS("BC1", $sImgDir, $ClocksCoordinates[$i][1] + 120, $ClocksCoordinates[$i][2] - 177, $ClocksCoordinates[$i][1] + 160, $ClocksCoordinates[$i][2] - 127) Then
+						If QuickMIS("BC1", $sImgDir, $ClocksCoordinates[$i][1] + 30, $ClocksCoordinates[$i][2] - 100, $ClocksCoordinates[$i][1] + 110, $ClocksCoordinates[$i][2] - 20) Then
 							SetLog("Found Wall in Building Menu Tile")
 							If $bDebugImage Then SaveDebugRectImage("AutoUpgradeBBwall", $aTileArea)
 							CloseWindow()
@@ -494,44 +479,43 @@ Func NewBuildings($aResult, $bDebugImage = $g_bDebugImageSave)
 						EndIf
 
 						Local $aiPoint[2]
-						$aiPoint[0] = $ClocksCoordinates[$i][1] + 120
+						$aiPoint[0] = $ClocksCoordinates[$i][1] + 70
 						$aiPoint[1] = $ClocksCoordinates[$i][2] - 77
 
 						If $bDebugImage Then SaveDebugPointImage("Tile", $aiPoint)
 
-						Click($ClocksCoordinates[$i][1] + 70, $ClocksCoordinates[$i][2] - 50, 1)
-						If _Sleep(3000) Then Return
+						Click($ClocksCoordinates[$i][1] + 70, $ClocksCoordinates[$i][2] - 77, 1)
+						If _Sleep(4000) Then Return
 
-						;Local $aSearchDiamondDebug = GetReduceDiamond(20)
-						Local $aSearchDiamond = GetDiamondFromRect2(80, 60, 800, 600)
+						Local $aSearchDiamond = GetDiamondFromRect2(80, 60, 800, 570 + $g_iMidOffsetY)
 						If $bDebugImage Then SaveDebugDiamondImage("UpgradeNewBldgYesNo", $aSearchDiamond)
 
 						; Lets search for the Correct Symbol on field
-						If QuickMIS("BC1", $g_sImgAutoUpgradeNewBldgYes, 80, 60, 800, 600) Then
+						If QuickMIS("BC1", $g_sImgAutoUpgradeNewBldgYes, 80, 60, 800, 570 + $g_iMidOffsetY) Then
 							Click($g_iQuickMISX, $g_iQuickMISY)
 							SetLog("Placed a new Building on Builder Base!", $COLOR_INFO)
 
 							If _Sleep(1000) Then Return
 
 							; Lets check if exist the [x] , Some Buildings like Traps when you place one will give other to place automatically!
-							If QuickMIS("BC1", $g_sImgAutoUpgradeNewBldgNo, 80, 60, 800, 600) Then
+							If QuickMIS("BC1", $g_sImgAutoUpgradeNewBldgNo, 80, 60, 800, 570 + $g_iMidOffsetY) Then
 								SetLog("Found another building!")
 								Click($g_iQuickMISX, $g_iQuickMISY)
 							EndIf
 
 							Return True
 						Else
-							If Not QuickMIS("BC1", $g_sImgAutoUpgradeNewBldgNo, 80, 60, 800, 600) And QuickMIS("BC1", $sImgTunnel, 0, 190 + $g_iMidOffsetY, $g_iGAME_WIDTH, $g_iGAME_HEIGHT) Then
-								ClickDrag(700, 530, 170, 110)
+							If Not QuickMIS("BC1", $g_sImgAutoUpgradeNewBldgNo, 80, 60, 800, 570 + $g_iMidOffsetY) And QuickMIS("BC1", $sImgTunnel, 0, 190 + $g_iMidOffsetY, $g_iGAME_WIDTH, $g_iGAME_HEIGHT) Then
+								ClickDrag(700, 500 + $g_iMidOffsetY, 170, 80 + $g_iMidOffsetY)
 								If _Sleep(2000) Then Return
-								If QuickMIS("BC1", $g_sImgAutoUpgradeNewBldgYes, 80, 60, 800, 600) Then
+								If QuickMIS("BC1", $g_sImgAutoUpgradeNewBldgYes, 80, 60, 800, 570 + $g_iMidOffsetY) Then
 									Click($g_iQuickMISX, $g_iQuickMISY)
 									SetLog("Placed a new Building on Builder Base!", $COLOR_INFO)
 
 									If _Sleep(1000) Then Return
 
 									; Lets check if exist the [x] , Some Buildings like Traps when you place one will give other to place automatically!
-									If QuickMIS("BC1", $g_sImgAutoUpgradeNewBldgNo, 80, 60, 800, 600) Then
+									If QuickMIS("BC1", $g_sImgAutoUpgradeNewBldgNo, 80, 60, 800, 570 + $g_iMidOffsetY) Then
 										SetLog("Found another building!")
 										Click($g_iQuickMISX, $g_iQuickMISY)
 									EndIf
@@ -541,18 +525,16 @@ Func NewBuildings($aResult, $bDebugImage = $g_bDebugImageSave)
 							EndIf
 
 							For $j = 0 To 9
-								If QuickMIS("BC1", $g_sImgAutoUpgradeNewBldgNo, 80, 60, 800, 600) Then
+								If QuickMIS("BC1", $g_sImgAutoUpgradeNewBldgNo, 80, 60, 800, 570 + $g_iMidOffsetY) Then
 									Click($g_iQuickMISX, $g_iQuickMISY)
 									SetLog("Failed to deploy a new building on BB! [" & $g_iQuickMISX & "," & $g_iQuickMISY & "]", $COLOR_ERROR)
-									$g_BBBuildingPlacementFailed += 1
-									SetDebugLog("BuildingPlacementFailed : " & $g_BBBuildingPlacementFailed, $COLOR_ERROR)
 
 									If _Sleep(100) Then Return False
 
 									ClickOnBuilder()
 
 									If _Sleep(1000) Then Return False
-									ExitLoop 2
+									ExitLoop
 								EndIf
 
 								SetLog("Failed to locate Cancel button [x] : " & $j)
@@ -563,14 +545,15 @@ Func NewBuildings($aResult, $bDebugImage = $g_bDebugImageSave)
 					EndIf
 				Else
 					If $bDebugImage Then SaveDebugRectImage("NoWhiteZeros", $aCostArea)
-					If $g_bDebugSetlog Then SetDebugLog("Slot without enough resources![2]", $COLOR_DEBUG)
+					SetLog("Slot without enough resources!", $COLOR_INFO)
 					If $i = UBound($ClocksCoordinates) - 1 Then CloseWindow()
 				EndIf
 			Next
 		Else
-			SetLog("Slot without enough resources![3]", $COLOR_INFO)
+			SetLog("No Clock Found!", $COLOR_ERROR)
 			CloseWindow()
 		EndIf
+
 	EndIf
 
 	SetLog("Failed to place new building")

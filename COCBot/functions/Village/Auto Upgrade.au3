@@ -382,6 +382,8 @@ Func _AutoUpgrade()
 				$bMustIgnoreUpgrade = ($g_iChkUpgradesToIgnore[31] = 1) ? True : False
 			Case "Spell Tower"
 				$bMustIgnoreUpgrade = ($g_iChkUpgradesToIgnore[34] = 1) ? True : False
+			Case "Blacksmith"
+				$bMustIgnoreUpgrade = ($g_iChkUpgradesToIgnore[35] = 1) ? True : False
 			Case Else
 				$bMustIgnoreUpgrade = False
 		EndSwitch
@@ -521,6 +523,9 @@ Func _AutoUpgrade()
 					$g_aUpgradeNameLevel[1] = "Giga Inferno"
 					SetLog("Launched upgrade of Giga Inferno successfully !", $COLOR_SUCCESS)
 				Case 15
+					$g_aUpgradeNameLevel[1] = "Giga Inferno"
+					SetLog("Launched upgrade of Giga Inferno successfully !", $COLOR_SUCCESS)
+				Case 16
 					$g_aUpgradeNameLevel[1] = "Giga Inferno"
 					SetLog("Launched upgrade of Giga Inferno successfully !", $COLOR_SUCCESS)
 			EndSwitch

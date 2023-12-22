@@ -20,7 +20,7 @@ Func SwitchAccountVariablesReload($sType = "Load", $iAccount = $g_iCurAccount)
 	Local $aiZero83[8][3] = [[0, 0, 0], [0, 0, 0], [0, 0, 0], [0, 0, 0], [0, 0, 0], [0, 0, 0], [0, 0, 0], [0, 0, 0]]
 	Local $aiZero84[8][4] = [[0, 0, 0, 0], [0, 0, 0, 0], [0, 0, 0, 0], [0, 0, 0, 0], [0, 0, 0, 0], [0, 0, 0, 0], [0, 0, 0, 0], [0, 0, 0, 0]]
 	Local $asEmpty[8] = ["", "", "", "", "", "", "", ""]
-	Local $aiZeroTroop[$eTroopCount] = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+	Local $aiZeroTroop[$eTroopCount] = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
 	Local $aiZeroSpell[$eSpellCount] = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
 
 	; FirstRun
@@ -144,6 +144,9 @@ Func SwitchAccountVariablesReload($sType = "Load", $iAccount = $g_iCurAccount)
 	$g_bIsCGCoolDownTime = False
 	$sPurgeTimeCG = 0
 
+	;StarBonus
+	Static $SStarBonusReceived = $aiZero
+
 	; First time switch account
 	Switch $sType
 		Case "Reset"
@@ -266,6 +269,9 @@ Func SwitchAccountVariablesReload($sType = "Load", $iAccount = $g_iCurAccount)
 			$gSbIsBBevent = $aiZero
 			$SIsCGEventRunning = $aiZero
 			$Sb_COCClose = $aiTrue
+
+			;StarBonus
+			$SStarBonusReceived = $aiZero
 
 			; Hero State
 			$aiHeroAvailable = $aiZero
@@ -459,6 +465,9 @@ Func SwitchAccountVariablesReload($sType = "Load", $iAccount = $g_iCurAccount)
 			$SIsCGEventRunning[$iAccount] = $IsCGEventRunning
 			$Sb_COCClose[$iAccount] = $b_COCClose
 
+			;StarBonus
+			$SStarBonusReceived[$iAccount] = $StarBonusReceived
+
 			; Hero State
 			$aiHeroAvailable[$iAccount] = $g_iHeroAvailable
 			$aiHeroUpgradingBit[$iAccount] = $g_iHeroUpgradingBit
@@ -640,6 +649,9 @@ Func SwitchAccountVariablesReload($sType = "Load", $iAccount = $g_iCurAccount)
 			$g_bIsBBevent = $gSbIsBBevent[$iAccount]
 			$IsCGEventRunning = $SIsCGEventRunning[$iAccount]
 			$b_COCClose = $Sb_COCClose[$iAccount]
+
+			;StarBonus
+			$StarBonusReceived = $SStarBonusReceived[$iAccount]
 
 			; Hero State
 			$g_iHeroAvailable = $aiHeroAvailable[$iAccount]

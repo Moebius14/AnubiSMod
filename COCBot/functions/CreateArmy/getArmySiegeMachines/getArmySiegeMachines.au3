@@ -43,7 +43,7 @@ Func getArmySiegeMachines($bOpenArmyWindow = False, $bCloseArmyWindow = False, $
 		WEnd
 	EndIf
 
-	Local $sSiegeDiamond = GetDiamondFromRect2(605, 170 + $g_iMidOffsetY, 835, 260 + $g_iMidOffsetY) ; Contains iXStart, $iYStart, $iXEnd, $iYEnd
+	Local $sSiegeDiamond = GetDiamondFromRect2(575, 190 + $g_iMidOffsetY, 770, 270 + $g_iMidOffsetY) ; Contains iXStart, $iYStart, $iXEnd, $iYEnd
 
 	If $g_bDebugFuncTime Then StopWatchStart("findMultiple, \imgxml\ArmyOverview\SiegeMachines")
 	Local $aCurrentSiegeMachines = findMultiple(@ScriptDir & "\imgxml\ArmyOverview\SiegeMachines", $sSiegeDiamond, $sSiegeDiamond, 0, 1000, 0, "objectname,objectpoints", $bNeedCapture) ; Returns $aCurrentSiegeMachines[index] = $aArray[2] = ["Siege M Shortname", CordX,CordY]
@@ -55,7 +55,7 @@ Func getArmySiegeMachines($bOpenArmyWindow = False, $bCloseArmyWindow = False, $
 	Local $aCurrentTroopsEmpty[$eSiegeMachineCount] = [0, 0, 0, 0, 0, 0, 0] ; Local Copy to reset Siege Machine Array
 
 	; Get Siege Capacities
-	Local $sSiegeInfo = getSiegeCampCap(747, 144 + $g_iMidOffsetY, $bNeedCapture) ; OCR read Siege built and total
+	Local $sSiegeInfo = getSiegeCampCap(707, 168 + $g_iMidOffsetY, $bNeedCapture) ; OCR read Siege built and total
 	If $g_bDebugSetlogTrain Then SetLog("OCR $sSiegeInfo = " & $sSiegeInfo, $COLOR_DEBUG)
 	Local $aGetSiegeCap = StringSplit($sSiegeInfo, "#", $STR_NOCOUNT) ; split the built Siege number from the total Siege number
 	If UBound($aGetSiegeCap) = 2 Then
@@ -76,12 +76,12 @@ Func getArmySiegeMachines($bOpenArmyWindow = False, $bCloseArmyWindow = False, $
 
 			If $iSiegeIndex < 0 Then ContinueLoop
 
-			$g_aiCurrentSiegeMachines[$iSiegeIndex] = Number(getBarracksNewTroopQuantity(Slot($aSiegeCoords[0], $aSiegeCoords[1]), 174 + $g_iMidOffsetY, $bNeedCapture)) ; Get The Quantity of the Troop, Slot() Does return the exact spot to read the Number from
+			$g_aiCurrentSiegeMachines[$iSiegeIndex] = Number(getBarracksNewTroopQuantity(Slot($aSiegeCoords[0], $aSiegeCoords[1]), 194 + $g_iMidOffsetY, $bNeedCapture)) ; Get The Quantity of the Troop, Slot() Does return the exact spot to read the Number from
 
 			$sSiegeName = $g_aiCurrentSiegeMachines[$iSiegeIndex] >= 2 ? $g_asSiegeMachineNames[$iSiegeIndex] & "s" : $g_asSiegeMachineNames[$iSiegeIndex] & ""
 
 			If $g_bDebugSetlogTrain Then Setlog($sSiegeName & " Coord: (" & $aSiegeCoords[0] & "," & $aSiegeCoords[1] & ") Quant :" & $g_aiCurrentSiegeMachines[$iSiegeIndex])
-			If $g_bDebugSetlogTrain Then Setlog($sSiegeName & " Slot (" & Slot($aSiegeCoords[0], $aSiegeCoords[1]) & "," & 174 + $g_iMidOffsetY & ")")
+			If $g_bDebugSetlogTrain Then Setlog($sSiegeName & " Slot (" & Slot($aSiegeCoords[0], $aSiegeCoords[1]) & "," & 194 + $g_iMidOffsetY & ")")
 
 			If $bSetLog Then SetLog(" - " & $g_aiCurrentSiegeMachines[$iSiegeIndex] & " " & $sSiegeName & " Available", $COLOR_SUCCESS)
 		Next

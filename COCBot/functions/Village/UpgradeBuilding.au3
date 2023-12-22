@@ -23,7 +23,7 @@ Func UpgradeBuilding()
 	Local $iAvailBldr, $iAvailGold, $iAvailElixir, $iAvailDark, $iAvailBldrAtStart = True
 	Local $Endtime, $Endperiod, $TimeAdd
 	Local $iUpGrdEndTimeDiff = 0
-	Local $aCheckFrequency[13] = [5, 15, 20, 30, 60, 60, 120, 240, 240, 240, 240, 300, 300] ; Dwell Time in minutes between each repeat upgrade check TH3-15.  TH reference are game TH level - 3.  So TH15 = 12 in this array.
+	Local $aCheckFrequency[14] = [5, 15, 20, 30, 60, 60, 120, 240, 240, 240, 240, 300, 300, 300] ; Dwell Time in minutes between each repeat upgrade check TH3-15.  TH reference are game TH level - 3.  So TH16 = 13 in this array.
 	Local $iDTDiff
 	Local $bChkAllRptUpgrade = False
 	Local $sTime
@@ -70,19 +70,18 @@ Func UpgradeBuilding()
 	$iAvailBldr = $g_iFreeBuilderCount - ($g_bAutoUpgradeWallsEnable And $g_bUpgradeWallSaveBuilder ? 1 : 0) - ReservedBuildersForHeroes()
 
 	If $iAvailBldr <= 0 Then
-		If $g_iFreeBuilderCount - ($g_bAutoUpgradeWallsEnable And $g_bUpgradeWallSaveBuilder ? 1 : 0) >= ReservedBuildersForHeroes() And $IsUpgradeAnHero Then
-			SetLog("We have builder available for upgrade Hero")
-		Else	
-			SetLog("No builder available for upgrade process")
-		EndIf
 		If $IsGearUp Then
-			SetLog("But let's Try To Start Gear Up upgrade process", $COLOR_ACTION)
+			SetLog("Let's Try To Start Gear Up upgrade process", $COLOR_ACTION)
 			$iAvailBldrAtStart = False
 		Else
 			If $IsUpgradeAnHero Then
-				If ($g_iFreeBuilderCount - ($g_bAutoUpgradeWallsEnable And $g_bUpgradeWallSaveBuilder ? 1 : 0)) <= 0 Then Return False
+				If ($g_iFreeBuilderCount - ($g_bAutoUpgradeWallsEnable And $g_bUpgradeWallSaveBuilder ? 1 : 0)) <= 0 Then
+					SetLog("No builder available for upgrade process")
+					Return False
+				EndIf
 				SetLog("Let's Try To Start Hero upgrade process", $COLOR_ACTION)
 			Else
+				SetLog("No builder available for upgrade process")
 				Return False
 			EndIf
 		EndIf
@@ -346,6 +345,8 @@ Func UpgradeNormal($iUpgradeNumber)
 					$aResult[1] = "Giga Inferno"
 				Case 15
 					$aResult[1] = "Giga Inferno"
+				Case 16
+					$aResult[1] = "Giga Inferno"
 			EndSwitch
 			$aUpgradeButton = $aTmpUpgradeButton
 		EndIf
@@ -371,6 +372,8 @@ Func UpgradeNormal($iUpgradeNumber)
 						Case 14
 							$aResult[1] = "Giga Inferno"
 						Case 15
+							$aResult[1] = "Giga Inferno"
+						Case 16
 							$aResult[1] = "Giga Inferno"
 					EndSwitch
 					$aUpgradeButton = $aTmpUpgradeButton

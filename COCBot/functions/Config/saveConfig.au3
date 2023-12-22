@@ -193,6 +193,9 @@ Func SaveBuildingConfig()
 	_Ini_Add("upgrade", "PetHousePosX", $g_aiPetHousePos[0])
 	_Ini_Add("upgrade", "PetHousePosY", $g_aiPetHousePos[1])
 
+	_Ini_Add("upgrade", "BlacksmithPosX", $g_aiBlacksmithPos[0])
+	_Ini_Add("upgrade", "BlacksmithPosY", $g_aiBlacksmithPos[1])
+
 	_Ini_Add("upgrade", "StarLabPosX", $g_aiStarLaboratoryPos[0])
 	_Ini_Add("upgrade", "StarLabPosY", $g_aiStarLaboratoryPos[1])
 
@@ -254,6 +257,7 @@ Func SaveBuildingConfig()
 	ApplyConfig_600_14(GetApplyConfigSaveAction())
 	_Ini_Add("upgrade", "upgradetroops", $g_bAutoLabUpgradeEnable ? 1 : 0)
 	_Ini_Add("upgrade", "uselabpotion", $g_bUseLabPotion ? 1 : 0)
+	_Ini_Add("upgrade", "Cmblabpotion", $g_iCmbLabPotion)
 	_Ini_Add("upgrade", "upgradetroopname", $g_iCmbLaboratory)
 	Local $string = ""
 	For $i = 0 To UBound($g_aCmbLabUpgradeOrder) - 1
@@ -739,6 +743,12 @@ Func SaveConfig_600_15()
 	_Ini_Add("upgrade", "HeroReservedBuilder", $g_iHeroReservedBuilder)
 	_Ini_Add("upgrade", "UseHeroBooks", $g_bUseHeroBooks ? 1 : 0)
 	_Ini_Add("upgrade", "HeroMinUpgradeTime", $g_iHeroMinUpgradeTime)
+	; Equipment Order
+	_Ini_Add("upgrade", "ChkUpgradeEquipment", $g_bChkCustomEquipmentOrderEnable ? 1 : 0)
+	For $z = 0 To UBound($g_aiCmbCustomEquipmentsOrder) - 1
+		_Ini_Add("upgrade", "ChkEquipment" & $z, $g_bChkCustomEquipmentsOrder[$z] ? 1 : 0)
+		_Ini_Add("upgrade", "cmbEquipmentOrder" & $z, $g_aiCmbCustomEquipmentsOrder[$z])
+	Next
 	For $i = 0 To $ePetCount - 1
 		_Ini_Add("upgrade", "UpgradePet[" & $g_asPetShortNames[$i] & "]", $g_bUpgradePetsEnable[$i] ? 1 : 0)
 	Next
@@ -746,6 +756,7 @@ Func SaveConfig_600_15()
 	_Ini_Add("upgrade", "CmbSortPetUpgrade", $g_iCmbSortPetUpgrade)
 	_Ini_Add("upgrade", "CmbSortPetUpgrade2", $g_iCmbSortPetUpgradeLvLCost)
 	_Ini_Add("upgrade", "ChkPetPotion", $g_bUsePetPotion ? 1 : 0)
+	_Ini_Add("upgrade", "CmbPetpotion", $g_iCmbPetPotion)
 EndFunc   ;==>SaveConfig_600_15
 
 Func SaveConfig_600_16()
@@ -784,7 +795,7 @@ Func SaveConfig_600_17()
 	_Ini_Add("upgrade", "walllvl", $g_iCmbUpgradeWallsLevel)
 	_Ini_Add("upgrade", "HowUseWR", $g_iHowUseWallRings)
 	_Ini_Add("upgrade", "CmbUseWR", $g_iCmbUseWallRings)
-	For $i = 4 To 16
+	For $i = 4 To 17
 		_Ini_Add("Walls", "Wall" & StringFormat("%02d", $i), $g_aiWallsCurrentCount[$i])
 	Next
 	_Ini_Add("upgrade", "WallCost", $g_iWallCost)

@@ -87,6 +87,14 @@ Func BotDetectFirstTime()
 		EndIf
 	EndIf
 
+	If Number($g_iTownHallLevel) >= 8 Then
+		If _Sleep($DELAYBOTDETECT3) Then Return
+		If $g_aiBlacksmithPos[0] = "" Or $g_aiBlacksmithPos[0] = -1 Then
+			LocateBlacksmith(False)
+			SaveConfig()
+		EndIf
+	EndIf
+
 	If Number($g_iTownHallLevel) >= 7 Then
 		If $g_iCmbBoostBarbarianKing > 0 Or $g_bUpgradeKingEnable Then
 			If _Sleep($DELAYBOTDETECT3) Then Return

@@ -993,13 +993,15 @@ Func ApplyConfig_600_14($TypeReadSave)
 		Case "Read"
 			GUICtrlSetState($g_hChkAutoLabUpgrades, $g_bAutoLabUpgradeEnable ? $GUI_CHECKED : $GUI_UNCHECKED)
 			GUICtrlSetState($g_hUseLabPotion, $g_bUseLabPotion ? $GUI_CHECKED : $GUI_UNCHECKED)
+			_GUICtrlComboBox_SetCurSel($g_hCmbLabPotion, $g_iCmbLabPotion)
 			_GUICtrlComboBox_SetCurSel($g_hCmbLaboratory, $g_iCmbLaboratory)
-			If $g_iCmbLaboratory > 46 Then
+			If $g_iCmbLaboratory > 47 Then
 				_GUICtrlSetImage($g_hPicLabUpgrade, $g_sLibModIconPath, $g_avLabTroops[$g_iCmbLaboratory][1])
 			Else
 				_GUICtrlSetImage($g_hPicLabUpgrade, $g_sLibIconPath, $g_avLabTroops[$g_iCmbLaboratory][1])
 			EndIf
 			chkLab()
+			chkUseLabPotion()
 			For $i = 0 To UBound($g_aCmbLabUpgradeOrder) - 1
 				_GUICtrlComboBox_SetCurSel($g_ahCmbLabUpgradeOrder[$i], $g_aCmbLabUpgradeOrder[$i])
 			Next
@@ -1016,6 +1018,7 @@ Func ApplyConfig_600_14($TypeReadSave)
 		Case "Save"
 			$g_bAutoLabUpgradeEnable = (GUICtrlRead($g_hChkAutoLabUpgrades) = $GUI_CHECKED)
 			$g_bUseLabPotion = (GUICtrlRead($g_hUseLabPotion) = $GUI_CHECKED)
+			$g_iCmbLabPotion = _GUICtrlComboBox_GetCurSel($g_hCmbLabPotion)
 			$g_iCmbLaboratory = _GUICtrlComboBox_GetCurSel($g_hCmbLaboratory)
 			For $i = 0 To UBound($g_ahCmbLabUpgradeOrder) - 1
 				$g_aCmbLabUpgradeOrder[$i] = _GUICtrlComboBox_GetCurSel($g_ahCmbLabUpgradeOrder[$i])
@@ -1056,6 +1059,33 @@ Func ApplyConfig_600_15($TypeReadSave)
 			GUICtrlSetState($g_hUseHeroBooks, $g_bUseHeroBooks ? $GUI_CHECKED : $GUI_UNCHECKED)
 			GUICtrlSetData($g_hHeroMinUpgradeTime, $g_iHeroMinUpgradeTime)
 
+			GUICtrlSetState($g_hChkCustomEquipmentOrderEnable, $g_bChkCustomEquipmentOrderEnable ? $GUI_CHECKED : $GUI_UNCHECKED)
+			For $z = 0 To UBound($g_ahCmbEquipmentOrder) - 1
+				GUICtrlSetState($g_hChkCustomEquipmentsOrder[$z], $g_bChkCustomEquipmentsOrder[$z] ? $GUI_CHECKED : $GUI_UNCHECKED)
+				_GUICtrlComboBox_SetCurSel($g_ahCmbEquipmentOrder[$z], $g_aiCmbCustomEquipmentsOrder[$z])
+				_GUICtrlSetImage($g_ahImgEquipmentOrder[$z], $g_sLibIconPath, $g_aiEquipmentsOrderIcon[$g_aiCmbCustomEquipmentsOrder[$z] + 1])
+				_GUICtrlSetImage($g_ahImgEquipmentOrder2[$z], $g_sLibIconPath, $g_aiEquipmentsOrderIcon2[$g_aiCmbCustomEquipmentsOrder[$z] + 1])
+			Next
+
+			Local $iValueSet = 0
+			For $i = 0 To UBound($g_ahCmbEquipmentOrder) - 1
+				Local $iValue = _GUICtrlComboBox_GetCurSel($g_ahCmbEquipmentOrder[$i])
+				If $iValue <> -1 Then
+					$iValueSet += 1
+				EndIf
+			Next
+			If $iValueSet > 0 And $iValueSet < $eEquipmentsCount Then
+				SetLog("Set your Equipment Upgrade Order!")
+				btnEquipmentOrderSet()
+			EndIf
+			If Not ChangeEquipmentOrder() Then SetDefaultEquipmentGroup()
+			If $iValueSet = 0 And $g_bChkCustomEquipmentOrderEnable Then
+				SetLog("Set your Equipment Upgrade Order!")
+				btnEquipmentOrderSet()
+			EndIf
+			EnableUpgradeEquipment()
+			chkEquipmentOrder()
+
 			For $i = 0 To $ePetCount - 1
 				GUICtrlSetState($g_hChkUpgradePets[$i], $g_bUpgradePetsEnable[$i] ? $GUI_CHECKED : $GUI_UNCHECKED)
 			Next
@@ -1063,6 +1093,7 @@ Func ApplyConfig_600_15($TypeReadSave)
 			_GUICtrlComboBox_SetCurSel($g_hCmbSortPetUpgrade, $g_iCmbSortPetUpgrade)
 			_GUICtrlComboBox_SetCurSel($g_hCmbSortPetUpgradeLvLCost, $g_iCmbSortPetUpgradeLvLCost)
 			GUICtrlSetState($g_hUsePetPotion, $g_bUsePetPotion ? $GUI_CHECKED : $GUI_UNCHECKED)
+			_GUICtrlComboBox_SetCurSel($g_hCmbPetPotion, $g_iCmbPetPotion)
 			chkUpgradePets()
 		Case "Save"
 			$g_bUpgradeKingEnable = (GUICtrlRead($g_hChkUpgradeKing) = $GUI_CHECKED)
@@ -1072,7 +1103,11 @@ Func ApplyConfig_600_15($TypeReadSave)
 			$g_iHeroReservedBuilder = _GUICtrlComboBox_GetCurSel($g_hCmbHeroReservedBuilder)
 			$g_bUseHeroBooks = (GUICtrlRead($g_hUseHeroBooks) = $GUI_CHECKED)
 			$g_iHeroMinUpgradeTime = GUICtrlRead($g_hHeroMinUpgradeTime)
-
+			$g_bChkCustomEquipmentOrderEnable = (GUICtrlRead($g_hChkCustomEquipmentOrderEnable) = $GUI_CHECKED)
+			For $z = 0 To UBound($g_ahCmbEquipmentOrder) - 1
+				$g_bChkCustomEquipmentsOrder[$z] = (GUICtrlRead($g_hChkCustomEquipmentsOrder[$z]) = $GUI_CHECKED)
+				$g_aiCmbCustomEquipmentsOrder[$z] = _GUICtrlComboBox_GetCurSel($g_ahCmbEquipmentOrder[$z])
+			Next
 			For $i = 0 To $ePetCount - 1
 				$g_bUpgradePetsEnable[$i] = (GUICtrlRead($g_hChkUpgradePets[$i]) = $GUI_CHECKED)
 			Next
@@ -1080,6 +1115,7 @@ Func ApplyConfig_600_15($TypeReadSave)
 			$g_iCmbSortPetUpgrade = _GUICtrlComboBox_GetCurSel($g_hCmbSortPetUpgrade)
 			$g_iCmbSortPetUpgradeLvLCost = _GUICtrlComboBox_GetCurSel($g_hCmbSortPetUpgradeLvLCost)
 			$g_bUsePetPotion = (GUICtrlRead($g_hUsePetPotion) = $GUI_CHECKED)
+			$g_iCmbPetPotion = _GUICtrlComboBox_GetCurSel($g_hCmbPetPotion)
 	EndSwitch
 EndFunc   ;==>ApplyConfig_600_15
 
@@ -1192,7 +1228,7 @@ Func ApplyConfig_600_17($TypeReadSave)
 			_GUICtrlComboBox_SetCurSel($g_hCmbWalls, $g_iCmbUpgradeWallsLevel)
 			_GUICtrlComboBox_SetCurSel($g_hHowUseWallRings, $g_iHowUseWallRings)
 			_GUICtrlComboBox_SetCurSel($g_hCmbUseWallRings, $g_iCmbUseWallRings)
-			For $i = 4 To 16
+			For $i = 4 To 17
 				GUICtrlSetData($g_ahWallsCurrentCount[$i], $g_aiWallsCurrentCount[$i])
 			Next
 			cmbWalls()
@@ -1213,7 +1249,7 @@ Func ApplyConfig_600_17($TypeReadSave)
 			$g_iCmbUpgradeWallsLevel = _GUICtrlComboBox_GetCurSel($g_hCmbWalls)
 			$g_iHowUseWallRings = _GUICtrlComboBox_GetCurSel($g_hHowUseWallRings)
 			$g_iCmbUseWallRings = _GUICtrlComboBox_GetCurSel($g_hCmbUseWallRings)
-			For $i = 4 To 16 ; added wall-lvl16
+			For $i = 4 To 17 ; added wall-lvl17
 				$g_aiWallsCurrentCount[$i] = Number(GUICtrlRead($g_ahWallsCurrentCount[$i]))
 			Next
 	EndSwitch

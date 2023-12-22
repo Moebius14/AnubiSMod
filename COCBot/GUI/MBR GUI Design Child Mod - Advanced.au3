@@ -124,7 +124,7 @@ Func TabAdvancedGUI()
 	$g_hChkPersoChallengesinPause = GUICtrlCreateCheckbox(GetTranslatedFileIni("MBR GUI Design - Advanced", "Check Perso Challenges in pause time", "Challenges/Pause"), $x + 320, $y + 25, -1, -1)
 	GUICtrlSetState(-1, $GUI_CHECKED)
 	GUICtrlSetOnEvent(-1, "ChkPersoChallengesinPause")
-	_GUICtrlSetTip(-1, GetTranslatedFileIni("MBR GUI Design - Advanced", "CheckPersoChallengesEverytime", "Check Personnal Challenges even when pause time."))
+	_GUICtrlSetTip(-1, GetTranslatedFileIni("MBR GUI Design - Advanced", "CheckPersoChallengesEverytime", "Check Daily Challenges even when pause time."))
 
 	GUICtrlCreateIcon($g_sLibModIconPath, $eIcnChrono, $x + 15, $y + 52, 24, 24)
 	$g_acmdRandomDelay = GUICtrlCreateCheckbox(GetTranslatedFileIni("MBR GUI Design - Advanced", "chkRandomPauseDelayEnable", "Enable Random Pause Delay Between"), $x + 45, $y + 55, -1, -1)

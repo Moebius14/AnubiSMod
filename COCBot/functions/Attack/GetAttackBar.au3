@@ -285,6 +285,7 @@ Func ExtendedAttackBarCheck($aAttackBarFirstSearch, $bRemaining, $sSearchDiamond
 
 		If UBound($aAttackBar, 1) = 0 Then
 			SetLog("Error in AttackBarCheck(): $aAttackBar has no results in it", $COLOR_ERROR)
+			SaveDebugImage("ErrorAttackBarCheck", False, Default, "#3")
 			Return ""
 		EndIf
 

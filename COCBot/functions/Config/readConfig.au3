@@ -232,6 +232,9 @@ Func ReadBuildingConfig()
 
 		IniReadS($g_aiPetHousePos[0], $g_sProfileBuildingPath, "upgrade", "PetHousePosX", -1, "int")
 		IniReadS($g_aiPetHousePos[1], $g_sProfileBuildingPath, "upgrade", "PetHousePosY", -1, "int")
+
+		IniReadS($g_aiBlacksmithPos[0], $g_sProfileBuildingPath, "upgrade", "BlacksmithPosX", -1, "int")
+		IniReadS($g_aiBlacksmithPos[1], $g_sProfileBuildingPath, "upgrade", "BlacksmithPosY", -1, "int")
 	EndIf
 
 	IniReadS($g_aiStarLaboratoryPos[0], $g_sProfileBuildingPath, "upgrade", "StarLabPosX", -1, "int")
@@ -798,6 +801,7 @@ EndFunc   ;==>ReadConfig_600_13
 Func ReadConfig_600_14()
 	IniReadS($g_bAutoLabUpgradeEnable, $g_sProfileBuildingPath, "upgrade", "upgradetroops", False, "Bool")
 	IniReadS($g_bUseLabPotion, $g_sProfileBuildingPath, "upgrade", "uselabpotion", False, "Bool")
+	IniReadS($g_iCmbLabPotion, $g_sProfileBuildingPath, "upgrade", "Cmblabpotion", 0, "int")
 	IniReadS($g_iCmbLaboratory, $g_sProfileBuildingPath, "upgrade", "upgradetroopname", 0, "int")
 	Local $str = StringSplit(IniRead($g_sProfileBuildingPath, "upgrade", "upgradeorderlist", "-1| -1| -1| -1| -1| -1| -1| -1"), "|", $STR_NOCOUNT)
 	For $i = 0 To UBound($g_aCmbLabUpgradeOrder) - 1
@@ -824,6 +828,12 @@ Func ReadConfig_600_15()
 	IniReadS($g_iHeroReservedBuilder, $g_sProfileConfigPath, "upgrade", "HeroReservedBuilder", 0, "int")
 	IniReadS($g_bUseHeroBooks, $g_sProfileConfigPath, "upgrade", "UseHeroBooks", False, "Bool")
 	IniReadS($g_iHeroMinUpgradeTime, $g_sProfileConfigPath, "upgrade", "HeroMinUpgradeTime", 5, "int")
+	; Equipment Order
+	IniReadS($g_bChkCustomEquipmentOrderEnable, $g_sProfileConfigPath, "upgrade", "ChkUpgradeEquipment", False, "Bool")
+	For $z = 0 To UBound($g_aiCmbCustomEquipmentsOrder) - 1
+		IniReadS($g_bChkCustomEquipmentsOrder[$z], $g_sProfileConfigPath, "upgrade", "ChkEquipment" & $z, False, "Bool")
+		IniReadS($g_aiCmbCustomEquipmentsOrder[$z], $g_sProfileConfigPath, "upgrade", "cmbEquipmentOrder" & $z, -1)
+	Next
 	For $i = 0 To $ePetCount - 1
 		IniReadS($g_bUpgradePetsEnable[$i], $g_sProfileConfigPath, "upgrade", "UpgradePet[" & $g_asPetShortNames[$i] & "]", False, "Bool")
 	Next
@@ -831,6 +841,7 @@ Func ReadConfig_600_15()
 	IniReadS($g_iCmbSortPetUpgrade, $g_sProfileConfigPath, "upgrade", "CmbSortPetUpgrade", 0, "int")
 	IniReadS($g_iCmbSortPetUpgradeLvLCost, $g_sProfileConfigPath, "upgrade", "CmbSortPetUpgrade2", 0, "int")
 	IniReadS($g_bUsePetPotion, $g_sProfileConfigPath, "upgrade", "ChkPetPotion", False, "Bool")
+	IniReadS($g_iCmbPetPotion, $g_sProfileConfigPath, "upgrade", "CmbPetpotion", 0, "int")
 EndFunc   ;==>ReadConfig_600_15
 
 Func ReadConfig_600_16()
@@ -868,7 +879,7 @@ Func ReadConfig_600_17()
 	IniReadS($g_iCmbUpgradeWallsLevel, $g_sProfileConfigPath, "upgrade", "walllvl", 6, "int")
 	IniReadS($g_iHowUseWallRings, $g_sProfileConfigPath, "upgrade", "HowUseWR", 1, "int")
 	IniReadS($g_iCmbUseWallRings, $g_sProfileConfigPath, "upgrade", "CmbUseWR", 3, "int")
-	For $i = 4 To 16
+	For $i = 4 To 17
 		IniReadS($g_aiWallsCurrentCount[$i], $g_sProfileConfigPath, "Walls", "Wall" & StringFormat("%02d", $i), 0, "int")
 	Next
 	IniReadS($g_iWallCost, $g_sProfileConfigPath, "upgrade", "WallCost", 0, "int")
