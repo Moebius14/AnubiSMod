@@ -95,7 +95,7 @@ Func CollectFreeMagicItems($bTest = False)
 					If isGemOpen(True) Then
 						SetLog("Free Magic Item Collect Fail! Gem Window popped up!", $COLOR_ERROR)
 					EndIf
-					If WaitforPixel($aOcrPositions[$i][0] + 25, $aOcrPositions[$i][1] - 30, $aOcrPositions[$i][0] + 35, $aOcrPositions[$i][1] - 25, "AD590D", 10, 1) Then
+					If WaitforPixel($aOcrPositions[$i][0] + 25, $aOcrPositions[$i][1] - 30, $aOcrPositions[$i][0] + 35, $aOcrPositions[$i][1] - 25, "AD590D", 15, 1) Then
 						SetLog("Free Magic Item Collected On Slot #" & $ItemPosition & "", $COLOR_SUCCESS)
 						$aGem[$i] = "Collected"
 						$ActionForModLog = "Free Magic Item Collected"
@@ -136,7 +136,7 @@ Func CollectFreeMagicItems($bTest = False)
 					SetLog("Free Magic Item Collect Fail! Gem Window popped up!", $COLOR_ERROR)
 				EndIf
 				SetLog("Free Magic Item Detected On Slot #" & $ItemPosition & "", $COLOR_INFO)
-				If WaitforPixel($aOcrPositions[$i][0] + 25, $aOcrPositions[$i][1] - 30, $aOcrPositions[$i][0] + 35, $aOcrPositions[$i][1] - 25, "AD590D", 10, 1) Then
+				If WaitforPixel($aOcrPositions[$i][0] + 25, $aOcrPositions[$i][1] - 30, $aOcrPositions[$i][0] + 35, $aOcrPositions[$i][1] - 25, "AD590D", 15, 1) Then
 					SetLog("Free Magic Item Collected On Slot #" & $ItemPosition & "", $COLOR_SUCCESS)
 					$aGem[$i] = "Collected"
 					$ActionForModLog = "Free Magic Item Collected"
@@ -209,7 +209,7 @@ Func GetFreeMagic()
 
 		Local $Read = getOcrAndCapture("coc-freemagicitems", $aOcrPositions[$i][0], $aOcrPositions[$i][1], 60, 25, True)
 		If $Read = "FREE" Then
-			If WaitforPixel($aOcrPositions[$i][0] + 25, $aOcrPositions[$i][1] - 30, $aOcrPositions[$i][0] + 35, $aOcrPositions[$i][1] - 25, "AD590D", 15, 1) Then;AD5C0E for Nox
+			If WaitforPixel($aOcrPositions[$i][0] + 25, $aOcrPositions[$i][1] - 30, $aOcrPositions[$i][0] + 35, $aOcrPositions[$i][1] - 25, "AD590D", 15, 1) Then
 				$Read = "SoldOut"
 			EndIf
 			If WaitforPixel($aOcrPositions[$i][0] + 33, $aOcrPositions[$i][1] + 30, $aOcrPositions[$i][0] + 35, $aOcrPositions[$i][1] + 31, "969696", 10, 1) Then

@@ -720,21 +720,26 @@ Func SwitchCOCAcc_ClickAccountSCID(ByRef $bResult, $NextAccount, $iStep = 2, $bV
 
 				_ArraySort($aCoordinates, 0, 0, 0, 1) ; sort by column 1 [Y]... this is to keep them in order of actual list
 
-				; list all account see-able after drag on debug chat
-				Local $iProfiles = UBound($g_asProfileName)
+				If IsArray($aCoordinates) And UBound($aCoordinates) > 1 And UBound($aCoordinates, $UBOUND_COLUMNS) > 1 Then
 
-				For $j = 0 To UBound($aCoordinates) - 1
-					SetDebugLog("[" & $j + 1 & "] Account coordinates: " & $aCoordinates[$j][0] & "," & $aCoordinates[$j][1] & " named: " & $g_asProfileName[$NextAccount - $iIndexSCID + $j])
-					If $g_bDebugSetlog Then SetSwitchAccLog("[" & $j + 1 & "] A/C coord: " & $aCoordinates[$j][0] & "," & $aCoordinates[$j][1] & " Profile: " & $g_asProfileName[$NextAccount - $iIndexSCID + $j])
-				Next
+					; list all account see-able after drag on debug chat
+					Local $iProfiles = UBound($g_asProfileName)
 
-				SetLog("   " & $iStep & ". Click Account [" & $NextAccount + 1 & "] Supercell ID with Profile: " & $g_asProfileName[$NextAccount])
+					For $j = 0 To UBound($aCoordinates) - 1
+						SetDebugLog("[" & $j + 1 & "] Account coordinates: " & $aCoordinates[$j][0] & "," & $aCoordinates[$j][1] & " named: " & $g_asProfileName[$NextAccount - $iIndexSCID + $j])
+						If $g_bDebugSetlog Then SetSwitchAccLog("[" & $j + 1 & "] A/C coord: " & $aCoordinates[$j][0] & "," & $aCoordinates[$j][1] & " Profile: " & $g_asProfileName[$NextAccount - $iIndexSCID + $j])
+					Next
 
-				Click($aCoordinates[$iIndexSCID][0], $aCoordinates[$iIndexSCID][1], 1)
-				If _Sleep(750) Then Return "Exit"
-				SetLog("   " & $iStep + 1 & ". Please wait for loading CoC!")
-				$bResult = True
-				Return "OK"
+					SetLog("   " & $iStep & ". Click Account [" & $NextAccount + 1 & "] Supercell ID with Profile: " & $g_asProfileName[$NextAccount])
+
+					Click($aCoordinates[$iIndexSCID][0], $aCoordinates[$iIndexSCID][1], 1)
+					If _Sleep(750) Then Return "Exit"
+					SetLog("   " & $iStep + 1 & ". Please wait for loading CoC!")
+					$bResult = True
+					Return "OK"
+
+				EndIf
+
 			EndIf
 		EndIf
 

@@ -134,8 +134,8 @@ Func getGearUpgradeTime($x_start, $y_start) ; -> Gets complete remain building u
 	Return getOcrAndCapture("coc-uptime-Gear", $x_start, $y_start, 80, 20, True) ; "12d 19h"
 EndFunc   ;==>getBldgUpgradeTime
 
-Func getLabUpgradeTime($x_start, $y_start) ; -> Gets complete remain lab upgrade time V3 for Dec2022 update
-	Return getOcrAndCapture("coc-uptime2", $x_start, $y_start, 100, 22, True) ; 95 is required to upgrades
+Func getLabUpgradeTime($x_start, $y_start) ; -> Gets complete remain lab upgrade time V4 for Dec2023 update
+	Return getOcrAndCapture("coc-uptime2", $x_start, $y_start, 100, 24, True)
 EndFunc   ;==>getLabUpgradeTime
 
 Func getLabUpgradeTime2($x_start, $y_start) ; -> Gets complete remain lab upgrade time V3 for Dec2022 update
@@ -143,7 +143,7 @@ Func getLabUpgradeTime2($x_start, $y_start) ; -> Gets complete remain lab upgrad
 EndFunc   ;==>getLabUpgradeTime2
 
 Func getPetUpgradeTime($x_start, $y_start) ; -> Gets complete remain lab upgrade time V4 for Jun2023 update
-	Return getOcrAndCapture("coc-uptime3", $x_start, $y_start, 215, 24, True)
+	Return getOcrAndCapture("coc-uptime2", $x_start, $y_start, 215, 24, True)
 EndFunc   ;==>getPetUpgradeTime
 
 Func getHeroUpgradeTime($x_start, $y_start) ; -> Gets complete upgrade time for heroes 595, 490 + $g_iMidOffsetY
@@ -296,7 +296,7 @@ Func getOcrRateCoc($x_start, $y_start, $sLogText = Default, $LogTextColor = Defa
 EndFunc   ;==>getOcrRateCoc
 
 Func getRemainTLaboratory($x_start, $y_start) ; read actual time remaining in Lab for current upgrade (336,260), changed CoC v9.24 282,277
-	Return getOcrAndCapture("coc-RemainLaboratory", $x_start, $y_start, 260, 26, True)
+	Return getOcrAndCapture("coc-RemainLaboratory", $x_start, $y_start, 260, 28, True)
 EndFunc   ;==>getRemainTLaboratory
 
 Func getRemainTLaboratory2($x_start, $y_start) ; read actual time remaining in Lab for current upgrade (336,260), changed CoC v9.24 282,277

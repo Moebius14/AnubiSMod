@@ -80,6 +80,7 @@ Global $g_sImgPetPotCollectDaily = @ScriptDir & "\imgxml\Research\DailyChallenge
 Global $g_sImgAutoForgeSlotDaily = @ScriptDir & "\imgxml\Research\DailyChallenges\AutoForgeSlot\"
 Global $g_sImgHeroEquipement = @ScriptDir & "\imgxml\Research\Blacksmith\"
 Global $g_sImgEquipmentResearch = @ScriptDir & "\imgxml\Research\Blacksmith\Equipments\"
+Global Const $g_sImgRedZero = @ScriptDir & "\imgxml\Research\Blacksmith\RedZero\RedZero*"
 #EndRegion Main Village
 
 #Region Clan Capital

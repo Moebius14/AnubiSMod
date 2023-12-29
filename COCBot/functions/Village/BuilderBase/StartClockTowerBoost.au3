@@ -194,27 +194,35 @@ EndFunc   ;==>CheckBBuilderTime
 
 Func ClickOnBuilder2()
 
-	; Master Builder Check pixel [i] icon
-	Local Const $aMasterBuilder[4] = [463, 10, 0x7ABDE3, 10]
+	Local $asSearchResult = decodeSingleCoord(FindImageInPlace2("MasterBuilderHead", $g_sImgMasterBuilderHead, 445, 0, 500, 54, True))
 	; Debug Stuff
 	Local $sDebugText = ""
+	Local Const $Debug = False
+	Local Const $Screencap = True
 
-	; Check the Color and click
-	If _CheckPixel($aMasterBuilder, True) Then
-		; Click on Builder
-		Click($aMasterBuilder[0], $aMasterBuilder[1], 1)
-		If _Sleep(2000) Then Return
-		; Let's verify if the Suggested Window open
-		If QuickMIS("BC1", $g_sImgAutoUpgradeWindow, 455, 50, 585, 100) Then
-			Return True
+	If IsArray($asSearchResult) And UBound($asSearchResult) = 2 Then
+		; Master Builder Check pixel [i] icon
+		Local Const $aMasterBuilder[4] = [$asSearchResult[0] - 15, $asSearchResult[1] - 9, 0x7ABDE3, 10]
+		; Check the Color and click
+		If _CheckPixel($aMasterBuilder, True) Then
+			; Click on Builder
+			Click($aMasterBuilder[0], $aMasterBuilder[1], 1)
+			If _Sleep(2000) Then Return
+			; Let's verify if the Suggested Window open
+			If QuickMIS("BC1", $g_sImgAutoUpgradeWindow, $asSearchResult[0] - 23, 50, $asSearchResult[0] + 107, 100, $Screencap, $Debug) Then
+				Return True
+			Else
+				$sDebugText = "Window didn't opened"
+			EndIf
 		Else
-			$sDebugText = "Window didn't opened"
+			$sDebugText = "BB Pixel problem"
 		EndIf
 	Else
-		$sDebugText = "BB Pixel problem"
+		$sDebugText = "Cannot find Master Builder Head"
+		If $g_bDebugImageSave Then SaveDebugImage("MasterBuilderHead")
 	EndIf
 
 	If $sDebugText <> "" Then SetLog("Problem on Suggested Upg Window: [" & $sDebugText & "]", $COLOR_ERROR)
 	Return False
 
-EndFunc   ;==>ClickOnBuilder
+EndFunc   ;==>ClickOnBuilder2

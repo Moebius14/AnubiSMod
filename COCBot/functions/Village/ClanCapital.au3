@@ -188,11 +188,11 @@ Func ClanCapitalReport($SetLog = True)
 	If $SetLog Then
 		SetLog("Capital Report", $COLOR_INFO)
 		SetLog("[Gold]: " & _NumberFormat($g_iLootCCGold, True) & " [Medals]: " & _NumberFormat($g_iLootCCMedal, True) & " [Trophies]: " & _NumberFormat($g_iCCTrophies, True), $COLOR_SUCCESS)
-		Local $sRaidText = getOcrAndCapture("coc-mapname", 773, 605 + $g_iBottomOffsetY, 50, 30)
+		Local $sRaidText = getOcrAndCapture("coc-mapname", 775, 611 + $g_iBottomOffsetY, 52, 27)
 		If $sRaidText = "Raid" Then
 			SetLog("Raid Weekend is Running", $COLOR_DEBUG)
 			$IsRaidRunning = 1
-			$iAttack = getOcrAndCapture("coc-mapname", 780, 535 + $g_iBottomOffsetY, 20, 30)
+			$iAttack = getOcrAndCapture("coc-mapname", 780, 542 + $g_iBottomOffsetY, 20, 18)
 			If $iAttack > 1 Then
 				SetLog("You have " & $iAttack & " available attacks", $COLOR_SUCCESS)
 			ElseIf $iAttack = 1 Then

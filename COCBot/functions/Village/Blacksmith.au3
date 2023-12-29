@@ -52,6 +52,7 @@ Func Blacksmith($test = False)
 
 	;Click Blacksmith
 	BuildingClickP($g_aiBlacksmithPos, "#0197")
+
 	If Not $g_bRunState Then Return
 	If _Sleep(1500) Then Return ; Wait for window to open
 
@@ -67,6 +68,13 @@ Func Blacksmith($test = False)
 		SetLog("Failed to open Blacksmith Window!", $COLOR_ERROR)
 		Return
 	EndIf
+
+	If $g_iTxtCurrentVillageName <> "" Then
+		GUICtrlSetData($g_hTxtModLog, @CRLF & _NowTime() & " [" & $g_iTxtCurrentVillageName & "] Blacksmith : Looking for equipments upgrade", 1)
+	Else
+		GUICtrlSetData($g_hTxtModLog, @CRLF & _NowTime() & " [" & $g_sProfileCurrentName & "] Blacksmith : Looking for equipments upgrade", 1)
+	EndIf
+	_FileWriteLog($g_sProfileLogsPath & "\ModLog.log", " [" & $g_sProfileCurrentName & "] - Blacksmith : Looking for equipments upgrade")
 
 	If Not $g_bRunState Then Return
 	If _Sleep(500) Then Return
@@ -100,8 +108,9 @@ Func Blacksmith($test = False)
 			SetDebugLog("Click On " & $g_asEquipmentOrderList[$g_aiCmbCustomEquipmentsOrder[$i]][2], $COLOR_DEBUG)
 			Click($g_asEquipmentOrderList[$g_aiCmbCustomEquipmentsOrder[$i]][3], 345 + $g_iMidOffsetY) ; Click on corresponding Hero
 		EndIf
+
 		If Not $g_bRunState Then Return
-		If _Sleep(3000) Then Return
+		If _Sleep(2000) Then Return
 
 		Local $aEquipmentUpgrades = findMultiple($g_sImgEquipmentResearch, $sSearchEquipmentDiamond, $sSearchEquipmentDiamond, 0, 1000, 0, "objectname,objectpoints", True)
 		If UBound($aEquipmentUpgrades, 1) >= 1 Then ; if we found any troops
@@ -110,30 +119,77 @@ Func Blacksmith($test = False)
 				Local $aTempEquipmentArray = $aEquipmentUpgrades[$t] ; Declare Array to Temp Array
 				If $aTempEquipmentArray[0] = $g_asEquipmentOrderList[$g_aiCmbCustomEquipmentsOrder[$i]][1] Then ; if this is the file we want
 					Local $aCoords = decodeSingleCoord($aTempEquipmentArray[1])
+					Local $bLoop = 0
 					ClickP($aCoords) ; click equipment
 					If Not $g_bRunState Then Return
 					If _Sleep(2000) Then Return
+					If Not _ColorCheck(_GetPixelColor(802, 118, True), Hex(0xF38E8D, 6), 20) Then
+						SetLog($g_asEquipmentOrderList[$g_aiCmbCustomEquipmentsOrder[$i]][0] & " upgrade window not found", $COLOR_ERROR)
+						If _Sleep(1500) Then Return
+						CloseWindow2()
+						ContinueLoop 2
+					EndIf
+					If _ColorCheck(_GetPixelColor(690, 566 + $g_iMidOffsetY, True), Hex(0xABABAB, 6), 20) Then
+						SetLog($g_asEquipmentOrderList[$g_aiCmbCustomEquipmentsOrder[$i]][0] & " upgrade unavailable", $COLOR_DEBUG)
+						If _Sleep(1500) Then Return
+						CloseWindow2()
+						ContinueLoop 2
+					EndIf
 					While 1
 						If Not $g_bRunState Then Return
+						If UBound(decodeSingleCoord(FindImageInPlace2("RedZero", $g_sImgRedZero, 585, 510 + $g_iMidOffsetY, 825, 570 + $g_iMidOffsetY, True))) > 1 Then
+							SetLog("Not enough resource to upgrade " & $g_asEquipmentOrderList[$g_aiCmbCustomEquipmentsOrder[$i]][0], $COLOR_DEBUG2)
+							If _Sleep(1500) Then Return
+							CloseWindow2()
+							$Exitloop = True
+							ExitLoop
+						EndIf
 						Click(705, 545 + $g_iMidOffsetY, 1, 0, "#0299")     ; Click upgrade buttton
-						If _Sleep(1000) Then Return
+						If _Sleep(1500) Then Return
+						If Not $g_bRunState Then Return
+						If UBound(decodeSingleCoord(FindImageInPlace2("RedZero", $g_sImgRedZero, 585, 510 + $g_iMidOffsetY, 825, 570 + $g_iMidOffsetY, True))) > 1 Then
+							SetLog("Not enough resource to upgrade " & $g_asEquipmentOrderList[$g_aiCmbCustomEquipmentsOrder[$i]][0], $COLOR_DEBUG2)
+							If _Sleep(1500) Then Return
+							CloseWindow2()
+							$Exitloop = True
+							ExitLoop
+						EndIf
 						Click(705, 545 + $g_iMidOffsetY, 1, 0, "#0299")     ; Click upgrade buttton (Confirm)
 						If isGemOpen(True) Then
 							SetLog("Not enough resource to upgrade " & $g_asEquipmentOrderList[$g_aiCmbCustomEquipmentsOrder[$i]][0], $COLOR_DEBUG2)
+							If _Sleep(1500) Then Return
 							CloseWindow2()
 							$Exitloop = True
 							ExitLoop
 						EndIf
 						SetLog("Equipment successfully upgraded", $COLOR_SUCCESS)
+						If $bLoop = 0 Then
+							Local $ActionForModLog = $g_asEquipmentOrderList[$g_aiCmbCustomEquipmentsOrder[$i]][0]
+							If $g_iTxtCurrentVillageName <> "" Then
+								GUICtrlSetData($g_hTxtModLog, @CRLF & _NowTime() & " [" & $g_iTxtCurrentVillageName & "] Blacksmith : " & $ActionForModLog & " successfully upgraded", 1)
+							Else
+								GUICtrlSetData($g_hTxtModLog, @CRLF & _NowTime() & " [" & $g_sProfileCurrentName & "] Blacksmith : " & $ActionForModLog & " successfully upgraded", 1)
+							EndIf
+							_FileWriteLog($g_sProfileLogsPath & "\ModLog.log", " [" & $g_sProfileCurrentName & "] - Blacksmith : " & $ActionForModLog & " successfully upgraded")
+						EndIf
 						If _Sleep(2000) Then Return
 						If _ColorCheck(_GetPixelColor(800, 385 + $g_iMidOffsetY, True), Hex(0x808080, 6), 15) Then
 							Click(600, 380 + $g_iMidOffsetY)     ; Click somewhere to get rid of animation
 							If _Sleep(2000) Then Return
 						EndIf
+						If $bLoop = 10 Then
+							CloseWindow2()
+							$Exitloop = True
+							ExitLoop
+						EndIf
+						$bLoop += 1
 					WEnd
-					If $Exitloop Then ContinueLoop 2
+					If $Exitloop Then
+						If _Sleep(1500) Then Return
+						ContinueLoop 2
+					EndIf
 				EndIf
-				If _Sleep(1000) Then Return
+				If _Sleep(500) Then Return
 				If $t = UBound($aEquipmentUpgrades, 1) - 1 Then SetLog($g_asEquipmentOrderList[$g_aiCmbCustomEquipmentsOrder[$i]][0] & " unavailable", $COLOR_ERROR)
 			Next
 		Else

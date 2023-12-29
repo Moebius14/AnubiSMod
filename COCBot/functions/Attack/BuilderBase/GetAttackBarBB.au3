@@ -30,7 +30,7 @@ Func GetAttackBarBB($bRemaining = False, $bSecondAttack = False)
 		$g_aBomberOnAttackBar = $aEmpty
 	EndIf
 
-	Local $iMaxSlot = 9, $iSlotOffset = 76
+	Local $iMaxSlot = 9, $iSlotOffset = 75.5
 	Local $aSlotX[$iMaxSlot], $iStartSlot = 100
 
 	Local $aBMPosInit = GetMachinePos()
@@ -72,7 +72,7 @@ Func GetAttackBarBB($bRemaining = False, $bSecondAttack = False)
 		If Not $g_bRunState Then Return
 
 		$Troopx = $aSlotX[$k]
-		$ColorPickBannerX = $aSlotX[$k] + 35 ; location to pick color from TroopSlot banner
+		$ColorPickBannerX = $aSlotX[$k] + 34 ; location to pick color from TroopSlot banner
 
 		If $bRemaining Then
 			If QuickMIS("BC1", $g_sImgDirBBTroops, $Troopx, $iTroopBanners, $Troopx + 70, 670 + $g_iBottomOffsetY) Then

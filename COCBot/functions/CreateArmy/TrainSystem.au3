@@ -393,7 +393,7 @@ Func DragIfNeeded($Troop)
 		If $g_bDebugSetlogTrain Then SetLog("DragIfNeeded : to the right")
 		For $i = 1 To 3
 			If Not $bCheckPixel Then
-				ClickDrag(770, 433 + $g_iMidOffsetY, 80, 433 + $g_iMidOffsetY)
+				ClickDrag(715, 433 + $g_iMidOffsetY, 300, 433 + $g_iMidOffsetY)
 				If _Sleep(2000) Then Return
 				If _ColorCheck(_GetPixelColor(777, 380 + $g_iMidOffsetY, True), Hex(0xD3D3CB, 6), 5) Then $bCheckPixel = True
 			Else
@@ -405,7 +405,7 @@ Func DragIfNeeded($Troop)
 		If $g_bDebugSetlogTrain Then SetLog("DragIfNeeded : to the left")
 		For $i = 1 To 3
 			If Not $bCheckPixel Then
-				ClickDrag(80, 433 + $g_iMidOffsetY, 770, 433 + $g_iMidOffsetY)
+				ClickDrag(200, 433 + $g_iMidOffsetY, 615, 433 + $g_iMidOffsetY)
 				If _Sleep(2000) Then Return
 				If _ColorCheck(_GetPixelColor(75, 380 + $g_iMidOffsetY, True), Hex(0xD3D3CB, 6), 5) Then $bCheckPixel = True
 			Else

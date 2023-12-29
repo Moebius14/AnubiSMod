@@ -3488,18 +3488,18 @@ Func CheckRaidMap()
 
 	If $CheckRaidMapPriority > $IsToCheckRaidMap Then Return
 
-	SetLog("Lets Look At Raid Map", $COLOR_ACTION)
-	$ActionForModLog = "Look At Raid Map"
-	If $g_iTxtCurrentVillageName <> "" Then
-		GUICtrlSetData($g_hTxtModLog, @CRLF & _NowTime() & " [" & $g_iTxtCurrentVillageName & "] Humanization : " & $ActionForModLog & "", 1)
-	Else
-		GUICtrlSetData($g_hTxtModLog, @CRLF & _NowTime() & " [" & $g_sProfileCurrentName & "] Humanization : " & $ActionForModLog & "", 1)
-	EndIf
-	_FileWriteLog($g_sProfileLogsPath & "\ModLog.log", " [" & $g_sProfileCurrentName & "] - Humanization : " & $ActionForModLog & "")
-
 	SwitchToCapitalMain()
 	If QuickMIS("BC1", $g_sImgCCMap, 760, 570 + $g_iBottomOffsetY, 840, 650 + $g_iBottomOffsetY) Then
 		If $g_iQuickMISName = "RaidMapButton" Then
+			SetLog("Lets Look At Raid Map", $COLOR_ACTION)
+			$ActionForModLog = "Look At Raid Map"
+			If $g_iTxtCurrentVillageName <> "" Then
+				GUICtrlSetData($g_hTxtModLog, @CRLF & _NowTime() & " [" & $g_iTxtCurrentVillageName & "] Humanization : " & $ActionForModLog & "", 1)
+			Else
+				GUICtrlSetData($g_hTxtModLog, @CRLF & _NowTime() & " [" & $g_sProfileCurrentName & "] Humanization : " & $ActionForModLog & "", 1)
+			EndIf
+			_FileWriteLog($g_sProfileLogsPath & "\ModLog.log", " [" & $g_sProfileCurrentName & "] - Humanization : " & $ActionForModLog & "")
+			If _Sleep(1000) Then Return
 			Click($g_iQuickMISX, $g_iQuickMISY)
 			If _Sleep(Random(5000, 7000)) Then Return
 			If QuickMIS("BC1", $g_sImgRaidMap, 710, 25, 730, 45) Then
@@ -3513,7 +3513,7 @@ Func CheckRaidMap()
 					SetLog("Raid Weekend Will Finish in " & $sForRaidTimeOCR & "", $COLOR_RED)
 				EndIf
 				If _Sleep(2500) Then Return
-				If QuickMIS("BC1", $g_sImgCCMap, 760, 570 + $g_iBottomOffsetY, 840, 650 + $g_iBottomOffsetY) Then
+				If QuickMIS("BC1", $g_sImgCCMap, 760, 570 + $g_iBottomOffsetY, 845, 650 + $g_iBottomOffsetY) Then
 					If $g_iQuickMISName = "RaidInfoButton" Then
 						SetLog("Lets Look At Raid Info", $COLOR_ACTION)
 						Click($g_iQuickMISX, $g_iQuickMISY)

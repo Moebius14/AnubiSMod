@@ -45,9 +45,6 @@ Func GetAttackBar($bRemaining = False, $pMatchMode = $DB, $bDebug = False)
 		ElseIf _CheckPixel($a12OrMoreSlots3, True) And $g_bCheckExtAttackBar Then
 			$bCheckSlot12 = True
 			SetDebugLog("Check Extended Attack Bar with Special Troop at first slot")
-		ElseIf _CheckPixel($a12OrMoreSlots4, True) And $g_bCheckExtAttackBar Then
-			$bCheckSlot12 = True
-			SetDebugLog("Check Extended Attack Bar with Mash Troop at first slot")
 		EndIf
 		SetDebugLog("GetBarCheck: DoubleRow= " & $bDoubleRow)
 	EndIf

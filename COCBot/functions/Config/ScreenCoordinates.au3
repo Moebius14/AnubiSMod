@@ -122,7 +122,6 @@ Global $NextBtn[4] = [720, 536 + $g_iBottomOffsetY, 0xE5510D, 20] ;  Next Button
 Global $a12OrMoreSlots[4] = [20, 579 + $g_iBottomOffsetY, 0x86DEFC, 25] ; Attackbar Check if 12+ Slots exist
 Global $a12OrMoreSlots2[4] = [20, 580 + $g_iBottomOffsetY, 0xFF4040, 25] ; Attackbar Check if 12+ Slots exist SuperTroops
 Global $a12OrMoreSlots3[4] = [20, 580 + $g_iBottomOffsetY, 0xFFFDFF, 25] ; Attackbar Check if 12+ Slots exist Special Troops
-Global $a12OrMoreSlots4[4] = [20, 580 + $g_iBottomOffsetY, 0xFFFFFF, 25] ; Attackbar Check if 12+ Slots exist Mash Troops
 Global $aDoubRowAttackBar[4] = [68, 486, 0xFC5D64, 20]
 Global $aTroopIsDeployed[4] = [0, 0, 0x404040, 20] ; Attackbar Remain Check X and Y are Dummies
 Global Const $aIsAttackPage[4] = [50, 548 + $g_iBottomOffsetY, 0xD10D0E, 20] ; red button "end battle" - left portion
