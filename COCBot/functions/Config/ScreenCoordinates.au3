@@ -52,7 +52,7 @@ Global $aArmyCampSize[2] = [153, 168 + $g_iMidOffsetY] ; Training Window, Overvi
 Global $aSiegeMachineSize[2] = [707, 168 + $g_iMidOffsetY] ; Training Window, Overview screen, Current Number/Total Number
 Global $aArmySpellSize[2] = [143, 296 + $g_iMidOffsetY] ; Training Window Overviewscreen, current number/total capacity
 Global $g_aArmyCCSpellSize[2] = [465, 428 + $g_iMidOffsetY] ; Training Window, Overview Screen, Current CC Spell number/total cc spell capacity
-Global $aArmyCCRemainTime[2] = [782, 552 + $g_iMidOffsetY] ; Training Window Overviewscreen, Minutes & Seconds remaining till can request again
+Global $aArmyCCRemainTime[2] = [730, 526 + $g_iMidOffsetY] ; Training Window Overviewscreen, Minutes & Seconds remaining till can request again
 Global $aIsCampFull[4] = [82, 177 + $g_iMidOffsetY, 0xFFFFFF, 10] ; Training Window, Overview screen White pixel in check mark with camp IS full (can not test for Green, as it has trees under it!)
 Global $aBuildersDigits[2] = [424, 21] ; Main Screen, Free/Total Builders
 Global $aBuildersDigitsBuilderBase[2] = [0, 21] ; Main Screen on Builders Base Free/Total Builders
@@ -81,7 +81,7 @@ Global $aRtnHomeCloud2[4] = [72, 592 + $g_iBottomOffsetY, 0x103F7E, 15] ; Cloud 
 Global $aDetectLang[2] = [16, 634 + $g_iBottomOffsetY] ; Detect Language, bottom left Attack button must read "Attack"
 Global $aGreenArrowTrainTroops[2] = [325, 122 + $g_iMidOffsetY]
 Global $aGreenArrowBrewSpells[2] = [460, 122 + $g_iMidOffsetY]
-Global $aGreenArrowTrainSiegeMachines[2] = [594, 122 + $g_iMidOffsetY]
+Global $aGreenArrowTrainSiegeMachines[2] = [595, 122 + $g_iMidOffsetY]
 Global $g_aShopWindowOpen[4] = [804, 54, 0xC00508, 15] ; Red pixel in lower right corner of RED X to close shop window
 Global $aTreasuryWindow[4] = [695, 138 + $g_iMidOffsetY, 0xFF8D95, 20] ; Redish pixel above X to close treasury window
 Global $aAttackForTreasury[4] = [88, 619 + $g_iMidOffsetY, 0xF0EBE8, 5] ; Red pixel below X to close treasury window
@@ -119,15 +119,15 @@ Global $aWonThreeStarAtkRprt[4] = [534, 180 + $g_iMidOffsetY, 0xC8CAC7, 30] ; Ce
 ; pixel color: location information								BS 850MB (Reg GFX), BS 500MB (Med GFX) : location
 
 Global $NextBtn[4] = [720, 536 + $g_iBottomOffsetY, 0xE5510D, 20] ;  Next Button
-Global $a12OrMoreSlots[4] = [20, 579 + $g_iBottomOffsetY, 0x86DEFC, 25] ; Attackbar Check if 12+ Slots exist
-Global $a12OrMoreSlots2[4] = [20, 580 + $g_iBottomOffsetY, 0xFF4040, 25] ; Attackbar Check if 12+ Slots exist SuperTroops
+Global $a12OrMoreSlots[4] = [20, 579 + $g_iBottomOffsetY, 0x84DAF8, 25] ; Attackbar Check if 12+ Slots exist
+Global $a12OrMoreSlots2[4] = [20, 580 + $g_iBottomOffsetY, 0xFE4040, 25] ; Attackbar Check if 12+ Slots exist SuperTroops
 Global $a12OrMoreSlots3[4] = [20, 580 + $g_iBottomOffsetY, 0xFFFDFF, 25] ; Attackbar Check if 12+ Slots exist Special Troops
 Global $aDoubRowAttackBar[4] = [68, 486, 0xFC5D64, 20]
 Global $aTroopIsDeployed[4] = [0, 0, 0x404040, 20] ; Attackbar Remain Check X and Y are Dummies
 Global Const $aIsAttackPage[4] = [50, 548 + $g_iBottomOffsetY, 0xD10D0E, 20] ; red button "end battle" - left portion
 
 ; 1 - Dark Gray : Castle filled/No Castle | 2 - Light Green : Available or Already made | 3 - White : Available or Castle filled/No Castle
-Global $aRequestTroopsAO[6] = [761, 562 + $g_iMidOffsetY, 0x565656, 0x71BA2F, 0xFFFFFE, 25] ; Button Request Troops in Army Overview  (x,y, Gray - Full/No Castle, Green - Available or Already, White - Available or Full)
+Global $aRequestTroopsAO[6] = [714, 538 + $g_iMidOffsetY, 0x919191, 0x6DB630, 0xFFFFFF, 25] ; Button Request Troops in Army Overview  (x,y, Gray - Full/No Castle, Green - Available or Already, White - Available or Full)
 
 ;attackreport
 Global Const $aAtkRprtDECheck[4] = [459, 372 + $g_iMidOffsetY, 0x2F1F37, 20] ; August 23 update

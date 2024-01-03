@@ -70,7 +70,7 @@ MAKE  |X          |LEFT-FRONT |10         |0          |EXT-INT    |0          |0
 MAKE  |Y          |RIGHT-FRONT|10         |0          |EXT-INT    |0          |0          |           |                                               |
       |                                                                                                                                  			  |
       |VECTOR_____|INDEX__________|QTY_X_VECT_|TROOPNAME__|DELAY_DROP_|DELAYCHANGE|SLEEPAFTER_|_______|_______________________________________________|
-DROP  |F          |1      		  |4          |ESpell     |50-70      |0          |100-120    |       |                                               |
+DROP  |F          |1      		  |4          |ESpell     |150-170    |150-170    |100-120    |       |                                               |
 WAIT  |500-1000   |               |           |           |           |           |           |       |                                               |
 DROP  |X          |5         	  |1          |IceG       |50-70      |37-50      |750-900    |       |                                               |
 DROP  |X          |1-5		      |4          |Wiza       |50-70      |137-250    |400-450    |       |                                               |

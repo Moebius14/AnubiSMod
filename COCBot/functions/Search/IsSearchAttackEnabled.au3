@@ -27,7 +27,7 @@ Func IsSearchAttackEnabled()
 	SetDebugLog("$bCloseGame:" & $bCloseGame, $COLOR_DEBUG)
 
 	If $g_bChkTrophyDropinPause Then
-		DropTrophy()
+		If $g_bDropTrophyEnable And (Number($g_aiCurrentLoot[$eLootTrophy]) > Number($g_iDropTrophyMax) Or $IsdroptrophiesActive) Then DropTrophy()
 	EndIf
 
 	If $g_bAttackPlannerDayLimit And _OverAttackLimit() Then ; check daily attack limit before checking schedule

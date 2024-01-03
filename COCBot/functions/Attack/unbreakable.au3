@@ -67,7 +67,7 @@ Func Unbreakable()
 		Return False
 	EndIf
 
-	DropTrophy()
+	If $g_bDropTrophyEnable And (Number($g_aiCurrentLoot[$eLootTrophy]) > Number($g_iDropTrophyMax) Or $IsdroptrophiesActive) Then DropTrophy()
 	If _Sleep($DELAYUNBREAKABLE2) Then Return True ; wait for home screen
 	ClickAway()
 	If _Sleep($DELAYUNBREAKABLE1) Then Return True ; wait for home screen

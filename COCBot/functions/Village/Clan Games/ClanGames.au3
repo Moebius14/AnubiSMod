@@ -5,8 +5,8 @@
 ; Parameters ....: ---
 ; Return values .: ---
 ; Author ........: ViperZ And Uncle Xbenk 01-2018
-; Modified ......: ProMac 02/2018 [v2 and v3] , ProMac 08/2018 v4 , GrumpyHog 08/2020, Moebius 09/2023
-; Remarks .......: This file is part of MyBotRun. Copyright 2018
+; Modified ......: ProMac 02/2018 [v2 and v3] , ProMac 08/2018 v4 , GrumpyHog 08/2020, Moebius14 01/2024
+; Remarks .......: This file is part of MyBotRun. Copyright 2015-2023
 ;                  MyBotRun is distributed under the terms of the GNU GPL
 ; Related .......: ---
 ; Link ..........: https://www.mybot.run
@@ -16,10 +16,11 @@
 Func _ClanGames($test = False, $HaltMode = False)
 	ClearTempCGFiles()
 
+	$IsCGEventRunning = 0 ;just to be sure, reset to false @PriapusCranium
+	$g_bIsBBevent = 0 ;just to be sure, reset to false
+
 	If Not $g_bChkClanGamesEnabled Then Return
 
-	$IsCGEventRunning = 0 ;just to be sure, reset to false
-	$g_bIsBBevent = 0 ;just to be sure, reset to false
 	$IsCGEventForGold = False
 	$IsCGEventForElixir = False
 	$IsCGEventForDE = False
@@ -1352,6 +1353,7 @@ Func IsEventRunning($bOpenWindow = False)
 	Else
 		SetLog("No challenge under progress", $COLOR_INFO)
 		$g_bFirstStartForAll = 1
+		$IsCGEventRunning = 0
 		Return False
 	EndIf
 	Return False

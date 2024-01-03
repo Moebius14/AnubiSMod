@@ -2599,7 +2599,7 @@ Func CatchSmallCCTrophies($StartRaidConditions = False)
 
 		If $g_bDebugImageSaveMod Then SaveDebugRectImageCrop("CCtrophySmall", "735,223,780,237")
 
-		$g_iCCTrophies = getOcrAndCapture("coc-cc-trophySmall", 725, 248 + $g_iMidOffsetY, 37, 14, True)
+		$g_iCCTrophies = StringReplace(getOcrAndCapture("coc-cc-trophySmall", 725, 248 + $g_iMidOffsetY, 37, 14, True), "b", "")
 		If $g_iCCTrophies > 0 Then
 			SetLog(_NumberFormat($g_iCCTrophies, True) & " Clan Capital Trophies Detected", $COLOR_SUCCESS1)
 		Else

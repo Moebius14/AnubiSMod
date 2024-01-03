@@ -1061,10 +1061,10 @@ Func ApplyConfig_600_15($TypeReadSave)
 
 			GUICtrlSetState($g_hChkCustomEquipmentOrderEnable, $g_bChkCustomEquipmentOrderEnable ? $GUI_CHECKED : $GUI_UNCHECKED)
 			For $z = 0 To UBound($g_ahCmbEquipmentOrder) - 1
-				GUICtrlSetState($g_hChkCustomEquipmentsOrder[$z], $g_bChkCustomEquipmentsOrder[$z] ? $GUI_CHECKED : $GUI_UNCHECKED)
-				_GUICtrlComboBox_SetCurSel($g_ahCmbEquipmentOrder[$z], $g_aiCmbCustomEquipmentsOrder[$z])
-				_GUICtrlSetImage($g_ahImgEquipmentOrder[$z], $g_sLibIconPath, $g_aiEquipmentsOrderIcon[$g_aiCmbCustomEquipmentsOrder[$z] + 1])
-				_GUICtrlSetImage($g_ahImgEquipmentOrder2[$z], $g_sLibIconPath, $g_aiEquipmentsOrderIcon2[$g_aiCmbCustomEquipmentsOrder[$z] + 1])
+				GUICtrlSetState($g_hChkCustomEquipmentOrder[$z], $g_bChkCustomEquipmentOrder[$z] ? $GUI_CHECKED : $GUI_UNCHECKED)
+				_GUICtrlComboBox_SetCurSel($g_ahCmbEquipmentOrder[$z], $g_aiCmbCustomEquipmentOrder[$z])
+				_GUICtrlSetImage($g_ahImgEquipmentOrder[$z], $g_sLibIconPath, $g_aiEquipmentOrderIcon[$g_aiCmbCustomEquipmentOrder[$z] + 1])
+				_GUICtrlSetImage($g_ahImgEquipmentOrder2[$z], $g_sLibIconPath, $g_aiEquipmentOrderIcon2[$g_aiCmbCustomEquipmentOrder[$z] + 1])
 			Next
 
 			Local $iValueSet = 0
@@ -1074,14 +1074,14 @@ Func ApplyConfig_600_15($TypeReadSave)
 					$iValueSet += 1
 				EndIf
 			Next
-			If $iValueSet > 0 And $iValueSet < $eEquipmentsCount Then
+			If $iValueSet > 0 And $iValueSet < $eEquipmentCount Then
 				SetLog("Set your Equipment Upgrade Order!")
-				btnEquipmentOrderSet()
+				btnRegularOrder()
 			EndIf
 			If Not ChangeEquipmentOrder() Then SetDefaultEquipmentGroup()
 			If $iValueSet = 0 And $g_bChkCustomEquipmentOrderEnable Then
 				SetLog("Set your Equipment Upgrade Order!")
-				btnEquipmentOrderSet()
+				btnRegularOrder()
 			EndIf
 			EnableUpgradeEquipment()
 			chkEquipmentOrder()
@@ -1105,8 +1105,8 @@ Func ApplyConfig_600_15($TypeReadSave)
 			$g_iHeroMinUpgradeTime = GUICtrlRead($g_hHeroMinUpgradeTime)
 			$g_bChkCustomEquipmentOrderEnable = (GUICtrlRead($g_hChkCustomEquipmentOrderEnable) = $GUI_CHECKED)
 			For $z = 0 To UBound($g_ahCmbEquipmentOrder) - 1
-				$g_bChkCustomEquipmentsOrder[$z] = (GUICtrlRead($g_hChkCustomEquipmentsOrder[$z]) = $GUI_CHECKED)
-				$g_aiCmbCustomEquipmentsOrder[$z] = _GUICtrlComboBox_GetCurSel($g_ahCmbEquipmentOrder[$z])
+				$g_bChkCustomEquipmentOrder[$z] = (GUICtrlRead($g_hChkCustomEquipmentOrder[$z]) = $GUI_CHECKED)
+				$g_aiCmbCustomEquipmentOrder[$z] = _GUICtrlComboBox_GetCurSel($g_ahCmbEquipmentOrder[$z])
 			Next
 			For $i = 0 To $ePetCount - 1
 				$g_bUpgradePetsEnable[$i] = (GUICtrlRead($g_hChkUpgradePets[$i]) = $GUI_CHECKED)
@@ -1845,6 +1845,7 @@ Func ApplyConfig_600_29_DB($TypeReadSave)
 			$temp4 = GUICtrlRead($g_hChkDBChampionAttack) = $GUI_CHECKED ? $eHeroChampion : $eHeroNone
 			$g_aiAttackUseHeroes[$DB] = BitOR(Int($temp1), Int($temp2), Int($temp3), Int($temp4))
 			GUICtrlSetState($g_hChkDBDropCC, $g_abAttackDropCC[$DB] ? $GUI_CHECKED : $GUI_UNCHECKED)
+			GUICtrlSetState($g_hChkDBNoLookforHiLvl, $g_abNoSearchForHigherLevel[$DB] ? $GUI_CHECKED : $GUI_UNCHECKED)
 			chkDBDropCC()
 			GUICtrlSetState($g_hChkDBLightSpell, $g_abAttackUseLightSpell[$DB] ? $GUI_CHECKED : $GUI_UNCHECKED)
 			GUICtrlSetState($g_hChkDBHealSpell, $g_abAttackUseHealSpell[$DB] ? $GUI_CHECKED : $GUI_UNCHECKED)
@@ -1870,6 +1871,7 @@ Func ApplyConfig_600_29_DB($TypeReadSave)
 			$temp4 = GUICtrlRead($g_hChkDBChampionAttack) = $GUI_CHECKED ? $eHeroChampion : $eHeroNone
 			$g_aiAttackUseHeroes[$DB] = BitOR(Int($temp1), Int($temp2), Int($temp3), Int($temp4))
 			$g_abAttackDropCC[$DB] = (GUICtrlRead($g_hChkDBDropCC) = $GUI_CHECKED)
+			$g_abNoSearchForHigherLevel[$DB] = (GUICtrlRead($g_hChkDBNoLookforHiLvl) = $GUI_CHECKED)
 			$g_abAttackUseLightSpell[$DB] = (GUICtrlRead($g_hChkDBLightSpell) = $GUI_CHECKED)
 			$g_abAttackUseHealSpell[$DB] = (GUICtrlRead($g_hChkDBHealSpell) = $GUI_CHECKED)
 			$g_abAttackUseRageSpell[$DB] = (GUICtrlRead($g_hChkDBRageSpell) = $GUI_CHECKED)
@@ -1976,6 +1978,7 @@ Func ApplyConfig_600_29_LB($TypeReadSave)
 			$temp4 = GUICtrlRead($g_hChkABChampionAttack) = $GUI_CHECKED ? $eHeroChampion : $eHeroNone
 			$g_aiAttackUseHeroes[$LB] = BitOR(Int($temp1), Int($temp2), Int($temp3), Int($temp4))
 			GUICtrlSetState($g_hChkABDropCC, $g_abAttackDropCC[$LB] ? $GUI_CHECKED : $GUI_UNCHECKED)
+			GUICtrlSetState($g_hChkABNoLookforHiLvl, $g_abNoSearchForHigherLevel[$LB] ? $GUI_CHECKED : $GUI_UNCHECKED)
 			chkABDropCC()
 			GUICtrlSetState($g_hChkABLightSpell, $g_abAttackUseLightSpell[$LB] ? $GUI_CHECKED : $GUI_UNCHECKED)
 			GUICtrlSetState($g_hChkABHealSpell, $g_abAttackUseHealSpell[$LB] ? $GUI_CHECKED : $GUI_UNCHECKED)
@@ -2001,6 +2004,7 @@ Func ApplyConfig_600_29_LB($TypeReadSave)
 			$temp4 = GUICtrlRead($g_hChkABChampionAttack) = $GUI_CHECKED ? $eHeroChampion : $eHeroNone
 			$g_aiAttackUseHeroes[$LB] = BitOR(Int($temp1), Int($temp2), Int($temp3), Int($temp4))
 			$g_abAttackDropCC[$LB] = (GUICtrlRead($g_hChkABDropCC) = $GUI_CHECKED)
+			$g_abNoSearchForHigherLevel[$LB] = (GUICtrlRead($g_hChkABNoLookforHiLvl) = $GUI_CHECKED)
 			$g_abAttackUseLightSpell[$LB] = (GUICtrlRead($g_hChkABLightSpell) = $GUI_CHECKED)
 			$g_abAttackUseHealSpell[$LB] = (GUICtrlRead($g_hChkABHealSpell) = $GUI_CHECKED)
 			$g_abAttackUseRageSpell[$LB] = (GUICtrlRead($g_hChkABRageSpell) = $GUI_CHECKED)

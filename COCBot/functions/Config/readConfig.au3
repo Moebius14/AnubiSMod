@@ -830,9 +830,9 @@ Func ReadConfig_600_15()
 	IniReadS($g_iHeroMinUpgradeTime, $g_sProfileConfigPath, "upgrade", "HeroMinUpgradeTime", 5, "int")
 	; Equipment Order
 	IniReadS($g_bChkCustomEquipmentOrderEnable, $g_sProfileConfigPath, "upgrade", "ChkUpgradeEquipment", False, "Bool")
-	For $z = 0 To UBound($g_aiCmbCustomEquipmentsOrder) - 1
-		IniReadS($g_bChkCustomEquipmentsOrder[$z], $g_sProfileConfigPath, "upgrade", "ChkEquipment" & $z, False, "Bool")
-		IniReadS($g_aiCmbCustomEquipmentsOrder[$z], $g_sProfileConfigPath, "upgrade", "cmbEquipmentOrder" & $z, -1)
+	For $z = 0 To UBound($g_aiCmbCustomEquipmentOrder) - 1
+		IniReadS($g_bChkCustomEquipmentOrder[$z], $g_sProfileConfigPath, "upgrade", "ChkEquipment" & $z, False, "Bool")
+		IniReadS($g_aiCmbCustomEquipmentOrder[$z], $g_sProfileConfigPath, "upgrade", "cmbEquipmentOrder" & $z, -1)
 	Next
 	For $i = 0 To $ePetCount - 1
 		IniReadS($g_bUpgradePetsEnable[$i], $g_sProfileConfigPath, "upgrade", "UpgradePet[" & $g_asPetShortNames[$i] & "]", False, "Bool")
@@ -1154,6 +1154,7 @@ Func ReadConfig_600_29_DB()
 	IniReadS($temp4, $g_sProfileConfigPath, "attack", "DBChampionAtk", $eHeroNone)
 	$g_aiAttackUseHeroes[$DB] = BitOR(Int($temp1), Int($temp2), Int($temp3), Int($temp4))
 	IniReadS($g_abAttackDropCC[$DB], $g_sProfileConfigPath, "attack", "DBDropCC", False, "Bool")
+	IniReadS($g_abNoSearchForHigherLevel[$DB], $g_sProfileConfigPath, "attack", "DBSearchHigherLVL", False, "Bool")
 	IniReadS($g_abAttackUseLightSpell[$DB], $g_sProfileConfigPath, "attack", "DBLightSpell", False, "Bool")
 	IniReadS($g_abAttackUseHealSpell[$DB], $g_sProfileConfigPath, "attack", "DBHealSpell", False, "Bool")
 	IniReadS($g_abAttackUseRageSpell[$DB], $g_sProfileConfigPath, "attack", "DBRageSpell", False, "Bool")
@@ -1200,6 +1201,7 @@ Func ReadConfig_600_29_LB()
 	IniReadS($temp4, $g_sProfileConfigPath, "attack", "ABChampionAtk", $eHeroNone)
 	$g_aiAttackUseHeroes[$LB] = BitOR(Int($temp1), Int($temp2), Int($temp3), Int($temp4))
 	IniReadS($g_abAttackDropCC[$LB], $g_sProfileConfigPath, "attack", "ABDropCC", False, "Bool")
+	IniReadS($g_abNoSearchForHigherLevel[$LB], $g_sProfileConfigPath, "attack", "ABSearchHigherLVL", False, "Bool")
 	IniReadS($g_abAttackUseLightSpell[$LB], $g_sProfileConfigPath, "attack", "ABLightSpell", False, "Bool")
 	IniReadS($g_abAttackUseHealSpell[$LB], $g_sProfileConfigPath, "attack", "ABHealSpell", False, "Bool")
 	IniReadS($g_abAttackUseRageSpell[$LB], $g_sProfileConfigPath, "attack", "ABRageSpell", False, "Bool")

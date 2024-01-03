@@ -94,7 +94,7 @@ Func IsDonateQueueOnly(ByRef $abDonateQueueOnly)
 			For $j = 0 To (UBound($aSearchResult) - 1)
 				Local $TroopIndex = TroopIndexLookup($aSearchResult[$j][0], "IsDonateQueueOnly()")
 				If $TroopIndex < 0 Then ContinueLoop
-				If _ColorCheck(_GetPixelColor(($xQueue - 10) - $j * 60.5, 234 + $g_iMidOffsetY, True), Hex(0x96A724, 6), 20) Then ; the green check symbol
+				If IsArray(_PixelSearch(($xQueue - 9) - $j * 60.5, 234 + $g_iMidOffsetY, ($xQueue - 5) - $j * 60.5, 234 + $g_iMidOffsetY, Hex(0x96A724, 6), 20, True)) Then ; the green check symbol 
 					If $i = 0 Then
 						If _ArrayIndexValid($g_aiAvailQueuedTroop, $TroopIndex) Then
 							$g_aiAvailQueuedTroop[$TroopIndex] += $aSearchResult[$j][1]

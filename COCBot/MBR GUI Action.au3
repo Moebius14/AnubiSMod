@@ -113,6 +113,7 @@ Func BotStart($bAutostartDelay = 0)
 	$IsDropTrophyBreaked = 0
 	$g_aiAttackedCGCount = 0
 	$IsReachedMaxCGDayAttack = 0
+	$IsCGEventRunning = 0
 	$g_bIsBBevent = 0
 	$IsAttackCGRandomEnable = 0
 	$iRandomAttackCGCountToday = 0

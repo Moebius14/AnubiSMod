@@ -265,6 +265,7 @@ Func CheckQueueTroopAndTrainRemain($ArmyCamp, $bDebug)
 	; Check block troop
 	If $ArmyCamp[0] < $ArmyCamp[1] + $iTotalQueue Then
 		SetLog("A big guy blocks our camp")
+		SaveDebugImage("BigGuy")
 		Return False
 	EndIf
 	; check wrong queue
@@ -320,6 +321,7 @@ Func CheckQueueSpellAndTrainRemain($ArmyCamp, $bDebug, $iUnbalancedSpell = 0)
 	; Check block spell
 	If $ArmyCamp[0] < $ArmyCamp[1] + $iTotalQueue Then
 		SetLog("A big guy blocks our camp")
+		SaveDebugImage("BigGuy")
 		Return False
 	EndIf
 	; check wrong queue

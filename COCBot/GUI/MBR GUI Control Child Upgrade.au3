@@ -589,7 +589,7 @@ Func EnableUpgradeEquipment()
 	If $g_iTownHallLevel < 8 Then
 		GUICtrlSetState($g_hBtnHeroEquipment, $GUI_DISABLE)
 		GUICtrlSetState($g_hChkCustomEquipmentOrderEnable, $GUI_UNCHECKED)
-		btnRemoveEquipments()
+		btnRemoveEquipment()
 	Else
 		GUICtrlSetState($g_hBtnHeroEquipment, $GUI_ENABLE)
 	EndIf
@@ -623,14 +623,14 @@ Func GUIRoyalEquipmentOrder()
 	Local $iEquipmentIndex = _GUICtrlComboBox_GetCurSel($iGUI_CtrlId) + 1
 
 	If $iEquipmentIndex < UBound($g_ahCmbEquipmentOrder) - 1 Then
-		_GUICtrlSetImage($iCtrlIdImage, $g_sLibIconPath, $g_aiEquipmentsOrderIcon[$iEquipmentIndex]) ; set proper equipment icon
-		_GUICtrlSetImage($iCtrlIdImage2, $g_sLibIconPath, $g_aiEquipmentsOrderIcon2[$iEquipmentIndex]) ; set proper hero icon
+		_GUICtrlSetImage($iCtrlIdImage, $g_sLibIconPath, $g_aiEquipmentOrderIcon[$iEquipmentIndex]) ; set proper equipment icon
+		_GUICtrlSetImage($iCtrlIdImage2, $g_sLibIconPath, $g_aiEquipmentOrderIcon2[$iEquipmentIndex]) ; set proper hero icon
 	EndIf
 
 	For $i = 0 To UBound($g_ahCmbEquipmentOrder) - 1 ; check for duplicate combobox index and flag problem
 		If $iGUI_CtrlId = $g_ahCmbEquipmentOrder[$i] Then ContinueLoop
 		If _GUICtrlComboBox_GetCurSel($iGUI_CtrlId) = _GUICtrlComboBox_GetCurSel($g_ahCmbEquipmentOrder[$i]) Then
-			GUICtrlSetState($g_hChkCustomEquipmentsOrder[$i], $GUI_UNCHECKED)
+			GUICtrlSetState($g_hChkCustomEquipmentOrder[$i], $GUI_UNCHECKED)
 			_GUICtrlSetImage($g_ahImgEquipmentOrder[$i], $g_sLibIconPath, $eIcnOptions)
 			_GUICtrlSetImage($g_ahImgEquipmentOrder2[$i], $g_sLibIconPath, $eIcnOptions)
 			_GUICtrlComboBox_SetCurSel($g_ahCmbEquipmentOrder[$i], -1)
@@ -647,16 +647,28 @@ Func GUIRoyalEquipmentOrder()
 	EndIf
 EndFunc   ;==>GUIRoyalEquipmentOrder
 
-Func btnRemoveEquipments()
+Func btnRegularOrder()
+	btnRemoveEquipment()
+	For $i = 0 To UBound($g_ahCmbEquipmentOrder) - 1
+		GUICtrlSetState($g_ahCmbEquipmentOrder[$i], $GUI_ENABLE)
+		_GUICtrlComboBox_SetCurSel($g_ahCmbEquipmentOrder[$i], $i)
+		_GUICtrlSetImage($g_ahImgEquipmentOrder[$i], $g_sLibIconPath, $i + 1)
+		_GUICtrlSetImage($g_ahImgEquipmentOrder2[$i], $g_sLibIconPath, $i + 1)
+	Next
+	btnEquipmentOrderSet()
+	GUICtrlSetState($g_hBtnEquipmentOrderSet, $GUI_ENABLE) ; Re-enabling it.
+EndFunc
+
+Func btnRemoveEquipment()
 	Local $sComboData = ""
 	For $j = 0 To UBound($g_asEquipmentOrderList) - 1
 		$sComboData &= $g_asEquipmentOrderList[$j][0] & "|"
 	Next
 	For $i = 0 To UBound($g_ahCmbEquipmentOrder) - 1
-		$g_aiCmbCustomEquipmentsOrder[$i] = -1
-		$g_bChkCustomEquipmentsOrder[$i] = 0
+		$g_aiCmbCustomEquipmentOrder[$i] = -1
+		$g_bChkCustomEquipmentOrder[$i] = 0
 		_GUICtrlComboBox_ResetContent($g_ahCmbEquipmentOrder[$i])
-		GUICtrlSetState($g_hChkCustomEquipmentsOrder[$i], $GUI_UNCHECKED)
+		GUICtrlSetState($g_hChkCustomEquipmentOrder[$i], $GUI_UNCHECKED)
 		GUICtrlSetData($g_ahCmbEquipmentOrder[$i], $sComboData, "")
 		GUICtrlSetState($g_ahCmbEquipmentOrder[$i], $GUI_ENABLE)
 		_GUICtrlSetImage($g_ahImgEquipmentOrder[$i], $g_sLibIconPath, $eIcnOptions)
@@ -665,48 +677,48 @@ Func btnRemoveEquipments()
 	GUICtrlSetState($g_hBtnEquipmentOrderSet, $GUI_DISABLE)
 	_GUICtrlSetImage($g_ahImgEquipmentOrderSet, $g_sLibIconPath, $eIcnSilverStar)
 	SetDefaultEquipmentGroup(False)
-EndFunc   ;==>btnRemoveEquipments
+EndFunc   ;==>btnRemoveEquipment
 
 Func SetDefaultEquipmentGroup($bSetLog = True)
-	For $i = 0 To $eEquipmentsCount - 1
-		$g_aiEquipmentsOrder[$i] = $i
+	For $i = 0 To $eEquipmentCount - 1
+		$g_aiEquipmentOrder[$i] = $i
 	Next
 EndFunc   ;==>SetDefaultEquipmentGroup
 
 Func btnEquipmentOrderSet()
 	Local $bReady = True ; Initialize ready to record troop order flag
-	Local $sNewEquipmentsList = ""
+	Local $sNewEquipmentList = ""
 
-	Local $aiUsedEquipments = $g_aiEquipmentsOrder
-	Local $aTmpEquipmentsOrder[0], $iStartShuffle = 0
+	Local $aiUsedEquipment = $g_aiEquipmentOrder
+	Local $aTmpEquipmentOrder[0], $iStartShuffle = 0
 
 	For $i = 0 To UBound($g_ahCmbEquipmentOrder) - 1
 		Local $iValue = _GUICtrlComboBox_GetCurSel($g_ahCmbEquipmentOrder[$i])
 		If $iValue <> -1 Then
-			_ArrayAdd($aTmpEquipmentsOrder, $iValue)
-			Local $iEmpty = _ArraySearch($aiUsedEquipments, $iValue)
-			If $iEmpty > -1 Then $aiUsedEquipments[$iEmpty] = -1
+			_ArrayAdd($aTmpEquipmentOrder, $iValue)
+			Local $iEmpty = _ArraySearch($aiUsedEquipment, $iValue)
+			If $iEmpty > -1 Then $aiUsedEquipment[$iEmpty] = -1
 		EndIf
 	Next
 
-	$iStartShuffle = UBound($aTmpEquipmentsOrder)
+	$iStartShuffle = UBound($aTmpEquipmentOrder)
 
-	_ArraySort($aiUsedEquipments)
+	_ArraySort($aiUsedEquipment)
 
-	For $i = 0 To UBound($aTmpEquipmentsOrder) - 1
-		If $aiUsedEquipments[$i] = -1 Then $aiUsedEquipments[$i] = $aTmpEquipmentsOrder[$i]
+	For $i = 0 To UBound($aTmpEquipmentOrder) - 1
+		If $aiUsedEquipment[$i] = -1 Then $aiUsedEquipment[$i] = $aTmpEquipmentOrder[$i]
 	Next
 
-	_ArrayShuffle($aiUsedEquipments, $iStartShuffle)
+	_ArrayShuffle($aiUsedEquipment, $iStartShuffle)
 
 	For $i = 0 To UBound($g_ahCmbEquipmentOrder) - 1
 		GUICtrlSetState($g_ahCmbEquipmentOrder[$i], $GUI_ENABLE)
-		_GUICtrlComboBox_SetCurSel($g_ahCmbEquipmentOrder[$i], $aiUsedEquipments[$i])
-		_GUICtrlSetImage($g_ahImgEquipmentOrder[$i], $g_sLibIconPath, $g_aiEquipmentsOrderIcon[$aiUsedEquipments[$i] + 1])
-		_GUICtrlSetImage($g_ahImgEquipmentOrder2[$i], $g_sLibIconPath, $g_aiEquipmentsOrderIcon2[$aiUsedEquipments[$i] + 1])
+		_GUICtrlComboBox_SetCurSel($g_ahCmbEquipmentOrder[$i], $aiUsedEquipment[$i])
+		_GUICtrlSetImage($g_ahImgEquipmentOrder[$i], $g_sLibIconPath, $g_aiEquipmentOrderIcon[$aiUsedEquipment[$i] + 1])
+		_GUICtrlSetImage($g_ahImgEquipmentOrder2[$i], $g_sLibIconPath, $g_aiEquipmentOrderIcon2[$aiUsedEquipment[$i] + 1])
 	Next
 
-	$g_aiCmbCustomEquipmentsOrder = $aiUsedEquipments
+	$g_aiCmbCustomEquipmentOrder = $aiUsedEquipment
 	If $bReady Then
 		ChangeEquipmentOrder() ; code function to record new order
 		If @error Then
@@ -723,14 +735,14 @@ Func btnEquipmentOrderSet()
 			_GUICtrlSetImage($g_ahImgEquipmentOrderSet, $g_sLibIconPath, $eIcnRedLight)
 		Else
 			SetLog("Equipment upgrade order changed successfully!", $COLOR_SUCCESS)
-			For $i = 0 To $eEquipmentsCount - 1
-				$sNewEquipmentsList &= $g_asEquipmentsShortNames[$aiUsedEquipments[$i]] & ", "
+			For $i = 0 To $eEquipmentCount - 1
+				$sNewEquipmentList &= $g_asEquipmentShortNames[$aiUsedEquipment[$i]] & ", "
 			Next
-			$sNewEquipmentsList = StringTrimRight($sNewEquipmentsList, 2)
-			SetLog("Equipment order= " & $sNewEquipmentsList, $COLOR_INFO)
+			$sNewEquipmentList = StringTrimRight($sNewEquipmentList, 2)
+			SetLog("Equipment order= " & $sNewEquipmentList, $COLOR_INFO)
 		EndIf
 	Else
-		SetLog("Must use all equipments and No duplicate equipment names!", $COLOR_ERROR)
+		SetLog("Must use all Equipment and No duplicate equipment names!", $COLOR_ERROR)
 		_GUICtrlSetImage($g_ahImgEquipmentOrderSet, $g_sLibIconPath, $eIcnRedLight)
 	EndIf
 EndFunc   ;==>btnEquipmentOrderSet
@@ -743,14 +755,14 @@ Func ChangeEquipmentOrder()
 		Return
 	EndIf
 
-	$aUnique = _ArrayUnique($g_aiCmbCustomEquipmentsOrder, 0, 0, 0, 0)
+	$aUnique = _ArrayUnique($g_aiCmbCustomEquipmentOrder, 0, 0, 0, 0)
 	$iUpdateCount = UBound($aUnique)
 
-	If $iUpdateCount = $eEquipmentsCount Then ; safety check that all troops properly assigned to new array.
-		$g_aiEquipmentsOrder = $aUnique
+	If $iUpdateCount = $eEquipmentCount Then ; safety check that all troops properly assigned to new array.
+		$g_aiEquipmentOrder = $aUnique
 		_GUICtrlSetImage($g_ahImgEquipmentOrderSet, $g_sLibIconPath, $eIcnGreenLight)
 	Else
-		SetLog($iUpdateCount & "|" & $eEquipmentsCount & " - Error - Bad equipment assignment in ChangeEquipmentOrder()", $COLOR_ERROR)
+		SetLog($iUpdateCount & "|" & $eEquipmentCount & " - Error - Bad equipment assignment in ChangeEquipmentOrder()", $COLOR_ERROR)
 		SetError(3, 0, False)
 		Return
 	EndIf
@@ -759,8 +771,8 @@ Func ChangeEquipmentOrder()
 EndFunc   ;==>ChangeEquipmentOrder
 
 Func IsUseCustomEquipmentOrder()
-	For $i = 0 To UBound($g_aiCmbCustomEquipmentsOrder) - 1 ; Check if custom order has been used, to select log message
-		If $g_aiCmbCustomEquipmentsOrder[$i] = -1 Then Return False
+	For $i = 0 To UBound($g_aiCmbCustomEquipmentOrder) - 1 ; Check if custom order has been used, to select log message
+		If $g_aiCmbCustomEquipmentOrder[$i] = -1 Then Return False
 	Next
 	Return True
 EndFunc   ;==>IsUseCustomTroopOrder

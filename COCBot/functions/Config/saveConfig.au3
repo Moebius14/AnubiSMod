@@ -745,9 +745,9 @@ Func SaveConfig_600_15()
 	_Ini_Add("upgrade", "HeroMinUpgradeTime", $g_iHeroMinUpgradeTime)
 	; Equipment Order
 	_Ini_Add("upgrade", "ChkUpgradeEquipment", $g_bChkCustomEquipmentOrderEnable ? 1 : 0)
-	For $z = 0 To UBound($g_aiCmbCustomEquipmentsOrder) - 1
-		_Ini_Add("upgrade", "ChkEquipment" & $z, $g_bChkCustomEquipmentsOrder[$z] ? 1 : 0)
-		_Ini_Add("upgrade", "cmbEquipmentOrder" & $z, $g_aiCmbCustomEquipmentsOrder[$z])
+	For $z = 0 To UBound($g_aiCmbCustomEquipmentOrder) - 1
+		_Ini_Add("upgrade", "ChkEquipment" & $z, $g_bChkCustomEquipmentOrder[$z] ? 1 : 0)
+		_Ini_Add("upgrade", "cmbEquipmentOrder" & $z, $g_aiCmbCustomEquipmentOrder[$z])
 	Next
 	For $i = 0 To $ePetCount - 1
 		_Ini_Add("upgrade", "UpgradePet[" & $g_asPetShortNames[$i] & "]", $g_bUpgradePetsEnable[$i] ? 1 : 0)
@@ -1067,6 +1067,7 @@ Func SaveConfig_600_29_DB()
 	_Ini_Add("attack", "DBWardenAtk", BitAND($g_aiAttackUseHeroes[$DB], $eHeroWarden))
 	_Ini_Add("attack", "DBChampionAtk", BitAND($g_aiAttackUseHeroes[$DB], $eHeroChampion))
 	_Ini_Add("attack", "DBDropCC", $g_abAttackDropCC[$DB] ? 1 : 0)
+	_Ini_Add("attack", "DBSearchHigherLVL", $g_abNoSearchForHigherLevel[$DB] ? 1 : 0)
 	_Ini_Add("attack", "DBLightSpell", $g_abAttackUseLightSpell[$DB] ? 1 : 0)
 	_Ini_Add("attack", "DBHealSpell", $g_abAttackUseHealSpell[$DB] ? 1 : 0)
 	_Ini_Add("attack", "DBRageSpell", $g_abAttackUseRageSpell[$DB] ? 1 : 0)
@@ -1127,6 +1128,7 @@ Func SaveConfig_600_29_LB()
 	_Ini_Add("attack", "ABWardenAtk", BitAND($g_aiAttackUseHeroes[$LB], $eHeroWarden))
 	_Ini_Add("attack", "ABChampionAtk", BitAND($g_aiAttackUseHeroes[$LB], $eHeroChampion))
 	_Ini_Add("attack", "ABDropCC", $g_abAttackDropCC[$LB] ? 1 : 0)
+	_Ini_Add("attack", "ABSearchHigherLVL", $g_abNoSearchForHigherLevel[$LB] ? 1 : 0)
 	_Ini_Add("attack", "ABLightSpell", $g_abAttackUseLightSpell[$LB] ? 1 : 0)
 	_Ini_Add("attack", "ABHealSpell", $g_abAttackUseHealSpell[$LB] ? 1 : 0)
 	_Ini_Add("attack", "ABRageSpell", $g_abAttackUseRageSpell[$LB] ? 1 : 0)

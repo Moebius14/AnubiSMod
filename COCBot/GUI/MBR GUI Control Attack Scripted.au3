@@ -314,6 +314,7 @@ Func ApplyScriptDB()
 		_GUICtrlComboBox_SetCurSel($g_hCmbDBSiege, $aMachine + 1)
 		GUICtrlSetState($g_hChkDBDropCC, $GUI_CHECKED)
 		GUICtrlSetState($g_hCmbDBSiege, $GUI_ENABLE)
+		GUICtrlSetState($g_hChkDBNoLookforHiLvl, $GUI_ENABLE)
 		SetLog("CSV 'Sieges' settings applied", $COLOR_SUCCESS)
 	EndIf
 
@@ -468,6 +469,7 @@ Func ApplyScriptAB()
 		_GUICtrlComboBox_SetCurSel($g_hCmbABSiege, $aMachine + 1)
 		GUICtrlSetState($g_hChkABDropCC, $GUI_CHECKED)
 		GUICtrlSetState($g_hCmbABSiege, $GUI_ENABLE)
+		GUICtrlSetState($g_hChkABNoLookforHiLvl, $GUI_ENABLE)
 		SetLog("CSV 'Sieges' settings applied", $COLOR_SUCCESS)
 	EndIf
 

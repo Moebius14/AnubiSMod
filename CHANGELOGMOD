@@ -1,10 +1,17 @@
-* v23.12.29
+* v24.01.03
+* Add Blacksmith check to botcommand when stars unavailable.
+* Blacksmith moved to Official.
+* Added No Search For Higher Siege Level Option.
+* Added Multi-Archer Tower and Ricochet Cannon to auto upgrade exclusions.
+* Improved Drop Trophies Loop.
+
+* v23.12.29 **
 * Improved Blacksmith mod.
 * Added Equipments upgrades to mod log.
 * Improved Raid Detection buttons and count.
 * Bugfixes.
 
-* v23.12.22
+* v23.12.22 **
 * Added Iterations to research, builder jar and pet potions.
 * Added Blacksmith to upgrade exclusions.
 * Added Blacksmith/Heroes Equipments upgrade.

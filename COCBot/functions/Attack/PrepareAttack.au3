@@ -103,7 +103,7 @@ Func PrepareAttack($pMatchMode, $bRemaining = False) ;Assigns troops
 								Switch $avAttackBar[$j][0]
 									Case $eCastle, $eWallW, $eBattleB, $eStoneS, $eSiegeB, $eLogL, $eFlameF, $eBattleD ; Any = 8, Default = 9
 										If $g_aiAttackUseSiege[$pMatchMode] <= $eSiegeMachineCount + 1 Then
-											SelectCastleOrSiege($avAttackBar[$j][0], Number($avAttackBar[$j][5]), $g_aiAttackUseSiege[$pMatchMode])
+											SelectCastleOrSiege($avAttackBar[$j][0], Number($avAttackBar[$j][5]), $g_aiAttackUseSiege[$pMatchMode], $pMatchMode)
 
 											If $g_aiAttackUseSiege[$pMatchMode] = 0 And Not ($avAttackBar[$j][0] = $eCastle) Then ; if the user wanted to drop castle and no troops were available, do not drop a siege
 												SetDebugLog("Discard use of " & GetTroopName($avAttackBar[$j][0]) & " (" & $avAttackBar[$j][0] & ")", $COLOR_ERROR)
@@ -155,7 +155,7 @@ Func PrepareAttack($pMatchMode, $bRemaining = False) ;Assigns troops
 	Return $iTroopNumber
 EndFunc   ;==>PrepareAttack
 
-Func SelectCastleOrSiege(ByRef $iTroopIndex, $iX, $iCmbSiege)
+Func SelectCastleOrSiege(ByRef $iTroopIndex, $iX, $iCmbSiege, $gMatchMode)
 
 	Local $hStarttime = _Timer_Init()
 	Local $aSiegeTypes[9] = [$eCastle, $eWallW, $eBattleB, $eStoneS, $eSiegeB, $eLogL, $eFlameF, $eBattleD, "Any"]
@@ -171,7 +171,7 @@ Func SelectCastleOrSiege(ByRef $iTroopIndex, $iX, $iCmbSiege)
 
 	Switch $ToUse
 		Case $iTroopIndex ; the same as current castle/siege
-			If $iTroopIndex <> $eCastle And $g_iSiegeLevel < $iMaxSiegeLevel Then
+			If $iTroopIndex <> $eCastle And $g_iSiegeLevel < $iMaxSiegeLevel And Not $g_abNoSearchForHigherLevel[$gMatchMode] Then
 				$bNeedSwitch = True
 				SetLog(GetTroopName($iTroopIndex) & " level " & $g_iSiegeLevel & " detected. Try looking for higher level.")
 			EndIf
@@ -181,7 +181,7 @@ Func SelectCastleOrSiege(ByRef $iTroopIndex, $iX, $iCmbSiege)
 			SetLog(GetTroopName($iTroopIndex) & ($ToUse <> $eCastle ? " level " & $g_iSiegeLevel & " detected. Try looking for " : " detected. Switching to ") & GetTroopName($ToUse))
 
 		Case "Any" ; use any siege
-			If $iTroopIndex = $eCastle Or ($iTroopIndex <> $eCastle And $g_iSiegeLevel < $iMaxSiegeLevel) Then ; found Castle or a low level Siege
+			If $iTroopIndex = $eCastle Or ($iTroopIndex <> $eCastle And $g_iSiegeLevel < $iMaxSiegeLevel And Not $g_abNoSearchForHigherLevel[$gMatchMode]) Then ; found Castle or a low level Siege
 				$bNeedSwitch = True
 				$bAnySiege = True
 				SetLog(GetTroopName($iTroopIndex) & ($iTroopIndex = $eCastle ? " detected. Try looking for any siege machine" : " level " & $g_iSiegeLevel & " detected. Try looking for any higher siege machine"))

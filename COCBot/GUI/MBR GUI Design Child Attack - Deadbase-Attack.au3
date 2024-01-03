@@ -23,12 +23,12 @@ Global $g_hPicDBKingAttack = 0, $g_hPicDBQueenAttack = 0, $g_hPicDBWardenAttack 
 Global $g_hPicDBLightSpell = 0, $g_hPicDBHealSpell = 0, $g_hPicDBRageSpell = 0, $g_hPicDBJumpSpell = 0, $g_hPicDBFreezeSpell = 0, $g_hPicDBCloneSpell = 0, _
 		$g_hPicDBInvisibilitySpell, $g_hPicDBRecallSpell = 0, $g_hPicDBPoisonSpell = 0, $g_hPicDBEarthquakeSpell = 0, $g_hPicDBHasteSpell = 0, $g_hPicDBSkeletonSpell = 0, $g_hPicDBBatSpell = 0
 
-Global $g_hCmbDBSiege = 0, $g_hCmbDBWardenMode = 0, $g_hChkDBChampionAttack = 0, $g_hPicDBChampionAttack = 0
+Global $g_hCmbDBSiege = 0, $g_hCmbDBWardenMode = 0, $g_hChkDBChampionAttack = 0, $g_hPicDBChampionAttack = 0, $g_hChkDBNoLookforHiLvl = 0
 
 Func CreateAttackSearchDeadBaseAttack()
 	Local $sTxtTip = ""
 	Local $x = 25, $y = 40
-	GUICtrlCreateGroup(GetTranslatedFileIni("MBR GUI Design Child Attack - Attack", "Group_01", "Attack with"), $x - 20, $y - 15, 145, 290)
+	GUICtrlCreateGroup(GetTranslatedFileIni("MBR GUI Design Child Attack - Attack", "Group_01", "Attack with"), $x - 20, $y - 15, 145, 317)
 	$x -= 15
 	$y += 2
 	$g_hCmbDBAlgorithm = GUICtrlCreateCombo("", $x, $y, 135, 25, BitOR($CBS_DROPDOWNLIST, $CBS_AUTOHSCROLL))
@@ -122,6 +122,11 @@ Func CreateAttackSearchDeadBaseAttack()
 			"The Bot will always check Castle/Siege type before every attack." & @CRLF & _
 			"Choose 'Default' to bypass Castle/Siege check")
 	_GUICtrlSetTip(-1, $sTxtTip)
+
+	$y += 27
+	$g_hChkDBNoLookforHiLvl = GUICtrlCreateCheckbox(GetTranslatedFileIni("MBR GUI Design Child Attack - Attack", "ChkDBNoLookforHiLvl", "No Search Higher Level"), $x - 46, $y, -1, -1)
+	_GUICtrlSetTip(-1, GetTranslatedFileIni("MBR GUI Design Child Attack - Attack", "ChkDBNoLookforHiLvl_Info_01", "If Checked, Bot Won't Look For Higher Siege Level."))
+	GUICtrlSetState(-1, $GUI_DISABLE)
 
 	$y += 27
 	$x -= 46

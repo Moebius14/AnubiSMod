@@ -183,7 +183,7 @@ Func CheckBBuilderTime()
 	If QuickMIS("BC1", $g_sImgAUpgradeHour, 550, 105, 630, 140) Then
 		Local $sUpgradeTime = getBuilderLeastUpgradeTime($g_iQuickMISX - 50, $g_iQuickMISY - 8)
 		Local $mUpgradeTime = ConvertOCRTime("Least Upgrade", $sUpgradeTime, False)
-		If $mUpgradeTime > 540 Then
+		If $mUpgradeTime > 540 Then ; Only if > 9 hours
 			ClickAway("Right")
 			Return True
 		EndIf

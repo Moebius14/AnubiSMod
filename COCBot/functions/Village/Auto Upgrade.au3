@@ -364,7 +364,7 @@ Func _AutoUpgrade()
 				$bMustIgnoreUpgrade = ($g_iChkUpgradesToIgnore[22] = 1) ? True : False
 			Case "Air Sweeper"
 				$bMustIgnoreUpgrade = ($g_iChkUpgradesToIgnore[23] = 1) ? True : False
-			Case "X Bow"
+			Case "X-Bow"
 				$bMustIgnoreUpgrade = ($g_iChkUpgradesToIgnore[24] = 1) ? True : False
 			Case "Inferno Tower"
 				$bMustIgnoreUpgrade = ($g_iChkUpgradesToIgnore[25] = 1) ? True : False
@@ -384,6 +384,10 @@ Func _AutoUpgrade()
 				$bMustIgnoreUpgrade = ($g_iChkUpgradesToIgnore[34] = 1) ? True : False
 			Case "Blacksmith"
 				$bMustIgnoreUpgrade = ($g_iChkUpgradesToIgnore[35] = 1) ? True : False
+			Case "Multi-Archer Tower"
+				$bMustIgnoreUpgrade = ($g_iChkUpgradesToIgnore[36] = 1) ? True : False
+			Case "Ricochet Cannon"
+				$bMustIgnoreUpgrade = ($g_iChkUpgradesToIgnore[37] = 1) ? True : False
 			Case Else
 				$bMustIgnoreUpgrade = False
 		EndSwitch

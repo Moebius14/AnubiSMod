@@ -23,12 +23,12 @@ Global $g_hGrpABAttack = 0, $g_hPicABKingAttack = 0, $g_hPicABQueenAttack = 0, $
 Global $g_hPicABLightSpell = 0, $g_hPicABHealSpell = 0, $g_hPicABRageSpell = 0, $g_hPicABJumpSpell = 0, $g_hPicABFreezeSpell = 0, $g_hPicABCloneSpell = 0, _
 		$g_hPicABInvisibilitySpell = 0, $g_hPicABRecallSpell = 0, $g_hPicABPoisonSpell = 0, $g_hPicABEarthquakeSpell = 0, $g_hPicABHasteSpell = 0, $g_hPicABSkeletonSpell = 0, $g_hPicABBatSpell = 0
 
-Global $g_hCmbABSiege = 0, $g_hCmbABWardenMode = 0, $g_hChkABChampionAttack = 0, $g_hPicABChampionAttack = 0
+Global $g_hCmbABSiege = 0, $g_hCmbABWardenMode = 0, $g_hChkABChampionAttack = 0, $g_hPicABChampionAttack = 0, $g_hChkABNoLookforHiLvl = 0
 
 Func CreateAttackSearchActiveBaseAttack()
 	Local $sTxtTip = ""
 	Local $x = 25, $y = 40
-	$g_hGrpABAttack = GUICtrlCreateGroup(GetTranslatedFileIni("MBR GUI Design Child Attack - Attack", "Group_01", -1), $x - 20, $y - 15, 145, 290)
+	$g_hGrpABAttack = GUICtrlCreateGroup(GetTranslatedFileIni("MBR GUI Design Child Attack - Attack", "Group_01", -1), $x - 20, $y - 15, 145, 317)
 	$x -= 15
 	$y += 2
 	$g_hCmbABAlgorithm = GUICtrlCreateCombo("", $x, $y, 135, 25, BitOR($CBS_DROPDOWNLIST, $CBS_AUTOHSCROLL))
@@ -117,6 +117,11 @@ Func CreateAttackSearchActiveBaseAttack()
 			GetTranslatedFileIni("MBR GUI Design Child Attack - Attack", "Cmb-Siege_Item_06", -1), GetTranslatedFileIni("MBR GUI Design Child Attack - Attack", "Cmb-Siege_Item_06", -1))
 	$sTxtTip = GetTranslatedFileIni("MBR GUI Design Child Attack - Attack", "Cmb-Siege_Tip", -1)
 	_GUICtrlSetTip(-1, $sTxtTip)
+
+	$y += 27
+	$g_hChkABNoLookforHiLvl = GUICtrlCreateCheckbox(GetTranslatedFileIni("MBR GUI Design Child Attack - Attack", "ChkABNoLookforHiLvl", "No Search Higher Level"), $x - 46, $y, -1, -1)
+	_GUICtrlSetTip(-1, GetTranslatedFileIni("MBR GUI Design Child Attack - Attack", "ChkABNoLookforHiLvl_Info_01", "If Checked, Bot Won't Look For Higher Siege Level."))
+	GUICtrlSetState(-1, $GUI_DISABLE)
 
 	$y += 27
 	$x -= 46

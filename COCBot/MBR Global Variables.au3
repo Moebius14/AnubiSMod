@@ -999,7 +999,7 @@ Global $g_iChkIgnoreTH = 0, $g_iChkIgnoreKing = 0, $g_iChkIgnoreQueen = 0, $g_iC
 Global $g_iChkIgnoreBarrack = 0, $g_iChkIgnoreDBarrack = 0, $g_iChkIgnoreFactory = 0, $g_iChkIgnoreDFactory = 0
 Global $g_iChkIgnoreGColl = 0, $g_iChkIgnoreEColl = 0, $g_iChkIgnoreDColl = 0
 Global $g_iTxtSmartMinGold = 150000, $g_iTxtSmartMinElixir = 1000, $g_iTxtSmartMinDark = 1000
-Global $g_iChkUpgradesToIgnore[36] = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+Global $g_iChkUpgradesToIgnore[38] = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
 Global $g_iChkResourcesToIgnore[3] = [0, 0, 0]
 Global $g_iNextLineOffset = 75
 Global $g_aUpgradeNameLevel ; [Nb of elements in Array, Name, Level]
@@ -1195,6 +1195,7 @@ Global $g_abAttackUseLightSpell[$g_iModeCount] = [0, 0, 0], $g_abAttackUseHealSp
 		$g_abAttackUseInvisibilitySpell[$g_iModeCount] = [0, 0, 0], $g_abAttackUseRecallSpell[$g_iModeCount] = [0, 0, 0], _
 		$g_abAttackUsePoisonSpell[$g_iModeCount] = [0, 0, 0], $g_abAttackUseEarthquakeSpell[$g_iModeCount] = [0, 0, 0], _
 		$g_abAttackUseHasteSpell[$g_iModeCount] = [0, 0, 0], $g_abAttackUseSkeletonSpell[$g_iModeCount] = [0, 0, 0], $g_abAttackUseBatSpell[$g_iModeCount] = [0, 0, 0]
+Global $g_abNoSearchForHigherLevel[$g_iModeCount] = [0, 0, 0]
 ; Attack - Standard
 Global $g_aiAttackStdDropOrder[$g_iModeCount + 1] = [0, 0, 0, 0], $g_aiAttackStdDropSides[$g_iModeCount + 1] = [3, 3, 0, 1], _
 		$g_abAttackStdSmartAttack[$g_iModeCount + 1] = [True, True, False, False], $g_aiAttackStdSmartDeploy[$g_iModeCount + 1] = [0, 0, 0, 0]
@@ -1994,15 +1995,12 @@ Global $ExternalArea[8][3]
 
 Global $g_aVillageSize[10] = ["", "", "", "", "", "", "", "", "", ""]
 
-; Pet House
-Global $g_aiPetHousePos[2] = [-1, -1] ; Position of Pet House
-
 ; Blacksmith
 Global $g_aiBlacksmithPos[2] = [-1, -1] ; Position of Pet House
 Global $g_asEquipmentOrderList[15][4] = [ _
 			[GetTranslatedFileIni("MBR GUI Design Child Village - Equipment", "TxtBarbarianPuppet", "Barbarian Puppet"), "BarbarianPuppet", "King", 103 + $g_iMidOffsetY], _
 			[GetTranslatedFileIni("MBR GUI Design Child Village - Equipment", "TxtRageVial", "Rage Vial"), "RageVial", "King", 103 + $g_iMidOffsetY], _
-			[GetTranslatedFileIni("MBR GUI Design Child Village - Equipment", "TxtEQBoots", "EarthQuake Boots"), "Boots", "King", 103 + $g_iMidOffsetY], _
+			[GetTranslatedFileIni("MBR GUI Design Child Village - Equipment", "TxtEQBoots", "Earth Quake Boots"), "Boots", "King", 103 + $g_iMidOffsetY], _
 			[GetTranslatedFileIni("MBR GUI Design Child Village - Equipment", "TxtVampstache", "Vampstache"), "Vampstache", "King", 103 + $g_iMidOffsetY], _
 			[GetTranslatedFileIni("MBR GUI Design Child Village - Equipment", "TxtGauntlet", "Giant Gauntlet"), "Gauntlet", "King", 103 + $g_iMidOffsetY], _
 			[GetTranslatedFileIni("MBR GUI Design Child Village - Equipment", "TxtArcherPuppet", "Archer Puppet"), "ArcherPuppet", "Queen", 141 + $g_iMidOffsetY], _
@@ -2011,33 +2009,36 @@ Global $g_asEquipmentOrderList[15][4] = [ _
 			[GetTranslatedFileIni("MBR GUI Design Child Village - Equipment", "TxtHealerPuppet", "Healer Puppet"), "HealerPuppet", "Queen", 141 + $g_iMidOffsetY], _
 			[GetTranslatedFileIni("MBR GUI Design Child Village - Equipment", "TxtEternalTome", "Eternal Tome"), "EternalTome", "Warden", 178 + $g_iMidOffsetY], _
 			[GetTranslatedFileIni("MBR GUI Design Child Village - Equipment", "TxtLifeGem", "Life Gem"), "LifeGem", "Warden", 178 + $g_iMidOffsetY], _
-			[GetTranslatedFileIni("MBR GUI Design Child Village - Equipment", "TxtHealingTome", "Healing Tome"), "HealingTome", "Warden", 178 + $g_iMidOffsetY], _
 			[GetTranslatedFileIni("MBR GUI Design Child Village - Equipment", "TxtRageGem", "Rage Gem"), "RageGem", "Warden", 178 + $g_iMidOffsetY], _
+			[GetTranslatedFileIni("MBR GUI Design Child Village - Equipment", "TxtHealingTome", "Healing Tome"), "HealingTome", "Warden", 178 + $g_iMidOffsetY], _
 			[GetTranslatedFileIni("MBR GUI Design Child Village - Equipment", "TxtRoyalGem", "Royal Gem"), "RoyalGem", "Champion", 215 + $g_iMidOffsetY], _
 			[GetTranslatedFileIni("MBR GUI Design Child Village - Equipment", "TxtSeekingShield", "Seeking Shield"), "SeekingShield", "Champion", 215 + $g_iMidOffsetY]]
 
 Global Enum $eBarbarianPuppet, $eRageVial, $eEQBoots, $eVampstache, $eGiantGauntlet, $eArcherPuppet, $eInvisibilityVial, $eGiantArrow, $eHealerPuppet, _
-		$eEternalTome, $eLifeGem, $eHealingTome, $eRageGem, $eRoyalGem, $eSeekingShield, $eEquipmentsCount
+		$eEternalTome, $eLifeGem, $eRageGem, $eHealingTome, $eRoyalGem, $eSeekingShield, $eEquipmentCount
 Global $g_hChkCustomEquipmentOrderEnable = 0, $g_bChkCustomEquipmentOrderEnable = 0
-Global $g_hBtnEquipmentOrderSet = 0, $g_ahImgEquipmentOrderSet = 0,$g_hBtnRemoveEquipment = 0
-Global $g_EquipmentOrderLabel[$eEquipmentsCount] = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
-Global $g_ahCmbEquipmentOrder[$eEquipmentsCount] = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
-Global $g_ahImgEquipmentOrder[$eEquipmentsCount] = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
-Global $g_ahImgEquipmentOrder2[$eEquipmentsCount] = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
-Global $g_aiEquipmentsOrder[$eEquipmentsCount] = [ _
+Global $g_hBtnEquipmentOrderSet = 0, $g_ahImgEquipmentOrderSet = 0,$g_hBtnRemoveEquipment = 0, $g_hBtnRegularOrder = 0
+Global $g_EquipmentOrderLabel[$eEquipmentCount] = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+Global $g_ahCmbEquipmentOrder[$eEquipmentCount] = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+Global $g_ahImgEquipmentOrder[$eEquipmentCount] = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+Global $g_ahImgEquipmentOrder2[$eEquipmentCount] = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+Global $g_aiEquipmentOrder[$eEquipmentCount] = [ _
 		$eBarbarianPuppet, $eRageVial, $eEQBoots, $eVampstache, $eGiantGauntlet, $eArcherPuppet, $eInvisibilityVial, $eGiantArrow, $eHealerPuppet, _
-		$eEternalTome, $eLifeGem, $eHealingTome, $eRageGem, $eRoyalGem, $eSeekingShield]
-Global Const $g_aiEquipmentsOrderIcon[$eEquipmentsCount + 1] = [ _
+		$eEternalTome, $eLifeGem, $eRageGem, $eHealingTome, $eRoyalGem, $eSeekingShield]
+Global Const $g_aiEquipmentOrderIcon[$eEquipmentCount + 1] = [ _
 		$eIcnOptions, $eIcnBarbarianPuppet, $eIcnRageVial, $eIcnEQBoots, $eIcnVampstache, $eIcnGauntlet, $eIcnArcherPuppet, $eIcnInvisibilityVial, $eIcnGiantArrow, $eIcnHealerPuppet, _
-		$eIcnEternalTome, $eIcnLifeGem, $eIcnHealingTome, $eIcnRageGem, $eIcnRoyalGem, $eIcnSeekingShield]
-Global Const $g_aiEquipmentsOrderIcon2[$eEquipmentsCount + 1] = [ _
+		$eIcnEternalTome, $eIcnLifeGem, $eIcnRageGem, $eIcnHealingTome, $eIcnRoyalGem, $eIcnSeekingShield]
+Global Const $g_aiEquipmentOrderIcon2[$eEquipmentCount + 1] = [ _
 		$eIcnOptions, $eIcnKing, $eIcnKing, $eIcnKing, $eIcnKing, $eIcnKing, $eIcnQueen, $eIcnQueen, $eIcnQueen, $eIcnQueen, _
 		$eIcnWarden, $eIcnWarden, $eIcnWarden, $eIcnWarden, $eIcnChampion, $eIcnChampion]
-Global $g_aiCmbCustomEquipmentsOrder[$eEquipmentsCount] = [-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1]
-Global $g_hChkCustomEquipmentsOrder[$eEquipmentsCount] = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], $g_bChkCustomEquipmentsOrder[$eEquipmentsCount] = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
-Global Const $g_asEquipmentsShortNames[$eEquipmentsCount] = ["BarbPuppet", "RageVial", "Boots", "Stache", "Gauntlet", "ArchPuppet", _
-"InvVial", "GArrow", "HealPuppet", "Eternal", "Life", "HealTome", "RageGem", "RoyalGem", "Shield"]
+Global $g_aiCmbCustomEquipmentOrder[$eEquipmentCount] = [-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1]
+Global $g_hChkCustomEquipmentOrder[$eEquipmentCount] = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], $g_bChkCustomEquipmentOrder[$eEquipmentCount] = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+Global Const $g_asEquipmentShortNames[$eEquipmentCount] = ["BarbPuppet", "RageVial", "Boots", "Stache", "Gauntlet", "ArchPuppet", _
+"InvVial", "GArrow", "HealPuppet", "Eternal", "Life", "RageGem", "HealTome", "RoyalGem", "Shield"]
 Global $StarBonusReceived = 0
+
+; Pet House
+Global $g_aiPetHousePos[2] = [-1, -1] ; Position of Pet House
 
 Global $g_sPetUpgradeTime = ""
 

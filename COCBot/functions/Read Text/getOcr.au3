@@ -9,6 +9,10 @@
 ; Link ..........: https://github.com/MyBotRun/MyBot/wiki
 ; Example .......: No
 ; ===============================================================================================================================
+Func getOresValues($x_start, $y_start, $bNeedCapture = True) ;  -> Get least upgradetime on builder menu
+	Return getOcrAndCapture("coc-ores", $x_start, $y_start, 160, 16, $bNeedCapture)
+EndFunc   ;==>getBuilderLeastUpgradeTime
+
 Func getBuilderLeastUpgradeTime($x_start, $y_start) ;  -> Get least upgradetime on builder menu
 	Return getOcrAndCapture("coc-buildermenu-cost", $x_start, $y_start, 100, 18, True)
 EndFunc   ;==>getBuilderLeastUpgradeTime
@@ -37,17 +41,9 @@ Func getRemainTrainTimer($x_start, $y_start, $bNeedCapture = True) ;
 	Return getOcrAndCapture("coc-RemainTrain", $x_start, $y_start, 70, 16, True, False, $bNeedCapture)
 EndFunc   ;==>getRemainTrainTimer
 
-Func getRemainBuildTimer($x_start, $y_start, $bNeedCapture = True) ;
-	Return getOcrAndCapture("coc-RemainTrain", $x_start, $y_start, 98, 17, True, False, $bNeedCapture)
-EndFunc   ;==>getRemainBuildTimer
-
 Func getElixirVillageSearch($x_start, $y_start) ;48, 69+29 -> Gets complete value of Elixir xxx,xxx, top left,  Getresources.au3
 	Return getOcrAndCapture("coc-v-e", $x_start, $y_start, 90, 16, True)
 EndFunc   ;==>getElixirVillageSearch
-
-Func getResourcesValueTrainPage($x_start, $y_start) ; -> Gets CheckValuesCost on Train Window
-	Return getOcrAndCapture("coc-ms", $x_start, $y_start, 113, 18, True)
-EndFunc   ;==>getResourcesValueTrainPage
 
 Func getDarkElixirVillageSearch($x_start, $y_start) ;48, 69+57 or 69+69  -> Gets complete value of Dark Elixir xxx,xxx, top left,  Getresources.au3
 	Return getOcrAndCapture("coc-v-de", $x_start, $y_start, 75, 18, True)
@@ -64,10 +60,6 @@ EndFunc   ;==>getTrophyMainScreen
 Func getTrophyLossAttackScreen($x_start, $y_start) ; 48,214 or 48,184 WO/DE -> Gets red number of trophy loss from attack screen, top left
 	Return getOcrAndCapture("coc-t-p", $x_start, $y_start, 50, 16, True)
 EndFunc   ;==>getTrophyLossAttackScreen
-
-Func getUpgradeResource($x_start, $y_start) ; -> Gets complete value of Gold/Elixir xxx,xxx , RED text on green upgrade button."UpgradeBuildings.au3"
-	Return getOcrAndCapture("coc-u-r", $x_start, $y_start, 98, 16, True)
-EndFunc   ;==>getUpgradeResource
 
 Func getResourcesMainScreen($x_start, $y_start) ; -> Gets complete value of Gold/Elixir/Dark Elixir/Trophies/Gems xxx,xxx "VillageReport.au3"
 	Return getOcrAndCapture("coc-ms", $x_start, $y_start, 110, 16, True)
@@ -312,7 +304,7 @@ Func getRemainTHero($x_start, $y_start, $bNeedCapture = True) ; Get time remaini
 EndFunc   ;==>getRemainTHero
 
 Func getRequestRemainTime($x_start, $y_start, $bNeedCapture = True) ; Get Remain Time To request Troops
-	Return getOcrAndCapture("coc-CCremainTime", $x_start, $y_start, 30, 14, False, False, $bNeedCapture)
+	Return StringReplace(getOcrAndCapture("coc-CCremainTime", $x_start, $y_start, 30, 10, False, False, $bNeedCapture), "b", "")
 EndFunc   ;==>getRequestRemainTime
 
 Func getCloudTextShort($x_start, $y_start, $sLogText = Default, $LogTextColor = Default, $bSilentSetLog = Default)
@@ -400,10 +392,6 @@ Func getChatStringPersian($x_start, $y_start, $bConvert = True) ; -> Get string 
 	EndIf
 	Return $OCRString
 EndFunc   ;==>getChatStringPersian
-
-Func getArmyResourcesFromButtons($x_start, $y_start) ;  -> Gets cost of Troops/Spells from buttons
-	Return Number(getOcrAndCapture("coc-TrainResources", $x_start - 45, $y_start + 25, 89, 20, True))
-EndFunc   ;==>getArmyResourcesFromButtons
 
 Func OcrForceCaptureRegion($bForce = Default)
 	If $bForce = Default Then Return $g_bOcrForceCaptureRegion

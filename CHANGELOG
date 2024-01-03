@@ -14,6 +14,19 @@
 * Changed ClickDrag amplitude for troop training.
 * Improved 1x red detection in queued troops.
 * Improved Super Archer detection in queued troops.
+* Added Blacksmith/Equipment Auto upgrade.
+* Added special temporary save debug image to catch "Big guy" error.
+* Fixed CC remaining time OCR.
+* Updated request image for Flame flinger.
+* Fixed Sneaky Goblin training.
+* Updated wizard detection in queued troop.
+* Fixed Super Dragon detection in attack bar.
+* Improved queue troop OCR.
+* Clean OCR code and libs.
+* Improved Wing detection [SwitchWarden Mode].
+* Improved Star Bonus detection.
+* Updated coc-build library.
+* Improved Balloon detection for training.
 
 * v8.1.4 **
 * Fixed Legend League Sign-up.

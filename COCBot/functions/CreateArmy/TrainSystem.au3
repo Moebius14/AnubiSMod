@@ -383,19 +383,30 @@ Func DragIfNeeded($Troop)
 	If Not $g_bRunState Then Return
 	Local $bCheckPixel = False
 	Local $iIndex = TroopIndexLookup($Troop, "DragIfNeeded")
-	Local $bDrag = False
+	Local $bDrag = False, $ExtendedTroops4 = False, $ExtendedDragTroops4 = 0
 
-	If $iIndex > $g_iNextPageTroop Then $bDrag = True ;Drag if Troops is on Right side from $g_iNextPageTroop
+	If $iIndex > $g_iNextPageTroop Then $bDrag = True ; Drag if Troops is on Right side from $g_iNextPageTroop
 	If $iIndex > $eAppWard Then $bDrag = False ; No Drag If Event Troops
+	If $g_iNextPageTroop <= $eMine Then  ; MicroDragLeft if Moved 4+ slots to find Edrag and Yeti.
+		$ExtendedTroops4 = True
+		$ExtendedDragTroops4 = 70 ; Drag more to the right before.
+	EndIf
 
 	If $bDrag Then
-		If _ColorCheck(_GetPixelColor(777, 380 + $g_iMidOffsetY, True), Hex(0xD3D3CB, 6), 5) Then $bCheckPixel = True
+		If _ColorCheck(_GetPixelColor(776, 380 + $g_iMidOffsetY, True), Hex(0xD3D3CB, 6), 5) Then $bCheckPixel = True
 		If $g_bDebugSetlogTrain Then SetLog("DragIfNeeded : to the right")
-		For $i = 1 To 3
+		For $i = 1 To 4
 			If Not $bCheckPixel Then
-				ClickDrag(715, 433 + $g_iMidOffsetY, 300, 433 + $g_iMidOffsetY)
+				ClickDrag(715, 433 + $g_iMidOffsetY, 300 - $ExtendedDragTroops4, 433 + $g_iMidOffsetY)
 				If _Sleep(2000) Then Return
-				If _ColorCheck(_GetPixelColor(777, 380 + $g_iMidOffsetY, True), Hex(0xD3D3CB, 6), 5) Then $bCheckPixel = True
+				If _ColorCheck(_GetPixelColor(776, 380 + $g_iMidOffsetY, True), Hex(0xD3D3CB, 6), 5) Then
+					$bCheckPixel = True
+					If $ExtendedTroops4 And $iIndex >= $eEDrag And $iIndex <= $eRootR Then
+						If $g_bDebugSetlogTrain Then SetLog("DragIfNeeded : MicroDrag to the left")
+						ClickDrag(250, 433 + $g_iMidOffsetY, 435, 433 + $g_iMidOffsetY)
+						If _Sleep(2000) Then Return
+					EndIf
+				EndIf
 			Else
 				Return True
 			EndIf
@@ -403,9 +414,9 @@ Func DragIfNeeded($Troop)
 	Else
 		If _ColorCheck(_GetPixelColor(75, 380 + $g_iMidOffsetY, True), Hex(0xD3D3CB, 6), 5) Then $bCheckPixel = True
 		If $g_bDebugSetlogTrain Then SetLog("DragIfNeeded : to the left")
-		For $i = 1 To 3
+		For $i = 1 To 4
 			If Not $bCheckPixel Then
-				ClickDrag(200, 433 + $g_iMidOffsetY, 615, 433 + $g_iMidOffsetY)
+				ClickDrag(200, 433 + $g_iMidOffsetY, 615 + $ExtendedDragTroops4, 433 + $g_iMidOffsetY)
 				If _Sleep(2000) Then Return
 				If _ColorCheck(_GetPixelColor(75, 380 + $g_iMidOffsetY, True), Hex(0xD3D3CB, 6), 5) Then $bCheckPixel = True
 			Else
@@ -669,17 +680,16 @@ Func IsQueueEmpty($sType = "Troops", $bSkipTabCheck = False, $removeExtraTroopsQ
 		WEnd
 	EndIf
 
-	If Not _ColorCheck(_GetPixelColor($iArrowX, $iArrowY, True, $g_bDebugSetlogTrain ? $sType & " GreenArrow:0xAFDC87" : Default), Hex(0xAFDC87, 6), 30) And _
-			Not _ColorCheck(_GetPixelColor($iArrowX, $iArrowY + 3, True, $g_bDebugSetlogTrain ? $sType & " GreenArrow:0x79BF30" : Default), Hex(0x79BF30, 6), 30) Then
+	If Not IsArray(_PixelSearch($iArrowX, $iArrowY, $iArrowX + 4, $iArrowY, Hex(0xAFDC87, 6), 30, True)) And _
+			Not IsArray(_PixelSearch($iArrowX, $iArrowY + 3, $iArrowX + 4, $iArrowY + 3, Hex(0x79BF30, 6), 30, True)) Then
 
 		If $g_bDebugSetlogTrain Then SetLog($sType & " Queue empty", $COLOR_DEBUG)
 		Return True ; Check Green Arrows at top first, if not there -> Return
 
-	ElseIf _ColorCheck(_GetPixelColor($iArrowX, $iArrowY, True, $g_bDebugSetlogTrain ? $sType & " GreenArrow:0xAFDC87" : Default), Hex(0xAFDC87, 6), 30) And _
-			_ColorCheck(_GetPixelColor($iArrowX, $iArrowY + 3, True, $g_bDebugSetlogTrain ? $sType & " GreenArrow:0x79BF30" : Default), Hex(0x79BF30, 6), 30) And _
-			Not $removeExtraTroopsQueue Then
+	ElseIf IsArray(_PixelSearch($iArrowX, $iArrowY, $iArrowX + 4, $iArrowY, Hex(0xAFDC87, 6), 30, True)) And _
+			IsArray(_PixelSearch($iArrowX, $iArrowY + 3, $iArrowX + 4, $iArrowY + 3, Hex(0x79BF30, 6), 30, True)) And Not $removeExtraTroopsQueue Then
 
-		If Not WaitforPixel($iArrowX - 11, $iArrowY - 1, $iArrowX - 9, $iArrowY + 1, Hex(0xAFDC87, 6), 30, 2) Then Return False  ; check if boost arrow
+		If Not WaitforPixel($iArrowX - 12, $iArrowY - 1, $iArrowX - 7, $iArrowY + 1, Hex(0xAFDC87, 6), 30, 2) Then Return False  ; check if boost arrow
 
 	EndIf
 	If _Sleep($DELAYRESPOND) Then Return
@@ -904,7 +914,6 @@ Func CheckQueueTroops($bGetQuantity = True, $bSetLog = True, $x = 777, $bQtyWSlo
 
 	ReDim $aResult[UBound($aSearchResult)]
 
-
 	If $aSearchResult[0][0] = "" Then
 		Setlog("No Troops detected!", $COLOR_ERROR)
 		Return
@@ -923,7 +932,8 @@ Func CheckQueueTroops($bGetQuantity = True, $bSetLog = True, $x = 777, $bQtyWSlo
 			$aQuantities[$i][1] = $aSearchResult[$i][3]
 			Local $iTroopIndex = TroopIndexLookup($aQuantities[$i][0])
 			If $iTroopIndex >= 0 And $iTroopIndex < $eTroopCount Then
-				If $bSetLog Then SetLog("  - " & $g_asTroopNames[TroopIndexLookup($aQuantities[$i][0], "CheckQueueTroops")] & ": " & $aQuantities[$i][1] & "x", $COLOR_SUCCESS)
+				;				If $bSetLog Then SetLog("  - " & $g_asTroopNames[TroopIndexLookup($aQuantities[$i][0], "CheckQueueTroops")] & ": " & $aQuantities[$i][1] & "x", $COLOR_SUCCESS)
+				SetLog("  - " & $g_asTroopNames[TroopIndexLookup($aQuantities[$i][0], "CheckQueueTroops")] & ": " & $aQuantities[$i][1] & "x", $COLOR_SUCCESS)
 				$aQueueTroop[$iTroopIndex] += $aQuantities[$i][1]
 			Else
 				; TODO check what to do with others
@@ -965,7 +975,8 @@ Func CheckQueueSpells($bGetQuantity = True, $bSetLog = True, $x = 777, $bQtyWSlo
 			If Not $g_bRunState Then Return
 			$aiQuantities[$i][0] = $avSearchResult[$i][0]
 			$aiQuantities[$i][1] = $avSearchResult[$i][3]
-			If $bSetLog Then SetLog("  - " & $g_asSpellNames[TroopIndexLookup($aiQuantities[$i][0], "CheckQueueSpells") - $eLSpell] & ": " & $aiQuantities[$i][1] & "x", $COLOR_SUCCESS)
+			;			If $bSetLog Then SetLog("  - " & $g_asSpellNames[TroopIndexLookup($aiQuantities[$i][0], "CheckQueueSpells") - $eLSpell] & ": " & $aiQuantities[$i][1] & "x", $COLOR_SUCCESS)
+			SetLog("  - " & $g_asSpellNames[TroopIndexLookup($aiQuantities[$i][0], "CheckQueueSpells") - $eLSpell] & ": " & $aiQuantities[$i][1] & "x", $COLOR_SUCCESS)
 			$aQueueSpell[TroopIndexLookup($aiQuantities[$i][0]) - $eLSpell] += $aiQuantities[$i][1]
 		Next
 		If $bQtyWSlot Then Return $aiQuantities

@@ -127,9 +127,9 @@ Func BotCommand()
 					ElseIf $iCmbBotCond = 23 Then
 						SetLog("Star bonus unavailable.", $COLOR_DEBUG)
 					EndIf
-					If $g_bChkForceAttackOnClanGamesWhenHalt Then
+					If $g_bChkForceAttackOnClanGamesWhenHalt And Not $g_bClanGamesCompleted Then
 						_ClanGames()
-						If $IsCGEventRunning Then
+						If $IsCGEventRunning And Not $g_bIsBBevent Then
 							SetLog("Clan Games Challenge Running, Don't Halt Attack.", $COLOR_SUCCESS)
 							Return False
 						EndIf
@@ -148,7 +148,7 @@ Func BotCommand()
 						If Not IsCCTreasuryFull() Then
 							Return False
 						EndIf
-						If $g_bChkForceAttackOnClanGamesWhenHalt Then
+						If $g_bChkForceAttackOnClanGamesWhenHalt And Not $g_bClanGamesCompleted Then
 							_ClanGames(False, True)
 							If $IsCGEventRunning Then
 								SetLog("Star bonus unavailable.", $COLOR_DEBUG)
@@ -157,7 +157,7 @@ Func BotCommand()
 							EndIf
 						EndIf
 					ElseIf $iCmbBotCond = 23 Then
-						If $g_bChkForceAttackOnClanGamesWhenHalt Then
+						If $g_bChkForceAttackOnClanGamesWhenHalt And Not $g_bClanGamesCompleted Then
 							_ClanGames(False, True)
 							If $IsCGEventRunning Then
 								SetLog("Star bonus unavailable.", $COLOR_DEBUG)
@@ -177,18 +177,18 @@ Func BotCommand()
 							If _Sleep($DELAYRUNBOT3) Then Return
 							If IsToFillCCWithMedalsOnly() Then
 								Local $aRndFuncList = ['CleanYard', 'DonateCC,Train', 'CollectFreeMagicItems', 'Collect', 'Laboratory', 'UpgradeHeroes', _
-										'PetHouse']
+										'PetHouse', 'Blacksmith']
 							Else
 								Local $aRndFuncList = ['CleanYard', 'DonateCC,Train', 'RequestCC', 'CollectFreeMagicItems', 'Collect', 'Laboratory', 'UpgradeHeroes', _
-										'PetHouse']
+										'PetHouse', 'Blacksmith']
 							EndIf
 						Else
 							If IsToFillCCWithMedalsOnly() Then
 								Local $aRndFuncList = ['CleanYard', 'DonateCC,Train', 'CollectFreeMagicItems', 'Collect', 'UpgradeWall', 'Laboratory', 'UpgradeHeroes', _
-										'UpgradeBuilding', 'PetHouse']
+										'UpgradeBuilding', 'PetHouse', 'Blacksmith']
 							Else
 								Local $aRndFuncList = ['CleanYard', 'DonateCC,Train', 'RequestCC', 'CollectFreeMagicItems', 'Collect', 'UpgradeWall', 'Laboratory', 'UpgradeHeroes', _
-										'UpgradeBuilding', 'PetHouse']
+										'UpgradeBuilding', 'PetHouse', 'Blacksmith']
 							EndIf
 						EndIf
 						_ArrayShuffle($aRndFuncList)
@@ -217,7 +217,7 @@ Func BotCommand()
 						If _Sleep($DELAYBOTCOMMAND1) Then Return
 						Return True
 					Else
-						If $g_bChkForceAttackOnClanGamesWhenHalt Then
+						If $g_bChkForceAttackOnClanGamesWhenHalt And Not $g_bClanGamesCompleted Then
 							_ClanGames(False, True)
 							If $IsCGEventRunning Then
 								SetLog("Clan Games Challenge Running, Finish it First.", $COLOR_ACTION)
@@ -239,7 +239,7 @@ Func BotCommand()
 						If Not IsCCTreasuryFull() Then
 							Return False
 						EndIf
-						If $g_bChkForceAttackOnClanGamesWhenHalt Then
+						If $g_bChkForceAttackOnClanGamesWhenHalt And Not $g_bClanGamesCompleted Then
 							_ClanGames(False, True)
 							If $IsCGEventRunning Then
 								SetLog("Star bonus unavailable.", $COLOR_DEBUG)
@@ -248,7 +248,7 @@ Func BotCommand()
 							EndIf
 						EndIf
 					ElseIf $iCmbBotCond = 23 Then
-						If $g_bChkForceAttackOnClanGamesWhenHalt Then
+						If $g_bChkForceAttackOnClanGamesWhenHalt And Not $g_bClanGamesCompleted Then
 							_ClanGames(False, True)
 							If $IsCGEventRunning Then
 								SetLog("Star bonus unavailable.", $COLOR_DEBUG)
@@ -268,18 +268,18 @@ Func BotCommand()
 							If _Sleep($DELAYRUNBOT3) Then Return
 							If IsToFillCCWithMedalsOnly() Then
 								Local $aRndFuncList = ['CleanYard', 'DonateCC,Train', 'CollectFreeMagicItems', 'Collect', 'Laboratory', 'UpgradeHeroes', _
-										'PetHouse']
+										'PetHouse', 'Blacksmith']
 							Else
 								Local $aRndFuncList = ['CleanYard', 'DonateCC,Train', 'RequestCC', 'CollectFreeMagicItems', 'Collect', 'Laboratory', 'UpgradeHeroes', _
-										'PetHouse']
+										'PetHouse', 'Blacksmith']
 							EndIf
 						Else
 							If IsToFillCCWithMedalsOnly() Then
 								Local $aRndFuncList = ['CleanYard', 'DonateCC,Train', 'CollectFreeMagicItems', 'Collect', 'UpgradeWall', 'Laboratory', 'UpgradeHeroes', _
-										'UpgradeBuilding', 'PetHouse']
+										'UpgradeBuilding', 'PetHouse', 'Blacksmith']
 							Else
 								Local $aRndFuncList = ['CleanYard', 'DonateCC,Train', 'RequestCC', 'CollectFreeMagicItems', 'Collect', 'UpgradeWall', 'Laboratory', 'UpgradeHeroes', _
-										'UpgradeBuilding', 'PetHouse']
+										'UpgradeBuilding', 'PetHouse', 'Blacksmith']
 							EndIf
 						EndIf
 						_ArrayShuffle($aRndFuncList)
@@ -305,7 +305,7 @@ Func BotCommand()
 						Sleep(Random(1500, 2500, 1))
 						Return True ; HaHa - No Return possible!
 					Else
-						If $g_bChkForceAttackOnClanGamesWhenHalt Then
+						If $g_bChkForceAttackOnClanGamesWhenHalt And Not $g_bClanGamesCompleted Then
 							_ClanGames(False, True)
 							If $IsCGEventRunning Then
 								SetLog("Clan Games Challenge Running, Finish it First.", $COLOR_ACTION)
@@ -325,7 +325,7 @@ Func BotCommand()
 						If Not IsCCTreasuryFull() Then
 							Return False
 						EndIf
-						If $g_bChkForceAttackOnClanGamesWhenHalt Then
+						If $g_bChkForceAttackOnClanGamesWhenHalt And Not $g_bClanGamesCompleted Then
 							_ClanGames(False, True)
 							If $IsCGEventRunning Then
 								SetLog("Star bonus unavailable.", $COLOR_DEBUG)
@@ -334,7 +334,7 @@ Func BotCommand()
 							EndIf
 						EndIf
 					ElseIf $iCmbBotCond = 23 Then
-						If $g_bChkForceAttackOnClanGamesWhenHalt Then
+						If $g_bChkForceAttackOnClanGamesWhenHalt And Not $g_bClanGamesCompleted Then
 							_ClanGames(False, True)
 							If $IsCGEventRunning Then
 								SetLog("Star bonus unavailable.", $COLOR_DEBUG)
@@ -354,18 +354,18 @@ Func BotCommand()
 							If _Sleep($DELAYRUNBOT3) Then Return
 							If IsToFillCCWithMedalsOnly() Then
 								Local $aRndFuncList = ['CleanYard', 'DonateCC,Train', 'CollectFreeMagicItems', 'Collect', 'Laboratory', 'UpgradeHeroes', _
-										'PetHouse']
+										'PetHouse', 'Blacksmith']
 							Else
 								Local $aRndFuncList = ['CleanYard', 'DonateCC,Train', 'RequestCC', 'CollectFreeMagicItems', 'Collect', 'Laboratory', 'UpgradeHeroes', _
-										'PetHouse']
+										'PetHouse', 'Blacksmith']
 							EndIf
 						Else
 							If IsToFillCCWithMedalsOnly() Then
 								Local $aRndFuncList = ['CleanYard', 'DonateCC,Train', 'CollectFreeMagicItems', 'Collect', 'UpgradeWall', 'Laboratory', 'UpgradeHeroes', _
-										'UpgradeBuilding', 'PetHouse']
+										'UpgradeBuilding', 'PetHouse', 'Blacksmith']
 							Else
 								Local $aRndFuncList = ['CleanYard', 'DonateCC,Train', 'RequestCC', 'CollectFreeMagicItems', 'Collect', 'UpgradeWall', 'Laboratory', 'UpgradeHeroes', _
-										'UpgradeBuilding', 'PetHouse']
+										'UpgradeBuilding', 'PetHouse', 'Blacksmith']
 							EndIf
 						EndIf
 						_ArrayShuffle($aRndFuncList)
@@ -392,7 +392,7 @@ Func BotCommand()
 						Sleep(Random(1500, 2500, 1))
 						Return True ; HaHa - No Return possible!
 					Else
-						If $g_bChkForceAttackOnClanGamesWhenHalt Then
+						If $g_bChkForceAttackOnClanGamesWhenHalt And Not $g_bClanGamesCompleted Then
 							_ClanGames(False, True)
 							If $IsCGEventRunning Then
 								SetLog("Clan Games Challenge Running, Finish it First.", $COLOR_ACTION)
@@ -413,7 +413,7 @@ Func BotCommand()
 						If Not IsCCTreasuryFull() Then
 							Return False
 						EndIf
-						If $g_bChkForceAttackOnClanGamesWhenHalt Then
+						If $g_bChkForceAttackOnClanGamesWhenHalt And Not $g_bClanGamesCompleted Then
 							_ClanGames(False, True)
 							If $IsCGEventRunning Then
 								SetLog("Star bonus unavailable.", $COLOR_DEBUG)
@@ -422,7 +422,7 @@ Func BotCommand()
 							EndIf
 						EndIf
 					ElseIf $iCmbBotCond = 23 Then
-						If $g_bChkForceAttackOnClanGamesWhenHalt Then
+						If $g_bChkForceAttackOnClanGamesWhenHalt And Not $g_bClanGamesCompleted Then
 							_ClanGames(False, True)
 							If $IsCGEventRunning Then
 								SetLog("Star bonus unavailable.", $COLOR_DEBUG)
@@ -442,18 +442,18 @@ Func BotCommand()
 							If _Sleep($DELAYRUNBOT3) Then Return
 							If IsToFillCCWithMedalsOnly() Then
 								Local $aRndFuncList = ['CleanYard', 'DonateCC,Train', 'CollectFreeMagicItems', 'Collect', 'Laboratory', 'UpgradeHeroes', _
-										'PetHouse']
+										'PetHouse', 'Blacksmith']
 							Else
 								Local $aRndFuncList = ['CleanYard', 'DonateCC,Train', 'RequestCC', 'CollectFreeMagicItems', 'Collect', 'Laboratory', 'UpgradeHeroes', _
-										'PetHouse']
+										'PetHouse', 'Blacksmith']
 							EndIf
 						Else
 							If IsToFillCCWithMedalsOnly() Then
 								Local $aRndFuncList = ['CleanYard', 'DonateCC,Train', 'CollectFreeMagicItems', 'Collect', 'UpgradeWall', 'Laboratory', 'UpgradeHeroes', _
-										'UpgradeBuilding', 'PetHouse']
+										'UpgradeBuilding', 'PetHouse', 'Blacksmith']
 							Else
 								Local $aRndFuncList = ['CleanYard', 'DonateCC,Train', 'RequestCC', 'CollectFreeMagicItems', 'Collect', 'UpgradeWall', 'Laboratory', 'UpgradeHeroes', _
-										'UpgradeBuilding', 'PetHouse']
+										'UpgradeBuilding', 'PetHouse', 'Blacksmith']
 							EndIf
 						EndIf
 						_ArrayShuffle($aRndFuncList)
@@ -480,7 +480,7 @@ Func BotCommand()
 						Sleep(Random(1500, 2500, 1))
 						Return True ; HaHa - No Return possible!
 					Else
-						If $g_bChkForceAttackOnClanGamesWhenHalt Then
+						If $g_bChkForceAttackOnClanGamesWhenHalt And Not $g_bClanGamesCompleted Then
 							_ClanGames(False, True)
 							If $IsCGEventRunning Then
 								SetLog("Clan Games Challenge Running, Finish it First.", $COLOR_ACTION)
@@ -500,7 +500,7 @@ Func BotCommand()
 						If Not IsCCTreasuryFull() Then
 							Return False
 						EndIf
-						If $g_bChkForceAttackOnClanGamesWhenHalt Then
+						If $g_bChkForceAttackOnClanGamesWhenHalt And Not $g_bClanGamesCompleted Then
 							_ClanGames(False, True)
 							If $IsCGEventRunning Then
 								SetLog("Star bonus unavailable.", $COLOR_DEBUG)
@@ -509,7 +509,7 @@ Func BotCommand()
 							EndIf
 						EndIf
 					ElseIf $iCmbBotCond = 23 Then
-						If $g_bChkForceAttackOnClanGamesWhenHalt Then
+						If $g_bChkForceAttackOnClanGamesWhenHalt And Not $g_bClanGamesCompleted Then
 							_ClanGames(False, True)
 							If $IsCGEventRunning Then
 								SetLog("Star bonus unavailable.", $COLOR_DEBUG)
@@ -529,18 +529,18 @@ Func BotCommand()
 							If _Sleep($DELAYRUNBOT3) Then Return
 							If IsToFillCCWithMedalsOnly() Then
 								Local $aRndFuncList = ['CleanYard', 'DonateCC,Train', 'CollectFreeMagicItems', 'Collect', 'Laboratory', 'UpgradeHeroes', _
-										'PetHouse']
+										'PetHouse', 'Blacksmith']
 							Else
 								Local $aRndFuncList = ['CleanYard', 'DonateCC,Train', 'RequestCC', 'CollectFreeMagicItems', 'Collect', 'Laboratory', 'UpgradeHeroes', _
-										'PetHouse']
+										'PetHouse', 'Blacksmith']
 							EndIf
 						Else
 							If IsToFillCCWithMedalsOnly() Then
 								Local $aRndFuncList = ['CleanYard', 'DonateCC,Train', 'CollectFreeMagicItems', 'Collect', 'UpgradeWall', 'Laboratory', 'UpgradeHeroes', _
-										'UpgradeBuilding', 'PetHouse']
+										'UpgradeBuilding', 'PetHouse', 'Blacksmith']
 							Else
 								Local $aRndFuncList = ['CleanYard', 'DonateCC,Train', 'RequestCC', 'CollectFreeMagicItems', 'Collect', 'UpgradeWall', 'Laboratory', 'UpgradeHeroes', _
-										'UpgradeBuilding', 'PetHouse']
+										'UpgradeBuilding', 'PetHouse', 'Blacksmith']
 							EndIf
 						EndIf
 						_ArrayShuffle($aRndFuncList)
@@ -567,7 +567,7 @@ Func BotCommand()
 						Sleep(Random(1500, 2500, 1))
 						Return True ; HaHa - No Return possible!
 					Else
-						If $g_bChkForceAttackOnClanGamesWhenHalt Then
+						If $g_bChkForceAttackOnClanGamesWhenHalt And Not $g_bClanGamesCompleted Then
 							_ClanGames(False, True)
 							If $IsCGEventRunning Then
 								SetLog("Clan Games Challenge Running, Finish it First.", $COLOR_ACTION)
@@ -587,7 +587,7 @@ Func BotCommand()
 						If Not IsCCTreasuryFull() Then
 							Return False
 						EndIf
-						If $g_bChkForceAttackOnClanGamesWhenHalt Then
+						If $g_bChkForceAttackOnClanGamesWhenHalt And Not $g_bClanGamesCompleted Then
 							_ClanGames(False, True)
 							If $IsCGEventRunning Then
 								SetLog("Star bonus unavailable.", $COLOR_DEBUG)
@@ -596,7 +596,7 @@ Func BotCommand()
 							EndIf
 						EndIf
 					ElseIf $iCmbBotCond = 23 Then
-						If $g_bChkForceAttackOnClanGamesWhenHalt Then
+						If $g_bChkForceAttackOnClanGamesWhenHalt And Not $g_bClanGamesCompleted Then
 							_ClanGames(False, True)
 							If $IsCGEventRunning Then
 								SetLog("Star bonus unavailable.", $COLOR_DEBUG)
@@ -616,18 +616,18 @@ Func BotCommand()
 							If _Sleep($DELAYRUNBOT3) Then Return
 							If IsToFillCCWithMedalsOnly() Then
 								Local $aRndFuncList = ['CleanYard', 'DonateCC,Train', 'CollectFreeMagicItems', 'Collect', 'Laboratory', 'UpgradeHeroes', _
-										'PetHouse']
+										'PetHouse', 'Blacksmith']
 							Else
 								Local $aRndFuncList = ['CleanYard', 'DonateCC,Train', 'RequestCC', 'CollectFreeMagicItems', 'Collect', 'Laboratory', 'UpgradeHeroes', _
-										'PetHouse']
+										'PetHouse', 'Blacksmith']
 							EndIf
 						Else
 							If IsToFillCCWithMedalsOnly() Then
 								Local $aRndFuncList = ['CleanYard', 'DonateCC,Train', 'CollectFreeMagicItems', 'Collect', 'UpgradeWall', 'Laboratory', 'UpgradeHeroes', _
-										'UpgradeBuilding', 'PetHouse']
+										'UpgradeBuilding', 'PetHouse', 'Blacksmith']
 							Else
 								Local $aRndFuncList = ['CleanYard', 'DonateCC,Train', 'RequestCC', 'CollectFreeMagicItems', 'Collect', 'UpgradeWall', 'Laboratory', 'UpgradeHeroes', _
-										'UpgradeBuilding', 'PetHouse']
+										'UpgradeBuilding', 'PetHouse', 'Blacksmith']
 							EndIf
 						EndIf
 						_ArrayShuffle($aRndFuncList)
@@ -654,7 +654,7 @@ Func BotCommand()
 						Sleep(Random(1500, 2500, 1))
 						Return True ; HaHa - No Return possible!
 					Else
-						If $g_bChkForceAttackOnClanGamesWhenHalt Then
+						If $g_bChkForceAttackOnClanGamesWhenHalt And Not $g_bClanGamesCompleted Then
 							_ClanGames(False, True)
 							If $IsCGEventRunning Then
 								SetLog("Clan Games Challenge Running, Finish it First.", $COLOR_ACTION)
@@ -674,7 +674,7 @@ Func BotCommand()
 						If Not IsCCTreasuryFull() Then
 							Return False
 						EndIf
-						If $g_bChkForceAttackOnClanGamesWhenHalt Then
+						If $g_bChkForceAttackOnClanGamesWhenHalt And Not $g_bClanGamesCompleted Then
 							_ClanGames(False, True)
 							If $IsCGEventRunning Then
 								SetLog("Star bonus unavailable.", $COLOR_DEBUG)
@@ -683,7 +683,7 @@ Func BotCommand()
 							EndIf
 						EndIf
 					ElseIf $iCmbBotCond = 23 Then
-						If $g_bChkForceAttackOnClanGamesWhenHalt Then
+						If $g_bChkForceAttackOnClanGamesWhenHalt And Not $g_bClanGamesCompleted Then
 							_ClanGames(False, True)
 							If $IsCGEventRunning Then
 								SetLog("Star bonus unavailable.", $COLOR_DEBUG)
@@ -708,7 +708,7 @@ Func BotCommand()
 							EndIf
 						EndIf
 					Else
-						If $g_bChkForceAttackOnClanGamesWhenHalt Then
+						If $g_bChkForceAttackOnClanGamesWhenHalt And Not $g_bClanGamesCompleted Then
 							_ClanGames(False, True)
 							If $IsCGEventRunning Then
 								SetLog("Clan Games Challenge Running, Finish it First.", $COLOR_ACTION)

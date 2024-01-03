@@ -79,16 +79,20 @@ EndFunc   ;==>chkDBWardenAttack
 Func chkABDropCC()
 	If GUICtrlRead($g_hChkABDropCC) = $GUI_CHECKED Then
 		GUICtrlSetState($g_hcmbABSiege, $GUI_ENABLE)
+		GUICtrlSetState($g_hChkABNoLookforHiLvl, $GUI_ENABLE)
 	Else
 		GUICtrlSetState($g_hcmbABSiege, $GUI_DISABLE)
+		GUICtrlSetState($g_hChkABNoLookforHiLvl, $GUI_UNCHECKED + $GUI_DISABLE)
 	EndIf
 EndFunc   ;==>chkABDropCC
 
 Func chkDBDropCC()
 	If GUICtrlRead($g_hChkDBDropCC) = $GUI_CHECKED Then
 		GUICtrlSetState($g_hcmbDBSiege, $GUI_ENABLE)
+		GUICtrlSetState($g_hChkDBNoLookforHiLvl, $GUI_ENABLE)
 	Else
 		GUICtrlSetState($g_hcmbDBSiege, $GUI_DISABLE)
+		GUICtrlSetState($g_hChkDBNoLookforHiLvl, $GUI_UNCHECKED + $GUI_DISABLE)
 	EndIf
 EndFunc   ;==>chkDBDropCC
 

@@ -864,6 +864,7 @@ Func runBot() ;Bot that runs everything in order
 				If CheckAndroidReboot() Then ContinueLoop 2 ; must be level 2 due to loop-in-loop
 			Next
 
+			If Not $g_bRunState Then Return
 			CheckDonateOften()
 
 			If SwitchBetweenBasesMod2() Then
@@ -1135,7 +1136,7 @@ Func _Idle() ;Sequence that runs until Full Army
 		EndIf
 		If _Sleep($DELAYIDLE1) Then Return
 		If $g_iCommandStop = -1 Then
-			DropTrophy()
+			If $g_bDropTrophyEnable And (Number($g_aiCurrentLoot[$eLootTrophy]) > Number($g_iDropTrophyMax) Or $IsdroptrophiesActive) Then DropTrophy()
 			If Not $g_bRunState Then Return
 			If $g_bRestart Then ExitLoop
 			;If $g_bFullArmy Then ExitLoop		; Never will reach to SmartWait4Train() to close coc while Heroes/Spells not ready 'if' Army is full, so better to be commented
@@ -1178,7 +1179,7 @@ Func AttackMain() ;Main control for attack functions
 				checkMainScreen(False)
 				If $g_bRestart Then Return
 			EndIf
-			If $g_bDropTrophyEnable And (Number($g_aiCurrentLoot[$eLootTrophy]) > Number($g_iDropTrophyMax) Or $IsDropTrophyBreaked) Then ;If current trophy above max trophy, try drop first
+			If $g_bDropTrophyEnable And (Number($g_aiCurrentLoot[$eLootTrophy]) > Number($g_iDropTrophyMax) Or $IsdroptrophiesActive) Then ;If current trophy above max trophy, try drop first
 				DropTrophy()
 				If Not $g_bRunState Then Return
 				$g_bIsClientSyncError = False ; reset OOS flag to prevent looping.
