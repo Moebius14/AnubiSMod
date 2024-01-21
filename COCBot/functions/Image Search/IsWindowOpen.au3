@@ -4,7 +4,7 @@
 ;                : Search for [X] in TR area and click if found.  Search for building text and clickaway if found
 ; Author ........: Fliegerfaust (06/2019)
 ; Modified ......: GrumpyHog (11/2022)
-; Remarks .......: This file is part of MyBot Copyright 2015-2023
+; Remarks .......: This file is part of MyBot Copyright 2015-2024
 ;                  MyBot is distributed under the terms of the GNU GPL
 ; Related .......: Returns True or False
 ; Link ..........: https://github.com/MyBotRun/MyBot/wiki
@@ -56,7 +56,7 @@ Func IsWindowOpen($sImagePath, $iLoopCount = 1, $iDelay = 200, $sSearchArea = ""
 	Return False
 EndFunc   ;==>IsWindowOpen
 
-Func CloseWindow($IsinPet = False, $IsinLab = False, $IsToClickRight = False, $iLoopCount = 5, $iDelay = 200, $aSearchArea = Default, $bDebuglog = $g_bDebugSetlog, $bDebugImageSave = $g_bDebugImageSave)
+Func CloseWindow($IsinBlacksmith = False, $IsinPet = False, $IsinLab = False, $IsToClickRight = False, $iLoopCount = 5, $iDelay = 200, $aSearchArea = Default, $bDebuglog = $g_bDebugSetlog, $bDebugImageSave = $g_bDebugImageSave)
 	Local $aiButton
 	Local $sImageDir = @ScriptDir & "\imgxml\Windows\CloseButton\*"
 
@@ -87,6 +87,8 @@ Func CloseWindow($IsinPet = False, $IsinLab = False, $IsToClickRight = False, $i
 					UseLabPotion()
 				Case $IsinPet
 					UsePetPotion()
+				Case $IsinBlacksmith
+					BlacksmithUpTime()
 			EndSelect
 
 			; clear building text - this area is needed for ZoomOut()

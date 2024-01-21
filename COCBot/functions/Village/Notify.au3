@@ -6,7 +6,7 @@
 ; Return values .: None
 ; Author ........: Full revamp of Notify by IceCube (2016-09)
 ; Modified ......: IceCube (2016-12) v1.5.1, CodeSLinger69 (2017), ProMac 2018-08
-; Remarks .......: This file is part of MyBot, previously known as ClashGameBot. Copyright 2015-2023
+; Remarks .......: This file is part of MyBot, previously known as ClashGameBot. Copyright 2015-2024
 ;                  MyBot is distributed under the terms of the GNU GPL
 ; Related .......:
 ; Link ..........: https://github.com/MyBotRun/MyBot/wiki
@@ -172,7 +172,11 @@ Func NotifyPushFileToTelegram($File, $Folder, $FileType, $body)
 				$sCmd1 = "document"
 			EndIf
 			Local $FullTelegram_url = $TELEGRAM_URL & $g_sNotifyTGToken & $sCmd
-			Local $Result = RunWait($g_sCurlPath & " -i -X POST " & $FullTelegram_url & ' -F chat_id="' & $g_sTGChatID & '" -F ' & $sCmd1 & '=@"' & $g_sProfilePath & "\" & $g_sProfileCurrentName & '\' & $Folder & '\' & $File & '"', "", @SW_HIDE)
+			If $g_bNotifyTGEnableInSecure Then
+				Local $Result = RunWait($g_sCurlPath & " -k -i -X POST " & $FullTelegram_url & ' -F chat_id="' & $g_sTGChatID & '" -F ' & $sCmd1 & '=@"' & $g_sProfilePath & "\" & $g_sProfileCurrentName & '\' & $Folder & '\' & $File & '"', "", @SW_HIDE)
+			Else
+				Local $Result = RunWait($g_sCurlPath & " -i -X POST " & $FullTelegram_url & ' -F chat_id="' & $g_sTGChatID & '" -F ' & $sCmd1 & '=@"' & $g_sProfilePath & "\" & $g_sProfileCurrentName & '\' & $Folder & '\' & $File & '"', "", @SW_HIDE)
+			EndIf
 
 			; Telegram Message attached to file
 			Local $SdtOut = InetRead("https://api.telegram.org/bot" & $g_sNotifyTGToken & "/sendMessage?chat_id=" & $g_sTGChatID & "&text=" & $body, $INET_FORCERELOAD)
@@ -717,53 +721,57 @@ Func NotifyPushMessageToBoth($Message, $Source = "")
 				SetLog("Notify Telegram: An error occurred deleting temporary screenshot file.", $COLOR_ERROR)
 			EndIf
 		Case "BuilderInfo"
-			ClickAway()
-			; open the builders menu
-			Click(400, 30)
-			If _Sleep(750) Then Return
-			Local $Date = @YEAR & "-" & @MON & "-" & @MDAY
-			Local $Time = @HOUR & "." & @MIN
-			_CaptureRegion(305, 75, 579, 350)
-			Local $Screnshotfilename = "Screenshot_" & $Date & "_" & $Time & ".jpg"
-			_GDIPlus_ImageSaveToFile($g_hBitmap, $g_sProfileTempPath & $Screnshotfilename)
-			_GDIPlus_ImageDispose($g_hBitmap)
-			If $g_bTGRequestBuilderInfo Then
+			If isOnMainVillage() Then
+				ClickAway()
+				; open the builders menu
+				Click(400, 30)
+				If _Sleep(750) Then Return
+				Local $Date = @YEAR & "-" & @MON & "-" & @MDAY
+				Local $Time = @HOUR & "." & @MIN
+				_CaptureRegion(305, 75, 579, 350)
+				Local $Screnshotfilename = "Screenshot_" & $Date & "_" & $Time & ".jpg"
+				_GDIPlus_ImageSaveToFile($g_hBitmap, $g_sProfileTempPath & $Screnshotfilename)
+				_GDIPlus_ImageDispose($g_hBitmap)
 				If $g_bTGRequestBuilderInfo Then
-					NotifyPushFileToTelegram($Screnshotfilename, "Temp", "image/jpeg", $g_sNotifyOrigin & " | " & "Builder Information" & "%0A" & $Screnshotfilename)
-					SetLog("Notify Telegram: Builder Information sent!", $COLOR_GREEN)
+					If $g_bTGRequestBuilderInfo Then
+						NotifyPushFileToTelegram($Screnshotfilename, "Temp", "image/jpeg", $g_sNotifyOrigin & " | " & "Builder Information [Main]" & "%0A" & $Screnshotfilename)
+						SetLog("Notify Telegram: Builder Information [Main] sent!", $COLOR_GREEN)
+					EndIf
 				EndIf
+				$g_bTGRequestBuilderInfo = False
+				;wait a second and then delete the file
+				If _Sleep($DELAYPUSHMSG2) Then Return
+				Local $iDelete = FileDelete($g_sProfileTempPath & $Screnshotfilename)
+				If Not $iDelete Then
+					SetLog("Notify Telegram: An error occurred deleting temporary screenshot file.", $COLOR_ERROR)
+				EndIf
+				ClickAway()
 			EndIf
-			$g_bTGRequestBuilderInfo = False
-			;wait a second and then delete the file
-			If _Sleep($DELAYPUSHMSG2) Then Return
-			Local $iDelete = FileDelete($g_sProfileTempPath & $Screnshotfilename)
-			If Not $iDelete Then
-				SetLog("Notify Telegram: An error occurred deleting temporary screenshot file.", $COLOR_ERROR)
-			EndIf
-			ClickAway()
 		Case "ShieldInfo"
-			ClickAway()
-			Click(435, 8)
-			If _Sleep(500) Then Return
-			Local $Date = @YEAR & "-" & @MON & "-" & @MDAY
-			Local $Time = @HOUR & "." & @MIN
-			_CaptureRegion(200, 165, 660, 568)
-			Local $Screnshotfilename = "Screenshot_" & $Date & "_" & $Time & ".jpg"
-			_GDIPlus_ImageSaveToFile($g_hBitmap, $g_sProfileTempPath & $Screnshotfilename)
-			If $g_bTGRequestShieldInfo Then
+			If isOnMainVillage() Then
+				ClickAway()
+				Click(511, 13)
+				If _Sleep(500) Then Return
+				Local $Date = @YEAR & "-" & @MON & "-" & @MDAY
+				Local $Time = @HOUR & "." & @MIN
+				_CaptureRegion(139, 139, 720, 600)
+				Local $Screnshotfilename = "Screenshot_" & $Date & "_" & $Time & ".jpg"
+				_GDIPlus_ImageSaveToFile($g_hBitmap, $g_sProfileTempPath & $Screnshotfilename)
 				If $g_bTGRequestShieldInfo Then
-					NotifyPushFileToTelegram($Screnshotfilename, "Temp", "image/jpeg", $g_sNotifyOrigin & " | " & "Shield Information" & "%0A" & $Screnshotfilename)
-					SetLog("Notify Telegram: Shield Information sent!", $COLOR_SUCCESS)
+					If $g_bTGRequestShieldInfo Then
+						NotifyPushFileToTelegram($Screnshotfilename, "Temp", "image/jpeg", $g_sNotifyOrigin & " | " & "Shield Information" & "%0A" & $Screnshotfilename)
+						SetLog("Notify Telegram: Shield Information sent!", $COLOR_SUCCESS)
+					EndIf
 				EndIf
+				$g_bTGRequestShieldInfo = False
+				;wait a second and then delete the file
+				If _Sleep($DELAYPUSHMSG2) Then Return
+				Local $iDelete = FileDelete($g_sProfileTempPath & $Screnshotfilename)
+				If Not $iDelete Then
+					SetLog("Notify Telegram: An error occurred deleting temporary screenshot file.", $COLOR_ERROR)
+				EndIf
+				ClickAway()
 			EndIf
-			$g_bTGRequestShieldInfo = False
-			;wait a second and then delete the file
-			If _Sleep($DELAYPUSHMSG2) Then Return
-			Local $iDelete = FileDelete($g_sProfileTempPath & $Screnshotfilename)
-			If Not $iDelete Then
-				SetLog("Notify Telegram: An error occurred deleting temporary screenshot file.", $COLOR_ERROR)
-			EndIf
-			ClickAway()
 		Case "CampFull"
 			If $g_bNotifyAlertCampFull Then
 				NotifyPushToTelegram($g_sNotifyOrigin & " | " & GetTranslatedFileIni("MBR Func_Notify", "Camps-Full_Info_01", "Your Army Camps are now Full"))

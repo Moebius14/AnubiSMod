@@ -3,7 +3,7 @@
 ; Description ...: Upgrade Pets
 ; Author ........: GrumpyHog (2021-04)
 ; Modified ......: Moebius (2023-10)
-; Remarks .......: This file is part of MyBot Copyright 2015-2023
+; Remarks .......: This file is part of MyBot Copyright 2015-2024
 ;                  MyBot is distributed under the terms of the GNU GPL
 ; Related .......: Returns True or False
 ; Link ..........: https://github.com/MyBotRun/MyBot/wiki
@@ -227,7 +227,7 @@ Func PetHouse($test = False)
 							EndIf
 							SetLog("Started upgrade for : " & $aPet[$i][1])
 							If ProfileSwitchAccountEnabled() Then SwitchAccountVariablesReload("Save")
-							CloseWindow(True)
+							CloseWindow(False, True)
 							Return True
 						EndIf
 					EndIf
@@ -334,7 +334,7 @@ Func PetHouse($test = False)
 							EndIf
 							SetLog("Started upgrade for : " & $g_asPetNames[$i])
 							If ProfileSwitchAccountEnabled() Then SwitchAccountVariablesReload("Save")
-							CloseWindow(True)
+							CloseWindow(False, True)
 							Return True
 						EndIf
 					EndIf
@@ -377,7 +377,7 @@ Func CheckPetUpgrade()
 			SetLog("PetLabUpgradeInProgress - Invalid getRemainTLaboratory OCR", $COLOR_DEBUG)
 		EndIf
 		If ProfileSwitchAccountEnabled() Then SwitchAccountVariablesReload("Save")
-		CloseWindow(True)
+		CloseWindow(False, True)
 		Return True
 	EndIf
 	Return False ; returns False if no upgrade in progress
@@ -557,7 +557,7 @@ Func PetGuiDisplay()
 		EndIf
 		$g_iMinDark4PetUpgrade = 0
 		If ProfileSwitchAccountEnabled() Then SwitchAccountVariablesReload("Save")
-		CloseWindow(True)
+		CloseWindow(False, True)
 		Return True
 	ElseIf $IsStopped Then ; Look for the paw in the Pet House window.
 		SetLog("Pet House has Stopped", $COLOR_INFO)
@@ -816,11 +816,7 @@ Func UsePetPotion()
 				SetLog("Pet House Boosted With Pet Potion", $COLOR_SUCCESS)
 				If $g_iCmbPetPotion <= 5 Then
 					$g_iCmbPetPotion -= 1
-					If $g_iCmbPetPotion > 1 Then
-						SetLog("Remaining iterations: " & $g_iCmbPetPotion, $COLOR_SUCCESS)
-					Else
-						SetLog("Remaining iteration: " & $g_iCmbPetPotion, $COLOR_SUCCESS)
-					EndIf
+					SetLog("Remaining iteration" & ($g_iCmbPetPotion > 1 ? "s: " : ": ") & $g_iCmbPetPotion, $COLOR_SUCCESS)
 					_GUICtrlComboBox_SetCurSel($g_hCmbPetPotion, $g_iCmbPetPotion)
 				EndIf
 				$g_sPetUpgradeTime = _DateAdd('n', Ceiling($iPetFinishTimeMod - 1380), _NowCalc())

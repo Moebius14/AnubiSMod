@@ -6,7 +6,7 @@
 ; Return values .: None
 ; Author ........: GkevinOD (2014)
 ; Modified ......: Hervidero (2015), KnowJack(July 2015), CodeSlinger69 (2017)
-; Remarks .......: This file is part of MyBot, previously known as ClashGameBot. Copyright 2015-2023
+; Remarks .......: This file is part of MyBot, previously known as ClashGameBot. Copyright 2015-2024
 ;                  MyBot is distributed under the terms of the GNU GPL
 ; Related .......:
 ; Link ..........: https://github.com/MyBotRun/MyBot/wiki
@@ -59,6 +59,7 @@ Func Initiate()
 		$g_sLabUpgradeTime = ""
 		$g_sStarLabUpgradeTime = ""
 		$g_sPetUpgradeTime = ""
+		$g_sBSUpgradeTime = ""
 		For $i = 0 To $eLootCount - 1
 			$g_abFullStorage[$i] = False
 		Next

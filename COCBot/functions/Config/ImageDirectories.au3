@@ -4,7 +4,7 @@
 ; Syntax ........: $g_sImgxxx = @ScriptDir & "\imgxml\xxx\"
 ; Author ........:
 ; Modified ......:
-; Remarks .......: This file is part of MyBot, previously known as ClashGameBot. Copyright 2015-2023
+; Remarks .......: This file is part of MyBot, previously known as ClashGameBot. Copyright 2015-2024
 ;                  MyBot is distributed under the terms of the GNU GPL
 ; Related .......:
 ; Link ..........: https://github.com/MyBotRun/MyBot/wiki
@@ -14,6 +14,10 @@
 Global $g_sImgImgLocButtons = @ScriptDir & "\imgxml\imglocbuttons"
 Global $g_sImgBoostButtons = @ScriptDir & "\imgxml\imglocbuttons\BoostButtons\"
 Global $g_sImgBoostedButtons = @ScriptDir & "\imgxml\imglocbuttons\BoostedButtons\"
+
+#Region Language
+Global Const $g_sImgEnglishAttack = @ScriptDir & "\imgxml\Windows\EnglishAttack*"
+#EndRegion Language
 
 #Region Windows
 Global Const $g_sImgGeneralCloseButton = @ScriptDir & "\imgxml\Windows\CloseButton\"
@@ -80,7 +84,8 @@ Global $g_sImgPetPotCollectDaily = @ScriptDir & "\imgxml\Research\DailyChallenge
 Global $g_sImgAutoForgeSlotDaily = @ScriptDir & "\imgxml\Research\DailyChallenges\AutoForgeSlot\"
 Global $g_sImgHeroEquipement = @ScriptDir & "\imgxml\Research\Blacksmith\"
 Global $g_sImgEquipmentResearch = @ScriptDir & "\imgxml\Research\Blacksmith\Equipment\"
-Global Const $g_sImgRedZero = @ScriptDir & "\imgxml\Research\Blacksmith\RedZero\RedZero*"
+Global $g_sImgEquipmentNew = @ScriptDir & "\imgxml\Research\Blacksmith\New\New*"
+Global $g_sImgRedZero = @ScriptDir & "\imgxml\Research\Blacksmith\RedZero\RedZero*"
 #EndRegion Main Village
 
 #Region Clan Capital
@@ -169,7 +174,6 @@ Global $g_sImgAUpgradeEquip = @ScriptDir & "\imgxml\Resources\Auto Upgrade\Equip
 
 #Region Auto Upgrade Builder Base
 Global $g_sImgAutoUpgradeBB = @ScriptDir & "\imgxml\Resources\BuildersBase\AutoUpgrade\Resources"
-Global $g_sImgAutoUpgradeWindow = @ScriptDir & "\imgxml\Resources\BuildersBase\AutoUpgrade\Window"
 Global $g_sImgAutoUpgradeNew = @ScriptDir & "\imgxml\Resources\BuildersBase\AutoUpgrade\New"
 Global $g_sImgAutoUpgradeNoRes = @ScriptDir & "\imgxml\Resources\BuildersBase\AutoUpgrade\NoResources"
 Global $g_sImgAutoUpgradeBtnElixir = @ScriptDir & "\imgxml\Resources\BuildersBase\AutoUpgrade\ButtonUpg\Elixir"
@@ -196,6 +200,10 @@ Global $g_sImgAttackBarDir = @ScriptDir & "\imgxml\AttackBar"
 Global $g_sImgSwitchSiegeMachine = @ScriptDir & "\imgxml\SwitchSiegeMachines\"
 Global $g_sImgSwitchWardenMode = @ScriptDir & "\imgxml\SwitchWardenMode"
 Global $g_sImgIsMultiplayerTab = @ScriptDir & "\imgxml\Attack\Search\MultiplayerTab*"
+Global $g_sImgQueenBar = @ScriptDir & "\imgxml\AttackBar\Queen*"
+Global $g_sImgKingBar = @ScriptDir & "\imgxml\AttackBar\King*"
+Global $g_sImgWardenBar = @ScriptDir & "\imgxml\AttackBar\Warden*"
+Global $g_sImgChampionBar = @ScriptDir & "\imgxml\AttackBar\Champion*"
 #EndRegion Attack
 
 #Region Search
@@ -206,6 +214,8 @@ Global $g_sImgWeakBaseBuildingsDir = @ScriptDir & "\imgxml\Buildings"
 Global $g_sImgWeakBaseBuildingsEagleDir = @ScriptDir & "\imgxml\Buildings\Eagle"
 Global $g_sImgWeakBaseBuildingsScatterDir = @ScriptDir & "\imgxml\Buildings\ScatterShot"
 Global $g_sImgWeakBaseBuildingsMonolithDir = @ScriptDir & "\imgxml\Buildings\Monolith"
+Global $g_sImgWeakBaseBuildingsMultiArcherDir = @ScriptDir & "\imgxml\Buildings\MultiArcher"
+Global $g_sImgWeakBaseBuildingsRicochetDir = @ScriptDir & "\imgxml\Buildings\Ricochet"
 Global $g_sImgWeakBaseBuildingsInfernoDir = @ScriptDir & "\imgxml\Buildings\Infernos"
 Global $g_sImgWeakBaseBuildingsXbowDir = @ScriptDir & "\imgxml\Buildings\Xbow"
 Global $g_sImgWeakBaseBuildingsWizTowerSnowDir = @ScriptDir & "\imgxml\Buildings\WTower_Snow"

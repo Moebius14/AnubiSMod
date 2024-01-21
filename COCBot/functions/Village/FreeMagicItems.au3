@@ -6,7 +6,7 @@
 ; Return values .: None
 ; Author ........: ProMac (03-2018)
 ; Modified ......:
-; Remarks .......: This file is part of MyBot, previously known as ClashGameBot. Copyright 2015-2023
+; Remarks .......: This file is part of MyBot, previously known as ClashGameBot. Copyright 2015-2024
 ;                  MyBot is distributed under the terms of the GNU GPL
 ; Related .......:
 ; Link ..........: https://github.com/MyBotRun/MyBot/wiki
@@ -259,7 +259,7 @@ Func OpenTraderWindow()
 		Local $aTabButton = findButton("WeeklyDeals", Default, 1, True)
 		If IsArray($aTabButton) And UBound($aTabButton, 1) = 2 Then
 			$aIsWeekyDealsOpen[1] = $aTabButton[1]
-			If Not _CheckPixel($aIsWeekyDealsOpen, True) Then 
+			If Not _CheckPixel($aIsWeekyDealsOpen, True) Then
 				ClickP($aTabButton)
 				If Not _WaitForCheckPixel($aIsWeekyDealsOpen, True) Then
 					SetLog("Error : Cannot open Gems Menu. Pixel to check did not appear", $COLOR_ERROR)
@@ -319,11 +319,7 @@ Func SaleFreeMagics()
 					$XForItem1 = $aMagicPosXToClick[$i]
 					DeleteItemLine1($ItemTime)
 
-					If $ItemTime > 1 Then
-						$ActionForModLog = "" & $ItemTime & " " & $PotionsNames[$t] & " Potions Sold"
-					ElseIf $ItemTime = 1 Then
-						$ActionForModLog = "" & $ItemTime & " " & $PotionsNames[$t] & " Potion Sold"
-					EndIf
+					$ActionForModLog = $ItemTime & " " & $PotionsNames[$t] & " Potion" & ($ItemTime > 1 ? "s" : "") & " Sold"
 					If $g_iTxtCurrentVillageName <> "" Then
 						GUICtrlSetData($g_hTxtModLog, @CRLF & _NowTime() & " [" & $g_iTxtCurrentVillageName & "] Magic Items Selling : " & $ActionForModLog & "", 1)
 					Else
@@ -363,11 +359,7 @@ Func SaleFreeMagics()
 						$XForItem2 = $aMagicPosXToClick[$i]
 						DeleteItemLine2($ItemTime2)
 
-						If $ItemTime2 > 1 Then
-							$ActionForModLog = "" & $ItemTime2 & " " & $PotionsNames[$t] & " Potions Sold"
-						ElseIf $ItemTime2 = 1 Then
-							$ActionForModLog = "" & $ItemTime2 & " " & $PotionsNames[$t] & " Potion Sold"
-						EndIf
+						$ActionForModLog = $ItemTime2 & " " & $PotionsNames[$t] & " Potion" & ($ItemTime2 > 1 ? "s" : "") & " Sold"
 						If $g_iTxtCurrentVillageName <> "" Then
 							GUICtrlSetData($g_hTxtModLog, @CRLF & _NowTime() & " [" & $g_iTxtCurrentVillageName & "] Magic Items Selling : " & $ActionForModLog & "", 1)
 						Else
@@ -442,11 +434,7 @@ Func SaleFreeMagicsZero1()
 					$XForItem1 = $aMagicPosXToClick[$i]
 					DeleteItemLine1($ItemTime)
 
-					If $ItemTime > 1 Then
-						$ActionForModLog = "" & $ItemTime & " " & $PotionsNames[$t] & " Potions Sold"
-					ElseIf $ItemTime = 1 Then
-						$ActionForModLog = "" & $ItemTime & " " & $PotionsNames[$t] & " Potion Sold"
-					EndIf
+					$ActionForModLog = $ItemTime & " " & $PotionsNames[$t] & " Potion" & ($ItemTime > 1 ? "s" : "") & " Sold"
 					If $g_iTxtCurrentVillageName <> "" Then
 						GUICtrlSetData($g_hTxtModLog, @CRLF & _NowTime() & " [" & $g_iTxtCurrentVillageName & "] Magic Items Selling : " & $ActionForModLog & "", 1)
 					Else
@@ -486,11 +474,7 @@ Func SaleFreeMagicsZero1()
 						$XForItem2 = $aMagicPosXToClick[$i]
 						DeleteItemLine2($ItemTime2)
 
-						If $ItemTime2 > 1 Then
-							$ActionForModLog = "" & $ItemTime2 & " " & $PotionsNames[$t] & " Potions Sold"
-						ElseIf $ItemTime2 = 1 Then
-							$ActionForModLog = "" & $ItemTime2 & " " & $PotionsNames[$t] & " Potion Sold"
-						EndIf
+						$ActionForModLog = $ItemTime2 & " " & $PotionsNames[$t] & " Potion" & ($ItemTime2 > 1 ? "s" : "") & " Sold"
 						If $g_iTxtCurrentVillageName <> "" Then
 							GUICtrlSetData($g_hTxtModLog, @CRLF & _NowTime() & " [" & $g_iTxtCurrentVillageName & "] Magic Items Selling : " & $ActionForModLog & "", 1)
 						Else
@@ -569,11 +553,7 @@ Func SaleFreeMagicsDropTrophy()
 				$XForItem1 = $aMagicPosXToClick[$i]
 				DeleteItemLine1($ItemTime)
 
-				If $ItemTime > 1 Then
-					$ActionForModLog = "" & $ItemTime & " " & $PotionsNames[0] & " Potions Sold"
-				ElseIf $ItemTime = 1 Then
-					$ActionForModLog = "" & $ItemTime & " " & $PotionsNames[0] & " Potion Sold"
-				EndIf
+				$ActionForModLog = $ItemTime & " " & $PotionsNames[$i] & " Potion" & ($ItemTime > 1 ? "s" : "") & " Sold"
 				If $g_iTxtCurrentVillageName <> "" Then
 					GUICtrlSetData($g_hTxtModLog, @CRLF & _NowTime() & " [" & $g_iTxtCurrentVillageName & "] Magic Items Selling : " & $ActionForModLog & "", 1)
 				Else
@@ -604,11 +584,7 @@ Func SaleFreeMagicsDropTrophy()
 				$XForItem1 = $aMagicPosXToClick[$i]
 				DeleteItemLine1($ItemTime)
 
-				If $ItemTime > 1 Then
-					$ActionForModLog = "" & $ItemTime & " " & $PotionsNames[5] & " Potions Sold"
-				ElseIf $ItemTime = 1 Then
-					$ActionForModLog = "" & $ItemTime & " " & $PotionsNames[5] & " Potion Sold"
-				EndIf
+				$ActionForModLog = $ItemTime & " " & $PotionsNames[$i] & " Potion" & ($ItemTime > 1 ? "s" : "") & " Sold"
 				If $g_iTxtCurrentVillageName <> "" Then
 					GUICtrlSetData($g_hTxtModLog, @CRLF & _NowTime() & " [" & $g_iTxtCurrentVillageName & "] Magic Items Selling : " & $ActionForModLog & "", 1)
 				Else
@@ -646,11 +622,7 @@ Func SaleFreeMagicsDropTrophy()
 					$XForItem2 = $aMagicPosXToClick[$i]
 					DeleteItemLine2($ItemTime2)
 
-					If $ItemTime2 > 1 Then
-						$ActionForModLog = "" & $ItemTime2 & " " & $PotionsNames[0] & " Potions Sold"
-					ElseIf $ItemTime2 = 1 Then
-						$ActionForModLog = "" & $ItemTime2 & " " & $PotionsNames[0] & " Potion Sold"
-					EndIf
+					$ActionForModLog = $ItemTime2 & " " & $PotionsNames[$i] & " Potion" & ($ItemTime2 > 1 ? "s" : "") & " Sold"
 					If $g_iTxtCurrentVillageName <> "" Then
 						GUICtrlSetData($g_hTxtModLog, @CRLF & _NowTime() & " [" & $g_iTxtCurrentVillageName & "] Magic Items Selling : " & $ActionForModLog & "", 1)
 					Else
@@ -681,11 +653,7 @@ Func SaleFreeMagicsDropTrophy()
 					$XForItem2 = $aMagicPosXToClick[$i]
 					DeleteItemLine2($ItemTime2)
 
-					If $ItemTime2 > 1 Then
-						$ActionForModLog = "" & $ItemTime2 & " " & $PotionsNames[5] & " Potions Sold"
-					ElseIf $ItemTime2 = 1 Then
-						$ActionForModLog = "" & $ItemTime2 & " " & $PotionsNames[5] & " Potion Sold"
-					EndIf
+					$ActionForModLog = $ItemTime2 & " " & $PotionsNames[$i] & " Potion" & ($ItemTime2 > 1 ? "s" : "") & " Sold"
 					If $g_iTxtCurrentVillageName <> "" Then
 						GUICtrlSetData($g_hTxtModLog, @CRLF & _NowTime() & " [" & $g_iTxtCurrentVillageName & "] Magic Items Selling : " & $ActionForModLog & "", 1)
 					Else
@@ -749,11 +717,7 @@ Func SaleFreeMagicsDropTrophyZero1()
 				$XForItem1 = $aMagicPosXToClick[$i]
 				DeleteItemLine1($ItemTime)
 
-				If $ItemTime > 1 Then
-					$ActionForModLog = "" & $ItemTime & " " & $PotionsNames[0] & " Potions Sold"
-				ElseIf $ItemTime = 1 Then
-					$ActionForModLog = "" & $ItemTime & " " & $PotionsNames[0] & " Potion Sold"
-				EndIf
+				$ActionForModLog = $ItemTime & " " & $PotionsNames[$i] & " Potion" & ($ItemTime > 1 ? "s" : "") & " Sold"
 				If $g_iTxtCurrentVillageName <> "" Then
 					GUICtrlSetData($g_hTxtModLog, @CRLF & _NowTime() & " [" & $g_iTxtCurrentVillageName & "] Magic Items Selling : " & $ActionForModLog & "", 1)
 				Else
@@ -784,11 +748,7 @@ Func SaleFreeMagicsDropTrophyZero1()
 				$XForItem1 = $aMagicPosXToClick[$i]
 				DeleteItemLine1($ItemTime)
 
-				If $ItemTime > 1 Then
-					$ActionForModLog = "" & $ItemTime & " " & $PotionsNames[5] & " Potions Sold"
-				ElseIf $ItemTime = 1 Then
-					$ActionForModLog = "" & $ItemTime & " " & $PotionsNames[5] & " Potion Sold"
-				EndIf
+				$ActionForModLog = $ItemTime & " " & $PotionsNames[$i] & " Potion" & ($ItemTime > 1 ? "s" : "") & " Sold"
 				If $g_iTxtCurrentVillageName <> "" Then
 					GUICtrlSetData($g_hTxtModLog, @CRLF & _NowTime() & " [" & $g_iTxtCurrentVillageName & "] Magic Items Selling : " & $ActionForModLog & "", 1)
 				Else
@@ -826,11 +786,7 @@ Func SaleFreeMagicsDropTrophyZero1()
 					$XForItem2 = $aMagicPosXToClick[$i]
 					DeleteItemLine2($ItemTime2)
 
-					If $ItemTime2 > 1 Then
-						$ActionForModLog = "" & $ItemTime2 & " " & $PotionsNames[0] & " Potions Sold"
-					ElseIf $ItemTime2 = 1 Then
-						$ActionForModLog = "" & $ItemTime2 & " " & $PotionsNames[0] & " Potion Sold"
-					EndIf
+					$ActionForModLog = $ItemTime2 & " " & $PotionsNames[$i] & " Potion" & ($ItemTime2 > 1 ? "s" : "") & " Sold"
 					If $g_iTxtCurrentVillageName <> "" Then
 						GUICtrlSetData($g_hTxtModLog, @CRLF & _NowTime() & " [" & $g_iTxtCurrentVillageName & "] Magic Items Selling : " & $ActionForModLog & "", 1)
 					Else
@@ -861,11 +817,7 @@ Func SaleFreeMagicsDropTrophyZero1()
 					$XForItem2 = $aMagicPosXToClick[$i]
 					DeleteItemLine2($ItemTime2)
 
-					If $ItemTime2 > 1 Then
-						$ActionForModLog = "" & $ItemTime2 & " " & $PotionsNames[5] & " Potions Sold"
-					ElseIf $ItemTime2 = 1 Then
-						$ActionForModLog = "" & $ItemTime2 & " " & $PotionsNames[5] & " Potion Sold"
-					EndIf
+					$ActionForModLog = $ItemTime2 & " " & $PotionsNames[$i] & " Potion" & ($ItemTime2 > 1 ? "s" : "") & " Sold"
 					If $g_iTxtCurrentVillageName <> "" Then
 						GUICtrlSetData($g_hTxtModLog, @CRLF & _NowTime() & " [" & $g_iTxtCurrentVillageName & "] Magic Items Selling : " & $ActionForModLog & "", 1)
 					Else

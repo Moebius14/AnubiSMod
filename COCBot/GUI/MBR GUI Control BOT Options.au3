@@ -6,7 +6,7 @@
 ; Return values .: None
 ; Author ........: MyBot.run Team
 ; Modified ......: CodeSlinger69 (2017)
-; Remarks .......: This file is part of MyBot, previously known as ClashGameBot. Copyright 2015-2023
+; Remarks .......: This file is part of MyBot, previously known as ClashGameBot. Copyright 2015-2024
 ;                  MyBot is distributed under the terms of the GNU GPL
 ; Related .......:
 ; Link ..........: https://github.com/MyBotRun/MyBot/wiki
@@ -780,7 +780,7 @@ Func btnTestGetLocationBuilding()
 
 	SetLog("Testing GetLocationBuilding() with all buildings", $COLOR_INFO)
 
-	For $b = $eBldgGoldS To $eBldgMonolith
+	For $b = $eBldgGoldS To $eBldgRicochet
 		If $b = $eBldgDarkS Then ContinueLoop ; skip dark elixir as images not available
 		$aResult = GetLocationBuilding($b, $g_iSearchTH, False)
 		If $aResult = -1 Then SetLog("Monkey ate bad banana: " & "GetLocationBuilding " & $g_sBldgNames[$b], $COLOR_ERROR)
@@ -855,7 +855,7 @@ Func btnTestGetLocationBuildingImage()
 	EndIf
 
 	; - DRAW TOWNHALL -------------------------------------------------------------------
-	_GDIPlus_GraphicsDrawRect($hGraphic, $g_iTHx - 5, $g_iTHy - 10, 30, 30, $hPenRed)
+	_GDIPlus_GraphicsDrawRect($hGraphic, $g_iTHx - 10, $g_iTHy - 15, 30, 30, $hPenRed)
 
 	; - DRAW Eagle -------------------------------------------------------------------
 	If $g_oBldgAttackInfo.exists($eBldgEagle & "_LOCATION") Then
@@ -905,7 +905,7 @@ Func btnTestGetLocationBuildingImage()
 		If IsArray($g_aiCSVWizTowerPos) Then
 			For $i = 0 To UBound($g_aiCSVWizTowerPos) - 1
 				$pixel = $g_aiCSVWizTowerPos[$i]
-				_GDIPlus_GraphicsDrawRect($hGraphic, $pixel[0] - 5, $pixel[1] - 15, 25, 25, $hPenSteelBlue)
+				_GDIPlus_GraphicsDrawRect($hGraphic, $pixel[0] - 10, $pixel[1] - 15, 25, 25, $hPenSteelBlue)
 			Next
 		EndIf
 	EndIf
@@ -916,7 +916,7 @@ Func btnTestGetLocationBuildingImage()
 		If IsArray($g_aiCSVMortarPos) Then
 			For $i = 0 To UBound($g_aiCSVMortarPos) - 1
 				$pixel = $g_aiCSVMortarPos[$i]
-				_GDIPlus_GraphicsDrawRect($hGraphic, $pixel[0] - 10, $pixel[1] - 15, 25, 25, $hPenLtBlue)
+				_GDIPlus_GraphicsDrawRect($hGraphic, $pixel[0] - 20, $pixel[1] - 15, 25, 25, $hPenLtBlue)
 			Next
 		EndIf
 	EndIf
@@ -939,6 +939,28 @@ Func btnTestGetLocationBuildingImage()
 			For $i = 0 To UBound($g_aiCSVMonolithPos) - 1
 				$pixel = $g_aiCSVMonolithPos[$i]
 				_GDIPlus_GraphicsDrawRect($hGraphic, $pixel[0] - 15, $pixel[1] - 15, 30, 30, $hPenPaleBlue)
+			Next
+		EndIf
+	EndIf
+
+	; - DRAW Multi-Archer Tower ---------------------------------------------------------
+	If $g_oBldgAttackInfo.exists($eBldgMultiArcher & "_LOCATION") Then
+		$g_aiCSVMultiArcherPos = $g_oBldgAttackInfo.item($eBldgMultiArcher & "_LOCATION")
+		If IsArray($g_aiCSVMultiArcherPos) Then
+			For $i = 0 To UBound($g_aiCSVMultiArcherPos) - 1
+				$pixel = $g_aiCSVMultiArcherPos[$i]
+				_GDIPlus_GraphicsDrawRect($hGraphic, $pixel[0] - 10, $pixel[1] - 20, 25, 30, $hPenPaleBlue)
+			Next
+		EndIf
+	EndIf
+
+	; - DRAW Ricochet Cannon ------------------------------------------------------------
+	If $g_oBldgAttackInfo.exists($eBldgRicochet & "_LOCATION") Then
+		$g_aiCSVRicochetPos = $g_oBldgAttackInfo.item($eBldgRicochet & "_LOCATION")
+		If IsArray($g_aiCSVRicochetPos) Then
+			For $i = 0 To UBound($g_aiCSVRicochetPos) - 1
+				$pixel = $g_aiCSVRicochetPos[$i]
+				_GDIPlus_GraphicsDrawRect($hGraphic, $pixel[0] - 15, $pixel[1] - 25, 30, 30, $hPenPaleBlue)
 			Next
 		EndIf
 	EndIf

@@ -6,7 +6,7 @@
 ; Return values .: None
 ; Author ........: Demen
 ; Modified ......:
-; Remarks .......: This file is part of MyBot, previously known as ClashGameBot. Copyright 2015-2023
+; Remarks .......: This file is part of MyBot, previously known as ClashGameBot. Copyright 2015-2024
 ;                  MyBot is distributed under the terms of the GNU GPL
 ; Related .......:
 ; Link ..........: https://github.com/MyBotRun/MyBot/wiki
@@ -73,6 +73,7 @@ Func SwitchAccountVariablesReload($sType = "Load", $iAccount = $g_iCurAccount)
 	Static $gSiLootCCMedal = $aiZero
 	Static $gSiCCTrophies = $aiZero
 	Static $IsSRaidRunning = $aiZero
+	Static $SAllCCRaidAttacksDone = $aiZero
 	Static $gSiRank = $asEmpty
 	Static $SIsCCGoldJustCollected = $aiZero
 	Static $SIsCCGoldJustCollectedDChallenge = $aiZero
@@ -102,6 +103,7 @@ Func SwitchAccountVariablesReload($sType = "Load", $iAccount = $g_iCurAccount)
 	Static $asLabUpgradeTime = $asEmpty, $aiLabStatus = $aiZero, $aiLabElixirCost = $aiZero, $aiLabDElixirCost = $aiZero, $asLabFinishTimeMod = $aiZero
 	Static $asPetLabUpgradeTime = $asEmpty, $aiPetStatus = $aiZero, $asiMinDark4PetUpgrade = $aiZero
 	Static $asStarLabUpgradeTime = $asEmpty
+	Static $asBSUpgradeTime = $asEmpty
 	Static $SIsResearchPotInStock = $aiZero
 	Static $SIsPetPotInStock = $aiZero
 	Static $SIsBOFJustCollected = $aiZero
@@ -248,6 +250,7 @@ Func SwitchAccountVariablesReload($sType = "Load", $iAccount = $g_iCurAccount)
 			$aiPetStatus = $aiZero
 			$asiMinDark4PetUpgrade = $asEmpty
 			$asStarLabUpgradeTime = $asEmpty
+			$asBSUpgradeTime = $asEmpty
 			$SIsResearchPotInStock = $aiZero
 			$SIsPetPotInStock = $aiZero
 			$SIsBOFJustCollected = $aiZero
@@ -299,6 +302,7 @@ Func SwitchAccountVariablesReload($sType = "Load", $iAccount = $g_iCurAccount)
 			$gSiLootCCMedal = $aiZero
 			$gSiCCTrophies = $aiZero
 			$IsSRaidRunning = $aiZero
+			$SAllCCRaidAttacksDone = $aiZero
 			$gSiRank = $asEmpty
 			$SIsCCGoldJustCollected = $aiZero
 			$SIsCCGoldJustCollectedDChallenge = $aiZero
@@ -364,6 +368,7 @@ Func SwitchAccountVariablesReload($sType = "Load", $iAccount = $g_iCurAccount)
 			$gSiLootCCMedal[$iAccount] = $g_iLootCCMedal
 			$gSiCCTrophies[$iAccount] = $g_iCCTrophies
 			$IsSRaidRunning[$iAccount] = $IsRaidRunning
+			$SAllCCRaidAttacksDone[$iAccount] = $AllCCRaidAttacksDone
 			$gSiRank[$iAccount] = $g_iRank
 			$SIsCCGoldJustCollected[$iAccount] = $IsCCGoldJustCollected
 			$SIsCCGoldJustCollectedDChallenge[$iAccount] = $IsCCGoldJustCollectedDChallenge
@@ -442,6 +447,8 @@ Func SwitchAccountVariablesReload($sType = "Load", $iAccount = $g_iCurAccount)
 			$asiMinDark4PetUpgrade[$iAccount] = $g_iMinDark4PetUpgrade
 
 			$asStarLabUpgradeTime[$iAccount] = $g_sStarLabUpgradeTime
+
+			$asBSUpgradeTime[$iAccount] = $g_sBSUpgradeTime
 
 			$SIsResearchPotInStock[$iAccount] = $IsResearchPotInStock
 			$SIsPetPotInStock[$iAccount] = $IspetPotInStock
@@ -546,6 +553,7 @@ Func SwitchAccountVariablesReload($sType = "Load", $iAccount = $g_iCurAccount)
 			GUICtrlSetData($g_lblCapitalTrophies, _NumberFormat($g_iCCTrophies, True))
 			PicCCTrophies()
 			$IsRaidRunning = $IsSRaidRunning[$iAccount]
+			$AllCCRaidAttacksDone = $SAllCCRaidAttacksDone[$iAccount]
 			$g_iRank = $gSiRank[$iAccount]
 			$IsCCGoldJustCollected = $SIsCCGoldJustCollected[$iAccount]
 			$IsCCGoldJustCollectedDChallenge = $SIsCCGoldJustCollectedDChallenge[$iAccount]
@@ -627,6 +635,8 @@ Func SwitchAccountVariablesReload($sType = "Load", $iAccount = $g_iCurAccount)
 
 			$g_sStarLabUpgradeTime = $asStarLabUpgradeTime[$iAccount]
 			GUICtrlSetData($g_hLbLStarLabTime, "")
+
+			$g_sBSUpgradeTime = $asBSUpgradeTime[$iAccount]
 
 			$IsResearchPotInStock = $SIsResearchPotInStock[$iAccount]
 			$IsPetPotInStock = $SIsPetPotInStock[$iAccount]

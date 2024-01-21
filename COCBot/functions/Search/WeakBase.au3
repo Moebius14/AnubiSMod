@@ -6,7 +6,7 @@
 ; Return values .:
 ; Author ........: LunaEclipse(April 2016)
 ; Modified ......: MonkeyHunter (04-2017)
-; Remarks .......: This file is part of MyBot, previously known as ClashGameBot. Copyright 2015-2023
+; Remarks .......: This file is part of MyBot, previously known as ClashGameBot. Copyright 2015-2024
 ;                  MyBot is distributed under the terms of the GNU GPL
 ; Related .......:
 ; Link ..........: https://github.com/MyBotRun/MyBot/wiki
@@ -85,6 +85,8 @@ Func displayWeakBaseLog($aResult, $showLog = False)
 		SetLog("Highest Air Defense: " & $aResult[6][0] & " - Level: " & $aResult[6][2], $COLOR_INFO)
 		SetLog("Highest Scatter Shot: " & $aResult[7][0] & " - Level: " & $aResult[7][2], $COLOR_INFO)
 		SetLog("Highest Monolith: " & $aResult[8][0] & " - Level: " & $aResult[8][2], $COLOR_INFO)
+		SetLog("Highest Multi-archer Tower: " & $aResult[9][0] & " - Level: " & $aResult[9][2], $COLOR_INFO)
+		SetLog("Highest Ricochet Cannon: " & $aResult[10][0] & " - Level: " & $aResult[10][2], $COLOR_INFO)
 		SetLog("Time taken: " & $aResult[0][2] & " " & $aResult[0][3], $COLOR_INFO)
 		SetLog("================ Weak Base Detection Stop =================", $COLOR_INFO)
 	EndIf
@@ -93,9 +95,9 @@ EndFunc   ;==>displayWeakBaseLog
 Func getTHDefenseMax($levelTownHall, $iDefenseType)
 
 	; replace orginal weak base code with dictionary function used by any attack method
-	If $levelTownHall = 0 Or $levelTownHall = "-" Then $levelTownHall = 15 ; ; If something went wrong with TH search and returned 0, set to max TH level
+	If $levelTownHall = 0 Or $levelTownHall = "-" Then $levelTownHall = 16 ; ; If something went wrong with TH search and returned 0, set to max TH level
 
-	Local $maxLevel = _ObjGetValue($g_oBldgLevels, $iDefenseType + 7)[$levelTownHall - 1] ; add 6 to weakbase enum to equal building enum
+	Local $maxLevel = _ObjGetValue($g_oBldgLevels, $iDefenseType + 7)[$levelTownHall - 1] ; add 7 to weakbase enum to equal building enum
 	If @error Then
 		_ObjErrMsg("_ObjGetValue $g_oBldgLevels", @error) ; Log COM error prevented
 		$maxLevel = 100 ; unknown number of building levels, then set equal to 100
@@ -149,7 +151,9 @@ Func getIsWeak($aResults, $searchType)
 			And $aResults[$eWeakMortar][2] <= Number($g_aiFilterMaxMortarLevel[$searchType]) _
 			And $aResults[$eWeakAirDefense][2] <= Number($g_aiFilterMaxAirDefenseLevel[$searchType]) _
 			And $aResults[$eWeakScatter][2] <= Number($g_aiFilterMaxScatterLevel[$searchType]) _
-			And $aResults[$eWeakMonolith][2] <= Number($g_aiFilterMaxMonolithLevel[$searchType])
+			And $aResults[$eWeakMonolith][2] <= Number($g_aiFilterMaxMonolithLevel[$searchType]) _
+			And $aResults[$eWeakMultiArcher][2] <= Number($g_aiFilterMaxMonolithLevel[$searchType]) _
+			And $aResults[$eWeakRicochet][2] <= Number($g_aiFilterMaxMonolithLevel[$searchType])
 
 	Local $text = "DB"
 	If $searchType = 1 Then $text = "LB"
@@ -162,6 +166,8 @@ Func getIsWeak($aResults, $searchType)
 	If $g_abFilterMaxAirDefenseEnable[$searchType] Then SetLog("[" & $text & "] AirDef level " & $g_aiFilterMaxAirDefenseLevel[$searchType] & " as max, detection higher level: " & $aResults[$eWeakAirDefense][2], $COLOR_DEBUG)
 	If $g_abFilterMaxScatterEnable[$searchType] Then SetLog("[" & $text & "] Scatter level " & $g_aiFilterMaxScatterLevel[$searchType] & " as max, detection higher level: " & $aResults[$eWeakScatter][2], $COLOR_DEBUG)
 	If $g_abFilterMaxMonolithEnable[$searchType] Then SetLog("[" & $text & "] Monolith level " & $g_aiFilterMaxMonolithLevel[$searchType] & " as max, detection higher level: " & $aResults[$eWeakMonolith][2], $COLOR_DEBUG)
+	If $g_abFilterMaxMultiArcherEnable[$searchType] Then SetLog("[" & $text & "] Multi-Archer level " & $g_aiFilterMaxMultiArcherLevel[$searchType] & " as max, detection higher level: " & $aResults[$eWeakMultiArcher][2], $COLOR_DEBUG)
+	If $g_abFilterMaxRicochetEnable[$searchType] Then SetLog("[" & $text & "] Ricochet Cannon level " & $g_aiFilterMaxRicochetLevel[$searchType] & " as max, detection higher level: " & $aResults[$eWeakRicochet][2], $COLOR_DEBUG)
 	SetLog("Is a Weak Base? " & $aResults)
 	SetLog("================ Weak Base Detection Stop =================")
 
@@ -171,7 +177,8 @@ EndFunc   ;==>getIsWeak
 
 Func IsWeakBaseActive($type)
 	Return ($g_abFilterMaxEagleEnable[$type] Or $g_abFilterMaxInfernoEnable[$type] Or $g_abFilterMaxXBowEnable[$type] Or $g_abFilterMaxWizTowerEnable[$type] Or _
-			$g_abFilterMaxMortarEnable[$type] Or $g_abFilterMaxAirDefenseEnable[$type] Or $g_abFilterMaxScatterEnable[$type] Or $g_abFilterMaxMonolithEnable[$type]) And IsSearchModeActiveMini($type)
+			$g_abFilterMaxMortarEnable[$type] Or $g_abFilterMaxAirDefenseEnable[$type] Or $g_abFilterMaxScatterEnable[$type] Or $g_abFilterMaxMonolithEnable[$type] Or _
+			$g_abFilterMaxMultiArcherEnable[$type] Or $g_abFilterMaxRicochetEnable[$type]) And IsSearchModeActiveMini($type)
 EndFunc   ;==>IsWeakBaseActive
 
 Func defenseSearch(ByRef $aResult, $directory, $townHallLevel, $settingArray, $iDefenseType, ByRef $performSearch, $guiEnabledArray, $bForceCaptureRegion = True)
@@ -221,11 +228,11 @@ Func defenseSearch(ByRef $aResult, $directory, $townHallLevel, $settingArray, $i
 	Return $aDefenseResult
 EndFunc   ;==>defenseSearch
 
-Func weakBaseCheck($townHallLevel = 15, $redlines = "", $bForceCaptureRegion = True)
+Func weakBaseCheck($townHallLevel = 16, $redlines = "", $bForceCaptureRegion = True)
 	; Setup default return coords of 0,0
 	Local $defaultCoords[1][2] = [[0, 0]]
 	; Setup Empty Results in case to avoid errors, levels are set to max level of each type
-	Local $aResult[9][6] = [[$redlines, 0, 0, "Seconds", "", ""], _
+	Local $aResult[11][6] = [[$redlines, 0, 0, "Seconds", "", ""], _
 			["Skipped", "Skipped", $g_oBldgLevels.Item($eWeakEagle + 6), 0, 0, $defaultCoords], _ ; Eagle
 			["Skipped", "Skipped", $g_oBldgLevels.Item($eWeakInferno + 6), 0, 0, $defaultCoords], _ ; Inferno
 			["Skipped", "Skipped", $g_oBldgLevels.Item($eWeakXBow + 6), 0, 0, $defaultCoords], _ ; X-Bow
@@ -233,11 +240,13 @@ Func weakBaseCheck($townHallLevel = 15, $redlines = "", $bForceCaptureRegion = T
 			["Skipped", "Skipped", $g_oBldgLevels.Item($eWeakMortar + 6), 0, 0, $defaultCoords], _ ; Mortar
 			["Skipped", "Skipped", $g_oBldgLevels.Item($eWeakAirDefense + 6), 0, 0, $defaultCoords], _ ; Air Defense
 			["Skipped", "Skipped", $g_oBldgLevels.Item($eWeakScatter + 6), 0, 0, $defaultCoords], _ ; Scatter Shot
-			["Skipped", "Skipped", $g_oBldgLevels.Item($eWeakMonolith + 6), 0, 0, $defaultCoords]] ; Monolith
+			["Skipped", "Skipped", $g_oBldgLevels.Item($eWeakMonolith + 6), 0, 0, $defaultCoords], _ ; Monolith
+			["Skipped", "Skipped", $g_oBldgLevels.Item($eWeakMultiArcher + 6), 0, 0, $defaultCoords], _ ; Multi-Archer Tower
+			["Skipped", "Skipped", $g_oBldgLevels.Item($eWeakRicochet + 6), 0, 0, $defaultCoords]] ; Ricochet Cannon
 	; [redline data array, num points found, weakbase search time, search time unit, ??, ??] = 1st Row values
 	; [image filename found, bldg type, bldg max level, bldg Fill level, number bldg found, location data array] = 2nd+ building row values
 
-	Local $aEagleResults, $aMonolithResults, $aScatterResults, $aInfernoResults, $aMortarResults, $aWizardTowerResults, $aXBowResults, $aAirDefenseResults
+	Local $aEagleResults, $aMonolithResults, $aScatterResults, $aInfernoResults, $aMortarResults, $aWizardTowerResults, $aXBowResults, $aAirDefenseResults, $aMultiArcherResults, $aRicochetResults
 	Local $performSearch = True
 	; Start the timer for overall weak base search
 	Local $hWeakTimer = __TimerInit()
@@ -255,6 +264,8 @@ Func weakBaseCheck($townHallLevel = 15, $redlines = "", $bForceCaptureRegion = T
 	EndIf
 	$aMortarResults = defenseSearch($aResult, $g_sImgWeakBaseBuildingsMortarsDir, $townHallLevel, $g_aiFilterMaxMortarLevel, $eWeakMortar, $performSearch, $g_abFilterMaxMortarEnable, $bForceCaptureRegion)
 	$aAirDefenseResults = defenseSearch($aResult, $g_sImgWeakBaseBuildingsAirDefenseDir, $townHallLevel, $g_aiFilterMaxAirDefenseLevel, $eWeakAirDefense, $performSearch, $g_abFilterMaxAirDefenseEnable, $bForceCaptureRegion)
+	$aMultiArcherResults = defenseSearch($aResult, $g_sImgWeakBaseBuildingsMultiArcherDir, $townHallLevel, $g_aiFilterMaxMultiArcherLevel, $eWeakMultiArcher, $performSearch, $g_abFilterMaxMultiArcherEnable, $bForceCaptureRegion)
+	$aRicochetResults = defenseSearch($aResult, $g_sImgWeakBaseBuildingsRicochetDir, $townHallLevel, $g_aiFilterMaxRicochetLevel, $eWeakRicochet, $performSearch, $g_abFilterMaxRicochetEnable, $bForceCaptureRegion)
 
 	; Fill the array that will be returned with the various results, only store the results if its a valid array
 	For $i = 1 To UBound($aResult) - 1
@@ -276,6 +287,10 @@ Func weakBaseCheck($townHallLevel = 15, $redlines = "", $bForceCaptureRegion = T
 					If IsArray($aScatterResults) Then $aResult[$i][$j] = $aScatterResults[$j]
 				Case $eWeakMonolith
 					If IsArray($aMonolithResults) Then $aResult[$i][$j] = $aMonolithResults[$j]
+				Case $eWeakMultiArcher
+					If IsArray($aMultiArcherResults) Then $aResult[$i][$j] = $aMultiArcherResults[$j]
+				Case $eWeakRicochet
+					If IsArray($aRicochetResults) Then $aResult[$i][$j] = $aRicochetResults[$j]
 				Case Else
 					; This should never happen unless there is a problem with the code.
 			EndSwitch
@@ -330,8 +345,14 @@ Func IsWeakBase($townHallLevel = $g_iMaxTHLevel, $redlines = "", $bForceCaptureR
 		; Scatter shot not detected, so lets log the picture for manual inspection
 		captureDebugImage($aResult, "WeakBase_Detection_Scatter_NotDetected")
 	ElseIf $g_bDebugImageSave And Number($aResult[8][4]) = 0 Then
-		; Scatter shot not detected, so lets log the picture for manual inspection
+		; Monolith not detected, so lets log the picture for manual inspection
 		captureDebugImage($aResult, "WeakBase_Detection_Monolith_NotDetected")
+	ElseIf $g_bDebugImageSave And Number($aResult[9][4]) = 0 Then
+		; Multi-Archer Towers not detected, so lets log the picture for manual inspection
+		captureDebugImage($aResult, "WeakBase_Detection_MultiArcher_NotDetected")
+	ElseIf $g_bDebugImageSave And Number($aResult[10][4]) = 0 Then
+		; Ricochet Cannons not detected, so lets log the picture for manual inspection
+		captureDebugImage($aResult, "WeakBase_Detection_Ricochet_NotDetected")
 	ElseIf $g_bDebugImageSave Then
 		; Debug option is set, so take a debug picture
 		captureDebugImage($aResult, "WeakBase_Detection")
@@ -356,7 +377,7 @@ EndFunc   ;==>IsWeakBase
 ; Return values .: 1D array with highest level matched data found
 ; Author ........: MonkeyHunter (04-2017)
 ; Modified ......:
-; Remarks .......: This file is part of MyBot, previously known as ClashGameBot. Copyright 2015-2023
+; Remarks .......: This file is part of MyBot, previously known as ClashGameBot. Copyright 2015-2024
 ;                  MyBot is distributed under the terms of the GNU GPL
 ; Related .......:
 ; Link ..........: https://github.com/MyBotRun/MyBot/wiki

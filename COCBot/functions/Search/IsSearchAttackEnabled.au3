@@ -7,7 +7,7 @@
 ;					 .; Will return error code if problem determining random no attack time.
 ; Author ........: MonkeyHunter (06-2016)
 ; Modified ......:
-; Remarks .......: This file is part of MyBot, previously known as ClashGameBot. Copyright 2015-2023
+; Remarks .......: This file is part of MyBot, previously known as ClashGameBot. Copyright 2015-2024
 ;                  MyBot is distributed under the terms of the GNU GPL
 ; Related .......:
 ; Link ..........: https://github.com/MyBotRun/MyBot/wiki
@@ -45,18 +45,18 @@ Func IsSearchAttackEnabled()
 				If _Sleep($DELAYRUNBOT3) Then Return
 				If IsToFillCCWithMedalsOnly() Then
 					Local $aRndFuncList = ['CleanYard', 'DonateCC,Train', 'CollectFreeMagicItems', 'Collect', 'Laboratory', 'UpgradeHeroes', _
-							'PetHouse', 'BuilderBase']
+							'PetHouse', 'BuilderBase', 'Blacksmith']
 				Else
 					Local $aRndFuncList = ['CleanYard', 'DonateCC,Train', 'RequestCC', 'CollectFreeMagicItems', 'Collect', 'Laboratory', 'UpgradeHeroes', _
-							'PetHouse', 'BuilderBase']
+							'PetHouse', 'BuilderBase', 'Blacksmith']
 				EndIf
 			Else
 				If IsToFillCCWithMedalsOnly() Then
 					Local $aRndFuncList = ['CleanYard', 'DonateCC,Train', 'CollectFreeMagicItems', 'Collect', 'UpgradeWall', 'Laboratory', 'UpgradeHeroes', _
-							'UpgradeBuilding', 'PetHouse', 'BuilderBase']
+							'UpgradeBuilding', 'PetHouse', 'BuilderBase', 'Blacksmith']
 				Else
 					Local $aRndFuncList = ['CleanYard', 'DonateCC,Train', 'RequestCC', 'CollectFreeMagicItems', 'Collect', 'UpgradeWall', 'Laboratory', 'UpgradeHeroes', _
-							'UpgradeBuilding', 'PetHouse', 'BuilderBase']
+							'UpgradeBuilding', 'PetHouse', 'BuilderBase', 'Blacksmith']
 				EndIf
 			EndIf
 			$IstoSwitchMod = 0
@@ -70,24 +70,26 @@ Func IsSearchAttackEnabled()
 				If _Sleep($DELAYRUNBOT3) Then Return
 				If IsToFillCCWithMedalsOnly() Then
 					Local $aRndFuncList = ['CleanYard', 'DonateCC,Train', 'CollectFreeMagicItems', 'Collect', 'Laboratory', 'UpgradeHeroes', _
-							'PetHouse']
+							'PetHouse', 'Blacksmith']
 				Else
 					Local $aRndFuncList = ['CleanYard', 'DonateCC,Train', 'RequestCC', 'CollectFreeMagicItems', 'Collect', 'Laboratory', 'UpgradeHeroes', _
-							'PetHouse']
+							'PetHouse', 'Blacksmith']
 				EndIf
 			Else
 				If IsToFillCCWithMedalsOnly() Then
 					Local $aRndFuncList = ['CleanYard', 'DonateCC,Train', 'CollectFreeMagicItems', 'Collect', 'UpgradeWall', 'Laboratory', 'UpgradeHeroes', _
-							'UpgradeBuilding', 'PetHouse']
+							'UpgradeBuilding', 'PetHouse', 'Blacksmith']
 				Else
 					Local $aRndFuncList = ['CleanYard', 'DonateCC,Train', 'RequestCC', 'CollectFreeMagicItems', 'Collect', 'UpgradeWall', 'Laboratory', 'UpgradeHeroes', _
-							'UpgradeBuilding', 'PetHouse']
+							'UpgradeBuilding', 'PetHouse', 'Blacksmith']
 				EndIf
 			EndIf
 		EndIf
+		$IsTofillWithMedalsPause = False
 		For $Index In $aRndFuncList
 			_RunFunction($Index)
 		Next
+		$IsTofillWithMedalsPause = True
 		If _Sleep(1000) Then Return
 		If $g_bChkPersoChallengesinPause Then DailyChallenges(False)
 		If _Sleep(1000) Then Return
@@ -159,18 +161,18 @@ Func IsSearchAttackEnabled()
 					If _Sleep($DELAYRUNBOT3) Then Return
 					If IsToFillCCWithMedalsOnly() Then
 						Local $aRndFuncList = ['CleanYard', 'DonateCC,Train', 'CollectFreeMagicItems', 'Collect', 'Laboratory', 'UpgradeHeroes', _
-								'PetHouse', 'BuilderBase']
+								'PetHouse', 'BuilderBase', 'Blacksmith']
 					Else
 						Local $aRndFuncList = ['CleanYard', 'DonateCC,Train', 'RequestCC', 'CollectFreeMagicItems', 'Collect', 'Laboratory', 'UpgradeHeroes', _
-								'PetHouse', 'BuilderBase']
+								'PetHouse', 'BuilderBase', 'Blacksmith']
 					EndIf
 				Else
 					If IsToFillCCWithMedalsOnly() Then
 						Local $aRndFuncList = ['CleanYard', 'DonateCC,Train', 'CollectFreeMagicItems', 'Collect', 'UpgradeWall', 'Laboratory', 'UpgradeHeroes', _
-								'UpgradeBuilding', 'PetHouse', 'BuilderBase']
+								'UpgradeBuilding', 'PetHouse', 'BuilderBase', 'Blacksmith']
 					Else
 						Local $aRndFuncList = ['CleanYard', 'DonateCC,Train', 'RequestCC', 'CollectFreeMagicItems', 'Collect', 'UpgradeWall', 'Laboratory', 'UpgradeHeroes', _
-								'UpgradeBuilding', 'PetHouse', 'BuilderBase']
+								'UpgradeBuilding', 'PetHouse', 'BuilderBase', 'Blacksmith']
 					EndIf
 				EndIf
 				$IstoSwitchMod = 0
@@ -184,24 +186,26 @@ Func IsSearchAttackEnabled()
 					If _Sleep($DELAYRUNBOT3) Then Return
 					If IsToFillCCWithMedalsOnly() Then
 						Local $aRndFuncList = ['CleanYard', 'DonateCC,Train', 'CollectFreeMagicItems', 'Collect', 'Laboratory', 'UpgradeHeroes', _
-								'PetHouse']
+								'PetHouse', 'Blacksmith']
 					Else
 						Local $aRndFuncList = ['CleanYard', 'DonateCC,Train', 'RequestCC', 'CollectFreeMagicItems', 'Collect', 'Laboratory', 'UpgradeHeroes', _
-								'PetHouse']
+								'PetHouse', 'Blacksmith']
 					EndIf
 				Else
 					If IsToFillCCWithMedalsOnly() Then
 						Local $aRndFuncList = ['CleanYard', 'DonateCC,Train', 'CollectFreeMagicItems', 'Collect', 'UpgradeWall', 'Laboratory', 'UpgradeHeroes', _
-								'UpgradeBuilding', 'PetHouse']
+								'UpgradeBuilding', 'PetHouse', 'Blacksmith']
 					Else
 						Local $aRndFuncList = ['CleanYard', 'DonateCC,Train', 'RequestCC', 'CollectFreeMagicItems', 'Collect', 'UpgradeWall', 'Laboratory', 'UpgradeHeroes', _
-								'UpgradeBuilding', 'PetHouse']
+								'UpgradeBuilding', 'PetHouse', 'Blacksmith']
 					EndIf
 				EndIf
 			EndIf
+			$IsTofillWithMedalsPause = False
 			For $Index In $aRndFuncList
 				_RunFunction($Index)
 			Next
+			$IsTofillWithMedalsPause = True
 			If _Sleep(1000) Then Return
 			If $g_bChkPersoChallengesinPause Then DailyChallenges(False)
 			If _Sleep(1000) Then Return
@@ -273,18 +277,18 @@ Func IsSearchAttackEnabled()
 					If _Sleep($DELAYRUNBOT3) Then Return
 					If IsToFillCCWithMedalsOnly() Then
 						Local $aRndFuncList = ['CleanYard', 'DonateCC,Train', 'CollectFreeMagicItems', 'Collect', 'Laboratory', 'UpgradeHeroes', _
-								'PetHouse', 'BuilderBase']
+								'PetHouse', 'BuilderBase', 'Blacksmith']
 					Else
 						Local $aRndFuncList = ['CleanYard', 'DonateCC,Train', 'RequestCC', 'CollectFreeMagicItems', 'Collect', 'Laboratory', 'UpgradeHeroes', _
-								'PetHouse', 'BuilderBase']
+								'PetHouse', 'BuilderBase', 'Blacksmith']
 					EndIf
 				Else
 					If IsToFillCCWithMedalsOnly() Then
 						Local $aRndFuncList = ['CleanYard', 'DonateCC,Train', 'CollectFreeMagicItems', 'Collect', 'UpgradeWall', 'Laboratory', 'UpgradeHeroes', _
-								'UpgradeBuilding', 'PetHouse', 'BuilderBase']
+								'UpgradeBuilding', 'PetHouse', 'BuilderBase', 'Blacksmith']
 					Else
 						Local $aRndFuncList = ['CleanYard', 'DonateCC,Train', 'RequestCC', 'CollectFreeMagicItems', 'Collect', 'UpgradeWall', 'Laboratory', 'UpgradeHeroes', _
-								'UpgradeBuilding', 'PetHouse', 'BuilderBase']
+								'UpgradeBuilding', 'PetHouse', 'BuilderBase', 'Blacksmith']
 					EndIf
 				EndIf
 				$IstoSwitchMod = 0
@@ -298,24 +302,26 @@ Func IsSearchAttackEnabled()
 					If _Sleep($DELAYRUNBOT3) Then Return
 					If IsToFillCCWithMedalsOnly() Then
 						Local $aRndFuncList = ['CleanYard', 'DonateCC,Train', 'CollectFreeMagicItems', 'Collect', 'Laboratory', 'UpgradeHeroes', _
-								'PetHouse']
+								'PetHouse', 'Blacksmith']
 					Else
 						Local $aRndFuncList = ['CleanYard', 'DonateCC,Train', 'RequestCC', 'CollectFreeMagicItems', 'Collect', 'Laboratory', 'UpgradeHeroes', _
-								'PetHouse']
+								'PetHouse', 'Blacksmith']
 					EndIf
 				Else
 					If IsToFillCCWithMedalsOnly() Then
 						Local $aRndFuncList = ['CleanYard', 'DonateCC,Train', 'CollectFreeMagicItems', 'Collect', 'UpgradeWall', 'Laboratory', 'UpgradeHeroes', _
-								'UpgradeBuilding', 'PetHouse']
+								'UpgradeBuilding', 'PetHouse', 'Blacksmith']
 					Else
 						Local $aRndFuncList = ['CleanYard', 'DonateCC,Train', 'RequestCC', 'CollectFreeMagicItems', 'Collect', 'UpgradeWall', 'Laboratory', 'UpgradeHeroes', _
-								'UpgradeBuilding', 'PetHouse']
+								'UpgradeBuilding', 'PetHouse', 'Blacksmith']
 					EndIf
 				EndIf
 			EndIf
+			$IsTofillWithMedalsPause = False
 			For $Index In $aRndFuncList
 				_RunFunction($Index)
 			Next
+			$IsTofillWithMedalsPause = True
 			If _Sleep(1000) Then Return
 			If $g_bChkPersoChallengesinPause Then DailyChallenges(False)
 			If _Sleep(1000) Then Return

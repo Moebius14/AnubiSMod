@@ -6,7 +6,7 @@
 ; Return values .: NA
 ; Author ........:
 ; Modified ......: CodeSlinger69 (01-2018)
-; Remarks .......: This file is part of MyBot, previously known as ClashGameBot. Copyright 2015-2023
+; Remarks .......: This file is part of MyBot, previously known as ClashGameBot. Copyright 2015-2024
 ;                  MyBot is distributed under the terms of the GNU GPL
 ; Related .......:
 ; Link ..........: https://github.com/MyBotRun/MyBot/wiki
@@ -805,6 +805,7 @@ Func SaveConfig_600_18()
 	; <><><><> Village / Notify <><><><>
 	ApplyConfig_600_18(GetApplyConfigSaveAction())
 	_Ini_Add("notify", "TGEnabled", $g_bNotifyTGEnable ? 1 : 0)
+	_Ini_Add("notify", "TGEnabledInSecure", $g_bNotifyTGEnableInSecure ? 1 : 0)
 	_Ini_Add("notify", "TGToken", $g_sNotifyTGToken)
 	_Ini_Add("notify", "TGUserID", $g_sTGChatID)
 	;Remote Control
@@ -835,6 +836,7 @@ Func SaveConfig_600_18()
 	_Ini_Add("notify", "NotifyUpgradeBC", $g_bChkNotifyUpgradeBC ? 1 : 0)
 	_Ini_Add("notify", "BotStopNotify", $g_bNotifyStopBot ? 1 : 0)
 	_Ini_Add("notify", "NotifyUpgrade", $g_bChkNotifyUpgrade ? 1 : 0)
+	_Ini_Add("notify", "CCRaidWarning", $g_bChkCCRaidWarning ? 1 : 0)
 EndFunc   ;==>SaveConfig_600_18
 
 Func SaveConfig_600_19()
@@ -956,6 +958,8 @@ Func SaveConfig_600_28_DB()
 	_Ini_Add("search", "DBCheckEagle", $g_abFilterMaxEagleEnable[$DB] ? 1 : 0)
 	_Ini_Add("search", "DBCheckScatter", $g_abFilterMaxScatterEnable[$DB] ? 1 : 0)
 	_Ini_Add("search", "DBCheckMonolith", $g_abFilterMaxMonolithEnable[$DB] ? 1 : 0)
+	_Ini_Add("search", "DBCheckMultiArcher", $g_abFilterMaxMultiArcherEnable[$DB] ? 1 : 0)
+	_Ini_Add("search", "DBCheckRicochet", $g_abFilterMaxRicochetEnable[$DB] ? 1 : 0)
 	_Ini_Add("search", "DBWeakMortar", $g_aiFilterMaxMortarLevel[$DB])
 	_Ini_Add("search", "DBWeakWizTower", $g_aiFilterMaxWizTowerLevel[$DB])
 	_Ini_Add("search", "DBWeakAirDefense", $g_aiFilterMaxAirDefenseLevel[$DB])
@@ -964,6 +968,8 @@ Func SaveConfig_600_28_DB()
 	_Ini_Add("search", "DBWeakEagle", $g_aiFilterMaxEagleLevel[$DB])
 	_Ini_Add("search", "DBWeakScatter", $g_aiFilterMaxScatterLevel[$DB])
 	_Ini_Add("search", "DBWeakMonolith", $g_aiFilterMaxMonolithLevel[$DB])
+	_Ini_Add("search", "DBWeakMultiArcher", $g_aiFilterMaxMultiArcherLevel[$DB])
+	_Ini_Add("search", "DBWeakRicochet", $g_aiFilterMaxRicochetLevel[$DB])
 	_Ini_Add("search", "DBMeetOne", $g_abFilterMeetOneConditionEnable[$DB] ? 1 : 0)
 EndFunc   ;==>SaveConfig_600_28_DB
 
@@ -1008,6 +1014,8 @@ Func SaveConfig_600_28_LB()
 	_Ini_Add("search", "ABCheckEagle", $g_abFilterMaxEagleEnable[$LB] ? 1 : 0)
 	_Ini_Add("search", "ABCheckScatter", $g_abFilterMaxScatterEnable[$LB] ? 1 : 0)
 	_Ini_Add("search", "ABCheckMonolith", $g_abFilterMaxMonolithEnable[$LB] ? 1 : 0)
+	_Ini_Add("search", "ABCheckMultiArcher", $g_abFilterMaxMultiArcherEnable[$LB] ? 1 : 0)
+	_Ini_Add("search", "ABCheckRicochet", $g_abFilterMaxRicochetEnable[$LB] ? 1 : 0)
 	_Ini_Add("search", "ABWeakMortar", $g_aiFilterMaxMortarLevel[$LB])
 	_Ini_Add("search", "ABWeakWizTower", $g_aiFilterMaxWizTowerLevel[$LB])
 	_Ini_Add("search", "ABWeakAirDefense", $g_aiFilterMaxAirDefenseLevel[$LB])
@@ -1016,6 +1024,8 @@ Func SaveConfig_600_28_LB()
 	_Ini_Add("search", "ABWeakEagle", $g_aiFilterMaxEagleLevel[$LB])
 	_Ini_Add("search", "ABWeakScatter", $g_aiFilterMaxScatterLevel[$LB])
 	_Ini_Add("search", "ABWeakMonolith", $g_aiFilterMaxMonolithLevel[$LB])
+	_Ini_Add("search", "ABWeakMultiArcher", $g_aiFilterMaxMultiArcherLevel[$LB])
+	_Ini_Add("search", "ABWeakRicochet", $g_aiFilterMaxRicochetLevel[$LB])
 	_Ini_Add("search", "ABMeetOne", $g_abFilterMeetOneConditionEnable[$LB] ? 1 : 0)
 EndFunc   ;==>SaveConfig_600_28_LB
 
@@ -1078,6 +1088,7 @@ Func SaveConfig_600_29_DB()
 	_Ini_Add("attack", "DBHasteSpell", $g_abAttackUseHasteSpell[$DB] ? 1 : 0)
 	_Ini_Add("attack", "DBCloneSpell", $g_abAttackUseCloneSpell[$DB] ? 1 : 0)
 	_Ini_Add("attack", "DBInvisibilitySpell", $g_abAttackUseInvisibilitySpell[$DB] ? 1 : 0)
+	_Ini_Add("attack", "DBRecallSpell", $g_abAttackUseRecallSpell[$DB] ? 1 : 0)
 	_Ini_Add("attack", "DBSkeletonSpell", $g_abAttackUseSkeletonSpell[$DB] ? 1 : 0)
 	_Ini_Add("attack", "DBBatSpell", $g_abAttackUseBatSpell[$DB] ? 1 : 0)
 
@@ -1136,6 +1147,7 @@ Func SaveConfig_600_29_LB()
 	_Ini_Add("attack", "ABFreezeSpell", $g_abAttackUseFreezeSpell[$LB] ? 1 : 0)
 	_Ini_Add("attack", "ABCloneSpell", $g_abAttackUseCloneSpell[$LB] ? 1 : 0)
 	_Ini_Add("attack", "ABInvisibilitySpell", $g_abAttackUseInvisibilitySpell[$LB] ? 1 : 0)
+	_Ini_Add("attack", "ABRecallSpell", $g_abAttackUseRecallSpell[$LB] ? 1 : 0)
 	_Ini_Add("attack", "ABPoisonSpell", $g_abAttackUsePoisonSpell[$LB] ? 1 : 0)
 	_Ini_Add("attack", "ABEarthquakeSpell", $g_abAttackUseEarthquakeSpell[$LB] ? 1 : 0)
 	_Ini_Add("attack", "ABHasteSpell", $g_abAttackUseHasteSpell[$LB] ? 1 : 0)

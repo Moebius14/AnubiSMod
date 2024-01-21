@@ -6,7 +6,7 @@
 ; Return values .: None
 ; Author ........: Chilly-Chill (04-2019)
 ; Modified ......:
-; Remarks .......: This file is part of MyBot, previously known as ClashGameBot. Copyright 2015-2023
+; Remarks .......: This file is part of MyBot, previously known as ClashGameBot. Copyright 2015-2024
 ;                  MyBot is distributed under the terms of the GNU GPL
 ; Related .......:
 ; Link ..........: https://github.com/MyBotRun/MyBot/wiki
@@ -275,11 +275,7 @@ Func BuilderJar()
 				SetLog("Stars Unlocked With Builder Jar", $COLOR_SUCCESS)
 				If $g_iCmbBuilderJar <= 5 Then
 					$g_iCmbBuilderJar -= 1
-					If $g_iCmbBuilderJar > 1 Then
-						SetLog("Builder Jar Used. Remaining iterations: " & $g_iCmbBuilderJar, $COLOR_SUCCESS)
-					Else
-						SetLog("Builder Jar Used. Remaining iteration: " & $g_iCmbBuilderJar, $COLOR_SUCCESS)
-					EndIf
+					SetLog("Builder Jar Used. Remaining iteration" & ($g_iCmbBuilderJar > 1 ? "s: " : ": ") & $g_iCmbBuilderJar, $COLOR_SUCCESS)
 					_GUICtrlComboBox_SetCurSel($g_hCmbBuilderJar, $g_iCmbBuilderJar)
 				EndIf
 				$ActionForModLog = "Using Builder Jar"

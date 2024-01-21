@@ -7,7 +7,7 @@
 ; Return values .: None
 ; Author ........: Demen
 ; Modified ......:
-; Remarks .......: This file is part of MyBot, previously known as ClashGameBot. Copyright 2015-2023
+; Remarks .......: This file is part of MyBot, previously known as ClashGameBot. Copyright 2015-2024
 ;                  MyBot is distributed under the terms of the GNU GPL
 ; Related .......:
 ; Link ..........: https://github.com/MyBotRun/MyBot/wiki
@@ -249,7 +249,7 @@ Func CheckQueueTroopAndTrainRemain($ArmyCamp, $bDebug)
 	Local $iTotalQueue = 0
 	If $bDebug Then SetLog("Checking troop queue: " & $ArmyCamp[0] & "/" & $ArmyCamp[1] * 2, $COLOR_DEBUG)
 
-	Local $XQueueStart = 777
+	Local $XQueueStart = 775
 	For $i = 0 To 10
 		If _ColorCheck(_GetPixelColor(766 - $i * 60.5, 185 + $g_iMidOffsetY, True), Hex(0xD7AFA9, 6), 20) Then ; Pink background found
 			$XQueueStart -= 60.5 * $i
@@ -265,7 +265,6 @@ Func CheckQueueTroopAndTrainRemain($ArmyCamp, $bDebug)
 	; Check block troop
 	If $ArmyCamp[0] < $ArmyCamp[1] + $iTotalQueue Then
 		SetLog("A big guy blocks our camp")
-		SaveDebugImage("BigGuy")
 		Return False
 	EndIf
 	; check wrong queue
@@ -305,7 +304,7 @@ Func CheckQueueSpellAndTrainRemain($ArmyCamp, $bDebug, $iUnbalancedSpell = 0)
 	Local $iTotalQueue = 0
 	If $bDebug Then SetLog("Checking spell queue: " & $ArmyCamp[0] & "/" & $ArmyCamp[1] * 2, $COLOR_DEBUG)
 
-	Local $XQueueStart = 777
+	Local $XQueueStart = 775
 	For $i = 0 To 10
 		If _ColorCheck(_GetPixelColor(766 - $i * 60.5, 185 + $g_iMidOffsetY, True), Hex(0xD7AFA9, 6), 20) Then ; Pink background found
 			$XQueueStart -= 60.5 * $i
@@ -321,7 +320,6 @@ Func CheckQueueSpellAndTrainRemain($ArmyCamp, $bDebug, $iUnbalancedSpell = 0)
 	; Check block spell
 	If $ArmyCamp[0] < $ArmyCamp[1] + $iTotalQueue Then
 		SetLog("A big guy blocks our camp")
-		SaveDebugImage("BigGuy")
 		Return False
 	EndIf
 	; check wrong queue

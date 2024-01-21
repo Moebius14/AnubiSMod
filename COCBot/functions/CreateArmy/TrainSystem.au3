@@ -6,7 +6,7 @@
 ; Return values .: None
 ; Author ........: Mr.Viper(10-2016), ProMac(10-2016), CodeSlinger69 (01-2018)
 ; Modified ......: ProMac (11-2016), Boju (11-2016), MR.ViPER (12-2016), CodeSlinger69 (01-2018)
-; Remarks .......: This file is part of MyBot, previously known as ClashGameBot. Copyright 2015-2023
+; Remarks .......: This file is part of MyBot, previously known as ClashGameBot. Copyright 2015-2024
 ;                  MyBot is distributed under the terms of the GNU GPL
 ; Related .......:
 ; Link ..........: https://github.com/MyBotRun/MyBot/wiki
@@ -199,7 +199,8 @@ Func CheckIfArmyIsReady()
 			SetLog("Chief, is your Army ready? No, not yet!", $COLOR_ACTION)
 			If $sLogText <> "" Then SetLog(@TAB & "Waiting for " & $sLogText, $COLOR_ACTION)
 		Else
-			If $g_aiCmbCCDecisionTime > 0 And $g_aiCmbCCDecisionThen = 0 And Not $bChkUseOnlyCCMedals And $g_bRequestTroopsEnable Then ; Wait For Time Then Attack (Time reached)
+			If $g_aiCmbCCDecisionTime > 0 And $g_aiCmbCCDecisionThen = 0 And Not $bChkUseOnlyCCMedals And $g_bRequestTroopsEnable And _
+					$g_bFullArmy And $g_bCheckSpells And $bFullArmyHero And $bFullSiege Then ; Wait For Time Then Attack (Time reached)
 				If $g_bNotifyTGEnable And $g_bNotifyAlertCampFull Then PushMsg("CampFull")
 				SetLog("Chief, is your Army ready? Yes, it is!", $COLOR_SUCCESS)
 				$bFullArmyCC = True
@@ -213,7 +214,7 @@ Func CheckIfArmyIsReady()
 	EndIf
 
 	If $g_bFullArmy And $g_bCheckSpells And $bFullArmyHero And $bFullSiege Then
-		If Not $bFullArmyCC And $g_bRequestTroopsEnable And ((Not $bChkUseOnlyCCMedals And $g_aiCmbCCDecisionThen = 1 And $IsTofillWithMedals) Or $bChkUseOnlyCCMedals) Then
+		If Not $bFullArmyCC And $g_bRequestTroopsEnable And ((Not $bChkUseOnlyCCMedals And $g_aiCmbCCDecisionThen = 1 And $IsTofillWithMedals) Or $bChkUseOnlyCCMedals) And $IsTofillWithMedalsPause Then
 			Local $IsCCFilled = FillCCWMedals(True, True, True, True, False, False)
 			Local $MedalsSetlog = _NumberFormat($g_iLootCCMedal, True)
 			If $IsCCFilled = "Filled" Then
@@ -629,12 +630,12 @@ EndFunc   ;==>DeleteInvalidTroopInArray
 Func RemoveExtraTroopsQueue() ; Will remove All Extra troops in queue If there's a Low Opacity red color on them
 	FuncEnter(RemoveExtraTroopsQueue, $g_bDebugSetlogTrain)
 	;Local Const $DecreaseByStep = 69 ; spacing between troop icons
-	;Local $x = 777  ; right most position moved Dec 2023 update window size change
+	;Local $x = 775  ; right most position moved Dec 2023 update window size change
 	Local Const $y = 185 + $g_iMidOffsetY ; Pink pixel check Y location
 	Local Const $yRemoveBtn = 198 + $g_iMidOffsetY ; Troop remove button Y location
-	Local Const $xDecreaseRemoveBtn = 11 ; offset to remove button location
+	Local Const $xDecreaseRemoveBtn = 9 ; offset to remove button location
 	Local $bColorCheck = False, $bGotRemoved = False
-	For $x = 777 To 73 Step -61
+	For $x = 775 To 73 Step -61
 		If Not $g_bRunState Then Return FuncReturn(False, $g_bDebugSetlogTrain)
 		$bColorCheck = _ColorCheck(_GetPixelColor($x, $y, True, $g_bDebugSetlogTrain ? "RemoveExtraTroopsQueue_ExtraTroops:D7AFA9" : Default), Hex(0xD7AFA9, 6), 20)  ;check for pink right of troop icon
 		If $bColorCheck Then
@@ -932,8 +933,7 @@ Func CheckQueueTroops($bGetQuantity = True, $bSetLog = True, $x = 777, $bQtyWSlo
 			$aQuantities[$i][1] = $aSearchResult[$i][3]
 			Local $iTroopIndex = TroopIndexLookup($aQuantities[$i][0])
 			If $iTroopIndex >= 0 And $iTroopIndex < $eTroopCount Then
-				;				If $bSetLog Then SetLog("  - " & $g_asTroopNames[TroopIndexLookup($aQuantities[$i][0], "CheckQueueTroops")] & ": " & $aQuantities[$i][1] & "x", $COLOR_SUCCESS)
-				SetLog("  - " & $g_asTroopNames[TroopIndexLookup($aQuantities[$i][0], "CheckQueueTroops")] & ": " & $aQuantities[$i][1] & "x", $COLOR_SUCCESS)
+				If $bSetLog Then SetLog("  - " & $g_asTroopNames[TroopIndexLookup($aQuantities[$i][0], "CheckQueueTroops")] & ": " & $aQuantities[$i][1] & "x", $COLOR_SUCCESS)
 				$aQueueTroop[$iTroopIndex] += $aQuantities[$i][1]
 			Else
 				; TODO check what to do with others
@@ -975,8 +975,7 @@ Func CheckQueueSpells($bGetQuantity = True, $bSetLog = True, $x = 777, $bQtyWSlo
 			If Not $g_bRunState Then Return
 			$aiQuantities[$i][0] = $avSearchResult[$i][0]
 			$aiQuantities[$i][1] = $avSearchResult[$i][3]
-			;			If $bSetLog Then SetLog("  - " & $g_asSpellNames[TroopIndexLookup($aiQuantities[$i][0], "CheckQueueSpells") - $eLSpell] & ": " & $aiQuantities[$i][1] & "x", $COLOR_SUCCESS)
-			SetLog("  - " & $g_asSpellNames[TroopIndexLookup($aiQuantities[$i][0], "CheckQueueSpells") - $eLSpell] & ": " & $aiQuantities[$i][1] & "x", $COLOR_SUCCESS)
+			If $bSetLog Then SetLog("  - " & $g_asSpellNames[TroopIndexLookup($aiQuantities[$i][0], "CheckQueueSpells") - $eLSpell] & ": " & $aiQuantities[$i][1] & "x", $COLOR_SUCCESS)
 			$aQueueSpell[TroopIndexLookup($aiQuantities[$i][0]) - $eLSpell] += $aiQuantities[$i][1]
 		Next
 		If $bQtyWSlot Then Return $aiQuantities

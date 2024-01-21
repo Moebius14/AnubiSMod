@@ -6,7 +6,7 @@
 ; Return values .: True if boosted, False if not
 ; Author ........: Cosote Oct. 2016
 ; Modified ......:
-; Remarks .......: This file is part of MyBot, previously known as ClashGameBot. Copyright 2015-2023
+; Remarks .......: This file is part of MyBot, previously known as ClashGameBot. Copyright 2015-2024
 ;                  MyBot is distributed under the terms of the GNU GPL
 ; Related .......:
 ; Link ..........: https://github.com/MyBotRun/MyBot/wiki
@@ -55,11 +55,7 @@ Func BoostStructure($sName, $sOcrName, $aPos, ByRef $icmbBoostValue, $cmbBoostCt
 				Else
 					If $icmbBoostValue <= 24 Then
 						$icmbBoostValue -= 1
-						If $icmbBoostValue > 1 Then
-							SetLog($sName & ' Boost completed. Remaining iterations: ' & $icmbBoostValue, $COLOR_SUCCESS)
-						Else
-							SetLog($sName & ' Boost completed. Remaining iteration: ' & $icmbBoostValue, $COLOR_SUCCESS)
-						EndIf
+						SetLog($sName & " Boost completed. Remaining iteration" & ($icmbBoostValue > 1 ? "s: " : ": ") & $icmbBoostValue, $COLOR_SUCCESS)
 						_GUICtrlComboBox_SetCurSel($cmbBoostCtrl, $icmbBoostValue)
 					Else
 						SetLog($sName & ' Boost completed. Remaining iterations: Unlimited', $COLOR_SUCCESS)
@@ -145,11 +141,7 @@ Func BoostPotion($sName, $sOcrName, $aPos, ByRef $icmbBoostValue, $cmbBoostCtrl)
 					If _Sleep($DELAYBOOSTHEROES4) Then Return
 					If $icmbBoostValue <= 5 Then
 						$icmbBoostValue -= 1
-						If $icmbBoostValue > 1 Then
-							SetLog($sName & ' Boost completed. Remaining iterations: ' & $icmbBoostValue, $COLOR_SUCCESS)
-						Else
-							SetLog($sName & ' Boost completed. Remaining iteration: ' & $icmbBoostValue, $COLOR_SUCCESS)
-						EndIf
+						SetLog($sName & " Boost completed. Remaining iteration" & ($icmbBoostValue > 1 ? "s: " : ": ") & $icmbBoostValue, $COLOR_SUCCESS)
 						_GUICtrlComboBox_SetCurSel($cmbBoostCtrl, $icmbBoostValue)
 					EndIf
 					$boosted = True
@@ -226,6 +218,12 @@ Func CheckBuilderPotion()
 				If Not $g_bRunState Then Return
 				If ClickB("BoostConfirm") Then
 					SetLog("Builders Boosted Using Potion", $COLOR_SUCCESS1)
+					If $g_sBSUpgradeTime <> "" And _DateIsValid($g_sBSUpgradeTime) Then
+						Local $BSTimeDiff ; time remaining for Blacksmith upgrade
+						$BSTimeDiff = _DateDiff("n", _NowCalc(), $g_sBSUpgradeTime) ; what is difference between end time and now in minutes?
+						$g_sBSUpgradeTime = _DateAdd('n', Ceiling($BSTimeDiff - 540), _NowCalc())
+						If ProfileSwitchAccountEnabled() Then SwitchAccountVariablesReload("Save")
+					EndIf
 					If $g_iCmbBoostBuilders <= 5 Then
 						$g_iCmbBoostBuilders -= 1
 						If $g_iCmbBoostBuilders > 0 Then
@@ -233,11 +231,7 @@ Func CheckBuilderPotion()
 						Else
 							$g_iTimerBoostBuilders = 0
 						EndIf
-						If $g_iCmbBoostBuilders > 1 Then
-							SetLog("Builders Boost completed. Remaining iterations: " & $g_iCmbBoostBuilders, $COLOR_SUCCESS)
-						Else
-							SetLog("Builders Boost completed. Remaining iteration: " & $g_iCmbBoostBuilders, $COLOR_SUCCESS)
-						EndIf
+						SetLog("Builders Boost completed. Remaining iteration" & ($g_iCmbBoostBuilders > 1 ? "s: " : ": ") & $g_iCmbBoostBuilders, $COLOR_SUCCESS)
 						_GUICtrlComboBox_SetCurSel($g_hCmbBoostBuilders, $g_iCmbBoostBuilders)
 					EndIf
 					$ActionForModLog = "Boosting Builders"
@@ -257,6 +251,12 @@ Func CheckBuilderPotion()
 				If _Sleep(1000) Then Return
 				If ClickB("BoostConfirm") Then
 					SetLog("Builders Boosted Using Potion", $COLOR_SUCCESS1)
+					If $g_sBSUpgradeTime <> "" And _DateIsValid($g_sBSUpgradeTime) Then
+						Local $BSTimeDiff ; time remaining for Blacksmith upgrade
+						$BSTimeDiff = _DateDiff("n", _NowCalc(), $g_sBSUpgradeTime) ; what is difference between end time and now in minutes?
+						$g_sBSUpgradeTime = _DateAdd('n', Ceiling($BSTimeDiff - 540), _NowCalc())
+						If ProfileSwitchAccountEnabled() Then SwitchAccountVariablesReload("Save")
+					EndIf
 					If $g_iCmbBoostBuilders <= 5 Then
 						$g_iCmbBoostBuilders -= 1
 						If $g_iCmbBoostBuilders > 0 Then
@@ -264,11 +264,7 @@ Func CheckBuilderPotion()
 						Else
 							$g_iTimerBoostBuilders = 0
 						EndIf
-						If $g_iCmbBoostBuilders > 1 Then
-							SetLog("Builders Boost completed. Remaining iterations: " & $g_iCmbBoostBuilders, $COLOR_SUCCESS)
-						Else
-							SetLog("Builders Boost completed. Remaining iteration: " & $g_iCmbBoostBuilders, $COLOR_SUCCESS)
-						EndIf
+						SetLog("Builders Boost completed. Remaining iteration" & ($g_iCmbBoostBuilders > 1 ? "s: " : ": ") & $g_iCmbBoostBuilders, $COLOR_SUCCESS)
 						_GUICtrlComboBox_SetCurSel($g_hCmbBoostBuilders, $g_iCmbBoostBuilders)
 					EndIf
 					$ActionForModLog = "Boosting Builders"

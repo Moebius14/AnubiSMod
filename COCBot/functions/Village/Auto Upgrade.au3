@@ -6,7 +6,7 @@
 ; Return values .:
 ; Author ........:
 ; Modified ......: Moebius14 (10-2023)
-; Remarks .......: This file is part of MyBotRun. Copyright 2015-2023
+; Remarks .......: This file is part of MyBotRun. Copyright 2015-2024
 ;                  MyBotRun is distributed under the terms of the GNU GPL
 ; Related .......: ---
 ; Link ..........: https://www.mybot.run
@@ -412,7 +412,7 @@ Func _AutoUpgrade()
 		Else
 			$g_aUpgradeResourceCostDuration[0] = QuickMIS("N1", $g_sImgAUpgradeRes, 670, 535 + $g_iMidOffsetY, 700, 565 + $g_iMidOffsetY) ; get resource
 			$g_aUpgradeResourceCostDuration[1] = getCostsUpgrade(552, 541 + $g_iMidOffsetY) ; get cost
-			$g_aUpgradeResourceCostDuration[2] = getBldgUpgradeTime(730, 544 + $g_iMidOffsetY) ; get duration
+			$g_aUpgradeResourceCostDuration[2] = getBldgUpgradeTime(717, 544 + $g_iMidOffsetY) ; get duration
 		EndIf
 
 		; if one of the value is empty, there is an error, we must exit Auto Upgrade
@@ -484,7 +484,13 @@ Func _AutoUpgrade()
 		$UpgradeDone = True
 
 		If _Sleep(1000) Then Return
-
+		If $g_aUpgradeNameLevel[1] = "Town Hall" Then
+			Local $aiContinueButton = findButton("Continue", Default, 1, True)
+			If IsArray($aiContinueButton) And UBound($aiContinueButton, 1) = 2 Then
+				PureClick($aiContinueButton[0], $aiContinueButton[1], 2, 50, "#0117") ; Click Continue Button
+				If _Sleep(1000) Then Return
+			EndIf
+		EndIf
 		;Check for 'End Boost?' pop-up : What's this ?
 		If _Sleep(200) Then Return
 		Local $aImgAUpgradeEndBoost = decodeSingleCoord(findImage("EndBoost", $g_sImgAUpgradeEndBoost, GetDiamondFromRect2(350, 280 + $g_iMidOffsetY, 570, 200 + $g_iMidOffsetY), 1, True))

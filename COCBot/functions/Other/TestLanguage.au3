@@ -5,9 +5,9 @@
 ; Parameters ....: None
 ; Return values .: None
 ; Author ........: Sardo (2015-06) , MHK2012 (2018-02)
-; Modified ......: Hervidero(2015)
+; Modified ......: Hervidero(2015), Moebius14 (2024-01)
 ;
-; Remarks .......: This file is part of MyBot, previously known as ClashGameBot. Copyright 2015-2023
+; Remarks .......: This file is part of MyBot, previously known as ClashGameBot. Copyright 2015-2024
 ;                  MyBot is distributed under the terms of the GNU GPL
 ; Related .......:
 ; Link ..........: https://github.com/MyBotRun/MyBot/wiki
@@ -20,11 +20,18 @@ Func TestLanguage()
 	If getOcrLanguage($aDetectLang[0], $aDetectLang[1]) = "english" Then
 		SetLog("Language setting is English: Correct.", $COLOR_INFO)
 		Return True
-	ElseIf Not ChangeLanguage() Then
-		SetLog("Language setting is Wrong: Change CoC language to English!", $COLOR_ERROR)
-		btnStop()
+	Else
+		If UBound(decodeSingleCoord(FindImageInPlace2("Attack!", $g_sImgEnglishAttack, 15, 620 + $g_iBottomOffsetY, 110, 665 + $g_iBottomOffsetY, True))) > 1 Then
+			SetLog("Language setting is English: Correct.", $COLOR_INFO)
+			Return True
+		Else
+			If Not ChangeLanguage() Then
+				SetLog("Language setting is Wrong: Change CoC language to English!", $COLOR_ERROR)
+				btnStop()
+			EndIf
+		EndIf
 	EndIf
-EndFunc
+EndFunc   ;==>TestLanguage
 
 Func ChangeLanguage()
 	SetLog("Change Language To English", $COLOR_INFO)
@@ -74,4 +81,4 @@ Func ChangeLanguage()
 	Next
 
 	Return False
-EndFunc   ;==>TestLanguage
+EndFunc   ;==>ChangeLanguage

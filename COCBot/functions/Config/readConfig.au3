@@ -6,7 +6,7 @@
 ; Return values .: NA
 ; Author ........:
 ; Modified ......: CodeSlinger69 (01-2018)
-; Remarks .......: This file is part of MyBot, previously known as ClashGameBot. Copyright 2015-2023
+; Remarks .......: This file is part of MyBot, previously known as ClashGameBot. Copyright 2015-2024
 ;                  MyBot is distributed under the terms of the GNU GPL
 ; Related .......:
 ; Link ..........: https://github.com/MyBotRun/MyBot/wiki
@@ -889,6 +889,7 @@ Func ReadConfig_600_18()
 	; <><><><> Village / Notify <><><><>
 	;Telegram
 	IniReadS($g_bNotifyTGEnable, $g_sProfileConfigPath, "notify", "TGEnabled", False, "Bool")
+	IniReadS($g_bNotifyTGEnableInSecure, $g_sProfileConfigPath, "notify", "TGEnabledInSecure", False, "Bool")
 	IniReadS($g_sNotifyTGToken, $g_sProfileConfigPath, "notify", "TGToken", "")
 	IniReadS($g_sTGChatID, $g_sProfileConfigPath, "notify", "TGUserID", "")
 
@@ -920,6 +921,7 @@ Func ReadConfig_600_18()
 	IniReadS($g_bChkNotifyUpgradeBC, $g_sProfileConfigPath, "notify", "NotifyUpgradeBC", False, "Bool")
 	IniReadS($g_bNotifyStopBot, $g_sProfileConfigPath, "notify", "BotStopNotify", $g_bNotifyStopBot, "Bool")
 	IniReadS($g_bChkNotifyUpgrade, $g_sProfileConfigPath, "notify", "NotifyUpgrade", False, "Bool")
+	IniReadS($g_bChkCCRaidWarning, $g_sProfileConfigPath, "notify", "CCRaidWarning", False, "Bool")
 EndFunc   ;==>ReadConfig_600_18
 
 Func ReadConfig_600_19()
@@ -1040,6 +1042,8 @@ Func ReadConfig_600_28_DB()
 	IniReadS($g_abFilterMaxEagleEnable[$DB], $g_sProfileConfigPath, "search", "DBCheckEagle", False, "Bool")
 	IniReadS($g_abFilterMaxScatterEnable[$DB], $g_sProfileConfigPath, "search", "DBCheckScatter", False, "Bool")
 	IniReadS($g_abFilterMaxMonolithEnable[$DB], $g_sProfileConfigPath, "search", "DBCheckMonolith", False, "Bool")
+	IniReadS($g_abFilterMaxMultiArcherEnable[$DB], $g_sProfileConfigPath, "search", "DBCheckMultiArcher", False, "Bool")
+	IniReadS($g_abFilterMaxRicochetEnable[$DB], $g_sProfileConfigPath, "search", "DBCheckRicochet", False, "Bool")
 	IniReadS($g_aiFilterMaxMortarLevel[$DB], $g_sProfileConfigPath, "search", "DBWeakMortar", 5, "int")
 	IniReadS($g_aiFilterMaxWizTowerLevel[$DB], $g_sProfileConfigPath, "search", "DBWeakWizTower", 4, "int")
 	IniReadS($g_aiFilterMaxAirDefenseLevel[$DB], $g_sProfileConfigPath, "search", "DBWeakAirDefense", 7, "int")
@@ -1048,6 +1052,8 @@ Func ReadConfig_600_28_DB()
 	IniReadS($g_aiFilterMaxEagleLevel[$DB], $g_sProfileConfigPath, "search", "DBWeakEagle", 2, "int")
 	IniReadS($g_aiFilterMaxScatterLevel[$DB], $g_sProfileConfigPath, "search", "DBWeakScatter", 1, "int")
 	IniReadS($g_aiFilterMaxMonolithLevel[$DB], $g_sProfileConfigPath, "search", "DBWeakMonolith", 1, "int")
+	IniReadS($g_aiFilterMaxMultiArcherLevel[$DB], $g_sProfileConfigPath, "search", "DBWeakMultiArcher", 1, "int")
+	IniReadS($g_aiFilterMaxRicochetLevel[$DB], $g_sProfileConfigPath, "search", "DBWeakRicochet", 1, "int")
 	IniReadS($g_abFilterMeetOneConditionEnable[$DB], $g_sProfileConfigPath, "search", "DBMeetOne", False, "Bool")
 EndFunc   ;==>ReadConfig_600_28_DB
 
@@ -1097,6 +1103,8 @@ Func ReadConfig_600_28_LB()
 	IniReadS($g_abFilterMaxEagleEnable[$LB], $g_sProfileConfigPath, "search", "ABCheckEagle", False, "Bool")
 	IniReadS($g_abFilterMaxScatterEnable[$LB], $g_sProfileConfigPath, "search", "ABCheckScatter", False, "Bool")
 	IniReadS($g_abFilterMaxMonolithEnable[$LB], $g_sProfileConfigPath, "search", "ABCheckMonolith", False, "Bool")
+	IniReadS($g_abFilterMaxMultiArcherEnable[$LB], $g_sProfileConfigPath, "search", "ABCheckMultiArcher", False, "Bool")
+	IniReadS($g_abFilterMaxRicochetEnable[$LB], $g_sProfileConfigPath, "search", "ABCheckRicochet", False, "Bool")
 	IniReadS($g_aiFilterMaxMortarLevel[$LB], $g_sProfileConfigPath, "search", "ABWeakMortar", 5, "int")
 	IniReadS($g_aiFilterMaxWizTowerLevel[$LB], $g_sProfileConfigPath, "search", "ABWeakWizTower", 4, "int")
 	IniReadS($g_aiFilterMaxAirDefenseLevel[$LB], $g_sProfileConfigPath, "search", "ABWeakAirDefense", 7, "int")
@@ -1105,6 +1113,8 @@ Func ReadConfig_600_28_LB()
 	IniReadS($g_aiFilterMaxEagleLevel[$LB], $g_sProfileConfigPath, "search", "ABWeakEagle", 2, "int")
 	IniReadS($g_aiFilterMaxScatterLevel[$LB], $g_sProfileConfigPath, "search", "ABWeakScatter", 1, "int")
 	IniReadS($g_aiFilterMaxMonolithLevel[$LB], $g_sProfileConfigPath, "search", "ABWeakMonolith", 1, "int")
+	IniReadS($g_aiFilterMaxMultiArcherLevel[$LB], $g_sProfileConfigPath, "search", "ABWeakMultiArcher", 1, "int")
+	IniReadS($g_aiFilterMaxRicochetLevel[$LB], $g_sProfileConfigPath, "search", "ABWeakRicochet", 1, "int")
 	IniReadS($g_abFilterMeetOneConditionEnable[$LB], $g_sProfileConfigPath, "search", "ABMeetOne", False, "Bool")
 EndFunc   ;==>ReadConfig_600_28_LB
 
@@ -1165,6 +1175,7 @@ Func ReadConfig_600_29_DB()
 	IniReadS($g_abAttackUseHasteSpell[$DB], $g_sProfileConfigPath, "attack", "DBHasteSpell", False, "Bool")
 	IniReadS($g_abAttackUseCloneSpell[$DB], $g_sProfileConfigPath, "attack", "DBCloneSpell", False, "Bool")
 	IniReadS($g_abAttackUseInvisibilitySpell[$DB], $g_sProfileConfigPath, "attack", "DBInvisibilitySpell", False, "Bool")
+	IniReadS($g_abAttackUseRecallSpell[$DB], $g_sProfileConfigPath, "attack", "DBRecallSpell", False, "Bool")
 	IniReadS($g_abAttackUseSkeletonSpell[$DB], $g_sProfileConfigPath, "attack", "DBSkeletonSpell", False, "Bool")
 	IniReadS($g_abAttackUseBatSpell[$DB], $g_sProfileConfigPath, "attack", "DBBatSpell", False, "Bool")
 	; <><><><> Attack Plan / Search & Attack / Deadbase / Attack / Standard <><><><>
@@ -1212,6 +1223,7 @@ Func ReadConfig_600_29_LB()
 	IniReadS($g_abAttackUseHasteSpell[$LB], $g_sProfileConfigPath, "attack", "ABHasteSpell", False, "Bool")
 	IniReadS($g_abAttackUseCloneSpell[$LB], $g_sProfileConfigPath, "attack", "ABCloneSpell", False, "Bool")
 	IniReadS($g_abAttackUseInvisibilitySpell[$LB], $g_sProfileConfigPath, "attack", "ABInvisibilitySpell", False, "Bool")
+	IniReadS($g_abAttackUseRecallSpell[$LB], $g_sProfileConfigPath, "attack", "ABRecallSpell", False, "Bool")
 	IniReadS($g_abAttackUseSkeletonSpell[$LB], $g_sProfileConfigPath, "attack", "ABSkeletonSpell", False, "Bool")
 	IniReadS($g_abAttackUseBatSpell[$LB], $g_sProfileConfigPath, "attack", "ABBatSpell", False, "Bool")
 	; <><><><> Attack Plan / Search & Attack / Activebase / Attack / Standard <><><><>

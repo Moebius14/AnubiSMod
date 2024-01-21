@@ -16,7 +16,7 @@
 ; Return values .: None
 ; Author ........: Your Name
 ; Modified ......:
-; Remarks .......: This file is part of MyBot, previously known as ClashGameBot. Copyright 2015-2023
+; Remarks .......: This file is part of MyBot, previously known as ClashGameBot. Copyright 2015-2024
 ;                  MyBot is distributed under the terms of the GNU GPL
 ; Related .......:
 ; Link ..........: https://github.com/MyBotRun/MyBot/wiki
@@ -107,3 +107,14 @@ Func WaitforPixel($iLeft, $iTop, $iRight, $iBottom, $firstColor, $iColorVariatio
 	Next
 	Return False
 EndFunc   ;==>WaitforPixel
+
+Func _FullResPixelSearch($iLeft, $iRight, $iY, $xSkip, $firstColor, $FullColor, $iColorVariation)
+	For $x = $iLeft To $iRight
+		If _ColorCheck(_GetPixelColor($x, $iY, $g_bCapturePixel), $firstColor, $iColorVariation) Then
+			If Not _ColorCheck(_GetPixelColor($x + $xSkip, $iY, $g_bCapturePixel), Hex($FullColor, 6), $iColorVariation) Then ContinueLoop
+			Local $Pos[2] = [$x + $xSkip, $iY]
+			Return $Pos
+		EndIf
+	Next
+	Return 0
+EndFunc   ;==>_FullResPixelSearch

@@ -6,7 +6,7 @@
 ; Return values .: None
 ; Author ........: Xbebenk, Moebius14
 ; Modified ......: Moebius14 (06.06.2023)
-; Remarks .......: This file is part of MyBot, previously known as ClashGameBot. Copyright 2015-2023
+; Remarks .......: This file is part of MyBot, previously known as ClashGameBot. Copyright 2015-2024
 ;                  MyBot is distributed under the terms of the GNU GPL
 ; Related .......:
 ; Link ..........: https://github.com/MyBotRun/MyBot/wiki
@@ -195,10 +195,15 @@ Func ClanCapitalReport($SetLog = True)
 			$iAttack = getOcrAndCapture("coc-mapname", 780, 542 + $g_iBottomOffsetY, 20, 18)
 			If $iAttack > 1 Then
 				SetLog("You have " & $iAttack & " available attacks", $COLOR_SUCCESS)
+				$AllCCRaidAttacksDone = 0
+				NotifyCCRaidWarning($iAttack)
 			ElseIf $iAttack = 1 Then
 				SetLog("You have only one available attack", $COLOR_SUCCESS)
+				$AllCCRaidAttacksDone = 0
+				NotifyCCRaidWarning($iAttack)
 			ElseIf $iAttack = 0 Then
 				SetLog("You have done all you could", $COLOR_SUCCESS)
+				$AllCCRaidAttacksDone = 1
 			EndIf
 			If QuickMIS("BC1", $g_sImgCCRaid, 360, 445 + $g_iMidOffsetY, 500, 500 + $g_iMidOffsetY) Then
 				Click($g_iQuickMISX, $g_iQuickMISY)
@@ -209,6 +214,7 @@ Func ClanCapitalReport($SetLog = True)
 			If _Sleep(1500) Then Return
 		Else
 			$IsRaidRunning = 0
+			$AllCCRaidAttacksDone = 1
 			Local $sRaidTimeOCR = getTimeToRaid(760, 543 + $g_iBottomOffsetY)
 			Local $iConvertedTime = ConvertOCRTime("Raid Time", $sRaidTimeOCR, False)
 			If $iConvertedTime > 1440 Then
@@ -422,11 +428,7 @@ Func ForgeClanCapitalGold($bTest = False)
 					Else
 						$g_iTimerBoostBuilders = 0
 					EndIf
-					If $g_iCmbBoostBuilders > 1 Then
-						SetLog("Builders Boost completed. Remaining iterations: " & $g_iCmbBoostBuilders, $COLOR_SUCCESS)
-					Else
-						SetLog("Builders Boost completed. Remaining iteration: " & $g_iCmbBoostBuilders, $COLOR_SUCCESS)
-					EndIf
+					SetLog("Builders Boost completed. Remaining iteration" & ($g_iCmbBoostBuilders > 1 ? "s: " : ": ") & $g_iCmbBoostBuilders, $COLOR_SUCCESS)
 					_GUICtrlComboBox_SetCurSel($g_hCmbBoostBuilders, $g_iCmbBoostBuilders)
 				EndIf
 				$ActionForModLog = "Boosting Builders"
@@ -834,8 +836,7 @@ Func ForgeClanCapitalGold($bTest = False)
 			If Not $g_bRunState Then Return
 		Next
 		If $NumberOfCraftLaunched > 0 Then
-			If $NumberOfCraftLaunched = 1 Then $ActionForModLog = "Craft Launched"
-			If $NumberOfCraftLaunched > 1 Then $ActionForModLog = "Crafts Launched"
+			$ActionForModLog = "Craft" & ($NumberOfCraftLaunched > 1 ? "s" : "") & " Launched"
 			If $g_iTxtCurrentVillageName <> "" Then
 				GUICtrlSetData($g_hTxtModLog, @CRLF & _NowTime() & " [" & $g_iTxtCurrentVillageName & "] Clan Capital : " & $NumberOfCraftLaunched & " " & $ActionForModLog & "", 1)
 			Else
@@ -881,11 +882,7 @@ Func ForgeClanCapitalGold($bTest = False)
 					Else
 						$g_iTimerBoostBuilders = 0
 					EndIf
-					If $g_iCmbBoostBuilders > 1 Then
-						SetLog("Builders Boost completed. Remaining iterations: " & $g_iCmbBoostBuilders, $COLOR_SUCCESS)
-					Else
-						SetLog("Builders Boost completed. Remaining iteration: " & $g_iCmbBoostBuilders, $COLOR_SUCCESS)
-					EndIf
+					SetLog("Builders Boost completed. Remaining iteration" & ($g_iCmbBoostBuilders > 1 ? "s: " : ": ") & $g_iCmbBoostBuilders, $COLOR_SUCCESS)
 					_GUICtrlComboBox_SetCurSel($g_hCmbBoostBuilders, $g_iCmbBoostBuilders)
 				EndIf
 				$ActionForModLog = "Boosting Builders"
@@ -1966,9 +1963,10 @@ EndFunc   ;==>WaitUpgradeWindowCC
 
 Func AutoUpgradeCC()
 	If Not $g_bRunState Then Return
-	If Not $g_bChkEnableAutoUpgradeCC Then Return
 
-	If $IsToCheckBeforeStop And Number($g_iLootCCGold) = 0 Then Return
+	If Not $g_bChkEnableAutoUpgradeCC And Not $IsRaidRunning And Not $AllCCRaidAttacksDone Then Return
+
+	If $IsToCheckBeforeStop And Number($g_iLootCCGold) = 0 And Not $IsRaidRunning And Not $AllCCRaidAttacksDone Then Return
 
 	Local $Failed = False
 	Local $aForgeType[5] = [$g_bChkEnableForgeGold, $g_bChkEnableForgeElix, $g_bChkEnableForgeDE, $g_bChkEnableForgeBBGold, $g_bChkEnableForgeBBElix]
@@ -1992,7 +1990,7 @@ Func AutoUpgradeCC()
 			Local $FreeBuilders = $g_iFreeBuilderCount - $iWallReserve - ReservedBuildersForHeroes(False) - $iUpgradeBuilders ;check builder reserve on wall, hero upgrade, Buildings upgrade
 		EndIf
 		If (Not $g_bFirstStartForAll And Number($g_iLootCCGold) = 0 And ((Not $bForgeEnabled Or Not $g_bChkEnableCollectCCGold) Or ($FreeBuilders < 1 And $bForgeEnabled And Not $g_GoldenPass))) Or _
-				($IsCCGoldJustCollectedDChallenge And Number($g_iLootCCGold) = 0) Then
+				($IsCCGoldJustCollectedDChallenge And Number($g_iLootCCGold) = 0) And Not UTCRaidWarning() Then
 			If _Sleep(1000) Then Return
 			If Not OpenForgeWindow() Then
 				SetLog("Forge Window not Opened, exiting", $COLOR_ACTION)
@@ -2034,7 +2032,7 @@ Func AutoUpgradeCC()
 					EndIf
 				Else
 					SetLog("No Capital Gold to spend to Contribute, No Switch", $COLOR_DEBUG)
-					Return
+					If Not UTCRaidWarning() Then Return
 				EndIf
 			Else
 				If $StartRaidConditions And Not $IsRaidRunning Then
@@ -2047,7 +2045,7 @@ Func AutoUpgradeCC()
 					EndIf
 				Else
 					SetLog("No Capital Gold to spend to Contribute, No Switch", $COLOR_DEBUG)
-					Return
+					If Not UTCRaidWarning() Then Return
 				EndIf
 			EndIf
 		EndIf
@@ -3458,3 +3456,55 @@ Func BtnForcePurgeMedals()
 	AndroidShield("BtnForcePurgeMedals 2") ; Update shield status due to manual $g_bRunState
 	Return $Result
 EndFunc   ;==>BtnForcePurgeMedals
+
+Func UTCRaidWarning()
+	If $AllCCRaidAttacksDone Then Return False
+	Local $Time, $DayUTC, $DayOfTheWeek, $TimeHourUTC
+	If _Sleep(100) Then Return
+	Local $String = BinaryToString(InetRead("http://worldtimeapi.org/api/timezone/Etc/UTC.txt", 1))
+	Local $ErrorCycle = 0
+	While @error <> 0
+		$String = BinaryToString(InetRead("http://worldtimeapi.org/api/timezone/Etc/UTC.txt", 1))
+		If @error <> 0 Then
+			$ErrorCycle += 1
+		Else
+			ExitLoop
+		EndIf
+		If _Sleep(200) Then Return
+		If $ErrorCycle = 15 Then ExitLoop
+	WEnd
+	If $ErrorCycle = 15 Then
+		If Number(@WDAY) = 1 Then
+			Return True
+		Else
+			Return False
+		EndIf
+	EndIf
+	$Time = StringRegExp($String, 'datetime: (.+?)T(\d+:\d+:\d+)', $STR_REGEXPARRAYMATCH)
+	$DayOfTheWeek = StringRegExp($String, 'day_of_week: (\d)', $STR_REGEXPARRAYMATCH)
+	If IsArray($Time) And UBound($Time) > 0 Then
+		$DayUTC = StringSplit($Time[0], "-", $STR_NOCOUNT)
+		$TimeHourUTC = StringSplit($Time[1], ":", $STR_NOCOUNT)
+	Else
+		If Number(@WDAY) = 1 Then Return True
+	EndIf
+
+	If IsArray($TimeHourUTC) And UBound($TimeHourUTC) > 0 And IsArray($DayOfTheWeek) And UBound($DayOfTheWeek) > 0 Then
+		If ($TimeHourUTC[0] >= 17 And $DayOfTheWeek[0] = 0) Or ($TimeHourUTC[0] > 0 And $TimeHourUTC[0] < 7 And $DayOfTheWeek[0] = 1) Then Return True ; Will check Only From Sunday 17:00 To Monday 07:00 UTC
+	Else
+		If Number(@WDAY) = 1 Then Return True
+	EndIf
+	Return False
+EndFunc   ;==>UTCRaidWarning
+
+Func NotifyCCRaidWarning($RemaningAttacks = 0)
+
+	If $g_bChkCCRaidWarning Then
+		Local $Text = "Village : " & $g_sNotifyOrigin & "%0A"
+		$Text &= "Profile : " & $g_sProfileCurrentName & "%0A"
+		Local $currentDate = Number(@MDAY)
+		$Text &= "CC Raid Remaining Attack" & ($RemaningAttacks > 1 ? "s : " : " : ") & $RemaningAttacks
+		NotifyPushToTelegram($Text)
+	EndIf
+
+EndFunc   ;==>NotifyCCRaidWarning

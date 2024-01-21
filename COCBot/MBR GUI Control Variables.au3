@@ -6,7 +6,7 @@
 ; Return values .: None
 ; Author ........: Boju(2016)
 ; Modified ......: MR.ViPER (11-2016), CodeSlinger69 (2017), MMHK (01-2018)
-; Remarks .......: This file is part of MyBot, previously known as ClashGameBot. Copyright 2015-2023
+; Remarks .......: This file is part of MyBot, previously known as ClashGameBot. Copyright 2015-2024
 ;                  MyBot is distributed under the terms of the GNU GPL
 ; Related .......:
 ; Link ..........: https://github.com/MyBotRun/MyBot/wiki
@@ -68,7 +68,9 @@ Func InitializeControlVariables()
 			$g_ahPicWeakWizTower[$DB] & "#" & _
 			$g_ahChkMaxXBow[$DB] & "#" & $g_ahCmbWeakXBow[$DB] & "#" & $g_ahPicWeakXBow[$DB] & "#" & $g_ahChkMaxInferno[$DB] & "#" & $g_ahCmbWeakInferno[$DB] & "#" & _
 			$g_ahPicWeakInferno[$DB] & "#" & $g_ahChkMaxEagle[$DB] & "#" & $g_ahCmbWeakEagle[$DB] & "#" & $g_ahPicWeakEagle[$DB] & "#" & $g_ahChkMaxScatter[$DB] & "#" & $g_ahCmbWeakScatter[$DB] & "#" & $g_ahPicWeakScatter[$DB] & "#" & _
-			$g_ahChkMaxMonolith[$DB] & "#" & $g_ahCmbWeakMonolith[$DB] & "#" & $g_ahPicWeakMonolith[$DB]
+			$g_ahChkMaxMonolith[$DB] & "#" & $g_ahCmbWeakMonolith[$DB] & "#" & $g_ahPicWeakMonolith[$DB] & "#" & $g_ahChkMaxMultiArcher[$DB] & "#" & $g_ahCmbWeakMultiArcher[$DB] & "#" & $g_ahPicWeakMultiArcher[$DB] & "#" & _
+			$g_ahChkMaxRicochet[$DB] & "#" & $g_ahCmbWeakRicochet[$DB] & "#" & $g_ahPicWeakRicochet[$DB]
+
 	$groupHerosDB = $g_hPicDBHeroesWait & "#" & $g_hTxtDBHeroesWait & "#" & $g_hChkDBKingWait & "#" & $g_hChkDBQueenWait & "#" & $g_hChkDBWardenWait & "#" & $g_hChkDBChampionWait & "#" & $g_hPicDBKingWait & "#" & _
 			$g_hPicDBQueenWait & "#" & $g_hPicDBWardenWait & "#" & $g_hPicDBChampionWait & "#" & $g_hChkDBNotWaitHeroes
 
@@ -79,7 +81,9 @@ Func InitializeControlVariables()
 			$g_ahChkMaxMortar[$LB] & "#" & $g_ahCmbWeakMortar[$LB] & "#" & $g_ahPicWeakMortar[$LB] & "#" & $g_ahChkMaxWizTower[$LB] & "#" & $g_ahCmbWeakWizTower[$LB] & "#" & _
 			$g_ahPicWeakWizTower[$LB] & "#" & $g_ahChkMaxXBow[$LB] & "#" & $g_ahCmbWeakXBow[$LB] & "#" & $g_ahPicWeakXBow[$LB] & "#" & $g_ahChkMaxInferno[$LB] & "#" & _
 			$g_ahCmbWeakInferno[$LB] & "#" & $g_ahPicWeakInferno[$LB] & "#" & $g_ahChkMaxEagle[$LB] & "#" & $g_ahCmbWeakEagle[$LB] & "#" & $g_ahPicWeakEagle[$LB] & "#" & $g_ahChkMaxScatter[$LB] & "#" & _
-			$g_ahCmbWeakScatter[$LB] & "#" & $g_ahPicWeakScatter[$LB] & "#" & $g_ahChkMaxMonolith[$LB] & "#" & $g_ahCmbWeakMonolith[$LB] & "#" & $g_ahPicWeakMonolith[$LB]
+			$g_ahCmbWeakScatter[$LB] & "#" & $g_ahPicWeakScatter[$LB] & "#" & $g_ahChkMaxMonolith[$LB] & "#" & $g_ahCmbWeakMonolith[$LB] & "#" & $g_ahPicWeakMonolith[$LB] & "#" & _
+			$g_ahChkMaxMultiArcher[$LB] & "#" & $g_ahCmbWeakMultiArcher[$LB] & "#" & $g_ahPicWeakMultiArcher[$LB] & "#" &$g_ahChkMaxRicochet[$LB] & "#" & $g_ahCmbWeakRicochet[$LB] & "#" & $g_ahPicWeakRicochet[$LB]
+
 	$groupHerosAB = $g_hPicABHeroesWait & "#" & $g_hTxtABHeroesWait & "#" & $g_hChkABKingWait & "#" & $g_hChkABQueenWait & "#" & $g_hChkABWardenWait & "#" & $g_hChkABChampionWait & "#" & _
 			$g_hPicABKingWait & "#" & $g_hPicABQueenWait & "#" & $g_hPicABWardenWait & "#" & $g_hPicABChampionWait & "#" & $g_hChkABNotWaitHeroes
 

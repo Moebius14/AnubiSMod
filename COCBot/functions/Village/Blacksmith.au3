@@ -3,7 +3,7 @@
 ; Description ...: Equipment Upgrade V1
 ; Author ........: Moebius (2023-12)
 ; Modified ......:
-; Remarks .......: This file is part of MyBot Copyright 2015-2023
+; Remarks .......: This file is part of MyBot Copyright 2015-2024
 ;                  MyBot is distributed under the terms of the GNU GPL
 ; Related .......: Returns True or False
 ; Link ..........: https://github.com/MyBotRun/MyBot/wiki
@@ -22,12 +22,21 @@ Func Blacksmith($bTest = False)
 	Local Static $iLastTimeChecked[8]
 	If $g_bFirstStart Then $iLastTimeChecked[$g_iCurAccount] = ""
 
+	Local $BSTimeDiff ; time remaining for Blacksmith upgrade
+	If $g_sBSUpgradeTime <> "" And _DateIsValid($g_sBSUpgradeTime) Then $BSTimeDiff = _DateDiff("n", _NowCalc(), $g_sBSUpgradeTime) ; what is difference between end time and now in minutes?
+
 	; Check if is a valid date
 	If _DateIsValid($iLastTimeChecked[$g_iCurAccount]) Then
 		Local $iLastCheck = _DateDiff('n', $iLastTimeChecked[$g_iCurAccount], _NowCalc()) ; elapse time from last check (minutes)
 		SetDebugLog("Blacksmith LastCheck: " & $iLastTimeChecked[$g_iCurAccount] & ", Check DateCalc: " & $iLastCheck)
-		; A check each 6 hours [6*60 = 360] Or when star Bonus Received
-		If $iLastCheck <= 360 And Not $StarBonusReceived Then Return
+		If $g_sBSUpgradeTime = "" Then
+			; A check each 6 hours [6*60 = 360] Or when star Bonus Received (BS is not upgrading)
+			If $iLastCheck <= 360 And Not $StarBonusReceived Then Return
+		Else
+			If $BSTimeDiff > 0 Then ; (BS is upgrading)
+				If $iLastCheck <= 360 And Not $StarBonusReceived Then Return ; A check each 6 hours [6*60 = 360] Or when star Bonus Received. Will be Check when BS upgrade will be finished.
+			EndIf
+		EndIf
 	EndIf
 
 	For $i = 0 To $eEquipmentCount - 1
@@ -100,7 +109,7 @@ Func Blacksmith($bTest = False)
 		SetLog("Try to upgrade " & $g_asEquipmentOrderList[$g_aiCmbCustomEquipmentOrder[$i]][0], $COLOR_SUCCESS)
 		If _Sleep(500) Then Return
 
-		If $BuildingInfo[2] Then
+		If $BuildingInfo[2] < 7 Then
 			Switch $g_aiCmbCustomEquipmentOrder[$i]
 				Case 0, 1, 5, 6, 9, 10, 13, 14
 					SetLog("BlackSmith level 7 needed, looking next", $COLOR_SUCCESS)
@@ -138,6 +147,25 @@ Func Blacksmith($bTest = False)
 		If Not $g_bRunState Then ExitLoop
 		If _Sleep(2000) Then Return
 
+		Local $bLoopNew = 0
+		While 1
+			If Not $g_bRunState Then ExitLoop
+			Local $asSearchResult = decodeSingleCoord(FindImageInPlace2("NewEquipment", $g_sImgEquipmentNew, 90, 375 + $g_iMidOffsetY, 390, 570 + $g_iMidOffsetY, True)) ; Looking for "New" on Equipment
+			If IsArray($asSearchResult) And UBound($asSearchResult) = 2 Then
+				Click($asSearchResult[0] + 20, $asSearchResult[1] + 40)
+				If _Sleep(2000) Then ExitLoop
+				Click(600, 380 + $g_iMidOffsetY)     ; Click somewhere to get rid of animation
+				If _Sleep(2000) Then ExitLoop
+				CloseWindow2()
+				If _Sleep(2000) Then ExitLoop
+			Else
+				ExitLoop
+			EndIf
+			If _Sleep(150) Then ExitLoop
+			$bLoopNew += 1
+			If $bLoopNew = 10 Then ExitLoop ; Just in case
+		WEnd
+
 		Local $aEquipmentUpgrades = findMultiple($g_sImgEquipmentResearch, $sSearchEquipmentDiamond, $sSearchEquipmentDiamond, 0, 1000, 0, "objectname,objectpoints", True)
 		If UBound($aEquipmentUpgrades, 1) >= 1 Then ; if we found any troops
 			Local $Exitloop = False
@@ -170,6 +198,14 @@ Func Blacksmith($bTest = False)
 						If $bTest Then
 							SetLog("Test only : Bot won't click on upgrade button", $COLOR_DEBUG)
 							If _Sleep(2000) Then Return
+							CloseWindow2()
+							$Exitloop = True
+							ExitLoop
+						EndIf
+						If _ColorCheck(_GetPixelColor(690, 566 + $g_iMidOffsetY, True), Hex(0xABABAB, 6), 20) Then
+							SetDebugLog("Grey Upgrade Button detected!", $COLOR_DEBUG)
+							SetLog($g_asEquipmentOrderList[$g_aiCmbCustomEquipmentOrder[$i]][0] & " upgrade unavailable", $COLOR_DEBUG)
+							If _Sleep(1500) Then Return
 							CloseWindow2()
 							$Exitloop = True
 							ExitLoop
@@ -246,7 +282,15 @@ Func Blacksmith($bTest = False)
 		EndIf
 	Next
 	If Not $g_bRunState Then Return
-	CloseWindow()
+	Local $IsinBlacksmith = False
+	Local $TimeDiff
+	If $g_sBSUpgradeTime <> "" Then
+		$TimeDiff = _DateDiff("n", _NowCalc(), $g_sBSUpgradeTime)
+		If $TimeDiff <= 0 Then $IsinBlacksmith = True
+	Else
+		If $g_sBSUpgradeTime = "" Or Not _DateIsValid($g_sBSUpgradeTime) Then $IsinBlacksmith = True
+	EndIf
+	CloseWindow($IsinBlacksmith)
 	SetLog("Equipment Auto Upgrade finished", $COLOR_INFO)
 	If _Sleep(500) Then Return
 EndFunc   ;==>Blacksmith
@@ -295,3 +339,40 @@ Func OresReport()
 	SetLog("[Starry]: " & $StarryValueActal & "/" & $StarryValueCap, $COLOR_ACTION)
 
 EndFunc   ;==>OresReport
+
+Func BlacksmithUpTime()
+	Local $RemainingTimeMinutes = 0
+	Local $BlackSmithUp = FindButton("FinishNow")
+	If IsArray($BlackSmithUp) And UBound($BlackSmithUp) = 2 Then
+		If ClickB("Info") Then
+			If _Sleep(2000) Then Return ; Wait for info window to open
+			If _ColorCheck(_GetPixelColor(802, 118, True), Hex(0xF38E8D, 6), 20) Then ; Info window found
+				Local $RemainingTime = getBldgUpgradeTime(717, 544 + $g_iMidOffsetY) ; get duration
+				$RemainingTimeMinutes = ConvertOCRTime("BSUpgrade", $RemainingTime, False)
+				If $RemainingTimeMinutes = 0 Then
+					$RemainingTime = getBldgUpgradeTime2(717, 544 + $g_iMidOffsetY) ; get duration
+					$RemainingTimeMinutes = ConvertOCRTime("BSUpgrade", $RemainingTime, False)
+				EndIf
+				Local $StartTime = _NowCalc()
+				If $RemainingTimeMinutes > 0 Then
+					$g_sBSUpgradeTime = _DateAdd('n', Ceiling($RemainingTimeMinutes), $StartTime)
+					SetLog("Blacksmith Upgrade Finishes in " & $RemainingTime & " (" & $g_sBSUpgradeTime & ")", $COLOR_SUCCESS)
+				Else
+					SetDebugLog("Remaining time read issue!", $COLOR_DEBUG)
+					$g_sBSUpgradeTime = ""
+				EndIf
+				CloseWindow2()
+				If _Sleep(1000) Then Return
+			Else
+				SetDebugLog("Close Button of Blacksmith window not found!", $COLOR_DEBUG)
+				$g_sBSUpgradeTime = ""
+			EndIf
+		Else
+			SetDebugLog("Info Button not found!", $COLOR_DEBUG)
+			$g_sBSUpgradeTime = ""
+		EndIf
+	Else
+		$g_sBSUpgradeTime = ""
+	EndIf
+	If ProfileSwitchAccountEnabled() Then SwitchAccountVariablesReload("Save")
+EndFunc   ;==>BlacksmithUpTime

@@ -6,7 +6,7 @@
 ; Return values .: None
 ; Author ........: Trlopes (2016)
 ; Modified ......:
-; Remarks .......: This file is part of MyBot, previously known as ClashGameBot. Copyright 2015-2023
+; Remarks .......: This file is part of MyBot, previously known as ClashGameBot. Copyright 2015-2024
 ;                  MyBot is distributed under the terms of the GNU GPL
 ; Related .......:
 ; Link ..........: https://github.com/MyBotRun/MyBot/wiki
@@ -277,7 +277,7 @@ Func GetButtonDiamond($sButtonName)
 		Case "EventFailed"
 			$btnDiamond = GetDiamondFromRect("230,180,777,560")
 		Case "ObjectButtons", "BoostOne", "BoostCT", "ClockTowerPot", "Upgrade", "Research", "Treasury", "RemoveObstacle", "CollectLootCart", "Pets", "HeroBooks", _
-				"LabPotion", "LabBoosted", "BuilderPot", "Reinforce", "Info", "THWeapon", "WallRing", "GearUp", "PetPotion", "PetBoosted", "MagicItems", "Equipment" ; Full size of object buttons at the bottom
+				"LabPotion", "LabBoosted", "BuilderPot", "Reinforce", "Info", "THWeapon", "WallRing", "GearUp", "PetPotion", "PetBoosted", "MagicItems", "Equipment", "FinishNow" ; Full size of object buttons at the bottom
 			$btnDiamond = GetDiamondFromRect2(140, 500 + $g_iBottomOffsetY, 720, 590 + $g_iBottomOffsetY)
 		Case "Info"
 			$btnDiamond = GetDiamondFromRect2(140, 540 + $g_iBottomOffsetY, 720, 640 + $g_iBottomOffsetY)
@@ -317,7 +317,7 @@ Func GetButtonDiamond($sButtonName)
 			$btnDiamond = GetDiamondFromRect2(280, 80, 600, 160 + $g_iMidOffsetY)
 		Case "EndBattle", "Surrender"
 			$btnDiamond = GetDiamondFromRect("1,570,140,628")
-		Case "Okay"
+		Case "Okay", "Continue"
 			$btnDiamond = GetDiamondFromRect("240,250,630,630")
 		Case "ChatDown" ; AnubiS Mod
 			$btnDiamond = GetDiamondFromRect2(23, 570 + $g_iBottomOffsetY, 60, 620 + $g_iBottomOffsetY)

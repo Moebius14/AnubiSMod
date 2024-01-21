@@ -6,7 +6,7 @@
 ; Return values .: None
 ; Author ........: MyBot.run team
 ; Modified ......: CodeSlinger69 (2017)
-; Remarks .......: This file is part of MyBot, previously known as ClashGameBot. Copyright 2015-2023
+; Remarks .......: This file is part of MyBot, previously known as ClashGameBot. Copyright 2015-2024
 ;                  MyBot is distributed under the terms of the GNU GPL
 ; Related .......:
 ; Link ..........: https://github.com/MyBotRun/MyBot/wiki
@@ -574,11 +574,7 @@ Func ReducecmbHeroReservedBuilder()
 		If $CheckedHeroes[$i] Then $IsToUpNrbHeroes += 1
 	Next
 	If $g_iHeroReservedBuilder > $IsToUpNrbHeroes Then
-		If $IsToUpNrbHeroes > 1 Then
-			SetLog("Reduce Reserved Builders To " & $IsToUpNrbHeroes, $COLOR_ACTION)
-		Else
-			SetLog("Reduce Reserved Builder To " & $IsToUpNrbHeroes, $COLOR_ACTION)
-		EndIf
+		SetLog("Reduce Reserved Builder" & ($IsToUpNrbHeroes > 1 ? "s To " : " To ") & $IsToUpNrbHeroes, $COLOR_ACTION)
 		$g_iHeroReservedBuilder = $IsToUpNrbHeroes
 		_GUICtrlComboBox_SetCurSel($g_hCmbHeroReservedBuilder, $g_iHeroReservedBuilder)
 		GUICtrlSetData($g_hNbrHeroReservedBuilderMod, $g_iHeroReservedBuilder)

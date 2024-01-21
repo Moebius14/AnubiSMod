@@ -4,7 +4,7 @@
 ; Syntax ........: $aXXXXX[Y]  : XXXX is name of point or item being checked, Y = 2 for position only, or 4 when color/tolerance value included
 ; Author ........:
 ; Modified ......: Moebius (09/2023)
-; Remarks .......: This file is part of MyBot, previously known as ClashGameBot. Copyright 2015-2023
+; Remarks .......: This file is part of MyBot, previously known as ClashGameBot. Copyright 2015-2024
 ;                  MyBot is distributed under the terms of the GNU GPL
 ; Related .......:
 ; Link ..........: https://github.com/MyBotRun/MyBot/wiki
@@ -21,7 +21,7 @@ Global $aiClickAwayRegionRight2 = [760, 176, 835, 185]
 Global $aCenterEnemyVillageClickDrag = [65, 545] ; Scroll village using this location in the water
 Global $aCenterHomeVillageClickDrag = [430, 650] ; Scroll village using this location in the water
 Global $aIsMain[4] = [378, 10, 0x7ABDE3, 15] ; Main Screen, Builder Info Icon / October 2023 -37103
-Global $aIsMainGrayed[4] = [378, 10, 0x3C5F70, 15] ; Main Screen, Builder Info Icon grayed
+Global $aIsMainGrayed[4] = [378, 10, 0x3D5F72, 15] ; Main Screen, Builder Info Icon grayed
 Global $aIsBuilderBaseGrayed[4] = [369, 9, 0x3F5F6F, 15] ; Builder Base, Builder Info Icon grayed
 Global $aIsOnBuilderBase[4] = [838, 18, 0xffff45, 10] ; Check the Gold Coin from resources , is a square not round
 Global $aAttackButton[2] = [60, 614 + $g_iBottomOffsetY] ; Attack Button, Main Screen
@@ -42,9 +42,9 @@ Global $aEndFightSceneBtn[4] = [429, 529 + $g_iMidOffsetY, 0xE1F989, 20] ; Victo
 Global $aEndFightSceneAvl[4] = [241, 196 + $g_iMidOffsetY, 0xFFF098, 20] ; Victory or defeat scene left side ribbon = light gold
 Global $aEndFightSceneReportGold = $aEndFightSceneAvl ; Missing... TripleM ???
 Global $aReturnHomeButton[4] = [430, 566 + $g_iMidOffsetY, 0x6CBB1F, 15] ; Return Home Button, End Battle Screen
-Global $aChatTab[4] = [331, 280 + $g_iMidOffsetY, 0xFFA91E, 20] ; Chat Window Open, Main Screen
-Global $aChatTab2[4] = [331, 285 + $g_iMidOffsetY, 0xFDA723, 20] ; Chat Window Open, Main Screen
-Global $aChatTab3[4] = [331, 290 + $g_iMidOffsetY, 0xFCA12D, 20] ; Chat Window Open, Main Screen
+Global $aChatTab[4] = [388, 280 + $g_iMidOffsetY, 0xFFAA22, 20] ; Chat Window Open, Main Screen
+Global $aChatTab2[4] = [388, 290 + $g_iMidOffsetY, 0xFDA32B, 20] ; Chat Window Open, Main Screen
+Global $aChatTab3[4] = [388, 335 + $g_iMidOffsetY, 0xCB5517, 20] ; Chat Window Open, Main Screen
 Global $aOpenChat[2] = [19, 309 + $g_iMidOffsetY] ; Open Chat Windows, Main Screen
 Global $aClanTab[2] = [189, 24] ; Clan Tab, Chat Window, Main Screen
 Global $aClanInfo[2] = [282, 55] ; Clan Info Icon
@@ -63,10 +63,9 @@ Global $aWonOneStar[4] = [714, 538 + $g_iBottomOffsetY, 0xC0C8C0, 20] ; Center o
 Global $aWonTwoStar[4] = [739, 538 + $g_iBottomOffsetY, 0xC0C8C0, 20] ; Center of 2nd Star for winning attack on enemy
 Global $aWonThreeStar[4] = [763, 538 + $g_iBottomOffsetY, 0xC0C8C0, 20] ; Center of 3rd Star for winning attack on enemy
 Global $aIsAtkDarkElixirFull[4] = [743, 62 + $g_iMidOffsetY, 0x270D33, 10] ; Attack Screen DE Resource bar is full
-Global $aIsDarkElixirFull[4] = [709, 102 + $g_iMidOffsetY, 0x270D33, 10] ; Main Screen DE Resource bar is full
-Global $aIsDarkElixirFull2[4] = [710, 102 + $g_iMidOffsetY, 0x270D33, 10] ; Main Screen DE Resource bar is full
-Global $aIsGoldFull[4] = [660, 2 + $g_iMidOffsetY, 0xE7C00D, 10] ; Main Screen Gold Resource bar is Full
-Global $aIsElixirFull[4] = [660, 52 + $g_iMidOffsetY, 0xC027C0, 10] ; Main Screen Elixir Resource bar is Full
+Global $aIsDarkElixirFull[4] = [707, 102 + $g_iMidOffsetY, 0x270D33, 10] ; Main Screen DE Resource bar is full
+Global $aIsGoldFull[4] = [657, 2 + $g_iMidOffsetY, 0xE7C00D, 10] ; Main Screen Gold Resource bar is Full
+Global $aIsElixirFull[4] = [657, 52 + $g_iMidOffsetY, 0xC027C0, 10] ; Main Screen Elixir Resource bar is Full
 Global $aIsCCGoldFull[4] = [699, 216 + $g_iMidOffsetY, 0x57BF0F, 15] ; Treasury Gold Resource bar is Full
 Global $aIsCCElixirFull[4] = [698, 257 + $g_iMidOffsetY, 0x50BD10, 15] ; Treasury Elixir Resource bar is Full
 Global $aIsCCDarkElixirFull[4] = [697, 300 + $g_iMidOffsetY, 0x4AB80D, 15] ; Treasury DE Resource bar is full
@@ -103,14 +102,14 @@ Global $aReceivedTroopsTreasury[4] = [660, 140 + $g_iMidOffsetY, 0xFFFFFF, 20] ;
 Global $aReceivedTroopsWeeklyDeals[4] = [175, 195 + $g_iMidOffsetY, 0xFFFFFF, 20] ; Y of You have received blabla from xx!
 Global $aReceivedTroopsRaidMedals[4] = [175, 242 + $g_iMidOffsetY, 0xFFFFFF, 20] ; Y of You have received blabla from xx!
 
-; King Health Bar, check at the middle of the bar, index 4 is x-offset added to middle of health bar
-Global $aKingHealth = [-1, 569 + $g_iBottomOffsetY, 0x4CD515, 20, 12] ; Was 0x00D500
-; Queen Health Bar, check at the middle of the bar, index 4 is x-offset added to middle of health bar
-Global $aQueenHealth = [-1, 569 + $g_iBottomOffsetY, 0x4CD515, 20, 7]
-; Warden Health Bar, check at the middle of the bar, index 4 is x-offset added to middle of health bar
-Global $aWardenHealth = [-1, 567 + $g_iBottomOffsetY, 0x4CD515, 20, 0]
-; Champion Health Bar, check at the middle of the bar, index 4 is x-offset added to middle of health bar
-Global $aChampionHealth = [-1, 566 + $g_iBottomOffsetY, 0x4CD515, 20, 5]
+; King Health Bar, check at the middle of the bar, index - 10 is x-offset added to middle of health bar
+Global $aKingHealth = [-1, 569 + $g_iBottomOffsetY, 0x00D500, 15, 10]
+; Queen Health Bar, check at the middle of the bar, index - 5 is x-offset added to middle of health bar
+Global $aQueenHealth = [-1, 569 + $g_iBottomOffsetY, 0x00D500, 15, 5]
+; Warden Health Bar, check at the middle of the bar, index - 10 is x-offset added to middle of health bar
+Global $aWardenHealth = [-1, 567 + $g_iBottomOffsetY, 0x00D500, 15, 10]
+; Champion Health Bar, check at the middle of the bar, index - 2 is x-offset added to middle of health bar
+Global $aChampionHealth = [-1, 566 + $g_iBottomOffsetY, 0x00D500, 15, 2]
 
 ; attack report... stars won
 Global $aWonOneStarAtkRprt[4] = [325, 180 + $g_iMidOffsetY, 0xC8CaC4, 30] ; Center of 1st Star reached attacked village
@@ -148,7 +147,7 @@ Global $NextBtnRND[4] = [710, 530 + $g_iMidOffsetY, 830, 570 + $g_iMidOffsetY] ;
 ;Switch Account
 Global $aLoginWithSupercellID[4] = [280, 640 + $g_iMidOffsetY, 0xDCF684, 20] ; Upper green button section "Log in with Supercell ID" 0xB1E25A
 Global $aLoginWithSupercellID2[4] = [266, 653 + $g_iMidOffsetY, 0xFFFFFF, 10]  ; White Font "Log in with Supercell ID"
-Global $aButtonSetting[4] = [820, 550 + $g_iMidOffsetY, 0xFFFFFF, 10] ; Setting button, Main Screen
+Global $aButtonSetting[4] = [824, 555 + $g_iMidOffsetY, 0xFFFFFF, 10] ; Setting button, Main Screen
 Global $aIsSettingPage[4] = [778, 65 + $g_iMidOffsetY, 0xFF9095, 10] ; Main Screen, Setting page open - left upper corner of x button
 
 ;Google Play
@@ -167,10 +166,10 @@ Global $aButtonRemoveTroopsOK1[4] = [723, 509 + $g_iMidOffsetY, 0xDAF582, 20]
 Global $aButtonRemoveTroopsOK2[4] = [530, 435 + $g_iMidOffsetY, 0x6DBC1F, 20]
 
 ;Change Language To English
-Global $aButtonLanguage[4] = [620, 275 + $g_iMidOffsetY, 0xDDF685, 20]
-Global $aListLanguage[4] = [110, 100 + $g_iMidOffsetY, 0xFFFFFF, 10]
+Global $aButtonLanguage[4] = [265, 381 + $g_iMidOffsetY, 0xDDF685, 20]
+Global $aListLanguage[4] = [95, 85 + $g_iMidOffsetY, 0xFFFFFF, 10]
 Global $aEnglishLanguage[4] = [420, 145 + $g_iMidOffsetY, 0xD7D5C7, 20]
-Global $aLanguageOkay[4] = [510, 420 + $g_iMidOffsetY, 0x6FBD1F, 20]
+Global $aLanguageOkay[4] = [533, 435 + $g_iMidOffsetY, 0x6DBC1F, 20]
 
 ;Personal Challenges
 Global Const $aPersonalChallengeOpenButton1[4] = [149, 631 + $g_iBottomOffsetY, 0xB7D0E4, 20] ; Personal Challenge Button

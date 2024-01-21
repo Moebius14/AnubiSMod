@@ -1,0 +1,108 @@
+NOTE  |Author: AnubiS+Atom
+NOTE  |Attack: RootWitchEtitan
+NOTE  |-External Edge-
+NOTE  |*** Support TH15, TH16
+NOTE  |CC : LogL, 3 Rage,1 Clone, 2 Freeze
+NOTE  |Siege : Log Launcher
+NOTE  |Script work on "EXTERNAL EDGES"               
+      |                                          				                                                                     							  |
+      |------------------------------------------------------------- Root Witch Electro-Titans Starting ----------------------------------------------------------|
+      |                                              				                                                                     						  |
+      |_TROOPNAME_|__FLEXIBLE_|____TH06___|____TH07___|____TH08___|____TH09___|____TH10___|____TH11___|____TH12___|____TH13___|____TH14___|____TH15___|____TH16___|
+TRAIN |ETitan     |0          |0          |0          |0          |0          |0          |0          |0          |0          |0          |2          |2		  |
+TRAIN |RootR      |0          |0          |0          |0          |0          |0          |0          |0          |0          |0          |9          |9          |
+TRAIN |Witc       |0          |0          |0          |0          |0          |0          |0          |0          |0          |0          |6          |6          |
+TRAIN |Mini       |0          |0          |0          |0          |0          |0          |0          |0          |0          |0          |2          |2          |
+      |                                                                                                                      									  |
+TRAIN |RSpell     |0          |0          |0          |0          |0          |0          |0          |0          |0          |0          |3          |3          |
+TRAIN |CSpell     |0          |0          |0          |0          |0          |0          |0          |0          |0          |0          |1          |1          |
+TRAIN |FSpell     |0          |0          |0          |0          |0          |0          |0          |0          |0          |0          |2          |2          |
+      |                                              				                                                                     						  |
+TRAIN |LogL       |0          |0          |0          |0          |0          |0          |0          |0          |0          |0          |3          |3          |
+      |                                                                					                        		                						  |
+      |_TROOPNAME_|___________|____TH06___|____TH07___|____TH08___|____TH09___|____TH10___|____TH11___|____TH12___|____TH13___|____TH14___|____TH15___|____TH16___|
+TRAIN |King       |0          |0          |0          |0          |0          |0          |0          |0          |0          |0         |314        |314         |
+TRAIN |Queen      |0          |0          |0          |0          |0          |0          |0          |0          |0          |0         |312        |312         |
+TRAIN |Warden     |0          |0          |0          |0          |0          |0          |0          |0          |0          |0         |317        |317         |
+TRAIN |Champion   |0          |0          |0          |0          |0          |0          |0          |0          |0          |0         |319        |319         |
+      |                                                                                                                                  						  |
+      |_TROOPNAME_|___________|____TH06___|____TH07___|____TH08___|____TH09___|____TH10___|____TH11___|____TH12___|____TH13___|____TH14___|____TH15___|____TH16___|
+WMODE |0		  |0          |0          |0          |0          |0          |0          |0          |0          |0          |0  		  |0          |0          |
+      |                                                                                                                                  			 			  |
+      |___________|___________|____TH06___|____TH07___|____TH08___|____TH09___|____TH10___|____TH11___|____TH12___|____TH13___|____TH14___|____TH15___|____TH16___|
+REDLN |0          |0          |0          |0          |0          |0          |0          |0          |0          |0          |0          |4          |4          |
+DRPLN |0          |0          |0          |0          |0          |0          |0          |0          |0          |0          |0          |0          |0          |
+      |																				  																			  |
+      |___________|___________|____TH06___|____TH07___|____TH08___|____TH09___|____TH10___|____TH11___|____TH12___|____TH13___|____TH14___|____TH15___|____TH16___|
+CCREQ |           |           |           |           |           |           |           |           |           |           |           |           |			  |
+CCSPL |RSpell	  |           |           |           |           |           |           |0          |0          |0          |0          |1          |1          |
+CCSPL |FSpell     |           |           |           |           |           |           |0          |0          |0          |0          |1          |1          |
+      |                                                                                                                                  						  |
+      |EXTR. GOLD |EXTR.ELIXIR|EXTR. DARK |DEPO. GOLD |DEPO.ELIXIR|DEPO. DARK |TOWNHALL   |FORCED SIDE|                                              			  |
+SIDE  |0          |0          |0          |0          |0          |0          |20         |           |                                            				  |
+      |EAGLE      |INFERNO    |GEMBOX     |GEMBOX     |GEMBOX     |GEMBOX     |GEMBOX     |GEMBOX     |                                            	  			  |
+SIDEB |9          |5          |0          |0          |0          |           |           |           |                                            				  |
+      |                                                                                                                                            				  |
+      |VECTOR_____|SIDE_______|DROP_POINTS|ADDTILES___|VERSUS_____|RANDOMX_PX_|RANDOMY_PX_|BUILDING___|___________________________________________________________|
+MAKE  |A          |FRONT-RIGHT|10         |0          |INT-EXT    |0          |0          |           |                                          		  		  |
+MAKE  |B          |FRONT-LEFT |10         |0          |INT-EXT    |0          |0          |           |                                            				  |
+MAKE  |C          |FRONT-RIGHT|10         |-9         |INT-EXT    |0          |0          |           |                                            				  |
+MAKE  |E          |FRONT-LEFT |10         |-9         |INT-EXT    |0          |0          |           |                                            				  |
+MAKE  |F          |FRONT-LEFT |10         |-17        |INT-EXT    |0          |0          |           |                                            				  |
+MAKE  |G          |FRONT-RIGHT|10         |-13        |INT-EXT    |0          |0          |           |                                            				  |
+MAKE  |H          |FRONT-LEFT |10         |-18        |INT-EXT    |0          |0          |           |                                            				  |
+MAKE  |I          |FRONT-RIGHT|10         |-18        |INT-EXT    |1          |0          |           |                                            				  |
+MAKE  |J          |FRONT-LEFT |10         |-21        |INT-EXT    |0          |1          |           |                                            				  |
+MAKE  |K          |FRONT-RIGHT|10         |-19        |INT-EXT    |0          |0          |           |                                            				  |
+MAKE  |L          |RIGHT-FRONT|10         |0          |INT-EXT    |3          |0          |           |                                            				  |
+MAKE  |M          |LEFT-FRONT |10         |0          |INT-EXT    |3          |0          |           |                                            				  |
+MAKE  |N          |FRONT-RIGHT|1          |0          |IGNORE     |0          |0          |TOWNHALL   |                                            				  |
+MAKE  |O          |FRONT-LEFT |1          |0          |IGNORE     |0          |0          |TOWNHALL   |                                            				  |
+MAKE  |P          |RIGHT-FRONT|1          |0          |IGNORE     |0          |0          |TOWNHALL   |                                            				  |
+MAKE  |Q          |LEFT-FRONT |1          |0          |IGNORE     |0          |0          |TOWNHALL   |                                            				  |
+MAKE  |R          |FRONT-RIGHT|1          |0          |IGNORE     |0          |0          |INFERNO    |                                            				  |
+MAKE  |S          |FRONT-LEFT |1          |0          |IGNORE     |0          |0          |INFERNO    |                                            				  |
+MAKE  |T          |RIGHT-FRONT|1          |0          |IGNORE     |0          |0          |INFERNO    |                                            				  |
+MAKE  |U          |LEFT-FRONT |1          |0          |IGNORE     |0          |0          |INFERNO    |                                            				  |
+MAKE  |X          |LEFT-FRONT |10         |0          |EXT-INT    |0          |0          |           |                                            				  |
+MAKE  |Y          |RIGHT-FRONT|10         |0          |EXT-INT    |0          |0          |           |                                            				  |
+      |                                                                                                                                  			 			  |
+      |VECTOR_____|INDEX__________|QTY_X_VECT_|TROOPNAME__|DELAY_DROP_|DELAYCHANGE|SLEEPAFTER_|_______|___________________________________________________________|
+DROP  |A          |8,7            |2          |RootR      |50-70      |125-200    |125-200    |       |                                            				  |
+DROP  |B          |7,8            |2          |RootR      |50-70      |125-200    |225-250    |       |                                            				  |
+DROP  |A          |8              |1          |Witc       |50-70      |125-200    |125-200    |       |                                            				  |
+DROP  |B          |8              |1          |Witc       |50-70      |125-200    |125-200    |       |                                            				  |
+DROP  |A          |8              |1          |Mini       |50-70      |125-200    |125-200    |       |                                            				  |
+DROP  |B          |8              |1          |Mini       |50-70      |125-200    |125-200    |       |                                            				  |
+WAIT  |5500-6000  |               |           |           |           |           |           |       |                                            				  |
+DROP  |A          |4,3,1          |3          |RootR      |50-70      |125-200    |125-200    |       |                                            				  |
+DROP  |B          |3,4            |2          |RootR      |50-70      |125-200    |125-200    |       |                                            				  |
+WAIT  |500-1000   |               |           |           |           |           |           |       |                                            				  |
+DROP  |A          |1              |1          |LogL       |50-70      |27-50      |120-150    |       |                                            				  |
+WAIT  |500-1000   |               |           |           |           |           |           |       |                                            				  |
+DROP  |A          |1              |1          |ETitan     |50-70      |127-250    |250-300    |       |                                            				  |
+DROP  |B          |2              |1          |ETitan     |50-70      |127-250    |250-300    |       |                                            				  |
+DROP  |A          |1              |1          |Warden     |27-50      |0          |100-250    |       |                                            				  |
+DROP  |A          |1              |1          |KING       |27-50      |0          |100-250    |       |                                            				  |
+DROP  |A          |1              |1          |Queen      |27-50      |0          |100-250    |       |                                            				  |
+DROP  |A          |1              |1          |Champion   |27-50      |0          |100-250    |       |                                            				  |
+DROP  |A          |1              |2          |Witc       |50-70      |127-250    |150-180    |       |                                            				  |
+DROP  |B          |2              |2          |Witc       |50-70      |127-250    |150-220    |       |                                            				  |
+DROP  |C          |3              |1          |Rspell     |27-50      |0          |200-300    |       |                                            				  |
+DROP  |E          |3              |1          |Rspell     |27-50      |0          |100-120    |       |                                            				  |
+DROP  |F          |1              |1          |CSpell     |27-50      |0          |100-120    |       |                                            				  |
+DROP  |R          |1              |1          |FSpell     |0          |0          |100-150    |       |                                            				  |
+DROP  |S          |1              |1          |FSpell     |0          |0          |100-150    |       |                                            				  |
+DROP  |T          |1              |1          |FSpell     |0          |0          |100-150    |       |                                            				  |
+DROP  |U          |1              |1          |FSpell     |0          |0          |100-150    |       |                                            				  |
+DROP  |N          |1              |1          |FSpell     |0          |0          |100-150    |       |                                            				  |
+DROP  |O          |1              |1          |FSpell     |0          |0          |100-150    |       |                                            				  |
+DROP  |P          |1              |1          |FSpell     |0          |0          |100-150    |       |                                            				  |
+DROP  |Q          |1              |1          |FSpell     |0          |0          |100-150    |       |                                            				  |
+DROP  |K          |1              |1          |CSpell     |27-50      |0          |400-600    |       |                                            				  |
+DROP  |H          |2              |1          |Rspell     |27-50      |0          |500-600    |       |                                            				  |
+DROP  |I          |2              |1          |Rspell     |27-50      |0          |100-150    |       |                                            				  |
+WAIT  |2500-3500  |               |           |           |           |           |           |       |                                            				  |
+DROP  |A-B        |1,2,4,5,6      |5          |REMAIN     |50-70      |100        |50-100     |       |                                            				  |
+      |                                                                                                                                  			 			  |
+      |------------------------------------------------------Root Witch Electro-Titans End------------------------------------------------------------------------|

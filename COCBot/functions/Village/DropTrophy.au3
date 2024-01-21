@@ -6,7 +6,7 @@
 ; Return values .: None
 ; Author ........:
 ; Modified ......: Promac (2015-04), KnowJack(2015-08), Hervidero (2016-01), MonkeyHunter (2016-01,05)
-; Remarks .......: This file is part of MyBot, previously known as ClashGameBot. Copyright 2015-2023
+; Remarks .......: This file is part of MyBot, previously known as ClashGameBot. Copyright 2015-2024
 ;                  MyBot is distributed under the terms of the GNU GPL
 ; Related .......:
 ; Link ..........: https://github.com/MyBotRun/MyBot/wiki
@@ -490,6 +490,8 @@ Func DropTrophy()
 									EndIf
 							EndSwitch
 						Next
+						$IsDropTrophyBreaked = 1
+						$g_iDropTrophyMaxNeedCheck = $g_iDropTrophyMin
 					EndIf
 				EndIf
 				If ($g_iQueenSlot = -1 And $g_iKingSlot = -1 And $g_iWardenSlot = -1 And $g_iChampionSlot = -1) Or $g_bDropTrophyUseHeroes = 0 Then

@@ -6,7 +6,7 @@
 ; Return values .: None
 ; Author ........: summoner
 ; Modified ......: KnowJack (06/2015), Sardo (08/2015), Monkeyhunter(04/2016), MMHK(06/2018), Chilly-Chill (12/2019)
-; Remarks .......: This file is part of MyBot, previously known as ClashGameBot. Copyright 2015-2023
+; Remarks .......: This file is part of MyBot, previously known as ClashGameBot. Copyright 2015-2024
 ;                  MyBot is distributed under the terms of the GNU GPL
 ; Related .......:
 ; Link ..........: https://github.com/MyBotRun/MyBot/wiki
@@ -74,7 +74,7 @@ Func Laboratory($debug = False)
 	If Not FindResearchButton() Then Return False ; cant start because we cannot find the research button
 
 	If ChkLabUpgradeInProgress() Then
-		CloseWindow(False, True)
+		CloseWindow(False, False, True)
 		Return False ; cant start if something upgrading
 	EndIf
 
@@ -818,11 +818,7 @@ Func UseLabPotion()
 				SetLog("Laboratory Boosted With Research Potion", $COLOR_SUCCESS)
 				If $g_iCmbLabPotion <= 5 Then
 					$g_iCmbLabPotion -= 1
-					If $g_iCmbLabPotion > 1 Then
-						SetLog("Remaining iterations: " & $g_iCmbLabPotion, $COLOR_SUCCESS)
-					Else
-						SetLog("Remaining iteration: " & $g_iCmbLabPotion, $COLOR_SUCCESS)
-					EndIf
+					SetLog("Remaining iteration" & ($g_iCmbLabPotion > 1 ? "s: " : ": ") & $g_iCmbLabPotion, $COLOR_SUCCESS)
 					_GUICtrlComboBox_SetCurSel($g_hCmbLabPotion, $g_iCmbLabPotion)
 				EndIf
 				$g_sLabUpgradeTime = _DateAdd('n', Ceiling($iLabFinishTimeMod - 1380), _NowCalc())

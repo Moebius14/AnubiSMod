@@ -1,4 +1,11 @@
-* v24.01.03
+* v24.01.21
+* Added RootWitchEtitan CSV
+* Never fill CC with medals before a planned pause.
+* Added Multi-Archer Tower and Ricochet Cannon to weak base filters.
+* Added Telegram notification when remaining CC raid attacks sunday in the evening.
+* Fixed Incorrect Full Army when No medal to use and waiting time reached.
+
+* v24.01.03 **
 * Add Blacksmith check to botcommand when stars unavailable.
 * Blacksmith moved to Official.
 * Added No Search For Higher Siege Level Option.

@@ -6,7 +6,7 @@
 ; Return values .: None
 ; Author ........: Fliegerfaust (06-2017), MMHK (07-2017)
 ; Modified ......: Moebius14 (07-2023)
-; Remarks .......: This file is part of MyBot, previously known as ClashGameBot. Copyright 2015-2023
+; Remarks .......: This file is part of MyBot, previously known as ClashGameBot. Copyright 2015-2024
 ;                  MyBot is distributed under the terms of the GNU GPL
 ; Related .......:
 ; Link ..........: https://github.com/MyBotRun/MyBot/wiki
@@ -197,8 +197,6 @@ Func ClickOnBuilder2()
 	Local $asSearchResult = decodeSingleCoord(FindImageInPlace2("MasterBuilderHead", $g_sImgMasterBuilderHead, 445, 0, 500, 54, True))
 	; Debug Stuff
 	Local $sDebugText = ""
-	Local Const $Debug = False
-	Local Const $Screencap = True
 
 	If IsArray($asSearchResult) And UBound($asSearchResult) = 2 Then
 		; Master Builder Check pixel [i] icon
@@ -209,7 +207,7 @@ Func ClickOnBuilder2()
 			Click($aMasterBuilder[0], $aMasterBuilder[1], 1)
 			If _Sleep(2000) Then Return
 			; Let's verify if the Suggested Window open
-			If QuickMIS("BC1", $g_sImgAutoUpgradeWindow, $asSearchResult[0] - 23, 50, $asSearchResult[0] + 107, 100, $Screencap, $Debug) Then
+			If IsArray(_PixelSearch($asSearchResult[0] - 1, $asSearchResult[1] + 53, $asSearchResult[0] + 1, $asSearchResult[1] + 55, Hex(0xFFFFFF, 6), 15, True)) Then
 				Return True
 			Else
 				$sDebugText = "Window didn't opened"
@@ -222,7 +220,7 @@ Func ClickOnBuilder2()
 		If $g_bDebugImageSave Then SaveDebugImage("MasterBuilderHead")
 	EndIf
 
-	If $sDebugText <> "" Then SetLog("Problem on Suggested Upg Window: [" & $sDebugText & "]", $COLOR_ERROR)
+	If $sDebugText <> "" Then SetLog("Problem on Upgrades Window: [" & $sDebugText & "]", $COLOR_ERROR)
 	Return False
 
 EndFunc   ;==>ClickOnBuilder2

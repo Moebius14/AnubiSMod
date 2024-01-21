@@ -6,7 +6,7 @@
 ; Return values .: None
 ; Author ........: MyBot.run team
 ; Modified ......: CodeSlinger69 (2017)
-; Remarks .......: This file is part of MyBot, previously known as ClashGameBot. Copyright 2015-2023
+; Remarks .......: This file is part of MyBot, previously known as ClashGameBot. Copyright 2015-2024
 ;                  MyBot is distributed under the terms of the GNU GPL
 ; Related .......:
 ; Link ..........: https://github.com/MyBotRun/MyBot/wiki
@@ -25,6 +25,7 @@ Func chkPBTGenabled()
 	EndIf
 
 	If $g_bNotifyTGEnable = True Then
+		GUICtrlSetState($g_hChkNotifyTGEnableInSecure, $GUI_ENABLE)
 		GUICtrlSetState($g_hChkNotifyRemote, $GUI_ENABLE)
 		GUICtrlSetState($g_hTxtNotifyOrigin, $GUI_ENABLE)
 		GUICtrlSetState($g_hChkNotifyAlertMatchFound, $GUI_ENABLE)
@@ -47,6 +48,7 @@ Func chkPBTGenabled()
 		GUICtrlSetState($g_hChkNotifyCGScore, $GUI_ENABLE)
 		GUICtrlSetState($g_hNotifyStopBot, $GUI_ENABLE)
 		GUICtrlSetState($g_hChkNotifyUpgrade, $GUI_ENABLE)
+		GUICtrlSetState($g_hChkCCRaidWarning, $GUI_ENABLE)
 		If GUICtrlRead($g_hChkAttackPlannerEnable) = $GUI_CHECKED And GUICtrlRead($g_hChkAttackPlannerCloseCoC) = $GUI_CHECKED Then
 			GUICtrlSetState($g_hChkNotifyPauseTime, $GUI_ENABLE)
 		EndIf
@@ -66,6 +68,7 @@ Func chkPBTGenabled()
 		chkUpgradeBattleMachine()
 		chkUpgradeBattleCopter()
 	Else
+		GUICtrlSetState($g_hChkNotifyTGEnableInSecure, $GUI_DISABLE)
 		GUICtrlSetState($g_hChkNotifyRemote, $GUI_DISABLE)
 		GUICtrlSetState($g_hTxtNotifyOrigin, $GUI_DISABLE)
 		GUICtrlSetState($g_hChkNotifyAlertMatchFound, $GUI_DISABLE)
@@ -91,6 +94,7 @@ Func chkPBTGenabled()
 		GUICtrlSetState($g_hChkNotifyUpgrade, $GUI_DISABLE)
 		GUICtrlSetState($g_hChkNotifyUpgradeBM, $GUI_DISABLE)
 		GUICtrlSetState($g_hChkNotifyUpgradeBC, $GUI_DISABLE)
+		GUICtrlSetState($g_hChkCCRaidWarning, $GUI_DISABLE)
 	EndIf
 EndFunc   ;==>chkPBTGenabled
 

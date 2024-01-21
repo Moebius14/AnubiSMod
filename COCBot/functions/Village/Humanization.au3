@@ -6,7 +6,7 @@
 ; Return values .: None
 ; Author ........: RoroTiti, NguyenAnhHD
 ; Modified ......: Moebius14 (09/2023)
-; Remarks .......: This file is part of MyBot, previously known as ClashGameBot. Copyright 2015-2023
+; Remarks .......: This file is part of MyBot, previously known as ClashGameBot. Copyright 2015-2024
 ;                  MyBot is distributed under the terms of the GNU GPL
 ; Related .......:
 ; Link ..........: https://github.com/MyBotRun/MyBot/wiki
@@ -1512,13 +1512,13 @@ Func VisitAPlayer()
 			EndIf
 		EndIf
 
-		Local $aRndFuncList = ['CheckMortar', 'CheckWizard', 'CheckXBows', 'CheckInferno', 'CheckEagle', 'Scatter', 'CheckAirDefense', 'GoldStorage', 'ElixirStorage', 'THALL', 'Monolith']
+		Local $aRndFuncList = ['CheckMortar', 'CheckWizard', 'CheckXBows', 'CheckInferno', 'CheckEagle', 'Scatter', 'CheckAirDefense', 'GoldStorage', 'ElixirStorage', 'THALL', 'Monolith', 'MultiArcher', 'Ricochet']
 		_ArrayShuffle($aRndFuncList)
 
-		Local $trimmed = 10 - Random(5, 8, 1)
+		Local $trimmed = 12 - Random(7, 10, 1)
 		SetLog("Bot Will Check " & $trimmed & " Types of Buildings", $COLOR_SUCCESS1)
-		For $i = 0 To (10 - $trimmed)
-			Local $sRange = 10 - $i
+		For $i = 0 To (12 - $trimmed)
+			Local $sRange = 12 - $i
 			_ArrayDelete($aRndFuncList, $sRange)
 		Next
 
@@ -1572,6 +1572,12 @@ Func RunFunctionCheckBuildings($action)
 		Case "Monolith"
 			Monolith()
 			If _Sleep($DELAYRUNBOT3) Then Return
+		Case "MultiArcher"
+			MultiArcher()
+			If _Sleep($DELAYRUNBOT3) Then Return
+		Case "Ricochet"
+			Ricochet()
+			If _Sleep($DELAYRUNBOT3) Then Return
 	EndSwitch
 EndFunc   ;==>RunFunctionCheckBuildings
 
@@ -1610,7 +1616,7 @@ Func CheckTH()
 			If _Sleep(Random(2500, 3500, 1)) Then Return
 		EndIf
 	Next
-	CloseWindow(False, False, True)
+	CloseWindow(False, False, False, True)
 	If Not $g_bRunState Then Return
 
 	If _Sleep(Random(2000, 3000, 1)) Then Return
@@ -1684,7 +1690,7 @@ Func CheckMortar()
 					If _Sleep(Random(2500, 3500, 1)) Then Return
 				EndIf
 			Next
-			CloseWindow(False, False, True)
+			CloseWindow(False, False, False, True)
 			If Not $g_bRunState Then Return
 			If _Sleep(Random(2000, 3000, 1)) Then Return
 			$count += 1
@@ -1756,7 +1762,7 @@ Func CheckWizard()
 				If _Sleep(1000) Then Return
 				ContinueLoop
 			EndIf
-			CloseWindow(False, False, True)
+			CloseWindow(False, False, False, True)
 			If _Sleep(Random(2000, 3000, 1)) Then Return
 			If Not $g_bRunState Then Return
 			$count += 1
@@ -1834,7 +1840,7 @@ Func CheckXBows()
 					If _Sleep(Random(2500, 3500, 1)) Then Return
 				EndIf
 			Next
-			CloseWindow(False, False, True)
+			CloseWindow(False, False, False, True)
 			If Not $g_bRunState Then Return
 			If _Sleep(Random(2000, 3000, 1)) Then Return
 			$count += 1
@@ -1907,7 +1913,7 @@ Func CheckInferno()
 					If _Sleep(Random(2500, 3500, 1)) Then Return
 				EndIf
 			Next
-			CloseWindow(False, False, True)
+			CloseWindow(False, False, False, True)
 			If Not $g_bRunState Then Return
 			If _Sleep(Random(2000, 3000, 1)) Then Return
 			$count += 1
@@ -1950,7 +1956,7 @@ Func CheckEagle()
 		ClickAway("Right")
 		Return
 	EndIf
-	CloseWindow(False, False, True)
+	CloseWindow(False, False, False, True)
 	If Not $g_bRunState Then Return
 
 	If _Sleep(Random(2000, 3000, 1)) Then Return
@@ -2012,7 +2018,7 @@ Func CheckScatter()
 				If _Sleep(1000) Then Return
 				ContinueLoop
 			EndIf
-			CloseWindow(False, False, True)
+			CloseWindow(False, False, False, True)
 			If Not $g_bRunState Then Return
 			If _Sleep(Random(2000, 3000, 1)) Then Return
 			$count += 1
@@ -2083,7 +2089,7 @@ Func CheckAirDefense()
 				If _Sleep(1000) Then Return
 				ContinueLoop
 			EndIf
-			CloseWindow(False, False, True)
+			CloseWindow(False, False, False, True)
 			If Not $g_bRunState Then Return
 			If _Sleep(Random(2000, 3000, 1)) Then Return
 			$count += 1
@@ -2154,7 +2160,7 @@ Func GoldStorage()
 				If _Sleep(1000) Then Return
 				ContinueLoop
 			EndIf
-			CloseWindow(False, False, True)
+			CloseWindow(False, False, False, True)
 			If Not $g_bRunState Then Return
 			If _Sleep(Random(2000, 3000, 1)) Then Return
 			$count += 1
@@ -2225,7 +2231,7 @@ Func ElixirStorage()
 				If _Sleep(1000) Then Return
 				ContinueLoop
 			EndIf
-			CloseWindow(False, False, True)
+			CloseWindow(False, False, False, True)
 			If Not $g_bRunState Then Return
 			If _Sleep(Random(2000, 3000, 1)) Then Return
 			$count += 1
@@ -2268,11 +2274,89 @@ Func Monolith()
 		ClickAway("Right")
 		Return
 	EndIf
-	CloseWindow(False, False, True)
+	CloseWindow(False, False, False, True)
 	If Not $g_bRunState Then Return
 
 	If _Sleep(Random(2000, 3000, 1)) Then Return
 EndFunc   ;==>Monolith
+
+Func MultiArcher()
+	GetLocationBuilding($eBldgMultiArcher, $g_iMaxTHLevel, True)
+	If $aNumResultBuildingDetect = 0 Then
+		SetLog("No Multi-Archer Tower Detected", $COLOR_DEBUG)
+		Return
+	EndIf
+	Local $xInfo = 0
+	Local $yInfo = 0
+
+	Local $aIndXY = StringSplit($aResultBuildingDetect, ",")
+	$xInfo = $aIndXY[1]
+	$yInfo = $aIndXY[2]
+
+	SetLog("We Will Click On Multi-Archer Tower...", $COLOR_OLIVE)
+	PureClickVisit($xInfo, $yInfo)
+	If _Sleep(800) Then Return
+	Local $BuildingNameFull = getOcrAndCapture("coc-build", 240, 514 + $g_iBottomOffsetY, 395, 30)
+	If Not StringInStr($BuildingNameFull, "Multi-Archer") Then
+		SetLog("Oups ! Wrong click", $COLOR_ACTION)
+		ClickAway("Right")
+		Return
+	EndIf
+	Local $aResult = BuildingInfo(242, 514 + $g_iBottomOffsetY)
+	SetLog("Multi-Archer Tower Level " & $aResult[2], $COLOR_NAVY)
+	If _Sleep(1500) Then Return
+	If ClickB("Info") Then
+		SetLog("... And Open His Info Window ...", $COLOR_OLIVE)
+		If _Sleep(Random(4000, 6000)) Then Return
+	Else
+		SetLog("Info Button Not Found", $COLOR_DEBUG)
+		ClickAway("Right")
+		Return
+	EndIf
+	CloseWindow(False, False, False, True)
+	If Not $g_bRunState Then Return
+
+	If _Sleep(Random(2000, 3000, 1)) Then Return
+EndFunc   ;==>MultiArcher
+
+Func Ricochet()
+	GetLocationBuilding($eBldgRicochet, $g_iMaxTHLevel, True)
+	If $aNumResultBuildingDetect = 0 Then
+		SetLog("No Ricochet Cannon Detected", $COLOR_DEBUG)
+		Return
+	EndIf
+	Local $xInfo = 0
+	Local $yInfo = 0
+
+	Local $aIndXY = StringSplit($aResultBuildingDetect, ",")
+	$xInfo = $aIndXY[1]
+	$yInfo = $aIndXY[2]
+
+	SetLog("We Will Click On Ricochet Cannon...", $COLOR_OLIVE)
+	PureClickVisit($xInfo, $yInfo)
+	If _Sleep(800) Then Return
+	Local $BuildingNameFull = getOcrAndCapture("coc-build", 250, 514 + $g_iBottomOffsetY, 350, 30)
+	If Not StringInStr($BuildingNameFull, "Ricochet") Then
+		SetLog("Oups ! Wrong click", $COLOR_ACTION)
+		ClickAway("Right")
+		Return
+	EndIf
+	Local $aResult = BuildingInfo(242, 514 + $g_iBottomOffsetY)
+	SetLog("Ricochet Cannon Level " & $aResult[2], $COLOR_NAVY)
+	If _Sleep(1500) Then Return
+	If ClickB("Info") Then
+		SetLog("... And Open His Info Window ...", $COLOR_OLIVE)
+		If _Sleep(Random(4000, 6000)) Then Return
+	Else
+		SetLog("Info Button Not Found", $COLOR_DEBUG)
+		ClickAway("Right")
+		Return
+	EndIf
+	CloseWindow(False, False, False, True)
+	If Not $g_bRunState Then Return
+
+	If _Sleep(Random(2000, 3000, 1)) Then Return
+EndFunc   ;==>MultiArcher
 
 Func DoNothing()
 	SetLog("Let The Bot Wait a Little Before Continue ...", $COLOR_OLIVE)

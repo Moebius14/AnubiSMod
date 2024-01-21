@@ -6,7 +6,7 @@
 ; Return values .: None
 ; Author ........:
 ; Modified ......: Moebius14 (06-2023)
-; Remarks .......: This file is part of MyBot, previously known as ClashGameBot. Copyright 2015-2023
+; Remarks .......: This file is part of MyBot, previously known as ClashGameBot. Copyright 2015-2024
 ;                  MyBot is distributed under the terms of the GNU GPL
 ; Related .......:
 ; Link ..........: https://github.com/MyBotRun/MyBot/wiki
@@ -297,7 +297,7 @@ Func CreateAttackSearchDeadBaseSearch()
 	;GUICtrlSetLimit(-1, 2)
 
 	$y += 24
-	GUICtrlCreateGroup(GetTranslatedFileIni("MBR GUI Design Child Attack - Search", "Group_03", "Weak base | max defenses"), $x, $y, 215, 120)
+	GUICtrlCreateGroup(GetTranslatedFileIni("MBR GUI Design Child Attack - Search", "Group_03", "Weak base | max defenses"), $x, $y, 215, 144)
 	$x += 5
 	$y += 20
 	Local $xStartColumn = $x, $yStartColumn = $y
@@ -346,6 +346,18 @@ Func CreateAttackSearchDeadBaseSearch()
 	GUICtrlSetData(-1, "-|Lvl 1|Lvl 2|Lvl 3|Lvl 4|Lvl 5|Lvl 6|Lvl 7|Lvl 8|Lvl 9|Lvl 10", "Lvl 2")
 	GUICtrlSetState(-1, $GUI_DISABLE)
 	$g_ahPicWeakXBow[$DB] = _GUICtrlCreateIcon($g_sLibIconPath, $eIcnXBow3, $x + 76, $y - 2, 24, 24)
+	_GUICtrlSetTip(-1, $sTxtTip)
+
+	$y += 24
+	$g_ahChkMaxMultiArcher[$DB] = GUICtrlCreateCheckbox("", $x, $y, 17, 17)
+	_GUICtrlSetTip(-1, GetTranslatedFileIni("MBR GUI Design Child Attack - Search", "ChkMaxXBow", "Search for a base that has Multi-Archer Tower below or equal this level"))
+	GUICtrlSetOnEvent(-1, "chkDBWeakBase")
+	$g_ahCmbWeakMultiArcher[$DB] = GUICtrlCreateCombo("", $x + 19, $y, 54, -1, BitOR($CBS_DROPDOWNLIST, $CBS_AUTOHSCROLL))
+	$sTxtTip = GetTranslatedFileIni("MBR GUI Design Child Attack - Search", "CmbMaxMultiArcher_Info_01", "Set the Max. level of the Multi-Archer Tower to search for on a village to attack.")
+	_GUICtrlSetTip(-1, $sTxtTip)
+	GUICtrlSetData(-1, "-|Lvl 1", "Lvl 1")
+	GUICtrlSetState(-1, $GUI_DISABLE)
+	$g_ahPicWeakMultiArcher[$DB] = _GUICtrlCreateIcon($g_sLibIconPath, $eIcnMultiArcher, $x + 76, $y - 2, 24, 24)
 	_GUICtrlSetTip(-1, $sTxtTip)
 
 	$x = $xStartColumn + 105
@@ -397,7 +409,19 @@ Func CreateAttackSearchDeadBaseSearch()
 	$g_ahPicWeakMonolith[$DB] = _GUICtrlCreateIcon($g_sLibIconPath, $eIcnMonolith, $x + 76, $y - 2, 24, 24)
 	_GUICtrlSetTip(-1, $sTxtTip)
 
-	$y += 44
+	$y += 24
+	$g_ahChkMaxRicochet[$DB] = GUICtrlCreateCheckbox("", $x, $y, 17, 17)
+	_GUICtrlSetTip(-1, GetTranslatedFileIni("MBR GUI Design Child Attack - Search", "ChkMaxXBow", "Search for a base that has Ricochet Cannon below or equal this level"))
+	GUICtrlSetOnEvent(-1, "chkDBWeakBase")
+	$g_ahCmbWeakRicochet[$DB] = GUICtrlCreateCombo("", $x + 19, $y, 54, -1, BitOR($CBS_DROPDOWNLIST, $CBS_AUTOHSCROLL))
+	$sTxtTip = GetTranslatedFileIni("MBR GUI Design Child Attack - Search", "CmbMaxRicochet_Info_01", "Set the Max. level of the Ricochet Cannon to search for on a village to attack.")
+	_GUICtrlSetTip(-1, $sTxtTip)
+	GUICtrlSetData(-1, "-|Lvl 1", "Lvl 1")
+	GUICtrlSetState(-1, $GUI_DISABLE)
+	$g_ahPicWeakRicochet[$DB] = _GUICtrlCreateIcon($g_sLibIconPath, $eIcnRicochet, $x + 76, $y - 2, 24, 24)
+	_GUICtrlSetTip(-1, $sTxtTip)
+
+	$y += 20
 	$y += 24
 	$x = $xStartColumn
 	$g_ahChkMeetOne[$DB] = GUICtrlCreateCheckbox(GetTranslatedFileIni("MBR GUI Design Child Attack - Search", "ChkMeetOne", "Meet One Then Attack"), $x, $y, -1, -1)

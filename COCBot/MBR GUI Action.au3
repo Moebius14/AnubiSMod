@@ -6,7 +6,7 @@
 ; Return values .: None
 ; Author ........: cosote (2016)
 ; Modified ......: CodeSlinger69 (2017)
-; Remarks .......: This file is part of MyBot, previously known as ClashGameBot. Copyright 2015-2023
+; Remarks .......: This file is part of MyBot, previously known as ClashGameBot. Copyright 2015-2024
 ;                  MyBot is distributed under the terms of the GNU GPL
 ; Related .......:
 ; Link ..........: https://github.com/MyBotRun/MyBot/wiki
@@ -136,6 +136,7 @@ Func BotStart($bAutostartDelay = 0)
 	$g_iLootCCMedal = 0
 	$g_iCCTrophies = 0
 	$IsRaidRunning = 0
+	$AllCCRaidAttacksDone = 0
 	$CCWaitChrono = 0
 
 	LoadCurrentProfile()

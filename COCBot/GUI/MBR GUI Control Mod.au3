@@ -737,6 +737,26 @@ Func SwitchBetweenBasesMod2()
 		$g_bFirstStartAccountSBB2 = 1
 	EndIf
 
+	Local Static $iLastTimeCCRaidChecked[8]
+	If $g_bFirstStart Then $iLastTimeCCRaidChecked[$g_iCurAccount] = ""
+
+	If _DateIsValid($iLastTimeCCRaidChecked[$g_iCurAccount]) Then
+		Local $iLastCheck = _DateDiff('n', $iLastTimeCCRaidChecked[$g_iCurAccount], _NowCalc()) ; elapse time from last check (minutes)
+		; A check each from 2 to 2.5 hours [2*60 = 120 to 2.5*60 = 150]
+		Local $iDelayToCheck = Random(120, 150, 1)
+		If $iLastCheck > $iDelayToCheck Then
+			If UTCRaidWarning() Then
+				$iLastTimeCCRaidChecked[$g_iCurAccount] = _NowCalc()
+				Return True
+			EndIf
+		EndIf
+	Else
+		If UTCRaidWarning() Then
+			$iLastTimeCCRaidChecked[$g_iCurAccount] = _NowCalc()
+			Return True
+		EndIf
+	EndIf
+
 	Local $aForgeType[5] = [$g_bChkEnableForgeGold, $g_bChkEnableForgeElix, $g_bChkEnableForgeDE, $g_bChkEnableForgeBBGold, $g_bChkEnableForgeBBElix]
 	Local $bForgeEnabled = False
 	For $i In $aForgeType ;check for every option enabled

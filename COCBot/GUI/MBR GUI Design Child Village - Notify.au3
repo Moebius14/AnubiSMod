@@ -6,7 +6,7 @@
 ; Return values .: None
 ; Author ........:
 ; Modified ......: CodeSlinger69 (2017)
-; Remarks .......: This file is part of MyBot, previously known as ClashGameBot. Copyright 2015-2023
+; Remarks .......: This file is part of MyBot, previously known as ClashGameBot. Copyright 2015-2024
 ;                  MyBot is distributed under the terms of the GNU GPL
 ; Related .......:
 ; Link ..........: https://github.com/MyBotRun/MyBot/wiki
@@ -16,14 +16,14 @@
 Global $g_hGUI_NOTIFY = 0, $g_hGUI_NOTIFY_TAB = 0, $g_hGUI_NOTIFY_TAB_ITEM2 = 0
 
 Global $g_hGrpNotify = 0
-Global $g_hChkNotifyTGEnable = 0, $g_hTxtNotifyTGToken = 0
+Global $g_hChkNotifyTGEnable = 0, $g_hTxtNotifyTGToken = 0, $g_hChkNotifyTGEnableInSecure = 0
 Global $g_hChkNotifyRemote = 0, $g_hTxtNotifyOrigin = 0
 Global $g_hChkNotifyAlertMatchFound = 0, $g_hChkNotifyAlertLastRaidIMG = 0, $g_hChkNotifyAlertLastRaidTXT = 0, $g_hChkNotifyAlertCampFull = 0, _
 		$g_hChkNotifyAlertUpgradeWall = 0, $g_hChkNotifyAlertOutOfSync = 0, $g_hChkNotifyAlertTakeBreak = 0, $g_hChkNotifyAlertBuilderIdle = 0, _
 		$g_hChkNotifyAlertVillageStats = 0, $g_hChkNotifyAlertLastAttack = 0, $g_hChkNotifyAlertAnotherDevice = 0, $g_hChkNotifyAlertMaintenance = 0, _
 		$g_hChkNotifyAlertBAN = 0, $g_hChkNotifyBOTUpdate = 0, $g_hChkNotifyAlertSmartWaitTime = 0, $g_hChkNotifyAlertLaboratoryIdle = 0, _
 		$g_hChkNotifyCGScore = 0, $g_hChkNotifyStarBonusAvail = 0, $g_hChkNotifyPauseTime = 0, $g_hNotifyStopBot = 0, _
-		$g_hChkNotifyUpgradeBM = 0, $g_hChkNotifyUpgradeBC = 0, $g_hChkNotifyUpgrade = 0
+		$g_hChkNotifyUpgradeBM = 0, $g_hChkNotifyUpgradeBC = 0, $g_hChkNotifyUpgrade = 0, $g_hChkCCRaidWarning = 0
 
 Global $g_hChkNotifyOnlyHours = 0, $g_hChkNotifyOnlyWeekDays = 0, $g_hChkNotifyhours[24] = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], _
 		$g_hChkNotifyWeekdays[7] = [0, 0, 0, 0, 0, 0, 0]
@@ -44,6 +44,11 @@ Func CreateVillageNotify()
 	$g_hChkNotifyTGEnable = GUICtrlCreateCheckbox(GetTranslatedFileIni("MBR GUI Design Child Village - Notify", "ChkNotifyTGEnable", "Enable Telegram"), $x + 40, $y + 5)
 	GUICtrlSetOnEvent(-1, "chkPBTGenabled")
 	_GUICtrlSetTip(-1, GetTranslatedFileIni("MBR GUI Design Child Village - Notify", "ChkNotifyTGEnable_Info_01", "Enable Telegram notifications"))
+
+	$g_hChkNotifyTGEnableInSecure = GUICtrlCreateCheckbox(GetTranslatedFileIni("MBR GUI Design Child Village - Notify", "ChkNotifyTGEnableInSecure", "Enable Insecure"), $x + 160, $y + 5)
+	_GUICtrlSetTip(-1, GetTranslatedFileIni("MBR GUI Design Child Village - Notify", "ChkNotifyTGEnableInSecure_Info_01", "Turn off curl's verification of the certificate.") & @CRLF & _
+			GetTranslatedFileIni("MBR GUI Design Child Village - Notify", "ChkNotifyTGEnableInSecure_Info_02", "Check this if screenshots are not received in telegram notifications."))
+	GUICtrlSetState(-1, $GUI_DISABLE)
 
 	$y += 40
 	$x -= 10
@@ -142,6 +147,9 @@ Func CreateVillageNotify()
 	GUICtrlSetState(-1, $GUI_DISABLE)
 	$g_hChkNotifyUpgrade = GUICtrlCreateCheckbox(GetTranslatedFileIni("MBR GUI Design Child Village - Notify", "ChkNotifyUpgrade", "Upgrade Started"), $x + 210, $y + 20, -1, -1)
 	_GUICtrlSetTip(-1, GetTranslatedFileIni("MBR GUI Design Child Village - Notify", "ChkNotifyUpgrade_Info_01", "Give Informations When An Upgrade is Started in Home Village"))
+	GUICtrlSetState(-1, $GUI_DISABLE)
+	$g_hChkCCRaidWarning = GUICtrlCreateCheckbox(GetTranslatedFileIni("MBR GUI Design Child Village - Notify", "ChkCCRaidWarning", "CC Raid Warning"), $x + 210, $y + 40, -1, -1)
+	_GUICtrlSetTip(-1, GetTranslatedFileIni("MBR GUI Design Child Village - Notify", "ChkCCRaidWarning_Info_01", "Send a Warning When Remaining CC Raid Attacks"))
 	GUICtrlSetState(-1, $GUI_DISABLE)
 
 	$x += 40

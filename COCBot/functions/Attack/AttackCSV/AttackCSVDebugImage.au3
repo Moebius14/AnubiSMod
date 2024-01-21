@@ -6,7 +6,7 @@
 ; Return values .: None
 ; Author ........: Sardo (2016)
 ; Modified ......:
-; Remarks .......: This file is part of MyBot, previously known as ClashGameBot. Copyright 2015-2023
+; Remarks .......: This file is part of MyBot, previously known as ClashGameBot. Copyright 2015-2024
 ;                  MyBot is distributed under the terms of the GNU GPL
 ; Related .......:
 ; Link ..........: https://github.com/MyBotRun/MyBot/wiki
@@ -324,7 +324,7 @@ Func AttackCSVDEBUGIMAGE()
 		Next
 	EndIf
 
-	; - DRAW Air Defense -------------------------------------------------------------------
+	; - DRAW Air Defense ----------------------------------------------------------------
 	If $g_bCSVLocateAirDefense = True And IsArray($g_aiCSVAirDefensePos) Then
 		For $i = 0 To UBound($g_aiCSVAirDefensePos) - 1
 			$pixel = $g_aiCSVAirDefensePos[$i]

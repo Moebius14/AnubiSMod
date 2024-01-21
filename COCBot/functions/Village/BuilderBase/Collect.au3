@@ -6,7 +6,7 @@
 ; Return values .: None
 ; Author ........: Fliegerfaust (05-2017)
 ; Modified ......:
-; Remarks .......: This file is part of MyBot, previously known as ClashGameBot. Copyright 2015-2023
+; Remarks .......: This file is part of MyBot, previously known as ClashGameBot. Copyright 2015-2024
 ;                  MyBot is distributed under the terms of the GNU GPL
 ; Related .......:
 ; Link ..........: https://github.com/MyBotRun/MyBot/wiki
@@ -107,7 +107,7 @@ Func CollectElixirCart($bSwitchToBB = False, $bSwitchToNV = False, $b_FirstElixC
 		Else
 			SetLog("Collect Button Not Found", $COLOR_ERROR)
 		EndIf
-		CloseWindow(False, False, False, 20)
+		CloseWindow(False, False, False, False, 20)
 	ElseIf $g_bChkBBaseFrequency And Not $b_LotOfAttacks Then
 		$bRet = False
 		For $i = 0 To 15
@@ -161,7 +161,7 @@ Func CollectElixirCart($bSwitchToBB = False, $bSwitchToNV = False, $b_FirstElixC
 			Else
 				SetLog("Collect Button Not Found", $COLOR_ERROR)
 			EndIf
-			CloseWindow(False, False, False, 20)
+			CloseWindow(False, False, False, False, 20)
 		Else
 			SetDebugLog("Elixir Cart Empty", $COLOR_DEBUG)
 		EndIf
@@ -198,7 +198,7 @@ Func CollectElixirCart($bSwitchToBB = False, $bSwitchToNV = False, $b_FirstElixC
 				Else
 					SetLog("Collect Button Not Found", $COLOR_ERROR)
 				EndIf
-				CloseWindow(False, False, False, 20)
+				CloseWindow(False, False, False, False, 20)
 			ElseIf IsArray($aiAxes) And UBound($aiAxes, 1) = 2 Then
 				SetLog("Found Filled Elixir Cart", $COLOR_SUCCESS)
 				PureClick($aiAxes[0], $aiAxes[1] + 16)
@@ -220,7 +220,7 @@ Func CollectElixirCart($bSwitchToBB = False, $bSwitchToNV = False, $b_FirstElixC
 				Else
 					SetLog("Collect Button Not Found", $COLOR_ERROR)
 				EndIf
-				CloseWindow(False, False, False, 20)
+				CloseWindow(False, False, False, False, 20)
 			EndIf
 		EndIf
 	EndIf

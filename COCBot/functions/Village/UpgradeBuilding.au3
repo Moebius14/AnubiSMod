@@ -6,7 +6,7 @@
 ; Return values .:
 ; Author ........: KnowJack (April-2015)
 ; Modified ......: KnowJack (Jun/Aug-2015),Sardo 2015-08,Monkeyhunter(2106-2)
-; Remarks .......: This file is part of MyBot, previously known as ClashGameBot. Copyright 2015-2023
+; Remarks .......: This file is part of MyBot, previously known as ClashGameBot. Copyright 2015-2024
 ;                  MyBot is distributed under the terms of the GNU GPL
 ; Related .......:
 ; Link ..........: https://github.com/MyBotRun/MyBot/wiki
@@ -402,7 +402,14 @@ Func UpgradeNormal($iUpgradeNumber)
 			Else
 				Local $g_aUpgradeDuration = getHeroUpgradeTime(730, 544 + $g_iMidOffsetY)
 				Click(630, 540 + $g_iMidOffsetY, 1, 0, "#0299") ; Click upgrade buttton
-				If _Sleep($DELAYUPGRADENORMAL3) Then Return
+				If _Sleep(1000) Then Return
+				If $aResult[1] = "Town Hall" Then
+					Local $aiContinueButton = findButton("Continue", Default, 1, True)
+					If IsArray($aiContinueButton) And UBound($aiContinueButton, 1) = 2 Then
+						PureClick($aiContinueButton[0], $aiContinueButton[1], 2, 50, "#0117") ; Click Continue Button
+						If _Sleep(1000) Then Return
+					EndIf
+				EndIf
 				If $g_bDebugImageSave Then SaveDebugImage("UpgradeRegBtn2")
 				If isGemOpen(True) Then ; Redundant Safety Check if the use Gem window opens
 					SetLog("Upgrade Fail #" & $iUpgradeNumber + 1 & " " & $g_avBuildingUpgrades[$iUpgradeNumber][4] & " No Loot!", $COLOR_ERROR)
