@@ -404,10 +404,13 @@ Func UpgradeNormal($iUpgradeNumber)
 				Click(630, 540 + $g_iMidOffsetY, 1, 0, "#0299") ; Click upgrade buttton
 				If _Sleep(1000) Then Return
 				If $aResult[1] = "Town Hall" Then
-					Local $aiContinueButton = findButton("Continue", Default, 1, True)
-					If IsArray($aiContinueButton) And UBound($aiContinueButton, 1) = 2 Then
-						PureClick($aiContinueButton[0], $aiContinueButton[1], 2, 50, "#0117") ; Click Continue Button
-						If _Sleep(1000) Then Return
+					Local $aiCancelButton = findButton("Cancel", Default, 1, True)
+					If IsArray($aiCancelButton) And UBound($aiCancelButton, 1) = 2 Then
+						SetLog("MBR is not designed to rush a TH upgrade", $COLOR_ERROR)
+						PureClick($aiCancelButton[0], $aiCancelButton[1], 2, 50, "#0117") ; Click Cancel Button
+						If _Sleep(1500) Then Return
+						CloseWindow()
+						Return False
 					EndIf
 				EndIf
 				If $g_bDebugImageSave Then SaveDebugImage("UpgradeRegBtn2")

@@ -485,10 +485,14 @@ Func _AutoUpgrade()
 
 		If _Sleep(1000) Then Return
 		If $g_aUpgradeNameLevel[1] = "Town Hall" Then
-			Local $aiContinueButton = findButton("Continue", Default, 1, True)
-			If IsArray($aiContinueButton) And UBound($aiContinueButton, 1) = 2 Then
-				PureClick($aiContinueButton[0], $aiContinueButton[1], 2, 50, "#0117") ; Click Continue Button
-				If _Sleep(1000) Then Return
+			Local $aiCancelButton = findButton("Cancel", Default, 1, True)
+			If IsArray($aiCancelButton) And UBound($aiCancelButton, 1) = 2 Then
+				SetLog("MBR is not designed to rush a TH upgrade", $COLOR_ERROR)
+				PureClick($aiCancelButton[0], $aiCancelButton[1], 2, 50, "#0117") ; Click Cancel Button
+				$UpgradeDone = False
+				If _Sleep(1500) Then Return
+				CloseWindow()
+				ContinueLoop
 			EndIf
 		EndIf
 		;Check for 'End Boost?' pop-up : What's this ?

@@ -1,6 +1,13 @@
 * v8.1.6
 * Added "Before you upgrade" window support.
 * Improved Blacksmith equipement upgrade.
+* Fixed BB Repair Building.
+* Improved Ores report OCR.
+* Improved CG "Stop before completing your limit" (Challenge points check).
+* Improved CG challenges detection.
+* Improved Clan Capital upgrade exclusion detection.
+* Improved Clan Capital opened builder menu detection.
+* Improved CG Event Purge.
 
 * v8.1.5 **
 * Improved OCR Army Capacity.

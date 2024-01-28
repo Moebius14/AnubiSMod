@@ -731,14 +731,20 @@ Func IschkAttackCGWeekdays()
 EndFunc   ;==>IschkAttackCGWeekdays
 
 Func SwitchBetweenBasesMod2()
+
+	Local Static $iLastTimeCCRaidChecked[8]
+
 	If Not $g_bFirstStartAccountSBB2 Then
 		$CCBaseCheckTimer = 0
 		$DelayReturnedtocheckCCBaseMS = 0
 		$g_bFirstStartAccountSBB2 = 1
+		$iLastTimeCCRaidChecked[$g_iCurAccount] = ""
 	EndIf
 
-	Local Static $iLastTimeCCRaidChecked[8]
-	If $g_bFirstStart Then $iLastTimeCCRaidChecked[$g_iCurAccount] = ""
+	$g_iCmbPriorityCCBaseFrequency = _GUICtrlComboBox_GetCurSel($g_hCmbPriorityCCBaseFrequency) * 60 * 60 * 1000
+	$g_icmbAdvancedVariationCC = _GUICtrlComboBox_GetCurSel($g_hcmbAdvancedVariationCC) / 10
+	Local $DelayReturnedtocheckCCBaseInf = ($g_iCmbPriorityCCBaseFrequency - ($g_iCmbPriorityCCBaseFrequency * $g_icmbAdvancedVariationCC))
+	Local $DelayReturnedtocheckCCBaseSup = ($g_iCmbPriorityCCBaseFrequency + ($g_iCmbPriorityCCBaseFrequency * $g_icmbAdvancedVariationCC))
 
 	If _DateIsValid($iLastTimeCCRaidChecked[$g_iCurAccount]) Then
 		Local $iLastCheck = _DateDiff('n', $iLastTimeCCRaidChecked[$g_iCurAccount], _NowCalc()) ; elapse time from last check (minutes)
@@ -747,12 +753,38 @@ Func SwitchBetweenBasesMod2()
 		If $iLastCheck > $iDelayToCheck Then
 			If UTCRaidWarning() Then
 				$iLastTimeCCRaidChecked[$g_iCurAccount] = _NowCalc()
+				$CCBaseCheckTimer = TimerInit()
+				$DelayReturnedtocheckCCBaseMS = Random($DelayReturnedtocheckCCBaseInf, $DelayReturnedtocheckCCBaseSup, 1)
+				Local $iWaitTime = $DelayReturnedtocheckCCBaseMS
+				Local $sWaitTime = ""
+				Local $iMin, $iHour, $iWaitSec
+
+				$iWaitSec = Round($iWaitTime / 1000)
+				$iHour = Floor(Floor($iWaitSec / 60) / 60)
+				$iMin = Floor(Mod(Floor($iWaitSec / 60), 60))
+				If $iHour > 0 Then $sWaitTime &= $iHour & " hours "
+				If $iMin > 0 Then $sWaitTime &= $iMin & " minutes "
+				SetLog("Time To Check Clan Capital Stuff", $COLOR_OLIVE)
+				SetLog("Next Check For Clan Capital Stuff : " & $sWaitTime & "", $COLOR_OLIVE)
 				Return True
 			EndIf
 		EndIf
 	Else
 		If UTCRaidWarning() Then
 			$iLastTimeCCRaidChecked[$g_iCurAccount] = _NowCalc()
+			$CCBaseCheckTimer = TimerInit()
+			$DelayReturnedtocheckCCBaseMS = Random($DelayReturnedtocheckCCBaseInf, $DelayReturnedtocheckCCBaseSup, 1)
+			Local $iWaitTime = $DelayReturnedtocheckCCBaseMS
+			Local $sWaitTime = ""
+			Local $iMin, $iHour, $iWaitSec
+
+			$iWaitSec = Round($iWaitTime / 1000)
+			$iHour = Floor(Floor($iWaitSec / 60) / 60)
+			$iMin = Floor(Mod(Floor($iWaitSec / 60), 60))
+			If $iHour > 0 Then $sWaitTime &= $iHour & " hours "
+			If $iMin > 0 Then $sWaitTime &= $iMin & " minutes "
+			SetLog("Time To Check Clan Capital Stuff", $COLOR_OLIVE)
+			SetLog("Next Check For Clan Capital Stuff : " & $sWaitTime & "", $COLOR_OLIVE)
 			Return True
 		EndIf
 	EndIf
@@ -767,9 +799,6 @@ Func SwitchBetweenBasesMod2()
 	Next
 	If Not $bForgeEnabled And Not $g_bChkEnableAutoUpgradeCC Then Return False
 
-	$g_iCmbPriorityCCBaseFrequency = _GUICtrlComboBox_GetCurSel($g_hCmbPriorityCCBaseFrequency) * 60 * 60 * 1000
-	$g_icmbAdvancedVariationCC = _GUICtrlComboBox_GetCurSel($g_hcmbAdvancedVariationCC) / 10
-
 	If $g_iCmbPriorityCCBaseFrequency = 0 Then ; Case Everytime, Return True and End fonction Without Timing
 		Return True
 	EndIf
@@ -778,8 +807,6 @@ Func SwitchBetweenBasesMod2()
 
 		$CCBaseCheckTimer = TimerInit()
 
-		Local $DelayReturnedtocheckCCBaseInf = ($g_iCmbPriorityCCBaseFrequency - ($g_iCmbPriorityCCBaseFrequency * $g_icmbAdvancedVariationCC))
-		Local $DelayReturnedtocheckCCBaseSup = ($g_iCmbPriorityCCBaseFrequency + ($g_iCmbPriorityCCBaseFrequency * $g_icmbAdvancedVariationCC))
 		$DelayReturnedtocheckCCBaseMS = Random($DelayReturnedtocheckCCBaseInf, $DelayReturnedtocheckCCBaseSup, 1)
 
 		Local $iWaitTime = $DelayReturnedtocheckCCBaseMS
@@ -825,8 +852,6 @@ Func SwitchBetweenBasesMod2()
 
 		$CCBaseCheckTimer = TimerInit()
 
-		Local $DelayReturnedtocheckCCBaseInf = ($g_iCmbPriorityCCBaseFrequency - ($g_iCmbPriorityCCBaseFrequency * $g_icmbAdvancedVariationCC))
-		Local $DelayReturnedtocheckCCBaseSup = ($g_iCmbPriorityCCBaseFrequency + ($g_iCmbPriorityCCBaseFrequency * $g_icmbAdvancedVariationCC))
 		$DelayReturnedtocheckCCBaseMS = Random($DelayReturnedtocheckCCBaseInf, $DelayReturnedtocheckCCBaseSup, 1)
 
 		Local $iWaitTime = $DelayReturnedtocheckCCBaseMS

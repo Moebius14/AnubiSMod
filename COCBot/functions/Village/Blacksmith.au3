@@ -311,21 +311,26 @@ EndFunc   ;==>FindBSButton
 
 Func OresReport()
 
-	Local $ReadShiny = getOresValues(180, 600 + $g_iMidOffsetY)
+	Local $ReadShiny = getOresValues(186, 600 + $g_iMidOffsetY)
 	Local $aTempReadReadShiny = StringSplit($ReadShiny, "#")
+	Local $g_ReadCorrect = StringRight($aTempReadReadShiny[2], 3)
+	If $aTempReadReadShiny[2] = 0 Or $aTempReadReadShiny[2] = "" Or $aTempReadReadShiny[2] < 10000 Or StringInStr($g_ReadCorrect, 1) Then
+		$ReadShiny = getOresValues2(186, 600 + $g_iMidOffsetY)
+		$aTempReadReadShiny = StringSplit($ReadShiny, "#")
+	EndIf
 	Local $ShinyValueActal = 0, $ShinyValueCap = 0
 	If $aTempReadReadShiny[0] >= 2 Then
 		$ShinyValueActal = $aTempReadReadShiny[1]
 		$ShinyValueCap = $aTempReadReadShiny[2]
 	EndIf
-	Local $ReadGlowy = getOresValues(370, 600 + $g_iMidOffsetY)
+	Local $ReadGlowy = getOresValues(375, 600 + $g_iMidOffsetY)
 	Local $aTempReadReadGlowy = StringSplit($ReadGlowy, "#")
 	Local $GlowyValueActal = 0, $GlowyValueCap = 0
 	If $aTempReadReadGlowy[0] >= 2 Then
 		$GlowyValueActal = $aTempReadReadGlowy[1]
 		$GlowyValueCap = $aTempReadReadGlowy[2]
 	EndIf
-	Local $ReadStarry = getOresValues(560, 600 + $g_iMidOffsetY)
+	Local $ReadStarry = getOresValues(567, 600 + $g_iMidOffsetY)
 	Local $aTempReadReadStarry = StringSplit($ReadStarry, "#")
 	Local $StarryValueActal = 0, $StarryValueCap = 0
 	If $aTempReadReadStarry[0] >= 2 Then

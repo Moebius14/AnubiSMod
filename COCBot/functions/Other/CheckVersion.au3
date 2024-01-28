@@ -55,7 +55,7 @@ Func CheckVersion()
 	EndIf
 
 	Local $g_sBotModGitVersion = ""
-	Local $sCorrectStdOutMod = InetRead("https://api.github.com/repos/Moebius14/AnuBisMod/releases/latest")
+	Local $sCorrectStdOutMod = InetRead("https://api.github.com/repos/Moebius14/AnubiSMod/releases/latest")
 	Local $TempMod = BinaryToString($sCorrectStdOutMod)
 
 	If $TempMod <> "" And Not @error Then
@@ -80,7 +80,7 @@ Func CheckVersion()
 				SetLog($Changelog[$i])
 			Next
 			SetLog(" ", $COLOR_ERROR)
-			SetLog("Click Cahaya~Fantasy To Find The Lastest Mod Version", $COLOR_ERROR)
+			SetLog("Click ""Out Of Date"" To Find The Lastest Mod Version", $COLOR_ERROR)
 			SetLog(" ", $COLOR_ERROR)
 			GUICtrlSetState($g_hPicGreenMod, $GUI_HIDE)
 			GUICtrlSetState($g_hPicRedMod, $GUI_SHOW)
@@ -131,7 +131,7 @@ Func CheckVersionStatus()
 	SetDebugLog("Version Status Check", $COLOR_DEBUG2)
 
 	Local $g_sBotModGitVersion = ""
-	Local $sCorrectStdOutMod = InetRead("https://api.github.com/repos/Moebius14/AnuBisMod/releases/latest")
+	Local $sCorrectStdOutMod = InetRead("https://api.github.com/repos/Moebius14/AnubiSMod/releases/latest")
 	Local $TempMod = BinaryToString($sCorrectStdOutMod)
 
 	If $TempMod <> "" And Not @error Then

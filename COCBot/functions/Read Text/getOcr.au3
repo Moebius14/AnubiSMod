@@ -10,8 +10,12 @@
 ; Example .......: No
 ; ===============================================================================================================================
 Func getOresValues($x_start, $y_start, $bNeedCapture = True) ;  -> Get least upgradetime on builder menu
-	Return getOcrAndCapture("coc-ores", $x_start, $y_start, 160, 16, $bNeedCapture)
+	Return getOcrAndCapture("coc-ores", $x_start, $y_start, 149, 16, $bNeedCapture)
 EndFunc   ;==>getOresValues
+
+Func getOresValues2($x_start, $y_start, $bNeedCapture = True) ;  -> Get least upgradetime on builder menu
+	Return getOcrAndCapture("coc-ores2", $x_start, $y_start, 149, 16, $bNeedCapture)
+EndFunc   ;==>getOresValues2
 
 Func getBuilderLeastUpgradeTime($x_start, $y_start) ;  -> Get least upgradetime on builder menu
 	Return getOcrAndCapture("coc-buildermenu-cost", $x_start, $y_start, 100, 18, True)
@@ -273,6 +277,10 @@ EndFunc   ;==>getOcrYourScore
 Func getOcrEventTime($x_start, $y_start) ; -> Gets CheckValuesCost on Train Window
 	Return getOcrAndCapture("coc-events", $x_start, $y_start, 35, 16, True)
 EndFunc   ;==>getOcrEventTime
+
+Func getOcrEventPoints($x_start, $y_start) ; -> Gets CheckValuesCost on Train Window
+	Return getOcrAndCapture("coc-events", $x_start, $y_start, 50, 17, True)
+EndFunc   ;==>getOcrEventPoints
 
 Func getOcrRateCoc($x_start, $y_start, $sLogText = Default, $LogTextColor = Default, $bSilentSetLog = Default)
 	;  -> Get the Text with time till maintenance is over from reload msg(228, 402)
