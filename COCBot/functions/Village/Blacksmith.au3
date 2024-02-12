@@ -20,7 +20,7 @@ Func Blacksmith($bTest = False)
 	If Not $g_bChkCustomEquipmentOrderEnable Then Return
 
 	Local Static $iLastTimeChecked[8]
-	If $g_bFirstStart Then $iLastTimeChecked[$g_iCurAccount] = ""
+	If $g_bFirstStart Or $IsOresJustCollected Then $iLastTimeChecked[$g_iCurAccount] = ""
 
 	Local $BSTimeDiff ; time remaining for Blacksmith upgrade
 	If $g_sBSUpgradeTime <> "" And _DateIsValid($g_sBSUpgradeTime) Then $BSTimeDiff = _DateDiff("n", _NowCalc(), $g_sBSUpgradeTime) ; what is difference between end time and now in minutes?
@@ -74,18 +74,19 @@ Func Blacksmith($bTest = False)
 	If Not $g_bRunState Then Return
 	If _Sleep(1500) Then Return ; Wait for window to open
 
-	$iLastTimeChecked[$g_iCurAccount] = _NowCalc()
-	$StarBonusReceived = 0
-
 	Local $BuildingInfo = BuildingInfo(242, 468 + $g_iBottomOffsetY)
 	SetLog("Blacksmith is level " & $BuildingInfo[2])
 
-	If Not FindBSButton() Then Return False ; cant start because we cannot find the Pets button
+	If Not FindBSButton() Then Return False ; cant start because we cannot find the Blacksmith button
 
 	If Not IsBlacksmithPage() Then
 		SetLog("Failed to open Blacksmith Window!", $COLOR_ERROR)
 		Return
 	EndIf
+
+	$iLastTimeChecked[$g_iCurAccount] = _NowCalc()
+	$StarBonusReceived = 0
+	$IsOresJustCollected = 0
 
 	If $g_iTxtCurrentVillageName <> "" Then
 		GUICtrlSetData($g_hTxtModLog, @CRLF & _NowTime() & " [" & $g_iTxtCurrentVillageName & "] Blacksmith : Looking for Equipment upgrade", 1)
@@ -111,7 +112,7 @@ Func Blacksmith($bTest = False)
 
 		If $BuildingInfo[2] < 7 Then
 			Switch $g_aiCmbCustomEquipmentOrder[$i]
-				Case 0, 1, 5, 6, 9, 10, 13, 14
+				Case 0, 1, 5, 6, 10, 11, 14, 15
 					SetLog("BlackSmith level 7 needed, looking next", $COLOR_SUCCESS)
 					ContinueLoop
 			EndSwitch
@@ -193,6 +194,15 @@ Func Blacksmith($bTest = False)
 						CloseWindow2()
 						ContinueLoop 2
 					EndIf
+					If _ColorCheck(_GetPixelColor(690, 566 + $g_iMidOffsetY, True), Hex(0x3F3A38, 6), 15) Then
+						SetDebugLog("Dark Grey Upgrade Button detected!", $COLOR_DEBUG)
+						SetLog($g_asEquipmentOrderList[$g_aiCmbCustomEquipmentOrder[$i]][0] & "  has reached max level!", $COLOR_DEBUG)
+						If _Sleep(1500) Then Return
+						$g_bChkCustomEquipmentOrder[$i] = 0
+						GUICtrlSetState($g_hChkCustomEquipmentOrder[$i], $GUI_UNCHECKED)
+						CloseWindow2()
+						ContinueLoop 2
+					EndIf
 					While 1
 						If Not $g_bRunState Then ExitLoop
 						If $bTest Then
@@ -206,6 +216,16 @@ Func Blacksmith($bTest = False)
 							SetDebugLog("Grey Upgrade Button detected!", $COLOR_DEBUG)
 							SetLog($g_asEquipmentOrderList[$g_aiCmbCustomEquipmentOrder[$i]][0] & " upgrade unavailable", $COLOR_DEBUG)
 							If _Sleep(1500) Then Return
+							CloseWindow2()
+							$Exitloop = True
+							ExitLoop
+						EndIf
+						If _ColorCheck(_GetPixelColor(690, 566 + $g_iMidOffsetY, True), Hex(0x3F3A38, 6), 15) Then
+							SetDebugLog("Dark Grey Upgrade Button detected!", $COLOR_DEBUG)
+							SetLog($g_asEquipmentOrderList[$g_aiCmbCustomEquipmentOrder[$i]][0] & "  has reached max level!", $COLOR_DEBUG)
+							If _Sleep(1500) Then Return
+							$g_bChkCustomEquipmentOrder[$i] = 0
+							GUICtrlSetState($g_hChkCustomEquipmentOrder[$i], $GUI_UNCHECKED)
 							CloseWindow2()
 							$Exitloop = True
 							ExitLoop
@@ -313,29 +333,42 @@ Func OresReport()
 
 	Local $ReadShiny = getOresValues(186, 600 + $g_iMidOffsetY)
 	Local $aTempReadReadShiny = StringSplit($ReadShiny, "#")
-	Local $g_ReadCorrect = StringRight($aTempReadReadShiny[2], 3)
-	If $aTempReadReadShiny[2] = 0 Or $aTempReadReadShiny[2] = "" Or $aTempReadReadShiny[2] < 10000 Or StringInStr($g_ReadCorrect, 1) Then
+	If IsArray($aTempReadReadShiny) And UBound($aTempReadReadShiny) = 3 Then
+		Local $g_ReadCorrect = StringRight($aTempReadReadShiny[2], 3)
+		If $aTempReadReadShiny[2] = 0 Or $aTempReadReadShiny[2] = "" Or $aTempReadReadShiny[2] < 10000 Or StringInStr($g_ReadCorrect, 1) Then
+			$ReadShiny = getOresValues2(186, 600 + $g_iMidOffsetY)
+			$aTempReadReadShiny = StringSplit($ReadShiny, "#")
+		EndIf
+	Else
 		$ReadShiny = getOresValues2(186, 600 + $g_iMidOffsetY)
 		$aTempReadReadShiny = StringSplit($ReadShiny, "#")
 	EndIf
 	Local $ShinyValueActal = 0, $ShinyValueCap = 0
-	If $aTempReadReadShiny[0] >= 2 Then
-		$ShinyValueActal = $aTempReadReadShiny[1]
-		$ShinyValueCap = $aTempReadReadShiny[2]
+	If IsArray($aTempReadReadShiny) And UBound($aTempReadReadShiny) = 3 Then
+		If $aTempReadReadShiny[0] >= 2 Then
+			$ShinyValueActal = $aTempReadReadShiny[1]
+			$ShinyValueCap = $aTempReadReadShiny[2]
+		EndIf
 	EndIf
+
 	Local $ReadGlowy = getOresValues(375, 600 + $g_iMidOffsetY)
 	Local $aTempReadReadGlowy = StringSplit($ReadGlowy, "#")
 	Local $GlowyValueActal = 0, $GlowyValueCap = 0
-	If $aTempReadReadGlowy[0] >= 2 Then
-		$GlowyValueActal = $aTempReadReadGlowy[1]
-		$GlowyValueCap = $aTempReadReadGlowy[2]
+	If IsArray($aTempReadReadGlowy) And UBound($aTempReadReadGlowy) = 3 Then
+		If $aTempReadReadGlowy[0] >= 2 Then
+			$GlowyValueActal = $aTempReadReadGlowy[1]
+			$GlowyValueCap = $aTempReadReadGlowy[2]
+		EndIf
 	EndIf
+
 	Local $ReadStarry = getOresValues(567, 600 + $g_iMidOffsetY)
 	Local $aTempReadReadStarry = StringSplit($ReadStarry, "#")
 	Local $StarryValueActal = 0, $StarryValueCap = 0
-	If $aTempReadReadStarry[0] >= 2 Then
-		$StarryValueActal = $aTempReadReadStarry[1]
-		$StarryValueCap = $aTempReadReadStarry[2]
+	If IsArray($aTempReadReadStarry) And UBound($aTempReadReadStarry) = 3 Then
+		If $aTempReadReadStarry[0] >= 2 Then
+			$StarryValueActal = $aTempReadReadStarry[1]
+			$StarryValueCap = $aTempReadReadStarry[2]
+		EndIf
 	EndIf
 
 	SetLog("Ores Report")

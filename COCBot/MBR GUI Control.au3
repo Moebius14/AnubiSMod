@@ -93,7 +93,7 @@ Func InitializeMainGUI($bGuiModeUpdate = False)
 		GUICtrlSetState($g_hChkMakeIMGCSV, $GUI_SHOW + $GUI_ENABLE)
 		GUICtrlSetState($g_hChkdebugAttackCSV, $GUI_SHOW + $GUI_ENABLE)
 		GUICtrlSetState($g_hChkDebugSmartZap, $GUI_SHOW + $GUI_ENABLE)
-		GUICtrlSetState($g_hbtnAttNow, $GUI_SHOW + $GUI_ENABLE)
+		;GUICtrlSetState($g_hbtnAttNow, $GUI_SHOW + $GUI_ENABLE)
 	EndIf
 
 	; GUI events and messages

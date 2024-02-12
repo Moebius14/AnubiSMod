@@ -86,6 +86,12 @@ Global $g_sImgHeroEquipement = @ScriptDir & "\imgxml\Research\Blacksmith\"
 Global $g_sImgEquipmentResearch = @ScriptDir & "\imgxml\Research\Blacksmith\Equipment\"
 Global $g_sImgEquipmentNew = @ScriptDir & "\imgxml\Research\Blacksmith\New\New*"
 Global $g_sImgRedZero = @ScriptDir & "\imgxml\Research\Blacksmith\RedZero\RedZero*"
+;Event
+Global $g_sImgEventResource = @ScriptDir & "\imgxml\Event\Resource\"
+Global $g_sImgRightResResource = @ScriptDir & "\imgxml\Event\RightButton\"
+Global $g_sImgOresCollect = @ScriptDir & "\imgxml\Event\Ores\"
+Global $g_sImgLeftGreenArrow = @ScriptDir & "\imgxml\Event\GreenArrow\"
+Global $g_sImgClaimBonus = @ScriptDir & "\imgxml\DailyChallenge\"
 #EndRegion Main Village
 
 #Region Clan Capital
@@ -265,6 +271,7 @@ Global $ImInWar = @ScriptDir & "\imgxml\Humanization\WarPage\Day\ImInWar"
 Global $ImgRedEvent = @ScriptDir & "\imgxml\Humanization\RedEvent"
 Global $3DotsVisiting = @ScriptDir & "\imgxml\Humanization\3Dots"
 Global $directoryDay = @ScriptDir & "\imgxml\Humanization\WarPage\Day"
+Global $directoryDay2 = @ScriptDir & "\imgxml\Humanization\WarPage\Day\EndedDay\"
 Global $directoryTime = @ScriptDir & "\imgxml\Humanization\WarPage\Time"
 Global $ClanPerks = @ScriptDir & "\imgxml\Humanization\ClanPerks"
 Global $g_sHVReplay = @ScriptDir & "\imgxml\Humanization\Replay\HV"

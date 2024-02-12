@@ -20,7 +20,7 @@ Global $g_hChkBotStop = 0, $g_hCmbBotCommand = 0, $g_hCmbBotCond = 0, $g_hCmbHou
 Global $g_LblResumeAttack = 0, $g_ahTxtResumeAttackLoot[$eLootCount] = [0, 0, 0, 0], $g_hCmbResumeTime = 0
 Global $g_hChkCollectStarBonus = 0, $g_hChkCCTreasuryFull = 0
 Global $g_hTxtRestartGold = 0, $g_hTxtRestartElixir = 0, $g_hTxtRestartDark = 0
-Global $g_hChkTrap = 0, $g_hChkCollect = 0, $g_hChkTombstones = 0, $g_hChkCleanYard = 0, $g_hChkGemsBox = 0
+Global $g_hChkTrap = 0, $g_hChkCollect = 0, $g_hChkTombstones = 0, $g_hChkCleanYard = 0, $g_hChkGemsBox = 0, $g_hChkEventCollect = 0
 Global $g_hChkCollectCartFirst = 0, $g_hTxtCollectGold = 0, $g_hTxtCollectElixir = 0, $g_hTxtCollectDark = 0
 Global $g_hBtnLocateSpellfactory = 0, $g_hBtnLocateDarkSpellFactory = 0
 Global $g_hBtnLocateKingAltar = 0, $g_hBtnLocateQueenAltar = 0, $g_hBtnLocateWardenAltar = 0, $g_hBtnLocateChampionAltar = 0, $g_hBtnLocateLaboratory = 0, $g_hBtnLocatePetHouse = 0, $g_hBtnResetBuilding = 0, $g_hBtnLocateBlacksmith = 0
@@ -341,6 +341,10 @@ Func CreateMiscNormalVillageSubTab()
 	_GUICtrlCreateIcon($g_sLibIconPath, $eIcnGembox, $x + 32, $y, 24, 24)
 	$g_hChkGemsBox = GUICtrlCreateCheckbox(GetTranslatedFileIni("MBR GUI Design Child Village - Misc", "ChkGemsBox", "Remove GemBox"), $x + 100, $y + 4, -1, -1)
 	_GUICtrlSetTip(-1, GetTranslatedFileIni("MBR GUI Design Child Village - Misc", "ChkGemsBox_Info_01", "Check this to automatically clear GemBox."))
+	GUICtrlSetState(-1, $GUI_UNCHECKED)
+
+	$g_hChkEventCollect = GUICtrlCreateCheckbox(GetTranslatedFileIni("MBR GUI Design Child Village - Misc", "ChkEventCollect", "Collect Event Stuff"), $x + 265, $y + 4, -1, -1)
+	_GUICtrlSetTip(-1, GetTranslatedFileIni("MBR GUI Design Child Village - Misc", "ChkEventCollect_Info_01", "Check this to automatically collect resource and rewards from event."))
 	GUICtrlSetState(-1, $GUI_UNCHECKED)
 
 	$y += 21
@@ -1490,12 +1494,12 @@ Func CreateBoostBuilders3()
 
 	_GUICtrlCreateIcon($g_sLibModIconPath, $eIcnModBuilderPotion, $x + 30, $y + 10, 24, 24)
 	GUICtrlCreateLabel("Builders Potions To Use", $x + 55, $y + 16, -1, -1)
-	$g_hCmbBoostBuilders3 = GUICtrlCreateCombo("", $x + 176, $y + 12, 40, 25, BitOR($CBS_DROPDOWNLIST, $CBS_AUTOHSCROLL))
-	GUICtrlSetData(-1, "0|1|2|3|4|5", "0")
+	$g_hCmbBoostBuilders3 = GUICtrlCreateCombo("", $x + 176, $y + 12, 70, 25, BitOR($CBS_DROPDOWNLIST, $CBS_AUTOHSCROLL))
+	GUICtrlSetData(-1, "0|1|2|3|4|5|Unlimited", "0")
 	GUICtrlSetOnEvent(-1, "CmbBoostBuilders3")
 
-	GUICtrlCreateLabel("If Free Builders < ", $x + 225, $y + 16, -1, -1)
-	$g_hCmbFreeBuilders3 = GUICtrlCreateCombo("", $x + 311, $y + 12, 40, 25, BitOR($CBS_DROPDOWNLIST, $CBS_AUTOHSCROLL))
+	GUICtrlCreateLabel("If Free Builders < ", $x + 255, $y + 16, -1, -1)
+	$g_hCmbFreeBuilders3 = GUICtrlCreateCombo("", $x + 341, $y + 12, 40, 25, BitOR($CBS_DROPDOWNLIST, $CBS_AUTOHSCROLL))
 	GUICtrlSetData(-1, "1|2|3|4", "2")
 	GUICtrlSetOnEvent(-1, "CmbFreeBuilders3")
 

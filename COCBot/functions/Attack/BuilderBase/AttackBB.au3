@@ -50,6 +50,8 @@ Func DoAttackBB()
 	$IsChallengeCompleted = False
 	$b_AbortedAttack = False
 	Local $AttackCount = 0
+	$iStartSlotMem = 0
+	$iStartSlotMem2 = 0
 
 	If $g_iBBAttackCount = 0 Then
 		While PrepareAttackBB($AttackCount)
@@ -133,6 +135,8 @@ Func DoAttackBB()
 	If $AttackCount > 0 Then SetLog("BB Attack Cycle Done", $COLOR_SUCCESS1)
 	ClickAway()
 	ZoomOut()
+	$iStartSlotMem = 0
+	$iStartSlotMem2 = 0
 EndFunc   ;==>DoAttackBB
 
 Func ClickFindNowButton()

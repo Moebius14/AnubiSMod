@@ -234,9 +234,11 @@ Func IsFullClanCastle()
 
 		If $g_aiCmbCCDecisionThen = 1 And $g_bFullArmy And $g_bCheckSpells Then
 			If $bNeedRequest Then
-				$IsForRequestEarly = False
-				$IsTofillWithMedals = True
-				Return False
+				If $CCWaitChrono > 0 Then
+					$IsForRequestEarly = False
+					$IsTofillWithMedals = True
+					Return False
+				EndIf
 			Else
 				$IsTofillWithMedals = False
 				Return True

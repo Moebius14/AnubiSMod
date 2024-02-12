@@ -321,6 +321,8 @@ Func GetButtonDiamond($sButtonName)
 			$btnDiamond = GetDiamondFromRect("240,250,630,630")
 		Case "ChatDown" ; AnubiS Mod
 			$btnDiamond = GetDiamondFromRect2(23, 570 + $g_iBottomOffsetY, 60, 620 + $g_iBottomOffsetY)
+		Case "EventButton" ; Special Event Button
+			$btnDiamond = GetDiamondFromRect2(140, 500 + $g_iBottomOffsetY, 720, 590 + $g_iBottomOffsetY)
 		Case Else
 			$btnDiamond = "FV" ; use full image to locate button
 	EndSwitch

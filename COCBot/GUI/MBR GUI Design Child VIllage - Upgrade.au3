@@ -174,9 +174,9 @@ Func CreateLaboratorySubTab()
 	GUICtrlSetOnEvent(-1, "chkUseLabPotion")
 	GUICtrlCreateIcon($g_sLibModIconPath, $eIcnModResearchPotion, $x + 200, $y + 25, 24, 24)
 
-	$g_hCmbLabPotion = GUICtrlCreateCombo("", $x + 250, $y + 27, 40, 25, BitOR($CBS_DROPDOWNLIST, $CBS_AUTOHSCROLL))
+	$g_hCmbLabPotion = GUICtrlCreateCombo("", $x + 250, $y + 27, 70, 25, BitOR($CBS_DROPDOWNLIST, $CBS_AUTOHSCROLL))
 	_GUICtrlSetTip(-1, GetTranslatedFileIni("MBR GUI Design Child Village - Upgrade_Laboratory", "CmbLabPotion", "Number Of Iterations."))
-	GUICtrlSetData(-1, "0|1|2|3|4|5", "0")
+	GUICtrlSetData(-1, "0|1|2|3|4|5|Unlimited", "0")
 
 	$y += 20
 	$g_hLblNextUpgrade = GUICtrlCreateLabel(GetTranslatedFileIni("MBR GUI Design Child Village - Upgrade_Laboratory", "LblNextUpgrade", "Next one") & ":", $x + 80, $y + 38, 50, -1)
@@ -487,9 +487,9 @@ Func CreateHeroesSubTab()
 	GUICtrlCreateIcon($g_sLibModIconPath, $eIcnModPetPotion, $x + 90, $y - 3, 24, 24)
 
 	$g_hCmbPetPotionLabel = GUICtrlCreateLabel("Iterations : ", $x + 130, $y + 4, -1, -1)
-	$g_hCmbPetPotion = GUICtrlCreateCombo("", $x + 185, $y - 1, 40, 25, BitOR($CBS_DROPDOWNLIST, $CBS_AUTOHSCROLL))
+	$g_hCmbPetPotion = GUICtrlCreateCombo("", $x + 185, $y - 1, 70, 25, BitOR($CBS_DROPDOWNLIST, $CBS_AUTOHSCROLL))
 	_GUICtrlSetTip(-1, GetTranslatedFileIni("MBR GUI Design Child Village - Upgrade_Pets", "CmbPetPotion", "Number Of Iterations."))
-	GUICtrlSetData(-1, "0|1|2|3|4|5", "0")
+	GUICtrlSetData(-1, "0|1|2|3|4|5|Unlimited", "0")
 
 	GUICtrlCreateGroup("", -99, -99, 1, 1)
 EndFunc   ;==>CreateHeroesSubTab
@@ -703,12 +703,12 @@ Func CreateBoostBuilders()
 
 	_GUICtrlCreateIcon($g_sLibModIconPath, $eIcnModBuilderPotion, $x + 30, $y + 10, 24, 24)
 	GUICtrlCreateLabel("Builders Potions To Use", $x + 55, $y + 16, -1, -1)
-	$g_hCmbBoostBuilders = GUICtrlCreateCombo("", $x + 176, $y + 12, 40, 25, BitOR($CBS_DROPDOWNLIST, $CBS_AUTOHSCROLL))
-	GUICtrlSetData(-1, "0|1|2|3|4|5", "0")
+	$g_hCmbBoostBuilders = GUICtrlCreateCombo("", $x + 176, $y + 12, 70, 25, BitOR($CBS_DROPDOWNLIST, $CBS_AUTOHSCROLL))
+	GUICtrlSetData(-1, "0|1|2|3|4|5|Unlimited", "0")
 	GUICtrlSetOnEvent(-1, "CmbBoostBuilders")
 
-	GUICtrlCreateLabel("If Free Builders < ", $x + 225, $y + 16, -1, -1)
-	$g_hCmbFreeBuilders = GUICtrlCreateCombo("", $x + 311, $y + 12, 40, 25, BitOR($CBS_DROPDOWNLIST, $CBS_AUTOHSCROLL))
+	GUICtrlCreateLabel("If Free Builders < ", $x + 255, $y + 16, -1, -1)
+	$g_hCmbFreeBuilders = GUICtrlCreateCombo("", $x + 341, $y + 12, 40, 25, BitOR($CBS_DROPDOWNLIST, $CBS_AUTOHSCROLL))
 	GUICtrlSetData(-1, "1|2|3|4", "2")
 	GUICtrlSetOnEvent(-1, "CmbFreeBuilders")
 
@@ -1094,12 +1094,12 @@ Func CreateBoostBuilders2()
 
 	_GUICtrlCreateIcon($g_sLibModIconPath, $eIcnModBuilderPotion, $x + 30, $y + 10, 24, 24)
 	GUICtrlCreateLabel("Builders Potions To Use", $x + 55, $y + 16, -1, -1)
-	$g_hCmbBoostBuilders2 = GUICtrlCreateCombo("", $x + 176, $y + 12, 40, 25, BitOR($CBS_DROPDOWNLIST, $CBS_AUTOHSCROLL))
-	GUICtrlSetData(-1, "0|1|2|3|4|5", "0")
+	$g_hCmbBoostBuilders2 = GUICtrlCreateCombo("", $x + 176, $y + 12, 70, 25, BitOR($CBS_DROPDOWNLIST, $CBS_AUTOHSCROLL))
+	GUICtrlSetData(-1, "0|1|2|3|4|5|Unlimited", "0")
 	GUICtrlSetOnEvent(-1, "CmbBoostBuilders2")
 
-	GUICtrlCreateLabel("If Free Builders < ", $x + 225, $y + 16, -1, -1)
-	$g_hCmbFreeBuilders2 = GUICtrlCreateCombo("", $x + 311, $y + 12, 40, 25, BitOR($CBS_DROPDOWNLIST, $CBS_AUTOHSCROLL))
+	GUICtrlCreateLabel("If Free Builders < ", $x + 255, $y + 16, -1, -1)
+	$g_hCmbFreeBuilders2 = GUICtrlCreateCombo("", $x + 341, $y + 12, 40, 25, BitOR($CBS_DROPDOWNLIST, $CBS_AUTOHSCROLL))
 	GUICtrlSetData(-1, "1|2|3|4", "2")
 	GUICtrlSetOnEvent(-1, "CmbFreeBuilders2")
 

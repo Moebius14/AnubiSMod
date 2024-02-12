@@ -112,6 +112,9 @@ Func SwitchAccountVariablesReload($sType = "Load", $iAccount = $g_iCurAccount)
 	Static $SIsPetPotJustCollected = $aiZero
 	Static $SIsAutoForgeSlotJustCollected = $aiZero
 
+	;Event
+	Static $SIsOresJustCollected = $aiZero
+
 	; Hero State
 	Static $aiHeroAvailable = $aiZero
 	Static $aiHeroUpgradingBit = $aiZero
@@ -258,6 +261,9 @@ Func SwitchAccountVariablesReload($sType = "Load", $iAccount = $g_iCurAccount)
 			$SIsResPotJustCollected = $aiZero
 			$SIsPetPotJustCollected = $aiZero
 			$SIsAutoForgeSlotJustCollected = $aiZero
+
+			;Event
+			$SIsOresJustCollected = $aiZero
 
 			;Daily Challenge
 			$gaSsNewChallengeTime = $aiZero
@@ -458,6 +464,9 @@ Func SwitchAccountVariablesReload($sType = "Load", $iAccount = $g_iCurAccount)
 			$SIsPetPotJustCollected[$iAccount] = $IsPetPotJustCollected
 			$SIsAutoForgeSlotJustCollected[$iAccount] = $IsAutoForgeSlotJustCollected
 
+			;Event
+			$SIsOresJustCollected[$iAccount] = $IsOresJustCollected
+
 			;Daily challenge
 			$gaSsNewChallengeTime[$iAccount] = $g_sNewChallengeTime
 			$aSTimeDiffBBChallenge[$iAccount] = $TimeDiffBBChallenge
@@ -645,6 +654,9 @@ Func SwitchAccountVariablesReload($sType = "Load", $iAccount = $g_iCurAccount)
 			$IsResPotJustCollected = $SIsResPotJustCollected[$iAccount]
 			$IsPetPotJustCollected = $SIsPetPotJustCollected[$iAccount]
 			$IsAutoForgeSlotJustCollected = $SIsAutoForgeSlotJustCollected[$iAccount]
+
+			;Event
+			$IsOresJustCollected = $SIsOresJustCollected[$iAccount]
 
 			;Daily challenge
 			$g_sNewChallengeTime = $gaSsNewChallengeTime[$iAccount]

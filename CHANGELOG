@@ -8,6 +8,21 @@
 * Improved Clan Capital upgrade exclusion detection.
 * Improved Clan Capital opened builder menu detection.
 * Improved CG Event Purge.
+* Improved BOB Buildings, Battle Copter and Battle Machine upgrade window detection.
+* Improved Electro Dragon detection in attack bar.
+* Improved Wall breaker detection in troops queue.
+* Improved BattleMachine and BattleCopter location.
+* Fixed troops deployment in BB attacks.
+* Improved Invisibility spell detection.
+* Improved some buildings detection for weak bases.
+* Improved Healing Tome detection.
+* Added max level equipment support.
+* Fixed Discount Perks coordinates and OCR.
+* Updated couple of libraries.
+* Fixed Free Magic Items Collect.
+* Added Frozen Arrow equipment Support.
+* Improved Equipment detection.
+* Updated couple of libraries 2.
 
 * v8.1.5 **
 * Improved OCR Army Capacity.

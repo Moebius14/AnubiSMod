@@ -410,7 +410,7 @@ Global $g_bAndroidControlUseParentPos = False ; If true, control pos is used fro
 
 Global $g_bInitAndroid = True ; Used to cache android config, is set to False once initialized, new emulator window handle resets it to True
 
-Global Const $g_iCoCReconnectingTimeout = 1200000 ; 20 minutes : When still (or again) CoC reconnecting animation then restart CoC (handled in checkObstacles)
+Global Const $g_iCoCReconnectingTimeout = 60000 ; When still (or again) CoC reconnecting animation then restart CoC (handled in checkObstacles)
 
 ; Special Android Emulator variables
 Global $__BlueStacks_Version, $__BlueStacks5_Version, $__MEmu_Version, $__Nox_Version
@@ -556,7 +556,7 @@ Global Enum $eIcnArcher = 1, $eIcnDonArcher, $eIcnBalloon, $eIcnDonBalloon, $eIc
 		$eIcnSuperMiner, $eIcnCapitalTrophy, $eLigue1, $eLigue2, $eLigue3, $eIcnMonolith, $eIcnEFWizard, $eWood, $eClay, $eStone, $eCopper, $eBrass, $eIron, $eSteel, $eTitanium, $ePlatinum, $eEmerald, _
 		$eRuby, $eDiamond, $eLigue4, $eLigue5, $eIcnSuperHogRider, $eIcnAppWard, $eIcnSleepingChampion, $eIcnBattleCopter, $eWall17, $eHdV16, $eIcnTH16, $eIcnSpiritFox, $eIcnRootRider, $eIcnBlacksmithgreen, $eIcnBarbarianPuppet, _
 		$eIcnRageVial, $eIcnEQBoots, $eIcnVampstache, $eIcnArcherPuppet, $eIcnInvisibilityVial, $eIcnGiantArrow, $eIcnHealerPuppet, $eIcnEternalTome, $eIcnLifeGem, $eIcnHealingTome, $eIcnRageGem, $eIcnRoyalGem, _
-		$eIcnSeekingShield, $eIcnGauntlet, $eIcnBlacksmith, $eIcnMultiArcher, $eIcnRicochet
+		$eIcnSeekingShield, $eIcnGauntlet, $eIcnBlacksmith, $eIcnMultiArcher, $eIcnRicochet, $eIcnFrozenArrow
 
 ; enumerated Icons 1-based index to IconLibMod
 Global Enum $eIcnVillager = 1, $eIcnModCWL, $eIcnModZZZ, $eIcnHumanization, $eIcnGUIMod, $eIcnBell, $g_sIcnTrader, $eIcnAnubisMod, $eIcnStorm1Mod, $eIcnStorm2Mod, $eIcnForecast, $eIcnStop, $eIcnChrono, $eIcnModForecastBoost, _
@@ -817,8 +817,8 @@ Func TroopIndexLookup(Const $sName, Const $sSource = "")
 		EndIf
 	Next
 
-	; is the name "castle"?
-	If $sName = "castle" Then Return $eCastle
+	; is the name "Castle"?
+	If $sName = "Castle" Then Return $eCastle
 
 	SetDebugLog("TroopIndexLookup() Error: Index for troop name '" & $sName & "' not found" & (($sSource) ? (" (" & $sSource & ").") : (".")))
 	Return -1
@@ -909,6 +909,7 @@ Global $g_sBBDropOrder = $g_sBBDropOrderDefault
 Global $g_ahCmbBBDropOrder[$g_iBBTroopCount] = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
 Global $g_aMachinePos[3] = [0, 0, ""], $g_DeployedMachine = False, $g_aBomberOnAttackBar[0][2], $g_bBomberOnAttackBar = False, $g_bMachineAliveOnAttackBar = False
 Global $BomberDead[9] = [0, 0, 0, 0, 0, 0, 0, 0, 0]
+Global $iStartSlotMem = 0, $iStartSlotMem2 = 0
 
 ; <><><><> Village / Donate - Request <><><><>
 Global $g_bRequestTroopsEnable = False
@@ -963,6 +964,10 @@ Global $g_ahCmbLabUpgradeOrder[8] = [-1, -1, -1, -1, -1, -1, -1, -1]
 Global $g_aCmbLabUpgradeOrder[8] = [-1, -1, -1, -1, -1, -1, -1, -1]
 Global $g_bUseBOF = 0, $g_iUseBOFTime = 0, $g_bUseBOS = 0, $g_iUseBOSTime = 0, $g_bUseBOE = 0, $g_iUseBOETime = 0
 Global $IsBOFJustCollected = 0, $IsBOSJustCollected = 0, $IsResPotJustCollected = 0
+
+;Event
+Global $g_bChkEventCollect = False
+Global $IsOresJustCollected = 0
 
 ; Heroes
 Global $g_bUpgradeKingEnable = False, $g_bUpgradeQueenEnable = False, $g_bUpgradeWardenEnable = False, $g_bUpgradeChampionEnable = False, $g_iHeroReservedBuilder = 0
@@ -2012,7 +2017,7 @@ Global $g_aVillageSize[10] = ["", "", "", "", "", "", "", "", "", ""]
 
 ; Blacksmith
 Global $g_aiBlacksmithPos[2] = [-1, -1] ; Position of Pet House
-Global $g_asEquipmentOrderList[15][4] = [ _
+Global $g_asEquipmentOrderList[16][4] = [ _
 		[GetTranslatedFileIni("MBR GUI Design Child Village - Equipment", "TxtBarbarianPuppet", "Barbarian Puppet"), "BarbarianPuppet", "King", 103 + $g_iMidOffsetY], _
 		[GetTranslatedFileIni("MBR GUI Design Child Village - Equipment", "TxtRageVial", "Rage Vial"), "RageVial", "King", 103 + $g_iMidOffsetY], _
 		[GetTranslatedFileIni("MBR GUI Design Child Village - Equipment", "TxtEQBoots", "Earth Quake Boots"), "Boots", "King", 103 + $g_iMidOffsetY], _
@@ -2022,6 +2027,7 @@ Global $g_asEquipmentOrderList[15][4] = [ _
 		[GetTranslatedFileIni("MBR GUI Design Child Village - Equipment", "TxtInvisibilityVial", "Invisibility Vial"), "InvisibilityVial", "Queen", 141 + $g_iMidOffsetY], _
 		[GetTranslatedFileIni("MBR GUI Design Child Village - Equipment", "TxtGiantArrow", "Giant Arrow"), "GiantArrow", "Queen", 141 + $g_iMidOffsetY], _
 		[GetTranslatedFileIni("MBR GUI Design Child Village - Equipment", "TxtHealerPuppet", "Healer Puppet"), "HealerPuppet", "Queen", 141 + $g_iMidOffsetY], _
+		[GetTranslatedFileIni("MBR GUI Design Child Village - Equipment", "TxtFrozenArrow", "Frozen Arrow"), "FrozenArrow", "Queen", 141 + $g_iMidOffsetY], _
 		[GetTranslatedFileIni("MBR GUI Design Child Village - Equipment", "TxtEternalTome", "Eternal Tome"), "EternalTome", "Warden", 178 + $g_iMidOffsetY], _
 		[GetTranslatedFileIni("MBR GUI Design Child Village - Equipment", "TxtLifeGem", "Life Gem"), "LifeGem", "Warden", 178 + $g_iMidOffsetY], _
 		[GetTranslatedFileIni("MBR GUI Design Child Village - Equipment", "TxtRageGem", "Rage Gem"), "RageGem", "Warden", 178 + $g_iMidOffsetY], _
@@ -2030,26 +2036,26 @@ Global $g_asEquipmentOrderList[15][4] = [ _
 		[GetTranslatedFileIni("MBR GUI Design Child Village - Equipment", "TxtSeekingShield", "Seeking Shield"), "SeekingShield", "Champion", 215 + $g_iMidOffsetY]]
 
 Global Enum $eBarbarianPuppet, $eRageVial, $eEQBoots, $eVampstache, $eGiantGauntlet, $eArcherPuppet, $eInvisibilityVial, $eGiantArrow, $eHealerPuppet, _
-		$eEternalTome, $eLifeGem, $eRageGem, $eHealingTome, $eRoyalGem, $eSeekingShield, $eEquipmentCount
+		$eFrozenArrow, $eEternalTome, $eLifeGem, $eRageGem, $eHealingTome, $eRoyalGem, $eSeekingShield, $eEquipmentCount
 Global $g_hChkCustomEquipmentOrderEnable = 0, $g_bChkCustomEquipmentOrderEnable = 0
 Global $g_hBtnEquipmentOrderSet = 0, $g_ahImgEquipmentOrderSet = 0, $g_hBtnRemoveEquipment = 0, $g_hBtnRegularOrder = 0
-Global $g_EquipmentOrderLabel[$eEquipmentCount] = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
-Global $g_ahCmbEquipmentOrder[$eEquipmentCount] = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
-Global $g_ahImgEquipmentOrder[$eEquipmentCount] = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
-Global $g_ahImgEquipmentOrder2[$eEquipmentCount] = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+Global $g_EquipmentOrderLabel[$eEquipmentCount] = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+Global $g_ahCmbEquipmentOrder[$eEquipmentCount] = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+Global $g_ahImgEquipmentOrder[$eEquipmentCount] = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+Global $g_ahImgEquipmentOrder2[$eEquipmentCount] = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
 Global $g_aiEquipmentOrder[$eEquipmentCount] = [ _
 		$eBarbarianPuppet, $eRageVial, $eEQBoots, $eVampstache, $eGiantGauntlet, $eArcherPuppet, $eInvisibilityVial, $eGiantArrow, $eHealerPuppet, _
-		$eEternalTome, $eLifeGem, $eRageGem, $eHealingTome, $eRoyalGem, $eSeekingShield]
+		$eFrozenArrow, $eEternalTome, $eLifeGem, $eRageGem, $eHealingTome, $eRoyalGem, $eSeekingShield]
 Global Const $g_aiEquipmentOrderIcon[$eEquipmentCount + 1] = [ _
 		$eIcnOptions, $eIcnBarbarianPuppet, $eIcnRageVial, $eIcnEQBoots, $eIcnVampstache, $eIcnGauntlet, $eIcnArcherPuppet, $eIcnInvisibilityVial, $eIcnGiantArrow, $eIcnHealerPuppet, _
-		$eIcnEternalTome, $eIcnLifeGem, $eIcnRageGem, $eIcnHealingTome, $eIcnRoyalGem, $eIcnSeekingShield]
+		$eIcnFrozenArrow, $eIcnEternalTome, $eIcnLifeGem, $eIcnRageGem, $eIcnHealingTome, $eIcnRoyalGem, $eIcnSeekingShield]
 Global Const $g_aiEquipmentOrderIcon2[$eEquipmentCount + 1] = [ _
-		$eIcnOptions, $eIcnKing, $eIcnKing, $eIcnKing, $eIcnKing, $eIcnKing, $eIcnQueen, $eIcnQueen, $eIcnQueen, $eIcnQueen, _
+		$eIcnOptions, $eIcnKing, $eIcnKing, $eIcnKing, $eIcnKing, $eIcnKing, $eIcnQueen, $eIcnQueen, $eIcnQueen, $eIcnQueen, $eIcnQueen, _
 		$eIcnWarden, $eIcnWarden, $eIcnWarden, $eIcnWarden, $eIcnChampion, $eIcnChampion]
-Global $g_aiCmbCustomEquipmentOrder[$eEquipmentCount] = [-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1]
-Global $g_hChkCustomEquipmentOrder[$eEquipmentCount] = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], $g_bChkCustomEquipmentOrder[$eEquipmentCount] = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+Global $g_aiCmbCustomEquipmentOrder[$eEquipmentCount] = [-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1]
+Global $g_hChkCustomEquipmentOrder[$eEquipmentCount] = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], $g_bChkCustomEquipmentOrder[$eEquipmentCount] = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
 Global Const $g_asEquipmentShortNames[$eEquipmentCount] = ["BarbPuppet", "RageVial", "Boots", "Stache", "Gauntlet", "ArchPuppet", _
-		"InvVial", "GArrow", "HealPuppet", "Eternal", "Life", "RageGem", "HealTome", "RoyalGem", "Shield"]
+		"InvVial", "GArrow", "HealPuppet", "FArrow", "Eternal", "Life", "RageGem", "HealTome", "RoyalGem", "Shield"]
 Global $StarBonusReceived = 0, $g_sBSUpgradeTime = ""
 
 ; Pet House
@@ -2162,12 +2168,13 @@ Global $g_aiCmbCCDecisionTime = 0, $g_aiCmbCCDecisionThen = 0, $CCWaitChrono = 0
 ; Spring, Autumn, Clashy, Pirate, Epic Winter, Hog Mountain, Jungle, Epic Jungle, 9th Clash,
 ; PumpKin GraveYard, Snow Day, Tiger Mountain, Primal(PR), Shadow(SH), Royale Scenery, Summer Scenery, Pixel Scenery, 10th Clash,
 ; Clash Fest, Magic Scenery, Epic Magic Scenery, Classic Scenery, Inferno Tower, Jolly Scenery, Magic Theater Scenery,
-; Dark Ages, Painter, Goblin Caves, Future Scenery, Books of Clash, Spooky Scenery, Chess Scenery, Ghost Scenery, GingerBread Scenery
+; Dark Ages, Painter, Goblin Caves, Future Scenery, Books of Clash, Spooky Scenery, Chess Scenery, Ghost Scenery, GingerBread Scenery,
+; Dragon Palace Scenery
 ; Builder Base
 Global Enum $eTreeDSS, $eTreeDAS, $eTreeCC, $eTreePS, $eTreeEW, $eTreeHM, $eTreeJS, $eTreeEJ, $eTree9C, _
 		$eTreePG, $eTreeSD, $eTreeTM, $eTreePR, $eTreeSH, $eTreeRS, $eTreeSM, $eTreePX, $eTreeXC, _
 		$eTreeCF, $eTreeMS, $eTreeEM, $eTreeCS, $eTreeIT, $eTreeJO, $eTreeMT, _
-		$eTreeDA, $eTreePA, $eTreeGC, $eTreeFS, $eTreeBK, $eTreeSP, $eTreeCH, $eTreeGH, $eTreeGB, _
+		$eTreeDA, $eTreePA, $eTreeGC, $eTreeFS, $eTreeBK, $eTreeSP, $eTreeCH, $eTreeGH, $eTreeGB, $eTreeDP, _
 		$eTreeBB, $eTreeOO, $eTreeCR, $eTreeNS, $eTreeCount
 
 Global $g_asSceneryNames[$eTreeCount] = [ _
@@ -2175,6 +2182,7 @@ Global $g_asSceneryNames[$eTreeCount] = [ _
 		"Pumpkin Graveyard", "Snowy Day", "Tiger Mountain", "Primal Scenery", "Shadow Scenery", "Royale Scenery", "Summer Scenery", "Pixel Scenery", "10th Clashiversary", _
 		"Clash Fest", "Magic Scenery", "Epic Magic Scenery", "Classic Scenery", "Inferno Town", "Jolly Scenery", "Magic Theater Scenery", _
 		"Dark Ages Scenery", "Painter Scenery", "Goblin Caves Scenery", "Future Scenery", "Books of Clash", "Spooky Scenery", "Chess Scenery", "Ghost Scenery", "GingerBread Scenery", _
+		"Dragon Palace Scenery", _
 		"Builder Base", "OTTO Outpost", "Crystal Caverns", "Of The North Scenery"]
 
 ; village size, left, right, top, bottom, village size 2, AdjLeft, AdjRight, AdjTop, AdjBottom
@@ -2213,6 +2221,7 @@ Global Const $g_afRefVillage[$eTreeCount][10] = [ _
 		[525.959020068643, 24, 812, 66, 660, 525.959020068643, 50, 50, 42, 42], _    ; CH partial
 		[606.96375086645, 21, 838, 36, 650, 606.96375086645, 50, 50, 42, 42], _      ; GH partial
 		[507.949945330315, 32, 820, 48, 640, 507.949945330315, 50, 50, 42, 42], _    ; GB partial
+		[519.132521236882, 4, 808, 50, 656, 519.132521236882, 50, 50, 42, 42], _     ; DP partial
 		[376.2247294568, 114, 724, 152, 610, 376.2247294568, 50, 46, 38, 42], _      ; BB partial
 		[440.179472132523, 120, 732, 152, 608, 440.179472132523, 50, 46, 38, 42], _  ; OO partial
 		[379.741811787463, 130, 728, 162, 608, 379.741811787463, 50, 46, 38, 42], _  ; CR partial

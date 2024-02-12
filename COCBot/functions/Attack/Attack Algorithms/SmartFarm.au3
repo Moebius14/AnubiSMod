@@ -549,7 +549,7 @@ Func AttackSmartFarm($Nside, $SIDESNAMES)
 	SetDebugLog("Giants : " & $GiantComp & "  , per side: " & ($GiantComp / $nbSides) & " / deploy points per side: " & $g_iSlotsGiants)
 
 	If $g_bCustomDropOrderEnable Then
-		Local $listInfoDeploy[46][5] = [[MatchTroopDropName(0), $nbSides, MatchTroopWaveNb(0), 1, MatchSlotsPerEdge(0)], _
+		Local $listInfoDeploy[49][5] = [[MatchTroopDropName(0), $nbSides, MatchTroopWaveNb(0), 1, MatchSlotsPerEdge(0)], _
 				[MatchTroopDropName(1), $nbSides, MatchTroopWaveNb(1), 1, MatchSlotsPerEdge(1)], _
 				[MatchTroopDropName(2), $nbSides, MatchTroopWaveNb(2), 1, MatchSlotsPerEdge(2)], _
 				[MatchTroopDropName(3), $nbSides, MatchTroopWaveNb(3), 1, MatchSlotsPerEdge(3)], _
@@ -588,12 +588,16 @@ Func AttackSmartFarm($Nside, $SIDESNAMES)
 				[MatchTroopDropName(36), $nbSides, MatchTroopWaveNb(36), 1, MatchSlotsPerEdge(36)], _
 				[MatchTroopDropName(37), $nbSides, MatchTroopWaveNb(37), 1, MatchSlotsPerEdge(37)], _
 				[MatchTroopDropName(38), $nbSides, MatchTroopWaveNb(38), 1, MatchSlotsPerEdge(38)], _
+				[MatchTroopDropName(39), $nbSides, MatchTroopWaveNb(39), 1, MatchSlotsPerEdge(39)], _
 				[MatchTroopDropName(40), $nbSides, MatchTroopWaveNb(40), 1, MatchSlotsPerEdge(40)], _
 				[MatchTroopDropName(41), $nbSides, MatchTroopWaveNb(41), 1, MatchSlotsPerEdge(41)], _
 				[MatchTroopDropName(42), $nbSides, MatchTroopWaveNb(42), 1, MatchSlotsPerEdge(42)], _
 				[MatchTroopDropName(43), $nbSides, MatchTroopWaveNb(43), 1, MatchSlotsPerEdge(43)], _
 				[MatchTroopDropName(44), $nbSides, MatchTroopWaveNb(44), 1, MatchSlotsPerEdge(44)], _
-				[MatchTroopDropName(45), $nbSides, MatchTroopWaveNb(45), 1, MatchSlotsPerEdge(45)]]
+				[MatchTroopDropName(45), $nbSides, MatchTroopWaveNb(45), 1, MatchSlotsPerEdge(45)], _
+				[MatchTroopDropName(46), $nbSides, MatchTroopWaveNb(46), 1, MatchSlotsPerEdge(46)], _
+				[MatchTroopDropName(47), $nbSides, MatchTroopWaveNb(47), 1, MatchSlotsPerEdge(47)], _
+				[MatchTroopDropName(48), $nbSides, MatchTroopWaveNb(48), 1, MatchSlotsPerEdge(48)]]
 	Else
 		Local $listInfoDeploy[49][5] = [[$eGole, $nbSides, 1, 1, 2] _
 				, [$eLava, $nbSides, 1, 1, 2] _

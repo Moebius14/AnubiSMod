@@ -241,7 +241,7 @@ Func CollectDailyRewards($bGoldPass = False)
 
 					For $j = 0 To UBound($aAllCoords) - 1
 						For $z = 0 To UBound($RewardImagesTypes) - 1
-							If QuickMIS("BC1", $RewardImagesTypes[$z][0], ($aAllCoords[$j])[0] - 50, ($aAllCoords[$j])[1] - 90, ($aAllCoords[$j])[0] + 45, ($aAllCoords[$j])[1] - 20) Then $RewardImagesTypes[$z][1] += 1
+							If QuickMIS("BC1", $RewardImagesTypes[$z][0], ($aAllCoords[$j])[0] - 50, ($aAllCoords[$j])[1] - 90, ($aAllCoords[$j])[0] + 45, ($aAllCoords[$j])[1] - 20) Then $RewardImagesTypes[$z][1] = 1
 						Next
 						ClickP($aAllCoords[$j], 1, 0, "Claim " & $j + 1) ; Click Claim button
 						If WaitforPixel(329, 390 + $g_iMidOffsetY, 331, 392 + $g_iMidOffsetY, Hex(0xFDC875, 6), 20, 3) Then ; wait for Cancel Button popped up in 1.5 second
@@ -258,7 +258,7 @@ Func CollectDailyRewards($bGoldPass = False)
 							If _Sleep(Random(3000, 4000, 1)) Then ExitLoop
 							$iClaim += 1
 							For $z = 0 To UBound($RewardImagesTypes) - 1
-								If Not QuickMIS("BC1", $RewardImagesTypes[$z][0], ($aAllCoords[$j])[0] - 50, ($aAllCoords[$j])[1] - 90, ($aAllCoords[$j])[0] + 45, ($aAllCoords[$j])[1] - 20) And $RewardImagesTypes[$z][1] > 0 Then
+								If Not QuickMIS("BC1", $RewardImagesTypes[$z][0], ($aAllCoords[$j])[0] - 50, ($aAllCoords[$j])[1] - 90, ($aAllCoords[$j])[0] + 45, ($aAllCoords[$j])[1] - 20) And $RewardImagesTypes[$z][1] = 1 Then
 									Switch $z
 										Case 0
 											$IsCCGoldJustCollected = 1
@@ -297,13 +297,13 @@ Func CollectDailyRewards($bGoldPass = False)
 							Next
 							If _Sleep(100) Then ExitLoop
 						EndIf
+						$IsCCGoldPresent = 0
+						$IsBOFPresent = 0
+						$IsBOSPresent = 0
+						$IsResPotPresent = 0
+						$IsPetPotPresent = 0
+						$IsAutoForgeSlotPresent = 0
 					Next
-					$IsCCGoldPresent = 0
-					$IsBOFPresent = 0
-					$IsBOSPresent = 0
-					$IsResPotPresent = 0
-					$IsPetPotPresent = 0
-					$IsAutoForgeSlotPresent = 0
 				EndIf
 			Next
 		EndIf
@@ -336,7 +336,7 @@ Func CheckDiscountPerks()
 	If _Sleep(500) Then Return
 
 	; find builder boost rate %
-	Local $sDiscount = getOcrAndCapture("coc-builderboost", 370, 305 + $g_iMidOffsetY, 110, 40)
+	Local $sDiscount = getOcrAndCapture("coc-builderboost", 110, 277 + $g_iMidOffsetY, 100, 40, True)
 	SetDebugLog("Builder boost OCR: " & $sDiscount)
 	If StringInStr($sDiscount, "%") Then
 		Local $aDiscount = StringSplit($sDiscount, "%", $STR_NOCOUNT)
@@ -379,7 +379,7 @@ Func CheckDiscountPerksMod()
 	If _Sleep(500) Then Return
 
 	; find builder boost rate %
-	Local $sDiscount = getOcrAndCapture("coc-builderboost", 370, 305 + $g_iMidOffsetY, 110, 40)
+	Local $sDiscount = getOcrAndCapture("coc-builderboost", 110, 277 + $g_iMidOffsetY, 100, 40, True)
 	SetDebugLog("Builder boost OCR: " & $sDiscount)
 	If StringInStr($sDiscount, "%") Then
 		Local $aDiscount = StringSplit($sDiscount, "%", $STR_NOCOUNT)

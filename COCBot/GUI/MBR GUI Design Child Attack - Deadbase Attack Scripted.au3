@@ -53,7 +53,7 @@ Func CreateAttackSearchDeadBaseScripted()
 	GUICtrlSetOnEvent(-1, "EditScriptDB")
 
 	; CSV Deploy Speed
-	GUICtrlCreateGroup(GetTranslatedFileIni("MBR GUI Design Child Attack - Attack Scripted", "CSVSpeed", "CSV Deployment Speed Max Variation"), $x + 20, $y + 237, -1, 48)
+	GUICtrlCreateGroup(GetTranslatedFileIni("MBR GUI Design Child Attack - Attack Scripted", "CSVSpeed", "CSV Deployment Speed Max Variation"), $x + 20, $y + 237, 195, 46)
 	$cmbCSVSpeedLabel = GUICtrlCreateLabel(GetTranslatedFileIni("MBR GUI Design Child Attack - Attack Scripted", "CSVSpeed2", "Max Variation"), $x + 60, $y + 259, 70, -1)
 	$cmbCSVSpeed[$DB] = GUICtrlCreateCombo("", $x + 135, $y + 255, 45, 20, BitOR($CBS_DROPDOWNLIST, $CBS_AUTOHSCROLL))
 	GUICtrlSetData(-1, "0%|2%|4%|6%|8%|10%|12%|14%|16%|18%|20%", "8%")

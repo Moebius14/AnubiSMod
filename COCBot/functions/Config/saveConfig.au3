@@ -508,6 +508,7 @@ Func SaveConfig_600_6()
 	_Ini_Add("other", "ChkCollectRewards", $g_bChkCollectRewards ? 1 : 0)
 	_Ini_Add("other", "ChkSellRewards", $g_bChkSellRewards ? 1 : 0)
 	_Ini_Add("other", "chkGemsBox", $g_bChkGemsBox ? 1 : 0)
+	_Ini_Add("other", "chkEventCollect", $g_bChkEventCollect ? 1 : 0)
 	_Ini_Add("other", "ChkFirstTimeSellMagicItem", $g_bChkFirstStartSellMagicItem ? 1 : 0)
 	_Ini_Add("other", "ChkSellMagicItem", $g_bChkSellMagicItem ? 1 : 0)
 	For $i = 0 To UBound($g_iacmbMagicPotion) - 1

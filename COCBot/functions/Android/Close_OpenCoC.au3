@@ -31,7 +31,7 @@ Func CloseCoC($ReOpenCoC = False, $bCheckRunState = True)
 	;AndroidHomeButton()
 	AndroidAdbSendShellCommand("am force-stop " & $g_sAndroidGamePackage, Default, Default, False)
 	ResetAndroidProcess()
-	_Sleep($DELAYCLOSEOPEN3000)
+	If _Sleep($DELAYCLOSEOPEN3000) Then Return
 	If $bCheckRunState And Not $g_bRunState Then Return FuncReturn()
 	If $ReOpenCoC Then
 		OpenCoC()

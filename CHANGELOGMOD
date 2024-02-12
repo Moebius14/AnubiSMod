@@ -1,4 +1,15 @@
-* v24.01.28
+* v24.02.12 **
+* Fixed Friend Request Management.
+* Improved CC Raid Attacks Warning (Only if specific notification is checked).
+* Fixed CC SmartSwitch When Gold Pass.
+* Improved Forge remaining Time.
+* Fixed Min Dark Elixir When Sorted Pet Upgrade.
+* Added Unlimited option for Builders, Pet and Research potions use.
+* Fixed CWL ended status.
+* Fixed SmartFarm array error.
+* Added Event resources and rewards collect support.
+
+* v24.01.28 **
 * Improved Purge Medals and Check For CC raid Attacks.
 
 * v24.01.21 **

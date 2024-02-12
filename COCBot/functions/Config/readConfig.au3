@@ -555,6 +555,7 @@ Func ReadConfig_600_6()
 	IniReadS($g_bChkTombstones, $g_sProfileConfigPath, "other", "chkTombstones", True, "Bool")
 	IniReadS($g_bChkCleanYard, $g_sProfileConfigPath, "other", "chkCleanYard", True, "Bool")
 	IniReadS($g_bChkGemsBox, $g_sProfileConfigPath, "other", "chkGemsBox", False, "Bool")
+	IniReadS($g_bChkEventCollect, $g_sProfileConfigPath, "other", "chkEventCollect", False, "Bool")
 	IniReadS($g_bChkFirstStartSellMagicItem, $g_sProfileConfigPath, "other", "ChkFirstTimeSellMagicItem", False, "Bool")
 	IniReadS($g_bChkSellMagicItem, $g_sProfileConfigPath, "other", "ChkSellMagicItem", False, "Bool")
 	For $i = 0 To UBound($g_iacmbMagicPotion) - 1

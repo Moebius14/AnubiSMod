@@ -47,7 +47,7 @@ Func CollectCCGold($bTest = False)
 			If IsArray($aCollect) And UBound($aCollect) > 0 And UBound($aCollect, $UBOUND_COLUMNS) > 1 Then
 				For $i = 0 To UBound($aCollect) - 1
 					If Not $bTest Then
-						$CollectingCCGold = getOcrAndCapture("coc-forge-ccgold", $aCollect[$i][1] - 75, $aCollect[$i][2] - 15, 60, 18, True) ;150/409
+						$CollectingCCGold = getOcrAndCapture("coc-forge-ccgold", $aCollect[$i][1] - 75, $aCollect[$i][2] - 15, 60, 18, True)
 						SetLog("Collecting " & _NumberFormat($CollectingCCGold, True) & " Clan Capital Gold", $COLOR_INFO)
 						$CollectedCCGold += $CollectingCCGold
 						Click($aCollect[$i][1], $aCollect[$i][2]) ;Click Collect
@@ -349,7 +349,7 @@ Func ForgeClanCapitalGold($bTest = False)
 	If Not $g_bRunState Then Return
 
 	SetLog("Checking for Forge ClanCapital Gold", $COLOR_INFO)
-	ClickAway("Right")
+	ClickAway()
 	ZoomOut()
 	getBuilderCount(True) ;check if we have available builder
 
@@ -421,15 +421,17 @@ Func ForgeClanCapitalGold($bTest = False)
 			If Not $g_bRunState Then Return
 			If ClickB("BoostConfirm") Then
 				SetLog("Builders Boosted Using Potion", $COLOR_SUCCESS1)
+				If $g_iCmbBoostBuilders <= 5 Then $g_iCmbBoostBuilders -= 1
+				If $g_iCmbBoostBuilders > 0 Then
+					$g_iTimerBoostBuilders = TimerInit()
+				Else
+					$g_iTimerBoostBuilders = 0
+				EndIf
 				If $g_iCmbBoostBuilders <= 5 Then
-					$g_iCmbBoostBuilders -= 1
-					If $g_iCmbBoostBuilders > 0 Then
-						$g_iTimerBoostBuilders = TimerInit()
-					Else
-						$g_iTimerBoostBuilders = 0
-					EndIf
 					SetLog("Builders Boost completed. Remaining iteration" & ($g_iCmbBoostBuilders > 1 ? "s: " : ": ") & $g_iCmbBoostBuilders, $COLOR_SUCCESS)
 					_GUICtrlComboBox_SetCurSel($g_hCmbBoostBuilders, $g_iCmbBoostBuilders)
+				ElseIf $g_iCmbBoostBuilders = 6 Then
+					SetLog("Builders Boost completed.", $COLOR_SUCCESS)
 				EndIf
 				$ActionForModLog = "Boosting Builders"
 				If $g_iTxtCurrentVillageName <> "" Then
@@ -875,15 +877,17 @@ Func ForgeClanCapitalGold($bTest = False)
 			If Not $g_bRunState Then Return
 			If ClickB("BoostConfirm") Then
 				SetLog("Builders Boosted Using Potion", $COLOR_SUCCESS1)
+				If $g_iCmbBoostBuilders <= 5 Then $g_iCmbBoostBuilders -= 1
+				If $g_iCmbBoostBuilders > 0 Then
+					$g_iTimerBoostBuilders = TimerInit()
+				Else
+					$g_iTimerBoostBuilders = 0
+				EndIf
 				If $g_iCmbBoostBuilders <= 5 Then
-					$g_iCmbBoostBuilders -= 1
-					If $g_iCmbBoostBuilders > 0 Then
-						$g_iTimerBoostBuilders = TimerInit()
-					Else
-						$g_iTimerBoostBuilders = 0
-					EndIf
 					SetLog("Builders Boost completed. Remaining iteration" & ($g_iCmbBoostBuilders > 1 ? "s: " : ": ") & $g_iCmbBoostBuilders, $COLOR_SUCCESS)
 					_GUICtrlComboBox_SetCurSel($g_hCmbBoostBuilders, $g_iCmbBoostBuilders)
+				ElseIf $g_iCmbBoostBuilders = 6 Then
+					SetLog("Builders Boost completed.", $COLOR_SUCCESS)
 				EndIf
 				$ActionForModLog = "Boosting Builders"
 				If $g_iTxtCurrentVillageName <> "" Then
@@ -1964,13 +1968,14 @@ Func AutoUpgradeCC()
 	If $g_bChkEnableSmartSwitchCC Then
 		getBuilderCount(True) ;check if we have available builder
 		Local $g_GoldenPass = _CheckPixel($aPersonalChallengeOpenButton2, $g_bCapturePixel)
+		Local $FreeBuilders = 0
 		If $bForgeEnabled And Not $g_bFirstStartForAll And Number($g_iLootCCGold) = 0 And Not $g_GoldenPass Then
 			Local $iUpgradeBuilders = 0
 			For $iz = 0 To UBound($g_avBuildingUpgrades, 1) - 1 ; loop through all upgrades to see if any are enabled.
 				If $g_abBuildingUpgradeEnable[$iz] = True Then $iUpgradeBuilders += 1 ; count number enabled
 			Next
 			Local $iWallReserve = $g_bUpgradeWallSaveBuilder ? 1 : 0
-			Local $FreeBuilders = $g_iFreeBuilderCount - $iWallReserve - ReservedBuildersForHeroes(False) - $iUpgradeBuilders ;check builder reserve on wall, hero upgrade, Buildings upgrade
+			$FreeBuilders = $g_iFreeBuilderCount - $iWallReserve - ReservedBuildersForHeroes(False) - $iUpgradeBuilders ;check builder reserve on wall, hero upgrade, Buildings upgrade
 		EndIf
 		If (Not $g_bFirstStartForAll And Number($g_iLootCCGold) = 0 And ((Not $bForgeEnabled Or Not $g_bChkEnableCollectCCGold) Or ($FreeBuilders < 1 And $bForgeEnabled And Not $g_GoldenPass))) Or _
 				($IsCCGoldJustCollectedDChallenge And Number($g_iLootCCGold) = 0) And Not UTCRaidWarning() Then
@@ -2363,7 +2368,7 @@ Func TimeForge($AutoForgeSlotAvl = False)
 
 	If $AutoForgeSlotAvl Then
 		If QuickMIS("BC1", $g_sImgActiveForge, 240, 250 + $g_iMidOffsetY, 415, 360 + $g_iMidOffsetY) Then ;check if we have Auto forge in progress
-			Local $TimeForForge = getTimeForForge($g_iQuickMISX - 75, $g_iQuickMISY - 82)
+			Local $TimeForForge = getTimeForForge($g_iQuickMISX - 75, $g_iQuickMISY - 80)
 			Local $iConvertedTime = ConvertOCRTime("Forge Time", $TimeForForge, False)
 			_ArrayAdd($aResult, $iConvertedTime)
 		EndIf
@@ -3449,6 +3454,7 @@ Func BtnForcePurgeMedals()
 EndFunc   ;==>BtnForcePurgeMedals
 
 Func UTCRaidWarning()
+	If Not $g_bNotifyTGEnable Or Not $g_bChkCCRaidWarning Then Return False
 	If $AllCCRaidAttacksDone Then Return False
 	Local $Time, $DayUTC, $DayOfTheWeek, $TimeHourUTC
 	If _Sleep(100) Then Return

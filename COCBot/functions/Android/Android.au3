@@ -781,7 +781,7 @@ Func FindPreferredAdbPath()
 			KillProcess($aAdbProcess[$i], "FindPreferredAdbPath")
 		Next
 
-		; Use Boot Root Folder
+		; Use Bot Root Folder
 		Local $sBootPathAdb = @ScriptDir & "\lib\adb\adb.exe"
 		Local $sBootPathAdbWinApi = @ScriptDir & "\lib\adb\AdbWinApi.dll"
 		Local $sBootPathAdbWinUsbApi = @ScriptDir & "\lib\adb\AdbWinUsbApi.dll"
@@ -1238,7 +1238,7 @@ Func _RestartAndroidCoC($bInitAndroid = True, $bRestart = True, $bStopCoC = True
 			SetLog("Please wait for CoC restart.....", $COLOR_INFO) ; Let user know we need time...
 			$sRestart = "-S "
 		Else
-			SetLog("Starting CoC, Please wait...", $COLOR_INFO) ; Let user know we need time...
+			SetLog("Please wait for CoC restart....", $COLOR_INFO) ; Let user know we need time...
 		EndIf
 	Else
 		SetLog("Launch Clash of Clans now...", $COLOR_SUCCESS)
@@ -1276,8 +1276,8 @@ Func _RestartAndroidCoC($bInitAndroid = True, $bRestart = True, $bStopCoC = True
 	; reset time lag
 	InitAndroidTimeLag()
 
-	; wait 18 sec. Before Check Main Screen
-	If _SleepStatus(18000) Then Return False ;AndroidAdbSendShellCommand $timeout seem not working, make more time here
+	; wait 18 sec. CoC might have just crashed
+	If _SleepStatus(18000) Then Return False
 
 	If GetAndroidProcessPID(Default, False) = 0 And @error = 0 Then
 		If $iRetry > 2 And $iRecursive > 2 Then
@@ -1418,7 +1418,7 @@ Func WaitForRunningVMS($WaitInSec = 120, $hTimer = 0)
 		$running = StringInStr($cmdOutput, """" & $g_sAndroidInstance & """") > 0
 		If $running = True Then ExitLoop
 		If $hTimer <> 0 Then _StatusUpdateTime($hTimer)
-		_Sleep(3000) ; Sleep 3 Seconds
+		If _Sleep(3000) Then Return ; Sleep 3 Seconds
 		If __TimerDiff($hMyTimer) > $WaitInSec * 1000 Then ; if no device available in 4 minutes, Android/PC has major issue so exit
 			SetLog("Serious error has occurred, please restart PC and try again", $COLOR_ERROR)
 			SetLog($g_sAndroidEmulator & " refuses to load, waited " & Round(__TimerDiff($hTimer) / 1000, 2) & " seconds for boot completed", $COLOR_ERROR)
@@ -2001,7 +2001,7 @@ Func _AndroidAdbLaunchShellInstance($wasRunState = Default, $rebootAndroidIfNecc
 				SetDebugLog("Android Version 5.1")
 			Case $g_iAndroidNougat
 				SetDebugLog("Android Version 7.0")
-			Case $g_iAndroidpie
+			Case $g_iAndroidPie
 				SetDebugLog("Android Version 9.0")
 				If $g_sAndroidEmulator = "Memu" Then
 					; minitouch binary is usually placed in the same shared folder as the screencap but Andriod Pie om Memu has this folder mounted with noexec flag
@@ -2388,7 +2388,7 @@ Func AndroidAdbSendShellCommandScript($scriptFile, $variablesArray = Default, $c
 	If $timeout = Default Then $timeout = 20000 ; default is 20 sec. for scripts
 	Local $hostPath = $g_sAndroidPicturesHostPath & $g_sAndroidPicturesHostFolder
 	Local $androidPath = $g_sAndroidPicturesPath & StringReplace($g_sAndroidPicturesHostFolder, "\", "/")
-	Local $minitouchPath = "/data/local/tmp/"
+	Local $MemuMinitouchPath = "/data/local/tmp/"
 
 	;If $HwND <> WinGetHandle($HwND) Then Return SetError(2, 0) ; Window gone
 	AndroidAdbLaunchShellInstance()
@@ -2559,8 +2559,8 @@ Func AndroidAdbSendShellCommandScript($scriptFile, $variablesArray = Default, $c
 		EndIf
 		If $bIsMinitouch Then
 			If $g_iAndroidVersionAPI = $g_iAndroidPie And $g_sAndroidEmulator = "Memu" Then
-				$s = AndroidAdbSendShellCommand("""" & $minitouchPath & "minitouch"" -v -d " & $g_sAndroidMouseDevice & " -f """ & $androidPath & $scriptFileSh & """", $timeout, $wasRunState, $EnsureShellInstance)
-				SetDebugLog("Pie : " & """" & $minitouchPath & "minitouch"" -v -d " & $g_sAndroidMouseDevice & " -f """ & $androidPath & $scriptFileSh & """")
+				$s = AndroidAdbSendShellCommand("""" & $MemuMinitouchPath & "minitouch"" -v -d " & $g_sAndroidMouseDevice & " -f """ & $androidPath & $scriptFileSh & """", $timeout, $wasRunState, $EnsureShellInstance)
+				SetDebugLog("Pie : " & """" & $MemuMinitouchPath & "minitouch"" -v -d " & $g_sAndroidMouseDevice & " -f """ & $androidPath & $scriptFileSh & """")
 			Else
 				$s = AndroidAdbSendShellCommand("""" & $androidPath & "minitouch"" -v -d " & $g_sAndroidMouseDevice & " -f """ & $androidPath & $scriptFileSh & """", $timeout, $wasRunState, $EnsureShellInstance)
 			EndIf
@@ -2777,7 +2777,7 @@ Func _AndroidScreencap($iLeft, $iTop, $iWidth, $iHeight, $iRetryCount = 0)
 			EndIf
 			If $iRetryCount < 10 Then
 				SetDebugLog("ADB retry screencap in 1000 ms. (restarting ADB session)", $COLOR_ACTION)
-				_Sleep(1000)
+				If _Sleep(1000) Then Return
 				AndroidAdbTerminateShellInstance()
 				AndroidAdbLaunchShellInstance($wasRunState)
 				Return AndroidScreencap($iLeft, $iTop, $iWidth, $iHeight, $iRetryCount + 1)
@@ -2852,7 +2852,7 @@ Func _AndroidScreencap($iLeft, $iTop, $iWidth, $iHeight, $iRetryCount = 0)
 			; problem creating Bitmap
 			If $iRetryCount < 10 Then
 				SetDebugLog("ADB retry screencap in 1000 ms. (restarting ADB session)", $COLOR_ACTION)
-				_Sleep(1000)
+				If _Sleep(1000) Then Return
 				AndroidAdbTerminateShellInstance()
 				AndroidAdbLaunchShellInstance($wasRunState)
 				Return AndroidScreencap($iLeft, $iTop, $iWidth, $iHeight, $iRetryCount + 1)
@@ -3062,7 +3062,7 @@ Func AndroidMinitouchClickDrag($x1, $y1, $x2, $y2, $wasRunState = Default, $bSCI
 	Else
 		AndroidAdbSendMinitouchShellCommand($send)
 	EndIf
-	_Sleep($botSleep)
+	If _Sleep($botSleep) Then Return
 
 	Return SetError(0, 0, 1)
 EndFunc   ;==>AndroidMinitouchClickDrag
@@ -3128,7 +3128,9 @@ Func AndroidSlowClick($x, $y, $times = 1, $speed = 0)
 		Local $timer = __TimerInit()
 		AndroidAdbSendShellCommand($cmd, Default, $wasRunState)
 		Local $wait = $speed - __TimerDiff($timer)
-		If $wait > 0 Then _Sleep($wait, False)
+		If $wait > 0 Then
+			If _Sleep($wait, False) Then Return
+		EndIf
 	Else
 		Local $error = @error
 		SetDebugLog("Disabled " & $g_sAndroidEmulator & " ADB mouse click, error " & $error, $COLOR_ERROR)
@@ -3411,7 +3413,9 @@ Func _AndroidFastClick($x, $y, $times = 1, $speed = 0, $checkProblemAffect = Tru
 			; speed was overwritten with $g_iAndroidAdbClickGroupDelay
 			;AndroidAdbSendShellCommand($sleep)
 			Local $sleepTime = $speed - __TimerDiff($sleepTimer)
-			If $sleepTime > 0 Then _Sleep($sleepTime, False)
+			If $sleepTime > 0 Then
+				If _Sleep($sleepTime, False) Then Return
+			EndIf
 		EndIf
 		If $adjustSpeed > 0 Then
 			; wait remaining time
@@ -3422,7 +3426,7 @@ Func _AndroidFastClick($x, $y, $times = 1, $speed = 0, $checkProblemAffect = Tru
 					SetDebugLog("AndroidFastClick: Sleep " & $wait & " ms.")
 					$g_bSilentSetLog = $_SilentSetLog
 				EndIf
-				_Sleep($wait, False)
+				If _Sleep($wait, False) Then Return
 			EndIf
 		EndIf
 		$timeSlept += __TimerDiff($sleepTimer)
@@ -3435,7 +3439,7 @@ Func _AndroidFastClick($x, $y, $times = 1, $speed = 0, $checkProblemAffect = Tru
 		If $iRetryCount < 10 Then
 			SetError(0, 0, 0)
 			SetDebugLog("ADB retry sending mouse click in 1000 ms. (restarting ADB session)", $COLOR_ACTION)
-			_Sleep(1000)
+			If _Sleep(1000) Then Return
 			AndroidAdbTerminateShellInstance()
 			AndroidAdbLaunchShellInstance($wasRunState)
 			Return AndroidFastClick($x, $y, $times, $speed, $checkProblemAffect, $iRetryCount + 1)
@@ -3758,7 +3762,7 @@ Func AndroidMinitouchClick($x, $y, $times = 1, $speed = 0, $checkProblemAffect =
 				EndIf
 				_SleepMicro($speed * 1000)
 				;Local $sleepTime = $speed - __TimerDiff($sleepTimer)
-				;If $sleepTime > 0 Then _Sleep($sleepTime, False)
+				;If $sleepTime > 0 Then If _Sleep($sleepTime, False) Then Return
 			EndIf
 			If $adjustSpeed > 0 Then
 				; wait remaining time
@@ -3769,7 +3773,7 @@ Func AndroidMinitouchClick($x, $y, $times = 1, $speed = 0, $checkProblemAffect =
 						SetDebugLog("AndroidMinitouchClick: Sleep " & $wait & " ms.")
 						$g_bSilentSetLog = $_SilentSetLog
 					EndIf
-					_Sleep($wait, False)
+					If _Sleep($wait, False) Then Return
 				EndIf
 			EndIf
 		EndIf
@@ -3847,11 +3851,11 @@ Func AndroidSendText($sText, $SymbolFix = False, $wasRunState = $g_bRunState)
 						$word = StringMid($word, $g_iAndroidAdbInputWordsCharLimit + 1)
 					WEnd
 					; send space
-					If $i < $words[0] Then AndroidAdbSendShellCommand("input text %s", Default, $wasRunState) ; Another 20 sec timeout that was Default (3 seconds).
+					If $i < $words[0] Then AndroidAdbSendShellCommand("input text %s", 20000, $wasRunState) ;Another 20 sec timeout that was 6 seconds.
 				Next
 			EndIf
 		Else
-			AndroidAdbSendShellCommand("input text %s", 20000, $wasRunState)
+			AndroidAdbSendShellCommand("input text %s", Default, $wasRunState)
 		EndIf
 		SetError(0, 0)
 	Else
@@ -4225,6 +4229,46 @@ Func GetAndroidProcessPID($sPackage = Default, $bForeground = True, $iRetryCount
 	Return SetError($error, 0, 0)
 EndFunc   ;==>GetAndroidProcessPID
 
+Func GetAndroidProcessPID1($sPackage = Default, $bForeground = True, $DEPRECATED = "")
+	Local $iError = 0, $iPid = 0, $sDumpsys = ""
+	For $i = 1 To 3
+		SetDebugLog("[GetAndroidProcessPID][Try: " & $i & "]")
+		If $i <> 1 Then
+			If _Sleep(250) Then
+				Return 0
+			EndIf
+		EndIf
+
+		If AndroidInvalidState() Then
+			$iError = 1
+			ContinueLoop
+		EndIf
+
+		If $sPackage = Default Then $sPackage = $g_sAndroidGamePackage
+
+		$iPid = Number(AndroidAdbSendShellCommand("pidof " & $sPackage))
+		If $iPid > 0 Then
+			SetDebugLog("[GetAndroidProcessPID] $g_sAndroidGamePackage: " & $sPackage)
+			SetDebugLog("[GetAndroidProcessPID] GetAndroidProcessPID StdOut :" & $iPid)
+
+			If $bForeground = False Then
+				$iError = 0
+				ExitLoop
+			EndIf
+
+			$sDumpsys = AndroidAdbSendShellCommand("dumpsys window windows | grep -E 'mCurrentFocus.*" & $sPackage & "'")
+			SetDebugLog("[GetAndroidProcessPID] dumpsys window windows StdOut :" & $sDumpsys)
+
+			If StringInStr($sDumpsys, $sPackage) Then
+				$iError = 0
+				ExitLoop
+			EndIf
+			If $i = 3 Then $iPid = 0
+		EndIf
+	Next
+	Return SetError($iError, 0, $iPid)
+EndFunc   ;==>GetAndroidProcessPID1
+
 Func AndroidToFront($hHWndAfter = Default, $sSource = "Unknown")
 	If $hHWndAfter = Default Then $hHWndAfter = $HWND_TOPMOST
 	SetDebugLog("AndroidToFront: Source " & $sSource)
@@ -4388,7 +4432,9 @@ Func _OpenAdbShell($bRunInitScript = True, $bAdbInstanceShellOptions = True, $bA
 	Local $hWnd = 0
 	Local $hTimer = __TimerInit()
 	Do
-		If $hWnd = 0 Then _Sleep(100, True, False)
+		If $hWnd = 0 Then
+			If _Sleep(100, True, False) Then Return
+		EndIf
 		Local $winlist = WinList()
 		For $i = 1 To $winlist[0][0]
 			If $winlist[$i][0] <> "" Then
@@ -4562,7 +4608,7 @@ EndFunc   ;==>UpdateAndroidBackgroundMode
 
 Func GetAndroidCodeName($iAPI = $g_iAndroidVersionAPI)
 
-	If $iAPI >= $g_iAndroidpie Then Return "Pie"
+	If $iAPI >= $g_iAndroidPie Then Return "Pie"
 	If $iAPI >= $g_iAndroidNougat Then Return "Nougat"
 	If $iAPI >= $g_iAndroidLollipop Then Return "Lollipop"
 	If $iAPI >= $g_iAndroidKitKat Then Return "KitKat"
@@ -4802,7 +4848,7 @@ Func PushSharedPrefs($sProfile = $g_sProfileCurrentName, $bCloseGameIfRunning = 
 		SetLog("Pushed shared_prefs of profile " & $sProfile & " (" & $iFilesPushed & " files)")
 		$g_PushedSharedPrefsProfile = $sProfile
 		$g_PushedSharedPrefsProfile_Timer = __TimerInit()
-		_Sleep(3000)
+		If _Sleep(3000) Then Return
 	Else
 		; something went wrong
 		SetLog("Error pushing shared_prefs of profile " & $sProfile, $COLOR_ERROR)

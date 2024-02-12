@@ -299,9 +299,9 @@ Func MatchSidesDrop($Num)
 			If $g_aiAttackStdDropSides[$g_iMatchMode] = 4 Then Return 4
 			If $g_aiAttackStdDropSides[$g_iMatchMode] = 5 Then Return 1
 			If $g_aiAttackStdDropSides[$g_iMatchMode] = 6 Then Return 1
-		Case 46
-			Return 1 ;CC
 		Case 47
+			Return 1 ;CC
+		Case 48
 			Return 1 ;HEROES
 	EndSwitch
 EndFunc   ;==>MatchSidesDrop

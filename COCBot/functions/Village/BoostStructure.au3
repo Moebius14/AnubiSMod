@@ -224,15 +224,17 @@ Func CheckBuilderPotion()
 						$g_sBSUpgradeTime = _DateAdd('n', Ceiling($BSTimeDiff - 540), _NowCalc())
 						If ProfileSwitchAccountEnabled() Then SwitchAccountVariablesReload("Save")
 					EndIf
+					If $g_iCmbBoostBuilders <= 5 Then $g_iCmbBoostBuilders -= 1
+					If $g_iCmbBoostBuilders > 0 Then
+						$g_iTimerBoostBuilders = TimerInit()
+					Else
+						$g_iTimerBoostBuilders = 0
+					EndIf
 					If $g_iCmbBoostBuilders <= 5 Then
-						$g_iCmbBoostBuilders -= 1
-						If $g_iCmbBoostBuilders > 0 Then
-							$g_iTimerBoostBuilders = TimerInit()
-						Else
-							$g_iTimerBoostBuilders = 0
-						EndIf
 						SetLog("Builders Boost completed. Remaining iteration" & ($g_iCmbBoostBuilders > 1 ? "s: " : ": ") & $g_iCmbBoostBuilders, $COLOR_SUCCESS)
 						_GUICtrlComboBox_SetCurSel($g_hCmbBoostBuilders, $g_iCmbBoostBuilders)
+					ElseIf $g_iCmbBoostBuilders = 6 Then
+						SetLog("Builders Boost completed.", $COLOR_SUCCESS)
 					EndIf
 					$ActionForModLog = "Boosting Builders"
 					If $g_iTxtCurrentVillageName <> "" Then
@@ -257,15 +259,17 @@ Func CheckBuilderPotion()
 						$g_sBSUpgradeTime = _DateAdd('n', Ceiling($BSTimeDiff - 540), _NowCalc())
 						If ProfileSwitchAccountEnabled() Then SwitchAccountVariablesReload("Save")
 					EndIf
+					If $g_iCmbBoostBuilders <= 5 Then $g_iCmbBoostBuilders -= 1
+					If $g_iCmbBoostBuilders > 0 Then
+						$g_iTimerBoostBuilders = TimerInit()
+					Else
+						$g_iTimerBoostBuilders = 0
+					EndIf
 					If $g_iCmbBoostBuilders <= 5 Then
-						$g_iCmbBoostBuilders -= 1
-						If $g_iCmbBoostBuilders > 0 Then
-							$g_iTimerBoostBuilders = TimerInit()
-						Else
-							$g_iTimerBoostBuilders = 0
-						EndIf
 						SetLog("Builders Boost completed. Remaining iteration" & ($g_iCmbBoostBuilders > 1 ? "s: " : ": ") & $g_iCmbBoostBuilders, $COLOR_SUCCESS)
 						_GUICtrlComboBox_SetCurSel($g_hCmbBoostBuilders, $g_iCmbBoostBuilders)
+					ElseIf $g_iCmbBoostBuilders = 6 Then
+						SetLog("Builders Boost completed.", $COLOR_SUCCESS)
 					EndIf
 					$ActionForModLog = "Boosting Builders"
 					If $g_iTxtCurrentVillageName <> "" Then

@@ -62,8 +62,8 @@ Func PetHouse($test = False)
 	VillageReport()
 
 	; not enought Dark Elixir to upgrade lowest Pet
-	If $g_aiCurrentLoot[$eLootDarkElixir] < $g_iMinDark4PetUpgrade Then
-		If $g_iMinDark4PetUpgrade <> 999999 Then
+	If Number($g_aiCurrentLoot[$eLootDarkElixir]) < Number($g_iMinDark4PetUpgrade) Then
+		If Number($g_iMinDark4PetUpgrade) <> 999999 Then
 			SetLog("Current DE Storage: " & _NumberFormat($g_aiCurrentLoot[$eLootDarkElixir], True))
 			SetLog("Minimum DE for Pet upgrade: " & _NumberFormat($g_iMinDark4PetUpgrade, True))
 		Else
@@ -86,7 +86,7 @@ Func PetHouse($test = False)
 	If CheckPetUpgrade() Then Return False ; cant start if something upgrading
 
 	If $g_iMinDark4PetUpgrade = 0 Then
-		If $g_bChkSortPetUpgrade And $g_iCmbSortPetUpgrade = 0 And $g_iCmbSortPetUpgradeLvLCost = 1 Then
+		If $g_bChkSortPetUpgrade Then
 			$g_iMinDark4PetUpgrade = GetMinDark4PetUpgrade2()
 		Else
 			$g_iMinDark4PetUpgrade = GetMinDark4PetUpgrade()
@@ -462,8 +462,8 @@ Func PetGuiDisplay()
 	EndIf
 
 	; not enough Dark Elixir for upgrade -
-	If $g_aiCurrentLoot[$eLootDarkElixir] < $g_iMinDark4PetUpgrade And Not _DateIsValid($g_sPetUpgradeTime) Then
-		If $g_iMinDark4PetUpgrade <> 999999 Then
+	If Number($g_aiCurrentLoot[$eLootDarkElixir]) < Number($g_iMinDark4PetUpgrade) And Not _DateIsValid($g_sPetUpgradeTime) Then
+		If Number($g_iMinDark4PetUpgrade) <> 999999 Then
 			SetLog("Current DE Storage: " & _NumberFormat($g_aiCurrentLoot[$eLootDarkElixir], True))
 			SetLog("Minimum DE for Pet upgrade: " & _NumberFormat($g_iMinDark4PetUpgrade, True))
 		Else
@@ -568,7 +568,7 @@ Func PetGuiDisplay()
 		GUICtrlSetData($g_hLbLPetTime, "")
 		;============================================
 		$g_sPetUpgradeTime = ""
-		If $g_bChkSortPetUpgrade And $g_iCmbSortPetUpgrade = 0 And $g_iCmbSortPetUpgradeLvLCost = 1 Then
+		If $g_bChkSortPetUpgrade Then
 			$g_iMinDark4PetUpgrade = GetMinDark4PetUpgrade2()
 		Else
 			$g_iMinDark4PetUpgrade = GetMinDark4PetUpgrade()
@@ -676,21 +676,28 @@ Func GetMinDark4PetUpgrade2()
 		Return
 	EndIf
 
-	_ArraySort($aPet, 0, 0, 0, 3) ;sort by level
+	Switch $g_iCmbSortPetUpgrade
+		Case 0
+			_ArraySort($aPet, 0, 0, 0, 3) ;sort by level
+		Case 1
+			_ArraySort($aPet, 0, 0, 0, 4) ;sort by cost
+		Case Else
+			SetLog("You must be drunk!", $COLOR_ERROR)
+	EndSwitch
 
 	For $i = 0 To UBound($aPet) - 1
 		If $g_bUpgradePetsEnable[$aPet[$i][0]] And $aPet[$i][2] = "True" Then
-
-			If ($i + 1) <= (UBound($aPet) - 1) Then
-				If ($aPet[$i + 1][3] = $aPet[$i][3]) And ($aPet[$i + 1][4] > $aPet[$i][4]) Then ContinueLoop
+			If $g_iCmbSortPetUpgrade = 0 And ($i + 1) <= (UBound($aPet) - 1) Then
+				If $g_iCmbSortPetUpgradeLvLCost = 0 And ($aPet[$i + 1][3] = $aPet[$i][3]) And ($aPet[$i][4] > $aPet[$i + 1][4]) Then ContinueLoop
+				If $g_iCmbSortPetUpgradeLvLCost = 1 And ($aPet[$i + 1][3] = $aPet[$i][3]) And ($aPet[$i][4] < $aPet[$i + 1][4]) Then ContinueLoop
 			EndIf
-
 			If _Sleep($DELAYLABORATORY2) Then Return
 			$iMinDark4PetUpgrade = $aPet[$i][4]
 			SetLog("New Min Dark: " & _NumberFormat($iMinDark4PetUpgrade, True))
 			ExitLoop
 		EndIf
 	Next
+
 	Return $iMinDark4PetUpgrade
 EndFunc   ;==>GetMinDark4PetUpgrade2
 
