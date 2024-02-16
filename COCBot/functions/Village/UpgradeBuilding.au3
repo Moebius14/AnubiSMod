@@ -326,7 +326,7 @@ Func UpgradeNormal($iUpgradeNumber)
 	If _Sleep($DELAYUPGRADENORMAL1) Then Return
 
 	BuildingClick($g_avBuildingUpgrades[$iUpgradeNumber][0], $g_avBuildingUpgrades[$iUpgradeNumber][1], "#0296") ; Select the item to be upgrade
-	If _Sleep($DELAYUPGRADENORMAL1) Then Return ; Wait for window to open
+	If _Sleep($DELAYUPGRADENORMAL4) Then Return ; Wait for window to open
 
 	Local $aResult = BuildingInfo(242, 468 + $g_iBottomOffsetY) ; read building name/level to check we have right bldg or if collector was not full
 	If UBound($aResult) < 2 Then Return False
@@ -354,10 +354,10 @@ Func UpgradeNormal($iUpgradeNumber)
 	If StringStripWS($aResult[1], BitOR($STR_STRIPLEADING, $STR_STRIPTRAILING)) <> StringStripWS($g_avBuildingUpgrades[$iUpgradeNumber][4], BitOR($STR_STRIPLEADING, $STR_STRIPTRAILING)) Then ; check bldg names
 		SetLog("#" & $iUpgradeNumber + 1 & ":" & $g_avBuildingUpgrades[$iUpgradeNumber][4] & ": Not same as :" & $aResult[1] & ":? Retry now...", $COLOR_INFO)
 		ClickAway()
-		If _Sleep($DELAYUPGRADENORMAL1) Then Return
+		If _Sleep($DELAYUPGRADENORMAL4) Then Return
 
 		BuildingClick($g_avBuildingUpgrades[$iUpgradeNumber][0], $g_avBuildingUpgrades[$iUpgradeNumber][1], "#0296") ; Select the item to be upgrade again in case full collector/mine
-		If _Sleep($DELAYUPGRADENORMAL1) Then Return ; Wait for window to open
+		If _Sleep($DELAYUPGRADENORMAL4) Then Return ; Wait for window to open
 
 		$aResult = BuildingInfo(242, 468 + $g_iBottomOffsetY) ; read building name/level to check we have right bldg or if collector was not full
 		If $aResult[0] > 1 Then
@@ -489,7 +489,7 @@ Func UpgradeGearUp($iUpgradeNumber)
 	If _Sleep($DELAYUPGRADENORMAL1) Then Return
 
 	BuildingClick($g_avBuildingUpgrades[$iUpgradeNumber][0], $g_avBuildingUpgrades[$iUpgradeNumber][1], "#0296") ; Select the item to be upgrade
-	If _Sleep($DELAYUPGRADENORMAL1) Then Return ; Wait for window to open
+	If _Sleep($DELAYUPGRADENORMAL4) Then Return ; Wait for window to open
 
 	Local $aResult = BuildingInfo(242, 468 + $g_iBottomOffsetY) ; read building name/level to check we have right bldg or if collector was not full
 	If UBound($aResult) < 2 Then Return False
@@ -500,10 +500,10 @@ Func UpgradeGearUp($iUpgradeNumber)
 	If StringStripWS($aResult[1], BitOR($STR_STRIPLEADING, $STR_STRIPTRAILING)) <> StringStripWS($g_avBuildingUpgrades[$iUpgradeNumber][4], BitOR($STR_STRIPLEADING, $STR_STRIPTRAILING)) Then ; check bldg names
 		SetLog("#" & $iUpgradeNumber + 1 & ":" & $g_avBuildingUpgrades[$iUpgradeNumber][4] & ": Not same as :" & $aResult[1] & ":? Retry now...", $COLOR_INFO)
 		ClickAway()
-		If _Sleep($DELAYUPGRADENORMAL1) Then Return
+		If _Sleep($DELAYUPGRADENORMAL4) Then Return
 
 		BuildingClick($g_avBuildingUpgrades[$iUpgradeNumber][0], $g_avBuildingUpgrades[$iUpgradeNumber][1], "#0296") ; Select the item to be upgrade again in case full collector/mine
-		If _Sleep($DELAYUPGRADENORMAL1) Then Return ; Wait for window to open
+		If _Sleep($DELAYUPGRADENORMAL4) Then Return ; Wait for window to open
 
 		$aResult = BuildingInfo(242, 468 + $g_iBottomOffsetY) ; read building name/level to check we have right bldg or if collector was not full
 		$aResult[1] = "Gear Up " & $aResult[1]
@@ -579,7 +579,7 @@ Func UpgradeHero($iUpgradeNumber)
 	If _Sleep($DELAYUPGRADENORMAL1) Then Return
 
 	BuildingClick($g_avBuildingUpgrades[$iUpgradeNumber][0], $g_avBuildingUpgrades[$iUpgradeNumber][1], "#0304") ; Select the item to be upgrade
-	If _Sleep($DELAYUPGRADEHERO1) Then Return ; Wait for window to open
+	If _Sleep($DELAYUPGRADEHERO3) Then Return ; Wait for window to open
 
 	Local $aResult = BuildingInfo(242, 468 + $g_iBottomOffsetY)
 	Local $bHeroUpgrade = False

@@ -276,9 +276,11 @@ Func SwitchBetweenBasesMod()
 			$IstoSwitchMod = 1
 			Return
 		EndIf
-		If Not IsBBDailyChallengeAvailable() Then
-			$IstoSwitchMod = 0
-			Return
+		If Not $g_bIsBBevent Then
+			If Not IsBBDailyChallengeAvailable() Then
+				$IstoSwitchMod = 0
+				Return
+			EndIf
 		EndIf
 		$IstoSwitchMod = 1
 		Return
@@ -286,6 +288,12 @@ Func SwitchBetweenBasesMod()
 	ElseIf $g_bChkBBaseFrequency Then ; Cases Check Frequency enable
 
 		If $g_iCmbPriorityBBaseFrequency = 0 Then ; Case Everytime, Return True and End fonction Without Timing
+			If Not $g_bIsBBevent Then
+				If Not IsBBDailyChallengeAvailable() Then
+					$IstoSwitchMod = 0
+					Return
+				EndIf
+			EndIf
 			$IstoSwitchMod = 1
 			Return
 		EndIf

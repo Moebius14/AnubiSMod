@@ -2583,8 +2583,11 @@ Func LookAtRedNotifications()
 			Case 2
 				SetLog("Open Esports Tab", $COLOR_DEBUG)
 				Click(525, 95)
+				Local $bLoop = 0
 				While 1
-					If WaitforPixel(700, 115 + $g_iBottomOffsetY, 705, 120 + $g_iBottomOffsetY, Hex(0xE8E8E0, 6), 15, 10) Then
+					If $bLoop = 30 Then ExitLoop
+					If WaitforPixel(700, 145 + $g_iMidOffsetY, 705, 150 + $g_iMidOffsetY, Hex(0xE8E8E0, 6), 15, 10) Then
+						$bLoop += 1
 						If _Sleep(500) Then Return
 					Else
 						ExitLoop
@@ -3707,17 +3710,23 @@ Func FindMark($bVillage = "HomeVillage", $bIsTop = True)
 		Switch $bVillage
 			Case "HomeVillage", "Builder Base"
 				Local $aColorGreen[4] = [$vPlayerMarks[$iPlayerToVisit][1] - 380, $vPlayerMarks[$iPlayerToVisit][2] + 30, 0xA3C469, 20]
+				Local $bLoop = 0
 				While _CheckPixel($aColorGreen, True)
+					If $bLoop = 10 Then Return False
 					$iPlayerToVisit = Random(0, UBound($vPlayerMarks) - 1, 1)
 					Local $aColorGreen[4] = [$vPlayerMarks[$iPlayerToVisit][1] - 380, $vPlayerMarks[$iPlayerToVisit][2] + 30, 0xA3C469, 20]
+					$bLoop += 1
 				WEnd
 				Click($vPlayerMarks[$iPlayerToVisit][1] - 340, $vPlayerMarks[$iPlayerToVisit][2]) ; click on Player
 				If _Sleep(Random(500, 1000, 1)) Then Return
 			Case "ClanCapital"
 				Local $aColorGreen[4] = [$vPlayerMarks[$iPlayerToVisit][1] - 220, $vPlayerMarks[$iPlayerToVisit][2] + 20, 0xA3C469, 20]
+				Local $bLoop = 0
 				While _CheckPixel($aColorGreen, True)
+					If $bLoop = 10 Then Return False
 					$iPlayerToVisit = Random(0, UBound($vPlayerMarks) - 1, 1)
 					Local $aColorGreen[4] = [$vPlayerMarks[$iPlayerToVisit][1] - 220, $vPlayerMarks[$iPlayerToVisit][2] + 20, 0xA3C469, 20]
+					$bLoop += 1
 				WEnd
 				Click($vPlayerMarks[$iPlayerToVisit][1] - 200, $vPlayerMarks[$iPlayerToVisit][2]) ; click on Player
 				If _Sleep(Random(500, 1000, 1)) Then Return

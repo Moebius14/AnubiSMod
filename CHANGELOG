@@ -23,6 +23,9 @@
 * Added Frozen Arrow equipment Support.
 * Improved Equipment detection.
 * Updated couple of libraries 2.
+* Added Dragon Palace Scenery support (Attack only).
+* Improved loot cart collect (clan chat detection).
+* Improved Time Check for Clan Games Start.
 
 * v8.1.5 **
 * Improved OCR Army Capacity.

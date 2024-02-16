@@ -2708,7 +2708,7 @@ Func UTCTime()
 		If $ErrorCycle = 10 Then ExitLoop
 	WEnd
 	If $ErrorCycle = 10 Then
-		If @WDAY = 6 Then
+		If @WDAY = 5 Or @WDAY = 6 Then
 			Return True
 		Else
 			Return False
@@ -2719,12 +2719,12 @@ Func UTCTime()
 	If IsArray($Time) And UBound($Time) > 0 Then
 		$TimeHourUTC = StringSplit($Time[1], ":", $STR_NOCOUNT)
 	Else
-		If @WDAY = 6 Then Return True
+		If @WDAY = 5 Or @WDAY = 6 Then Return True
 	EndIf
 	If IsArray($TimeHourUTC) And UBound($TimeHourUTC) > 0 Then
 		If $TimeHourUTC[0] > 6 And $Day[0] = 5 Then Return True ;Raid begins Friday at 7am utc.
 	Else
-		If @WDAY = 6 Then Return True
+		If @WDAY = 5 Or @WDAY = 6 Then Return True
 	EndIf
 	Return False
 EndFunc   ;==>UTCTime
@@ -3418,7 +3418,7 @@ Func UTCTimeMedals()
 		If $ErrorCycle = 15 Then ExitLoop
 	WEnd
 	If $ErrorCycle = 15 Then
-		If Number(@WDAY) = 2 Then
+		If Number(@WDAY) = 1 Or Number(@WDAY) = 2 Then
 			Return True
 		Else
 			Return False
@@ -3430,7 +3430,7 @@ Func UTCTimeMedals()
 		$DayUTC = StringSplit($Time[0], "-", $STR_NOCOUNT)
 		$TimeHourUTC = StringSplit($Time[1], ":", $STR_NOCOUNT)
 	Else
-		If Number(@WDAY) = 2 Then Return True
+		If Number(@WDAY) = 1 Or Number(@WDAY) = 2 Then Return True
 	EndIf
 
 	If IsArray($TimeHourUTC) And UBound($TimeHourUTC) > 0 And IsArray($DayOfTheWeek) And UBound($DayOfTheWeek) > 0 Then
@@ -3438,7 +3438,7 @@ Func UTCTimeMedals()
 			If $TimeHourUTC[0] < 8 Then Return True
 		EndIf
 	Else
-		If Number(@WDAY) = 2 Then Return True
+		If Number(@WDAY) = 1 Or Number(@WDAY) = 2 Then Return True
 	EndIf
 	Return False
 EndFunc   ;==>UTCTimeMedals
@@ -3471,7 +3471,7 @@ Func UTCRaidWarning()
 		If $ErrorCycle = 15 Then ExitLoop
 	WEnd
 	If $ErrorCycle = 15 Then
-		If Number(@WDAY) = 1 Then
+		If Number(@WDAY) = 0 Or Number(@WDAY) = 1 Then
 			Return True
 		Else
 			Return False
@@ -3483,13 +3483,13 @@ Func UTCRaidWarning()
 		$DayUTC = StringSplit($Time[0], "-", $STR_NOCOUNT)
 		$TimeHourUTC = StringSplit($Time[1], ":", $STR_NOCOUNT)
 	Else
-		If Number(@WDAY) = 1 Then Return True
+		If Number(@WDAY) = 0 Or Number(@WDAY) = 1 Then Return True
 	EndIf
 
 	If IsArray($TimeHourUTC) And UBound($TimeHourUTC) > 0 And IsArray($DayOfTheWeek) And UBound($DayOfTheWeek) > 0 Then
 		If ($TimeHourUTC[0] >= 17 And $DayOfTheWeek[0] = 0) Or ($TimeHourUTC[0] > 0 And $TimeHourUTC[0] < 7 And $DayOfTheWeek[0] = 1) Then Return True ; Will check Only From Sunday 17:00 To Monday 07:00 UTC
 	Else
-		If Number(@WDAY) = 1 Then Return True
+		If Number(@WDAY) = 0 Or Number(@WDAY) = 1 Then Return True
 	EndIf
 	Return False
 EndFunc   ;==>UTCRaidWarning

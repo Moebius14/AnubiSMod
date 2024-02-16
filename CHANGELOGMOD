@@ -1,3 +1,9 @@
+* v24.02.16
+* Improved humanization loops.
+* Improved CC Medals OCR (Trader).
+* Improved BB 1 Star only needed smart switching.
+* Improved UTC Check (support West US and East Pacific if error returned).
+
 * v24.02.12 **
 * Fixed Friend Request Management.
 * Improved CC Raid Attacks Warning (Only if specific notification is checked).

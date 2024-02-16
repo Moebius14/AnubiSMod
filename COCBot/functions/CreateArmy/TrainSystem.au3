@@ -1488,8 +1488,8 @@ Func FillCCWMedals($g_bFullArmy = False, $g_bCheckSpells = False, $bFullArmyHero
 					$g_iCCMedalCost = getOcrAndCapture("coc-CCMedalsUsed", 515, 460 + $g_iMidOffsetY, 50, 24, True)
 					If $g_bDebugImageSaveMod Then SaveDebugRectImageCrop("CCMedalCost", "525,490,565,510")
 					SetLog("Cost Of Filling : " & $g_iCCMedalCost & " Medals", $COLOR_ACTION)
-					$g_iLootCCMedal -= $g_iCCMedalCost
-					If $g_iLootCCMedal <= $g_aiCmbCCMedalsSaveMin Then
+					$g_iLootCCMedal -= Number($g_iCCMedalCost)
+					If Number($g_iLootCCMedal) <= Number($g_aiCmbCCMedalsSaveMin) Then
 						Click(315, 460 + $g_iMidOffsetY)
 						If _Sleep($DELAYBUILDINGINFO1) Then Return
 						ClickAway()

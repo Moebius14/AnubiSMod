@@ -2584,7 +2584,7 @@ Func UTCTimeCG()
 		If $ErrorCycle = 10 Then ExitLoop
 	WEnd
 	If $ErrorCycle = 10 Then
-		If Number(@MDAY) >= 22 Then
+		If Number(@MDAY) >= 21 Then
 			Return True
 		Else
 			Return False
@@ -2595,17 +2595,17 @@ Func UTCTimeCG()
 		$DayUTC = StringSplit($Time[0], "-", $STR_NOCOUNT)
 		$TimeHourUTC = StringSplit($Time[1], ":", $STR_NOCOUNT)
 	Else
-		If Number(@MDAY) >= 22 Then Return True
+		If Number(@MDAY) >= 21 Then Return True
 	EndIf
 	If IsArray($TimeHourUTC) And UBound($TimeHourUTC) > 0 Then
 		If $TimeHourUTC[0] > 6 And $DayUTC[2] = 22 Then
 			If $TimeHourUTC[0] = 7 And $TimeHourUTC[1] > 50 Then Return True ; Clan Games begins the 22th at 8am utc. Check from 7:50am UTC.
 			If $TimeHourUTC[0] > 7 Then Return True
-		ElseIf $DayUTC[2] > 22 Then ; US and West of US cases
+		ElseIf $DayUTC[2] > 22 Then ; To be sure
 			Return True
 		EndIf
 	Else
-		If Number(@MDAY) >= 22 Then Return True
+		If Number(@MDAY) >= 21 Then Return True
 	EndIf
 	Return False
 EndFunc   ;==>UTCTimeCG
