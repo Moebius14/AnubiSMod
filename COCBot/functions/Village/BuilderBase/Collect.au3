@@ -122,7 +122,7 @@ Func CollectElixirCart($bSwitchToBB = False, $bSwitchToNV = False, $b_FirstElixC
 		If $bRet Then
 			Local $WaitOpponentTime = 30 ; 30 seconds
 			While 1
-				If $t = 0 Then SetLog("Wait " & $WaitOpponentTime & " seconds for the opponent to finish its attack...", $COLOR_ACTION)
+				If $t = 0 Then SetLog("Wait " & $WaitOpponentTime & " seconds for the opponent to finish his attack...", $COLOR_ACTION)
 				$t += 1
 				If $ElixirCartTimerDiff > 0 Then
 					Local $Countdown = Floor((($WaitOpponentTime * 1000) - $ElixirCartTimerDiff) / 1000)

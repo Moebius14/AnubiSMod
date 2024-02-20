@@ -156,16 +156,16 @@ Func BotCommand()
 								Return False
 							EndIf
 						EndIf
-					ElseIf $iCmbBotCond = 23 Then
+					Else
 						If $g_bChkForceAttackOnClanGamesWhenHalt And Not $g_bClanGamesCompleted Then
 							_ClanGames(False, True)
 							If $IsCGEventRunning Then
-								SetLog("Star bonus unavailable.", $COLOR_DEBUG)
+								If $iCmbBotCond = 23 Then SetLog("Star bonus unavailable.", $COLOR_DEBUG)
 								SetLog("Clan Games Challenge Running, Finish it First.", $COLOR_ACTION)
 								Return False
 							EndIf
 						EndIf
-						SetLog("Star bonus unavailable. Bot Will Stop After Routines", $COLOR_DEBUG)
+						SetLog(($iCmbBotCond = 23 ? "Star bonus unavailable. " : "") & "Bot Will Stop After Routines", $COLOR_DEBUG)
 						$IsToCheckBeforeStop = True
 						Sleep(Random(3500, 5500, 1))
 						If $g_bAutoUpgradeWallsEnable And $g_bChkWallUpFirst Then
@@ -207,26 +207,13 @@ Func BotCommand()
 						EndIf
 						If _Sleep($DELAYRUNBOT3) Then Return
 						VillageReport()
-						If $g_bNotifyStopBot Then
-							NotifyWhenStop("StopStar")
-						EndIf
-						Sleep(Random(3500, 5500, 1))
-						CloseCoC(False)
-						Sleep(Random(1500, 2500, 1))
-						SetLog("MyBot.run Bot Stop as requested", $COLOR_INFO)
-						If _Sleep($DELAYBOTCOMMAND1) Then Return
-						Return True
-					Else
-						If $g_bChkForceAttackOnClanGamesWhenHalt And Not $g_bClanGamesCompleted Then
-							_ClanGames(False, True)
-							If $IsCGEventRunning Then
-								SetLog("Clan Games Challenge Running, Finish it First.", $COLOR_ACTION)
-								Return False
-							EndIf
-						EndIf
 					EndIf
 					If $g_bNotifyStopBot Then
-						NotifyWhenStop("Stop")
+						If $iCmbBotCond = 23 Then
+							NotifyWhenStop("StopStar")
+						Else
+							NotifyWhenStop("Stop")
+						EndIf
 					EndIf
 					Sleep(Random(3500, 5500, 1))
 					CloseCoC(False)
@@ -247,16 +234,16 @@ Func BotCommand()
 								Return False
 							EndIf
 						EndIf
-					ElseIf $iCmbBotCond = 23 Then
+					Else
 						If $g_bChkForceAttackOnClanGamesWhenHalt And Not $g_bClanGamesCompleted Then
 							_ClanGames(False, True)
 							If $IsCGEventRunning Then
-								SetLog("Star bonus unavailable.", $COLOR_DEBUG)
+								If $iCmbBotCond = 23 Then SetLog("Star bonus unavailable.", $COLOR_DEBUG)
 								SetLog("Clan Games Challenge Running, Finish it First.", $COLOR_ACTION)
 								Return False
 							EndIf
 						EndIf
-						SetLog("Star bonus unavailable. Bot Close Stop After Routines", $COLOR_DEBUG)
+						SetLog(($iCmbBotCond = 23 ? "Star bonus unavailable. " : "") & "Bot Will Be Closed After Routines", $COLOR_DEBUG)
 						$IsToCheckBeforeStop = True
 						Sleep(Random(3500, 5500, 1))
 						If $g_bAutoUpgradeWallsEnable And $g_bChkWallUpFirst Then
@@ -296,25 +283,13 @@ Func BotCommand()
 							AutoUpgradeCC()
 							_Sleep($DELAYRUNBOT3)
 						EndIf
-						If $g_bNotifyStopBot Then
-							NotifyWhenStop("CloseBotStar")
-						EndIf
-						SetLog("MyBot.run Close Bot as requested", $COLOR_INFO)
-						Sleep(Random(3500, 5500, 1))
-						BotClose()
-						Sleep(Random(1500, 2500, 1))
-						Return True ; HaHa - No Return possible!
-					Else
-						If $g_bChkForceAttackOnClanGamesWhenHalt And Not $g_bClanGamesCompleted Then
-							_ClanGames(False, True)
-							If $IsCGEventRunning Then
-								SetLog("Clan Games Challenge Running, Finish it First.", $COLOR_ACTION)
-								Return False
-							EndIf
-						EndIf
 					EndIf
 					If $g_bNotifyStopBot Then
-						NotifyWhenStop("CloseBot")
+						If $iCmbBotCond = 23 Then
+							NotifyWhenStop("CloseBotStar")
+						Else
+							NotifyWhenStop("CloseBot")
+						EndIf
 					EndIf
 					SetLog("MyBot.run Close Bot as requested", $COLOR_INFO)
 					If _Sleep($DELAYBOTCOMMAND1) Then Return
@@ -333,16 +308,16 @@ Func BotCommand()
 								Return False
 							EndIf
 						EndIf
-					ElseIf $iCmbBotCond = 23 Then
+					Else
 						If $g_bChkForceAttackOnClanGamesWhenHalt And Not $g_bClanGamesCompleted Then
 							_ClanGames(False, True)
 							If $IsCGEventRunning Then
-								SetLog("Star bonus unavailable.", $COLOR_DEBUG)
+								If $iCmbBotCond = 23 Then SetLog("Star bonus unavailable.", $COLOR_DEBUG)
 								SetLog("Clan Games Challenge Running, Finish it First.", $COLOR_ACTION)
 								Return False
 							EndIf
 						EndIf
-						SetLog("Star bonus unavailable. Android And Bot Will Stop After Routines", $COLOR_DEBUG)
+						SetLog(($iCmbBotCond = 23 ? "Star bonus unavailable. " : "") & "Android And Bot Will Stop After Routines", $COLOR_DEBUG)
 						$IsToCheckBeforeStop = True
 						Sleep(Random(3500, 5500, 1))
 						If $g_bAutoUpgradeWallsEnable And $g_bChkWallUpFirst Then
@@ -382,26 +357,13 @@ Func BotCommand()
 							AutoUpgradeCC()
 							_Sleep($DELAYRUNBOT3)
 						EndIf
-						If $g_bNotifyStopBot Then
-							NotifyWhenStop("CloseANBStar")
-						EndIf
-						SetLog("Close Android and Bot as requested", $COLOR_INFO)
-						Sleep(Random(3500, 5500, 1))
-						CloseAndroid("BotCommand")
-						BotClose()
-						Sleep(Random(1500, 2500, 1))
-						Return True ; HaHa - No Return possible!
-					Else
-						If $g_bChkForceAttackOnClanGamesWhenHalt And Not $g_bClanGamesCompleted Then
-							_ClanGames(False, True)
-							If $IsCGEventRunning Then
-								SetLog("Clan Games Challenge Running, Finish it First.", $COLOR_ACTION)
-								Return False
-							EndIf
-						EndIf
 					EndIf
 					If $g_bNotifyStopBot Then
-						NotifyWhenStop("CloseANB")
+						If $iCmbBotCond = 23 Then
+							NotifyWhenStop("CloseANBStar")
+						Else
+							NotifyWhenStop("CloseANB")
+						EndIf
 					EndIf
 					SetLog("Close Android and Bot as requested", $COLOR_INFO)
 					If _Sleep($DELAYBOTCOMMAND1) Then Return
@@ -421,16 +383,16 @@ Func BotCommand()
 								Return False
 							EndIf
 						EndIf
-					ElseIf $iCmbBotCond = 23 Then
+					Else
 						If $g_bChkForceAttackOnClanGamesWhenHalt And Not $g_bClanGamesCompleted Then
 							_ClanGames(False, True)
 							If $IsCGEventRunning Then
-								SetLog("Star bonus unavailable.", $COLOR_DEBUG)
+								If $iCmbBotCond = 23 Then SetLog("Star bonus unavailable.", $COLOR_DEBUG)
 								SetLog("Clan Games Challenge Running, Finish it First.", $COLOR_ACTION)
 								Return False
 							EndIf
 						EndIf
-						SetLog("Star bonus unavailable. Computer Will ShutDown After Routines", $COLOR_DEBUG)
+						SetLog(($iCmbBotCond = 23 ? "Star bonus unavailable. " : "") & "Computer Will ShutDown After Routines", $COLOR_DEBUG)
 						$IsToCheckBeforeStop = True
 						Sleep(Random(3500, 5500, 1))
 						If $g_bAutoUpgradeWallsEnable And $g_bChkWallUpFirst Then
@@ -470,26 +432,13 @@ Func BotCommand()
 							AutoUpgradeCC()
 							_Sleep($DELAYRUNBOT3)
 						EndIf
-						If $g_bNotifyStopBot Then
-							NotifyWhenStop("ShutdownStar")
-						EndIf
-						SetLog("Force Shutdown of Computer", $COLOR_INFO)
-						Sleep(Random(3500, 5500, 1))
-						If _Sleep($DELAYBOTCOMMAND1) Then Return
-						Shutdown(BitOR($SD_SHUTDOWN, $SD_FORCE)) ; Force Shutdown
-						Sleep(Random(1500, 2500, 1))
-						Return True ; HaHa - No Return possible!
-					Else
-						If $g_bChkForceAttackOnClanGamesWhenHalt And Not $g_bClanGamesCompleted Then
-							_ClanGames(False, True)
-							If $IsCGEventRunning Then
-								SetLog("Clan Games Challenge Running, Finish it First.", $COLOR_ACTION)
-								Return False
-							EndIf
-						EndIf
 					EndIf
 					If $g_bNotifyStopBot Then
-						NotifyWhenStop("Shutdown")
+						If $iCmbBotCond = 23 Then
+							NotifyWhenStop("ShutdownStar")
+						Else
+							NotifyWhenStop("Shutdown")
+						EndIf
 					EndIf
 					SetLog("Force Shutdown of Computer", $COLOR_INFO)
 					If _Sleep($DELAYBOTCOMMAND1) Then Return
@@ -508,16 +457,16 @@ Func BotCommand()
 								Return False
 							EndIf
 						EndIf
-					ElseIf $iCmbBotCond = 23 Then
+					Else
 						If $g_bChkForceAttackOnClanGamesWhenHalt And Not $g_bClanGamesCompleted Then
 							_ClanGames(False, True)
 							If $IsCGEventRunning Then
-								SetLog("Star bonus unavailable.", $COLOR_DEBUG)
+								If $iCmbBotCond = 23 Then SetLog("Star bonus unavailable.", $COLOR_DEBUG)
 								SetLog("Clan Games Challenge Running, Finish it First.", $COLOR_ACTION)
 								Return False
 							EndIf
 						EndIf
-						SetLog("Star bonus unavailable. Computer Will Sleep After Routines", $COLOR_DEBUG)
+						SetLog(($iCmbBotCond = 23 ? "Star bonus unavailable. " : "") & "Computer Will Sleep After Routines", $COLOR_DEBUG)
 						$IsToCheckBeforeStop = True
 						Sleep(Random(3500, 5500, 1))
 						If $g_bAutoUpgradeWallsEnable And $g_bChkWallUpFirst Then
@@ -557,26 +506,13 @@ Func BotCommand()
 							AutoUpgradeCC()
 							_Sleep($DELAYRUNBOT3)
 						EndIf
-						If $g_bNotifyStopBot Then
-							NotifyWhenStop("CPUSleepStar")
-						EndIf
-						SetLog("Computer Sleep Mode Start now", $COLOR_INFO)
-						Sleep(Random(3500, 5500, 1))
-						If _Sleep($DELAYBOTCOMMAND1) Then Return
-						Shutdown($SD_STANDBY) ; Sleep / Stand by
-						Sleep(Random(1500, 2500, 1))
-						Return True ; HaHa - No Return possible!
-					Else
-						If $g_bChkForceAttackOnClanGamesWhenHalt And Not $g_bClanGamesCompleted Then
-							_ClanGames(False, True)
-							If $IsCGEventRunning Then
-								SetLog("Clan Games Challenge Running, Finish it First.", $COLOR_ACTION)
-								Return False
-							EndIf
-						EndIf
 					EndIf
 					If $g_bNotifyStopBot Then
-						NotifyWhenStop("CPUSleep")
+						If $iCmbBotCond = 23 Then
+							NotifyWhenStop("CPUSleepStar")
+						Else
+							NotifyWhenStop("CPUSleep")
+						EndIf
 					EndIf
 					SetLog("Computer Sleep Mode Start now", $COLOR_INFO)
 					If _Sleep($DELAYBOTCOMMAND1) Then Return
@@ -595,16 +531,16 @@ Func BotCommand()
 								Return False
 							EndIf
 						EndIf
-					ElseIf $iCmbBotCond = 23 Then
+					Else
 						If $g_bChkForceAttackOnClanGamesWhenHalt And Not $g_bClanGamesCompleted Then
 							_ClanGames(False, True)
 							If $IsCGEventRunning Then
-								SetLog("Star bonus unavailable.", $COLOR_DEBUG)
+								If $iCmbBotCond = 23 Then SetLog("Star bonus unavailable.", $COLOR_DEBUG)
 								SetLog("Clan Games Challenge Running, Finish it First.", $COLOR_ACTION)
 								Return False
 							EndIf
 						EndIf
-						SetLog("Star bonus unavailable. Computer Will Reboot After Routines", $COLOR_DEBUG)
+						SetLog(($iCmbBotCond = 23 ? "Star bonus unavailable. " : "") & "Computer Will Reboot After Routines", $COLOR_DEBUG)
 						$IsToCheckBeforeStop = True
 						Sleep(Random(3500, 5500, 1))
 						If $g_bAutoUpgradeWallsEnable And $g_bChkWallUpFirst Then
@@ -644,26 +580,13 @@ Func BotCommand()
 							AutoUpgradeCC()
 							_Sleep($DELAYRUNBOT3)
 						EndIf
-						If $g_bNotifyStopBot Then
-							NotifyWhenStop("RebootingStar")
-						EndIf
-						SetLog("Rebooting Computer", $COLOR_INFO)
-						Sleep(Random(3500, 5500, 1))
-						If _Sleep($DELAYBOTCOMMAND1) Then Return
-						Shutdown(BitOR($SD_REBOOT, $SD_FORCE)) ; Reboot
-						Sleep(Random(1500, 2500, 1))
-						Return True ; HaHa - No Return possible!
-					Else
-						If $g_bChkForceAttackOnClanGamesWhenHalt And Not $g_bClanGamesCompleted Then
-							_ClanGames(False, True)
-							If $IsCGEventRunning Then
-								SetLog("Clan Games Challenge Running, Finish it First.", $COLOR_ACTION)
-								Return False
-							EndIf
-						EndIf
 					EndIf
 					If $g_bNotifyStopBot Then
-						NotifyWhenStop("Rebooting")
+						If $iCmbBotCond = 23 Then
+							NotifyWhenStop("RebootingStar")
+						Else
+							NotifyWhenStop("Rebooting")
+						EndIf
 					EndIf
 					SetLog("Rebooting Computer", $COLOR_INFO)
 					If _Sleep($DELAYBOTCOMMAND1) Then Return

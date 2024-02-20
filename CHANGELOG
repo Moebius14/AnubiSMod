@@ -26,6 +26,9 @@
 * Added Dragon Palace Scenery support (Attack only).
 * Improved loot cart collect (clan chat detection).
 * Improved Time Check for Clan Games Start.
+* Fixed SmartFarm custom order deployment.
+* Improved Remain Train OCR (8/3).
+* Improved Red Building Cost OCR (2).
 
 * v8.1.5 **
 * Improved OCR Army Capacity.
