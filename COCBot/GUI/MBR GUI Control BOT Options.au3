@@ -190,6 +190,8 @@ Func chkSwitchAcc()
 		GUICtrlSetState($g_hChkOnlySCIDAccounts, $GUI_UNCHECKED)
 		GUICtrlSetState($g_hChkOnlySCIDAccounts, $GUI_DISABLE)
 		OnlySCIDAccounts()
+		GUICtrlSetState($g_hChkBBMaxEventsInARow, $GUI_ENABLE)
+		ChkBBMaxEventsInARow()
 	Else
 		releaseSwitchAccountMutex()
 		For $i = $g_hCmbTotalAccount To $g_ahChkDonate[7]
@@ -197,6 +199,8 @@ Func chkSwitchAcc()
 		Next
 		GUICtrlSetState($g_hChkOnlySCIDAccounts, $GUI_ENABLE)
 		OnlySCIDAccounts()
+		GUICtrlSetState($g_hChkBBMaxEventsInARow, $GUI_DISABLE)
+		GUICtrlSetState($g_ahLimitBBEventCount, $GUI_DISABLE)
 	EndIf
 EndFunc   ;==>chkSwitchAcc
 

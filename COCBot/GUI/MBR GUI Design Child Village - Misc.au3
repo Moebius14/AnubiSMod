@@ -63,7 +63,7 @@ Global $g_hChkForceBBAttackOnClanGames = 0, $g_hChkClanGamesPurgeAny = 0, $g_hCh
 Global $g_hChkForceAttackOnClanGamesWhenHalt = 0
 Global $hSearchBBEventFirst = 0, $hSearchMainEventFirst = 0, $hSearchBothVillages = 0
 Global $g_hChkClanGamesSort = 0, $g_hCmbClanGamesSort = 0
-Global $g_hLabelClangamesDesc = 0, $g_hChkCGRootEnabledAll = 0
+Global $g_hLabelClangamesDesc = 0, $g_hChkCGRootEnabledAll = 0, $g_hChkBBMaxEventsInARow = 0, $g_ahLimitBBEventCount = 0
 Global $g_hClanGamesTV = 0, $g_hChkCGMainLoot = 0, $g_hChkCGMainBattle = 0, $g_hChkCGMainDestruction = 0
 Global $g_hChkCGMainAir = 0, $g_hChkCGMainGround = 0, $g_hChkCGMainMisc = 0, $g_hChkCGMainSpell = 0
 Global $g_hChkCGBBBattle = 0, $g_hChkCGBBDestruction = 0, $g_hChkCGBBTroops = 0
@@ -1322,7 +1322,7 @@ EndFunc   ;==>CreateCollectRewardsSettings
 
 Func CreateClanGamesSettings()
 	Local $tmpChallenges
-	$g_hGUI_CGSettings = _GUICreate(GetTranslatedFileIni("GUI Design Child Village - Misc", "GUI_CGSettings", "ClanGames Challenge Settings"), $_GUI_MAIN_WIDTH - 4, $_GUI_MAIN_HEIGHT - 100, $g_iFrmBotPosX, $g_iFrmBotPosY + 80, $WS_DLGFRAME, -1, $g_hFrmBot)
+	$g_hGUI_CGSettings = _GUICreate(GetTranslatedFileIni("GUI Design Child Village - Misc", "GUI_CGSettings", "ClanGames Challenge Settings"), $_GUI_MAIN_WIDTH - 4, $_GUI_MAIN_HEIGHT - 90, $g_iFrmBotPosX, $g_iFrmBotPosY + 80, $WS_DLGFRAME, -1, $g_hFrmBot)
 	Local $x = 25, $y = 25
 
 	$g_hClanGamesTV = GUICtrlCreateTreeView(6, 6, 200, $_GUI_MAIN_HEIGHT - 140, BitOR($TVS_HASBUTTONS, $TVS_HASLINES, $TVS_LINESATROOT, $TVS_CHECKBOXES), $WS_EX_CLIENTEDGE)
@@ -1476,7 +1476,16 @@ Func CreateClanGamesSettings()
 	GUICtrlCreateGroup("", -99, -99, 1, 1)
 
 	$x -= 135
-	$y += 50
+	$y += 35
+	$g_hChkBBMaxEventsInARow = GUICtrlCreateCheckbox(GetTranslatedFileIni("MBR GUI Design Child Village - Misc", "ChkBBMaxEventsInARow", "Max BB Events in a Row : "), $x, $y, -1, -1)
+	_GUICtrlSetTip(-1, GetTranslatedFileIni("MBR GUI Design Child Village - Misc", "ChkBBMaxEventsInARow02", "Enable/Disable To Limit BB events in a Row before switch."))
+	GUICtrlSetState(-1, $GUI_UNCHECKED)
+	GUICtrlSetOnEvent(-1, "ChkBBMaxEventsInARow")
+	$g_ahLimitBBEventCount = GUICtrlCreateInput("0", $x + 150, $y + 2, 40, 18, BitOR($GUI_SS_DEFAULT_INPUT, $ES_CENTER, $ES_NUMBER))
+	GUICtrlSetLimit(-1, 3)
+	GUICtrlSetState(-1, $GUI_DISABLE)
+	
+	$y += 25
 	$g_hChkCGRootEnabledAll = GUICtrlCreateCheckbox(GetTranslatedFileIni("MBR GUI Design Child Village - Misc", "ChkCGRootEnableAllItem", "Challenges inherit Challenge Category"), $x, $y, -1, -1)
 	_GUICtrlSetTip(-1, GetTranslatedFileIni("MBR GUI Design Child Village - Misc", "ChkCGRootEnableAllItem02", "Enable/Disable this to quickly set/clear all group sub-elements"))
 	GUICtrlSetState(-1, $GUI_UNCHECKED)

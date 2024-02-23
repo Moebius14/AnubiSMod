@@ -116,6 +116,8 @@ Func SaveClanGamesConfig()
 	_Ini_Add("clangames", "ChkClanGamesStopBeforeReachAndPurge", $g_bChkClanGamesStopBeforeReachAndPurge ? 1 : 0)
 	_Ini_Add("clangames", "ChkClanGamesSort", $g_bSortClanGames ? 1 : 0)
 	_Ini_Add("clangames", "ClanGamesSortBy", $g_iSortClanGames)
+	_Ini_Add("clangames", "ChkBBMaxEventsInARow", $g_bChkBBMaxEventsInARow ? 1 : 0)
+	_Ini_Add("clangames", "cmdLimitBBEventCount", $g_aiLimitBBEventCount)
 
 	Local $str = ""
 	For $i = 0 To UBound($g_abCGMainLootItem) - 1

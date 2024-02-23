@@ -132,6 +132,14 @@ Func CheckSwitchAcc($IsPurging = False)
 			SetSwitchAccLog(" - Reach attack limit: " & $g_aiAttackedCount - $g_aiAttackedCountSwitch[$g_iCurAccount])
 			$bForceSwitch = True
 		EndIf
+		If $g_bChkBBMaxEventsInARow Then
+			If $g_aiAttackedBBEventCount >= $g_aiLimitBBEventCount Then
+				SetLog("This account has played " & $g_aiLimitBBEventCount & " BB Event" & ($g_aiLimitBBEventCount > 1 ? "s" : "") & " in a row, switching to another account", $COLOR_INFO)
+				SetSwitchAccLog(" - Reach BB event limit: " & $g_aiLimitBBEventCount)
+				$bForceSwitch = True
+				$g_aiAttackedBBEventCount = 0
+			EndIf
+		EndIf
 	EndIf
 
 	Local $sLogSkip = ""

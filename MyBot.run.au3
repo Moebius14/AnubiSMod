@@ -1725,8 +1725,20 @@ Func BuilderBase($bTest = False)
 		; switch back to normal village
 		SwitchBetweenBases()
 
-		Sleep(Random(1500, 2000))
-		_ClanGames()
+		If _Sleep(Random(1500, 2000)) Then Return
+		
+		If $g_bChkBBMaxEventsInARow And ProfileSwitchAccountEnabled() Then
+			If $g_aiAttackedBBEventCount >= $g_aiLimitBBEventCount And Not $g_bIsBBevent Then
+				Return
+			ElseIf $g_aiAttackedBBEventCount > $g_aiLimitBBEventCount And $g_bIsBBevent Then
+				Return
+			Else
+				_ClanGames()
+			EndIf
+		Else
+			_ClanGames()
+		EndIf
+		
 		If Not $g_bRunState Then Return
 
 	EndIf

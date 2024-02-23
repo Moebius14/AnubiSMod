@@ -28,26 +28,17 @@ Func NotifyReport()
 		$text &= "Village : " & $g_sNotifyOrigin & "%0A"
 		$text &= "Profile : " & $g_sProfileCurrentName & "%0A"
 		Local $currentDate = Number(@MDAY)
+		Local $bToClose = True
 		If $g_bChkClanGamesEnabled And $g_bChkNotifyCGScore And $currentDate >= 21 And $g_bClanGamesCompleted Then
 			$text &= "Clan Games Completed" & "%0A"
 		ElseIf $g_bChkClanGamesEnabled And $g_bChkNotifyCGScore And $currentDate >= 21 And Not $g_bClanGamesCompleted Then
-			If IsClanGamesWindow2() Then
+			If IsClanGamesWindow() Then
 				If IsClanGamesRunning2() = "Running" Then
 					GetTimesAndScores()
 					$text &= "Clan Games Score : " & $g_sClanGamesScore & "%0A"
 				EndIf
-			Else
-				Local $sState = IsClanGamesRunning2()
-				Switch $sState
-					Case "Prepare"
-						$text &= "Clan Games will start in " & $g_sClanGamesTimeRemaining & "%0A"
-					Case "Cannot open ClanGames"
-						$text &= "CG Not Running" & "%0A"
-					Case "Ended"
-						$text &= "Clan Games Ended" & "%0A"
-				EndSwitch
 			EndIf
-			_Sleep(Random(800, 1500, 1))
+			If _Sleep(Random(800, 1000, 1)) Then Return
 			CloseWindow()
 		EndIf
 		If $g_bChkNotifyStarBonusAvail Then

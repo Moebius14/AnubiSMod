@@ -94,6 +94,8 @@ Func ReadClanGamesConfig()
 	IniReadS($g_bChkClanGamesStopBeforeReachAndPurge, $g_sProfileClanGamesPath, "clangames", "ChkClanGamesStopBeforeReachAndPurge", True, "Bool")
 	IniReadS($g_bSortClanGames, $g_sProfileClanGamesPath, "clangames", "ChkClanGamesSort", True, "Bool")
 	IniReadS($g_iSortClanGames, $g_sProfileClanGamesPath, "clangames", "ClanGamesSortBy", 0, "int")
+	IniReadS($g_bChkBBMaxEventsInARow, $g_sProfileClanGamesPath, "clangames", "ChkBBMaxEventsInARow", False, "Bool")
+	IniReadS($g_aiLimitBBEventCount, $g_sProfileClanGamesPath, "clangames", "cmdLimitBBEventCount", $g_aiLimitBBEventCount, "int")
 
 	Local $str
 	;ClanGames MainVillage Loot Challenges

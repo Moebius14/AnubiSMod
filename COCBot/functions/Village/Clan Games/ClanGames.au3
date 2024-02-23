@@ -996,58 +996,8 @@ Func IsClanGamesWindow()
 	Return $bRet
 EndFunc   ;==>IsClanGamesWindow
 
-Func IsClanGamesWindow2()
-	Local $sState, $bRet = False
-	Local $Found = False
-	Local $currentDate = Number(@MDAY)
-
-	For $i = 1 To 10
-		If QuickMIS("BC1", $g_sImgCaravan, 180, 55, 300, 120 + $g_iMidOffsetY) Then
-			$Found = True
-			SetLog("Caravan available! Entering Clan Games", $COLOR_SUCCESS)
-			Click($g_iQuickMISX, $g_iQuickMISY)
-			; Just wait for window open
-			If _Sleep(2500) Then Return
-			$sState = IsClanGamesRunning()
-			Switch $sState
-				Case "Prepare"
-					$bRet = False
-				Case "Running"
-					$bRet = True
-				Case "Ended"
-					$bRet = False
-			EndSwitch
-			ExitLoop
-		EndIf
-		If $currentDate >= 28 And Not QuickMIS("BC1", $g_sImgCaravan, 180, 55, 300, 120 + $g_iMidOffsetY) Then
-			$g_bClanGamesCompleted = 1
-			$Found = False
-			$bRet = False
-			ExitLoop
-		EndIf
-		If _Sleep(1000) Then Return
-	Next
-
-	If $Found = False And $currentDate = 22 Then
-		SetLog("Caravan not available", $COLOR_WARNING)
-		SetLog("Clan Games is preparing")
-		$sState = "Prepare"
-		$bRet = False
-	EndIf
-
-	If $Found = False And $currentDate >= 28 Then
-		SetLog("Caravan not available", $COLOR_WARNING)
-		SetLog("Clan Games has already been completed")
-		$sState = "Ended"
-		$bRet = False
-	EndIf
-
-	SetLog("Clan Games State is : " & $sState, $COLOR_INFO)
-	Return $bRet
-EndFunc   ;==>IsClanGamesWindow2
-
 Func IsClanGamesRunning() ;to check whether clangames current state, return string of the state "prepare" "running" "end"
-	Local $aGameTime[4] = [384, 428 + $g_iMidOffsetY, 0xFFFFFF, 10]
+	Local $aGameTime[4] = [384, 388 + $g_iMidOffsetY, 0xFFFFFF, 10]
 	Local $sState = "Running"
 	If QuickMIS("BC1", $g_sImgWindow, 80, 70 + $g_iMidOffsetY, 160, 220 + $g_iMidOffsetY) Then
 		SetLog("Window Opened", $COLOR_DEBUG)
@@ -1059,9 +1009,8 @@ Func IsClanGamesRunning() ;to check whether clangames current state, return stri
 		EndIf
 	Else
 		If _CheckPixel($aGameTime, True) Then
-			Local $sTimeRemain = getOcrTimeGameTime(370, 471 + $g_iMidOffsetY) ; read Clan Games waiting time
-			SetLog("Clan Games will start in " & $sTimeRemain, $COLOR_INFO)
-			$g_sClanGamesTimeRemaining = $sTimeRemain
+			Local $sTimeRemain = getOcrTimeGameTime(370, 461 + $g_iMidOffsetY) ; read Clan Games waiting time
+			If $sTimeRemain <> "" Then SetLog("Clan Games will start in " & $sTimeRemain, $COLOR_INFO)
 			$sState = "Prepare"
 		Else
 			SetLog("Clan Games Window Not Opened", $COLOR_DEBUG)
@@ -1072,7 +1021,7 @@ Func IsClanGamesRunning() ;to check whether clangames current state, return stri
 EndFunc   ;==>IsClanGamesRunning
 
 Func IsClanGamesRunning2() ;to check whether clangames current state, return string of the state "prepare" "running" "end"
-	Local $aGameTime[4] = [384, 428 + $g_iMidOffsetY, 0xFFFFFF, 10]
+	Local $aGameTime[4] = [384, 388 + $g_iMidOffsetY, 0xFFFFFF, 10]
 	Local $sState = "Running"
 	If QuickMIS("BC1", $g_sImgWindow, 80, 70 + $g_iMidOffsetY, 160, 220 + $g_iMidOffsetY) Then
 		If QuickMIS("BC1", $g_sImgReward, 580, 440 + $g_iMidOffsetY, 830, 500 + $g_iMidOffsetY) Then
@@ -1080,8 +1029,6 @@ Func IsClanGamesRunning2() ;to check whether clangames current state, return str
 		EndIf
 	Else
 		If _CheckPixel($aGameTime, True) Then
-			Local $sTimeRemain = getOcrTimeGameTime(370, 471 + $g_iMidOffsetY) ; read Clan Games waiting time
-			$g_sClanGamesTimeRemaining = $sTimeRemain
 			$sState = "Prepare"
 		Else
 			$sState = "Cannot open ClanGames"
@@ -1090,7 +1037,7 @@ Func IsClanGamesRunning2() ;to check whether clangames current state, return str
 	Return $sState
 EndFunc   ;==>IsClanGamesRunning2
 
-Func GetTimesAndScores()
+Func GetTimesAndScores($SetLog = True)
 	Local $iRestScore = -1, $sYourGameScore = "", $aiScoreLimit, $sTimeRemain = 0
 
 	;Ocr for game time remaining
@@ -1101,7 +1048,7 @@ Func GetTimesAndScores()
 		SetLog("getOcrTimeGameTime(): no valid return value (" & $sTimeRemain & ")", $COLOR_ERROR)
 	EndIf
 
-	SetLog("Clan Games time remaining: " & $sTimeRemain, $COLOR_INFO)
+	If $SetLog Then SetLog("Clan Games time remaining: " & $sTimeRemain, $COLOR_INFO)
 
 	; This Loop is just to check if the Score is changing , when you complete a previous events is necessary to take some time
 	For $i = 0 To 10
@@ -1285,7 +1232,7 @@ Func IsEventRunning($bOpenWindow = False)
 
 				;check if Challenge is BB Challenge, enabling force BB attack
 
-				Click(340, 220 + $g_iMidOffsetY)
+				Click(340, 210 + $g_iMidOffsetY)
 				If _Sleep(2000) Then Return
 				SetLog("Re-Check Event Type", $COLOR_DEBUG1)
 				If QuickMIS("BC1", $g_sImgVersus, 425, 180 + $g_iMidOffsetY, 700, 245 + $g_iMidOffsetY) And $CurrentActiveChallenge <> "Builder Hut" Then
@@ -1314,7 +1261,23 @@ Func IsEventRunning($bOpenWindow = False)
 						EndIf
 					EndIf
 					Setlog("Running Challenge is BB Challenge : " & $CurrentActiveChallenge, $COLOR_ACTION)
+					If $g_bChkClanGamesStopBeforeReachAndPurge Then
+						Local $sTimeCG = ConvertOCRTime("ClanGames()", $g_sClanGamesTimeRemaining, False)
+						If $sTimeCG > 1440 Then
+							Local $Ocr = getOcrEventPoints(464, 287 + $g_iMidOffsetY)
+							$Ocr = StringReplace($Ocr, " ", "", 0)
+							$Ocr = StringReplace($Ocr, "#", "", 0)
+							If _Sleep(2000) Then Return
+							Local $aiScoreLimit = GetTimesAndScores(False)
+							If $aiScoreLimit[0] + Number($Ocr) >= $aiScoreLimit[1] Then
+								Setlog("This Challenge must be purged or you will reach max points!", $COLOR_INFO)
+								$bNeedPurge = True
+							EndIf
+						EndIf
+					EndIf
 					If $bNeedPurge Then ;Purge BB event, Not Wanted
+						Click(340, 210 + $g_iMidOffsetY)
+						If _Sleep(2000) Then Return
 						Setlog("Event started by mistake?", $COLOR_ERROR)
 						PurgeEvent(False, False, False)
 					Else
@@ -1346,7 +1309,23 @@ Func IsEventRunning($bOpenWindow = False)
 						EndIf
 					EndIf
 					Setlog("Running Challenge is MainVillage Challenge : " & $CurrentActiveChallenge, $COLOR_ACTION)
+					If $g_bChkClanGamesStopBeforeReachAndPurge Then
+						Local $sTimeCG = ConvertOCRTime("ClanGames()", $g_sClanGamesTimeRemaining, False)
+						If $sTimeCG > 1440 Then
+							Local $Ocr = getOcrEventPoints(464, 287 + $g_iMidOffsetY)
+							$Ocr = StringReplace($Ocr, " ", "", 0)
+							$Ocr = StringReplace($Ocr, "#", "", 0)
+							If _Sleep(2000) Then Return
+							Local $aiScoreLimit = GetTimesAndScores(False)
+							If $aiScoreLimit[0] + Number($Ocr) >= $aiScoreLimit[1] Then
+								Setlog("This Challenge must be purged or you will reach max points!", $COLOR_INFO)
+								$bNeedPurge = True
+							EndIf
+						EndIf
+					EndIf
 					If $bNeedPurge Then ;Purge Event, Not Wanted
+						Click(340, 210 + $g_iMidOffsetY)
+						If _Sleep(2000) Then Return
 						Setlog("Challenge started by mistake?", $COLOR_ERROR)
 						PurgeEvent(False, False, False)
 					Else
@@ -1450,6 +1429,7 @@ Func StartsEvent($sEventName, $getCapture = True, $g_bChkClanGamesDebug = False)
 			Else
 				Setlog("Running Challenge is BB Challenge : " & $sEventName, $COLOR_ACTION)
 				$g_bIsBBevent = 1
+				If ProfileSwitchAccountEnabled() And $g_bChkBBMaxEventsInARow Then $g_aiAttackedBBEventCount += 1
 			EndIf
 		Else
 			Setlog("Running Challenge is MainVillage Challenge : " & $sEventName, $COLOR_ACTION)
@@ -2535,7 +2515,7 @@ Func SetCGCoolDownTime($bTest = False)
 	EndIf
 EndFunc   ;==>SetCGCoolDownTime
 
-Func IsCGCoolDownTime($Setlog = True)
+Func IsCGCoolDownTime($SetLog = True)
 	Local $iTimer = Round(TimerDiff($g_hCoolDownTimer) / 1000 / 60, 2)
 	Local $iSec = Round(TimerDiff($g_hCoolDownTimer) / 1000)
 	SetDebugLog("CG Cooldown Timer : " & $iTimer)
@@ -2553,7 +2533,7 @@ Func IsCGCoolDownTime($Setlog = True)
 		If $iMin = 1 Then $sWaitTime &= $iMin & " minute "
 		If $iMin > 1 Then $sWaitTime &= $iMin & " minutes "
 		If $iSec > 1 Then $sWaitTime &= $iSec & " seconds"
-		If $Setlog Then SetLog("Cooldown Time Detected: " & $sWaitTime, $COLOR_DEBUG2)
+		If $SetLog Then SetLog("Cooldown Time Detected: " & $sWaitTime, $COLOR_DEBUG2)
 		$g_bIsCGCoolDownTime = True
 	EndIf
 

@@ -391,6 +391,8 @@ Func ApplyConfig_600_6($TypeReadSave)
 			GUICtrlSetState($g_hChkClanGamesStopBeforeReachAndPurge, $g_bChkClanGamesStopBeforeReachAndPurge ? $GUI_CHECKED : $GUI_UNCHECKED)
 			GUICtrlSetState($g_hChkClanGamesSort, $g_bSortClanGames ? $GUI_CHECKED : $GUI_UNCHECKED)
 			_GUICtrlComboBox_SetCurSel($g_hCmbClanGamesSort, $g_iSortClanGames)
+			GUICtrlSetState($g_hChkBBMaxEventsInARow, $g_bChkBBMaxEventsInARow ? $GUI_CHECKED : $GUI_UNCHECKED)
+			GUICtrlSetData($g_ahLimitBBEventCount, $g_aiLimitBBEventCount)
 			ChkClanGamesPurgeAny()
 			chkSortClanGames()
 
@@ -639,6 +641,8 @@ Func ApplyConfig_600_6($TypeReadSave)
 			$g_bChkClanGamesStopBeforeReachAndPurge = (GUICtrlRead($g_hChkClanGamesStopBeforeReachAndPurge) = $GUI_CHECKED) ? 1 : 0
 			$g_bSortClanGames = (GUICtrlRead($g_hChkClanGamesSort) = $GUI_CHECKED) ? 1 : 0
 			$g_iSortClanGames = _GUICtrlComboBox_GetCurSel($g_hCmbClanGamesSort)
+			$g_bChkBBMaxEventsInARow = (GUICtrlRead($g_hChkBBMaxEventsInARow) = $GUI_CHECKED) ? 1 : 0
+			$g_aiLimitBBEventCount = GUICtrlRead($g_ahLimitBBEventCount)
 
 			For $i = 0 To UBound($g_ahCGMainLootItem) - 1
 				$g_abCGMainLootItem[$i] = BitAND(GUICtrlRead($g_ahCGMainLootItem[$i]), $GUI_CHECKED) ? 1 : 0
@@ -2428,6 +2432,7 @@ Func ApplyConfig_600_35_2($TypeReadSave)
 			Next
 			_GUICtrlComboBox_SetCurSel($g_hCmbTrainTimeToSkip, $g_iTrainTimeToSkip)
 			_cmbSwitchAcc(False)
+			ChkBBMaxEventsInARow2()
 
 		Case "Save"
 			$g_iCmbSwitchAcc = _GUICtrlComboBox_GetCurSel($g_hCmbSwitchAcc)

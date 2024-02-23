@@ -1425,3 +1425,23 @@ Func chkSortClanGames()
 		GUICtrlSetState($g_hCmbClanGamesSort, $GUI_DISABLE)
 	EndIf
 EndFunc   ;==>chkSortClanGames
+
+Func ChkBBMaxEventsInARow()
+	If GUICtrlRead($g_hChkBBMaxEventsInARow) = $GUI_CHECKED Then
+		$g_bChkBBMaxEventsInARow = True
+		GUICtrlSetState($g_ahLimitBBEventCount, $GUI_ENABLE)
+	Else
+		$g_bChkBBMaxEventsInARow = False
+		GUICtrlSetState($g_ahLimitBBEventCount, $GUI_DISABLE)
+	EndIf
+EndFunc   ;==>ChkBBMaxEventsInARow
+
+Func ChkBBMaxEventsInARow2()
+	If GUICtrlRead($g_hChkSwitchAcc) = $GUI_CHECKED And aquireSwitchAccountMutex($g_iCmbSwitchAcc, False, True) Then
+		GUICtrlSetState($g_hChkBBMaxEventsInARow, $GUI_ENABLE)
+		ChkBBMaxEventsInARow()
+	Else
+		GUICtrlSetState($g_hChkBBMaxEventsInARow, $GUI_DISABLE)
+		GUICtrlSetState($g_ahLimitBBEventCount, $GUI_DISABLE)
+	EndIf
+EndFunc   ;==>ChkBBMaxEventsInARow2
