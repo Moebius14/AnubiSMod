@@ -138,7 +138,12 @@ Func DropTrophy()
 				_Sleep($DELAYRUNBOT3)
 			EndIf
 
-			If $g_bChkClanGamesEnabled And $g_bChkEnableBBAttack And $g_bDropTrophyUseHeroes = 1 Then
+			Local $AllowCG = True
+			If ProfileSwitchAccountEnabled() And $g_bChkBBMaxEventsInARow Then
+				If Number($g_aiAttackedBBEventCount) >= Number($g_aiLimitBBEventCount) Then $AllowCG = False
+			EndIf
+
+			If $g_bChkClanGamesEnabled And $g_bChkEnableBBAttack And $g_bDropTrophyUseHeroes = 1 And $AllowCG Then
 				SetLog("Check Clan Games !", $COLOR_OLIVE)
 				_ClanGames()
 				If $g_bChkForceBBAttackOnClanGames And $g_bIsBBevent Then
@@ -257,7 +262,12 @@ Func DropTrophy()
 							_Sleep($DELAYRUNBOT3)
 						EndIf
 
-						If $g_bChkClanGamesEnabled And $g_bChkEnableBBAttack And $g_bDropTrophyUseHeroes = 1 Then
+						Local $AllowCG = True
+						If ProfileSwitchAccountEnabled() And $g_bChkBBMaxEventsInARow Then
+							If Number($g_aiAttackedBBEventCount) >= Number($g_aiLimitBBEventCount) Then $AllowCG = False
+						EndIf
+
+						If $g_bChkClanGamesEnabled And $g_bChkEnableBBAttack And $g_bDropTrophyUseHeroes = 1 And $AllowCG Then
 							SetLog("Check Clan Games !", $COLOR_OLIVE)
 							_ClanGames()
 							If $g_bChkForceBBAttackOnClanGames And $g_bIsBBevent Then

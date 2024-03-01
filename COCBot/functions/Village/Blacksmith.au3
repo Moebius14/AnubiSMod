@@ -110,13 +110,43 @@ Func Blacksmith($bTest = False)
 		SetLog("Try to upgrade " & $g_asEquipmentOrderList[$g_aiCmbCustomEquipmentOrder[$i]][0], $COLOR_SUCCESS)
 		If _Sleep(500) Then Return
 
-		If $BuildingInfo[2] < 7 Then
-			Switch $g_aiCmbCustomEquipmentOrder[$i]
-				Case 0, 1, 5, 6, 10, 11, 14, 15
+		Switch $g_aiCmbCustomEquipmentOrder[$i]
+			Case 3 ; Vampstache
+				If $BuildingInfo[2] < 3 Then
+					SetLog("BlackSmith level 3 needed, looking next", $COLOR_SUCCESS)
+					ContinueLoop
+				EndIf
+			Case 7 ; Giant Arrow
+				If $BuildingInfo[2] < 2 Then
+					SetLog("BlackSmith level 2 needed, looking next", $COLOR_SUCCESS)
+					ContinueLoop
+				EndIf
+			Case 8 ; Healer Puppet
+				If $BuildingInfo[2] < 5 Then
+					SetLog("BlackSmith level 5 needed, looking next", $COLOR_SUCCESS)
+					ContinueLoop
+				EndIf
+			Case 12 ; Rage Gem
+				If $BuildingInfo[2] < 4 Then
+					SetLog("BlackSmith level 4 needed, looking next", $COLOR_SUCCESS)
+					ContinueLoop
+				EndIf
+			Case 13 ; Healing Tome
+				If $BuildingInfo[2] < 6 Then
+					SetLog("BlackSmith level 6 needed, looking next", $COLOR_SUCCESS)
+					ContinueLoop
+				EndIf
+			Case 16 ; Hog Rider Puppet
+				If $BuildingInfo[2] < 7 Then
 					SetLog("BlackSmith level 7 needed, looking next", $COLOR_SUCCESS)
 					ContinueLoop
-			EndSwitch
-		EndIf
+				EndIf
+			Case 17 ; Haste Vial
+				If $BuildingInfo[2] < 8 Then
+					SetLog("BlackSmith level 8 needed, looking next", $COLOR_SUCCESS)
+					ContinueLoop
+				EndIf
+		EndSwitch
 
 		Local $ToClickOnHero = False
 		If $i = 0 Then

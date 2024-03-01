@@ -144,10 +144,8 @@ Func SwitchAccountVariablesReload($sType = "Load", $iAccount = $g_iCurAccount)
 	Static $gSbIsBBevent = $aiZero
 	Static $SIsCGEventRunning = $aiZero
 	Static $Sb_COCClose = $aiTrue
-
-	$g_hCoolDownTimer = 0
-	$g_bIsCGCoolDownTime = False
-	$sPurgeTimeCG = 0
+	Static $SsPurgeTimeCG = $aiZero
+	Static $Sg_hCoolDownTimer = $aiZero
 
 	;StarBonus
 	Static $SStarBonusReceived = $aiZero
@@ -278,6 +276,8 @@ Func SwitchAccountVariablesReload($sType = "Load", $iAccount = $g_iCurAccount)
 			$gSbIsBBevent = $aiZero
 			$SIsCGEventRunning = $aiZero
 			$Sb_COCClose = $aiTrue
+			$SsPurgeTimeCG = $aiZero
+			$Sg_hCoolDownTimer = $aiZero
 
 			;StarBonus
 			$SStarBonusReceived = $aiZero
@@ -480,6 +480,8 @@ Func SwitchAccountVariablesReload($sType = "Load", $iAccount = $g_iCurAccount)
 			$gSbIsBBevent[$iAccount] = $g_bIsBBevent
 			$SIsCGEventRunning[$iAccount] = $IsCGEventRunning
 			$Sb_COCClose[$iAccount] = $b_COCClose
+			$SsPurgeTimeCG[$iAccount] = $sPurgeTimeCG
+			$Sg_hCoolDownTimer[$iAccount] = $g_hCoolDownTimer
 
 			;StarBonus
 			$SStarBonusReceived[$iAccount] = $StarBonusReceived
@@ -671,6 +673,8 @@ Func SwitchAccountVariablesReload($sType = "Load", $iAccount = $g_iCurAccount)
 			$g_bIsBBevent = $gSbIsBBevent[$iAccount]
 			$IsCGEventRunning = $SIsCGEventRunning[$iAccount]
 			$b_COCClose = $Sb_COCClose[$iAccount]
+			$sPurgeTimeCG = $SsPurgeTimeCG[$iAccount]
+			$g_hCoolDownTimer = $Sg_hCoolDownTimer[$iAccount]
 
 			;StarBonus
 			$StarBonusReceived = $SStarBonusReceived[$iAccount]

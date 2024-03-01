@@ -251,9 +251,12 @@ Func PetHouse($test = False)
 
 			DragPetHouse($i, $iPage)
 
-			If $g_iTownHallLevel = 14 Then
-				If $i = 0 Or $i = 2 Then $g_ePetLevels[$i] = 10 ; Max level 10 for TH14
-			EndIf
+			Switch $g_iTownHallLevel
+				Case 14
+					If $i <= 2 Then $g_ePetLevels[$i] = 10
+				Case 15
+					If $i = 1 Then $g_ePetLevels[$i] = 10
+			EndSwitch
 
 			; check if pet upgrade unlocked
 			If _ColorCheck(_GetPixelColor($iPetLevelxCoord[$i], 380 + $g_iMidOffsetY, True), Hex(0xC6BCAA, 6), 15) Then
@@ -603,9 +606,12 @@ Func GetMinDark4PetUpgrade()
 
 		DragPetHouse($i, $iPage)
 
-		If $g_iTownHallLevel = 14 Then
-			If $i = 0 Or $i = 2 Then $g_ePetLevels[$i] = 10 ; Max level 10 for TH14
-		EndIf
+		Switch $g_iTownHallLevel
+			Case 14
+				If $i <= 2 Then $g_ePetLevels[$i] = 10
+			Case 15
+				If $i = 1 Then $g_ePetLevels[$i] = 10
+		EndSwitch
 
 		; check if pet upgrade enabled and unlocked
 		If _ColorCheck(_GetPixelColor($iPetLevelxCoord[$i], 380 + $g_iMidOffsetY, True), Hex(0xC6BCAA, 6), 15) Then
@@ -712,9 +718,12 @@ Func GetPetUpgradeList()
 
 			DragPetHouse($i, $iPage)
 
-			If $g_iTownHallLevel = 14 Then
-				If $i = 0 Or $i = 2 Then $g_ePetLevels[$i] = 10 ; Max level 10 for TH14
-			EndIf
+			Switch $g_iTownHallLevel
+				Case 14
+					If $i <= 2 Then $g_ePetLevels[$i] = 10
+				Case 15
+					If $i = 1 Then $g_ePetLevels[$i] = 10
+			EndSwitch
 
 			Local $Name = $g_asPetNames[$i]
 			Local $x = $iPetLevelxCoord[$i]

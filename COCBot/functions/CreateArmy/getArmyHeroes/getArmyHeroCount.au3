@@ -381,13 +381,14 @@ Func LabGuiDisplay() ; called from main loop to get an early status for indictor
 		Return
 	EndIf
 
-	$GobBuilderPresent = False
-	$GobBuilderOffsetRunning = 0
-	$GobBuilderOffsetRunningBooks = 0
-	If UBound(decodeSingleCoord(FindImageInPlace2("GobBuilder", $g_sImgGobBuilder, 275, 45, 430, 70, True))) > 1 Then
+	If UBound(decodeSingleCoord(FindImageInPlace2("GobBuilder", $g_sImgGobBuilder, 240, 0, 450, 60, True))) > 1 Then
 		$GobBuilderPresent = True
 		$GobBuilderOffsetRunning = 355
 		$GobBuilderOffsetRunningBooks = 435
+	Else
+		$GobBuilderPresent = False
+		$GobBuilderOffsetRunning = 0
+		$GobBuilderOffsetRunningBooks = 0
 	EndIf
 
 	BuildingClickP($g_aiLaboratoryPos, "#0197") ;Click Laboratory

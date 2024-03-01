@@ -42,12 +42,12 @@ Global $aEndFightSceneBtn[4] = [429, 529 + $g_iMidOffsetY, 0xE1F989, 20] ; Victo
 Global $aEndFightSceneAvl[4] = [241, 196 + $g_iMidOffsetY, 0xFFF098, 20] ; Victory or defeat scene left side ribbon = light gold
 Global $aEndFightSceneReportGold = $aEndFightSceneAvl ; Missing... TripleM ???
 Global $aReturnHomeButton[4] = [430, 566 + $g_iMidOffsetY, 0x6CBB1F, 15] ; Return Home Button, End Battle Screen
-Global $aChatTab[4] = [388, 280 + $g_iMidOffsetY, 0xFFAA22, 20] ; Chat Window Open, Main Screen
-Global $aChatTab2[4] = [388, 290 + $g_iMidOffsetY, 0xFDA32B, 20] ; Chat Window Open, Main Screen
-Global $aChatTab3[4] = [388, 335 + $g_iMidOffsetY, 0xCB5517, 20] ; Chat Window Open, Main Screen
-Global $aOpenChat[2] = [19, 309 + $g_iMidOffsetY] ; Open Chat Windows, Main Screen
-Global $aClanTab[2] = [189, 24] ; Clan Tab, Chat Window, Main Screen
-Global $aClanInfo[2] = [282, 55] ; Clan Info Icon
+Global $aChatTab[4] = [412, 290 + $g_iMidOffsetY, 0xF3AA28, 20] ; Chat Window Open, Main Screen
+Global $aChatTab2[4] = [412, 305 + $g_iMidOffsetY, 0xF3AA28, 20] ; Chat Window Open, Main Screen
+Global $aChatTab3[4] = [412, 325 + $g_iMidOffsetY, 0xEA8A3B, 20] ; Chat Window Open, Main Screen
+;Global $aOpenChat[2] = [19, 309 + $g_iMidOffsetY] ; Open Chat Windows, Main Screen
+;Global $aClanTab[2] = [189, 24] ; Clan Tab, Chat Window, Main Screen
+;Global $aClanInfo[2] = [282, 55] ; Clan Info Icon
 Global $aArmyCampSize[2] = [153, 168 + $g_iMidOffsetY] ; Training Window, Overview screen, Current Size/Total Size
 Global $aSiegeMachineSize[2] = [707, 168 + $g_iMidOffsetY] ; Training Window, Overview screen, Current Number/Total Number
 Global $aArmySpellSize[2] = [143, 296 + $g_iMidOffsetY] ; Training Window Overviewscreen, current number/total capacity
@@ -189,9 +189,9 @@ Global $aOkayButton[2] = [430, 540 + $g_iMidOffsetY]    ; Return Home after BB a
 Global $aOkayButtonRND[4] = [372, 530 + $g_iMidOffsetY, 484, 565 + $g_iMidOffsetY]    ; Okay button after BB attack, RND
 
 ;Chat : Welcome Message
-Global $aChatSelectTextBox[4] = [340, 645 + $g_iBottomOffsetY, 0xFFFFFF, 10] ; color white Select Chat Textbox
+Global $aChatSelectTextBox[4] = [100, 645 + $g_iBottomOffsetY, 0xFFFFFF, 10] ; color white Select Chat Textbox
 Global $aOpenedChatSelectTextBox[4] = [100, 650 + $g_iBottomOffsetY, 0xFFFFFF, 10] ; color white Select Chat Textbox Opened
-Global $aChatSendBtn[4] = [840, 640 + $g_iBottomOffsetY, 0xFFFFFF, 10] ; color white Send Chat Textbox
+Global $aChatSendBtn[4] = [840, 645 + $g_iBottomOffsetY, 0xFFFFFF, 10] ; color white Send Chat Textbox
 
 ;Event
 Global Const $aEventLeftEdge[4] = [45, 385 + $g_iMidOffsetY, 0x29231F, 20]

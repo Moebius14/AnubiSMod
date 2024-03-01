@@ -29,6 +29,27 @@
 * Fixed SmartFarm custom order deployment.
 * Improved Remain Train OCR (8/3).
 * Improved Red Building Cost OCR (2).
+* Improved CG event type detection.
+* Improved Frozen Arrow detection.
+* Improved Bat Spell detection.
+* Improved Spooky Scenery detection (Attack Only).
+* Improved CG remaining time OCR.
+* Fixed IsCGCoolDownTime function.
+** Added support for COC 16.137.6.
+* Updated Chat button detection.
+* Updated donation and request system.
+* Updated Bonus window detection.
+* Updated Pets cost and level.
+* Added hog puppet and haste vial equipment support.
+* Improved needed level for equipment.
+* Updated upgrade walls, buildings and heroes cost detection.
+* Improved Queen detection when dropped (Attack bar).
+* Fixed CC Troops, spells and sieges remove function.
+* Improved Builders count (Despite Goblin Builder display).
+* Added Overgrowth Spell upgrade support in laboratory.
+* Improved some libraries and changed few tolerances.
+* Added Guard warning window support in legend league.
+* Typo.
 
 * v8.1.5 **
 * Improved OCR Army Capacity.

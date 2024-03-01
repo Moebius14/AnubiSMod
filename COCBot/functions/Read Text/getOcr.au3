@@ -22,7 +22,7 @@ Func getBuilderLeastUpgradeTime($x_start, $y_start) ;  -> Get least upgradetime 
 EndFunc   ;==>getBuilderLeastUpgradeTime
 
 Func getTimeForForge($x_start, $y_start) ; read actual time remaining in Lab for current upgrade (336,260), changed CoC v9.24 282,277
-	Return getOcrAndCapture("coc-forgetime", $x_start, $y_start, 80, 18, True)
+	Return getOcrAndCapture("coc-forgetime", $x_start, $y_start, 85, 18, True)
 EndFunc   ;==>getTimeForForge
 
 Func getTimeToRaid($x_start, $y_start) ; read actual time remaining in Lab for current upgrade (336,260), changed CoC v9.24 282,277
@@ -87,19 +87,23 @@ Func getResourcesBonus($x_start, $y_start) ; -> Gets complete value of Gold/Elix
 EndFunc   ;==>getResourcesBonus
 
 Func getCostsUpgrade($x_start, $y_start) ; -> Gets complete value of Gold/Elixir bonus loot in "AttackReport.au3"
-	Return getOcrAndCapture("coc-CostsUpgrades", $x_start, $y_start, 120, 18, True)
+	Local $Result = StringReplace(getOcrAndCapture("coc-CostsUpgrades", $x_start, $y_start, 120, 18, True), "b", "")
+	Return $Result
 EndFunc   ;==>getCostsUpgrade
 
 Func getCostsUpgradeGear($x_start, $y_start) ; -> Gets complete value of Gold/Elixir bonus loot in "AttackReport.au3"
-	Return getOcrAndCapture("coc-CostsUpgrades-Gear", $x_start, $y_start, 130, 20, True)
+	Local $Result = StringReplace(getOcrAndCapture("coc-CostsUpgrades-Gear", $x_start, $y_start, 130, 20, True), "b", "")
+	Return $Result
 EndFunc   ;==>getCostsUpgradeGear
 
 Func getCostsUpgradeRed($x_start, $y_start) ; -> Gets complete value of Gold/Elixir xxx,xxx , RED text on green upgrade button."UpgradeBuildings.au3"
-	Return getOcrAndCapture("coc-u-r", $x_start, $y_start, 120, 18, True)
+	Local $Result = StringReplace(getOcrAndCapture("coc-u-r", $x_start, $y_start, 120, 18, True), "b", "")
+	Return $Result
 EndFunc   ;==>getCostsUpgradeRed
 
 Func getCostsUpgradeGearRed($x_start, $y_start) ; -> Gets complete value of Gold/Elixir xxx,xxx , RED text on green upgrade button."UpgradeBuildings.au3"
-	Return getOcrAndCapture("coc-u-r", $x_start, $y_start, 130, 20, True)
+	Local $Result = StringReplace(getOcrAndCapture("coc-u-r", $x_start, $y_start, 130, 20, True), "b", "")
+	Return $Result
 EndFunc   ;==>getCostsUpgradeGearRed
 
 Func getResourcesBonusPerc($x_start, $y_start) ; -> Gets complete value of Bonus % in "AttackReport.au3"
@@ -123,7 +127,8 @@ Func getStarLabUpgrdResourceRed($x_start, $y_start) ; -> Gets complete value of 
 EndFunc   ;==>getStarLabUpgrdResourceRed
 
 Func getBldgUpgradeTime($x_start, $y_start) ; -> Gets complete remain building upgrade time
-	Return getOcrAndCapture("coc-uptime", $x_start, $y_start, 105, 18, True) ; "12d 19h"
+	Local $Result = StringReplace(getOcrAndCapture("coc-uptime", $x_start, $y_start, 105, 18, True), "b", "")
+	Return $Result
 EndFunc   ;==>getBldgUpgradeTime
 
 Func getBldgUpgradeTime2($x_start, $y_start) ; -> Gets complete remain building upgrade time
@@ -147,11 +152,12 @@ Func getPetUpgradeTime($x_start, $y_start) ; -> Gets complete remain lab upgrade
 EndFunc   ;==>getPetUpgradeTime
 
 Func getHeroUpgradeTime($x_start, $y_start) ; -> Gets complete upgrade time for heroes 595, 490 + $g_iMidOffsetY
-	Return getOcrAndCapture("coc-uptime", $x_start, $y_start, 105, 18, True) ; 85 is required to days & hours for hero ; COC 15.352.22
+	Local $Result = StringReplace(getOcrAndCapture("coc-uptime", $x_start, $y_start, 105, 18, True), "b", "")
+	Return $Result
 EndFunc   ;==>getHeroUpgradeTime
 
 Func getChatString($x_start, $y_start, $language) ; -> Get string chat request - Latin Alphabetic - EN "DonateCC.au3"
-	Return getOcrAndCapture($language, $x_start, $y_start, 325, 16)
+	Return getOcrAndCapture($language, $x_start, $y_start, 320, 16)
 EndFunc   ;==>getChatString
 
 Func getBuilders($x_start, $y_start) ;  -> Gets Builders number - main screen --> getBuilders(324,23)  coc-profile

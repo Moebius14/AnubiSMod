@@ -1810,21 +1810,21 @@ Func PurgeEvent($bTest = False, $startFirst = True, $NoMistake = True, $iRow = 1
 		EndIf
 		If StartAndPurgeEvent($bTest) Then
 			If _Sleep(1000) Then Return
-			CloseWindow()
 			SetCGCoolDownTime()
+			CloseWindow()
 			Return True
 		EndIf
 	Else
 		SetLog("Purge a Wrong Challenge", $COLOR_INFO)
 		If QuickMIS("BC1", $g_sImgTrashPurge, 235, 140 + $g_iMidOffsetY, 825, 540 + $g_iMidOffsetY, True, False) Then
 			Click($g_iQuickMISX, $g_iQuickMISY)
-			If _Sleep(1200) Then Return
+			If _Sleep(1500) Then Return
 			SetLog("Click Trash", $COLOR_INFO)
 			If QuickMIS("BC1", $g_sImgOkayPurge, 480, 370 + $g_iMidOffsetY, 600, 455 + $g_iMidOffsetY, True, False) Then
 				SetLog("Click OK", $COLOR_INFO)
 				If $bTest Then Return
 				Click($g_iQuickMISX, $g_iQuickMISY)
-				If _Sleep(1500) Then Return
+				If _Sleep(1000) Then Return
 				If $g_iTxtCurrentVillageName <> "" Then
 					GUICtrlSetData($g_hTxtClanGamesLog, @CRLF & _NowTime() & " [" & $g_iTxtCurrentVillageName & "] - PurgeEvent: Purge a Wrong Challenge ", 1)
 				Else
@@ -2492,12 +2492,10 @@ Func CooldownTime($getCapture = True)
 EndFunc   ;==>CooldownTime
 
 Func SetCGCoolDownTime($bTest = False)
-	$g_hCoolDownTimer = 0
 	$sPurgeTimeCG = 0
 	SetDebugLog("$g_hCoolDownTimer before: " & $g_hCoolDownTimer, $COLOR_DEBUG2)
 	$g_hCoolDownTimer = TimerInit()
-	Local $sleep = Random(500, 1500, 1)
-	If _Sleep($sleep) Then Return
+	If _Sleep(1500) Then Return
 
 	If $g_bChkClanGamesPurgeAnyClose And $b_COCClose Then
 		Local $sPurgeTimeRemain = getOcrTimeGameTime(500, 262 + $g_iMidOffsetY) ; read CoolDown time
@@ -2505,23 +2503,26 @@ Func SetCGCoolDownTime($bTest = False)
 		SetDebugLog("$sPurgeTimeCG : " & $sPurgeTimeCG & " Seconds", $COLOR_DEBUG2)
 	EndIf
 
-	SetDebugLog("$g_hCoolDownTimer after: " & Round(TimerDiff($g_hCoolDownTimer) / 1000 / 60, 2) & " Minutes", $COLOR_DEBUG2)
+	SetDebugLog("$g_hCoolDownTimer after 1500 ms : " & Round(TimerDiff($g_hCoolDownTimer) / 1000 / 60, 2) & " Minutes", $COLOR_DEBUG2)
 
 	If $bTest Then
-		$sleep = Random(500, 5500, 1)
-		If _Sleep($sleep) Then Return
-		SetLog("Timer after " & $sleep & " : " & Round(TimerDiff($g_hCoolDownTimer) / 1000 / 60, 2) & " Minutes", $COLOR_DEBUG2)
+		If _Sleep(1500) Then Return
+		SetLog("Timer after 3000 ms : " & Round(TimerDiff($g_hCoolDownTimer) / 1000 / 60, 2) & " Minutes", $COLOR_DEBUG2)
 		$g_hCoolDownTimer = 0
 	EndIf
 EndFunc   ;==>SetCGCoolDownTime
 
 Func IsCGCoolDownTime($SetLog = True)
+	If $g_hCoolDownTimer = 0 Then Return False
+
 	Local $iTimer = Round(TimerDiff($g_hCoolDownTimer) / 1000 / 60, 2)
 	Local $iSec = Round(TimerDiff($g_hCoolDownTimer) / 1000)
 	SetDebugLog("CG Cooldown Timer : " & $iTimer)
 
 	If $iTimer > 10 Then
-		$g_bIsCGCoolDownTime = False
+		$sPurgeTimeCG = 0
+		$g_hCoolDownTimer = 0
+		Return False
 	Else
 		Local $sWaitTime = "", $iMin
 		$iMin = Floor($iTimer)
@@ -2534,18 +2535,17 @@ Func IsCGCoolDownTime($SetLog = True)
 		If $iMin > 1 Then $sWaitTime &= $iMin & " minutes "
 		If $iSec > 1 Then $sWaitTime &= $iSec & " seconds"
 		If $SetLog Then SetLog("Cooldown Time Detected: " & $sWaitTime, $COLOR_DEBUG2)
-		$g_bIsCGCoolDownTime = True
+		Return True
 	EndIf
 
 	If $g_bChkClanGamesPurgeAnyClose And $b_COCClose Then
 		If $sPurgeTimeCG = 0 Then
-			$g_bIsCGCoolDownTime = False
+			Return False
 		Else
-			$g_bIsCGCoolDownTime = True
+			Return True
 		EndIf
 	EndIf
 
-	Return $g_bIsCGCoolDownTime
 EndFunc   ;==>IsCGCoolDownTime
 
 Func UTCTimeCG()

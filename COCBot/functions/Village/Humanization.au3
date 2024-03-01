@@ -876,6 +876,16 @@ Func WatchWarReplays()
 	$IsAllowedPreparationDay = False
 	CheckWarTime($sResult, $bResult, False, True)
 
+	If $g_bClanWarLeague And $CWLPrep Then
+		SetLog("CWL Preparation ... Skipping ...", $COLOR_WARNING)
+		If _Sleep(1500) Then Return
+		If Not $g_bRunState Then Return
+		$IsAllowedPreparationDay = True
+		SetLog("Exiting ...", $COLOR_OLIVE)
+		If _Sleep(Random(2000, 3000, 1)) Then Return
+		Return ReturnToHomeFromWar()
+	EndIf
+
 	If Not $IsStepWar Then
 		SetLog("Your Clan Is Not In Active War Yet ... Skipping ...", $COLOR_WARNING)
 		If _Sleep(1500) Then Return
@@ -2429,7 +2439,7 @@ Func LookAtRedNotifications()
 	EndIf
 	ReturnAtHome()
 
-	If _ColorCheck(_GetPixelColor(22, 272 + $g_iMidOffsetY, True), "EC0A12", 20) Then
+	If _ColorCheck(_GetPixelColor(54, 278 + $g_iMidOffsetY, True), "E90914", 20) Then
 		SetLog("New Messages On The Chat Room ...", $COLOR_OLIVE)
 		Local $ChatNotEveryTime = Random(1, 5, 1)
 		If $ChatNotEveryTime > 3 Then
@@ -2869,12 +2879,12 @@ Func IsBestClans()
 EndFunc   ;==>IsBestClans
 
 Func ChatOpen()
-	Local $bResult = _Wait4Pixel(390, 368, 0xC85316, 20, 3000, "ChatOpen") ;Wait for Chat To Be Appear
+	Local $bResult = _Wait4Pixel(412, 320, 0xF3AA28, 20, 3000, "ChatOpen") ;Wait for Chat To Be Appear
 	Return $bResult
 EndFunc   ;==>ChatOpen
 
 Func IsClanChat()
-	Local $bResult = _Wait4Pixel(350, 10, 0x706C50, 20, 3000, "IsClanChat") ;Wait for Clan Chat To Be Appear
+	Local $bResult = _Wait4Pixel(105, 20, 0xB1AC85, 20, 3000, "IsClanChat") ;Wait for Clan Chat To Be Appear
 	Return $bResult
 EndFunc   ;==>IsClanChat
 
@@ -3183,7 +3193,7 @@ Func CheckWarTime(ByRef $sResult, ByRef $bResult, $bReturnFrom = True, $WWR = Fa
 	If Not $g_bRunState Then Return
 
 	If $g_bClanWarLeague Then
-		If CloseWindow2() Then
+		If CloseWindow2(1) Then
 			SetLog("War is finished.", $COLOR_WARNING)
 			$IsWarEnded = True
 			Local $iSleepForWindow = Random(2500, 3000)
@@ -3217,6 +3227,7 @@ Func CheckWarTime(ByRef $sResult, ByRef $bResult, $bReturnFrom = True, $WWR = Fa
 	If IsWarMenu() Then
 
 		Local $DaysCount = StringRight(getOcrAndCapture("coc-ores", 175, 622 + $g_iBottomOffsetY, 515, 25, True), 1)
+		$DaysCount = StringReplace($DaysCount, "#", "", 0)
 		If $DaysCount = "" Then $DaysCount = 7
 		SetLog("Total days for this CWL : " & $DaysCount, $COLOR_ACTION)
 
@@ -3270,12 +3281,16 @@ Func CheckWarTime(ByRef $sResult, ByRef $bResult, $bReturnFrom = True, $WWR = Fa
 				EndIf
 				If _Sleep(250) Then Return
 			Next
-			SetLog("Actual War Day : " & $DayReal & "", $COLOR_INFO)
+			If $DayReal > 0 Then
+				SetLog("Actual War Day : " & $DayReal & "", $COLOR_INFO)
+			Else
+				$CWLPrep = True
+			EndIf
 			If _Sleep(Random(1500, 2500, 1)) Then Return
 			If Not $g_bRunState Then Return
 
 			If $WWR Then
-				If Random(0, 5, 1) > 2 Then
+				If Random(0, 5, 1) > 2 And $DayReal > 0 Then
 					Local $XDayNumberMinus = Random(1, $DayReal - 1, 1)
 					Local $RandomXDay = ($g_iQuickMISX - 5) - ($XDayNumberMinus * 76)
 					Local $Daynumber = $DayReal - $XDayNumberMinus
@@ -3361,11 +3376,11 @@ Func CheckWarTime(ByRef $sResult, ByRef $bResult, $bReturnFrom = True, $WWR = Fa
 
 			; set $sResult to be the date and time of war end
 			If StringInStr($sWarDay, "Preparation") Then
-				SetLog("Clan war is now in preparation. Battle will start in " & $sTime, $COLOR_INFO)
+				SetLog("Clan war " & ($g_bClanWarLeague = True ? "league" : "") & " is now in preparation. Battle will start in " & $sTime, $COLOR_INFO)
 				$sResult = _DateAdd("n", $iConvertedTime + 24 * 60, _NowCalc()) ; $iBattleFinishTime
 				$IsWarDay = False
 			ElseIf StringInStr($sWarDay, "Battle") Then
-				SetLog("Clan war is now in battle day. Battle will finish in " & $sTime, $COLOR_INFO)
+				SetLog("Clan war " & ($g_bClanWarLeague = True ? "league" : "") & " is now in battle day. Battle will finish in " & $sTime, $COLOR_INFO)
 				$sResult = _DateAdd("n", $iConvertedTime, _NowCalc()) ; $iBattleFinishTime
 				$IsWarDay = True
 			EndIf
@@ -3378,7 +3393,7 @@ Func CheckWarTime(ByRef $sResult, ByRef $bResult, $bReturnFrom = True, $WWR = Fa
 
 	If $IsARandomDay Then $IsWarDay = True
 
-	If $IsWarEnded Or $IsWarDay Or Not $IsWarDay Or $IsARandomDay Then $IsStepWar = True
+	If $IsWarEnded Or $IsARandomDay Then $IsStepWar = True
 	If $IsWarNotActive Then $IsStepWar = False
 
 	If $g_bClanWar And $IsWarEnded Then

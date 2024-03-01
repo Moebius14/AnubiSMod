@@ -155,6 +155,7 @@ Func _AutoUpgrade()
 							ClickP($aUpgradeButton)
 							If _Sleep($DELAYAUTOUPGRADEBUILDING1) Then Return
 							Local $bWallGoldCost = getCostsUpgrade(552, 541 + $g_iMidOffsetY)
+							If $bWallGoldCost = "" Then $bWallGoldCost = getCostsUpgrade(552, 532 + $g_iMidOffsetY) ; Try to get yellow cost (Discount)
 							If $g_aiCurrentLoot[$eLootGold] < ($bWallGoldCost + $g_iTxtSmartMinGold) Then
 								SetLog("Not enough Gold to upgrade Wall, looking next...", $COLOR_WARNING)
 								CloseWindow2()
@@ -173,6 +174,7 @@ Func _AutoUpgrade()
 					ClickP($aUpgradeButton)
 					If _Sleep($DELAYAUTOUPGRADEBUILDING1) Then Return
 					Local $bWallElixCost = getCostsUpgrade(552, 541 + $g_iMidOffsetY) ; get cost
+					If $bWallElixCost = "" Then $bWallElixCost = getCostsUpgrade(552, 532 + $g_iMidOffsetY) ; Try to get yellow cost (Discount)
 					If $g_aiCurrentLoot[$eLootElixir] < ($bWallElixCost + $g_iTxtSmartMinElixir) Then
 						SetLog("Insufficent Elixir to upgrade wall, checking Gold", $COLOR_WARNING)
 						CloseWindow2()
@@ -188,6 +190,7 @@ Func _AutoUpgrade()
 								ClickP($aUpgradeButton)
 								If _Sleep($DELAYAUTOUPGRADEBUILDING1) Then Return
 								Local $bWallGoldCost = getCostsUpgrade(552, 541 + $g_iMidOffsetY)     ; get cost
+								If $bWallGoldCost = "" Then $bWallGoldCost = getCostsUpgrade(552, 532 + $g_iMidOffsetY) ; Try to get yellow cost (Discount)
 								If $g_aiCurrentLoot[$eLootGold] < ($bWallGoldCost + $g_iTxtSmartMinGold) Then
 									SetLog("Not enough Gold to upgrade Wall, looking next...", $COLOR_WARNING)
 									CloseWindow2()
@@ -224,6 +227,7 @@ Func _AutoUpgrade()
 								ClickP($aUpgradeButton)
 								If _Sleep($DELAYAUTOUPGRADEBUILDING1) Then Return
 								Local $bWallElixCost = getCostsUpgrade(552, 541 + $g_iMidOffsetY) ; get cost
+								If $bWallElixCost = "" Then $bWallElixCost = getCostsUpgrade(552, 532 + $g_iMidOffsetY) ; Try to get yellow cost (Discount)
 								If $g_aiCurrentLoot[$eLootElixir] < ($bWallElixCost + $g_iTxtSmartMinElixir) Then
 									SetLog("Not enough Elixir to upgrade Wall, looking next...", $COLOR_WARNING)
 									CloseWindow2()
@@ -245,6 +249,7 @@ Func _AutoUpgrade()
 					ClickP($aUpgradeButton)
 					If _Sleep($DELAYAUTOUPGRADEBUILDING1) Then Return
 					Local $bWallGoldCost = getCostsUpgrade(552, 541 + $g_iMidOffsetY) ; get cost
+					If $bWallGoldCost = "" Then $bWallGoldCost = getCostsUpgrade(552, 532 + $g_iMidOffsetY) ; Try to get yellow cost (Discount)
 					If $g_aiCurrentLoot[$eLootGold] < ($bWallGoldCost + $g_iTxtSmartMinGold) Then
 						SetLog("Insufficent Gold to upgrade wall, checking Elixir", $COLOR_WARNING)
 						CloseWindow2()
@@ -262,6 +267,7 @@ Func _AutoUpgrade()
 									ClickP($aUpgradeButton)
 									If _Sleep($DELAYAUTOUPGRADEBUILDING1) Then Return
 									Local $bWallElixCost = getCostsUpgrade(552, 541 + $g_iMidOffsetY) ; get cost
+									If $bWallElixCost = "" Then $bWallElixCost = getCostsUpgrade(552, 532 + $g_iMidOffsetY) ; Try to get yellow cost (Discount)
 									If $g_aiCurrentLoot[$eLootElixir] < ($bWallElixCost + $g_iTxtSmartMinElixir) Then
 										SetLog("Not enough Elixir to upgrade Wall, looking next...", $COLOR_WARNING)
 										CloseWindow2()
@@ -408,11 +414,15 @@ Func _AutoUpgrade()
 		If $b_Equipment Then
 			$g_aUpgradeResourceCostDuration[0] = "Gold"
 			$g_aUpgradeResourceCostDuration[1] = getCostsUpgradeGear(375, 476 + $g_iMidOffsetY) ; get cost
+			If $g_aUpgradeResourceCostDuration[1] = "" Then $g_aUpgradeResourceCostDuration[1] = getCostsUpgradeGear(375, 467 + $g_iMidOffsetY) ; Try to read yellow text (Discount).
 			$g_aUpgradeResourceCostDuration[2] = getGearUpgradeTime(185, 401 + $g_iMidOffsetY) ; get duration
+			If $g_aUpgradeResourceCostDuration[2] = "" Then $g_aUpgradeResourceCostDuration[2] = getGearUpgradeTime(185, 392 + $g_iMidOffsetY) ; Try to read yellow text (Discount).
 		Else
 			$g_aUpgradeResourceCostDuration[0] = QuickMIS("N1", $g_sImgAUpgradeRes, 670, 535 + $g_iMidOffsetY, 700, 565 + $g_iMidOffsetY) ; get resource
 			$g_aUpgradeResourceCostDuration[1] = getCostsUpgrade(552, 541 + $g_iMidOffsetY) ; get cost
+			If $g_aUpgradeResourceCostDuration[1] = "" Then $g_aUpgradeResourceCostDuration[1] = getCostsUpgrade(552, 532 + $g_iMidOffsetY) ; Try to read yellow text (Discount).
 			$g_aUpgradeResourceCostDuration[2] = getBldgUpgradeTime(717, 544 + $g_iMidOffsetY) ; get duration
+			If $g_aUpgradeResourceCostDuration[2] = "" Then $g_aUpgradeResourceCostDuration[2] = getBldgUpgradeTime(717, 532 + $g_iMidOffsetY) ; Try to read yellow text (Discount).
 		EndIf
 
 		; if one of the value is empty, there is an error, we must exit Auto Upgrade

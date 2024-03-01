@@ -1025,7 +1025,7 @@ EndFunc   ;==>WatchBBBattles
 Func CheckDonateOften()
 	If Not $g_bCheckDonateOften Or Not $g_bChkDonate Then Return
 
-	If _ColorCheck(_GetPixelColor(22, 272 + $g_iMidOffsetY, True), "EC0A12", 20) Then
+	If _ColorCheck(_GetPixelColor(54, 278 + $g_iMidOffsetY, True), "E90914", 20) Then
 		SetLog("Check Donate Often", $COLOR_DEBUG1)
 		checkArmyCamp(True, True)
 
@@ -1249,8 +1249,8 @@ Func ForumAccept()
 
 	While 1
 		ForceCaptureRegion()
-		$Scroll = _PixelSearch(356, 59, 360, 75, Hex(0xFFFFFF, 6), 20)
-		If IsArray($Scroll) And _ColorCheck(_GetPixelColor(363, 73, True), Hex(0x60A618, 6), 20) Then ; a second pixel for the green
+		$Scroll = _PixelSearch(348, 64, 352, 78, Hex(0xFFFFFF, 6), 20)
+		If IsArray($Scroll) And _ColorCheck(_GetPixelColor(355, 77, True), Hex(0x60A618, 6), 20) Then ; a second pixel for the green
 			ClickP($Scroll)
 			If _Sleep(350) Then ExitLoop
 			ContinueLoop
@@ -1305,18 +1305,18 @@ Func ForumAccept()
 				ContinueLoop
 			Else
 				ForceCaptureRegion()
-				$Scroll = _PixelSearch(356, 590 + $g_iBottomOffsetY, 360, 605 + $g_iBottomOffsetY, Hex(0xFFFFFF, 6), 20)
+				$Scroll = _PixelSearch(348, 587 + $g_iBottomOffsetY, 352, 601 + $g_iBottomOffsetY, Hex(0xFFFFFF, 6), 20)
 				If IsArray($Scroll) Then
-					Click($Scroll[0], $Scroll[1])
+					ClickP($Scroll, 1, 0, "#0172")
 					If _Sleep(250) Then ExitLoop
 					ContinueLoop
 				EndIf
 			EndIf
 		Else
 			ForceCaptureRegion()
-			$Scroll = _PixelSearch(356, 590 + $g_iBottomOffsetY, 360, 605 + $g_iBottomOffsetY, Hex(0xFFFFFF, 6), 20)
+			$Scroll = _PixelSearch(348, 587 + $g_iBottomOffsetY, 352, 601 + $g_iBottomOffsetY, Hex(0xFFFFFF, 6), 20)
 			If IsArray($Scroll) Then
-				Click($Scroll[0], $Scroll[1])
+				ClickP($Scroll, 1, 0, "#0172")
 				If _Sleep(250) Then ExitLoop
 				ContinueLoop
 			Else

@@ -874,8 +874,13 @@ Func runBot() ;Bot that runs everything in order
 				_Sleep($DELAYRUNBOT3)
 			EndIf
 
+			Local $AllowCG = True
+			If ProfileSwitchAccountEnabled() And $g_bChkBBMaxEventsInARow Then
+				If Number($g_aiAttackedBBEventCount) > Number($g_aiLimitBBEventCount) Then $AllowCG = False
+			EndIf
+
 			If $g_bChkCollectBuilderBase Or $g_bChkStartClockTowerBoost Or $g_iChkBBSuggestedUpgrades Or $g_bChkEnableBBAttack Then
-				_ClanGames()
+				If $AllowCG Then _ClanGames()
 				If Not $g_bRunState Then Return
 				If IsCGCoolDownTime(False) And $g_bChkClanGamesPurgeAnyClose And $b_COCClose Then
 					Local $iWaitTime = Random($sPurgeTimeCG * 1000, ($sPurgeTimeCG + 60) * 1000, 1)
@@ -891,31 +896,36 @@ Func runBot() ;Bot that runs everything in order
 				EndIf
 			EndIf
 
-			While $g_bIsBBevent
-				SwitchBetweenBasesMod()
-				If $IstoSwitchMod Then
-					$ActionForModLog = "Switch To Builder Base - BB Event Detected"
-					If $g_iTxtCurrentVillageName <> "" Then
-						GUICtrlSetData($g_hTxtModLog, @CRLF & _NowTime() & " [" & $g_iTxtCurrentVillageName & "] Avanced : " & $ActionForModLog & "", 1)
-					Else
-						GUICtrlSetData($g_hTxtModLog, @CRLF & _NowTime() & " [" & $g_sProfileCurrentName & "] Avanced : " & $ActionForModLog & "", 1)
+			If $AllowCG Then
+				While $g_bIsBBevent
+					SwitchBetweenBasesMod()
+					If $IstoSwitchMod Then
+						$ActionForModLog = "Switch To Builder Base - BB Event Detected"
+						If $g_iTxtCurrentVillageName <> "" Then
+							GUICtrlSetData($g_hTxtModLog, @CRLF & _NowTime() & " [" & $g_iTxtCurrentVillageName & "] Avanced : " & $ActionForModLog & "", 1)
+						Else
+							GUICtrlSetData($g_hTxtModLog, @CRLF & _NowTime() & " [" & $g_sProfileCurrentName & "] Avanced : " & $ActionForModLog & "", 1)
+						EndIf
+						_FileWriteLog($g_sProfileLogsPath & "\ModLog.log", " [" & $g_sProfileCurrentName & "] - Advanced : " & $ActionForModLog & "")
+						BuilderBase()
+						If $bChkUseOnlyCCMedals Then
+							Local $aRndFuncList = ['DonateCC,Train']
+						Else
+							Local $aRndFuncList = ['DonateCC,Train', 'RequestCC']
+						EndIf
+						_ArrayShuffle($aRndFuncList)
+						For $Index In $aRndFuncList
+							If Not $g_bRunState Then Return
+							_RunFunction($Index)
+							If $g_bRestart Then ContinueLoop 2 ; must be level 2 due to loop-in-loop
+						Next
+						If Not $g_bIsBBevent Then ExitLoop
+						If ProfileSwitchAccountEnabled() And $g_bChkBBMaxEventsInARow Then
+							If Number($g_aiAttackedBBEventCount) > Number($g_aiLimitBBEventCount) Then ExitLoop
+						EndIf
 					EndIf
-					_FileWriteLog($g_sProfileLogsPath & "\ModLog.log", " [" & $g_sProfileCurrentName & "] - Advanced : " & $ActionForModLog & "")
-					BuilderBase()
-					If $bChkUseOnlyCCMedals Then
-						Local $aRndFuncList = ['DonateCC,Train']
-					Else
-						Local $aRndFuncList = ['DonateCC,Train', 'RequestCC']
-					EndIf
-					_ArrayShuffle($aRndFuncList)
-					For $Index In $aRndFuncList
-						If Not $g_bRunState Then Return
-						_RunFunction($Index)
-						If $g_bRestart Then ContinueLoop 2 ; must be level 2 due to loop-in-loop
-					Next
-					If Not $g_bIsBBevent Then ExitLoop
-				EndIf
-			WEnd
+				WEnd
+			EndIf
 
 			SwitchBetweenBasesMod()
 
@@ -946,6 +956,10 @@ Func runBot() ;Bot that runs everything in order
 
 			If $g_bFirstStart Then SetDebugLog("First loop completed!")
 			$g_bFirstStart = False ; already finished first loop since bot started.
+
+			If ProfileSwitchAccountEnabled() And $g_bChkBBMaxEventsInARow Then
+				If Number($g_aiAttackedBBEventCount) > Number($g_aiLimitBBEventCount) Then $g_bForceSwitch = True
+			EndIf
 
 			If ProfileSwitchAccountEnabled() And ($g_iCommandStop = 0 Or $g_iCommandStop = 3 Or $g_abDonateOnly[$g_iCurAccount] Or $g_bForceSwitch) Then checkSwitchAcc()
 			If IsSearchAttackEnabled() Then ; If attack scheduled has attack disabled now, stop wall upgrades, and attack.
@@ -1191,7 +1205,13 @@ Func AttackMain() ;Main control for attack functions
 				SetDebugLog(_PadStringCenter(" Hero status check" & BitAND($g_aiAttackUseHeroes[$DB], $g_aiSearchHeroWaitEnable[$DB], $g_iHeroAvailable) & "|" & $g_aiSearchHeroWaitEnable[$DB] & "|" & $g_iHeroAvailable, 54, "="), $COLOR_DEBUG)
 				SetDebugLog(_PadStringCenter(" Hero status check" & BitAND($g_aiAttackUseHeroes[$LB], $g_aiSearchHeroWaitEnable[$LB], $g_iHeroAvailable) & "|" & $g_aiSearchHeroWaitEnable[$LB] & "|" & $g_iHeroAvailable, 54, "="), $COLOR_DEBUG)
 			EndIf
-			_ClanGames() ;Trying to do this above in the main loop
+
+			Local $AllowCG = True
+			If ProfileSwitchAccountEnabled() And $g_bChkBBMaxEventsInARow Then
+				If Number($g_aiAttackedBBEventCount) > Number($g_aiLimitBBEventCount) Then $AllowCG = False
+			EndIf
+
+			If $AllowCG Then _ClanGames() ;Trying to do this above in the main loop
 			If Not $g_bRunState Then Return
 			If IsCGCoolDownTime(False) And $g_bChkClanGamesPurgeAnyClose And $b_COCClose Then
 				Local $iWaitTime = Random($sPurgeTimeCG * 1000, ($sPurgeTimeCG + 60) * 1000, 1)
@@ -1206,31 +1226,36 @@ Func AttackMain() ;Main control for attack functions
 				EndIf
 			EndIf
 
-			While $g_bIsBBevent
-				SwitchBetweenBasesMod()
-				If $IstoSwitchMod Then
-					$ActionForModLog = "Switch To Builder Base - BB Event Detected"
-					If $g_iTxtCurrentVillageName <> "" Then
-						GUICtrlSetData($g_hTxtModLog, @CRLF & _NowTime() & " [" & $g_iTxtCurrentVillageName & "] Avanced : " & $ActionForModLog & "", 1)
-					Else
-						GUICtrlSetData($g_hTxtModLog, @CRLF & _NowTime() & " [" & $g_sProfileCurrentName & "] Avanced : " & $ActionForModLog & "", 1)
+			If $AllowCG Then
+				While $g_bIsBBevent
+					SwitchBetweenBasesMod()
+					If $IstoSwitchMod Then
+						$ActionForModLog = "Switch To Builder Base - BB Event Detected"
+						If $g_iTxtCurrentVillageName <> "" Then
+							GUICtrlSetData($g_hTxtModLog, @CRLF & _NowTime() & " [" & $g_iTxtCurrentVillageName & "] Avanced : " & $ActionForModLog & "", 1)
+						Else
+							GUICtrlSetData($g_hTxtModLog, @CRLF & _NowTime() & " [" & $g_sProfileCurrentName & "] Avanced : " & $ActionForModLog & "", 1)
+						EndIf
+						_FileWriteLog($g_sProfileLogsPath & "\ModLog.log", " [" & $g_sProfileCurrentName & "] - Advanced : " & $ActionForModLog & "")
+						BuilderBase()
+						If $bChkUseOnlyCCMedals Then
+							Local $aRndFuncList = ['DonateCC,Train']
+						Else
+							Local $aRndFuncList = ['DonateCC,Train', 'RequestCC']
+						EndIf
+						_ArrayShuffle($aRndFuncList)
+						For $Index In $aRndFuncList
+							If Not $g_bRunState Then Return
+							_RunFunction($Index)
+							If $g_bRestart Then ContinueLoop 2 ; must be level 2 due to loop-in-loop
+						Next
+						If Not $g_bIsBBevent Then ExitLoop
+						If ProfileSwitchAccountEnabled() And $g_bChkBBMaxEventsInARow Then
+							If Number($g_aiAttackedBBEventCount) > Number($g_aiLimitBBEventCount) Then ExitLoop
+						EndIf
 					EndIf
-					_FileWriteLog($g_sProfileLogsPath & "\ModLog.log", " [" & $g_sProfileCurrentName & "] - Advanced : " & $ActionForModLog & "")
-					BuilderBase()
-					If $bChkUseOnlyCCMedals Then
-						Local $aRndFuncList = ['DonateCC,Train']
-					Else
-						Local $aRndFuncList = ['DonateCC,Train', 'RequestCC']
-					EndIf
-					_ArrayShuffle($aRndFuncList)
-					For $Index In $aRndFuncList
-						If Not $g_bRunState Then Return
-						_RunFunction($Index)
-						If $g_bRestart Then ContinueLoop 2 ; must be level 2 due to loop-in-loop
-					Next
-					If Not $g_bIsBBevent Then ExitLoop
-				EndIf
-			WEnd
+				WEnd
+			EndIf
 
 			If $IsNewAttack Then
 				$g_iSearchRestartLimitPause = Random($g_iSearchRestartLimitMinPause, $g_iSearchRestartLimitMaxPause, 1)
@@ -1726,11 +1751,11 @@ Func BuilderBase($bTest = False)
 		SwitchBetweenBases()
 
 		If _Sleep(Random(1500, 2000)) Then Return
-		
+
 		If $g_bChkBBMaxEventsInARow And ProfileSwitchAccountEnabled() Then
-			If $g_aiAttackedBBEventCount >= $g_aiLimitBBEventCount And Not $g_bIsBBevent Then
+			If Number($g_aiAttackedBBEventCount) >= Number($g_aiLimitBBEventCount) And Not $g_bIsBBevent Then
 				Return
-			ElseIf $g_aiAttackedBBEventCount > $g_aiLimitBBEventCount And $g_bIsBBevent Then
+			ElseIf Number($g_aiAttackedBBEventCount) > Number($g_aiLimitBBEventCount) And $g_bIsBBevent Then
 				Return
 			Else
 				_ClanGames()
@@ -1738,7 +1763,7 @@ Func BuilderBase($bTest = False)
 		Else
 			_ClanGames()
 		EndIf
-		
+
 		If Not $g_bRunState Then Return
 
 	EndIf
@@ -1798,9 +1823,12 @@ Func GotoBBTodoCG()
 			For $Index In $aRndFuncList
 				If Not $g_bRunState Then Return
 				_RunFunction($Index)
-				If $g_bRestart Then ContinueLoop 2 ; must be level 2 due to loop-in-loop
+				If $g_bRestart Then ContinueLoop 2     ; must be level 2 due to loop-in-loop
 			Next
 			If Not $g_bIsBBevent Then ExitLoop
+			If ProfileSwitchAccountEnabled() And $g_bChkBBMaxEventsInARow Then
+				If Number($g_aiAttackedBBEventCount) > Number($g_aiLimitBBEventCount) Then ExitLoop
+			EndIf
 		EndIf
 	WEnd
 EndFunc   ;==>GotoBBTodoCG

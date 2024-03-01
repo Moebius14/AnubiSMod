@@ -290,7 +290,7 @@ Func GetButtonDiamond($sButtonName)
 		Case "EndBattleSurrender" ;surrender - attackwindow
 			$btnDiamond = "12,577|125,577|125,615|12,615"
 		Case "ClanChat"
-			$btnDiamond = GetDiamondFromRect("0,290,415,390")
+			$btnDiamond = GetDiamondFromRect("10,310,420,370")
 		Case "ChatOpenRequestPage" ;mainwindow - chat open
 			$btnDiamond = "5,688|65,688|65,615|5,725"
 		Case "Profile" ;mainwindow - only visible if chat closed
@@ -320,7 +320,7 @@ Func GetButtonDiamond($sButtonName)
 		Case "Okay", "Cancel"
 			$btnDiamond = GetDiamondFromRect("240,250,630,630")
 		Case "ChatDown" ; AnubiS Mod
-			$btnDiamond = GetDiamondFromRect2(23, 570 + $g_iBottomOffsetY, 60, 620 + $g_iBottomOffsetY)
+			$btnDiamond = GetDiamondFromRect2(23, 580 + $g_iBottomOffsetY, 60, 620 + $g_iBottomOffsetY)
 		Case "EventButton" ; Special Event Button
 			$btnDiamond = GetDiamondFromRect2(140, 500 + $g_iBottomOffsetY, 720, 590 + $g_iBottomOffsetY)
 		Case Else
