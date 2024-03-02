@@ -50,6 +50,8 @@
 * Improved some libraries and changed few tolerances.
 * Added Guard warning window support in legend league.
 * Typo.
+* Improved Blacksmith opening when new equipment.
+* Updated SafeCoord to match with new chat button.
 
 * v8.1.5 **
 * Improved OCR Army Capacity.

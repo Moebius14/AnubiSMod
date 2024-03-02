@@ -371,7 +371,7 @@ EndFunc   ;==>getChatStringKorean
 
 Func getChatStringPersian($x_start, $y_start, $bConvert = True) ; -> Get string chat request - Persian - "DonateCC.au3"
 	Local $bUseOcrImgLoc = True
-	Local $OCRString = getOcrAndCapture("persian-bundle", $x_start, $y_start, 240, 20, Default, $bUseOcrImgLoc, True)
+	Local $OCRString = getOcrAndCapture("persian-bundle", $x_start, $y_start, 320, 20, Default, $bUseOcrImgLoc, True)
 	If $bConvert = True Then
 		$OCRString = StringReverse($OCRString)
 		$OCRString = StringReplace($OCRString, "A", "ا")

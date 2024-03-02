@@ -1,3 +1,7 @@
+* v24.03.02 **
+* Fixed Humanization variable unregistered.
+* Improved Look at current war function.
+
 * v24.03.01 **
 * Added CG BB event attack in a row limit.
 * Improved CWL days detection.

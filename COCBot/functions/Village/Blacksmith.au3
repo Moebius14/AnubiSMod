@@ -77,7 +77,13 @@ Func Blacksmith($bTest = False)
 	Local $BuildingInfo = BuildingInfo(242, 468 + $g_iBottomOffsetY)
 	SetLog("Blacksmith is level " & $BuildingInfo[2])
 
-	If Not FindBSButton() Then Return False ; cant start because we cannot find the Blacksmith button
+	If Not FindBSButton() Then
+		ClickAway()
+		If _Sleep(1000) Then Return
+		BuildingClickP($g_aiBlacksmithPos, "#0197") ; Click Blacksmith again. Case when new equipment is gained.
+		If _Sleep(1500) Then Return ; Wait for window to open
+		If Not FindBSButton() Then Return False ; cant start because we cannot find the Blacksmith button
+	EndIf
 
 	If Not IsBlacksmithPage() Then
 		SetLog("Failed to open Blacksmith Window!", $COLOR_ERROR)

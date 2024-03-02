@@ -322,13 +322,13 @@ Func DonateCC($bCheckForNewMsg = False)
 								If $ClanString <> "" Then $BlankSpaces = " "
 							Next
 						Else
-							Local $Yaxis[3] = [64, 63, 66] ; "Chinese", "Korean", "Persian"
+							Local $Yaxis[3] = [48, 47, 50] ; "Chinese", "Korean", "Persian"
 							If $Alphabets[$i] Then
 								If $ClanString = "" Or $ClanString = " " Then
 									SetLog("Using OCR to read " & $TextAlphabetsNames[$i] & " alphabets.", $COLOR_ACTION)
 									; Ensure used functions are references in "MBR References.au3"
 									#Au3Stripper_Off
-									$ClanString &= $BlankSpaces & Call($AlphabetFunctions[$i], 45, $aiDonateButton[1] - $Yaxis[$i - 1])
+									$ClanString &= $BlankSpaces & Call($AlphabetFunctions[$i], 32, $aiDonateButton[1] - $Yaxis[$i - 1])
 									#Au3Stripper_On
 									If @error = 0xDEAD And @extended = 0xBEEF Then SetLog("[DonatCC] Function " & $AlphabetFunctions[$i] & "() had a problem.")
 									If $g_bDebugSetlog Then SetDebugLog("$OcrName: " & $OcrName)

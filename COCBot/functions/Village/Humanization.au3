@@ -385,7 +385,7 @@ Func LookAtCurrentWar()
 
 	If Not @error Then
 		If _Sleep(250) Then Return
-		If ($g_bClanWar Or $g_bClanWarLeague) And $IsStepWar Then ; If any war step
+		If ($g_bClanWar Or $g_bClanWarLeague) And $IsStepWar Or ($g_bClanWarLeague And $CWLPrep) Then ; If any war step
 
 			If IsWarMenu() Then
 				Local $sWarMode = ($g_bClanWarLeague = True) ? ("Current CWL war") : ("Current War")
@@ -543,7 +543,7 @@ Func LookAtCurrentWar()
 					EndIf
 				EndIf
 
-				If ($g_bClanWarLeague And Not $IsAllowedPreparationDay) Or $IsWarDay Or $IsWarEnded Or $g_bClanWar Then
+				If ($g_bClanWarLeague And Not $IsAllowedPreparationDay And Not $CWLPrep) Or $IsWarDay Or $IsWarEnded Or $g_bClanWar Then
 					SetLog("Open War Details Menu ...", $COLOR_BLUE)
 					If $g_bClanWar Then Click(800, 610 + $g_iBottomOffsetY) ; go to war details
 					If $g_bClanWarLeague Then Click(810, 540 + $g_iMidOffsetY) ; go to Cwl war details
@@ -823,7 +823,7 @@ Func LookAtCurrentWar()
 		SetLog("Error When Trying To Open War Details Window ... Skipping ...", $COLOR_WARNING)
 	EndIf
 
-	If $IsStepWar Then
+	If $IsStepWar Or ($g_bClanWarLeague And $CWLPrep) Then
 		Local $Is3tabstoclick = Random(0, 4, 1)
 		If $g_bClanWarLeague And $Is3tabstoclick >= 2 Then
 			SetLog("Look at Season Info", $COLOR_BLUE)
@@ -3269,20 +3269,21 @@ Func CheckWarTime(ByRef $sResult, ByRef $bResult, $bReturnFrom = True, $WWR = Fa
 
 		If $g_bClanWarLeague And Not $IsWarEnded Then
 
-			Local $DayReal = 0
+			Local $RandomXDayToClick = 0, $WarNumberAfterRandom = 0, $PrepDayNumber = 0, $DayReal = 0
 			For $t = 0 To 4 ; Check 5 times
 				If QuickMIS("BC1", $directoryDay & "\CWL_BattleDay", 175, 585 + $g_iBottomOffsetY, 690, 625 + $g_iBottomOffsetY) Then ; Battle Day Number
 					$DayReal = Number(getOcrAndCapture("coc-ores", $g_iQuickMISX - 20, 622 + $g_iBottomOffsetY, 26, 25, True))
 					Local $RandomXDayBefore = Random(1, $DayReal - 1, 1)
-					Local $RandomXDayToClick = $g_iQuickMISX - ($RandomXDayBefore * 76) - 5
-					Local $WarNumberAfterRandom = $DayReal - $RandomXDayBefore
-					Local $PrepDayNumber = $DayReal + 1
+					$RandomXDayToClick = $g_iQuickMISX - ($RandomXDayBefore * 76) - 5
+					$WarNumberAfterRandom = $DayReal - $RandomXDayBefore
+					$PrepDayNumber = $DayReal + 1
 					ExitLoop
 				EndIf
 				If _Sleep(250) Then Return
 			Next
 			If $DayReal > 0 Then
 				SetLog("Actual War Day : " & $DayReal & "", $COLOR_INFO)
+				$CWLPrep = False
 			Else
 				$CWLPrep = True
 			EndIf
@@ -3307,53 +3308,55 @@ Func CheckWarTime(ByRef $sResult, ByRef $bResult, $bReturnFrom = True, $WWR = Fa
 			Else
 				Local $SwitchBattleDay = Random(1, 5, 1)
 				If $DayReal <= 1 Then $SwitchBattleDay = Random(1, 4, 1)
-				Switch $SwitchBattleDay
-					Case 1, 2
-						If QuickMIS("BC1", $directoryDay & "\CWL_Battle", 175, 585 + $g_iBottomOffsetY, 690, 625 + $g_iBottomOffsetY) Then ; When Battle Day Is Unselected
-							SetLog("CWL : Enter In Battle Day", $COLOR_OLIVE)
-							Click($g_iQuickMISX - 5, $g_iQuickMISY + 12)
-						Else
-							SetLog("CWL : Stay In This Day", $COLOR_OLIVE)
-						EndIf
-						$IsAllowedPreparationDay = False
-					Case 3
-						If $IsAllowedPreparationDay Then
-							If QuickMIS("BC1", $directoryDay & "\CWL_Preparation", 175, 585 + $g_iBottomOffsetY, 690, 625 + $g_iBottomOffsetY) Then ;Find Preparation Button
-								If $PrepDayNumber >= 2 Then
-									SetLog("CWL : Enter In Preparation Day (Day " & $PrepDayNumber & ")", $COLOR_OLIVE)
-								Else
-									SetLog("CWL : Enter In Preparation Day", $COLOR_OLIVE)
+				If Not $CWLPrep Then
+					Switch $SwitchBattleDay
+						Case 1, 2
+							If QuickMIS("BC1", $directoryDay & "\CWL_Battle", 175, 585 + $g_iBottomOffsetY, 690, 625 + $g_iBottomOffsetY) Then ; When Battle Day Is Unselected
+								SetLog("CWL : Enter In Battle Day", $COLOR_OLIVE)
+								Click($g_iQuickMISX - 5, $g_iQuickMISY + 12)
+							Else
+								SetLog("CWL : Stay In This Day", $COLOR_OLIVE)
+							EndIf
+							$IsAllowedPreparationDay = False
+						Case 3
+							If $IsAllowedPreparationDay Then
+								If QuickMIS("BC1", $directoryDay & "\CWL_Preparation", 175, 585 + $g_iBottomOffsetY, 690, 625 + $g_iBottomOffsetY) Then ;Find Preparation Button
+									If $PrepDayNumber >= 2 Then
+										SetLog("CWL : Enter In Preparation Day (Day " & $PrepDayNumber & ")", $COLOR_OLIVE)
+									Else
+										SetLog("CWL : Enter In Preparation Day", $COLOR_OLIVE)
+									EndIf
+									Click($g_iQuickMISX - 5, $g_iQuickMISY + 12)
+									If _Sleep(500) Then Return
+									If Not IsWarMenu() Then
+										SetLog("Error when trying to open CWL Preparation page.", $COLOR_ERROR)
+										$bLocalReturn = SetError(1, 0, "Error Open CWL Preparation page")
+									EndIf
 								EndIf
+							Else
+								SetLog("CWL : Stay In This Day", $COLOR_OLIVE)
+								$IsAllowedPreparationDay = False
+							EndIf
+						Case 4
+							If QuickMIS("BC1", $directoryDay & "\CWL_Battle", 175, 585 + $g_iBottomOffsetY, 690, 625 + $g_iBottomOffsetY) Then ; When Battle Day Is Unselected
+								SetLog("CWL : Enter In Battle Day", $COLOR_OLIVE)
+								$IsAllowedPreparationDay = False
 								Click($g_iQuickMISX - 5, $g_iQuickMISY + 12)
 								If _Sleep(500) Then Return
 								If Not IsWarMenu() Then
-									SetLog("Error when trying to open CWL Preparation page.", $COLOR_ERROR)
-									$bLocalReturn = SetError(1, 0, "Error Open CWL Preparation page")
+									SetLog("Error when trying to open CWL Battle page.", $COLOR_ERROR)
+									$bLocalReturn = SetError(1, 0, "Error Open CWL Battle page")
 								EndIf
 							EndIf
-						Else
-							SetLog("CWL : Stay In This Day", $COLOR_OLIVE)
+						Case 5
+							SetLog("CWL : Enter Random Previous Day", $COLOR_OLIVE)
+							SetLog("Entering War Day " & $WarNumberAfterRandom & "", $COLOR_INFO)
+							Click($RandomXDayToClick, 620 + $g_iBottomOffsetY)
 							$IsAllowedPreparationDay = False
-						EndIf
-					Case 4
-						If QuickMIS("BC1", $directoryDay & "\CWL_Battle", 175, 585 + $g_iBottomOffsetY, 690, 625 + $g_iBottomOffsetY) Then ; When Battle Day Is Unselected
-							SetLog("CWL : Enter In Battle Day", $COLOR_OLIVE)
-							$IsAllowedPreparationDay = False
-							Click($g_iQuickMISX - 5, $g_iQuickMISY + 12)
-							If _Sleep(500) Then Return
-							If Not IsWarMenu() Then
-								SetLog("Error when trying to open CWL Battle page.", $COLOR_ERROR)
-								$bLocalReturn = SetError(1, 0, "Error Open CWL Battle page")
-							EndIf
-						EndIf
-					Case 5
-						SetLog("CWL : Enter Random Previous Day", $COLOR_OLIVE)
-						SetLog("Entering War Day " & $WarNumberAfterRandom & "", $COLOR_INFO)
-						Click($RandomXDayToClick, 620 + $g_iBottomOffsetY)
-						$IsAllowedPreparationDay = False
-						$IsARandomDay = True
-						If _Sleep(Random(3000, 5000, 1)) Then Return
-				EndSwitch
+							$IsARandomDay = True
+							If _Sleep(Random(3000, 5000, 1)) Then Return
+					EndSwitch
+				EndIf
 			EndIf
 		EndIf
 
