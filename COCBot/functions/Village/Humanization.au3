@@ -3284,6 +3284,7 @@ Func CheckWarTime(ByRef $sResult, ByRef $bResult, $bReturnFrom = True, $WWR = Fa
 			If $DayReal > 0 Then
 				SetLog("Actual War Day : " & $DayReal & "", $COLOR_INFO)
 				$CWLPrep = False
+				$IsStepWar = True
 			Else
 				$CWLPrep = True
 			EndIf
@@ -3291,7 +3292,7 @@ Func CheckWarTime(ByRef $sResult, ByRef $bResult, $bReturnFrom = True, $WWR = Fa
 			If Not $g_bRunState Then Return
 
 			If $WWR Then
-				If Random(0, 5, 1) > 2 And $DayReal > 0 Then
+				If Random(0, 5, 1) > 2 And $DayReal > 1 Then
 					Local $XDayNumberMinus = Random(1, $DayReal - 1, 1)
 					Local $RandomXDay = ($g_iQuickMISX - 5) - ($XDayNumberMinus * 76)
 					Local $Daynumber = $DayReal - $XDayNumberMinus
