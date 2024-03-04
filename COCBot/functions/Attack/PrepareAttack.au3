@@ -159,6 +159,7 @@ Func SelectCastleOrSiege(ByRef $iTroopIndex, $iX, $iCmbSiege, $gMatchMode)
 
 	Local $hStarttime = _Timer_Init()
 	Local $aSiegeTypes[9] = [$eCastle, $eWallW, $eBattleB, $eStoneS, $eSiegeB, $eLogL, $eFlameF, $eBattleD, "Any"]
+	Local $bSiegesLevelFive[4] = [$eWallW, $eStoneS, $eSiegeB, $eLogL]
 
 	Local $ToUse = $aSiegeTypes[$iCmbSiege]
 	Local $bNeedSwitch = False, $bAnySiege = False
@@ -166,8 +167,16 @@ Func SelectCastleOrSiege(ByRef $iTroopIndex, $iX, $iCmbSiege, $gMatchMode)
 	Local $sLog = GetTroopName($iTroopIndex)
 
 	Local $iMaxSiegeLevel = 4
-	If $iTroopIndex = $eWallW Or $iTroopIndex = $eStoneS Then $iMaxSiegeLevel = 5
-	If $g_iTownHallLevel < 10 Then $iMaxSiegeLevel = 3
+	If $g_iTownHallLevel >= 10 Then
+		For $i = 0 To UBound($bSiegesLevelFive) - 1
+			If $iTroopIndex = $bSiegesLevelFive[$i] Then
+				$iMaxSiegeLevel = 5
+				ExitLoop
+			EndIf
+		Next
+	Else
+		$iMaxSiegeLevel = 3
+	EndIf
 
 	Switch $ToUse
 		Case $iTroopIndex ; the same as current castle/siege
@@ -222,6 +231,18 @@ Func SelectCastleOrSiege(ByRef $iTroopIndex, $iX, $iCmbSiege, $gMatchMode)
 						$aFinalCoords = $aAllCoords[0]
 						$iFinalSiege = $iSiegeIndex
 						ExitLoop
+					EndIf
+
+					$iMaxSiegeLevel = 4
+					If $g_iTownHallLevel >= 10 Then
+						For $i = 0 To UBound($bSiegesLevelFive) - 1
+							If $iSiegeIndex = $bSiegesLevelFive[$i] Then
+								$iMaxSiegeLevel = 5
+								ExitLoop
+							EndIf
+						Next
+					Else
+						$iMaxSiegeLevel = 3
 					EndIf
 
 					If $iSiegeIndex >= $eWallW And $iSiegeIndex <= $eBattleD And ($bAnySiege Or $iSiegeIndex = $ToUse) Then
@@ -361,6 +382,8 @@ Func IsUnitUsed($iMatchMode, $iTroopIndex)
 					If $g_abAttackUseSkeletonSpell[$iMatchMode] Then Return True
 				Case $eBtSpell
 					If $g_abAttackUseBatSpell[$iMatchMode] Then Return True
+				Case $eOgSpell
+					If $g_abAttackUseOvergrowthSpell[$iMatchMode] Then Return True
 				Case Else
 					Return False
 			EndSwitch

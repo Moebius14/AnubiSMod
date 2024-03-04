@@ -50,8 +50,16 @@
 * Improved some libraries and changed few tolerances.
 * Added Guard warning window support in legend league.
 * Typo.
+* Added full Overgrowth spell support (OgSpell).
+* Reworked Donation GUI.
+* Improved Attack bar drag for 11+ slots.
+* Improved hero status detection (heal).
+* Improved hero heal time OCR.
+* Updated Siege machines level.
+* Updated Dark Elixir drill values (smartzap).
 * Improved Blacksmith opening when new equipment.
 * Updated SafeCoord to match with new chat button.
+* Added Mine and Collector level 16 template.
 
 * v8.1.5 **
 * Improved OCR Army Capacity.
