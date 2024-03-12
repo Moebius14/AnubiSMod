@@ -13,7 +13,7 @@
 ; Link ..........: https://github.com/MyBotRun/MyBot/wiki
 ; Example .......: No
 ; ===============================================================================================================================
-Func ParseAttackCSV_Settings_variables(ByRef $aiCSVTroops, ByRef $aiCSVSpells, ByRef $aiCSVSieges, ByRef $aiCSVHeros, ByRef $aiCSVWardenMode, _
+Func ParseAttackCSV_Settings_variables(ByRef $aiCSVTroops, ByRef $aiCSVTroopsBoost, ByRef $aiCSVSpells, ByRef $aiCSVSieges, ByRef $aiCSVHeros, ByRef $aiCSVWardenMode, _
 		ByRef $iCSVRedlineRoutineItem, ByRef $iCSVDroplineEdgeItem, ByRef $sCSVCCReq, ByRef $sCSVCCSpl, $sFilename)
 	If $g_bDebugAttackCSV Then SetLog("ParseAttackCSV_Settings_variables()", $COLOR_DEBUG)
 
@@ -114,6 +114,11 @@ Func ParseAttackCSV_Settings_variables(ByRef $aiCSVTroops, ByRef $aiCSVSpells, B
 							Case $eBarb To $eIWiza
 								$aiCSVTroops[$iTroopIndex] = Int($asCommand[$iTHCol])
 								If Int($asCommand[$iFlexCol]) > 0 Then $iFlexTroopIndex = $iTroopIndex
+								For $t = 0 To UBound($g_asSuperTroopShortNames) - 1
+									If $g_asSuperTroopShortNames[$t] = $asCommand[$iTroopNameCol] Then
+										$aiCSVTroopsBoost[$t] = $asCommand[$iTroopNameCol]
+									EndIf
+								Next
 							Case $eLSpell To $eOgSpell
 								$aiCSVSpells[$iTroopIndex - $eLSpell] = Int($asCommand[$iTHCol])
 							Case $eWallW To $eBattleD

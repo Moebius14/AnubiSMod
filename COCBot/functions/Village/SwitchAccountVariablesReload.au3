@@ -27,7 +27,6 @@ Func SwitchAccountVariablesReload($sType = "Load", $iAccount = $g_iCurAccount)
 	Static $abFirstStart = $aiTrue
 	Static $aiFirstRun = $aiTrue
 	Static $gSbFirstStartForAll = $aiZero
-	Static $gSbFirstStartAccountDC = $aiZero
 	Static $gSbFirstStartAccountFMI = $aiZero
 	Static $gSbFirstStartAccountSBB = $aiZero
 	Static $gSbFirstStartAccountSBB2 = $aiZero
@@ -48,8 +47,6 @@ Func SwitchAccountVariablesReload($sType = "Load", $iAccount = $g_iCurAccount)
 	Static $SDelayReturnedtocheckBBaseMS = $aiZero
 	Static $SCCBaseCheckTimer = $aiZero
 	Static $SDelayReturnedtocheckCCBaseMS = $aiZero
-	Static $SMagicItemsCheckTimer = $aiZero
-	Static $SDelayReturnedtocheckMagicItemsMS = $aiZero
 	Static $SIstoRecheckTrader = $aiZero
 	Static $SIsdroptrophiesActive = $aiZero
 	Static $SIsDropTrophyBreaked = $aiZero
@@ -140,7 +137,6 @@ Func SwitchAccountVariablesReload($sType = "Load", $iAccount = $g_iCurAccount)
 	Static $gSaiAttackedCGCount = $aiZero
 	Static $IsSReachedMaxCGDayAttack = $aiZero
 	Static $iSRandomAttackCGCountToday = $aiZero
-	Static $IsSAttackCGRandomEnable = $aiZero
 	Static $gSbIsBBevent = $aiZero
 	Static $SIsCGEventRunning = $aiZero
 	Static $Sb_COCClose = $aiTrue
@@ -156,7 +152,6 @@ Func SwitchAccountVariablesReload($sType = "Load", $iAccount = $g_iCurAccount)
 			$abFirstStart = $aiTrue
 			$aiFirstRun = $aiTrue
 			$gSbFirstStartForAll = $aiZero
-			$gSbFirstStartAccountDC = $aiZero
 			$gSbFirstStartAccountFMI = $aiZero
 			$gSbFirstStartAccountSBB = $aiZero
 			$gSbFirstStartAccountSBB2 = $aiZero
@@ -177,8 +172,6 @@ Func SwitchAccountVariablesReload($sType = "Load", $iAccount = $g_iCurAccount)
 			$SDelayReturnedtocheckBBaseMS = $aiZero
 			$SCCBaseCheckTimer = $aiZero
 			$SDelayReturnedtocheckCCBaseMS = $aiZero
-			$SMagicItemsCheckTimer = $aiZero
-			$SDelayReturnedtocheckMagicItemsMS = $aiZero
 			$SIstoRecheckTrader = $aiZero
 			$SIsdroptrophiesActive = $aiZero
 			$SIsDropTrophyBreaked = $aiZero
@@ -272,7 +265,6 @@ Func SwitchAccountVariablesReload($sType = "Load", $iAccount = $g_iCurAccount)
 			$gSaiAttackedCGCount = $aiZero
 			$IsSReachedMaxCGDayAttack = $aiZero
 			$iSRandomAttackCGCountToday = $aiZero
-			$IsSAttackCGRandomEnable = $aiZero
 			$gSbIsBBevent = $aiZero
 			$SIsCGEventRunning = $aiZero
 			$Sb_COCClose = $aiTrue
@@ -323,7 +315,6 @@ Func SwitchAccountVariablesReload($sType = "Load", $iAccount = $g_iCurAccount)
 			$abFirstStart[$iAccount] = $g_bFirstStart
 			$aiFirstRun[$iAccount] = $g_iFirstRun
 			$gSbFirstStartForAll[$iAccount] = $g_bFirstStartForAll
-			$gSbFirstStartAccountDC[$iAccount] = $g_bFirstStartAccountDC
 			$gSbFirstStartAccountFMI[$iAccount] = $g_bFirstStartAccountFMI
 			$gSbFirstStartAccountSBB[$iAccount] = $g_bFirstStartAccountSBB
 			$gSbFirstStartAccountSBB2[$iAccount] = $g_bFirstStartAccountSBB2
@@ -344,8 +335,6 @@ Func SwitchAccountVariablesReload($sType = "Load", $iAccount = $g_iCurAccount)
 			$SDelayReturnedtocheckBBaseMS[$iAccount] = $DelayReturnedtocheckBBaseMS
 			$SCCBaseCheckTimer[$iAccount] = $CCBaseCheckTimer
 			$SDelayReturnedtocheckCCBaseMS[$iAccount] = $DelayReturnedtocheckCCBaseMS
-			$SMagicItemsCheckTimer[$iAccount] = $MagicItemsCheckTimer
-			$SDelayReturnedtocheckMagicItemsMS[$iAccount] = $DelayReturnedtocheckMagicItemsMS
 			$SIstoRecheckTrader[$iAccount] = $IstoRecheckTrader
 			$SIsdroptrophiesActive[$iAccount] = $IsdroptrophiesActive
 			$SIsDropTrophyBreaked[$iAccount] = $IsDropTrophyBreaked
@@ -476,7 +465,6 @@ Func SwitchAccountVariablesReload($sType = "Load", $iAccount = $g_iCurAccount)
 			$gSaiAttackedCGCount[$iAccount] = $g_aiAttackedCGCount
 			$IsSReachedMaxCGDayAttack[$iAccount] = $IsReachedMaxCGDayAttack
 			$iSRandomAttackCGCountToday[$iAccount] = $iRandomAttackCGCountToday
-			$IsSAttackCGRandomEnable[$iAccount] = $IsAttackCGRandomEnable
 			$gSbIsBBevent[$iAccount] = $g_bIsBBevent
 			$SIsCGEventRunning[$iAccount] = $IsCGEventRunning
 			$Sb_COCClose[$iAccount] = $b_COCClose
@@ -509,7 +497,6 @@ Func SwitchAccountVariablesReload($sType = "Load", $iAccount = $g_iCurAccount)
 			$g_bFirstStart = $abFirstStart[$iAccount]
 			$g_iFirstRun = $aiFirstRun[$iAccount]
 			$g_bFirstStartForAll = $gSbFirstStartForAll[$iAccount]
-			$g_bFirstStartAccountDC = $gSbFirstStartAccountDC[$iAccount]
 			$g_bFirstStartAccountFMI = $gSbFirstStartAccountFMI[$iAccount]
 			$g_bFirstStartAccountSBB = $gSbFirstStartAccountSBB[$iAccount]
 			$g_bFirstStartAccountSBB2 = $gSbFirstStartAccountSBB2[$iAccount]
@@ -530,8 +517,6 @@ Func SwitchAccountVariablesReload($sType = "Load", $iAccount = $g_iCurAccount)
 			$DelayReturnedtocheckBBaseMS = $SDelayReturnedtocheckBBaseMS[$iAccount]
 			$CCBaseCheckTimer = $SCCBaseCheckTimer[$iAccount]
 			$DelayReturnedtocheckCCBaseMS = $SDelayReturnedtocheckCCBaseMS[$iAccount]
-			$MagicItemsCheckTimer = $SMagicItemsCheckTimer[$iAccount]
-			$DelayReturnedtocheckMagicItemsMS = $SDelayReturnedtocheckMagicItemsMS[$iAccount]
 			$IstoRecheckTrader = $SIstoRecheckTrader[$iAccount]
 			$IsdroptrophiesActive = $SIsdroptrophiesActive[$iAccount]
 			$IsDropTrophyBreaked = $SIsDropTrophyBreaked[$iAccount]
@@ -669,7 +654,6 @@ Func SwitchAccountVariablesReload($sType = "Load", $iAccount = $g_iCurAccount)
 			$g_aiAttackedCGCount = $gSaiAttackedCGCount[$iAccount]
 			$IsReachedMaxCGDayAttack = $IsSReachedMaxCGDayAttack[$iAccount]
 			$iRandomAttackCGCountToday = $iSRandomAttackCGCountToday[$iAccount]
-			$IsAttackCGRandomEnable = $IsSAttackCGRandomEnable[$iAccount]
 			$g_bIsBBevent = $gSbIsBBevent[$iAccount]
 			$IsCGEventRunning = $SIsCGEventRunning[$iAccount]
 			$b_COCClose = $Sb_COCClose[$iAccount]

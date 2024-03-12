@@ -556,7 +556,7 @@ Global Enum $eIcnArcher = 1, $eIcnDonArcher, $eIcnBalloon, $eIcnDonBalloon, $eIc
 		$eIcnSuperMiner, $eIcnCapitalTrophy, $eLigue1, $eLigue2, $eLigue3, $eIcnMonolith, $eIcnEFWizard, $eWood, $eClay, $eStone, $eCopper, $eBrass, $eIron, $eSteel, $eTitanium, $ePlatinum, $eEmerald, _
 		$eRuby, $eDiamond, $eLigue4, $eLigue5, $eIcnSuperHogRider, $eIcnAppWard, $eIcnSleepingChampion, $eIcnBattleCopter, $eWall17, $eHdV16, $eIcnTH16, $eIcnSpiritFox, $eIcnRootRider, $eIcnBlacksmithgreen, $eIcnBarbarianPuppet, _
 		$eIcnRageVial, $eIcnEQBoots, $eIcnVampstache, $eIcnArcherPuppet, $eIcnInvisibilityVial, $eIcnGiantArrow, $eIcnHealerPuppet, $eIcnEternalTome, $eIcnLifeGem, $eIcnHealingTome, $eIcnRageGem, $eIcnRoyalGem, _
-		$eIcnSeekingShield, $eIcnGauntlet, $eIcnBlacksmith, $eIcnMultiArcher, $eIcnRicochet, $eIcnFrozenArrow, $eIcnHogPuppet, $eIcnHasteVial, $eIcnOvergrowthSpell
+		$eIcnSeekingShield, $eIcnGauntlet, $eIcnBlacksmith, $eIcnMultiArcher, $eIcnRicochet, $eIcnFrozenArrow, $eIcnHogPuppet, $eIcnHasteVial, $eIcnOvergrowthSpell, $eIcnFireball
 
 ; enumerated Icons 1-based index to IconLibMod
 Global Enum $eIcnVillager = 1, $eIcnModCWL, $eIcnModZZZ, $eIcnHumanization, $eIcnGUIMod, $eIcnBell, $g_sIcnTrader, $eIcnAnubisMod, $eIcnStorm1Mod, $eIcnStorm2Mod, $eIcnForecast, $eIcnStop, $eIcnChrono, $eIcnModForecastBoost, _
@@ -680,6 +680,7 @@ Global Const $iSuperTroopsCount = 16, $iMaxSupersTroop = 2
 Global Const $g_asSuperTroopNames[$iSuperTroopsCount] = [ _
 		"Super Barbarian", "Super Archer", "Sneaky Goblin", "Super WallBreaker", "Super Giant", "Rocket Balloon", "Super Wizard", "Super Dragon", "Inferno Dragon", "Super Minion", "Super Valkyrie", "Super Witch", _
 		"Ice Hound", "Super Bowler", "Super Miner", "Super Hog Rider"]
+Global Const $g_asSuperTroopShortNames[$iSuperTroopsCount] = ["SBarb", "SArch", "SGobl", "SWall", "SGiant", "RBall", "SWiza", "SDrag", "InfernoD", "SMini", "SValk", "SWitc", "IceH", "SBowl", "SMine", "SHogs"]
 Global Const $g_asSuperTroopIndex[$iSuperTroopsCount] = [ _
 		$eTroopSuperBarbarian, $eTroopSuperArcher, $eTroopSneakyGoblin, $eTroopSuperWallBreaker, $eTroopSuperGiant, $eTroopRocketBalloon, $eTroopSuperWizard, $eTroopSuperDragon, $eTroopInfernoDragon, $eTroopSuperMinion, _
 		$eTroopSuperValkyrie, $eTroopSuperWitch, $eTroopIceHound, $eTroopSuperBowler, $eTroopSuperMiner, $eTroopSuperHogRider]
@@ -871,15 +872,12 @@ Global $g_bCollectStarBonus = False, $g_bCCTreasuryFull = False, $TreasuryCheckC
 Global $g_iTxtRestartGold = 10000
 Global $g_iTxtRestartElixir = 25000
 Global $g_iTxtRestartDark = 500
-Global $g_bChkCollect = True, $g_bChkTombstones = True, $g_bChkCleanYard = True, $g_bChkGemsBox = False, $g_bChkFirstStartSellMagicItem = False, $g_bChkSellMagicItem = False
+Global $g_bChkCollect = True, $g_bChkTombstones = True, $g_bChkCleanYard = True, $g_bChkGemsBox = False
 Global $g_bChkCollectCartFirst = False, $g_iTxtCollectGold = 0, $g_iTxtCollectElixir = 0, $g_iTxtCollectDark = 0
 Global $g_bChkTreasuryCollect = False
 Global $g_iTxtTreasuryGold = 0
 Global $g_iTxtTreasuryElixir = 0
 Global $g_iTxtTreasuryDark = 0
-Global $g_iacmbMagicPotion[10] = [6, 6, 6, 6, 6, 6, 6, 6, 6, 6]
-Global $g_PotionNumberChain = "0|1|2|3|4|5|No Limit"
-Global $XForItem1 = 0, $XForItem2 = 0, $IsopenMagicWindow = False
 
 Global $g_bChkCollectBuilderBase = False, $g_bChkStartClockTowerBoost = False, $g_bChkCTBoostBlderBz = False, $g_bChkCleanBBYard = False
 
@@ -1158,7 +1156,7 @@ Global $g_bCloseWhileTrainingEnable = True, $g_bCloseWithoutShield = True, $g_bC
 		$g_iRandomCloseOptionPercent = 90, $g_idRadio_RandomClassic = False, $g_idRadio_RandomMod = True
 Global $g_iTrainClickDelay = 120, $RandomClickTrainAddTime = 0, $g_iTrainClickDelayfinal = 0
 Global $g_bTrainAddRandomDelayEnable = False, $g_iTrainAddRandomDelayMin = 5, $g_iTrainAddRandomDelayMax = 20
-Global $g_bTrainAddRandomClickTimingDelayEnable = True, $g_iTrainAddRandomClickTimingDelayMin = 0, $g_iTrainAddRandomClickTimingDelayMax = 10
+Global $g_bTrainAddRandomClickTimingDelayEnable = True, $g_iTrainAddRandomClickTimingDelayMin = 0, $g_iTrainAddRandomClickTimingDelayMax = 50
 Global $g_iSearchRestartLimit = 0, $g_iSearchRestartLimitPause = 0, $g_iSearchRestartLimitPauseTime = 0, $IsNewAttack = True
 
 ; <><><><> Attack Plan / Search & Attack / {Common Across DeadBase, ActiveBase, Bully} <><><><>
@@ -1392,6 +1390,7 @@ Global $g_aiTotalGoldGain[$g_iModeCount] = [0, 0, 0], $g_aiTotalElixirGain[$g_iM
 Global $g_aiNbrOfDetectedMines[$g_iModeCount] = [0, 0, 0], $g_aiNbrOfDetectedCollectors[$g_iModeCount] = [0, 0, 0], $g_aiNbrOfDetectedDrills[$g_iModeCount] = [0, 0, 0] ; number of mines, collectors, drills detected for DB, LB, TB
 Global $g_aiAttackedCount = 0 ; convert to global from UpdateStats to enable daily attack limits
 Global $g_iSearchCount = 0 ;Number of searches
+Global $g_bLegendsAllMade = False ;Have all Legends attacks been done?
 Global Const $g_iMaxTrainSkip = 40
 Global $g_iActualTrainSkip = 0
 Global $g_iSmartZapGain = 0, $g_iNumEQSpellsUsed = 0, $g_iNumLSpellsUsed = 0 ; smart zap
@@ -1492,7 +1491,7 @@ Func TranslateTroopNames()
 			[GetTranslatedFileIni("MBR Global GUI Design Names Troops", "TxtBowlers", "Bowlers"), $eIcnBowler, "Bowl"], _
 			[GetTranslatedFileIni("MBR Global GUI Design Names Troops", "TxtIceGolems", "Ice Golems"), $eIcnIceGolem, "IceG"], _
 			[GetTranslatedFileIni("MBR Global GUI Design Names Troops", "TxtHeadhunters", "Headhunters"), $eIcnHeadhunter, "Hunt"], _
-			[GetTranslatedFileIni("MBR Global GUI Design Names Troops", "TxtAppWard", "App. Warden"), $eIcnAppWard, "AppWard"], _
+			[GetTranslatedFileIni("MBR Global GUI Design Names Troops", "TxtAppWards", "App. Wardens"), $eIcnAppWard, "AppWard"], _
 			[GetTranslatedFileIni("MBR Global GUI Design Names Troops", "TxtWallWreckers", "Wall Wreckers"), $eIcnWallW, "Siege"], _
 			[GetTranslatedFileIni("MBR Global GUI Design Names Troops", "TxtBattleBlimps", "Battle Blimps"), $eIcnBattleB, "Blimp"], _
 			[GetTranslatedFileIni("MBR Global GUI Design Names Troops", "TxtStoneSlammers", "Stone Slammer"), $eIcnStoneS, "Slammer"], _
@@ -1737,7 +1736,7 @@ Global $g_aiCurrentCCTroops[$eTroopCount] = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
 Global $g_bDonationEnabled = True
 Global $g_iTroopsDonated = 0
 Global $g_iTroopsReceived = 0
-Global $g_iDonationWindowY = 0
+Global $g_iDonationWindowY = 0, $XWindowOffset = 0
 
 ; Drop trophy
 Global $g_avDTtroopsToBeUsed[8][2] = [["Barb", 0], ["Arch", 0], ["Giant", 0], ["Wall", 0], ["Gobl", 0], ["Mini", 0], ["Ball", 0], ["Wiza", 0]] ; DT available troops [type, qty]
@@ -1826,10 +1825,10 @@ Global $g_oBldgLevels = ObjCreate("Scripting.Dictionary")
 ; to find max level for any defense = $g_oBldgLevels.item(Building enum)[TownHall level -1]
 
 Func _FilloBldgLevels()
-	Local Const $aBldgCollector[$g_iMaxTHLevel] = [2, 4, 6, 8, 10, 10, 11, 12, 12, 12, 12, 12, 12, 12, 12, 12]
+	Local Const $aBldgCollector[$g_iMaxTHLevel] = [2, 4, 6, 8, 10, 10, 11, 12, 12, 13, 14, 15, 15, 16, 16, 16] ; Feb24
 	$g_oBldgLevels.add($eBldgGoldM, $aBldgCollector)
 	$g_oBldgLevels.add($eBldgElixirC, $aBldgCollector)
-	Local Const $aBldgDrill[$g_iMaxTHLevel] = [0, 0, 0, 0, 0, 0, 3, 3, 6, 6, 6, 6, 6, 6, 6, 6]
+	Local Const $aBldgDrill[$g_iMaxTHLevel] = [0, 0, 0, 0, 0, 0, 3, 3, 6, 7, 8, 9, 9, 10, 10, 10] ; Feb24
 	$g_oBldgLevels.add($eBldgDrill, $aBldgDrill)
 	Local Const $aBldgStorage[$g_iMaxTHLevel] = [1, 3, 6, 8, 9, 10, 11, 11, 11, 11, 12, 13, 14, 15, 16, 17] ; Dec23
 	$g_oBldgLevels.add($eBldgGoldS, $aBldgStorage)
@@ -1838,7 +1837,7 @@ Func _FilloBldgLevels()
 	$g_oBldgLevels.add($eBldgDarkS, $aBldgDarkStorage)
 	Local Const $aBldgEagle[$g_iMaxTHLevel] = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 3, 4, 5, 6, 6] ;Jun23
 	$g_oBldgLevels.add($eBldgEagle, $aBldgEagle)
-	Local Const $aBldgInferno[$g_iMaxTHLevel] = [0, 0, 0, 0, 0, 0, 0, 0, 0, 3, 5, 6, 7, 8, 9, 9]
+	Local Const $aBldgInferno[$g_iMaxTHLevel] = [0, 0, 0, 0, 0, 0, 0, 0, 0, 3, 5, 6, 7, 8, 9, 10] ; Feb24
 	$g_oBldgLevels.add($eBldgInferno, $aBldgInferno)
 	Local Const $aBldgMortar[$g_iMaxTHLevel] = [0, 0, 1, 2, 3, 4, 5, 6, 7, 8, 10, 12, 13, 14, 15, 16] ; Dec23
 	$g_oBldgLevels.add($eBldgMortar, $aBldgMortar)
@@ -1848,7 +1847,7 @@ Func _FilloBldgLevels()
 	$g_oBldgLevels.add($eBldgXBow, $aBldgXBow)
 	Local Const $aBldgAirDefense[$g_iMaxTHLevel] = [0, 0, 0, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14] ; Dec23
 	$g_oBldgLevels.add($eBldgAirDefense, $aBldgAirDefense)
-	Local Const $aBldgScatterShot[$g_iMaxTHLevel] = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 3, 4, 4] ;Jun23
+	Local Const $aBldgScatterShot[$g_iMaxTHLevel] = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 3, 4, 5] ; Feb24
 	$g_oBldgLevels.add($eBldgScatter, $aBldgScatterShot)
 	Local Const $aBldgMonolith[$g_iMaxTHLevel] = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 2]
 	$g_oBldgLevels.add($eBldgMonolith, $aBldgMonolith)
@@ -1931,8 +1930,6 @@ Global $g_bChkClanGamesBattle = 0
 
 ; Collect Rewards
 Global $g_bChkClanGamesCollectRewards = 0
-Global $g_sFrequenceChainRewards = "1|2|3|4|5|6|7|8|9"
-Global $g_iacmbPriorityReward[22] = [3, 7, 2, 7, 5, 6, 2, 7, 9, 8, 8, 1, 6, 4, 4, 6, 4, 6, 7, 7, 7, 6]
 
 Global $g_bChkClanGamesSpell = 0
 Global $g_bChkClanGamesBBBattle = 0
@@ -2020,7 +2017,7 @@ Global $g_aVillageSize[10] = ["", "", "", "", "", "", "", "", "", ""]
 
 ; Blacksmith
 Global $g_aiBlacksmithPos[2] = [-1, -1] ; Position of Pet House
-Global $g_asEquipmentOrderList[18][4] = [ _
+Global $g_asEquipmentOrderList[19][4] = [ _
 		[GetTranslatedFileIni("MBR GUI Design Child Village - Equipment", "TxtBarbarianPuppet", "Barbarian Puppet"), "BarbarianPuppet", "King", 103 + $g_iMidOffsetY], _
 		[GetTranslatedFileIni("MBR GUI Design Child Village - Equipment", "TxtRageVial", "Rage Vial"), "RageVial", "King", 103 + $g_iMidOffsetY], _
 		[GetTranslatedFileIni("MBR GUI Design Child Village - Equipment", "TxtEQBoots", "Earth Quake Boots"), "Boots", "King", 103 + $g_iMidOffsetY], _
@@ -2035,32 +2032,33 @@ Global $g_asEquipmentOrderList[18][4] = [ _
 		[GetTranslatedFileIni("MBR GUI Design Child Village - Equipment", "TxtLifeGem", "Life Gem"), "LifeGem", "Warden", 178 + $g_iMidOffsetY], _
 		[GetTranslatedFileIni("MBR GUI Design Child Village - Equipment", "TxtRageGem", "Rage Gem"), "RageGem", "Warden", 178 + $g_iMidOffsetY], _
 		[GetTranslatedFileIni("MBR GUI Design Child Village - Equipment", "TxtHealingTome", "Healing Tome"), "HealingTome", "Warden", 178 + $g_iMidOffsetY], _
+		[GetTranslatedFileIni("MBR GUI Design Child Village - Equipment", "TxtFireball", "Fireball"), "Fireball", "Warden", 178 + $g_iMidOffsetY], _
 		[GetTranslatedFileIni("MBR GUI Design Child Village - Equipment", "TxtRoyalGem", "Royal Gem"), "RoyalGem", "Champion", 215 + $g_iMidOffsetY], _
 		[GetTranslatedFileIni("MBR GUI Design Child Village - Equipment", "TxtSeekingShield", "Seeking Shield"), "SeekingShield", "Champion", 215 + $g_iMidOffsetY], _
 		[GetTranslatedFileIni("MBR GUI Design Child Village - Equipment", "TxtHogPuppet", "Hog Rider Puppet"), "HogPuppet", "Champion", 215 + $g_iMidOffsetY], _
 		[GetTranslatedFileIni("MBR GUI Design Child Village - Equipment", "TxtHasteVial", "Haste Vial"), "HasteVial", "Champion", 215 + $g_iMidOffsetY]]
 
 Global Enum $eBarbarianPuppet, $eRageVial, $eEQBoots, $eVampstache, $eGiantGauntlet, $eArcherPuppet, $eInvisibilityVial, $eGiantArrow, $eHealerPuppet, _
-		$eFrozenArrow, $eEternalTome, $eLifeGem, $eRageGem, $eHealingTome, $eRoyalGem, $eSeekingShield, $eHogPuppet, $eHasteVial, $eEquipmentCount
+		$eFrozenArrow, $eEternalTome, $eLifeGem, $eRageGem, $eHealingTome, $eFireball, $eRoyalGem, $eSeekingShield, $eHogPuppet, $eHasteVial, $eEquipmentCount
 Global $g_hChkCustomEquipmentOrderEnable = 0, $g_bChkCustomEquipmentOrderEnable = 0
 Global $g_hBtnEquipmentOrderSet = 0, $g_ahImgEquipmentOrderSet = 0, $g_hBtnRemoveEquipment = 0, $g_hBtnRegularOrder = 0
-Global $g_EquipmentOrderLabel[$eEquipmentCount] = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
-Global $g_ahCmbEquipmentOrder[$eEquipmentCount] = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
-Global $g_ahImgEquipmentOrder[$eEquipmentCount] = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
-Global $g_ahImgEquipmentOrder2[$eEquipmentCount] = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+Global $g_EquipmentOrderLabel[$eEquipmentCount] = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+Global $g_ahCmbEquipmentOrder[$eEquipmentCount] = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+Global $g_ahImgEquipmentOrder[$eEquipmentCount] = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+Global $g_ahImgEquipmentOrder2[$eEquipmentCount] = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
 Global $g_aiEquipmentOrder[$eEquipmentCount] = [ _
 		$eBarbarianPuppet, $eRageVial, $eEQBoots, $eVampstache, $eGiantGauntlet, $eArcherPuppet, $eInvisibilityVial, $eGiantArrow, $eHealerPuppet, _
-		$eFrozenArrow, $eEternalTome, $eLifeGem, $eRageGem, $eHealingTome, $eRoyalGem, $eSeekingShield, $eHogPuppet, $eHasteVial]
+		$eFrozenArrow, $eEternalTome, $eLifeGem, $eRageGem, $eHealingTome, $eFireball, $eRoyalGem, $eSeekingShield, $eHogPuppet, $eHasteVial]
 Global Const $g_aiEquipmentOrderIcon[$eEquipmentCount + 1] = [ _
 		$eIcnOptions, $eIcnBarbarianPuppet, $eIcnRageVial, $eIcnEQBoots, $eIcnVampstache, $eIcnGauntlet, $eIcnArcherPuppet, $eIcnInvisibilityVial, $eIcnGiantArrow, $eIcnHealerPuppet, _
-		$eIcnFrozenArrow, $eIcnEternalTome, $eIcnLifeGem, $eIcnRageGem, $eIcnHealingTome, $eIcnRoyalGem, $eIcnSeekingShield, $eIcnHogPuppet, $eIcnHasteVial]
+		$eIcnFrozenArrow, $eIcnEternalTome, $eIcnLifeGem, $eIcnRageGem, $eIcnHealingTome, $eIcnFireball, $eIcnRoyalGem, $eIcnSeekingShield, $eIcnHogPuppet, $eIcnHasteVial]
 Global Const $g_aiEquipmentOrderIcon2[$eEquipmentCount + 1] = [ _
 		$eIcnOptions, $eIcnKing, $eIcnKing, $eIcnKing, $eIcnKing, $eIcnKing, $eIcnQueen, $eIcnQueen, $eIcnQueen, $eIcnQueen, $eIcnQueen, _
-		$eIcnWarden, $eIcnWarden, $eIcnWarden, $eIcnWarden, $eIcnChampion, $eIcnChampion, $eIcnChampion, $eIcnChampion]
-Global $g_aiCmbCustomEquipmentOrder[$eEquipmentCount] = [-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1]
-Global $g_hChkCustomEquipmentOrder[$eEquipmentCount] = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], $g_bChkCustomEquipmentOrder[$eEquipmentCount] = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+		$eIcnWarden, $eIcnWarden, $eIcnWarden, $eIcnWarden, $eIcnWarden, $eIcnChampion, $eIcnChampion, $eIcnChampion, $eIcnChampion]
+Global $g_aiCmbCustomEquipmentOrder[$eEquipmentCount] = [-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1]
+Global $g_hChkCustomEquipmentOrder[$eEquipmentCount] = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], $g_bChkCustomEquipmentOrder[$eEquipmentCount] = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
 Global Const $g_asEquipmentShortNames[$eEquipmentCount] = ["BarbPuppet", "RageVial", "Boots", "Stache", "Gauntlet", "ArchPuppet", _
-		"InvVial", "GArrow", "HealPuppet", "FArrow", "Eternal", "Life", "RageGem", "HealTome", "RoyalGem", "Shield", "HogPuppet", "HasteVial"]
+		"InvVial", "GArrow", "HealPuppet", "FArrow", "Eternal", "Life", "RageGem", "HealTome", "Fireball", "RoyalGem", "Shield", "HogPuppet", "HasteVial"]
 Global $StarBonusReceived = 0, $g_sBSUpgradeTime = ""
 
 ; Pet House
@@ -2098,7 +2096,7 @@ Global $g_iacmbPriority[11] = [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 5]
 Global $g_iacmbPriorityBB[2] = [1, 1]
 Global $g_iacmbPriorityChkRaid = 4
 Global $g_iacmbMaxSpeed[3] = [3, 3, 3]
-Global $g_iacmbPause[3] = [1, 1, 1]
+Global $g_iacmbPause = 1
 Global $g_iMinimumPriority, $g_iMaxActionsNumber, $g_iActionToDo
 Global $g_aSetActionPriority[11] = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
 Global $g_sFrequenceChain = "Never|Sometimes|Frequently|Often|Very Often|Ultra Often"
@@ -2120,33 +2118,27 @@ Global $g_aWelcomeMessage = "Welcome ! Please read the clan rules and enjoy !"
 Global $g_bFirstStartForLab = 0, $g_bNoLabCheck = 2
 Global $g_bFirstStartForStarLab = 0, $g_bNoStarLabCheck = 0
 Global $g_bFirstStartForPetHouse = 0, $g_bNoPetHouseCheck = 2
-Global $MagicItemsCheckTimer = 0, $DelayReturnedtocheckMagicItemsMS = 0, $IstoRecheckTrader = 0
-Global $g_iCmbPriorityMagicItemsFrequency = 0
+Global $IstoRecheckTrader = 0
 Global $BBaseCheckTimer = 0, $DelayReturnedtocheckBBaseMS = 0, $IstoSwitchMod = 0
 Global $g_iCmbPriorityBBaseFrequency = 3, $g_bChkBBaseFrequency = False
 Global $g_iCmbPriorityPersoChallengesFrequency = 0
 Global $IsToCheckdiff[8], $asLastTimeCheckedforChallenges[8], $DelayPersoChallengesMn[8], $IsToCheckBeforeStop = False
-Global $g_icmbAdvancedVariation[3] = [3, 3, 3]
-Global $g_bChkTrophyDropinPause = True, $g_iacmdRandomDelay = True, $g_iacmdRandomDelayMin = 10, $g_iacmdRandomDelayMax = 30, $g_iacmdRandomDelayFinal = 0
+Global $g_icmbAdvancedVariation = 3
+Global $g_bChkTrophyDropinPause = True, $g_iacmdRandomDelayMin = 5, $g_iacmdRandomDelayMax = 25, $g_iacmdRandomDelayFinal = 0
 Global $IsKingReadyForDropTrophies = 0, $IsQueenReadyForDropTrophies = 0, $IsWardenReadyForDropTrophies = 0, $IsChampionReadyForDropTrophies = 0
 Global $g_bChkVisitBbaseinPause = True, $g_bChkPersoChallengesinPause = True
-Global $g_bFirstStartAccountDC = 0, $g_bFirstStartAccountFMI = 0, $g_bFirstStartAccountSBB = 0
+Global $g_bFirstStartAccountFMI = 0, $g_bFirstStartAccountSBB = 0
 Global $g_iTxtCurrentVillageName = ""
 Global $LootCartTimer = 0, $LootCartFrequency = 0
 Global $g_sNewChallengeTime = 0, $TimeDiffBBChallenge = 0
 
 ; <><><><> CG Attack Planner <><><><>
-Global $g_bAttackCGPlannerEnable = False, $g_bAttackCGPlannerRandomEnable = False, $g_iAttackCGPlannerRandomTime = 1, $g_iAttackCGPlannerRandomProba = 3, $g_bNotifyStopBot = False, _
-		$g_iAttackCGPlannerRandomVariation = 2, $g_bAttackCGPlannerDayLimit = False, $g_iAttackCGPlannerDayMin = 3, $g_iAttackCGPlannerDayMax = 6, $iRandomAttackCGCountToday = 0
+Global $g_bAttackCGPlannerEnable = False, $g_bNotifyStopBot = False, _
+		$g_bAttackCGPlannerDayLimit = False, $g_iAttackCGPlannerDayMin = 3, $g_iAttackCGPlannerDayMax = 6, $iRandomAttackCGCountToday = 0
 Global $bCGPlannerThenContinue = True, $bCGPlannerThenStopBot = False, $g_bChkSTOPWhenCGPointsMax = False
-Global $g_abPlannedAttackCGWeekDays[7] = [True, True, True, True, True, True, True]
-Global $g_abPlannedAttackCGHours[24] = [True, True, True, True, True, True, True, True, True, True, True, True, True, True, True, True, True, True, True, True, True, True, True, True]
 Global $g_aiAttackedCGCount = 0, $IsReachedMaxCGDayAttack = 0, $iNowDayCG = @YDAY
-Global $IsAttackCGRandomEnable = 0, $g_bFirstStartAccountCGRA = 0, $CGRACheckTimer = 0, $DelayReturnedtocheckCGRA = 0, $IsStatusForCG = 0, $g_bFirstStartForAll = 0
+Global $g_bFirstStartAccountCGRA = 0, $CGRACheckTimer = 0, $DelayReturnedtocheckCGRA = 0, $IsStatusForCG = 0, $g_bFirstStartForAll = 0
 Global $g_bClanGamesCompleted
-
-;Mod Color settlog
-Global $g_bChkColorfulAttackLog = 1
 
 ;Magic Items
 Global $PowerItemCapture = @ScriptDir & "\imgxml\Potions\Power*"
@@ -2174,12 +2166,12 @@ Global $g_aiCmbCCDecisionTime = 0, $g_aiCmbCCDecisionThen = 0, $CCWaitChrono = 0
 ; PumpKin GraveYard, Snow Day, Tiger Mountain, Primal(PR), Shadow(SH), Royale Scenery, Summer Scenery, Pixel Scenery, 10th Clash,
 ; Clash Fest, Magic Scenery, Epic Magic Scenery, Classic Scenery, Inferno Tower, Jolly Scenery, Magic Theater Scenery,
 ; Dark Ages, Painter, Goblin Caves, Future Scenery, Books of Clash, Spooky Scenery, Chess Scenery, Ghost Scenery, GingerBread Scenery,
-; Dragon Palace Scenery
+; Dragon Palace Scenery, Space Scenery
 ; Builder Base
 Global Enum $eTreeDSS, $eTreeDAS, $eTreeCC, $eTreePS, $eTreeEW, $eTreeHM, $eTreeJS, $eTreeEJ, $eTree9C, _
 		$eTreePG, $eTreeSD, $eTreeTM, $eTreePR, $eTreeSH, $eTreeRS, $eTreeSM, $eTreePX, $eTreeXC, _
-		$eTreeCF, $eTreeMS, $eTreeEM, $eTreeCS, $eTreeIT, $eTreeJO, $eTreeMT, _
-		$eTreeDA, $eTreePA, $eTreeGC, $eTreeFS, $eTreeBK, $eTreeSP, $eTreeCH, $eTreeGH, $eTreeGB, $eTreeDP, _
+		$eTreeCF, $eTreeMS, $eTreeEM, $eTreeCS, $eTreeIT, $eTreeJO, $eTreeMT, $eTreeDA, $eTreePA, _
+		$eTreeGC, $eTreeFS, $eTreeBK, $eTreeSP, $eTreeCH, $eTreeGH, $eTreeGB, $eTreeDP, $eTreeSC, _
 		$eTreeBB, $eTreeOO, $eTreeCR, $eTreeNS, $eTreeCount
 
 Global $g_asSceneryNames[$eTreeCount] = [ _
@@ -2187,7 +2179,7 @@ Global $g_asSceneryNames[$eTreeCount] = [ _
 		"Pumpkin Graveyard", "Snowy Day", "Tiger Mountain", "Primal Scenery", "Shadow Scenery", "Royale Scenery", "Summer Scenery", "Pixel Scenery", "10th Clashiversary", _
 		"Clash Fest", "Magic Scenery", "Epic Magic Scenery", "Classic Scenery", "Inferno Town", "Jolly Scenery", "Magic Theater Scenery", _
 		"Dark Ages Scenery", "Painter Scenery", "Goblin Caves Scenery", "Future Scenery", "Books of Clash", "Spooky Scenery", "Chess Scenery", "Ghost Scenery", "GingerBread Scenery", _
-		"Dragon Palace Scenery", _
+		"Dragon Palace Scenery", "Space Scenery", _
 		"Builder Base", "OTTO Outpost", "Crystal Caverns", "Of The North Scenery"]
 
 ; village size, left, right, top, bottom, village size 2, AdjLeft, AdjRight, AdjTop, AdjBottom
@@ -2227,6 +2219,7 @@ Global Const $g_afRefVillage[$eTreeCount][10] = [ _
 		[606.96375086645, 21, 838, 36, 650, 606.96375086645, 50, 50, 42, 42], _      ; GH partial
 		[507.949945330315, 32, 820, 48, 640, 507.949945330315, 50, 50, 42, 42], _    ; GB partial
 		[525.707398061038, 30, 826, 53, 655, 525.707398061038, 50, 50, 42, 42], _    ; DP partial
+		[408.192438919731, 114, 782, 94, 592, 408.192438919731, 50, 50, 42, 42], _   ; SC partial
 		[376.2247294568, 114, 724, 152, 610, 376.2247294568, 50, 46, 38, 42], _      ; BB partial
 		[440.179472132523, 120, 732, 152, 608, 440.179472132523, 50, 46, 38, 42], _  ; OO partial
 		[379.741811787463, 130, 728, 162, 608, 379.741811787463, 50, 46, 38, 42], _  ; CR partial

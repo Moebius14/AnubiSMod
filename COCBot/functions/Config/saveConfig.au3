@@ -91,10 +91,6 @@ Func SaveClanGamesConfig()
 	_Ini_Add("clangames", "ChkClanGamesNoOneDay", $g_bChkClanGamesNoOneDay ? 1 : 0)
 	_Ini_Add("clangames", "ChkClanGamesCollectRewards", $g_bChkClanGamesCollectRewards ? 1 : 0)
 
-	For $i = 0 To UBound($g_iacmbPriorityReward) - 1
-		_Ini_Add("Rewards", "cmbPriorityReward[" & $i & "]", _GUICtrlComboBox_GetCurSel($g_acmbPriorityReward[$i]))
-	Next
-
 	_Ini_Add("clangames", "ChkClanGamesLoot", $g_bChkClanGamesLoot ? 1 : 0)
 	_Ini_Add("clangames", "ChkClanGamesBattle", $g_bChkClanGamesBattle ? 1 : 0)
 	_Ini_Add("clangames", "ChkClanGamesDestruction", $g_bChkClanGamesDes ? 1 : 0)
@@ -511,11 +507,6 @@ Func SaveConfig_600_6()
 	_Ini_Add("other", "ChkSellRewards", $g_bChkSellRewards ? 1 : 0)
 	_Ini_Add("other", "chkGemsBox", $g_bChkGemsBox ? 1 : 0)
 	_Ini_Add("other", "chkEventCollect", $g_bChkEventCollect ? 1 : 0)
-	_Ini_Add("other", "ChkFirstTimeSellMagicItem", $g_bChkFirstStartSellMagicItem ? 1 : 0)
-	_Ini_Add("other", "ChkSellMagicItem", $g_bChkSellMagicItem ? 1 : 0)
-	For $i = 0 To UBound($g_iacmbMagicPotion) - 1
-		_Ini_Add("Magic", "cmbMagicPotion[" & $i & "]", _GUICtrlComboBox_GetCurSel($g_acmbMagicPotion[$i]))
-	Next
 	_Ini_Add("other", "ChkTreasuryCollect", $g_bChkTreasuryCollect ? 1 : 0)
 	_Ini_Add("other", "minTreasurygold", $g_iTxtTreasuryGold)
 	_Ini_Add("other", "minTreasuryelixir", $g_iTxtTreasuryElixir)
@@ -593,27 +584,12 @@ Func SaveConfig_600_6()
 
 	;Planner
 	_Ini_Add("CGplanned", "chkAttackCGPlannerEnable", $g_bAttackCGPlannerEnable ? 1 : 0)
-	_Ini_Add("CGplanned", "chkAttackCGPlannerRandom", $g_bAttackCGPlannerRandomEnable ? 1 : 0)
-	_Ini_Add("CGplanned", "cmbAttackCGPlannerRandom", $g_iAttackCGPlannerRandomTime)
-	_Ini_Add("CGplanned", "cmbAttackCGPlannerRandomProba", $g_iAttackCGPlannerRandomProba)
-	_Ini_Add("CGplanned", "cmbAttackCGPlannerRandomVariation", $g_iAttackCGPlannerRandomVariation)
 	_Ini_Add("CGplanned", "chkAttackCGPlannerDayLimit", $g_bAttackCGPlannerDayLimit ? 1 : 0)
 	_Ini_Add("CGplanned", "cmbAttackCGPlannerDayMin", $g_iAttackCGPlannerDayMin)
 	_Ini_Add("CGplanned", "cmbAttackCGPlannerDayMax", $g_iAttackCGPlannerDayMax)
 	_Ini_Add("CGplanned", "CGPlannerThenContinue", $bCGPlannerThenContinue ? 1 : 0)
 	_Ini_Add("CGplanned", "CGPlannerThenStopBot", $bCGPlannerThenStopBot ? 1 : 0)
 	_Ini_Add("CGplanned", "STOPWhenCGPointsMax", $g_bChkSTOPWhenCGPointsMax ? 1 : 0)
-
-	Local $string = ""
-	For $i = 0 To 6
-		$string &= ($g_abPlannedAttackCGWeekDays[$i] ? 1 : 0) & "|"
-	Next
-	_Ini_Add("CGplanned", "attackCGDays", $string)
-	Local $string = ""
-	For $i = 0 To 23
-		$string &= ($g_abPlannedattackCGHours[$i] ? 1 : 0) & "|"
-	Next
-	_Ini_Add("CGplanned", "attackCGHours", $string)
 
 EndFunc   ;==>SaveConfig_600_6
 
@@ -1452,11 +1428,6 @@ Func SaveConfig_641_1()
 	_Ini_Add("other", "chkAddIdleTime", $g_bTrainAddRandomDelayEnable ? 1 : 0)
 	_Ini_Add("other", "txtAddDelayIdlePhaseTimeMin", $g_iTrainAddRandomDelayMin)
 	_Ini_Add("other", "txtAddDelayIdlePhaseTimeMax", $g_iTrainAddRandomDelayMax)
-	; Training add random Train Click delay
-	_Ini_Add("other", "chkAddClickTimingTime", $g_bTrainAddRandomClickTimingDelayEnable ? 1 : 0)
-	_Ini_Add("other", "txtAddClickTimingDelayTimeMin", $g_iTrainAddRandomClickTimingDelayMin)
-	_Ini_Add("other", "txtAddClickTimingDelayTimeMax", _GUICtrlComboBox_GetCurSel($g_hTxtAddRandomClickTimingDelayMax))
-	_Ini_Add("attack", "ChkColorfulAttackLog", $g_bChkColorfulAttackLog ? 1 : 0)
 	_Ini_Add("attack", "Radio_RandomClassic", $g_idRadio_RandomClassic ? 1 : 0)
 	_Ini_Add("attack", "Radio_RandomMod", $g_idRadio_RandomMod ? 1 : 0)
 	_Ini_Add("other", "txtRandomCloseOption", $g_iRandomCloseOptionPercent)
@@ -1466,29 +1437,12 @@ Func SaveConfig_MOD_Humanization()
 	; <><><> Humanization <><><>
 	ApplyConfig_MOD_Humanization(GetApplyConfigSaveAction())
 	_Ini_Add("Bot Humanization", "IschkUseBotHumanization", $g_bUseBotHumanization ? 1 : 0)
-	_Ini_Add("Bot Humanization", "chkLookAtRedNotifications", $g_bLookAtRedNotifications ? 1 : 0)
 	_Ini_Add("Bot Humanization", "RefuseFriends", $g_iIsRefusedFriends ? 1 : 0)
 	_Ini_Add("Bot Humanization", "ForumRequestOnly", $g_bForumRequestOnly ? 1 : 0)
 	_Ini_Add("Bot Humanization", "RequestMessage", $g_sRequestMessage)
 	_Ini_Add("Bot Humanization", "ChkWelcomeMessage", $g_bUseWelcomeMessage ? 1 : 0)
 	_Ini_Add("Bot Humanization", "ChkAcceptAllRequests", $g_bChkAcceptAllRequests ? 1 : 0)
 	_Ini_Add("Bot Humanization", "txtWelcomeMessage", $g_aWelcomeMessage)
-	For $i = 0 To UBound($g_iacmbPriority) - 1
-		_Ini_Add("Bot Humanization", "cmbPriority[" & $i & "]", _GUICtrlComboBox_GetCurSel($g_acmbPriority[$i]))
-	Next
-	For $i = 0 To UBound($g_iacmbPriorityBB) - 1
-		_Ini_Add("Bot Humanization", "cmbPriorityBB[" & $i & "]", _GUICtrlComboBox_GetCurSel($g_acmbPriorityBB[$i]))
-	Next
-	For $i = 0 To UBound($g_iacmbMaxSpeed) - 1
-		_Ini_Add("Bot Humanization", "cmbMaxSpeed[" & $i & "]", _GUICtrlComboBox_GetCurSel($g_acmbMaxSpeed[$i]))
-	Next
-	For $i = 0 To UBound($g_iacmbPause) - 1
-		_Ini_Add("Bot Humanization", "cmbPause[" & $i & "]", _GUICtrlComboBox_GetCurSel($g_acmbPause[$i]))
-	Next
-	_Ini_Add("Bot Humanization", "cmbPriorityChkRaid", _GUICtrlComboBox_GetCurSel($g_acmbPriorityChkRaid))
-	_Ini_Add("Bot Humanization", "cmbMaxActionsNumber", _GUICtrlComboBox_GetCurSel($g_hCmbMaxActionsNumber))
-	_Ini_Add("Bot Humanization", "HowManyinCWCombo", _GUICtrlComboBox_GetCurSel($g_HowManyinCWCombo))
-	_Ini_Add("Bot Humanization", "HowManyinCWLCombo", _GUICtrlComboBox_GetCurSel($g_HowManyinCWLCombo))
 EndFunc   ;==>SaveConfig_MOD_Humanization
 
 Func SaveConfig_MOD_Advanced()
@@ -1497,19 +1451,9 @@ Func SaveConfig_MOD_Advanced()
 	_Ini_Add("Advanced", "NoLabCheck", _GUICtrlComboBox_GetCurSel($g_hChkNoLabCheck))
 	_Ini_Add("Advanced", "NoStarLabCheck", _GUICtrlComboBox_GetCurSel($g_hChkNoStarLabCheck))
 	_Ini_Add("Advanced", "NoPetHouseCheck", _GUICtrlComboBox_GetCurSel($g_hChkNoPetHouseCheck))
-	_Ini_Add("Advanced", "MagicItemsFrequencyCheck", _GUICtrlComboBox_GetCurSel($g_hCmbPriorityMagicItemsFrequency))
 	_Ini_Add("Advanced", "IsChkBBaseFrequency", $g_bChkBBaseFrequency ? 1 : 0)
 	_Ini_Add("Advanced", "BBaseFrequencyCheck", _GUICtrlComboBox_GetCurSel($g_hCmbPriorityBBaseFrequency))
-	_Ini_Add("Advanced", "PersoChallengesFrequencyCheck", _GUICtrlComboBox_GetCurSel($g_hCmbPriorityPersoChallengesFrequency))
-	For $i = 0 To UBound($g_icmbAdvancedVariation) - 1
-		_Ini_Add("Advanced", "cmbAdvancedVariation[" & $i & "]", _GUICtrlComboBox_GetCurSel($g_hcmbAdvancedVariation[$i]))
-	Next
-	_Ini_Add("Advanced", "ChkTrophyDropinPause", $g_bChkTrophyDropinPause ? 1 : 0)
-	_Ini_Add("Advanced", "ChkVisitBbaseinPause", $g_bChkVisitBbaseinPause ? 1 : 0)
-	_Ini_Add("Advanced", "ChkPersoChallengesinPause", $g_bChkPersoChallengesinPause ? 1 : 0)
-	_Ini_Add("Advanced", "RandomPauseDelayEnable", $g_iacmdRandomDelay ? 1 : 0)
-	_Ini_Add("Advanced", "PauseDelayIntervalMn", $g_iacmdRandomDelayMin)
-	_Ini_Add("Advanced", "PauseDelayIntervalMx", $g_iacmdRandomDelayMax)
+	_Ini_Add("Advanced", "cmbAdvancedVariation", _GUICtrlComboBox_GetCurSel($g_hcmbAdvancedVariation))
 	_Ini_Add("Advanced", "CurrentVillageName", $g_iTxtCurrentVillageName)
 EndFunc   ;==>SaveConfig_MOD_Advanced
 

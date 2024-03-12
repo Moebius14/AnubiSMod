@@ -60,6 +60,7 @@ Global $aTabControlsStrategies, $aTabControlsBot, $aTabControlsStats, $aTabContr
 Global $oAlwaysEnabledControls = ObjCreate("Scripting.Dictionary")
 
 Func InitializeControlVariables()
+
 	$g_aGroupSearchDB = $g_hGrpDBFilter & "#" & $g_hCmbDBMeetGE & "#" & $g_hTxtDBMinGold & "#" & $g_hPicDBMinGold & "#" & $g_hTxtDBMinElixir & "#" & $g_hPicDBMinElixir & "#" & _
 			$g_hTxtDBMinGoldPlusElixir & "#" & $g_hPicDBMinGPEGold & "#" & $g_hChkDBMeetDE & "#" & $g_hTxtDBMinDarkElixir & "#" & $g_hPicDBMinDarkElixir & "#" & $g_hChkDBMeetTrophy & "#" & _
 			$g_hTxtDBMinTrophy & "#" & $g_hTxtDBMaxTrophy & "#" & $g_hPicDBMinTrophies & "#" & $g_hChkDBMeetTH & "#" & $g_hCmbDBTH & "#" & $g_hChkDBMeetTHO & "#" & _
@@ -82,7 +83,7 @@ Func InitializeControlVariables()
 			$g_ahPicWeakWizTower[$LB] & "#" & $g_ahChkMaxXBow[$LB] & "#" & $g_ahCmbWeakXBow[$LB] & "#" & $g_ahPicWeakXBow[$LB] & "#" & $g_ahChkMaxInferno[$LB] & "#" & _
 			$g_ahCmbWeakInferno[$LB] & "#" & $g_ahPicWeakInferno[$LB] & "#" & $g_ahChkMaxEagle[$LB] & "#" & $g_ahCmbWeakEagle[$LB] & "#" & $g_ahPicWeakEagle[$LB] & "#" & $g_ahChkMaxScatter[$LB] & "#" & _
 			$g_ahCmbWeakScatter[$LB] & "#" & $g_ahPicWeakScatter[$LB] & "#" & $g_ahChkMaxMonolith[$LB] & "#" & $g_ahCmbWeakMonolith[$LB] & "#" & $g_ahPicWeakMonolith[$LB] & "#" & _
-			$g_ahChkMaxMultiArcher[$LB] & "#" & $g_ahCmbWeakMultiArcher[$LB] & "#" & $g_ahPicWeakMultiArcher[$LB] & "#" &$g_ahChkMaxRicochet[$LB] & "#" & $g_ahCmbWeakRicochet[$LB] & "#" & $g_ahPicWeakRicochet[$LB]
+			$g_ahChkMaxMultiArcher[$LB] & "#" & $g_ahCmbWeakMultiArcher[$LB] & "#" & $g_ahPicWeakMultiArcher[$LB] & "#" & $g_ahChkMaxRicochet[$LB] & "#" & $g_ahCmbWeakRicochet[$LB] & "#" & $g_ahPicWeakRicochet[$LB]
 
 	$groupHerosAB = $g_hPicABHeroesWait & "#" & $g_hTxtABHeroesWait & "#" & $g_hChkABKingWait & "#" & $g_hChkABQueenWait & "#" & $g_hChkABWardenWait & "#" & $g_hChkABChampionWait & "#" & _
 			$g_hPicABKingWait & "#" & $g_hPicABQueenWait & "#" & $g_hPicABWardenWait & "#" & $g_hPicABChampionWait & "#" & $g_hChkABNotWaitHeroes
@@ -213,7 +214,7 @@ Func InitializeControlVariables()
 
 	; Groups of controls
 	Dim $aTabControlsVillage = [$g_hGUI_VILLAGE_TAB, $g_hGUI_VILLAGE_TAB_ITEM1, $g_hGUI_VILLAGE_TAB_ITEM2, $g_hGUI_VILLAGE_TAB_ITEM3, $g_hGUI_VILLAGE_TAB_ITEM4, $g_hGUI_VILLAGE_TAB_ITEM5]
-	Dim $aTabControlsMisc = [$g_hGUI_MISC_TAB, $g_hGUI_MISC_TAB_ITEM1, $g_hGUI_MISC_TAB_ITEM2, $g_hGUI_MISC_TAB_ITEM3, $g_hGUI_MISC_TAB_ITEM4, $g_hGUI_MISC_TAB_ITEM5]
+	Dim $aTabControlsMisc = [$g_hGUI_MISC_TAB, $g_hGUI_MISC_TAB_ITEM1, $g_hGUI_MISC_TAB_ITEM2, $g_hGUI_MISC_TAB_ITEM3, $g_hGUI_MISC_TAB_ITEM4]
 	Dim $aTabControlsDonate = [$g_hGUI_DONATE_TAB, $g_hGUI_DONATE_TAB_ITEM1, $g_hGUI_DONATE_TAB_ITEM2, $g_hGUI_DONATE_TAB_ITEM3]
 	Dim $aTabControlsUpgrade = [$g_hGUI_UPGRADE_TAB, $g_hGUI_UPGRADE_TAB_ITEM1, $g_hGUI_UPGRADE_TAB_ITEM2, $g_hGUI_UPGRADE_TAB_ITEM3, $g_hGUI_UPGRADE_TAB_ITEM4, $g_hGUI_UPGRADE_TAB_ITEM5]
 	Dim $aTabControlsNotify = [$g_hGUI_NOTIFY_TAB, $g_hGUI_NOTIFY_TAB_ITEM2]
@@ -225,7 +226,7 @@ Func InitializeControlVariables()
 	Dim $aTabControlsActivebase = [$g_hGUI_ACTIVEBASE_TAB, $g_hGUI_ACTIVEBASE_TAB_ITEM1, $g_hGUI_ACTIVEBASE_TAB_ITEM2, $g_hGUI_ACTIVEBASE_TAB_ITEM3]
 	Dim $aTabControlsAttackOptions = [$g_hGUI_ATTACKOPTION_TAB, $g_hGUI_ATTACKOPTION_TAB_ITEM1, $g_hGUI_ATTACKOPTION_TAB_ITEM2, $g_hGUI_ATTACKOPTION_TAB_ITEM3, $g_hGUI_ATTACKOPTION_TAB_ITEM4, $g_hGUI_ATTACKOPTION_TAB_ITEM5]
 	Dim $aTabControlsStrategies = [$g_hGUI_STRATEGIES_TAB, $g_hGUI_STRATEGIES_TAB_ITEM1, $g_hGUI_STRATEGIES_TAB_ITEM2]
-	Dim $aTabControlsMOD = [$g_hGUI_MOD_TAB, $g_hGUI_MOD_TAB_ITEM1, $g_hGUI_MOD_TAB_ITEM2, $g_hGUI_MOD_TAB_ITEM3, $g_hGUI_MOD_TAB_ITEM4]
+	Dim $aTabControlsMOD = [$g_hGUI_MOD_TAB, $g_hGUI_MOD_TAB_ITEM1, $g_hGUI_MOD_TAB_ITEM2]
 	Dim $aTabControlsBot = [$g_hGUI_BOT_TAB, $g_hGUI_BOT_TAB_ITEM1, $g_hGUI_BOT_TAB_ITEM2, $g_hGUI_BOT_TAB_ITEM3, $g_hGUI_BOT_TAB_ITEM4, $g_hGUI_BOT_TAB_ITEM5]
 	Dim $aTabControlsStats = [$g_hGUI_STATS_TAB, $g_hGUI_STATS_TAB_ITEM1, $g_hGUI_STATS_TAB_ITEM2, $g_hGUI_STATS_TAB_ITEM3, $g_hGUI_STATS_TAB_ITEM4, $g_hGUI_STATS_TAB_ITEM5]
 
@@ -291,6 +292,13 @@ Func InitializeControlVariables()
 	$oAlwaysEnabledControls($g_hTabBot) = 1
 	$oAlwaysEnabledControls($g_hTabMod) = 1
 	$oAlwaysEnabledControls($g_hTabAbout) = 1
+
+	;Mod
+	$oAlwaysEnabledControls($g_hTxtAutoUpgradeCCLog) = 1
+	$oAlwaysEnabledControls($g_hTxtClanGamesLog) = 1
+	$oAlwaysEnabledControls($g_hBtnHeroEquipment) = 1
+	$oAlwaysEnabledControls($g_hBtnHeroEquipmentClose) = 1
+	$oAlwaysEnabledControls($g_hTxtModLog) = 1
 
 	For $i In $aTabControlsVillage
 		$oAlwaysEnabledControls($i) = 1

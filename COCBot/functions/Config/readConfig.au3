@@ -69,10 +69,6 @@ Func ReadClanGamesConfig()
 	IniReadS($g_bChkClanGamesNoOneDay, $g_sProfileClanGamesPath, "clangames", "ChkClanGamesNoOneDay", False, "Bool")
 	IniReadS($g_bChkClanGamesCollectRewards, $g_sProfileClanGamesPath, "clangames", "ChkClanGamesCollectRewards", False, "Bool")
 
-	For $i = 0 To UBound($g_iacmbPriorityReward) - 1
-		IniReadS($g_iacmbPriorityReward[$i], $g_sProfileClanGamesPath, "Rewards", "cmbPriorityReward[" & $i & "]", $g_iacmbPriorityReward[$i], "int")
-	Next
-
 	IniReadS($g_bChkClanGamesLoot, $g_sProfileClanGamesPath, "clangames", "ChkClanGamesLoot", True, "Bool")
 	IniReadS($g_bChkClanGamesBattle, $g_sProfileClanGamesPath, "clangames", "ChkClanGamesBattle", True, "Bool")
 	IniReadS($g_bChkClanGamesDes, $g_sProfileClanGamesPath, "clangames", "ChkClanGamesDestruction", True, "Bool")
@@ -558,11 +554,6 @@ Func ReadConfig_600_6()
 	IniReadS($g_bChkCleanYard, $g_sProfileConfigPath, "other", "chkCleanYard", True, "Bool")
 	IniReadS($g_bChkGemsBox, $g_sProfileConfigPath, "other", "chkGemsBox", False, "Bool")
 	IniReadS($g_bChkEventCollect, $g_sProfileConfigPath, "other", "chkEventCollect", False, "Bool")
-	IniReadS($g_bChkFirstStartSellMagicItem, $g_sProfileConfigPath, "other", "ChkFirstTimeSellMagicItem", False, "Bool")
-	IniReadS($g_bChkSellMagicItem, $g_sProfileConfigPath, "other", "ChkSellMagicItem", False, "Bool")
-	For $i = 0 To UBound($g_iacmbMagicPotion) - 1
-		IniReadS($g_iacmbMagicPotion[$i], $g_sProfileConfigPath, "Magic", "cmbMagicPotion[" & $i & "]", $g_iacmbMagicPotion[$i], "int")
-	Next
 	IniReadS($g_bChkCollectAchievements, $g_sProfileConfigPath, "other", "ChkCollectAchievements", True, "Bool")
 	IniReadS($g_bChkCollectFreeMagicItems, $g_sProfileConfigPath, "other", "ChkCollectFreeMagicItems", True, "Bool")
 	IniReadS($g_bChkCollectRewards, $g_sProfileConfigPath, "other", "ChkCollectRewards", True, "Bool")
@@ -643,25 +634,12 @@ Func ReadConfig_600_6()
 
 	;Planner
 	IniReadS($g_bAttackCGPlannerEnable, $g_sProfileConfigPath, "CGplanned", "chkAttackCGPlannerEnable", $g_bAttackCGPlannerEnable, "Bool")
-	IniReadS($g_bAttackCGPlannerRandomEnable, $g_sProfileConfigPath, "CGplanned", "chkAttackCGPlannerRandom", $g_bAttackCGPlannerRandomEnable, "Bool")
-	IniReadS($g_iAttackCGPlannerRandomTime, $g_sProfileConfigPath, "CGplanned", "cmbAttackCGPlannerRandom", $g_iAttackCGPlannerRandomTime, "int")
-	IniReadS($g_iAttackCGPlannerRandomProba, $g_sProfileConfigPath, "CGplanned", "cmbAttackCGPlannerRandomProba", $g_iAttackCGPlannerRandomProba, "int")
-	IniReadS($g_iAttackCGPlannerRandomVariation, $g_sProfileConfigPath, "CGplanned", "cmbAttackCGPlannerRandomVariation", $g_iAttackCGPlannerRandomVariation, "int")
 	IniReadS($g_bAttackCGPlannerDayLimit, $g_sProfileConfigPath, "CGplanned", "chkAttackCGPlannerDayLimit", $g_bAttackCGPlannerDayLimit, "Bool")
 	IniReadS($g_iAttackCGPlannerDayMin, $g_sProfileConfigPath, "CGplanned", "cmbAttackCGPlannerDayMin", $g_iAttackCGPlannerDayMin, "int")
 	IniReadS($g_iAttackCGPlannerDayMax, $g_sProfileConfigPath, "CGplanned", "cmbAttackCGPlannerDayMax", $g_iAttackCGPlannerDayMax, "int")
 	IniReadS($bCGPlannerThenContinue, $g_sProfileConfigPath, "CGplanned", "CGPlannerThenContinue", $bCGPlannerThenContinue, "Bool")
 	IniReadS($bCGPlannerThenStopBot, $g_sProfileConfigPath, "CGplanned", "CGPlannerThenStopBot", $bCGPlannerThenStopBot, "Bool")
 	IniReadS($g_bChkSTOPWhenCGPointsMax, $g_sProfileConfigPath, "CGplanned", "STOPWhenCGPointsMax", $g_bChkSTOPWhenCGPointsMax, "Bool")
-
-	$g_abPlannedAttackCGWeekDays = StringSplit(IniRead($g_sProfileConfigPath, "CGplanned", "attackCGDays", "1|1|1|1|1|1|1"), "|", $STR_NOCOUNT)
-	For $i = 0 To 6
-		$g_abPlannedAttackCGWeekDays[$i] = ($g_abPlannedAttackCGWeekDays[$i] = "1")
-	Next
-	$g_abPlannedattackCGHours = StringSplit(IniRead($g_sProfileConfigPath, "CGplanned", "attackCGHours", "1|1|1|1|1|1|1|1|1|1|1|1|1|1|1|1|1|1|1|1|1|1|1|1|1"), "|", $STR_NOCOUNT)
-	For $i = 0 To 23
-		$g_abPlannedattackCGHours[$i] = ($g_abPlannedattackCGHours[$i] = "1")
-	Next
 
 EndFunc   ;==>ReadConfig_600_6
 
@@ -1529,10 +1507,6 @@ Func ReadConfig_641_1()
 	IniReadS($g_bTrainAddRandomDelayEnable, $g_sProfileConfigPath, "other", "chkAddIdleTime", $g_bTrainAddRandomDelayEnable, "Bool")
 	IniReadS($g_iTrainAddRandomDelayMin, $g_sProfileConfigPath, "other", "txtAddDelayIdlePhaseTimeMin", $g_iTrainAddRandomDelayMin, "Int")
 	IniReadS($g_iTrainAddRandomDelayMax, $g_sProfileConfigPath, "other", "txtAddDelayIdlePhaseTimeMax", $g_iTrainAddRandomDelayMax, "Int")
-	IniReadS($g_bTrainAddRandomClickTimingDelayEnable, $g_sProfileConfigPath, "other", "chkAddClickTimingTime", $g_bTrainAddRandomClickTimingDelayEnable, "Bool")
-	IniReadS($g_iTrainAddRandomClickTimingDelayMin, $g_sProfileConfigPath, "other", "txtAddClickTimingDelayTimeMin", $g_iTrainAddRandomClickTimingDelayMin, "Int")
-	IniReadS($g_iTrainAddRandomClickTimingDelayMax, $g_sProfileConfigPath, "other", "txtAddClickTimingDelayTimeMax", $g_iTrainAddRandomClickTimingDelayMax, "Int")
-	IniReadS($g_bChkColorfulAttackLog, $g_sProfileConfigPath, "attack", "ChkColorfulAttackLog", $g_bChkColorfulAttackLog, "Bool")
 	IniReadS($g_idRadio_RandomClassic, $g_sProfileConfigPath, "attack", "Radio_RandomClassic", $g_idRadio_RandomClassic, "Bool")
 	IniReadS($g_idRadio_RandomMod, $g_sProfileConfigPath, "attack", "Radio_RandomMod", $g_idRadio_RandomMod, "Bool")
 	IniReadS($g_iRandomCloseOptionPercent, $g_sProfileConfigPath, "other", "txtRandomCloseOption", $g_iRandomCloseOptionPercent, "Int")
@@ -1541,29 +1515,12 @@ EndFunc   ;==>ReadConfig_641_1
 Func ReadConfig_MOD_Humanization()
 	; <><><> Humanization <><><>
 	IniReadS($g_bUseBotHumanization, $g_sProfileConfigPath, "Bot Humanization", "IschkUseBotHumanization", $g_bUseBotHumanization, "Bool")
-	IniReadS($g_bLookAtRedNotifications, $g_sProfileConfigPath, "Bot Humanization", "chkLookAtRedNotifications", $g_bLookAtRedNotifications, "Bool")
 	IniReadS($g_iIsRefusedFriends, $g_sProfileConfigPath, "Bot Humanization", "RefuseFriends", $g_iIsRefusedFriends, "Bool")
 	IniReadS($g_bForumRequestOnly, $g_sProfileConfigPath, "Bot Humanization", "ForumRequestOnly", $g_bForumRequestOnly, "Bool")
 	$g_sRequestMessage = IniRead($g_sProfileConfigPath, "Bot Humanization", "RequestMessage", "Forum|forum")
 	IniReadS($g_bUseWelcomeMessage, $g_sProfileConfigPath, "Bot Humanization", "ChkWelcomeMessage", $g_bUseWelcomeMessage, "Bool")
 	IniReadS($g_bChkAcceptAllRequests, $g_sProfileConfigPath, "Bot Humanization", "ChkAcceptAllRequests", $g_bChkAcceptAllRequests, "Bool")
 	$g_aWelcomeMessage = IniRead($g_sProfileConfigPath, "Bot Humanization", "txtWelcomeMessage", "Welcome ! Please read the clan rules and enjoy !")
-	For $i = 0 To UBound($g_iacmbPriority) - 1
-		IniReadS($g_iacmbPriority[$i], $g_sProfileConfigPath, "Bot Humanization", "cmbPriority[" & $i & "]", $g_iacmbPriority[$i], "int")
-	Next
-	For $i = 0 To UBound($g_iacmbPriorityBB) - 1
-		IniReadS($g_iacmbPriorityBB[$i], $g_sProfileConfigPath, "Bot Humanization", "cmbPriorityBB[" & $i & "]", $g_iacmbPriorityBB[$i], "int")
-	Next
-	For $i = 0 To UBound($g_iacmbMaxSpeed) - 1
-		IniReadS($g_iacmbMaxSpeed[$i], $g_sProfileConfigPath, "Bot Humanization", "cmbMaxSpeed[" & $i & "]", $g_iacmbMaxSpeed[$i], "int")
-	Next
-	For $i = 0 To UBound($g_iacmbPause) - 1
-		IniReadS($g_iacmbPause[$i], $g_sProfileConfigPath, "Bot Humanization", "cmbPause[" & $i & "]", $g_iacmbPause[$i], "int")
-	Next
-	IniReadS($g_iacmbPriorityChkRaid, $g_sProfileConfigPath, "Bot Humanization", "cmbPriorityChkRaid", $g_iacmbPriorityChkRaid, "int")
-	IniReadS($g_iCmbMaxActionsNumber, $g_sProfileConfigPath, "Bot Humanization", "cmbMaxActionsNumber", $g_iCmbMaxActionsNumber, "int")
-	IniReadS($g_iHowManyinCWCombo, $g_sProfileConfigPath, "Bot Humanization", "HowManyinCWCombo", $g_iHowManyinCWCombo, "int")
-	IniReadS($g_iHowManyinCWLCombo, $g_sProfileConfigPath, "Bot Humanization", "HowManyinCWLCombo", $g_iHowManyinCWLCombo, "int")
 EndFunc   ;==>ReadConfig_MOD_Humanization
 
 Func ReadConfig_MOD_Advanced()
@@ -1571,19 +1528,10 @@ Func ReadConfig_MOD_Advanced()
 	IniReadS($g_bNoLabCheck, $g_sProfileConfigPath, "Advanced", "NoLabCheck", $g_bNoLabCheck, "int")
 	IniReadS($g_bNoStarLabCheck, $g_sProfileConfigPath, "Advanced", "NoStarLabCheck", $g_bNoStarLabCheck, "int")
 	IniReadS($g_bNoPetHouseCheck, $g_sProfileConfigPath, "Advanced", "NoPetHouseCheck", $g_bNoPetHouseCheck, "int")
-	IniReadS($g_iCmbPriorityMagicItemsFrequency, $g_sProfileConfigPath, "Advanced", "MagicItemsFrequencyCheck", $g_iCmbPriorityMagicItemsFrequency, "int")
 	IniReadS($g_bChkBBaseFrequency, $g_sProfileConfigPath, "Advanced", "IsChkBBaseFrequency", $g_bChkBBaseFrequency, "Bool")
 	IniReadS($g_iCmbPriorityBBaseFrequency, $g_sProfileConfigPath, "Advanced", "BBaseFrequencyCheck", $g_iCmbPriorityBBaseFrequency, "int")
 	IniReadS($g_iCmbPriorityPersoChallengesFrequency, $g_sProfileConfigPath, "Advanced", "PersoChallengesFrequencyCheck", $g_iCmbPriorityPersoChallengesFrequency, "int")
-	For $i = 0 To UBound($g_icmbAdvancedVariation) - 1
-		IniReadS($g_icmbAdvancedVariation[$i], $g_sProfileConfigPath, "Advanced", "cmbAdvancedVariation[" & $i & "]", $g_icmbAdvancedVariation[$i], "int")
-	Next
-	IniReadS($g_bChkTrophyDropinPause, $g_sProfileConfigPath, "Advanced", "ChkTrophyDropinPause", $g_bChkTrophyDropinPause, "Bool")
-	IniReadS($g_bChkVisitBbaseinPause, $g_sProfileConfigPath, "Advanced", "ChkVisitBbaseinPause", $g_bChkVisitBbaseinPause, "Bool")
-	IniReadS($g_bChkPersoChallengesinPause, $g_sProfileConfigPath, "Advanced", "ChkPersoChallengesinPause", $g_bChkPersoChallengesinPause, "Bool")
-	IniReadS($g_iacmdRandomDelay, $g_sProfileConfigPath, "Advanced", "RandomPauseDelayEnable", $g_iacmdRandomDelay, "Bool")
-	IniReadS($g_iacmdRandomDelayMin, $g_sProfileConfigPath, "Advanced", "PauseDelayIntervalMn", $g_iacmdRandomDelayMin, "Int")
-	IniReadS($g_iacmdRandomDelayMax, $g_sProfileConfigPath, "Advanced", "PauseDelayIntervalMx", $g_iacmdRandomDelayMax, "Int")
+	IniReadS($g_icmbAdvancedVariation, $g_sProfileConfigPath, "Advanced", "cmbAdvancedVariation", $g_icmbAdvancedVariation, "int")
 	IniReadS($g_iTxtCurrentVillageName, $g_sProfileConfigPath, "Advanced", "CurrentVillageName", "")
 EndFunc   ;==>ReadConfig_MOD_Advanced
 

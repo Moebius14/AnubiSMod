@@ -45,10 +45,10 @@ Global $g_hFrmBot_WNDPROC_ptr = 0
 #include "GUI\MBR GUI Control Bot Options.au3"
 #include "GUI\MBR GUI Control Preset.au3"
 #include "GUI\MBR GUI Control Child Misc.au3"
-#include "GUI\MBR GUI Control Android.au3"
-#include "MBR GUI Action.au3"
 #include "GUI\MBR GUI Control Mod.au3"
 #include "GUI\MBR GUI Control BuilderBase.au3"
+#include "GUI\MBR GUI Control Android.au3"
+#include "MBR GUI Action.au3"
 
 Func InitializeMainGUI($bGuiModeUpdate = False)
 	InitializeControlVariables()
@@ -748,8 +748,6 @@ Func GUIControl_WM_NOTIFY($hWind, $iMsg, $wParam, $lParam)
 			tabDeadbase()
 		Case $g_hGUI_ACTIVEBASE_TAB
 			tabActivebase()
-		Case $g_hGUI_MOD_TAB
-			tabMod()
 		Case $g_hGUI_BOT_TAB
 			tabBot()
 		Case Else
@@ -1146,8 +1144,8 @@ Func BotGuiModeToggle()
 			GUICtrlDelete($g_hTabLog)
 			GUICtrlDelete($g_hTabVillage)
 			GUICtrlDelete($g_hTabAttack)
+			GUICtrlDelete($g_hGUI_MOD)
 			GUICtrlDelete($g_hTabBot)
-			GUICtrlDelete($g_hTabMod)
 			GUICtrlDelete($g_hTabAbout)
 
 			GUICtrlDelete($g_hGUI_VILLAGE_TAB)
@@ -1166,7 +1164,6 @@ Func BotGuiModeToggle()
 			GUICtrlDelete($g_hGUI_ATTACKOPTION_TAB)
 			GUICtrlDelete($g_hGUI_STRATEGIES_TAB)
 			GUICtrlDelete($g_hGUI_BOT_TAB)
-			GUICtrlDelete($g_hGUI_MOD_TAB)
 			GUICtrlDelete($g_hGUI_LOG_SA)
 			GUICtrlDelete($g_hGUI_STATS_TAB)
 
@@ -1198,18 +1195,18 @@ Func BotGuiModeToggle()
 			$_GUI_MAIN_HEIGHT = $_NORMALGUI_MAIN_HEIGHT
 
 			; Create controls
-			CreateSplashScreen(6) ; Create splash window
+			CreateSplashScreen() ; Create splash window
 
 			CreateMainGUIControls(True)
 
 			; refresh tab states
-			tabMod()
 			tabBot()
 			tabDONATE()
 			tabARMY()
 			tabSEARCH()
 			tabAttack()
 			tabVillage()
+			tabMod()
 
 			InitializeMainGUI(True)
 
@@ -1757,6 +1754,7 @@ Func tabMain()
 			GUISetState(@SW_HIDE, $g_hGUI_BOT)
 			GUISetState(@SW_HIDE, $g_hGUI_ABOUT)
 			GUISetState(@SW_SHOWNOACTIVATE, $g_hGUI_MOD)
+			tabMod()
 
 		Case $tabidx = 4 ; Options
 			GUISetState(@SW_HIDE, $g_hGUI_LOG)
@@ -1988,17 +1986,14 @@ EndFunc   ;==>tabDONATE
 
 Func tabMod()
 	If $g_iGuiMode <> 1 Then Return
-	Local $tabidx = GUICtrlRead($g_hGUI_MOD_TAB)
+	Local $tabidx = GUICtrlRead($g_hGUI_MOD)
 	Select
-		Case $tabidx = 0
-
-		Case $tabidx = 1
-
-		Case $tabidx = 2
-
-		Case $tabidx = 3
-
-		Case $tabidx = 4
+		Case $tabidx = 0 ;Humanization
+			GUISetState(@SW_HIDE, $g_hGUI_MOD_TAB_ITEM2)
+			GUISetState(@SW_SHOWNOACTIVATE, $g_hGUI_MOD_TAB_ITEM1)
+		Case $tabidx = 1 ;Mod Log
+			GUISetState(@SW_HIDE, $g_hGUI_MOD_TAB_ITEM1)
+			GUISetState(@SW_SHOWNOACTIVATE, $g_hGUI_MOD_TAB_ITEM2)
 	EndSelect
 EndFunc   ;==>tabMod
 
@@ -2096,7 +2091,7 @@ Func Bind_ImageList($nCtrl, ByRef $hImageList)
 			Local $aIconIndex = [$eIcnTrain, $eIcnGem, $eIcnReOrder, $eIcnOptions]
 
 		Case $g_hGUI_MISC_TAB
-			Local $aIconIndex = [$eIcnTH1, $eIcnModPowerPotion, $eIcnBuilderHall, $eIcnCapitalGold, $eIcnStrongMan]
+			Local $aIconIndex = [$eIcnTH1, $eIcnBuilderHall, $eIcnCapitalGold, $eIcnStrongMan]
 
 		Case $g_hGUI_DONATE_TAB
 			; the icons for donate tab
@@ -2131,8 +2126,8 @@ Func Bind_ImageList($nCtrl, ByRef $hImageList)
 			Local $aIconIndex = [$eIcnMagnifier, $eIcnCamp, $eIcnLightSpell, $eIcnSilverStar, $eIcnTrophy]
 
 		Case $g_hGUI_MOD_TAB
-			; the icons for main tab
-			Local $aIconIndex = [$eIcnHumanization, $eIcnAdvanced, $eIcnStrongMan, $eIcnModLog]
+			; the icons for Mod tab
+			Local $aIconIndex = [$eIcnHumanization, $eIcnModLog]
 
 		Case $g_hGUI_BOT_TAB
 			; the icons for Bot tab
@@ -2156,9 +2151,7 @@ Func Bind_ImageList($nCtrl, ByRef $hImageList)
 			DllStructSetData($tTcItem, 6, $i)
 			If $nCtrl = $g_hTabMain And $i = 3 Then
 				AddImageToModTab($nCtrl, $hImageList, $i, $tTcItem, $g_sLibModIconPath, $aIconIndex[$i] - 1)
-			ElseIf $nCtrl = $g_hGUI_MISC_TAB And $i = 1 Then
-				AddImageToModTab($nCtrl, $hImageList, $i, $tTcItem, $g_sLibModIconPath, $aIconIndex[$i] - 1)
-			ElseIf $nCtrl = $g_hGUI_MOD_TAB And $i <> 2 Then
+			ElseIf $nCtrl = $g_hGUI_MOD_TAB Then
 				AddImageToModTab($nCtrl, $hImageList, $i, $tTcItem, $g_sLibModIconPath, $aIconIndex[$i] - 1)
 			ElseIf $nCtrl = $g_hGUI_BOT_TAB And $i = 2 Then
 				AddImageToModTab($nCtrl, $hImageList, $i, $tTcItem, $g_sLibModIconPath, $aIconIndex[$i] - 1)

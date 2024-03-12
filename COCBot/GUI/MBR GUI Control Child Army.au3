@@ -15,8 +15,8 @@
 #include-once
 
 Func SetComboTroopComp()
-	$g_iTotalCampSpace = $g_iTotalCampForcedValue
 	Local $bWasRedraw = SetRedrawBotWindow(False, Default, Default, Default, "SetComboTroopComp")
+	$g_iTotalCampSpace = $g_iTotalCampForcedValue
 	Local $ArmyCampTemp = 0
 
 	If GUICtrlRead($g_hChkTotalCampForced) = $GUI_CHECKED Then
@@ -632,6 +632,7 @@ Func GUISpellsOrder()
 EndFunc   ;==>GUISpellsOrder
 
 Func BtnRemoveSpells()
+	Local $bWasRedraw = SetRedrawBotWindow(False, Default, Default, Default, "BtnRemoveSpells")
 	Local $sComboData = ""
 	For $j = 0 To UBound($g_asSpellsOrderList) - 1
 		$sComboData &= $g_asSpellsOrderList[$j] & "|"
@@ -645,6 +646,7 @@ Func BtnRemoveSpells()
 	GUICtrlSetState($g_hBtnSpellsOrderSet, $GUI_DISABLE)
 	_GUICtrlSetImage($g_ahImgSpellsOrderSet, $g_sLibIconPath, $eIcnSilverStar)
 	SetDefaultSpellsGroup(False)
+	SetRedrawBotWindow($bWasRedraw, Default, Default, Default, "BtnRemoveSpells")
 EndFunc   ;==>BtnRemoveSpells
 
 Func GUITrainOrder()
@@ -678,6 +680,7 @@ Func GUITrainOrder()
 EndFunc   ;==>GUITrainOrder
 
 Func BtnRemoveTroops()
+	Local $bWasRedraw = SetRedrawBotWindow(False, Default, Default, Default, "BtnRemoveTroops")
 	Local $sComboData = ""
 	For $j = 0 To UBound($g_asTroopOrderList) - 1
 		$sComboData &= $g_asTroopOrderList[$j] & "|"
@@ -691,9 +694,11 @@ Func BtnRemoveTroops()
 	GUICtrlSetState($g_hBtnTroopOrderSet, $GUI_DISABLE)
 	_GUICtrlSetImage($g_ahImgTroopOrderSet, $g_sLibIconPath, $eIcnSilverStar)
 	SetDefaultTroopGroup(False)
+	SetRedrawBotWindow($bWasRedraw, Default, Default, Default, "BtnRemoveTroops")
 EndFunc   ;==>BtnRemoveTroops
 
 Func BtnTroopOrderSet()
+	Local $bWasRedraw = SetRedrawBotWindow(False, Default, Default, Default, "BtnTroopOrderSet")
 	Local $bReady = True ; Initialize ready to record troop order flag
 	Local $sNewTrainList = ""
 
@@ -756,6 +761,7 @@ Func BtnTroopOrderSet()
 		SetLog("Must use all troops and No duplicate troop names!", $COLOR_ERROR)
 		_GUICtrlSetImage($g_ahImgTroopOrderSet, $g_sLibIconPath, $eIcnRedLight)
 	EndIf
+	SetRedrawBotWindow($bWasRedraw, Default, Default, Default, "BtnTroopOrderSet")
 EndFunc   ;==>BtnTroopOrderSet
 
 Func ChangeTroopTrainOrder()
@@ -784,6 +790,7 @@ EndFunc   ;==>ChangeTroopTrainOrder
 
 Func BtnSpellsOrderSet()
 
+	Local $bWasRedraw = SetRedrawBotWindow(False, Default, Default, Default, "BtnSpellsOrderSet")
 	Local $bReady = True ; Initialize ready to record troop order flag
 	Local $sNewTrainList = ""
 
@@ -863,7 +870,7 @@ Func BtnSpellsOrderSet()
 		SetLog("Must use all Spells and No duplicate troop names!", $COLOR_ERROR)
 		_GUICtrlSetImage($g_ahImgSpellsOrderSet, $g_sLibIconPath, $eIcnRedLight)
 	EndIf
-
+	SetRedrawBotWindow($bWasRedraw, Default, Default, Default, "BtnSpellsOrderSet")
 EndFunc   ;==>BtnSpellsOrderSet
 
 Func ChangeSpellsBrewOrder()
@@ -1047,29 +1054,14 @@ Func TxtAddRandomDelayMax()
 	$g_iTrainAddRandomDelayMax = Int(GUICtrlRead($g_hTxtAddRandomDelayMax))
 EndFunc   ;==>TxtAddRandomDelayMax
 
-Func chkAddRandomClickTimingDelay()
-	$g_bTrainAddRandomClickTimingDelayEnable = (GUICtrlRead($g_hChkTrainAddRandomClickTimingDelayEnable) = $GUI_CHECKED)
-
-	For $i = $g_hLblAddClickRandomTimingDelayBetween To $g_hLblAddRandomClickTimingDelay
-		GUICtrlSetState($i, $g_bTrainAddRandomClickTimingDelayEnable ? $GUI_ENABLE : $GUI_DISABLE)
-	Next
-	$g_iTrainAddRandomClickTimingDelayMax = $g_iTrainAddRandomClickTimingDelayMax * 5
-EndFunc   ;==>chkAddRandomClickTimingDelay
-
 Func IschkAddRandomClickTimingDelay1()
-	If $g_bTrainAddRandomClickTimingDelayEnable = 1 Then
-		SetLog("Random TrainClick in this round : " & $g_iTrainClickDelayfinal & "ms", $COLOR_BLUE)
-	EndIf
+	SetLog("Random TrainClick in this round : " & $g_iTrainClickDelayfinal & "ms", $COLOR_BLUE)
 EndFunc   ;==>IschkAddRandomClickTimingDelay1
 
 Func IschkAddRandomClickTimingDelay2()
 	$RandomClickTrainAddTime = Round(Random($g_iTrainAddRandomClickTimingDelayMin, $g_iTrainAddRandomClickTimingDelayMax))
-	If $g_bTrainAddRandomClickTimingDelayEnable = 1 Then
-		$g_iTrainClickDelayfinal = ($g_iTrainClickDelay + $RandomClickTrainAddTime)
-		SetLog("Random TrainClick Delay in this round : " & $RandomClickTrainAddTime & "ms", $COLOR_BLUE)
-	Else
-		$g_iTrainClickDelayfinal = $g_iTrainClickDelay
-	EndIf
+	$g_iTrainClickDelayfinal = ($g_iTrainClickDelay + $RandomClickTrainAddTime)
+	SetLog("Random TrainClick Delay in this round : " & $RandomClickTrainAddTime & "ms", $COLOR_BLUE)
 EndFunc   ;==>IschkAddRandomClickTimingDelay2
 
 Func chkSuperTroops()

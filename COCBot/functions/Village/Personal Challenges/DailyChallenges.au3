@@ -26,33 +26,6 @@ Func DailyChallenges($CCControl = True)
 
 	If Not $g_bChkCollectRewards And Not $bCheckDiscount Then Return
 
-	If Not $g_bFirstStartAccountDC Then
-		$IsToCheckdiff[$g_iCurAccount] = False
-		$asLastTimeCheckedforChallenges[$g_iCurAccount] = 0
-		$DelayPersoChallengesMn[$g_iCurAccount] = 0
-		$g_bFirstStartAccountDC = 1
-	EndIf
-
-	If $IsToCheckdiff[$g_iCurAccount] And Not $IsToCheckBeforeStop And $g_iCmbPriorityPersoChallengesFrequency > 0 Then
-		Local $iLastCheckdiff = TimerDiff($asLastTimeCheckedforChallenges[$g_iCurAccount])
-		Local $iLastCheck = Round($iLastCheckdiff / 1000 / 60) ; Minutes
-
-		If $iLastCheck <= $DelayPersoChallengesMn[$g_iCurAccount] Then
-			Local $iWaitTime = ($DelayPersoChallengesMn[$g_iCurAccount] - $iLastCheck) * 60 * 1000 ; ms
-			Local $sWaitTime = ""
-			Local $iMin, $iHour, $iWaitSec
-
-			$iWaitSec = Round($iWaitTime / 1000)
-			$iHour = Floor(Floor($iWaitSec / 60) / 60)
-			$iMin = Floor(Mod(Floor($iWaitSec / 60), 60))
-			If $iHour > 0 Then $sWaitTime &= $iHour & " hours "
-			If $iMin > 0 Then $sWaitTime &= $iMin & " minutes "
-			If $iWaitSec <= 60 Then $sWaitTime = "Imminent"
-			SetLog("Next Personnal Challenges Check : " & $sWaitTime & "", $COLOR_OLIVE)
-			Return ; If random time is >= to $iLastCheck then return
-		EndIf
-	EndIf
-
 	SetLog("Check Personnal Challenges", $COLOR_INFO)
 	If $bGoldPass Then SetLog("Gold Pass Detected", $COLOR_SUCCESS1)
 
@@ -95,23 +68,6 @@ Func DailyChallenges($CCControl = True)
 EndFunc   ;==>DailyChallenges
 
 Func OpenPersonalChallenges()
-	$g_iCmbPriorityPersoChallengesFrequency = _GUICtrlComboBox_GetCurSel($g_hCmbPriorityPersoChallengesFrequency) * 60 ; minutes
-	$g_icmbAdvancedVariation[2] = _GUICtrlComboBox_GetCurSel($g_hcmbAdvancedVariation[2]) / 10
-	Local $DelayPersoChallengesInf = ($g_iCmbPriorityPersoChallengesFrequency - ($g_iCmbPriorityPersoChallengesFrequency * $g_icmbAdvancedVariation[2]))
-	Local $DelayPersoChallengesSup = ($g_iCmbPriorityPersoChallengesFrequency + ($g_iCmbPriorityPersoChallengesFrequency * $g_icmbAdvancedVariation[2]))
-	$DelayPersoChallengesMn[$g_iCurAccount] = Random($DelayPersoChallengesInf, $DelayPersoChallengesSup, 1)
-	Local $DelayReturnedtocheckPersoChallengesMS = $DelayPersoChallengesMn[$g_iCurAccount] * 60 * 1000
-	Local $iWaitTime = $DelayReturnedtocheckPersoChallengesMS
-	Local $sWaitTime = ""
-	Local $iMin, $iHour, $iWaitSec
-	$iWaitSec = Round($iWaitTime / 1000)
-	$iHour = Floor(Floor($iWaitSec / 60) / 60)
-	$iMin = Floor(Mod(Floor($iWaitSec / 60), 60))
-	If $iHour > 0 Then $sWaitTime &= $iHour & " hours "
-	If $iMin > 0 Then $sWaitTime &= $iMin & " minutes "
-	$asLastTimeCheckedforChallenges[$g_iCurAccount] = TimerInit()
-	$IsToCheckdiff[$g_iCurAccount] = True
-
 	If _CheckPixel($aPersonalChallengeOpenButton3, $g_bCapturePixel) Then
 		$ActionForModLog = "Check Personnal Challenges - Something Detected"
 		If $g_iTxtCurrentVillageName <> "" Then
@@ -180,7 +136,6 @@ Func OpenPersonalChallenges()
 			$counter += 1
 			If $counter > 40 Then Return False
 		WEnd
-		If $IsToCheckBeforeStop = False And $g_iCmbPriorityPersoChallengesFrequency > 0 Then SetLog("Next Personnal Challenges Check : " & $sWaitTime & "", $COLOR_OLIVE)
 		Return True
 	Else
 		SetLog("Nothing In Personal Challenges", $COLOR_BLUE)
@@ -193,7 +148,6 @@ Func OpenPersonalChallenges()
 			EndIf
 			_FileWriteLog($g_sProfileLogsPath & "\ModLog.log", " [" & $g_sProfileCurrentName & "] - Advanced : " & $ActionForModLog & "")
 		EndIf
-		If $IsToCheckBeforeStop = False And $g_iCmbPriorityPersoChallengesFrequency > 0 Then SetLog("Next Personnal Challenges Check : " & $sWaitTime & "", $COLOR_OLIVE)
 		Return False
 	EndIf
 EndFunc   ;==>OpenPersonalChallenges

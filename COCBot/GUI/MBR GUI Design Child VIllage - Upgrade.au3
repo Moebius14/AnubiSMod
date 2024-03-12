@@ -138,7 +138,7 @@ Func CreateLaboratorySubTab()
 			GetTranslatedFileIni("MBR Global GUI Design Names Troops", "TxtBowlers", "Bowlers") & "|" & _
 			GetTranslatedFileIni("MBR Global GUI Design Names Troops", "TxtIceGolems", "Ice Golems") & "|" & _
 			GetTranslatedFileIni("MBR Global GUI Design Names Troops", "TxtHeadhunters", "Headhunters") & "|" & _
-			GetTranslatedFileIni("MBR Global GUI Design Names Troops", "TxtAppWards", "App. Warden") & "|" & _
+			GetTranslatedFileIni("MBR Global GUI Design Names Troops", "TxtAppWards", "App. Wardens") & "|" & _
 			GetTranslatedFileIni("MBR Global GUI Design Names Troops", "TxtWallWreckers", "Wall Wreckers") & "|" & _
 			GetTranslatedFileIni("MBR Global GUI Design Names Troops", "TxtBattleBlimps", "Battle Blimps") & "|" & _
 			GetTranslatedFileIni("MBR Global GUI Design Names Troops", "TxtStoneSlammers", "Stone Slammers") & "|" & _
@@ -173,7 +173,7 @@ Func CreateLaboratorySubTab()
 	$g_hUseLabPotion = GUICtrlCreateCheckbox(GetTranslatedFileIni("MBR GUI Design Child Village - Upgrade_Laboratory", "ChkUseLabPotion", "Use Research Potion"), $x + 80, $y + 28, -1, -1)
 	_GUICtrlSetTip(-1, "Enable Use of Laboratory Potion, If Upgrade is more than 1 Day")
 	GUICtrlSetOnEvent(-1, "chkUseLabPotion")
-	GUICtrlCreateIcon($g_sLibModIconPath, $eIcnModResearchPotion, $x + 200, $y + 25, 24, 24)
+	_GUICtrlCreateIcon($g_sLibModIconPath, $eIcnModResearchPotion, $x + 200, $y + 25, 24, 24)
 
 	$g_hCmbLabPotion = GUICtrlCreateCombo("", $x + 250, $y + 27, 70, 25, BitOR($CBS_DROPDOWNLIST, $CBS_AUTOHSCROLL))
 	_GUICtrlSetTip(-1, GetTranslatedFileIni("MBR GUI Design Child Village - Upgrade_Laboratory", "CmbLabPotion", "Number Of Iterations."))
@@ -249,19 +249,19 @@ Func CreateLaboratorySubTab()
 
 	$x = 30
 	$y += 45
-	GUICtrlCreateIcon($g_sLibModIconPath, $eIcnModFightingBook, $x, $y, 24, 24)
+	_GUICtrlCreateIcon($g_sLibModIconPath, $eIcnModFightingBook, $x, $y, 24, 24)
 	$g_hUseBOF = GUICtrlCreateCheckbox(GetTranslatedFileIni("MBR GUI Design Child Village - Upgrade_Laboratory", "ChkUseBOF", "Use Book Of Fighting, If Lab time is more than:"), $x + 30, $y, -1, -1)
 	_GUICtrlSetTip(-1, GetTranslatedFileIni("MBR GUI Design Child Village - Upgrade_Laboratory", "ChkUseBOF", "Enable Use Book Of Fighting" & @CRLF & "If Laboratory Upgrade time is more than specified day"))
 	$g_hUseBOFTime = GUICtrlCreateInput("7", $x + 275, $y + 2, 25, 18, BitOR($GUI_SS_DEFAULT_INPUT, $ES_CENTER, $ES_NUMBER))
 	GUICtrlCreateLabel("Days", $x + 305, $y + 3)
 	$y += 23
-	GUICtrlCreateIcon($g_sLibModIconPath, $eIcnModSpellBook, $x, $y, 24, 24)
+	_GUICtrlCreateIcon($g_sLibModIconPath, $eIcnModSpellBook, $x, $y, 24, 24)
 	$g_hUseBOS = GUICtrlCreateCheckbox(GetTranslatedFileIni("MBR GUI Design Child Village - Upgrade_Laboratory", "ChkUseBOS", "Use Book Of Spells, If Lab time is more than:"), $x + 30, $y, -1, -1)
 	_GUICtrlSetTip(-1, GetTranslatedFileIni("MBR GUI Design Child Village - Upgrade_Laboratory", "ChkUseBOF", "Enable Use Book Of Spell" & @CRLF & "If Laboratory Upgrade time is more than specified day"))
 	$g_hUseBOSTime = GUICtrlCreateInput("7", $x + 260, $y + 2, 25, 18, BitOR($GUI_SS_DEFAULT_INPUT, $ES_CENTER, $ES_NUMBER))
 	GUICtrlCreateLabel("Days", $x + 290, $y + 3)
 	$y += 23
-	GUICtrlCreateIcon($g_sLibModIconPath, $eIcnModEverythingBook, $x, $y, 24, 24)
+	_GUICtrlCreateIcon($g_sLibModIconPath, $eIcnModEverythingBook, $x, $y, 24, 24)
 	$g_hUseBOE = GUICtrlCreateCheckbox(GetTranslatedFileIni("MBR GUI Design Child Village - Upgrade_Laboratory", "ChkUseBOE", "Use Book Of Everything, If Lab time is more than:"), $x + 30, $y, -1, -1)
 	_GUICtrlSetTip(-1, GetTranslatedFileIni("MBR GUI Design Child Village - Upgrade_Laboratory", "ChkUseBOE", "Enable Use Book Of Everything" & @CRLF & "If Laboratory Upgrade time is more than specified day"))
 	$g_hUseBOETime = GUICtrlCreateInput("14", $x + 285, $y + 2, 25, 18, BitOR($GUI_SS_DEFAULT_INPUT, $ES_CENTER, $ES_NUMBER))
@@ -379,7 +379,7 @@ Func CreateHeroesSubTab()
 	GUICtrlSetOnEvent(-1, "BtnHeroEquipment")
 
 	$y += 40
-	GUICtrlCreateIcon($g_sLibModIconPath, $eIcnModHeroBook, $x + 2, $y - 1, 20, 24)
+	_GUICtrlCreateIcon($g_sLibModIconPath, $eIcnModHeroBook, $x + 2, $y - 1, 20, 24)
 	$g_hUseHeroBooks = GUICtrlCreateCheckbox(GetTranslatedFileIni("MBR Global GUI Design Names Buildings", "UserHeroBooks", "Use Hero Book, If UpgradeTime is more than"), $x + 32, $y, -1, -1)
 	$g_hHeroMinUpgradeTime = GUICtrlCreateInput("5", $x + 270, $y + 2, 25, 18, BitOR($GUI_SS_DEFAULT_INPUT, $ES_CENTER, $ES_NUMBER))
 	GUICtrlCreateLabel("Days", $x + 300, $y + 4)
@@ -485,7 +485,7 @@ Func CreateHeroesSubTab()
 	$g_hUsePetPotion = GUICtrlCreateCheckbox(GetTranslatedFileIni("MBR GUI Design Child Village - Upgrade_Pets", "ChkUsePetPotion", "Use Pet Potion"), $x, $y, -1, -1)
 	_GUICtrlSetTip(-1, "Enable Use of Pet Potion, If Upgrade is more than 1 Day")
 	GUICtrlSetOnEvent(-1, "ChkUsePetPotion")
-	GUICtrlCreateIcon($g_sLibModIconPath, $eIcnModPetPotion, $x + 90, $y - 3, 24, 24)
+	_GUICtrlCreateIcon($g_sLibModIconPath, $eIcnModPetPotion, $x + 90, $y - 3, 24, 24)
 
 	$g_hCmbPetPotionLabel = GUICtrlCreateLabel("Iterations : ", $x + 130, $y + 4, -1, -1)
 	$g_hCmbPetPotion = GUICtrlCreateCombo("", $x + 185, $y - 1, 70, 25, BitOR($CBS_DROPDOWNLIST, $CBS_AUTOHSCROLL))
@@ -497,9 +497,9 @@ EndFunc   ;==>CreateHeroesSubTab
 
 Func CreateHeroEquipment()
 	Local $x = 25, $y = 5
-	$g_hGUI_HeroEquipment = _GUICreate("Hero Equipment", $_GUI_MAIN_WIDTH  + 50, $_GUI_MAIN_HEIGHT - 67, $g_iFrmBotPosX - 25, $g_iFrmBotPosY + 40, $WS_DLGFRAME, -1, $g_hFrmBot)
+	$g_hGUI_HeroEquipment = _GUICreate("Hero Equipment", $_GUI_MAIN_WIDTH  + 50, $_GUI_MAIN_HEIGHT - 27, $g_iFrmBotPosX - 25, $g_iFrmBotPosY + 40, $WS_DLGFRAME, -1, $g_hFrmBot)
 
-	GUICtrlCreateIcon($g_sLibIconPath, $eIcnBlacksmith, $x + 15, $y + 15, 48, 48)
+	_GUICtrlCreateIcon($g_sLibIconPath, $eIcnBlacksmith, $x + 15, $y + 15, 48, 48)
 	$g_hChkCustomEquipmentOrderEnable = GUICtrlCreateCheckbox(GetTranslatedFileIni("MBR GUI Design Child Attack - Equipment", "ChkCustomEquipmentEnable", "Auto Equipment Upgrades"), $x + 75, $y + 30, -1, -1)
 	GUICtrlSetState(-1, $GUI_UNCHECKED)
 	_GUICtrlSetTip(-1, GetTranslatedFileIni("MBR GUI Design Child Attack - Equipment", "ChkCustomEquipmentEnable_Info_01", "Enable to select a custom equipment upgrade order"))
@@ -517,7 +517,7 @@ Func CreateHeroEquipment()
 	$y = 90
 	Local $2DigitsOffset = 3
 	For $z = 0 To UBound($g_ahCmbEquipmentOrder) - 1
-		If $z < 9 Then
+		If $z < 10 Then
 			$g_EquipmentOrderLabel[$z] = GUICtrlCreateLabel($z + 1 & ":", $x - 36, $y + 3, -1, 25)
 			$g_hChkCustomEquipmentOrder[$z] = GUICtrlCreateCheckbox("", $x - 20, $y - 2, -1, 25)
 			GUICtrlSetState(-1, $GUI_UNCHECKED)
@@ -529,8 +529,8 @@ Func CreateHeroEquipment()
 			$g_ahImgEquipmentOrder[$z] = _GUICtrlCreateIcon($g_sLibIconPath, $eIcnOptions, $x + 123, $y - 2, 24, 24)
 			$g_ahImgEquipmentOrder2[$z] = _GUICtrlCreateIcon($g_sLibIconPath, $eIcnOptions, $x + 155, $y - 2, 24, 24)
 			$y += 40 ; move down to next combobox location
-		ElseIf $z = 9 Then
-			If $z = 9 Then
+		ElseIf $z = 10 Then
+			If $z = 10 Then
 				$x += 250
 				$y = 90
 			EndIf
@@ -545,8 +545,8 @@ Func CreateHeroEquipment()
 			$g_ahImgEquipmentOrder[$z] = _GUICtrlCreateIcon($g_sLibIconPath, $eIcnOptions, $x + 123, $y - 2, 24, 24)
 			$g_ahImgEquipmentOrder2[$z] = _GUICtrlCreateIcon($g_sLibIconPath, $eIcnOptions, $x + 155, $y - 2, 24, 24)
 			$y += 40 ; move down to next combobox location
-		ElseIf $z > 9 Then
-			If $z = 9 Then
+		ElseIf $z > 10 Then
+			If $z = 10 Then
 				$x += 250
 			EndIf
 			$g_EquipmentOrderLabel[$z] = GUICtrlCreateLabel($z + 1 & ":", $x - 40, $y + 3, -1, 25)
@@ -564,13 +564,13 @@ Func CreateHeroEquipment()
 	Next
 
 	$x = 125
-	$y = 465
+	$y = 505
 	$g_hBtnRegularOrder = GUICtrlCreateButton(GetTranslatedFileIni("MBR GUI Design Child Attack - Equipment", "BtnRegularOrder", "Sort in Original Order"), $x + 70, $y, 130, 20)
 	_GUICtrlSetTip(-1, GetTranslatedFileIni("MBR GUI Design Child Attack - Equipment", "BtnRegularOrder_Info_01", "Push button to sort equipment in original order"))
 	GUICtrlSetOnEvent(-1, "btnRegularOrder")
 
 	$x = 125
-	$y = 510
+	$y = 550
 	$g_hBtnRemoveEquipment = GUICtrlCreateButton(GetTranslatedFileIni("MBR GUI Design Child Attack - Equipment", "BtnRemoveEquipment", "Empty Equipment List"), $x - 6, $y, 130, 20)
 	_GUICtrlSetTip(-1, GetTranslatedFileIni("MBR GUI Design Child Attack - Equipment", "BtnRemoveEquipment_Info_01", "Push button to remove all equipment from list and start over"))
 	GUICtrlSetOnEvent(-1, "btnRemoveEquipment")
@@ -583,7 +583,7 @@ Func CreateHeroEquipment()
 	GUICtrlSetOnEvent(-1, "btnEquipmentOrderSet")
 	$g_ahImgEquipmentOrderSet = _GUICtrlCreateIcon($g_sLibIconPath, $eIcnSilverStar, $x + 119, $y, 18, 18)
 
-	$y = 550
+	$y = 590
 	$g_hBtnHeroEquipmentClose = GUICtrlCreateButton("Close", 410, $y, 85, 25)
 	GUICtrlSetOnEvent(-1, "CloseHeroEquipment")
 EndFunc   ;==>CreateHeroEquipment

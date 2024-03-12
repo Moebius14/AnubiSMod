@@ -149,7 +149,7 @@ Global $g_hChkCloseWhileTraining = 0, $g_hChkCloseWithoutShield = 0, $g_hChkClos
 		$g_hTxtAddRandomClickTimingDelayMax = 0
 Global $g_hLblCloseWaitRdmPercent = 0, $g_hLblCloseWaitingTroops = 0, $g_hLblSymbolWaiting = 0, $g_hLblWaitingInMinutes = 0, $g_hLblTrainITDelay = 0, $g_hLblTrainITDelayTime = 0, _
 		$g_hLblAddDelayIdlePhaseBetween = 0, $g_hLblAddDelayIdlePhaseSec = 0, $g_hPicCloseWaitTrain = 0, $g_hPicCloseWaitStop = 0, $g_hPicCloseWaitExact = 0, $g_hLblAddClickRandomTimingDelayBetween = 0, _
-		$g_hLblAddRandomClickTimingDelay = 0, $g_hChkColorfulAttackLog = 0, $g_hRandomCloseOptionPercentLabel = 0, $g_hRandomCloseOptionPercent = 0, $g_hRandomCloseOptionPercentLabel2 = 0, _
+		$g_hLblAddRandomClickTimingDelay = 0, $g_hRandomCloseOptionPercentLabel = 0, $g_hRandomCloseOptionPercent = 0, $g_hRandomCloseOptionPercentLabel2 = 0, _
 		$g_hdRadio_RandomClassic = 0, $g_hdRadio_RandomMod = 0, $g_hLblToWaiting = 0
 
 Func CreateAttackTroops()
@@ -1480,58 +1480,20 @@ Func CreateTrainOptions()
 	GUICtrlCreateGroup("", -99, -99, 1, 1)
 
 	$x -= 18
-	$y += 53
-	GUICtrlCreateGroup(GetTranslatedFileIni("MBR GUI Design Child Attack - Troops_Options", "Group_04", "Training Click Timing Random Delay"), $x - 20, $y - 20, 198, 86)
-	$y += 15
-	$g_hChkTrainAddRandomClickTimingDelayEnable = GUICtrlCreateCheckbox(GetTranslatedFileIni("MBR GUI Design Child Attack - Troops_Options", "ChkTrainAddRandomClickTimingDelayEnable", "Add Random Click Timing Delay"), $x + 18, $y - 11, 140, -1)
-	$sTxtTip = GetTranslatedFileIni("MBR GUI Design Child Attack - Troops_Options", "ChkTrainAddRandomClickTimingDelayEnable_Info_01", "Add random Click Timing delay to standard.") & @CRLF & _
-			GetTranslatedFileIni("MBR GUI Design Child Attack - Troops_Options", "ChkTrainAddRandomClickTimingDelayEnable_Info_03", "This option increase humanization.")
-	GUICtrlSetState(-1, $GUI_CHECKED)
-	_GUICtrlSetTip(-1, $sTxtTip)
-	_GUICtrlCreateIcon($g_sLibIconPath, $eIcnDelay, $x - 13, $y - 13, 24, 24)
-	_GUICtrlSetTip(-1, $sTxtTip)
-
-	GUICtrlCreateGroup("", -99, -99, 1, 1)
-
-	$x += 18
-	$y += 18
-	$g_hLblAddClickRandomTimingDelayBetween = GUICtrlCreateLabel(GetTranslatedFileIni("MBR GUI Design Child Attack - Troops_Options", "LblAddClickTimingDelayIdlePhaseBetween", "Between"), $x - 12, $y, 50, -1)
-	$g_hTxtAddRandomClickTimingDelayMin = GUICtrlCreateLabel($g_iTrainAddRandomClickTimingDelayMin, $x + 35, $y, -1, -1)
-	GUICtrlCreateLabel(GetTranslatedFileIni("MBR GUI Design Child Attack - Search", "TxtWaitForAnd", "And"), $x + 46, $y, 20, -1)
-	$g_hTxtAddRandomClickTimingDelayMax = GUICtrlCreateCombo("", $x + 72, $y - 4, 37, 10, BitOR($CBS_DROPDOWNLIST, $CBS_AUTOHSCROLL))
-;~ 	GUICtrlSetOnEvent(-1, "FctClickTimingDelay")
-	GUICtrlSetData(-1, "0|5|10|15|20|25|30|35|40|45|50|55|60|65|70|75|80|85", "50")
-	$g_hLblAddRandomClickTimingDelay = GUICtrlCreateLabel(GetTranslatedFileIni("MBR Global GUI Design", "ms.", "ms."), $x + 115, $y, 20, -1)
-
-	GUICtrlCreateGroup("", -99, -99, 1, 1)
-
-	$x -= 18
-	$y += 55
-
-	GUICtrlCreateGroup(GetTranslatedFileIni("MBR GUI Design Child Attack - Troops_Options", "Group_06", "Attack Log"), $x - 20, $y - 20, 180, 55)
-	_GUICtrlCreateIcon($g_sLibModIconPath, $eIcnModColorfulSetlog, $x - 5, $y, 24, 24)
-	$g_hChkColorfulAttackLog = GUICtrlCreateCheckbox(GetTranslatedFileIni("MBR GUI Design Child Attack - Troops_Options", "ChkColorfulAttackLog", "Colorful Attack Log"), $x + 28, $y + 2, -1, -1)
-	_GUICtrlSetTip(-1, GetTranslatedFileIni("MBR GUI Design Child Attack - Troops_Options", "ChkColorfulAttackLog_Info_01", "When you select this option, the avatar will be displayed in color. Each color indicates a star"))
-	GUICtrlSetState(-1, $GUI_CHECKED)
-
-	GUICtrlCreateGroup("", -99, -99, 1, 1)
-
 	$y += 60
-
 	GUICtrlCreateGroup(GetTranslatedFileIni("MBR GUI Design Child Attack - Troops_Options", "Group_07", "Random Close Option"), $x - 20, $y - 20, 240, 70)
 	_GUICtrlCreateIcon($g_sLibModIconPath, $eIcnModRandomClose, $x - 3, $y + 6, 24, 24)
 	GUIStartGroup()
-	$g_hdRadio_RandomClassic = GUICtrlCreateRadio("Classic", 210, 250, -1, -1)
+	$g_hdRadio_RandomClassic = GUICtrlCreateRadio("Classic", 210, 109, -1, -1)
 	_GUICtrlSetTip(-1, "Classic Behaviour : Random Close COC, Time Out or Close Emulator.")
 	GUICtrlSetOnEvent(-1, "FctRadio_RandomClassic")
 	GUICtrlSetState(-1, $GUI_UNCHECKED)
-	$g_hdRadio_RandomMod = GUICtrlCreateRadio("Close COC/Time Out", 270, 250, -1, -1)
+	$g_hdRadio_RandomMod = GUICtrlCreateRadio("Close COC/Time Out", 270, 109, -1, -1)
 	_GUICtrlSetTip(-1, "Mod Behaviour : Random Close COC or Time Out.")
 	GUICtrlSetOnEvent(-1, "FctRadio_RandomMod")
 	GUICtrlSetState(-1, $GUI_CHECKED)
 
 	$y += 20
-
 	$g_hRandomCloseOptionPercentLabel = GUICtrlCreateLabel("Probability For COC Closing", $x + 32, $y + 5, -1, -1)
 	$g_hRandomCloseOptionPercent = GUICtrlCreateInput($g_iRandomCloseOptionPercent, $x + 167, $y + 3, 25, 18, BitOR($GUI_SS_DEFAULT_INPUT, $ES_CENTER, $ES_NUMBER))
 	_GUICtrlSetTip(-1, "Probability Percent For Closing COC Rather Than Time Out.")

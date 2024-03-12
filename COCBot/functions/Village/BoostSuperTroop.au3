@@ -176,7 +176,15 @@ Func OpenBarrel($bTest = False)
 		Local $BarrelStoppedLoop = 0
 
 		For $i = 0 To 5 ; To Detect Stopped Barrel even with animation.
-			If QuickMIS("BC1", $g_sImgBarrelStopped, $aiSearchNoBoost[0], $aiSearchNoBoost[1], $aiSearchNoBoost[2], $aiSearchNoBoost[3]) Then $BarrelStoppedLoop += 1
+			If QuickMIS("BC1", $g_sImgBarrelStopped, $aiSearchNoBoost[0], $aiSearchNoBoost[1], $aiSearchNoBoost[2], $aiSearchNoBoost[3]) Then
+				Local $aiSearchArrayLowerEvent[4] = [$g_iQuickMISX - 14, $g_iQuickMISY - 36, $g_iQuickMISX + 13, $g_iQuickMISY - 29]
+				$BarrelStoppedLoop += 1
+				If WaitforPixel($aiSearchArrayLowerEvent[0], $aiSearchArrayLowerEvent[1], $aiSearchArrayLowerEvent[2], $aiSearchArrayLowerEvent[3], "E6E8DD", 25, 2) Then
+					SetLog("Event Troop Boosted", $COLOR_INFO)
+					$BarrelStoppedLoop = 0
+					ExitLoop
+				EndIf
+			EndIf
 			If $BarrelStoppedLoop > 0 Then ExitLoop
 			If _Sleep(200) Then Return
 		Next
@@ -194,7 +202,7 @@ Func OpenBarrel($bTest = False)
 
 		If Number($aSearchForProgress) > 0 Then
 
-			If Number($aSearchForProgress) >= $iMaxSupersTroop Then ;When 2 troops already boosted. (3 while an event ?)
+			If Number($aSearchForProgress) >= $iMaxSupersTroop Then ;When 2 troops already boosted. (3 while an event)
 				SetLog("Max Number Of Troops Already Boosted", $COLOR_INFO)
 				If Not $bTest Then Return False
 			EndIf

@@ -1,4 +1,12 @@
-* v8.1.6
+* v8.1.7
+* Added Fireball equipment support.
+* Improved Donation system.
+* Fixed Overgrowth spell donate strings translation.
+* Improved Builder count.
+* Updated donateCCWBL.
+* Added Space Scenery support (attack only).
+
+* v8.1.6 **
 * Added "Before you upgrade" window support.
 * Improved Blacksmith equipement upgrade.
 * Fixed BB Repair Building.
@@ -60,6 +68,12 @@
 * Improved Blacksmith opening when new equipment.
 * Updated SafeCoord to match with new chat button.
 * Added Mine and Collector level 16 template.
+* Improved Custom and Order Lists Display.
+* Added couple of ScatterShot level 5 and Inferno Tower level 10 templates.
+* Updated Weak base filters for new levels.
+* Updated DE Drill, Collector and Gold mine max level.
+* Updated Persian-bundle and Donate OCR for Persian/Arabic.
+* Added conditional Telegram message: All Legends attacks made today.
 
 * v8.1.5 **
 * Improved OCR Army Capacity.

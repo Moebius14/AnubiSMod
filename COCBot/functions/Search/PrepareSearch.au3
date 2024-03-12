@@ -78,6 +78,7 @@ Func PrepareSearch($Mode = $DB) ;Click attack button and find match button, will
 		Local $avAttackButton = findMultiple($g_sImgPrepareLegendLeagueSearch, $sSearchDiamond, $sSearchDiamond, 0, 1000, 1, "objectname,objectpoints", True)
 		If IsArray($avAttackButton) And UBound($avAttackButton, 1) > 0 Then
 			$g_bLeagueAttack = True
+			$g_bLegendsAllMade = False
 			Local $avAttackButtonSubResult = $avAttackButton[0]
 			Local $sButtonState = $avAttackButtonSubResult[0]
 			If StringInStr($sButtonState, "Ended", 0) > 0 Then
@@ -88,6 +89,7 @@ Func PrepareSearch($Mode = $DB) ;Click attack button and find match button, will
 				Return
 			ElseIf StringInStr($sButtonState, "Made", 0) > 0 Then
 				SetLog("All Attacks already made! Returning home", $COLOR_INFO)
+				$g_bLegendsAllMade = True
 				$g_bRestart = True
 				CloseWindow()
 				$g_bForceSwitch = True     ; set this switch accounts next check

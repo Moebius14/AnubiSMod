@@ -742,20 +742,6 @@ Func ChkTreasuryCollect()
 	EndIf
 EndFunc   ;==>ChkTreasuryCollect
 
-Func ChkFreeMagicItems()
-	If GUICtrlRead($g_hChkFreeMagicItems) = $GUI_CHECKED Then
-		GUICtrlSetState($g_hChkSellMagicItem, $GUI_ENABLE)
-		For $i = $g_hChkMagicItemsFrequencyLabel To $g_hcmbAdvancedVariation[0]
-			GUICtrlSetState($i, $GUI_ENABLE)
-		Next
-	Else
-		GUICtrlSetState($g_hChkSellMagicItem, $GUI_DISABLE)
-		For $i = $g_hChkMagicItemsFrequencyLabel To $g_hcmbAdvancedVariation[0]
-			GUICtrlSetState($i, $GUI_DISABLE)
-		Next
-	EndIf
-EndFunc   ;==>ChkFreeMagicItems
-
 Func chkStartClockTowerBoost()
 	If GUICtrlRead($g_hChkStartClockTowerBoost) = $GUI_CHECKED Then
 		GUICtrlSetState($g_hChkCTBoostBlderBz, $GUI_ENABLE)
@@ -780,20 +766,9 @@ Func chkActivateClangames()
 		Else
 			GUICtrlSetState($g_hChkNotifyCGScore, $GUI_DISABLE)
 		EndIf
-
 		;CG Planner
 		GUICtrlSetState($g_hChkAttackCGPlannerEnable, $GUI_ENABLE)
 		If $g_bAttackCGPlannerEnable = True Then
-			GUICtrlSetState($g_hChkAttackCGPlannerRandom, $GUI_ENABLE)
-			If GUICtrlRead($g_hChkAttackCGPlannerRandom) = $GUI_CHECKED Then
-				For $i = $g_hCmbAttackCGPlannerRandomTime To $g_hCmbAttackCGPlannerRandomProba
-					GUICtrlSetState($i, $GUI_ENABLE)
-				Next
-			Else
-				For $i = $g_hCmbAttackCGPlannerRandomTime To $g_hCmbAttackCGPlannerRandomProba
-					GUICtrlSetState($i, $GUI_DISABLE)
-				Next
-			EndIf
 			GUICtrlSetState($g_hChkAttackCGPlannerDayLimit, $GUI_ENABLE)
 			If GUICtrlRead($g_hChkAttackCGPlannerDayLimit) = $GUI_CHECKED Then
 				GUICtrlSetState($hCGPlannerThenContinue, $GUI_ENABLE)
@@ -812,80 +787,20 @@ Func chkActivateClangames()
 				GUICtrlSetData($ActualNbrsAttacks, "X")
 			EndIf
 			GUICtrlSetState($g_hChkSTOPWhenCGPointsMax, $GUI_ENABLE)
-			If $g_bAttackCGPlannerRandomEnable = True Then
-				GUICtrlSetState($g_hCmbAttackCGPlannerRandomTime, $GUI_ENABLE)
-				GUICtrlSetState($g_hLbAttackCGPlannerRandom, $GUI_ENABLE)
-				For $i = $g_hLbAttackCGPlannerRandomProba To $g_hCmbAttackCGPlannerRandomVariation
-					GUICtrlSetState($i, $GUI_ENABLE)
-				Next
-				GUICtrlSetState($g_hTxtCGRandomLog, $GUI_ENABLE)
-				For $i = 0 To 6
-					GUICtrlSetState($g_ahChkAttackCGWeekdays[$i], $GUI_DISABLE)
-				Next
-				GUICtrlSetState($g_ahChkAttackCGWeekdaysE, $GUI_DISABLE)
-
-				For $i = 0 To 23
-					GUICtrlSetState($g_ahChkAttackCGHours[$i], $GUI_DISABLE)
-				Next
-				GUICtrlSetState($g_ahChkAttackCGHoursE1, $GUI_DISABLE)
-				GUICtrlSetState($g_ahChkAttackCGHoursE2, $GUI_DISABLE)
-			Else
-				GUICtrlSetState($g_hCmbAttackCGPlannerRandomTime, $GUI_DISABLE)
-				GUICtrlSetState($g_hLbAttackCGPlannerRandom, $GUI_DISABLE)
-				For $i = $g_hLbAttackCGPlannerRandomProba To $g_hCmbAttackCGPlannerRandomVariation
-					GUICtrlSetState($i, $GUI_DISABLE)
-				Next
-				If GUICtrlRead($g_hChkAttackCGPlannerDayLimit) = $GUI_CHECKED Then
-					GUICtrlSetState($g_hTxtCGRandomLog, $GUI_ENABLE)
-				Else
-					GUICtrlSetState($g_hTxtCGRandomLog, $GUI_DISABLE)
-				EndIf
-				For $i = 0 To 6
-					GUICtrlSetState($g_ahChkAttackCGWeekdays[$i], $GUI_ENABLE)
-				Next
-				GUICtrlSetState($g_ahChkAttackCGWeekdaysE, $GUI_ENABLE)
-
-				For $i = 0 To 23
-					GUICtrlSetState($g_ahChkAttackCGHours[$i], $GUI_ENABLE)
-				Next
-				GUICtrlSetState($g_ahChkAttackCGHoursE1, $GUI_ENABLE)
-				GUICtrlSetState($g_ahChkAttackCGHoursE2, $GUI_ENABLE)
-			EndIf
 			If $g_bAttackCGPlannerDayLimit = True Then
 				For $i = $g_hCmbAttackCGPlannerDayMin To $g_hCmbAttackCGPlannerDayMax
 					GUICtrlSetState($i, $GUI_ENABLE)
 				Next
-				If GUICtrlRead($g_hChkAttackCGPlannerRandom) = $GUI_CHECKED Then
-					GUICtrlSetState($g_hTxtCGRandomLog, $GUI_ENABLE)
-				Else
-					GUICtrlSetState($g_hTxtCGRandomLog, $GUI_DISABLE)
-				EndIf
 			EndIf
 		Else
-			GUICtrlSetState($g_hChkAttackCGPlannerRandom, $GUI_DISABLE)
-			GUICtrlSetState($g_hCmbAttackCGPlannerRandomTime, $GUI_DISABLE)
-			GUICtrlSetState($g_hLbAttackCGPlannerRandom, $GUI_DISABLE)
 			GUICtrlSetState($g_hChkSTOPWhenCGPointsMax, $GUI_DISABLE)
-			For $i = $g_hLbAttackCGPlannerRandomProba To $g_hCmbAttackCGPlannerRandomVariation
-				GUICtrlSetState($i, $GUI_DISABLE)
-			Next
-			GUICtrlSetState($g_hTxtCGRandomLog, $GUI_DISABLE)
 			For $i = $g_hChkAttackCGPlannerDayLimit To $g_hCmbAttackCGPlannerDayMax
 				GUICtrlSetState($i, $GUI_DISABLE)
 			Next
-			For $i = 0 To 6
-				GUICtrlSetState($g_ahChkAttackCGWeekdays[$i], $GUI_DISABLE)
-			Next
-			GUICtrlSetState($g_ahChkAttackCGWeekdaysE, $GUI_DISABLE)
-
-			For $i = 0 To 23
-				GUICtrlSetState($g_ahChkAttackCGHours[$i], $GUI_DISABLE)
-			Next
-			GUICtrlSetState($g_ahChkAttackCGHoursE2, $GUI_DISABLE)
 		EndIf
-		;Planner
+		GUICtrlSetState($g_hTxtClanGamesLog, $GUI_ENABLE)
 	Else
-		GUICtrlSetState($g_hBtnCGRewardsSettingsOpen, $GUI_DISABLE)
+		GUICtrlSetState($g_hBtnCreateCGRewardsSettings, $GUI_DISABLE)
 		GUICtrlSetState($g_hBtnCGSettingsOpen, $GUI_DISABLE)
 		For $i = $g_hChkClanGamesAllTimes To $g_hChkClanGamesNoOneDay
 			GUICtrlSetState($i, $GUI_DISABLE)
@@ -894,12 +809,13 @@ Func chkActivateClangames()
 		GUICtrlSetState($g_hChkCCGDebugNoneFound, $GUI_DISABLE)
 		GUICtrlSetState($g_hChkClanGamesCollectRewards, $GUI_DISABLE)
 		GUICtrlSetState($g_hChkNotifyCGScore, $GUI_DISABLE)
-		GUICtrlSetData($MaxDailyLimit, "X")
-		GUICtrlSetData($ActualNbrsAttacks, "X")
 		;Planner
-		For $i = $g_hChkAttackCGPlannerEnable To $g_hTxtCGRandomLog
+		For $i = $g_hChkAttackCGPlannerEnable To $g_hChkSTOPWhenCGPointsMax
 			GUICtrlSetState($i, $GUI_DISABLE)
 		Next
+		GUICtrlSetData($MaxDailyLimit, "X")
+		GUICtrlSetData($ActualNbrsAttacks, "X")
+		GUICtrlSetState($g_hTxtClanGamesLog, $GUI_DISABLE)
 	EndIf
 EndFunc   ;==>chkActivateClangames
 
@@ -952,39 +868,14 @@ EndFunc   ;==>ChkClanGamesNoOneDay
 Func ChkClanGamesCollectRewards()
 	If GUICtrlRead($g_hChkClanGamesCollectRewards) = $GUI_CHECKED Then
 		If GUICtrlRead($g_hChkClanGamesEnabled) = $GUI_CHECKED Then
-			GUICtrlSetState($g_hBtnCGRewardsSettingsOpen, $GUI_ENABLE)
+			GUICtrlSetState($g_hBtnCreateCGRewardsSettings, $GUI_ENABLE)
 		Else
-			GUICtrlSetState($g_hBtnCGRewardsSettingsOpen, $GUI_DISABLE)
+			GUICtrlSetState($g_hBtnCreateCGRewardsSettings, $GUI_DISABLE)
 		EndIf
 	Else
-		GUICtrlSetState($g_hBtnCGRewardsSettingsOpen, $GUI_DISABLE)
+		GUICtrlSetState($g_hBtnCreateCGRewardsSettings, $GUI_DISABLE)
 	EndIf
 EndFunc   ;==>ChkClanGamesCollectRewards
-
-Func CGRewardsSettingsDefault()
-	GUICtrlSetData($g_acmbPriorityReward[0], 3)
-	GUICtrlSetData($g_acmbPriorityReward[1], 7)
-	GUICtrlSetData($g_acmbPriorityReward[2], 2)
-	GUICtrlSetData($g_acmbPriorityReward[3], 7)
-	GUICtrlSetData($g_acmbPriorityReward[4], 5)
-	GUICtrlSetData($g_acmbPriorityReward[5], 6)
-	GUICtrlSetData($g_acmbPriorityReward[6], 2)
-	GUICtrlSetData($g_acmbPriorityReward[7], 7)
-	GUICtrlSetData($g_acmbPriorityReward[8], 9)
-	GUICtrlSetData($g_acmbPriorityReward[9], 8)
-	GUICtrlSetData($g_acmbPriorityReward[10], 8)
-	GUICtrlSetData($g_acmbPriorityReward[11], 1)
-	GUICtrlSetData($g_acmbPriorityReward[12], 6)
-	GUICtrlSetData($g_acmbPriorityReward[13], 4)
-	GUICtrlSetData($g_acmbPriorityReward[14], 4)
-	GUICtrlSetData($g_acmbPriorityReward[15], 6)
-	GUICtrlSetData($g_acmbPriorityReward[16], 4)
-	GUICtrlSetData($g_acmbPriorityReward[17], 6)
-	GUICtrlSetData($g_acmbPriorityReward[18], 7)
-	GUICtrlSetData($g_acmbPriorityReward[19], 7)
-	GUICtrlSetData($g_acmbPriorityReward[20], 7)
-	GUICtrlSetData($g_acmbPriorityReward[21], 6)
-EndFunc   ;==>CGRewardsSettingsDefault
 
 Func chkClanGamesBB()
 	If GUICtrlRead($g_hChkClanGamesEnabled) = $GUI_CHECKED And _
@@ -1137,14 +1028,6 @@ EndFunc   ;==>btnCGSettings
 Func CloseCGSettings()
 	GUISetState(@SW_HIDE, $g_hGUI_CGSettings)
 EndFunc   ;==>CloseCGSettings
-
-Func btnCGRewardsSettings()
-	GUISetState(@SW_SHOW, $g_hGUI_CGRewardsSettings)
-EndFunc   ;==>btnCGRewardsSettings
-
-Func CloseCGRewardsSettings()
-	GUISetState(@SW_HIDE, $g_hGUI_CGRewardsSettings)
-EndFunc   ;==>CloseCGRewardsSettings
 
 Func CGLootTVRoot()
 	If BitAND(GUICtrlRead($g_hChkCGMainLoot), $GUI_CHECKED) And GUICtrlRead($g_hChkCGRootEnabledAll) = $GUI_CHECKED Then ;root Clangames MainVillage Loot

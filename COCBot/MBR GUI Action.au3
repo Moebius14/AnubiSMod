@@ -99,7 +99,6 @@ Func BotStart($bAutostartDelay = 0)
 
 	;Mod<
 	$g_bFirstStartForAll = 0
-	$g_bFirstStartAccountDC = 0
 	$g_bFirstStartAccountFMI = 0
 	$g_bFirstStartAccountSBB = 0
 	$g_bFirstStartAccountSBB2 = 0
@@ -115,7 +114,6 @@ Func BotStart($bAutostartDelay = 0)
 	$IsReachedMaxCGDayAttack = 0
 	$IsCGEventRunning = 0
 	$g_bIsBBevent = 0
-	$IsAttackCGRandomEnable = 0
 	$iRandomAttackCGCountToday = 0
 	$IsToOpenOffers = 0
 	$g_bClanGamesCompleted = 0
@@ -124,7 +122,6 @@ Func BotStart($bAutostartDelay = 0)
 	$IsTroopDonated = False
 	$IsSpellDonated = False
 	$IsSiegeDonated = False
-	$IsopenMagicWindow = False
 	For $z = 0 To 1
 		$g_abNotNeedAllTime[$z] = True
 	Next
@@ -142,17 +139,14 @@ Func BotStart($bAutostartDelay = 0)
 	LoadCurrentProfile()
 	LoadCurrentAlias()
 	btnModLogClear()
-	btnCGRALogClear()
 	CGLogClear()
 	ModLogAUCCClear()
 	CloseCGSettings()
-	CloseCGRewardsSettings()
 	CloseCCUpgradesSettings()
 	CloseBoostBuilders()
 	CloseBoostBuilders2()
 	CloseBoostBuilders3()
 	CloseWelcomeMessage()
-	CloseSecondaryVillages()
 	CloseCampSizeAdjust()
 	CloseHeroEquipment()
 	;Mod>

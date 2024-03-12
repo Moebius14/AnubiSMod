@@ -346,14 +346,10 @@ Func IsSearchAttackEnabled()
 				EndIf
 				If $iWaitTime = 0 Then     ; if days are not set then compute wait time from hours
 					If $g_abPlannedAttackWeekDays[@WDAY - 1] And $g_abPlannedattackHours[@HOUR] = False Then
-						If $g_iacmdRandomDelay Then
-							Local $RandomiWaitTime = Round($g_iacmdRandomDelayFinal, 1) ; seconds
-							Global $RandomiWaitTime2 = Round(($RandomiWaitTime / 60), 2) ; minutes
-							SetLog("Smart additionnal delay time : + " & $RandomiWaitTime2 & " minutes", $COLOR_BLUE)
-							$iWaitTime += ((59 - @MIN) * 60) + $RandomiWaitTime + 60 ; compute seconds left this hour
-						Else
-							$iWaitTime += (59 - @MIN) * 60 ; compute seconds left this hour
-						EndIf
+						Local $RandomiWaitTime = Round($g_iacmdRandomDelayFinal, 1) ; seconds
+						Global $RandomiWaitTime2 = Round(($RandomiWaitTime / 60), 2) ; minutes
+						SetLog("Smart additionnal delay time : + " & $RandomiWaitTime2 & " minutes", $COLOR_BLUE)
+						$iWaitTime += ((59 - @MIN) * 60) + $RandomiWaitTime + 60 ; compute seconds left this hour
 
 						For $i = @HOUR + 1 To 23
 							If Not $g_abPlannedattackHours[$i] Then $iWaitTime += 3600 ; add 1 hour of seconds to wait time

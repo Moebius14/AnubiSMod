@@ -14,7 +14,7 @@
 ; ===============================================================================================================================
 #include-once
 #include <TreeViewConstants.au3>
-Global $g_hGUI_MISC = 0, $g_hGUI_MISC_TAB = 0, $g_hGUI_MISC_TAB_ITEM1 = 0, $g_hGUI_MISC_TAB_ITEM2 = 0, $g_hGUI_MISC_TAB_ITEM3 = 0, $g_hGUI_MISC_TAB_ITEM4 = 0, $g_hGUI_MISC_TAB_ITEM5 = 0
+Global $g_hGUI_MISC = 0, $g_hGUI_MISC_TAB = 0, $g_hGUI_MISC_TAB_ITEM1 = 0, $g_hGUI_MISC_TAB_ITEM2 = 0, $g_hGUI_MISC_TAB_ITEM3 = 0, $g_hGUI_MISC_TAB_ITEM4 = 0
 
 Global $g_hChkBotStop = 0, $g_hCmbBotCommand = 0, $g_hCmbBotCond = 0, $g_hCmbHoursStop = 0, $g_hCmbTimeStop = 0
 Global $g_LblResumeAttack = 0, $g_ahTxtResumeAttackLoot[$eLootCount] = [0, 0, 0, 0], $g_hCmbResumeTime = 0
@@ -25,10 +25,6 @@ Global $g_hChkCollectCartFirst = 0, $g_hTxtCollectGold = 0, $g_hTxtCollectElixir
 Global $g_hBtnLocateSpellfactory = 0, $g_hBtnLocateDarkSpellFactory = 0
 Global $g_hBtnLocateKingAltar = 0, $g_hBtnLocateQueenAltar = 0, $g_hBtnLocateWardenAltar = 0, $g_hBtnLocateChampionAltar = 0, $g_hBtnLocateLaboratory = 0, $g_hBtnLocatePetHouse = 0, $g_hBtnResetBuilding = 0, $g_hBtnLocateBlacksmith = 0
 Global $g_hChkTreasuryCollect = 0, $g_hTxtTreasuryGold = 0, $g_hTxtTreasuryElixir = 0, $g_hTxtTreasuryDark = 0, $g_hChkCollectAchievements = 0, $g_hChkFreeMagicItems = 0, $g_hChkCollectRewards = 0, $g_hChkSellRewards = 0
-
-Global $g_hChkSellMagicItem = 0, $g_hChkFirstStartSellMagicItem = 0, $g_acmbMagicPotion[10] = [0, 0, 0, 0, 0, 0, 0, 0, 0]
-Global $g_hLabelPotion0 = 0, $g_hLabelPotion1 = 0, $g_hLabelPotion2 = 0, $g_hLabelPotion3 = 0, $g_hLabelPotion4 = 0
-Global $g_hLabelPotion5 = 0, $g_hLabelPotion6 = 0, $g_hLabelPotion7 = 0, $g_hLabelPotion8 = 0, $g_hLabelPotion9 = 0, $g_hLabelPotion10 = 0
 
 Global $g_alblBldBaseStats[3] = ["", "", ""]
 Global $g_hChkCollectBuilderBase = 0, $g_hChkStartClockTowerBoost = 0, $g_hChkCTBoostBlderBz = 0, $g_hChkCleanBBYard = 0, $g_hChkBBaseFrequency = 0
@@ -55,10 +51,11 @@ Global $g_hChkEnablePriorPrioritized = 0, $g_hChkEnablePriorArmyCC = 0, $g_hChkE
 Global $g_hChkClanGamesEnabled = 0, $g_hChkClanGamesAllTimes = 0, $g_hChkClanGamesNoOneDay = 0
 Global $g_hTxtClanGamesLog = 0, $g_hLblRemainTime = 0, $g_hLblYourScore = 0
 Global $g_hGUI_CGSettings = 0, $g_hBtnCGSettingsOpen = 0, $g_hBtnCGSettingsClose = 0
-Global $g_hGUI_CGRewardsSettings = 0, $g_hChkClanGamesCollectRewards = 0, $g_hBtnCGRewardsSettingsOpen = 0, $g_hBtnCGRewardsSettingsClose = 0, _
-		$TitlePriority = 0, $TitlePriority2 = 0, $g_hBtnCGRewardsSettingsDefault = 0
-Global $g_hLabelRewardFull = 0, $g_hLabelReward5Gems = 0, $g_hLabelReward10Gems = 0, $g_hLabelReward50Gems = 0, $g_hLabelAllPotionsFull = 0, $g_hLabelAllBooksFull = 0, $g_hLabelAllBooks = 0
-Global $g_acmbPriorityReward[22] = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+; Attack schedule
+Global $g_hChkAttackCGPlannerEnable = 0, $g_hChkAttackCGPlannerDayLimit = 0, $g_hLbAttackCGPlannerDayLimit = 0, $g_hCmbAttackCGPlannerDayMin = 0, $g_hCmbAttackCGPlannerDayMax = 0, _
+		$g_hLbAttackCGPlannerThen = 0, $hCGPlannerThenContinue = 0, $hCGPlannerThenStopBot = 0, $g_hChkSTOPWhenCGPointsMax = 0, _
+		$TitleDailyLimit = 0, $MaxDailyLimit = 0, $DailyLimitSlash = 0, $ActualNbrsAttacks = 0
+Global $g_hChkClanGamesCollectRewards = 0, $g_hBtnCreateCGRewardsSettings = 0
 Global $g_hChkForceBBAttackOnClanGames = 0, $g_hChkClanGamesPurgeAny = 0, $g_hChkClanGamesPurgeAnyClose = 0, $g_hChkClanGamesStopBeforeReachAndPurge = 0
 Global $g_hChkForceAttackOnClanGamesWhenHalt = 0
 Global $hSearchBBEventFirst = 0, $hSearchMainEventFirst = 0, $hSearchBothVillages = 0
@@ -79,18 +76,15 @@ Func CreateVillageMisc()
 	$g_hGUI_MISC_TAB = GUICtrlCreateTab(0, 0, $g_iSizeWGrpTab2, $g_iSizeHGrpTab2, BitOR($TCS_MULTILINE, $TCS_RIGHTJUSTIFY))
 	$g_hGUI_MISC_TAB_ITEM1 = GUICtrlCreateTabItem(GetTranslatedFileIni("MBR Main GUI", "MISC_TAB_ITEM1", "Normal Village"))
 	CreateMiscNormalVillageSubTab()
-	$g_hGUI_MISC_TAB_ITEM2 = GUICtrlCreateTabItem(GetTranslatedFileIni("MBR Main GUI", "MISC_TAB_ITEM2", "Magic"))
-	CreateMiscMagicSubTab()
-	$g_hGUI_MISC_TAB_ITEM3 = GUICtrlCreateTabItem(GetTranslatedFileIni("MBR Main GUI", "MISC_TAB_ITEM3", "BBase"))
+	$g_hGUI_MISC_TAB_ITEM2 = GUICtrlCreateTabItem(GetTranslatedFileIni("MBR Main GUI", "MISC_TAB_ITEM2", "BBase"))
 	CreateMiscBuilderBaseSubTab()
-	$g_hGUI_MISC_TAB_ITEM4 = GUICtrlCreateTabItem(GetTranslatedFileIni("MBR Main GUI", "MISC_TAB_ITEM4", "Clan Capital"))
+	$g_hGUI_MISC_TAB_ITEM3 = GUICtrlCreateTabItem(GetTranslatedFileIni("MBR Main GUI", "MISC_TAB_ITEM3", "Clan Capital"))
 	CreateMiscClanCapitalSubTab()
-	$g_hGUI_MISC_TAB_ITEM5 = GUICtrlCreateTabItem(GetTranslatedFileIni("MBR Main GUI", "MISC_TAB_ITEM5", "Clan Games"))
+	$g_hGUI_MISC_TAB_ITEM4 = GUICtrlCreateTabItem(GetTranslatedFileIni("MBR Main GUI", "MISC_TAB_ITEM4", "Clan Games"))
 	CreateMiscClanGamesV3SubTab()
 	CreateBBDropOrderGUI()
 	CreateCCUpgradesSettings()
 	CreateClanGamesSettings()
-	CreateCollectRewardsSettings()
 	GUICtrlCreateTabItem("")
 
 EndFunc   ;==>CreateVillageMisc
@@ -356,11 +350,10 @@ Func CreateMiscNormalVillageSubTab()
 	_GUICtrlCreateIcon($g_sLibIconPath, $eIcnPowerPotion, $x + 233, $y + 1, 19, 24)
 	$g_hChkFreeMagicItems = GUICtrlCreateCheckbox(GetTranslatedFileIni("MBR GUI Design Child Village - Misc", "ChkFreeMagicItems", "Collect Free Magic Items"), $x + 265, $y + 4, -1, -1)
 	_GUICtrlSetTip(-1, GetTranslatedFileIni("MBR GUI Design Child Village - Misc", "ChkFreeMagicItems_Info", "Check this to automatically collect free magic items.\r\nMust be at least Th8."))
-	GUICtrlSetOnEvent(-1, "ChkFreeMagicItems")
 	GUICtrlSetState(-1, $GUI_CHECKED)
 
 	$y += 21
-	GUICtrlCreateIcon($g_sLibModIconPath, $eIcnChallenge, $x + 32, $y + 1, 24, 24)
+	_GUICtrlCreateIcon($g_sLibModIconPath, $eIcnChallenge, $x + 32, $y + 1, 24, 24)
 	$g_hChkCollectRewards = GUICtrlCreateCheckbox(GetTranslatedFileIni("MBR GUI Design Child Village - Misc", "ChkCollectRewards", "Collect Challenge Rewards"), $x + 100, $y + 4, -1, -1)
 	_GUICtrlSetTip(-1, GetTranslatedFileIni("MBR GUI Design Child Village - Misc", "ChkCollectRewards_Info", "Check this to automatically collect daily challenges rewards."))
 	GUICtrlSetState(-1, $GUI_CHECKED)
@@ -437,117 +430,6 @@ Func CreateMiscNormalVillageSubTab()
 	GUICtrlCreateGroup("", -99, -99, 1, 1)
 
 EndFunc   ;==>CreateMiscNormalVillageSubTab
-
-Func CreateMiscMagicSubTab()
-	Local $x = 15, $y = 50
-
-	GUICtrlCreateGroup(GetTranslatedFileIni("MBR GUI Design Child Village - Misc", "Group_Magic", "Magic Items Selling"), $x - 10, $y - 20, 430, 370)
-
-	$y += 10
-
-	GUICtrlCreateIcon($g_sLibModIconPath, $eIcnModTrainingPotion, $x + 10, $y - 2, 24, 24)
-	$g_hChkSellMagicItem = GUICtrlCreateCheckbox(GetTranslatedFileIni("MBR GUI Design Child Village - Misc", "ChkSellMagicItem", "Sale To Collect Free Item"), $x + 40, $y, -1, -1)
-	_GUICtrlSetTip(-1, GetTranslatedFileIni("MBR GUI Design Child Village - Misc", "ChkCleanYard_Info_02", "Check this to automatically Sale Magic Items" & @CRLF & _
-			"Because Storage on TownHall is Full" & @CRLF & "And Free Magic Items can't be Collected"))
-	GUICtrlSetState(-1, $GUI_UNCHECKED)
-
-	GUICtrlCreateIcon($g_sLibModIconPath, $eIcnGUIMod, $x + 200, $y - 2, 24, 24)
-	$g_hChkFirstStartSellMagicItem = GUICtrlCreateCheckbox(GetTranslatedFileIni("MBR GUI Design Child Village - Misc", "ChkFirstStartSellMagicItem", "Check On First Start"), $x + 230, $y, -1, -1)
-	_GUICtrlSetTip(-1, GetTranslatedFileIni("MBR GUI Design Child Village - Misc", "ChkCleanYard_Info_03", "Check this to Check Sale Magic Items On First Start"))
-	GUICtrlSetState(-1, $GUI_UNCHECKED)
-
-	GUICtrlCreateGroup(GetTranslatedFileIni("MBR GUI Design Child Village - Misc", "Group_Magic2", ""), $x, $y + 35, 410, 245)
-
-	$y += 50
-
-	$g_hLabelPotion0 = GUICtrlCreateLabel(GetTranslatedFileIni("MBR GUI Design Child Village - Misc", "LabelPotion_00", "Please Set Potions To Keep In Storage :"), $x + 60, $y, 300, 25)
-	GUICtrlSetFont(-1, 12, $FW_BOLD, Default, "Segoe UI Semibold", $CLEARTYPE_QUALITY)
-	GUICtrlSetColor(-1, $COLOR_TEAL)
-
-	$y += 5
-
-	$g_hLabelPotion1 = GUICtrlCreateLabel(GetTranslatedFileIni("MBR GUI Design Child Village - Misc", "LabelPotion_01", "Power"), $x + 24, $y + 30, 110, 17)    ;1
-	GUICtrlSetFont(-1, 9, $FW_BOLD, Default, "Segoe UI Semibold", $CLEARTYPE_QUALITY)
-	_GUICtrlCreateIcon($g_sLibModIconPath, $eIcnModPowerPotion, $x + 24, $y + 50, 32, 32)
-	$g_acmbMagicPotion[0] = GUICtrlCreateCombo("", $x + 10, $y + 90, 65, 25, BitOR($CBS_DROPDOWNLIST, $CBS_AUTOHSCROLL))
-	GUICtrlSetData(-1, $g_PotionNumberChain, "No Limit")
-
-	$x += 80
-
-	$g_hLabelPotion2 = GUICtrlCreateLabel(GetTranslatedFileIni("MBR GUI Design Child Village - Misc", "LabelPotion_03", "Resource"), $x + 17, $y + 30, 110, 17)    ;2
-	GUICtrlSetFont(-1, 9, $FW_BOLD, Default, "Segoe UI Semibold", $CLEARTYPE_QUALITY)
-	_GUICtrlCreateIcon($g_sLibModIconPath, $eIcnModResourcePotion, $x + 24, $y + 50, 32, 32)
-	$g_acmbMagicPotion[1] = GUICtrlCreateCombo("", $x + 10, $y + 90, 65, 25, BitOR($CBS_DROPDOWNLIST, $CBS_AUTOHSCROLL))
-	GUICtrlSetData(-1, $g_PotionNumberChain, "No Limit")
-
-	$x += 80
-
-	$g_hLabelPotion3 = GUICtrlCreateLabel(GetTranslatedFileIni("MBR GUI Design Child Village - Misc", "LabelPotion_04", "Training"), $x + 20, $y + 30, 110, 17)    ;3
-	GUICtrlSetFont(-1, 9, $FW_BOLD, Default, "Segoe UI Semibold", $CLEARTYPE_QUALITY)
-	_GUICtrlCreateIcon($g_sLibModIconPath, $eIcnModTrainingPotion, $x + 24, $y + 50, 32, 32)
-	$g_acmbMagicPotion[2] = GUICtrlCreateCombo("", $x + 10, $y + 90, 65, 25, BitOR($CBS_DROPDOWNLIST, $CBS_AUTOHSCROLL))
-	GUICtrlSetData(-1, $g_PotionNumberChain, "No Limit")
-
-	$x += 80
-
-	$g_hLabelPotion4 = GUICtrlCreateLabel(GetTranslatedFileIni("MBR GUI Design Child Village - Misc", "LabelPotion_05", "Builder"), $x + 23, $y + 30, 110, 17)    ;4
-	GUICtrlSetFont(-1, 9, $FW_BOLD, Default, "Segoe UI Semibold", $CLEARTYPE_QUALITY)
-	_GUICtrlCreateIcon($g_sLibModIconPath, $eIcnModBuilderPotion, $x + 24, $y + 50, 32, 32)
-	$g_acmbMagicPotion[3] = GUICtrlCreateCombo("", $x + 10, $y + 90, 65, 25, BitOR($CBS_DROPDOWNLIST, $CBS_AUTOHSCROLL))
-	GUICtrlSetData(-1, $g_PotionNumberChain, "No Limit")
-
-	$x += 80
-
-	$g_hLabelPotion5 = GUICtrlCreateLabel(GetTranslatedFileIni("MBR GUI Design Child Village - Misc", "LabelPotion_07", "Clock Tower"), $x + 10, $y + 30, 110, 17)    ;5
-	GUICtrlSetFont(-1, 9, $FW_BOLD, Default, "Segoe UI Semibold", $CLEARTYPE_QUALITY)
-	_GUICtrlCreateIcon($g_sLibModIconPath, $eIcnModClockPotion, $x + 24, $y + 50, 32, 32)
-	$g_acmbMagicPotion[4] = GUICtrlCreateCombo("", $x + 10, $y + 90, 65, 25, BitOR($CBS_DROPDOWNLIST, $CBS_AUTOHSCROLL))
-	GUICtrlSetData(-1, $g_PotionNumberChain, "No Limit")
-
-	$x -= 320
-	$y += 100
-
-	$g_hLabelPotion6 = GUICtrlCreateLabel(GetTranslatedFileIni("MBR GUI Design Child Village - Misc", "LabelPotion_02", "Hero"), $x + 26, $y + 30, 110, 17)    ;6
-	GUICtrlSetFont(-1, 9, $FW_BOLD, Default, "Segoe UI Semibold", $CLEARTYPE_QUALITY)
-	_GUICtrlCreateIcon($g_sLibModIconPath, $eIcnModHeroPotion, $x + 24, $y + 50, 32, 32)
-	$g_acmbMagicPotion[5] = GUICtrlCreateCombo("", $x + 10, $y + 90, 65, 25, BitOR($CBS_DROPDOWNLIST, $CBS_AUTOHSCROLL))
-	GUICtrlSetData(-1, $g_PotionNumberChain, "No Limit")
-
-	$x += 80
-
-	$g_hLabelPotion7 = GUICtrlCreateLabel(GetTranslatedFileIni("MBR GUI Design Child Village - Misc", "LabelPotion_06", "Research"), $x + 17, $y + 30, 110, 17)    ;7
-	GUICtrlSetFont(-1, 9, $FW_BOLD, Default, "Segoe UI Semibold", $CLEARTYPE_QUALITY)
-	_GUICtrlCreateIcon($g_sLibModIconPath, $eIcnModResearchPotion, $x + 24, $y + 50, 32, 32)
-	$g_acmbMagicPotion[6] = GUICtrlCreateCombo("", $x + 10, $y + 90, 65, 25, BitOR($CBS_DROPDOWNLIST, $CBS_AUTOHSCROLL))
-	GUICtrlSetData(-1, $g_PotionNumberChain, "No Limit")
-
-	$x += 80
-
-	$g_hLabelPotion8 = GUICtrlCreateLabel(GetTranslatedFileIni("MBR GUI Design Child Village - Misc", "LabelPotion_08", "Super"), $x + 25, $y + 30, 110, 17)    ;8
-	GUICtrlSetFont(-1, 9, $FW_BOLD, Default, "Segoe UI Semibold", $CLEARTYPE_QUALITY)
-	_GUICtrlCreateIcon($g_sLibModIconPath, $eIcnModSuperPotion, $x + 24, $y + 50, 32, 32)
-	$g_acmbMagicPotion[7] = GUICtrlCreateCombo("", $x + 10, $y + 90, 65, 25, BitOR($CBS_DROPDOWNLIST, $CBS_AUTOHSCROLL))
-	GUICtrlSetData(-1, $g_PotionNumberChain, "No Limit")
-
-	$x += 80
-
-	$g_hLabelPotion9 = GUICtrlCreateLabel(GetTranslatedFileIni("MBR GUI Design Child Village - Misc", "LabelPotion_09", "Pet"), $x + 29, $y + 30, 110, 17)    ;9
-	GUICtrlSetFont(-1, 9, $FW_BOLD, Default, "Segoe UI Semibold", $CLEARTYPE_QUALITY)
-	_GUICtrlCreateIcon($g_sLibModIconPath, $eIcnModPetPotion, $x + 24, $y + 50, 32, 32)
-	$g_acmbMagicPotion[8] = GUICtrlCreateCombo("", $x + 10, $y + 90, 65, 25, BitOR($CBS_DROPDOWNLIST, $CBS_AUTOHSCROLL))
-	GUICtrlSetData(-1, $g_PotionNumberChain, "No Limit")
-
-	$x += 80
-
-	$g_hLabelPotion10 = GUICtrlCreateLabel(GetTranslatedFileIni("MBR GUI Design Child Village - Misc", "LabelPotion_10", "B. Jar"), $x + 25, $y + 30, 110, 17)    ;9
-	GUICtrlSetFont(-1, 9, $FW_BOLD, Default, "Segoe UI Semibold", $CLEARTYPE_QUALITY)
-	_GUICtrlCreateIcon($g_sLibModIconPath, $eIcnModBuilderJar, $x + 24, $y + 50, 32, 32)
-	$g_acmbMagicPotion[9] = GUICtrlCreateCombo("", $x + 10, $y + 90, 65, 25, BitOR($CBS_DROPDOWNLIST, $CBS_AUTOHSCROLL))
-	GUICtrlSetData(-1, $g_PotionNumberChain, "No Limit")
-
-	GUICtrlCreateGroup("", -99, -99, 1, 1)
-	GUICtrlCreateGroup("", -99, -99, 1, 1)
-EndFunc   ;==>CreateMiscMagicSubTab
 
 Func CreateMiscBuilderBaseSubTab()
 	Local $x = 15, $y = 50
@@ -997,7 +879,7 @@ Func CreateMiscClanGamesV3SubTab()
 	; GUI SubTab
 	Local $x = 15, $y = 45
 	GUICtrlCreateGroup(GetTranslatedFileIni("MBR GUI Design Child Village - Misc", "Group_CG", "Clan Games"), $x - 10, $y - 20, $g_iSizeWGrpTab3 - 5, 245)
-	GUICtrlCreatePic($g_sLibIconPathMOD, $x + 5, $y, 94, 128, $SS_BITMAP)
+	_GUICtrlCreatePic($g_sLibIconPathMOD, $x + 5, $y, 94, 128, $SS_BITMAP)
 
 	GUICtrlCreateGroup(GetTranslatedFileIni("MBR GUI Design Child Village - Misc", "ChkClanGamesTimeRemaining", "Time Remaining"), $x - 5, $y + 135, 110, 40)
 	$g_hLblRemainTime = GUICtrlCreateLabel("0d 00h", $x + 15, $y + 135 + 15, 65, 17, $SS_CENTER)
@@ -1013,23 +895,76 @@ Func CreateMiscClanGamesV3SubTab()
 	$g_hChkClanGamesEnabled = GUICtrlCreateCheckbox(GetTranslatedFileIni("MBR GUI Design Child Village - Misc", "ChkClanGamesEnabled", "Enabled"), $x, $y + 10, -1, -1)
 	GUICtrlSetOnEvent(-1, "chkActivateClangames")
 
-	$y += 55
-	GUICtrlCreateGroup(GetTranslatedFileIni("MBR GUI Design Child Village - Misc", "Group_CG_Challenges", "Challenges"), $x - 10, $y - 15, $g_iSizeWGrpTab3 - 130, 70)
-	$y += 10
+	$y += 50
+	GUICtrlCreateGroup(GetTranslatedFileIni("MBR GUI Design Child Village - Misc", "Group_CG_Challenges", "Challenges"), $x - 10, $y - 15, $g_iSizeWGrpTab3 - 130, 50)
 	$g_hBtnCGSettingsOpen = GUICtrlCreateButton("Clan Games Settings", $x + 80, $y, -1, -1)
 	GUICtrlSetOnEvent(-1, "btnCGSettings")
 	GUICtrlCreateGroup("", -99, -99, 1, 1)
 
-	$y += 80
-	GUICtrlCreateGroup(GetTranslatedFileIni("MBR GUI Design Child Village - Misc", "Group_CG_Rewards", "Rewards"), $x - 10, $y - 15, $g_iSizeWGrpTab3 - 130, 70)
-	$y += 10
+	$y += 50
+	GUICtrlCreateGroup(GetTranslatedFileIni("MBR GUI Design Child Village - Misc", "Group_CG_Schedule", "Schedule"), $x - 10, $y - 15, $g_iSizeWGrpTab3 - 130, 90)
+
+	$g_hChkAttackCGPlannerEnable = GUICtrlCreateCheckbox(GetTranslatedFileIni("MBR GUI Design Child Village - Misc", "Group_CG_Schedule", "Enabled"), $x, $y + 2, -1, -1)
+	_GUICtrlSetTip(-1, GetTranslatedFileIni("MBR GUI Design Child Village - Misc", "ChkAttackPlannerEnable_Info_01", "This option will allow you to schedule attack times in Clan Games") & @CRLF & _
+			GetTranslatedFileIni("MBR GUI Design Child Village - Misc", "ChkAttackPlannerEnable_Info_02", "Bot continues to run and will attack in Clan Games only when schedule allows"))
+	GUICtrlSetOnEvent(-1, "chkAttackCGPlannerEnable")
+
+	$y += 20
+	GUICtrlCreateGroup("", $x, $y, 80, 50)
+	$TitleDailyLimit = GUICtrlCreateLabel("Daily Limit : ", $x + 8, $y + 10, -1, -1)
+	GUICtrlSetFont(-1, 9, $FW_BOLD, Default, "Segoe UI Semibold", $CLEARTYPE_QUALITY)
+	$ActualNbrsAttacks = GUICtrlCreateLabel("", $x + 24, $y + 30, -1, 15)
+	GUICtrlSetFont(-1, 9, $FW_BOLD, Default, "Segoe UI Semibold", $CLEARTYPE_QUALITY)
+	$DailyLimitSlash = GUICtrlCreateLabel(" / ", $x + 34, $y + 30, -1, -1)
+	GUICtrlSetFont(-1, 9, $FW_BOLD, Default, "Segoe UI Semibold", $CLEARTYPE_QUALITY)
+	$MaxDailyLimit = GUICtrlCreateLabel("", $x + 48, $y + 30, -1, 15)
+	GUICtrlSetFont(-1, 9, $FW_BOLD, Default, "Segoe UI Semibold", $CLEARTYPE_QUALITY)
+	GUICtrlCreateGroup("", -99, -99, 1, 1)
+
+	$y -= 20
+	$x += 30
+	$g_hChkAttackCGPlannerDayLimit = GUICtrlCreateCheckbox(GetTranslatedFileIni("MBR GUI Design Child Village - Misc", "ChkAttackPlannerDayLimit", "CG Daily Limit"), $x + 68, $y + 10, -1, -1)
+	_GUICtrlSetTip(-1, GetTranslatedFileIni("MBR GUI Design Child Village - Misc", "ChkAttackPlannerDayLimit_Info_01", "Will randomly stop attacking in Clan Games when exceed random number of attacks between range selected"))
+	GUICtrlSetState(-1, $GUI_DISABLE)
+	GUICtrlSetOnEvent(-1, "chkAttackCGPlannerDayLimit")
+	$g_hCmbAttackCGPlannerDayMin = GUICtrlCreateInput($g_iAttackCGPlannerDayMin, $x + 158, $y + 12, 37, 18, BitOR($GUI_SS_DEFAULT_INPUT, $ES_CENTER, $ES_NUMBER))
+	_GUICtrlSetTip(-1, GetTranslatedFileIni("MBR GUI Design Child Village - Misc", "TxtMinLbAttackPlannerDayLimit_Info_01", "Enter minimum number of attacks in Clan Games allowed per day"))
+	GUICtrlSetState(-1, $GUI_DISABLE)
+	GUICtrlSetLimit(-1, 3)
+	GUICtrlSetOnEvent(-1, "cmbAttackCGPlannerDayMin")
+	$g_hLbAttackCGPlannerDayLimit = GUICtrlCreateLabel(GetTranslatedFileIni("MBR GUI Design Child Village - Misc", "LbAttackPlannerDayLimit", "To"), $x + 200, $y + 14, -1, -1)
+	GUICtrlSetState(-1, $GUI_DISABLE)
+	$g_hCmbAttackCGPlannerDayMax = GUICtrlCreateInput($g_iAttackCGPlannerDayMax, $x + 215, $y + 12, 37, 18, BitOR($GUI_SS_DEFAULT_INPUT, $ES_CENTER, $ES_NUMBER))
+	_GUICtrlSetTip(-1, GetTranslatedFileIni("MBR GUI Design Child Village - Misc", "TxtMaxLbAttackPlannerDayLimit_Info_01", "Enter maximum number of attacks in Clan Games allowed per day"))
+	GUICtrlSetState(-1, $GUI_DISABLE)
+	GUICtrlSetLimit(-1, 3)
+	GUICtrlSetOnEvent(-1, "cmbAttackCGPlannerDayMax")
+
+	$g_hLbAttackCGPlannerThen = GUICtrlCreateLabel("Then", $x + 65, $y + 33, -1, -1)
+
+	$x += 35
+	$hCGPlannerThenContinue = GUICtrlCreateRadio(GetTranslatedFileIni("MBR GUI Design Child Village - Misc", "Continue", "Continue"), $x + 65, $y + 30, -1, -1)
+	_GUICtrlSetTip(-1, "Bot continues when limit is reached")
+	GUICtrlSetState(-1, $GUI_CHECKED)
+
+	$x += 65
+	$hCGPlannerThenStopBot = GUICtrlCreateRadio(GetTranslatedFileIni("MBR GUI Design Child Village - Misc", "StopBot", "Stop Bot"), $x + 65, $y + 30, -1, -1)
+	_GUICtrlSetTip(-1, "Bot stops when limit is reached")
+	GUICtrlSetState(-1, $GUI_UNCHECKED)
+
+	$g_hChkSTOPWhenCGPointsMax = GUICtrlCreateCheckbox("Stop Bot When Max Points", $x - 32, $y + 50, -1, -1)
+	GUICtrlSetState(-1, $GUI_UNCHECKED)
+
+	GUICtrlCreateGroup("", -99, -99, 1, 1)
+
+	$x -= 130
+	$y += 95
+	GUICtrlCreateGroup(GetTranslatedFileIni("MBR GUI Design Child Village - Misc", "Group_CG_Rewards", "Rewards"), $x - 10, $y - 15, $g_iSizeWGrpTab3 - 130, 50)
 	$g_hChkClanGamesCollectRewards = GUICtrlCreateCheckbox(GetTranslatedFileIni("MBR GUI Design Child Village - Misc", "ChkClanGamesCollectRewards", "Collect"), $x, $y + 2, -1, -1)
 	GUICtrlSetOnEvent(-1, "ChkClanGamesCollectRewards")
-	$g_hBtnCGRewardsSettingsOpen = GUICtrlCreateButton("Clan Games Rewards Settings", $x + 60, $y, -1, -1)
-	_GUICtrlSetTip(-1, "Default Priority :" & @CRLF & _
-			"books-1, Research\Builder Pots-2, gems-3, runes-4, shovel-5" & @CRLF & _
-			"50gems-6, all other Pots-7, wall rings-8, 10gems-9")
-	GUICtrlSetOnEvent(-1, "btnCGRewardsSettings")
+	$g_hBtnCreateCGRewardsSettings = GUICtrlCreateButton("Create Clan Games Rewards Settings", $x + 60, $y, -1, -1)
+	_GUICtrlSetTip(-1, "Click Here to Create ClanGamesRewards.ini in Profile Folder")
+	GUICtrlSetOnEvent(-1, "CreateCGRewardsFile")
 	GUICtrlCreateGroup("", -99, -99, 1, 1)
 
 	GUICtrlCreateGroup("", -99, -99, 1, 1)
@@ -1123,202 +1058,6 @@ Func CreateCCUpgradesSettings()
 	$g_hBtnCCUpgradesSettingsClose = GUICtrlCreateButton("Close", $_GUI_MAIN_WIDTH - 100, $y, 85, 25)
 	GUICtrlSetOnEvent(-1, "CloseCCUpgradesSettings")
 EndFunc   ;==>CreateCCUpgradesSettings
-
-Func CreateCollectRewardsSettings()
-	$g_hGUI_CGRewardsSettings = _GUICreate(GetTranslatedFileIni("GUI Design Child Village - Misc", "GUI_CGSettings", "ClanGames Reward Priority Settings"), $_GUI_MAIN_WIDTH - 4, $_GUI_MAIN_HEIGHT - 100, $g_iFrmBotPosX, $g_iFrmBotPosY + 80, $WS_DLGFRAME, -1, $g_hFrmBot)
-	Local $x = 25, $y = 15
-	$TitlePriority = GUICtrlCreateLabel("Define Priority For Each Item", $x + 100, $y - 10, 250, -1)
-	GUICtrlSetFont(-1, 12, $FW_BOLD, Default, "Segoe UI Semibold", $CLEARTYPE_QUALITY)
-	GUICtrlSetColor(-1, $COLOR_TEAL)
-	$TitlePriority2 = GUICtrlCreateLabel("(Lower Is Number, Higher is Priority)", $x + 120, $y + 10, 250, -1)
-	$g_hBtnCGRewardsSettingsDefault = GUICtrlCreateButton("Reset", $_GUI_MAIN_WIDTH - 90, $y - 5, 55, 25)
-	GUICtrlSetOnEvent(-1, "CGRewardsSettingsDefault")
-
-	$y += 60
-	GUICtrlCreateGroup("", $x + 5, $y - 12, 185, 40)
-	_GUICtrlCreateIcon($g_sLibIconPath, $eIcnGem, $x + 35, $y - 1, 24, 24)
-	$g_acmbPriorityReward[0] = GUICtrlCreateCombo("", $x + 100, $y, 40, 25, BitOR($CBS_DROPDOWNLIST, $CBS_AUTOHSCROLL))
-	GUICtrlSetData(-1, $g_sFrequenceChainRewards, "3")
-	GUICtrlCreateGroup("", -99, -99, 1, 1)
-
-	$y += 40
-	GUICtrlCreateGroup("", $x + 5, $y - 12, 185, 40)
-	_GUICtrlCreateIcon($g_sLibModIconPath, $eIcnModHeroPotion, $x + 35, $y - 1, 24, 24)
-	$g_acmbPriorityReward[1] = GUICtrlCreateCombo("", $x + 100, $y, 40, 25, BitOR($CBS_DROPDOWNLIST, $CBS_AUTOHSCROLL))
-	GUICtrlSetData(-1, $g_sFrequenceChainRewards, "7")
-	GUICtrlCreateGroup("", -99, -99, 1, 1)
-
-	$y += 40
-	GUICtrlCreateGroup("", $x + 5, $y - 12, 185, 40)
-	_GUICtrlCreateIcon($g_sLibModIconPath, $eIcnModBuilderPotion, $x + 35, $y - 1, 24, 24)
-	$g_acmbPriorityReward[2] = GUICtrlCreateCombo("", $x + 100, $y, 40, 25, BitOR($CBS_DROPDOWNLIST, $CBS_AUTOHSCROLL))
-	GUICtrlSetData(-1, $g_sFrequenceChainRewards, "2")
-	GUICtrlCreateGroup("", -99, -99, 1, 1)
-
-	$y += 40
-	GUICtrlCreateGroup("", $x + 5, $y - 12, 185, 40)
-	_GUICtrlCreateIcon($g_sLibModIconPath, $eIcnModClockPotion, $x + 35, $y - 1, 24, 24)
-	$g_acmbPriorityReward[3] = GUICtrlCreateCombo("", $x + 100, $y, 40, 25, BitOR($CBS_DROPDOWNLIST, $CBS_AUTOHSCROLL))
-	GUICtrlSetData(-1, $g_sFrequenceChainRewards, "7")
-	GUICtrlCreateGroup("", -99, -99, 1, 1)
-
-	$y += 40
-	GUICtrlCreateGroup("", $x + 5, $y - 12, 185, 40)
-	_GUICtrlCreateIcon($g_sLibModIconPath, $eIcnModResearchPotion, $x + 35, $y - 1, 24, 24)
-	$g_acmbPriorityReward[6] = GUICtrlCreateCombo("", $x + 100, $y, 40, 25, BitOR($CBS_DROPDOWNLIST, $CBS_AUTOHSCROLL))
-	GUICtrlSetData(-1, $g_sFrequenceChainRewards, "2")
-	GUICtrlCreateGroup("", -99, -99, 1, 1)
-
-	$y += 40
-	GUICtrlCreateGroup("", $x + 5, $y - 12, 185, 40)
-	_GUICtrlCreateIcon($g_sLibModIconPath, $eIcnModPowerPotion, $x + 35, $y - 1, 24, 24)
-	$g_acmbPriorityReward[7] = GUICtrlCreateCombo("", $x + 100, $y, 40, 25, BitOR($CBS_DROPDOWNLIST, $CBS_AUTOHSCROLL))
-	GUICtrlSetData(-1, $g_sFrequenceChainRewards, "7")
-	GUICtrlCreateGroup("", -99, -99, 1, 1)
-
-	$y += 40
-	GUICtrlCreateGroup("", $x + 5, $y - 12, 185, 40)
-	_GUICtrlCreateIcon($g_sLibModIconPath, $eIcnModTrainingPotion, $x + 35, $y - 1, 24, 24)
-	$g_acmbPriorityReward[18] = GUICtrlCreateCombo("", $x + 100, $y, 40, 25, BitOR($CBS_DROPDOWNLIST, $CBS_AUTOHSCROLL))
-	GUICtrlSetData(-1, $g_sFrequenceChainRewards, "7")
-	GUICtrlCreateGroup("", -99, -99, 1, 1)
-
-	$y += 40
-	GUICtrlCreateGroup("", $x + 5, $y - 12, 185, 40)
-	_GUICtrlCreateIcon($g_sLibModIconPath, $eIcnModResourcePotion, $x + 35, $y - 1, 24, 24)
-	$g_acmbPriorityReward[19] = GUICtrlCreateCombo("", $x + 100, $y, 40, 25, BitOR($CBS_DROPDOWNLIST, $CBS_AUTOHSCROLL))
-	GUICtrlSetData(-1, $g_sFrequenceChainRewards, "7")
-	GUICtrlCreateGroup("", -99, -99, 1, 1)
-
-	$y += 40
-	GUICtrlCreateGroup("", $x + 5, $y - 12, 185, 40)
-	_GUICtrlCreateIcon($g_sLibModIconPath, $eIcnModSuperPotion, $x + 35, $y - 1, 24, 24)
-	$g_acmbPriorityReward[20] = GUICtrlCreateCombo("", $x + 100, $y, 40, 25, BitOR($CBS_DROPDOWNLIST, $CBS_AUTOHSCROLL))
-	GUICtrlSetData(-1, $g_sFrequenceChainRewards, "7")
-	GUICtrlCreateGroup("", -99, -99, 1, 1)
-
-	$y += 40
-	GUICtrlCreateGroup("", $x + 5, $y - 12, 185, 40)
-	$g_hLabelAllPotionsFull = GUICtrlCreateLabel("All Potions Full", $x + 20, $y + 4, -1, -1)
-	$g_acmbPriorityReward[8] = GUICtrlCreateCombo("", $x + 100, $y, 40, 25, BitOR($CBS_DROPDOWNLIST, $CBS_AUTOHSCROLL))
-	GUICtrlSetData(-1, $g_sFrequenceChainRewards, "9")
-	$g_hLabelReward10Gems = GUICtrlCreateLabel("10 Gems", $x + 150, $y + 6, 35, 10)
-	GUICtrlSetFont(-1, 6)
-	GUICtrlCreateGroup("", -99, -99, 1, 1)
-
-	$y += 40
-	GUICtrlCreateGroup("", $x + 5, $y - 12, 185, 42)
-	_GUICtrlCreateIcon($g_sLibModIconPath, $eIcnModShovel, $x + 35, $y - 1, 24, 24)
-	$g_acmbPriorityReward[4] = GUICtrlCreateCombo("", $x + 100, $y + 1, 40, 25, BitOR($CBS_DROPDOWNLIST, $CBS_AUTOHSCROLL))
-	GUICtrlSetData(-1, $g_sFrequenceChainRewards, "5")
-	GUICtrlCreateGroup("", -99, -99, 1, 1)
-
-	$x += 220
-	$y -= 440
-
-	$y += 40
-	GUICtrlCreateGroup("", $x + 5, $y - 12, 185, 40)
-	_GUICtrlCreateIcon($g_sLibModIconPath, $eIcnModWallRing, $x + 40, $y - 1, 24, 24)
-	$g_acmbPriorityReward[9] = GUICtrlCreateCombo("", $x + 100, $y, 40, 25, BitOR($CBS_DROPDOWNLIST, $CBS_AUTOHSCROLL))
-	GUICtrlSetData(-1, $g_sFrequenceChainRewards, "8")
-	GUICtrlCreateGroup("", -99, -99, 1, 1)
-
-	$y += 40
-	GUICtrlCreateGroup("", $x + 5, $y - 12, 185, 40)
-	_GUICtrlCreateIcon($g_sLibModIconPath, $eIcnModWallRing, $x + 40, $y - 1, 24, 24)
-	$g_hLabelRewardFull = GUICtrlCreateLabel("Full", $x + 71, $y + 4, -1, -1)
-	$g_acmbPriorityReward[10] = GUICtrlCreateCombo("", $x + 100, $y, 40, 25, BitOR($CBS_DROPDOWNLIST, $CBS_AUTOHSCROLL))
-	GUICtrlSetData(-1, $g_sFrequenceChainRewards, "8")
-	$g_hLabelReward5Gems = GUICtrlCreateLabel("5 Gems", $x + 150, $y + 6, 35, 10)
-	GUICtrlSetFont(-1, 6)
-	GUICtrlCreateGroup("", -99, -99, 1, 1)
-
-	$y += 40
-	GUICtrlCreateGroup("", $x + 5, $y - 12, 185, 40)
-	$g_hLabelAllBooks = GUICtrlCreateLabel("All Books", $x + 30, $y + 4, -1, -1)
-	$g_acmbPriorityReward[11] = GUICtrlCreateCombo("", $x + 100, $y, 40, 25, BitOR($CBS_DROPDOWNLIST, $CBS_AUTOHSCROLL))
-	GUICtrlSetData(-1, $g_sFrequenceChainRewards, "1")
-	GUICtrlCreateGroup("", -99, -99, 1, 1)
-
-	$y += 40
-	GUICtrlCreateGroup("", $x + 5, $y - 12, 185, 40)
-	$g_hLabelAllBooksFull = GUICtrlCreateLabel("All Books Full", $x + 20, $y + 4, -1, -1)
-	$g_acmbPriorityReward[12] = GUICtrlCreateCombo("", $x + 100, $y, 40, 25, BitOR($CBS_DROPDOWNLIST, $CBS_AUTOHSCROLL))
-	GUICtrlSetData(-1, $g_sFrequenceChainRewards, "6")
-	$g_hLabelReward50Gems = GUICtrlCreateLabel("50 Gems", $x + 150, $y + 6, 35, 10)
-	GUICtrlSetFont(-1, 6)
-	GUICtrlCreateGroup("", -99, -99, 1, 1)
-
-	$y += 40
-	GUICtrlCreateGroup("", $x + 5, $y - 12, 185, 40)
-	_GUICtrlCreateIcon($g_sLibModIconPath, $eIcnModGoldRune, $x + 28, $y - 1, 20, 24)
-	_GUICtrlCreateIcon($g_sLibModIconPath, $eIcnModElixirRune, $x + 58, $y - 1, 20, 24)
-	$g_acmbPriorityReward[13] = GUICtrlCreateCombo("", $x + 100, $y, 40, 25, BitOR($CBS_DROPDOWNLIST, $CBS_AUTOHSCROLL))
-	GUICtrlSetData(-1, $g_sFrequenceChainRewards, "4")
-	GUICtrlCreateGroup("", -99, -99, 1, 1)
-
-	$y += 40
-	GUICtrlCreateGroup("", $x + 5, $y - 12, 205, 40)
-	_GUICtrlCreateIcon($g_sLibModIconPath, $eIcnModGoldRune, $x + 28, $y - 1, 20, 24)
-	_GUICtrlCreateIcon($g_sLibModIconPath, $eIcnModElixirRune, $x + 58, $y - 1, 20, 24)
-	$g_hLabelRewardFull = GUICtrlCreateLabel("Full", $x + 90, $y + 4, -1, -1)
-	$g_acmbPriorityReward[21] = GUICtrlCreateCombo("", $x + 120, $y, 40, 25, BitOR($CBS_DROPDOWNLIST, $CBS_AUTOHSCROLL))
-	GUICtrlSetData(-1, $g_sFrequenceChainRewards, "6")
-	$g_hLabelReward50Gems = GUICtrlCreateLabel("50 Gems", $x + 170, $y + 6, 35, 10)
-	GUICtrlSetFont(-1, 6)
-	GUICtrlCreateGroup("", -99, -99, 1, 1)
-
-	$y += 40
-	GUICtrlCreateGroup("", $x + 5, $y - 12, 185, 40)
-	_GUICtrlCreateIcon($g_sLibModIconPath, $eIcnModDarkElixirRune, $x + 42, $y - 1, 20, 24)
-	$g_acmbPriorityReward[14] = GUICtrlCreateCombo("", $x + 100, $y, 40, 25, BitOR($CBS_DROPDOWNLIST, $CBS_AUTOHSCROLL))
-	GUICtrlSetData(-1, $g_sFrequenceChainRewards, "4")
-	GUICtrlCreateGroup("", -99, -99, 1, 1)
-
-	$y += 40
-	GUICtrlCreateGroup("", $x + 5, $y - 12, 185, 40)
-	_GUICtrlCreateIcon($g_sLibModIconPath, $eIcnModDarkElixirRune, $x + 42, $y - 1, 20, 24)
-	$g_hLabelRewardFull = GUICtrlCreateLabel("Full", $x + 71, $y + 4, -1, -1)
-	$g_acmbPriorityReward[15] = GUICtrlCreateCombo("", $x + 100, $y, 40, 25, BitOR($CBS_DROPDOWNLIST, $CBS_AUTOHSCROLL))
-	GUICtrlSetData(-1, $g_sFrequenceChainRewards, "6")
-	$g_hLabelReward50Gems = GUICtrlCreateLabel("50 Gems", $x + 150, $y + 6, 35, 10)
-	GUICtrlSetFont(-1, 6)
-	GUICtrlCreateGroup("", -99, -99, 1, 1)
-
-	$y += 40
-	GUICtrlCreateGroup("", $x + 5, $y - 12, 185, 40)
-	_GUICtrlCreateIcon($g_sLibModIconPath, $eIcnModBBGoldRune, $x + 28, $y - 1, 20, 24)
-	_GUICtrlCreateIcon($g_sLibModIconPath, $eIcnModBBElixirRune, $x + 58, $y - 1, 20, 24)
-	$g_acmbPriorityReward[16] = GUICtrlCreateCombo("", $x + 100, $y, 40, 25, BitOR($CBS_DROPDOWNLIST, $CBS_AUTOHSCROLL))
-	GUICtrlSetData(-1, $g_sFrequenceChainRewards, "4")
-	GUICtrlCreateGroup("", -99, -99, 1, 1)
-
-	$y += 40
-	GUICtrlCreateGroup("", $x + 5, $y - 12, 205, 40)
-	_GUICtrlCreateIcon($g_sLibModIconPath, $eIcnModBBGoldRune, $x + 28, $y - 1, 20, 24)
-	_GUICtrlCreateIcon($g_sLibModIconPath, $eIcnModBBElixirRune, $x + 58, $y - 1, 20, 24)
-	$g_hLabelRewardFull = GUICtrlCreateLabel("Full", $x + 90, $y + 4, -1, -1)
-	$g_acmbPriorityReward[17] = GUICtrlCreateCombo("", $x + 120, $y, 40, 25, BitOR($CBS_DROPDOWNLIST, $CBS_AUTOHSCROLL))
-	GUICtrlSetData(-1, $g_sFrequenceChainRewards, "6")
-	$g_hLabelReward50Gems = GUICtrlCreateLabel("50 Gems", $x + 170, $y + 6, 35, 10)
-	GUICtrlSetFont(-1, 6)
-	GUICtrlCreateGroup("", -99, -99, 1, 1)
-
-	$y += 40
-	GUICtrlCreateGroup("", $x + 5, $y - 12, 185, 42)
-	_GUICtrlCreateIcon($g_sLibModIconPath, $eIcnModShovel, $x + 40, $y - 1, 24, 24)
-	$g_hLabelRewardFull = GUICtrlCreateLabel("Full", $x + 71, $y + 4, -1, -1)
-	$g_acmbPriorityReward[5] = GUICtrlCreateCombo("", $x + 100, $y + 1, 40, 25, BitOR($CBS_DROPDOWNLIST, $CBS_AUTOHSCROLL))
-	GUICtrlSetData(-1, $g_sFrequenceChainRewards, "6")
-	$g_hLabelReward50Gems = GUICtrlCreateLabel("50 Gems", $x + 150, $y + 6, 35, 10)
-	GUICtrlSetFont(-1, 6)
-	GUICtrlCreateGroup("", -99, -99, 1, 1)
-
-	$x -= 220
-	$y += 50
-	$g_hBtnCGRewardsSettingsClose = GUICtrlCreateButton("Close", $_GUI_MAIN_WIDTH - 100, $y, 85, 25)
-	GUICtrlSetOnEvent(-1, "CloseCGRewardsSettings")
-EndFunc   ;==>CreateCollectRewardsSettings
 
 Func CreateClanGamesSettings()
 	Local $tmpChallenges
@@ -1484,7 +1223,7 @@ Func CreateClanGamesSettings()
 	$g_ahLimitBBEventCount = GUICtrlCreateInput("0", $x + 150, $y + 2, 40, 18, BitOR($GUI_SS_DEFAULT_INPUT, $ES_CENTER, $ES_NUMBER))
 	GUICtrlSetLimit(-1, 3)
 	GUICtrlSetState(-1, $GUI_DISABLE)
-	
+
 	$y += 25
 	$g_hChkCGRootEnabledAll = GUICtrlCreateCheckbox(GetTranslatedFileIni("MBR GUI Design Child Village - Misc", "ChkCGRootEnableAllItem", "Challenges inherit Challenge Category"), $x, $y, -1, -1)
 	_GUICtrlSetTip(-1, GetTranslatedFileIni("MBR GUI Design Child Village - Misc", "ChkCGRootEnableAllItem02", "Enable/Disable this to quickly set/clear all group sub-elements"))

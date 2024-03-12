@@ -1622,15 +1622,6 @@ Func FirstCheck()
 	BotHumanization()
 	If Not $g_bRunState Then Return
 
-	If $g_bChkFirstStartSellMagicItem And Not $g_bFirstStartForAll Then
-		If IsToInspectMagicItems() Then
-			SetLog("Magic Items Management :", $COLOR_DEBUG1)
-			If _Sleep(Random(1000, 2000, 1)) Then Return
-			SaleFreeMagics()
-		EndIf
-	EndIf
-	If Not $g_bRunState Then Return
-
 	$iNowDayCG = @YDAY ; record numeric value for today
 	$sPurgeTimeCG = 0
 	_ClanGames()

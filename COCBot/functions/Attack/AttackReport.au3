@@ -222,21 +222,17 @@ Func AttackReport()
 	$AtkLogTxtExtend &= $g_CurrentCampUtilization & "/" & $g_iTotalCampSpace & "|"
 
 	If Int($g_iStatsLastAttack[$eLootTrophy]) >= 0 Then
-		If $g_bChkColorfulAttackLog = 1 Then
-			Local $aColorful[4] = [0xFF0000, 0x8F8F8F, 0x0047D6, 0x378c04]
-			Switch $iStarsEarned
-				Case 1
-					SetAtkLog($AtkLogTxt, $AtkLogTxtExtend, $aColorful[$iStarsEarned])
-				Case 2
-					SetAtkLog($AtkLogTxt, $AtkLogTxtExtend, $aColorful[$iStarsEarned])
-				Case 3
-					SetAtkLog($AtkLogTxt, $AtkLogTxtExtend, $aColorful[$iStarsEarned])
-				Case Else
-					SetAtkLog($AtkLogTxt, $AtkLogTxtExtend, $aColorful[0])
-			EndSwitch
-		Else
-			SetAtkLog($AtkLogTxt, $AtkLogTxtExtend, $COLOR_BLACK)
-		EndIf
+		Local $aColorful[4] = [0xFF0000, 0x8F8F8F, 0x0047D6, 0x378c04]
+		Switch $iStarsEarned
+			Case 1
+				SetAtkLog($AtkLogTxt, $AtkLogTxtExtend, $aColorful[$iStarsEarned])
+			Case 2
+				SetAtkLog($AtkLogTxt, $AtkLogTxtExtend, $aColorful[$iStarsEarned])
+			Case 3
+				SetAtkLog($AtkLogTxt, $AtkLogTxtExtend, $aColorful[$iStarsEarned])
+			Case Else
+				SetAtkLog($AtkLogTxt, $AtkLogTxtExtend, $aColorful[0])
+		EndSwitch
 	Else
 		SetAtkLog($AtkLogTxt, $AtkLogTxtExtend, $COLOR_ERROR)
 	EndIf

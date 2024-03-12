@@ -330,22 +330,22 @@ Func CreateMainGUIControls($bGuiModeUpdate = False)
 	SplashStep(GetTranslatedFileIni("MBR GUI Design - Loading", "SplashStep_05", "Loading Attack tab..."))
 	CreateAttackTab()
 
-	SplashStep(GetTranslatedFileIni("MBR GUI Design - Loading", "SplashStep_09", "Loading Mod tab..."))
+	SplashStep(GetTranslatedFileIni("MBR GUI Design - Loading", "SplashStep_06", "Loading Mod tab..."))
 	CreateModTab()
 
-	SplashStep(GetTranslatedFileIni("MBR GUI Design - Loading", "SplashStep_06", "Loading Bot tab..."))
+	SplashStep(GetTranslatedFileIni("MBR GUI Design - Loading", "SplashStep_07", "Loading Bot tab..."))
 	CreateBotTab() ; also creates  $g_hLastControlToHide
 	If Not $bGuiModeUpdate Then DistributorsUpdateGUI() ; Now loading Distributors (during GUI switch it must be called outside CreateMainGUIControls()!)
 
-	SplashStep(GetTranslatedFileIni("MBR GUI Design - Loading", "SplashStep_07", "Loading About Us tab..."))
+	SplashStep(GetTranslatedFileIni("MBR GUI Design - Loading", "SplashStep_08", "Loading About Us tab..."))
 	CreateAboutTab()
 
 	Local $sStepText = ""
 	Switch $g_iGuiMode
 		Case 1
-			$sStepText = GetTranslatedFileIni("MBR GUI Design - Loading", "SplashStep_08", "Initializing GUI...")
+			$sStepText = GetTranslatedFileIni("MBR GUI Design - Loading", "SplashStep_09", "Initializing GUI...")
 		Case 2
-			$sStepText = GetTranslatedFileIni("MBR GUI Design - Loading", "SplashStep_08_Mini", "Initializing Mini GUI...")
+			$sStepText = GetTranslatedFileIni("MBR GUI Design - Loading", "SplashStep_09_Mini", "Initializing Mini GUI...")
 	EndSwitch
 	SplashStep($sStepText)
 
@@ -357,9 +357,9 @@ Func CreateMainGUIControls($bGuiModeUpdate = False)
 	$g_hTabLog = GUICtrlCreateTabItem(GetTranslatedFileIni("MBR Main GUI", "Tab_01", "Log"))
 	$g_hTabVillage = GUICtrlCreateTabItem(GetTranslatedFileIni("MBR Main GUI", "Tab_02", "Village"))
 	$g_hTabAttack = GUICtrlCreateTabItem(GetTranslatedFileIni("MBR Main GUI", "Tab_03", "Attack Plan"))
-	$g_hTabMod = GUICtrlCreateTabItem(GetTranslatedFileIni("MBR Main GUI", "Tab_06", "Mod"))
-	$g_hTabBot = GUICtrlCreateTabItem(GetTranslatedFileIni("MBR Main GUI", "Tab_04", "Bot"))
-	$g_hTabAbout = GUICtrlCreateTabItem(GetTranslatedFileIni("MBR Main GUI", "Tab_05", "About Us"))
+	$g_hTabMod = GUICtrlCreateTabItem(GetTranslatedFileIni("MBR Main GUI", "Tab_04", "Mod"))
+	$g_hTabBot = GUICtrlCreateTabItem(GetTranslatedFileIni("MBR Main GUI", "Tab_05", "Bot"))
+	$g_hTabAbout = GUICtrlCreateTabItem(GetTranslatedFileIni("MBR Main GUI", "Tab_06", "About Us"))
 	GUICtrlCreateTabItem("")
 	GUICtrlSetResizing(-1, $GUI_DOCKBORDERS)
 
@@ -382,12 +382,10 @@ Func CreateMainGUIControls($bGuiModeUpdate = False)
 	Static $g_hGUI_ACTIVEBASE_TAB_ImageList = 0
 	Static $g_hGUI_ATTACKOPTION_TAB_ImageList = 0
 	Static $g_hGUI_STRATEGIES_TAB_ImageList = 0
+	Static $g_hGUI_MOD_TAB_ImageList = 0
 	Static $g_hGUI_BOT_TAB_ImageList = 0
 	Static $g_hGUI_STATS_TAB_ImageList = 0
-
-	Static $g_hGUI_MOD_TAB_ImageList = 0
-
-	Bind_ImageList($g_hGUI_MOD_TAB, $g_hGUI_MOD_TAB_ImageList)
+	
 
 	Bind_ImageList($g_hTabMain, $g_hTabMain_ImageList)
 
@@ -404,7 +402,7 @@ Func CreateMainGUIControls($bGuiModeUpdate = False)
 	Bind_ImageList($g_hGUI_ACTIVEBASE_TAB, $g_hGUI_ACTIVEBASE_TAB_ImageList)
 	Bind_ImageList($g_hGUI_ATTACKOPTION_TAB, $g_hGUI_ATTACKOPTION_TAB_ImageList)
 	Bind_ImageList($g_hGUI_STRATEGIES_TAB, $g_hGUI_STRATEGIES_TAB_ImageList)
-
+	Bind_ImageList($g_hGUI_MOD_TAB, $g_hGUI_MOD_TAB_ImageList)
 	Bind_ImageList($g_hGUI_BOT_TAB, $g_hGUI_BOT_TAB_ImageList)
 
 	Bind_ImageList($g_hGUI_STATS_TAB, $g_hGUI_STATS_TAB_ImageList)
@@ -488,6 +486,12 @@ Func UpdateMainGUI()
 		If $g_iTownHallLevel > 2 Then
 			GUICtrlSetState($g_hBtnSearchMode, $GUI_ENABLE)
 		EndIf
+	EndIf
+	
+	If StringInStr($g_sAndroidEmulator, "Bluestacks") Then
+		$g_bAndroidAdbClickEnabled = True
+		$g_bAndroidAdbClick = True
+		GUICtrlSetState($g_hChkAndroidAdbClick, $GUI_CHECKED)
 	EndIf
 EndFunc   ;==>UpdateMainGUI
 

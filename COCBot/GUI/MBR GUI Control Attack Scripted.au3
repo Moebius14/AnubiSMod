@@ -266,9 +266,11 @@ EndFunc   ;==>DuplicateScriptAB
 
 Func ApplyScriptDB()
 	Local $iApply = 0
+	Local $iApplySTroops = 0
 	Local $iApplySieges = 0
 	Local $iSlot = 0
 	Local $aiCSVTroops[$eTroopCount] = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+	Local $aiCSVTroopsBoost[$iSuperTroopsCount] = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
 	Local $aiCSVSpells[$eSpellCount] = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
 	Local $sCSVCCSpl[$eSpellCount] = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
 	Local $ToIgnore[$eSpellCount] = [-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1]
@@ -281,7 +283,7 @@ Func ApplyScriptDB()
 	Local $sFilename = $aTemp[_GUICtrlComboBox_GetCurSel($g_hCmbScriptNameDB) + 1]
 
 	SetLog("CSV settings apply starts: " & $sFilename, $COLOR_INFO)
-	$iApply = ParseAttackCSV_Settings_variables($aiCSVTroops, $aiCSVSpells, $aiCSVSieges, $aiCSVHeros, $aiCSVWardenMode, $iCSVRedlineRoutineItem, $iCSVDroplineEdgeItem, $sCSVCCReq, $sCSVCCSpl, $sFilename)
+	$iApply = ParseAttackCSV_Settings_variables($aiCSVTroops, $aiCSVTroopsBoost, $aiCSVSpells, $aiCSVSieges, $aiCSVHeros, $aiCSVWardenMode, $iCSVRedlineRoutineItem, $iCSVDroplineEdgeItem, $sCSVCCReq, $sCSVCCSpl, $sFilename)
 	If Not $iApply Then
 		SetLog("CSV settings apply failed", $COLOR_ERROR)
 		Return
@@ -290,6 +292,13 @@ Func ApplyScriptDB()
 	$iApply = 0
 	For $i = 0 To UBound($aiCSVTroops) - 1
 		If $aiCSVTroops[$i] > 0 Then $iApply += 1
+	Next
+	For $i = 0 To UBound($aiCSVTroopsBoost) - 1
+		If $aiCSVTroopsBoost[$i] == 0 Then
+			;Do Nothing (ContinueLoop)
+		Else
+			$iApplySTroops += 1
+		EndIf
 	Next
 	For $i = 0 To UBound($aiCSVSpells) - 1
 		If $aiCSVSpells[$i] > 0 Then $iApply += 1
@@ -300,6 +309,42 @@ Func ApplyScriptDB()
 	Next
 	If $iApply > 0 Then
 		$g_aiArmyCustomTroops = $aiCSVTroops
+
+		;Super Troops
+		For $i = 0 To $iMaxSupersTroop - 1
+			$g_iCmbSuperTroops[$i] = 0
+			_GUICtrlComboBox_SetCurSel($g_ahCmbSuperTroops[$i], 0)
+			cmbSuperTroops()
+		Next
+		If $iApplySTroops > 0 Then
+			Local $MaxNumberOfTroops = False
+			$g_bSuperTroopsEnable = True
+			GUICtrlSetState($g_hChkSuperTroops, $GUI_CHECKED)
+			chkSuperTroops()
+			Local $FirstSlot
+			For $i = 0 To $iMaxSupersTroop - 1
+				For $t = 0 To UBound($aiCSVTroopsBoost) - 1
+					If $aiCSVTroopsBoost[$t] == 0 Then ContinueLoop
+					If $i = $iMaxSupersTroop - 1 And $aiCSVTroopsBoost[$t] = $FirstSlot Then ContinueLoop
+					For $z = 0 To UBound($g_asSuperTroopShortNames) - 1
+						If $g_asSuperTroopShortNames[$z] = $aiCSVTroopsBoost[$t] Then
+							If $i = 0 Then $FirstSlot = $aiCSVTroopsBoost[$t]
+							$g_iCmbSuperTroops[$i] = $t + 1
+							_GUICtrlComboBox_SetCurSel($g_ahCmbSuperTroops[$i], $t + 1)
+							cmbSuperTroops()
+							If $i = $iMaxSupersTroop - 1 Then $MaxNumberOfTroops = True
+							ExitLoop 2
+						EndIf
+					Next
+				Next
+			Next
+			SetLog("CSV Train super troop" & ($MaxNumberOfTroops = True ? "s " : " ") & "selected", $COLOR_SUCCESS)
+		Else
+			$g_bSuperTroopsEnable = False
+			GUICtrlSetState($g_hChkSuperTroops, $GUI_UNCHECKED)
+			chkSuperTroops()
+		EndIf
+
 		$g_aiArmyCustomSpells = $aiCSVSpells
 		$g_aiArmyCompSiegeMachines = $aiCSVSieges
 		ApplyConfig_600_52_2("Read")
@@ -421,9 +466,11 @@ EndFunc   ;==>ApplyScriptDB
 
 Func ApplyScriptAB()
 	Local $iApply = 0
+	Local $iApplySTroops = 0
 	Local $iApplySieges = 0
 	Local $iSlot = 0
 	Local $aiCSVTroops[$eTroopCount] = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+	Local $aiCSVTroopsBoost[$iSuperTroopsCount] = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
 	Local $aiCSVSpells[$eSpellCount] = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
 	Local $sCSVCCSpl[$eSpellCount] = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
 	Local $ToIgnore[$eSpellCount] = [-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1]
@@ -436,7 +483,7 @@ Func ApplyScriptAB()
 	Local $sFilename = $aTemp[_GUICtrlComboBox_GetCurSel($g_hCmbScriptNameAB) + 1]
 
 	SetLog("CSV settings apply starts: " & $sFilename, $COLOR_INFO)
-	$iApply = ParseAttackCSV_Settings_variables($aiCSVTroops, $aiCSVSpells, $aiCSVSieges, $aiCSVHeros, $aiCSVWardenMode, $iCSVRedlineRoutineItem, $iCSVDroplineEdgeItem, $sCSVCCReq, $sCSVCCSpl, $sFilename)
+	$iApply = ParseAttackCSV_Settings_variables($aiCSVTroops, $aiCSVTroopsBoost, $aiCSVSpells, $aiCSVSieges, $aiCSVHeros, $aiCSVWardenMode, $iCSVRedlineRoutineItem, $iCSVDroplineEdgeItem, $sCSVCCReq, $sCSVCCSpl, $sFilename)
 	If Not $iApply Then
 		SetLog("CSV settings apply failed", $COLOR_ERROR)
 		Return
@@ -445,6 +492,13 @@ Func ApplyScriptAB()
 	$iApply = 0
 	For $i = 0 To UBound($aiCSVTroops) - 1
 		If $aiCSVTroops[$i] > 0 Then $iApply += 1
+	Next
+	For $i = 0 To UBound($aiCSVTroopsBoost) - 1
+		If $aiCSVTroopsBoost[$i] == 0 Then
+			;Do Nothing (ContinueLoop)
+		Else
+			$iApplySTroops += 1
+		EndIf
 	Next
 	For $i = 0 To UBound($aiCSVSpells) - 1
 		If $aiCSVSpells[$i] > 0 Then $iApply += 1
@@ -455,6 +509,42 @@ Func ApplyScriptAB()
 	Next
 	If $iApply > 0 Then
 		$g_aiArmyCustomTroops = $aiCSVTroops
+
+		;Super Troops
+		For $i = 0 To $iMaxSupersTroop - 1
+			$g_iCmbSuperTroops[$i] = 0
+			_GUICtrlComboBox_SetCurSel($g_ahCmbSuperTroops[$i], 0)
+			cmbSuperTroops()
+		Next
+		If $iApplySTroops > 0 Then
+			Local $MaxNumberOfTroops = False
+			$g_bSuperTroopsEnable = True
+			GUICtrlSetState($g_hChkSuperTroops, $GUI_CHECKED)
+			chkSuperTroops()
+			Local $FirstSlot
+			For $i = 0 To $iMaxSupersTroop - 1
+				For $t = 0 To UBound($aiCSVTroopsBoost) - 1
+					If $aiCSVTroopsBoost[$t] == 0 Then ContinueLoop
+					If $i = $iMaxSupersTroop - 1 And $aiCSVTroopsBoost[$t] = $FirstSlot Then ContinueLoop
+					For $z = 0 To UBound($g_asSuperTroopShortNames) - 1
+						If $g_asSuperTroopShortNames[$z] = $aiCSVTroopsBoost[$t] Then
+							If $i = 0 Then $FirstSlot = $aiCSVTroopsBoost[$t]
+							$g_iCmbSuperTroops[$i] = $t + 1
+							_GUICtrlComboBox_SetCurSel($g_ahCmbSuperTroops[$i], $t + 1)
+							cmbSuperTroops()
+							If $i = $iMaxSupersTroop - 1 Then $MaxNumberOfTroops = True
+							ExitLoop 2
+						EndIf
+					Next
+				Next
+			Next
+			SetLog("CSV Train super troop" & ($MaxNumberOfTroops = True ? "s " : " ") & "selected", $COLOR_SUCCESS)
+		Else
+			$g_bSuperTroopsEnable = False
+			GUICtrlSetState($g_hChkSuperTroops, $GUI_UNCHECKED)
+			chkSuperTroops()
+		EndIf
+
 		$g_aiArmyCustomSpells = $aiCSVSpells
 		$g_aiArmyCompSiegeMachines = $aiCSVSieges
 		ApplyConfig_600_52_2("Read")

@@ -19,21 +19,16 @@
 Func chkUseBotHumanization()
 	If GUICtrlRead($g_hChkUseBotHumanization) = $GUI_CHECKED Then
 		$g_bUseBotHumanization = True
-		For $i = $g_hChkLookAtRedNotifications To $g_hBtnSecondaryVillages
+		For $i = $g_IsRefusedFriends To $g_acmbPriority[10]
 			GUICtrlSetState($i, $GUI_ENABLE)
 		Next
 		For $i = $g_HowManyinCWLabel To $g_HowManyinCWLCombo
 			GUICtrlSetState($i, $GUI_ENABLE)
 		Next
-		chkLookAtRedNotifications()
 		ChkForumRequestOnly()
-		cmbStandardReplay()
-		cmbWarReplay()
-		GuiLookatCurrentWar()
-		ViewBattleLog()
 	Else
 		$g_bUseBotHumanization = False
-		For $i = $g_hChkLookAtRedNotifications To $g_hBtnSecondaryVillages
+		For $i = $g_IsRefusedFriends To $g_acmbPriority[10]
 			GUICtrlSetState($i, $GUI_DISABLE)
 		Next
 		For $i = $g_HowManyinCWLabel To $g_HowManyinCWLCombo
@@ -41,16 +36,6 @@ Func chkUseBotHumanization()
 		Next
 	EndIf
 EndFunc   ;==>chkUseBotHumanization
-
-Func chkLookAtRedNotifications()
-	If GUICtrlRead($g_hChkLookAtRedNotifications) = $GUI_CHECKED Then
-		$g_bLookAtRedNotifications = True
-		GUICtrlSetState($g_IsRefusedFriends, $GUI_ENABLE)
-	Else
-		$g_bLookAtRedNotifications = False
-		GUICtrlSetState($g_IsRefusedFriends, $GUI_DISABLE)
-	EndIf
-EndFunc   ;==>chkLookAtRedNotifications
 
 Func ChkForumRequestOnly()
 	If GUICtrlRead($g_hChkForumRequestOnly) = $GUI_CHECKED Then
@@ -62,54 +47,6 @@ Func ChkForumRequestOnly()
 		GUICtrlSetState($g_hBtnWelcomeMessage, $GUI_DISABLE)
 	EndIf
 EndFunc   ;==>ChkForumRequestOnly
-
-Func cmbStandardReplay()
-	If GUICtrlRead($g_hChkUseBotHumanization) = $GUI_CHECKED Then
-		If (_GUICtrlComboBox_GetCurSel($g_acmbPriority[1]) > 0) Or (_GUICtrlComboBox_GetCurSel($g_acmbPriority[2]) > 0) Then
-			For $i = $g_hLabel7 To $g_acmbPause[0]
-				GUICtrlSetState($i, $GUI_ENABLE)
-			Next
-		Else
-			For $i = $g_hLabel7 To $g_acmbPause[0]
-				GUICtrlSetState($i, $GUI_DISABLE)
-			Next
-		EndIf
-	EndIf
-EndFunc   ;==>cmbStandardReplay
-
-Func cmbWarReplay()
-	If GUICtrlRead($g_hChkUseBotHumanization) = $GUI_CHECKED Then
-		If _GUICtrlComboBox_GetCurSel($g_acmbPriority[8]) > 0 Then
-			For $i = $g_hLabel13 To $g_acmbPause[1]
-				GUICtrlSetState($i, $GUI_ENABLE)
-			Next
-			For $i = $g_HowManyinCWLabel To $g_HowManyinCWLCombo
-				GUICtrlSetState($i, $GUI_ENABLE)
-			Next
-		Else
-			For $i = $g_hLabel13 To $g_acmbPause[1]
-				GUICtrlSetState($i, $GUI_DISABLE)
-			Next
-			For $i = $g_HowManyinCWLabel To $g_HowManyinCWLCombo
-				GUICtrlSetState($i, $GUI_DISABLE)
-			Next
-		EndIf
-	EndIf
-EndFunc   ;==>cmbWarReplay
-
-Func GuiLookatCurrentWar()
-	If GUICtrlRead($g_hChkUseBotHumanization) = $GUI_CHECKED Then
-		If _GUICtrlComboBox_GetCurSel($g_acmbPriority[7]) > 0 Then
-			For $i = $g_HowManyinCWLabel To $g_HowManyinCWLCombo
-				GUICtrlSetState($i, $GUI_ENABLE)
-			Next
-		Else
-			For $i = $g_HowManyinCWLabel To $g_HowManyinCWLCombo
-				GUICtrlSetState($i, $GUI_DISABLE)
-			Next
-		EndIf
-	EndIf
-EndFunc   ;==>GuiLookatCurrentWar
 
 Func DisplayChkNoLabCheck()
 	Switch _GUICtrlComboBox_GetCurSel($g_hChkNoLabCheck)
@@ -160,58 +97,33 @@ Func DisplayChkNoStarLabCheck()
 	GUICtrlSetData($g_hChkNoStarLabCheckLabel, $g_hChkNoStarLabCheckLabelTypo)
 EndFunc   ;==>DisplayChkNoStarLabCheck
 
-Func MagicItemsFrequencyDatas()
-	If _GUICtrlComboBox_GetCurSel($g_hCmbPriorityMagicItemsFrequency) = 0 Or GUICtrlRead($g_hChkFreeMagicItems) = $GUI_UNCHECKED Then
-		GUICtrlSetState($g_hcmbAdvancedVariation[0], $GUI_DISABLE)
-	ElseIf GUICtrlRead($g_hChkFreeMagicItems) = $GUI_CHECKED And _GUICtrlComboBox_GetCurSel($g_hCmbPriorityMagicItemsFrequency) > 0 Then
-		GUICtrlSetState($g_hcmbAdvancedVariation[0], $GUI_ENABLE)
-	EndIf
-EndFunc   ;==>MagicItemsFrequencyDatas
-
 Func BBaseFrequencyDatas()
 	If _GUICtrlComboBox_GetCurSel($g_hCmbPriorityBBaseFrequency) = 0 Then
-		GUICtrlSetState($g_hcmbAdvancedVariation[1], $GUI_DISABLE)
+		GUICtrlSetState($g_hcmbAdvancedVariation, $GUI_DISABLE)
 	Else
-		If GUICtrlRead($g_hChkBBaseFrequency) = $GUI_CHECKED Then GUICtrlSetState($g_hcmbAdvancedVariation[1], $GUI_ENABLE)
+		If GUICtrlRead($g_hChkBBaseFrequency) = $GUI_CHECKED Then GUICtrlSetState($g_hcmbAdvancedVariation, $GUI_ENABLE)
 	EndIf
 EndFunc   ;==>BBaseFrequencyDatas
 
 Func ChkBBaseFrequency()
 	If GUICtrlRead($g_hChkBBaseFrequency) = $GUI_CHECKED Then
 		$g_bChkBBaseFrequency = True
-		For $i = $g_hChkBBaseFrequencyLabel To $g_hcmbAdvancedVariation[1]
+		For $i = $g_hChkBBaseFrequencyLabel To $g_hcmbAdvancedVariation
 			GUICtrlSetState($i, $GUI_ENABLE)
 		Next
 	Else
 		$g_bChkBBaseFrequency = False
-		For $i = $g_hChkBBaseFrequencyLabel To $g_hcmbAdvancedVariation[1]
+		For $i = $g_hChkBBaseFrequencyLabel To $g_hcmbAdvancedVariation
 			GUICtrlSetState($i, $GUI_DISABLE)
 		Next
 	EndIf
 EndFunc   ;==>ChkBBaseFrequency
 
-Func PersoChallengesFrequencyDatas()
-	If _GUICtrlComboBox_GetCurSel($g_hCmbPriorityPersoChallengesFrequency) = 0 Then
-		GUICtrlSetState($g_hcmbAdvancedVariation[2], $GUI_DISABLE)
-	Else
-		If GUICtrlRead($g_hChkCollectRewards) = $GUI_CHECKED Then GUICtrlSetState($g_hcmbAdvancedVariation[2], $GUI_ENABLE)
-	EndIf
-EndFunc   ;==>PersoChallengesFrequencyDatas
-
 Func ChkCollectRewards()
 	If GUICtrlRead($g_hChkCollectRewards) = $GUI_CHECKED Then
 		$g_bChkCollectRewards = True
-		For $i = $g_hChkPersoChallengesFrequencyLabel To $g_hcmbAdvancedVariation[2]
-			GUICtrlSetState($i, $GUI_ENABLE)
-		Next
-		If _GUICtrlComboBox_GetCurSel($g_hCmbPriorityPersoChallengesFrequency) = 0 Then GUICtrlSetState($g_hcmbAdvancedVariation[2], $GUI_DISABLE)
-		GUICtrlSetState($g_hChkPersoChallengesinPause, $GUI_ENABLE)
 	Else
 		$g_bChkCollectRewards = False
-		For $i = $g_hChkPersoChallengesFrequencyLabel To $g_hcmbAdvancedVariation[2]
-			GUICtrlSetState($i, $GUI_DISABLE)
-		Next
-		GUICtrlSetState($g_hChkPersoChallengesinPause, $GUI_DISABLE)
 	EndIf
 EndFunc   ;==>ChkCollectRewards
 
@@ -224,7 +136,7 @@ Func SwitchBetweenBasesMod()
 	EndIf
 
 	$g_iCmbPriorityBBaseFrequency = _GUICtrlComboBox_GetCurSel($g_hCmbPriorityBBaseFrequency) * 60 * 60 * 1000
-	$g_icmbAdvancedVariation[1] = _GUICtrlComboBox_GetCurSel($g_hcmbAdvancedVariation[1]) / 10
+	$g_icmbAdvancedVariation = _GUICtrlComboBox_GetCurSel($g_hcmbAdvancedVariation) / 10
 
 	If Not $g_bChkCollectBuilderBase And Not $g_bChkStartClockTowerBoost And Not $g_iChkBBSuggestedUpgrades And Not $g_bChkEnableBBAttack And Not $g_bChkCleanBBYard Then
 		If $g_bIsBBevent Then SetLog("Please Enable BB Attack To Complete Challenge !", $COLOR_ERROR)
@@ -248,8 +160,8 @@ Func SwitchBetweenBasesMod()
 
 			If $g_bChkBBaseFrequency And $g_iCmbPriorityBBaseFrequency > 0 Then
 
-				Local $DelayReturnedtocheckBBaseInf = ($g_iCmbPriorityBBaseFrequency - ($g_iCmbPriorityBBaseFrequency * $g_icmbAdvancedVariation[1]))
-				Local $DelayReturnedtocheckBBaseSup = ($g_iCmbPriorityBBaseFrequency + ($g_iCmbPriorityBBaseFrequency * $g_icmbAdvancedVariation[1]))
+				Local $DelayReturnedtocheckBBaseInf = ($g_iCmbPriorityBBaseFrequency - ($g_iCmbPriorityBBaseFrequency * $g_icmbAdvancedVariation))
+				Local $DelayReturnedtocheckBBaseSup = ($g_iCmbPriorityBBaseFrequency + ($g_iCmbPriorityBBaseFrequency * $g_icmbAdvancedVariation))
 				$DelayReturnedtocheckBBaseMS = Random($DelayReturnedtocheckBBaseInf, $DelayReturnedtocheckBBaseSup, 1)
 
 				Local $iWaitTime = $DelayReturnedtocheckBBaseMS
@@ -302,8 +214,8 @@ Func SwitchBetweenBasesMod()
 
 			$BBaseCheckTimer = TimerInit()
 
-			Local $DelayReturnedtocheckBBaseInf = ($g_iCmbPriorityBBaseFrequency - ($g_iCmbPriorityBBaseFrequency * $g_icmbAdvancedVariation[1]))
-			Local $DelayReturnedtocheckBBaseSup = ($g_iCmbPriorityBBaseFrequency + ($g_iCmbPriorityBBaseFrequency * $g_icmbAdvancedVariation[1]))
+			Local $DelayReturnedtocheckBBaseInf = ($g_iCmbPriorityBBaseFrequency - ($g_iCmbPriorityBBaseFrequency * $g_icmbAdvancedVariation))
+			Local $DelayReturnedtocheckBBaseSup = ($g_iCmbPriorityBBaseFrequency + ($g_iCmbPriorityBBaseFrequency * $g_icmbAdvancedVariation))
 			$DelayReturnedtocheckBBaseMS = Random($DelayReturnedtocheckBBaseInf, $DelayReturnedtocheckBBaseSup, 1)
 
 			Local $iWaitTime = $DelayReturnedtocheckBBaseMS
@@ -329,8 +241,8 @@ Func SwitchBetweenBasesMod()
 			SetLog("BB Event Detected : Time to Switch To Builder Base", $COLOR_OLIVE)
 			$BBaseCheckTimer = TimerInit()
 
-			Local $DelayReturnedtocheckBBaseInf = ($g_iCmbPriorityBBaseFrequency - ($g_iCmbPriorityBBaseFrequency * $g_icmbAdvancedVariation[1]))
-			Local $DelayReturnedtocheckBBaseSup = ($g_iCmbPriorityBBaseFrequency + ($g_iCmbPriorityBBaseFrequency * $g_icmbAdvancedVariation[1]))
+			Local $DelayReturnedtocheckBBaseInf = ($g_iCmbPriorityBBaseFrequency - ($g_iCmbPriorityBBaseFrequency * $g_icmbAdvancedVariation))
+			Local $DelayReturnedtocheckBBaseSup = ($g_iCmbPriorityBBaseFrequency + ($g_iCmbPriorityBBaseFrequency * $g_icmbAdvancedVariation))
 			$DelayReturnedtocheckBBaseMS = Random($DelayReturnedtocheckBBaseInf, $DelayReturnedtocheckBBaseSup, 1)
 
 			Local $iWaitTime = $DelayReturnedtocheckBBaseMS
@@ -371,8 +283,8 @@ Func SwitchBetweenBasesMod()
 
 			$BBaseCheckTimer = TimerInit()
 
-			Local $DelayReturnedtocheckBBaseInf = ($g_iCmbPriorityBBaseFrequency - ($g_iCmbPriorityBBaseFrequency * $g_icmbAdvancedVariation[1]))
-			Local $DelayReturnedtocheckBBaseSup = ($g_iCmbPriorityBBaseFrequency + ($g_iCmbPriorityBBaseFrequency * $g_icmbAdvancedVariation[1]))
+			Local $DelayReturnedtocheckBBaseInf = ($g_iCmbPriorityBBaseFrequency - ($g_iCmbPriorityBBaseFrequency * $g_icmbAdvancedVariation))
+			Local $DelayReturnedtocheckBBaseSup = ($g_iCmbPriorityBBaseFrequency + ($g_iCmbPriorityBBaseFrequency * $g_icmbAdvancedVariation))
 			$DelayReturnedtocheckBBaseMS = Random($DelayReturnedtocheckBBaseInf, $DelayReturnedtocheckBBaseSup, 1)
 
 			Local $iWaitTime = $DelayReturnedtocheckBBaseMS
@@ -397,73 +309,14 @@ Func SwitchBetweenBasesMod()
 	EndIf
 EndFunc   ;==>SwitchBetweenBasesMod
 
-Func ChkTrophyDropinPause()
-	If GUICtrlRead($g_hChkTrophyDropinPause) = $GUI_CHECKED Then
-		$g_bChkTrophyDropinPause = True
-	Else
-		$g_bChkTrophyDropinPause = False
-	EndIf
-EndFunc   ;==>ChkTrophyDropinPause
-
-Func ChkVisitBbaseinPause()
-	If GUICtrlRead($g_hChkVisitBbaseinPause) = $GUI_CHECKED Then
-		$g_bChkVisitBbaseinPause = True
-	Else
-		$g_bChkVisitBbaseinPause = False
-	EndIf
-EndFunc   ;==>ChkVisitBbaseinPause
-
-Func ChkPersoChallengesinPause()
-	If GUICtrlRead($g_hChkPersoChallengesinPause) = $GUI_CHECKED Then
-		$g_bChkPersoChallengesinPause = True
-	Else
-		$g_bChkPersoChallengesinPause = False
-	EndIf
-EndFunc   ;==>ChkPersoChallengesinPause
-
 Func chkRandomPauseDelayEnable()
-	If GUICtrlRead($g_acmdRandomDelay) = $GUI_CHECKED And $g_bAttackPlannerEnable = True Then
-		$g_iacmdRandomDelay = True
-		For $i = $g_acmdRandomDelayMin To $g_hLabelDelayPauseIntervalUnit
-			GUICtrlSetState($i, $GUI_ENABLE)
-		Next
-	ElseIf GUICtrlRead($g_acmdRandomDelay) = $GUI_UNCHECKED And $g_bAttackPlannerEnable = True Then
-		$g_iacmdRandomDelay = False
-		For $i = $g_acmdRandomDelayMin To $g_hLabelDelayPauseIntervalUnit
-			GUICtrlSetState($i, $GUI_DISABLE)
-		Next
-	ElseIf GUICtrlRead($g_acmdRandomDelay) = $GUI_UNCHECKED And $g_bAttackPlannerEnable = False Then
-		$g_iacmdRandomDelay = False
-		For $i = $g_acmdRandomDelayMin To $g_hLabelDelayPauseIntervalUnit
-			GUICtrlSetState($i, $GUI_DISABLE)
-		Next
-	EndIf
 	$g_iacmdRandomDelayFinal = Random(($g_iacmdRandomDelayMin * 60), ($g_iacmdRandomDelayMax * 60), 1) ; seconds
 EndFunc   ;==>chkRandomPauseDelayEnable
-
-Func cmdRandomDelayMin()
-	If Int(GUICtrlRead($g_acmdRandomDelayMax)) < Int(GUICtrlRead($g_acmdRandomDelayMin)) Then
-		GUICtrlSetData($g_acmdRandomDelayMin, GUICtrlRead($g_acmdRandomDelayMax))
-	EndIf
-	$g_iacmdRandomDelayMin = Int(GUICtrlRead($g_acmdRandomDelayMin))
-EndFunc   ;==>cmdRandomDelayMin
-
-Func cmdRandomDelayMax()
-	If Int(GUICtrlRead($g_acmdRandomDelayMax)) < Int(GUICtrlRead($g_acmdRandomDelayMin)) Then
-		GUICtrlSetData($g_acmdRandomDelayMax, GUICtrlRead($g_acmdRandomDelayMin))
-	EndIf
-	$g_iacmdRandomDelayMax = Int(GUICtrlRead($g_acmdRandomDelayMax))
-EndFunc   ;==>cmdRandomDelayMax
 
 Func btnModLogClear()
 	_GUICtrlRichEdit_SetText($g_hTxtModLog, "")
 	GUICtrlSetData($g_hTxtModLog, "------------------------------------------------------- Log of Mod Events -------------------------------------------------")
 EndFunc   ;==>btnModLogClear
-
-Func btnCGRALogClear()
-	_GUICtrlRichEdit_SetText($g_hTxtCGRandomLog, "")
-	GUICtrlSetData($g_hTxtCGRandomLog, "--------------------------------------------- Log of Clan Games Enabling------------------------------------------")
-EndFunc   ;==>btnCGRALogClear
 
 Func CGLogClear()
 	_GUICtrlRichEdit_SetText($g_hTxtClanGamesLog, "")
@@ -498,101 +351,21 @@ EndFunc   ;==>LoadCurrentAlias
 Func chkAttackCGPlannerEnable()
 	If GUICtrlRead($g_hChkAttackCGPlannerEnable) = $GUI_CHECKED Then
 		$g_bAttackCGPlannerEnable = True
-		GUICtrlSetState($g_hChkAttackCGPlannerRandom, $GUI_ENABLE)
 		GUICtrlSetState($g_hChkAttackCGPlannerDayLimit, $GUI_ENABLE)
 		GUICtrlSetState($g_hChkSTOPWhenCGPointsMax, $GUI_ENABLE)
 		chkAttackCGPlannerDayLimit()
-		cmbAttackCGPlannerRandom()
-		If GUICtrlRead($g_hChkAttackCGPlannerRandom) = $GUI_CHECKED Then
-			For $i = $g_hCmbAttackCGPlannerRandomTime To $g_hCmbAttackCGPlannerRandomProba
-				GUICtrlSetState($i, $GUI_ENABLE)
-			Next
-			GUICtrlSetState($g_hTxtCGRandomLog, $GUI_ENABLE)
-			For $i = 0 To 6
-				GUICtrlSetState($g_ahChkAttackCGWeekdays[$i], $GUI_DISABLE)
-			Next
-			GUICtrlSetState($g_ahChkAttackCGWeekdaysE, $GUI_DISABLE)
-			For $i = 0 To 23
-				GUICtrlSetState($g_ahChkAttackCGHours[$i], $GUI_DISABLE)
-			Next
-			GUICtrlSetState($g_ahChkAttackCGHoursE1, $GUI_DISABLE)
-			GUICtrlSetState($g_ahChkAttackCGHoursE2, $GUI_DISABLE)
-		Else
-			For $i = $g_hCmbAttackCGPlannerRandomTime To $g_hCmbAttackCGPlannerRandomProba
-				GUICtrlSetState($i, $GUI_DISABLE)
-			Next
-			If GUICtrlRead($g_hChkAttackCGPlannerDayLimit) = $GUI_CHECKED Then
-				GUICtrlSetState($g_hTxtCGRandomLog, $GUI_ENABLE)
-			Else
-				GUICtrlSetState($g_hTxtCGRandomLog, $GUI_DISABLE)
-			EndIf
-			For $i = 0 To 6
-				GUICtrlSetState($g_ahChkAttackCGWeekdays[$i], $GUI_ENABLE)
-			Next
-			GUICtrlSetState($g_ahChkAttackCGWeekdaysE, $GUI_ENABLE)
-			For $i = 0 To 23
-				GUICtrlSetState($g_ahChkAttackCGHours[$i], $GUI_ENABLE)
-			Next
-			GUICtrlSetState($g_ahChkAttackCGHoursE1, $GUI_ENABLE)
-			GUICtrlSetState($g_ahChkAttackCGHoursE2, $GUI_ENABLE)
-		EndIf
 	Else
 		$g_bAttackCGPlannerEnable = False
-		For $i = $g_hChkAttackCGPlannerRandom To $g_hTxtCGRandomLog
+		For $i = $TitleDailyLimit To $g_hChkSTOPWhenCGPointsMax
 			GUICtrlSetState($i, $GUI_DISABLE)
 		Next
 	EndIf
 	If GUICtrlRead($g_hChkClanGamesEnabled) = $GUI_UNCHECKED Then
-		For $i = $g_hChkAttackCGPlannerEnable To $g_hTxtCGRandomLog
+		For $i = $g_hChkAttackCGPlannerEnable To $g_hChkSTOPWhenCGPointsMax
 			GUICtrlSetState($i, $GUI_DISABLE)
 		Next
 	EndIf
 EndFunc   ;==>chkAttackCGPlannerEnable
-
-Func chkAttackCGPlannerRandom()
-	If GUICtrlRead($g_hChkAttackCGPlannerRandom) = $GUI_CHECKED Then
-		$g_bAttackCGPlannerRandomEnable = True
-		For $i = $g_hCmbAttackCGPlannerRandomTime To $g_hCmbAttackCGPlannerRandomProba
-			GUICtrlSetState($i, $GUI_ENABLE)
-		Next
-		GUICtrlSetState($g_hTxtCGRandomLog, $GUI_ENABLE)
-		For $i = 0 To 6
-			GUICtrlSetState($g_ahChkAttackCGWeekdays[$i], $GUI_DISABLE)
-		Next
-		GUICtrlSetState($g_ahChkAttackCGWeekdaysE, $GUI_DISABLE)
-
-		For $i = 0 To 23
-			GUICtrlSetState($g_ahChkAttackCGHours[$i], $GUI_DISABLE)
-		Next
-		GUICtrlSetState($g_ahChkAttackCGHoursE1, $GUI_DISABLE)
-		GUICtrlSetState($g_ahChkAttackCGHoursE2, $GUI_DISABLE)
-	Else
-		$g_bAttackCGPlannerRandomEnable = False
-		For $i = $g_hCmbAttackCGPlannerRandomTime To $g_hCmbAttackCGPlannerRandomProba
-			GUICtrlSetState($i, $GUI_DISABLE)
-		Next
-		If GUICtrlRead($g_hChkAttackCGPlannerDayLimit) = $GUI_CHECKED Then
-			GUICtrlSetState($g_hTxtCGRandomLog, $GUI_ENABLE)
-		Else
-			GUICtrlSetState($g_hTxtCGRandomLog, $GUI_DISABLE)
-		EndIf
-		For $i = 0 To 6
-			GUICtrlSetState($g_ahChkAttackCGWeekdays[$i], $GUI_ENABLE)
-		Next
-		GUICtrlSetState($g_ahChkAttackCGWeekdaysE, $GUI_ENABLE)
-
-		For $i = 0 To 23
-			GUICtrlSetState($g_ahChkAttackCGHours[$i], $GUI_ENABLE)
-		Next
-		GUICtrlSetState($g_ahChkAttackCGHoursE1, $GUI_ENABLE)
-		GUICtrlSetState($g_ahChkAttackCGHoursE2, $GUI_ENABLE)
-	EndIf
-EndFunc   ;==>chkAttackCGPlannerRandom
-
-Func cmbAttackCGPlannerRandom()
-	$g_iAttackCGPlannerRandomTime = Int(_GUICtrlComboBox_GetCurSel($g_hCmbAttackCGPlannerRandomTime))
-	GUICtrlSetData($g_hLbAttackCGPlannerRandom, $g_iAttackCGPlannerRandomTime > 0 ? GetTranslatedFileIni("MBR Global GUI Design", "hrs", "hrs") : GetTranslatedFileIni("MBR Global GUI Design", "hrs", "hr"))
-EndFunc   ;==>cmbAttackCGPlannerRandom
 
 Func chkAttackCGPlannerDayLimit()
 	If GUICtrlRead($g_hChkAttackCGPlannerDayLimit) = $GUI_CHECKED Then
@@ -610,7 +383,6 @@ Func chkAttackCGPlannerDayLimit()
 		For $i = $TitleDailyLimit To $MaxDailyLimit
 			GUICtrlSetState($i, $GUI_ENABLE)
 		Next
-		GUICtrlSetState($g_hTxtCGRandomLog, $GUI_ENABLE)
 	Else
 		$g_bAttackCGPlannerDayLimit = False
 		GUICtrlSetState($g_hCmbAttackCGPlannerDayMin, $GUI_DISABLE)
@@ -624,11 +396,6 @@ Func chkAttackCGPlannerDayLimit()
 		For $i = $TitleDailyLimit To $MaxDailyLimit
 			GUICtrlSetState($i, $GUI_DISABLE)
 		Next
-		If GUICtrlRead($g_hChkAttackCGPlannerRandom) = $GUI_CHECKED Then
-			GUICtrlSetState($g_hTxtCGRandomLog, $GUI_ENABLE)
-		Else
-			GUICtrlSetState($g_hTxtCGRandomLog, $GUI_DISABLE)
-		EndIf
 	EndIf
 	_cmbAttackCGPlannerDayLimit()
 EndFunc   ;==>chkAttackCGPlannerDayLimit
@@ -674,69 +441,6 @@ Func _cmbAttackCGPlannerDayLimit()
 			GUICtrlSetBkColor($g_hCmbAttackCGPlannerDayMax, $COLOR_RED)
 	EndSwitch
 EndFunc   ;==>_cmbAttackCGPlannerDayLimit
-
-Func chkAttackCGHoursE1()
-	If GUICtrlRead($g_ahChkAttackCGHoursE1) = $GUI_CHECKED And IschkAttackCGHoursE1() Then
-		For $i = 0 To 11
-			GUICtrlSetState($g_ahChkAttackCGHours[$i], $GUI_UNCHECKED)
-		Next
-	Else
-		For $i = 0 To 11
-			GUICtrlSetState($g_ahChkAttackCGHours[$i], $GUI_CHECKED)
-		Next
-	EndIf
-	If _Sleep(300) Then Return
-	GUICtrlSetState($g_ahChkAttackCGHoursE1, $GUI_UNCHECKED)
-EndFunc   ;==>chkAttackCGHoursE1
-
-Func IschkAttackCGHoursE1()
-	For $i = 0 To 11
-		If GUICtrlRead($g_ahChkAttackCGHours[$i]) = $GUI_CHECKED Then Return True
-	Next
-	Return False
-EndFunc   ;==>IschkAttackCGHoursE1
-
-Func chkAttackCGHoursE2()
-	If GUICtrlRead($g_ahChkAttackCGHoursE2) = $GUI_CHECKED And IschkAttackCGHoursE2() Then
-		For $i = 12 To 23
-			GUICtrlSetState($g_ahChkAttackCGHours[$i], $GUI_UNCHECKED)
-		Next
-	Else
-		For $i = 12 To 23
-			GUICtrlSetState($g_ahChkAttackCGHours[$i], $GUI_CHECKED)
-		Next
-	EndIf
-	If _Sleep(300) Then Return
-	GUICtrlSetState($g_ahChkAttackCGHoursE2, $GUI_UNCHECKED)
-EndFunc   ;==>chkAttackCGHoursE2
-
-Func IschkAttackCGHoursE2()
-	For $i = 12 To 23
-		If GUICtrlRead($g_ahChkAttackCGHours[$i]) = $GUI_CHECKED Then Return True
-	Next
-	Return False
-EndFunc   ;==>IschkAttackCGHoursE2
-
-Func chkAttackCGWeekDaysE()
-	If GUICtrlRead($g_ahChkAttackCGWeekdaysE) = $GUI_CHECKED And IschkAttackCGWeekdays() Then
-		For $i = 0 To 6
-			GUICtrlSetState($g_ahChkAttackCGWeekdays[$i], $GUI_UNCHECKED)
-		Next
-	Else
-		For $i = 0 To 6
-			GUICtrlSetState($g_ahChkAttackCGWeekdays[$i], $GUI_CHECKED)
-		Next
-	EndIf
-	If _Sleep(300) Then Return
-	GUICtrlSetState($g_ahChkAttackCGWeekdaysE, $GUI_UNCHECKED)
-EndFunc   ;==>chkAttackCGWeekDaysE
-
-Func IschkAttackCGWeekdays()
-	For $i = 0 To 6
-		If GUICtrlRead($g_ahChkAttackCGWeekdays[$i]) = $GUI_CHECKED Then Return True
-	Next
-	Return False
-EndFunc   ;==>IschkAttackCGWeekdays
 
 Func SwitchBetweenBasesMod2()
 
@@ -973,12 +677,12 @@ Func EnableAutoUpgradeCC()
 		GUICtrlSetState($g_hChkStartWeekendRaid, $GUI_ENABLE)
 		GUICtrlSetState($g_hBtnCCUpgradesSettingsOpen, $GUI_ENABLE)
 		GUICtrlSetState($g_hChkEnableSmartSwitchCC, $GUI_ENABLE)
-		GUICtrlSetState($g_acmbPriorityChkRaid, $GUI_ENABLE)
+		GUICtrlSetState($g_hTxtAutoUpgradeCCLog, $GUI_ENABLE)
 	Else
 		GUICtrlSetState($g_hChkStartWeekendRaid, $GUI_DISABLE)
 		GUICtrlSetState($g_hBtnCCUpgradesSettingsOpen, $GUI_DISABLE)
 		GUICtrlSetState($g_hChkEnableSmartSwitchCC, $GUI_DISABLE)
-		GUICtrlSetState($g_acmbPriorityChkRaid, $GUI_DISABLE)
+		GUICtrlSetState($g_hTxtAutoUpgradeCCLog, $GUI_DISABLE)
 	EndIf
 EndFunc   ;==>EnableAutoUpgradeCC
 
@@ -991,36 +695,6 @@ Func EnablePurgeMedal()
 		GUICtrlSetState($g_hBtnForcePurgeMedals, $GUI_DISABLE)
 	EndIf
 EndFunc   ;==>EnablePurgeMedal
-
-Func ViewBattleLog()
-	If _GUICtrlComboBox_GetCurSel($g_acmbPriorityBB[0]) = 0 Then
-		For $i = $g_hLabelBB2 To $g_acmbPause[2]
-			GUICtrlSetState($i, $GUI_DISABLE)
-		Next
-	Else
-		For $i = $g_hLabelBB2 To $g_acmbPause[2]
-			GUICtrlSetState($i, $GUI_ENABLE)
-		Next
-		WatchBBBattles()
-	EndIf
-	If GUICtrlRead($g_hChkUseBotHumanization) = $GUI_UNCHECKED Then
-		For $i = $g_hLabelBB2 To $g_acmbPause[2]
-			GUICtrlSetState($i, $GUI_DISABLE)
-		Next
-	EndIf
-EndFunc   ;==>ViewBattleLog
-
-Func WatchBBBattles()
-	If _GUICtrlComboBox_GetCurSel($g_acmbPriorityBB[1]) = 0 Then
-		For $i = $g_hLabelBB3 To $g_acmbPause[2]
-			GUICtrlSetState($i, $GUI_DISABLE)
-		Next
-	Else
-		For $i = $g_hLabelBB3 To $g_acmbPause[2]
-			GUICtrlSetState($i, $GUI_ENABLE)
-		Next
-	EndIf
-EndFunc   ;==>WatchBBBattles
 
 Func CheckDonateOften()
 	If Not $g_bCheckDonateOften Or Not $g_bChkDonate Then Return
@@ -1416,11 +1090,3 @@ EndFunc   ;==>BtnWelcomeMessage
 Func CloseWelcomeMessage()
 	GUISetState(@SW_HIDE, $g_hGUI_WelcomeMessage)
 EndFunc   ;==>CloseWelcomeMessage
-
-Func BtnSecondaryVillages()
-	GUISetState(@SW_SHOW, $g_hGUI_SecondaryVillages)
-EndFunc   ;==>BtnSecondaryVillages
-
-Func CloseSecondaryVillages()
-	GUISetState(@SW_HIDE, $g_hGUI_SecondaryVillages)
-EndFunc   ;==>CloseSecondaryVillages

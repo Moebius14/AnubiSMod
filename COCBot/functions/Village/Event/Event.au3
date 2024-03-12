@@ -67,6 +67,12 @@ Func EventRewards()
 		Return False
 	EndIf
 
+	Local $aContinueButton = findButton("Continue", Default, 1, True)
+	If IsArray($aContinueButton) And UBound($aContinueButton, 1) = 2 Then
+		ClickP($aContinueButton)
+		If _Sleep(2500) Then Return
+	EndIf
+
 	If Not $g_bRunState Then Return
 
 	Local $aiButton

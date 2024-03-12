@@ -317,15 +317,9 @@ Func ApplyConfig_600_6($TypeReadSave)
 			GUICtrlSetState($g_hChkCleanYard, $g_bChkCleanYard ? $GUI_CHECKED : $GUI_UNCHECKED)
 			GUICtrlSetState($g_hChkGemsBox, $g_bChkGemsBox ? $GUI_CHECKED : $GUI_UNCHECKED)
 			GUICtrlSetState($g_hChkEventCollect, $g_bChkEventCollect ? $GUI_CHECKED : $GUI_UNCHECKED)
-			GUICtrlSetState($g_hChkFirstStartSellMagicItem, $g_bChkFirstStartSellMagicItem ? $GUI_CHECKED : $GUI_UNCHECKED)
-			GUICtrlSetState($g_hChkSellMagicItem, $g_bChkSellMagicItem ? $GUI_CHECKED : $GUI_UNCHECKED)
-			For $i = 0 To UBound($g_iacmbMagicPotion) - 1
-				_GUICtrlComboBox_SetCurSel($g_acmbMagicPotion[$i], $g_iacmbMagicPotion[$i])
-			Next
 			GUICtrlSetState($g_hChkTreasuryCollect, $g_bChkTreasuryCollect ? $GUI_CHECKED : $GUI_UNCHECKED)
 			GUICtrlSetState($g_hChkCollectAchievements, $g_bChkCollectAchievements ? $GUI_CHECKED : $GUI_UNCHECKED)
 			GUICtrlSetState($g_hChkFreeMagicItems, $g_bChkCollectFreeMagicItems ? $GUI_CHECKED : $GUI_UNCHECKED)
-			ChkFreeMagicItems()
 			ChkTreasuryCollect()
 			GUICtrlSetData($g_hTxtTreasuryGold, $g_iTxtTreasuryGold)
 			GUICtrlSetData($g_hTxtTreasuryElixir, $g_iTxtTreasuryElixir)
@@ -365,10 +359,6 @@ Func ApplyConfig_600_6($TypeReadSave)
 			GUICtrlSetState($g_hChkClanGamesAllTimes, $g_bChkClanGamesAllTimes ? $GUI_CHECKED : $GUI_UNCHECKED)
 			GUICtrlSetState($g_hChkClanGamesNoOneDay, $g_bChkClanGamesNoOneDay ? $GUI_CHECKED : $GUI_UNCHECKED)
 			GUICtrlSetState($g_hChkClanGamesCollectRewards, $g_bChkClanGamesCollectRewards ? $GUI_CHECKED : $GUI_UNCHECKED)
-
-			For $i = 0 To UBound($g_iacmbPriorityReward) - 1
-				_GUICtrlComboBox_SetCurSel($g_acmbPriorityReward[$i], $g_iacmbPriorityReward[$i])
-			Next
 
 			GUICtrlSetState($g_hChkCGMainLoot, $g_bChkClanGamesLoot ? $GUI_CHECKED : $GUI_UNCHECKED)
 			GUICtrlSetState($g_hChkCGMainBattle, $g_bChkClanGamesBattle ? $GUI_CHECKED : $GUI_UNCHECKED)
@@ -529,10 +519,6 @@ Func ApplyConfig_600_6($TypeReadSave)
 
 			;Planner
 			GUICtrlSetState($g_hChkAttackCGPlannerEnable, $g_bAttackCGPlannerEnable = True ? $GUI_CHECKED : $GUI_UNCHECKED)
-			GUICtrlSetState($g_hChkAttackCGPlannerRandom, $g_bAttackCGPlannerRandomEnable ? $GUI_CHECKED : $GUI_UNCHECKED)
-			_GUICtrlComboBox_SetCurSel($g_hCmbAttackCGPlannerRandomTime, $g_iAttackCGPlannerRandomTime)
-			_GUICtrlComboBox_SetCurSel($g_hCmbAttackCGPlannerRandomProba, $g_iAttackCGPlannerRandomProba)
-			_GUICtrlComboBox_SetCurSel($g_hCmbAttackCGPlannerRandomVariation, $g_iAttackCGPlannerRandomVariation)
 			GUICtrlSetState($g_hChkAttackCGPlannerDayLimit, $g_bAttackCGPlannerDayLimit = True ? $GUI_CHECKED : $GUI_UNCHECKED)
 			GUICtrlSetData($g_hCmbAttackCGPlannerDayMin, $g_iAttackCGPlannerDayMin)
 			GUICtrlSetData($g_hCmbAttackCGPlannerDayMax, $g_iAttackCGPlannerDayMax)
@@ -542,13 +528,6 @@ Func ApplyConfig_600_6($TypeReadSave)
 			_cmbAttackCGPlannerDayLimit()
 			chkAttackCGPlannerEnable()
 			LiveDailyCount()
-
-			For $i = 0 To 6
-				GUICtrlSetState($g_ahChkAttackCGWeekdays[$i], $g_abPlannedAttackCGWeekDays[$i] ? $GUI_CHECKED : $GUI_UNCHECKED)
-			Next
-			For $i = 0 To 23
-				GUICtrlSetState($g_ahChkAttackCGHours[$i], $g_abPlannedattackCGHours[$i] ? $GUI_CHECKED : $GUI_UNCHECKED)
-			Next
 
 		Case "Save"
 			$g_bChkBotStop = (GUICtrlRead($g_hChkBotStop) = $GUI_CHECKED)
@@ -577,11 +556,6 @@ Func ApplyConfig_600_6($TypeReadSave)
 			$g_bChkCollectFreeMagicItems = (GUICtrlRead($g_hChkFreeMagicItems) = $GUI_CHECKED)
 			$g_bChkGemsBox = (GUICtrlRead($g_hChkGemsBox) = $GUI_CHECKED)
 			$g_bChkEventCollect = (GUICtrlRead($g_hChkEventCollect) = $GUI_CHECKED)
-			$g_bChkFirstStartSellMagicItem = (GUICtrlRead($g_hChkFirstStartSellMagicItem) = $GUI_CHECKED)
-			$g_bChkSellMagicItem = (GUICtrlRead($g_hChkSellMagicItem) = $GUI_CHECKED)
-			For $i = 0 To UBound($g_iacmbMagicPotion) - 1
-				$g_iacmbMagicPotion[$i] = _GUICtrlComboBox_GetCurSel($g_acmbMagicPotion[$i])
-			Next
 			$g_bChkTreasuryCollect = (GUICtrlRead($g_hChkTreasuryCollect) = $GUI_CHECKED)
 			$g_iTxtTreasuryGold = GUICtrlRead($g_hTxtTreasuryGold)
 			$g_iTxtTreasuryElixir = GUICtrlRead($g_hTxtTreasuryElixir)
@@ -615,10 +589,6 @@ Func ApplyConfig_600_6($TypeReadSave)
 			$g_bChkClanGamesAllTimes = (GUICtrlRead($g_hChkClanGamesAllTimes) = $GUI_CHECKED) ? 1 : 0
 			$g_bChkClanGamesNoOneDay = (GUICtrlRead($g_hChkClanGamesNoOneDay) = $GUI_CHECKED) ? 1 : 0
 			$g_bChkClanGamesCollectRewards = (GUICtrlRead($g_hChkClanGamesCollectRewards) = $GUI_CHECKED) ? 1 : 0
-
-			For $i = 0 To UBound($g_iacmbPriorityReward) - 1
-				$g_iacmbPriorityReward[$i] = _GUICtrlComboBox_GetCurSel($g_acmbPriorityReward[$i])
-			Next
 
 			$g_bChkClanGamesLoot = BitAND(GUICtrlRead($g_hChkCGMainLoot), $GUI_CHECKED) ? 1 : 0
 			$g_bChkClanGamesBattle = BitAND(GUICtrlRead($g_hChkCGMainBattle), $GUI_CHECKED) ? 1 : 0
@@ -720,25 +690,12 @@ Func ApplyConfig_600_6($TypeReadSave)
 
 			;Planner
 			$g_bAttackCGPlannerEnable = (GUICtrlRead($g_hChkAttackCGPlannerEnable) = $GUI_CHECKED)
-			$g_bAttackCGPlannerRandomEnable = (GUICtrlRead($g_hChkAttackCGPlannerRandom) = $GUI_CHECKED)
-			$g_iAttackCGPlannerRandomTime = _GUICtrlComboBox_GetCurSel($g_hCmbAttackCGPlannerRandomTime)
-			$g_iAttackCGPlannerRandomProba = _GUICtrlComboBox_GetCurSel($g_hCmbAttackCGPlannerRandomProba)
-			$g_iAttackCGPlannerRandomVariation = _GUICtrlComboBox_GetCurSel($g_hCmbAttackCGPlannerRandomVariation)
 			$g_bAttackCGPlannerDayLimit = (GUICtrlRead($g_hChkAttackCGPlannerDayLimit) = $GUI_CHECKED)
 			$g_iAttackCGPlannerDayMin = GUICtrlRead($g_hCmbAttackCGPlannerDayMin)
 			$g_iAttackCGPlannerDayMax = GUICtrlRead($g_hCmbAttackCGPlannerDayMax)
 			$bCGPlannerThenContinue = (GUICtrlRead($hCGPlannerThenContinue) = $GUI_CHECKED)
 			$bCGPlannerThenStopBot = (GUICtrlRead($hCGPlannerThenStopBot) = $GUI_CHECKED)
 			$g_bChkSTOPWhenCGPointsMax = (GUICtrlRead($g_hChkSTOPWhenCGPointsMax) = $GUI_CHECKED)
-
-			Local $string = ""
-			For $i = 0 To 6
-				$g_abPlannedAttackCGWeekDays[$i] = (GUICtrlRead($g_ahChkAttackCGWeekdays[$i]) = $GUI_CHECKED)
-			Next
-			Local $string = ""
-			For $i = 0 To 23
-				$g_abPlannedattackCGHours[$i] = (GUICtrlRead($g_ahChkAttackCGHours[$i]) = $GUI_CHECKED)
-			Next
 	EndSwitch
 EndFunc   ;==>ApplyConfig_600_6
 
@@ -2680,12 +2637,6 @@ Func ApplyConfig_641_1($TypeReadSave)
 			GUICtrlSetData($g_hTxtAddRandomDelayMin, $g_iTrainAddRandomDelayMin)
 			GUICtrlSetData($g_hTxtAddRandomDelayMax, $g_iTrainAddRandomDelayMax)
 			chkAddDelayIdlePhaseEnable()
-			; Training add random Train Click delay
-			GUICtrlSetState($g_hChkTrainAddRandomClickTimingDelayEnable, $g_bTrainAddRandomClickTimingDelayEnable ? $GUI_CHECKED : $GUI_UNCHECKED)
-			GUICtrlSetData($g_hTxtAddRandomClickTimingDelayMin, $g_iTrainAddRandomClickTimingDelayMin)
-			_GUICtrlComboBox_SetCurSel($g_hTxtAddRandomClickTimingDelayMax, $g_iTrainAddRandomClickTimingDelayMax)
-			chkAddRandomClickTimingDelay()
-			GUICtrlSetState($g_hChkColorfulAttackLog, $g_bChkColorfulAttackLog ? $GUI_CHECKED : $GUI_UNCHECKED)
 		Case "Save"
 			; Training idle time
 			$g_bCloseWhileTrainingEnable = (GUICtrlRead($g_hChkCloseWhileTraining) = $GUI_CHECKED)
@@ -2708,9 +2659,6 @@ Func ApplyConfig_641_1($TypeReadSave)
 			$g_bTrainAddRandomDelayEnable = (GUICtrlRead($g_hChkTrainAddRandomDelayEnable) = $GUI_CHECKED)
 			$g_iTrainAddRandomDelayMin = Int(GUICtrlRead($g_hTxtAddRandomDelayMin))
 			$g_iTrainAddRandomDelayMax = Int(GUICtrlRead($g_hTxtAddRandomDelayMax))
-			; Training add random Train Click delay
-			$g_bTrainAddRandomClickTimingDelayEnable = (GUICtrlRead($g_hChkTrainAddRandomClickTimingDelayEnable) = $GUI_CHECKED)
-			$g_bChkColorfulAttackLog = (GUICtrlRead($g_hChkColorfulAttackLog) = $GUI_CHECKED)
 	EndSwitch
 EndFunc   ;==>ApplyConfig_641_1
 
@@ -2719,7 +2667,6 @@ Func ApplyConfig_MOD_Humanization($TypeReadSave)
 	Switch $TypeReadSave
 		Case "Read"
 			GUICtrlSetState($g_hChkUseBotHumanization, $g_bUseBotHumanization ? $GUI_CHECKED : $GUI_UNCHECKED)
-			GUICtrlSetState($g_hChkLookAtRedNotifications, $g_bLookAtRedNotifications ? $GUI_CHECKED : $GUI_UNCHECKED)
 			GUICtrlSetState($g_IsRefusedFriends, $g_iIsRefusedFriends ? $GUI_CHECKED : $GUI_UNCHECKED)
 			GUICtrlSetState($g_hChkForumRequestOnly, $g_bForumRequestOnly ? $GUI_CHECKED : $GUI_UNCHECKED)
 			GUICtrlSetState($g_hChkUseWelcomeMessage, $g_bUseWelcomeMessage ? $GUI_CHECKED : $GUI_UNCHECKED)
@@ -2727,51 +2674,14 @@ Func ApplyConfig_MOD_Humanization($TypeReadSave)
 			GUICtrlSetData($g_hTxtRequestMessage, StringReplace($g_sRequestMessage, "|", @CRLF))
 			GUICtrlSetData($g_hTxtWelcomeMessage, $g_aWelcomeMessage)
 			chkUseBotHumanization()
-			For $i = 0 To UBound($g_iacmbPriority) - 1
-				_GUICtrlComboBox_SetCurSel($g_acmbPriority[$i], $g_iacmbPriority[$i])
-			Next
-			For $i = 0 To UBound($g_iacmbPriorityBB) - 1
-				_GUICtrlComboBox_SetCurSel($g_acmbPriorityBB[$i], $g_iacmbPriorityBB[$i])
-			Next
-			For $i = 0 To UBound($g_iacmbMaxSpeed) - 1
-				_GUICtrlComboBox_SetCurSel($g_acmbMaxSpeed[$i], $g_iacmbMaxSpeed[$i])
-			Next
-			For $i = 0 To UBound($g_iacmbPause) - 1
-				_GUICtrlComboBox_SetCurSel($g_acmbPause[$i], $g_iacmbPause[$i])
-			Next
-			_GUICtrlComboBox_SetCurSel($g_acmbPriorityChkRaid, $g_iacmbPriorityChkRaid)
-			_GUICtrlComboBox_SetCurSel($g_hCmbMaxActionsNumber, $g_iCmbMaxActionsNumber)
-			_GUICtrlComboBox_SetCurSel($g_HowManyinCWCombo, $g_iHowManyinCWCombo)
-			_GUICtrlComboBox_SetCurSel($g_HowManyinCWLCombo, $g_iHowManyinCWLCombo)
-			cmbStandardReplay()
-			cmbWarReplay()
-			GuiLookatCurrentWar()
-			ViewBattleLog()
 		Case "Save"
 			$g_bUseBotHumanization = (GUICtrlRead($g_hChkUseBotHumanization) = $GUI_CHECKED)
-			$g_bLookAtRedNotifications = (GUICtrlRead($g_hChkLookAtRedNotifications) = $GUI_CHECKED)
 			$g_iIsRefusedFriends = (GUICtrlRead($g_IsRefusedFriends) = $GUI_CHECKED)
 			$g_bForumRequestOnly = (GUICtrlRead($g_hChkForumRequestOnly) = $GUI_CHECKED)
 			$g_sRequestMessage = StringReplace(GUICtrlRead($g_hTxtRequestMessage), @CRLF, "|")
 			$g_bUseWelcomeMessage = (GUICtrlRead($g_hChkUseWelcomeMessage) = $GUI_CHECKED)
 			$g_bChkAcceptAllRequests = (GUICtrlRead($g_hChkAcceptAllRequests) = $GUI_CHECKED)
 			$g_aWelcomeMessage = GUICtrlRead($g_hTxtWelcomeMessage)
-			For $i = 0 To UBound($g_iacmbPriority) - 1
-				$g_iacmbPriority[$i] = _GUICtrlComboBox_GetCurSel($g_acmbPriority[$i])
-			Next
-			For $i = 0 To UBound($g_iacmbPriorityBB) - 1
-				$g_iacmbPriorityBB[$i] = _GUICtrlComboBox_GetCurSel($g_acmbPriorityBB[$i])
-			Next
-			For $i = 0 To UBound($g_iacmbMaxSpeed) - 1
-				$g_iacmbMaxSpeed[$i] = _GUICtrlComboBox_GetCurSel($g_acmbMaxSpeed[$i])
-			Next
-			For $i = 0 To UBound($g_iacmbPause) - 1
-				$g_iacmbPause[$i] = _GUICtrlComboBox_GetCurSel($g_acmbPause[$i])
-			Next
-			$g_iacmbPriorityChkRaid = _GUICtrlComboBox_GetCurSel($g_acmbPriorityChkRaid)
-			$g_iCmbMaxActionsNumber = _GUICtrlComboBox_GetCurSel($g_hCmbMaxActionsNumber)
-			$g_iHowManyinCWCombo = _GUICtrlComboBox_GetCurSel($g_HowManyinCWCombo)
-			$g_iHowManyinCWLCombo = _GUICtrlComboBox_GetCurSel($g_HowManyinCWLCombo)
 	EndSwitch
 EndFunc   ;==>ApplyConfig_MOD_Humanization
 
@@ -2782,51 +2692,26 @@ Func ApplyConfig_MOD_Advanced($TypeReadSave)
 			_GUICtrlComboBox_SetCurSel($g_hChkNoLabCheck, $g_bNoLabCheck)
 			_GUICtrlComboBox_SetCurSel($g_hChkNoStarLabCheck, $g_bNoStarLabCheck)
 			_GUICtrlComboBox_SetCurSel($g_hChkNoPetHouseCheck, $g_bNoPetHouseCheck)
-			_GUICtrlComboBox_SetCurSel($g_hCmbPriorityMagicItemsFrequency, $g_iCmbPriorityMagicItemsFrequency)
 			GUICtrlSetState($g_hChkBBaseFrequency, $g_bChkBBaseFrequency ? $GUI_CHECKED : $GUI_UNCHECKED)
 			_GUICtrlComboBox_SetCurSel($g_hCmbPriorityBBaseFrequency, $g_iCmbPriorityBBaseFrequency)
-			_GUICtrlComboBox_SetCurSel($g_hCmbPriorityPersoChallengesFrequency, $g_iCmbPriorityPersoChallengesFrequency)
-			For $i = 0 To UBound($g_icmbAdvancedVariation) - 1
-				_GUICtrlComboBox_SetCurSel($g_hcmbAdvancedVariation[$i], $g_icmbAdvancedVariation[$i])
-			Next
-			GUICtrlSetState($g_hChkTrophyDropinPause, $g_bChkTrophyDropinPause ? $GUI_CHECKED : $GUI_UNCHECKED)
-			GUICtrlSetState($g_hChkVisitBbaseinPause, $g_bChkVisitBbaseinPause ? $GUI_CHECKED : $GUI_UNCHECKED)
-			GUICtrlSetState($g_hChkPersoChallengesinPause, $g_bChkPersoChallengesinPause ? $GUI_CHECKED : $GUI_UNCHECKED)
-			GUICtrlSetState($g_acmdRandomDelay, $g_iacmdRandomDelay ? $GUI_CHECKED : $GUI_UNCHECKED)
+			_GUICtrlComboBox_SetCurSel($g_hcmbAdvancedVariation, $g_icmbAdvancedVariation)
 			chkRandomPauseDelayEnable()
-			GUICtrlSetData($g_acmdRandomDelayMin, $g_iacmdRandomDelayMin)
-			GUICtrlSetData($g_acmdRandomDelayMax, $g_iacmdRandomDelayMax)
 			GUICtrlSetData($g_hTxtCurrentVillageName, $g_iTxtCurrentVillageName)
 			DisplayChkNoLabCheck()
 			DisplayChkNoStarLabCheck()
 			DisplayChkNoPetHouseCheck()
 			ChkBBaseFrequency()
 			ChkCollectRewards()
-			MagicItemsFrequencyDatas()
 			BBaseFrequencyDatas()
-			PersoChallengesFrequencyDatas()
-			ChkTrophyDropinPause()
-			ChkVisitBbaseinPause()
-			ChkPersoChallengesinPause()
 			LoadCurrentAlias()
 			LoadCurrentProfile()
 		Case "Save"
 			$g_bNoLabCheck = _GUICtrlComboBox_GetCurSel($g_hChkNoLabCheck)
 			$g_bNoStarLabCheck = _GUICtrlComboBox_GetCurSel($g_hChkNoStarLabCheck)
 			$g_bNoPetHouseCheck = _GUICtrlComboBox_GetCurSel($g_hChkNoPetHouseCheck)
-			$g_iCmbPriorityMagicItemsFrequency = _GUICtrlComboBox_GetCurSel($g_hCmbPriorityMagicItemsFrequency)
-			$g_bChkPersoChallengesinPause = (GUICtrlRead($g_hChkPersoChallengesinPause) = $GUI_CHECKED)
 			$g_iCmbPriorityBBaseFrequency = _GUICtrlComboBox_GetCurSel($g_hCmbPriorityBBaseFrequency)
-			$g_iCmbPriorityPersoChallengesFrequency = _GUICtrlComboBox_GetCurSel($g_hCmbPriorityPersoChallengesFrequency)
-			For $i = 0 To UBound($g_icmbAdvancedVariation) - 1
-				$g_icmbAdvancedVariation[$i] = _GUICtrlComboBox_GetCurSel($g_hcmbAdvancedVariation[$i])
-			Next
+			$g_icmbAdvancedVariation = _GUICtrlComboBox_GetCurSel($g_hcmbAdvancedVariation)
 			$g_bChkBBaseFrequency = (GUICtrlRead($g_hChkBBaseFrequency) = $GUI_CHECKED)
-			$g_bChkTrophyDropinPause = (GUICtrlRead($g_hChkTrophyDropinPause) = $GUI_CHECKED)
-			$g_bChkVisitBbaseinPause = (GUICtrlRead($g_hChkVisitBbaseinPause) = $GUI_CHECKED)
-			$g_iacmdRandomDelay = (GUICtrlRead($g_acmdRandomDelay) = $GUI_CHECKED)
-			$g_iacmdRandomDelayMin = GUICtrlRead($g_acmdRandomDelayMin)
-			$g_iacmdRandomDelayMax = GUICtrlRead($g_acmdRandomDelayMax)
 			$g_iTxtCurrentVillageName = GUICtrlRead($g_hTxtCurrentVillageName)
 	EndSwitch
 EndFunc   ;==>ApplyConfig_MOD_Advanced

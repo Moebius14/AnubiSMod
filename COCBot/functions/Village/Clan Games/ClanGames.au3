@@ -82,12 +82,6 @@ Func _ClanGames($test = False, $HaltMode = False)
 					SetLog("It's A Brand New Day ! Reset Max Clan Games Challenges", $COLOR_ERROR)
 					SetLog("Max Clan Games Challenges Today : " & $iRandomAttackCGCountToday & "", $COLOR_ERROR)
 				EndIf
-				If $g_iTxtCurrentVillageName <> "" Then
-					GUICtrlSetData($g_hTxtCGRandomLog, @CRLF & _NowTime() & " [" & $g_iTxtCurrentVillageName & "] Max Clan Games Challenges Today : " & $iRandomAttackCGCountToday & "", 1)
-				Else
-					GUICtrlSetData($g_hTxtCGRandomLog, @CRLF & _NowTime() & " [" & $g_sProfileCurrentName & "] Max Clan Games Challenges Today : " & $iRandomAttackCGCountToday & "", 1)
-				EndIf
-				_FileWriteLog($g_sProfileLogsPath & "\CGRALog.log", " [" & $g_sProfileCurrentName & "] - Max Clan Games Challenges Today : " & $iRandomAttackCGCountToday & "")
 			EndIf
 			CloseWindow()
 		EndIf
@@ -2206,48 +2200,48 @@ Func CollectClanGamesRewards($bTest = False)
 		Return False
 	EndIf
 
-	Local $aRewardsList[41][2] = [ _  ; books-1, Research\Builder Pots-2, gems-3, runes-4, shovel-5,  50gems-6, all other Pots - 7, wall rings-8, 10gems - 9
-			["BookOfEverything", $g_iacmbPriorityReward[11]], _
-			["BookOfHero", $g_iacmbPriorityReward[11]], _
-			["BookOfFighting", $g_iacmbPriorityReward[11]], _
-			["BookOfBuilding", $g_iacmbPriorityReward[11]], _
-			["BookOfSpell", $g_iacmbPriorityReward[11]], _
-			["Gems", $g_iacmbPriorityReward[0]], _
-			["RuneOfGold", $g_iacmbPriorityReward[13]], _
-			["RuneOfElixir", $g_iacmbPriorityReward[13]], _
-			["RuneOfDarkElixir", $g_iacmbPriorityReward[14]], _
-			["RuneOfBuilderGold", $g_iacmbPriorityReward[16]], _
-			["RuneOfBuilderElixir", $g_iacmbPriorityReward[16]], _
-			["Shovel", $g_iacmbPriorityReward[4]], _
-			["FullBookOfEverything", $g_iacmbPriorityReward[12]], _
-			["FullBookOfHero", $g_iacmbPriorityReward[12]], _
-			["FullBookOfFighting", $g_iacmbPriorityReward[12]], _
-			["FullBookOfBuilding", $g_iacmbPriorityReward[12]], _
-			["FullBookOfSpell", $g_iacmbPriorityReward[12]], _
-			["FullRuneOfGold", $g_iacmbPriorityReward[21]], _
-			["FullRuneOfElixir", $g_iacmbPriorityReward[21]], _
-			["FullRuneOfDarkElixir", $g_iacmbPriorityReward[15]], _
-			["FullRuneOfBuilderGold", $g_iacmbPriorityReward[17]], _
-			["FullRuneOfBuilderElixir", $g_iacmbPriorityReward[17]], _
-			["FullShovel", $g_iacmbPriorityReward[5]], _
-			["FullWallRing", $g_iacmbPriorityReward[10]], _
-			["WallRing", $g_iacmbPriorityReward[9]], _
-			["PotBuilder", $g_iacmbPriorityReward[2]], _
-			["PotResearch", $g_iacmbPriorityReward[6]], _
-			["PotClock", $g_iacmbPriorityReward[3]], _
-			["PotBoost", $g_iacmbPriorityReward[18]], _
-			["PotHero", $g_iacmbPriorityReward[1]], _
-			["PotResources", $g_iacmbPriorityReward[19]], _
-			["PotPower", $g_iacmbPriorityReward[7]], _
-			["PotSuper", $g_iacmbPriorityReward[20]], _
-			["FullPotBuilder", $g_iacmbPriorityReward[8]], _
-			["FullPotResearch", $g_iacmbPriorityReward[8]], _
-			["FullPotClock", $g_iacmbPriorityReward[8]], _
-			["FullPotBoost", $g_iacmbPriorityReward[8]], _
-			["FullPotHero", $g_iacmbPriorityReward[8]], _
-			["FullPotResources", $g_iacmbPriorityReward[8]], _
-			["FullPotPower", $g_iacmbPriorityReward[8]], _
-			["FullPotSuper", $g_iacmbPriorityReward[8]]]
+	Local $aRewardsList[41][2] = [ _  ; books-1, gems-2, runes-3, shovel-4,  50gems-5, wall rings-6, full wall - 7, all other Pots - 8, 10gems - 9
+			["BookOfEverything", 10], _
+			["BookOfHero", 10], _
+			["BookOfFighting", 10], _
+			["BookOfBuilding", 10], _
+			["BookOfSpell", 10], _
+			["Gems", 20], _
+			["RuneOfGold", 30], _
+			["RuneOfElixir", 30], _
+			["RuneOfDarkElixir", 30], _
+			["RuneOfBuilderGold", 30], _
+			["RuneOfBuilderElixir", 30], _
+			["Shovel", 40], _
+			["FullBookOfEverything", 50], _ ; 50 gems
+			["FullBookOfHero", 50], _        ; 50 gems
+			["FullBookOfFighting", 50], _    ; 50 gems
+			["FullBookOfBuilding", 50], _    ; 50 gems
+			["FullBookOfSpell", 50], _        ; 50 gems
+			["FullRuneOfGold", 60], _        ; 50 gems
+			["FullRuneOfElixir", 60], _    ; 50 gems
+			["FullRuneOfDarkElixir", 60], _ ; 50 gems
+			["FullRuneOfBuilderGold", 60], _ ; 50 gems
+			["FullRuneOfBuilderElixir", 60], _ ; 50 gems
+			["FullShovel", 70], _            ; 50 gems
+			["FullWallRing", 70], _        ; ? gem
+			["WallRing", 70], _
+			["PotBuilder", 80], _
+			["PotResearch", 80], _
+			["PotClock", 80], _
+			["PotBoost", 80], _
+			["PotHero", 80], _
+			["PotResources", 80], _
+			["PotPower", 80], _
+			["PotSuper", 80], _
+			["FullPotBuilder", 90], _        ; 10 gems
+			["FullPotResearch", 90], _        ; 10 gems
+			["FullPotClock", 90], _        ; 10 gems
+			["FullPotBoost", 90], _        ; 10 gems
+			["FullPotHero", 90], _            ; 10 gems
+			["FullPotResources", 90], _    ; 10 gems
+			["FullPotPower", 90], _        ; 10 gems
+			["FullPotSuper", 90]]          ; 10 gems
 
 	Local $aiColumn[4] = [276, 246, 348, 453]
 	Local $aColWinOffColors[1][3] = [[0xD2D259, 2, 0]]
@@ -2267,6 +2261,36 @@ Func CollectClanGamesRewards($bTest = False)
 	EndIf
 
 	If $g_bDebugImageSave Then SaveDebugImage("ClanGamesRewardsWindow", False)
+
+	Local $sIniPath = $g_sProfilePath & "\" & $g_sProfileCurrentName & "\ClanGamesRewards.ini"
+	Local $ResultIni
+
+	Setlog(" - Ini Path: " & $sIniPath)
+
+	If Not FileExists($sIniPath) Then
+		; Write INI File
+		Local $File = FileOpen($sIniPath, $FO_APPEND)
+		Local $HelpText = "; - MyBotRun - Clan Games Rewards Priority List 2023 - " & @CRLF & _
+				"; - 'Reward' = 'Priority' [1 to 99][highest to lowest] , if grouped then random from group" & @CRLF & _
+				"; - Do not change any Reward name" & @CRLF & _
+				"; - Deleting this file will restore the default values." & @CRLF & @CRLF
+		FileWrite($File, $HelpText)
+		FileClose($File)
+
+		For $j = 0 To UBound($aRewardsList) - 1
+			IniWrite($sIniPath, "Rewards", $aRewardsList[$j][0], $aRewardsList[$j][1])
+			SetLog($aRewardsList[$j][0] & " - " & $aRewardsList[$j][1])
+			If _sleep(50) Then Return
+		Next
+	Else
+		For $j = 0 To UBound($aRewardsList) - 1
+			$ResultIni = Int(IniRead($sIniPath, "Rewards", $aRewardsList[$j][0], $aRewardsList[$j][1]))
+			$aRewardsList[$j][1] = Number($ResultIni)
+			SetLog($aRewardsList[$j][0] & " - " & $aRewardsList[$j][1] & " Result " & $ResultIni)
+			If _sleep(50) Then Return
+			$ResultIni = ""
+		Next
+	EndIf
 
 	Local $i = 0
 	Local $bLoop = True
@@ -2589,3 +2613,77 @@ Func UTCTimeCG()
 	EndIf
 	Return False
 EndFunc   ;==>UTCTimeCG
+
+Func CreateCGRewardsFile()
+	Local $aRewardsList[41][2] = [ _  ; books-1, gems-2, runes-3, shovel-4,  50gems-5, wall rings-6, full wall - 7, all other Pots - 8, 10gems - 9
+			["BookOfEverything", 10], _
+			["BookOfHero", 10], _
+			["BookOfFighting", 10], _
+			["BookOfBuilding", 10], _
+			["BookOfSpell", 10], _
+			["Gems", 20], _
+			["RuneOfGold", 30], _
+			["RuneOfElixir", 30], _
+			["RuneOfDarkElixir", 30], _
+			["RuneOfBuilderGold", 30], _
+			["RuneOfBuilderElixir", 30], _
+			["Shovel", 40], _
+			["FullBookOfEverything", 50], _ ; 50 gems
+			["FullBookOfHero", 50], _        ; 50 gems
+			["FullBookOfFighting", 50], _    ; 50 gems
+			["FullBookOfBuilding", 50], _    ; 50 gems
+			["FullBookOfSpell", 50], _        ; 50 gems
+			["FullRuneOfGold", 60], _        ; 50 gems
+			["FullRuneOfElixir", 60], _    ; 50 gems
+			["FullRuneOfDarkElixir", 60], _ ; 50 gems
+			["FullRuneOfBuilderGold", 60], _ ; 50 gems
+			["FullRuneOfBuilderElixir", 60], _ ; 50 gems
+			["FullShovel", 70], _            ; 50 gems
+			["FullWallRing", 70], _        ; ? gem
+			["WallRing", 70], _
+			["PotBuilder", 80], _
+			["PotResearch", 80], _
+			["PotClock", 80], _
+			["PotBoost", 80], _
+			["PotHero", 80], _
+			["PotResources", 80], _
+			["PotPower", 80], _
+			["PotSuper", 80], _
+			["FullPotBuilder", 90], _        ; 10 gems
+			["FullPotResearch", 90], _        ; 10 gems
+			["FullPotClock", 90], _        ; 10 gems
+			["FullPotBoost", 90], _        ; 10 gems
+			["FullPotHero", 90], _            ; 10 gems
+			["FullPotResources", 90], _    ; 10 gems
+			["FullPotPower", 90], _        ; 10 gems
+			["FullPotSuper", 90]]          ; 10 gems
+
+	Local $sIniPath = $g_sProfilePath & "\" & $g_sProfileCurrentName & "\ClanGamesRewards.ini"
+	Local $ResultIni
+
+	Setlog(" - Ini Path: " & $sIniPath)
+
+	If Not FileExists($sIniPath) Then
+		; Write INI File
+		Local $File = FileOpen($sIniPath, $FO_APPEND)
+		Local $HelpText = "; - MyBotRun - Clan Games Rewards Priority List 2023 - " & @CRLF & _
+				"; - 'Reward' = 'Priority' [1 to 99][highest to lowest] , if grouped then random from group" & @CRLF & _
+				"; - Do not change any Reward name" & @CRLF & _
+				"; - Deleting this file will restore the default values." & @CRLF & @CRLF
+		FileWrite($File, $HelpText)
+		FileClose($File)
+
+		For $j = 0 To UBound($aRewardsList) - 1
+			IniWrite($sIniPath, "Rewards", $aRewardsList[$j][0], $aRewardsList[$j][1])
+			SetLog($aRewardsList[$j][0] & " - " & $aRewardsList[$j][1])
+		Next
+	Else
+		For $j = 0 To UBound($aRewardsList) - 1
+			$ResultIni = Int(IniRead($sIniPath, "Rewards", $aRewardsList[$j][0], $aRewardsList[$j][1]))
+			$aRewardsList[$j][1] = Number($ResultIni)
+			SetLog($aRewardsList[$j][0] & " - " & $aRewardsList[$j][1] & " Result " & $ResultIni)
+			$ResultIni = ""
+		Next
+	EndIf
+
+EndFunc

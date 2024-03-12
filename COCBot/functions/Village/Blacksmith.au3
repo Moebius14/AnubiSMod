@@ -142,12 +142,12 @@ Func Blacksmith($bTest = False)
 					SetLog("BlackSmith level 6 needed, looking next", $COLOR_SUCCESS)
 					ContinueLoop
 				EndIf
-			Case 16 ; Hog Rider Puppet
+			Case 17 ; Hog Rider Puppet
 				If $BuildingInfo[2] < 7 Then
 					SetLog("BlackSmith level 7 needed, looking next", $COLOR_SUCCESS)
 					ContinueLoop
 				EndIf
-			Case 17 ; Haste Vial
+			Case 18 ; Haste Vial
 				If $BuildingInfo[2] < 8 Then
 					SetLog("BlackSmith level 8 needed, looking next", $COLOR_SUCCESS)
 					ContinueLoop

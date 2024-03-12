@@ -83,6 +83,7 @@ Func GUIDropOrder()
 EndFunc   ;==>GUIDropOrder
 
 Func BtnRemoveDropOrder()
+	Local $bWasRedraw = SetRedrawBotWindow(False, Default, Default, Default, "BtnRemoveDropOrder")
 	Local $sComboData = ""
 	For $j = 0 To UBound($g_asDropOrderList) - 1
 		$sComboData &= $g_asDropOrderList[$j] & "|"
@@ -96,9 +97,11 @@ Func BtnRemoveDropOrder()
 	GUICtrlSetState($g_hBtnDropOrderSet, $GUI_DISABLE)
 	_GUICtrlSetImage($g_ahImgDropOrderSet, $g_sLibIconPath, $eIcnSilverStar)
 	SetDefaultDropOrderGroup(False)
+	SetRedrawBotWindow($bWasRedraw, Default, Default, Default, "BtnRemoveDropOrder")
 EndFunc   ;==>BtnRemoveDropOrder
 
 Func BtnDropOrderSet()
+	Local $bWasRedraw = SetRedrawBotWindow(False, Default, Default, Default, "BtnDropOrderSet")
 	Local $bReady = True ; Initialize ready to record troop order flag
 	Local $sNewDropList = ""
 
@@ -160,6 +163,7 @@ Func BtnDropOrderSet()
 		SetLog("Must use all troops and No duplicate troop names!", $COLOR_ERROR)
 		_GUICtrlSetImage($g_ahImgDropOrderSet, $g_sLibIconPath, $eIcnRedLight)
 	EndIf
+	SetRedrawBotWindow($bWasRedraw, Default, Default, Default, "BtnDropOrderSet")
 EndFunc   ;==>BtnDropOrderSet
 
 Func IsUseCustomDropOrder()

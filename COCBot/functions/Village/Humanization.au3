@@ -1374,7 +1374,7 @@ Func GetReplayDuration($g_iReplayToPause) ; will work with this but can update t
 		Case 3, 4
 			Global $MaxSpeedrandom2 = 4
 	EndSwitch
-	Local $MaxSpeed = _GUICtrlComboBox_GetCurSel($g_acmbMaxSpeed[$g_iReplayToPause])
+	Local $MaxSpeed = $g_iacmbMaxSpeed[$g_iReplayToPause]
 	If $MaxSpeed = 3 Then
 		Switch $MaxSpeedrandom2
 			Case 4
@@ -1385,7 +1385,7 @@ Func GetReplayDuration($g_iReplayToPause) ; will work with this but can update t
 				$MaxSpeed = 0
 		EndSwitch
 	ElseIf $MaxSpeed < 3 Then
-		$MaxSpeed = _GUICtrlComboBox_GetCurSel($g_acmbMaxSpeed[$g_iReplayToPause])
+		$MaxSpeed = $g_iacmbMaxSpeed[$g_iReplayToPause]
 	EndIf
 	Local $bResult = QuickMIS("N1", $g_sImgHumanizationDuration, 375, 535 + $g_iBottomOffsetY, 430, 570 + $g_iBottomOffsetY)
 	If $bResult = "OneMinute" Then
@@ -1412,7 +1412,7 @@ EndFunc   ;==>GetReplayDuration
 
 Func AccelerateReplay($g_iReplayToPause)
 	Local $CurrentSpeed = 0
-	Local $MaxSpeed = _GUICtrlComboBox_GetCurSel($g_acmbMaxSpeed[$g_iReplayToPause])
+	Local $MaxSpeed = $g_iacmbMaxSpeed[$g_iReplayToPause]
 	If $MaxSpeed = 3 Then
 		Switch $MaxSpeedrandom2
 			Case 4
@@ -1424,7 +1424,7 @@ Func AccelerateReplay($g_iReplayToPause)
 		EndSwitch
 		SetLog("Replay Speed : " & $MaxSpeedrandom2 & "X", $COLOR_OLIVE)
 	ElseIf $MaxSpeed < 3 Then
-		$MaxSpeed = _GUICtrlComboBox_GetCurSel($g_acmbMaxSpeed[$g_iReplayToPause])
+		$MaxSpeed = $g_iacmbMaxSpeed[$g_iReplayToPause]
 		Local $ReplaySpeed = 0
 		Switch $MaxSpeed
 			Case 2
@@ -1446,7 +1446,7 @@ EndFunc   ;==>AccelerateReplay
 
 Func DoAPauseDuringReplay($g_iReplayToPause)
 	Local $MinimumToPause = 0, $PauseScore = 0
-	Local $Pause = _GUICtrlComboBox_GetCurSel($g_acmbPause[0])
+	Local $Pause = $g_iacmbPause
 	If $Pause <> 0 Then
 		Switch $Pause
 			Case 1
