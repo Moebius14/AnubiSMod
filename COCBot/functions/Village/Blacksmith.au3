@@ -72,12 +72,12 @@ Func Blacksmith($bTest = False)
 	BuildingClickP($g_aiBlacksmithPos, "#0197")
 
 	If Not $g_bRunState Then Return
-	If _Sleep(1500) Then Return ; Wait for window to open
+	If _Sleep(1500) Then Return ; Wait for buttons to appear
 
 	Local $BuildingInfo = BuildingInfo(242, 468 + $g_iBottomOffsetY)
 	SetLog("Blacksmith is level " & $BuildingInfo[2])
 
-	If Not FindBSButton() Then
+	If Not FindBSButton(False) Then
 		ClickAway()
 		If _Sleep(1000) Then Return
 		BuildingClickP($g_aiBlacksmithPos, "#0197") ; Click Blacksmith again. Case when new equipment is gained.
@@ -351,14 +351,14 @@ Func Blacksmith($bTest = False)
 	If _Sleep(500) Then Return
 EndFunc   ;==>Blacksmith
 
-Func FindBSButton()
+Func FindBSButton($bSetLog = True)
 	Local $aEquipmentButton = findButton("Equipment", Default, 1, True)
 	If IsArray($aEquipmentButton) And UBound($aEquipmentButton, 1) = 2 Then
 		ClickP($aEquipmentButton)
 		If _Sleep(1000) Then Return ; Wait for window to open
 		Return True
 	Else
-		SetLog("Cannot find Equipment Button!", $COLOR_ERROR)
+		SetLog("Cannot find Equipment Button" & ($bSetLog = True ? "" : " on first try") & "!", $COLOR_ERROR)
 		If $g_bDebugImageSave Then SaveDebugImage("EquipmentButton") ; Debug Only
 		ClickAway()
 		Return False

@@ -395,7 +395,7 @@ Func SwitchCOCAcc($NextAccount)
 	CheckObstacles()
 
 	SetLog("Switch Account Load Town Hall Level : " & $g_iTownHallLevel)
-	GUICtrlSetData($g_hGrpVillageName, GetTranslatedFileIni("MBR Main GUI", "Tab_03", "Profile") & ": " & $g_sProfileCurrentName)
+	GUICtrlSetData($g_hGrpVillageName, GetTranslatedFileIni("MBR Main GUI", "Tab_07", "Profile") & ": " & $g_sProfileCurrentName)
 	GUICtrlSetData($g_hGrpVillage, GetTranslatedFileIni("MBR Main GUI", "Tab_02", "Village") & "[TH" & $g_iTownHallLevel & "]" & " : " & $g_iTxtCurrentVillageName)
 
 	runBot()

@@ -341,7 +341,7 @@ Func CreateAttackSearchActiveBaseSearch()
 
 	$y += 24
 	$g_ahChkMaxMultiArcher[$LB] = GUICtrlCreateCheckbox("", $x, $y, 17, 17)
-	_GUICtrlSetTip(-1, GetTranslatedFileIni("MBR GUI Design Child Attack - Search", "ChkMaxXBow", "Search for a base that has Multi-Archer Tower below or equal this level"))
+	_GUICtrlSetTip(-1, GetTranslatedFileIni("MBR GUI Design Child Attack - Search", "ChkMaxMultiArch", "Search for a base that has Multi-Archer Tower below or equal this level"))
 	GUICtrlSetOnEvent(-1, "chkABWeakBase")
 	$g_ahCmbWeakMultiArcher[$LB] = GUICtrlCreateCombo("", $x + 19, $y, 54, -1, BitOR($CBS_DROPDOWNLIST, $CBS_AUTOHSCROLL))
 	$sTxtTip = GetTranslatedFileIni("MBR GUI Design Child Attack - Search", "CmbMaxMultiArcher_Info_01", "Set the Max. level of the Multi-Archer Tower to search for on a village to attack.")
@@ -402,7 +402,7 @@ Func CreateAttackSearchActiveBaseSearch()
 
 	$y += 24
 	$g_ahChkMaxRicochet[$LB] = GUICtrlCreateCheckbox("", $x, $y, 17, 17)
-	_GUICtrlSetTip(-1, GetTranslatedFileIni("MBR GUI Design Child Attack - Search", "ChkMaxXBow", "Search for a base that has Ricochet Cannon below or equal this level"))
+	_GUICtrlSetTip(-1, GetTranslatedFileIni("MBR GUI Design Child Attack - Search", "ChkMaxRicochet", "Search for a base that has Ricochet Cannon below or equal this level"))
 	GUICtrlSetOnEvent(-1, "chkABWeakBase")
 	$g_ahCmbWeakRicochet[$LB] = GUICtrlCreateCombo("", $x + 19, $y, 54, -1, BitOR($CBS_DROPDOWNLIST, $CBS_AUTOHSCROLL))
 	$sTxtTip = GetTranslatedFileIni("MBR GUI Design Child Attack - Search", "CmbMaxRicochet_Info_01", "Set the Max. level of the Ricochet Cannon to search for on a village to attack.")

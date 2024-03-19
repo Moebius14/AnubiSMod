@@ -559,14 +559,12 @@ Global Enum $eIcnArcher = 1, $eIcnDonArcher, $eIcnBalloon, $eIcnDonBalloon, $eIc
 		$eIcnSeekingShield, $eIcnGauntlet, $eIcnBlacksmith, $eIcnMultiArcher, $eIcnRicochet, $eIcnFrozenArrow, $eIcnHogPuppet, $eIcnHasteVial, $eIcnOvergrowthSpell, $eIcnFireball
 
 ; enumerated Icons 1-based index to IconLibMod
-Global Enum $eIcnVillager = 1, $eIcnModCWL, $eIcnModZZZ, $eIcnHumanization, $eIcnGUIMod, $eIcnBell, $g_sIcnTrader, $eIcnAnubisMod, $eIcnStorm1Mod, $eIcnStorm2Mod, $eIcnForecast, $eIcnStop, $eIcnChrono, $eIcnModForecastBoost, _
-		$eIcnDebugMod, $eIcnAdvanced, $eIcnModRecycle, $eIcnModColorfulSetlog, $eIcnModRandomClose, $eIcnModLog, $eIcnChallenge, $eIcnModCW, $eIcnPing, $eIcnModBuilderPotion, $eIcnModClockPotion, $eIcnModPowerPotion, _
-		$eIcnModResearchPotion, $eIcnModResourcePotion, $eIcnModSuperPotion, $eIcnModTrainingPotion, $eIcnModHeroPotion, $eIcnModShovel, $eIcnModWallRing, $eIcnModBuildingBook, $eIcnModSpellBook, $eIcnModBBElixirRune, _
-		$eIcnModBBGoldRune, $eIcnModElixirRune, $eIcnModDarkElixirRune, $eIcnModCCArmyCamp, $eIcnModCCBarrack, $eIcnModCCSpellFactory, $eIcnModCCSpellStorage, $eIcnModCCCapitalHall, $eIcnModCCDistrictHall, _
-		$eIcnModCCWall1, $eIcnModCCWall5, $eIcnModCCBigBarb, $eIcnModCCBoulder, $eIcnModCCForest, $eIcnModCCGreatPyre, $eIcnModCCGrove, $eIcnModCCPillar, $eIcnModCCBarrackRuin, $eIcnModCCBowBlastRuin, $eIcnModCCBombTowerRuin, _
-		$eIcnModCCSwizardtowerRuin, $eIcnModCCWall2, $eIcnModCCWall3, $eIcnModGoldRune, $eIcnModHeroBook, $eIcnCCSleep, $eIcnCCWake, $eIcnModCCPrioritized, $eIcnCWLChampion, $eIcnPriority, _
+Global Enum $eIcnModZZZ = 1, $eIcnHumanization, $eIcnGUIMod, $eIcnBell, $eIcnDebugMod, $eIcnModRandomClose, $eIcnModLog, $eIcnChallenge, $eIcnModCW, $eIcnModBuilderPotion, _
+		$eIcnModClockPotion, $eIcnModPowerPotion, $eIcnModResearchPotion, $eIcnModTrainingPotion, $eIcnModWallRing, $eIcnModSpellBook, _
+		$eIcnModCCArmyCamp, $eIcnModCCBarrack, $eIcnModCCSpellFactory, $eIcnModCCSpellStorage, $eIcnModCCCapitalHall, $eIcnModCCDistrictHall, _
+		$eIcnModCCWall1, $eIcnModCCWall5, $eIcnModCCBigBarb, $eIcnModCCBoulder, $eIcnModCCForest, $eIcnModCCGreatPyre, $eIcnModCCGrove, $eIcnModCCPillar, $eIcnModCCBarrackRuin, $eIcnModCCBowBlastRuin, _
+		$eIcnModCCBombTowerRuin, $eIcnModCCSwizardtowerRuin, $eIcnModCCWall2, $eIcnModCCWall3, $eIcnModHeroBook, $eIcnModCCPrioritized, $eIcnCWLChampion, $eIcnPriority, _
 		$eIcnGiantSkeleton, $eIcnRoyalGhost, $eIcnPartyWizard, $eIcnIceWizard, $eIcnAllSpell, $eIcnAllSiege, $eIcnModFightingBook, $eIcnModEverythingBook, $eIcnModPetPotion, $eIcnModBuilderJar
-
 Global $eIcnDonBlank = $eIcnDonBlacklist
 Global $eIcnOptions = $eIcnDonBlacklist
 Global $eIcnAchievements = $eIcnMain
@@ -2120,11 +2118,11 @@ Global $g_bFirstStartForStarLab = 0, $g_bNoStarLabCheck = 0
 Global $g_bFirstStartForPetHouse = 0, $g_bNoPetHouseCheck = 2
 Global $IstoRecheckTrader = 0
 Global $BBaseCheckTimer = 0, $DelayReturnedtocheckBBaseMS = 0, $IstoSwitchMod = 0
-Global $g_iCmbPriorityBBaseFrequency = 3, $g_bChkBBaseFrequency = False
+Global $g_iCmbPriorityBBaseFrequency = 4, $g_bChkBBaseFrequency = False
 Global $g_iCmbPriorityPersoChallengesFrequency = 0
 Global $IsToCheckdiff[8], $asLastTimeCheckedforChallenges[8], $DelayPersoChallengesMn[8], $IsToCheckBeforeStop = False
 Global $g_icmbAdvancedVariation = 3
-Global $g_bChkTrophyDropinPause = True, $g_iacmdRandomDelayMin = 5, $g_iacmdRandomDelayMax = 25, $g_iacmdRandomDelayFinal = 0
+Global $g_bChkTrophyDropinPause = True, $g_iacmdRandomDelayMin = 5, $g_iacmdRandomDelayMax = 20
 Global $IsKingReadyForDropTrophies = 0, $IsQueenReadyForDropTrophies = 0, $IsWardenReadyForDropTrophies = 0, $IsChampionReadyForDropTrophies = 0
 Global $g_bChkVisitBbaseinPause = True, $g_bChkPersoChallengesinPause = True
 Global $g_bFirstStartAccountFMI = 0, $g_bFirstStartAccountSBB = 0
@@ -2219,7 +2217,7 @@ Global Const $g_afRefVillage[$eTreeCount][10] = [ _
 		[606.96375086645, 21, 838, 36, 650, 606.96375086645, 50, 50, 42, 42], _      ; GH partial
 		[507.949945330315, 32, 820, 48, 640, 507.949945330315, 50, 50, 42, 42], _    ; GB partial
 		[525.707398061038, 30, 826, 53, 655, 525.707398061038, 50, 50, 42, 42], _    ; DP partial
-		[408.192438919731, 114, 782, 94, 592, 408.192438919731, 50, 50, 42, 42], _   ; SC partial
+		[481.05121550662, 28, 832, 50, 652, 481.05121550662, 50, 50, 42, 42], _      ; SC partial
 		[376.2247294568, 114, 724, 152, 610, 376.2247294568, 50, 46, 38, 42], _      ; BB partial
 		[440.179472132523, 120, 732, 152, 608, 440.179472132523, 50, 46, 38, 42], _  ; OO partial
 		[379.741811787463, 130, 728, 162, 608, 379.741811787463, 50, 46, 38, 42], _  ; CR partial

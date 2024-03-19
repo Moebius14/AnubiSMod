@@ -318,7 +318,7 @@ Func BuilderJar()
 				Else
 					GUICtrlSetData($g_hTxtModLog, @CRLF & _NowTime() & " [" & $g_sProfileCurrentName & "] Stars Unlocked " & $ActionForModLog, 1)
 				EndIf
-				_FileWriteLog($g_sProfileLogsPath & "\ModLog.log", " [" & $g_sProfileCurrentName & "] - Stars Unlocked " & $ActionForModLog & "")
+				_FileWriteLog($g_sProfileLogsPath & "\ModLog.log", " [" & $g_sProfileCurrentName & "] - Stars Unlocked " & $ActionForModLog)
 			Else
 				SetLog("No Confirm Button Found", $COLOR_DEBUG)
 			EndIf

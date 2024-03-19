@@ -902,11 +902,11 @@ Func runBot() ;Bot that runs everything in order
 					If $IstoSwitchMod Then
 						$ActionForModLog = "Switch To Builder Base - BB Event Detected"
 						If $g_iTxtCurrentVillageName <> "" Then
-							GUICtrlSetData($g_hTxtModLog, @CRLF & _NowTime() & " [" & $g_iTxtCurrentVillageName & "] Avanced : " & $ActionForModLog & "", 1)
+							GUICtrlSetData($g_hTxtModLog, @CRLF & _NowTime() & " [" & $g_iTxtCurrentVillageName & "] " & $ActionForModLog, 1)
 						Else
-							GUICtrlSetData($g_hTxtModLog, @CRLF & _NowTime() & " [" & $g_sProfileCurrentName & "] Avanced : " & $ActionForModLog & "", 1)
+							GUICtrlSetData($g_hTxtModLog, @CRLF & _NowTime() & " [" & $g_sProfileCurrentName & "] " & $ActionForModLog, 1)
 						EndIf
-						_FileWriteLog($g_sProfileLogsPath & "\ModLog.log", " [" & $g_sProfileCurrentName & "] - Advanced : " & $ActionForModLog & "")
+						_FileWriteLog($g_sProfileLogsPath & "\ModLog.log", " [" & $g_sProfileCurrentName & "] " & $ActionForModLog)
 						BuilderBase()
 						If $bChkUseOnlyCCMedals Then
 							Local $aRndFuncList = ['DonateCC,Train']
@@ -998,6 +998,20 @@ Func runBot() ;Bot that runs everything in order
 		Else ;When error occurs directly goes to attack
 			Local $sRestartText = $g_bIsSearchLimit ? " due search limit" : " after Out of Sync Error: Attack Now"
 			If $IsAttackStarted Then $sRestartText = " After Taking Too Much Time To Click Next Button"
+			If $g_bIsSearchLimit And $IsNewAttack Then
+				If Not $g_bRunState Then Return
+				IschkAddRandomClickTimingDelay2()
+				IschkAddRandomClickTimingDelay1()
+				TrainSystem()
+				If Not $g_bRunState Then Return
+				SetDebugLog("Are you ready? " & String($g_bIsFullArmywithHeroesAndSpells))
+				If Not $g_bIsFullArmywithHeroesAndSpells Then
+					$g_bIsClientSyncError = False
+					$g_bIsSearchLimit = False
+					$IsAttackStarted = False
+					ContinueLoop
+				EndIf
+			EndIf
 			SetLog("Restarted" & $sRestartText, $COLOR_INFO)
 			;Use "CheckDonateOften" setting to run loop on hitting SearchLimit
 			If $g_bIsSearchLimit And $g_bCheckDonateOften Then
@@ -1232,11 +1246,11 @@ Func AttackMain() ;Main control for attack functions
 					If $IstoSwitchMod Then
 						$ActionForModLog = "Switch To Builder Base - BB Event Detected"
 						If $g_iTxtCurrentVillageName <> "" Then
-							GUICtrlSetData($g_hTxtModLog, @CRLF & _NowTime() & " [" & $g_iTxtCurrentVillageName & "] Avanced : " & $ActionForModLog & "", 1)
+							GUICtrlSetData($g_hTxtModLog, @CRLF & _NowTime() & " [" & $g_iTxtCurrentVillageName & "] " & $ActionForModLog, 1)
 						Else
-							GUICtrlSetData($g_hTxtModLog, @CRLF & _NowTime() & " [" & $g_sProfileCurrentName & "] Avanced : " & $ActionForModLog & "", 1)
+							GUICtrlSetData($g_hTxtModLog, @CRLF & _NowTime() & " [" & $g_sProfileCurrentName & "] " & $ActionForModLog, 1)
 						EndIf
-						_FileWriteLog($g_sProfileLogsPath & "\ModLog.log", " [" & $g_sProfileCurrentName & "] - Advanced : " & $ActionForModLog & "")
+						_FileWriteLog($g_sProfileLogsPath & "\ModLog.log", " [" & $g_sProfileCurrentName & "] " & $ActionForModLog)
 						BuilderBase()
 						If $bChkUseOnlyCCMedals Then
 							Local $aRndFuncList = ['DonateCC,Train']
@@ -1458,11 +1472,11 @@ Func __RunFunction($action)
 			If $g_bChkBBaseFrequency And Not $g_bIsBBevent Then
 				$ActionForModLog = "Switch To Builder Base"
 				If $g_iTxtCurrentVillageName <> "" Then
-					GUICtrlSetData($g_hTxtModLog, @CRLF & _NowTime() & " [" & $g_iTxtCurrentVillageName & "] Avanced : " & $ActionForModLog & "", 1)
+					GUICtrlSetData($g_hTxtModLog, @CRLF & _NowTime() & " [" & $g_iTxtCurrentVillageName & "] Humanization : " & $ActionForModLog, 1)
 				Else
-					GUICtrlSetData($g_hTxtModLog, @CRLF & _NowTime() & " [" & $g_sProfileCurrentName & "] Avanced : " & $ActionForModLog & "", 1)
+					GUICtrlSetData($g_hTxtModLog, @CRLF & _NowTime() & " [" & $g_sProfileCurrentName & "] Humanization : " & $ActionForModLog, 1)
 				EndIf
-				_FileWriteLog($g_sProfileLogsPath & "\ModLog.log", " [" & $g_sProfileCurrentName & "] - Advanced : " & $ActionForModLog & "")
+				_FileWriteLog($g_sProfileLogsPath & "\ModLog.log", " [" & $g_sProfileCurrentName & "] - Humanization : " & $ActionForModLog)
 			EndIf
 			BuilderBase()
 			_Sleep($DELAYRUNBOT3)
@@ -1799,11 +1813,11 @@ Func GotoBBTodoCG()
 		If $IstoSwitchMod Then
 			$ActionForModLog = "Switch To Builder Base - BB Event Detected"
 			If $g_iTxtCurrentVillageName <> "" Then
-				GUICtrlSetData($g_hTxtModLog, @CRLF & _NowTime() & " [" & $g_iTxtCurrentVillageName & "] Avanced : " & $ActionForModLog & "", 1)
+				GUICtrlSetData($g_hTxtModLog, @CRLF & _NowTime() & " [" & $g_iTxtCurrentVillageName & "] " & $ActionForModLog, 1)
 			Else
-				GUICtrlSetData($g_hTxtModLog, @CRLF & _NowTime() & " [" & $g_sProfileCurrentName & "] Avanced : " & $ActionForModLog & "", 1)
+				GUICtrlSetData($g_hTxtModLog, @CRLF & _NowTime() & " [" & $g_sProfileCurrentName & "] " & $ActionForModLog, 1)
 			EndIf
-			_FileWriteLog($g_sProfileLogsPath & "\ModLog.log", " [" & $g_sProfileCurrentName & "] - Advanced : " & $ActionForModLog & "")
+			_FileWriteLog($g_sProfileLogsPath & "\ModLog.log", " [" & $g_sProfileCurrentName & "] " & $ActionForModLog)
 			BuilderBase()
 			If $bChkUseOnlyCCMedals Then
 				Local $aRndFuncList = ['DonateCC,Train']

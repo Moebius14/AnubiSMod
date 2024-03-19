@@ -586,7 +586,7 @@ Func CreateMiscBuilderBaseSubTab()
 
 	; BB Building Upgrades
 	Local $x = 15, $y = 307
-	GUICtrlCreateGroup(GetTranslatedFileIni("MBR GUI Design Child Village - Misc", "Group_05", "BOB Control Upgrades"), $x - 10, $y - 20, 430, 49)
+	GUICtrlCreateGroup(GetTranslatedFileIni("MBR GUI Design Child Village - Misc", "Group_07", "BOB Control Upgrades"), $x - 10, $y - 20, 430, 49)
 
 	Local $sTxtRelocate = GetTranslatedFileIni("MBR GUI Design Child Village - Misc", "TxtRelocateBB_Info_01", "Click on icon to delete your") & " "
 
@@ -1043,7 +1043,7 @@ Func CreateCCUpgradesSettings()
 
 	$y += 90
 	GUICtrlCreateGroup(GetTranslatedFileIni("MBR GUI Design Child Village - Misc", "ChkAutoUpgradeCCIgnore", "Decorations"), $x - 10, $y - 32, 420, 80)
-	$g_hChkAutoUpgradeCCIgnore = GUICtrlCreateCheckbox(GetTranslatedFileIni("MBR GUI Design Child Village - Misc", "ChkAutoUpgradeCCIgnore", "Ignore Decoration Building"), $x, $y + 1, -1, -1)
+	$g_hChkAutoUpgradeCCIgnore = GUICtrlCreateCheckbox(GetTranslatedFileIni("MBR GUI Design Child Village - Misc", "ChkAutoUpgradeCCIgnore", "Ignore Decoration Buildings"), $x, $y + 1, -1, -1)
 	_GUICtrlSetTip(-1, "Will Ignore Decoration Buildings :" & @CRLF & _
 			"Groves, Trees, Forests, Campsites, Stones, Trunks, etc...")
 	_GUICtrlCreateIcon($g_sLibModIconPath, $eIcnModCCBigBarb, $x + 160, $y - 5, 32, 32)

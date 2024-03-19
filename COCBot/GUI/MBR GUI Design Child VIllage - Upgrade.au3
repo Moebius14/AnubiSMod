@@ -379,7 +379,7 @@ Func CreateHeroesSubTab()
 	GUICtrlSetOnEvent(-1, "BtnHeroEquipment")
 
 	$y += 40
-	_GUICtrlCreateIcon($g_sLibModIconPath, $eIcnModHeroBook, $x + 2, $y - 1, 20, 24)
+	_GUICtrlCreateIcon($g_sLibModIconPath, $eIcnModHeroBook, $x + 2, $y - 2, 24, 24)
 	$g_hUseHeroBooks = GUICtrlCreateCheckbox(GetTranslatedFileIni("MBR Global GUI Design Names Buildings", "UserHeroBooks", "Use Hero Book, If UpgradeTime is more than"), $x + 32, $y, -1, -1)
 	$g_hHeroMinUpgradeTime = GUICtrlCreateInput("5", $x + 270, $y + 2, 25, 18, BitOR($GUI_SS_DEFAULT_INPUT, $ES_CENTER, $ES_NUMBER))
 	GUICtrlCreateLabel("Days", $x + 300, $y + 4)

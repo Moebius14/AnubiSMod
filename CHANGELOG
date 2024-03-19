@@ -5,6 +5,16 @@
 * Improved Builder count.
 * Updated donateCCWBL.
 * Added Space Scenery support (attack only).
+* Typo
+* Added Blacksmith level 7/8 template.
+* Improved Super Dragon detection in attack bar.
+* Improved Space Scenery detection (Attack only).
+* Improved Hog puppet equipment detection.
+* Improved Pet level OCR (3 and 1).
+* Improved Hero heal status detection.
+* Updated Hero heal time OCR area.
+* Improved Boost button detection.
+* Improved Army cap OCR (0).
 
 * v8.1.6 **
 * Added "Before you upgrade" window support.

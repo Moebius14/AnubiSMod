@@ -94,7 +94,6 @@ EndFunc   ;==>IsSearchCGAttackEnabled
 Func _OverAttackCGLimit()
 	If $iRandomAttackCGCountToday <= $g_aiAttackedCGCount Then
 		$IsReachedMaxCGDayAttack = 1
-		$ActionForModLog = "Daily Count Reached"
 		Return True
 	Else
 		Return False

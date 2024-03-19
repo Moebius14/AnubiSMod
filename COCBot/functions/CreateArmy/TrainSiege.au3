@@ -18,7 +18,7 @@ Func TrainSiege($bTrainFullSiege = False, $bDebugSetLog = $g_bDebugSetLog)
 	Local $iPage = 0 ;
 	Local $sImgSieges = @ScriptDir & "\imgxml\Train\Siege_Train\"
 	Local $sSearchArea = GetDiamondFromRect2(75, 345 + $g_iMidOffsetY, 780, 520 + $g_iMidOffsetY)
-	
+
 
 	; Check if is necessary run the routine
 	If Not $g_bRunState Then Return
@@ -33,16 +33,7 @@ Func TrainSiege($bTrainFullSiege = False, $bDebugSetLog = $g_bDebugSetLog)
 	Local $aiQueueSiegeMachine[$eSiegeMachineCount] = [0, 0, 0, 0, 0, 0, 0]
 	Local $aiTotalSiegeMachine = $g_aiCurrentSiegeMachines
 
-	If _CheckPixel($aReceivedTroopsDouble, True) Or _CheckPixel($aReceivedTroopsDoubleOCR, True) Then ; Found the "You have received" Message on Screen, wait till its gone.
-		SetDebugLog("Detected Clan Castle Message Blocking Siege Count. Waiting until it's gone", $COLOR_INFO)
-		_CaptureRegion2()
-		Local $Safetyexit = 0
-		While (_CheckPixel($aReceivedTroopsDouble, True) Or _CheckPixel($aReceivedTroopsDoubleOCR, True))
-			If _Sleep($DELAYTRAIN1) Then Return
-			$Safetyexit = $Safetyexit + 1
-			If $Safetyexit > 60 Then ExitLoop  ;If waiting longer than 1 min, something is wrong
-		WEnd
-	EndIf
+	WaitForClanMessage("TrainTabs")
 
 	; check queueing siege
 	If _CheckPixel($aCheckIsFilled, True, Default, "Siege is Filled") Or _CheckPixel($aCheckIsOccupied, True, Default, "Siege is Queued") Then

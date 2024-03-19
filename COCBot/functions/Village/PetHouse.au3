@@ -843,7 +843,7 @@ Func UsePetPotion()
 				Else
 					GUICtrlSetData($g_hTxtModLog, @CRLF & _NowTime() & " [" & $g_sProfileCurrentName & "] Pet House : " & $ActionForModLog & " Using Potion", 1)
 				EndIf
-				_FileWriteLog($g_sProfileLogsPath & "\ModLog.log", " [" & $g_sProfileCurrentName & "] - Pet House : " & $ActionForModLog & "")
+				_FileWriteLog($g_sProfileLogsPath & "\ModLog.log", " [" & $g_sProfileCurrentName & "] - Pet House : " & $ActionForModLog)
 			EndIf
 			If _Sleep(1000) Then Return
 		Else

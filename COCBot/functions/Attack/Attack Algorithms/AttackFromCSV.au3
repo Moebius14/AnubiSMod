@@ -771,7 +771,7 @@ Func Algorithm_AttackCSV($testattack = False, $captureredarea = True)
 		Local $OneTimeLog = 0
 		Local $aBoostButtons, $aBoostedButtons = 0
 		For $i = 1 To 15
-			$aBoostButtons = QuickMIS("CNX", $g_sImgBoostButtons, 130, 520 + $g_iBottomOffsetY, 390, 555 + $g_iBottomOffsetY)
+			$aBoostButtons = QuickMIS("CNX", $g_sImgBoostButtons, 130, 515 + $g_iBottomOffsetY, 390, 555 + $g_iBottomOffsetY)
 			If IsArray($aBoostButtons) And UBound($aBoostButtons) > 0 Then
 				For $t = 0 To UBound($aBoostButtons) - 1
 					If QuickMIS("BC1", $g_sImgBoostedButtons, $aBoostButtons[$t][1] - 5, $aBoostButtons[$t][2] - 8, $aBoostButtons[$t][1] + 42, $aBoostButtons[$t][2] + 8) Then $aBoostedButtons += 1
@@ -793,7 +793,7 @@ Func Algorithm_AttackCSV($testattack = False, $captureredarea = True)
 		Local $OneTimeLog = 0
 		Local $aBoostButtons, $aBoostedButtons = 0
 		For $i = 1 To 15
-			$aBoostButtons = QuickMIS("CNX", $g_sImgBoostButtons, 130, 520 + $g_iBottomOffsetY, 390, 555 + $g_iBottomOffsetY)
+			$aBoostButtons = QuickMIS("CNX", $g_sImgBoostButtons, 130, 515 + $g_iBottomOffsetY, 390, 555 + $g_iBottomOffsetY)
 			If IsArray($aBoostButtons) And UBound($aBoostButtons) > 0 Then
 				If UBound($aBoostButtons) = 1 Then ExitLoop
 				For $t = 0 To UBound($aBoostButtons) - 1

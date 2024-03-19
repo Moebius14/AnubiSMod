@@ -596,7 +596,7 @@ Func WallRings()
 			Else
 				GUICtrlSetData($g_hTxtModLog, @CRLF & _NowTime() & " [" & $g_sProfileCurrentName & "] Wall Upgrade " & $ActionForModLog, 1)
 			EndIf
-			_FileWriteLog($g_sProfileLogsPath & "\ModLog.log", " [" & $g_sProfileCurrentName & "] - Wall Upgrade " & $ActionForModLog & "")
+			_FileWriteLog($g_sProfileLogsPath & "\ModLog.log", " [" & $g_sProfileCurrentName & "] - Wall Upgrade " & $ActionForModLog)
 			$g_iNbrOfWallsUpped += 1
 			If _Sleep(1000) Then Return
 			ClickAway()

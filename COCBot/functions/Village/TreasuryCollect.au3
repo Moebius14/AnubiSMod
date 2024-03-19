@@ -74,16 +74,7 @@ Func TreasuryCollect()
 		SetLog("Cannot find the Treasury Button", $COLOR_ERROR)
 	EndIf
 
-	If _CheckPixel($aReceivedTroopsTreasury, True) Then ; Found the "You have received" Message on Screen, wait till its gone.
-		SetDebugLog("Detected Clan Castle Message Blocking Treasury Window. Waiting until it's gone", $COLOR_INFO)
-		_CaptureRegion2()
-		Local $Safetyexit = 0
-		While _CheckPixel($aReceivedTroopsTreasury, True)
-			If _Sleep($DELAYTRAIN1) Then Return
-			$Safetyexit = $Safetyexit + 1
-			If $Safetyexit > 60 Then ExitLoop  ;If waiting longer than 1 min, something is wrong
-		WEnd
-	EndIf
+	WaitForClanMessage("Treasury")
 
 	If Not _WaitForCheckPixel($aTreasuryWindow, $g_bCapturePixel, Default, "Wait treasury window:") Then
 		SetLog("Treasury window not found!", $COLOR_ERROR)

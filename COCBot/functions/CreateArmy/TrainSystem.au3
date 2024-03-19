@@ -670,16 +670,7 @@ Func IsQueueEmpty($sType = "Troops", $bSkipTabCheck = False, $removeExtraTroopsQ
 		Return
 	EndIf
 
-	If _CheckPixel($aReceivedTroopsTab, True) Then
-		SetLog("Detected Clan Castle Message. Waiting until it's gone", $COLOR_INFO)
-		_CaptureRegion2()
-		Local $Safetyexit = 0
-		While _CheckPixel($aReceivedTroopsTab, True)
-			If _Sleep($DELAYTRAIN1) Then Return
-			$Safetyexit = $Safetyexit + 1
-			If $Safetyexit > 60 Then ExitLoop  ;If waiting longer than 1 min, something is wrong
-		WEnd
-	EndIf
+	WaitForClanMessage("Tabs")
 
 	If Not IsArray(_PixelSearch($iArrowX, $iArrowY, $iArrowX + 4, $iArrowY, Hex(0xAFDC87, 6), 30, True)) And _
 			Not IsArray(_PixelSearch($iArrowX, $iArrowY + 3, $iArrowX + 4, $iArrowY + 3, Hex(0x79BF30, 6), 30, True)) Then
@@ -1081,16 +1072,16 @@ Func SearchArmy($sImageDir = "", $x = 0, $y = 0, $x1 = 0, $y1 = 0, $sArmyType = 
 			$aResult[$i][3] = Number(getBarracksNewTroopQuantity(Slot($aResult[$i][1], "troop"), 466 + $g_iMidOffsetY)) ; coc-newarmy
 		Next
 	EndIf
-	If $sArmyType = "Heroes" Then ; CheckThis
+	If $sArmyType = "Heroes" Then
 		For $i = 0 To UBound($aResult) - 1
 			If StringInStr($aResult[$i][0], "Kingqueued") Then
-				$aResult[$i][3] = getRemainTHero(530, 382 + $g_iMidOffsetY)
+				$aResult[$i][3] = getRemainTHero(530, 381 + $g_iMidOffsetY)
 			ElseIf StringInStr($aResult[$i][0], "Queenqueued") Then
-				$aResult[$i][3] = getRemainTHero(590, 382 + $g_iMidOffsetY)
+				$aResult[$i][3] = getRemainTHero(595, 381 + $g_iMidOffsetY)
 			ElseIf StringInStr($aResult[$i][0], "Wardenqueued") Then
-				$aResult[$i][3] = getRemainTHero(655, 382 + $g_iMidOffsetY)
+				$aResult[$i][3] = getRemainTHero(657, 381 + $g_iMidOffsetY)
 			ElseIf StringInStr($aResult[$i][0], "Championqueued") Then
-				$aResult[$i][3] = getRemainTHero(720, 382 + $g_iMidOffsetY)
+				$aResult[$i][3] = getRemainTHero(721, 381 + $g_iMidOffsetY)
 			Else
 				$aResult[$i][3] = 0
 			EndIf
@@ -1239,11 +1230,14 @@ Func MakingDonatedTroops($sType = "All")
 
 		If Not OpenTroopsTab(True, "MakingDonatedTroops()") Then Return
 
+		WaitForClanMessage("TrainTabs")
+
 		For $i = 0 To UBound($avDefaultTroopGroup, 1) - 1
 			Local $bCheckPixel = False
 			If Not $g_bRunState Then Return
 			$Plural = 0
 			If $avDefaultTroopGroup[$i][4] > 0 Then
+				WaitForClanMessage("DonatedTroops")
 				$RemainTrainSpace = GetOCRCurrent(95, 163 + $g_iMidOffsetY)
 				If $RemainTrainSpace[2] < 0 Then $RemainTrainSpace[2] = $RemainTrainSpace[1] * 2 - $RemainTrainSpace[0] ; remain train space to full double army
 				If $RemainTrainSpace[2] = 0 Then ExitLoop ; army camps full
@@ -1261,6 +1255,7 @@ Func MakingDonatedTroops($sType = "All")
 					If _Sleep(1000) Then Return ; Needed Delay, OCR was not picking up Troop Changes
 				Else
 					For $z = 0 To $RemainTrainSpace[2] - 1
+						WaitForClanMessage("DonatedTroops")
 						$RemainTrainSpace = GetOCRCurrent(95, 163 + $g_iMidOffsetY)
 						If $RemainTrainSpace[0] = $RemainTrainSpace[1] Then ; army camps full
 							;Camps Full All Donate Counters should be zero!!!!
@@ -1287,6 +1282,7 @@ Func MakingDonatedTroops($sType = "All")
 		Next
 		;Top Off any remianing space with archers
 		If $sType = "All" Then
+			WaitForClanMessage("DonatedTroops")
 			$RemainTrainSpace = GetOCRCurrent(95, 163 + $g_iMidOffsetY)
 			If $RemainTrainSpace[0] < $RemainTrainSpace[1] Then ; army camps full
 				Local $howMuch = $RemainTrainSpace[2]
@@ -1302,6 +1298,8 @@ Func MakingDonatedTroops($sType = "All")
 		;Train Donated Spells
 		If Not OpenSpellsTab(True, "MakingDonatedTroops()") Then Return
 
+		WaitForClanMessage("TrainTabs")
+
 		For $i = 0 To $eSpellCount - 1
 			If Not $g_bRunState Then Return
 			If $g_aiDonateSpells[$i] > 0 Then
@@ -1314,6 +1312,7 @@ Func MakingDonatedTroops($sType = "All")
 				$g_aiDonateSpells[$i] -= $howMuch
 
 				If _Sleep(1000) Then Return
+				WaitForClanMessage("DonatedTroops")
 				$RemainTrainSpace = GetOCRCurrent(95, 163 + $g_iMidOffsetY)
 				SetLog(" - Current Capacity: " & $RemainTrainSpace[0] & "/" & ($RemainTrainSpace[1]))
 			EndIf
@@ -1323,6 +1322,8 @@ Func MakingDonatedTroops($sType = "All")
 	If $areThereDonSiegeMachine > 0 Then
 		;Train Donated Sieges
 		If Not OpenSiegeMachinesTab(True, "MakingDonatedTroops()") Then Return
+
+		WaitForClanMessage("TrainTabs")
 
 		Local $sImgSieges = @ScriptDir & "\imgxml\Train\Siege_Train\"
 		Local $sSearchArea = GetDiamondFromRect2(75, 345 + $g_iMidOffsetY, 780, 510 + $g_iMidOffsetY)
@@ -1342,8 +1343,6 @@ Func MakingDonatedTroops($sType = "All")
 				If IsArray($aiSiegeCoord) And UBound($aiSiegeCoord, 1) = 2 Then
 					PureClick($aiSiegeCoord[0], $aiSiegeCoord[1], $HowMany, $g_iTrainClickDelay)
 					Local $sSiegeName = $HowMany >= 2 ? $g_asSiegeMachineNames[$iSiegeIndex] & "s" : $g_asSiegeMachineNames[$iSiegeIndex] & ""
-					;Setlog("Build " & $HowMany & " " & $sSiegeName, $COLOR_SUCCESS)
-					;$aiTotalSiegeMachine[$iSiegeIndex] += $HowMany
 					SetLog(" - Trained " & $HowMany & " " & $g_asSiegeMachineNames[$iSiegeIndex] & ($HowMany > 1 ? " SiegeMachines" : " SiegeMachine"), $COLOR_ACTION)
 					$g_aiDonateSiegeMachines[$iSiegeIndex] -= $HowMany
 					If _Sleep(250) Then Return
@@ -1356,6 +1355,7 @@ Func MakingDonatedTroops($sType = "All")
 		Next
 
 		; Get Siege Capacities
+		WaitForClanMessage("DonatedTroops")
 		Local $sSiegeInfo = getArmyCapacityOnTrainTroops(100, 163 + $g_iMidOffsetY) ; OCR read Siege built and total
 		If $g_bDebugSetlogTrain Then SetLog("OCR $sSiegeInfo = " & $sSiegeInfo, $COLOR_DEBUG)
 		Local $aGetSiegeCap = StringSplit($sSiegeInfo, "#", $STR_NOCOUNT) ; split the built Siege number from the total Siege number

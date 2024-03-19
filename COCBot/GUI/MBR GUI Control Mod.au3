@@ -309,13 +309,9 @@ Func SwitchBetweenBasesMod()
 	EndIf
 EndFunc   ;==>SwitchBetweenBasesMod
 
-Func chkRandomPauseDelayEnable()
-	$g_iacmdRandomDelayFinal = Random(($g_iacmdRandomDelayMin * 60), ($g_iacmdRandomDelayMax * 60), 1) ; seconds
-EndFunc   ;==>chkRandomPauseDelayEnable
-
 Func btnModLogClear()
 	_GUICtrlRichEdit_SetText($g_hTxtModLog, "")
-	GUICtrlSetData($g_hTxtModLog, "------------------------------------------------------- Log of Mod Events -------------------------------------------------")
+	GUICtrlSetData($g_hTxtModLog, "------------------------------------------------------ Log of Mod Events -------------------------------------------------")
 EndFunc   ;==>btnModLogClear
 
 Func CGLogClear()
@@ -337,7 +333,7 @@ Func LoadCurrentProfile()
 	ElseIf $g_iTxtCurrentVillageName = "" Then
 		GUICtrlSetData($g_hTxtNotifyOrigin, $g_sProfileCurrentName)
 	EndIf
-	GUICtrlSetData($g_hGrpVillageName, GetTranslatedFileIni("MBR Main GUI", "Tab_03", "Profile") & ": " & $g_sProfileCurrentName)
+	GUICtrlSetData($g_hGrpVillageName, GetTranslatedFileIni("MBR Main GUI", "Tab_07", "Profile") & ": " & $g_sProfileCurrentName)
 	GUICtrlSetData($g_hGrpVillage, GetTranslatedFileIni("MBR Main GUI", "Tab_02", "Village") & "[TH" & $g_iTownHallLevel & "]" & " : " & $g_iTxtCurrentVillageName)
 EndFunc   ;==>LoadCurrentProfile
 
@@ -970,11 +966,11 @@ Func ForumAccept()
 				$Accepted += 1
 				$ActionForModLog = "Accept Joining Request"
 				If $g_iTxtCurrentVillageName <> "" Then
-					GUICtrlSetData($g_hTxtModLog, @CRLF & _NowTime() & " [" & $g_iTxtCurrentVillageName & "] Humanization : " & $ActionForModLog & "", 1)
+					GUICtrlSetData($g_hTxtModLog, @CRLF & _NowTime() & " [" & $g_iTxtCurrentVillageName & "] Humanization : " & $ActionForModLog, 1)
 				Else
-					GUICtrlSetData($g_hTxtModLog, @CRLF & _NowTime() & " [" & $g_sProfileCurrentName & "] Humanization : " & $ActionForModLog & "", 1)
+					GUICtrlSetData($g_hTxtModLog, @CRLF & _NowTime() & " [" & $g_sProfileCurrentName & "] Humanization : " & $ActionForModLog, 1)
 				EndIf
-				_FileWriteLog($g_sProfileLogsPath & "\ModLog.log", " [" & $g_sProfileCurrentName & "] - Humanization : " & $ActionForModLog & "")
+				_FileWriteLog($g_sProfileLogsPath & "\ModLog.log", " [" & $g_sProfileCurrentName & "] - Humanization : " & $ActionForModLog)
 				If _Sleep(2000) Then ExitLoop
 				ContinueLoop
 			Else

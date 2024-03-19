@@ -47,7 +47,7 @@ Func getArmyHeroTime($iHeroType, $bOpenArmyWindow = False, $bCloseArmyWindow = F
 	Local $aResultHeroes[$eHeroCount] = ["", "", "", ""] ; array to hold all remaining regen time read via OCR
 
 	; Constant Array with OCR find location: [X pos, Y Pos, Text Name, Global enum value]
-	Local Const $aHeroRemainData[$eHeroCount][4] = [[530, 382 + $g_iMidOffsetY, "King", $eHeroKing], [590, 382 + $g_iMidOffsetY, "Queen", $eHeroQueen], [655, 382 + $g_iMidOffsetY, "Warden", $eHeroWarden], [720, 382 + $g_iMidOffsetY, "Champion", $eHeroChampion]]
+	Local Const $aHeroRemainData[$eHeroCount][4] = [[530, 381 + $g_iMidOffsetY, "King", $eHeroKing], [595, 381 + $g_iMidOffsetY, "Queen", $eHeroQueen], [657, 381 + $g_iMidOffsetY, "Warden", $eHeroWarden], [721, 381 + $g_iMidOffsetY, "Champion", $eHeroChampion]]
 
 	For $index = 0 To UBound($aHeroRemainData) - 1 ;cycle through all 3 slots and hero types
 

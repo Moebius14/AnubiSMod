@@ -64,6 +64,8 @@ Func SwitchAccountVariablesReload($sType = "Load", $iAccount = $g_iCurAccount)
 
 	;Super Troops Boost
 	Static $gSbFirstStartBarrel = $aiTrue
+	Static $SMaxTroopsToBoost = $aiZero
+	Static $SiCmbSuperTroopsThird = $aiZero
 
 	;Clan Capital
 	Static $gSiLootCCGold = $aiZero
@@ -294,6 +296,8 @@ Func SwitchAccountVariablesReload($sType = "Load", $iAccount = $g_iCurAccount)
 
 			;Super Troops Boost
 			$gSbFirstStartBarrel = $aiTrue
+			$SMaxTroopsToBoost = $aiZero
+			$SiCmbSuperTroopsThird = $aiZero
 
 			;Clan Capital
 			$gSiLootCCGold = $aiZero
@@ -357,6 +361,10 @@ Func SwitchAccountVariablesReload($sType = "Load", $iAccount = $g_iCurAccount)
 
 			;Super Troops Boost
 			$gSbFirstStartBarrel[$iAccount] = $g_bFirstStartBarrel
+			$SMaxTroopsToBoost[$iAccount] = UBound($g_iCmbSuperTroops)
+			If $SMaxTroopsToBoost[$iAccount] > $iMaxSupersTroop Then
+				$SiCmbSuperTroopsThird[$iAccount] = $g_iCmbSuperTroops[$iMaxSupersTroop]
+			EndIf
 
 			;Clan Capital
 			$gSiLootCCGold[$iAccount] = $g_iLootCCGold
@@ -539,6 +547,20 @@ Func SwitchAccountVariablesReload($sType = "Load", $iAccount = $g_iCurAccount)
 
 			;Super Troops Boost
 			$g_bFirstStartBarrel = $gSbFirstStartBarrel[$iAccount]
+			If $SMaxTroopsToBoost[$iAccount] > 0 Then
+				If $SMaxTroopsToBoost[$iAccount] > $iMaxSupersTroop Then
+					ReDim $g_iCmbSuperTroops[$iMaxSupersTroop + 1]
+					$g_iCmbSuperTroops[$iMaxSupersTroop] = $SiCmbSuperTroopsThird[$iAccount]
+				Else
+					If UBound($g_iCmbSuperTroops) > $SMaxTroopsToBoost[$iAccount] Then
+						ReDim $g_iCmbSuperTroops[$iMaxSupersTroop]
+					EndIf
+				EndIf
+			Else
+				If UBound($g_iCmbSuperTroops) > $SMaxTroopsToBoost[$iAccount] And UBound($g_iCmbSuperTroops) = ($iMaxSupersTroop + 1) Then ; Only ReDim If running Event or Finished.
+					ReDim $g_iCmbSuperTroops[$iMaxSupersTroop]
+				EndIf
+			EndIf
 
 			;Clan Capital
 			$g_iLootCCGold = $gSiLootCCGold[$iAccount]

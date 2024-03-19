@@ -459,7 +459,7 @@ Func LabGuiDisplay() ; called from main loop to get an early status for indictor
 					Else
 						GUICtrlSetData($g_hTxtModLog, @CRLF & _NowTime() & " [" & $g_sProfileCurrentName & "] Laboratory : " & $ActionForModLog, 1)
 					EndIf
-					_FileWriteLog($g_sProfileLogsPath & "\ModLog.log", " [" & $g_sProfileCurrentName & "] - Laboratory : " & $ActionForModLog & "")
+					_FileWriteLog($g_sProfileLogsPath & "\ModLog.log", " [" & $g_sProfileCurrentName & "] - Laboratory : " & $ActionForModLog)
 					If _Sleep(1000) Then Return
 				EndIf
 			Else
@@ -483,7 +483,7 @@ Func LabGuiDisplay() ; called from main loop to get an early status for indictor
 					Else
 						GUICtrlSetData($g_hTxtModLog, @CRLF & _NowTime() & " [" & $g_sProfileCurrentName & "] Laboratory : " & $ActionForModLog, 1)
 					EndIf
-					_FileWriteLog($g_sProfileLogsPath & "\ModLog.log", " [" & $g_sProfileCurrentName & "] - Laboratory : " & $ActionForModLog & "")
+					_FileWriteLog($g_sProfileLogsPath & "\ModLog.log", " [" & $g_sProfileCurrentName & "] - Laboratory : " & $ActionForModLog)
 					If _Sleep(1000) Then Return
 				EndIf
 			Else
@@ -507,7 +507,7 @@ Func LabGuiDisplay() ; called from main loop to get an early status for indictor
 					Else
 						GUICtrlSetData($g_hTxtModLog, @CRLF & _NowTime() & " [" & $g_sProfileCurrentName & "] Laboratory : " & $ActionForModLog, 1)
 					EndIf
-					_FileWriteLog($g_sProfileLogsPath & "\ModLog.log", " [" & $g_sProfileCurrentName & "] - Laboratory : " & $ActionForModLog & "")
+					_FileWriteLog($g_sProfileLogsPath & "\ModLog.log", " [" & $g_sProfileCurrentName & "] - Laboratory : " & $ActionForModLog)
 					If _Sleep(1000) Then Return
 				EndIf
 			Else

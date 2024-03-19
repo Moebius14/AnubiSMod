@@ -62,9 +62,9 @@ MAKE  |X          |BACK-LEFT  |1          |0          |IGNORE     |0          |0
 MAKE  |Y          |BACK-RIGHT |1          |0          |IGNORE     |0          |0          |TOWNHALL   |           |           |           |           |
       |                                                                                                                      						  |
       |VECTOR_____|INDEX______|QTY_X_VECT_|TROOPNAME__|DELAY_DROP_|DELAYCHANGE|SLEEPAFTER_|___________|___________|___________|___________|___________|
-DROP  |B          |7,8        |2          |Ball       |250-470    |427-650    |15-20      |           |           |           |           |           |
+DROP  |B          |7          |2          |Ball       |250-470    |427-650    |15-20      |           |           |           |           |           |
 WAIT  |2000-4000  |           |           |           |           |           |           |           |           |           |           |           |
-DROP  |B          |8          |1          |EDrag      |50-70      |37-50      |500-900    |           |           |           |           |           |
+DROP  |B          |7          |1          |EDrag      |50-70      |37-50      |500-900    |           |           |           |           |           |
 DROP  |A          |3          |1          |WallW      |0          |50-70      |150-170    |           |           |           |           |           |
 DROP  |A          |3          |1          |BattleB    |0          |50-70      |150-170    |           |           |           |           |           |
 DROP  |A          |3          |1          |SiegeB     |0          |50-70      |150-170    |           |           |           |           |           |

@@ -152,7 +152,7 @@ Func StartClockTowerBoost($bSwitchToBB = False, $bSwitchToNV = False, $bConditio
 					Else
 						GUICtrlSetData($g_hTxtModLog, @CRLF & _NowTime() & " [" & $g_sProfileCurrentName & "] BuilderBase : " & $ActionForModLog & " Using Potion", 1)
 					EndIf
-					_FileWriteLog($g_sProfileLogsPath & "\ModLog.log", " [" & $g_sProfileCurrentName & "] - BuilderBase : " & $ActionForModLog & "")
+					_FileWriteLog($g_sProfileLogsPath & "\ModLog.log", " [" & $g_sProfileCurrentName & "] - BuilderBase : " & $ActionForModLog)
 					If _Sleep(1000) Then Return
 				EndIf
 			Else

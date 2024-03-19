@@ -49,7 +49,7 @@ Func TabHumanizationGUI()
 
 	Local $x = 30, $y = 50
 
-	GUICtrlCreateGroup(GetTranslatedFileIni("MBR GUI Design Child Village - Misc", "Group_01", "Settings"), $x - 20, $y - 20, 430, 400)
+	GUICtrlCreateGroup(GetTranslatedFileIni("MBR GUI Design Child Village - Misc", "Group_Humanization", "Settings"), $x - 20, $y - 20, 430, 400)
 
 	$x -= 20
 	$y += 0
@@ -113,7 +113,7 @@ Func TabHumanizationGUI()
 	_GUICtrlCreateIcon($g_sLibIconPath, $eIcnBuilder, $x + 38, $y + 19, 24, 24)
 	$g_hChkBBaseFrequencyLabel = GUICtrlCreateLabel("Check Every :", $x + 90, $y + 24, -1, -1)
 	$g_hCmbPriorityBBaseFrequency = GUICtrlCreateCombo("", $x + 165, $y + 20, 75, 10, BitOR($CBS_DROPDOWNLIST, $CBS_AUTOHSCROLL))
-	GUICtrlSetData(-1, "Everytime|1 Hour|2 Hours|3 Hours|4 Hours|5 Hours|6 Hours|7 Hours|8 Hours", "3 Hours")
+	GUICtrlSetData(-1, "Everytime|1 Hour|2 Hours|3 Hours|4 Hours|5 Hours|6 Hours|7 Hours|8 Hours", "4 Hours")
 	GUICtrlSetOnEvent(-1, "BBaseFrequencyDatas")
 	$g_hChkBBaseFrequencyLabel1 = GUICtrlCreateLabel("With Random :", $x + 250, $y + 24, -1, -1)
 	$g_hcmbAdvancedVariation = GUICtrlCreateCombo("", $x + 325, $y + 20, 50, 10, BitOR($CBS_DROPDOWNLIST, $CBS_AUTOHSCROLL))
@@ -172,7 +172,7 @@ EndFunc   ;==>CreateChatWelcomeMessage
 Func TabModLogGUI()
 	Local $x = 0, $y = 0
 	$g_hTxtModLog = GUICtrlCreateEdit("", 10, 40, $g_iSizeWGrpTab3 - 3, 350, BitOR($GUI_SS_DEFAULT_EDIT, $ES_READONLY, $ES_AUTOVSCROLL))
-	GUICtrlSetData(-1, "------------------------------------------------------- Log of Mod Events -------------------------------------------------")
+	GUICtrlSetData(-1, "------------------------------------------------------ Log of Mod Events -------------------------------------------------")
 
 	$g_hBtnModLogClear = GUICtrlCreateButton(GetTranslatedFileIni("MBR GUI Design Log", "BtnModLogClear", "Clear Mod Log"), $x + 330, $y + 400, 80, 23)
 	GUICtrlSetResizing(-1, $GUI_DOCKLEFT + $GUI_DOCKBOTTOM + $GUI_DOCKWIDTH + $GUI_DOCKHEIGHT)

@@ -30,23 +30,14 @@ Func DoubleTrain()
 
 	Local $Step = 1
 	While 1
-		If _CheckPixel($aReceivedTroopsDouble, True) Or _CheckPixel($aReceivedTroopsDoubleOCR, True) Then ; Found the "You have received" Message on Screen, wait till its gone.
-			SetDebugLog("Detected Clan Castle Message Blocking Troop Count. Waiting until it's gone", $COLOR_INFO)
-			_CaptureRegion2()
-			Local $Safetyexit = 0
-			While (_CheckPixel($aReceivedTroopsDouble, True) Or _CheckPixel($aReceivedTroopsDoubleOCR, True))
-				If _Sleep($DELAYTRAIN1) Then Return
-				$Safetyexit = $Safetyexit + 1
-				If $Safetyexit > 60 Then ExitLoop  ;If waiting longer than 1 min, something is wrong
-			WEnd
-		EndIf
+		WaitForClanMessage("TrainTabs")
 		Local $TroopCamp = GetCurrentArmy(95, 163 + $g_iMidOffsetY)
 		SetLog("Checking Troop tab: " & $TroopCamp[0] & "/" & $TroopCamp[1] * 2)
 		If $TroopCamp[1] = 0 Then ExitLoop
 		If $TroopCamp[1] <> $g_iTotalCampSpace Then _
 				SetLog("Incorrect Troop combo: " & $g_iTotalCampSpace & " vs Total camp: " & $TroopCamp[1] & @CRLF & @TAB & "Double train may not work well", $COLOR_DEBUG)
 
-		If $TroopCamp[0] < $TroopCamp[1] Then ; <280/280
+		If $TroopCamp[0] < $TroopCamp[1] Then
 			If $g_bDonationEnabled And $g_bChkDonate And MakingDonatedTroops("Troops") Then
 				If $bDebug Then SetLog($Step & ". MakingDonatedTroops('Troops')", $COLOR_DEBUG)
 				$Step += 1

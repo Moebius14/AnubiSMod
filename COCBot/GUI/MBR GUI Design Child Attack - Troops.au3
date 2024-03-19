@@ -106,7 +106,7 @@ Func LoadTranslatedTrainTroopsOrderList()
 			GetTranslatedFileIni("MBR Global GUI Design Names Troops", "TxtGiantSkeletons", "Giant Skeletons"), _
 			GetTranslatedFileIni("MBR Global GUI Design Names Troops", "TxtRoyalGhosts", "Royal Ghosts"), _
 			GetTranslatedFileIni("MBR Global GUI Design Names Troops", "TxtPartyWizards", "Party Wizards"), _
-			GetTranslatedFileIni("MBR Global GUI Design Names Troops", "TxtHIceWizards", "Ice Wizards")]
+			GetTranslatedFileIni("MBR Global GUI Design Names Troops", "TxtIceWizards", "Ice Wizards")]
 EndFunc   ;==>LoadTranslatedTrainTroopsOrderList
 
 Global $g_hChkCustomTrainOrderEnable = 0
@@ -497,7 +497,7 @@ Func CreateCustomTrainSubTab()
 	$x = $iStartX
 	$y = $iStartY
 	; Giant Skeleton
-	Local $sTroopName = GetTranslatedFileIni("MBR Global GUI Design Names Troops", "TxtGiantSkeleton", "Giant Skeletons")
+	Local $sTroopName = GetTranslatedFileIni("MBR Global GUI Design Names Troops", "TxtGiantSkeletons", "Giant Skeletons")
 	$g_ahPicTrainArmyTroop[$eTroopGiantSkeleton] = _GUICtrlCreateIcon($g_sLibModIconPath, $eIcnGiantSkeleton, $x, $y - 5, 40, 40)
 	$g_ahTxtTrainArmyTroopCount[$eTroopGiantSkeleton] = GUICtrlCreateInput("0", $x + 1, $y + 39, 40, 17, BitOR($GUI_SS_DEFAULT_INPUT, $ES_CENTER, $ES_NUMBER))
 	_GUICtrlSetTip(-1, $sTxtSetPerc & " " & $sTroopName & " " & $sTxtSetPerc2)
@@ -506,7 +506,7 @@ Func CreateCustomTrainSubTab()
 
 	$x += $xsplit
 	; Royal Ghost
-	Local $sTroopName = GetTranslatedFileIni("MBR Global GUI Design Names Troops", "TxtRoyalGhost", "Royal Ghosts")
+	Local $sTroopName = GetTranslatedFileIni("MBR Global GUI Design Names Troops", "TxtRoyalGhosts", "Royal Ghosts")
 	$g_ahPicTrainArmyTroop[$eTroopRoyalGhost] = _GUICtrlCreateIcon($g_sLibModIconPath, $eIcnRoyalGhost, $x, $y - 5, 40, 40)
 	$g_ahTxtTrainArmyTroopCount[$eTroopRoyalGhost] = GUICtrlCreateInput("0", $x + 1, $y + 39, 40, 17, BitOR($GUI_SS_DEFAULT_INPUT, $ES_CENTER, $ES_NUMBER))
 	_GUICtrlSetTip(-1, $sTxtSetPerc & " " & $sTroopName & " " & $sTxtSetPerc2)
@@ -515,7 +515,7 @@ Func CreateCustomTrainSubTab()
 
 	$x += $xsplit
 	; Party Wizard
-	Local $sTroopName = GetTranslatedFileIni("MBR Global GUI Design Names Troops", "TxtPartyWizard", "Party Wizards")
+	Local $sTroopName = GetTranslatedFileIni("MBR Global GUI Design Names Troops", "TxtPartyWizards", "Party Wizards")
 	$g_ahPicTrainArmyTroop[$eTroopPartyWizard] = _GUICtrlCreateIcon($g_sLibModIconPath, $eIcnPartyWizard, $x, $y - 5, 40, 40)
 	$g_ahTxtTrainArmyTroopCount[$eTroopPartyWizard] = GUICtrlCreateInput("0", $x + 1, $y + 39, 40, 17, BitOR($GUI_SS_DEFAULT_INPUT, $ES_CENTER, $ES_NUMBER))
 	_GUICtrlSetTip(-1, $sTxtSetPerc & " " & $sTroopName & " " & $sTxtSetPerc2)
@@ -524,7 +524,7 @@ Func CreateCustomTrainSubTab()
 
 	$x += $xsplit
 	; Ice Wizard
-	Local $sTroopName = GetTranslatedFileIni("MBR Global GUI Design Names Troops", "TxtIceWizard", "Ice Wizards")
+	Local $sTroopName = GetTranslatedFileIni("MBR Global GUI Design Names Troops", "TxtIceWizards", "Ice Wizards")
 	$g_ahPicTrainArmyTroop[$eTroopIceWizard] = _GUICtrlCreateIcon($g_sLibModIconPath, $eIcnIceWizard, $x, $y - 5, 40, 40)
 	$g_ahTxtTrainArmyTroopCount[$eTroopIceWizard] = GUICtrlCreateInput("0", $x + 1, $y + 39, 40, 17, BitOR($GUI_SS_DEFAULT_INPUT, $ES_CENTER, $ES_NUMBER))
 	_GUICtrlSetTip(-1, $sTxtSetPerc & " " & $sTroopName & " " & $sTxtSetPerc2)
@@ -1481,7 +1481,7 @@ Func CreateTrainOptions()
 
 	$x -= 18
 	$y += 60
-	GUICtrlCreateGroup(GetTranslatedFileIni("MBR GUI Design Child Attack - Troops_Options", "Group_07", "Random Close Option"), $x - 20, $y - 20, 240, 70)
+	GUICtrlCreateGroup(GetTranslatedFileIni("MBR GUI Design Child Attack - Troops_Options", "Group_04", "Random Close Option"), $x - 20, $y - 20, 240, 70)
 	_GUICtrlCreateIcon($g_sLibModIconPath, $eIcnModRandomClose, $x - 3, $y + 6, 24, 24)
 	GUIStartGroup()
 	$g_hdRadio_RandomClassic = GUICtrlCreateRadio("Classic", 210, 109, -1, -1)

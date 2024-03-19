@@ -69,11 +69,11 @@ Func CollectFreeMagicItems($bTest = False)
 					$aGem[$i] = "Collected"
 					$ActionForModLog = "Free Magic Item Collected"
 					If $g_iTxtCurrentVillageName <> "" Then
-						GUICtrlSetData($g_hTxtModLog, @CRLF & _NowTime() & " [" & $g_iTxtCurrentVillageName & "] Avanced : " & $ActionForModLog & "", 1)
+						GUICtrlSetData($g_hTxtModLog, @CRLF & _NowTime() & " [" & $g_iTxtCurrentVillageName & "] " & $ActionForModLog, 1)
 					Else
-						GUICtrlSetData($g_hTxtModLog, @CRLF & _NowTime() & " [" & $g_sProfileCurrentName & "] Avanced : " & $ActionForModLog & "", 1)
+						GUICtrlSetData($g_hTxtModLog, @CRLF & _NowTime() & " [" & $g_sProfileCurrentName & "] " & $ActionForModLog, 1)
 					EndIf
-					_FileWriteLog($g_sProfileLogsPath & "\ModLog.log", " [" & $g_sProfileCurrentName & "] - Advanced : " & $ActionForModLog & "")
+					_FileWriteLog($g_sProfileLogsPath & "\ModLog.log", " [" & $g_sProfileCurrentName & "] " & $ActionForModLog)
 					If _Sleep(Random(2000, 4000, 1)) Then Return
 					$Collected += 1
 				EndIf
@@ -99,11 +99,11 @@ Func CollectFreeMagicItems($bTest = False)
 		SetLog("Nothing Free To Collect!", $COLOR_INFO)
 		$ActionForModLog = "No Free Magic Item To Collect"
 		If $g_iTxtCurrentVillageName <> "" Then
-			GUICtrlSetData($g_hTxtModLog, @CRLF & _NowTime() & " [" & $g_iTxtCurrentVillageName & "] Avanced : " & $ActionForModLog & "", 1)
+			GUICtrlSetData($g_hTxtModLog, @CRLF & _NowTime() & " [" & $g_iTxtCurrentVillageName & "] " & $ActionForModLog, 1)
 		Else
-			GUICtrlSetData($g_hTxtModLog, @CRLF & _NowTime() & " [" & $g_sProfileCurrentName & "] Avanced : " & $ActionForModLog & "", 1)
+			GUICtrlSetData($g_hTxtModLog, @CRLF & _NowTime() & " [" & $g_sProfileCurrentName & "] " & $ActionForModLog, 1)
 		EndIf
-		_FileWriteLog($g_sProfileLogsPath & "\ModLog.log", " [" & $g_sProfileCurrentName & "] - Advanced : " & $ActionForModLog & "")
+		_FileWriteLog($g_sProfileLogsPath & "\ModLog.log", " [" & $g_sProfileCurrentName & "] " & $ActionForModLog)
 	EndIf
 	ClickAway()
 	If _Sleep(Random(2000, 3000, 1)) Then Return
@@ -156,16 +156,7 @@ Func OpenTraderWindow()
 		$IstoRecheckTrader = 1
 	Else
 		Local $aIsWeekyDealsOpen[4] = [40, 0, 0x8DC11D, 20]
-		If _CheckPixel($aReceivedTroopsWeeklyDeals, True) Then ; Found the "You have received" Message on Screen, wait till its gone.
-			SetDebugLog("Detected Clan Castle Message Blocking Gems Button. Waiting until it's gone", $COLOR_INFO)
-			_CaptureRegion2()
-			Local $Safetyexit = 0
-			While _CheckPixel($aReceivedTroopsWeeklyDeals, True)
-				If _Sleep($DELAYTRAIN1) Then Return
-				$Safetyexit += 1
-				If $Safetyexit > 60 Then ExitLoop  ;If waiting longer than 1 min, something is wrong
-			WEnd
-		EndIf
+		WaitForClanMessage("WeeklyDeals")
 		Local $aTabButton = findButton("WeeklyDeals", Default, 1, True)
 		If IsArray($aTabButton) And UBound($aTabButton, 1) = 2 Then
 			$aIsWeekyDealsOpen[1] = $aTabButton[1]

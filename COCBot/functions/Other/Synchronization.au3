@@ -212,7 +212,7 @@ Func LockBotSlot($bLock = True)
 			ReleaseMutex($g_hMutextOrSemaphoreGlobalActiveBots)
 			$g_hMutextOrSemaphoreGlobalActiveBots = 0
 		EndIf
-		$g_hMutextOrSemaphoreGlobalActiveBots = AcquireMutexTicket("ActiveBot", $g_iGlobalActiveBotsAllowed, GetTranslatedFileIni("MBR GUI Design - Loading", "SplashStep_09", "Waiting for bot slot..."))
+		$g_hMutextOrSemaphoreGlobalActiveBots = AcquireMutexTicket("ActiveBot", $g_iGlobalActiveBotsAllowed, GetTranslatedFileIni("MBR GUI Design - Loading", "SplashStep_10", "Waiting for bot slot..."))
 		If $g_hMutextOrSemaphoreGlobalActiveBots Then $bBotIsLocked = $bLock
 	ElseIf $bLock = False Then
 		;Semaphores here don't support FIFO, use AcquireMutexTicket

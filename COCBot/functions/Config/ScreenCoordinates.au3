@@ -92,15 +92,14 @@ Global $aCheckTopProfile2[4] = [160, 455 + $g_iMidOffsetY, 0x4E4D79, 5]
 
 Global $aIsTabOpen[4] = [0, 145 + $g_iMidOffsetY, 0xECECE5, 25];Check if specific Tab is opened, X Coordinate is a dummy
 
-Global $aReceivedTroops[4] = [185, 235 + $g_iMidOffsetY, 0xFFFFFF, 20] ; Y of You have received blabla from xx!
-Global $aReceivedTroopsOCR[4] = [400, 178 + $g_iMidOffsetY, 0xFFFFFF, 20] ; Y of You have received blabla from xx!
-Global $aReceivedSieges[4] = [650, 235 + $g_iMidOffsetY, 0xFFFFFF, 20] ; Y of You have received blabla from xx!
-Global $aReceivedTroopsDoubleOCR[4] = [400, 170 + $g_iMidOffsetY, 0xFFFFFF, 20] ; Y of You have received blabla from xx!
-Global $aReceivedTroopsDouble[4] = [380, 220 + $g_iMidOffsetY, 0xFFFFFF, 20] ; Y of You have received blabla from xx!
-Global $aReceivedTroopsTab[4] = [207, 140 + $g_iMidOffsetY, 0xFFFFFF, 20] ; Y of You have received blabla from xx!
-Global $aReceivedTroopsTreasury[4] = [660, 140 + $g_iMidOffsetY, 0xFFFFFF, 20] ; Y of You have received blabla from xx!
-Global $aReceivedTroopsWeeklyDeals[4] = [50, 195 + $g_iMidOffsetY, 0xFFFFFF, 20] ; Y of You have received blabla from xx!
-Global $aReceivedTroopsRaidMedals[4] = [175, 242 + $g_iMidOffsetY, 0xFFFFFF, 20] ; Y of You have received blabla from xx!
+Global $aReceivedTroops[5] = [567, 200 + $g_iMidOffsetY, 0xFFFFFF, 20, 60] ; Y of You have received blabla from xx!
+Global $aReceivedTroopsOCR[5] = [400, 158 + $g_iMidOffsetY, 0xFFFFFF, 20, 20] ; Y of You have received blabla from xx!
+Global $aReceivedTroopsDouble[5] = [380, 210 + $g_iMidOffsetY, 0xFFFFFF, 20, 15] ; Y of You have received blabla from xx!
+Global $aReceivedTroopsTab[5] = [342, 120 + $g_iMidOffsetY, 0xFFFFFF, 20, 25] ; Y of You have received blabla from xx!
+Global $aReceivedTroopsTreasury[5] = [560, 140 + $g_iMidOffsetY, 0xFFFFFF, 20, 30] ; Y of You have received blabla from xx!
+Global $aReceivedTroopsWeeklyDeals[5] = [240, 180 + $g_iMidOffsetY, 0xFFFFFF, 20, 30] ; Y of You have received blabla from xx!
+Global $aReceivedTroopsRaidMedals[5] = [240, 225 + $g_iMidOffsetY, 0xFFFFFF, 20, 30] ; Y of You have received blabla from xx!
+Global $aBoostTroopsWindow[5] = [330, 100 + $g_iMidOffsetY, 0xFFFFFF, 20, 50] ; Y of You have received blabla from xx!
 
 ; King Health Bar, check at the middle of the bar, index - 10 is x-offset added to middle of health bar
 Global $aKingHealth = [-1, 569 + $g_iBottomOffsetY, 0x00D500, 15, 10]

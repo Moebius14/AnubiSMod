@@ -42,7 +42,11 @@ Func CheckBaseQuick($sReturnHome = "")
 		checkMainScreen(False) ; required here due to many possible exits
 		If $g_bRestart Then Return
 
-		DonateCC() ; donate troops
+		getArmyTroopCapacity(True, False)
+		If _Sleep($DELAYRESPOND) Then Return
+		getArmySpellCapacity(False, True)
+		If _Sleep($DELAYRESPOND) Then Return
+		If (Not SkipDonateNearFullTroops(True) Or $g_iCommandStop = 3 Or $g_iCommandStop = 0) And BalanceDonRec(True) Then DonateCC()
 		If _Sleep($DELAYRUNBOT1) Then Return
 		checkMainScreen(False) ; required here due to many possible function exits
 		If $g_bRestart Then Return

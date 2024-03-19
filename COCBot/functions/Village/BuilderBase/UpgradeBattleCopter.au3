@@ -149,11 +149,11 @@ Func BattleCopterUpgrade($test = False)
 				EndIf
 				$ActionForModLog = "Upgrade Battle Copter"
 				If $g_iTxtCurrentVillageName <> "" Then
-					GUICtrlSetData($g_hTxtModLog, @CRLF & _NowTime() & " [" & $g_iTxtCurrentVillageName & "] Builder Base : " & $ActionForModLog & "", 1)
+					GUICtrlSetData($g_hTxtModLog, @CRLF & _NowTime() & " [" & $g_iTxtCurrentVillageName & "] Builder Base : " & $ActionForModLog, 1)
 				Else
-					GUICtrlSetData($g_hTxtModLog, @CRLF & _NowTime() & " [" & $g_sProfileCurrentName & "] Builder Base : " & $ActionForModLog & "", 1)
+					GUICtrlSetData($g_hTxtModLog, @CRLF & _NowTime() & " [" & $g_sProfileCurrentName & "] Builder Base : " & $ActionForModLog, 1)
 				EndIf
-				_FileWriteLog($g_sProfileLogsPath & "\ModLog.log", " [" & $g_sProfileCurrentName & "] - Builder Base : " & $ActionForModLog & "")
+				_FileWriteLog($g_sProfileLogsPath & "\ModLog.log", " [" & $g_sProfileCurrentName & "] - Builder Base : " & $ActionForModLog)
 			Else
 				SetLog("Battle Copter Upgrade Fail!", $COLOR_ERROR)
 				If $g_bDebugImageSave Then SaveDebugImage("UpgradeBMBtn2")

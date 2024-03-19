@@ -159,11 +159,11 @@ Func CollectCCGold($bTest = False)
 		$g_iStatsClanCapCollected = $g_iStatsClanCapCollected + $CollectedCCGold
 		$ActionForModLog = "Clan Capital Gold Collected"
 		If $g_iTxtCurrentVillageName <> "" Then
-			GUICtrlSetData($g_hTxtModLog, @CRLF & _NowTime() & " [" & $g_iTxtCurrentVillageName & "] Clan Capital : " & $CollectedCCGold & " " & $ActionForModLog & "", 1)
+			GUICtrlSetData($g_hTxtModLog, @CRLF & _NowTime() & " [" & $g_iTxtCurrentVillageName & "] Clan Capital : " & $CollectedCCGold & " " & $ActionForModLog, 1)
 		Else
-			GUICtrlSetData($g_hTxtModLog, @CRLF & _NowTime() & " [" & $g_sProfileCurrentName & "] Clan Capital : " & $CollectedCCGold & " " & $ActionForModLog & "", 1)
+			GUICtrlSetData($g_hTxtModLog, @CRLF & _NowTime() & " [" & $g_sProfileCurrentName & "] Clan Capital : " & $CollectedCCGold & " " & $ActionForModLog, 1)
 		EndIf
-		_FileWriteLog($g_sProfileLogsPath & "\ModLog.log", " [" & $g_sProfileCurrentName & "] - Clan Capital : " & $CollectedCCGold & " " & $ActionForModLog & "")
+		_FileWriteLog($g_sProfileLogsPath & "\ModLog.log", " [" & $g_sProfileCurrentName & "] - Clan Capital : " & $CollectedCCGold & " " & $ActionForModLog)
 	Else
 		SetLog("No available Clan Capital Gold to be collected!", $COLOR_INFO)
 		Return
@@ -255,6 +255,13 @@ Func StartRaidWeekend()
 				SetLog("Starting Raid Weekend", $COLOR_INFO)
 				Click(430, 570 + $g_iMidOffsetY) ;Click Start Raid Button
 				$IsRaidRunning = 1
+				$ActionForModLog = "Start Raid Week-End"
+				If $g_iTxtCurrentVillageName <> "" Then
+					GUICtrlSetData($g_hTxtModLog, @CRLF & _NowTime() & " [" & $g_iTxtCurrentVillageName & "] Clan Capital : " & $ActionForModLog, 1)
+				Else
+					GUICtrlSetData($g_hTxtModLog, @CRLF & _NowTime() & " [" & $g_sProfileCurrentName & "] Clan Capital : " & $ActionForModLog, 1)
+				EndIf
+				_FileWriteLog($g_sProfileLogsPath & "\ModLog.log", " [" & $g_sProfileCurrentName & "] - Clan Capital : " & $ActionForModLog)
 				If _Sleep(4000) Then Return
 				ClickAway("Right")
 				If QuickMIS("BC1", $g_sImgCCRaid, 360, 445 + $g_iMidOffsetY, 500, 500 + $g_iMidOffsetY) Then
@@ -439,7 +446,7 @@ Func ForgeClanCapitalGold($bTest = False)
 				Else
 					GUICtrlSetData($g_hTxtModLog, @CRLF & _NowTime() & " [" & $g_sProfileCurrentName & "] Upgrade Village : " & $ActionForModLog & " Using Potion", 1)
 				EndIf
-				_FileWriteLog($g_sProfileLogsPath & "\ModLog.log", " [" & $g_sProfileCurrentName & "] - Upgrade Village : " & $ActionForModLog & "")
+				_FileWriteLog($g_sProfileLogsPath & "\ModLog.log", " [" & $g_sProfileCurrentName & "] - Upgrade Village : " & $ActionForModLog)
 			EndIf
 		Else
 			SetLog("BuilderPot Not Found", $COLOR_DEBUG)
@@ -840,11 +847,11 @@ Func ForgeClanCapitalGold($bTest = False)
 		If $NumberOfCraftLaunched > 0 Then
 			$ActionForModLog = "Craft" & ($NumberOfCraftLaunched > 1 ? "s" : "") & " Launched"
 			If $g_iTxtCurrentVillageName <> "" Then
-				GUICtrlSetData($g_hTxtModLog, @CRLF & _NowTime() & " [" & $g_iTxtCurrentVillageName & "] Clan Capital : " & $NumberOfCraftLaunched & " " & $ActionForModLog & "", 1)
+				GUICtrlSetData($g_hTxtModLog, @CRLF & _NowTime() & " [" & $g_iTxtCurrentVillageName & "] Clan Capital : " & $NumberOfCraftLaunched & " " & $ActionForModLog, 1)
 			Else
-				GUICtrlSetData($g_hTxtModLog, @CRLF & _NowTime() & " [" & $g_sProfileCurrentName & "] Clan Capital : " & $NumberOfCraftLaunched & " " & $ActionForModLog & "", 1)
+				GUICtrlSetData($g_hTxtModLog, @CRLF & _NowTime() & " [" & $g_sProfileCurrentName & "] Clan Capital : " & $NumberOfCraftLaunched & " " & $ActionForModLog, 1)
 			EndIf
-			_FileWriteLog($g_sProfileLogsPath & "\ModLog.log", " [" & $g_sProfileCurrentName & "] - Clan Capital : " & $NumberOfCraftLaunched & " " & $ActionForModLog & "")
+			_FileWriteLog($g_sProfileLogsPath & "\ModLog.log", " [" & $g_sProfileCurrentName & "] - Clan Capital : " & $NumberOfCraftLaunched & " " & $ActionForModLog)
 		EndIf
 	EndIf
 
@@ -895,7 +902,7 @@ Func ForgeClanCapitalGold($bTest = False)
 				Else
 					GUICtrlSetData($g_hTxtModLog, @CRLF & _NowTime() & " [" & $g_sProfileCurrentName & "] Upgrade Village : " & $ActionForModLog & " Using Potion", 1)
 				EndIf
-				_FileWriteLog($g_sProfileLogsPath & "\ModLog.log", " [" & $g_sProfileCurrentName & "] - Upgrade Village : " & $ActionForModLog & "")
+				_FileWriteLog($g_sProfileLogsPath & "\ModLog.log", " [" & $g_sProfileCurrentName & "] - Upgrade Village : " & $ActionForModLog)
 			EndIf
 		Else
 			SetLog("BuilderPot Not Found", $COLOR_DEBUG)
@@ -2505,16 +2512,7 @@ Func CatchCCMedals()
 	EndIf
 
 	Local $aIsRaidMedalsOpen[4] = [40, 0, 0x8CC11D, 20]
-	If _CheckPixel($aReceivedTroopsRaidMedals, True) Then ; Found the "You have received" Message on Screen, wait till its gone.
-		SetDebugLog("Detected Clan Castle Message Blocking Raid Medals Button. Waiting until it's gone", $COLOR_INFO)
-		_CaptureRegion2()
-		Local $Safetyexit = 0
-		While _CheckPixel($aReceivedTroopsRaidMedals, True)
-			If _Sleep($DELAYTRAIN1) Then Return
-			$Safetyexit = $Safetyexit + 1
-			If $Safetyexit > 60 Then ExitLoop  ;If waiting longer than 1 min, something is wrong
-		WEnd
-	EndIf
+	WaitForClanMessage("RaidMedals")
 	Local $aTabButton = findButton("RaidMedals", Default, 1, True)
 	If IsArray($aTabButton) And UBound($aTabButton, 1) = 2 Then
 		$aIsRaidMedalsOpen[1] = $aTabButton[1]
@@ -2909,16 +2907,7 @@ Func CheckAvailableMagicItems($TestDebug = False)
 	EndIf
 
 	Local $aIsRaidMedalsOpen[4] = [40, 0, 0x8CC11D, 20]
-	If _CheckPixel($aReceivedTroopsRaidMedals, True) Then ; Found the "You have received" Message on Screen, wait till its gone.
-		SetDebugLog("Detected Clan Castle Message Blocking Raid Medals Button. Waiting until it's gone", $COLOR_INFO)
-		_CaptureRegion2()
-		Local $Safetyexit = 0
-		While _CheckPixel($aReceivedTroopsRaidMedals, True)
-			If _Sleep($DELAYTRAIN1) Then Return
-			$Safetyexit = $Safetyexit + 1
-			If $Safetyexit > 60 Then ExitLoop  ;If waiting longer than 1 min, something is wrong
-		WEnd
-	EndIf
+	WaitForClanMessage("RaidMedals")
 	Local $aTabButton = findButton("RaidMedals", Default, 1, True)
 	If IsArray($aTabButton) And UBound($aTabButton, 1) = 2 Then
 		$aIsRaidMedalsOpen[1] = $aTabButton[1]
@@ -3272,16 +3261,7 @@ Func SoldAndBuyItems($TestDebug = False, $ForceTime = False)
 		EndIf
 
 		Local $aIsRaidMedalsOpen[4] = [40, 0, 0x8CC11D, 20]
-		If _CheckPixel($aReceivedTroopsRaidMedals, True) Then ; Found the "You have received" Message on Screen, wait till its gone.
-			SetDebugLog("Detected Clan Castle Message Blocking Raid Medals Button. Waiting until it's gone", $COLOR_INFO)
-			_CaptureRegion2()
-			Local $Safetyexit = 0
-			While _CheckPixel($aReceivedTroopsRaidMedals, True)
-				If _Sleep($DELAYTRAIN1) Then Return
-				$Safetyexit = $Safetyexit + 1
-				If $Safetyexit > 120 Then ExitLoop ;If waiting longer than 2 min, something is wrong
-			WEnd
-		EndIf
+		WaitForClanMessage("RaidMedals")
 		Local $aTabButton = findButton("RaidMedals", Default, 1, True)
 		If IsArray($aTabButton) And UBound($aTabButton, 1) = 2 Then
 			$aIsRaidMedalsOpen[1] = $aTabButton[1]

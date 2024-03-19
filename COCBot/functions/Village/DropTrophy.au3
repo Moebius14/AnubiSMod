@@ -151,11 +151,11 @@ Func DropTrophy()
 					If $IstoSwitchMod Then
 						$ActionForModLog = "Switch To Builder Base - BB Event Detected"
 						If $g_iTxtCurrentVillageName <> "" Then
-							GUICtrlSetData($g_hTxtModLog, @CRLF & _NowTime() & " [" & $g_iTxtCurrentVillageName & "] Avanced : " & $ActionForModLog & "", 1)
+							GUICtrlSetData($g_hTxtModLog, @CRLF & _NowTime() & " [" & $g_iTxtCurrentVillageName & "] " & $ActionForModLog, 1)
 						Else
-							GUICtrlSetData($g_hTxtModLog, @CRLF & _NowTime() & " [" & $g_sProfileCurrentName & "] Avanced : " & $ActionForModLog & "", 1)
+							GUICtrlSetData($g_hTxtModLog, @CRLF & _NowTime() & " [" & $g_sProfileCurrentName & "] " & $ActionForModLog, 1)
 						EndIf
-						_FileWriteLog($g_sProfileLogsPath & "\ModLog.log", " [" & $g_sProfileCurrentName & "] - Advanced : " & $ActionForModLog & "")
+						_FileWriteLog($g_sProfileLogsPath & "\ModLog.log", " [" & $g_sProfileCurrentName & "] " & $ActionForModLog)
 						BuilderBase()
 					EndIf
 				EndIf
@@ -187,7 +187,7 @@ Func DropTrophy()
 		Local Const $DTArmyPercent = Round(Int($g_iDropTrophyArmyMinPct) / 100, 2)
 		Local $g_iDropTrophyMaxNeedCheck = $g_iDropTrophyMax ; set trophy target to max trophy
 		If $IsDropTrophyBreaked Then $g_iDropTrophyMaxNeedCheck = $g_iDropTrophyMin
-		Local Const $iWaitTime = 3 ; wait time for base recheck during long drop times in minutes (3 minutes ~5-10 drop attacks)
+		Local Const $iWaitTime = 4 ; wait time for base recheck during long drop times in minutes (4 minutes ~5-10 drop attacks)
 		Local $iDateCalc, $sWaitToDate
 		$sWaitToDate = _DateAdd('n', Int($iWaitTime), _NowCalc()) ; find delay time for checkbasequick
 		SetDebugLog("ChkBaseQuick delay time= " & $sWaitToDate & " Now= " & _NowCalc() & " Diff= " & _DateDiff('s', _NowCalc(), $sWaitToDate), $COLOR_DEBUG)
@@ -275,11 +275,11 @@ Func DropTrophy()
 								If $IstoSwitchMod Then
 									$ActionForModLog = "Switch To Builder Base - BB Event Detected"
 									If $g_iTxtCurrentVillageName <> "" Then
-										GUICtrlSetData($g_hTxtModLog, @CRLF & _NowTime() & " [" & $g_iTxtCurrentVillageName & "] Avanced : " & $ActionForModLog & "", 1)
+										GUICtrlSetData($g_hTxtModLog, @CRLF & _NowTime() & " [" & $g_iTxtCurrentVillageName & "] " & $ActionForModLog, 1)
 									Else
-										GUICtrlSetData($g_hTxtModLog, @CRLF & _NowTime() & " [" & $g_sProfileCurrentName & "] Avanced : " & $ActionForModLog & "", 1)
+										GUICtrlSetData($g_hTxtModLog, @CRLF & _NowTime() & " [" & $g_sProfileCurrentName & "] " & $ActionForModLog, 1)
 									EndIf
-									_FileWriteLog($g_sProfileLogsPath & "\ModLog.log", " [" & $g_sProfileCurrentName & "] - Advanced : " & $ActionForModLog & "")
+									_FileWriteLog($g_sProfileLogsPath & "\ModLog.log", " [" & $g_sProfileCurrentName & "] " & $ActionForModLog)
 									BuilderBase()
 								EndIf
 							EndIf
@@ -407,7 +407,7 @@ Func DropTrophy()
 					Local $IsBoostButton = False
 					For $i = 1 To 5
 						If _Sleep(300) Then Return
-						If QuickMIS("BFI", $g_sImgImgLocButtons & "\BoostButtons\BoostButton*.xml", 130, 520 + $g_iBottomOffsetY, 390, 555 + $g_iBottomOffsetY) Then
+						If QuickMIS("BFI", $g_sImgImgLocButtons & "\BoostButtons\BoostButton*.xml", 130, 515 + $g_iBottomOffsetY, 390, 555 + $g_iBottomOffsetY) Then
 							$IsBoostButton = True
 							ExitLoop
 						EndIf

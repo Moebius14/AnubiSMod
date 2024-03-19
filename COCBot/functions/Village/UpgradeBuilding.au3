@@ -361,6 +361,7 @@ Func UpgradeNormal($iUpgradeNumber)
 
 		$aResult = BuildingInfo(242, 468 + $g_iBottomOffsetY) ; read building name/level to check we have right bldg or if collector was not full
 		If $aResult[0] > 1 Then
+			$aUpgradeButton = findButton("Upgrade", Default, 1, True)
 			If $aResult[1] = "Town Hall" And $aResult[2] > 11 Then ;Upgrade THWeapon If TH > 11
 				$aTmpUpgradeButton = findButton("THWeapon") ;try to find UpgradeTHWeapon button (swords)
 				If IsArray($aTmpUpgradeButton) And UBound($aTmpUpgradeButton) = 2 Then
@@ -508,8 +509,10 @@ Func UpgradeGearUp($iUpgradeNumber)
 		If _Sleep($DELAYUPGRADENORMAL4) Then Return ; Wait for window to open
 
 		$aResult = BuildingInfo(242, 468 + $g_iBottomOffsetY) ; read building name/level to check we have right bldg or if collector was not full
-		$aResult[1] = "Gear Up " & $aResult[1]
+
 		If $aResult[0] > 1 Then
+			$aResult[1] = "Gear Up " & $aResult[1]
+			$aUpgradeButton = findButton("Upgrade", Default, 1, True)
 			If StringStripWS($aResult[1], BitOR($STR_STRIPLEADING, $STR_STRIPTRAILING)) <> StringStripWS($g_avBuildingUpgrades[$iUpgradeNumber][4], BitOR($STR_STRIPLEADING, $STR_STRIPTRAILING)) Then ; check bldg names
 				SetLog("Found #" & $iUpgradeNumber + 1 & ":" & $g_avBuildingUpgrades[$iUpgradeNumber][4] & ": Not same as : " & $aResult[1] & ":, May need new location?", $COLOR_ERROR)
 				Return False
@@ -582,18 +585,34 @@ Func UpgradeHero($iUpgradeNumber)
 	If _Sleep($DELAYUPGRADENORMAL1) Then Return
 
 	BuildingClick($g_avBuildingUpgrades[$iUpgradeNumber][0], $g_avBuildingUpgrades[$iUpgradeNumber][1], "#0304") ; Select the item to be upgrade
-	If _Sleep($DELAYUPGRADEHERO3) Then Return ; Wait for window to open
+	If _Sleep($DELAYUPGRADENORMAL4) Then Return ; Wait for window to open
 
 	Local $aResult = BuildingInfo(242, 468 + $g_iBottomOffsetY)
-	Local $bHeroUpgrade = False
+	If UBound($aResult) < 2 Then Return False
 	Local $aUpgradeButton = findButton("Upgrade", Default, 1, True)
+
+	If StringStripWS($aResult[1], BitOR($STR_STRIPLEADING, $STR_STRIPTRAILING)) <> StringStripWS($g_avBuildingUpgrades[$iUpgradeNumber][4], BitOR($STR_STRIPLEADING, $STR_STRIPTRAILING)) Then ; check bldg names
+		SetLog("#" & $iUpgradeNumber + 1 & ":" & $g_avBuildingUpgrades[$iUpgradeNumber][4] & ": Not same as :" & $aResult[1] & ":? Retry now...", $COLOR_INFO)
+		ClickAway()
+		If _Sleep($DELAYUPGRADENORMAL4) Then Return
+
+		BuildingClick($g_avBuildingUpgrades[$iUpgradeNumber][0], $g_avBuildingUpgrades[$iUpgradeNumber][1], "#0296") ; Select the item to be upgrade again in case full collector/mine
+		If _Sleep($DELAYUPGRADENORMAL4) Then Return ; Wait for window to open
+
+		$aResult = BuildingInfo(242, 468 + $g_iBottomOffsetY) ; read building name/level to check we have right bldg or if collector was not full
+		If $aResult[0] > 1 Then
+			$aUpgradeButton = findButton("Upgrade", Default, 1, True)
+			If StringStripWS($aResult[1], BitOR($STR_STRIPLEADING, $STR_STRIPTRAILING)) <> StringStripWS($g_avBuildingUpgrades[$iUpgradeNumber][4], BitOR($STR_STRIPLEADING, $STR_STRIPTRAILING)) Then ; check bldg names
+				SetLog("Found #" & $iUpgradeNumber + 1 & ":" & $g_avBuildingUpgrades[$iUpgradeNumber][4] & ": Not same as : " & $aResult[1] & ":, May need new location?", $COLOR_ERROR)
+				Return False
+			EndIf
+		EndIf
+	EndIf
 
 	If IsArray($aUpgradeButton) And UBound($aUpgradeButton, 1) = 2 Then
 		If _Sleep($DELAYUPGRADEHERO2) Then Return
 		ClickP($aUpgradeButton, 1, 0, "#0305") ; Click Upgrade Button
 		If _Sleep(2000) Then Return ; Wait for window to open
-		Local $g_aUpgradeDuration = getHeroUpgradeTime(730, 544 + $g_iMidOffsetY) ; get duration
-		If $g_aUpgradeDuration = "" Then $g_aUpgradeDuration = getHeroUpgradeTime(730, 532 + $g_iMidOffsetY) ; Try to read yellow text (Discount).
 		If $g_bDebugImageSave Then SaveDebugImage("UpgradeDarkBtn1")
 		If _ColorCheck(_GetPixelColor(800, 88 + $g_iMidOffsetY, True), Hex(0xF38E8D, 6), 20) Then ; wait up to 2 seconds for upgrade window to open
 			Local $RedSearch = _PixelSearch(610, 548 + $g_iMidOffsetY, 650, 552 + $g_iMidOffsetY, Hex(0xFF887F, 6), 20)
@@ -605,6 +624,8 @@ Func UpgradeHero($iUpgradeNumber)
 				ClickAway()
 				Return False
 			Else
+				Local $g_aUpgradeDuration = getHeroUpgradeTime(730, 544 + $g_iMidOffsetY) ; get duration
+				If $g_aUpgradeDuration = "" Then $g_aUpgradeDuration = getHeroUpgradeTime(730, 532 + $g_iMidOffsetY) ; Try to read yellow text (Discount).
 				Click(630, 540 + $g_iMidOffsetY, 1, 0, "#0299") ; Click upgrade buttton
 				If _Sleep($DELAYUPGRADENORMAL3) Then Return
 				If $g_bDebugImageSave Then SaveDebugImage("UpgradeRegBtn2")

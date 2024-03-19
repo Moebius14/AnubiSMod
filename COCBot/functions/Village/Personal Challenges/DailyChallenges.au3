@@ -71,11 +71,11 @@ Func OpenPersonalChallenges()
 	If _CheckPixel($aPersonalChallengeOpenButton3, $g_bCapturePixel) Then
 		$ActionForModLog = "Check Personnal Challenges - Something Detected"
 		If $g_iTxtCurrentVillageName <> "" Then
-			GUICtrlSetData($g_hTxtModLog, @CRLF & _NowTime() & " [" & $g_iTxtCurrentVillageName & "] Avanced : " & $ActionForModLog & "", 1)
+			GUICtrlSetData($g_hTxtModLog, @CRLF & _NowTime() & " [" & $g_iTxtCurrentVillageName & "] " & $ActionForModLog, 1)
 		Else
-			GUICtrlSetData($g_hTxtModLog, @CRLF & _NowTime() & " [" & $g_sProfileCurrentName & "] Avanced : " & $ActionForModLog & "", 1)
+			GUICtrlSetData($g_hTxtModLog, @CRLF & _NowTime() & " [" & $g_sProfileCurrentName & "] " & $ActionForModLog, 1)
 		EndIf
-		_FileWriteLog($g_sProfileLogsPath & "\ModLog.log", " [" & $g_sProfileCurrentName & "] - Advanced : " & $ActionForModLog & "")
+		_FileWriteLog($g_sProfileLogsPath & "\ModLog.log", " [" & $g_sProfileCurrentName & "] " & $ActionForModLog)
 		SetLog("Something Detected In Personal Challenges !", $COLOR_BLUE)
 		SetLog("Opening...", $COLOR_INFO)
 		ClickAway()
@@ -142,11 +142,11 @@ Func OpenPersonalChallenges()
 		If $g_iCmbPriorityPersoChallengesFrequency > 0 Then
 			$ActionForModLog = "Check Personnal Challenges - Nothing Detected"
 			If $g_iTxtCurrentVillageName <> "" Then
-				GUICtrlSetData($g_hTxtModLog, @CRLF & _NowTime() & " [" & $g_iTxtCurrentVillageName & "] Avanced : " & $ActionForModLog & "", 1)
+				GUICtrlSetData($g_hTxtModLog, @CRLF & _NowTime() & " [" & $g_iTxtCurrentVillageName & "] " & $ActionForModLog, 1)
 			Else
-				GUICtrlSetData($g_hTxtModLog, @CRLF & _NowTime() & " [" & $g_sProfileCurrentName & "] Avanced : " & $ActionForModLog & "", 1)
+				GUICtrlSetData($g_hTxtModLog, @CRLF & _NowTime() & " [" & $g_sProfileCurrentName & "] " & $ActionForModLog, 1)
 			EndIf
-			_FileWriteLog($g_sProfileLogsPath & "\ModLog.log", " [" & $g_sProfileCurrentName & "] - Advanced : " & $ActionForModLog & "")
+			_FileWriteLog($g_sProfileLogsPath & "\ModLog.log", " [" & $g_sProfileCurrentName & "] " & $ActionForModLog)
 		EndIf
 		Return False
 	EndIf
@@ -242,11 +242,11 @@ Func CollectDailyRewards($bGoldPass = False)
 								If $RewardTypes[$z][0] = 1 Then
 									SetLog($RewardTypes[$z][1], $COLOR_SUCCESS1)
 									If $g_iTxtCurrentVillageName <> "" Then
-										GUICtrlSetData($g_hTxtModLog, @CRLF & _NowTime() & " [" & $g_iTxtCurrentVillageName & "] Avanced : " & $RewardTypes[$z][1] & "", 1)
+										GUICtrlSetData($g_hTxtModLog, @CRLF & _NowTime() & " [" & $g_iTxtCurrentVillageName & "] " & $RewardTypes[$z][1], 1)
 									Else
-										GUICtrlSetData($g_hTxtModLog, @CRLF & _NowTime() & " [" & $g_sProfileCurrentName & "] Avanced : " & $RewardTypes[$z][1] & "", 1)
+										GUICtrlSetData($g_hTxtModLog, @CRLF & _NowTime() & " [" & $g_sProfileCurrentName & "] " & $RewardTypes[$z][1], 1)
 									EndIf
-									_FileWriteLog($g_sProfileLogsPath & "\ModLog.log", " [" & $g_sProfileCurrentName & "] - Advanced : " & $RewardTypes[$z][1] & "")
+									_FileWriteLog($g_sProfileLogsPath & "\ModLog.log", " [" & $g_sProfileCurrentName & "] " & $RewardTypes[$z][1])
 								EndIf
 							Next
 							If _Sleep(100) Then ExitLoop
