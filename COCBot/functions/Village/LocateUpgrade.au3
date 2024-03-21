@@ -197,13 +197,13 @@ Func UpgradeValue($inum, $bRepeat = False) ;function to find the value and type 
 			If _Sleep($DELAYUPGRADEVALUE4) Then Return
 		EndIf
 		; check for upgrade in process
-		Local $offColors[3][3] = [[0x000000, 44, 17], [0xE07740, 69, 31], [0xF2F7F1, 81, 0]] ; 2nd pixel black broken hammer, 3rd pixel lt brown handle, 4th pixel white edge of button
-		Local $ButtonPixel = _MultiPixelSearch(284, 572, 570, 615, 1, 1, Hex(0x000000, 6), $offColors, 25) ; first pixel blackon side of button
-		SetDebugLog("Pixel Color #1: " & _GetPixelColor(389, 572, True) & ", #2: " & _GetPixelColor(433, 589, True) & ", #3: " & _GetPixelColor(458, 603, True) & ", #4: " & _GetPixelColor(470, 572, True), $COLOR_DEBUG)
+		Local $offColors[3][3] = [[0x0D0D0D, 39, 19], [0x914F31, 68, 34], [0xFFFFFF, 81, 0]] ; 2nd pixel black broken hammer, 3rd pixel lt brown handle, 4th pixel white edge of button
+		Local $ButtonPixel = _MultiPixelSearch(284, 572, 570, 615, 1, 1, Hex(0x0E0E0D, 6), $offColors, 40) ; first black pixel on side of button
+		SetDebugLog("Pixel Color #1: " & _GetPixelColor(390, 572, True) & ", #2: " & _GetPixelColor(429, 601, True) & ", #3: " & _GetPixelColor(458, 606, True) & ", #4: " & _GetPixelColor(471, 572, True), $COLOR_DEBUG)
 		If IsArray($ButtonPixel) Then
 			If $g_bDebugSetlog Or $bOopsFlag Then
 				SetLog("ButtonPixel = " & $ButtonPixel[0] & ", " & $ButtonPixel[1], $COLOR_DEBUG) ;Debug
-				SetLog("Pixel Color #1: " & _GetPixelColor($ButtonPixel[0], $ButtonPixel[1], True) & ", #2: " & _GetPixelColor($ButtonPixel[0] + 44, $ButtonPixel[1] + 17, True) & ", #3: " & _GetPixelColor($ButtonPixel[0] + 69, $ButtonPixel[1] + 31, True) & ", #4: " & _GetPixelColor($ButtonPixel[0] + 81, $ButtonPixel[1], True), $COLOR_DEBUG)
+				SetLog("Pixel Color #1: " & _GetPixelColor($ButtonPixel[0], $ButtonPixel[1], True) & ", #2: " & _GetPixelColor($ButtonPixel[0] + 39, $ButtonPixel[1] + 19, True) & ", #3: " & _GetPixelColor($ButtonPixel[0] + 68, $ButtonPixel[1] + 34, True) & ", #4: " & _GetPixelColor($ButtonPixel[0] + 81, $ButtonPixel[1], True), $COLOR_DEBUG)
 			EndIf
 			SetLog("Selection #" & $inum + 1 & " Upgrade in process - Skipped!", $COLOR_WARNING)
 			ClickAway()

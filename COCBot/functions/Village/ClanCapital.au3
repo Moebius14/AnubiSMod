@@ -2868,8 +2868,6 @@ Func CheckAvailableMagicItems($TestDebug = False)
 	Local $MagicPot[7][4] = [["Training", 715, 717, 698], ["Clock Tower", 300, 302, 290], ["Builder Jar", 512, 514, 495], ["Power", 715, 717, 698], _
 			["Hero", 300, 302, 290], ["Resource", 512, 514, 495], ["Research", 715, 717, 698]]
 
-	Local $aItemTileOffColors[1][3] = [[0xCDCDCD, 0, 2]]
-	Local $aItemTileOffColors2[1][3] = [[0xDACABA, 0, 2]]
 	Local $g_iItemNumberY = 0
 	Local $aItemTile = 0
 
@@ -2950,8 +2948,8 @@ Func CheckAvailableMagicItems($TestDebug = False)
 		$aItemTile = 0
 		;
 
-		$aItemTile = _MultiPixelSearch($MagicPot[$i][1], 405, $MagicPot[$i][2], 470, 1, 1, Hex(0xCDCDCD, 6), $aItemTileOffColors, 10)
-		If $aItemTile = 0 Then $aItemTile = _MultiPixelSearch($MagicPot[$i][1], 405, $MagicPot[$i][2], 470, 1, 1, Hex(0xDACABA, 6), $aItemTileOffColors2, 10)
+		$aItemTile = _MultiPixelSearch2($MagicPot[$i][1], 405, $MagicPot[$i][2], 470, 1, 1, Hex(0xCDCDCD, 6), 10)
+		If $aItemTile = 0 Then $aItemTile = _MultiPixelSearch2($MagicPot[$i][1], 405, $MagicPot[$i][2], 470, 1, 1, Hex(0xDACABA, 6), 10)
 
 		If IsArray($aItemTile) Then
 			$g_iItemNumberY = $aItemTile[1]

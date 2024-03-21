@@ -15,6 +15,10 @@
 * Updated Hero heal time OCR area.
 * Improved Boost button detection.
 * Improved Army cap OCR (0).
+* Improved Open donate window detection.
+* Added DE Drill level 10 template.
+* Added ClanGamesRewards.ini creating if missing.
+* Updated Upgrade in progress color detection.
 
 * v8.1.6 **
 * Added "Before you upgrade" window support.

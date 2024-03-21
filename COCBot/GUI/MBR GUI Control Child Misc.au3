@@ -752,7 +752,6 @@ EndFunc   ;==>chkStartClockTowerBoost
 
 Func chkActivateClangames()
 	If GUICtrlRead($g_hChkClanGamesEnabled) = $GUI_CHECKED Then
-		ChkClanGamesCollectRewards()
 		GUICtrlSetState($g_hBtnCGSettingsOpen, $GUI_ENABLE)
 		For $i = $g_hChkClanGamesAllTimes To $g_hChkClanGamesNoOneDay
 			GUICtrlSetState($i, $GUI_ENABLE)
@@ -800,7 +799,6 @@ Func chkActivateClangames()
 		EndIf
 		GUICtrlSetState($g_hTxtClanGamesLog, $GUI_ENABLE)
 	Else
-		GUICtrlSetState($g_hBtnCreateCGRewardsSettings, $GUI_DISABLE)
 		GUICtrlSetState($g_hBtnCGSettingsOpen, $GUI_DISABLE)
 		For $i = $g_hChkClanGamesAllTimes To $g_hChkClanGamesNoOneDay
 			GUICtrlSetState($i, $GUI_DISABLE)
@@ -867,13 +865,9 @@ EndFunc   ;==>ChkClanGamesNoOneDay
 
 Func ChkClanGamesCollectRewards()
 	If GUICtrlRead($g_hChkClanGamesCollectRewards) = $GUI_CHECKED Then
-		If GUICtrlRead($g_hChkClanGamesEnabled) = $GUI_CHECKED Then
-			GUICtrlSetState($g_hBtnCreateCGRewardsSettings, $GUI_ENABLE)
-		Else
-			GUICtrlSetState($g_hBtnCreateCGRewardsSettings, $GUI_DISABLE)
-		EndIf
+		$g_bChkClanGamesCollectRewards = True
 	Else
-		GUICtrlSetState($g_hBtnCreateCGRewardsSettings, $GUI_DISABLE)
+		$g_bChkClanGamesCollectRewards = False
 	EndIf
 EndFunc   ;==>ChkClanGamesCollectRewards
 

@@ -418,6 +418,7 @@ Func ApplyConfig_600_6($TypeReadSave)
 			Next
 
 			chkActivateClangames()
+			CreateCGRewardsFile()
 
 			; Builder Base Attack
 			GUICtrlSetState($g_hChkEnableBBAttack, $g_bChkEnableBBAttack ? $GUI_CHECKED : $GUI_UNCHECKED)

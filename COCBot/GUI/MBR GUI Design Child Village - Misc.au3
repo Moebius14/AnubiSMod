@@ -55,7 +55,7 @@ Global $g_hGUI_CGSettings = 0, $g_hBtnCGSettingsOpen = 0, $g_hBtnCGSettingsClose
 Global $g_hChkAttackCGPlannerEnable = 0, $g_hChkAttackCGPlannerDayLimit = 0, $g_hLbAttackCGPlannerDayLimit = 0, $g_hCmbAttackCGPlannerDayMin = 0, $g_hCmbAttackCGPlannerDayMax = 0, _
 		$g_hLbAttackCGPlannerThen = 0, $hCGPlannerThenContinue = 0, $hCGPlannerThenStopBot = 0, $g_hChkSTOPWhenCGPointsMax = 0, _
 		$TitleDailyLimit = 0, $MaxDailyLimit = 0, $DailyLimitSlash = 0, $ActualNbrsAttacks = 0
-Global $g_hChkClanGamesCollectRewards = 0, $g_hBtnCreateCGRewardsSettings = 0
+Global $g_hChkClanGamesCollectRewards = 0
 Global $g_hChkForceBBAttackOnClanGames = 0, $g_hChkClanGamesPurgeAny = 0, $g_hChkClanGamesPurgeAnyClose = 0, $g_hChkClanGamesStopBeforeReachAndPurge = 0
 Global $g_hChkForceAttackOnClanGamesWhenHalt = 0
 Global $hSearchBBEventFirst = 0, $hSearchMainEventFirst = 0, $hSearchBothVillages = 0
@@ -959,13 +959,10 @@ Func CreateMiscClanGamesV3SubTab()
 
 	$x -= 130
 	$y += 95
-	GUICtrlCreateGroup(GetTranslatedFileIni("MBR GUI Design Child Village - Misc", "Group_CG_Rewards", "Rewards"), $x - 10, $y - 15, $g_iSizeWGrpTab3 - 130, 50)
-	$g_hChkClanGamesCollectRewards = GUICtrlCreateCheckbox(GetTranslatedFileIni("MBR GUI Design Child Village - Misc", "ChkClanGamesCollectRewards", "Collect"), $x, $y + 2, -1, -1)
+	$g_hChkClanGamesCollectRewards = GUICtrlCreateCheckbox(GetTranslatedFileIni("MBR GUI Design Child Village - Misc", "ChkClanGamesCollectRewards", "Collect Rewards"), $x, $y + 2, -1, -1)
 	GUICtrlSetOnEvent(-1, "ChkClanGamesCollectRewards")
-	$g_hBtnCreateCGRewardsSettings = GUICtrlCreateButton("Create Clan Games Rewards Settings", $x + 60, $y, -1, -1)
-	_GUICtrlSetTip(-1, "Click Here to Create ClanGamesRewards.ini in Profile Folder")
-	GUICtrlSetOnEvent(-1, "CreateCGRewardsFile")
-	GUICtrlCreateGroup("", -99, -99, 1, 1)
+	_GUICtrlSetTip(-1, GetTranslatedFileIni("MBR GUI Design Child Village - Misc", "ChkClanGamesCollectRewards_Info1", "Check This To Auto Collect Rewards At the End of Clan Games.") & @CRLF & _
+			GetTranslatedFileIni("MBR GUI Design Child Village - Misc", "ChkClanGamesCollectRewards_Info2", "Settings are in \Profiles\YourProfile\ClanGamesRewards.ini"))
 
 	GUICtrlCreateGroup("", -99, -99, 1, 1)
 

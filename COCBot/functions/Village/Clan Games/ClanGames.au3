@@ -2244,8 +2244,7 @@ Func CollectClanGamesRewards($bTest = False)
 			["FullPotSuper", 90]]          ; 10 gems
 
 	Local $aiColumn[4] = [276, 246, 348, 453]
-	Local $aColWinOffColors[1][3] = [[0xD2D259, 2, 0]]
-	Local $aFirstColumn = _MultiPixelSearch(260, 205 + $g_iMidOffsetY, 290, 205 + $g_iMidOffsetY, 1, 1, Hex(0xD2D259, 6), $aColWinOffColors, 10)
+	Local $aFirstColumn = _MultiPixelSearch2(260, 205 + $g_iMidOffsetY, 290, 205 + $g_iMidOffsetY, 1, 1, Hex(0xD2D259, 6), 10)
 	If IsArray($aFirstColumn) And $aFirstColumn[0] < 270 Then
 		$aiColumn[0] = $aFirstColumn[0] - 2
 		$aiColumn[2] = $aiColumn[0] + 73
@@ -2270,7 +2269,7 @@ Func CollectClanGamesRewards($bTest = False)
 	If Not FileExists($sIniPath) Then
 		; Write INI File
 		Local $File = FileOpen($sIniPath, $FO_APPEND)
-		Local $HelpText = "; - MyBotRun - Clan Games Rewards Priority List 2023 - " & @CRLF & _
+		Local $HelpText = "; - MyBotRun - Clan Games Rewards Priority List 2024 - " & @CRLF & _
 				"; - 'Reward' = 'Priority' [1 to 99][highest to lowest] , if grouped then random from group" & @CRLF & _
 				"; - Do not change any Reward name" & @CRLF & _
 				"; - Deleting this file will restore the default values." & @CRLF & @CRLF
@@ -2661,12 +2660,11 @@ Func CreateCGRewardsFile()
 	Local $sIniPath = $g_sProfilePath & "\" & $g_sProfileCurrentName & "\ClanGamesRewards.ini"
 	Local $ResultIni
 
-	Setlog(" - Ini Path: " & $sIniPath)
-
 	If Not FileExists($sIniPath) Then
+		SetDebuglog(" - Ini Path: " & $sIniPath)
 		; Write INI File
 		Local $File = FileOpen($sIniPath, $FO_APPEND)
-		Local $HelpText = "; - MyBotRun - Clan Games Rewards Priority List 2023 - " & @CRLF & _
+		Local $HelpText = "; - MyBotRun - Clan Games Rewards Priority List 2024 - " & @CRLF & _
 				"; - 'Reward' = 'Priority' [1 to 99][highest to lowest] , if grouped then random from group" & @CRLF & _
 				"; - Do not change any Reward name" & @CRLF & _
 				"; - Deleting this file will restore the default values." & @CRLF & @CRLF
@@ -2675,15 +2673,8 @@ Func CreateCGRewardsFile()
 
 		For $j = 0 To UBound($aRewardsList) - 1
 			IniWrite($sIniPath, "Rewards", $aRewardsList[$j][0], $aRewardsList[$j][1])
-			SetLog($aRewardsList[$j][0] & " - " & $aRewardsList[$j][1])
-		Next
-	Else
-		For $j = 0 To UBound($aRewardsList) - 1
-			$ResultIni = Int(IniRead($sIniPath, "Rewards", $aRewardsList[$j][0], $aRewardsList[$j][1]))
-			$aRewardsList[$j][1] = Number($ResultIni)
-			SetLog($aRewardsList[$j][0] & " - " & $aRewardsList[$j][1] & " Result " & $ResultIni)
-			$ResultIni = ""
+			SetDebugLog($aRewardsList[$j][0] & " - " & $aRewardsList[$j][1])
 		Next
 	EndIf
 
-EndFunc
+EndFunc   ;==>CreateCGRewardsFile

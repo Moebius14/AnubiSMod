@@ -1058,15 +1058,13 @@ Func DonateWindow($aiDonateButton, $bOpen = True)
 	$g_iDonationWindowY = 0
 	$XWindowOffset = 0
 
-	ForceCaptureRegion()
-	Local $aDonWinOffColorsX[1][3] = [[0xFFFFFF, 2, 0]]
-	Local $aDonWinOffColorsY[1][3] = [[0xFFFFFF, 0, 2]]
-	Local $aDonationWindowX = _MultiPixelSearch(342, $aiDonateButton[1], 390, $aiDonateButton[1], 1, 1, Hex(0xFFFFFF, 6), $aDonWinOffColorsX, 10)
-	Local $aDonationWindowY = _MultiPixelSearch(628, 0, 630, $g_iDEFAULT_HEIGHT, 1, 1, Hex(0xFFFFFF, 6), $aDonWinOffColorsY, 10)
+	Local $aDonationWindowX = _MultiPixelSearch2(342, $aiDonateButton[1], 390, $aiDonateButton[1], 1, 1, Hex(0xFFFFFF, 6), 10)
+	Local $aDonationWindowY = _MultiPixelSearch2(628, 0, 630, $g_iDEFAULT_HEIGHT, 1, 1, Hex(0xFFFFFF, 6), 10)
 	If IsArray($aDonationWindowX) And IsArray($aDonationWindowY) Then
 		$XWindowOffset = $aDonationWindowX[0] - 353
 		$g_iDonationWindowY = $aDonationWindowY[1]
 		If $g_bDebugSetlog Then SetDebugLog("$XWindowOffset: " & $XWindowOffset, $COLOR_DEBUG)
+		If $g_bDebugSetlog Then SetDebugLog("$g_iDonationWindowX: " & $aDonationWindowX[0], $COLOR_DEBUG)
 		If $g_bDebugSetlog Then SetDebugLog("$g_iDonationWindowY: " & $g_iDonationWindowY, $COLOR_DEBUG)
 	Else
 		SetLog("Could not find the Donate Window!", $COLOR_ERROR)
