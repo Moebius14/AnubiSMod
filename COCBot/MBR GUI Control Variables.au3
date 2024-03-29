@@ -295,6 +295,11 @@ Func InitializeControlVariables()
 
 	;Mod
 	$oAlwaysEnabledControls($g_hTxtAutoUpgradeCCLog) = 1
+	If $g_bChkClanGamesEnabled And $g_bAttackCGPlannerEnable And $g_bAttackCGPlannerDayLimit Then
+		For $i = $TitleDailyLimit To $MaxDailyLimit
+			$oAlwaysEnabledControls($i) = 1
+		Next
+	EndIf
 	$oAlwaysEnabledControls($g_hTxtClanGamesLog) = 1
 	$oAlwaysEnabledControls($g_hBtnHeroEquipment) = 1
 	$oAlwaysEnabledControls($g_hBtnHeroEquipmentClose) = 1

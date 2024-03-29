@@ -318,7 +318,7 @@ Func EndBattleBB() ; Find if battle has ended and click okay
 					If CheckCGCompleted() Then
 						$IsChallengeCompleted = True
 					Else
-						SetLog("Challenge Is Not Finished...", $COLOR_ERROR)
+						SetLog("Challenge is not finished...", $COLOR_ERROR)
 					EndIf
 				EndIf
 				If _Sleep(2000) Then Return

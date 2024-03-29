@@ -51,7 +51,7 @@ MAKE  |E          |FRONT-LEFT |10         |-9         |INT-EXT    |0          |0
 MAKE  |F          |FRONT-LEFT |10         |-17        |INT-EXT    |0          |0          |           |                                            				  |
 MAKE  |G          |FRONT-RIGHT|10         |-13        |INT-EXT    |0          |0          |           |                                            				  |
 MAKE  |H          |FRONT-LEFT |10         |-18        |INT-EXT    |0          |0          |           |                                            				  |
-MAKE  |I          |FRONT-RIGHT|10         |-18        |INT-EXT    |1          |0          |           |                                            				  |
+MAKE  |I          |FRONT-RIGHT|10         |-18        |INT-EXT    |0          |0          |           |                                            				  |
 MAKE  |J          |FRONT-LEFT |10         |-21        |INT-EXT    |0          |1          |           |                                            				  |
 MAKE  |K          |FRONT-RIGHT|10         |-19        |INT-EXT    |0          |0          |           |                                            				  |
 MAKE  |L          |RIGHT-FRONT|10         |0          |INT-EXT    |3          |0          |           |                                            				  |

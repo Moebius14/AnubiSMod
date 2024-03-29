@@ -96,8 +96,8 @@ Func BattleMachineUpgrade($test = False)
 
 	If _Sleep($DELAYUPGRADEHERO1) Then Return
 
-	If $g_aiCurrentLootBB[$eLootElixirBB] < ($g_afBattleMachineUpgCost[$aHeroLevel] * 1000000) Then
-		SetLog("Battle Machine Upg failed, require " & ($g_afBattleMachineUpgCost[$aHeroLevel] * 1000000) & " elixir!", $COLOR_INFO)
+	If $g_aiCurrentLootBB[$eLootElixirBB] < ($g_afBattleMachineUpgCost[$aHeroLevel] * 1000000) * (1 - Number($g_iBuilderBoostDiscount) / 100) Then
+		SetLog("Battle Machine Upg failed, require " & ($g_afBattleMachineUpgCost[$aHeroLevel] * 1000000) * (1 - Number($g_iBuilderBoostDiscount) / 100) & " elixir!", $COLOR_INFO)
 		ClickAway()
 		Return
 	EndIf
@@ -113,9 +113,9 @@ Func BattleMachineUpgrade($test = False)
 
 		; check for storage full window
 		If IsWindowOpen($sImgBattleMachineUpgradeWindow, 0, 0, GetDiamondFromRect($sSearchArea)) Then
-			Local $aWhiteZeros = decodeSingleCoord(findImage("UpgradeWhiteZero", $g_sImgUpgradeWhiteZero, GetDiamondFromRect("625,560,790,625"), 1, True, Default))
-			If IsArray($aWhiteZeros) And UBound($aWhiteZeros, 1) = 2 Then
-				ClickP($aWhiteZeros, 1, 0) ; Click upgrade buttton
+			Local $aWhiteZeros = _PixelSearch(650, 555 + $g_iMidOffsetY, 740, 560 + $g_iMidOffsetY, Hex(0xFFFFFF, 6), 20)
+			If IsArray($aWhiteZeros) Then
+				Click(700, 560 + $g_iMidOffsetY) ; Click upgrade buttton
 				If _Sleep($DELAYUPGRADEHERO1) Then Return
 
 				; Just incase the buy Gem Window pop up!

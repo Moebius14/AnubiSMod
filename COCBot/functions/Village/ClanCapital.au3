@@ -2948,16 +2948,16 @@ Func CheckAvailableMagicItems($TestDebug = False)
 		$aItemTile = 0
 		;
 
-		$aItemTile = _MultiPixelSearch2($MagicPot[$i][1], 405, $MagicPot[$i][2], 470, 1, 1, Hex(0xCDCDCD, 6), 10)
-		If $aItemTile = 0 Then $aItemTile = _MultiPixelSearch2($MagicPot[$i][1], 405, $MagicPot[$i][2], 470, 1, 1, Hex(0xDACABA, 6), 10)
+		$aItemTile = _MultiPixelSearch2($MagicPot[$i][1], 380 + $g_iMidOffsetY, $MagicPot[$i][2], 430 + $g_iMidOffsetY, 1, 1, Hex(0x0D0D0D, 6), 20) ; Find the first black pixel top of item
 
 		If IsArray($aItemTile) Then
 			$g_iItemNumberY = $aItemTile[1]
 		Else
 			SetLog("Could not find the Tile!", $COLOR_ERROR)
+			ContinueLoop
 		EndIf
 
-		Local $Number = getOcrAndCapture("coc-MedalCost", $MagicPot[$i][3], $g_iItemNumberY + 42, 35, 15, True)
+		Local $Number = getOcrAndCapture("coc-MedalCost", $MagicPot[$i][3], $g_iItemNumberY + 44, 35, 15, True)
 
 		If $Number <> "" And StringInStr($Number, "#") Then
 			; Splitting the XX/XX
@@ -2969,15 +2969,15 @@ Func CheckAvailableMagicItems($TestDebug = False)
 				If $aTempCapItem[2] > 0 Then
 					Local $iAvailItem = $aTempCapItem[1]
 					Local $iItemTotal = $aTempCapItem[2]
+					SetDebugLog("Item : " & $MagicPot[$i][0])
+					SetDebugLog("Availability : " & $iAvailItem & "/" & $iItemTotal)
+					SetLog("Item : " & $MagicPot[$i][0])
+					SetLog("Availability : " & $iAvailItem & "/" & $iItemTotal)
+					_ArrayAdd($aWDItems, $i & "|" & $MagicPot[$i][0] & "|" & $iAvailItem)
 				EndIf
 			EndIf
 
-			SetDebugLog("Item : " & $MagicPot[$i][0])
-			SetDebugLog("Availability : " & $iAvailItem & "/" & $iItemTotal)
-
 		EndIf
-
-		_ArrayAdd($aWDItems, $i & "|" & $MagicPot[$i][0] & "|" & $iAvailItem)
 
 		If $i = 0 Or $i = 3 Then
 			ClickDrag(605, 510 + $g_iMidOffsetY, 620, 295 + $g_iMidOffsetY)

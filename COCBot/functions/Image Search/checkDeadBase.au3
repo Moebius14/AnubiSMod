@@ -101,7 +101,7 @@ Func checkDeadBaseNew()
 	Local $anyFillLevel[2] = [False, False] ; 50% and 100%
 	SetDebugLog("Checking Deadbase With IMGLOC START", $COLOR_WARNING)
 
-	For $i = 6 To 15
+	For $i = 6 To 14
 		If $g_abCollectorLevelEnabled[$i] Then
 			If $minCollectorLevel = 0 Then $minCollectorLevel = $i
 			If $i > $maxCollectorLevel Then $maxCollectorLevel = $i
@@ -252,7 +252,7 @@ Func checkDeadBaseSuperNew($bForceCapture = True, $sFillDirectory = @ScriptDir &
 	Local $anyFillLevel[2] = [False, False] ; 50% and 100%
 	SetDebugLog("Checking Deadbase With IMGLOC START (super new)", $COLOR_WARNING)
 
-	For $i = 6 To 15
+	For $i = 6 To 14
 		If $g_abCollectorLevelEnabled[$i] Then
 			If $minCollectorLevel = 0 Then $minCollectorLevel = $i
 			If $i > $maxCollectorLevel Then $maxCollectorLevel = $i
@@ -333,8 +333,8 @@ Func checkDeadBaseSuperNew($bForceCapture = True, $sFillDirectory = @ScriptDir &
 			$y = $aP[1]
 			$fill = $aP[2]
 			$lvl = $aP[3]
-			; search area for collector level, add 20 left and right, 25 top and 15 bottom
-			$sCocDiamond = ($x - 20) & "," & ($y - 25) & "|" & ($x + 20) & "," & ($y - 25) & "|" & ($x + 20) & "," & ($y + 15) & "|" & ($x - 20) & "," & ($y + 15)
+			; search area for collector level, add 20 left and right, 35 top and 15 bottom
+			$sCocDiamond = ($x - 20) & "," & ($y - 35) & "|" & ($x + 20) & "," & ($y - 35) & "|" & ($x + 20) & "," & ($y + 15) & "|" & ($x - 20) & "," & ($y + 15)
 			$redLines = $sCocDiamond ; override red line with CoC Diamond so not calculated again
 			$result = findMultiple($sLvlDirectory, $sCocDiamond, $redLines, $minLevel, $maxLevel, $maxReturnPoints, $returnProps, $bForceCapture)
 			$bForceCapture = False ; force capture only first time

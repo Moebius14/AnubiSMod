@@ -658,14 +658,23 @@ Func DonateCC($bCheckForNewMsg = False)
 		EndIf
 
 		;;; Scroll Down
-		ForceCaptureRegion()
-		$Scroll = _PixelSearch(348, 587 + $g_iBottomOffsetY, 352, 601 + $g_iBottomOffsetY, Hex(0xFFFFFF, 6), 20)
+		$Scroll = _PixelSearch(348, 587 + $g_iBottomOffsetY, 352, 601 + $g_iBottomOffsetY, Hex(0xFFFFFF, 6), 20, True)
 		If IsArray($Scroll) Then
 			$bDonate = True
 			ClickP($Scroll, 1, 0, "#0172")
 			$aiSearchArray[1] = 580
 			If _Sleep($DELAYDONATECC2) Then ExitLoop
 			ContinueLoop
+		EndIf
+		;;; Chat Down
+		If ClickB("ChatDown") Then
+			$aiSearchArray[1] = 580
+			$sSearchArea = GetDiamondFromArray($aiSearchArray)
+			$aiDonateButton = decodeSingleCoord(findImage("Donate Button", $g_sImgDonateCC & "DonateButton*", $sSearchArea, 1, True, Default))
+			If IsArray($aiDonateButton) And UBound($aiDonateButton, 1) >= 2 Then
+				$bDonate = True
+				ContinueLoop
+			EndIf
 		EndIf
 		$bDonate = False
 	WEnd

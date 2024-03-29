@@ -50,7 +50,7 @@ MAKE  |E          |FRONT-LEFT |10         |-5         |INT-EXT    |0          |0
 MAKE  |F          |FRONT-LEFT |10         |-14        |INT-EXT    |0          |0          |           |                                            				  |
 MAKE  |G          |FRONT-RIGHT|10         |-13        |INT-EXT    |0          |0          |           |                                            				  |
 MAKE  |H          |FRONT-LEFT |10         |-15        |INT-EXT    |0          |0          |           |                                            				  |
-MAKE  |I          |FRONT-RIGHT|10         |-15        |INT-EXT    |1          |0          |           |                                            				  |
+MAKE  |I          |FRONT-RIGHT|10         |-15        |INT-EXT    |0          |0          |           |                                            				  |
 MAKE  |J          |FRONT-LEFT |10         |-21        |INT-EXT    |0          |1          |           |                                            				  |
 MAKE  |K          |FRONT-RIGHT|1          |-1         |IGNORE     |           |           |IN-WALL    |                                            				  |
 MAKE  |L          |RIGHT-FRONT|10         |0          |INT-EXT    |3          |0          |           |                                            				  |

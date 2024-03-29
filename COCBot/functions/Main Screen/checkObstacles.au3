@@ -151,8 +151,14 @@ Func _checkObstacles($bBuilderBase = False, $bRecursive = False) ;Checks if some
 			_ColorCheck(_GetPixelColor(600, 9, $g_bCapturePixel), Hex(0x000000, 6), 1)
 	If Not $bHasTopBlackBar And _CheckPixel($aIsMainGrayed, $g_bCapturePixel) Then
 		SetDebugLog("checkObstacles: Found gray Window to close")
-		PureClickP($aAway, 1, 0, "#0133") ;Click away If things are open
-		If _Sleep(1000) Then Return
+		Local $aConfirmButton = findButton("ConfirmButton", Default, 1, True)
+		If IsArray($aConfirmButton) And UBound($aConfirmButton, 1) = 2 Then
+			ClickP($aConfirmButton)
+			If _Sleep(1500) Then Return
+		Else
+			PureClickP($aAway, 1, 0, "#0133") ;Click away If things are open
+			If _Sleep(1000) Then Return
+		EndIf
 		If _CheckPixel($aIsMain, $g_bCapturePixel) Then
 			$g_bMinorObstacle = True
 			If _Sleep($DELAYCHECKOBSTACLES1) Then Return

@@ -4218,7 +4218,7 @@ Func GetAndroidProcessPID($sPackage = Default, $bForeground = True, $iRetryCount
 	EndIf
 
 	SetLog("Android process " & $sPackage & " not running")
-	SaveDebugImage("GetAndroidProcessPID")
+	If $g_bDebugAndroid Then  SaveDebugImage("GetAndroidProcessPID")
 	$g_iAdroidProcNotRunning += 1
 	If $g_iAdroidProcNotRunning = 10 Then ; HArchH arbitrary limit
 		SetLog("Too many not running errors.  Restarting emulator.", $COLOR_INFO)

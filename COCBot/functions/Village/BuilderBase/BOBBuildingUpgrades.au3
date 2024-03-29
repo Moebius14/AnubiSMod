@@ -98,8 +98,8 @@ Func DoubleCannonUpgrade($test = False)
 
 	If _Sleep($DELAYUPGRADEHERO1) Then Return
 
-	If $g_aiCurrentLootBB[$eLootGoldBB] < ($g_afDoubleCannonUpgCost[$aDoubleCannonLevel] * 1000) Then
-		SetLog("Double Cannon Upg failed, require " & ($g_afDoubleCannonUpgCost[$aDoubleCannonLevel] * 1000) & " builder gold!", $COLOR_INFO)
+	If $g_aiCurrentLootBB[$eLootGoldBB] < ($g_afDoubleCannonUpgCost[$aDoubleCannonLevel] * 1000) * (1 - Number($g_iBuilderBoostDiscount) / 100) Then
+		SetLog("Double Cannon Upg failed, require " & ($g_afDoubleCannonUpgCost[$aDoubleCannonLevel] * 1000) * (1 - Number($g_iBuilderBoostDiscount) / 100) & " builder gold!", $COLOR_INFO)
 		ClickAway()
 		If _Sleep(1000) Then Return
 		SwitchToBuilderbase()
@@ -117,9 +117,9 @@ Func DoubleCannonUpgrade($test = False)
 
 		; check for storage full window
 		If IsWindowOpen($sImgBBUpgradeWindow, 0, 0, GetDiamondFromRect($sSearchArea)) Then
-			Local $aWhiteZeros = decodeSingleCoord(findImage("UpgradeWhiteZero", $g_sImgUpgradeWhiteZero, GetDiamondFromRect("340,535,525,600"), 1, True, Default))
-			If IsArray($aWhiteZeros) And UBound($aWhiteZeros, 1) = 2 Then
-				ClickP($aWhiteZeros, 1, 0) ; Click upgrade buttton
+			Local $aWhiteZeros = _PixelSearch(365, 532 + $g_iMidOffsetY, 470, 542 + $g_iMidOffsetY, Hex(0xFFFFFF, 6), 20)
+			If IsArray($aWhiteZeros) Then
+				Click(425, 535 + $g_iMidOffsetY) ; Click upgrade buttton
 				If _Sleep($DELAYUPGRADEHERO1) Then Return
 
 				; Just incase the buy Gem Window pop up!
@@ -245,8 +245,8 @@ Func ArcherTowerUpgrade($test = False)
 
 	If _Sleep($DELAYUPGRADEHERO1) Then Return
 
-	If $g_aiCurrentLootBB[$eLootGoldBB] < ($g_afArcherTowerUpgCost[$aArcherTowerLevel] * 1000) Then
-		SetLog("Archer Tower Upg failed, require " & ($g_afArcherTowerUpgCost[$aArcherTowerLevel] * 1000) & " builder gold!", $COLOR_INFO)
+	If $g_aiCurrentLootBB[$eLootGoldBB] < ($g_afArcherTowerUpgCost[$aArcherTowerLevel] * 1000) * (1 - Number($g_iBuilderBoostDiscount) / 100) Then
+		SetLog("Archer Tower Upg failed, require " & ($g_afArcherTowerUpgCost[$aArcherTowerLevel] * 1000) * (1 - Number($g_iBuilderBoostDiscount) / 100) & " builder gold!", $COLOR_INFO)
 		ClickAway()
 		If _Sleep(1000) Then Return
 		SwitchToBuilderbase()
@@ -264,9 +264,9 @@ Func ArcherTowerUpgrade($test = False)
 
 		; check for storage full window
 		If IsWindowOpen($sImgBBUpgradeWindow, 0, 0, GetDiamondFromRect($sSearchArea)) Then
-			Local $aWhiteZeros = decodeSingleCoord(findImage("UpgradeWhiteZero", $g_sImgUpgradeWhiteZero, GetDiamondFromRect("340,535,525,600"), 1, True, Default))
-			If IsArray($aWhiteZeros) And UBound($aWhiteZeros, 1) = 2 Then
-				ClickP($aWhiteZeros, 1, 0) ; Click upgrade buttton
+			Local $aWhiteZeros = _PixelSearch(365, 532 + $g_iMidOffsetY, 470, 542 + $g_iMidOffsetY, Hex(0xFFFFFF, 6), 20)
+			If IsArray($aWhiteZeros) Then
+				Click(425, 535 + $g_iMidOffsetY) ; Click upgrade buttton
 				If _Sleep($DELAYUPGRADEHERO1) Then Return
 
 				; Just incase the buy Gem Window pop up!
@@ -393,8 +393,8 @@ Func MultiMortarUpgrade($test = False)
 
 	If _Sleep($DELAYUPGRADEHERO1) Then Return
 
-	If $g_aiCurrentLootBB[$eLootGoldBB] < ($g_afMultiMortarUpgCost[$aMultiMortarLevel] * 1000) Then
-		SetLog("Multi Mortar Upg failed, require " & ($g_afMultiMortarUpgCost[$aMultiMortarLevel] * 1000) & " builder gold!", $COLOR_INFO)
+	If $g_aiCurrentLootBB[$eLootGoldBB] < ($g_afMultiMortarUpgCost[$aMultiMortarLevel] * 1000) * (1 - Number($g_iBuilderBoostDiscount) / 100) Then
+		SetLog("Multi Mortar Upg failed, require " & ($g_afMultiMortarUpgCost[$aMultiMortarLevel] * 1000) * (1 - Number($g_iBuilderBoostDiscount) / 100) & " builder gold!", $COLOR_INFO)
 		ClickAway()
 		If _Sleep(1000) Then Return
 		SwitchToBuilderbase()
@@ -412,9 +412,9 @@ Func MultiMortarUpgrade($test = False)
 
 		; check for storage full window
 		If IsWindowOpen($sImgBBUpgradeWindow, 0, 0, GetDiamondFromRect($sSearchArea)) Then
-			Local $aWhiteZeros = decodeSingleCoord(findImage("UpgradeWhiteZero", $g_sImgUpgradeWhiteZero, GetDiamondFromRect("340,535,525,600"), 1, True, Default))
-			If IsArray($aWhiteZeros) And UBound($aWhiteZeros, 1) = 2 Then
-				ClickP($aWhiteZeros, 1, 0) ; Click upgrade buttton
+			Local $aWhiteZeros = _PixelSearch(365, 532 + $g_iMidOffsetY, 470, 542 + $g_iMidOffsetY, Hex(0xFFFFFF, 6), 20)
+			If IsArray($aWhiteZeros) Then
+				Click(425, 535 + $g_iMidOffsetY) ; Click upgrade buttton
 				If _Sleep($DELAYUPGRADEHERO1) Then Return
 
 				; Just incase the buy Gem Window pop up!
@@ -541,8 +541,8 @@ Func AnyDefUpgrade($test = False)
 
 	If _Sleep($DELAYUPGRADEHERO1) Then Return
 
-	If $g_aiCurrentLootBB[$eLootGoldBB] < ($g_afAnyDefUpgCost[$aCannonLevel] * 1000) Then
-		SetLog("Cannon Upg failed, require " & ($g_afAnyDefUpgCost[$aCannonLevel] * 1000) & " builder gold!", $COLOR_INFO)
+	If $g_aiCurrentLootBB[$eLootGoldBB] < ($g_afAnyDefUpgCost[$aCannonLevel] * 1000) * (1 - Number($g_iBuilderBoostDiscount) / 100) Then
+		SetLog("Cannon Upg failed, require " & ($g_afAnyDefUpgCost[$aCannonLevel] * 1000) * (1 - Number($g_iBuilderBoostDiscount) / 100) & " builder gold!", $COLOR_INFO)
 		ClickAway()
 		If _Sleep(1000) Then Return
 		SwitchToBuilderbase()
@@ -560,9 +560,9 @@ Func AnyDefUpgrade($test = False)
 
 		; check for storage full window
 		If IsWindowOpen($sImgBBUpgradeWindow, 0, 0, GetDiamondFromRect($sSearchArea)) Then
-			Local $aWhiteZeros = decodeSingleCoord(findImage("UpgradeWhiteZero", $g_sImgUpgradeWhiteZero, GetDiamondFromRect("340,535,525,600"), 1, True, Default))
-			If IsArray($aWhiteZeros) And UBound($aWhiteZeros, 1) = 2 Then
-				ClickP($aWhiteZeros, 1, 0) ; Click upgrade buttton
+			Local $aWhiteZeros = _PixelSearch(365, 532 + $g_iMidOffsetY, 470, 542 + $g_iMidOffsetY, Hex(0xFFFFFF, 6), 20)
+			If IsArray($aWhiteZeros) Then
+				Click(425, 535 + $g_iMidOffsetY) ; Click upgrade buttton
 				If _Sleep($DELAYUPGRADEHERO1) Then Return
 
 				; Just incase the buy Gem Window pop up!

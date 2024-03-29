@@ -2244,10 +2244,12 @@ Func CollectClanGamesRewards($bTest = False)
 			["FullPotSuper", 90]]          ; 10 gems
 
 	Local $aiColumn[4] = [276, 246, 348, 453]
-	Local $aFirstColumn = _MultiPixelSearch2(260, 205 + $g_iMidOffsetY, 290, 205 + $g_iMidOffsetY, 1, 1, Hex(0xD2D259, 6), 10)
-	If IsArray($aFirstColumn) And $aFirstColumn[0] < 270 Then
-		$aiColumn[0] = $aFirstColumn[0] - 2
-		$aiColumn[2] = $aiColumn[0] + 73
+	Local $aFirstColumn = _MultiPixelSearch2(260, 205 + $g_iMidOffsetY, 290, 205 + $g_iMidOffsetY, 1, 1, Hex(0xD2D259, 6), 15)
+	If IsArray($aFirstColumn) Then
+		If $aFirstColumn[0] < 270 Then
+			$aiColumn[0] = $aFirstColumn[0] - 1
+			$aiColumn[2] = $aiColumn[0] + 72
+		EndIf
 	EndIf
 	Local $iColumnWidth = 92
 	Local $sImgClanGamesReceivedWindow = @ScriptDir & "\imgxml\Windows\ClanGamesReceivedWindow*"

@@ -19,6 +19,17 @@
 * Added DE Drill level 10 template.
 * Added ClanGamesRewards.ini creating if missing.
 * Updated Upgrade in progress color detection.
+* Improved CG events detection.
+* Improved Troops upgrade cost detection (3 white OCR).
+* Fixed Share replay function.
+* Fixed Unbreakable function.
+* Improved Remaining training time OCR (7/9).
+* Improved Donate button detection.
+* Improved Elixir collector level 16 detection (Dead base and smart).
+* Improved Giant and wall breaker detection for donation.
+* Fixed Battle Copter window detection.
+* Fixed Bob Control upgrades white zeros detection.
+* Added Builder boost perks to bob control upgrades prices.
 
 * v8.1.6 **
 * Added "Before you upgrade" window support.

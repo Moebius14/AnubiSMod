@@ -1,3 +1,7 @@
+* v24.03.29
+* Changed CG Daily Limit count more legible when bot's running.
+* Improved Items detection while purge (and fixed variable error).
+
 * v24.03.21 **
 * Official changes.
 
