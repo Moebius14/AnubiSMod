@@ -85,7 +85,7 @@ Func PetHouse($test = False)
 
 	If CheckPetUpgrade() Then Return False ; cant start if something upgrading
 
-	If $g_iMinDark4PetUpgrade = 0 Then
+	If $g_iMinDark4PetUpgrade = 0 Or Number($g_iBuilderBoostDiscount) > 0 Then
 		If $g_bChkSortPetUpgrade Then
 			$g_iMinDark4PetUpgrade = GetMinDark4PetUpgrade2()
 		Else
@@ -159,12 +159,12 @@ Func PetHouse($test = False)
 
 		SetDebugLog(_ArrayToString($aPet))
 
+		Local $iPetUpgradeCost = 0, $iPetUpgradeLevel = 0
 		For $i = 0 To UBound($aPet) - 1
 			If $g_bUpgradePetsEnable[$aPet[$i][0]] And $aPet[$i][2] = "True" Then
 
-				If $g_iCmbSortPetUpgrade = 0 And ($i + 1) <= (UBound($aPet) - 1) Then
-					If $g_iCmbSortPetUpgradeLvLCost = 0 And ($aPet[$i + 1][3] = $aPet[$i][3]) And ($aPet[$i][4] > $aPet[$i + 1][4]) Then ContinueLoop
-					If $g_iCmbSortPetUpgradeLvLCost = 1 And ($aPet[$i + 1][3] = $aPet[$i][3]) And ($aPet[$i][4] < $aPet[$i + 1][4]) Then ContinueLoop
+				If $g_iCmbSortPetUpgrade = 0 Then
+					If $aPet[$i][4] <> $g_iMinDark4PetUpgrade Then ContinueLoop
 				EndIf
 
 				SetLog($aPet[$i][1] & " is at level " & $aPet[$i][3])
