@@ -162,8 +162,11 @@ Func CollectDailyRewards($bGoldPass = False)
 	If _Sleep(Random(2000, 3000, 1)) Then Return
 	If Not $g_bRunState Then Return
 
-	If QuickMIS("BC1", $g_sImgGreenButton, 770, 360 + $g_iMidOffsetY, 820, 410 + $g_iMidOffsetY) Then
-		Click($g_iQuickMISX - 8, $g_iQuickMISY + 7)
+	Local $offColors[3][3] = [[0x40BC15, 15, 7], [0x0D0D0D, 14, 15], [0x0D0D0D, 29, 0]] ; 2nd pixel Green Color, 3rd pixel Black Bottom color, 4th pixel Black edge of button
+	Local $GreenButtonPixel = _MultiPixelSearch(778, 415, 815, 432, 1, 1, Hex(0x0D0D0D, 6), $offColors, 40) ; first black pixel on side of button
+	SetDebugLog("Pixel Color #1: " & _GetPixelColor(782, 415, True) & ", #2: " & _GetPixelColor(797, 422, True) & ", #3: " & _GetPixelColor(796, 430, True) & ", #4: " & _GetPixelColor(811, 415, True), $COLOR_DEBUG)
+	If IsArray($GreenButtonPixel) Then
+		Click(795, 385 + $g_iMidOffsetY)
 		If _Sleep(1500) Then Return
 	EndIf
 

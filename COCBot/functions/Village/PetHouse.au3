@@ -597,7 +597,7 @@ EndFunc   ;==>PetGuiDisplay
 
 Func GetMinDark4PetUpgrade()
 	Local $iPetLevelxCoord[9] = [54, 236, 419, 602, 54, 236, 419, 602, 651]
-	Local $iMinDark4PetUpgrade = 999999
+	Local $iMinDark4PetUpgrade = 999999, $iPetUpgradeLevel = 0
 	Local $iPage = 0
 
 	For $i = 0 To $ePetCount - 1
@@ -653,7 +653,7 @@ EndFunc   ;==>GetMinDark4PetUpgrade
 Func GetMinDark4PetUpgrade2()
 	Local $aPet = GetPetUpgradeList()
 	Local $PetMaxOrLocked = 0
-	Local $iMinDark4PetUpgrade = 999999
+	Local $iMinDark4PetUpgrade = 999999, $iPetUpgradeLevel = 0
 	Local $bUpgradePets = False
 
 	For $i = 0 To $ePetCount - 1
@@ -693,16 +693,51 @@ Func GetMinDark4PetUpgrade2()
 
 	For $i = 0 To UBound($aPet) - 1
 		If $g_bUpgradePetsEnable[$aPet[$i][0]] And $aPet[$i][2] = "True" Then
-			If $g_iCmbSortPetUpgrade = 0 And ($i + 1) <= (UBound($aPet) - 1) Then
-				If $g_iCmbSortPetUpgradeLvLCost = 0 And ($aPet[$i + 1][3] = $aPet[$i][3]) And ($aPet[$i][4] > $aPet[$i + 1][4]) Then ContinueLoop
-				If $g_iCmbSortPetUpgradeLvLCost = 1 And ($aPet[$i + 1][3] = $aPet[$i][3]) And ($aPet[$i][4] < $aPet[$i + 1][4]) Then ContinueLoop
+			If $g_iCmbSortPetUpgrade = 0 Then
+				If $g_iCmbSortPetUpgradeLvLCost = 0 Then
+					Local $iPetUpgradeLevelOld = $iPetUpgradeLevel
+					Local $iPetUpgradeLevelNew = Number($aPet[$i][3])
+					If $iPetUpgradeLevelNew > $iPetUpgradeLevelOld Then
+						$iPetUpgradeLevel = $iPetUpgradeLevelNew
+						ContinueLoop
+					EndIf
+					Local $iMinDark4PetUpgradeOld = $iMinDark4PetUpgrade
+					Local $iMinDark4PetUpgradeNew = Number($aPet[$i][4])
+					If $iMinDark4PetUpgradeNew <= $iMinDark4PetUpgradeOld Then
+						$iMinDark4PetUpgrade = $iMinDark4PetUpgradeNew
+					Else
+						ContinueLoop
+					EndIf
+				ElseIf $g_iCmbSortPetUpgradeLvLCost = 1 Then
+					Local $iPetUpgradeLevelOld = $iPetUpgradeLevel
+					Local $iPetUpgradeLevelNew = Number($aPet[$i][3])
+					If $iPetUpgradeLevelNew > $iPetUpgradeLevelOld Then
+						$iPetUpgradeLevel = $iPetUpgradeLevelNew
+						ContinueLoop
+					EndIf
+					If $iMinDark4PetUpgrade = 999999 Then $iMinDark4PetUpgrade = 0
+					Local $iMinDark4PetUpgradeOld = $iMinDark4PetUpgrade
+					Local $iMinDark4PetUpgradeNew = Number($aPet[$i][4])
+					If $iMinDark4PetUpgradeNew >= $iMinDark4PetUpgradeOld Then
+						$iMinDark4PetUpgrade = $iMinDark4PetUpgradeNew
+					Else
+						ContinueLoop
+					EndIf
+				EndIf
+			Else
+				Local $iMinDark4PetUpgradeOld = $iMinDark4PetUpgrade
+				Local $iMinDark4PetUpgradeNew = Number($aPet[$i][4])
+				If $iMinDark4PetUpgradeNew <= $iMinDark4PetUpgradeOld Then
+					$iMinDark4PetUpgrade = $iMinDark4PetUpgradeNew
+				Else
+					ContinueLoop
+				EndIf
 			EndIf
-			If _Sleep($DELAYLABORATORY2) Then Return
-			$iMinDark4PetUpgrade = $aPet[$i][4]
-			SetLog("New Min Dark: " & _NumberFormat($iMinDark4PetUpgrade, True))
-			ExitLoop
 		EndIf
 	Next
+
+	If _Sleep($DELAYLABORATORY2) Then Return
+	If $iMinDark4PetUpgrade <> 999999 Then SetLog("New Min Dark: " & _NumberFormat($iMinDark4PetUpgrade, True))
 
 	Return $iMinDark4PetUpgrade
 EndFunc   ;==>GetMinDark4PetUpgrade2

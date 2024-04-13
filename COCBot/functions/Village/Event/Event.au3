@@ -18,20 +18,27 @@ Func EventRewards()
 
 	Local $Found = False
 	Local $RewardFirst = False
+	Local $Area[4] = [220, 55, 320, 110 + $g_iMidOffsetY]
+	If $g_iTree = $eTreeMS Or $g_iTree = $eTreeEG Then
+		$Area[0] = 250
+		$Area[1] = 60 + $g_iMidOffsetY
+		$Area[2] = 350
+		$Area[3] = 155 + $g_iMidOffsetY
+	EndIf
 	For $i = 1 To 10
-		If QuickMIS("BC1", $g_sImgEventResource, 220, 55, 320, 110 + $g_iMidOffsetY) Then
+		If QuickMIS("BC1", $g_sImgEventResource, $Area[0], $Area[1], $Area[2], $Area[3]) Then
 			$Found = True
 			If StringInStr($g_iQuickMISName, "Event") Then
 				SetLog("Collect Event Resource", $COLOR_SUCCESS)
-				Click($g_iQuickMISX, $g_iQuickMISY + 32)
+				Click($g_iQuickMISX, $g_iQuickMISY + 20)
 				; Just wait for Collect resource
 				If _Sleep(Random(4000, 5000)) Then Return
 			Else
 				SetLog("Check Event Rewards", $COLOR_INFO)
-				Click($g_iQuickMISX, $g_iQuickMISY + 29)
+				Click($g_iQuickMISX, $g_iQuickMISY + 22)
 				$RewardFirst = True
 				; Just wait Buttons appear
-				If _Sleep(2000) Then Return
+				If _Sleep(2500) Then Return
 			EndIf
 			ExitLoop
 		EndIf
@@ -43,12 +50,12 @@ Func EventRewards()
 	If Not $RewardFirst Then
 		$Found = False
 		For $i = 1 To 10
-			If QuickMIS("BC1", $g_sImgEventResource, 220, 55, 320, 110 + $g_iMidOffsetY) Then
+			If QuickMIS("BC1", $g_sImgEventResource, $Area[0], $Area[1], $Area[2], $Area[3]) Then
 				$Found = True
 				SetLog("Check Event Rewards", $COLOR_INFO)
-				Click($g_iQuickMISX, $g_iQuickMISY + 29)
+				Click($g_iQuickMISX, $g_iQuickMISY + 22)
 				; Just wait Buttons appear
-				If _Sleep(2000) Then Return
+				If _Sleep(2500) Then Return
 				ExitLoop
 			EndIf
 			If _Sleep(300) Then Return
@@ -59,7 +66,7 @@ Func EventRewards()
 
 	Local $aEventButton = findButton("EventButton", Default, 1, True)
 	If IsArray($aEventButton) And UBound($aEventButton, 1) = 2 Then
-		ClickP($aEventButton)
+		Click($aEventButton[0], $aEventButton[1] - 20)
 		If _Sleep(2500) Then Return
 	Else
 		SetLog("Cannot find Event Button!", $COLOR_ERROR)
@@ -106,8 +113,11 @@ Func CollectEventRewards()
 	If _Sleep(Random(1000, 3000, 1)) Then Return
 	If Not $g_bRunState Then Return
 
-	If QuickMIS("BC1", $g_sImgRightResResource, 760, 355 + $g_iMidOffsetY, 820, 415 + $g_iMidOffsetY) Then
-		Click($g_iQuickMISX, $g_iQuickMISY)
+	Local $offColors[3][3] = [[0xADFFFF, 14, 0], [0x0D0D0D, 17, 25], [0x0D0D0D, 33, 0]] ; 2nd pixel Blue Light Color at center, 3rd pixel Black Bottom color, 4th pixel Black edge of button
+	Local $RightResResource = _MultiPixelSearch(770, 408, 810, 435, 1, 1, Hex(0x101010, 6), $offColors, 40) ; first black pixel on side of button
+	SetDebugLog("Pixel Color #1: " & _GetPixelColor(773, 408, True) & ", #2: " & _GetPixelColor(787, 408, True) & ", #3: " & _GetPixelColor(790, 433, True) & ", #4: " & _GetPixelColor(806, 408, True), $COLOR_DEBUG)
+	If IsArray($RightResResource) Then
+		Click(790, 385 + $g_iMidOffsetY)
 		If _Sleep(1500) Then Return
 	EndIf
 
@@ -192,7 +202,11 @@ Func CollectEventRewards()
 			Next
 		EndIf
 		Local $IsLeftGreenArrow = False
-		If QuickMIS("BC1", $g_sImgLeftGreenArrow, 45, 360 + $g_iMidOffsetY, 105, 410 + $g_iMidOffsetY) Then $IsLeftGreenArrow = True
+		Local $offColors[3][3] = [[0xB6E25F, 6, 0], [0x0E0E0E, 13, 15], [0xA8DF4F, 21, 0]] ; 2nd pixel Green Color at Left, 3rd pixel Black Bottom color, 4th pixel Green at right
+		Local $LeftGreenArrow = _MultiPixelSearch(57, 414, 90, 435, 1, 1, Hex(0x171717, 6), $offColors, 40) ; first black pixel on side of button
+		SetDebugLog("Pixel Color #1: " & _GetPixelColor(60, 415, True) & ", #2: " & _GetPixelColor(66, 415, True) & ", #3: " & _GetPixelColor(73, 430, True) & ", #4: " & _GetPixelColor(81, 415, True), $COLOR_DEBUG)
+		If IsArray($LeftGreenArrow) Then $IsLeftGreenArrow = True
+
 		If Not _CheckPixel($aEventLeftEdge, $g_bCapturePixel) And $IsLeftGreenArrow Then ; far left edge And no reward at left.
 			If $i = 0 Then
 				SetLog("Dragging back for more... ", Default, Default, Default, Default, Default, Default, False) ; no end line

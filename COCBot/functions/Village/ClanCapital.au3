@@ -2948,6 +2948,17 @@ Func CheckAvailableMagicItems($TestDebug = False)
 		$aItemTile = 0
 		;
 
+		If $i = 0 Then
+			Local $bLoop = 0
+			While 1
+				If QuickMIS("BC1", $g_sImgTrainingWord, 630, 370 + $g_iMidOffsetY, 800, 455 + $g_iMidOffsetY) Then ExitLoop
+				ClickDrag(605, 513 + $g_iMidOffsetY, 620, 295 + $g_iMidOffsetY)
+				If _Sleep(1500) Then Return
+				$bLoop += 1
+				If $bLoop = 5 Then Return
+			WEnd
+		EndIf
+
 		$aItemTile = _MultiPixelSearch2($MagicPot[$i][1], 380 + $g_iMidOffsetY, $MagicPot[$i][2], 430 + $g_iMidOffsetY, 1, 1, Hex(0x0D0D0D, 6), 20) ; Find the first black pixel top of item
 
 		If IsArray($aItemTile) Then
@@ -2971,8 +2982,6 @@ Func CheckAvailableMagicItems($TestDebug = False)
 					Local $iItemTotal = $aTempCapItem[2]
 					SetDebugLog("Item : " & $MagicPot[$i][0])
 					SetDebugLog("Availability : " & $iAvailItem & "/" & $iItemTotal)
-					SetLog("Item : " & $MagicPot[$i][0])
-					SetLog("Availability : " & $iAvailItem & "/" & $iItemTotal)
 					_ArrayAdd($aWDItems, $i & "|" & $MagicPot[$i][0] & "|" & $iAvailItem)
 				EndIf
 			EndIf
@@ -2980,7 +2989,7 @@ Func CheckAvailableMagicItems($TestDebug = False)
 		EndIf
 
 		If $i = 0 Or $i = 3 Then
-			ClickDrag(605, 510 + $g_iMidOffsetY, 620, 295 + $g_iMidOffsetY)
+			ClickDrag(605, 513 + $g_iMidOffsetY, 620, 295 + $g_iMidOffsetY)
 			If _Sleep(1500) Then ExitLoop
 		Else
 			If _Sleep(1000) Then ExitLoop
@@ -3097,72 +3106,68 @@ Func MagicItemsCalc($TestDebug = False)
 	EndIf
 
 	Local $DiffMedalsMax = Abs(Number(5000 - ($g_iLootCCMedal + $g_iacmdMedalsExpected)))
+	Local $DiffMedalsCalc = $DiffMedalsMax
 
 	If IsArray($aWDCalcItems) Then
 		For $i = 0 To UBound($aWDCalcItems) - 1
 			$TempTotalMedals = 0
 			$GetOut = False
-			If $TotalMedals < $DiffMedalsMax Then
-				Switch $aWDCalcItems[$i][0]
-					Case "Training", "Clock Tower"
-						$TotalMedals += $aWDCalcItems[$i][1] * 100
-						$TempTotalMedals = $aWDCalcItems[$i][1] * 100
-						If $TotalMedals > $DiffMedalsMax + 100 And $aWDCalcItems[$i][1] > 0 Then
-							For $t = 1 To $aWDCalcItems[$i][1]
-								If ($aWDCalcItems[$i][1] - $t) * 100 <= $DiffMedalsMax Then
-									$aWDCalcItems[$i][1] = $aWDCalcItems[$i][1] - $t
-									$TotalMedals -= $t * 100
-									$TempTotalMedals = $aWDCalcItems[$i][1] * 100
-									$GetOut = True
-									ExitLoop
-								EndIf
-							Next
+			Switch $aWDCalcItems[$i][0]
+				Case "Training", "Clock Tower"
+					For $t = 0 To $aWDCalcItems[$i][1] - 1
+						If $DiffMedalsCalc - ($t * 100) < -100 And $DiffMedalsCalc < 0 Then
+							$GetOut = True
+							ExitLoop
 						EndIf
-					Case "Builder Jar", "Power", "Hero"
-						$TotalMedals += $aWDCalcItems[$i][1] * 150
-						$TempTotalMedals = $aWDCalcItems[$i][1] * 150
-						If $TotalMedals > $DiffMedalsMax + 150 And $aWDCalcItems[$i][1] > 0 Then
-							For $t = 1 To $aWDCalcItems[$i][1]
-								If ($aWDCalcItems[$i][1] - $t) * 150 <= $DiffMedalsMax Then
-									$aWDCalcItems[$i][1] = $aWDCalcItems[$i][1] - $t
-									$TotalMedals -= $t * 150
-									$TempTotalMedals = $aWDCalcItems[$i][1] * 150
-									$GetOut = True
-									ExitLoop
-								EndIf
-							Next
+						$aWDCalcItems[$i][1] = $t + 1
+						$TempTotalMedals = ($t + 1) * 100
+						$DiffMedalsCalc -= 100
+						$TotalMedals += 100
+						If $DiffMedalsCalc - (($t + 1) * 100) < -100 And $DiffMedalsCalc < 0 Then
+							$GetOut = True
+							ExitLoop
 						EndIf
-					Case "Resource", "Research"
-						$TotalMedals += $aWDCalcItems[$i][1] * 200
-						$TempTotalMedals = $aWDCalcItems[$i][1] * 200
-						If $TotalMedals > $DiffMedalsMax + 200 And $aWDCalcItems[$i][1] > 0 Then
-							For $t = 1 To $aWDCalcItems[$i][1]
-								If ($aWDCalcItems[$i][1] - $t) * 200 <= $DiffMedalsMax Then
-									$aWDCalcItems[$i][1] = $aWDCalcItems[$i][1] - $t
-									$TotalMedals -= $t * 200
-									$TempTotalMedals = $aWDCalcItems[$i][1] * 200
-									$GetOut = True
-									ExitLoop
-								EndIf
-							Next
+					Next
+				Case "Builder Jar", "Power", "Hero"
+					For $t = 0 To $aWDCalcItems[$i][1] - 1
+						If $DiffMedalsCalc - ($t * 150) < -150 And $DiffMedalsCalc < 0 Then
+							$GetOut = True
+							ExitLoop
 						EndIf
-				EndSwitch
+						$aWDCalcItems[$i][1] = $t + 1
+						$TempTotalMedals = ($t + 1) * 150
+						$DiffMedalsCalc -= 150
+						$TotalMedals += 150
+						If $DiffMedalsCalc - (($t + 1) * 150) < -150 And $DiffMedalsCalc < 0 Then
+							$GetOut = True
+							ExitLoop
+						EndIf
+					Next
+				Case "Resource", "Research"
+					For $t = 0 To $aWDCalcItems[$i][1] - 1
+						If $DiffMedalsCalc - ($t * 200) < -200 And $DiffMedalsCalc < 0 Then
+							$GetOut = True
+							ExitLoop
+						EndIf
+						$aWDCalcItems[$i][1] = $t + 1
+						$TempTotalMedals = ($t + 1) * 200
+						$DiffMedalsCalc -= 200
+						$TotalMedals += 200
+						If $DiffMedalsCalc - (($t + 1) * 200) < -200 And $DiffMedalsCalc < 0 Then
+							$GetOut = True
+							ExitLoop
+						EndIf
+					Next
+			EndSwitch
 
-
-				If $aWDCalcItems[$i][1] < 2 Then
-					SetLog("Medals To use for " & $aWDCalcItems[$i][1] & " " & $aWDCalcItems[$i][0] & " : " & $TempTotalMedals)
-				Else
-					SetLog("Medals To use for " & $aWDCalcItems[$i][1] & " " & $aWDCalcItems[$i][0] & "s : " & $TempTotalMedals)
-				EndIf
-
-				; 0 : Name, 1 : Item To Buy, 2 : Stock of Item
-				If $aWDCalcItems[$i][1] > 0 Then _ArrayAdd($aWDCalcItemsFinal, $aWDCalcItems[$i][0] & "|" & $aWDCalcItems[$i][1] & "|" & $aWDCalcItems[$i][2])
-
+			If $aWDCalcItems[$i][1] < 2 Then
+				SetLog("Medals To use for " & $aWDCalcItems[$i][1] & " " & $aWDCalcItems[$i][0] & " : " & $TempTotalMedals)
 			Else
-
-				$GetOut = True
-
+				SetLog("Medals To use for " & $aWDCalcItems[$i][1] & " " & $aWDCalcItems[$i][0] & "s : " & $TempTotalMedals)
 			EndIf
+
+			; 0 : Name, 1 : Item To Buy, 2 : Stock of Item
+			If $aWDCalcItems[$i][1] > 0 Then _ArrayAdd($aWDCalcItemsFinal, $aWDCalcItems[$i][0] & "|" & $aWDCalcItems[$i][1] & "|" & $aWDCalcItems[$i][2])
 
 			If $GetOut Then ExitLoop
 			If Not $g_bRunState Then Return
@@ -3171,7 +3176,7 @@ Func MagicItemsCalc($TestDebug = False)
 
 		SetLog("Medals To use for Items : " & $TotalMedals & "/" & $DiffMedalsMax, $COLOR_DEBUG)
 
-		$g_iLootCCMedal += $TotalMedals
+		$g_iLootCCMedal -= $TotalMedals
 
 		Return $aWDCalcItemsFinal
 
@@ -3279,6 +3284,15 @@ Func SoldAndBuyItems($TestDebug = False, $ForceTime = False)
 
 		If _Sleep(2000) Then Return
 
+		Local $bLoop = 0
+		While 1
+			If QuickMIS("BC1", $g_sImgTrainingWord, 630, 370 + $g_iMidOffsetY, 800, 455 + $g_iMidOffsetY) Then ExitLoop
+			ClickDrag(605, 513 + $g_iMidOffsetY, 620, 295 + $g_iMidOffsetY)
+			If _Sleep(1500) Then Return
+			$bLoop += 1
+			If $bLoop = 5 Then Return
+		WEnd
+
 		Local $iRow = 1, $iRowTarget = 1
 		For $z = 0 To UBound($ArraySold) - 1
 			Switch $ArraySold[$z][0]
@@ -3331,12 +3345,12 @@ Func ItemsNextPage($iRowTarget, ByRef $iRow)
 		$iXMidPoint = Random(605, 620, 1)
 
 		If $iRow < $iRowTarget Then
-			ClickDrag($iXMidPoint, 510 + $g_iMidOffsetY, $iXMidPoint, 295 + $g_iMidOffsetY, 500)
+			ClickDrag($iXMidPoint, 513 + $g_iMidOffsetY, $iXMidPoint, 295 + $g_iMidOffsetY, 500)
 			$iRow += 1
 		EndIf
 
 		If $iRow > $iRowTarget Then
-			ClickDrag($iXMidPoint, 295 + $g_iMidOffsetY, $iXMidPoint, 510 + $g_iMidOffsetY, 500)
+			ClickDrag($iXMidPoint, 295 + $g_iMidOffsetY, $iXMidPoint, 513 + $g_iMidOffsetY, 500)
 			$iRow -= 1
 		EndIf
 

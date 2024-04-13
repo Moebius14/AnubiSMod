@@ -74,6 +74,14 @@ Func Laboratory($debug = False)
 
 	If Not FindResearchButton() Then Return False ; cant start because we cannot find the research button
 
+	If Not $GobBuilderPresent Then ; Just in case
+		If UBound(decodeSingleCoord(FindImageInPlace2("GobBuilder", $g_sImgGobBuilderLab, 510, 140 + $g_iMidOffsetY, 575, 195 + $g_iMidOffsetY, True))) > 1 Then
+			$GobBuilderPresent = True
+			$GobBuilderOffsetRunning = 355
+			$GobBuilderOffsetRunningBooks = 435
+		EndIf
+	EndIf
+
 	If ChkLabUpgradeInProgress() Then
 		CloseWindow(False, False, True)
 		Return False ; cant start if something upgrading
@@ -543,7 +551,7 @@ Func LaboratoryUpgrade($name, $aCoords, $sCostResult, $debug = False)
 			; success
 			SetLog("Upgrade " & $name & " in your laboratory started with success...", $COLOR_SUCCESS)
 			If _Sleep(350) Then Return
-			ClickAway()
+			CloseWindow2()
 			If _Sleep(1000) Then Return
 			PushMsg("LabSuccess")
 			ChkLabUpgradeInProgress($name)

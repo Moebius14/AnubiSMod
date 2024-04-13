@@ -232,7 +232,7 @@ Func Blacksmith($bTest = False)
 					EndIf
 					If _ColorCheck(_GetPixelColor(690, 566 + $g_iMidOffsetY, True), Hex(0x3F3A38, 6), 15) Then
 						SetDebugLog("Dark Grey Upgrade Button detected!", $COLOR_DEBUG)
-						SetLog($g_asEquipmentOrderList[$g_aiCmbCustomEquipmentOrder[$i]][0] & "  has reached max level!", $COLOR_DEBUG)
+						SetLog($g_asEquipmentOrderList[$g_aiCmbCustomEquipmentOrder[$i]][0] & " has reached max level!", $COLOR_DEBUG)
 						If _Sleep(1500) Then Return
 						$g_bChkCustomEquipmentOrder[$i] = 0
 						GUICtrlSetState($g_hChkCustomEquipmentOrder[$i], $GUI_UNCHECKED)
@@ -258,7 +258,7 @@ Func Blacksmith($bTest = False)
 						EndIf
 						If _ColorCheck(_GetPixelColor(690, 566 + $g_iMidOffsetY, True), Hex(0x3F3A38, 6), 15) Then
 							SetDebugLog("Dark Grey Upgrade Button detected!", $COLOR_DEBUG)
-							SetLog($g_asEquipmentOrderList[$g_aiCmbCustomEquipmentOrder[$i]][0] & "  has reached max level!", $COLOR_DEBUG)
+							SetLog($g_asEquipmentOrderList[$g_aiCmbCustomEquipmentOrder[$i]][0] & " has reached max level!", $COLOR_DEBUG)
 							If _Sleep(1500) Then Return
 							$g_bChkCustomEquipmentOrder[$i] = 0
 							GUICtrlSetState($g_hChkCustomEquipmentOrder[$i], $GUI_UNCHECKED)

@@ -77,6 +77,7 @@ Func DoubleTrain()
 		If _Sleep(250) Then Return
 		$Step = 1
 		While 1
+			WaitForClanMessage("TrainTabs")
 			Local $SpellCamp = GetCurrentArmy(95, 163 + $g_iMidOffsetY)
 			SetLog("Checking Spell tab: " & $SpellCamp[0] & "/" & $SpellCamp[1] * 2)
 

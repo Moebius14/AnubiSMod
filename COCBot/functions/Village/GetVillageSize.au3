@@ -36,7 +36,7 @@ Func GetVillageSize($DebugLog = Default, $sStonePrefix = Default, $sTreePrefix =
 	If $sTreePrefix = Default Then $sTreePrefix = "tree"
 
 	Local $aResult = 0
-	Local $sDirectory
+	Local $sDirectory, $sDirectory2
 	Local $stone[6] = [0, 0, 0, 0, 0, ""], $tree[6] = [0, 0, 0, 0, 0, ""], $scenery[6] = [0, 0, 0, 0, 0, ""]
 	Local $x0, $y0, $d0, $x, $y, $x1, $y1, $right, $bottom, $a
 
@@ -58,6 +58,7 @@ Func GetVillageSize($DebugLog = Default, $sStonePrefix = Default, $sTreePrefix =
 		SetDeBugLog("GVZ using : \imgxml\village\BuilderBase\", $COLOR_INFO)
 	Else
 		$sDirectory = @ScriptDir & "\imgxml\village\NormalVillage\" ; all sceneries support
+		$sDirectory2 = @ScriptDir & "\imgxml\village\Custom\" ; Custom sceneries Main support
 		SetDeBugLog("GVZ using : \imgxml\village\NormalVillage\", $COLOR_INFO)
 	EndIf
 
@@ -161,7 +162,11 @@ Func GetVillageSize($DebugLog = Default, $sStonePrefix = Default, $sTreePrefix =
 		Local $aStoneFiles = _FileListToArray($sDirectory, $sStonePrefix & "*.*", $FLTA_FILES)
 	Else
 		SetDeBugLog("Loading Stone Scenery: " & $sScenery, $COLOR_INFO)
-		Local $aStoneFiles = _FileListToArray($sDirectory, $sStonePrefix & $sScenery & "*.*", $FLTA_FILES)
+		If $sScenery = "EG" Or $sScenery = "MS" Then
+			Local $aStoneFiles = _FileListToArray($sDirectory2, $sStonePrefix & $sScenery & "*.*", $FLTA_FILES)
+		Else
+			Local $aStoneFiles = _FileListToArray($sDirectory, $sStonePrefix & $sScenery & "*.*", $FLTA_FILES)
+		EndIf
 	EndIf
 
 	If @error Then
@@ -184,7 +189,11 @@ Func GetVillageSize($DebugLog = Default, $sStonePrefix = Default, $sTreePrefix =
 			$bottom = $y0 + $iAdditionalY
 			$sArea = Int($x1) & "," & Int($y1) & "|" & Int($right) & "," & Int($y1) & "|" & Int($right) & "," & Int($bottom) & "|" & Int($x1) & "," & Int($bottom)
 			SetDebugLog("GetVillageSize check for image " & $findImage)
-			$a = decodeSingleCoord(findImage($findImage, $sDirectory & "\" & $findImage, $sArea, 1, $bForceCapture))
+			If $sScenery = "EG" Or $sScenery = "MS" Then
+				$a = decodeSingleCoord(findImage($findImage, $sDirectory2 & "\" & $findImage, $sArea, 1, $bForceCapture))
+			Else
+				$a = decodeSingleCoord(findImage($findImage, $sDirectory & "\" & $findImage, $sArea, 1, $bForceCapture))
+			EndIf
 			If $g_bDebugImageSave Then SaveDebugRectImage("GetVillageSize", $x1 & "," & $y1 & "," & $right & "," & $bottom)
 			If UBound($a) = 2 Then
 				$x = Int($a[0])
@@ -224,7 +233,11 @@ Func GetVillageSize($DebugLog = Default, $sStonePrefix = Default, $sTreePrefix =
 	ElseIf $asStoneScenery = "DS" Then
 		Local $aTreeFiles = _FileListToArray($sDirectory, $sTreePrefix & "D*.*", $FLTA_FILES)
 	Else
-		Local $aTreeFiles = _FileListToArray($sDirectory, $sTreePrefix & $asStoneScenery & "*.*", $FLTA_FILES)
+		If $sScenery = "EG" Or $sScenery = "MS" Then
+			Local $aTreeFiles = _FileListToArray($sDirectory2, $sTreePrefix & $asStoneScenery & "*.*", $FLTA_FILES)
+		Else
+			Local $aTreeFiles = _FileListToArray($sDirectory, $sTreePrefix & $asStoneScenery & "*.*", $FLTA_FILES)
+		EndIf
 	EndIf
 
 	If @error Then
@@ -247,7 +260,11 @@ Func GetVillageSize($DebugLog = Default, $sStonePrefix = Default, $sTreePrefix =
 			$bottom = $y0 + $iAdditionalY
 			$sArea = Int($x1) & "," & Int($y1) & "|" & Int($right) & "," & Int($y1) & "|" & Int($right) & "," & Int($bottom) & "|" & Int($x1) & "," & Int($bottom)
 			SetDebugLog("GetVillageSize check for image " & $findImage)
-			$a = decodeSingleCoord(findImage($findImage, $sDirectory & "\" & $findImage, $sArea, 1, False))
+			If $sScenery = "EG" Or $sScenery = "MS" Then
+				$a = decodeSingleCoord(findImage($findImage, $sDirectory2 & "\" & $findImage, $sArea, 1, False))
+			Else
+				$a = decodeSingleCoord(findImage($findImage, $sDirectory & "\" & $findImage, $sArea, 1, False))
+			EndIf
 			If $g_bDebugImageSave Then SaveDebugRectImage("GetVillageSize", $x1 & "," & $y1 & "," & $right & "," & $bottom)
 			If UBound($a) = 2 Then
 				$x = Int($a[0])
@@ -312,7 +329,13 @@ Func GetVillageSize($DebugLog = Default, $sStonePrefix = Default, $sTreePrefix =
 		$b = $stone[1] - $tree[1]
 		$c = Sqrt($a * $a + $b * $b) - $stone[4] - $tree[4]
 
-		$iRefSize = $g_afRefVillage[$g_iTree][$iTreeIndex]
+		If $sScenery = "MS" Then
+			$iRefSize = $g_afRefCustomMainVillage[0][4]
+		ElseIf $sScenery = "EG" Then
+			$iRefSize = $g_afRefCustomMainVillage[1][4]
+		Else
+			$iRefSize = $g_afRefVillage[$g_iTree][$iTreeIndex]
+		EndIf
 
 		$z = $c / $iRefSize
 

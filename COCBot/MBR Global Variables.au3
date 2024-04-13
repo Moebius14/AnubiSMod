@@ -1151,7 +1151,7 @@ Global $g_aiDropOrder[$eDropOrderCount] = [ _
 ; <><><><> Attack Plan / Train Army / Options <><><><>
 Global $g_bCloseWhileTrainingEnable = True, $g_bCloseWithoutShield = True, $g_bCloseEmulator = False, $g_bSuspendComputer = False, $g_bCloseRandom = True, _
 		$g_bCloseExactTime = False, $g_bCloseRandomTime = True, $g_iCloseRandomTimePercentMin = 3, $g_iCloseRandomTimePercentMax = 8, $g_iCloseMinimumTimeMin = 2, $g_iCloseMinimumTimeMax = 5, _
-		$g_iRandomCloseOptionPercent = 90, $g_idRadio_RandomClassic = False, $g_idRadio_RandomMod = True
+		$g_iRandomCloseOptionPercent = 95, $g_idRadio_RandomClassic = False, $g_idRadio_RandomMod = True
 Global $g_iTrainClickDelay = 120, $RandomClickTrainAddTime = 0, $g_iTrainClickDelayfinal = 0
 Global $g_bTrainAddRandomDelayEnable = False, $g_iTrainAddRandomDelayMin = 5, $g_iTrainAddRandomDelayMax = 20
 Global $g_bTrainAddRandomClickTimingDelayEnable = True, $g_iTrainAddRandomClickTimingDelayMin = 0, $g_iTrainAddRandomClickTimingDelayMax = 50
@@ -2153,6 +2153,7 @@ Global $PotionsCaptures[10] = [$PowerItemCapture, $ResourceItemCapture, $Trainin
 Global $PotionsNames[10] = ["Power", "Resource", "Training", "Builder", "Clock Tower", "Hero", "Research", "Super", "Pet", "Builder Jar"]
 Global $PotionsCapturesMedal[7] = [$PowerItemCapture, $ResourceItemCapture, $TrainingItemCapture, $ClockItemCapture, $HeroItemCapture, $ResearchItemCapture, $BJarItemCapture]
 Global $PotionsNamesMedal[7] = ["Power", "Resource", "Training", "Clock Tower", "Hero", "Research", "Builder Jar"]
+Global $g_sImgTrainingWord  = @ScriptDir & "\imgxml\Potions\TrainingWord\"
 
 ;Use Medals To Fill CC
 Global $IsForRequestEarly = True, $IsTofillWithMedals = False, $IsTofillWithMedalsPause = True
@@ -2164,12 +2165,12 @@ Global $g_aiCmbCCDecisionTime = 0, $g_aiCmbCCDecisionThen = 0, $CCWaitChrono = 0
 ; PumpKin GraveYard, Snow Day, Tiger Mountain, Primal(PR), Shadow(SH), Royale Scenery, Summer Scenery, Pixel Scenery, 10th Clash,
 ; Clash Fest, Magic Scenery, Epic Magic Scenery, Classic Scenery, Inferno Tower, Jolly Scenery, Magic Theater Scenery,
 ; Dark Ages, Painter, Goblin Caves, Future Scenery, Books of Clash, Spooky Scenery, Chess Scenery, Ghost Scenery, GingerBread Scenery,
-; Dragon Palace Scenery, Space Scenery
+; Dragon Palace Scenery, Space Scenery, Egypt Scenery
 ; Builder Base
 Global Enum $eTreeDSS, $eTreeDAS, $eTreeCC, $eTreePS, $eTreeEW, $eTreeHM, $eTreeJS, $eTreeEJ, $eTree9C, _
 		$eTreePG, $eTreeSD, $eTreeTM, $eTreePR, $eTreeSH, $eTreeRS, $eTreeSM, $eTreePX, $eTreeXC, _
 		$eTreeCF, $eTreeMS, $eTreeEM, $eTreeCS, $eTreeIT, $eTreeJO, $eTreeMT, $eTreeDA, $eTreePA, _
-		$eTreeGC, $eTreeFS, $eTreeBK, $eTreeSP, $eTreeCH, $eTreeGH, $eTreeGB, $eTreeDP, $eTreeSC, _
+		$eTreeGC, $eTreeFS, $eTreeBK, $eTreeSP, $eTreeCH, $eTreeGH, $eTreeGB, $eTreeDP, $eTreeSC, $eTreeEG, _
 		$eTreeBB, $eTreeOO, $eTreeCR, $eTreeNS, $eTreeCount
 
 Global $g_asSceneryNames[$eTreeCount] = [ _
@@ -2177,7 +2178,7 @@ Global $g_asSceneryNames[$eTreeCount] = [ _
 		"Pumpkin Graveyard", "Snowy Day", "Tiger Mountain", "Primal Scenery", "Shadow Scenery", "Royale Scenery", "Summer Scenery", "Pixel Scenery", "10th Clashiversary", _
 		"Clash Fest", "Magic Scenery", "Epic Magic Scenery", "Classic Scenery", "Inferno Town", "Jolly Scenery", "Magic Theater Scenery", _
 		"Dark Ages Scenery", "Painter Scenery", "Goblin Caves Scenery", "Future Scenery", "Books of Clash", "Spooky Scenery", "Chess Scenery", "Ghost Scenery", "GingerBread Scenery", _
-		"Dragon Palace Scenery", "Space Scenery", _
+		"Dragon Palace Scenery", "Space Scenery", "Egypt Scenery", _
 		"Builder Base", "OTTO Outpost", "Crystal Caverns", "Of The North Scenery"]
 
 ; village size, left, right, top, bottom, village size 2, AdjLeft, AdjRight, AdjTop, AdjBottom
@@ -2218,10 +2219,16 @@ Global Const $g_afRefVillage[$eTreeCount][10] = [ _
 		[507.949945330315, 32, 820, 48, 640, 507.949945330315, 50, 50, 42, 42], _    ; GB partial
 		[525.707398061038, 30, 826, 53, 655, 525.707398061038, 50, 50, 42, 42], _    ; DP partial
 		[481.05121550662, 28, 832, 50, 652, 481.05121550662, 50, 50, 42, 42], _      ; SC partial
+		[489.348532791742, 38, 834, 58, 656, 489.348532791742, 50, 50, 42, 42], _    ; EG partial
 		[376.2247294568, 114, 724, 152, 610, 376.2247294568, 50, 46, 38, 42], _      ; BB partial
 		[440.179472132523, 120, 732, 152, 608, 440.179472132523, 50, 46, 38, 42], _  ; OO partial
 		[379.741811787463, 130, 728, 162, 608, 379.741811787463, 50, 46, 38, 42], _  ; CR partial
 		[444.044042164249, 114, 739, 150, 615, 444.044042164249, 50, 46, 38, 42]]    ; NS partial
+
+; left, right, top, bottom, village size
+Global Const $g_afRefCustomMainVillage[2][6] = [ _
+		[88, 778, 112, 624, 439.489958643413, $eTreeMS], _ ; Magic Main Village
+		[97, 760, 124, 614, 405.46550540893, $eTreeEG]]	   ; Egypt Main Village
 
 Global $g_iTree = $eTreeDSS                        ; default to classic
 Global $g_aiSearchZoomOutCounter[2] = [0, 1] ; 0: Counter of SearchZoomOut calls, 1: # of post zoomouts after image found

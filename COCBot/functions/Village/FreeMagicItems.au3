@@ -140,8 +140,15 @@ EndFunc   ;==>GetFreeMagic
 
 Func OpenTraderWindow()
 	Local $Found = False
+	Local $Area[4] = [90, 100 + $g_iMidOffsetY, 210, 210 + $g_iMidOffsetY]
+	If $g_iTree = $eTreeMS Or $g_iTree = $eTreeEG Then
+		$Area[0] = 120
+		$Area[1] = 150 + $g_iMidOffsetY
+		$Area[2] = 240
+		$Area[3] = 230 + $g_iMidOffsetY
+	EndIf
 	For $i = 1 To 5
-		If QuickMIS("BC1", $g_sImgTrader, 90, 100 + $g_iMidOffsetY, 210, 210 + $g_iMidOffsetY) Then
+		If QuickMIS("BC1", $g_sImgTrader, $Area[0], $Area[1], $Area[2], $Area[3]) Then
 			Click($g_iQuickMISX, $g_iQuickMISY)
 			If _Sleep(1500) Then Return
 			$IstoRecheckTrader = 0

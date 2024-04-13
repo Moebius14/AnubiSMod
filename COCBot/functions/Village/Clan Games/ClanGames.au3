@@ -41,9 +41,16 @@ Func _ClanGames($test = False, $HaltMode = False)
 	EndIf
 
 	Local $sFound = False
+	Local $Area[4] = [180, 55, 300, 120 + $g_iMidOffsetY]
+	If $g_iTree = $eTreeMS Or $g_iTree = $eTreeEG Then
+		$Area[0] = 200
+		$Area[1] = 85 + $g_iMidOffsetY
+		$Area[2] = 320
+		$Area[3] = 190 + $g_iMidOffsetY
+	EndIf
 	If $currentDate >= 28 Then
 		For $i = 1 To 10
-			If QuickMIS("BC1", $g_sImgCaravan, 180, 55, 300, 120 + $g_iMidOffsetY) Then
+			If QuickMIS("BC1", $g_sImgCaravan, $Area[0], $Area[1], $Area[2], $Area[3]) Then
 				$sFound = True
 				ExitLoop
 			EndIf
@@ -57,7 +64,7 @@ Func _ClanGames($test = False, $HaltMode = False)
 		$sFound = False
 		SetLog("Clan Games have already been completed")
 		For $i = 1 To 10
-			If QuickMIS("BC1", $g_sImgCaravan, 180, 55, 300, 120 + $g_iMidOffsetY) Then
+			If QuickMIS("BC1", $g_sImgCaravan, $Area[0], $Area[1], $Area[2], $Area[3]) Then
 				$sFound = True
 				ExitLoop
 			EndIf
@@ -944,9 +951,16 @@ Func IsClanGamesWindow()
 	Local $sState, $bRet = False
 	Local $Found = False
 	Local $currentDate = Number(@MDAY)
+	Local $Area[4] = [180, 55, 300, 120 + $g_iMidOffsetY]
+	If $g_iTree = $eTreeMS Or $g_iTree = $eTreeEG Then
+		$Area[0] = 200
+		$Area[1] = 85 + $g_iMidOffsetY
+		$Area[2] = 320
+		$Area[3] = 190 + $g_iMidOffsetY
+	EndIf
 
 	For $i = 1 To 10
-		If QuickMIS("BC1", $g_sImgCaravan, 180, 55, 300, 120 + $g_iMidOffsetY) Then
+		If QuickMIS("BC1", $g_sImgCaravan, $Area[0], $Area[1], $Area[2], $Area[3]) Then
 			$Found = True
 			SetLog("Caravan available! Entering Clan Games", $COLOR_SUCCESS)
 			Click($g_iQuickMISX, $g_iQuickMISY)
@@ -963,7 +977,7 @@ Func IsClanGamesWindow()
 			EndSwitch
 			ExitLoop
 		EndIf
-		If $currentDate >= 28 And Not QuickMIS("BC1", $g_sImgCaravan, 180, 55, 300, 120 + $g_iMidOffsetY) Then
+		If $currentDate >= 28 And Not QuickMIS("BC1", $g_sImgCaravan, $Area[0], $Area[1], $Area[2], $Area[3]) Then
 			$g_bClanGamesCompleted = 1
 			$Found = False
 			$bRet = False

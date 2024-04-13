@@ -198,7 +198,7 @@ Func UpgradeValue($inum, $bRepeat = False) ;function to find the value and type 
 		EndIf
 		; check for upgrade in process
 		Local $offColors[3][3] = [[0x0D0D0D, 39, 19], [0x914F31, 68, 34], [0xFFFFFF, 81, 0]] ; 2nd pixel black broken hammer, 3rd pixel lt brown handle, 4th pixel white edge of button
-		Local $ButtonPixel = _MultiPixelSearch(284, 572, 570, 615, 1, 1, Hex(0x0E0E0D, 6), $offColors, 40) ; first black pixel on side of button
+		Local $ButtonPixel = _MultiPixelSearch(284, 572, 580, 615, 1, 1, Hex(0x0E0E0D, 6), $offColors, 40) ; first black pixel on side of button
 		SetDebugLog("Pixel Color #1: " & _GetPixelColor(390, 572, True) & ", #2: " & _GetPixelColor(429, 601, True) & ", #3: " & _GetPixelColor(458, 606, True) & ", #4: " & _GetPixelColor(471, 572, True), $COLOR_DEBUG)
 		If IsArray($ButtonPixel) Then
 			If $g_bDebugSetlog Or $bOopsFlag Then

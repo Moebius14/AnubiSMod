@@ -53,7 +53,7 @@ Func WaitForClanMessage($bType)
 				While IsArray(_PixelSearch($aReceivedTroopsOCR[0], $aReceivedTroopsOCR[1], $aReceivedTroopsOCR[0], $aReceivedTroopsOCR[1] + $aReceivedTroopsOCR[4], Hex($aReceivedTroopsOCR[2], 6), $aReceivedTroopsOCR[3], True))
 					If _Sleep($DELAYTRAIN1) Then Return
 					$Safetyexit = $Safetyexit + 1
-					If $Safetyexit > 60 Then ExitLoop ;If waiting longer than 1 min, something is wrong
+					If $Safetyexit > 20 Then ExitLoop ; If waiting longer than 20 secs, something is wrong
 				WEnd
 			EndIf
 		Case "TrainTabs"
@@ -65,7 +65,7 @@ Func WaitForClanMessage($bType)
 						IsArray(_PixelSearch($aReceivedTroopsOCR[0], $aReceivedTroopsOCR[1], $aReceivedTroopsOCR[0], $aReceivedTroopsOCR[1] + $aReceivedTroopsOCR[4], Hex($aReceivedTroopsOCR[2], 6), $aReceivedTroopsOCR[3], True))
 					If _Sleep($DELAYTRAIN1) Then Return
 					$Safetyexit = $Safetyexit + 1
-					If $Safetyexit > 60 Then ExitLoop ;If waiting longer than 1 min, something is wrong
+					If $Safetyexit > 20 Then ExitLoop ; If waiting longer than 20 secs, something is wrong
 				WEnd
 			EndIf
 		Case "ArmyOverview"
@@ -77,7 +77,7 @@ Func WaitForClanMessage($bType)
 						IsArray(_PixelSearch($aReceivedTroopsOCR[0], $aReceivedTroopsOCR[1], $aReceivedTroopsOCR[0], $aReceivedTroopsOCR[1] + $aReceivedTroopsOCR[4], Hex($aReceivedTroopsOCR[2], 6), $aReceivedTroopsOCR[3], True))
 					If _Sleep($DELAYTRAIN1) Then Return
 					$Safetyexit = $Safetyexit + 1
-					If $Safetyexit > 60 Then ExitLoop ;If waiting longer than 1 min, something is wrong
+					If $Safetyexit > 20 Then ExitLoop ; If waiting longer than 20 secs, something is wrong
 				WEnd
 			EndIf
 		Case "SuperTroops"
@@ -87,7 +87,7 @@ Func WaitForClanMessage($bType)
 				While IsArray(_PixelSearch($aBoostTroopsWindow[0], $aBoostTroopsWindow[1], $aBoostTroopsWindow[0], $aBoostTroopsWindow[1] + $aBoostTroopsWindow[4], Hex($aBoostTroopsWindow[2], 6), $aBoostTroopsWindow[3], True))
 					If _Sleep($DELAYTRAIN1) Then Return
 					$Safetyexit = $Safetyexit + 1
-					If $Safetyexit > 60 Then ExitLoop ;If waiting longer than 1 min, something is wrong
+					If $Safetyexit > 20 Then ExitLoop ; If waiting longer than 20 secs, something is wrong
 				WEnd
 			EndIf
 		Case "RaidMedals"
@@ -97,7 +97,7 @@ Func WaitForClanMessage($bType)
 				While IsArray(_PixelSearch($aReceivedTroopsRaidMedals[0], $aReceivedTroopsRaidMedals[1], $aReceivedTroopsRaidMedals[0], $aReceivedTroopsRaidMedals[1] + $aReceivedTroopsRaidMedals[4], Hex($aReceivedTroopsRaidMedals[2], 6), $aReceivedTroopsRaidMedals[3], True))
 					If _Sleep($DELAYTRAIN1) Then Return
 					$Safetyexit = $Safetyexit + 1
-					If $Safetyexit > 60 Then ExitLoop ;If waiting longer than 1 min, something is wrong
+					If $Safetyexit > 20 Then ExitLoop ; If waiting longer than 20 secs, something is wrong
 				WEnd
 			EndIf
 		Case "WeeklyDeals"
@@ -107,7 +107,7 @@ Func WaitForClanMessage($bType)
 				While IsArray(_PixelSearch($aReceivedTroopsWeeklyDeals[0], $aReceivedTroopsWeeklyDeals[1], $aReceivedTroopsWeeklyDeals[0], $aReceivedTroopsWeeklyDeals[1] + $aReceivedTroopsWeeklyDeals[4], Hex($aReceivedTroopsWeeklyDeals[2], 6), $aReceivedTroopsWeeklyDeals[3], True))
 					If _Sleep($DELAYTRAIN1) Then Return
 					$Safetyexit = $Safetyexit + 1
-					If $Safetyexit > 60 Then ExitLoop ;If waiting longer than 1 min, something is wrong
+					If $Safetyexit > 20 Then ExitLoop ; If waiting longer than 20 secs, something is wrong
 				WEnd
 			EndIf
 		Case "Treasury"
@@ -117,7 +117,7 @@ Func WaitForClanMessage($bType)
 				While IsArray(_PixelSearch($aReceivedTroopsTreasury[0], $aReceivedTroopsTreasury[1], $aReceivedTroopsTreasury[0], $aReceivedTroopsTreasury[1] + $aReceivedTroopsTreasury[4], Hex($aReceivedTroopsTreasury[2], 6), $aReceivedTroopsTreasury[3], True))
 					If _Sleep($DELAYTRAIN1) Then Return
 					$Safetyexit = $Safetyexit + 1
-					If $Safetyexit > 60 Then ExitLoop ;If waiting longer than 1 min, something is wrong
+					If $Safetyexit > 20 Then ExitLoop ; If waiting longer than 20 secs, something is wrong
 				WEnd
 			EndIf
 		Case "Tabs"
@@ -127,7 +127,7 @@ Func WaitForClanMessage($bType)
 				While IsArray(_PixelSearch($aReceivedTroopsTab[0], $aReceivedTroopsTab[1], $aReceivedTroopsTab[0], $aReceivedTroopsTab[1] + $aReceivedTroopsTab[4], Hex($aReceivedTroopsTab[2], 6), $aReceivedTroopsTab[3], True))
 					If _Sleep($DELAYTRAIN1) Then Return
 					$Safetyexit = $Safetyexit + 1
-					If $Safetyexit > 60 Then ExitLoop ;If waiting longer than 1 min, something is wrong
+					If $Safetyexit > 20 Then ExitLoop ; If waiting longer than 20 secs, something is wrong
 				WEnd
 			EndIf
 	EndSwitch

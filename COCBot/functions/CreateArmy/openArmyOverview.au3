@@ -59,11 +59,13 @@ EndFunc   ;==>OpenSiegeMachinesTab
 Func OpenTrainTab($sTab, $bSetLog = True, $sWhereFrom = "Undefined")
 	FuncEnter(OpenTrainTab, $g_bDebugSetlogTrain)
 
+	WaitForClanMessage("Tabs")
+
 	If Not IsTrainPage() Then
 		SetDebugLog("Error in OpenTrainTab: Cannot find the Army Overview Window", $COLOR_ERROR)
 		Return FuncReturn(SetError(1, 0, False), $g_bDebugSetlogTrain)
 	EndIf
-
+	
 	Local $aTabButton = findButton(StringStripWS($sTab, 8), Default, 1, True)
 	If IsArray($aTabButton) And UBound($aTabButton, 1) = 2 Then
 		Switch $aTabButton[0]

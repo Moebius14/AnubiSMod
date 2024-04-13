@@ -1076,16 +1076,12 @@ Func SearchArmy($sImageDir = "", $x = 0, $y = 0, $x1 = 0, $y1 = 0, $sArmyType = 
 		For $i = 0 To UBound($aResult) - 1
 			If StringInStr($aResult[$i][0], "Kingqueued") Then
 				$aResult[$i][3] = getRemainTHero(530, 380 + $g_iMidOffsetY)
-		;		SaveDebugImage("Heroes", Default, Default, "_King_" & $aResult[$i][3] & "_")
 			ElseIf StringInStr($aResult[$i][0], "Queenqueued") Then
 				$aResult[$i][3] = getRemainTHero(595, 380 + $g_iMidOffsetY)
-		;		SaveDebugImage("Heroes", Default, Default, "_Queen_" & $aResult[$i][3] & "_")
 			ElseIf StringInStr($aResult[$i][0], "Wardenqueued") Then
 				$aResult[$i][3] = getRemainTHero(657, 380 + $g_iMidOffsetY)
-		;		SaveDebugImage("Heroes", Default, Default, "_Warden_" & $aResult[$i][3] & "_")
 			ElseIf StringInStr($aResult[$i][0], "Championqueued") Then
 				$aResult[$i][3] = getRemainTHero(721, 380 + $g_iMidOffsetY)
-		;		SaveDebugImage("Heroes", Default, Default, "_Champion_" & $aResult[$i][3] & "_")
 			Else
 				$aResult[$i][3] = 0
 			EndIf

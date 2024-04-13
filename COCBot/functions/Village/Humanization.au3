@@ -1197,6 +1197,7 @@ Func BotHumanization()
 		EndIf
 		SetLog("Bot Humanization Finished !", $COLOR_SUCCESS1)
 		If _Sleep(1500) Then Return
+		ZoomOut()
 	EndIf
 EndFunc   ;==>BotHumanization
 

@@ -152,8 +152,8 @@ Func getIsWeak($aResults, $searchType)
 			And $aResults[$eWeakAirDefense][2] <= Number($g_aiFilterMaxAirDefenseLevel[$searchType]) _
 			And $aResults[$eWeakScatter][2] <= Number($g_aiFilterMaxScatterLevel[$searchType]) _
 			And $aResults[$eWeakMonolith][2] <= Number($g_aiFilterMaxMonolithLevel[$searchType]) _
-			And $aResults[$eWeakMultiArcher][2] <= Number($g_aiFilterMaxMonolithLevel[$searchType]) _
-			And $aResults[$eWeakRicochet][2] <= Number($g_aiFilterMaxMonolithLevel[$searchType])
+			And $aResults[$eWeakMultiArcher][2] <= Number($g_aiFilterMaxMultiArcherLevel[$searchType]) _
+			And $aResults[$eWeakRicochet][2] <= Number($g_aiFilterMaxRicochetLevel[$searchType])
 
 	Local $text = "DB"
 	If $searchType = 1 Then $text = "LB"

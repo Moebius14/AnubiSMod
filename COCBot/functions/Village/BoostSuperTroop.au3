@@ -169,20 +169,27 @@ EndFunc   ;==>BoostSuperTroop
 
 Func OpenBarrel($bTest = False)
 
-	If QuickMIS("BC1", $g_sImgBoostTroopsBarrel, 30, 90 + $g_iMidOffsetY, 180, 240 + $g_iMidOffsetY) Then
+	Local $Area[4] = [30, 90 + $g_iMidOffsetY, 180, 240 + $g_iMidOffsetY]
+	If $g_iTree = $eTreeMS Or $g_iTree = $eTreeEG Then
+		$Area[0] = 90
+		$Area[1] = 160 + $g_iMidOffsetY
+		$Area[2] = 200
+		$Area[3] = 260 + $g_iMidOffsetY
+	EndIf
+	If QuickMIS("BC1", $g_sImgBoostTroopsBarrel, $Area[0], $Area[1], $Area[2], $Area[3]) Then
 
 		Local $aSearchForProgress = 0
 		Local $iSTCount = 0, $bOpenBarrel = True, $bRet = False
 		Local $aiSearchNoBoost[4] = [$g_iQuickMISX - 10, $g_iQuickMISY - 10, $g_iQuickMISX + 25, $g_iQuickMISY + 35]
-		Local $aiSearchArrayLower[4] = [$g_iQuickMISX - 7, $g_iQuickMISY - 25, $g_iQuickMISX + 20, $g_iQuickMISY - 18]
-		Local $aiSearchArrayUpper[4] = [$g_iQuickMISX - 7, $g_iQuickMISY - 39, $g_iQuickMISX + 20, $g_iQuickMISY - 32]
-		Local $aiSearchArrayThird[4] = [$g_iQuickMISX - 7, $g_iQuickMISY - 53, $g_iQuickMISX + 20, $g_iQuickMISY - 46]
+		Local $aiSearchArrayLower[4] = [$g_iQuickMISX - 10, $g_iQuickMISY - 21, $g_iQuickMISX + 18, $g_iQuickMISY - 11]
+		Local $aiSearchArrayUpper[4] = [$g_iQuickMISX - 10, $g_iQuickMISY - 35, $g_iQuickMISX + 18, $g_iQuickMISY - 25]
+		Local $aiSearchArrayThird[4] = [$g_iQuickMISX - 10, $g_iQuickMISY - 49, $g_iQuickMISX + 18, $g_iQuickMISY - 39]
 		Local $BarrelStoppedLoop = False
 
 		For $i = 0 To 5 ; To Detect Stopped Barrel even with animation.
 			If QuickMIS("BC1", $g_sImgBarrelStopped, $aiSearchNoBoost[0], $aiSearchNoBoost[1], $aiSearchNoBoost[2], $aiSearchNoBoost[3]) Then
-				Local $aiSearchArrayLowerEvent[4] = [$g_iQuickMISX - 14, $g_iQuickMISY - 36, $g_iQuickMISX + 13, $g_iQuickMISY - 29]
-				If WaitforPixel($aiSearchArrayLowerEvent[0], $aiSearchArrayLowerEvent[1], $aiSearchArrayLowerEvent[2], $aiSearchArrayLowerEvent[3], "E6E8DD", 25, 2) Then
+				Local $aiSearchArrayLowerEvent[4] = [$g_iQuickMISX - 17, $g_iQuickMISY - 31, $g_iQuickMISX + 11, $g_iQuickMISY - 21]
+				If WaitforPixel($aiSearchArrayLowerEvent[0], $aiSearchArrayLowerEvent[1], $aiSearchArrayLowerEvent[2], $aiSearchArrayLowerEvent[3], "ED5B00", 30, 2) Then
 					ReDim $g_iCmbSuperTroops[$iMaxSupersTroop + 1]
 					If $g_iCmbSuperTroops[$iMaxSupersTroop] = "" Then $g_iCmbSuperTroops[$iMaxSupersTroop] = 0
 					ExitLoop
@@ -200,9 +207,9 @@ Func OpenBarrel($bTest = False)
 		If $BarrelStoppedLoop Then
 			SetLog("No Troop Currently Boosted", $COLOR_INFO)
 		Else
-			If WaitforPixel($aiSearchArrayLower[0], $aiSearchArrayLower[1], $aiSearchArrayLower[2], $aiSearchArrayLower[3], "E6E8DD", 25, 2) Then $aSearchForProgress += 1
-			If WaitforPixel($aiSearchArrayUpper[0], $aiSearchArrayUpper[1], $aiSearchArrayUpper[2], $aiSearchArrayUpper[3], "E6E8DD", 25, 2) Then $aSearchForProgress += 1
-			If WaitforPixel($aiSearchArrayThird[0], $aiSearchArrayThird[1], $aiSearchArrayThird[2], $aiSearchArrayThird[3], "E6E8DD", 25, 2) Then $aSearchForProgress += 1
+			If WaitforPixel($aiSearchArrayLower[0], $aiSearchArrayLower[1], $aiSearchArrayLower[2], $aiSearchArrayLower[3], "ED5B00", 30, 2) Then $aSearchForProgress += 1
+			If WaitforPixel($aiSearchArrayUpper[0], $aiSearchArrayUpper[1], $aiSearchArrayUpper[2], $aiSearchArrayUpper[3], "ED5B00", 30, 2) Then $aSearchForProgress += 1
+			If WaitforPixel($aiSearchArrayThird[0], $aiSearchArrayThird[1], $aiSearchArrayThird[2], $aiSearchArrayThird[3], "ED5B00", 30, 2) Then $aSearchForProgress += 1
 		EndIf
 
 		SetDebugLog("Progress Bar Found : " & $aSearchForProgress, $COLOR_DEBUG)
@@ -279,7 +286,10 @@ Func OpenBarrel($bTest = False)
 				If _Sleep(200) Then Return
 			Next
 			If $bRet Then
-				Local $MaxBoostOCR = getOcrAndCapture("coc-RemainLaboratory2", 125, 103 + $g_iMidOffsetY, 22, 24, True)
+				Local $MaxBoostOCR = getOcrAndCapture("coc-RemainLaboratory2", 80, 103 + $g_iMidOffsetY, 75, 24, True)
+				Local $BoostedOCR = StringLeft($MaxBoostOCR, 1)
+				$MaxBoostOCR = StringRight($MaxBoostOCR, 1)
+
 				If Number($MaxBoostOCR) = 3 Then
 					If UBound($g_iCmbSuperTroops) < Number($MaxBoostOCR) Then
 						ReDim $g_iCmbSuperTroops[$iMaxSupersTroop + 1]
@@ -288,11 +298,16 @@ Func OpenBarrel($bTest = False)
 					FindEventTroop()
 					If ProfileSwitchAccountEnabled() Then SwitchAccountVariablesReload("Save")
 					Local $sTroopName = GetSTroopName($g_iCmbSuperTroops[$iMaxSupersTroop] - 1)
-					SetLog("Event Super Troop is : " & $sTroopName, $COLOR_INFO)
+					SetLog("Event Super Troop is: " & $sTroopName, $COLOR_INFO)
 				Else
 					If UBound($g_iCmbSuperTroops) > Number($MaxBoostOCR) Then
 						ReDim $g_iCmbSuperTroops[$iMaxSupersTroop]
 					EndIf
+				EndIf
+				If $BoostedOCR = $MaxBoostOCR Then
+					SetLog("Max Number Of Troops Already Boosted", $COLOR_INFO)
+					CloseWindow()
+					Return False
 				EndIf
 				Return True
 			Else

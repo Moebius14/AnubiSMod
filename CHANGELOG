@@ -30,6 +30,12 @@
 * Fixed Battle Copter window detection.
 * Fixed Bob Control upgrades white zeros detection.
 * Added Builder boost perks to bob control upgrades prices.
+* Improved EQ spell detection for donation.
+* Improved Laboratory status detection.
+*******
+* Added Full support for Magic and Egypt Scenery.
+* Improved Obstacles remove.
+*******
 
 * v8.1.6 **
 * Added "Before you upgrade" window support.

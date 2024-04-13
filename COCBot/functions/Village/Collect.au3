@@ -91,19 +91,43 @@ Func CollectLootCart()
 
 	SetLog("Searching for a Loot Cart", $COLOR_INFO)
 
-	Local $aLootCart = decodeSingleCoord(findImage("LootCart", $g_sImgCollectLootCart, GetDiamondFromRect("1,220,120,290"), 1, True))
-	If UBound($aLootCart) > 1 Then
-		$aLootCart[1] += 15
-		If IsMainPage() Then ClickP($aLootCart, 1, 0, "#0330")
+	If $g_iTree = $eTreeEG Then
+		If _ColorCheck(_GetPixelColor(54, 278 + $g_iMidOffsetY, True), "E90914", 20) Then ; If Egypt Scenery, Open/Close Chat To remove red warning.
+			If ClickB("ClanChat") Then
+				If _Sleep(1000) Then Return
+				If Not ClickB("ClanChat") Then
+					If _ColorCheck(_GetPixelColor(390, 340 + $g_iMidOffsetY, True), Hex(0xEA8A3B, 6), 20) Then ; close chat
+						If Not ClickB("ClanChat") Then
+							SetDebugLog("Error finding the Clan Tab Button", $COLOR_ERROR)
+							Click(400, 312 + $g_iMidOffsetY)
+						EndIf
+						If _Sleep(2000) Then Return
+					EndIf
+				Else
+					If _Sleep(2000) Then Return
+				EndIf
+			EndIf
+		EndIf
+	EndIf
+
+	Local $Area[4] = [0, 180 + $g_iMidOffsetY, 120, 280 + $g_iMidOffsetY]
+	If $g_iTree = $eTreeMS Or $g_iTree = $eTreeEG Then
+		$Area[0] = 40
+		$Area[1] = 220 + $g_iMidOffsetY
+		$Area[2] = 150
+		$Area[3] = 320 + $g_iMidOffsetY
+	EndIf
+
+	If QuickMIS("BC1", $g_sImgCollectLootCart, $Area[0], $Area[1], $Area[2], $Area[3]) Then
+		Click($g_iQuickMISX, $g_iQuickMISY)
 		If _Sleep(1000) Then Return
 
-		If _ColorCheck(_GetPixelColor(385, 340 + $g_iMidOffsetY, True), Hex(0xC55115, 6), 20) Then     ; close chat
+		If _ColorCheck(_GetPixelColor(390, 340 + $g_iMidOffsetY, True), Hex(0xEA8A3B, 6), 20) Then     ; close chat
 			If Not ClickB("ClanChat") Then
-				SetLog("Error finding the Clan Tab Button", $COLOR_ERROR)
-				Click(392, 312 + $g_iMidOffsetY)
-				Return
+				SetDebugLog("Error finding the Clan Tab Button", $COLOR_ERROR)
+				Click(400, 312 + $g_iMidOffsetY)
 			EndIf
-			If _Sleep(500) Then Return
+			If _Sleep(2000) Then Return
 			Return False
 		EndIf
 
@@ -111,12 +135,21 @@ Func CollectLootCart()
 		If IsArray($aiCollectButton) And UBound($aiCollectButton) = 2 Then
 			SetLog("Clicking to collect loot cart.", $COLOR_SUCCESS)
 			ClickP($aiCollectButton)
+			If _ColorCheck(_GetPixelColor(390, 340 + $g_iMidOffsetY, True), Hex(0xEA8A3B, 6), 20) Then     ; close chat
+				If Not ClickB("ClanChat") Then
+					SetDebugLog("Error finding the Clan Tab Button", $COLOR_ERROR)
+					Click(400, 312 + $g_iMidOffsetY)
+				EndIf
+				If _Sleep(500) Then Return
+				Return False
+			EndIf
 		Else
 			SetLog("Cannot find Collect Button", $COLOR_ERROR)
 			Return False
 		EndIf
 	Else
 		SetLog("No Loot Cart found on your Village", $COLOR_SUCCESS)
+	;	SaveDebugImage("No_LootCart")
 	EndIf
 
 	$g_abNotNeedAllTime[0] = False

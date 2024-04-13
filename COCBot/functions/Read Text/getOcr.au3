@@ -318,7 +318,7 @@ Func getRemainTLaboratoryGob($x_start, $y_start) ; read actual time remaining in
 EndFunc   ;==>getRemainTLaboratoryGob
 
 Func getRemainTHero($x_start, $y_start, $bNeedCapture = True) ; Get time remaining for hero to be ready for attack from train window
-	Local $Result = StringReplace(getOcrAndCapture("coc-remainhero", $x_start, $y_start, 55, 12, True, False, $bNeedCapture), "b", "")
+	Local $Result = StringReplace(getOcrAndCapture("coc-remainhero", $x_start, $y_start, 55, 13, True, False, $bNeedCapture), "b", "")
 	Return $Result
 EndFunc   ;==>getRemainTHero
 
