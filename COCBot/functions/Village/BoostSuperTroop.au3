@@ -5,7 +5,7 @@
 ; Parameters ....:
 ; Return values .:
 ; Author ........: xbebenk (08/2021)
-; Modified ......: Moebius14 (03/2024)
+; Modified ......: Moebius14 (04/2024)
 ; Remarks .......: This file is part of MyBot, previously known as ClashGameBot. Copyright 2015-2024
 ;                  MyBot is distributed under the terms of the GNU GPL
 ; Related .......:
@@ -184,7 +184,7 @@ Func OpenBarrel($bTest = False)
 		Local $aiSearchArrayLower[4] = [$g_iQuickMISX - 10, $g_iQuickMISY - 21, $g_iQuickMISX + 18, $g_iQuickMISY - 11]
 		Local $aiSearchArrayUpper[4] = [$g_iQuickMISX - 10, $g_iQuickMISY - 35, $g_iQuickMISX + 18, $g_iQuickMISY - 25]
 		Local $aiSearchArrayThird[4] = [$g_iQuickMISX - 10, $g_iQuickMISY - 49, $g_iQuickMISX + 18, $g_iQuickMISY - 39]
-		Local $BarrelStoppedLoop = False
+		Local $BarrelStoppedLoop = False, $IsEvent = False
 
 		For $i = 0 To 5 ; To Detect Stopped Barrel even with animation.
 			If QuickMIS("BC1", $g_sImgBarrelStopped, $aiSearchNoBoost[0], $aiSearchNoBoost[1], $aiSearchNoBoost[2], $aiSearchNoBoost[3]) Then
@@ -192,6 +192,7 @@ Func OpenBarrel($bTest = False)
 				If WaitforPixel($aiSearchArrayLowerEvent[0], $aiSearchArrayLowerEvent[1], $aiSearchArrayLowerEvent[2], $aiSearchArrayLowerEvent[3], "ED5B00", 30, 2) Then
 					ReDim $g_iCmbSuperTroops[$iMaxSupersTroop + 1]
 					If $g_iCmbSuperTroops[$iMaxSupersTroop] = "" Then $g_iCmbSuperTroops[$iMaxSupersTroop] = 0
+					$IsEvent = True
 					ExitLoop
 				Else
 					If UBound($g_iCmbSuperTroops) = ($iMaxSupersTroop + 1) Then ; Only ReDim If Event is Finished.
@@ -211,13 +212,11 @@ Func OpenBarrel($bTest = False)
 			If WaitforPixel($aiSearchArrayUpper[0], $aiSearchArrayUpper[1], $aiSearchArrayUpper[2], $aiSearchArrayUpper[3], "ED5B00", 30, 2) Then $aSearchForProgress += 1
 			If WaitforPixel($aiSearchArrayThird[0], $aiSearchArrayThird[1], $aiSearchArrayThird[2], $aiSearchArrayThird[3], "ED5B00", 30, 2) Then $aSearchForProgress += 1
 		EndIf
-
 		SetDebugLog("Progress Bar Found : " & $aSearchForProgress, $COLOR_DEBUG)
 		If $bTest Then SetLog("Progress Bar Found : " & $aSearchForProgress, $COLOR_DEBUG)
 
 		If Number($aSearchForProgress) > 0 Then
-
-			If Number($aSearchForProgress) = 1 And Not $BarrelStoppedLoop Then
+			If Number($aSearchForProgress) = 1 And Not $IsEvent Then
 				If UBound($g_iCmbSuperTroops) = ($iMaxSupersTroop + 1) Then ; Only ReDim If Event is Finished.
 					ReDim $g_iCmbSuperTroops[$iMaxSupersTroop]
 				EndIf
@@ -228,14 +227,13 @@ Func OpenBarrel($bTest = False)
 				If Not $bTest Then Return False
 			EndIf
 
-			; Reset
+			; Reset - Amount of super troops to boost
 			$iSTCount = 0
-			For $i = 0 To UBound($g_iCmbSuperTroops) - 1
+
+			For $i = 0 To $iMaxSupersTroop - 1
 				If $g_iCmbSuperTroops[$i] > 0 Then
-					If UBound($g_iCmbSuperTroops) > $iMaxSupersTroop Then ; Event
-						If $i = 0 Or $i = 1 Then
-							If $g_iCmbSuperTroops[$i] <> $g_iCmbSuperTroops[$iMaxSupersTroop] Then $iSTCount += 1
-						EndIf
+					If UBound($g_iCmbSuperTroops) > $iMaxSupersTroop Then ; Even
+						If $g_iCmbSuperTroops[$i] <> $g_iCmbSuperTroops[$iMaxSupersTroop] Then $iSTCount += 1
 					Else
 						$iSTCount += 1
 					EndIf
@@ -247,7 +245,7 @@ Func OpenBarrel($bTest = False)
 					$g_bFirstStartBarrel = 0
 				Else
 					Local $bSetlog = 0
-					For $i = 0 To 1
+					For $i = 0 To $iMaxSupersTroop - 1
 						If $g_iCmbSuperTroops[$i] > 0 Then $bSetlog += 1
 					Next
 					If $bSetlog > 0 Then SetLog("Troop" & ($bSetlog > 1 ? "s" : "") & " Already boosted", $COLOR_INFO)

@@ -1158,6 +1158,33 @@ Func CGMainGroundTVItem()
 	Next
 EndFunc   ;==>CGMainGroundTVItem
 
+Func CGEquipmentTVRoot()
+	If BitAND(GUICtrlRead($g_hChkCGEquipment), $GUI_CHECKED) And GUICtrlRead($g_hChkCGRootEnabledAll) = $GUI_CHECKED Then ;root Clangames MainVillage Equipment Challenges
+		For $i = 0 To UBound($g_ahCGEquipmentItem) - 1
+			GUICtrlSetState($g_ahCGEquipmentItem[$i], $GUI_CHECKED)
+		Next
+	EndIf
+	If Not BitAND(GUICtrlRead($g_hChkCGEquipment), $GUI_CHECKED) And GUICtrlRead($g_hChkCGRootEnabledAll) = $GUI_CHECKED Then ;root Clangames MainVillage Equipment Challenges
+		For $i = 0 To UBound($g_ahCGEquipmentItem) - 1
+			GUICtrlSetState($g_ahCGEquipmentItem[$i], $GUI_UNCHECKED)
+		Next
+	EndIf
+	GUICtrlSetData($g_hLabelClangamesDesc, "Enable/Disable Main Village Equipment Challenges")
+EndFunc   ;==>CGEquipmentTVRoot
+
+Func CGEquipmentTVItem()
+	Local $tmpChallenges = ClanGamesChallenges("$EquipmentChallenges")
+	For $i = 0 To UBound($g_ahCGEquipmentItem) - 1
+		If GUICtrlRead($g_hClanGamesTV) = $g_ahCGEquipmentItem[$i] Then
+			GUICtrlSetData($g_hLabelClangamesDesc, $tmpChallenges[$i][4] & @CRLF & "Required TH Level : " & $tmpChallenges[$i][2] _
+					 & @CRLF & "Difficulty : " & $tmpChallenges[$i][3])
+			ExitLoop
+		Else
+			GUICtrlSetData($g_hLabelClangamesDesc, "")
+		EndIf
+	Next
+EndFunc   ;==>CGEquipmentTVItem
+
 Func CGMainMiscTVRoot()
 	If BitAND(GUICtrlRead($g_hChkCGMainMisc), $GUI_CHECKED) And GUICtrlRead($g_hChkCGRootEnabledAll) = $GUI_CHECKED Then ;root Clangames MainVillage Miscellaneous Challenges
 		For $i = 0 To UBound($g_ahCGMainMiscItem) - 1

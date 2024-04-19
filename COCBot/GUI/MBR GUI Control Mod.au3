@@ -919,8 +919,8 @@ Func ForumAccept()
 
 	While 1
 		ForceCaptureRegion()
-		$Scroll = _PixelSearch(348, 64, 352, 78, Hex(0xFFFFFF, 6), 20)
-		If IsArray($Scroll) And _ColorCheck(_GetPixelColor(355, 77, True), Hex(0x60A618, 6), 20) Then ; a second pixel for the green
+		$Scroll = _PixelSearch(338, 64, 342, 78, Hex(0xFFFFFF, 6), 20)
+		If IsArray($Scroll) And _ColorCheck(_GetPixelColor(345, 77, True), Hex(0x60A618, 6), 20) Then ; a second pixel for the green
 			ClickP($Scroll)
 			If _Sleep(350) Then ExitLoop
 			ContinueLoop
@@ -975,7 +975,7 @@ Func ForumAccept()
 				ContinueLoop
 			Else
 				ForceCaptureRegion()
-				$Scroll = _PixelSearch(348, 587 + $g_iBottomOffsetY, 352, 601 + $g_iBottomOffsetY, Hex(0xFFFFFF, 6), 20)
+				$Scroll = _PixelSearch(338, 587 + $g_iBottomOffsetY, 342, 601 + $g_iBottomOffsetY, Hex(0xFFFFFF, 6), 20)
 				If IsArray($Scroll) Then
 					ClickP($Scroll, 1, 0, "#0172")
 					If _Sleep(250) Then ExitLoop
@@ -984,7 +984,7 @@ Func ForumAccept()
 			EndIf
 		Else
 			ForceCaptureRegion()
-			$Scroll = _PixelSearch(348, 587 + $g_iBottomOffsetY, 352, 601 + $g_iBottomOffsetY, Hex(0xFFFFFF, 6), 20)
+			$Scroll = _PixelSearch(338, 587 + $g_iBottomOffsetY, 342, 601 + $g_iBottomOffsetY, Hex(0xFFFFFF, 6), 20)
 			If IsArray($Scroll) Then
 				ClickP($Scroll, 1, 0, "#0172")
 				If _Sleep(250) Then ExitLoop

@@ -16,7 +16,7 @@
 
 Global $g_aiPrepDon[6] = [0, 0, 0, 0, 0, 0]
 Global $g_iTotalDonateTroopCapacity, $g_iTotalDonateSpellCapacity, $g_iTotalDonateSiegeMachineCapacity
-Global $g_iDonTroopsLimit = 8, $iDonSpellsLimit = 1, $g_iDonTroopsAv = 0, $g_iDonSpellsAv = 0
+Global $g_iDonTroopsLimit = 50, $iDonSpellsLimit = 1, $g_iDonTroopsAv = 0, $g_iDonSpellsAv = 0
 Global $g_iDonTroopsQuantityAv = 0, $g_iDonTroopsQuantity = 0, $g_iDonSpellsQuantityAv = 0, $g_iDonSpellsQuantity = 0
 Global $g_bSkipDonTroops = False, $g_bSkipDonSpells = False, $g_bSkipDonSiege = False
 Global $g_bDonateAllRespectBlk = False ; is turned on off durning donate all section, must be false all other times
@@ -133,7 +133,7 @@ EndFunc   ;==>IsDonateQueueOnly
 
 Func getArmyRequest($aiDonateCoords, $bNeedCapture = True)
 	; Contains iXStart, $iYStart, $iXEnd, $iYEnd
-	Local $aiSearchArray[4] = [35, $aiDonateCoords[1] - 90, 350, $aiDonateCoords[1] - 40]
+	Local $aiSearchArray[4] = [25, $aiDonateCoords[1] - 90, 340, $aiDonateCoords[1] - 40]
 	Local $sRequestDiamond = GetDiamondFromRect($aiSearchArray)
 	; Returns $aCurrentRequests[index] = $aArray[2] = ["TroopShortName", CordX,CordY]
 	Local $aCurrentArmyRequest = findMultiple(@ScriptDir & "\imgxml\DonateCC\Army", $sRequestDiamond, $sRequestDiamond, 0, 1000, 0, "objectname,objectpoints", $bNeedCapture)
@@ -225,12 +225,12 @@ Func DonateCC($bCheckForNewMsg = False)
 		Return
 	EndIf
 
-	If _Sleep($DELAYDONATECC4) Then Return
-
-	If _ColorCheck(_GetPixelColor(400, 90 + $g_iMidOffsetY, True), Hex(0x4D4B4A, 6), 20) Then
-		Click(400, 60 + $g_iMidOffsetY)
-		If _Sleep(500) Then Return
+	If _ColorCheck(_GetPixelColor(400, 120 + $g_iMidOffsetY, True), Hex(0x4D4B4A, 6), 20) Then
+		Click(390, 145 + $g_iMidOffsetY)
+		If _Sleep(250) Then Return
 	EndIf
+
+	If _Sleep($DELAYDONATECC4) Then Return
 
 	; check for "I Understand" button
 	Local $aCoord = decodeSingleCoord(findImage("I Understand", $g_sImgChatIUnterstand, GetDiamondFromRect("50,400,280,550")))
@@ -244,8 +244,8 @@ Func DonateCC($bCheckForNewMsg = False)
 	; add scroll here
 	While 1
 		ForceCaptureRegion()
-		$Scroll = _PixelSearch(348, 64, 352, 78, Hex(0xFFFFFF, 6), 20)
-		If IsArray($Scroll) And _ColorCheck(_GetPixelColor(355, 77, True), Hex(0x60A618, 6), 20) Then ; a second pixel for the green
+		$Scroll = _PixelSearch(338, 64, 342, 78, Hex(0xFFFFFF, 6), 20)
+		If IsArray($Scroll) And _ColorCheck(_GetPixelColor(345, 77, True), Hex(0x60A618, 6), 20) Then ; a second pixel for the green
 			$bDonate = True
 			ClickP($Scroll, 1, 0, "#0172")
 			If _Sleep($DELAYDONATECC2 + 100) Then ExitLoop
@@ -257,7 +257,7 @@ Func DonateCC($bCheckForNewMsg = False)
 	If $g_iCommandStop <> 0 And $g_iCommandStop <> 3 Then SetLog("Checking for Donate Requests in Clan Chat", $COLOR_INFO)
 
 	Local $iTimer
-	Local $sSearchArea, $aiSearchArray[4] = [250, 90, 350, 680]
+	Local $sSearchArea, $aiSearchArray[4] = [240, 90, 320, 680]
 	Local $aiDonateButton
 
 	While $bDonate
@@ -305,7 +305,7 @@ Func DonateCC($bCheckForNewMsg = False)
 					For $i = 0 To UBound($Alphabets) - 1
 						If $i = 0 Then
 							; Line 3 to 1
-							Local $aCoordinates[3] = [75, 58, 41] ; Extra coordinates for Latin (3 Lines)
+							Local $aCoordinates[3] = [89, 72, 55] ; Extra coordinates for Latin (3 Lines)
 							Local $OcrName = ($Alphabets[$i] = True) ? ("coc-latin-cyr") : ("coc-latinA")
 							Local $log = "Latin"
 							If $Alphabets[$i] Then $log = $TextAlphabetsNames[$i]
@@ -313,7 +313,7 @@ Func DonateCC($bCheckForNewMsg = False)
 							SetLog("Using OCR to read " & $log & " derived alphabets.", $COLOR_ACTION)
 							For $j = 0 To 2
 								If $ClanString = "" Or $ClanString = " " Or $BlankSpaces = " " Then
-									$ClanString &= $BlankSpaces & getChatString(32, $aiDonateButton[1] - $aCoordinates[$j], $OcrName)
+									$ClanString &= $BlankSpaces & getChatString(22, $aiDonateButton[1] - $aCoordinates[$j], $OcrName)
 									If $g_bDebugSetlog Then SetDebugLog("$OcrName: " & $OcrName)
 									If $g_bDebugSetlog Then SetDebugLog("$aCoordinates: " & $aCoordinates[$j])
 									If $g_bDebugSetlog Then SetDebugLog("$ClanString: " & $ClanString)
@@ -322,13 +322,13 @@ Func DonateCC($bCheckForNewMsg = False)
 								If $ClanString <> "" Then $BlankSpaces = " "
 							Next
 						Else
-							Local $Yaxis[3] = [48, 47, 51] ; "Chinese", "Korean", "Persian"
+							Local $Yaxis[3] = [62, 61, 65] ; "Chinese", "Korean", "Persian"
 							If $Alphabets[$i] Then
 								If $ClanString = "" Or $ClanString = " " Then
 									SetLog("Using OCR to read " & $TextAlphabetsNames[$i] & " alphabets.", $COLOR_ACTION)
 									; Ensure used functions are references in "MBR References.au3"
 									#Au3Stripper_Off
-									$ClanString &= $BlankSpaces & Call($AlphabetFunctions[$i], 32, $aiDonateButton[1] - $Yaxis[$i - 1])
+									$ClanString &= $BlankSpaces & Call($AlphabetFunctions[$i], 22, $aiDonateButton[1] - $Yaxis[$i - 1])
 									#Au3Stripper_On
 									If @error = 0xDEAD And @extended = 0xBEEF Then SetLog("[DonatCC] Function " & $AlphabetFunctions[$i] & "() had a problem.")
 									If $g_bDebugSetlog Then SetDebugLog("$OcrName: " & $OcrName)
@@ -639,7 +639,7 @@ Func DonateCC($bCheckForNewMsg = False)
 			$aiSearchArray[1] = $aiDonateButton[1] + 20
 
 			If _Sleep($DELAYDONATEWINDOW1) Then ExitLoop
-			If _ColorCheck(_GetPixelColor($aiDonateButton[0] + 82, $aiDonateButton[1], True), Hex(0xFFFFFF, 6), 10) Then CloseWindow2()
+			If _ColorCheck(_GetPixelColor($aiDonateButton[0] + 92 + $XWindowOffset, $aiDonateButton[1], True), Hex(0xFFFFFF, 6), 10) Then CloseWindow2()
 			If _Sleep($DELAYDONATEWINDOW1) Then ExitLoop
 
 		EndIf
@@ -658,7 +658,7 @@ Func DonateCC($bCheckForNewMsg = False)
 		EndIf
 
 		;;; Scroll Down
-		$Scroll = _PixelSearch(348, 587 + $g_iBottomOffsetY, 352, 601 + $g_iBottomOffsetY, Hex(0xFFFFFF, 6), 20, True)
+		$Scroll = _PixelSearch(338, 587 + $g_iBottomOffsetY, 342, 601 + $g_iBottomOffsetY, Hex(0xFFFFFF, 6), 20, True)
 		If IsArray($Scroll) Then
 			$bDonate = True
 			ClickP($Scroll, 1, 0, "#0172")
@@ -775,8 +775,8 @@ Func DonateTroopType(Const $iTroopIndex, $Quant = 0, Const $bDonateQueueOnly = F
 		Return
 	EndIf
 
-	Local $g_iDonTroopsLimitClan = getOcrAndCapture("coc-t-lim", 470 + $XWindowOffset, $g_iDonationWindowY + 15, 16, 14, True)
-	If $g_iDonTroopsLimitClan <> "" And Number($g_iDonTroopsLimitClan) <> Number($g_iDonTroopsLimit) Then $g_iDonTroopsLimit = $g_iDonTroopsLimitClan
+	Local $g_iDonTroopsLimitClan = getOcrAndCapture("coc-t-lim", 470 + $XWindowOffset, $g_iDonationWindowY + 15, 19, 14, True)
+	If ($g_iDonTroopsLimitClan <> "" Or $g_iDonTroopsLimitClan = 0) And Number($g_iDonTroopsLimitClan) <> Number($g_iDonTroopsLimit) Then $g_iDonTroopsLimit = $g_iDonTroopsLimitClan
 
 	If $Quant = 0 Or $Quant > _Min(Number($g_iDonTroopsQuantityAv), Number($g_iDonTroopsLimit)) Then $Quant = _Min(Number($g_iDonTroopsQuantityAv), Number($g_iDonTroopsLimit))
 	If $bDonateQueueOnly Then
@@ -1186,18 +1186,18 @@ Func RemainingCCcapacity($aiDonateButton)
 	;Button Image is a little bit lower than the Capacity Numbers, adjusting for all here
 	$aiDonateButton[1] -= 10
 
-	$sCapTroops = getOcrSpaceCastleDonate(68, $aiDonateButton[1])
+	$sCapTroops = getOcrSpaceCastleDonate(56, $aiDonateButton[1])
 	Local $IsWoSiege = StringRight($sCapTroops, 1)
 	If StringInStr($sCapTroops, "#") And $IsWoSiege <> "#" Then ;CC got Troops & Spells & Siege Machine
-		$sCapSpells = $bDonateSpell ? getOcrSpaceCastleDonate(147, $aiDonateButton[1]) : -1
-		$sCapSiegeMachine = $bDonateSiege ? getOcrSpaceCastleDonate(209, $aiDonateButton[1]) : -1
+		$sCapSpells = $bDonateSpell ? getOcrSpaceCastleDonateShort(138, $aiDonateButton[1]) : -1
+		$sCapSiegeMachine = $bDonateSiege ?  getOcrSpaceCastleDonateShort(197, $aiDonateButton[1]) : -1
 	Else
-		$sCapTroops = getOcrSpaceCastleDonate(89, $aiDonateButton[1])
+		$sCapTroops = getOcrSpaceCastleDonate(79, $aiDonateButton[1])
 		If StringRegExp($sCapTroops, "#([0-9]{2})") = 1 Then ; CC got Troops & Spells
-			$sCapSpells = $bDonateSpell ? getOcrSpaceCastleDonate(205, $aiDonateButton[1]) : -1
+			$sCapSpells = $bDonateSpell ? getOcrSpaceCastleDonateShort(195, $aiDonateButton[1]) : -1
 			$sCapSiegeMachine = -1
 		Else
-			$sCapTroops = getOcrSpaceCastleDonate(89, $aiDonateButton[1]) ; CC got Troops Only ?
+			$sCapTroops = getOcrSpaceCastleDonate(79, $aiDonateButton[1]) ; CC got Troops Only ?
 			$sCapSpells = -1
 			$sCapSiegeMachine = -1
 		EndIf

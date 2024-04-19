@@ -215,6 +215,10 @@ Func getSiegeCampCap($x_start, $y_start, $bNeedCapture = True) ;  -> Gets army c
 	Return getOcrAndCapture("coc-camps", $x_start, $y_start, 40, 16, True, False, $bNeedCapture)
 EndFunc   ;==>getSiegeCampCap
 
+Func getCCSpellCap($x_start, $y_start, $bNeedCapture = True) ;  -> Gets army camp capacity --> train.au3, and used to read CC request time remaining
+	Return getOcrAndCapture("coc-camps", $x_start, $y_start, 35, 16, True, False, $bNeedCapture)
+EndFunc   ;==>getCCSpellCap
+
 Func getCCSiegeCampCap($x_start, $y_start, $bNeedCapture = True) ;  -> Gets army camp capacity --> train.au3, and used to read CC request time remaining
 	Return getOcrAndCapture("coc-camps", $x_start, $y_start, 28, 16, True, False, $bNeedCapture)
 EndFunc   ;==>getCCSiegeCampCap
@@ -230,6 +234,10 @@ EndFunc   ;==>getOcrLanguage
 Func getOcrSpaceCastleDonate($x_start, $y_start) ;  -> Get the number of troops donated/capacity from a request
 	Return getOcrAndCapture("coc-totalreq", $x_start, $y_start, 49, 14, True)
 EndFunc   ;==>getOcrSpaceCastleDonate
+
+Func getOcrSpaceCastleDonateShort($x_start, $y_start) ;  -> Get the number of troops donated/capacity from a request
+	Return getOcrAndCapture("coc-totalreq", $x_start, $y_start, 35, 14, True)
+EndFunc   ;==>getOcrSpaceCastleDonateShort
 
 Func getOcrOverAllDamage($x_start, $y_start) ;  -> Get the Overall Damage %
 	Return getOcrAndCapture("coc-overalldamage", $x_start, $y_start, 50, 20, True)

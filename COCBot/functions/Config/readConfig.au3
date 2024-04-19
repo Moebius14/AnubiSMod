@@ -69,15 +69,16 @@ Func ReadClanGamesConfig()
 	IniReadS($g_bChkClanGamesNoOneDay, $g_sProfileClanGamesPath, "clangames", "ChkClanGamesNoOneDay", False, "Bool")
 	IniReadS($g_bChkClanGamesCollectRewards, $g_sProfileClanGamesPath, "clangames", "ChkClanGamesCollectRewards", False, "Bool")
 
-	IniReadS($g_bChkClanGamesLoot, $g_sProfileClanGamesPath, "clangames", "ChkClanGamesLoot", True, "Bool")
-	IniReadS($g_bChkClanGamesBattle, $g_sProfileClanGamesPath, "clangames", "ChkClanGamesBattle", True, "Bool")
-	IniReadS($g_bChkClanGamesDes, $g_sProfileClanGamesPath, "clangames", "ChkClanGamesDestruction", True, "Bool")
+	IniReadS($g_bChkClanGamesLoot, $g_sProfileClanGamesPath, "clangames", "ChkClanGamesLoot", False, "Bool")
+	IniReadS($g_bChkClanGamesBattle, $g_sProfileClanGamesPath, "clangames", "ChkClanGamesBattle", False, "Bool")
+	IniReadS($g_bChkClanGamesDes, $g_sProfileClanGamesPath, "clangames", "ChkClanGamesDestruction", False, "Bool")
 	IniReadS($g_bChkClanGamesAirTroop, $g_sProfileClanGamesPath, "clangames", "ChkClanGamesAirTroop", False, "Bool")
 	IniReadS($g_bChkClanGamesGroundTroop, $g_sProfileClanGamesPath, "clangames", "ChkClanGamesGroundTroop", False, "Bool")
-	IniReadS($g_bChkClanGamesMiscellaneous, $g_sProfileClanGamesPath, "clangames", "ChkClanGamesMiscellaneous", True, "Bool")
+	IniReadS($g_bChkClanGamesEquipment, $g_sProfileClanGamesPath, "clangames", "ChkClanGamesEquipment", False, "Bool")
+	IniReadS($g_bChkClanGamesMiscellaneous, $g_sProfileClanGamesPath, "clangames", "ChkClanGamesMiscellaneous", False, "Bool")
 	IniReadS($g_bChkClanGamesSpell, $g_sProfileClanGamesPath, "clangames", "ChkClanGamesSpell", False, "Bool")
-	IniReadS($g_bChkClanGamesBBBattle, $g_sProfileClanGamesPath, "clangames", "ChkClanGamesBBBattle", True, "Bool")
-	IniReadS($g_bChkClanGamesBBDes, $g_sProfileClanGamesPath, "clangames", "ChkClanGamesBBDestruction", True, "Bool")
+	IniReadS($g_bChkClanGamesBBBattle, $g_sProfileClanGamesPath, "clangames", "ChkClanGamesBBBattle", False, "Bool")
+	IniReadS($g_bChkClanGamesBBDes, $g_sProfileClanGamesPath, "clangames", "ChkClanGamesBBDestruction", False, "Bool")
 	IniReadS($g_bChkClanGamesBBTroops, $g_sProfileClanGamesPath, "clangames", "ChkClanGamesBBTroops", False, "Bool")
 
 	IniReadS($g_bChkForceBBAttackOnClanGames, $g_sProfileClanGamesPath, "clangames", "ChkForceBBAttackOnClanGames", True, "Bool")
@@ -137,6 +138,15 @@ Func ReadClanGamesConfig()
 			$g_abCGMainGroundItem[$i] = 0
 		Else
 			$g_abCGMainGroundItem[$i] = $str[$i]
+		EndIf
+	Next
+	;ClanGames MainVillage Equipment Challenges
+	$str = StringSplit(IniRead($g_sProfileClanGamesPath, "clangames", "EnabledCGEquipment", "0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|"), "|", $STR_NOCOUNT)
+	For $i = 0 To UBound($g_abCGEquipmentItem) - 1
+		If $i >= UBound($str) Then
+			$g_abCGEquipmentItem[$i] = 0
+		Else
+			$g_abCGEquipmentItem[$i] = $str[$i]
 		EndIf
 	Next
 	;ClanGames MainVillage Miscellaneous Challenges

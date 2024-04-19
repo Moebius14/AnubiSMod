@@ -589,7 +589,7 @@ Func EnableUpgradeEquipment()
 	Else
 		GUICtrlSetState($g_hBtnHeroEquipment, $GUI_ENABLE)
 	EndIf
-EndFunc   ;==>chkUpgradePets
+EndFunc   ;==>EnableUpgradeEquipment
 
 Func BtnHeroEquipment()
 	GUISetState(@SW_SHOW, $g_hGUI_HeroEquipment)
@@ -609,7 +609,7 @@ Func chkEquipmentOrder()
 			GUICtrlSetState($i, $GUI_DISABLE)
 		Next
 	EndIf
-EndFunc
+EndFunc   ;==>chkEquipmentOrder
 
 Func GUIRoyalEquipmentOrder()
 	Local $bDuplicate = False
@@ -653,7 +653,7 @@ Func btnRegularOrder()
 	Next
 	btnEquipmentOrderSet()
 	GUICtrlSetState($g_hBtnEquipmentOrderSet, $GUI_ENABLE) ; Re-enabling it.
-EndFunc
+EndFunc   ;==>btnRegularOrder
 
 Func btnRemoveEquipment()
 	Local $sComboData = ""
@@ -771,7 +771,7 @@ Func IsUseCustomEquipmentOrder()
 		If $g_aiCmbCustomEquipmentOrder[$i] = -1 Then Return False
 	Next
 	Return True
-EndFunc   ;==>IsUseCustomTroopOrder
+EndFunc   ;==>IsUseCustomEquipmentOrder
 
 Func chkWalls()
 	If GUICtrlRead($g_hChkWalls) = $GUI_CHECKED Then
@@ -893,7 +893,7 @@ EndFunc   ;==>ResetIgnore
 
 Func chkUpgradePets()
 	If $g_iTownHallLevel = 14 Then ; Must be TH14 to have Pets 1->4
-		For $i = 0 To $ePetCount - 6
+		For $i = 0 To $ePetCount - 7
 			GUICtrlSetState($g_hChkUpgradePets[$i], $GUI_ENABLE)
 			If GUICtrlRead($g_hChkUpgradePets[$i]) = $GUI_CHECKED Then
 				$g_bUpgradePetsEnable[$i] = True
@@ -903,7 +903,7 @@ Func chkUpgradePets()
 				SetDebugLog("Upgrade: " & $g_asPetNames[$i] & " disabled")
 			EndIf
 		Next
-		For $i = $ePetCount - 5 To $ePetCount - 1
+		For $i = $ePetCount - 6 To $ePetCount - 1
 			GUICtrlSetState($g_hChkUpgradePets[$i], $GUI_DISABLE + $GUI_UNCHECKED)
 			$g_bUpgradePetsEnable[$i] = False
 			SetDebugLog("Upgrade: " & $g_asPetNames[$i] & " disabled")
@@ -913,7 +913,7 @@ Func chkUpgradePets()
 		GUICtrlSetState($g_hUsePetPotion, $GUI_ENABLE)
 		ChkUsePetPotion()
 	ElseIf $g_iTownHallLevel = 15 Then ; TH15 : Pets 1->8
-		For $i = 0 To $ePetCount - 2
+		For $i = 0 To $ePetCount - 3
 			GUICtrlSetState($g_hChkUpgradePets[$i], $GUI_ENABLE)
 			If GUICtrlRead($g_hChkUpgradePets[$i]) = $GUI_CHECKED Then
 				$g_bUpgradePetsEnable[$i] = True
@@ -930,7 +930,7 @@ Func chkUpgradePets()
 		GUICtrlSetState($g_hCmbSortPetUpgrade, $GUI_ENABLE)
 		GUICtrlSetState($g_hUsePetPotion, $GUI_ENABLE)
 		ChkUsePetPotion()
-	ElseIf $g_iTownHallLevel = 16 Then ; TH16 : Pets 1->9
+	ElseIf $g_iTownHallLevel = 16 Then ; TH16 : Pets 1->10
 		For $i = 0 To $ePetCount - 1
 			GUICtrlSetState($g_hChkUpgradePets[$i], $GUI_ENABLE)
 			If GUICtrlRead($g_hChkUpgradePets[$i]) = $GUI_CHECKED Then

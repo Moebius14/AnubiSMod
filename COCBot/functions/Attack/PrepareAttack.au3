@@ -159,7 +159,7 @@ Func SelectCastleOrSiege(ByRef $iTroopIndex, $iX, $iCmbSiege, $gMatchMode)
 
 	Local $hStarttime = _Timer_Init()
 	Local $aSiegeTypes[9] = [$eCastle, $eWallW, $eBattleB, $eStoneS, $eSiegeB, $eLogL, $eFlameF, $eBattleD, "Any"]
-	Local $bSiegesLevelFive[4] = [$eWallW, $eStoneS, $eSiegeB, $eLogL]
+	Local $bSiegesLevelFive[5] = [$eWallW, $eStoneS, $eSiegeB, $eLogL, $eFlameF]
 
 	Local $ToUse = $aSiegeTypes[$iCmbSiege]
 	Local $bNeedSwitch = False, $bAnySiege = False

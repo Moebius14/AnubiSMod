@@ -149,7 +149,7 @@ Func CollectLootCart()
 		EndIf
 	Else
 		SetLog("No Loot Cart found on your Village", $COLOR_SUCCESS)
-	;	SaveDebugImage("No_LootCart")
+		SaveDebugImage("No_LootCart")
 	EndIf
 
 	$g_abNotNeedAllTime[0] = False

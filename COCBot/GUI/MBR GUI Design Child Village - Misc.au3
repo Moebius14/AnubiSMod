@@ -62,11 +62,11 @@ Global $hSearchBBEventFirst = 0, $hSearchMainEventFirst = 0, $hSearchBothVillage
 Global $g_hChkClanGamesSort = 0, $g_hCmbClanGamesSort = 0
 Global $g_hLabelClangamesDesc = 0, $g_hChkCGRootEnabledAll = 0, $g_hChkBBMaxEventsInARow = 0, $g_ahLimitBBEventCount = 0
 Global $g_hClanGamesTV = 0, $g_hChkCGMainLoot = 0, $g_hChkCGMainBattle = 0, $g_hChkCGMainDestruction = 0
-Global $g_hChkCGMainAir = 0, $g_hChkCGMainGround = 0, $g_hChkCGMainMisc = 0, $g_hChkCGMainSpell = 0
+Global $g_hChkCGMainAir = 0, $g_hChkCGMainGround = 0, $g_hChkCGEquipment = 0, $g_hChkCGMainMisc = 0, $g_hChkCGMainSpell = 0
 Global $g_hChkCGBBBattle = 0, $g_hChkCGBBDestruction = 0, $g_hChkCGBBTroops = 0
 
 Global $g_ahCGMainLootItem[6], $g_ahCGMainBattleItem[22], $g_ahCGMainDestructionItem[34], $g_ahCGMainAirItem[13], _
-		$g_ahCGMainGroundItem[29], $g_ahCGMainMiscItem[3], $g_ahCGMainSpellItem[12], $g_ahCGBBBattleItem[4], _
+		$g_ahCGMainGroundItem[29], $g_ahCGEquipmentItem[19], $g_ahCGMainMiscItem[3], $g_ahCGMainSpellItem[12], $g_ahCGBBBattleItem[4], _
 		$g_ahCGBBDestructionItem[21], $g_ahCGBBTroopsItem[12]
 
 Func CreateVillageMisc()
@@ -1101,6 +1101,14 @@ Func CreateClanGamesSettings()
 	For $j = 0 To UBound($tmpChallenges) - 1
 		$g_ahCGMainGroundItem[$j] = GUICtrlCreateTreeViewItem($tmpChallenges[$j][1], $g_hChkCGMainGround)
 		GUICtrlSetOnEvent(-1, "CGMainGroundTVItem")
+	Next
+
+	$g_hChkCGEquipment = GUICtrlCreateTreeViewItem("Equipment Challenges", $g_hClanGamesTV)
+	GUICtrlSetOnEvent(-1, "CGEquipmentTVRoot")
+	$tmpChallenges = ClanGamesChallenges("$EquipmentChallenges")
+	For $j = 0 To UBound($tmpChallenges) - 1
+		$g_ahCGEquipmentItem[$j] = GUICtrlCreateTreeViewItem($tmpChallenges[$j][1], $g_hChkCGEquipment)
+		GUICtrlSetOnEvent(-1, "CGEquipmentTVItem")
 	Next
 
 	$g_hChkCGMainMisc = GUICtrlCreateTreeViewItem("Miscellaneous Challenges", $g_hClanGamesTV)

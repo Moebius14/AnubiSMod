@@ -32,10 +32,20 @@
 * Added Builder boost perks to bob control upgrades prices.
 * Improved EQ spell detection for donation.
 * Improved Laboratory status detection.
-*******
 * Added Full support for Magic and Egypt Scenery.
+* Changed Loot Cart templates for detection.
 * Improved Obstacles remove.
-*******
+* Improved Buildings info OCR.
+* Added New pet support (Angry Jelly).
+* Added support Eagle level 7 and Monolith level 3.
+* Update Flame Flinger max level.
+* Added Equipment challenges to Clan Games (Code Only).
+* Updated some GUI images.
+** Added support for COC 16.253.15.
+* Fixed Donations.
+* Fixed CC Status Detection.
+* Fixed missing _FilloBldgLevels() call.
+* Updated CC Spells/Sieges remove.
 
 * v8.1.6 **
 * Added "Before you upgrade" window support.

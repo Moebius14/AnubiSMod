@@ -320,7 +320,7 @@ Func GetButtonDiamond($sButtonName)
 		Case "Okay", "Cancel", "Continue", "ConfirmButton"
 			$btnDiamond = GetDiamondFromRect("240,250,630,630")
 		Case "ChatDown" ; AnubiS Mod
-			$btnDiamond = GetDiamondFromRect2(23, 580 + $g_iBottomOffsetY, 60, 620 + $g_iBottomOffsetY)
+			$btnDiamond = GetDiamondFromRect2(13, 580 + $g_iBottomOffsetY, 50, 620 + $g_iBottomOffsetY)
 		Case "EventButton" ; Special Event Button
 			$btnDiamond = GetDiamondFromRect2(140, 500 + $g_iBottomOffsetY, 720, 590 + $g_iBottomOffsetY)
 		Case Else

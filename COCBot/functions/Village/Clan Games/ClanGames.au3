@@ -96,6 +96,23 @@ Func _ClanGames($test = False, $HaltMode = False)
 
 	If $IsReachedMaxCGDayAttack = 1 Then Return
 
+	If $g_bChkClanGamesEquipment Then
+		Local $bCheckHeroes = False
+		For $i = 0 To UBound($g_abCGEquipmentItem) - 1
+			If $g_abCGEquipmentItem[$i] > 0 Then
+				$bCheckHeroes = True
+				ExitLoop
+			EndIf
+		Next
+		If $bCheckHeroes Then
+			Local $CheckHeroTimerDiff = TimerDiff($CheckHeroTimer)
+			If $CheckHeroTimerDiff > $CheckHeroDelay Or $CheckHeroTimer = 0 Then
+				getArmyHeroCount(True, True, True)
+				$CheckHeroTimer = TimerInit()
+			EndIf
+		EndIf
+	EndIf
+
 	; A user Log and a Click away just in case
 	ClickAway()
 	SetLog("Entering Clan Games", $COLOR_INFO)
@@ -123,6 +140,7 @@ Func _ClanGames($test = False, $HaltMode = False)
 		If $g_bChkClanGamesDes Then ClanGameImageCopy($sImagePath, $sTempChallengePath, "D") ;D for Destruction
 		If $g_bChkClanGamesAirTroop Then ClanGameImageCopy($sImagePath, $sTempChallengePath, "A") ;A for AirTroops
 		If $g_bChkClanGamesGroundTroop Then ClanGameImageCopy($sImagePath, $sTempChallengePath, "G") ;G for GroundTroops
+		If $g_bChkClanGamesEquipment Then ClanGameImageCopy($sImagePath, $sTempChallengePath, "E") ;E for Equipment
 
 		If $g_bChkClanGamesMiscellaneous Then ClanGameImageCopy($sImagePath, $sTempChallengePath, "M") ;M for Misc
 		If $g_bChkClanGamesSpell Then ClanGameImageCopy($sImagePath, $sTempChallengePath, "S") ;S for GroundTroops
@@ -265,6 +283,10 @@ Func _ClanGames($test = False, $HaltMode = False)
 			For $i = 0 To UBound($g_abCGMainGroundItem) - 1
 				If Not $g_bChkClanGamesGroundTroop Then ExitLoop
 				If $g_abCGMainGroundItem[$i] > 0 Then $HowManyEvents += 1
+			Next
+			For $i = 0 To UBound($g_abCGEquipmentItem) - 1
+				If Not $g_bChkClanGamesEquipment Then ExitLoop
+				If $g_abCGEquipmentItem[$i] > 0 Then $HowManyEvents += 1
 			Next
 			For $i = 0 To UBound($g_abCGMainMiscItem) - 1
 				If Not $g_bChkClanGamesMiscellaneous Then ExitLoop
@@ -411,6 +433,46 @@ Func _ClanGames($test = False, $HaltMode = False)
 
 								; [0] Event Name Full Name  , [1] Xaxis ,  [2] Yaxis , [3] Difficulty, [4] CGMAIN/CGBB
 								Local $aArray[6] = [$DestructionChallenges[$j][1], $aAllDetectionsOnScreen[$i][2], $aAllDetectionsOnScreen[$i][3], $DestructionChallenges[$j][3], $aAllDetectionsOnScreen[$i][4], $aAllDetectionsOnScreen[$i][6]]
+							EndIf
+						Next
+					Case "E"
+						If Not $g_bChkClanGamesEquipment Then ContinueLoop
+						Local $EquipmentChallenges = ClanGamesChallenges("$EquipmentChallenges")
+						For $j = 0 To UBound($EquipmentChallenges) - 1
+							; Match the names
+							If $aAllDetectionsOnScreen[$i][1] = $EquipmentChallenges[$j][0] Then
+								; Equipment available depending on TH level
+								If $g_iTownHallLevel < $EquipmentChallenges[$j][2] Then ExitLoop
+								; King Upgrading
+								If $g_iHeroUpgrading[0] = 1 Then
+									Local $KingEquipment[5] = ["Barbarian Puppet", "Rage Vial", "Earth Quake Boots", "Vampstache", "Giant Gauntlet"]
+									For $t = 0 To Ubound($KingEquipment) - 1
+										If $EquipmentChallenges[$j][1] = $KingEquipment[$t] Then ExitLoop
+									Next
+								EndIf
+								; Queen Upgrading
+								If $g_iHeroUpgrading[1] = 1 Then
+									Local $QueenEquipment[5] = ["Archer Puppet", "Invisibility Vial", "Giant Arrow", "Healer Puppet", "Frozen Arrow"]
+									For $t = 0 To Ubound($QueenEquipment) - 1
+										If $EquipmentChallenges[$j][1] = $QueenEquipment[$t] Then ExitLoop
+									Next
+								EndIf
+								; Warden Upgrading
+								If $g_iHeroUpgrading[2] = 1 Then
+									Local $WardenEquipment[5] = ["Eternal Tome", "Life Gem", "Rage Gem", "Healing Tome", "Fireball"]
+									For $t = 0 To Ubound($WardenEquipment) - 1
+										If $EquipmentChallenges[$j][1] = $WardenEquipment[$t] Then ExitLoop
+									Next
+								EndIf
+								; Champion Upgrading
+								If $g_iHeroUpgrading[3] = 1 Then
+									Local $ChampionEquipment[4] = ["Royal Gem", "Seeking Shield", "Hog Rider Puppet", "Haste Vial"]
+									For $t = 0 To Ubound($ChampionEquipment) - 1
+										If $EquipmentChallenges[$j][1] = $ChampionEquipment[$t] Then ExitLoop
+									Next
+								EndIf
+								; [0] Event Name Full Name  , [1] Xaxis ,  [2] Yaxis , [3] Difficulty, [4] CGMAIN/CGBB
+								Local $aArray[6] = [$EquipmentChallenges[$j][1], $aAllDetectionsOnScreen[$i][2], $aAllDetectionsOnScreen[$i][3], $EquipmentChallenges[$j][3], $aAllDetectionsOnScreen[$i][4], $aAllDetectionsOnScreen[$i][6]]
 							EndIf
 						Next
 					Case "M"
@@ -761,6 +823,16 @@ Func ClanGameImageCopy($sImagePath, $sTempChallengePath, $sImageType = Default, 
 					FileCopy($sImagePath & "\" & $sImageType & "-" & $CGMainGround[$i][0] & "_*", $sTempChallengePath, $FC_OVERWRITE + $FC_CREATEPATH)
 				Else
 					FileCopy($sImagePath & "\" & $sImageType & "-" & $CGMainGround[$i][0] & "_*", $sTempChallengePath & "\Purge\", $FC_OVERWRITE + $FC_CREATEPATH)
+				EndIf
+			Next
+		Case "E"
+			Local $CGEquipment = ClanGamesChallenges("$EquipmentChallenges")
+			For $i = 0 To UBound($g_abCGEquipmentItem) - 1
+				If $g_abCGEquipmentItem[$i] > 0 Then
+					If $g_bChkClanGamesDebug Then SetLog("[" & $i & "]" & "EquipmentChallenges: " & $CGEquipment[$i][1], $COLOR_DEBUG)
+					FileCopy($sImagePath & "\" & $sImageType & "-" & $CGEquipment[$i][0] & "_*", $sTempChallengePath, $FC_OVERWRITE + $FC_CREATEPATH)
+				Else
+					FileCopy($sImagePath & "\" & $sImageType & "-" & $CGEquipment[$i][0] & "_*", $sTempChallengePath & "\Purge\", $FC_OVERWRITE + $FC_CREATEPATH)
 				EndIf
 			Next
 		Case "M"
@@ -1179,6 +1251,14 @@ Func IsEventRunning($bOpenWindow = False)
 								$CurrentActiveChallenge = $DestructionChallenges[$j][1]
 							EndIf
 						Next
+					Case "E"
+						Local $EquipmentChallenges = ClanGamesChallenges("$EquipmentChallenges")
+						For $j = 0 To UBound($EquipmentChallenges) - 1
+							; Match the names
+							If $ActiveChallengeFullName[1] = $EquipmentChallenges[$j][0] Then
+								$CurrentActiveChallenge = $EquipmentChallenges[$j][1]
+							EndIf
+						Next
 					Case "M"
 						Local $MiscChallenges = ClanGamesChallenges("$MiscChallenges")
 						For $j = 0 To UBound($MiscChallenges) - 1
@@ -1484,16 +1564,17 @@ Func PurgeUncheckedEvent($iRow = 1)
 	Local $IsLooped = 0
 	Local $IsSomethingWrong = False
 
-	If ($g_bChkClanGamesLoot Or $g_bChkClanGamesBattle Or $g_bChkClanGamesDes Or $g_bChkClanGamesAirTroop Or $g_bChkClanGamesGroundTroop Or $g_bChkClanGamesMiscellaneous Or $g_bChkClanGamesSpell) And _
+	If ($g_bChkClanGamesLoot Or $g_bChkClanGamesBattle Or $g_bChkClanGamesDes Or $g_bChkClanGamesAirTroop Or $g_bChkClanGamesGroundTroop Or $g_bChkClanGamesEquipment Or $g_bChkClanGamesMiscellaneous Or $g_bChkClanGamesSpell) And _
 			Not $g_bChkClanGamesBBBattle And Not $g_bChkClanGamesBBDes And Not $g_bChkClanGamesBBTroops Then
 		ClanGameImageCopy($sImagePath, $sTempChallengePath, "L") ;L for Loot
 		ClanGameImageCopy($sImagePath, $sTempChallengePath, "B") ;B for Battle
 		ClanGameImageCopy($sImagePath, $sTempChallengePath, "D") ;D for Destruction
-		ClanGameImageCopy($sImagePath, $sTempChallengePath, "A")  ;A for AirTroops
+		ClanGameImageCopy($sImagePath, $sTempChallengePath, "A") ;A for AirTroops
 		ClanGameImageCopy($sImagePath, $sTempChallengePath, "G") ;G for GroundTroops
+		ClanGameImageCopy($sImagePath, $sTempChallengePath, "E") ;E for Equipment
 		ClanGameImageCopy($sImagePath, $sTempChallengePath, "M") ;M for Misc
 		ClanGameImageCopy($sImagePath, $sTempChallengePath, "S") ;S for GroundTroops
-	ElseIf Not $g_bChkClanGamesLoot And Not $g_bChkClanGamesBattle And Not $g_bChkClanGamesDes And Not $g_bChkClanGamesAirTroop And Not $g_bChkClanGamesGroundTroop And Not $g_bChkClanGamesMiscellaneous And Not $g_bChkClanGamesSpell And _
+	ElseIf Not $g_bChkClanGamesLoot And Not $g_bChkClanGamesBattle And Not $g_bChkClanGamesDes And Not $g_bChkClanGamesAirTroop And Not $g_bChkClanGamesGroundTroop And Not $g_bChkClanGamesEquipment And Not $g_bChkClanGamesMiscellaneous And Not $g_bChkClanGamesSpell And _
 			($g_bChkClanGamesBBBattle Or $g_bChkClanGamesBBDes Or $g_bChkClanGamesBBTroops) Then
 		ClanGameImageCopy($sImagePath, $sTempChallengePath, "BBB") ;BBB for BB Battle
 		ClanGameImageCopy($sImagePath, $sTempChallengePath, "BBD")  ;BBD for BB Destruction
@@ -1568,6 +1649,15 @@ Func PurgeUncheckedEvent($iRow = 1)
 							If $aAllDetectionsOnScreen2[$i][1] = $DestructionChallenges[$j][0] Then
 								; [0] Event Name Full Name  , [1] Xaxis ,  [2] Yaxis , [3] Difficulty, [4] CGMAIN/CGBB
 								Local $aArray[6] = [$DestructionChallenges[$j][1], $aAllDetectionsOnScreen2[$i][2], $aAllDetectionsOnScreen2[$i][3], $DestructionChallenges[$j][3], $aAllDetectionsOnScreen2[$i][4], $aAllDetectionsOnScreen2[$i][6]]
+							EndIf
+						Next
+					Case "E"
+						Local $EquipmentChallenges = ClanGamesChallenges("$EquipmentChallenges")
+						For $j = 0 To UBound($EquipmentChallenges) - 1
+							; Match the names
+							If $aAllDetectionsOnScreen2[$i][1] = $EquipmentChallenges[$j][0] Then
+								; [0] Event Name Full Name  , [1] Xaxis ,  [2] Yaxis , [3] Difficulty, [4] CGMAIN/CGBB
+								Local $aArray[6] = [$EquipmentChallenges[$j][1], $aAllDetectionsOnScreen2[$i][2], $aAllDetectionsOnScreen2[$i][3], $EquipmentChallenges[$j][3], $aAllDetectionsOnScreen2[$i][4], $aAllDetectionsOnScreen2[$i][6]]
 							EndIf
 						Next
 					Case "M"
@@ -2121,6 +2211,27 @@ Func ClanGamesChallenges($sReturnArray)
 			["SiegeB", "Siege Barrack", 10, 1, "Earn 1-5 Stars from Multiplayer Battles using a Siege Barracks"], _
 			["LogL", "Log Launcher", 10, 1, "Earn 1-5 Stars from Multiplayer Battles using a Log Launcher"]]
 
+	Local $EquipmentChallenges[19][5] = [ _
+			["BarbPuppet", "Barbarian Puppet", 8, 1, "Earn 1-5 Stars from Multiplayer Battles using Barbarian Puppet"], _
+			["RageVial", "Rage Vial", 8, 1, "Earn 1-5 Stars from Multiplayer Battles using Rage Vial"], _
+			["EQBoots", "Earth Quake Boots", 8, 1, "Earn 1-5 Stars from Multiplayer Battles using Earth Quake Boots"], _
+			["Vampstache", "Vampstache", 10, 1, "Earn 1-5 Stars from Multiplayer Battles using Vampstache"], _
+			["Gauntlet", "Giant Gauntlet", 8, 1, "Earn 1-5 Stars from Multiplayer Battles using Giant Gauntlet"], _
+			["ArchPuppet", "Archer Puppet", 9, 1, "Earn 1-5 Stars from Multiplayer Battles using Archer Puppet"], _
+			["InvVial", "Invisibility Vial", 9, 1, "Earn 1-5 Stars from Multiplayer Battles using Invisibility Vial"], _
+			["GArrow", "Giant Arrow", 9, 1, "Earn 1-5 Stars from Multiplayer Battles using Giant Arrow"], _
+			["HealPuppet", "Healer Puppet", 12, 1, "Earn 1-5 Stars from Multiplayer Battles using Healer Puppet"], _
+			["FArrow", "Frozen Arrow", 9, 1, "Earn 1-5 Stars from Multiplayer Battles using Frozen Arrow"], _
+			["ETome", "Eternal Tome", 11, 1, "Earn 1-5 Stars from Multiplayer Battles using Eternal Tome"], _
+			["LifeGem", "Life Gem", 11, 1, "Earn 1-5 Stars from Multiplayer Battles using Life Gem"], _
+			["RageGem", "Rage Gem", 11, 1, "Earn 1-5 Stars from Multiplayer Battles using Rage Gem"], _
+			["HealTome", "Healing Tome", 13, 1, "Earn 1-5 Stars from Multiplayer Battles using Healing Tome"], _
+			["Fireball", "Fireball", 11, 1, "Earn 1-5 Stars from Multiplayer Battles using Fireball"], _
+			["RoyalGem", "Royal Gem", 13, 1, "Earn 1-5 Stars from Multiplayer Battles using Royal Gem"], _
+			["SeekShield", "Seeking Shield", 13, 1, "Earn 1-5 Stars from Multiplayer Battles using Seeking Shield"], _
+			["HogPuppet", "Hog Rider Puppet", 14, 1, "Earn 1-5 Stars from Multiplayer Battles using Hog Rider Puppet"], _
+			["HasteVial", "Haste Vial", 15, 1, "Earn 1-5 Stars from Multiplayer Battles using Haste Vial"]]
+
 	Local $MiscChallenges[3][5] = [ _
 			["Gard", "Gardening Exercise", 6, 8, "Clear 5 obstacles from your Home Village or Builder Base"], _
 			["DonateSpell", "Donate Spells", 9, 8, "Donate a total of 3 spells"], _
@@ -2194,6 +2305,8 @@ Func ClanGamesChallenges($sReturnArray)
 			Return $AirTroopChallenges
 		Case "$GroundTroopChallenges"
 			Return $GroundTroopChallenges
+		Case "$EquipmentChallenges"
+			Return $EquipmentChallenges
 		Case "$MiscChallenges"
 			Return $MiscChallenges
 		Case "$SpellChallenges"

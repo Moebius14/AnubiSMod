@@ -556,7 +556,7 @@ Global Enum $eIcnArcher = 1, $eIcnDonArcher, $eIcnBalloon, $eIcnDonBalloon, $eIc
 		$eIcnSuperMiner, $eIcnCapitalTrophy, $eLigue1, $eLigue2, $eLigue3, $eIcnMonolith, $eIcnEFWizard, $eWood, $eClay, $eStone, $eCopper, $eBrass, $eIron, $eSteel, $eTitanium, $ePlatinum, $eEmerald, _
 		$eRuby, $eDiamond, $eLigue4, $eLigue5, $eIcnSuperHogRider, $eIcnAppWard, $eIcnSleepingChampion, $eIcnBattleCopter, $eWall17, $eHdV16, $eIcnTH16, $eIcnSpiritFox, $eIcnRootRider, $eIcnBlacksmithgreen, $eIcnBarbarianPuppet, _
 		$eIcnRageVial, $eIcnEQBoots, $eIcnVampstache, $eIcnArcherPuppet, $eIcnInvisibilityVial, $eIcnGiantArrow, $eIcnHealerPuppet, $eIcnEternalTome, $eIcnLifeGem, $eIcnHealingTome, $eIcnRageGem, $eIcnRoyalGem, _
-		$eIcnSeekingShield, $eIcnGauntlet, $eIcnBlacksmith, $eIcnMultiArcher, $eIcnRicochet, $eIcnFrozenArrow, $eIcnHogPuppet, $eIcnHasteVial, $eIcnOvergrowthSpell, $eIcnFireball
+		$eIcnSeekingShield, $eIcnGauntlet, $eIcnBlacksmith, $eIcnMultiArcher, $eIcnRicochet, $eIcnFrozenArrow, $eIcnHogPuppet, $eIcnHasteVial, $eIcnOvergrowthSpell, $eIcnFireball, $eIcnAngryJelly
 
 ; enumerated Icons 1-based index to IconLibMod
 Global Enum $eIcnModZZZ = 1, $eIcnHumanization, $eIcnGUIMod, $eIcnBell, $eIcnDebugMod, $eIcnModRandomClose, $eIcnModLog, $eIcnChallenge, $eIcnModCW, $eIcnModBuilderPotion, _
@@ -1833,7 +1833,7 @@ Func _FilloBldgLevels()
 	$g_oBldgLevels.add($eBldgElixirS, $aBldgStorage)
 	Local Const $aBldgDarkStorage[$g_iMaxTHLevel] = [0, 0, 0, 0, 0, 0, 2, 4, 6, 6, 6, 7, 8, 9, 10, 11] ; Dec23
 	$g_oBldgLevels.add($eBldgDarkS, $aBldgDarkStorage)
-	Local Const $aBldgEagle[$g_iMaxTHLevel] = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 3, 4, 5, 6, 6] ;Jun23
+	Local Const $aBldgEagle[$g_iMaxTHLevel] = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 3, 4, 5, 6, 7] ; April 2024
 	$g_oBldgLevels.add($eBldgEagle, $aBldgEagle)
 	Local Const $aBldgInferno[$g_iMaxTHLevel] = [0, 0, 0, 0, 0, 0, 0, 0, 0, 3, 5, 6, 7, 8, 9, 10] ; Feb24
 	$g_oBldgLevels.add($eBldgInferno, $aBldgInferno)
@@ -1847,7 +1847,7 @@ Func _FilloBldgLevels()
 	$g_oBldgLevels.add($eBldgAirDefense, $aBldgAirDefense)
 	Local Const $aBldgScatterShot[$g_iMaxTHLevel] = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 3, 4, 5] ; Feb24
 	$g_oBldgLevels.add($eBldgScatter, $aBldgScatterShot)
-	Local Const $aBldgMonolith[$g_iMaxTHLevel] = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 2]
+	Local Const $aBldgMonolith[$g_iMaxTHLevel] = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 3] ; April 2024
 	$g_oBldgLevels.add($eBldgMonolith, $aBldgMonolith)
 	Local Const $aBldgMultiArcher[$g_iMaxTHLevel] = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2]
 	$g_oBldgLevels.add($eBldgMultiArcher, $aBldgMultiArcher)
@@ -1920,38 +1920,29 @@ $g_oBldgImages.add($eBldgRicochet & "_" & "0", @ScriptDir & "\imgxml\Buildings\R
 
 ; Clan Games v3
 Global $g_aiAttackedBBEventCount = 0, $g_aiLimitBBEventCount = 0, $g_bChkBBMaxEventsInARow = False
-Global $g_bChkClanGamesAir = 0, $g_bChkClanGamesGround = 0, $g_bChkClanGamesMisc = 0
 Global $g_bChkClanGamesEnabled = 0
 Global $g_bChkClanGamesAllTimes = 1, $g_bChkClanGamesNoOneDay = 0
-Global $g_bChkClanGamesLoot = 0
-Global $g_bChkClanGamesBattle = 0
-
-; Collect Rewards
-Global $g_bChkClanGamesCollectRewards = 0
-
-Global $g_bChkClanGamesSpell = 0
-Global $g_bChkClanGamesBBBattle = 0
-Global $g_bChkClanGamesBBDes = 0
-Global $g_bChkClanGamesBBTroops = 0
-
-Global $g_bChkClanGamesDes = 0
-Global $g_bChkClanGamesAirTroop = 0
-Global $g_bChkClanGamesGroundTroop = 0
-Global $g_bChkClanGamesMiscellaneous = 0
+Global $g_bChkClanGamesLoot = 0, $g_bChkClanGamesBattle = 0, $g_bChkClanGamesSpell = 0
+Global $g_bChkClanGamesDes = 0, $g_bChkClanGamesAirTroop = 0, $g_bChkClanGamesGroundTroop = 0
+Global $g_bChkClanGamesEquipment = 0, $g_bChkClanGamesMiscellaneous = 0
+Global $g_bChkClanGamesBBBattle = 0, $g_bChkClanGamesBBDes = 0, $g_bChkClanGamesBBTroops = 0
 Global $g_bChkClanGamesPurge = 0
 Global $g_bChkClanGamesStopBeforeReachAndPurge = 0
 Global $g_sClanGamesScore = "N/A", $g_sClanGamesTimeRemaining = "N/A"
-
-;ClanGames Challenges
+Global $CheckHeroTimer = 0
+Global $CheckHeroDelay = 30 * 1000 ; 30 seconds
 Global $g_bChkForceBBAttackOnClanGames = True, $g_bIsBBevent = 0
 Global $bSearchBBEventFirst = False, $bSearchMainEventFirst = False, $bSearchBothVillages = True
 Global $g_bChkClanGamesPurgeAny = 0, $g_bChkClanGamesPurgeAnyClose = 0, $sPurgeTimeCG = 0, $g_hCoolDownTimer = 0, $b_COCClose = 1
 Global $IsCGEventRunning = 0, $g_bChkForceAttackOnClanGamesWhenHalt = False, $CurrentActiveChallenge = 0
 Global $g_bSortClanGames = True, $g_iSortClanGames = 0
 Global $g_abCGMainLootItem[6], $g_abCGMainBattleItem[22], $g_abCGMainDestructionItem[34], $g_abCGMainAirItem[13], _
-		$g_abCGMainGroundItem[29], $g_abCGMainMiscItem[3], $g_abCGMainSpellItem[12], $g_abCGBBBattleItem[4], _
+		$g_abCGMainGroundItem[29], $g_abCGEquipmentItem[19], $g_abCGMainMiscItem[3], $g_abCGMainSpellItem[12], $g_abCGBBBattleItem[4], _
 		$g_abCGBBDestructionItem[21], $g_abCGBBTroopsItem[12]
 Global $IsCGEventForGold = False, $IsCGEventForElixir = False, $IsCGEventForDE = False
+
+; Collect Rewards
+Global $g_bChkClanGamesCollectRewards = 0
 
 ; CSV Deploy Speed
 Global $cmbCSVSpeed[2] = [$LB, $DB]
@@ -2064,17 +2055,17 @@ Global $g_aiPetHousePos[2] = [-1, -1] ; Position of Pet House
 
 Global $g_sPetUpgradeTime = ""
 
-Global $g_bUpgradePetsEnable[9] = [False, False, False, False, False, False, False, False, False]
+Global $g_bUpgradePetsEnable[10] = [False, False, False, False, False, False, False, False, False, False]
 
 Global $g_iMinDark4PetUpgrade = 0
 
-Local $g_aiPetLevel[9] = [0, 0, 0, 0, 0, 0, 0, 0, 0]
+Local $g_aiPetLevel[10] = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
 Global $g_bChkSortPetUpgrade = False, $g_iCmbSortPetUpgrade = 0, $g_iCmbSortPetUpgradeLvLCost = 0
 
-Global Enum $ePetLassi, $ePetElectroOwl, $ePetMightyYak, $ePetUnicorn, $ePetFrosty, $ePetDiggy, $ePetPoisonLizard, $ePetPhoenix, $ePetSpiritFox, $ePetCount
-Global Const $g_asPetNames[$ePetCount] = ["Lassi", "Electro Owl", "Mighty Yak", "Unicorn", "Frosty", "Diggy", "Poison Lizard", "Phoenix", "Spirit Fox"]
-Global Const $g_asPetShortNames[$ePetCount] = ["Lassi", "Owl", "Yak", "Unicorn", "Frosty", "Diggy", "Lizard", "Phoenix", "Fox"]
-Global $g_ePetLevels[$ePetCount] = [15, 15, 15, 10, 10, 10, 10, 10, 10] ; Feb24 Update, Pets have not same max level.
+Global Enum $ePetLassi, $ePetElectroOwl, $ePetMightyYak, $ePetUnicorn, $ePetFrosty, $ePetDiggy, $ePetPoisonLizard, $ePetPhoenix, $ePetSpiritFox, $ePetAngryJelly, $ePetCount
+Global Const $g_asPetNames[$ePetCount] = ["Lassi", "Electro Owl", "Mighty Yak", "Unicorn", "Frosty", "Diggy", "Poison Lizard", "Phoenix", "Spirit Fox", "Angry Jelly"]
+Global Const $g_asPetShortNames[$ePetCount] = ["Lassi", "Owl", "Yak", "Unicorn", "Frosty", "Diggy", "Lizard", "Phoenix", "Fox", "Jelly"]
+Global $g_ePetLevels[$ePetCount] = [15, 15, 15, 10, 10, 10, 10, 10, 10, 10] ; April 24 Update, Pets have not same max level.
 
 Global Const $g_aiPetUpgradeCostPerLevel[$ePetCount][15] = [ _
 		[0, 100, 110, 125, 135, 150, 160, 175, 185, 200, 215, 230, 245, 260, 275], _ ; LASSI
@@ -2085,7 +2076,8 @@ Global Const $g_aiPetUpgradeCostPerLevel[$ePetCount][15] = [ _
 		[0, 185, 195, 200, 210, 215, 225, 230, 240, 245, 0, 0, 0, 0, 0], _ ; Diggy
 		[0, 190, 195, 200, 210, 215, 225, 230, 240, 245, 0, 0, 0, 0, 0], _ ; Poison Lizard
 		[0, 195, 205, 210, 220, 225, 235, 240, 250, 255, 0, 0, 0, 0, 0], _ ; Phoenix
-		[0, 225, 235, 245, 255, 265, 275, 285, 295, 315, 0, 0, 0, 0, 0]] ; Spirit Fox
+		[0, 225, 235, 245, 255, 265, 275, 285, 295, 315, 0, 0, 0, 0, 0], _ ; Spirit Fox
+		[0, 225, 235, 245, 255, 265, 275, 285, 295, 315, 0, 0, 0, 0, 0]]   ; Angry Jelly
 
 Global $g_bUsePetPotion = False, $iPetFinishTimeMod = 0, $IsPetPotInStock = 0, $IsPetPotJustCollected = 0, $g_iCmbPetPotion = 0
 

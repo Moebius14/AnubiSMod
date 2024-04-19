@@ -201,7 +201,7 @@ Func _BtnDefineCapacity()
 		Case 10
 			$g_aiClanCastleTroopsCap = 45
 			$g_aiClanCastleSpellsCap = 3
-		Case 11
+		Case 11, 12
 			$g_aiClanCastleTroopsCap = 50
 			$g_aiClanCastleSpellsCap = 3
 	EndSwitch

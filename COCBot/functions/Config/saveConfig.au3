@@ -96,6 +96,7 @@ Func SaveClanGamesConfig()
 	_Ini_Add("clangames", "ChkClanGamesDestruction", $g_bChkClanGamesDes ? 1 : 0)
 	_Ini_Add("clangames", "ChkClanGamesAirTroop", $g_bChkClanGamesAirTroop ? 1 : 0)
 	_Ini_Add("clangames", "ChkClanGamesGroundTroop", $g_bChkClanGamesGroundTroop ? 1 : 0)
+	_Ini_Add("clangames", "ChkClanGamesEquipment", $g_bChkClanGamesEquipment ? 1 : 0)
 	_Ini_Add("clangames", "ChkClanGamesMiscellaneous", $g_bChkClanGamesMiscellaneous ? 1 : 0)
 	_Ini_Add("clangames", "ChkClanGamesSpell", $g_bChkClanGamesSpell ? 1 : 0)
 	_Ini_Add("clangames", "ChkClanGamesBBBattle", $g_bChkClanGamesBBBattle ? 1 : 0)
@@ -144,6 +145,12 @@ Func SaveClanGamesConfig()
 		$str &= $g_abCGMainGroundItem[$i] & "|"
 	Next
 	_Ini_Add("clangames", "EnabledCGGroundTroop", $str)
+
+	$str = ""
+	For $i = 0 To UBound($g_abCGEquipmentItem) - 1
+		$str &= $g_abCGEquipmentItem[$i] & "|"
+	Next
+	_Ini_Add("clangames", "EnabledCGEquipment", $str)
 
 	$str = ""
 	For $i = 0 To UBound($g_abCGMainMiscItem) - 1

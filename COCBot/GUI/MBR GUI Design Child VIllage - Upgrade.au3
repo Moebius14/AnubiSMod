@@ -385,9 +385,9 @@ Func CreateHeroesSubTab()
 	GUICtrlCreateLabel("Days", $x + 300, $y + 4)
 
 	; Pets
-	Local $x = 25, $y = 200
+	Local $x = 20, $y = 200
 	GUICtrlCreateLabel(GetTranslatedFileIni("MBR GUI Design Child Village - Upgrade_Pets", "LblAutoUpgrading_02", "Auto upgrading of your Pets"), $x - 10, $y, -1, -1)
-	$x += 20
+
 	$y += 15
 	$g_hChkUpgradePets[$ePetLassi] = GUICtrlCreateCheckbox("", $x, $y + 25, 17, 17)
 	$sTxtTip = GetTranslatedFileIni("MBR GUI Design Child Village - Upgrade_Heroes", "ChkUpgradeLassi_Info_01", "Enable upgrading of your Pet, Lassi, when you have enough Dark Elixir")
@@ -396,7 +396,7 @@ Func CreateHeroesSubTab()
 	_GUICtrlCreateIcon($g_sLibIconPath, $eIcnPetLassi, $x + 23, $y + 5, 48, 48)
 	_GUICtrlSetTip(-1, $sTxtTip)
 
-	$x += 95
+	$x += 85
 	$g_hChkUpgradePets[$ePetElectroOwl] = GUICtrlCreateCheckbox("", $x, $y + 25, 17, 17)
 	$sTxtTip = GetTranslatedFileIni("MBR GUI Design Child Village - Upgrade_Heroes", "ChkUpgradeElectroOwl_Info_01", "Enable upgrading of your Pet, Electro Owl, when you have enough Dark Elixir")
 	_GUICtrlSetTip(-1, $sTxtTip)
@@ -404,7 +404,7 @@ Func CreateHeroesSubTab()
 	_GUICtrlCreateIcon($g_sLibIconPath, $eIcnPetElectroOwl, $x + 23, $y + 5, 64, 64)
 	_GUICtrlSetTip(-1, $sTxtTip)
 
-	$x += 95
+	$x += 85
 	$g_hChkUpgradePets[$ePetMightyYak] = GUICtrlCreateCheckbox("", $x, $y + 25, 17, 17)
 	$sTxtTip = GetTranslatedFileIni("MBR GUI Design Child Village - Upgrade_Heroes", "ChkUpgradeMightyYak_Info_01", "Enable upgrading of your Pet, Mighty Yak, when you have enough Dark Elixir")
 	_GUICtrlSetTip(-1, $sTxtTip)
@@ -413,25 +413,25 @@ Func CreateHeroesSubTab()
 	_GUICtrlCreateIcon($g_sLibIconPath, $eIcnPetMightyYak, $x + 23, $y - 1, 60, 60)
 	_GUICtrlSetTip(-1, $sTxtTip)
 
-	$x += 95
+	$x += 85
 	$g_hChkUpgradePets[$ePetUnicorn] = GUICtrlCreateCheckbox("", $x, $y + 25, 17, 17)
 	$sTxtTip = GetTranslatedFileIni("MBR GUI Design Child Village - Upgrade_Heroes", "ChkUpgradeUnicorn_Info_01", "Enable upgrading of your Pet, Unicorn, when you have enough Dark Elixir")
 	_GUICtrlSetTip(-1, $sTxtTip)
 	GUICtrlSetOnEvent(-1, "chkUpgradePets")
 	GUICtrlSetColor(-1, $COLOR_ERROR)
-	_GUICtrlCreateIcon($g_sLibIconPath, $eIcnPetUnicorn, $x + 23, $y - 4, 64, 64)
+	_GUICtrlCreateIcon($g_sLibIconPath, $eIcnPetUnicorn, $x + 18, $y - 4, 64, 64)
 	_GUICtrlSetTip(-1, $sTxtTip)
 
-	$x = 25
-	$y += 65
+	$x += 85
 	$g_hChkUpgradePets[$ePetFrosty] = GUICtrlCreateCheckbox("", $x, $y + 25, 17, 17)
 	$sTxtTip = GetTranslatedFileIni("MBR GUI Design Child Village - Upgrade_Heroes", "ChkUpgradeFrosty_Info_01", "Enable upgrading of your Pet, Frosty, when you have enough Dark Elixir")
 	_GUICtrlSetTip(-1, $sTxtTip)
 	GUICtrlSetOnEvent(-1, "chkUpgradePets")
-	_GUICtrlCreateIcon($g_sLibIconPath, $eIcnPetFrosty, $x + 18, $y, 64, 64)
+	_GUICtrlCreateIcon($g_sLibIconPath, $eIcnPetFrosty, $x + 15, $y - 3, 64, 64)
 	_GUICtrlSetTip(-1, $sTxtTip)
 
-	$x += 85
+	$x = 20
+	$y += 65
 	$g_hChkUpgradePets[$ePetDiggy] = GUICtrlCreateCheckbox("", $x, $y + 25, 17, 17)
 	$sTxtTip = GetTranslatedFileIni("MBR GUI Design Child Village - Upgrade_Heroes", "ChkUpgradeDiggy_Info_01", "Enable upgrading of your Pet, Diggy, when you have enough Dark Elixir")
 	_GUICtrlSetTip(-1, $sTxtTip)
@@ -440,7 +440,7 @@ Func CreateHeroesSubTab()
 	_GUICtrlSetTip(-1, $sTxtTip)
 
 	$x += 85
-	$g_hChkUpgradePets[$ePetPoisonLizard] = GUICtrlCreateCheckbox("", $x + 5, $y + 25, 17, 17)
+	$g_hChkUpgradePets[$ePetPoisonLizard] = GUICtrlCreateCheckbox("", $x, $y + 25, 17, 17)
 	$sTxtTip = GetTranslatedFileIni("MBR GUI Design Child Village - Upgrade_Heroes", "ChkUpgradePoisonLizard_Info_01", "Enable upgrading of your Pet, Poison Lizard, when you have enough Dark Elixir")
 	_GUICtrlSetTip(-1, $sTxtTip)
 	GUICtrlSetOnEvent(-1, "chkUpgradePets")
@@ -457,13 +457,22 @@ Func CreateHeroesSubTab()
 	_GUICtrlCreateIcon($g_sLibIconPath, $eIcnPetPhoenix, $x + 13, $y, 64, 64)
 	_GUICtrlSetTip(-1, $sTxtTip)
 
-	$x += 80
+	$x += 85
 	$g_hChkUpgradePets[$ePetSpiritFox] = GUICtrlCreateCheckbox("", $x, $y + 25, 17, 17)
 	$sTxtTip = GetTranslatedFileIni("MBR GUI Design Child Village - Upgrade_Heroes", "ChkUpgradeSpiritFox_Info_01", "Enable upgrading of your Pet, Spirit Fox, when you have enough Dark Elixir")
 	_GUICtrlSetTip(-1, $sTxtTip)
 	GUICtrlSetOnEvent(-1, "chkUpgradePets")
 	GUICtrlSetColor(-1, $COLOR_ERROR)
 	_GUICtrlCreateIcon($g_sLibIconPath, $eIcnSpiritFox, $x + 8, $y, 64, 64)
+	_GUICtrlSetTip(-1, $sTxtTip)
+
+	$x += 85
+	$g_hChkUpgradePets[$ePetAngryJelly] = GUICtrlCreateCheckbox("", $x, $y + 25, 17, 17)
+	$sTxtTip = GetTranslatedFileIni("MBR GUI Design Child Village - Upgrade_Heroes", "ChkUpgradeAngryJelly_Info_01", "Enable upgrading of your Pet, Angry Jelly, when you have enough Dark Elixir")
+	_GUICtrlSetTip(-1, $sTxtTip)
+	GUICtrlSetOnEvent(-1, "chkUpgradePets")
+	GUICtrlSetColor(-1, $COLOR_ERROR)
+	_GUICtrlCreateIcon($g_sLibIconPath, $eIcnAngryJelly, $x + 18, $y + 6, 55, 55)
 	_GUICtrlSetTip(-1, $sTxtTip)
 
 	$x = 45

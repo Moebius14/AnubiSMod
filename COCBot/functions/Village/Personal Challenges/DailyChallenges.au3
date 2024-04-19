@@ -2,7 +2,7 @@
 ; Name ..........: DailyChallenges()
 ; Description ...: Daily Challenges
 ; Author ........: TripleM (04/2019), Demen (07/2019)
-; Modified ......: Moebius (06/2023)
+; Modified ......: Moebius (04/2024)
 ; Remarks .......: This file is part of MyBot Copyright 2015-2024
 ;                  MyBot is distributed under the terms of the GNU GPL
 ; Related .......:
@@ -177,7 +177,7 @@ Func CollectDailyRewards($bGoldPass = False)
 	Local $IsResPotPresent = 0
 	Local $IsPetPotPresent = 0
 	Local $IsAutoForgeSlotPresent = 0
-	For $i = 0 To 14
+	For $i = 0 To 15
 		If Not $g_bRunState Then Return
 		Local $SearchArea = $bGoldPass ? GetDiamondFromRect("25,336(810,270)") : GetDiamondFromRect("25,550(810,60)")
 		Local $aResult = findMultiple(@ScriptDir & "\imgxml\DailyChallenge\", $SearchArea, $SearchArea, 0, 1000, $bGoldPass ? 5 : 2, "objectname,objectpoints", True)
@@ -268,7 +268,7 @@ Func CollectDailyRewards($bGoldPass = False)
 			If $i = 0 Then
 				SetLog("Dragging back for more... ", Default, Default, Default, Default, Default, Default, False) ; no end line
 			Else
-				SetLog($i & ".. ", Default, Default, Default, Default, Default, 0, $i < 13 ? False : Default) ; no time
+				SetLog($i & ".. ", Default, Default, Default, Default, Default, 0, $i < 15 ? False : Default) ; no time
 			EndIf
 			ClickDrag(120, 400 + $g_iMidOffsetY, 740, 400 + $g_iMidOffsetY, 1000) ;x1 was 50. x2 was 810  Change for Dec '20 update
 			If _Sleep(500) Then ExitLoop

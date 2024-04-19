@@ -105,7 +105,9 @@ Func PetHouse($test = False)
 		EndIf
 	EndIf
 
-	Local $iPetLevelxCoord[9] = [54, 236, 419, 602, 54, 236, 419, 602, 651]
+	Local $iPetLevelxCoordStart = 40
+	Local $iPetLevelxCoordStart2 = 455
+	Local $iPetSlotWidth = 182
 
 	If $g_bChkSortPetUpgrade Then
 		Local $aPet = GetPetUpgradeList()
@@ -118,16 +120,6 @@ Func PetHouse($test = False)
 			ElseIf $aPet[$i][2] = "MaxLevel" Then
 				$PetMaxOrLocked += 1
 				ContinueLoop
-			EndIf
-
-			Local $aTmpCost = $aPet[$i][4]
-
-			If Number($g_aiCurrentLoot[$eLootDarkElixir]) >= Number($aTmpCost) Then
-				SetLog($aPet[$i][1] & ", DE Upgrade Cost : " & _NumberFormat($aPet[$i][4], True), $COLOR_SUCCESS)
-				SetLog("Level : " & $aPet[$i][3], $COLOR_SUCCESS)
-			Else
-				SetLog($aPet[$i][1] & ", DE Upgrade Cost : " & _NumberFormat($aPet[$i][4], True), $COLOR_ERROR)
-				SetLog("Level : " & $aPet[$i][3], $COLOR_ERROR)
 			EndIf
 		Next
 
@@ -258,11 +250,25 @@ Func PetHouse($test = False)
 					If $i = 1 Then $g_ePetLevels[$i] = 10
 			EndSwitch
 
+			Switch $i
+				Case 0 To 3
+					Local $aBlackBorder = _MultiPixelSearch2($iPetLevelxCoordStart + ($i * $iPetSlotWidth), 500 + $g_iMidOffsetY, $iPetLevelxCoordStart + ($i * $iPetSlotWidth) + 15, 500 + $g_iMidOffsetY, 1, 1, Hex(0x0D0D0D, 6), 15)
+				Case 4 To 7
+					Local $aBlackBorder = _MultiPixelSearch2($iPetLevelxCoordStart + (($i - 4) * $iPetSlotWidth), 500 + $g_iMidOffsetY, $iPetLevelxCoordStart + (($i - 4) * $iPetSlotWidth) + 15, 500 + $g_iMidOffsetY, 1, 1, Hex(0x0D0D0D, 6), 15)
+				Case Else
+					Local $aBlackBorder = _MultiPixelSearch2($iPetLevelxCoordStart2 + (($i - 8) * $iPetSlotWidth), 500 + $g_iMidOffsetY, $iPetLevelxCoordStart2 + (($i - 8) * $iPetSlotWidth) + 15, 500 + $g_iMidOffsetY, 1, 1, Hex(0x0D0D0D, 6), 15)
+			EndSwitch
+			If IsArray($aBlackBorder) Then
+				Local $iPetLevelxCoord = $aBlackBorder[0] + 10
+			Else
+				ContinueLoop
+			EndIf
+
 			; check if pet upgrade unlocked
-			If _ColorCheck(_GetPixelColor($iPetLevelxCoord[$i], 380 + $g_iMidOffsetY, True), Hex(0xC6BCAA, 6), 15) Then
+			If _ColorCheck(_GetPixelColor($iPetLevelxCoord, 380 + $g_iMidOffsetY, True), Hex(0xC6BCAA, 6), 15) Then
 
 				; get the Pet Level
-				Local $iPetLevel = getPetsLevel($iPetLevelxCoord[$i], 544 + $g_iMidOffsetY)
+				Local $iPetLevel = getPetsLevel($iPetLevelxCoord, 544 + $g_iMidOffsetY)
 				If Not ($iPetLevel > 0 And $iPetLevel <= $g_ePetLevels[$i]) Then ;If detected level is not between 1 and 10 Or 15, To Prevent Crash
 					If $g_bDebugSetlog Then SetDebugLog("Pet Level OCR Misdetection, Detected Level is : " & $iPetLevel, $COLOR_WARNING)
 					ContinueLoop
@@ -287,7 +293,7 @@ Func PetHouse($test = False)
 					SetLog("Will now upgrade " & $g_asPetNames[$i])
 
 					; Randomise X,Y click
-					Local $iX = Random($iPetLevelxCoord[$i] + 60, $iPetLevelxCoord[$i] + 75, 1)
+					Local $iX = Random($iPetLevelxCoord + 60, $iPetLevelxCoord + 75, 1)
 					Local $iY = Random(495 + $g_iMidOffsetY, 510 + $g_iMidOffsetY, 1)
 					Click($iX, $iY)
 
@@ -344,7 +350,7 @@ Func PetHouse($test = False)
 					SetLog("Failed to find Confirm button", $COLOR_ERROR)
 				EndIf
 				SetLog("Upgrade Failed - Not enough Dark Elixir", $COLOR_ERROR)
-			ElseIf _ColorCheck(_GetPixelColor($iPetLevelxCoord[$i], 380 + $g_iMidOffsetY, True), Hex(0xABABAB, 6), 20) Then
+			ElseIf _ColorCheck(_GetPixelColor($iPetLevelxCoord, 380 + $g_iMidOffsetY, True), Hex(0xABABAB, 6), 20) Then
 				SetLog($g_asPetNames[$i] & " is Locked")
 				$MaxLvlPetCount += 1
 			EndIf
@@ -469,10 +475,18 @@ Func PetGuiDisplay()
 		If Number($g_iMinDark4PetUpgrade) <> 999999 Then
 			SetLog("Current DE Storage: " & _NumberFormat($g_aiCurrentLoot[$eLootDarkElixir], True))
 			SetLog("Minimum DE for Pet upgrade: " & _NumberFormat($g_iMinDark4PetUpgrade, True))
+			Return
 		Else
-			SetLog("No Pets available for upgrade.")
+			If _DateIsValid($iLastTimeChecked[$g_iCurAccount]) Then
+				Local $iLastCheck = _DateDiff('n', $iLastTimeChecked[$g_iCurAccount], _NowCalc()) ; elapse time from last check (minutes)
+				; A check each from 3 to 4 hours [3*60 = 180 to 4*60 = 240] To check if new pet is available
+				Local $iDelayToCheck = Random(180, 240, 1)
+				If $iLastCheck <= $iDelayToCheck Then
+					SetLog("No Pets available for upgrade.")
+					Return
+				EndIf
+			EndIf
 		EndIf
-		Return
 	EndIf
 
 	ClickAway()
@@ -596,8 +610,10 @@ Func PetGuiDisplay()
 EndFunc   ;==>PetGuiDisplay
 
 Func GetMinDark4PetUpgrade()
-	Local $iPetLevelxCoord[9] = [54, 236, 419, 602, 54, 236, 419, 602, 651]
-	Local $iMinDark4PetUpgrade = 999999, $iPetUpgradeLevel = 0
+	Local $iPetLevelxCoordStart = 40
+	Local $iPetLevelxCoordStart2 = 455
+	Local $iPetSlotWidth = 182
+	Local $iMinDark4PetUpgrade = 999999
 	Local $iPage = 0
 
 	For $i = 0 To $ePetCount - 1
@@ -613,16 +629,30 @@ Func GetMinDark4PetUpgrade()
 				If $i = 1 Then $g_ePetLevels[$i] = 10
 		EndSwitch
 
+		Switch $i
+			Case 0 To 3
+				Local $aBlackBorder = _MultiPixelSearch2($iPetLevelxCoordStart + ($i * $iPetSlotWidth), 500 + $g_iMidOffsetY, $iPetLevelxCoordStart + ($i * $iPetSlotWidth) + 15, 500 + $g_iMidOffsetY, 1, 1, Hex(0x0D0D0D, 6), 15)
+			Case 4 To 7
+				Local $aBlackBorder = _MultiPixelSearch2($iPetLevelxCoordStart + (($i - 4) * $iPetSlotWidth), 500 + $g_iMidOffsetY, $iPetLevelxCoordStart + (($i - 4) * $iPetSlotWidth) + 15, 500 + $g_iMidOffsetY, 1, 1, Hex(0x0D0D0D, 6), 15)
+			Case Else
+				Local $aBlackBorder = _MultiPixelSearch2($iPetLevelxCoordStart2 + (($i - 8) * $iPetSlotWidth), 500 + $g_iMidOffsetY, $iPetLevelxCoordStart2 + (($i - 8) * $iPetSlotWidth) + 15, 500 + $g_iMidOffsetY, 1, 1, Hex(0x0D0D0D, 6), 15)
+		EndSwitch
+		If IsArray($aBlackBorder) Then
+			Local $iPetLevelxCoord = $aBlackBorder[0] + 10
+		Else
+			ContinueLoop
+		EndIf
+
 		; check if pet upgrade enabled and unlocked
-		If _ColorCheck(_GetPixelColor($iPetLevelxCoord[$i], 380 + $g_iMidOffsetY, True), Hex(0xC6BCAA, 6), 15) Then
+		If _ColorCheck(_GetPixelColor($iPetLevelxCoord, 380 + $g_iMidOffsetY, True), Hex(0xC6BCAA, 6), 15) Then
 
 			; get the Pet Level
-			Local $iPetLevel = getPetsLevel($iPetLevelxCoord[$i], 544 + $g_iMidOffsetY)
-
+			Local $iPetLevel = getPetsLevel($iPetLevelxCoord, 544 + $g_iMidOffsetY)
 			If Not ($iPetLevel > 0 And $iPetLevel <= $g_ePetLevels[$i]) Then ;If detected level is not between 1 and 10 Or 15, To Prevent Crash
 				If $g_bDebugSetlog Then SetDebugLog("Pet Level OCR Misdetection, Detected Level is : " & $iPetLevel, $COLOR_WARNING)
 				ContinueLoop
 			EndIf
+
 			If $iPetLevel < $g_ePetLevels[$i] Then
 				SetLog($g_asPetNames[$i] & " is at level " & $iPetLevel)
 			Else
@@ -642,7 +672,7 @@ Func GetMinDark4PetUpgrade()
 				$iMinDark4PetUpgrade = $iDarkElixirReq
 				SetLog("New Min Dark: " & _NumberFormat($iMinDark4PetUpgrade, True))
 			EndIf
-		ElseIf _ColorCheck(_GetPixelColor($iPetLevelxCoord[$i], 380 + $g_iMidOffsetY, True), Hex(0xB5B5B5, 6), 15) Then
+		ElseIf _ColorCheck(_GetPixelColor($iPetLevelxCoord, 380 + $g_iMidOffsetY, True), Hex(0xB5B5B5, 6), 15) Then
 			SetLog($g_asPetNames[$i] & " is Locked")
 		EndIf
 	Next
@@ -744,7 +774,9 @@ EndFunc   ;==>GetMinDark4PetUpgrade2
 
 Func GetPetUpgradeList()
 	; Pet upgrade is not in progress and not upgrading, so we need to start an upgrade.
-	Local $iPetLevelxCoord[9] = [54, 236, 419, 602, 54, 236, 419, 602, 651]
+	Local $iPetLevelxCoordStart = 40
+	Local $iPetLevelxCoordStart2 = 455
+	Local $iPetSlotWidth = 182
 	Local $iDarkElixirReq = 0, $iPetLevel = 0
 	Local $aPet[0][6]
 	Local $iPage = 0
@@ -760,14 +792,28 @@ Func GetPetUpgradeList()
 					If $i = 1 Then $g_ePetLevels[$i] = 10
 			EndSwitch
 
+			Switch $i
+				Case 0 To 3
+					Local $aBlackBorder = _MultiPixelSearch2($iPetLevelxCoordStart + ($i * $iPetSlotWidth), 500 + $g_iMidOffsetY, $iPetLevelxCoordStart + ($i * $iPetSlotWidth) + 15, 500 + $g_iMidOffsetY, 1, 1, Hex(0x0D0D0D, 6), 15)
+				Case 4 To 7
+					Local $aBlackBorder = _MultiPixelSearch2($iPetLevelxCoordStart + (($i - 4) * $iPetSlotWidth), 500 + $g_iMidOffsetY, $iPetLevelxCoordStart + (($i - 4) * $iPetSlotWidth) + 15, 500 + $g_iMidOffsetY, 1, 1, Hex(0x0D0D0D, 6), 15)
+				Case Else
+					Local $aBlackBorder = _MultiPixelSearch2($iPetLevelxCoordStart2 + (($i - 8) * $iPetSlotWidth), 500 + $g_iMidOffsetY, $iPetLevelxCoordStart2 + (($i - 8) * $iPetSlotWidth) + 15, 500 + $g_iMidOffsetY, 1, 1, Hex(0x0D0D0D, 6), 15)
+			EndSwitch
+			If IsArray($aBlackBorder) Then
+				Local $iPetLevelxCoord = $aBlackBorder[0] + 10
+			Else
+				ContinueLoop
+			EndIf
+
 			Local $Name = $g_asPetNames[$i]
-			Local $x = $iPetLevelxCoord[$i]
-			Local $Unlocked = String(_ColorCheck(_GetPixelColor($iPetLevelxCoord[$i], 380 + $g_iMidOffsetY, True), Hex(0xC6BCAA, 6), 15))
+			Local $x = $iPetLevelxCoord
+			Local $Unlocked = String(_ColorCheck(_GetPixelColor($iPetLevelxCoord, 380 + $g_iMidOffsetY, True), Hex(0xC6BCAA, 6), 15))
 			$iDarkElixirReq = 0 ;reset value
 			$iPetLevel = 0
 
 			If Not $Unlocked Then
-				If _ColorCheck(_GetPixelColor($iPetLevelxCoord[$i], 380 + $g_iMidOffsetY, True), Hex(0xB5B5B5, 6), 15) Then
+				If _ColorCheck(_GetPixelColor($iPetLevelxCoord, 380 + $g_iMidOffsetY, True), Hex(0xB5B5B5, 6), 15) Then
 					$Unlocked = "Locked"
 					SetLog($Name & " is Locked")
 					_ArrayAdd($aPet, $i & "|" & $Name & "|" & $Unlocked & "|" & $iPetLevel & "|" & $iDarkElixirReq & "|" & $x)
@@ -775,7 +821,7 @@ Func GetPetUpgradeList()
 				EndIf
 			EndIf
 
-			$iPetLevel = getPetsLevel($iPetLevelxCoord[$i], 544 + $g_iMidOffsetY)
+			$iPetLevel = getPetsLevel($iPetLevelxCoord, 544 + $g_iMidOffsetY)
 			If Not ($iPetLevel > 0 And $iPetLevel <= $g_ePetLevels[$i]) Then ;If detected level is not between 1 and 10 Or 15, To Prevent Crash
 				If $g_bDebugSetlog Then SetDebugLog("Pet Level OCR Misdetection, Detected Level is : " & $iPetLevel, $COLOR_WARNING)
 				ContinueLoop
@@ -804,7 +850,7 @@ Func DragPetHouse($iPetIndex, ByRef $iPage)
 			$iPageTarget = 0
 		Case 4, 5, 6, 7
 			$iPageTarget = 1
-		Case 8
+		Case 8, 9
 			$iPageTarget = 2
 	EndSwitch
 
@@ -819,7 +865,7 @@ Func DragPetHouse($iPetIndex, ByRef $iPage)
 				ClickDrag(770, $iYPoint, 190, $iYPoint, 300)
 				SetDebugLog("Moving from page 0 to 1")
 			Else
-				ClickDrag(585, $iYPoint, 370, $iYPoint, 300)
+				ClickDrag(585, $iYPoint, 310, $iYPoint, 300)
 				SetDebugLog("Moving from page 1 to 2")
 			EndIf
 			If _Sleep(2500) Then Return
@@ -828,7 +874,7 @@ Func DragPetHouse($iPetIndex, ByRef $iPage)
 
 		If $iPage > $iPageTarget Then
 			If $iPage = 2 Then
-				ClickDrag(270, $iYPoint, 372, $iYPoint, 300)
+				ClickDrag(170, $iYPoint, 420, $iYPoint, 300)
 				SetDebugLog("Moving from page 2 to 1")
 			Else
 				ClickDrag(60, $iYPoint, 660, $iYPoint, 300)

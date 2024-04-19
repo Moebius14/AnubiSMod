@@ -365,6 +365,7 @@ Func ApplyConfig_600_6($TypeReadSave)
 			GUICtrlSetState($g_hChkCGMainDestruction, $g_bChkClanGamesDes ? $GUI_CHECKED : $GUI_UNCHECKED)
 			GUICtrlSetState($g_hChkCGMainAir, $g_bChkClanGamesAirTroop ? $GUI_CHECKED : $GUI_UNCHECKED)
 			GUICtrlSetState($g_hChkCGMainGround, $g_bChkClanGamesGroundTroop ? $GUI_CHECKED : $GUI_UNCHECKED)
+			GUICtrlSetState($g_hChkCGEquipment, $g_bChkClanGamesEquipment ? $GUI_CHECKED : $GUI_UNCHECKED)
 			GUICtrlSetState($g_hChkCGMainMisc, $g_bChkClanGamesMiscellaneous ? $GUI_CHECKED : $GUI_UNCHECKED)
 			GUICtrlSetState($g_hChkCGMainSpell, $g_bChkClanGamesSpell ? $GUI_CHECKED : $GUI_UNCHECKED)
 			GUICtrlSetState($g_hChkCGBBBattle, $g_bChkClanGamesBBBattle ? $GUI_CHECKED : $GUI_UNCHECKED)
@@ -400,6 +401,9 @@ Func ApplyConfig_600_6($TypeReadSave)
 			Next
 			For $i = 0 To UBound($g_ahCGMainGroundItem) - 1
 				GUICtrlSetState($g_ahCGMainGroundItem[$i], $g_abCGMainGroundItem[$i] = 1 ? $GUI_CHECKED : $GUI_UNCHECKED)
+			Next
+			For $i = 0 To UBound($g_ahCGEquipmentItem) - 1
+				GUICtrlSetState($g_ahCGEquipmentItem[$i], $g_abCGEquipmentItem[$i] = 1 ? $GUI_CHECKED : $GUI_UNCHECKED)
 			Next
 			For $i = 0 To UBound($g_ahCGMainMiscItem) - 1
 				GUICtrlSetState($g_ahCGMainMiscItem[$i], $g_abCGMainMiscItem[$i] = 1 ? $GUI_CHECKED : $GUI_UNCHECKED)
@@ -596,6 +600,7 @@ Func ApplyConfig_600_6($TypeReadSave)
 			$g_bChkClanGamesDes = BitAND(GUICtrlRead($g_hChkCGMainDestruction), $GUI_CHECKED) ? 1 : 0
 			$g_bChkClanGamesAirTroop = BitAND(GUICtrlRead($g_hChkCGMainAir), $GUI_CHECKED) ? 1 : 0
 			$g_bChkClanGamesGroundTroop = BitAND(GUICtrlRead($g_hChkCGMainGround), $GUI_CHECKED) ? 1 : 0
+			$g_bChkClanGamesEquipment = BitAND(GUICtrlRead($g_hChkCGEquipment), $GUI_CHECKED) ? 1 : 0
 			$g_bChkClanGamesMiscellaneous = BitAND(GUICtrlRead($g_hChkCGMainMisc), $GUI_CHECKED) ? 1 : 0
 			$g_bChkClanGamesSpell = BitAND(GUICtrlRead($g_hChkCGMainSpell), $GUI_CHECKED) ? 1 : 0
 			$g_bChkClanGamesBBBattle = BitAND(GUICtrlRead($g_hChkCGBBBattle), $GUI_CHECKED) ? 1 : 0
@@ -629,6 +634,9 @@ Func ApplyConfig_600_6($TypeReadSave)
 			Next
 			For $i = 0 To UBound($g_ahCGMainGroundItem) - 1
 				$g_abCGMainGroundItem[$i] = BitAND(GUICtrlRead($g_ahCGMainGroundItem[$i]), $GUI_CHECKED) ? 1 : 0
+			Next
+			For $i = 0 To UBound($g_ahCGEquipmentItem) - 1
+				$g_abCGEquipmentItem[$i] = BitAND(GUICtrlRead($g_ahCGEquipmentItem[$i]), $GUI_CHECKED) ? 1 : 0
 			Next
 			For $i = 0 To UBound($g_ahCGMainMiscItem) - 1
 				$g_abCGMainMiscItem[$i] = BitAND(GUICtrlRead($g_ahCGMainMiscItem[$i]), $GUI_CHECKED) ? 1 : 0
