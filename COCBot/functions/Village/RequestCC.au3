@@ -188,12 +188,12 @@ Func IsFullClanCastleType($CCType = 0) ; Troops = 0, Spells = 1, Siege Machine =
 			Else
 				If $CCType < 2 Then
 					If $CCType = 0 Then
-						Local $sCCReceived = getOcrAndCapture("coc-camps", 307 + $CCType * 154, 428 + $g_iMidOffsetY, 60, 16, True, False, True) ; read CC troop
+						Local $sCCReceived = getOcrAndCapture("coc-camps", 307, 428 + $g_iMidOffsetY, 60, 16, True, False, True) ; read CC troop
 					Else
-						Local $sCCReceived = getOcrAndCapture("coc-camps", 307 + $CCType * 154, 428 + $g_iMidOffsetY, 35, 16, True, False, True) ; read CC spells
+						Local $sCCReceived = getOcrAndCapture("coc-camps", 461, 428 + $g_iMidOffsetY, 35, 16, True, False, True) ; read CC spells
 					EndIf
 				Else
-					Local $sCCReceived = getOcrAndCapture("coc-camps", 579, 428 + $g_iMidOffsetY, 30, 16, True, False, True) ; read CC (Siege x/1)
+					Local $sCCReceived = getOcrAndCapture("coc-camps", 578, 428 + $g_iMidOffsetY, 30, 16, True, False, True) ; read CC (Siege x/1)
 				EndIf
 				If $g_bDebugSetlog Then SetLog("Read CC " & $sLog[$CCType] & "s: " & $sCCReceived)
 				Local $aCCReceived = StringSplit($sCCReceived, "#", $STR_NOCOUNT) ; split the trained troop number from the total troop number
