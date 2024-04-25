@@ -64,7 +64,7 @@ Func getArmyCCSpellCapacity($bOpenArmyWindow = False, $bCloseArmyWindow = False,
 		$g_iCurrentCCSpells = 0
 	EndIf
 
-	If $bSetLog Then SetLog("Total Clan Castle Spells: " & $g_iCurrentCCSpells & "/" & $g_iTotalCCSpells)
+	If $bSetLog Then SetLog("Clan Castle Spell" & ($g_iTotalCCSpells > 1 ? "s" : "") & ": " & $g_iCurrentCCSpells & "/" & $g_iTotalCCSpells)
 
 	If $bCloseArmyWindow Then CloseWindow()
 

@@ -2403,6 +2403,7 @@ Func ApplyConfig_600_35_2($TypeReadSave)
 			_GUICtrlComboBox_SetCurSel($g_hCmbTrainTimeToSkip, $g_iTrainTimeToSkip)
 			_cmbSwitchAcc(False)
 			ChkBBMaxEventsInARow2()
+			LimitBBMaxEventsInARow()
 
 		Case "Save"
 			$g_iCmbSwitchAcc = _GUICtrlComboBox_GetCurSel($g_hCmbSwitchAcc)

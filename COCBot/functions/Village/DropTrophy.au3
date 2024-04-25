@@ -140,7 +140,7 @@ Func DropTrophy()
 
 			Local $AllowCG = True
 			If ProfileSwitchAccountEnabled() And $g_bChkBBMaxEventsInARow Then
-				If Number($g_aiAttackedBBEventCount) >= Number($g_aiLimitBBEventCount) Then $AllowCG = False
+				If Number($g_aiAttackedBBEventCount) >= Number($g_aiLimitBBEventCount) And Number($g_aiLimitBBEventCount) > 0 Then $AllowCG = False
 			EndIf
 
 			If $g_bChkClanGamesEnabled And $g_bChkEnableBBAttack And $g_bDropTrophyUseHeroes = 1 And $AllowCG Then
@@ -264,7 +264,7 @@ Func DropTrophy()
 
 						Local $AllowCG = True
 						If ProfileSwitchAccountEnabled() And $g_bChkBBMaxEventsInARow Then
-							If Number($g_aiAttackedBBEventCount) >= Number($g_aiLimitBBEventCount) Then $AllowCG = False
+							If Number($g_aiAttackedBBEventCount) >= Number($g_aiLimitBBEventCount) And Number($g_aiLimitBBEventCount) > 0 Then $AllowCG = False
 						EndIf
 
 						If $g_bChkClanGamesEnabled And $g_bChkEnableBBAttack And $g_bDropTrophyUseHeroes = 1 And $AllowCG Then

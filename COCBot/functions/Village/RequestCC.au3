@@ -269,7 +269,7 @@ Func CheckCCArmy()
 
 	If $bSkipTroop And $bSkipSpell And $bSkipSiege Then Return
 
-	Local $bNeedRemove = False, $aToRemove[9][3] ; 5 troop slots + 3 spell slots + 2 siege slots [X_Coord/Page, Q'ty, Page]
+	Local $bNeedRemove = False, $aToRemove[9][3] ; 5 troop slots + 3 spell slots + 2 siege slots [X_Coord/Page, Q'ty, X coord For Remove]
 	Local $aTroopWSlot, $aSpellWSlot, $aSiegeWSlot
 
 	For $i = 0 To 2
@@ -281,8 +281,8 @@ Func CheckCCArmy()
 	If Not $g_bRunState Then Return
 
 	If Not $bSkipTroop Then $aTroopWSlot = getArmyCCTroops(False, False, False, True, True, True) ; X-Coord, Troop name index, Quantity
-	If Not $bSkipSpell Then $aSpellWSlot = getArmyCCSpells(False, False, False, True, True) ; Page, Spell name index, Quantity
-	If Not $bSkipSiege Then $aSiegeWSlot = getArmyCCSiegeMachines(False, False, False, True, True) ; Page, Siege name index, Quantity
+	If Not $bSkipSpell Then $aSpellWSlot = getArmyCCSpells(False, False, False, True, True) ; Page, Spell name index, Quantity, X Coord for Remove
+	If Not $bSkipSiege Then $aSiegeWSlot = getArmyCCSiegeMachines(False, False, False, True, True) ; Page, Siege name index, Quantity, X Coord for Remove
 
 	; CC troops
 	If IsArray($aTroopWSlot) Then
@@ -298,7 +298,7 @@ Func CheckCCArmy()
 					If $j > 4 Then ExitLoop
 					If $aTroopWSlot[$j][1] = $i Then
 						$aToRemove[$j][0] = $aTroopWSlot[$j][0]
-						$aToRemove[$j][1] = _Min($aTroopWSlot[$j][2], $iUnwanted)
+						$aToRemove[$j][1] = _Min(Number($aTroopWSlot[$j][2]), Number($iUnwanted))
 						$iUnwanted -= $aToRemove[$j][1]
 						SetLog(" - " & $aToRemove[$j][1] & "x " & ($aToRemove[$j][1] > 1 ? $g_asTroopNamesPlural[$i] : $g_asTroopNames[$i]) & ($g_bDebugSetlog ? (", at slot " & $j & ", x" & $aToRemove[$j][0] + 35) : ""))
 					EndIf
@@ -319,10 +319,11 @@ Func CheckCCArmy()
 					$bNeedRemove = True
 				EndIf
 				For $j = 0 To UBound($aSpellWSlot) - 1
-					If $j > 1 Then ExitLoop
+					If $j > 2 Then ExitLoop
 					If $aSpellWSlot[$j][1] = $i Then
 						$aToRemove[$j + 5][0] = $aSpellWSlot[$j][0]
-						$aToRemove[$j + 5][1] = _Min($aSpellWSlot[$j][2], $iUnwanted)
+						$aToRemove[$j + 5][1] = _Min(Number($aSpellWSlot[$j][2]), Number($iUnwanted))
+						$aToRemove[$j + 5][2] = $aSpellWSlot[$j][3]
 						$iUnwanted -= $aToRemove[$j + 5][1]
 						SetLog(" - " & $aToRemove[$j + 5][1] & "x " & $g_asSpellNames[$i] & ($aToRemove[$j + 5][1] > 1 ? " spells" : " spell") & ($g_bDebugSetlog ? (", at slot " & $j + 5 & ", Page" & $aToRemove[$j + 5][0]) : ""))
 					EndIf
@@ -346,7 +347,8 @@ Func CheckCCArmy()
 					If $j > 1 Then ExitLoop
 					If $aSiegeWSlot[$j][1] = $i Then
 						$aToRemove[$j + 8][0] = $aSiegeWSlot[$j][0]
-						$aToRemove[$j + 8][1] = _Min($aSiegeWSlot[$j][2], $iUnwanted)
+						$aToRemove[$j + 8][1] = _Min(Number($aSiegeWSlot[$j][2]), Number($iUnwanted))
+						$aToRemove[$j + 8][2] = $aSiegeWSlot[$j][3]
 						$iUnwanted -= $aToRemove[$j + 8][1]
 						SetLog(" - " & $aToRemove[$j + 8][1] & "x " & $g_asSiegeMachineNames[$i] & ($aToRemove[$j + 8][1] > 1 ? " Sieges" : " Siege") & ($g_bDebugSetlog ? (", at slot " & $j + 8 & ", Page" & $aToRemove[$j + 8][0]) : ""))
 					EndIf
@@ -387,15 +389,15 @@ Func RemoveCastleArmy($aToRemove)
 				Case 5 To 7
 					Switch $aToRemove[$i][0]
 						Case 0
-							$aPos[0] = 515 ; x-coordinate of only one Spell slot
+							$aPos[0] = $aToRemove[$i][2] ; x-coordinate of only one Spell slot
 						Case 1, 11
-							$aPos[0] = 495 ; x-coordinate of first Spell slot, or second when 3 spells
+							$aPos[0] = $aToRemove[$i][2] ; x-coordinate of first Spell slot, or second when 3 spells
 							If $aToRemove[$i][0] = 11 Then
 								ClickDrag(527, 495 + $g_iMidOffsetY, 455, 495 + $g_iMidOffsetY, 300)
-								If _Sleep(2000) Then Return
+								If _Sleep(1000) Then Return
 							EndIf
 						Case 2, 3
-							$aPos[0] = 527 ; x-coordinate of second Spell slot
+							$aPos[0] = $aToRemove[$i][2] ; x-coordinate of second Spell slot
 							If $aToRemove[$i][0] = 2 Then
 								ClickDrag(527, 495 + $g_iMidOffsetY, 455, 495 + $g_iMidOffsetY, 300)
 								If _Sleep(2000) Then Return
@@ -407,16 +409,15 @@ Func RemoveCastleArmy($aToRemove)
 				Case 8, 9
 					Switch $aToRemove[$i][0]
 						Case 0
-							$aPos[0] = 630 ; x-coordinate of only one Siege slot
+							$aPos[0] = $aToRemove[$i][2] ; x-coordinate of only one Siege slot
 						Case 1
-							$aPos[0] = 613 ; x-coordinate of first Siege slot when 2 available slots
+							$aPos[0] = $aToRemove[$i][2] ; x-coordinate of first Siege slot when 2 available slots
 						Case 2
-							$aPos[0] = 645 ; x-coordinate of second Siege slot when 2 available slots
+							$aPos[0] = $aToRemove[$i][2] ; x-coordinate of second Siege slot when 2 available slots
 							ClickDrag(645, 495 + $g_iMidOffsetY, 573, 495 + $g_iMidOffsetY, 300)
 							If _Sleep(2000) Then Return
 					EndSwitch
 			EndSwitch
-			SetLog(" - Click at slot " & $i & ". (" & $aPos[0] & ") x " & $aToRemove[$i][1])
 			SetDebugLog(" - Click at slot " & $i & ". (" & $aPos[0] & ") x " & $aToRemove[$i][1])
 			ClickRemoveTroop($aPos, $aToRemove[$i][1], $g_iTrainClickDelayfinal) ; Click on Remove button as much as needed
 		EndIf

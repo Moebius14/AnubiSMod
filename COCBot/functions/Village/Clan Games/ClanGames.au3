@@ -987,10 +987,23 @@ Func FindEvent()
 				EndIf
 
 				If $ChallengeEvent[0] = "BBT" And $IsBBEvent = "CGMain" Then
-					If $aEvent[0][0] = "BBT-BabyD" Then
-						$ChallengeEvent[0] = "A"
-						$ChallengeEvent[1] = "BabyD"
-						$aEvent[0][0] = "A-BabyD"
+					Switch $aEvent[0][0]
+						Case "BBT-BabyD"
+							$ChallengeEvent[0] = "A"
+							$ChallengeEvent[1] = "BabyD"
+							$aEvent[0][0] = "A-BabyD"
+						Case "BBT-HGlider"
+							$ChallengeEvent[0] = "G"
+							$ChallengeEvent[1] = "Hogs"
+							$aEvent[0][0] = "G-Hogs"
+					EndSwitch
+				EndIf
+
+				If $ChallengeEvent[0] = "G" And $IsBBEvent = "CGBB" Then
+					If $aEvent[0][0] = "G-Hogs" Then
+						$ChallengeEvent[0] = "BBT"
+						$ChallengeEvent[1] = "HGlider"
+						$aEvent[0][0] = "BBT-HGlider"
 					EndIf
 				EndIf
 
@@ -1007,6 +1020,10 @@ Func FindEvent()
 				EndIf
 				If $ChallengeEvent[0] = "BBT" And $IsBBEvent = "CGBB" Then
 					If $aEvent[0][0] = "BBT-BabyD" And $g_abCGBBTroopsItem[5] < 1 Then ContinueLoop
+					If $aEvent[0][0] = "BBT-HGlider" And $g_abCGBBTroopsItem[10] < 1 Then ContinueLoop
+				EndIf
+				If $ChallengeEvent[0] = "G" And $IsBBEvent = "CGMain" Then
+					If $aEvent[0][0] = "G-Hogs" And $g_abCGMainGroundItem[7] < 1 Then ContinueLoop
 				EndIf
 
 				ClanGameImageCopy($sImagePath, $sTempChallengePath, "Selected", $aEvent[0][0])
@@ -1348,6 +1365,14 @@ Func IsEventRunning($bOpenWindow = False)
 							$CurrentActiveChallenge = "Baby Dragon"
 						EndIf
 					EndIf
+					If $aActiveEvent[0][0] = "G-Hogs" Or $aActiveEvent[0][0] = "BBT-HGlider" Then
+						SetDebugLog("Challenge with shared Image", $COLOR_DEBUG2)
+						If $g_abCGBBTroopsItem[10] = 0 Or $g_bChkClanGamesBBTroops = 0 Then
+							$bNeedPurge = True ;Hog Glider
+						Else
+							$CurrentActiveChallenge = "Hog Glider"
+						EndIf
+					EndIf
 					Setlog("Running Challenge is BB Challenge : " & $CurrentActiveChallenge, $COLOR_ACTION)
 					If $g_bChkClanGamesStopBeforeReachAndPurge Then
 						Local $sTimeCG = ConvertOCRTime("ClanGames()", $g_sClanGamesTimeRemaining, False)
@@ -1394,6 +1419,14 @@ Func IsEventRunning($bOpenWindow = False)
 							$bNeedPurge = True ;BabyDrag
 						Else
 							$CurrentActiveChallenge = "Baby Dragon"
+						EndIf
+					EndIf
+					If $aActiveEvent[0][0] = "BBT-HGlider" Or $aActiveEvent[0][0] = "G-Hogs" Then
+						SetDebugLog("Challenge with shared Image", $COLOR_DEBUG2)
+						If $g_abCGMainGroundItem[2] = 0 Or $g_bChkClanGamesGroundTroop = 0 Then
+							$bNeedPurge = True ;HogRider
+						Else
+							$CurrentActiveChallenge = "HogRider"
 						EndIf
 					EndIf
 					Setlog("Running Challenge is MainVillage Challenge : " & $CurrentActiveChallenge, $COLOR_ACTION)
@@ -1834,10 +1867,23 @@ Func FindEventToPurge()
 				EndIf
 
 				If $ChallengeEvent[0] = "BBT" And $IsBBEvent = "CGMain" Then
-					If $aEvent[0][0] = "BBT-BabyD" Then
-						$ChallengeEvent[0] = "A"
-						$ChallengeEvent[1] = "BabyD"
-						$aEvent[0][0] = "A-BabyD"
+					Switch $aEvent[0][0]
+						Case "BBT-BabyD"
+							$ChallengeEvent[0] = "A"
+							$ChallengeEvent[1] = "BabyD"
+							$aEvent[0][0] = "A-BabyD"
+						Case "BBT-HGlider"
+							$ChallengeEvent[0] = "G"
+							$ChallengeEvent[1] = "Hogs"
+							$aEvent[0][0] = "G-Hogs"
+					EndSwitch
+				EndIf
+
+				If $ChallengeEvent[0] = "G" And $IsBBEvent = "CGBB" Then
+					If $aEvent[0][0] = "G-Hogs" Then
+						$ChallengeEvent[0] = "BBT"
+						$ChallengeEvent[1] = "HGlider"
+						$aEvent[0][0] = "BBT-HGlider"
 					EndIf
 				EndIf
 
@@ -1854,6 +1900,10 @@ Func FindEventToPurge()
 				EndIf
 				If $ChallengeEvent[0] = "BBT" And $IsBBEvent = "CGBB" Then
 					If $aEvent[0][0] = "BBT-BabyD" And $g_abCGBBTroopsItem[5] = 1 Then ContinueLoop
+					If $aEvent[0][0] = "BBT-HGlider" And $g_abCGBBTroopsItem[10] = 1 Then ContinueLoop
+				EndIf
+				If $ChallengeEvent[0] = "G" And $IsBBEvent = "CGMain" Then
+					If $aEvent[0][0] = "G-Hogs" And $g_abCGMainGroundItem[7] = 1 Then ContinueLoop
 				EndIf
 
 				ClanGameImageCopy($sImagePath, $sTempChallengePath, "UnSelected", $aEvent[0][0])

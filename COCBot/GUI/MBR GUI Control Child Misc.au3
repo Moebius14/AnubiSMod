@@ -1349,3 +1349,10 @@ Func ChkBBMaxEventsInARow2()
 		GUICtrlSetState($g_ahLimitBBEventCount, $GUI_DISABLE)
 	EndIf
 EndFunc   ;==>ChkBBMaxEventsInARow2
+
+Func LimitBBMaxEventsInARow()
+	If Int(GUICtrlRead($g_ahLimitBBEventCount)) = 0 Then
+		If Number($g_aiLimitBBEventCount) = 0 Then $g_aiLimitBBEventCount = 1
+		GUICtrlSetData($g_ahLimitBBEventCount, $g_aiLimitBBEventCount)
+	EndIf
+EndFunc   ;==>LimitBBMaxEventsInARow

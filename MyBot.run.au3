@@ -876,7 +876,7 @@ Func runBot() ;Bot that runs everything in order
 
 			Local $AllowCG = True
 			If ProfileSwitchAccountEnabled() And $g_bChkBBMaxEventsInARow Then
-				If Number($g_aiAttackedBBEventCount) > Number($g_aiLimitBBEventCount) Then $AllowCG = False
+				If Number($g_aiAttackedBBEventCount) > Number($g_aiLimitBBEventCount) And Number($g_aiLimitBBEventCount) > 0 Then $AllowCG = False
 			EndIf
 
 			If $g_bChkCollectBuilderBase Or $g_bChkStartClockTowerBoost Or $g_iChkBBSuggestedUpgrades Or $g_bChkEnableBBAttack Then
@@ -921,7 +921,7 @@ Func runBot() ;Bot that runs everything in order
 						Next
 						If Not $g_bIsBBevent Then ExitLoop
 						If ProfileSwitchAccountEnabled() And $g_bChkBBMaxEventsInARow Then
-							If Number($g_aiAttackedBBEventCount) > Number($g_aiLimitBBEventCount) Then ExitLoop
+							If Number($g_aiAttackedBBEventCount) > Number($g_aiLimitBBEventCount) And Number($g_aiLimitBBEventCount) > 0 Then ExitLoop
 						EndIf
 					EndIf
 				WEnd
@@ -956,10 +956,6 @@ Func runBot() ;Bot that runs everything in order
 
 			If $g_bFirstStart Then SetDebugLog("First loop completed!")
 			$g_bFirstStart = False ; already finished first loop since bot started.
-
-			If ProfileSwitchAccountEnabled() And $g_bChkBBMaxEventsInARow Then
-				If Number($g_aiAttackedBBEventCount) > Number($g_aiLimitBBEventCount) Then $g_bForceSwitch = True
-			EndIf
 
 			If ProfileSwitchAccountEnabled() And ($g_iCommandStop = 0 Or $g_iCommandStop = 3 Or $g_abDonateOnly[$g_iCurAccount] Or $g_bForceSwitch) Then checkSwitchAcc()
 			If IsSearchAttackEnabled() Then ; If attack scheduled has attack disabled now, stop wall upgrades, and attack.
@@ -1222,7 +1218,7 @@ Func AttackMain() ;Main control for attack functions
 
 			Local $AllowCG = True
 			If ProfileSwitchAccountEnabled() And $g_bChkBBMaxEventsInARow Then
-				If Number($g_aiAttackedBBEventCount) > Number($g_aiLimitBBEventCount) Then $AllowCG = False
+				If Number($g_aiAttackedBBEventCount) > Number($g_aiLimitBBEventCount) And Number($g_aiLimitBBEventCount) > 0 Then $AllowCG = False
 			EndIf
 
 			If $AllowCG Then _ClanGames() ;Trying to do this above in the main loop
@@ -1265,7 +1261,7 @@ Func AttackMain() ;Main control for attack functions
 						Next
 						If Not $g_bIsBBevent Then ExitLoop
 						If ProfileSwitchAccountEnabled() And $g_bChkBBMaxEventsInARow Then
-							If Number($g_aiAttackedBBEventCount) > Number($g_aiLimitBBEventCount) Then ExitLoop
+							If Number($g_aiAttackedBBEventCount) > Number($g_aiLimitBBEventCount) And Number($g_aiLimitBBEventCount) > 0 Then ExitLoop
 						EndIf
 					EndIf
 				WEnd
@@ -1758,9 +1754,9 @@ Func BuilderBase($bTest = False)
 		If _Sleep(Random(1500, 2000)) Then Return
 
 		If $g_bChkBBMaxEventsInARow And ProfileSwitchAccountEnabled() Then
-			If Number($g_aiAttackedBBEventCount) >= Number($g_aiLimitBBEventCount) And Not $g_bIsBBevent Then
+			If Number($g_aiAttackedBBEventCount) >= Number($g_aiLimitBBEventCount) And Number($g_aiLimitBBEventCount) > 0 And Not $g_bIsBBevent Then
 				Return
-			ElseIf Number($g_aiAttackedBBEventCount) > Number($g_aiLimitBBEventCount) And $g_bIsBBevent Then
+			ElseIf Number($g_aiAttackedBBEventCount) > Number($g_aiLimitBBEventCount) And Number($g_aiLimitBBEventCount) > 0 And $g_bIsBBevent Then
 				Return
 			Else
 				_ClanGames()
@@ -1832,7 +1828,7 @@ Func GotoBBTodoCG()
 			Next
 			If Not $g_bIsBBevent Then ExitLoop
 			If ProfileSwitchAccountEnabled() And $g_bChkBBMaxEventsInARow Then
-				If Number($g_aiAttackedBBEventCount) > Number($g_aiLimitBBEventCount) Then ExitLoop
+				If Number($g_aiAttackedBBEventCount) > Number($g_aiLimitBBEventCount) And Number($g_aiLimitBBEventCount) > 0 Then ExitLoop
 			EndIf
 		EndIf
 	WEnd

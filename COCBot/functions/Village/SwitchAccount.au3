@@ -89,6 +89,7 @@ Func CheckSwitchAcc($IsPurging = False)
 
 	Local $aDonateAccount = _ArrayFindAll($g_abDonateOnly, True)
 	Local $bReachAttackLimit = ($g_aiAttackedCountSwitch[$g_iCurAccount] <= $g_aiAttackedCount - 2)
+	Local $bBBReachAttackLimit = Number($g_aiAttackedBBEventCount) >= Number($g_aiLimitBBEventCount) And Number($g_aiLimitBBEventCount) > 0
 	Local $bForceSwitch = $g_bForceSwitch
 	Local $nMinRemainTrain, $iWaitTime
 
@@ -132,13 +133,11 @@ Func CheckSwitchAcc($IsPurging = False)
 			SetSwitchAccLog(" - Reach attack limit: " & $g_aiAttackedCount - $g_aiAttackedCountSwitch[$g_iCurAccount])
 			$bForceSwitch = True
 		EndIf
-		If $g_bChkBBMaxEventsInARow Then
-			If Number($g_aiAttackedBBEventCount) >= Number($g_aiLimitBBEventCount) Then
-				SetLog("This account has played " & $g_aiLimitBBEventCount & " BB Event" & ($g_aiLimitBBEventCount > 1 ? "s" : "") & " in a row, switching to another account", $COLOR_INFO)
-				SetSwitchAccLog(" - Reach BB event limit: " & $g_aiLimitBBEventCount)
-				$bForceSwitch = True
-				$g_aiAttackedBBEventCount = 0
-			EndIf
+		If $bBBReachAttackLimit And $g_bChkBBMaxEventsInARow Then
+			SetLog("This account has played " & $g_aiLimitBBEventCount & " BB Event" & ($g_aiLimitBBEventCount > 1 ? "s" : "") & " in a row, switching to another account", $COLOR_INFO)
+			SetSwitchAccLog(" - Reach BB event limit: " & $g_aiLimitBBEventCount)
+			$bForceSwitch = True
+			$g_aiAttackedBBEventCount = 0
 		EndIf
 	EndIf
 

@@ -46,6 +46,11 @@
 * Fixed CC Status Detection.
 * Fixed missing _FilloBldgLevels() call.
 * Updated CC Spells/Sieges remove.
+* Change Egypt and Magic scenery fixed point detection.
+* Improved egyptian boat detection.
+* Increased cc spells/sieges speed detection.
+* Added Hog Gliders clan games event template.
+* Added Dead Eagle level 6 template.
 
 * v8.1.6 **
 * Added "Before you upgrade" window support.

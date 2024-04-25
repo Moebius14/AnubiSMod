@@ -2880,12 +2880,12 @@ Func IsBestClans()
 EndFunc   ;==>IsBestClans
 
 Func ChatOpen()
-	Local $bResult = _Wait4Pixel(412, 320, 0xF3AA28, 20, 3000, "ChatOpen") ;Wait for Chat To Be Appear
+	Local $bResult = _Wait4Pixel(390, 320, 0xF3AB28, 20, 3000, "ChatOpen") ;Wait for Chat To Be Appear
 	Return $bResult
 EndFunc   ;==>ChatOpen
 
 Func IsClanChat()
-	Local $bResult = _Wait4Pixel(105, 20, 0xB1AC85, 20, 3000, "IsClanChat") ;Wait for Clan Chat To Be Appear
+	Local $bResult = _Wait4Pixel(95, 20, 0xB1AC85, 20, 3000, "IsClanChat") ;Wait for Clan Chat To Be Appear
 	Return $bResult
 EndFunc   ;==>IsClanChat
 
@@ -3169,7 +3169,7 @@ Func CheckWarTime(ByRef $sResult, ByRef $bResult, $bReturnFrom = True, $WWR = Fa
 		$bRedColor_InWarButton = False
 	EndIf
 	$g_bClanWarLeague = _ColorCheck(_GetPixelColor(30, 473 + $g_iMidOffsetY, True), "FFFFD5", 20) ; Golden color at left side of clan war button
-	$g_bClanWar = _ColorCheck(_GetPixelColor(36, 472 + $g_iMidOffsetY, True), "F9B445", 20) ; Ordinary war color at left side of clan war button
+	$g_bClanWar = _ColorCheck(_GetPixelColor(36, 472 + $g_iMidOffsetY, True), "FCB847", 20) ; Ordinary war color at left side of clan war button
 	If $g_bClanWarLeague Then SetDebugLog("Your Clan Is Doing Clan War League.", $COLOR_INFO)
 
 	If $bRedColor_InWarButton Then
@@ -3211,8 +3211,11 @@ Func CheckWarTime(ByRef $sResult, ByRef $bResult, $bReturnFrom = True, $WWR = Fa
 		EndIf
 	EndIf
 
-	If _ColorCheck(_GetPixelColor(200, 470 + $g_iBottomOffsetY, True), "FFFFFF", 20) And _ColorCheck(_GetPixelColor(670, 470 + $g_iBottomOffsetY, True), "FFFFFF", 20) And _
-			_ColorCheck(_GetPixelColor(437, 292, True), "FFFFAD", 20) Then
+
+	Local $offColors[3][3] = [[0xFFFFFF, 30, 0], [0xFDBF37, 150, 0], [0x0D0D0D, 160, 0]] ; 2nd pixel White Color, 3rd pixel orange color, 4th pixel Black edge of button
+	Local $WarSignUp = _MultiPixelSearch(248, 484, 425, 490, 1, 1, Hex(0x0D0D0D, 6), $offColors, 40) ; first black pixel on side of sign-up button
+	SetDebugLog("Pixel Color #1: " & _GetPixelColor(255, 484, True) & ", #2: " & _GetPixelColor(285, 484, True) & ", #3: " & _GetPixelColor(405, 484, True) & ", #4: " & _GetPixelColor(415, 484, True), $COLOR_DEBUG)
+	If IsArray($WarSignUp) Then
 		SetLog("Your Clan is not in war yet.", $COLOR_INFO)
 		$IsWarNotActive = True
 	EndIf
@@ -3227,12 +3230,12 @@ Func CheckWarTime(ByRef $sResult, ByRef $bResult, $bReturnFrom = True, $WWR = Fa
 
 	If IsWarMenu() Then
 
-		Local $DaysCount = StringRight(getOcrAndCapture("coc-ores", 175, 622 + $g_iBottomOffsetY, 515, 25, True), 1)
-		$DaysCount = StringReplace($DaysCount, "#", "", 0)
-		If $DaysCount = "" Then $DaysCount = 7
-		SetLog("Total days for this CWL : " & $DaysCount, $COLOR_ACTION)
-
 		If $g_bClanWarLeague And $IsWarEnded And $WWR Then
+			Local $DaysCount = StringRight(getOcrAndCapture("coc-ores", 175, 622 + $g_iBottomOffsetY, 515, 25, True), 1)
+			$DaysCount = StringReplace($DaysCount, "#", "", 0)
+			If $DaysCount = "" Then $DaysCount = 7
+			SetLog("Total days for this CWL : " & $DaysCount, $COLOR_ACTION)
+
 			Local $xBattleDay = Random(0, $DaysCount - 1, 1)
 			If $xBattleDay > 0 Then
 				SetLog("Open Random Day", $COLOR_OLIVE)

@@ -183,6 +183,15 @@ Func SwitchBetweenBasesMod()
 		EndIf
 	EndIf
 
+	If $g_bIsBBevent Then
+		If $g_bChkBBMaxEventsInARow And ProfileSwitchAccountEnabled() Then
+			If Number($g_aiAttackedBBEventCount) > Number($g_aiLimitBBEventCount) And Number($g_aiLimitBBEventCount) > 0 Then
+				$IstoSwitchMod = 0
+				Return
+			EndIf
+		EndIf
+	EndIf
+
 	If Not $g_bChkBBaseFrequency Then ; Return True and End fonction Without Timing
 		If ($g_bChkEnableForgeBBGold Or $g_bChkEnableForgeBBElix) And ($g_aiCurrentLootBB[$eLootGoldBB] = 0 Or $g_aiCurrentLootBB[$eLootElixirBB] = 0) Then
 			$IstoSwitchMod = 1

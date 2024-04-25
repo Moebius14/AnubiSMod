@@ -1,3 +1,12 @@
+* v24.04.25 **
+* Fixed ChatOpen() and IsClanChat()
+* Added Maintenance Clock detection.
+* Improved Reinforce button detection.
+* Added Streak Event bonus calculation support.
+* Improved Max BB event in a row function.
+* Improved Ricochet Cannon detection.
+* Fixed Pet sorting.
+
 * v24.04.19 **
 * Changes from official.
 

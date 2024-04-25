@@ -248,6 +248,24 @@ Func _checkObstacles($bBuilderBase = False, $bRecursive = False) ;Checks if some
 		Return checkObstacles_ReloadCoC($bRecursive)
 	EndIf
 
+	If UBound(decodeSingleCoord(FindImageInPlace2("MaintClock", $g_sImgMaintClock, 760, 160 + $g_iMidOffsetY, 860, 230 + $g_iMidOffsetY, True))) > 1 Then ; Maintenance Clock
+		If isOnMainVillage() Then
+			SetLog("Maintenance Clock detected, bot will stop few minutes", $COLOR_ERROR)
+			If IsToFillCCWithMedalsOnly() Then
+				_RunFunction('DonateCC,Train')
+			Else
+				_RunFunction('DonateCC,Train')
+				If _Sleep($DELAYRUNBOT3) Then Return
+				_RunFunction('RequestCC')
+			EndIf
+			If _Sleep($DELAYRUNBOT3) Then Return
+			Local $iWaitTime = Random(120, 240, 1) ; Close COC For 2-4 minutes
+			UniversalCloseWaitOpenCoC($iWaitTime * 1000, "MaintenanceClock", False, True, False)
+			$g_bRestart = True
+			Return False
+		EndIf
+	EndIf
+
 	If $bHasTopBlackBar Then
 		; if black bar at top, e.g. in Android home screen, restart CoC
 		SetDebugLog("checkObstacles: Found Black Android Screen")

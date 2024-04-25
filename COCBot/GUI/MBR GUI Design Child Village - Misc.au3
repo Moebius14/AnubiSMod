@@ -1225,8 +1225,9 @@ Func CreateClanGamesSettings()
 	_GUICtrlSetTip(-1, GetTranslatedFileIni("MBR GUI Design Child Village - Misc", "ChkBBMaxEventsInARow02", "Enable/Disable To Limit BB events in a Row before switch."))
 	GUICtrlSetState(-1, $GUI_UNCHECKED)
 	GUICtrlSetOnEvent(-1, "ChkBBMaxEventsInARow")
-	$g_ahLimitBBEventCount = GUICtrlCreateInput("0", $x + 150, $y + 2, 40, 18, BitOR($GUI_SS_DEFAULT_INPUT, $ES_CENTER, $ES_NUMBER))
-	GUICtrlSetLimit(-1, 3)
+	$g_ahLimitBBEventCount = GUICtrlCreateInput("2", $x + 150, $y + 2, 40, 18, BitOR($GUI_SS_DEFAULT_INPUT, $ES_CENTER, $ES_NUMBER))
+	GUICtrlSetLimit(-1, 1)
+	GUICtrlSetOnEvent(-1, "LimitBBMaxEventsInARow")
 	GUICtrlSetState(-1, $GUI_DISABLE)
 
 	$y += 25

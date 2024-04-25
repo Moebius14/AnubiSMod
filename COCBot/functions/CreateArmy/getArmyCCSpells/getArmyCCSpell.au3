@@ -15,7 +15,7 @@
 
 Func getArmyCCSpells($bOpenArmyWindow = False, $bCloseArmyWindow = False, $bCheckWindow = False, $bSetLog = True, $bNeedCapture = True)
 
-	Local $aSpellWSlot[1][3] = [[0, "", 0]] ; Page, Spell Name index, Quantity
+	Local $aSpellWSlot[1][4] = [[0, "", 0, 0]] ; Page, Spell Name index, Quantity, X Coord for Remove
 
 	If $g_bDebugSetlogTrain Then SetLog("getArmyCCSpells():", $COLOR_DEBUG)
 
@@ -41,7 +41,7 @@ Func getArmyCCSpells($bOpenArmyWindow = False, $bCloseArmyWindow = False, $bChec
 
 	$g_aiCurrentCCSpells = $aCurrentCCSpellsEmpty ; Reset Current Spells Array
 
-	If UBound($aCurrentCCSpells, 1) >= 1 Then
+	If IsArray($aCurrentCCSpells) And UBound($aCurrentCCSpells, 1) >= 1 Then
 
 		For $i = 0 To UBound($aCurrentCCSpells, 1) - 1 ; Loop through found Spells
 			$aTempSpellArray = $aCurrentCCSpells[$i] ; Declare Array to Temp Array
@@ -49,97 +49,79 @@ Func getArmyCCSpells($bOpenArmyWindow = False, $bCloseArmyWindow = False, $bChec
 			$iSpellIndex = TroopIndexLookup($aTempSpellArray[0], "getArmyCCSpells()") - $eLSpell ; Get the Index of the Spell from the ShortName
 			If $iSpellIndex < 0 Then ContinueLoop
 
-			Local $X_Coord
-
-			Switch $aTempSpellArray[2]
-				Case 0
-					;Do nothing
-					$X_Coord = 475
-				Case 1
-					;Do nothing
-					$X_Coord = 455
-				Case 11
-					ClickDrag(527, 495 + $g_iMidOffsetY, 455, 495 + $g_iMidOffsetY, 300)
-					If _Sleep(2000) Then Return
-					$X_Coord = 455
-				Case 2
-					ClickDrag(527, 495 + $g_iMidOffsetY, 455, 495 + $g_iMidOffsetY, 300)
-					If _Sleep(2000) Then Return
-					$X_Coord = 485
-				Case 3
-					ClickDrag(527, 495 + $g_iMidOffsetY, 475, 495 + $g_iMidOffsetY, 300)
-					If _Sleep(2000) Then Return
-					$X_Coord = 485
-			EndSwitch
-
-			Local $TempQty = Number(getBarracksNewTroopQuantity($X_Coord, 450 + $g_iMidOffsetY))
-			$g_aiCurrentCCSpells[$iSpellIndex] = $TempQty
-			$aSpellWSlot[UBound($aSpellWSlot) - 1][0] = $aTempSpellArray[2]
-			$aSpellWSlot[UBound($aSpellWSlot) - 1][1] = $iSpellIndex
-			$aSpellWSlot[UBound($aSpellWSlot) - 1][2] = $TempQty
-			ReDim $aSpellWSlot[UBound($aSpellWSlot) + 1][3]
+			$aSpellWSlot[UBound($aSpellWSlot) - 1][0] = $aTempSpellArray[2] ; Page Number
+			$aSpellWSlot[UBound($aSpellWSlot) - 1][1] = $iSpellIndex        ; Spell Index
+			$aSpellWSlot[UBound($aSpellWSlot) - 1][2] = $aTempSpellArray[3] ; Spell Quantity
+			$g_aiCurrentCCSpells[$iSpellIndex] = $aTempSpellArray[3]        ; Spell Quantity
+			$aSpellWSlot[UBound($aSpellWSlot) - 1][3] = $aTempSpellArray[4] ; X Coord for Remove
+			ReDim $aSpellWSlot[UBound($aSpellWSlot) + 1][4]
 
 			$sSpellName = $g_aiCurrentCCSpells[$iSpellIndex] >= 2 ? $g_asSpellNames[$iSpellIndex] & " Spells (Clan Castle)" : $g_asSpellNames[$iSpellIndex] & " Spell (Clan Castle)" ; Select the right Spell Name, If more than one then use Spells at the end
 			If $bSetLog Then SetLog(" - " & $g_aiCurrentCCSpells[$iSpellIndex] & "x " & $sSpellName, $COLOR_SUCCESS) ; Log What Spell is available and How many
 
 		Next
-	EndIf
 
-	Switch $aSpellWSlot[UBound($aSpellWSlot) - 1][0]
-		Case 0, 1
-			;Do nothing
-		Case 2
-			ClickDrag(455, 495 + $g_iMidOffsetY, 500, 495 + $g_iMidOffsetY, 300)
-			If _Sleep(2000) Then Return
-		Case 3, 11
-			ClickDrag(455, 495 + $g_iMidOffsetY, 570, 495 + $g_iMidOffsetY, 300)
-			If _Sleep(2000) Then Return
-	EndSwitch
+		_ArrayDelete($aSpellWSlot, UBound($aSpellWSlot) - 1)
+
+		If $bCloseArmyWindow Then CloseWindow()
+
+		Return $aSpellWSlot
+
+	EndIf
 
 	If $bCloseArmyWindow Then CloseWindow()
 
-	Return $aSpellWSlot
+	Return 0
 EndFunc   ;==>getArmyCCSpells
 
 Func CCSpellsArray($bNeedCapture = True)
-	If _ColorCheck(_GetPixelColor(455, 490 + $g_iMidOffsetY, True), Hex(0xCFCFC8, 6), 15) Then
-		Local $sCCSpellDiamond = GetDiamondFromRect2(462, 450 + $g_iMidOffsetY, 522, 530 + $g_iMidOffsetY)
-		Local $aCurrentCCSpells = findMultiple(@ScriptDir & "\imgxml\ArmyOverview\Spells", $sCCSpellDiamond, $sCCSpellDiamond, 0, 1000, 0, "objectname,objectpoints", $bNeedCapture)
-		If IsArray($aCurrentCCSpells) Then _ArrayAdd($aCurrentCCSpells[0], 0) ; Page 0, only one spell slot
-		Return $aCurrentCCSpells
-	Else
-		Local $sCCSpellDiamond = GetDiamondFromRect2(440, 450 + $g_iMidOffsetY, 510, 530 + $g_iMidOffsetY) ; First spell slot
+	Local $TempQty = 0
+	Local $b_XRemoveClick[3] = [515, 495, 527]
+	If IsArray(_PixelSearch(453, 490 + $g_iMidOffsetY, 457, 490 + $g_iMidOffsetY, Hex(0xCFCFC8, 6), 20, True)) Then
+		Local $sCCSpellDiamond = GetDiamondFromRect2(462, 454 + $g_iMidOffsetY, 522, 530 + $g_iMidOffsetY)
 		Local $aCurrentCCSpells = findMultiple(@ScriptDir & "\imgxml\ArmyOverview\Spells", $sCCSpellDiamond, $sCCSpellDiamond, 0, 1000, 0, "objectname,objectpoints", $bNeedCapture)
 		If IsArray($aCurrentCCSpells) Then
-			_ArrayAdd($aCurrentCCSpells[0], 1) ; Page 1
+			$TempQty = Number(getBarracksNewTroopQuantity(475, 454 + $g_iMidOffsetY))
+			_ArrayAdd($aCurrentCCSpells[0], 0 & "|" & $TempQty & "|" & $b_XRemoveClick[0]) ; Page 0, only one spell slot
 		EndIf
-		If Not _ColorCheck(_GetPixelColor(541, 490 + $g_iMidOffsetY, True), Hex(0xCFCFC8, 6), 15) Then ; Second spell slot
+		Return $aCurrentCCSpells
+	Else
+		Local $sCCSpellDiamond = GetDiamondFromRect2(440, 454 + $g_iMidOffsetY, 510, 530 + $g_iMidOffsetY) ; First spell slot
+		Local $aCurrentCCSpells = findMultiple(@ScriptDir & "\imgxml\ArmyOverview\Spells", $sCCSpellDiamond, $sCCSpellDiamond, 0, 1000, 0, "objectname,objectpoints", $bNeedCapture)
+		If IsArray($aCurrentCCSpells) Then
+			$TempQty = Number(getBarracksNewTroopQuantity(455, 454 + $g_iMidOffsetY))
+			_ArrayAdd($aCurrentCCSpells[0], 1 & "|" & $TempQty & "|" & $b_XRemoveClick[1]) ; Page 1
+		EndIf
+		If Not IsArray(_PixelSearch(539, 490 + $g_iMidOffsetY, 543, 490 + $g_iMidOffsetY, Hex(0xCFCFC8, 6), 20, True)) Then ; Second spell slot
 			ClickDrag(527, 495 + $g_iMidOffsetY, 455, 495 + $g_iMidOffsetY, 300)
 			If _Sleep(2000) Then Return
 			Local $aCurrentCCSpells2 = findMultiple(@ScriptDir & "\imgxml\ArmyOverview\Spells", $sCCSpellDiamond, $sCCSpellDiamond, 0, 1000, 0, "objectname,objectpoints", $bNeedCapture)
-			If IsArray($aCurrentCCSpells2) Then
-				_ArrayAdd($aCurrentCCSpells2[0], 11) ; Page 2 And Continue
+			If IsArray($aCurrentCCSpells2) And IsArray($aCurrentCCSpells) Then
+				$TempQty = Number(getBarracksNewTroopQuantity(455, 454 + $g_iMidOffsetY))
+				_ArrayAdd($aCurrentCCSpells2[0], 11 & "|" & $TempQty & "|" & $b_XRemoveClick[1]) ; Page 2 And Continue
 				ReDim $aCurrentCCSpells[UBound($aCurrentCCSpells) + 1]
 				$aCurrentCCSpells[1] = $aCurrentCCSpells2[0]
 			Else
-				$sCCSpellDiamond = GetDiamondFromRect2(475, 450 + $g_iMidOffsetY, 540, 530 + $g_iMidOffsetY)
+				$sCCSpellDiamond = GetDiamondFromRect2(475, 454 + $g_iMidOffsetY, 540, 530 + $g_iMidOffsetY)
 				$aCurrentCCSpells2 = findMultiple(@ScriptDir & "\imgxml\ArmyOverview\Spells", $sCCSpellDiamond, $sCCSpellDiamond, 0, 1000, 0, "objectname,objectpoints", $bNeedCapture)
-				If IsArray($aCurrentCCSpells2) Then
-					_ArrayAdd($aCurrentCCSpells2[0], 2) ; Page 2 And Stop
+				If IsArray($aCurrentCCSpells2) And IsArray($aCurrentCCSpells) Then
+					$TempQty = Number(getBarracksNewTroopQuantity(485, 454 + $g_iMidOffsetY))
+					_ArrayAdd($aCurrentCCSpells2[0], 2 & "|" & $TempQty & "|" & $b_XRemoveClick[2]) ; Page 2 And Stop
 					ReDim $aCurrentCCSpells[UBound($aCurrentCCSpells) + 1]
 					$aCurrentCCSpells[1] = $aCurrentCCSpells2[0]
 					ClickDrag(455, 495 + $g_iMidOffsetY, 500, 495 + $g_iMidOffsetY, 300)
-					If _Sleep(2000) Then Return
+					If _Sleep(1000) Then Return
 					Return $aCurrentCCSpells
 				EndIf
 			EndIf
-			If Not _ColorCheck(_GetPixelColor(541, 490 + $g_iMidOffsetY, True), Hex(0xCFCFC8, 6), 15) Then ; Third spell slot
+			If Not IsArray(_PixelSearch(539, 490 + $g_iMidOffsetY, 543, 490 + $g_iMidOffsetY, Hex(0xCFCFC8, 6), 20, True)) Then ; Third spell slot
 				ClickDrag(527, 495 + $g_iMidOffsetY, 475, 495 + $g_iMidOffsetY, 300)
 				If _Sleep(2000) Then Return
-				$sCCSpellDiamond = GetDiamondFromRect2(475, 450 + $g_iMidOffsetY, 540, 530 + $g_iMidOffsetY)
+				$sCCSpellDiamond = GetDiamondFromRect2(475, 454 + $g_iMidOffsetY, 540, 530 + $g_iMidOffsetY)
 				$aCurrentCCSpells2 = findMultiple(@ScriptDir & "\imgxml\ArmyOverview\Spells", $sCCSpellDiamond, $sCCSpellDiamond, 0, 1000, 0, "objectname,objectpoints", $bNeedCapture)
-				If IsArray($aCurrentCCSpells2) Then
-					_ArrayAdd($aCurrentCCSpells2[0], 3) ; Page 3
+				If IsArray($aCurrentCCSpells2) And IsArray($aCurrentCCSpells) Then
+					$TempQty = Number(getBarracksNewTroopQuantity(485, 454 + $g_iMidOffsetY))
+					_ArrayAdd($aCurrentCCSpells2[0], 3 & "|" & $TempQty & "|" & $b_XRemoveClick[2]) ; Page 3
 					ReDim $aCurrentCCSpells[UBound($aCurrentCCSpells) + 1]
 					$aCurrentCCSpells[2] = $aCurrentCCSpells2[0]
 				EndIf
@@ -147,6 +129,6 @@ Func CCSpellsArray($bNeedCapture = True)
 		EndIf
 	EndIf
 	ClickDrag(455, 495 + $g_iMidOffsetY, 570, 495 + $g_iMidOffsetY, 300)
-	If _Sleep(2000) Then Return
+	If _Sleep(1000) Then Return
 	Return $aCurrentCCSpells
 EndFunc   ;==>CCSpellsArray
