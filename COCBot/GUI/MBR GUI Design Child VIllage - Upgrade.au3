@@ -506,7 +506,7 @@ EndFunc   ;==>CreateHeroesSubTab
 
 Func CreateHeroEquipment()
 	Local $x = 25, $y = 5
-	$g_hGUI_HeroEquipment = _GUICreate("Hero Equipment", $_GUI_MAIN_WIDTH  + 50, $_GUI_MAIN_HEIGHT - 27, $g_iFrmBotPosX - 25, $g_iFrmBotPosY + 40, $WS_DLGFRAME, -1, $g_hFrmBot)
+	$g_hGUI_HeroEquipment = _GUICreate("Hero Equipment", $_GUI_MAIN_WIDTH + 50, $_GUI_MAIN_HEIGHT - 247, $g_iFrmBotPosX - 25, $g_iFrmBotPosY + 40, $WS_DLGFRAME, -1, $g_hFrmBot)
 
 	_GUICtrlCreateIcon($g_sLibIconPath, $eIcnBlacksmith, $x + 15, $y + 15, 48, 48)
 	$g_hChkCustomEquipmentOrderEnable = GUICtrlCreateCheckbox(GetTranslatedFileIni("MBR GUI Design Child Attack - Equipment", "ChkCustomEquipmentEnable", "Auto Equipment Upgrades"), $x + 75, $y + 30, -1, -1)
@@ -524,9 +524,9 @@ Func CreateHeroEquipment()
 	; Create ComboBox(es) for selection of troop training order
 	$x += 40
 	$y = 90
-	Local $2DigitsOffset = 3
+
 	For $z = 0 To UBound($g_ahCmbEquipmentOrder) - 1
-		If $z < 10 Then
+		If $z < 5 Then
 			$g_EquipmentOrderLabel[$z] = GUICtrlCreateLabel($z + 1 & ":", $x - 36, $y + 3, -1, 25)
 			$g_hChkCustomEquipmentOrder[$z] = GUICtrlCreateCheckbox("", $x - 20, $y - 2, -1, 25)
 			GUICtrlSetState(-1, $GUI_UNCHECKED)
@@ -538,8 +538,8 @@ Func CreateHeroEquipment()
 			$g_ahImgEquipmentOrder[$z] = _GUICtrlCreateIcon($g_sLibIconPath, $eIcnOptions, $x + 123, $y - 2, 24, 24)
 			$g_ahImgEquipmentOrder2[$z] = _GUICtrlCreateIcon($g_sLibIconPath, $eIcnOptions, $x + 155, $y - 2, 24, 24)
 			$y += 40 ; move down to next combobox location
-		ElseIf $z = 10 Then
-			If $z = 10 Then
+		ElseIf $z = 5 Then
+			If $z = 5 Then
 				$x += 250
 				$y = 90
 			EndIf
@@ -554,8 +554,8 @@ Func CreateHeroEquipment()
 			$g_ahImgEquipmentOrder[$z] = _GUICtrlCreateIcon($g_sLibIconPath, $eIcnOptions, $x + 123, $y - 2, 24, 24)
 			$g_ahImgEquipmentOrder2[$z] = _GUICtrlCreateIcon($g_sLibIconPath, $eIcnOptions, $x + 155, $y - 2, 24, 24)
 			$y += 40 ; move down to next combobox location
-		ElseIf $z > 10 Then
-			If $z = 10 Then
+		ElseIf $z > 5 And $z < 10 Then
+			If $z = 5 Then
 				$x += 250
 			EndIf
 			$g_EquipmentOrderLabel[$z] = GUICtrlCreateLabel($z + 1 & ":", $x - 40, $y + 3, -1, 25)
@@ -569,17 +569,21 @@ Func CreateHeroEquipment()
 			$g_ahImgEquipmentOrder[$z] = _GUICtrlCreateIcon($g_sLibIconPath, $eIcnOptions, $x + 123, $y - 2, 24, 24)
 			$g_ahImgEquipmentOrder2[$z] = _GUICtrlCreateIcon($g_sLibIconPath, $eIcnOptions, $x + 155, $y - 2, 24, 24)
 			$y += 40 ; move down to next combobox location
+		Else
+			$g_hChkCustomEquipmentOrder[$z] = GUICtrlCreateCheckbox("", $x - 20, $y - 2, -1, 25)
+			GUICtrlSetState(-1, $GUI_UNCHECKED + $GUI_HIDE)
+			$g_ahCmbEquipmentOrder[$z] = GUICtrlCreateCombo("", $x, $y, 120, 25, BitOR($CBS_DROPDOWNLIST + $WS_VSCROLL, $CBS_AUTOHSCROLL))
+			GUICtrlSetData(-1, $sComboData, "")
+			GUICtrlSetState(-1, $GUI_HIDE)
+			$g_ahImgEquipmentOrder[$z] = _GUICtrlCreateIcon($g_sLibIconPath, $eIcnOptions, $x + 123, $y - 2, 24, 24)
+			GUICtrlSetState(-1, $GUI_HIDE)
+			$g_ahImgEquipmentOrder2[$z] = _GUICtrlCreateIcon($g_sLibIconPath, $eIcnOptions, $x + 155, $y - 2, 24, 24)
+			GUICtrlSetState(-1, $GUI_HIDE)
 		EndIf
 	Next
 
 	$x = 125
-	$y = 505
-	$g_hBtnRegularOrder = GUICtrlCreateButton(GetTranslatedFileIni("MBR GUI Design Child Attack - Equipment", "BtnRegularOrder", "Sort in Original Order"), $x + 70, $y, 130, 20)
-	_GUICtrlSetTip(-1, GetTranslatedFileIni("MBR GUI Design Child Attack - Equipment", "BtnRegularOrder_Info_01", "Push button to sort equipment in original order"))
-	GUICtrlSetOnEvent(-1, "btnRegularOrder")
-
-	$x = 125
-	$y = 550
+	$y = 330
 	$g_hBtnRemoveEquipment = GUICtrlCreateButton(GetTranslatedFileIni("MBR GUI Design Child Attack - Equipment", "BtnRemoveEquipment", "Empty Equipment List"), $x - 6, $y, 130, 20)
 	_GUICtrlSetTip(-1, GetTranslatedFileIni("MBR GUI Design Child Attack - Equipment", "BtnRemoveEquipment_Info_01", "Push button to remove all equipment from list and start over"))
 	GUICtrlSetOnEvent(-1, "btnRemoveEquipment")
@@ -592,7 +596,7 @@ Func CreateHeroEquipment()
 	GUICtrlSetOnEvent(-1, "btnEquipmentOrderSet")
 	$g_ahImgEquipmentOrderSet = _GUICtrlCreateIcon($g_sLibIconPath, $eIcnSilverStar, $x + 119, $y, 18, 18)
 
-	$y = 590
+	$y = 370
 	$g_hBtnHeroEquipmentClose = GUICtrlCreateButton("Close", 410, $y, 85, 25)
 	GUICtrlSetOnEvent(-1, "CloseHeroEquipment")
 EndFunc   ;==>CreateHeroEquipment

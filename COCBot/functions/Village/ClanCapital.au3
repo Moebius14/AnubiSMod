@@ -1657,7 +1657,7 @@ Func FindCCSuggestedUpgrade()
 		For $i = 0 To UBound($aUpgrade) - 1
 			If Not $g_bChkEnablePriorArmyCC Then ExitLoop
 			If Not $g_bChkEnablePriorArmyCamp And Not $g_bChkEnablePriorBarracks And Not $g_bChkEnablePriorFactory And Not $g_bChkEnablePriorStorage Then ExitLoop
-			If _ColorCheck(_GetPixelColor($aUpgrade[$i][1] - 15, $aUpgrade[$i][2] - 6, True), Hex(0xffffff, 6), 20) Then ContinueLoop ;check if we have progressbar, upgrade to ignore
+			If _ColorCheck(_GetPixelColor($aUpgrade[$i][1] - 15, $aUpgrade[$i][2] - 6, True), Hex(0xFFFFFF, 6), 20) Then ContinueLoop ;check if we have progressbar, upgrade to ignore
 			$name = getCCBuildingNameSuggested($aUpgrade[$i][1] - 235, $aUpgrade[$i][2] - 12)
 
 			If QuickMIS("BC1", $g_sImgDecoration, $aUpgrade[$i][1] - 260, $aUpgrade[$i][2] - 20, $aUpgrade[$i][1] - 160, $aUpgrade[$i][2] + 10) Then
@@ -1826,7 +1826,7 @@ Func FindCCSuggestedUpgrade()
 
 		For $i = 0 To UBound($aUpgrade) - 1
 			If Not $g_bChkEnablePriorHallsCC Then ExitLoop
-			If _ColorCheck(_GetPixelColor($aUpgrade[$i][1] - 15, $aUpgrade[$i][2] - 6, True), Hex(0xffffff, 6), 20) Then ContinueLoop ;check if we have progressbar, upgrade to ignore
+			If _ColorCheck(_GetPixelColor($aUpgrade[$i][1] - 15, $aUpgrade[$i][2] - 6, True), Hex(0xFFFFFF, 6), 20) Then ContinueLoop ;check if we have progressbar, upgrade to ignore
 			$name = getCCBuildingNameSuggested($aUpgrade[$i][1] - 235, $aUpgrade[$i][2] - 12)
 
 			If QuickMIS("BC1", $g_sImgDecoration, $aUpgrade[$i][1] - 260, $aUpgrade[$i][2] - 20, $aUpgrade[$i][1] - 160, $aUpgrade[$i][2] + 10) Then
@@ -1847,7 +1847,7 @@ Func FindCCSuggestedUpgrade()
 
 		For $i = 0 To UBound($aUpgrade) - 1
 			If Not $g_bChkEnablePriorRuinsCC Then ExitLoop
-			If _ColorCheck(_GetPixelColor($aUpgrade[$i][1] - 15, $aUpgrade[$i][2] - 6, True), Hex(0xffffff, 6), 20) Then ;check if we have progressbar, upgrade to ignore
+			If _ColorCheck(_GetPixelColor($aUpgrade[$i][1] - 15, $aUpgrade[$i][2] - 6, True), Hex(0xFFFFFF, 6), 20) Then ;check if we have progressbar, upgrade to ignore
 				ContinueLoop
 			Else
 				$name = getCCBuildingNameBlue($aUpgrade[$i][1] - 230, $aUpgrade[$i][2] - 14)
@@ -1863,7 +1863,7 @@ Func FindCCSuggestedUpgrade()
 		If $IsFoundRuins = True Then Return $aResult
 
 		For $i = 0 To UBound($aUpgrade) - 1
-			If _ColorCheck(_GetPixelColor($aUpgrade[$i][1] - 15, $aUpgrade[$i][2] - 6, True), Hex(0xffffff, 6), 20) Then ContinueLoop ;check if we have progressbar, upgrade to ignore
+			If _ColorCheck(_GetPixelColor($aUpgrade[$i][1] - 15, $aUpgrade[$i][2] - 6, True), Hex(0xFFFFFF, 6), 20) Then ContinueLoop ;check if we have progressbar, upgrade to ignore
 			$name = getCCBuildingNameSuggested($aUpgrade[$i][1] - 235, $aUpgrade[$i][2] - 12)
 
 			If QuickMIS("BC1", $g_sImgDecoration, $aUpgrade[$i][1] - 260, $aUpgrade[$i][2] - 20, $aUpgrade[$i][1] - 160, $aUpgrade[$i][2] + 10) Then
@@ -1905,7 +1905,7 @@ Func FindCCSuggestedUpgradeRuinsOnly()
 	If IsArray($aUpgrade) And UBound($aUpgrade) > 0 Then
 		_ArraySort($aUpgrade, 0, 0, 0, 2) ;sort by Y coord
 		For $i = 0 To UBound($aUpgrade) - 1
-			If _ColorCheck(_GetPixelColor($aUpgrade[$i][1] - 15, $aUpgrade[$i][2] - 6, True), Hex(0xffffff, 6), 20) Then ;check if we have progressbar, upgrade to ignore
+			If _ColorCheck(_GetPixelColor($aUpgrade[$i][1] - 15, $aUpgrade[$i][2] - 6, True), Hex(0xFFFFFF, 6), 20) Then ;check if we have progressbar, upgrade to ignore
 				ContinueLoop
 			Else
 				$name = getCCBuildingNameBlue($aUpgrade[$i][1] - 230, $aUpgrade[$i][2] - 14)

@@ -13,7 +13,7 @@
 ; Example .......: No
 ; ===============================================================================================================================
 Func ClanStats()
-	If _ColorCheck(_GetPixelColor(60, 288 + $g_iMidOffsetY, True), "7F7F66", 20) Then ; Classic view
+	If _ColorCheck(_GetPixelColor(60, 288 + $g_iMidOffsetY, True), Hex(0x7F7F66, 6), 20) Then ; Classic view
 		Local $IsToClickStats = Random(0, 5, 1)
 		Local $IsToClickStats2 = Random(0, 5, 1)
 		If $IsToClickStats <= 1 Then
@@ -43,7 +43,7 @@ Func ClanStats()
 	If _Sleep(Random(2000, 3000, 1)) Then Return
 	If Not $g_bRunState Then Return
 
-	If _ColorCheck(_GetPixelColor(60, 395 + $g_iMidOffsetY, True), "7F7F66", 20) Then ; Stats view
+	If _ColorCheck(_GetPixelColor(60, 395 + $g_iMidOffsetY, True), Hex(0x7F7F66, 6), 20) Then ; Stats view
 		Local $IsToClickStats = Random(0, 5, 1)
 		Local $IsToClickStats2 = Random(0, 5, 1)
 		If QuickMIS("BC1", $ClanPerks, 590, 315 + $g_iMidOffsetY, 750, 360 + $g_iMidOffsetY) And $IsToClickStats <= 2 Then
@@ -382,6 +382,12 @@ Func LookAtCurrentWar()
 
 	CheckWarTime($sResult, $bResult, False)
 	If Not $g_bRunState Then Return
+
+	If $IsWarNotActive Then
+		SetLog("Exiting ...", $COLOR_OLIVE)
+		If _Sleep(Random(2000, 3000, 1)) Then Return
+		Return ReturnToHomeFromWar()
+	EndIf
 
 	If Not @error Then
 		If _Sleep(250) Then Return
@@ -876,6 +882,12 @@ Func WatchWarReplays()
 	$IsAllowedPreparationDay = False
 	CheckWarTime($sResult, $bResult, False, True)
 
+	If $IsWarNotActive Then
+		SetLog("Exiting ...", $COLOR_OLIVE)
+		If _Sleep(Random(2000, 3000, 1)) Then Return
+		Return ReturnToHomeFromWar()
+	EndIf
+
 	If $g_bClanWarLeague And $CWLPrep Then
 		SetLog("CWL Preparation ... Skipping ...", $COLOR_WARNING)
 		If _Sleep(1500) Then Return
@@ -976,7 +988,7 @@ Func WatchWarReplays()
 					SetLog("Error When Trying to Open War Details Window ... Skipping ...", $COLOR_WARNING)
 				EndIf
 
-				If _ColorCheck(_GetPixelColor(826, 85 + $g_iMidOffsetY, True), "FFFFFF", 20) And $g_bClanWarLeague Then
+				If _ColorCheck(_GetPixelColor(826, 85 + $g_iMidOffsetY, True), Hex(0x7F7F66, 6), 20) And $g_bClanWarLeague Then
 					Local $iSleepForWindow = Random(3000, 5000)
 					If _Sleep($iSleepForWindow) Then Return
 					Click(60 + Random(0, 700, 1), 25 + Random(0, 5, 1)) ; Click to get any window away
@@ -1171,6 +1183,9 @@ Func BotHumanization()
 	If $g_bUseBotHumanization = True Then
 		If _Sleep(1500) Then Return
 		ForumAccept()
+		If _Sleep(500) Then Return
+		If Not $g_bRunState Then Return
+		SignUpWar()
 		If _Sleep(500) Then Return
 		If Not $g_bRunState Then Return
 		Local $NoActionsToDo = 0
@@ -2440,7 +2455,7 @@ Func LookAtRedNotifications()
 	EndIf
 	ReturnAtHome()
 
-	If _ColorCheck(_GetPixelColor(54, 278 + $g_iMidOffsetY, True), "E90914", 20) Then
+	If _ColorCheck(_GetPixelColor(54, 278 + $g_iMidOffsetY, True), Hex(0xE90914, 6), 20) Then
 		SetLog("New Messages On The Chat Room ...", $COLOR_OLIVE)
 		Local $ChatNotEveryTime = Random(1, 5, 1)
 		If $ChatNotEveryTime > 3 Then
@@ -2544,13 +2559,13 @@ Func LookAtRedNotifications()
 	EndIf
 	ReturnAtHome()
 
-	If _ColorCheck(_GetPixelColor(224, 612 + $g_iBottomOffsetY, True), "F81620", 20) Then
+	If _ColorCheck(_GetPixelColor(224, 612 + $g_iBottomOffsetY, True), Hex(0xF81620, 6), 20) Then
 		SetLog("Open News Tab", $COLOR_DEBUG)
 		Click(212, 635 + $g_iBottomOffsetY) ; open events tab
 		If _Sleep(Random(2000, 4000, 1)) Then Return
 		Local $NeedScroll = Random(0, 3, 1)
 		If $NeedScroll > 0 Then
-			If _ColorCheck(_GetPixelColor(750, 585 + $g_iMidOffsetY, True), "E8E8E0", 20) Then
+			If _ColorCheck(_GetPixelColor(750, 585 + $g_iMidOffsetY, True), Hex(0xE8E8E0, 6), 20) Then
 				SetLog("Just Wait in Events Tab", $COLOR_OLIVE)
 			Else
 				SetLog("Scroll Events Tab", $COLOR_OLIVE)
@@ -2565,21 +2580,21 @@ Func LookAtRedNotifications()
 		$NoNotif += 1
 	EndIf
 
-	If _ColorCheck(_GetPixelColor(722, 614 + $g_iBottomOffsetY, True), "F01522", 20) Then
+	If _ColorCheck(_GetPixelColor(722, 614 + $g_iBottomOffsetY, True), Hex(0xF01522, 6), 20) Then
 		SetLog("New Messages Or Events From SC To Read ...", $COLOR_OLIVE)
 		Click(715, 630 + $g_iBottomOffsetY) ; open events
 		If _Sleep(3000) Then Return
 
-		If Not _ColorCheck(_GetPixelColor(240, 75 + $g_iMidOffsetY, True), "E8E8E0", 20) Then ; check if we are Not on news tab
+		If Not _ColorCheck(_GetPixelColor(240, 75 + $g_iMidOffsetY, True), Hex(0xE8E8E0, 6), 20) Then ; check if we are Not on news tab
 			Click(195, 95) ; open news tab
 			If _Sleep(Random(2000, 4000, 1)) Then Return
 		EndIf
 
 		Local $TabtoClick = Random(0, 2, 1)
-		If _ColorCheck(_GetPixelColor(261, 75, True), "EC0A13", 20) Then
+		If _ColorCheck(_GetPixelColor(261, 75, True), Hex(0xEC0A13, 6), 20) Then
 			$TabtoClick = 0
 			SetLog("Detection in News Tab", $COLOR_OLIVE)
-		ElseIf _ColorCheck(_GetPixelColor(596, 75, True), "EC0A13", 20) Then
+		ElseIf _ColorCheck(_GetPixelColor(596, 75, True), Hex(0xEC0A13, 6), 20) Then
 			$TabtoClick = 2
 			SetLog("Detection in Esports Tab", $COLOR_OLIVE)
 		EndIf
@@ -2672,11 +2687,11 @@ Func LookAtRedNotifications()
 		If _Sleep(2000) Then Return
 		If Not $g_bRunState Then Return
 		If IsClanOverview() Then
-			If _ColorCheck(_GetPixelColor(757, 81 + $g_iMidOffsetY, True), "EC0A12", 20) Then
+			If _ColorCheck(_GetPixelColor(757, 81 + $g_iMidOffsetY, True), Hex(0xEC0A12, 6), 20) Then
 				Click(690, 100 + $g_iMidOffsetY)
 				If Not $g_bRunState Then Return
 				If _Sleep(2000) Then Return
-				If _ColorCheck(_GetPixelColor(541, 146 + $g_iMidOffsetY, True), "F71621", 20) Then SetLog("It's Confirmed, You Have a New Friend Request, Let Me Check ...", $COLOR_SUCCESS1)
+				If _ColorCheck(_GetPixelColor(541, 146 + $g_iMidOffsetY, True), Hex(0xF71621, 6), 20) Then SetLog("It's Confirmed, You Have a New Friend Request, Let Me Check ...", $COLOR_SUCCESS1)
 				If Not $g_iIsRefusedFriends Then
 					While 1
 						If QuickMIS("BC1", $g_sImgHumanizationFriend, 695, 200 + $g_iMidOffsetY, 755, 245 + $g_iMidOffsetY) Then
@@ -3168,8 +3183,8 @@ Func CheckWarTime(ByRef $sResult, ByRef $bResult, $bReturnFrom = True, $WWR = Fa
 	Else
 		$bRedColor_InWarButton = False
 	EndIf
-	$g_bClanWarLeague = _ColorCheck(_GetPixelColor(30, 473 + $g_iMidOffsetY, True), "FFFFD5", 20) ; Golden color at left side of clan war button
-	$g_bClanWar = _ColorCheck(_GetPixelColor(36, 472 + $g_iMidOffsetY, True), "FCB847", 20) ; Ordinary war color at left side of clan war button
+	$g_bClanWarLeague = _ColorCheck(_GetPixelColor(30, 473 + $g_iMidOffsetY, True), Hex(0xFFFFD6, 6), 20) ; Golden color at left side of clan war button
+	$g_bClanWar = _ColorCheck(_GetPixelColor(36, 472 + $g_iMidOffsetY, True), Hex(0xFCB847, 6), 20) ; Ordinary war color at left side of clan war button
 	If $g_bClanWarLeague Then SetDebugLog("Your Clan Is Doing Clan War League.", $COLOR_INFO)
 
 	If $bRedColor_InWarButton Then
@@ -3211,13 +3226,13 @@ Func CheckWarTime(ByRef $sResult, ByRef $bResult, $bReturnFrom = True, $WWR = Fa
 		EndIf
 	EndIf
 
-
-	Local $offColors[3][3] = [[0xFFFFFF, 30, 0], [0xFDBF37, 150, 0], [0x0D0D0D, 160, 0]] ; 2nd pixel White Color, 3rd pixel orange color, 4th pixel Black edge of button
-	Local $WarSignUp = _MultiPixelSearch(248, 484, 425, 490, 1, 1, Hex(0x0D0D0D, 6), $offColors, 40) ; first black pixel on side of sign-up button
-	SetDebugLog("Pixel Color #1: " & _GetPixelColor(255, 484, True) & ", #2: " & _GetPixelColor(285, 484, True) & ", #3: " & _GetPixelColor(405, 484, True) & ", #4: " & _GetPixelColor(415, 484, True), $COLOR_DEBUG)
-	If IsArray($WarSignUp) Then
+	If (_ColorCheck(_GetPixelColor(160, 270 + $g_iMidOffsetY, True), Hex(0x671C1C, 6), 20) And _ColorCheck(_GetPixelColor(700, 270 + $g_iMidOffsetY, True), Hex(0x671C1C, 6), 20) And _
+			_ColorCheck(_GetPixelColor(300, 370 + $g_iMidOffsetY, True), Hex(0xFFFFFF, 6), 20) And _ColorCheck(_GetPixelColor(600, 370 + $g_iMidOffsetY, True), Hex(0xFFFFFF, 6), 20)) Or _
+			(_ColorCheck(_GetPixelColor(160, 220 + $g_iMidOffsetY, True), Hex(0x671C1C, 6), 20) And _ColorCheck(_GetPixelColor(700, 220 + $g_iMidOffsetY, True), Hex(0x671C1C, 6), 20) And _
+			_ColorCheck(_GetPixelColor(260, 400 + $g_iMidOffsetY, True), Hex(0xFFFFFF, 6), 20) And _ColorCheck(_GetPixelColor(600, 400 + $g_iMidOffsetY, True), Hex(0xFFFFFF, 6), 20)) Then
 		SetLog("Your Clan is not in war yet.", $COLOR_INFO)
 		$IsWarNotActive = True
+		Return
 	EndIf
 
 	If _Sleep(300) Then Return
@@ -3420,20 +3435,18 @@ EndFunc   ;==>CheckWarTime
 
 Func IsWarMenu()
 	If _Sleep(250) Then Return
-	Local $bResult = _Wait4Pixel(826, 34, 0xFFFFFF, 25, 3000, 100, "IsWarMenu")
-	Return $bResult
+	If IsArray(_PixelSearch(823, 33, 832, 33, Hex(0xFFFFFF, 6), 20, True)) Then Return True
+	Return False
 EndFunc   ;==>IsWarMenu
 
 Func ReturnToHomeFromWar()
 	If _Wait4PixelGoneArray($aIsMain) = True Then
 		Click(70, 620 + $g_iBottomOffsetY) ; return home
-
 		If _Wait4PixelArray($aIsMain) = False Then
 			Click(70, 620 + $g_iBottomOffsetY) ; return home
 			CheckMainScreen()
 		EndIf
 	EndIf
-
 	Return True
 EndFunc   ;==>ReturnToHomeFromWar
 

@@ -80,6 +80,31 @@ Func GetVillageSize($DebugLog = Default, $sStonePrefix = Default, $sTreePrefix =
 		If Not IsArray($avSceneries) Or UBound($avSceneries, $UBOUND_ROWS) <= 0 Then
 			SetDebugLog("No Sceneries Found", $COLOR_ERROR)
 			If $g_bDebugImageSave Then SaveDebugRectImage("FailedSceneryMultiSearch", $x1 & "," & $y1 & "," & $right & "," & $bottom)
+			;Case Egypt And Magic Sceneries Top Scrolled.
+			Local $sSearchArea2 = Int($x1) & "," & Int($y1 - 125) & "|" & Int($right) & "," & Int($y1 - 125) & "|" & Int($right) & "," & Int($bottom) & "|" & Int($x1) & "," & Int($bottom)
+			Local $avSceneries2 = findMultiple($sImgDir, $sSearchArea2, $sSearchArea2, 0, 1000, 1, "objectname,objectpoints", $bForceCapture)
+			If IsArray($avSceneries2) And UBound($avSceneries2, $UBOUND_ROWS) > 0 Then
+				For $i = 0 To UBound($avSceneries2, $UBOUND_ROWS) - 1
+					Local $avTempArray, $aiSceneryCoords
+					$avTempArray = $avSceneries2[$i]
+					$aiSceneryCoords = decodeSingleCoord($avTempArray[1])
+					If IsArray($aiSceneryCoords) And UBound($aiSceneryCoords, $UBOUND_ROWS) = 2 Then
+						$x = Number($aiSceneryCoords[0])
+						$y = Number($aiSceneryCoords[1])
+						$a = StringRegExp($avTempArray[0], ".*-(\d+)-(\d+)", $STR_REGEXPARRAYMATCH)
+						If UBound($a) = 2 Then
+							$x0 = Number($a[0])
+							$y0 = Number($a[1])
+							If $x > ($x0 + 75) Or $x < ($x0 - 75) Or $y > ($y0 + 75) Or $y < ($y0 - 75) Then
+								SetDeBugLog("Village Scenery FP X/Y is off by more than 75 pixels", $COLOR_WARNING)
+								CenterVillage($x, $y, $x - $x0, $y - $y0)
+								$bForceCapture = True ; forces new capture after align
+								ExitLoop
+							EndIf
+						EndIf
+					EndIf
+				Next
+			EndIf
 		Else
 			Local $avTempArray, $aiSceneryCoords
 

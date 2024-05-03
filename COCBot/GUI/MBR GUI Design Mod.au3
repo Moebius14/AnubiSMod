@@ -16,7 +16,7 @@
 
 Global $g_hGUI_MOD = 0, $g_hGUI_MOD_TAB = 0, $g_hGUI_MOD_TAB_ITEM1 = 0, $g_hGUI_MOD_TAB_ITEM2 = 0
 Global $g_hChkUseBotHumanization = 0, $g_acmbPriority[11] = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
-Global $g_hLabel01 = 0, $g_hCmbMaxActionsNumber = 0, $g_IsRefusedFriends = 0, $g_hChkForumRequestOnly = 0
+Global $g_hLabel01 = 0, $g_hCmbMaxActionsNumber = 0, $g_IsRefusedFriends = 0, $g_hChkForumRequestOnly = 0, $g_hChkWarSignUp = 0, $hAllowWar = 0, $hRefuseWar = 0
 Global $g_hGUI_WelcomeMessage = 0, $g_hBtnWelcomeMessage = 0, $g_hChkUseWelcomeMessage = 0, $g_hTxtRequestMessage = 0, $g_hTxtWelcomeMessage = 0, $g_hBtnWelcomeMessageClose = 0, $g_hChkAcceptAllRequests = 0
 Global $g_HowManyinCWLabel = 0, $g_HowManyinCWCombo = 0, $g_HowManyinCWLLabel = 0, $g_HowManyinCWLCombo = 0
 Global $g_hChkNoLabCheck = 0, $g_hChkNoLabCheckLabel = 0, $g_hChkNoLabCheckLabelTypo = 0
@@ -73,6 +73,16 @@ Func TabHumanizationGUI()
 	GUICtrlSetColor(-1, $COLOR_SUCCESS)
 	_GUICtrlSetTip(-1, "Set The Welcome Message After Accept")
 	GUICtrlSetOnEvent(-1, "BtnWelcomeMessage")
+
+	$g_hChkWarSignUp = GUICtrlCreateCheckbox(GetTranslatedFileIni("MBR GUI Design Child Village - Misc", "WarSignUp", "War Sign-Up"), $x + 250, $y + 52, -1, -1)
+	_GUICtrlSetTip(-1, GetTranslatedFileIni("MBR GUI Design Child Village - Misc", "WarSignUp_Info01", "Check This To Auto-Subscribe or Refuse War or CWL"))
+	GUICtrlSetOnEvent(-1, "ChkWarSignUp")
+	GUICtrlSetState(-1, $GUI_UNCHECKED)
+	GUIStartGroup()
+	$hAllowWar = GUICtrlCreateRadio("Yes", $x + 340, $y + 52, -1, -1)
+	GUICtrlSetState(-1, $GUI_CHECKED)
+	$hRefuseWar = GUICtrlCreateRadio("No", $x + 380, $y + 52, -1, -1)
+	GUICtrlSetState(-1, $GUI_UNCHECKED)
 
 	$y += 25
 	_GUICtrlCreateIcon($g_sLibModIconPath, $eIcnModZZZ, $x + 245, $y - 1, 26, 26)

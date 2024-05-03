@@ -331,7 +331,7 @@ Func getRemainTHero($x_start, $y_start, $bNeedCapture = True) ; Get time remaini
 EndFunc   ;==>getRemainTHero
 
 Func getRequestRemainTime($x_start, $y_start, $bNeedCapture = True) ; Get Remain Time To request Troops
-	Return StringReplace(getOcrAndCapture("coc-CCremainTime", $x_start, $y_start, 30, 10, False, False, $bNeedCapture), "b", "")
+	Return StringReplace(getOcrAndCapture("coc-CCremainTime", $x_start, $y_start, 30, 10, True, False, $bNeedCapture), "b", "")
 EndFunc   ;==>getRequestRemainTime
 
 Func getCloudTextShort($x_start, $y_start, $sLogText = Default, $LogTextColor = Default, $bSilentSetLog = Default)
@@ -357,7 +357,8 @@ Func getCloudFailShort($x_start, $y_start, $sLogText = Default, $LogTextColor = 
 EndFunc   ;==>getCloudFailShort
 
 Func getBarracksNewTroopQuantity($x_start, $y_start, $bNeedCapture = True) ;  -> Gets quantity of troops in army Window
-	Return getOcrAndCapture("coc-newarmy", $x_start, $y_start, 45, 18, True, False, $bNeedCapture)
+	Local $Result = StringReplace(getOcrAndCapture("coc-newarmy", $x_start, $y_start, 45, 18, True, False, $bNeedCapture), "b", "")
+	Return $Result
 EndFunc   ;==>getBarracksNewTroopQuantity
 
 Func getArmyCapacityOnTrainTroops($x_start, $y_start) ;  -> Gets quantity of troops in army Window

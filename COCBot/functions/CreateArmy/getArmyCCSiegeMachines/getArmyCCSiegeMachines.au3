@@ -134,9 +134,9 @@ Func CCSiegeMachinesArray($bNeedCapture = True)
 				ReDim $aCurrentCCSiegeMachines[UBound($aCurrentCCSiegeMachines) + 1]
 				$aCurrentCCSiegeMachines[1] = $aCurrentCCSiegeMachines2[0]
 			EndIf
+			ClickDrag(573, 495 + $g_iMidOffsetY, 618, 495 + $g_iMidOffsetY, 300)
+			If _Sleep(1000) Then Return
 		EndIf
 	EndIf
-	ClickDrag(573, 495 + $g_iMidOffsetY, 618, 495 + $g_iMidOffsetY, 300)
-	If _Sleep(1000) Then Return
 	Return $aCurrentCCSiegeMachines
 EndFunc   ;==>CCSiegeMachinesArray

@@ -281,4 +281,7 @@ Global $g_sImgMonolith = @ScriptDir & "\imgxml\Buildings\Monolith"
 Global $g_sImgACCEPT = @ScriptDir & "\imgxml\Humanization\Accept"
 Global $g_sImgPlayerMark = @ScriptDir & "\imgxml\Humanization\PlayerMark"
 Global $g_sImgLegend = @ScriptDir & "\imgxml\Humanization\Legend"
+Global $g_sImgSignUp = @ScriptDir & "\imgxml\Humanization\SignUp"
+Global $g_sImgSignUpGreen = @ScriptDir & "\imgxml\Humanization\SignUp\Green"
+Global $g_sImgSignUpRed = @ScriptDir & "\imgxml\Humanization\SignUp\Red"
 #EndRegion Humanization

@@ -164,8 +164,6 @@ Func SelectCastleOrSiege(ByRef $iTroopIndex, $iX, $iCmbSiege, $gMatchMode)
 	Local $ToUse = $aSiegeTypes[$iCmbSiege]
 	Local $bNeedSwitch = False, $bAnySiege = False
 
-	Local $sLog = GetTroopName($iTroopIndex)
-
 	Local $iMaxSiegeLevel = 4
 	If $g_iTownHallLevel >= 10 Then
 		For $i = 0 To UBound($bSiegesLevelFive) - 1
@@ -207,8 +205,8 @@ Func SelectCastleOrSiege(ByRef $iTroopIndex, $iX, $iCmbSiege, $gMatchMode)
 			Local $iLastX = $aiSwitchBtn[0] - 30, $iLastY = $aiSwitchBtn[1]
 			If _Sleep(2000) Then Return
 
-			; Lets detect the CC & Sieges and click - search window is - X, 539, X + 395, 539 + 70
-			Local $sSearchArea = GetDiamondFromRect(_Min($iX - 50, 470) & ",539(395,70)") ; x = 470 when Castle is at slot 6+ and there are 5 slots in siege switching window
+			; Lets detect the CC & Sieges and click - search window is - X, 539, X + 440, 539 + 70
+			Local $sSearchArea = GetDiamondFromRect(_Min(Number($iX - 50), 470) & ",539(440,70)") ; x = 470 when Castle is at slot 6+ and there are 6 slots in siege switching window
 
 			If $g_bDebugImageSave Then SaveDebugDiamondImage("SelectCastleOrSiege", $sSearchArea)
 
@@ -235,8 +233,8 @@ Func SelectCastleOrSiege(ByRef $iTroopIndex, $iX, $iCmbSiege, $gMatchMode)
 
 					$iMaxSiegeLevel = 4
 					If $g_iTownHallLevel >= 10 Then
-						For $i = 0 To UBound($bSiegesLevelFive) - 1
-							If $iSiegeIndex = $bSiegesLevelFive[$i] Then
+						For $t = 0 To UBound($bSiegesLevelFive) - 1
+							If $iSiegeIndex = $bSiegesLevelFive[$t] Then
 								$iMaxSiegeLevel = 5
 								ExitLoop
 							EndIf

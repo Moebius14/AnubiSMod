@@ -176,7 +176,7 @@ Func PetHouse($test = False)
 					Click($iX, $iY)
 					; wait for ungrade window to open
 					If _Sleep(1500) Then Return
-					If _ColorCheck(_GetPixelColor(570, 525 + $g_iMidOffsetY, True), "D6F889", 20) Then
+					If _ColorCheck(_GetPixelColor(570, 525 + $g_iMidOffsetY, True), Hex(0xD6F889, 6), 20) Then
 						Local $RedZero = _PixelSearch(610, 548 + $g_iMidOffsetY, 650, 552 + $g_iMidOffsetY, Hex(0xFF887F, 6), 20)
 						If IsArray($RedZero) Then ; Check for Red Zero = means not enough loot!
 							SetLog("Not Enough Loot To Upgrade Pet!", $COLOR_ERROR)
@@ -300,7 +300,7 @@ Func PetHouse($test = False)
 					; wait for ungrade window to open
 					If _Sleep(1500) Then Return
 
-					If _ColorCheck(_GetPixelColor(570, 525 + $g_iMidOffsetY, True), "D6F889", 20) Then
+					If _ColorCheck(_GetPixelColor(570, 525 + $g_iMidOffsetY, True), Hex(0xD6F889, 6), 20) Then
 						Local $RedZero = _PixelSearch(610, 548 + $g_iMidOffsetY, 650, 552 + $g_iMidOffsetY, Hex(0xFF887F, 6), 20)
 						If IsArray($RedZero) Then ; Check for Red Zero = means not enough loot!
 							SetLog("Not Enough Loot To Upgrade Pet!", $COLOR_ERROR)

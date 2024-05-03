@@ -294,9 +294,9 @@ Func AttackReport()
 EndFunc   ;==>AttackReport
 
 Func IsStreakEvent()
-	Local $offColors[3][3] = [[0xF9F9F9, 13, 0], [0x000000, 23, 0], [0x000000, 12, 12]] ; 2nd pixel White Color, 3rd pixel Black Bottom color, 4th pixel Black edge of cross
-	Local $WhiteCross = _MultiPixelSearch(623, 295, 655, 310, 1, 1, Hex(0x000000, 6), $offColors, 30) ; first black pixel on side of button
-	SetDebugLog("Pixel Color #1: " & _GetPixelColor(627, 295, True) & ", #2: " & _GetPixelColor(640, 295, True) & ", #3: " & _GetPixelColor(650, 295, True) & ", #4: " & _GetPixelColor(639, 307, True), $COLOR_DEBUG)
+	Local $offColors[3][3] = [[0xFFFFFF, 12, 7], [0x000000, 23, 0], [0x000000, 12, 12]] ; 2nd pixel White Color, 3rd pixel Black right edge of cross, 4th pixel Black bottom edge of cross
+	Local $WhiteCross = _MultiPixelSearch(623, 295, 655, 310, 1, 1, Hex(0x000000, 6), $offColors, 30) ; first black pixel on side of cross
+	SetDebugLog("Pixel Color #1: " & _GetPixelColor(627, 295, True) & ", #2: " & _GetPixelColor(639, 302, True) & ", #3: " & _GetPixelColor(650, 295, True) & ", #4: " & _GetPixelColor(639, 307, True), $COLOR_DEBUG)
 	If IsArray($WhiteCross) Then Return True
 	Return False
-EndFunc
+EndFunc   ;==>IsStreakEvent

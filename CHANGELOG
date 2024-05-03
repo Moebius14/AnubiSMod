@@ -37,7 +37,7 @@
 * Improved Obstacles remove.
 * Improved Buildings info OCR.
 * Added New pet support (Angry Jelly).
-* Added support Eagle level 7 and Monolith level 3.
+* Added Support for Eagle level 7 and Monolith level 3.
 * Update Flame Flinger max level.
 * Added Equipment challenges to Clan Games (Code Only).
 * Updated some GUI images.
@@ -51,6 +51,14 @@
 * Increased cc spells/sieges speed detection.
 * Added Hog Gliders clan games event template.
 * Added Dead Eagle level 6 template.
+* Reduced Equipment updgrade display to 10 equipment.
+* Improved Donate window position detection.
+* Updated Siege switching detection area.
+* Fixed siege switching.
+* Fixed 6 red OCR for queue troops.
+* Added support for Streak Event in bonus calculation.
+* Improved Super Troops Count OCR in Army Overview.
+* Improved Egypt and Magic Scenery Zoom Out.
 
 * v8.1.6 **
 * Added "Before you upgrade" window support.

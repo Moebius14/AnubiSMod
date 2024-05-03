@@ -125,10 +125,10 @@ Func CCSpellsArray($bNeedCapture = True)
 					ReDim $aCurrentCCSpells[UBound($aCurrentCCSpells) + 1]
 					$aCurrentCCSpells[2] = $aCurrentCCSpells2[0]
 				EndIf
+				ClickDrag(455, 495 + $g_iMidOffsetY, 570, 495 + $g_iMidOffsetY, 300)
+				If _Sleep(1000) Then Return
 			EndIf
 		EndIf
 	EndIf
-	ClickDrag(455, 495 + $g_iMidOffsetY, 570, 495 + $g_iMidOffsetY, 300)
-	If _Sleep(1000) Then Return
 	Return $aCurrentCCSpells
 EndFunc   ;==>CCSpellsArray

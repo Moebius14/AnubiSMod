@@ -23,7 +23,7 @@ Global $aCenterHomeVillageClickDrag = [430, 650] ; Scroll village using this loc
 Global $aIsMain[4] = [378, 10, 0x7ABDE3, 15] ; Main Screen, Builder Info Icon / October 2023 -37103
 Global $aIsMainGrayed[4] = [378, 10, 0x3D5F72, 15] ; Main Screen, Builder Info Icon grayed
 Global $aIsBuilderBaseGrayed[4] = [369, 9, 0x3F5F6F, 15] ; Builder Base, Builder Info Icon grayed
-Global $aIsOnBuilderBase[4] = [838, 18, 0xffff45, 10] ; Check the Gold Coin from resources , is a square not round
+Global $aIsOnBuilderBase[4] = [838, 18, 0xFFFF45, 10] ; Check the Gold Coin from resources , is a square not round
 Global $aAttackButton[2] = [60, 614 + $g_iBottomOffsetY] ; Attack Button, Main Screen
 Global $aFindMatchButton[4] = [470, 20 + $g_iBottomOffsetY, 0xD8A420, 10] ; Find Multiplayer Match Button, Attack Screen 860x780 without shield
 Global $aIsAttackShield[4] = [250, 415 + $g_iMidOffsetY, 0xE8E8E0, 10] ; Attack window, white shield verification window
@@ -111,7 +111,7 @@ Global $aWardenHealth = [-1, 567 + $g_iBottomOffsetY, 0x00D500, 15, 10]
 Global $aChampionHealth = [-1, 566 + $g_iBottomOffsetY, 0x00D500, 15, 2]
 
 ; attack report... stars won
-Global $aWonOneStarAtkRprt[4] = [325, 180 + $g_iMidOffsetY, 0xC8CaC4, 30] ; Center of 1st Star reached attacked village
+Global $aWonOneStarAtkRprt[4] = [325, 180 + $g_iMidOffsetY, 0xC8CAC4, 30] ; Center of 1st Star reached attacked village
 Global $aWonTwoStarAtkRprt[4] = [398, 180 + $g_iMidOffsetY, 0xD0D6D0, 30] ; Center of 2nd Star reached attacked village
 Global $aWonThreeStarAtkRprt[4] = [534, 180 + $g_iMidOffsetY, 0xC8CAC7, 30] ; Center of 3rd Star reached attacked village
 ; pixel color: location information								BS 850MB (Reg GFX), BS 500MB (Med GFX) : location

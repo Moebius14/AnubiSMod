@@ -1734,7 +1734,7 @@ Global $g_aiCurrentCCTroops[$eTroopCount] = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
 Global $g_bDonationEnabled = True
 Global $g_iTroopsDonated = 0
 Global $g_iTroopsReceived = 0
-Global $g_iDonationWindowY = 0, $XWindowOffset = 0
+Global $g_iDonationWindowY = 0, $g_iDonationWindowX = 0
 
 ; Drop trophy
 Global $g_avDTtroopsToBeUsed[8][2] = [["Barb", 0], ["Arch", 0], ["Giant", 0], ["Wall", 0], ["Gobl", 0], ["Mini", 0], ["Ball", 0], ["Wiza", 0]] ; DT available troops [type, qty]
@@ -2004,7 +2004,7 @@ Global $ExternalArea[8][3]
 
 Global $g_aVillageSize[10] = ["", "", "", "", "", "", "", "", "", ""]
 
-; Blacksmith
+; Blacksmith (19 equipment - April 2024)
 Global $g_aiBlacksmithPos[2] = [-1, -1] ; Position of Pet House
 Global $g_asEquipmentOrderList[19][4] = [ _
 		[GetTranslatedFileIni("MBR GUI Design Child Village - Equipment", "TxtBarbarianPuppet", "Barbarian Puppet"), "BarbarianPuppet", "King", 103 + $g_iMidOffsetY], _
@@ -2030,7 +2030,7 @@ Global $g_asEquipmentOrderList[19][4] = [ _
 Global Enum $eBarbarianPuppet, $eRageVial, $eEQBoots, $eVampstache, $eGiantGauntlet, $eArcherPuppet, $eInvisibilityVial, $eGiantArrow, $eHealerPuppet, _
 		$eFrozenArrow, $eEternalTome, $eLifeGem, $eRageGem, $eHealingTome, $eFireball, $eRoyalGem, $eSeekingShield, $eHogPuppet, $eHasteVial, $eEquipmentCount
 Global $g_hChkCustomEquipmentOrderEnable = 0, $g_bChkCustomEquipmentOrderEnable = 0
-Global $g_hBtnEquipmentOrderSet = 0, $g_ahImgEquipmentOrderSet = 0, $g_hBtnRemoveEquipment = 0, $g_hBtnRegularOrder = 0
+Global $g_hBtnEquipmentOrderSet = 0, $g_ahImgEquipmentOrderSet = 0, $g_hBtnRemoveEquipment = 0
 Global $g_EquipmentOrderLabel[$eEquipmentCount] = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
 Global $g_ahCmbEquipmentOrder[$eEquipmentCount] = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
 Global $g_ahImgEquipmentOrder[$eEquipmentCount] = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
@@ -2038,12 +2038,12 @@ Global $g_ahImgEquipmentOrder2[$eEquipmentCount] = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0
 Global $g_aiEquipmentOrder[$eEquipmentCount] = [ _
 		$eBarbarianPuppet, $eRageVial, $eEQBoots, $eVampstache, $eGiantGauntlet, $eArcherPuppet, $eInvisibilityVial, $eGiantArrow, $eHealerPuppet, _
 		$eFrozenArrow, $eEternalTome, $eLifeGem, $eRageGem, $eHealingTome, $eFireball, $eRoyalGem, $eSeekingShield, $eHogPuppet, $eHasteVial]
-Global Const $g_aiEquipmentOrderIcon[$eEquipmentCount + 1] = [ _
-		$eIcnOptions, $eIcnBarbarianPuppet, $eIcnRageVial, $eIcnEQBoots, $eIcnVampstache, $eIcnGauntlet, $eIcnArcherPuppet, $eIcnInvisibilityVial, $eIcnGiantArrow, $eIcnHealerPuppet, _
-		$eIcnFrozenArrow, $eIcnEternalTome, $eIcnLifeGem, $eIcnRageGem, $eIcnHealingTome, $eIcnFireball, $eIcnRoyalGem, $eIcnSeekingShield, $eIcnHogPuppet, $eIcnHasteVial]
-Global Const $g_aiEquipmentOrderIcon2[$eEquipmentCount + 1] = [ _
-		$eIcnOptions, $eIcnKing, $eIcnKing, $eIcnKing, $eIcnKing, $eIcnKing, $eIcnQueen, $eIcnQueen, $eIcnQueen, $eIcnQueen, $eIcnQueen, _
-		$eIcnWarden, $eIcnWarden, $eIcnWarden, $eIcnWarden, $eIcnWarden, $eIcnChampion, $eIcnChampion, $eIcnChampion, $eIcnChampion]
+Global Const $g_aiEquipmentOrderIcon[$eEquipmentCount + 1][2] = [ _
+		[$eIcnOptions, $eIcnOptions], _
+		[$eIcnBarbarianPuppet, $eIcnKing], [$eIcnRageVial, $eIcnKing], [$eIcnEQBoots, $eIcnKing], [$eIcnVampstache, $eIcnKing], [$eIcnGauntlet, $eIcnKing], _
+		[$eIcnArcherPuppet, $eIcnQueen], [$eIcnInvisibilityVial, $eIcnQueen], [$eIcnGiantArrow, $eIcnQueen], [$eIcnHealerPuppet, $eIcnQueen], [$eIcnFrozenArrow, $eIcnQueen], _
+		[$eIcnEternalTome, $eIcnWarden], [$eIcnLifeGem, $eIcnWarden], [$eIcnRageGem, $eIcnWarden], [$eIcnHealingTome, $eIcnWarden], [$eIcnFireball, $eIcnWarden], _
+		[$eIcnRoyalGem, $eIcnChampion], [$eIcnSeekingShield, $eIcnChampion], [$eIcnHogPuppet, $eIcnChampion], [$eIcnHasteVial, $eIcnChampion]]
 Global $g_aiCmbCustomEquipmentOrder[$eEquipmentCount] = [-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1]
 Global $g_hChkCustomEquipmentOrder[$eEquipmentCount] = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], $g_bChkCustomEquipmentOrder[$eEquipmentCount] = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
 Global Const $g_asEquipmentShortNames[$eEquipmentCount] = ["BarbPuppet", "RageVial", "Boots", "Stache", "Gauntlet", "ArchPuppet", _
@@ -2091,6 +2091,7 @@ Global $g_iMinimumPriority, $g_iMaxActionsNumber, $g_iActionToDo
 Global $g_aSetActionPriority[11] = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
 Global $g_sFrequenceChain = "Never|Sometimes|Frequently|Often|Very Often|Ultra Often"
 Global $g_bUseBotHumanization = True, $g_iCmbMaxActionsNumber = 0, $g_bLookAtRedNotifications = True, $g_bForumRequestOnly = False
+Global $g_bChkWarSignUp = False, $bAllowWar = True, $bRefuseWar = False, $bAlreadyWarSigned = False, $bAlreadyWarSigned[8]
 Global $g_aReplayDuration[2] = [0, 0]
 Global $g_bOnReplayWindow, $g_iReplayToPause
 Global $g_iIsRefusedFriends = True
@@ -2145,7 +2146,7 @@ Global $PotionsCaptures[10] = [$PowerItemCapture, $ResourceItemCapture, $Trainin
 Global $PotionsNames[10] = ["Power", "Resource", "Training", "Builder", "Clock Tower", "Hero", "Research", "Super", "Pet", "Builder Jar"]
 Global $PotionsCapturesMedal[7] = [$PowerItemCapture, $ResourceItemCapture, $TrainingItemCapture, $ClockItemCapture, $HeroItemCapture, $ResearchItemCapture, $BJarItemCapture]
 Global $PotionsNamesMedal[7] = ["Power", "Resource", "Training", "Clock Tower", "Hero", "Research", "Builder Jar"]
-Global $g_sImgTrainingWord  = @ScriptDir & "\imgxml\Potions\TrainingWord\"
+Global $g_sImgTrainingWord = @ScriptDir & "\imgxml\Potions\TrainingWord\"
 
 ;Use Medals To Fill CC
 Global $IsForRequestEarly = True, $IsTofillWithMedals = False, $IsTofillWithMedalsPause = True
@@ -2157,12 +2158,13 @@ Global $g_aiCmbCCDecisionTime = 0, $g_aiCmbCCDecisionThen = 0, $CCWaitChrono = 0
 ; PumpKin GraveYard, Snow Day, Tiger Mountain, Primal(PR), Shadow(SH), Royale Scenery, Summer Scenery, Pixel Scenery, 10th Clash,
 ; Clash Fest, Magic Scenery, Epic Magic Scenery, Classic Scenery, Inferno Tower, Jolly Scenery, Magic Theater Scenery,
 ; Dark Ages, Painter, Goblin Caves, Future Scenery, Books of Clash, Spooky Scenery, Chess Scenery, Ghost Scenery, GingerBread Scenery,
-; Dragon Palace Scenery, Space Scenery, Egypt Scenery
+; Dragon Palace Scenery, Space Scenery, Egypt Scenery, Haaland Scenery
 ; Builder Base
 Global Enum $eTreeDSS, $eTreeDAS, $eTreeCC, $eTreePS, $eTreeEW, $eTreeHM, $eTreeJS, $eTreeEJ, $eTree9C, _
 		$eTreePG, $eTreeSD, $eTreeTM, $eTreePR, $eTreeSH, $eTreeRS, $eTreeSM, $eTreePX, $eTreeXC, _
 		$eTreeCF, $eTreeMS, $eTreeEM, $eTreeCS, $eTreeIT, $eTreeJO, $eTreeMT, $eTreeDA, $eTreePA, _
 		$eTreeGC, $eTreeFS, $eTreeBK, $eTreeSP, $eTreeCH, $eTreeGH, $eTreeGB, $eTreeDP, $eTreeSC, $eTreeEG, _
+		$eTreeHA, _
 		$eTreeBB, $eTreeOO, $eTreeCR, $eTreeNS, $eTreeCount
 
 Global $g_asSceneryNames[$eTreeCount] = [ _
@@ -2170,7 +2172,7 @@ Global $g_asSceneryNames[$eTreeCount] = [ _
 		"Pumpkin Graveyard", "Snowy Day", "Tiger Mountain", "Primal Scenery", "Shadow Scenery", "Royale Scenery", "Summer Scenery", "Pixel Scenery", "10th Clashiversary", _
 		"Clash Fest", "Magic Scenery", "Epic Magic Scenery", "Classic Scenery", "Inferno Town", "Jolly Scenery", "Magic Theater Scenery", _
 		"Dark Ages Scenery", "Painter Scenery", "Goblin Caves Scenery", "Future Scenery", "Books of Clash", "Spooky Scenery", "Chess Scenery", "Ghost Scenery", "GingerBread Scenery", _
-		"Dragon Palace Scenery", "Space Scenery", "Egypt Scenery", _
+		"Dragon Palace Scenery", "Space Scenery", "Egypt Scenery", "Haaland Scenery", _
 		"Builder Base", "OTTO Outpost", "Crystal Caverns", "Of The North Scenery"]
 
 ; village size, left, right, top, bottom, village size 2, AdjLeft, AdjRight, AdjTop, AdjBottom
@@ -2212,6 +2214,7 @@ Global Const $g_afRefVillage[$eTreeCount][10] = [ _
 		[525.707398061038, 30, 826, 53, 655, 525.707398061038, 50, 50, 42, 42], _    ; DP partial
 		[481.05121550662, 28, 832, 50, 652, 481.05121550662, 50, 50, 42, 42], _      ; SC partial
 		[489.348532791742, 38, 834, 58, 656, 489.348532791742, 50, 50, 42, 42], _    ; EG partial
+		[482.452930515555, 62, 808, 56, 615, 482.452930515555, 50, 50, 42, 42], _    ; HA partial
 		[376.2247294568, 114, 724, 152, 610, 376.2247294568, 50, 46, 38, 42], _      ; BB partial
 		[440.179472132523, 120, 732, 152, 608, 440.179472132523, 50, 46, 38, 42], _  ; OO partial
 		[379.741811787463, 130, 728, 162, 608, 379.741811787463, 50, 46, 38, 42], _  ; CR partial
@@ -2220,7 +2223,7 @@ Global Const $g_afRefVillage[$eTreeCount][10] = [ _
 ; left, right, top, bottom, village size
 Global Const $g_afRefCustomMainVillage[2][6] = [ _
 		[88, 778, 112, 624, 439.489958643413, $eTreeMS], _ ; Magic Main Village
-		[97, 760, 124, 614, 405.46550540893, $eTreeEG]]	   ; Egypt Main Village
+		[97, 760, 124, 614, 405.46550540893, $eTreeEG]]       ; Egypt Main Village
 
 Global $g_iTree = $eTreeDSS                        ; default to classic
 Global $g_aiSearchZoomOutCounter[2] = [0, 1] ; 0: Counter of SearchZoomOut calls, 1: # of post zoomouts after image found

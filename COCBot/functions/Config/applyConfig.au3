@@ -1035,8 +1035,8 @@ Func ApplyConfig_600_15($TypeReadSave)
 			For $z = 0 To UBound($g_ahCmbEquipmentOrder) - 1
 				GUICtrlSetState($g_hChkCustomEquipmentOrder[$z], $g_bChkCustomEquipmentOrder[$z] ? $GUI_CHECKED : $GUI_UNCHECKED)
 				_GUICtrlComboBox_SetCurSel($g_ahCmbEquipmentOrder[$z], $g_aiCmbCustomEquipmentOrder[$z])
-				_GUICtrlSetImage($g_ahImgEquipmentOrder[$z], $g_sLibIconPath, $g_aiEquipmentOrderIcon[$g_aiCmbCustomEquipmentOrder[$z] + 1])
-				_GUICtrlSetImage($g_ahImgEquipmentOrder2[$z], $g_sLibIconPath, $g_aiEquipmentOrderIcon2[$g_aiCmbCustomEquipmentOrder[$z] + 1])
+				_GUICtrlSetImage($g_ahImgEquipmentOrder[$z], $g_sLibIconPath, $g_aiEquipmentOrderIcon[$g_aiCmbCustomEquipmentOrder[$z] + 1][0])
+				_GUICtrlSetImage($g_ahImgEquipmentOrder2[$z], $g_sLibIconPath, $g_aiEquipmentOrderIcon[$g_aiCmbCustomEquipmentOrder[$z] + 1][1])
 			Next
 
 			Local $iValueSet = 0
@@ -1048,12 +1048,12 @@ Func ApplyConfig_600_15($TypeReadSave)
 			Next
 			If $iValueSet > 0 And $iValueSet < $eEquipmentCount Then
 				SetLog("Set your Equipment Upgrade Order!")
-				btnRegularOrder()
+				btnEquipmentOrderSet()
 			EndIf
 			If Not ChangeEquipmentOrder() Then SetDefaultEquipmentGroup()
 			If $iValueSet = 0 And $g_bChkCustomEquipmentOrderEnable Then
 				SetLog("Set your Equipment Upgrade Order!")
-				btnRegularOrder()
+				btnEquipmentOrderSet()
 			EndIf
 			EnableUpgradeEquipment()
 			chkEquipmentOrder()
@@ -2321,7 +2321,6 @@ Func ApplyConfig_600_35_1($TypeReadSave)
 			GUICtrlSetData($g_hTxtAutostartDelay, $g_iAutoStartDelay)
 			chkAutoStart()
 			GUICtrlSetState($g_hChkCheckGameLanguage, $g_bCheckGameLanguage ? $GUI_CHECKED : $GUI_UNCHECKED)
-			GUICtrlSetState($g_hChkSkipSnowDetection, $g_bSkipSnowDetection ? $GUI_CHECKED : $GUI_UNCHECKED)
 			GUICtrlSetState($g_hChkAutoAlign, $g_bAutoAlignEnable ? $GUI_CHECKED : $GUI_UNCHECKED)
 			chkDisposeWindows()
 			_GUICtrlComboBox_SetCurSel($g_hCmbAlignmentOptions, $g_iAutoAlignPosition)
@@ -2358,7 +2357,6 @@ Func ApplyConfig_600_35_1($TypeReadSave)
 			$g_bAutoStart = (GUICtrlRead($g_hChkAutostart) = $GUI_CHECKED)
 			$g_iAutoStartDelay = GUICtrlRead($g_hTxtAutostartDelay)
 			$g_bCheckGameLanguage = (GUICtrlRead($g_hChkCheckGameLanguage) = $GUI_CHECKED)
-			$g_bSkipSnowDetection = (GUICtrlRead($g_hChkSkipSnowDetection) = $GUI_CHECKED)
 			$g_bAutoAlignEnable = (GUICtrlRead($g_hChkAutoAlign) = $GUI_CHECKED)
 			$g_iAutoAlignPosition = _GUICtrlComboBox_GetCurSel($g_hCmbAlignmentOptions)
 			$g_iAutoAlignOffsetX = GUICtrlRead($g_hTxtAlignOffsetX)
@@ -2683,6 +2681,9 @@ Func ApplyConfig_MOD_Humanization($TypeReadSave)
 			GUICtrlSetState($g_hChkAcceptAllRequests, $g_bChkAcceptAllRequests ? $GUI_CHECKED : $GUI_UNCHECKED)
 			GUICtrlSetData($g_hTxtRequestMessage, StringReplace($g_sRequestMessage, "|", @CRLF))
 			GUICtrlSetData($g_hTxtWelcomeMessage, $g_aWelcomeMessage)
+			GUICtrlSetState($g_hChkWarSignUp, $g_bChkWarSignUp ? $GUI_CHECKED : $GUI_UNCHECKED)
+			GUICtrlSetState($hAllowWar, $bAllowWar ? $GUI_CHECKED : $GUI_UNCHECKED)
+			GUICtrlSetState($hRefuseWar, $bRefuseWar ? $GUI_CHECKED : $GUI_UNCHECKED)
 			chkUseBotHumanization()
 		Case "Save"
 			$g_bUseBotHumanization = (GUICtrlRead($g_hChkUseBotHumanization) = $GUI_CHECKED)
@@ -2692,6 +2693,9 @@ Func ApplyConfig_MOD_Humanization($TypeReadSave)
 			$g_bUseWelcomeMessage = (GUICtrlRead($g_hChkUseWelcomeMessage) = $GUI_CHECKED)
 			$g_bChkAcceptAllRequests = (GUICtrlRead($g_hChkAcceptAllRequests) = $GUI_CHECKED)
 			$g_aWelcomeMessage = GUICtrlRead($g_hTxtWelcomeMessage)
+			$g_bChkWarSignUp = (GUICtrlRead($g_hChkWarSignUp) = $GUI_CHECKED)
+			$bAllowWar = (GUICtrlRead($hAllowWar) = $GUI_CHECKED)
+			$bRefuseWar = (GUICtrlRead($hRefuseWar) = $GUI_CHECKED)
 	EndSwitch
 EndFunc   ;==>ApplyConfig_MOD_Humanization
 

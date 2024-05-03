@@ -229,7 +229,7 @@ EndFunc   ;==>OpenMagicItemWindow
 Func IsMagicItemWindowOpen()
 	Local $bRet = False
 	For $i = 1 To 10
-		If _ColorCheck(_GetPixelColor(690, 150 + $g_iMidOffsetY, True), "FFFFFF", 20) Then
+		If _ColorCheck(_GetPixelColor(690, 150 + $g_iMidOffsetY, True), Hex(0xFFFFFF, 6), 20) Then
 			$bRet = True
 			ExitLoop
 		Else

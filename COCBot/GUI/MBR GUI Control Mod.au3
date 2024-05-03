@@ -26,6 +26,7 @@ Func chkUseBotHumanization()
 			GUICtrlSetState($i, $GUI_ENABLE)
 		Next
 		ChkForumRequestOnly()
+		ChkWarSignUp()
 	Else
 		$g_bUseBotHumanization = False
 		For $i = $g_IsRefusedFriends To $g_acmbPriority[10]
@@ -704,7 +705,7 @@ EndFunc   ;==>EnablePurgeMedal
 Func CheckDonateOften()
 	If Not $g_bCheckDonateOften Or Not $g_bChkDonate Then Return
 
-	If _ColorCheck(_GetPixelColor(54, 278 + $g_iMidOffsetY, True), "E90914", 20) Then
+	If _ColorCheck(_GetPixelColor(54, 278 + $g_iMidOffsetY, True), Hex(0xE90914, 6), 20) Then
 		SetLog("Check Donate Often", $COLOR_DEBUG1)
 		checkArmyCamp(True, True)
 
@@ -928,9 +929,11 @@ Func ForumAccept()
 
 	While 1
 		ForceCaptureRegion()
-		$Scroll = _PixelSearch(338, 64, 342, 78, Hex(0xFFFFFF, 6), 20)
-		If IsArray($Scroll) And _ColorCheck(_GetPixelColor(345, 77, True), Hex(0x60A618, 6), 20) Then ; a second pixel for the green
-			ClickP($Scroll)
+		Local $offColors[3][3] = [[0xFFFFFF, 7, 0], [0x0D0D0D, 11, 0], [0x99D012, 14, 0]] ; 2nd pixel white Color, 3rd pixel black Bottom color, 4th pixel green edge of button
+		Local $Scroll = _MultiPixelSearch(329, 68, 347, 70, 1, 1, Hex(0x8ECC26, 6), $offColors, 40) ; first green pixel on side of button
+		SetDebugLog("Pixel Color #1: " & _GetPixelColor(332, 68, True) & ", #2: " & _GetPixelColor(339, 68, True) & ", #3: " & _GetPixelColor(343, 68, True) & ", #4: " & _GetPixelColor(346, 68, True), $COLOR_DEBUG)
+		If IsArray($Scroll) Then
+			Click($Scroll[0] + 8, $Scroll[1])
 			If _Sleep(350) Then ExitLoop
 			ContinueLoop
 		EndIf
@@ -984,18 +987,22 @@ Func ForumAccept()
 				ContinueLoop
 			Else
 				ForceCaptureRegion()
-				$Scroll = _PixelSearch(338, 587 + $g_iBottomOffsetY, 342, 601 + $g_iBottomOffsetY, Hex(0xFFFFFF, 6), 20)
+				Local $offColors[3][3] = [[0xFFFFFF, 7, 0], [0x0D0D0D, 11, 0], [0x99D012, 14, 0]] ; 2nd pixel white Color, 3rd pixel black Bottom color, 4th pixel green edge of button
+				Local $Scroll = _MultiPixelSearch(329, 651, 347, 652, 1, 1, Hex(0x92D028, 6), $offColors, 40) ; first green pixel on side of button
+				SetDebugLog("Pixel Color #1: " & _GetPixelColor(332, 651, True) & ", #2: " & _GetPixelColor(339, 651, True) & ", #3: " & _GetPixelColor(343, 651, True) & ", #4: " & _GetPixelColor(346, 651, True), $COLOR_DEBUG)
 				If IsArray($Scroll) Then
-					ClickP($Scroll, 1, 0, "#0172")
+					Click($Scroll[0] + 8, $Scroll[1])
 					If _Sleep(250) Then ExitLoop
 					ContinueLoop
 				EndIf
 			EndIf
 		Else
 			ForceCaptureRegion()
-			$Scroll = _PixelSearch(338, 587 + $g_iBottomOffsetY, 342, 601 + $g_iBottomOffsetY, Hex(0xFFFFFF, 6), 20)
+			Local $offColors[3][3] = [[0xFFFFFF, 7, 0], [0x0D0D0D, 11, 0], [0x99D012, 14, 0]] ; 2nd pixel white Color, 3rd pixel black Bottom color, 4th pixel green edge of button
+			Local $Scroll = _MultiPixelSearch(329, 651, 347, 652, 1, 1, Hex(0x92D028, 6), $offColors, 40) ; first green pixel on side of button
+			SetDebugLog("Pixel Color #1: " & _GetPixelColor(332, 651, True) & ", #2: " & _GetPixelColor(339, 651, True) & ", #3: " & _GetPixelColor(343, 651, True) & ", #4: " & _GetPixelColor(346, 651, True), $COLOR_DEBUG)
 			If IsArray($Scroll) Then
-				ClickP($Scroll, 1, 0, "#0172")
+				Click($Scroll[0] + 8, $Scroll[1])
 				If _Sleep(250) Then ExitLoop
 				ContinueLoop
 			Else
@@ -1095,3 +1102,141 @@ EndFunc   ;==>BtnWelcomeMessage
 Func CloseWelcomeMessage()
 	GUISetState(@SW_HIDE, $g_hGUI_WelcomeMessage)
 EndFunc   ;==>CloseWelcomeMessage
+
+Func SignUpWar()
+
+	If Not $g_bChkWarSignUp Then Return
+
+	Local Static $iLastTimeChecked[8]
+	If $g_bFirstStart Then
+		$iLastTimeChecked[$g_iCurAccount] = ""
+		$bAlreadyWarSigned[$g_iCurAccount] = False
+	EndIf
+
+	If $bAlreadyWarSigned Then Return
+
+	If _DateIsValid($iLastTimeChecked[$g_iCurAccount]) Then
+		Local $iLastCheck = _DateDiff('n', $iLastTimeChecked[$g_iCurAccount], _NowCalc()) ; elapse time from last check (minutes)
+		Local $iDelayToCheck = Random(120, 180, 1) ; Check every 2 to 3 hours
+		If $iLastCheck <= $iDelayToCheck Then Return
+	EndIf
+
+	SetLog("Checking War Sign-Up", $COLOR_ACTION)
+
+	If _Sleep(1000) Then Return
+	If Not ClickB("ClanChat") Then
+		SetLog("Error finding the Clan Tab Button", $COLOR_ERROR)
+		Return
+	EndIf
+	If Not $g_bRunState Then Return
+	If _Sleep(1500) Then Return
+
+	Local $bLoop = 0, $bGreenArrow = False
+	While 1
+		ForceCaptureRegion()
+		Local $offColors[3][3] = [[0xFFFFFF, 10, 0], [0x0D0D0D, 11, 0], [0x99D012, 14, 0]] ; 2nd pixel white Color, 3rd pixel black Bottom color, 4th pixel green edge of button
+		Local $Scroll = _MultiPixelSearch(329, 68, 347, 70, 1, 1, Hex(0x8ECC26, 6), $offColors, 40) ; first green pixel on side of button
+		SetDebugLog("Pixel Color #1: " & _GetPixelColor(332, 68, True) & ", #2: " & _GetPixelColor(339, 68, True) & ", #3: " & _GetPixelColor(343, 68, True) & ", #4: " & _GetPixelColor(346, 68, True), $COLOR_DEBUG)
+		Local $offColors2[3][3] = [[0xFFFFFE, 10, 0], [0x463F33, 13, 0], [0xEB9910, 17, 0]] ; 2nd pixel white Color, 3rd pixel black color, 4th pixel orange edge of button
+		Local $Scroll2 = _MultiPixelSearch(329, 71, 351, 72, 1, 1, Hex(0xEB9910, 6), $offColors2, 40) ; first orange pixel on side of button
+		SetDebugLog("Pixel Color #1: " & _GetPixelColor(332, 71, True) & ", #2: " & _GetPixelColor(342, 71, True) & ", #3: " & _GetPixelColor(345, 71, True) & ", #4: " & _GetPixelColor(349, 71, True), $COLOR_DEBUG)
+		If IsArray($Scroll) Then
+			Click($Scroll[0] + 8, $Scroll[1])
+			If _Sleep(250) Then ExitLoop
+			$bGreenArrow = True
+			ContinueLoop
+		EndIf
+		If IsArray($Scroll2) Then
+			Click($Scroll2[0] + 9, $Scroll2[1])
+			If _Sleep(250) Then ExitLoop
+			ContinueLoop
+		Else
+			If $bLoop = 0 And $bGreenArrow Then
+				If _Sleep(1500) Then ExitLoop
+				$bLoop += 1
+				ContinueLoop
+			EndIf
+		EndIf
+		ExitLoop
+	WEnd
+
+	; Reset ------------
+	$bLoop = 0
+	$bGreenArrow = False
+	;-------------------
+	While 1
+		If QuickMIS("BC1", $g_sImgSignUp, 70, 45, 250, 530 + $g_iBottomOffsetY) Then
+			SetLog("War/Clan War Sign-Up Detected", $COLOR_SUCCESS1)
+			If _Sleep(500) Then ExitLoop
+			If IsArray(_PixelSearch(72, $g_iQuickMISY + 15, 120, $g_iQuickMISY + 25, Hex(0xFBFBFB, 6), 30, True)) Then
+				If $bAllowWar Then
+					If QuickMIS("BC1", $g_sImgSignUpGreen, 80, $g_iQuickMISY + 40, 290, $g_iQuickMISY + 90) Then Click($g_iQuickMISX, $g_iQuickMISY + 8)
+					SetLog("Sign-Up Accepted", $COLOR_SUCCESS1)
+				ElseIf $bRefuseWar Then
+					If QuickMIS("BC1", $g_sImgSignUpRed, 80, $g_iQuickMISY + 40, 290, $g_iQuickMISY + 90) Then Click($g_iQuickMISX, $g_iQuickMISY)
+					SetLog("Sign-Up Refused", $COLOR_ERROR)
+				EndIf
+				$bAlreadyWarSigned = True
+				If _Sleep(1500) Then ExitLoop
+				ExitLoop
+			Else
+				SetLog("Sign-Up Already Done", $COLOR_INFO)
+				$bAlreadyWarSigned = True
+				If _Sleep(1500) Then ExitLoop
+				ExitLoop
+			EndIf
+		Else
+			ForceCaptureRegion()
+			Local $offColors[3][3] = [[0xFFFFFF, 7, 0], [0x0D0D0D, 11, 0], [0x99D012, 14, 0]] ; 2nd pixel white Color, 3rd pixel black Bottom color, 4th pixel green edge of button
+			Local $Scroll = _MultiPixelSearch(329, 651, 347, 652, 1, 1, Hex(0x92D028, 6), $offColors, 40) ; first green pixel on side of button
+			SetDebugLog("Pixel Color #1: " & _GetPixelColor(332, 651, True) & ", #2: " & _GetPixelColor(339, 651, True) & ", #3: " & _GetPixelColor(343, 651, True) & ", #4: " & _GetPixelColor(346, 651, True), $COLOR_DEBUG)
+			Local $offColors2[3][3] = [[0xFFFFFF, 10, 0], [0x10100F, 13, 1], [0xEC990F, 17, 1]] ; 2nd pixel white Color, 3rd pixel black color, 4th pixel orange edge of button
+			Local $Scroll2 = _MultiPixelSearch(329, 651, 350, 653, 1, 1, Hex(0xF19B10, 6), $offColors2, 40) ; first orange pixel on side of button
+			SetDebugLog("Pixel Color #1: " & _GetPixelColor(332, 651, True) & ", #2: " & _GetPixelColor(342, 651, True) & ", #3: " & _GetPixelColor(345, 652, True) & ", #4: " & _GetPixelColor(349, 652, True), $COLOR_DEBUG)
+			If IsArray($Scroll) Then
+				Click($Scroll[0] + 8, $Scroll[1])
+				If _Sleep(2500) Then ExitLoop
+				$bGreenArrow = True
+				ContinueLoop
+			EndIf
+			If IsArray($Scroll2) Then
+				Click($Scroll2[0] + 9, $Scroll2[1])
+				If _Sleep(250) Then ExitLoop
+				ContinueLoop
+			Else
+				If $bLoop = 0 And $bGreenArrow Then
+					If _Sleep(1500) Then ExitLoop
+					$bLoop += 1
+					ContinueLoop
+				EndIf
+				If ClickB("ChatDown") Then ContinueLoop
+			EndIf
+		EndIf
+		ExitLoop
+	WEnd
+
+	$iLastTimeChecked[$g_iCurAccount] = _NowCalc()
+
+	If $bAlreadyWarSigned Then ClickB("ChatDown")
+
+	If _Sleep(1000) Then Return
+	If Not ClickB("ClanChat") Then
+		SetLog("Error finding the Clan Tab Button", $COLOR_ERROR)
+		Return
+	EndIf
+
+	If Not $g_bRunState Then Return
+
+EndFunc   ;==>SignUpWar
+
+Func ChkWarSignUp()
+	If GUICtrlRead($g_hChkWarSignUp) = $GUI_CHECKED Then
+		For $i = $hAllowWar To $hRefuseWar
+			GUICtrlSetState($i, $GUI_ENABLE)
+		Next
+	Else
+		For $i = $hAllowWar To $hRefuseWar
+			GUICtrlSetState($i, $GUI_DISABLE)
+		Next
+	EndIf
+EndFunc   ;==>ChkWarSignUp

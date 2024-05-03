@@ -92,7 +92,7 @@ Func CollectLootCart()
 	SetLog("Searching for a Loot Cart", $COLOR_INFO)
 
 	If $g_iTree = $eTreeEG Then
-		If _ColorCheck(_GetPixelColor(54, 278 + $g_iMidOffsetY, True), "E90914", 20) Then ; If Egypt Scenery, Open/Close Chat To remove red warning.
+		If _ColorCheck(_GetPixelColor(54, 278 + $g_iMidOffsetY, True), Hex(0xE90914, 6), 20) Then ; If Egypt Scenery, Open/Close Chat To remove red warning.
 			If ClickB("ClanChat") Then
 				If _Sleep(1000) Then Return
 				If Not ClickB("ClanChat") Then

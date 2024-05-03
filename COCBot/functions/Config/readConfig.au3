@@ -1346,7 +1346,6 @@ Func ReadConfig_600_35_1()
 	IniReadS($g_bRestarted, $g_sProfileConfigPath, "general", "Restarted", $g_bRestarted, "int")
 	If $g_bBotLaunchOption_Autostart = True Then $g_bRestarted = True
 	$g_bCheckGameLanguage = (IniRead($g_sProfileConfigPath, "General", "ChkLanguage", "1") = "1")
-	IniReadS($g_bSkipSnowDetection, $g_sProfileConfigPath, "General", "SkipSnowDetection", True, "Bool")
 	IniReadS($g_bAutoAlignEnable, $g_sProfileConfigPath, "general", "DisposeWindows", False, "Bool")
 	IniReadS($g_iAutoAlignPosition, $g_sProfileConfigPath, "general", "DisposeWindowsPos", "EMBED")
 	IniReadS($g_iAutoAlignOffsetX, $g_sProfileConfigPath, "other", "WAOffsetX", "")
@@ -1531,6 +1530,9 @@ Func ReadConfig_MOD_Humanization()
 	IniReadS($g_bUseWelcomeMessage, $g_sProfileConfigPath, "Bot Humanization", "ChkWelcomeMessage", $g_bUseWelcomeMessage, "Bool")
 	IniReadS($g_bChkAcceptAllRequests, $g_sProfileConfigPath, "Bot Humanization", "ChkAcceptAllRequests", $g_bChkAcceptAllRequests, "Bool")
 	$g_aWelcomeMessage = IniRead($g_sProfileConfigPath, "Bot Humanization", "txtWelcomeMessage", "Welcome ! Please read the clan rules and enjoy !")
+	IniReadS($g_bChkWarSignUp, $g_sProfileConfigPath, "Bot Humanization", "IsChkWarSignUp", $g_bChkWarSignUp, "Bool")
+	IniReadS($bAllowWar, $g_sProfileConfigPath, "Bot Humanization", "IschkAllowWar", $bAllowWar, "Bool")
+	IniReadS($bRefuseWar, $g_sProfileConfigPath, "Bot Humanization", "IschkRefuseWar", $bRefuseWar, "Bool")
 EndFunc   ;==>ReadConfig_MOD_Humanization
 
 Func ReadConfig_MOD_Advanced()

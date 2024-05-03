@@ -618,9 +618,9 @@ Func GUIRoyalEquipmentOrder()
 	Local $iCtrlIdImage2 = $iGUI_CtrlId + 2
 	Local $iEquipmentIndex = _GUICtrlComboBox_GetCurSel($iGUI_CtrlId) + 1
 
-	If $iEquipmentIndex < UBound($g_ahCmbEquipmentOrder) - 1 Then
-		_GUICtrlSetImage($iCtrlIdImage, $g_sLibIconPath, $g_aiEquipmentOrderIcon[$iEquipmentIndex]) ; set proper equipment icon
-		_GUICtrlSetImage($iCtrlIdImage2, $g_sLibIconPath, $g_aiEquipmentOrderIcon2[$iEquipmentIndex]) ; set proper hero icon
+	If $iEquipmentIndex < UBound($g_ahCmbEquipmentOrder) + 1 Then
+		_GUICtrlSetImage($iCtrlIdImage, $g_sLibIconPath, $g_aiEquipmentOrderIcon[$iEquipmentIndex][0]) ; set proper equipment icon
+		_GUICtrlSetImage($iCtrlIdImage2, $g_sLibIconPath, $g_aiEquipmentOrderIcon[$iEquipmentIndex][1]) ; set proper hero icon
 	EndIf
 
 	For $i = 0 To UBound($g_ahCmbEquipmentOrder) - 1 ; check for duplicate combobox index and flag problem
@@ -642,18 +642,6 @@ Func GUIRoyalEquipmentOrder()
 		GUICtrlSetState($g_hBtnEquipmentOrderSet, $GUI_ENABLE) ; enable button to apply new order
 	EndIf
 EndFunc   ;==>GUIRoyalEquipmentOrder
-
-Func btnRegularOrder()
-	btnRemoveEquipment()
-	For $i = 0 To UBound($g_ahCmbEquipmentOrder) - 1
-		GUICtrlSetState($g_ahCmbEquipmentOrder[$i], $GUI_ENABLE)
-		_GUICtrlComboBox_SetCurSel($g_ahCmbEquipmentOrder[$i], $i)
-		_GUICtrlSetImage($g_ahImgEquipmentOrder[$i], $g_sLibIconPath, $i + 1)
-		_GUICtrlSetImage($g_ahImgEquipmentOrder2[$i], $g_sLibIconPath, $i + 1)
-	Next
-	btnEquipmentOrderSet()
-	GUICtrlSetState($g_hBtnEquipmentOrderSet, $GUI_ENABLE) ; Re-enabling it.
-EndFunc   ;==>btnRegularOrder
 
 Func btnRemoveEquipment()
 	Local $sComboData = ""
@@ -682,6 +670,7 @@ Func SetDefaultEquipmentGroup($bSetLog = True)
 EndFunc   ;==>SetDefaultEquipmentGroup
 
 Func btnEquipmentOrderSet()
+	Local $bWasRedraw = SetRedrawBotWindow(False, Default, Default, Default, "btnEquipmentOrderSet")
 	Local $bReady = True ; Initialize ready to record troop order flag
 	Local $sNewEquipmentList = ""
 
@@ -710,8 +699,8 @@ Func btnEquipmentOrderSet()
 	For $i = 0 To UBound($g_ahCmbEquipmentOrder) - 1
 		GUICtrlSetState($g_ahCmbEquipmentOrder[$i], $GUI_ENABLE)
 		_GUICtrlComboBox_SetCurSel($g_ahCmbEquipmentOrder[$i], $aiUsedEquipment[$i])
-		_GUICtrlSetImage($g_ahImgEquipmentOrder[$i], $g_sLibIconPath, $g_aiEquipmentOrderIcon[$aiUsedEquipment[$i] + 1])
-		_GUICtrlSetImage($g_ahImgEquipmentOrder2[$i], $g_sLibIconPath, $g_aiEquipmentOrderIcon2[$aiUsedEquipment[$i] + 1])
+		_GUICtrlSetImage($g_ahImgEquipmentOrder[$i], $g_sLibIconPath, $g_aiEquipmentOrderIcon[$aiUsedEquipment[$i] + 1][0])
+		_GUICtrlSetImage($g_ahImgEquipmentOrder2[$i], $g_sLibIconPath, $g_aiEquipmentOrderIcon[$aiUsedEquipment[$i] + 1][1])
 	Next
 
 	$g_aiCmbCustomEquipmentOrder = $aiUsedEquipment
@@ -741,6 +730,7 @@ Func btnEquipmentOrderSet()
 		SetLog("Must use all Equipment and No duplicate equipment names!", $COLOR_ERROR)
 		_GUICtrlSetImage($g_ahImgEquipmentOrderSet, $g_sLibIconPath, $eIcnRedLight)
 	EndIf
+	SetRedrawBotWindow($bWasRedraw, Default, Default, Default, "btnEquipmentOrderSet")
 EndFunc   ;==>btnEquipmentOrderSet
 
 Func ChangeEquipmentOrder()

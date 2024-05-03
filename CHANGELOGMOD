@@ -1,3 +1,8 @@
+* v24.05.03 **
+* Improved War/CWL Humanization.
+* Added War/CWL Sign-up Option.
+* Removed Skip snow detection (Auto-On).
+
 * v24.04.25 **
 * Fixed ChatOpen() and IsClanChat()
 * Added Maintenance Clock detection.

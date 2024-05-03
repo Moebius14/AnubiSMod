@@ -566,7 +566,7 @@ Func WallRings()
 		Click($WallRing[0] - 14, $WallRing[1])
 		If _Sleep(1000) Then Return
 
-		If Not _ColorCheck(_GetPixelColor(460, 565 + $g_iMidOffsetY, True), "3079E0", 20) Then Return "NotEnough"
+		If Not _ColorCheck(_GetPixelColor(460, 565 + $g_iMidOffsetY, True), Hex(0x3079E0, 6), 20) Then Return "NotEnough"
 
 		If Not IsUpgradeWallsPossible() Then Return "Locked"
 
