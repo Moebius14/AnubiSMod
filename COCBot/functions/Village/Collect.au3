@@ -28,6 +28,10 @@ Func Collect($bCheckTreasury = True)
 	SetLog("Collecting Resources", $COLOR_INFO)
 	If _Sleep($DELAYCOLLECT2) Then Return
 
+	Local $aGoldFull = _FullResPixelSearch($aIsGoldFull[0], $aIsGoldFull[0] + 4, $aIsGoldFull[1], 1, Hex(0x0D0D0D, 6), $aIsGoldFull[2], $aIsGoldFull[3])
+	Local $aElixirFull = _FullResPixelSearch($aIsElixirFull[0], $aIsElixirFull[0] + 4, $aIsElixirFull[1], 1, Hex(0x0D0D0D, 6), $aIsElixirFull[2], $aIsElixirFull[3])
+	Local $aDarkElixirFull = _FullResPixelSearch($aIsDarkElixirFull[0], $aIsDarkElixirFull[0] + 4, $aIsDarkElixirFull[1], 1, Hex(0x0D0D0D, 6), $aIsDarkElixirFull[2], $aIsDarkElixirFull[3])
+
 	; Setup arrays, including default return values for $return
 	Local $sFileName = ""
 	Local $aCollectXY, $t
@@ -40,18 +44,21 @@ Func Collect($bCheckTreasury = True)
 			$aCollectXY = $aResult[$i][5] ; Coords
 			Switch StringLower($sFileName)
 				Case "collectmines"
+					If IsArray($aGoldFull) Then ContinueLoop
 					If $g_iTxtCollectGold <> 0 And $g_aiCurrentLoot[$eLootGold] >= Number($g_iTxtCollectGold) Then
 						SetLog("Gold is high enough, skip collecting", $COLOR_ACTION)
 						ContinueLoop
 					EndIf
 				Case "collectelix"
+					If IsArray($aElixirFull) Then ContinueLoop
 					If $g_iTxtCollectElixir <> 0 And $g_aiCurrentLoot[$eLootElixir] >= Number($g_iTxtCollectElixir) Then
 						SetLog("Elixir is high enough, skip collecting", $COLOR_ACTION)
 						ContinueLoop
 					EndIf
 				Case "collectdelix"
+					If IsArray($aDarkElixirFull) Then ContinueLoop
 					If $g_iTxtCollectDark <> 0 And $g_aiCurrentLoot[$eLootDarkElixir] >= Number($g_iTxtCollectDark) Then
-						SetLog("Dark Elixier is high enough, skip collecting", $COLOR_ACTION)
+						SetLog("Dark Elixir is high enough, skip collecting", $COLOR_ACTION)
 						ContinueLoop
 					EndIf
 			EndSwitch

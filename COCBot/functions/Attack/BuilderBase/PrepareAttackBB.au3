@@ -104,9 +104,10 @@ Func PrepareAttackBB($AttackCount = 0)
 EndFunc   ;==>PrepareAttackBB
 
 Func CheckBBGoldStorageFull($SetLog = True)
-	Local $aBBGoldFull[4] = [661, 35, 0xE7C00D, 10]
+	Local $aIsBBGoldFull[4] = [657, 2 + $g_iMidOffsetY, 0xE7C00D, 10]
 	If _Sleep(500) Then Return
-	If _CheckPixel($aBBGoldFull, True, Default, "BB Gold Full") Then
+	Local $aGoldFull = _FullResPixelSearch($aIsBBGoldFull[0], $aIsBBGoldFull[0] + 4, $aIsBBGoldFull[1], 1, Hex(0x0D0D0D, 6), $aIsBBGoldFull[2], $aIsBBGoldFull[3])
+	If IsArray($aGoldFull) Then
 		If $SetLog Then SetLog("BB Gold Full")
 		Return True
 	EndIf
@@ -114,9 +115,10 @@ Func CheckBBGoldStorageFull($SetLog = True)
 EndFunc   ;==>CheckBBGoldStorageFull
 
 Func CheckBBElixirStorageFull($SetLog = True)
-	Local $aBBElixirFull[4] = [661, 85, 0x7945C5, 10]
+	Local $aIsBBElixirFull[4] = [657, 52 + $g_iMidOffsetY, 0x7945C5, 10]
 	If _Sleep(500) Then Return
-	If _CheckPixel($aBBElixirFull, True, Default, "BB Elixir Full") Then
+	Local $aElixirFull = _FullResPixelSearch($aIsBBElixirFull[0], $aIsBBElixirFull[0] + 4, $aIsBBElixirFull[1], 1, Hex(0x0D0D0D, 6), $aIsBBElixirFull[2], $aIsBBElixirFull[3])
+	If IsArray($aElixirFull) Then
 		If $SetLog Then SetLog("BB Elixir Full")
 		Return True
 	EndIf

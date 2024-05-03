@@ -24,6 +24,9 @@ Func CollectBuilderBase($bSwitchToBB = False, $bSwitchToNV = False, $bSetLog = T
 		If Not SwitchBetweenBases(True, True) Then Return ; Switching to Builders Base
 	EndIf
 
+	Local $IsGoldFull = CheckBBGoldStorageFull(False)
+	Local $IsElixirFull = CheckBBElixirStorageFull(False)
+
 	If $bSetLog Then
 		If $IsOttoVillage Then
 			SetLog("Collecting Resources on Otto Village", $COLOR_INFO)
@@ -43,6 +46,12 @@ Func CollectBuilderBase($bSwitchToBB = False, $bSwitchToNV = False, $bSetLog = T
 	If UBound($aResult) > 1 Then ; we have an array with data of images found
 		For $i = 1 To UBound($aResult) - 1  ; loop through array rows
 			$sFilename = $aResult[$i][1] ; Filename
+			Switch StringLower($sFileName)
+				Case "collectgold"
+					If $IsGoldFull Then ContinueLoop
+				Case "collectelix"
+					If $IsElixirFull Then ContinueLoop
+			EndSwitch
 			$aCollectXY = $aResult[$i][5] ; Coords
 			If IsArray($aCollectXY) Then ; found array of locations
 				$t = Random(0, UBound($aCollectXY) - 1, 1) ; SC May 2017 update only need to pick one of each to collect all

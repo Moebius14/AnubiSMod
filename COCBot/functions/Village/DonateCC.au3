@@ -196,7 +196,7 @@ Func DonateCC($bCheckForNewMsg = False)
 
 	;check for new chats first, Every fith time skip this to just check a little bit more frequent
 	If ($bCheckForNewMsg And Random(0, 3, 1) < 3) Then
-		If Not _ColorCheck(_GetPixelColor(26, 312 + $g_iMidOffsetY, True), Hex(0xf00810, 6), 20) Then Return ;exit if no new chats
+		If Not _ColorCheck(_GetPixelColor(26, 312 + $g_iMidOffsetY, True), Hex(0xF00810, 6), 20) Then Return ;exit if no new chats
 	EndIf
 
 	; check if donate queued troops & spells only
@@ -257,7 +257,7 @@ Func DonateCC($bCheckForNewMsg = False)
 	If $g_iCommandStop <> 0 And $g_iCommandStop <> 3 Then SetLog("Checking for Donate Requests in Clan Chat", $COLOR_INFO)
 
 	Local $iTimer
-	Local $sSearchArea, $aiSearchArray[4] = [240, 90, 320, 680]
+	Local $sSearchArea, $aiSearchArray[4] = [240, 90, 330, 680]
 	Local $aiDonateButton
 
 	While $bDonate
@@ -305,7 +305,7 @@ Func DonateCC($bCheckForNewMsg = False)
 					For $i = 0 To UBound($Alphabets) - 1
 						If $i = 0 Then
 							; Line 3 to 1
-							Local $aCoordinates[3] = [89, 72, 55] ; Extra coordinates for Latin (3 Lines)
+							Local $aCoordinates[3] = [80, 73, 46] ; Extra coordinates for Latin (3 Lines)
 							Local $OcrName = ($Alphabets[$i] = True) ? ("coc-latin-cyr") : ("coc-latinA")
 							Local $log = "Latin"
 							If $Alphabets[$i] Then $log = $TextAlphabetsNames[$i]
@@ -322,7 +322,7 @@ Func DonateCC($bCheckForNewMsg = False)
 								If $ClanString <> "" Then $BlankSpaces = " "
 							Next
 						Else
-							Local $Yaxis[3] = [62, 61, 65] ; "Chinese", "Korean", "Persian"
+							Local $Yaxis[3] = [53, 52, 56] ; "Chinese", "Korean", "Persian"
 							If $Alphabets[$i] Then
 								If $ClanString = "" Or $ClanString = " " Then
 									SetLog("Using OCR to read " & $TextAlphabetsNames[$i] & " alphabets.", $COLOR_ACTION)
@@ -1177,18 +1177,18 @@ Func RemainingCCcapacity($aiDonateButton)
 	;Button Image is a little bit lower than the Capacity Numbers, adjusting for all here
 	$aiDonateButton[1] -= 10
 
-	$sCapTroops = getOcrSpaceCastleDonate(56, $aiDonateButton[1])
+	$sCapTroops = getOcrSpaceCastleDonate(61, $aiDonateButton[1])
 	Local $IsWoSiege = StringRight($sCapTroops, 1)
 	If StringInStr($sCapTroops, "#") And $IsWoSiege <> "#" Then ;CC got Troops & Spells & Siege Machine
-		$sCapSpells = $bDonateSpell ? getOcrSpaceCastleDonateShort(138, $aiDonateButton[1]) : -1
-		$sCapSiegeMachine = $bDonateSiege ? getOcrSpaceCastleDonateShort(197, $aiDonateButton[1]) : -1
+		$sCapSpells = $bDonateSpell ? getOcrSpaceCastleDonateShort(142, $aiDonateButton[1]) : -1
+		$sCapSiegeMachine = $bDonateSiege ? getOcrSpaceCastleDonateShort(202, $aiDonateButton[1]) : -1
 	Else
-		$sCapTroops = getOcrSpaceCastleDonate(79, $aiDonateButton[1])
+		$sCapTroops = getOcrSpaceCastleDonate(84, $aiDonateButton[1])
 		If StringRegExp($sCapTroops, "#([0-9]{2})") = 1 Then ; CC got Troops & Spells
-			$sCapSpells = $bDonateSpell ? getOcrSpaceCastleDonateShort(195, $aiDonateButton[1]) : -1
+			$sCapSpells = $bDonateSpell ? getOcrSpaceCastleDonateShort(200, $aiDonateButton[1]) : -1
 			$sCapSiegeMachine = -1
 		Else
-			$sCapTroops = getOcrSpaceCastleDonate(79, $aiDonateButton[1]) ; CC got Troops Only ?
+			$sCapTroops = getOcrSpaceCastleDonate(84, $aiDonateButton[1]) ; CC got Troops Only ?
 			$sCapSpells = -1
 			$sCapSiegeMachine = -1
 		EndIf
