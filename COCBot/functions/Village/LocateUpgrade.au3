@@ -126,7 +126,7 @@ Func LocateUpgrades()
 					SetLog("Impossible value (" & $MsgBox & ") from Msgbox, you have been a bad programmer!", $COLOR_DEBUG)
 			EndSwitch
 
-			ClickAway()
+			ClearScreen()
 
 		Next
 		ExitLoop
@@ -182,7 +182,7 @@ Func UpgradeValue($inum, $bRepeat = False) ;function to find the value and type 
 	Local $bOopsFlag = False
 
 	If $bRepeat Or $g_abUpgradeRepeatEnable[$inum] Then ; check for upgrade in process when continiously upgrading
-		ClickAway()
+		ClearScreen()
 		If _Sleep($DELAYUPGRADEVALUE1) Then Return
 		BuildingClick($g_avBuildingUpgrades[$inum][0], $g_avBuildingUpgrades[$inum][1]) ;Select upgrade trained
 		If _Sleep($DELAYUPGRADEVALUE4) Then Return
@@ -191,7 +191,7 @@ Func UpgradeValue($inum, $bRepeat = False) ;function to find the value and type 
 		If StringInStr($g_avBuildingUpgrades[$inum][4], "collect", $STR_NOCASESENSEBASIC) Or _
 				StringInStr($g_avBuildingUpgrades[$inum][4], "mine", $STR_NOCASESENSEBASIC) Or _
 				StringInStr($g_avBuildingUpgrades[$inum][4], "drill", $STR_NOCASESENSEBASIC) Then
-			ClickAway()
+			ClearScreen()
 			If _Sleep($DELAYUPGRADEVALUE1) Then Return
 			BuildingClick($g_avBuildingUpgrades[$inum][0], $g_avBuildingUpgrades[$inum][1]) ;Select collector upgrade trained
 			If _Sleep($DELAYUPGRADEVALUE4) Then Return
@@ -206,7 +206,7 @@ Func UpgradeValue($inum, $bRepeat = False) ;function to find the value and type 
 				SetLog("Pixel Color #1: " & _GetPixelColor($ButtonPixel[0], $ButtonPixel[1], True) & ", #2: " & _GetPixelColor($ButtonPixel[0] + 39, $ButtonPixel[1] + 19, True) & ", #3: " & _GetPixelColor($ButtonPixel[0] + 68, $ButtonPixel[1] + 34, True) & ", #4: " & _GetPixelColor($ButtonPixel[0] + 81, $ButtonPixel[1], True), $COLOR_DEBUG)
 			EndIf
 			SetLog("Selection #" & $inum + 1 & " Upgrade in process - Skipped!", $COLOR_WARNING)
-			ClickAway()
+			ClearScreen()
 			Return False
 		EndIf
 	Else ; If upgrade not in process
@@ -223,7 +223,7 @@ Func UpgradeValue($inum, $bRepeat = False) ;function to find the value and type 
 		GUICtrlSetData($g_hTxtUpgradeTime[$inum], "") ; Set GUI time to match $g_avBuildingUpgrades variable
 		$g_avBuildingUpgrades[$inum][7] = "" ; Clear upgrade end date/time if run before
 		GUICtrlSetData($g_hTxtUpgradeEndTime[$inum], "") ; Set GUI time to match $g_avBuildingUpgrades variable
-		ClickAway()
+		ClearScreen()
 		SetLog("-$Upgrade #" & $inum + 1 & " Location =  " & "(" & $g_avBuildingUpgrades[$inum][0] & "," & $g_avBuildingUpgrades[$inum][1] & ")", $COLOR_DEBUG1) ;Debug
 		If _Sleep($DELAYUPGRADEVALUE1) Then Return
 		BuildingClick($g_avBuildingUpgrades[$inum][0], $g_avBuildingUpgrades[$inum][1], "#0212") ;Select upgrade trained
@@ -309,7 +309,7 @@ Func UpgradeValue($inum, $bRepeat = False) ;function to find the value and type 
 					GUICtrlSetState($g_hChkUpgrade[$inum], $GUI_UNCHECKED) ; Change upgrade selection box to unchecked
 					$g_avBuildingUpgrades[$inum][7] = "" ; Clear upgrade end date/time if run before
 					GUICtrlSetData($g_hTxtUpgradeEndTime[$inum], "") ; Set GUI time to match $g_avBuildingUpgrades variable
-					ClickAway()
+					CloseWindow()
 					Return False
 				EndIf
 
@@ -347,10 +347,10 @@ Func UpgradeValue($inum, $bRepeat = False) ;function to find the value and type 
 				If $g_avBuildingUpgrades[$inum][6] <> "" Then $g_avBuildingUpgrades[$inum][7] = "" ; Clear old upgrade end time
 
 			Case Else
-				If isGemOpen(True) Then ClickAway()
+				isGemOpen(True)
 				SetLog("Selected Upgrade Window Opening Error, try again", $COLOR_ERROR)
 				ClearUpgradeInfo($inum) ; clear upgrade information
-				ClickAway()
+				CloseWindow()
 				Return False
 
 		EndSelect
@@ -398,7 +398,7 @@ Func UpgradeValue($inum, $bRepeat = False) ;function to find the value and type 
 			SetLog("Error finding loot info " & $inum & ", Loot = " & $g_avBuildingUpgrades[$inum][2] & ", Type= " & $g_avBuildingUpgrades[$inum][3], $COLOR_ERROR)
 			$g_avBuildingUpgrades[$inum][0] = -1 ; Clear upgrade location value as it is invalid
 			$g_avBuildingUpgrades[$inum][1] = -1 ; Clear upgrade location value as it  is invalid
-			ClickAway()
+			CloseWindow()
 			Return False
 		EndIf
 		SetLog("Upgrade #" & $inum + 1 & " Value = " & _NumberFormat($g_avBuildingUpgrades[$inum][2]) & " " & $g_avBuildingUpgrades[$inum][3], $COLOR_INFO) ; debug & document cost of upgrade
@@ -409,11 +409,11 @@ Func UpgradeValue($inum, $bRepeat = False) ;function to find the value and type 
 		ElseIf $g_abUpgradeRepeatEnable[$inum] = True Then
 			SetLog("Repeat upgrade problem - will retry value update later", $COLOR_ERROR)
 		EndIf
-		ClickAway()
+		CloseWindow()
 		Return False
 	EndIf
 
-	ClickAway()
+	CloseWindow()
 
 	; Update GUI with new values
 	Switch $g_avBuildingUpgrades[$inum][3] ;Set GUI Upgrade Type to match $g_avBuildingUpgrades variable
@@ -430,8 +430,7 @@ Func UpgradeValue($inum, $bRepeat = False) ;function to find the value and type 
 	GUICtrlSetData($g_hTxtUpgradeTime[$inum], StringStripWS($g_avBuildingUpgrades[$inum][6], $STR_STRIPALL)) ; Set GUI time to match $g_avBuildingUpgrades variable
 	GUICtrlSetData($g_hTxtUpgradeEndTime[$inum], $g_avBuildingUpgrades[$inum][7]) ; Set GUI time to match $g_avBuildingUpgrades variable
 
-	_Sleep(1500)
-	ClickAway()
+	If _Sleep(1000) Then Return
 	Return True
 
 EndFunc   ;==>UpgradeValue

@@ -80,7 +80,8 @@ Func getArmyTroops($bOpenArmyWindow = False, $bCloseArmyWindow = False, $bCheckW
 	Next
 
 	If $bCloseArmyWindow Then
-		ClickAway()
+		CloseWindow()
 		If _Sleep($DELAYCHECKARMYCAMP4) Then Return
 	EndIf
+
 EndFunc   ;==>getArmyTroops

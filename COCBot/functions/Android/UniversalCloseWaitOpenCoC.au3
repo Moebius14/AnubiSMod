@@ -23,7 +23,7 @@ Func UniversalCloseWaitOpenCoC($iWaitTime = 0, $sSource = "Unknown", $StopEmulat
 
 	Local $sWaitTime = ""
 	Local $iMin, $iSec, $iHour, $iWaitSec, $StopAndroidFlag
-	
+
 	If $iWaitTime > 0 Then
 		; create readable wait time message for user/log
 		$iWaitSec = Round($iWaitTime / 1000)
@@ -37,44 +37,44 @@ Func UniversalCloseWaitOpenCoC($iWaitTime = 0, $sSource = "Unknown", $StopEmulat
 	Local $msg = ""
 	Select ; error check input parameter and set $StopAndroidFlag
 		Case StringInStr($StopEmulator, "rand", $STR_NOCASESENSEBASIC)
-		If $g_idRadio_RandomMod = 1 Then ; Mod Close COC/Time Out
-			Local $RandomStopModAction = Random(1, 100, 1)
-			If $RandomStopModAction < $g_iRandomCloseOptionPercent Then ; If Close COC % is in Then $StopAndroidFlag = 1
-				$StopAndroidFlag = 1
-			Else
-				$StopAndroidFlag = 0
-			EndIf
-			Switch $StopAndroidFlag
-				Case 0
-					$msg = " =Time out"
-				Case 1
+			If $g_idRadio_RandomMod = 1 Then ; Mod Close COC/Time Out
+				Local $RandomStopModAction = Random(1, 99, 1)
+				If $RandomStopModAction <= $g_iRandomCloseOptionPercent Then ; If Close COC % is in Then $StopAndroidFlag = 1
+					$StopAndroidFlag = 1
+				Else
+					$StopAndroidFlag = 0
+				EndIf
+				Switch $StopAndroidFlag
+					Case 0
+						$msg = " =Time out"
+					Case 1
+						$msg = " =Close CoC"
+					Case Else
+						$msg = "One Bad Monkey Error!"
+				EndSwitch
+				If $iWaitTime < (10 * 60 * 1000) Then ;If Time < 10 minutes : Close, no Time out
+					$StopAndroidFlag = 1
 					$msg = " =Close CoC"
-				Case Else
-					$msg = "One Bad Monkey Error!"
-			EndSwitch
-			If $iWaitTime < (10 * 60 * 1000) Then;If Time < 10 minutes : Close, no Time out
-				$StopAndroidFlag = 1
-				$msg = " =Close CoC"
-			EndIf
-			SetLog("Random close option= " & $StopAndroidFlag & $msg, $COLOR_SUCCESS)
-		ElseIf $g_idRadio_RandomClassic = 1 Then ; Classic Behaviour
-			$StopAndroidFlag = Random(0, 2, 1) ; Determine random close emulator flag value
-			Switch $StopAndroidFlag
-				Case 0
-					$msg = " =Time out"
-				Case 1
+				EndIf
+				SetLog("Random close option= " & $StopAndroidFlag & $msg, $COLOR_SUCCESS)
+			ElseIf $g_idRadio_RandomClassic = 1 Then ; Classic Behaviour
+				$StopAndroidFlag = Random(0, 2, 1) ; Determine random close emulator flag value
+				Switch $StopAndroidFlag
+					Case 0
+						$msg = " =Time out"
+					Case 1
+						$msg = " =Close CoC"
+					Case 2
+						$msg = " =Close Android"
+					Case Else
+						$msg = "One Bad Monkey Error!"
+				EndSwitch
+				If $iWaitTime < (10 * 60 * 1000) Then ;If Time < 10 minutes : Close
+					$StopAndroidFlag = 1
 					$msg = " =Close CoC"
-				Case 2
-					$msg = " =Close Android"
-				Case Else
-					$msg = "One Bad Monkey Error!"
-			EndSwitch
-			If $iWaitTime < (10 * 60 * 1000) Then;If Time < 10 minutes : Close
-				$StopAndroidFlag = 1
-				$msg = " =Close CoC"
+				EndIf
+				SetLog("Random close option= " & $StopAndroidFlag & $msg, $COLOR_SUCCESS)
 			EndIf
-			SetLog("Random close option= " & $StopAndroidFlag & $msg, $COLOR_SUCCESS)
-		EndIf
 		Case StringInStr($StopEmulator, "idle", $STR_NOCASESENSEBASIC)
 			$StopAndroidFlag = 0
 		Case $StopEmulator = False
@@ -194,4 +194,4 @@ Func SuspendComputer($iMilliseconds)
 	SetLog("Cannot set computer wakeup time, error: " & @error & ", extended: " & @extended, $COLOR_ERROR)
 	Return False
 
-EndFunc
+EndFunc   ;==>SuspendComputer

@@ -86,14 +86,6 @@ Func chkDisableNotifications()
 	$g_bDisableNotifications = (GUICtrlRead($g_hChkDisableNotifications) = $GUI_CHECKED)
 EndFunc   ;==>chkDisableNotifications
 
-Func chkUseRandomClick()
-	$g_bUseRandomClick = (GUICtrlRead($g_hChkUseRandomClick) = $GUI_CHECKED)
-EndFunc   ;==>chkUseRandomClick
-#cs
-	Func chkUpdatingWhenMinimized()
-	$g_bUpdatingWhenMinimized = (GUICtrlRead($g_hChkUpdatingWhenMinimized) = $GUI_CHECKED)
-	EndFunc   ;==>chkUpdatingWhenMinimized
-#ce
 Func chkHideWhenMinimized()
 	$g_bHideWhenMinimized = (GUICtrlRead($g_hChkHideWhenMinimized) = $GUI_CHECKED)
 	TrayItemSetState($g_hTiHide, ($g_bHideWhenMinimized = 1 ? $TRAY_CHECKED : $TRAY_UNCHECKED))

@@ -21,6 +21,8 @@
 
 Func TrainClick($iX, $iY, $iTimes, $iSpeed, $aWatchSpot, $sdebugtxt, $TypeTroops)
 	If IsTrainPage() Then
+		Local $StartiSpeed = $iSpeed
+		$iSpeed = Random($iSpeed - $RandomClickTrainAddTimeMin, $iSpeed + $RandomClickTrainAddTimeMax, 1)
 		If $g_bDebugClick Then
 			Local $txt = _DecodeDebug($sdebugtxt)
 			SetLog("TrainClick(" & $iX & "," & $iX & "," & $iTimes & "," & $iSpeed & "," & $sdebugtxt & $txt & "," & $TypeTroops & ")", $COLOR_DEBUG)
@@ -55,7 +57,9 @@ Func TrainClick($iX, $iY, $iTimes, $iSpeed, $aWatchSpot, $sdebugtxt, $TypeTroops
 							; Detected the gray [i] and will exit and return
 							ExitLoop
 						EndIf
-						PureClick($iX, $iY) ;Click once.
+						$iSpeed = Random($StartiSpeed - $RandomClickTrainAddTimeMin, $StartiSpeed + $RandomClickTrainAddTimeMax, 1)
+						PureClickTrain($iX, $iY, 1, $iSpeed) ;Click once.
+						$iSpeed = Random($StartiSpeed - $RandomClickTrainAddTimeMin, $StartiSpeed + $RandomClickTrainAddTimeMax, 1)
 						If _Sleep($iSpeed, False) Then ExitLoop
 					Next
 				Else
@@ -66,7 +70,11 @@ Func TrainClick($iX, $iY, $iTimes, $iSpeed, $aWatchSpot, $sdebugtxt, $TypeTroops
 						If $g_bDebugClick Or $g_bDebugSetlogTrain Then SetLog("Camp is full", $COLOR_DEBUG)
 						Return ; Check to see if barrack full
 					EndIf
-					PureClick($iX, $iY, $iTimes, $iSpeed) ;Click $iTimes.
+					For $i = 0 To ($iTimes - 1)
+						$iSpeed = Random($StartiSpeed - $RandomClickTrainAddTimeMin, $StartiSpeed + $RandomClickTrainAddTimeMax, 1)
+						PureClickTrain($iX, $iY, 1, $iSpeed) ;Click $iTimes.
+						$iSpeed = Random($StartiSpeed - $RandomClickTrainAddTimeMin, $StartiSpeed + $RandomClickTrainAddTimeMax, 1)
+					Next
 					If _Sleep($iSpeed, False) Then Return
 				EndIf
 			EndIf
@@ -80,8 +88,9 @@ Func TrainClick($iX, $iY, $iTimes, $iSpeed, $aWatchSpot, $sdebugtxt, $TypeTroops
 				If $g_bDebugClick Or $g_bDebugSetlogTrain Then SetLog("Camp is FULL", $COLOR_DEBUG)
 				Return ; Check to see if barrack full
 			EndIf
-			PureClick($iX, $iY)
-
+			$iSpeed = Random($StartiSpeed - $RandomClickTrainAddTimeMin, $StartiSpeed + $RandomClickTrainAddTimeMax, 1)
+			PureClickTrain($iX, $iY, 1, $iSpeed)
+			$iSpeed = Random($StartiSpeed - $RandomClickTrainAddTimeMin, $StartiSpeed + $RandomClickTrainAddTimeMax, 1)
 			If _Sleep($iSpeed, False) Then Return
 		EndIf
 		Return True

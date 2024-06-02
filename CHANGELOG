@@ -60,6 +60,10 @@
 * Improved Super Troops Count OCR in Army Overview.
 * Improved Egypt and Magic Scenery Zoom Out.
 * Fixed donation (COC 16.253.25)
+* Added Spiky Ball equipment support.
+* Fixed CC Sieges Removing array issue.
+* Added Football scenery support (Attack Only).
+* Added Pressure and zoom out script randomization (Minitouch).
 
 * v8.1.6 **
 * Added "Before you upgrade" window support.

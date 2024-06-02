@@ -15,7 +15,7 @@
 ; ===============================================================================================================================
 
 Func VillageReport($bBypass = False, $bSuppressLog = False)
-	ClickAway()
+	ClearScreen()
 	If _Sleep($DELAYVILLAGEREPORT1) Then Return
 
 	Switch $bBypass

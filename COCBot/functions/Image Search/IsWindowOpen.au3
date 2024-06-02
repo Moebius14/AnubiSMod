@@ -152,3 +152,25 @@ Func CloseWindow2($iLoopCount = 5, $iDelay = 200, $aSearchArea = Default, $bDebu
 
 	Return False
 EndFunc   ;==>CloseWindow2
+
+Func ClearScreen($Area = "Defaut", $MainVillage = True)
+	Local $IsGrayed = False
+	If $MainVillage Then
+		If _CheckPixel($aIsMainGrayed, $g_bCapturePixel) Then $IsGrayed = True
+	Else
+		If _CheckPixel($aIsBuilderBaseGrayed, $g_bCapturePixel) Then $IsGrayed = True
+	EndIf
+	Local $sBuildingText = getNameBuilding(242, 468 + $g_iBottomOffsetY)
+	If $sBuildingText <> "" Or $IsGrayed Then
+		SetDebugLog("Clearing Screen", $COLOR_INFO)
+		Switch $Area
+			Case "Defaut"
+				ClickAway()
+			Case "Left"
+				ClickAway("Left")
+			Case "Right"
+				ClickAway("Right")
+		EndSwitch
+		If _Sleep(1500) Then Return
+	EndIf
+EndFunc   ;==>ClearScreen

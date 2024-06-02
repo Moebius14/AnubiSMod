@@ -114,7 +114,7 @@ Func _ClanGames($test = False, $HaltMode = False)
 	EndIf
 
 	; A user Log and a Click away just in case
-	ClickAway()
+	ClearScreen()
 	SetLog("Entering Clan Games", $COLOR_INFO)
 	If _Sleep(1000) Then Return
 
@@ -1178,7 +1178,7 @@ Func IsEventRunning($bOpenWindow = False)
 	Local $sTempChallengePath = @TempDir & "\" & $g_sProfileCurrentName & "\Challenges\"
 
 	If $bOpenWindow Then
-		ClickAway()
+		ClearScreen()
 		SetLog("Entering Clan Games", $COLOR_INFO)
 		If Not IsClanGamesWindow() Then Return
 	EndIf
@@ -2261,12 +2261,13 @@ Func ClanGamesChallenges($sReturnArray)
 			["SiegeB", "Siege Barrack", 10, 1, "Earn 1-5 Stars from Multiplayer Battles using a Siege Barracks"], _
 			["LogL", "Log Launcher", 10, 1, "Earn 1-5 Stars from Multiplayer Battles using a Log Launcher"]]
 
-	Local $EquipmentChallenges[19][5] = [ _
+	Local $EquipmentChallenges[20][5] = [ _
 			["BarbPuppet", "Barbarian Puppet", 8, 1, "Earn 1-5 Stars from Multiplayer Battles using Barbarian Puppet"], _
 			["RageVial", "Rage Vial", 8, 1, "Earn 1-5 Stars from Multiplayer Battles using Rage Vial"], _
 			["EQBoots", "Earth Quake Boots", 8, 1, "Earn 1-5 Stars from Multiplayer Battles using Earth Quake Boots"], _
 			["Vampstache", "Vampstache", 10, 1, "Earn 1-5 Stars from Multiplayer Battles using Vampstache"], _
 			["Gauntlet", "Giant Gauntlet", 8, 1, "Earn 1-5 Stars from Multiplayer Battles using Giant Gauntlet"], _
+			["SpikyBall", "Spiky Ball", 8, 1, "Earn 1-5 Stars from Multiplayer Battles using Spiky Ball"], _
 			["ArchPuppet", "Archer Puppet", 9, 1, "Earn 1-5 Stars from Multiplayer Battles using Archer Puppet"], _
 			["InvVial", "Invisibility Vial", 9, 1, "Earn 1-5 Stars from Multiplayer Battles using Invisibility Vial"], _
 			["GArrow", "Giant Arrow", 9, 1, "Earn 1-5 Stars from Multiplayer Battles using Giant Arrow"], _

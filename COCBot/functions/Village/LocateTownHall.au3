@@ -31,7 +31,7 @@ Func LocateTownHall($bLocationOnly = False, $bCollect = True)
 		$MsgBox = _ExtMsgBox(0, GetTranslatedFileIni("MBR Popups", "Ok_Cancel", "Ok|Cancel"), GetTranslatedFileIni("MBR Popups", "Func_Locate_TownHall_02", "Locate TownHall"), $sMsgBoxText, 30)
 		If $MsgBox = 1 Then
 			WinGetAndroidHandle()
-			ClickAway()
+			ClearScreen()
 			Local $aPos = FindPos()
 			$g_aiTownHallPos[0] = $aPos[0]
 			$g_aiTownHallPos[1] = $aPos[1]
@@ -56,14 +56,14 @@ Func LocateTownHall($bLocationOnly = False, $bCollect = True)
 						SetLog(" Operator Error - Bad Townhall Location: " & "(" & $g_aiTownHallPos[0] & "," & $g_aiTownHallPos[1] & ")", $COLOR_ERROR)
 						$g_aiTownHallPos[0] = -1
 						$g_aiTownHallPos[1] = -1
-						ClickAway()
+						ClearScreen()
 						Return False
 				EndSelect
 			EndIf
 			SetLog("Townhall: " & "(" & $g_aiTownHallPos[0] & "," & $g_aiTownHallPos[1] & ")", $COLOR_SUCCESS)
 		Else
 			SetLog("Locate TownHall Cancelled", $COLOR_INFO)
-			ClickAway()
+			ClearScreen()
 			Return
 		EndIf
 		If Not $bLocationOnly Then
@@ -92,7 +92,7 @@ Func LocateTownHall($bLocationOnly = False, $bCollect = True)
 						SetLog("Quit joking, Click on the TH, or restart bot and try again", $COLOR_ERROR)
 						$g_aiTownHallPos[0] = -1
 						$g_aiTownHallPos[1] = -1
-						ClickAway()
+						ClearScreen()
 						Return False
 				EndSelect
 			Else
@@ -102,6 +102,6 @@ Func LocateTownHall($bLocationOnly = False, $bCollect = True)
 		ExitLoop
 	WEnd
 
-	ClickAway()
+	ClearScreen()
 
 EndFunc   ;==>LocateTownHall

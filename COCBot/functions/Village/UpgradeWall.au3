@@ -27,7 +27,10 @@ Func UpgradeWall()
 
 		SetDebugLog("$g_iFreeBuilderCount:" & $g_iFreeBuilderCount)
 		If $g_iFreeBuilderCount > 0 Then
-			ClickAway()
+			If $g_bUpgradeWallAutoModEnabled Then
+				AutoUpgradeWall($iWallCost)
+				Return
+			EndIf
 			ZoomOut()
 
 			While 1
@@ -53,7 +56,7 @@ Func UpgradeWall()
 				EndIf
 			WEnd
 
-			ClickAway()
+			ClearScreen()
 
 			Switch SkipWallUpgrade($iWallCost)
 				Case "Gold"
@@ -88,7 +91,7 @@ Func UpgradeWall()
 										Return
 									Case "No"
 										SetLog("Upgrade with Gold failed, skipping...", $COLOR_ERROR)
-										ClickAway()
+										CloseWindow()
 										If $g_iHowUseWallRings <> 2 Then Return
 								EndSwitch
 							ElseIf SwitchToNextWallLevel() Then
@@ -109,7 +112,7 @@ Func UpgradeWall()
 										Return
 									Case "No"
 										SetLog("Upgrade with Elixir failed, skipping...", $COLOR_ERROR)
-										ClickAway()
+										CloseWindow()
 										If $g_iHowUseWallRings <> 2 Then Return
 								EndSwitch
 							ElseIf SwitchToNextWallLevel() Then
@@ -134,7 +137,7 @@ Func UpgradeWall()
 												Return
 											Case "No"
 												SetLog("Upgrade with Gold failed, skipping...", $COLOR_ERROR)
-												ClickAway()
+												CloseWindow()
 												If $g_iHowUseWallRings <> 2 Then Return
 										EndSwitch
 									Case "Locked"
@@ -155,7 +158,6 @@ Func UpgradeWall()
 											Return
 										Case "No"
 											SetLog("Upgrade with Gold failed, skipping...", $COLOR_ERROR)
-											ClickAway()
 											If $g_iHowUseWallRings <> 2 Then Return
 									EndSwitch
 								ElseIf SwitchToNextWallLevel() Then
@@ -174,7 +176,7 @@ Func UpgradeWall()
 					Click(820, 40, 1, 0, "#0315") ; Close it
 				EndIf
 
-				ClickAway()
+				ClearScreen()
 				VillageReport(True, True)
 
 				Switch SkipWallUpgrade($iWallCost)
@@ -197,10 +199,9 @@ Func UpgradeWall()
 							If imglocCheckWall() Then
 								Switch WallRings()
 									Case "WRUsed"
-										ClickAway()
 										ContinueLoop
 									Case "NoButton"
-										ClickAway()
+										ClearScreen()
 										Return
 									Case "Cancel", "Locked", "NotEnough"
 										CloseWindow()
@@ -223,7 +224,7 @@ Func UpgradeWall()
 
 			WEnd
 
-			ClickAway()
+			ClearScreen()
 		Else
 			SetLog("No free builder, Upgrade Walls skipped..", $COLOR_DEBUG1)
 		EndIf
@@ -241,10 +242,9 @@ Func UseWallRingsWOU()
 			If imglocCheckWall() Then
 				Switch WallRings()
 					Case "WRUsed"
-						ClickAway()
 						ContinueLoop
 					Case "NoButton"
-						ClickAway()
+						ClearScreen()
 						Return
 					Case "Cancel", "Locked", "NotEnough"
 						CloseWindow()
@@ -260,7 +260,7 @@ Func UseWallRingsWOU()
 			ExitLoop
 		EndIf
 	WEnd
-	ClickAway()
+	ClearScreen()
 EndFunc   ;==>UseWallRingsWOU
 
 
@@ -285,7 +285,7 @@ Func UpgradeWallGold($iWallCost = $g_iWallCost)
 	If _ColorCheck(_GetPixelColor(800, 88 + $g_iMidOffsetY, True), Hex(0xF38E8E, 6), 20) Then ; wall upgrade window red x
 
 		If Not IsUpgradeWallsPossible() Then
-			ClickAway()
+			CloseWindow()
 			Return "Locked"
 		EndIf
 
@@ -293,19 +293,18 @@ Func UpgradeWallGold($iWallCost = $g_iWallCost)
 			SetLog("Upgrade stopped due no loot", $COLOR_ERROR)
 			Return "No"
 		EndIf
-		Click(620, 540 + $g_iMidOffsetY, 1, 0, "#0317")
+		Click(620, 540 + $g_iMidOffsetY, 1, 150, "#0317")
 		If _Sleep(1000) Then Return
 		If isGemOpen(True) Then
-			ClickAway()
 			SetLog("Upgrade stopped due no loot", $COLOR_ERROR)
 			Return "No"
 		ElseIf _ColorCheck(_GetPixelColor(800, 88 + $g_iMidOffsetY, True), Hex(0xF38E8E, 6), 20) Then ; wall upgrade window red x, didnt closed on upgradeclick, so not able to upgrade
-			ClickAway()
+			CloseWindow()
 			SetLog("unable to upgrade", $COLOR_ERROR)
 			Return "No"
 		Else
 			If _Sleep($DELAYUPGRADEWALLGOLD3) Then Return
-			ClickAway()
+			ClearScreen()
 			SetLog("Upgrade complete", $COLOR_SUCCESS)
 			PushMsg("UpgradeWithGold")
 			$g_iNbrOfWallsUppedGold += 1
@@ -316,7 +315,7 @@ Func UpgradeWallGold($iWallCost = $g_iWallCost)
 		EndIf
 	EndIf
 
-	ClickAway()
+	ClearScreen()
 	SetLog("No Upgrade Gold Button", $COLOR_ERROR)
 	Pushmsg("NowUpgradeGoldButton")
 	Return "No"
@@ -344,7 +343,7 @@ Func UpgradeWallElixir($iWallCost)
 	If _ColorCheck(_GetPixelColor(800, 88 + $g_iMidOffsetY, True), Hex(0xF38E8E, 6), 20) Then ; wall upgrade window red x
 
 		If Not IsUpgradeWallsPossible() Then
-			ClickAway()
+			CloseWindow()
 			Return "Locked"
 		EndIf
 
@@ -352,19 +351,18 @@ Func UpgradeWallElixir($iWallCost)
 			SetLog("Upgrade stopped due to insufficient loot", $COLOR_ERROR)
 			Return "No"
 		EndIf
-		Click(620, 540 + $g_iMidOffsetY, 1, 0, "#0317")
+		Click(620, 540 + $g_iMidOffsetY, 1, 150, "#0317")
 		If _Sleep(1000) Then Return
 		If isGemOpen(True) Then
-			ClickAway()
 			SetLog("Upgrade stopped due to insufficient loot", $COLOR_ERROR)
 			Return "No"
 		ElseIf _ColorCheck(_GetPixelColor(800, 88 + $g_iMidOffsetY, True), Hex(0xF38E8E, 6), 20) Then ; wall upgrade window red x, didnt closed on upgradeclick, so not able to upgrade
-			ClickAway()
+			CloseWindow()
 			SetLog("unable to upgrade", $COLOR_ERROR)
 			Return "No"
 		Else
 			If _Sleep($DELAYUPGRADEWALLELIXIR3) Then Return
-			ClickAway()
+			ClearScreen()
 			SetLog("Upgrade complete", $COLOR_SUCCESS)
 			PushMsg("UpgradeWithElixir")
 			$g_iNbrOfWallsUppedElixir += 1
@@ -375,7 +373,7 @@ Func UpgradeWallElixir($iWallCost)
 		EndIf
 	EndIf
 
-	ClickAway()
+	ClearScreen()
 	SetLog("No Upgrade Elixir Button", $COLOR_ERROR)
 	Pushmsg("NowUpgradeElixirButton")
 	Return "No"
@@ -599,7 +597,7 @@ Func WallRings()
 			_FileWriteLog($g_sProfileLogsPath & "\ModLog.log", " [" & $g_sProfileCurrentName & "] - Wall Upgrade " & $ActionForModLog)
 			$g_iNbrOfWallsUpped += 1
 			If _Sleep(1000) Then Return
-			ClickAway()
+			ClearScreen()
 			Return "WRUsed"
 		Else
 			SetLog("Not Enough Wall Rings To Upgrade Wall", $COLOR_DEBUG) ; Should never happens
@@ -635,3 +633,207 @@ Func IsUpgradeWallsPossible()
 	EndIf
 	Return True
 EndFunc   ;==>IsUpgradeWallsPossible
+
+Func AutoUpgradeWall($iWallCost)
+
+	Local $MinWallGold = Number($g_aiCurrentLoot[$eLootGold] - $iWallCost) >= Number($g_iUpgradeWallMinGold) ; Check if enough Gold
+	Local $MinWallElixir = Number($g_aiCurrentLoot[$eLootElixir] - $iWallCost) >= Number($g_iUpgradeWallMinElixir) ; Check if enough Elixir
+
+	If Not $MinWallGold And Not $MinWallElixir Then
+		SetLog("Skip Auto Wall upgrade - insufficient gold and elixir", $COLOR_WARNING)
+		Return
+	EndIf
+
+	SetLog("--Auto Mode--", $COLOR_ACTION)
+	Local $iLoopAmount = 0
+	Local $iLoopMax = 8
+	Local $UpWindowOpen = False
+
+	While 1
+
+		$iLoopAmount += 1
+		If $iLoopAmount >= $iLoopMax Then ExitLoop ; 8 loops max, to avoid infinite loop
+
+		If $iLoopAmount > 1 Then
+			If _Sleep($DELAYAUTOUPGRADEBUILDING1) Then Return
+		EndIf
+
+		$UpWindowOpen = False
+
+		; check if builder head is clickable
+		Local $g_iBuilderMenu = _PixelSearch(381, 13, 384, 15, Hex(0xF5F5ED, 6), 20)
+		If Not IsArray($g_iBuilderMenu) Then
+			SetLog("Unable to find the Builder menu button... Exiting Auto Upgrade...", $COLOR_ERROR)
+			ExitLoop
+		EndIf
+
+		; open the builders menu
+		If Not IsBuilderMenuOpen() Then ClickMainBuilder()
+		If _Sleep($DELAYAUTOUPGRADEBUILDING1) Then Return
+
+		; search for ressource images in builders menu, if found, a possible upgrade is available
+		Local $aTmpCoord
+		Local $IsElix = False
+		$aTmpCoord = QuickMIS("CNX", $g_sImgResourceIcon, 410, $g_iNextLineOffset, 550, 370 + $g_iMidOffsetY)
+		_ArraySort($aTmpCoord, 0, 0, 0, 2) ;sort by Y coord
+		If IsArray($aTmpCoord) And UBound($aTmpCoord) > 0 Then
+			$g_iNextLineOffset = $aTmpCoord[0][2] + 14
+			If QuickMIS("BC1", $g_sImgAUpgradeZero, $aTmpCoord[0][1], $aTmpCoord[0][2] - 8, $aTmpCoord[0][1] + 100, $aTmpCoord[0][2] + 7) Then
+				SetLog("Possible upgrade found !", $COLOR_SUCCESS)
+				If $aTmpCoord[0][0] = "Elix" Then $IsElix = True
+			Else
+				SetLog("Not Enough Ressource, looking next...", $COLOR_INFO)
+				ContinueLoop
+			EndIf
+		Else
+			SetLog("No more wall upgrade available... Exiting ...", $COLOR_INFO)
+			ExitLoop
+		EndIf
+
+		; if it's an upgrade, will click on the upgrade, in builders menu
+		Click($aTmpCoord[0][1] + 20, $aTmpCoord[0][2])
+		If _Sleep($DELAYAUTOUPGRADEBUILDING1) Then Return
+
+		$g_aUpgradeNameLevel = BuildingInfo(242, 468 + $g_iBottomOffsetY)
+		Local $aUpgradeButton
+
+		; check if any wrong click by verifying the presence of the Upgrade button (the hammer)
+		$aUpgradeButton = findButton("Upgrade", Default, 1, True)
+
+		If Not (IsArray($aUpgradeButton) And UBound($aUpgradeButton, 1) = 2) Then
+			SetLog("No upgrade here... Wrong click, looking next...", $COLOR_WARNING)
+			ContinueLoop
+		EndIf
+
+		;Wall & Double Button Case
+		If $g_aUpgradeNameLevel[1] = "Wall" Then
+			Select
+				Case $IsElix
+					If UBound(decodeSingleCoord(FindImageInPlace2("UpgradeButton2", $g_sImgUpgradeBtn2Wall, $aUpgradeButton[0] + 65, $aUpgradeButton[1] - 20, _
+							$aUpgradeButton[0] + 140, $aUpgradeButton[1] + 20, True))) > 1 Then $aUpgradeButton[0] += 94
+					SetDebugLog("Resource check passed", $COLOR_DEBUG)
+					ClickP($aUpgradeButton)
+					If _Sleep($DELAYAUTOUPGRADEBUILDING1) Then Return
+					Local $bWallElixCost = getCostsUpgrade(552, 541 + $g_iMidOffsetY) ; get cost
+					If $bWallElixCost = "" Then $bWallElixCost = getCostsUpgrade(552, 532 + $g_iMidOffsetY) ; Try to get yellow cost (Discount)
+					If $g_aiCurrentLoot[$eLootElixir] < ($bWallElixCost + $g_iUpgradeWallMinElixir) Then
+						SetLog("Insufficent Elixir to upgrade wall, checking Gold", $COLOR_WARNING)
+						CloseWindow2()
+						If _Sleep($DELAYAUTOUPGRADEBUILDING1) Then Return
+						ContinueLoop
+					Else
+						$UpWindowOpen = True
+					EndIf
+				Case Not $IsElix
+					SetDebugLog("Resource check passed", $COLOR_DEBUG)
+					ClickP($aUpgradeButton)
+					If _Sleep($DELAYAUTOUPGRADEBUILDING1) Then Return
+					Local $bWallGoldCost = getCostsUpgrade(552, 541 + $g_iMidOffsetY) ; get cost
+					If $bWallGoldCost = "" Then $bWallGoldCost = getCostsUpgrade(552, 532 + $g_iMidOffsetY) ; Try to get yellow cost (Discount)
+					If $g_aiCurrentLoot[$eLootGold] < ($bWallGoldCost + $g_iUpgradeWallMinGold) Then
+						SetLog("Insufficent Gold to upgrade wall, checking Elixir", $COLOR_WARNING)
+						CloseWindow2()
+						If _Sleep($DELAYAUTOUPGRADEBUILDING1) Then Return
+						ContinueLoop
+					Else
+						$UpWindowOpen = True
+					EndIf
+				Case Else
+					SetDebugLog("Any case above not found ?? Bad programmer !", $COLOR_DEBUG)
+			EndSelect
+		Else
+			ContinueLoop
+		EndIf
+
+		; get the name and actual level of upgrade selected, if strings are empty, will exit Auto Upgrade, an error happens
+		If $g_aUpgradeNameLevel[0] = "" Then
+			SetLog("Error when trying to get upgrade name and level, looking next...", $COLOR_ERROR)
+			ContinueLoop
+		EndIf
+
+		; if upgrade don't have to be ignored, click on the Upgrade button to open Upgrade window
+		If Not $UpWindowOpen Then
+			ClickP($aUpgradeButton)
+			If _Sleep($DELAYAUTOUPGRADEBUILDING1) Then Return
+		EndIf
+
+		$g_aUpgradeResourceCostDuration[0] = QuickMIS("N1", $g_sImgAUpgradeRes, 670, 535 + $g_iMidOffsetY, 700, 565 + $g_iMidOffsetY) ; get resource
+		$g_aUpgradeResourceCostDuration[1] = getCostsUpgrade(552, 541 + $g_iMidOffsetY) ; get cost
+		If $g_aUpgradeResourceCostDuration[1] = "" Then $g_aUpgradeResourceCostDuration[1] = getCostsUpgrade(552, 532 + $g_iMidOffsetY) ; Try to read yellow text (Discount).
+
+		; if one of the value is empty, there is an error, we must exit Auto Upgrade
+		For $i = 0 To 1
+			If $g_aUpgradeResourceCostDuration[$i] = "" Then
+				SaveDebugImage("UpgradeReadError_")
+				SetLog("Error when trying to get wall upgrade details, looking next...", $COLOR_ERROR)
+				CloseWindow2()
+				ContinueLoop 2
+			EndIf
+		Next
+
+		; final click on upgrade button, click coord is get looking at upgrade type (heroes have a different place for Upgrade button)
+		Click(630, 540 + $g_iMidOffsetY)
+
+		If _Sleep(1000) Then Return
+
+		; Upgrade completed : wall upgraded, restart from top.
+		$g_iNextLineOffset = 75
+		$iLoopMax += 1
+
+		; update Logs and History file
+		SetLog("Launched upgrade of " & $g_aUpgradeNameLevel[1] & " to level " & $g_aUpgradeNameLevel[2] + 1 & " successfully !", $COLOR_SUCCESS)
+
+		SetLog(" - Cost : " & _NumberFormat($g_aUpgradeResourceCostDuration[1]) & " " & $g_aUpgradeResourceCostDuration[0], $COLOR_SUCCESS)
+		If $g_aUpgradeNameLevel[1] <> "Wall" Then SetLog(" - Duration : " & $g_aUpgradeResourceCostDuration[2], $COLOR_SUCCESS) ; Wall Case : No Upgrade Time
+
+		;Stats
+		AutoWallsStatsMAJ($g_aUpgradeNameLevel[2])
+		If $g_aUpgradeResourceCostDuration[0] = "Gold" Then
+			$g_iNbrOfWallsUppedGold += 1
+			$g_iCostGoldWall += $g_aUpgradeResourceCostDuration[1]
+		Else
+			$g_iNbrOfWallsUppedElixir += 1
+			$g_iCostElixirWall += $g_aUpgradeResourceCostDuration[1]
+		EndIf
+
+		If $g_iTxtCurrentVillageName <> "" Then
+			GUICtrlSetData($g_hTxtModLog, @CRLF & _NowTime() & " [" & $g_iTxtCurrentVillageName & "] AutoWallUpgrade : " & $g_aUpgradeNameLevel[1] & " to level " & $g_aUpgradeNameLevel[2] + 1, 1)
+		Else
+			GUICtrlSetData($g_hTxtModLog, @CRLF & _NowTime() & " [" & $g_sProfileCurrentName & "] AutoWallUpgrade : " & $g_aUpgradeNameLevel[1] & " to level " & $g_aUpgradeNameLevel[2] + 1, 1)
+		EndIf
+		_FileWriteLog($g_sProfileLogsPath & "\ModLog.log", " [" & $g_sProfileCurrentName & "] - AutoWallUpgrade : " & $g_aUpgradeNameLevel[1] & " to level " & $g_aUpgradeNameLevel[2] + 1)
+
+		If $g_bChkNotifyUpgrade Then
+			Local $text = "Village : " & $g_sNotifyOrigin & "%0A"
+			$text &= "Profile : " & $g_sProfileCurrentName & "%0A"
+			Local $currentDate = Number(@MDAY)
+			$text &= "Auto Upgrade Of " & $g_aUpgradeNameLevel[1] & " Started"
+			NotifyPushToTelegram($text)
+		EndIf
+
+		ClearScreen()
+
+		SpecialVillageReport()
+		$MinWallGold = Number($g_aiCurrentLoot[$eLootGold] - $iWallCost) >= Number($g_iUpgradeWallMinGold) ; Check if enough Gold
+		$MinWallElixir = Number($g_aiCurrentLoot[$eLootElixir] - $iWallCost) >= Number($g_iUpgradeWallMinElixir) ; Check if enough Elixir
+		If Not $MinWallGold And Not $MinWallElixir Then ExitLoop
+
+	WEnd
+
+	If IsBuilderMenuOpen() Then
+		Click(435, 30)
+		If _Sleep(500) Then Return
+	EndIf
+	ClearScreen()
+	If _Sleep(500) Then Return
+
+	; resetting the offset of the lines
+	$g_iNextLineOffset = 75
+
+	SetLog("Auto Wall Upgrade finished", $COLOR_INFO)
+	If _Sleep($DELAYUPGRADEBUILDING2) Then Return
+	VillageReport(True, True)
+	UpdateStats()
+	ZoomOut() ; re-center village
+
+EndFunc   ;==>AutoUpgradeWall

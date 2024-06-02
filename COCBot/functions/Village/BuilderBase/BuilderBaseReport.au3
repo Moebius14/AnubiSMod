@@ -14,7 +14,7 @@
 ; ===============================================================================================================================
 
 Func BuilderBaseReport($bBypass = False, $bSetLog = True)
-	ClickAway()
+	ClearScreen("Defaut", False)
 	If _Sleep($DELAYVILLAGEREPORT1) Then Return
 
 	Switch $bBypass

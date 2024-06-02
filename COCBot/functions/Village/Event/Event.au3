@@ -70,7 +70,7 @@ Func EventRewards()
 		If _Sleep(2500) Then Return
 	Else
 		SetLog("Cannot find Event Button!", $COLOR_ERROR)
-		ClickAway()
+		ClearScreen()
 		Return False
 	EndIf
 
@@ -97,7 +97,7 @@ Func EventRewards()
 		SetDebugLog("Event Window Opened", $COLOR_DEBUG)
 	Else
 		SetLog("Event Window not Found!", $COLOR_ERROR)
-		ClickAway()
+		ClearScreen()
 		Return False
 	EndIf
 
@@ -113,9 +113,9 @@ Func CollectEventRewards()
 	If _Sleep(Random(1000, 3000, 1)) Then Return
 	If Not $g_bRunState Then Return
 
-	Local $offColors[3][3] = [[0xADFFFF, 14, 0], [0x0D0D0D, 17, 25], [0x0D0D0D, 33, 0]] ; 2nd pixel Blue Light Color at center, 3rd pixel Black Bottom color, 4th pixel Black edge of button
-	Local $RightResResource = _MultiPixelSearch(770, 408, 810, 435, 1, 1, Hex(0x101010, 6), $offColors, 40) ; first black pixel on side of button
-	SetDebugLog("Pixel Color #1: " & _GetPixelColor(773, 408, True) & ", #2: " & _GetPixelColor(787, 408, True) & ", #3: " & _GetPixelColor(790, 433, True) & ", #4: " & _GetPixelColor(806, 408, True), $COLOR_DEBUG)
+	Local $offColors[3][3] = [[0xFFFFFF, 2, 0], [0x0D0D0D, 17, 16], [0x0D0D0D, 34, 0]] ; 2nd pixel white Color at Left, 3rd pixel Black Bottom color, 4th pixel black at right
+	Local $RightResResource = _MultiPixelSearch(770, 418, 780, 420, 1, 1, Hex(0x0D0D0D, 6), $offColors, 40) ; first black pixel on side of button
+	SetDebugLog("Pixel Color #1: " & _GetPixelColor(773, 418, True) & ", #2: " & _GetPixelColor(775, 418, True) & ", #3: " & _GetPixelColor(790, 434, True) & ", #4: " & _GetPixelColor(807, 418, True), $COLOR_DEBUG)
 	If IsArray($RightResResource) Then
 		Click(790, 385 + $g_iMidOffsetY)
 		If _Sleep(1500) Then Return
@@ -201,13 +201,13 @@ Func CollectEventRewards()
 				EndIf
 			Next
 		EndIf
-		Local $IsLeftGreenArrow = False
-		Local $offColors[3][3] = [[0xB6E25F, 6, 0], [0x0E0E0E, 13, 15], [0xA8DF4F, 21, 0]] ; 2nd pixel Green Color at Left, 3rd pixel Black Bottom color, 4th pixel Green at right
-		Local $LeftGreenArrow = _MultiPixelSearch(57, 414, 90, 435, 1, 1, Hex(0x171717, 6), $offColors, 40) ; first black pixel on side of button
-		SetDebugLog("Pixel Color #1: " & _GetPixelColor(60, 415, True) & ", #2: " & _GetPixelColor(66, 415, True) & ", #3: " & _GetPixelColor(73, 430, True) & ", #4: " & _GetPixelColor(81, 415, True), $COLOR_DEBUG)
-		If IsArray($LeftGreenArrow) Then $IsLeftGreenArrow = True
+		Local $IsLeftBall = False
+		Local $offColors[3][3] = [[0xFFFFFF, 2, 0], [0x0D0D0D, 17, 16], [0x0D0D0D, 34, 0]] ; 2nd pixel white Color at Left, 3rd pixel Black Bottom color, 4th pixel black at right
+		Local $LeftBall = _MultiPixelSearch(55, 418, 65, 420, 1, 1, Hex(0x0D0D0D, 6), $offColors, 40) ; first black pixel on side of button
+		SetDebugLog("Pixel Color #1: " & _GetPixelColor(58, 418, True) & ", #2: " & _GetPixelColor(60, 418, True) & ", #3: " & _GetPixelColor(75, 434, True) & ", #4: " & _GetPixelColor(92, 418, True), $COLOR_DEBUG)
+		If IsArray($LeftBall) Then $IsLeftBall = True
 
-		If Not _CheckPixel($aEventLeftEdge, $g_bCapturePixel) And $IsLeftGreenArrow Then ; far left edge And no reward at left.
+		If Not _CheckPixel($aEventLeftEdge, $g_bCapturePixel) And $IsLeftBall Then ; far left edge And no reward at left.
 			If $i = 0 Then
 				SetLog("Dragging back for more... ", Default, Default, Default, Default, Default, Default, False) ; no end line
 			Else

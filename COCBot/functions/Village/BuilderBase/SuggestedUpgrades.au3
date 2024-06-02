@@ -170,8 +170,14 @@ Func MainSuggestedUpgradeCode($bDebugImage = $g_bDebugImageSave)
 		WEnd
 
 		SetLog("Exiting Auto Upgrade...", $COLOR_INFO)
-		If _Sleep(1500) Then Return
-		ClickAway("Right")
+
+		If _Sleep(250) Then Return
+		Local $asSearchResult = decodeSingleCoord(FindImageInPlace2("MasterBuilderHead", $g_sImgMasterBuilderHead, 445, 0, 500, 54, True))
+		If IsArray($asSearchResult) And UBound($asSearchResult) = 2 Then
+			If IsArray(_PixelSearch($asSearchResult[0] - 1, $asSearchResult[1] + 53, $asSearchResult[0] + 1, $asSearchResult[1] + 55, Hex(0xFFFFFF, 6), 15, True)) Then ClickP($asSearchResult)
+		EndIf
+		If _Sleep(1000) Then Return
+		ClearScreen("Right", False)
 		If _Sleep(500) Then Return
 		If Not $g_bRunState Then Return
 	EndIf

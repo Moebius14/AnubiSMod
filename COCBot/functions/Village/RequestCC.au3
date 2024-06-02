@@ -48,7 +48,7 @@ Func RequestCC($bClickPAtEnd = True, $sText = "")
 	If Not IsArray($aRequestButton) Then
 		SetLog("Error in RequestCC(): $aRequestButton is no Array")
 		If $g_bDebugImageSave Then SaveDebugImage("RequestButtonStateError")
-		If Not $bClickPAtEnd Then ClickAway()
+		If Not $bClickPAtEnd Then CloseWindow2()
 		Return
 	EndIf
 
@@ -96,7 +96,7 @@ Func RequestCC($bClickPAtEnd = True, $sText = "")
 
 	;exit from army overview
 	If _Sleep($DELAYREQUESTCC1) Then Return
-	If $bClickPAtEnd Then ClickAway()
+	If $bClickPAtEnd Then CloseWindow2()
 
 EndFunc   ;==>RequestCC
 
@@ -269,7 +269,7 @@ Func CheckCCArmy()
 
 	If $bSkipTroop And $bSkipSpell And $bSkipSiege Then Return
 
-	Local $bNeedRemove = False, $aToRemove[9][3] ; 5 troop slots + 3 spell slots + 2 siege slots [X_Coord/Page, Q'ty, X coord For Remove]
+	Local $bNeedRemove = False, $aToRemove[10][3] ; 5 troop slots + 3 spell slots + 2 siege slots [X_Coord/Page, Q'ty, X coord For Remove]
 	Local $aTroopWSlot, $aSpellWSlot, $aSiegeWSlot
 
 	For $i = 0 To 2
@@ -419,7 +419,7 @@ Func RemoveCastleArmy($aToRemove)
 					EndSwitch
 			EndSwitch
 			SetDebugLog(" - Click at slot " & $i & ". (" & $aPos[0] & ") x " & $aToRemove[$i][1])
-			ClickRemoveTroop($aPos, $aToRemove[$i][1], $g_iTrainClickDelayfinal) ; Click on Remove button as much as needed
+			ClickRemoveTroop($aPos, $aToRemove[$i][1], $g_iTrainClickDelay) ; Click on Remove button as much as needed
 		EndIf
 	Next
 

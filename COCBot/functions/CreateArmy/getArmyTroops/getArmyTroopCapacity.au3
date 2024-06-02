@@ -106,7 +106,7 @@ Func getArmyTroopCapacity($bOpenArmyWindow = False, $bCloseArmyWindow = False, $
 	If $g_CurrentCampUtilization >= $g_iTotalCampSpace * $g_aiSearchCampsPct[$LB] / 100 And $g_abSearchCampsEnable[$LB] And IsSearchModeActive($LB) Then $g_bFullArmy = True
 
 	If $bCloseArmyWindow Then
-		ClickAway()
+		CloseWindow()
 		If _Sleep($DELAYCHECKARMYCAMP4) Then Return
 	EndIf
 

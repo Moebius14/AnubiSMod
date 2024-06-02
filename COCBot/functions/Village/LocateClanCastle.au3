@@ -29,7 +29,7 @@ Func LocateClanCastle($bCollect = True)
 		$MsgBox = _ExtMsgBox(0, GetTranslatedFileIni("MBR Popups", "Ok_Cancel", "Ok|Cancel"), GetTranslatedFileIni("MBR Popups", "Func_Locate_Clan_Castle_02", "Locate Clan Castle"), $stext, 15)
 		If $MsgBox = 1 Then
 			WinGetAndroidHandle()
-			ClickAway()
+			ClearScreen()
 			Local $aPos = FindPos()
 			$g_aiClanCastlePos[0] = $aPos[0]
 			$g_aiClanCastlePos[1] = $aPos[1]
@@ -51,20 +51,20 @@ Func LocateClanCastle($bCollect = True)
 						ContinueLoop
 					Case $iStupid > 4
 						SetLog(" Operator Error - Bad Clan Castle Location: " & "(" & $g_aiClanCastlePos[0] & "," & $g_aiClanCastlePos[1] & ")", $COLOR_ERROR)
-						ClickAway()
+						ClearScreen()
 						Return False
 					Case Else
 						SetLog(" Operator Error - Bad Clan Castle Location: " & "(" & $g_aiClanCastlePos[0] & "," & $g_aiClanCastlePos[1] & ")", $COLOR_ERROR)
 						$g_aiClanCastlePos[0] = -1
 						$g_aiClanCastlePos[1] = -1
-						ClickAway()
+						ClearScreen()
 						Return False
 				EndSelect
 			EndIf
 			SetLog("Clan Castle: " & "(" & $g_aiClanCastlePos[0] & "," & $g_aiClanCastlePos[1] & ")", $COLOR_SUCCESS)
 		Else
 			SetLog("Locate Clan Castle Cancelled", $COLOR_INFO)
-			ClickAway()
+			ClearScreen()
 			Return
 		EndIf
 		$sInfo = BuildingInfo(242, 468 + $g_iBottomOffsetY) ; 860x780
@@ -90,7 +90,7 @@ Func LocateClanCastle($bCollect = True)
 						SetLog("Quit joking, Click the Clan Castle, or restart bot and try again", $COLOR_ERROR)
 						$g_aiClanCastlePos[0] = -1
 						$g_aiClanCastlePos[1] = -1
-						ClickAway()
+						ClearScreen()
 						Return False
 				EndSelect
 			EndIf
@@ -135,13 +135,13 @@ Func LocateClanCastle($bCollect = True)
 			SetLog(" Operator Error - Bad Clan Castle Location: " & "(" & $g_aiClanCastlePos[0] & "," & $g_aiClanCastlePos[1] & ")", $COLOR_ERROR)
 			$g_aiClanCastlePos[0] = -1
 			$g_aiClanCastlePos[1] = -1
-			ClickAway()
+			ClearScreen()
 			Return False
 		EndIf
 		ExitLoop
 	WEnd
 
-	ClickAway()
+	ClearScreen()
 EndFunc   ;==>LocateClanCastle
 
 Func _BtnDefineCapacity()
@@ -164,7 +164,7 @@ Func _BtnDefineCapacity()
 
 	SetLog("Define Clan Castle Capacities", $COLOR_INFO)
 
-	ClickAway()
+	ClearScreen()
 	If _Sleep($DELAYCOLLECT3) Then Return
 	BuildingClick($g_aiClanCastlePos[0], $g_aiClanCastlePos[1], "#0250")     ; select CC
 	If _Sleep($DELAYTREASURY2) Then Return
@@ -175,7 +175,7 @@ Func _BtnDefineCapacity()
 		$g_aiClanCastleLvl = $sInfo[2]
 	Else
 		SetLog("Clan Castle Windows Didn't Open, Please Retry", $COLOR_ERROR)
-		ClickAway()
+		ClearScreen()
 		Return
 	EndIf
 
@@ -209,7 +209,7 @@ Func _BtnDefineCapacity()
 	SetLog("CC Troops Capacity : " & $g_aiClanCastleTroopsCap, $COLOR_ACTION)
 	SetLog("CC Spells Capacity : " & $g_aiClanCastleSpellsCap, $COLOR_ACTION)
 	SaveConfig()
-	ClickAway()
+	ClearScreen()
 EndFunc   ;==>_BtnDefineCapacity
 
 Func BtnDefineCapacity()

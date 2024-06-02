@@ -24,7 +24,7 @@ Func ClickRemove($FeatureName = "Remove")
 					SetDebugLog("ButtonPixelLocation = " & $ButtonPixel[0] & ", " & $ButtonPixel[1], $COLOR_DEBUG) ;Debug
 					SetDebugLog("Pixel color found #1: " & _GetPixelColor($ButtonPixel[0], $ButtonPixel[1], True) & ", #2: " & _GetPixelColor($ButtonPixel[0] + 137, $ButtonPixel[1], True) & ", #3: " & _GetPixelColor($ButtonPixel[0] + 82, $ButtonPixel[1] + 11, True) & ", #4: " & _GetPixelColor($ButtonPixel[0] + 55, $ButtonPixel[1] + 24, True), $COLOR_DEBUG)
 				EndIf
-				PureClick($ButtonPixel[0] + 68, $ButtonPixel[1] + 12, 1, 0) ; Click Okay Button
+				PureClick($ButtonPixel[0] + 68, $ButtonPixel[1] + 12, 1, 150) ; Click Okay Button
 				ExitLoop
 			EndIf
 			If $i > 15 Then

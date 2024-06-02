@@ -74,7 +74,7 @@ Func PrepareAttackBB($AttackCount = 0)
 	If $g_bChkBBAttIfLootAvail Then
 		If Not CheckLootAvail() Then
 			If _Sleep(1500) Then Return
-			ClickAway()
+			ClearScreen("Defaut", False)
 			Return False
 		EndIf
 	EndIf
@@ -86,7 +86,7 @@ Func PrepareAttackBB($AttackCount = 0)
 
 	If Not CheckArmyReady() Then
 		If _Sleep(1500) Then Return
-		CloseWindow()
+		CloseWindow2()
 		Return False
 	EndIf
 
@@ -95,7 +95,7 @@ Func PrepareAttackBB($AttackCount = 0)
 		If Not $g_bBBMachineReady Then
 			SetLog("Battle Machine is not ready.")
 			If _Sleep(1500) Then Return
-			CloseWindow()
+			CloseWindow2()
 			Return False
 		EndIf
 	EndIf
@@ -161,15 +161,16 @@ Func CheckArmyReady()
 
 	If _ColorCheck(_GetPixelColor(123, 245 + $g_iMidOffsetY, True), Hex(0xE84E52, 6), 20) Then
 		SetLog("Army is not Ready", $COLOR_DEBUG)
-		$bNeedTrain = True ;need train, so will train cannon cart
+		$bNeedTrain = True ;need train, so will train barb
 		$bReady = False
 	EndIf
 
 	If Not $bReady And $bNeedTrain Then
 		SetLog("Train to Fill Army", $COLOR_INFO)
-		ClickAway()
+		If _Sleep(1000) Then Return
+		CloseWindow2()
 		If _Sleep(2000) Then Return
-		ClickP($aArmyTrainButton, 1, 0, "BB Train Button")
+		ClickP($aArmyTrainButton, 1, 150, "BB Train Button")
 
 		If _Sleep(1000) Then Return ; wait for window
 		For $i = 1 To 5
@@ -194,7 +195,7 @@ Func CheckArmyReady()
 			$bReady = True
 		EndIf
 
-		ClickAway("Left")
+		CloseWindow2()
 		If _Sleep(1000) Then Return ; wait for window close
 		ClickAttack()
 	EndIf
@@ -208,7 +209,7 @@ Func CheckArmyReady()
 EndFunc   ;==>CheckArmyReady
 
 Func CheckForSlots()
-	ClickP($aArmyTrainButton, 1, 0, "BB Train Button")
+	ClickP($aArmyTrainButton, 1, 150, "BB Train Button")
 	If _Sleep(1000) Then Return
 	Local $aDetectedSlots = QuickMIS("CNX", $g_sImgDirBBTroops, 45, 220 + $g_iMidOffsetY, 608, 310 + $g_iMidOffsetY)
 	If IsArray($aDetectedSlots) And UBound($aDetectedSlots) > 0 Then
@@ -231,8 +232,7 @@ Func CheckForSlots()
 		$iStartSlotMem2 = $iStartSlotMem
 	EndIf
 	SetDebugLog("Total Troop Slots Detected : " & UBound($aDetectedSlots) + UBound($aDetectedSlotsR), $COLOR_DEBUG2)
-	If _Sleep(1000) Then Return
-	ClickAway("Left")
+	CloseWindow2()
 	If _Sleep(1000) Then Return ; wait for window close
 EndFunc   ;==>CheckForSlots
 
@@ -243,7 +243,11 @@ Func ClickAttack()
 
 	If IsArray($aCoords) And UBound($aCoords) = 2 Then
 		SetDebugLog(String($aCoords[0]) & " " & String($aCoords[1]))
-		PureClick($aCoords[0], $aCoords[1]) ; Click Attack Button
+		Local $AttackCoordsX[2] = [45, 85]
+		Local $AttackCoordsY[2] = [590 + $g_iBottomOffsetY, 625 + $g_iBottomOffsetY]
+		Local $AttackButtonClickX = Random($AttackCoordsX[0], $AttackCoordsX[1], 1)
+		Local $AttackButtonClickY = Random($AttackCoordsY[0], $AttackCoordsY[1], 1)
+		Click($AttackButtonClickX, $AttackButtonClickY, 1, 180, "#0149") ; Click Attack Button
 		$bRet = True
 	Else
 		SetLog("Can not find button for Builders Base Attack button", $COLOR_ERROR)
@@ -300,7 +304,7 @@ Func BuilderJar()
 			$g_bBBMachineReady = CheckMachReady()
 			If Not $g_bBBMachineReady Then
 				If _Sleep(1500) Then Return
-				CloseWindow()
+				CloseWindow2()
 				Return
 			EndIf
 		EndIf
@@ -329,7 +333,7 @@ Func BuilderJar()
 			$g_IsBuilderJarAvl = 0
 		EndIf
 		If _Sleep(1000) Then Return
-		CloseWindow()
+		CloseWindow2()
 	EndIf
 
 EndFunc   ;==>BuilderJar
@@ -350,6 +354,6 @@ Func BuilderJarCheck()
 	EndIf
 
 	If _Sleep(1000) Then Return
-	CloseWindow()
+	CloseWindow2()
 
 EndFunc   ;==>BuilderJarCheck

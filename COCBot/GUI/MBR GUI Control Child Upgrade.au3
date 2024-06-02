@@ -72,7 +72,7 @@ Func picUpgradeTypeLocation()
 				If StringInStr($n, "collect", $STR_NOCASESENSEBASIC) Or _
 						StringInStr($n, "mine", $STR_NOCASESENSEBASIC) Or _
 						StringInStr($n, "drill", $STR_NOCASESENSEBASIC) Then
-					Click(1, 40, 1, 0, "#0999") ;Click away to deselect collector if was not full, and collected with previous click
+					Click(1, 40, 1, 150, "#0999") ;Click away to deselect collector if was not full, and collected with previous click
 					Sleep(100)
 					BuildingClick($g_avBuildingUpgrades[$inum][0], $g_avBuildingUpgrades[$inum][1], "#9999") ;Select collector
 				EndIf
@@ -773,9 +773,11 @@ Func chkWalls()
 		GUICtrlSetState($g_hTxtWallMinGold, $GUI_ENABLE)
 		GUICtrlSetState($g_hTxtWallMinElixir, $GUI_ENABLE)
 		GUICtrlSetState($g_hChkWallUpFirst, $GUI_ENABLE)
+		GUICtrlSetState($g_hChkUpgradeWallAutoModEnabled, $GUI_ENABLE)
 		GUICtrlSetState($g_hHowUseWallRings, $GUI_ENABLE)
 		cmbWalls()
 		cmbWallRingsCB()
+		ChkUpgradeWallAutoModEnabled()
 	Else
 		$g_bAutoUpgradeWallsEnable = False
 		GUICtrlSetState($g_hRdoUseGold, $GUI_DISABLE)
@@ -785,6 +787,7 @@ Func chkWalls()
 		GUICtrlSetState($g_hTxtWallMinGold, $GUI_DISABLE)
 		GUICtrlSetState($g_hTxtWallMinElixir, $GUI_DISABLE)
 		GUICtrlSetState($g_hChkWallUpFirst, $GUI_DISABLE)
+		GUICtrlSetState($g_hChkUpgradeWallAutoModEnabled, $GUI_DISABLE)
 		GUICtrlSetState($g_hHowUseWallRings, $GUI_DISABLE)
 		GUICtrlSetState($g_hCmbUseWallRings, $GUI_DISABLE)
 	EndIf
@@ -793,6 +796,33 @@ EndFunc   ;==>chkWalls
 Func chkSaveWallBldr()
 	$g_bUpgradeWallSaveBuilder = (GUICtrlRead($g_hChkSaveWallBldr) = $GUI_CHECKED)
 EndFunc   ;==>chkSaveWallBldr
+
+Func ChkUpgradeWallAutoModEnabled()
+	If GUICtrlRead($g_hChkUpgradeWallAutoModEnabled) = $GUI_CHECKED Then
+		$g_bUpgradeWallAutoModEnabled = True
+		GUICtrlSetState($g_hRdoUseGold, $GUI_DISABLE)
+		GUICtrlSetState($g_hRdoUseElixir, $GUI_DISABLE)
+		GUICtrlSetState($g_hRdoUseElixirGold, $GUI_DISABLE)
+		GUICtrlSetState($g_hCmbWalls, $GUI_ENABLE)
+		GUICtrlSetState($g_hTxtWallMinGold, $GUI_ENABLE)
+		GUICtrlSetState($g_hTxtWallMinElixir, $GUI_ENABLE)
+		GUICtrlSetState($g_hChkWallUpFirst, $GUI_ENABLE)
+		GUICtrlSetState($g_hHowUseWallRings, $GUI_DISABLE)
+		cmbWalls()
+		cmbWallRingsCB()
+	Else
+		$g_bUpgradeWallAutoModEnabled = False
+		GUICtrlSetState($g_hRdoUseGold, $GUI_ENABLE)
+		GUICtrlSetState($g_hRdoUseElixir, $GUI_ENABLE)
+		GUICtrlSetState($g_hRdoUseElixirGold, $GUI_ENABLE)
+		GUICtrlSetState($g_hCmbWalls, $GUI_ENABLE)
+		GUICtrlSetState($g_hTxtWallMinGold, $GUI_ENABLE)
+		GUICtrlSetState($g_hTxtWallMinElixir, $GUI_ENABLE)
+		GUICtrlSetState($g_hChkWallUpFirst, $GUI_ENABLE)
+		GUICtrlSetState($g_hHowUseWallRings, $GUI_ENABLE)
+		GUICtrlSetState($g_hCmbUseWallRings, $GUI_ENABLE)
+	EndIf
+EndFunc   ;==>ChkUpgradeWallAutoModEnabled
 
 Func cmbWallRingsCB()
 	If _GUICtrlComboBox_GetCurSel($g_hHowUseWallRings) = 0 Then

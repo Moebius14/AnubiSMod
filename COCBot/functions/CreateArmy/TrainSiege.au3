@@ -69,7 +69,10 @@ Func TrainSiege($bTrainFullSiege = False, $bDebugSetLog = $g_bDebugSetLog)
 			Local $aiSiegeCoord = decodeSingleCoord(findImage("TrainSiege", $sFilename, $sSearchArea, 1, True))
 
 			If IsArray($aiSiegeCoord) And UBound($aiSiegeCoord, 1) = 2 Then
-				PureClick($aiSiegeCoord[0], $aiSiegeCoord[1], $HowMany, $g_iTrainClickDelayfinal)
+				For $i = 1 To $HowMany
+					Local $g_iTrainClickDelayfinal = Random($g_iTrainClickDelay - $RandomClickTrainAddTimeMin, $g_iTrainClickDelay + $RandomClickTrainAddTimeMax, 1)
+					PureClickTrain($aiSiegeCoord[0], $aiSiegeCoord[1], 1, $g_iTrainClickDelayfinal)
+				Next
 				Local $sSiegeName = $HowMany >= 2 ? $g_asSiegeMachineNames[$iSiegeIndex] & "s" : $g_asSiegeMachineNames[$iSiegeIndex] & ""
 				Setlog("Build " & $HowMany & " " & $sSiegeName, $COLOR_SUCCESS)
 				$aiTotalSiegeMachine[$iSiegeIndex] += $HowMany
@@ -94,7 +97,10 @@ Func TrainSiege($bTrainFullSiege = False, $bDebugSetLog = $g_bDebugSetLog)
 				Local $aiSiegeCoord = decodeSingleCoord(findImage("TrainSiege", $sFilename, $sSearchArea, 1, True))
 
 				If IsArray($aiSiegeCoord) And UBound($aiSiegeCoord, 1) = 2 Then
-					PureClick($aiSiegeCoord[0], $aiSiegeCoord[1], $HowMany, $g_iTrainClickDelayfinal)
+					For $i = 1 To $HowMany
+						Local $g_iTrainClickDelayfinal = Random($g_iTrainClickDelay - $RandomClickTrainAddTimeMin, $g_iTrainClickDelay + $RandomClickTrainAddTimeMax, 1)
+						PureClickTrain($aiSiegeCoord[0], $aiSiegeCoord[1], 1, $g_iTrainClickDelayfinal)
+					Next
 					Local $sSiegeName = $HowMany >= 2 ? $g_asSiegeMachineNames[$iSiegeIndex] & "s" : $g_asSiegeMachineNames[$iSiegeIndex] & ""
 					Setlog("Build " & $HowMany & " " & $sSiegeName, $COLOR_SUCCESS)
 					If _Sleep(250) Then Return

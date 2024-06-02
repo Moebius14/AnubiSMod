@@ -126,7 +126,7 @@ Func IsDonateQueueOnly(ByRef $abDonateQueueOnly)
 			If _Sleep(250) Then ContinueLoop
 		EndIf
 	Next
-	ClickAway()
+	CloseWindow2()
 	If _Sleep($DELAYDONATECC2) Then Return
 
 EndFunc   ;==>IsDonateQueueOnly
@@ -216,7 +216,7 @@ Func DonateCC($bCheckForNewMsg = False)
 	If Not $bDonate Then Return
 
 	;Opens clan tab and verbose in log
-	ClickAway()
+	ClearScreen()
 
 	If _Sleep(1000) Then Return
 
@@ -682,12 +682,13 @@ Func DonateCC($bCheckForNewMsg = False)
 		$bDonate = False
 	WEnd
 
-	ClickAway("Right")
-	If _Sleep(1000) Then Return
-
 	If Not ClickB("ClanChat") Then
-		SetLog("Error finding the Clan Tab Button", $COLOR_ERROR)
-		AndroidPageError("DonateCC")
+		ClickAway("Right")
+		If _Sleep(1000) Then Return
+		If Not ClickB("ClanChat") Then
+			SetLog("Error finding the Clan Tab Button", $COLOR_ERROR)
+			AndroidPageError("DonateCC")
+		EndIf
 	EndIf
 
 	UpdateStats()
@@ -849,7 +850,9 @@ Func DonateTroopType(Const $iTroopIndex, $Quant = 0, Const $bDonateQueueOnly = F
 				_ColorCheck(_GetPixelColor($g_iDonationWindowX + 17 + ($Slot * 68), $g_iDonationWindowY + 105 + $YComp, True), Hex(0x810D0E, 6), 20) Or _
 				_ColorCheck(_GetPixelColor($g_iDonationWindowX + 17 + 5 + ($Slot * 68), $g_iDonationWindowY + 106 + $YComp, True), Hex(0x810D0E, 6), 20) Or _
 				_ColorCheck(_GetPixelColor($g_iDonationWindowX + 17 + 10 + ($Slot * 68), $g_iDonationWindowY + 107 + $YComp, True), Hex(0x810D0E, 6), 20) Then ; check for 'STroups Red'
-			Click($g_iDonationWindowX + 35 + ($Slot * 68), $g_iDonationWindowY + 70 + $YComp, $Quant, $DELAYDONATECC1, "#0175")
+			For $i = 0 To ($Quant - 1)
+				Click($g_iDonationWindowX + 35 + ($Slot * 68), $g_iDonationWindowY + 70 + $YComp, 1, $DELAYDONATECC5, "#0175")
+			Next
 			$DonatedTroopCount += 1
 			$g_aiDonateStatsTroops[$iTroopIndex][0] += $Quant
 			If $g_iCommandStop = 3 Then
@@ -947,7 +950,9 @@ Func DonateSpellType(Const $iSpellIndex, Const $bDonateQueueOnly = False, Const 
 			SaveDebugImage("LiveDonateCC-r" & $donaterow & "-c" & $donateposinrow & "-" & $g_asSpellNames[$iSpellIndex] & "_")
 		EndIf
 		If Not $g_bDebugOCRdonate Then
-			Click($g_iDonationWindowX + 35 + ($Slot * 68), $g_iDonationWindowY + 70 + $YComp, $g_iDonSpellsQuantity, $DELAYDONATECC3, "#0600")
+			For $i = 0 To ($g_iDonSpellsQuantity - 1)
+				Click($g_iDonationWindowX + 35 + ($Slot * 68), $g_iDonationWindowY + 70 + $YComp, 1, $DELAYDONATECC5, "#0600")
+			Next
 			$DonatedSpell += 1
 
 			$g_bFullArmySpells = False
@@ -1021,7 +1026,7 @@ Func DonateSiegeType(Const $iSiegeIndex, $bDonateAll = False)
 			_ColorCheck(_GetPixelColor($g_iDonationWindowX + 17 + 5 + ($Slot * 68), $g_iDonationWindowY + 106 + $YComp, True), Hex(0x4079B8, 6), 20) Or _
 			_ColorCheck(_GetPixelColor($g_iDonationWindowX + 17 + 10 + ($Slot * 68), $g_iDonationWindowY + 107 + $YComp, True), Hex(0x4079B8, 6), 20) Then ; check for 'blue'
 
-		Click($g_iDonationWindowX + 35 + ($Slot * 68), $g_iDonationWindowY + 70 + $YComp, 1, $DELAYDONATECC3, "#0175")
+		Click($g_iDonationWindowX + 35 + ($Slot * 68), $g_iDonationWindowY + 70 + $YComp, 1, $DELAYDONATECC1, "#0175")
 		$DonatedSiege += 1
 		If $g_iCommandStop = 3 Then
 			$g_iCommandStop = 0

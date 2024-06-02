@@ -717,8 +717,6 @@ Func CheckDonateOften()
 		If Not _Sleep($DELAYRUNBOT1) Then checkMainScreen(False)
 		If $g_bTrainEnabled And $IsAnythingDonated Then ; check for training enabled in halt mode
 			If $g_iActualTrainSkip < $g_iMaxTrainSkip Then
-				IschkAddRandomClickTimingDelay2()
-				IschkAddRandomClickTimingDelay1()
 				TrainSystem()
 				_Sleep($DELAYRUNBOT1)
 			Else
@@ -784,7 +782,7 @@ Func IsBBDailyChallengeAvailable()
 		EndIf
 	EndIf
 
-	ClickAway()
+	ClearScreen()
 	If _Sleep($DELAYRUNBOT1) Then Return
 
 	Local $bRet = False
@@ -802,7 +800,7 @@ Func IsBBDailyChallengeAvailable()
 	Next
 	If $bRet = False Then
 		SetLog("Can't find button", $COLOR_ERROR)
-		ClickAway()
+		ClearScreen()
 		Return False
 	EndIf
 
@@ -864,7 +862,7 @@ Func IsBBDailyChallengeStillAvailable()
 
 	If Not $g_bChkBBAttackForDailyChallenge Then Return True
 
-	ClickAway("Right")
+	ClearScreen("Right", False)
 	If _Sleep($DELAYRUNBOT1) Then Return
 	Local $bRet = False
 	For $i = 0 To 9
@@ -881,7 +879,7 @@ Func IsBBDailyChallengeStillAvailable()
 	Next
 	If $bRet = False Then
 		SetLog("Can't find button", $COLOR_ERROR)
-		ClickAway()
+		ClearScreen("Right", False)
 		Return False
 	EndIf
 
@@ -1033,7 +1031,7 @@ EndFunc   ;==>ForumAccept
 
 Func SelectChatInput() ; select the textbox for Global chat or Clan Chat
 
-	Click($aChatSelectTextBox[0], $aChatSelectTextBox[1], 1, 0, "SelectTextBoxBtn")
+	Click($aChatSelectTextBox[0], $aChatSelectTextBox[1], 1, 150, "SelectTextBoxBtn")
 	If _Sleep(2000) Then Return
 
 	If _WaitForCheckPixel($aOpenedChatSelectTextBox, $g_bCapturePixel, Default, "Wait for Chat Select Text Box:") Then
@@ -1048,7 +1046,7 @@ EndFunc   ;==>SelectChatInput
 
 Func ChatTextInput($g_sMessage)
 
-	Click($aOpenedChatSelectTextBox[0], $aOpenedChatSelectTextBox[1], 1, 0, "ChatInput")
+	Click($aOpenedChatSelectTextBox[0], $aOpenedChatSelectTextBox[1], 1, 150, "ChatInput")
 	If _Sleep(1500) Then Return
 
 	SendText($g_sMessage)

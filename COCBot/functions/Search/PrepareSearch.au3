@@ -46,7 +46,11 @@ Func PrepareSearch($Mode = $DB) ;Click attack button and find match button, will
 
 		Local $aAttack = findButton("AttackButton", Default, 1, True)
 		If IsArray($aAttack) And UBound($aAttack, 1) = 2 Then
-			ClickP($aAttack, 1, 0, "#0149")
+			Local $AttackCoordsX[2] = [45, 85]
+			Local $AttackCoordsY[2] = [590 + $g_iBottomOffsetY, 625 + $g_iBottomOffsetY]
+			Local $AttackButtonClickX = Random($AttackCoordsX[0], $AttackCoordsX[1], 1)
+			Local $AttackButtonClickY = Random($AttackCoordsY[0], $AttackCoordsY[1], 1)
+			Click($AttackButtonClickX, $AttackButtonClickY, 1, 180, "#0149")
 		Else
 			SetLog("Couldn't find the Attack Button!", $COLOR_ERROR)
 			If $g_bDebugImageSave Then SaveDebugImage("AttackButtonNotFound")
@@ -96,13 +100,13 @@ Func PrepareSearch($Mode = $DB) ;Click attack button and find match button, will
 				Return
 			ElseIf StringInStr($sButtonState, "FindMatchLegend", 0) > 0 Then
 				Local $aCoordinates = StringSplit($avAttackButtonSubResult[1], ",", $STR_NOCOUNT)
-				ClickP($aCoordinates, 1, 0, "#0149")
+				ClickP($aCoordinates, 1, 150, "#0149")
 				Local $aConfirmAttackButton
 				For $i = 0 To 10
 					If _Sleep(200) Then Return
 					$aConfirmAttackButton = findButton("ConfirmAttack", Default, 1, True)
 					If IsArray($aConfirmAttackButton) And UBound($aConfirmAttackButton, 1) = 2 Then
-						ClickP($aConfirmAttackButton, 1, 0)
+						ClickP($aConfirmAttackButton, 1, 150)
 						ExitLoop
 					EndIf
 				Next
@@ -114,7 +118,11 @@ Func PrepareSearch($Mode = $DB) ;Click attack button and find match button, will
 				Local $aCoordinates = StringSplit($avAttackButtonSubResult[1], ",", $STR_NOCOUNT)
 				If IsArray($aCoordinates) And UBound($aCoordinates, 1) = 2 Then
 					$g_bLeagueAttack = False
-					ClickP($aCoordinates, 1, 0, "#0150")
+					Local $FindaMatchCoordsX[2] = [590, 715]
+					Local $FindaMatchCoordsY[2] = [385 + $g_iMidOffsetY, 445 + $g_iMidOffsetY]
+					Local $FindaMatchButtonClickX = Random($FindaMatchCoordsX[0], $FindaMatchCoordsX[1], 1)
+					Local $FindaMatchButtonClickY = Random($FindaMatchCoordsY[0], $FindaMatchCoordsY[1], 1)
+					Click($FindaMatchButtonClickX, $FindaMatchButtonClickY, 1, 180, "#0149")
 					ExitLoop
 				Else
 					SetLog("Couldn't find the Find a Match Button!", $COLOR_ERROR)
@@ -124,11 +132,11 @@ Func PrepareSearch($Mode = $DB) ;Click attack button and find match button, will
 			ElseIf StringInStr($sButtonState, "Sign", 0) > 0 Then
 				SetLog("Sign-up to Legend League", $COLOR_INFO)
 				Local $aCoordinates = StringSplit($avAttackButtonSubResult[1], ",", $STR_NOCOUNT)
-				ClickP($aCoordinates, 1, 0, "#0000")
+				ClickP($aCoordinates, 1, 150, "#0000")
 				If _Sleep(2000) Then Return
 				$aCoordinates = findButton("Okay", Default, 1, True)
 				If IsArray($aCoordinates) And UBound($aCoordinates) > 1 Then
-					ClickP($aCoordinates, 1, 0, "#0000")
+					ClickP($aCoordinates, 1, 150, "#0000")
 					If _Sleep(2000) Then Return
 				EndIf
 				SetLog("Sign-up to Legend League done", $COLOR_INFO)
@@ -151,13 +159,13 @@ Func PrepareSearch($Mode = $DB) ;Click attack button and find match button, will
 			If IsArray($g_iFindMatchButtonClassic) Or IsArray($g_iFindMatchButtonLegend) Then
 				SetLog("Couldn't find the Attack Button : Grey Button!", $COLOR_ERROR)
 				$g_bRestart = True
-				CloseWindow()
+				CloseWindow2()
 				Return
 			EndIf
 			If Number($g_aiCurrentLoot[$eLootTrophy]) >= Number($g_asLeagueDetails[21][4]) Then
 				SetLog("Couldn't find the Attack Button!", $COLOR_ERROR)
 				$g_bRestart = True
-				CloseWindow()
+				CloseWindow2()
 				Return
 			EndIf
 		EndIf
@@ -174,7 +182,7 @@ Func PrepareSearch($Mode = $DB) ;Click attack button and find match button, will
 	If isGemOpen(True) Then ; Check for gem window open)
 		SetLog(" Not enough gold to start searching!", $COLOR_ERROR)
 		If _Sleep($DELAYPREPARESEARCH1) Then Return
-		CloseWindow() ; Click close attack window "X"
+		CloseWindow2() ; Click close attack window "X"
 		If _Sleep($DELAYPREPARESEARCH1) Then Return
 		$g_bOutOfGold = True ; Set flag for out of gold to search for attack
 	EndIf
@@ -196,7 +204,7 @@ Func PrepareSearch($Mode = $DB) ;Click attack button and find match button, will
 				SetDebugLog("ButtonPixel = " & $ButtonPixel[0] & ", " & $ButtonPixel[1], $COLOR_DEBUG) ;Debug
 				SetDebugLog("Shld Btn Pixel color found #1: " & _GetPixelColor($ButtonPixel[0], $ButtonPixel[1], True) & ", #2: " & _GetPixelColor($ButtonPixel[0] + 144, $ButtonPixel[1], True) & ", #3: " & _GetPixelColor($ButtonPixel[0] + 54, $ButtonPixel[1] + 17, True) & ", #4: " & _GetPixelColor($ButtonPixel[0] + 54, $ButtonPixel[1] + 27, True), $COLOR_DEBUG)
 			EndIf
-			Click($ButtonPixel[0] + 75, $ButtonPixel[1] + 25, 1, 0, "#0153") ; Click Okay Button
+			Click($ButtonPixel[0] + 75, $ButtonPixel[1] + 25, 1, 150, "#0153") ; Click Okay Button
 		EndIf
 	EndIf
 

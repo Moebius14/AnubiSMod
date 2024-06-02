@@ -55,7 +55,7 @@ Func _checkObstacles($bBuilderBase = False, $bRecursive = False) ;Checks if some
 
 	If _ColorCheck(_GetPixelColor(810, 185 + $g_iMidOffsetY, $g_bCapturePixel), Hex(0x892B1F, 6), 20) Then
 		SetDebugLog("checkObstacles: Found Window to close")
-		PureClick(440, 510 + $g_iMidOffsetY, 1, 0, "#0132") ;See if village was attacked or upgrades finished : Click Okay
+		PureClick(440, 510 + $g_iMidOffsetY, 1, 150, "#0132") ;See if village was attacked or upgrades finished : Click Okay
 		$g_abNotNeedAllTime[0] = True
 		$g_abNotNeedAllTime[1] = True
 		$g_bMinorObstacle = True
@@ -156,7 +156,7 @@ Func _checkObstacles($bBuilderBase = False, $bRecursive = False) ;Checks if some
 			ClickP($aConfirmButton)
 			If _Sleep(1500) Then Return
 		Else
-			PureClickP($aAway, 1, 0, "#0133") ;Click away If things are open
+			PureClickP($aAway, 1, 160, "#0133") ;Click away If things are open
 			If _Sleep(1000) Then Return
 		EndIf
 		If _CheckPixel($aIsMain, $g_bCapturePixel) Then
@@ -168,7 +168,7 @@ Func _checkObstacles($bBuilderBase = False, $bRecursive = False) ;Checks if some
 				SetDebugLog("checkObstacles: Still found gray Window to close, trying to close again")
 				Local $bLoop = 0
 				While 1
-					PureClickP($aAway, 1, 0, "#0133") ;Click away If things are open
+					PureClickP($aAway, 1, 160, "#0133") ;Click away If things are open
 					If _Sleep(1500) Then ExitLoop
 					If _CheckPixel($aIsMain, $g_bCapturePixel) Then ExitLoop
 					$bLoop += 1
@@ -189,28 +189,28 @@ Func _checkObstacles($bBuilderBase = False, $bRecursive = False) ;Checks if some
 	EndIf
 	If _ColorCheck(_GetPixelColor(792, 39, $g_bCapturePixel), Hex(0xDC0408, 6), 20) Then
 		SetDebugLog("checkObstacles: Found Window with Close Button to close")
-		PureClick(792, 39, 1, 0, "#0134") ;Clicks X
+		PureClick(792, 39, 1, 150, "#0134") ;Clicks X
 		$g_bMinorObstacle = True
 		If _Sleep($DELAYCHECKOBSTACLES1) Then Return
 		Return False
 	EndIf
 	If _CheckPixel($aCancelFight, $g_bCapturePixel) Or _CheckPixel($aCancelFight2, $g_bCapturePixel) Then
 		SetDebugLog("checkObstacles: Found Cancel Fight to close")
-		PureClickP($aCancelFight, 1, 0, "#0135") ;Clicks X
+		PureClickP($aCancelFight, 1, 160, "#0135") ;Clicks X
 		$g_bMinorObstacle = True
 		If _Sleep($DELAYCHECKOBSTACLES1) Then Return
 		Return False
 	EndIf
 	If _CheckPixel($aChatTab, $g_bCapturePixel) And _CheckPixel($aChatTab2, $g_bCapturePixel) And _CheckPixel($aChatTab3, $g_bCapturePixel) Then
 		SetDebugLog("checkObstacles: Found Chat Tab to close")
-		PureClickP($aChatTab2, 1, 0, "#0136") ;Clicks chat tab
+		PureClickP($aChatTab2, 1, 160, "#0136") ;Clicks chat tab
 		$g_bMinorObstacle = True
 		If _Sleep($DELAYCHECKOBSTACLES1) Then Return
 		Return False
 	EndIf
 	If _CheckPixel($aEndFightSceneBtn, $g_bCapturePixel) Then
 		SetDebugLog("checkObstacles: Found End Fight Scene to close")
-		PureClickP($aEndFightSceneBtn, 1, 0, "#0137") ;If in that victory or defeat scene
+		PureClickP($aEndFightSceneBtn, 1, 160, "#0137") ;If in that victory or defeat scene
 		Return True
 	EndIf
 	If _CheckPixel($aSurrenderButton, $g_bCapturePixel) Then
@@ -222,7 +222,7 @@ Func _checkObstacles($bBuilderBase = False, $bRecursive = False) ;Checks if some
 		$aMessage = _PixelSearch(23, 566 + $g_iBottomOffsetY, 36, 580 + $g_iBottomOffsetY, Hex(0xF4F7E3, 6), 10, True)
 		If IsArray($aMessage) Then
 			SetDebugLog("checkObstacles: Found Return Home button")
-			PureClick(67, 602 + $g_iBottomOffsetY, 1, 0, "#0138") ;Check if Return Home button available
+			PureClick(67, 602 + $g_iBottomOffsetY, 1, 150, "#0138") ;Check if Return Home button available
 			If _Sleep($DELAYCHECKOBSTACLES2) Then Return
 			Return True
 		EndIf
@@ -231,7 +231,7 @@ Func _checkObstacles($bBuilderBase = False, $bRecursive = False) ;Checks if some
 		$aMessage = _PixelSearch(23, 566 + $g_iBottomOffsetY, 36, 580 + $g_iBottomOffsetY, Hex(0xEBECDB, 6), 10, True)
 		If IsArray($aMessage) Then
 			SetDebugLog("checkObstacles: Found Post Defense Summary to close")
-			PureClick(62, 607 + $g_iBottomOffsetY, 1, 0, "#0138") ;Check if Return Home button available
+			PureClick(62, 607 + $g_iBottomOffsetY, 1, 150, "#0138") ;Check if Return Home button available
 			If _Sleep($DELAYCHECKOBSTACLES2) Then Return
 			Return True
 		EndIf
@@ -243,7 +243,7 @@ Func _checkObstacles($bBuilderBase = False, $bRecursive = False) ;Checks if some
 		If TestCapture() Then Return "CoC Has Stopped Error ....."
 		PushMsg("CoCError")
 		If _Sleep($DELAYCHECKOBSTACLES1) Then Return
-		PureClick($CSFoundCoords[0], $CSFoundCoords[1], 1, 0, "#0129") ;Check for "CoC has stopped error, looking for OK message" on screen
+		PureClick($CSFoundCoords[0], $CSFoundCoords[1], 1, 150, "#0129") ;Check for "CoC has stopped error, looking for OK message" on screen
 		If _Sleep($DELAYCHECKOBSTACLES2) Then Return
 		Return checkObstacles_ReloadCoC($bRecursive)
 	EndIf

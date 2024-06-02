@@ -56,7 +56,7 @@ Func StartClockTowerBoost($bSwitchToBB = False, $bSwitchToNV = False, $bConditio
 	Local $IsCTOpenNonAvail = False
 
 	If $bSwitchToBB Then
-		ClickAway()
+		ClearScreen("Defaut", False)
 		If Not SwitchBetweenBases(True, True) Then Return ; Switching to Builders Base
 	EndIf
 
@@ -72,7 +72,7 @@ Func StartClockTowerBoost($bSwitchToBB = False, $bSwitchToNV = False, $bConditio
 		SetLog("Boosting Clock Tower", $COLOR_INFO)
 		If _Sleep($DELAYCOLLECT2) Then Return
 
-		ClickAway("Left")
+		ClearScreen("Left", False)
 		Local $sCTCoords, $aCTCoords, $aCTBoost
 		$sCTCoords = findImage("ClockTowerAvailable", $g_sImgStartCTBoost, "FV", 1, True) ; Search for Clock Tower
 		If $sCTCoords <> "" Then
@@ -161,7 +161,7 @@ Func StartClockTowerBoost($bSwitchToBB = False, $bSwitchToNV = False, $bConditio
 			EndIf
 		EndIf
 	EndIf
-	ClickAway()
+	ClearScreen("Defaut", False)
 
 	If ProfileSwitchAccountEnabled() Then SwitchAccountVariablesReload("Save")
 
@@ -184,11 +184,25 @@ Func CheckBBuilderTime()
 		Local $sUpgradeTime = getBuilderLeastUpgradeTime($g_iQuickMISX - 50, $g_iQuickMISY - 8)
 		Local $mUpgradeTime = ConvertOCRTime("Least Upgrade", $sUpgradeTime, False)
 		If $mUpgradeTime > 540 Then ; Only if > 9 hours
-			ClickAway("Right")
+			If _Sleep(250) Then Return
+			Local $asSearchResult = decodeSingleCoord(FindImageInPlace2("MasterBuilderHead", $g_sImgMasterBuilderHead, 445, 0, 500, 54, True))
+			If IsArray($asSearchResult) And UBound($asSearchResult) = 2 Then
+				If IsArray(_PixelSearch($asSearchResult[0] - 1, $asSearchResult[1] + 53, $asSearchResult[0] + 1, $asSearchResult[1] + 55, Hex(0xFFFFFF, 6), 15, True)) Then ClickP($asSearchResult)
+			EndIf
+			If _Sleep(1000) Then Return
+			ClearScreen("Right", False)
+			If _Sleep(500) Then Return
 			Return True
 		EndIf
 	EndIf
-	ClickAway("Right")
+	If _Sleep(250) Then Return
+	Local $asSearchResult = decodeSingleCoord(FindImageInPlace2("MasterBuilderHead", $g_sImgMasterBuilderHead, 445, 0, 500, 54, True))
+	If IsArray($asSearchResult) And UBound($asSearchResult) = 2 Then
+		If IsArray(_PixelSearch($asSearchResult[0] - 1, $asSearchResult[1] + 53, $asSearchResult[0] + 1, $asSearchResult[1] + 55, Hex(0xFFFFFF, 6), 15, True)) Then ClickP($asSearchResult)
+	EndIf
+	If _Sleep(1000) Then Return
+	ClearScreen("Right", False)
+	If _Sleep(500) Then Return
 	Return False
 EndFunc   ;==>CheckBBuilderTime
 

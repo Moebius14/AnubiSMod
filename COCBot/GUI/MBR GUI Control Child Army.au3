@@ -1054,16 +1054,6 @@ Func TxtAddRandomDelayMax()
 	$g_iTrainAddRandomDelayMax = Int(GUICtrlRead($g_hTxtAddRandomDelayMax))
 EndFunc   ;==>TxtAddRandomDelayMax
 
-Func IschkAddRandomClickTimingDelay1()
-	SetLog("Random TrainClick in this round : " & $g_iTrainClickDelayfinal & "ms", $COLOR_BLUE)
-EndFunc   ;==>IschkAddRandomClickTimingDelay1
-
-Func IschkAddRandomClickTimingDelay2()
-	$RandomClickTrainAddTime = Round(Random($g_iTrainAddRandomClickTimingDelayMin, $g_iTrainAddRandomClickTimingDelayMax))
-	$g_iTrainClickDelayfinal = ($g_iTrainClickDelay + $RandomClickTrainAddTime)
-	SetLog("Random TrainClick Delay in this round : " & $RandomClickTrainAddTime & "ms", $COLOR_BLUE)
-EndFunc   ;==>IschkAddRandomClickTimingDelay2
-
 Func chkSuperTroops()
 	If GUICtrlRead($g_hChkSuperTroops) = $GUI_CHECKED Then
 		$g_bSuperTroopsEnable = True

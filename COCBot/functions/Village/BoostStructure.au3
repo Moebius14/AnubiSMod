@@ -44,11 +44,11 @@ Func BoostStructure($sName, $sOcrName, $aPos, ByRef $icmbBoostValue, $cmbBoostCt
 		Local $Boost = findButton("BoostOne")
 		If IsArray($Boost) Then
 			If $g_bDebugSetlog Then SetDebugLog("Boost Button X|Y = " & $Boost[0] & "|" & $Boost[1], $COLOR_DEBUG)
-			Click($Boost[0], $Boost[1], 1, 0, "#0463")
+			Click($Boost[0], $Boost[1], 1, 150, "#0463")
 			If _Sleep($DELAYBOOSTHEROES1) Then Return
 			$Boost = findButton("GEM")
 			If IsArray($Boost) Then
-				Click($Boost[0], $Boost[1], 1, 0, "#0464")
+				Click($Boost[0], $Boost[1], 1, 150, "#0464")
 				If _Sleep($DELAYBOOSTHEROES4) Then Return
 				If IsArray(findButton("EnterShop")) Then
 					SetLog("Not enough gems to boost " & $sName, $COLOR_ERROR)
@@ -66,7 +66,7 @@ Func BoostStructure($sName, $sOcrName, $aPos, ByRef $icmbBoostValue, $cmbBoostCt
 				SetLog($sName & " is already Boosted", $COLOR_SUCCESS)
 			EndIf
 			If _Sleep($DELAYBOOSTHEROES3) Then Return
-			ClickAway()
+			ClearScreen()
 		Else
 			SetLog($sName & " Boost Button not found", $COLOR_ERROR)
 			If _Sleep($DELAYBOOSTHEROES4) Then Return
@@ -105,7 +105,7 @@ Func BoostPotion($sName, $sOcrName, $aPos, ByRef $icmbBoostValue, $cmbBoostCtrl)
 	Else
 		SetLog("Town Hall Windows Didn't Open", $COLOR_DEBUG1)
 		SetLog("New Try...", $COLOR_DEBUG1)
-		ClickAway()
+		ClearScreen()
 		Sleep(Random(1000, 1500, 1))
 		imglocTHSearch(False, True, True) ;Sets $g_iTownHallLevel
 		Sleep(Random(1000, 1500, 1))
@@ -120,7 +120,7 @@ Func BoostPotion($sName, $sOcrName, $aPos, ByRef $icmbBoostValue, $cmbBoostCtrl)
 		Local $Boost = findButton("MagicItems")
 		If UBound($Boost) > 1 Then
 			If $g_bDebugSetlog Then SetDebugLog("Magic Items Button X|Y = " & $Boost[0] & "|" & $Boost[1], $COLOR_DEBUG)
-			Click($Boost[0], $Boost[1], 1, 0, "#0463")
+			Click($Boost[0], $Boost[1], 1, 150, "#0463")
 			If _Sleep($DELAYBOOSTHEROES1) Then Return
 			$Boost = decodeSingleCoord(FindImageInPlace($sTile, @ScriptDir & "\imgxml\imglocbuttons\" & $sTile, $sRegionToSearch))
 			If UBound($Boost) > 1 Then
@@ -137,7 +137,7 @@ Func BoostPotion($sName, $sOcrName, $aPos, ByRef $icmbBoostValue, $cmbBoostCtrl)
 				If Not $g_bRunState Then Return
 				$Boost = findButton("BoostPotionGreen")
 				If IsArray($Boost) Then
-					Click($Boost[0], $Boost[1], 1, 0, "#0465")
+					Click($Boost[0], $Boost[1], 1, 150, "#0465")
 					If _Sleep($DELAYBOOSTHEROES4) Then Return
 					If $icmbBoostValue <= 5 Then
 						$icmbBoostValue -= 1
@@ -153,14 +153,14 @@ Func BoostPotion($sName, $sOcrName, $aPos, ByRef $icmbBoostValue, $cmbBoostCtrl)
 				If _Sleep($DELAYBOOSTHEROES4) Then Return
 			EndIf
 			If _Sleep($DELAYBOOSTHEROES3) Then Return
-			ClickAway()
+			ClearScreen()
 		Else
 			SetLog("Abort boosting " & $sName & ", bad location", $COLOR_ERROR)
 		EndIf
 	Else
 		SetLog("Cannot boost using training potion some error occured", $COLOR_ERROR)
 	EndIf
-	ClickAway()
+	ClearScreen()
 	_Sleep(Random(2000, 3000, 1))
 	Return $boosted
 EndFunc   ;==>BoostPotion
@@ -243,7 +243,7 @@ Func CheckBuilderPotion()
 						GUICtrlSetData($g_hTxtModLog, @CRLF & _NowTime() & " [" & $g_sProfileCurrentName & "] Upgrade Village : " & $ActionForModLog & " Using Potion", 1)
 					EndIf
 					_FileWriteLog($g_sProfileLogsPath & "\ModLog.log", " [" & $g_sProfileCurrentName & "] - Upgrade Village : " & $ActionForModLog)
-					ClickAway()
+					CloseWindow2()
 					ZoomOut()
 					Return
 				EndIf
@@ -278,23 +278,34 @@ Func CheckBuilderPotion()
 						GUICtrlSetData($g_hTxtModLog, @CRLF & _NowTime() & " [" & $g_sProfileCurrentName & "] Upgrade Village : " & $ActionForModLog & " Using Potion", 1)
 					EndIf
 					_FileWriteLog($g_sProfileLogsPath & "\ModLog.log", " [" & $g_sProfileCurrentName & "] - Upgrade Village : " & $ActionForModLog)
-					ClickAway()
+					ClearScreen()
 				EndIf
 			Else
 				SetLog("BuilderPot Not Found", $COLOR_DEBUG)
-				ClickAway()
+				ClearScreen()
 			EndIf
 		Else
 			If $IsForge Then
 				SetLog("Forge Time < 9h, cancel using Builder Potion", $COLOR_INFO)
+				CloseWindow2()
 			Else
 				SetLog("Upgrade Time < 9h, cancel using Builder Potion", $COLOR_INFO)
+				If IsBuilderMenuOpen() Then
+					Click(435, 30)
+					If _Sleep(500) Then Return
+				EndIf
+				ClearScreen()
+				If _Sleep(500) Then Return
 			EndIf
-			ClickAway()
 		EndIf
 	Else
 		SetLog("Failed to read Upgrade time on BuilderMenu", $COLOR_ERROR)
-		ClickAway()
+		If IsBuilderMenuOpen() Then
+			Click(435, 30)
+			If _Sleep(500) Then Return
+		EndIf
+		ClearScreen()
+		If _Sleep(500) Then Return
 	EndIf
 	ZoomOut()
 EndFunc   ;==>CheckBuilderPotion

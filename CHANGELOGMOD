@@ -1,3 +1,14 @@
+* v24.06.02
+* Fixed Humanization frequency values save/read.
+* Added Football event support.
+* Added Root Tombs Collect.
+* Added Open Laboratory When Enough Resource.
+* Removed Google account switch mode.
+* Improved Clan Games Time OCR.
+* Added More Click Randomization (Position, Delay, etc)
+* Remove all unsuseful ClickAway/Click.
+* Added Auto Wall Upgrade Mode (Handle with Care !!).
+
 * v24.05.04 **
 * Added Do not Collect resources if storages are full.
 

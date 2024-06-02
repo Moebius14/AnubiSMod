@@ -190,7 +190,7 @@ EndFunc   ;==>chkAttackSearchFail
 Func btnSearchFailRetry()
 	Local $aRetrySearchButton = decodeSingleCoord(findImage("Retry Search", $g_sImgRetrySearchButton, GetDiamondFromRect("270,400,600,500"), 1, True))
 	If IsArray($aRetrySearchButton) And UBound($aRetrySearchButton) = 2 Then
-		Click($aRetrySearchButton[0], $aRetrySearchButton[1], 1, 0, "#0512")
+		Click($aRetrySearchButton[0], $aRetrySearchButton[1], 1, 150, "#0512")
 		Return True
 	EndIf
 	Return False

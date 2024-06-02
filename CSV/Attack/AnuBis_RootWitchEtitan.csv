@@ -51,8 +51,8 @@ MAKE  |E          |FRONT-LEFT |10         |-9         |INT-EXT    |0          |0
 MAKE  |F          |FRONT-LEFT |10         |-17        |INT-EXT    |0          |0          |           |                                            				  |
 MAKE  |G          |FRONT-RIGHT|10         |-13        |INT-EXT    |0          |0          |           |                                            				  |
 MAKE  |H          |FRONT-LEFT |10         |-18        |INT-EXT    |0          |0          |           |                                            				  |
-MAKE  |I          |FRONT-RIGHT|10         |-18        |INT-EXT    |0          |0          |           |                                            				  |
-MAKE  |J          |FRONT-LEFT |10         |-21        |INT-EXT    |0          |1          |           |                                            				  |
+MAKE  |I          |FRONT-RIGHT|10         |-21        |INT-EXT    |0          |0          |           |                                            				  |
+MAKE  |J          |FRONT-LEFT |10         |-21        |INT-EXT    |0          |0          |           |                                            				  |
 MAKE  |K          |FRONT-RIGHT|10         |-19        |INT-EXT    |0          |0          |           |                                            				  |
 MAKE  |L          |RIGHT-FRONT|10         |0          |INT-EXT    |3          |0          |           |                                            				  |
 MAKE  |M          |LEFT-FRONT |10         |0          |INT-EXT    |3          |0          |           |                                            				  |
@@ -99,7 +99,7 @@ DROP  |N          |1              |1          |FSpell     |0          |0        
 DROP  |O          |1              |1          |FSpell     |0          |0          |100-150    |       |                                            				  |
 DROP  |P          |1              |1          |FSpell     |0          |0          |100-150    |       |                                            				  |
 DROP  |Q          |1              |1          |FSpell     |0          |0          |100-150    |       |                                            				  |
-DROP  |K          |1              |1          |CSpell     |27-50      |0          |400-600    |       |                                            				  |
+DROP  |K          |1              |1          |CSpell     |27-50      |0          |200-300    |       |                                            				  |
 DROP  |H          |2              |1          |Rspell     |27-50      |0          |500-600    |       |                                            				  |
 DROP  |I          |2              |1          |Rspell     |27-50      |0          |100-150    |       |                                            				  |
 WAIT  |2500-3500  |               |           |           |           |           |           |       |                                            				  |

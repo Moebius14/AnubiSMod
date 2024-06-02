@@ -203,6 +203,8 @@ Func AttackReport()
 	If _ColorCheck(_GetPixelColor($aWonThreeStarAtkRprt[0], $aWonThreeStarAtkRprt[1], False), Hex($aWonThreeStarAtkRprt[2], 6), $aWonThreeStarAtkRprt[3]) Then $iStarsEarned += 1
 	SetLog("Stars earned: " & $iStarsEarned)
 
+	If $iStarsEarned = 3 Then $g_iPercentageDamage = 100 ; In case
+
 	Local $AtkLogTxt
 	$g_iStatsBonusLast[$eLootGold] = $g_iStatsBonusLast[$eLootGold] / 1000
 
@@ -239,7 +241,7 @@ Func AttackReport()
 	$AtkLogTxtExtend &= $g_CurrentCampUtilization & "/" & $g_iTotalCampSpace & "|"
 
 	If Int($g_iStatsLastAttack[$eLootTrophy]) >= 0 Then
-		Local $aColorful[4] = [0xFF0000, 0x8F8F8F, 0x0047D6, 0x378c04]
+		Local $aColorful[4] = [0xFF0000, 0x8F8F8F, 0x0047D6, 0x378C04]
 		Switch $iStarsEarned
 			Case 1
 				SetAtkLog($AtkLogTxt, $AtkLogTxtExtend, $aColorful[$iStarsEarned])
@@ -295,7 +297,7 @@ EndFunc   ;==>AttackReport
 
 Func IsStreakEvent()
 	Local $offColors[3][3] = [[0xFFFFFF, 12, 7], [0x000000, 23, 0], [0x000000, 12, 12]] ; 2nd pixel White Color, 3rd pixel Black right edge of cross, 4th pixel Black bottom edge of cross
-	Local $WhiteCross = _MultiPixelSearch(623, 295, 655, 310, 1, 1, Hex(0x000000, 6), $offColors, 30) ; first black pixel on side of cross
+	Local $WhiteCross = _MultiPixelSearch(623, 295, 632, 297, 1, 1, Hex(0x000000, 6), $offColors, 30) ; first black pixel on side of cross
 	SetDebugLog("Pixel Color #1: " & _GetPixelColor(627, 295, True) & ", #2: " & _GetPixelColor(639, 302, True) & ", #3: " & _GetPixelColor(650, 295, True) & ", #4: " & _GetPixelColor(639, 307, True), $COLOR_DEBUG)
 	If IsArray($WhiteCross) Then Return True
 	Return False

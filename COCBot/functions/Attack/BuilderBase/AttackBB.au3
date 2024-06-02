@@ -133,7 +133,6 @@ Func DoAttackBB()
 	EndIf
 	If Not $g_bRunState Then Return
 	If $AttackCount > 0 Then SetLog("BB Attack Cycle Done", $COLOR_SUCCESS1)
-	ClickAway()
 	ZoomOut()
 	$iStartSlotMem = 0
 	$iStartSlotMem2 = 0
@@ -143,7 +142,11 @@ Func ClickFindNowButton()
 	Local $bRet = False
 	For $i = 1 To 10
 		If _ColorCheck(_GetPixelColor(655, 437 + $g_iMidOffsetY, True), Hex(0x89D239, 6), 20) Then
-			Click(655, 420 + $g_iMidOffsetY, 1, "Click Find Now Button")
+			Local $FindNowCoordsX[2] = [590, 715]
+			Local $FindNowCoordsY[2] = [400 + $g_iMidOffsetY, 430 + $g_iMidOffsetY]
+			Local $FindNowButtonClickX = Random($FindNowCoordsX[0], $FindNowCoordsX[1], 1)
+			Local $FindNowButtonClickY = Random($FindNowCoordsY[0], $FindNowCoordsY[1], 1)
+			Click($FindNowButtonClickX, $FindNowButtonClickY, 1, 160, "#0149") ; Click FindNow Button
 			$bRet = True
 			ExitLoop
 		EndIf
@@ -153,7 +156,7 @@ Func ClickFindNowButton()
 	If _Sleep(8000) Then Return ; give time for find now button to go away
 	If Not $bRet Then
 		SetLog("Could not locate Find Now Button to go find an attack.", $COLOR_ERROR)
-		ClickAway("Left")
+		CloseWindow2()
 		Return False
 	EndIf
 
@@ -179,7 +182,7 @@ Func WaitCloudsBB()
 			If _Sleep(1500) Then Return
 			SetLog("Try Again going to attack.", $COLOR_INFO)
 			If Not ClickFindNowButton() Then
-				ClickAway("Left")
+				ClearScreen("Defaut", False)
 				Return False
 			EndIf
 		EndIf
@@ -202,7 +205,7 @@ Func _AttackBB()
 
 	SetLog("Going to attack.", $COLOR_INFO)
 	If Not ClickFindNowButton() Then
-		ClickAway("Left")
+		ClearScreen("Defaut", False)
 		Return False
 	EndIf
 

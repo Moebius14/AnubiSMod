@@ -751,8 +751,6 @@ Func runBot() ;Bot that runs everything in order
 			If _Sleep($DELAYRUNBOT3) Then Return
 
 			VillageReport()
-			IschkAddRandomClickTimingDelay2()
-			IschkAddRandomClickTimingDelay1()
 
 			If _Sleep($DELAYRUNBOT2) Then Return
 			If BotCommand() Then btnStop()
@@ -996,8 +994,6 @@ Func runBot() ;Bot that runs everything in order
 			If $IsAttackStarted Then $sRestartText = " After Taking Too Much Time To Click Next Button"
 			If $g_bIsSearchLimit And $IsNewAttack Then
 				If Not $g_bRunState Then Return
-				IschkAddRandomClickTimingDelay2()
-				IschkAddRandomClickTimingDelay1()
 				TrainSystem()
 				If Not $g_bRunState Then Return
 				SetDebugLog("Are you ready? " & String($g_bIsFullArmywithHeroesAndSpells))
@@ -1118,8 +1114,6 @@ Func _Idle() ;Sequence that runs until Full Army
 		checkMainScreen(False) ; required here due to many possible exits
 		If $g_iCommandStop = -1 Then
 			If $g_iActualTrainSkip < $g_iMaxTrainSkip Then
-				IschkAddRandomClickTimingDelay2()
-				IschkAddRandomClickTimingDelay1()
 				If CheckNeedOpenTrain($g_sTimeBeforeTrain) Then TrainSystem()
 				If $g_bRestart Then ExitLoop
 				If _Sleep($DELAYIDLE1) Then ExitLoop
@@ -1137,8 +1131,6 @@ Func _Idle() ;Sequence that runs until Full Army
 		If $g_iCommandStop = 0 And $g_bTrainEnabled Then
 			If Not ($g_bIsFullArmywithHeroesAndSpells) Then
 				If $g_iActualTrainSkip < $g_iMaxTrainSkip Then
-					IschkAddRandomClickTimingDelay2()
-					IschkAddRandomClickTimingDelay1()
 					If CheckNeedOpenTrain($g_sTimeBeforeTrain) Or (ProfileSwitchAccountEnabled() And $g_iActiveDonate And $g_bChkDonate) Then TrainSystem() ; force check trainsystem after donate and before switch account
 					If $g_bRestart Then ExitLoop
 					If _Sleep($DELAYIDLE1) Then ExitLoop
@@ -1191,7 +1183,7 @@ EndFunc   ;==>_Idle
 Func AttackMain() ;Main control for attack functions
 
 	If ProfileSwitchAccountEnabled() And $g_abDonateOnly[$g_iCurAccount] Then Return
-	ClickAway()
+	ClearScreen()
 	If IsSearchAttackEnabled() Then
 		If Not $g_bRunState Then Return
 		If (IsSearchModeActive($DB) And checkCollectors(True, False)) Or IsSearchModeActive($LB) Then
@@ -1380,8 +1372,6 @@ Func __RunFunction($action)
 			If Not _Sleep($DELAYRUNBOT1) Then checkMainScreen(False)
 			If $g_bTrainEnabled Then ; check for training enabled in halt mode
 				If $g_iActualTrainSkip < $g_iMaxTrainSkip Then
-					IschkAddRandomClickTimingDelay2()
-					IschkAddRandomClickTimingDelay1()
 					TrainSystem()
 					_Sleep($DELAYRUNBOT1)
 				Else
@@ -1537,7 +1527,7 @@ Func FirstCheck()
 		If $BuildingInfo[1] = "Town Hall" Then
 			$g_iTownHallLevel = $BuildingInfo[2]
 			If _Sleep(500) Then Return
-			ClickAway()
+			ClearScreen()
 		Else
 			SetLog("Please Locate Town Hall Manually!", $COLOR_ERROR)
 		EndIf
@@ -1642,8 +1632,6 @@ Func FirstCheck()
 	If $g_iCommandStop <> 0 And $g_iCommandStop <> 3 Then
 		; VERIFY THE TROOPS AND ATTACK IF IS FULL
 		SetDebugLog("-- FirstCheck on Train --")
-		IschkAddRandomClickTimingDelay2()
-		IschkAddRandomClickTimingDelay1()
 		TrainSystem()
 
 		If Not $g_bRunState Then Return

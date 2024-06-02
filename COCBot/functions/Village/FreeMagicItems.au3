@@ -28,7 +28,7 @@ Func CollectFreeMagicItems($bTest = False)
 		Return
 	EndIf
 
-	ClickAway()
+	ClearScreen()
 
 	If Not IsMainPage() Then Return
 
@@ -105,8 +105,8 @@ Func CollectFreeMagicItems($bTest = False)
 		EndIf
 		_FileWriteLog($g_sProfileLogsPath & "\ModLog.log", " [" & $g_sProfileCurrentName & "] " & $ActionForModLog)
 	EndIf
-	ClickAway()
-	If _Sleep(Random(2000, 3000, 1)) Then Return
+	CloseWindow2()
+	If _Sleep(Random(1000, 2000, 1)) Then Return
 
 EndFunc   ;==>CollectFreeMagicItems
 
@@ -209,7 +209,7 @@ Func OpenMagicItemWindow()
 	If $bLocateTH Then
 		SetLog("Town Hall Windows Didn't Open", $COLOR_DEBUG1)
 		SetLog("New Try...", $COLOR_DEBUG1)
-		ClickAway()
+		ClearScreen()
 		If _Sleep(Random(1000, 1500, 1)) Then Return
 		imglocTHSearch(False, True, True) ;Sets $g_iTownHallLevel
 		If _Sleep(Random(1000, 1500, 1)) Then Return

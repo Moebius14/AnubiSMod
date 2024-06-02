@@ -867,6 +867,7 @@ Func ReadConfig_600_17()
 	IniReadS($g_iUpgradeWallLootType, $g_sProfileConfigPath, "upgrade", "use-storage", 0, "int")
 	IniReadS($g_bUpgradeWallSaveBuilder, $g_sProfileConfigPath, "upgrade", "savebldr", False, "Bool")
 	IniReadS($g_bChkWallUpFirst, $g_sProfileConfigPath, "upgrade", "WallUpFirst", False, "Bool")
+	IniReadS($g_bUpgradeWallAutoModEnabled, $g_sProfileConfigPath, "upgrade", "auto-wallUP", False, "Bool")
 	IniReadS($g_iCmbUpgradeWallsLevel, $g_sProfileConfigPath, "upgrade", "walllvl", 6, "int")
 	IniReadS($g_iHowUseWallRings, $g_sProfileConfigPath, "upgrade", "HowUseWR", 1, "int")
 	IniReadS($g_iCmbUseWallRings, $g_sProfileConfigPath, "upgrade", "CmbUseWR", 3, "int")
@@ -1353,7 +1354,6 @@ Func ReadConfig_600_35_1()
 	;$g_bUpdatingWhenMinimized must be always enabled
 	;IniReadS($g_bUpdatingWhenMinimized, $g_sProfileConfigPath, "general", "UpdatingWhenMinimized", True, "Bool")
 	IniReadS($g_bHideWhenMinimized, $g_sProfileConfigPath, "general", "HideWhenMinimized", False, "Bool")
-	$g_bUseRandomClick = (IniRead($g_sProfileConfigPath, "other", "UseRandomClick", "0") = "1")
 	$g_bScreenshotPNGFormat = (IniRead($g_sProfileConfigPath, "other", "ScreenshotType", "0") = "1") ;screenshot type: 0 JPG   1 PNG
 	$g_bScreenshotHideName = (IniRead($g_sProfileConfigPath, "other", "ScreenshotHideName", "1") = "1")
 	IniReadS($g_iAnotherDeviceWaitTime, $g_sProfileConfigPath, "other", "txtTimeWakeUp", 0, "int")
@@ -1404,7 +1404,6 @@ Func ReadConfig_SwitchAccounts()
 	If $g_iCmbSwitchAcc Then
 		Local $sSwitchAccFile = $g_sProfilePath & "\SwitchAccount.0" & $g_iCmbSwitchAcc & ".ini"
 		$g_bChkSwitchAcc = IniRead($sSwitchAccFile, "SwitchAccount", "Enable", "0") = "1"
-		$g_bChkGooglePlay = IniRead($sSwitchAccFile, "SwitchAccount", "GooglePlay", "0") = "1"
 		$g_bChkSuperCellID = IniRead($sSwitchAccFile, "SwitchAccount", "SuperCellID", "0") = "1"
 		$g_bChkSharedPrefs = IniRead($sSwitchAccFile, "SwitchAccount", "SharedPrefs", "0") = "1"
 		$g_bChkSmartSwitch = IniRead($sSwitchAccFile, "SwitchAccount", "SmartSwitch", "0") = "1"
@@ -1533,6 +1532,7 @@ Func ReadConfig_MOD_Humanization()
 	IniReadS($g_bChkWarSignUp, $g_sProfileConfigPath, "Bot Humanization", "IsChkWarSignUp", $g_bChkWarSignUp, "Bool")
 	IniReadS($bAllowWar, $g_sProfileConfigPath, "Bot Humanization", "IschkAllowWar", $bAllowWar, "Bool")
 	IniReadS($bRefuseWar, $g_sProfileConfigPath, "Bot Humanization", "IschkRefuseWar", $bRefuseWar, "Bool")
+	IniReadS($g_iacmbPriority[10], $g_sProfileConfigPath, "Bot Humanization", "cmbPriority[10]", $g_iacmbPriority[10], "int")
 EndFunc   ;==>ReadConfig_MOD_Humanization
 
 Func ReadConfig_MOD_Advanced()

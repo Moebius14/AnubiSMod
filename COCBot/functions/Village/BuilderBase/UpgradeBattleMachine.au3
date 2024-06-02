@@ -68,7 +68,7 @@ Func BattleMachineUpgrade($test = False)
 					SetLog("Your Battle Machine is at max level, cannot upgrade anymore!", $COLOR_INFO)
 					$g_bBattleMachineUpgrade = False ; turn Off the Battle Machine upgrade
 					GUICtrlSetState($g_hChkBattleMachineUpgrade, $GUI_UNCHECKED)
-					ClickAway()
+					ClearScreen("Defaut", False)
 					Return
 				EndIf
 				$g_CombinedMachineLevel = $g_CurrentBattleMachineLevel + $g_CurrentBattleCopterLevel
@@ -79,18 +79,18 @@ Func BattleMachineUpgrade($test = False)
 					GUICtrlSetState($g_hChkBattleMachineUpgrade, $GUI_UNCHECKED)
 					GUICtrlSetState($g_hChkBattleCopterUpgrade, $GUI_UNCHECKED)
 					$g_CombinedMachineLevel = 0 ; If user wants to continue upgrade despite the combined level
-					ClickAway()
+					ClearScreen("Defaut", False)
 					Return
 				EndIf
 			Else
 				SetLog("Your Battle Machine Level was not found!", $COLOR_INFO)
-				ClickAway()
+				ClearScreen("Defaut", False)
 				Return
 			EndIf
 		EndIf
 	Else
 		SetLog("Bad Battle Machine OCR", $COLOR_ERROR)
-		ClickAway()
+		ClearScreen("Defaut", False)
 		Return
 	EndIf
 
@@ -98,7 +98,7 @@ Func BattleMachineUpgrade($test = False)
 
 	If $g_aiCurrentLootBB[$eLootElixirBB] < ($g_afBattleMachineUpgCost[$aHeroLevel] * 1000000) * (1 - Number($g_iBuilderBoostDiscount) / 100) Then
 		SetLog("Battle Machine Upg failed, require " & ($g_afBattleMachineUpgCost[$aHeroLevel] * 1000000) * (1 - Number($g_iBuilderBoostDiscount) / 100) & " elixir!", $COLOR_INFO)
-		ClickAway()
+		ClearScreen("Defaut", False)
 		Return
 	EndIf
 
@@ -121,7 +121,7 @@ Func BattleMachineUpgrade($test = False)
 				; Just incase the buy Gem Window pop up!
 				If isGemOpen(True) Then
 					SetLog("Battle Machine Upgrade Fail! Gem Window popped up!", $COLOR_ERROR)
-					ClickAway()
+					CloseWindow()
 					Return False
 				EndIf
 
@@ -145,7 +145,7 @@ Func BattleMachineUpgrade($test = False)
 			Else
 				SetLog("Battle Machine Upgrade Fail!", $COLOR_ERROR)
 				If $g_bDebugImageSave Then SaveDebugImage("UpgradeBMBtn2")
-				ClickAway()
+				CloseWindow()
 				Return
 			EndIf
 		Else
@@ -156,7 +156,7 @@ Func BattleMachineUpgrade($test = False)
 		If $g_bDebugImageSave Then SaveDebugImage("UpgradeBMBtn1")
 	EndIf
 
-	ClickAway()
+	ClearScreen("Defaut", False)
 EndFunc   ;==>BattleMachineUpgrade
 
 ; based on LocateStarLab
@@ -181,7 +181,7 @@ Func LocateBattleMachine()
 				$g_CurrentBattleMachineLevel = $aResult[2]
 				Return True
 			Else
-				ClickAway()
+				ClearScreen("Defaut", False)
 				SetDebugLog("Stored Battle Machine Position is not valid.", $COLOR_ERROR)
 				SetDebugLog("Found instead: " & $aResult[1] & ", " & $aResult[2] & " !", $COLOR_DEBUG)
 				SetDebugLog("Village position: " & $g_aiBattleMachinePos[0] & ", " & $g_aiBattleMachinePos[1], $COLOR_DEBUG, True)
@@ -191,7 +191,7 @@ Func LocateBattleMachine()
 				$g_aiBattleMachinePos[1] = -1
 			EndIf
 		Else
-			ClickAway()
+			ClearScreen("Defaut", False)
 			SetDebugLog("Stored Battle Machine Position is not valid.", $COLOR_ERROR)
 			SetDebugLog("Village position: " & $g_aiBattleMachinePos[0] & ", " & $g_aiBattleMachinePos[1], $COLOR_DEBUG, True)
 			ConvertToVillagePos($g_aiBattleMachinePos[0], $g_aiBattleMachinePos[1])
@@ -264,7 +264,7 @@ Func LocateBattleMachine()
 				$g_CurrentBattleMachineLevel = $aResult[2]
 				Return True
 			Else
-				ClickAway()
+				ClearScreen("Defaut", False)
 				SetDebugLog("Found Battle Machine Position is not valid.", $COLOR_ERROR)
 				SetDebugLog("Found instead: " & $aResult[1] & ", " & $aResult[2] & " !", $COLOR_DEBUG)
 				SetDebugLog("Village position: " & $g_aiBattleMachinePos[0] & ", " & $g_aiBattleMachinePos[1], $COLOR_DEBUG, True)
@@ -274,7 +274,7 @@ Func LocateBattleMachine()
 				$g_aiBattleMachinePos[1] = -1
 			EndIf
 		Else
-			ClickAway()
+			ClearScreen("Defaut", False)
 			SetDebugLog("Found Battle Machine Position is not valid.", $COLOR_ERROR)
 			SetDebugLog("Village position: " & $g_aiBattleMachinePos[0] & ", " & $g_aiBattleMachinePos[1], $COLOR_DEBUG, True)
 			ConvertToVillagePos($g_aiBattleMachinePos[0], $g_aiBattleMachinePos[1])
@@ -285,7 +285,7 @@ Func LocateBattleMachine()
 	EndIf
 
 	SetLog("Can not find Battle Machine.", $COLOR_ERROR)
-	ClickAway()
+	ClearScreen("Defaut", False)
 	Return False
 EndFunc   ;==>LocateBattleMachine
 

@@ -116,7 +116,7 @@ Global $aWonTwoStarAtkRprt[4] = [398, 180 + $g_iMidOffsetY, 0xD0D6D0, 30] ; Cent
 Global $aWonThreeStarAtkRprt[4] = [534, 180 + $g_iMidOffsetY, 0xC8CAC7, 30] ; Center of 3rd Star reached attacked village
 ; pixel color: location information								BS 850MB (Reg GFX), BS 500MB (Med GFX) : location
 
-Global $NextBtn[4] = [720, 536 + $g_iBottomOffsetY, 0xE5510D, 20] ;  Next Button
+Global $NextBtn[4] = [720, 536 + $g_iBottomOffsetY, 0xE6530D, 20] ;  Next Button
 Global $a12OrMoreSlots[4] = [20, 579 + $g_iBottomOffsetY, 0x84DAF8, 25] ; Attackbar Check if 12+ Slots exist
 Global $a12OrMoreSlots2[4] = [20, 580 + $g_iBottomOffsetY, 0xFE4040, 25] ; Attackbar Check if 12+ Slots exist SuperTroops
 Global $a12OrMoreSlots3[4] = [20, 580 + $g_iBottomOffsetY, 0xFFFDFF, 25] ; Attackbar Check if 12+ Slots exist Special Troops
@@ -148,12 +148,6 @@ Global $aLoginWithSupercellID[4] = [280, 640 + $g_iMidOffsetY, 0xDCF684, 20] ; U
 Global $aLoginWithSupercellID2[4] = [266, 653 + $g_iMidOffsetY, 0xFFFFFF, 10]  ; White Font "Log in with Supercell ID"
 Global $aButtonSetting[4] = [824, 555 + $g_iMidOffsetY, 0xFFFFFF, 10] ; Setting button, Main Screen
 Global $aIsSettingPage[4] = [778, 65 + $g_iMidOffsetY, 0xFF9095, 10] ; Main Screen, Setting page open - left upper corner of x button
-
-;Google Play
-Global $aListAccount[4] = [635, 230 + $g_iMidOffsetY, 0xFFFFFF, 20] ; Accounts list google, White
-Global $aButtonVillageLoad[4] = [515, 411 + $g_iMidOffsetY, 0x6EBD1F, 20] ; Load button, Green
-Global $aTextBox[4] = [320, 160 + $g_iMidOffsetY, 0xFFFFFF, 10] ; Text box, White
-Global $aButtonVillageOkay[4] = [500, 170 + $g_iMidOffsetY, 0x81CA2D, 20] ; Okay button, Green
 
 ;SuperCell ID
 Global $aButtonConnectedSCID[4] = [640, 160 + $g_iMidOffsetY, 0x2D89FD, 20] ; Setting screen, Supercell ID Connected button (Blue Part)

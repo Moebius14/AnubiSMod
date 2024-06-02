@@ -31,12 +31,12 @@ Func CleanBBYard()
 					$CleanBBYardXY = $aPoints[$i] ; Coords
 					If UBound($CleanBBYardXY) > 1 And isInsideDiamondXY($CleanBBYardXY[0], $CleanBBYardXY[1]) Then ; secure x because of clan chat tab
 						If $g_bDebugSetlog Then SetDebugLog($Filename & " found (" & $CleanBBYardXY[0] & "," & $CleanBBYardXY[1] & ")", $COLOR_SUCCESS)
-						If IsMainPageBuilderBase() Then Click($CleanBBYardXY[0], $CleanBBYardXY[1], 1, 0, "#0430")
+						If IsMainPageBuilderBase() Then Click($CleanBBYardXY[0], $CleanBBYardXY[1], 1, 150, "#0430")
 						$Locate = True
 						If _Sleep($DELAYCOLLECT3) Then Return
 						If Not ClickRemoveObstacleBB() Then ContinueLoop
 						If _Sleep($DELAYCHECKTOMBS2) Then Return
-						ClickAway()
+						ClearScreen("Defaut", False)
 						If _Sleep($DELAYCHECKTOMBS1) Then Return
 						If getBuilderCount(True, True) = False Then Return ; update builder data, return if problem
 						If _Sleep($DELAYRESPOND) Then Return
@@ -58,7 +58,7 @@ Func CleanBBYard()
 		SetDebugLog("Time: " & Round(__TimerDiff($hObstaclesTimer) / 1000, 2) & "'s", $COLOR_SUCCESS)
 	EndIf
 	UpdateStats()
-	ClickAway()
+	ClearScreen("Defaut", False)
 EndFunc   ;==>CleanBBYard
 
 Func ClickRemoveObstacleBB()

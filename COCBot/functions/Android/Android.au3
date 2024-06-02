@@ -2932,17 +2932,14 @@ EndFunc   ;==>_AndroidScreencap
 
 Func AndroidZoomOut($loopCount = 0, $timeout = Default, $bMinitouch = Default, $wasRunState = Default)
 	If $g_bOnBuilderBaseEnemyVillage Then
-		SetDebugLog("Running minitouch ZoomOutTOP script", $COLOR_INFO)
-		Return AndroidAdbScript("ZoomOutTop", Default, $timeout, $bMinitouch, $wasRunState)
+		Local $iCounter = Random(0, 2, 1)
+		Local $sScript = "Small" & $iCounter
 	Else
-		Local $iCounter = $g_aiSearchZoomOutCounter[0]
-
-		If $iCounter > 5 Then $iCounter -= 5
-
-		Local $sScript = "ZoomOut" & $iCounter
-		SetDebugLog("Running minitouch script " & $sScript, $COLOR_INFO)
-		Return AndroidAdbScript($sScript, Default, $timeout, $bMinitouch, $wasRunState)
+		Local $iCounter = Random(0, 6, 1)
+		Local $sScript = "Normal" & $iCounter
 	EndIf
+	SetDebugLog("Running minitouch script " & $sScript, $COLOR_INFO)
+	Return AndroidAdbScript($sScript, Default, $timeout, $bMinitouch, $wasRunState)
 EndFunc   ;==>AndroidZoomOut
 
 Func AndroidAdbScript($scriptTag, $variablesArray = Default, $timeout = Default, $bMinitouch = Default, $wasRunState = Default)
@@ -2957,11 +2954,11 @@ Func AndroidAdbScript($scriptTag, $variablesArray = Default, $timeout = Default,
 	Local $scriptFile = ""
 	If $bMinitouch And $scriptFile = "" And FileExists($g_sAdbScriptsPath & "\" & $scriptTag & "." & $g_sAndroidEmulator & ".minitouch") = 1 Then $scriptFile = $scriptTag & "." & $g_sAndroidEmulator & ".minitouch"
 	If $scriptFile = "" And FileExists($g_sAdbScriptsPath & "\" & $scriptTag & "." & $g_sAndroidEmulator & ".script") = 1 Then $scriptFile = $scriptTag & "." & $g_sAndroidEmulator & ".script"
-	If $scriptFile = "" And FileExists($g_sAdbScriptsPath & "\" & $scriptTag & "." & $g_sAndroidEmulator & ".getevent") = 1 Then $scriptFile = $scriptTag & "." & $g_sAndroidEmulator & ".getevent"
+;	If $scriptFile = "" And FileExists($g_sAdbScriptsPath & "\" & $scriptTag & "." & $g_sAndroidEmulator & ".getevent") = 1 Then $scriptFile = $scriptTag & "." & $g_sAndroidEmulator & ".getevent"
 	If Not $bMinitouch And $scriptFile = "" And FileExists($g_sAdbScriptsPath & "\" & $scriptTag & "." & $g_sAndroidEmulator & ".minitouch") = 1 Then $scriptFile = $scriptTag & "." & $g_sAndroidEmulator & ".minitouch"
 	If $bMinitouch And $scriptFile = "" And FileExists($g_sAdbScriptsPath & "\" & $scriptTag & ".minitouch") = 1 Then $scriptFile = $scriptTag & ".minitouch"
 	If $scriptFile = "" And FileExists($g_sAdbScriptsPath & "\" & $scriptTag & ".script") = 1 Then $scriptFile = $scriptTag & ".script"
-	If $scriptFile = "" And FileExists($g_sAdbScriptsPath & "\" & $scriptTag & ".getevent") = 1 Then $scriptFile = $scriptTag & ".getevent"
+;	If $scriptFile = "" And FileExists($g_sAdbScriptsPath & "\" & $scriptTag & ".getevent") = 1 Then $scriptFile = $scriptTag & ".getevent"
 	If Not $bMinitouch And $scriptFile = "" And FileExists($g_sAdbScriptsPath & "\" & $scriptTag & ".minitouch") = 1 Then $scriptFile = $scriptTag & ".minitouch"
 	AndroidAdbSendShellCommandScript($scriptFile, $variablesArray, Default, $timeout, $wasRunState)
 	Return SetError(@error, @extended, (@error = 0 ? 1 : 0))
@@ -3106,7 +3103,7 @@ Func AndroidAdbClickSupported()
 	Return BitAND($g_iAndroidSupportFeature, 4) = 4
 EndFunc   ;==>AndroidAdbClickSupported
 
-Func AndroidClick($x, $y, $times = 1, $speed = 0, $checkProblemAffect = True)
+Func AndroidClick($x, $y, $times = 1, $speed = 150, $checkProblemAffect = True)
 	If Not ($x = Default) Then $x = Int($x) + $g_aiMouseOffset[0]
 	If Not ($x = Default) Then $y = Int($y) + $g_aiMouseOffset[1]
 	ForceCaptureRegion()
@@ -3562,7 +3559,7 @@ Func Minitouch($x, $y, $iAction = 0, $iDelay = 1)
 	Return $iBytes
 EndFunc   ;==>Minitouch
 
-Func AndroidMinitouchClick($x, $y, $times = 1, $speed = 0, $checkProblemAffect = True, $iRetryCount = 0)
+Func AndroidMinitouchClick($x, $y, $times = 1, $speed = 150, $checkProblemAffect = True, $iRetryCount = 0)
 	Local $minSleep = GetClickDownDelay()
 	Local $iDelay = GetClickUpDelay()
 	Local $_SilentSetLog = $g_bSilentSetLog
@@ -4218,7 +4215,7 @@ Func GetAndroidProcessPID($sPackage = Default, $bForeground = True, $iRetryCount
 	EndIf
 
 	SetLog("Android process " & $sPackage & " not running")
-	If $g_bDebugAndroid Then  SaveDebugImage("GetAndroidProcessPID")
+	If $g_bDebugAndroid Then SaveDebugImage("GetAndroidProcessPID")
 	$g_iAdroidProcNotRunning += 1
 	If $g_iAdroidProcNotRunning = 10 Then ; HArchH arbitrary limit
 		SetLog("Too many not running errors.  Restarting emulator.", $COLOR_INFO)

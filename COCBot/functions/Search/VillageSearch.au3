@@ -471,7 +471,11 @@ Func _VillageSearch() ;Control for searching a village that meets conditions
 			_CaptureRegions()
 			If (_ColorCheck(_GetPixelColor($NextBtn[0], $NextBtn[1]), Hex($NextBtn[2], 6), $NextBtn[3])) And IsAttackPage(False) Then
 				$g_bCloudsActive = True
-				Click($NextBtn[0] + 55, $NextBtn[1] - 18, 1, 0, "#0155") ;Click Next
+				Local $NextCoordsX[2] = [740, 820]
+				Local $NextCoordsY[2] = [495 + $g_iBottomOffsetY, 540 + $g_iBottomOffsetY]
+				Local $NextButtonClickX = Random($NextCoordsX[0], $NextCoordsX[1], 1)
+				Local $NextButtonClickY = Random($NextCoordsY[0], $NextCoordsY[1], 1)
+				Click($NextButtonClickX, $NextButtonClickY, 1, 150, "#0155") ;Click Next
 				ExitLoop
 			Else
 				SetDebugLog("Wait to see Next Button... " & $i, $COLOR_DEBUG)

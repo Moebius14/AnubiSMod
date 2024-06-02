@@ -143,7 +143,7 @@ Func GetVillageSize($DebugLog = Default, $sStonePrefix = Default, $sTreePrefix =
 						SetDeBugLog("Village Scenery Found: " & $sScenery, $COLOR_OLIVE)
 
 						; if too far away from expected location then align
-						If $x > ($x0 + 75) Or $x < ($x0 - 75) Then
+						If $x > ($x0 + 75) Or $x < ($x0 - 75) Or $y > ($y0 + 75) Or $y < ($y0 - 75) Then
 							SetDeBugLog("Village Scenery FP X is off by more than 75 pixels", $COLOR_WARNING)
 							CenterVillage($x, $y, $x - $x0, $y - $y0)
 							$bForceCapture = True ; forces new capture after align
@@ -165,7 +165,7 @@ Func GetVillageSize($DebugLog = Default, $sStonePrefix = Default, $sTreePrefix =
 		If Not $bMeasureOnly Then
 			If $scenery[0] = 0 And $g_aiSearchZoomOutCounter[0] = 1 Then
 				If $g_bDebugImageSave Then SaveDebugRectImage("FailedScenerySearch", $x1 & "," & $y1 & "," & $right & "," & $bottom)
-				ClickAway()
+				ClearScreen()
 				If _Sleep(100) Then Return
 			EndIf
 			;If $scenery[0] = 0 Then SaveDebugRectImage("FailedScenerySearch", $x1 & "," & $y1 & "," & $right & "," & $bottom)
@@ -462,7 +462,7 @@ Func CenterVillage($iX, $iY, $iOffsetX, $iOffsetY)
 
 	If $g_bDebugSetlog Then SetDebugLog("CenterVillage at point : " & $aScrollPos[0] & ", " & $aScrollPos[1] & " Offset : " & $iOffsetX & ", " & $iOffsetY, $COLOR_INFO)
 	If $g_bDebugImageSave Then SaveDebugPointImage("CenterVillage", $aScrollPos)
-	ClickAway()
+	ClearScreen()
 	ClickDrag($aScrollPos[0], $aScrollPos[1], $aScrollPos[0] - $iOffsetX, $aScrollPos[1] - $iOffsetY)
 
 	If _Sleep(150) Then Return

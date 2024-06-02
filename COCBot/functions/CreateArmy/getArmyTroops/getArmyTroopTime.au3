@@ -38,7 +38,8 @@ Func getArmyTroopTime($bOpenArmyWindow = False, $bCloseArmyWindow = False, $bChe
 	$g_aiTimeTrain[0] = ConvertOCRTime("Troops", $sResultTroops, $bSetLog) ; update global array
 
 	If $bCloseArmyWindow Then
-		ClickAway()
+		CloseWindow()
 		If _Sleep($DELAYCHECKARMYCAMP4) Then Return
 	EndIf
+
 EndFunc   ;==>getArmyTroopTime

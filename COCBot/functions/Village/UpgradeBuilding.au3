@@ -404,13 +404,13 @@ Func UpgradeNormal($iUpgradeNumber)
 			Else
 				Local $g_aUpgradeDuration = getHeroUpgradeTime(730, 544 + $g_iMidOffsetY)
 				If $g_aUpgradeDuration = "" Then $g_aUpgradeDuration = getHeroUpgradeTime(730, 532 + $g_iMidOffsetY) ; Try to read yellow text (Discount).
-				Click(630, 540 + $g_iMidOffsetY, 1, 0, "#0299") ; Click upgrade buttton
+				Click(630, 540 + $g_iMidOffsetY, 1, 150, "#0299") ; Click upgrade buttton
 				If _Sleep(1000) Then Return
 				If $aResult[1] = "Town Hall" Then
 					Local $aiCancelButton = findButton("Cancel", Default, 1, True)
 					If IsArray($aiCancelButton) And UBound($aiCancelButton, 1) = 2 Then
 						SetLog("MBR is not designed to rush a TH upgrade", $COLOR_ERROR)
-						PureClick($aiCancelButton[0], $aiCancelButton[1], 2, 50, "#0117") ; Click Cancel Button
+						PureClick($aiCancelButton[0], $aiCancelButton[1], 2, 150, "#0117") ; Click Cancel Button
 						If _Sleep(1500) Then Return
 						CloseWindow()
 						Return False
@@ -535,7 +535,7 @@ Func UpgradeGearUp($iUpgradeNumber)
 				ClickAway()
 				Return False
 			Else
-				Click(460, 485 + $g_iMidOffsetY, 1, 0, "#0299") ; Click upgrade buttton
+				Click(460, 485 + $g_iMidOffsetY, 1, 150, "#0299") ; Click upgrade buttton
 				If _Sleep($DELAYUPGRADENORMAL3) Then Return
 				If $g_bDebugImageSave Then SaveDebugImage("UpgradeRegBtn2")
 
@@ -626,7 +626,7 @@ Func UpgradeHero($iUpgradeNumber)
 			Else
 				Local $g_aUpgradeDuration = getHeroUpgradeTime(730, 544 + $g_iMidOffsetY) ; get duration
 				If $g_aUpgradeDuration = "" Then $g_aUpgradeDuration = getHeroUpgradeTime(730, 532 + $g_iMidOffsetY) ; Try to read yellow text (Discount).
-				Click(630, 540 + $g_iMidOffsetY, 1, 0, "#0299") ; Click upgrade buttton
+				Click(630, 540 + $g_iMidOffsetY, 1, 150, "#0299") ; Click upgrade buttton
 				If _Sleep($DELAYUPGRADENORMAL3) Then Return
 				If $g_bDebugImageSave Then SaveDebugImage("UpgradeRegBtn2")
 

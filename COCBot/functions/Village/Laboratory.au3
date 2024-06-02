@@ -58,6 +58,20 @@ Func Laboratory($debug = False)
 	; Get updated village elixir and dark elixir values
 	VillageReport()
 
+	; not enough Resource for upgrade -
+	If Number($g_aiCurrentLoot[$eLootDarkElixir]) < Number($g_iLaboratoryDElixirCost) Then
+		If Number($g_iLaboratoryDElixirCost) > 0 Then
+			SetLog("Minimum DE for Lab upgrade: " & _NumberFormat($g_iLaboratoryDElixirCost, True))
+			Return
+		EndIf
+	EndIf
+	If Number($g_aiCurrentLoot[$eLootElixir]) < Number($g_iLaboratoryElixirCost) Then
+		If Number($g_iLaboratoryElixirCost) > 0 Then
+			SetLog("Minimum Elixir for Lab upgrade: " & _NumberFormat($g_iLaboratoryElixirCost, True))
+			Return
+		EndIf
+	EndIf
+
 	If UBound(decodeSingleCoord(FindImageInPlace2("GobBuilder", $g_sImgGobBuilder, 240, 0, 450, 60, True))) > 1 Then
 		$GobBuilderPresent = True
 		$GobBuilderOffsetRunning = 355
@@ -800,7 +814,7 @@ Func FindResearchButton()
 		Return True
 	Else
 		SetLog("Cannot find the Laboratory Research Button!", $COLOR_ERROR)
-		ClickAway()
+		ClearScreen()
 		Return False
 	EndIf
 EndFunc   ;==>FindResearchButton
@@ -817,7 +831,7 @@ Func UseLabPotion()
 			If IsArray($LabBoosted) And UBound($LabBoosted) = 2 Then ; Lab already boosted skip using potion
 				SetLog("Detected Laboratory already boosted", $COLOR_INFO)
 				If _Sleep(1000) Then Return
-				ClickAway()
+				ClearScreen()
 				Return
 			EndIf
 			Click($LabPotion[0], $LabPotion[1])

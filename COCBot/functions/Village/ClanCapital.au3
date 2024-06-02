@@ -26,7 +26,6 @@ Func CollectCCGold($bTest = False)
 	Local $CollectingCCGold = 0, $CollectedCCGold = 0
 	Local $aCollect
 	SetLog("Start Collecting Clan Capital Gold", $COLOR_INFO)
-	ClickAway("Right")
 	If _Sleep(500) Then Return
 	ZoomOut() ;ZoomOut first
 	If _Sleep(500) Then Return
@@ -356,7 +355,6 @@ Func ForgeClanCapitalGold($bTest = False)
 	If Not $g_bRunState Then Return
 
 	SetLog("Checking for Forge ClanCapital Gold", $COLOR_INFO)
-	ClickAway()
 	ZoomOut()
 	getBuilderCount(True) ;check if we have available builder
 
@@ -1237,7 +1235,11 @@ Func SwitchToCapitalMain()
 	For $i = 1 To 14
 		If QuickMIS("BC1", $g_sImgCCMap, 15, 550 + $g_iBottomOffsetY, 115, 640 + $g_iBottomOffsetY) Then
 			If $g_iQuickMISName = "MapButton" Then
-				Click(60, 610 + $g_iBottomOffsetY) ;Click Map
+				Local $MapCoordsX[2] = [45, 85]
+				Local $MapCoordsY[2] = [590 + $g_iBottomOffsetY, 625 + $g_iBottomOffsetY]
+				Local $MapButtonClickX = Random($MapCoordsX[0], $MapCoordsX[1], 1)
+				Local $MapButtonClickY = Random($MapCoordsY[0], $MapCoordsY[1], 1)
+				Click($MapButtonClickX, $MapButtonClickY, 1, 180, "MapButton") ;Click Map
 				If _Sleep(3000) Then Return
 			EndIf
 		EndIf
@@ -1267,7 +1269,11 @@ Func SwitchToMainVillage()
 		EndIf
 		If QuickMIS("BC1", $g_sImgCCMap, 15, 550 + $g_iBottomOffsetY, 115, 640 + $g_iBottomOffsetY) Then
 			If $g_iQuickMISName = "ReturnHome" Then
-				Click(60, 610 + $g_iBottomOffsetY) ;Click ReturnHome
+				Local $HomeCoordsX[2] = [45, 85]
+				Local $HomeCoordsY[2] = [590 + $g_iBottomOffsetY, 625 + $g_iBottomOffsetY]
+				Local $HomeButtonClickX = Random($HomeCoordsX[0], $HomeCoordsX[1], 1)
+				Local $HomeButtonClickY = Random($HomeCoordsY[0], $HomeCoordsY[1], 1)
+				Click($HomeButtonClickX, $HomeButtonClickY, 1, 180, "HomeButton") ;Click ReturnHome
 				If _Sleep(2000) Then Return
 				ExitLoop
 			EndIf
@@ -2083,7 +2089,10 @@ Func AutoUpgradeCC()
 			If StringInStr($Text, "No") Then
 				SetLog("No Upgrades in progress", $COLOR_INFO)
 				If _Sleep(500) Then Return
-				ClickAway("Right") ;close builder menu
+				If QuickMIS("BC1", $g_sImgCCMap, 300, 10, 430, 40) Then
+					Click($g_iQuickMISX, $g_iQuickMISY) ;close builder menu
+					If _Sleep(1000) Then Return
+				EndIf
 				ClanCapitalReport(False)
 				ExitLoop
 			EndIf
@@ -2229,8 +2238,6 @@ Func CapitalMainUpgradeLoop($aUpgrade)
 			$g_iStatsClanCapUpgrade = $g_iStatsClanCapUpgrade + 1
 			AutoUpgradeCCLog($BuildingName)
 			If _Sleep(1500) Then Return
-			ClickAway("Right")
-			If _Sleep(2000) Then Return
 		EndIf
 		ExitLoop
 	Next
@@ -2271,9 +2278,6 @@ Func DistrictUpgrade($aUpgrade)
 			$g_iStatsClanCapUpgrade = $g_iStatsClanCapUpgrade + 1
 			AutoUpgradeCCLog($BuildingName)
 			If _Sleep(1500) Then Return
-			ClickAway("Right")
-			If _Sleep(1500) Then Return
-			ClickAway("Right")
 		EndIf
 		ExitLoop
 	Next
@@ -2479,7 +2483,7 @@ EndFunc   ;==>TimeForge
 
 Func CatchCCMedals()
 	Local $Found = False
-	ClickAway()
+	ClearScreen()
 	SetLog("Check CC Medals in Trader Menu", $COLOR_BLUE)
 	If _Sleep(1000) Then Return
 
@@ -2552,7 +2556,7 @@ EndFunc   ;==>CatchCCMedals
 
 Func CatchSmallCCTrophies($StartRaidConditions = False)
 
-	ClickAway()
+	ClearScreen()
 
 	If $StartRaidConditions Then
 		SetLog("Check Your Rank in Clan Informations", $COLOR_BLUE)
@@ -2601,8 +2605,8 @@ Func CatchSmallCCTrophies($StartRaidConditions = False)
 		If ProfileSwitchAccountEnabled() Then SwitchAccountVariablesReload("Save")
 	EndIf
 
-	CloseWindow()
-	If _Sleep(500) Then Return
+	CloseWindow2()
+	If _Sleep(1000) Then Return
 
 	If Not ClickB("ClanChat") Then
 		SetLog("Error finding the Clan Tab Button", $COLOR_ERROR)
@@ -2871,7 +2875,6 @@ Func CheckAvailableMagicItems($TestDebug = False)
 	Local $g_iItemNumberY = 0
 	Local $aItemTile = 0
 
-	ClickAway()
 	ZoomOut()
 	SetLog("Purging Medals", $COLOR_ACTION)
 	If _Sleep(1000) Then Return

@@ -78,7 +78,7 @@ Func OpenPersonalChallenges()
 		_FileWriteLog($g_sProfileLogsPath & "\ModLog.log", " [" & $g_sProfileCurrentName & "] " & $ActionForModLog)
 		SetLog("Something Detected In Personal Challenges !", $COLOR_BLUE)
 		SetLog("Opening...", $COLOR_INFO)
-		ClickAway()
+		ClearScreen()
 		If _Sleep($DELAYRUNBOT1) Then Return
 		Local $bRet = False
 		For $i = 0 To 9
@@ -95,7 +95,7 @@ Func OpenPersonalChallenges()
 		Next
 		If $bRet = False Then
 			SetLog("Can't find button", $COLOR_ERROR)
-			ClickAway()
+			ClearScreen()
 			Return False
 		EndIf
 

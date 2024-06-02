@@ -24,7 +24,7 @@ Func CollectAchievements($bTestMode = False) ;Run with True parameter if testing
 		If Not CollectAchievementsRandomization() Then Return
 	EndIf
 
-	ClickAway()
+	ClearScreen()
 	If Not IsMainPage() Then Return
 
 	SetLog("Begin collecting achievement rewards", $COLOR_INFO)

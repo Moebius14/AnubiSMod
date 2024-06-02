@@ -349,9 +349,21 @@ Func LabGuiDisplay() ; called from main loop to get an early status for indictor
 		If $iLabTime > 0 And $iLastCheck <= $iDelayToCheck Then Return
 	EndIf
 
-	;CLOSE ARMY WINDOW
-	ClickAway()
-	If _Sleep(1500) Then Return ; Delay AFTER the click Away Prevents lots of coc restarts
+	; not enough Resource for upgrade -
+	If Number($g_aiCurrentLoot[$eLootDarkElixir]) < Number($g_iLaboratoryDElixirCost) And Not _DateIsValid($g_sLabUpgradeTime) Then
+		If Number($g_iLaboratoryDElixirCost) > 0 Then
+			SetLog("Minimum DE for Lab upgrade: " & _NumberFormat($g_iLaboratoryDElixirCost, True))
+			Return
+		EndIf
+	EndIf
+	If Number($g_aiCurrentLoot[$eLootElixir]) < Number($g_iLaboratoryElixirCost) And Not _DateIsValid($g_sLabUpgradeTime) Then
+		If Number($g_iLaboratoryElixirCost) > 0 Then
+			SetLog("Minimum Elixir for Lab upgrade: " & _NumberFormat($g_iLaboratoryElixirCost, True))
+			Return
+		EndIf
+	EndIf
+
+	ClearScreen()
 
 	If $g_iTownHallLevel < 3 Then
 		SetDebugLog("TH reads as Lvl " & $g_iTownHallLevel & ", has no Lab.")
@@ -414,7 +426,7 @@ Func LabGuiDisplay() ; called from main loop to get an early status for indictor
 		EndIf
 	Else
 		SetLog("Cannot find the Laboratory Research Button!", $COLOR_ERROR)
-		ClickAway()
+		ClearScreen()
 		;===========Hide Red  Hide Green  Show Gray==
 		GUICtrlSetState($g_hPicLabGreen, $GUI_HIDE)
 		GUICtrlSetState($g_hPicLabRed, $GUI_HIDE)
@@ -546,7 +558,7 @@ Func LabGuiDisplay() ; called from main loop to get an early status for indictor
 		GUICtrlSetState($g_hPicLabRed, $GUI_SHOW)
 		GUICtrlSetData($g_hLbLLabTime, "")
 		;============================================
-		ClickAway()
+		ClearScreen()
 		$g_sLabUpgradeTime = ""
 		If ProfileSwitchAccountEnabled() Then SwitchAccountVariablesReload("Save") ; saving $asLabUpgradeTime[$g_iCurAccount] = $g_sLabUpgradeTime for instantly displaying in multi-stats
 		Return

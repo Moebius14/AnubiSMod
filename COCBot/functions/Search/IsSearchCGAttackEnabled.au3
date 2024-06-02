@@ -34,7 +34,7 @@ Func IsSearchCGAttackEnabled()
 		If $bCGPlannerThenStopBot Then
 			SetLog("Bot Will Stop After Routines", $COLOR_DEBUG)
 			Sleep(Random(3500, 5500, 1))
-			ClickAway()
+			ClearScreen()
 			Sleep(Random(3500, 5500, 1))
 			If IsToFillCCWithMedalsOnly() Then
 				Local $aRndFuncList = ['DonateCC,Train', 'CollectFreeMagicItems', 'Collect', 'DailyChallenge', 'UpgradeWall', 'Laboratory', 'UpgradeHeroes', 'UpgradeBuilding', 'PetHouse', 'CheckTombs', 'CleanYard']

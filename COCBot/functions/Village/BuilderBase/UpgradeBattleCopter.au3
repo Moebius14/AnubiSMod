@@ -68,7 +68,7 @@ Func BattleCopterUpgrade($test = False)
 					SetLog("Your Battle Copter is at max level, cannot upgrade anymore!", $COLOR_INFO)
 					$g_bBattleCopterUpgrade = False ; turn Off the Battle Copter upgrade
 					GUICtrlSetState($g_hChkBattleCopterUpgrade, $GUI_UNCHECKED)
-					ClickAway()
+					ClearScreen("Defaut", False)
 					If _Sleep(500) Then Return
 					SwitchToBuilderbase()
 					Return
@@ -81,14 +81,14 @@ Func BattleCopterUpgrade($test = False)
 					GUICtrlSetState($g_hChkBattleMachineUpgrade, $GUI_UNCHECKED)
 					GUICtrlSetState($g_hChkBattleCopterUpgrade, $GUI_UNCHECKED)
 					$g_CombinedMachineLevel = 0 ; If user wants to continue upgrade despite the combined level
-					ClickAway()
+					ClearScreen("Defaut", False)
 					If _Sleep(500) Then Return
 					SwitchToBuilderbase()
 					Return
 				EndIf
 			Else
 				SetLog("Your Battle Copter Level was not found!", $COLOR_INFO)
-				ClickAway()
+				ClearScreen("Defaut", False)
 				If _Sleep(500) Then Return
 				SwitchToBuilderbase()
 				Return
@@ -96,7 +96,7 @@ Func BattleCopterUpgrade($test = False)
 		EndIf
 	Else
 		SetLog("Bad Battle Copter OCR", $COLOR_ERROR)
-		ClickAway()
+		ClearScreen("Defaut", False)
 		If _Sleep(500) Then Return
 		SwitchToBuilderbase()
 		Return
@@ -106,7 +106,7 @@ Func BattleCopterUpgrade($test = False)
 
 	If $g_aiCurrentLootBB[$eLootElixirBB] < ($g_afBattleCopterUpgCost[$aHeroLevel] * 1000000) * (1 - Number($g_iBuilderBoostDiscount) / 100) Then
 		SetLog("Battle Copter Upg failed, require " & ($g_afBattleCopterUpgCost[$aHeroLevel] * 1000000) * (1 - Number($g_iBuilderBoostDiscount) / 100) & " elixir!", $COLOR_INFO)
-		ClickAway()
+		ClearScreen("Defaut", False)
 		If _Sleep(500) Then Return
 		SwitchToBuilderbase()
 		Return
@@ -131,7 +131,7 @@ Func BattleCopterUpgrade($test = False)
 				; Just incase the buy Gem Window pop up!
 				If isGemOpen(True) Then
 					SetLog("Battle Copter Upgrade Fail! Gem Window popped up!", $COLOR_ERROR)
-					ClickAway()
+					CloseWindow()
 					If _Sleep(500) Then Return
 					SwitchToBuilderbase()
 					Return False
@@ -157,7 +157,7 @@ Func BattleCopterUpgrade($test = False)
 			Else
 				SetLog("Battle Copter Upgrade Fail!", $COLOR_ERROR)
 				If $g_bDebugImageSave Then SaveDebugImage("UpgradeBMBtn2")
-				ClickAway()
+				CloseWindow()
 				If _Sleep(500) Then Return
 				SwitchToBuilderbase()
 				Return
@@ -170,7 +170,7 @@ Func BattleCopterUpgrade($test = False)
 		If $g_bDebugImageSave Then SaveDebugImage("UpgradeBMBtn1")
 	EndIf
 
-	ClickAway()
+	ClearScreen("Defaut", False)
 	If _Sleep(500) Then Return
 	SwitchToBuilderbase()
 EndFunc   ;==>BattleCopterUpgrade
@@ -199,7 +199,7 @@ Func LocateBattleCopter()
 				$g_CurrentBattleCopterLevel = $aResult[2]
 				Return True
 			Else
-				ClickAway()
+				ClearScreen("Defaut", False)
 				SetDebugLog("Stored Battle Copter Position is not valid.", $COLOR_ERROR)
 				SetDebugLog("Found instead: " & $aResult[1] & ", " & $aResult[2] & " !", $COLOR_DEBUG)
 				SetDebugLog("Village position: " & $g_aiBattleCopterPos[0] & ", " & $g_aiBattleCopterPos[1], $COLOR_DEBUG, True)
@@ -209,7 +209,7 @@ Func LocateBattleCopter()
 				$g_aiBattleCopterPos[1] = -1
 			EndIf
 		Else
-			ClickAway()
+			ClearScreen("Defaut", False)
 			SetDebugLog("Stored Battle Copter Position is not valid.", $COLOR_ERROR)
 			SetDebugLog("Village position: " & $g_aiBattleCopterPos[0] & ", " & $g_aiBattleCopterPos[1], $COLOR_DEBUG, True)
 			ConvertToVillagePos($g_aiBattleCopterPos[0], $g_aiBattleCopterPos[1])
@@ -282,7 +282,7 @@ Func LocateBattleCopter()
 				$g_CurrentBattleCopterLevel = $aResult[2]
 				Return True
 			Else
-				ClickAway()
+				ClearScreen("Defaut", False)
 				SetDebugLog("Found Battle Copter Position is not valid.", $COLOR_ERROR)
 				SetDebugLog("Found instead: " & $aResult[1] & ", " & $aResult[2] & " !", $COLOR_DEBUG)
 				SetDebugLog("Village position: " & $g_aiBattleCopterPos[0] & ", " & $g_aiBattleCopterPos[1], $COLOR_DEBUG, True)
@@ -292,7 +292,7 @@ Func LocateBattleCopter()
 				$g_aiBattleCopterPos[1] = -1
 			EndIf
 		Else
-			ClickAway()
+			ClearScreen("Defaut", False)
 			SetDebugLog("Found Battle Copter Position is not valid.", $COLOR_ERROR)
 			SetDebugLog("Village position: " & $g_aiBattleCopterPos[0] & ", " & $g_aiBattleCopterPos[1], $COLOR_DEBUG, True)
 			ConvertToVillagePos($g_aiBattleCopterPos[0], $g_aiBattleCopterPos[1])
@@ -303,7 +303,7 @@ Func LocateBattleCopter()
 	EndIf
 
 	SetLog("Can not find Battle Copter.", $COLOR_ERROR)
-	ClickAway()
+	ClearScreen("Defaut", False)
 	If _Sleep(500) Then Return
 	SwitchToBuilderbase()
 	Return False

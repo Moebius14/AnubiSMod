@@ -103,10 +103,10 @@ Func getArmyHeroTime($iHeroType, $bOpenArmyWindow = False, $bCloseArmyWindow = F
 		EndIf
 	Next
 
-	If $bCloseArmyWindow Then CloseWindow()
-	;	ClickAway()
-	;	If _Sleep($DELAYCHECKARMYCAMP4) Then Return
-	;EndIf
+	If $bCloseArmyWindow Then
+		CloseWindow()
+		If _Sleep($DELAYCHECKARMYCAMP4) Then Return
+	EndIf
 
 	; Determine proper return value
 	If $iHeroType = $eHeroKing Or $iHeroType = $eHeroQueen Or $iHeroType = $eHeroWarden Or $iHeroType = $eHeroChampion Then

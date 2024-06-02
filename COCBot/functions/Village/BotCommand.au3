@@ -747,7 +747,7 @@ Func IsCCTreasuryFull()
 
 	SetLog("Check If Treasury Is Full Or Not", $COLOR_INFO)
 
-	ClickAway()
+	ClearScreen()
 	If _Sleep($DELAYRESPOND) Then Return
 
 	If ($g_aiClanCastlePos[0] = "-1" Or $g_aiClanCastlePos[1] = "-1") Then ;check for valid CC location
@@ -759,7 +759,7 @@ Func IsCCTreasuryFull()
 			Return
 		EndIf
 	EndIf
-	ClickAway()
+	ClearScreen()
 	If _Sleep($DELAYCOLLECT3) Then Return
 	BuildingClick($g_aiClanCastlePos[0], $g_aiClanCastlePos[1], "#0250") ; select CC
 	If _Sleep($DELAYTREASURY2) Then Return
@@ -773,7 +773,7 @@ Func IsCCTreasuryFull()
 			Local $NewY = Number($g_aiClanCastlePos[1] - (2 * $i))
 			SetLog("Clan Castle Windows Didn't Open", $COLOR_DEBUG1)
 			SetLog("New Try...", $COLOR_DEBUG1)
-			ClickAway()
+			ClearScreen()
 			If _Sleep(Random(1000, 1500, 1)) Then Return
 			PureClickVisit($NewX, $NewY) ; select CC
 			If _Sleep($DELAYBUILDINGINFO1) Then Return
@@ -781,7 +781,7 @@ Func IsCCTreasuryFull()
 			$BuildingInfo = BuildingInfo(242, 468 + $g_iBottomOffsetY)
 
 			If $BuildingInfo[1] = "Clan Castle" Then ExitLoop
-			ClickAway()
+			ClearScreen()
 			$NewX = Number($g_aiClanCastlePos[0] - (2 * $i))
 			$NewY = Number($g_aiClanCastlePos[1] + (2 * $i))
 			If _Sleep(Random(1000, 1500, 1)) Then Return

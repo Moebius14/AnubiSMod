@@ -55,7 +55,7 @@ Global $g_hTxtUpgrMinGold = 0, $g_hTxtUpgrMinElixir = 0, $g_hTxtUpgrMinDark = 0
 
 ; Walls
 Global $g_hChkWalls = 0, $g_hTxtWallMinGold = 0, $g_hTxtWallMinElixir = 0, $g_hRdoUseGold = 0, $g_hRdoUseElixir = 0, $g_hRdoUseElixirGold = 0, $g_hChkSaveWallBldr = 0, _
-		$g_hCmbWalls = 4, $g_hChkWallUpFirst = 0
+		$g_hCmbWalls = 4, $g_hChkWallUpFirst = 0, $g_hChkUpgradeWallAutoModEnabled = 0
 Global $g_hLblWallCost = 0, $g_hBtnFindWalls = 0
 Global $g_ahWallsCurrentCount[18] = [-1, -1, -1, -1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0] ; elements 0 to 3 are not referenced
 Global $g_ahPicWallsLevel[18] = [-1, -1, -1, -1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0] ; elements 0 to 3 are not referenced
@@ -770,6 +770,13 @@ Func CreateWallsSubTab()
 	_GUICtrlSetTip(-1, GetTranslatedFileIni("MBR GUI Design Child Village - Upgrade_Walls", "ChkWallUpFirst_Info_01", "Check This To Upgrade Walls Before Buildings Or Heroes, But After Laboratory"))
 	GUICtrlSetState(-1, $GUI_ENABLE)
 	GUICtrlSetState(-1, $GUI_UNCHECKED)
+
+	$g_hChkUpgradeWallAutoModEnabled = GUICtrlCreateCheckbox(GetTranslatedFileIni("MBR GUI Design Child Village - Auto_Upgrade_Walls", "ChkUpgradeWallAutoModEnabled", "Auto Upgrade Walls Mode"), $x + 226, $y + 97, -1, -1)
+	_GUICtrlSetTip(-1, GetTranslatedFileIni("MBR GUI Design Child Village - Upgrade_Walls", "ChkUpgradeWallAutoModEnabled_Info_01", "Handle With Care !!!") & @CRLF & _
+			GetTranslatedFileIni("MBR GUI Design Child Village - Upgrade_Walls", "ChkUpgradeWallAutoModEnabled_Info_02", "ONLY Check This When Walls Upgrade ONLY Remain To Do !!."))
+	GUICtrlSetState(-1, $GUI_DISABLE)
+	GUICtrlSetState(-1, $GUI_UNCHECKED)
+	GUICtrlSetOnEvent(-1, "ChkUpgradeWallAutoModEnabled")
 
 	_GUICtrlCreateIcon($g_sLibModIconPath, $eIcnModWallRing, $x - 12, $y + 127, 20, 20)
 	GUICtrlCreateLabel("Use Wall Rings :", $x + 19, $y + 131, -1, -1)

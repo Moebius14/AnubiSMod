@@ -66,7 +66,7 @@ Global $g_hChkCGMainAir = 0, $g_hChkCGMainGround = 0, $g_hChkCGEquipment = 0, $g
 Global $g_hChkCGBBBattle = 0, $g_hChkCGBBDestruction = 0, $g_hChkCGBBTroops = 0
 
 Global $g_ahCGMainLootItem[6], $g_ahCGMainBattleItem[22], $g_ahCGMainDestructionItem[34], $g_ahCGMainAirItem[13], _
-		$g_ahCGMainGroundItem[29], $g_ahCGEquipmentItem[19], $g_ahCGMainMiscItem[3], $g_ahCGMainSpellItem[12], $g_ahCGBBBattleItem[4], _
+		$g_ahCGMainGroundItem[29], $g_ahCGEquipmentItem[20], $g_ahCGMainMiscItem[3], $g_ahCGMainSpellItem[12], $g_ahCGBBBattleItem[4], _
 		$g_ahCGBBDestructionItem[21], $g_ahCGBBTroopsItem[12]
 
 Func CreateVillageMisc()

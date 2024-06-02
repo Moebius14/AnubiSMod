@@ -25,7 +25,7 @@ Func TestSmartFarm()
 
 	checkMainScreen(False)
 	CheckIfArmyIsReady()
-	ClickAway()
+	CloseWindow2()
 	If _Sleep(100) Then Return FuncReturn()
 	If (IsSearchModeActive($DB) And checkCollectors(True, False)) Or IsSearchModeActive($LB) Then
 		If _Sleep(100) Then Return FuncReturn()

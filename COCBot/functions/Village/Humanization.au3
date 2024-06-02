@@ -166,7 +166,7 @@ Func SCMessTabRead()
 	If Not $g_bRunState Then Return
 	If _Sleep(Random(2000, 4000, 1)) Then Return
 	SetLog("Exiting ...", $COLOR_OLIVE)
-	CloseWindow()
+	CloseWindow2()
 	ReturnAtHome()
 EndFunc   ;==>SCMessTabRead
 
@@ -225,7 +225,7 @@ Func LookAtWarLog()
 						If _Sleep(Random(2000, 3000, 1)) Then Return
 						SetLog("Exiting ...", $COLOR_OLIVE)
 						For $i = 0 To 1
-							CloseWindow()
+							CloseWindow2()
 						Next
 					Else
 						SetLog("No Raid Log Button Found ... Skipping ...", $COLOR_WARNING)
@@ -261,7 +261,7 @@ Func LookAtWarLog()
 						SetLog("No War Log Button Found ... Skipping ...", $COLOR_WARNING)
 					EndIf
 					If Not $g_bRunState Then Return
-					CloseWindow()
+					CloseWindow2()
 					SetLog("Exiting ...", $COLOR_OLIVE)
 				EndIf
 				If _Sleep(500) Then Return
@@ -851,7 +851,7 @@ Func LookAtCurrentWar()
 			EndSwitch
 
 			If _Sleep(Random(2000, 4000, 1)) Then Return
-			CloseWindow()
+			CloseWindow2()
 			If Not $g_bRunState Then Return
 		EndIf
 	EndIf
@@ -976,25 +976,19 @@ Func WatchWarReplays()
 								ClickP($aBack)
 							EndIf
 
-							If _Sleep(Random(1000, 2000, 1)) Then Return
-							Click(60 + Random(0, 700, 1), 25 + Random(0, 5, 1)) ; Click to get any window away
-							If _Sleep(Random(2000, 3000, 1)) Then Return
 						EndIf
 					Else
 						SetLog("No Replay To Watch Yet ... Skipping ...", $COLOR_WARNING)
-						ClickAway()
+						CloseWindow2()
 					EndIf
 				Else
 					SetLog("Error When Trying to Open War Details Window ... Skipping ...", $COLOR_WARNING)
 				EndIf
 
-				If _ColorCheck(_GetPixelColor(826, 85 + $g_iMidOffsetY, True), Hex(0x7F7F66, 6), 20) And $g_bClanWarLeague Then
-					Local $iSleepForWindow = Random(3000, 5000)
-					If _Sleep($iSleepForWindow) Then Return
-					Click(60 + Random(0, 700, 1), 25 + Random(0, 5, 1)) ; Click to get any window away
-					Local $iSleepForWindow2 = Random(2000, 4000)
-					If _Sleep($iSleepForWindow2) Then Return
-				EndIf
+				Local $iSleepForWindow = Random(2000, 3000, 1)
+				CloseWindow2()
+				Local $iSleepForWindow2 = Random(1000, 2000, 1)
+				If _Sleep($iSleepForWindow2) Then Return
 
 				If $g_bClanWarLeague Then
 					If QuickMIS("BC1", $directoryDay & "\CWL_Battle", 175, 585 + $g_iBottomOffsetY, 690, 625 + $g_iBottomOffsetY, True, False) Then ; When Battle Day Is Unselected
@@ -1018,7 +1012,7 @@ Func WatchWarReplays()
 
 		Else
 			SetLog("No Replay To Watch Yet, See Ya Later", $COLOR_WARNING)
-			ClickAway()
+			CloseWindow2()
 		EndIf
 
 	EndIf
@@ -1049,7 +1043,8 @@ Func WatchDefense()
 				Click($vReplayNumber[$iReplayToLaunch][1], $vReplayNumber[$iReplayToLaunch][2]) ; click on the choosen replay
 			Else
 				SetLog("No Replay To Watch ... Skipping ...", $COLOR_WARNING)
-				CloseWindow()
+				CloseWindow2()
+				Return
 			EndIf
 
 			WaitForReplayWindow()
@@ -1124,7 +1119,8 @@ Func WatchAttack()
 				Click($vReplayNumber[$iReplayToLaunch][1], $vReplayNumber[$iReplayToLaunch][2]) ; click on the choosen replay
 			Else
 				SetLog("No Replay To Watch ... Skipping ...", $COLOR_WARNING)
-				CloseWindow()
+				CloseWindow2()
+				Return
 			EndIf
 
 			WaitForReplayWindow()
@@ -1200,15 +1196,9 @@ Func BotHumanization()
 		Next
 
 		If $NoActionsToDo <> UBound($g_iacmbPriority) Then
-			$g_iMaxActionsNumber = Random(1, ($g_iCmbMaxActionsNumber + 1), 1)
-			SetLog("The Bot Will Do " & $g_iMaxActionsNumber & " Human Actions During This Loop ...", $COLOR_INFO)
-			For $i = 1 To $g_iMaxActionsNumber
-				If _Sleep(2000) Then Return
-				ReturnAtHome()
-				RandomHumanAction()
-			Next
-		Else
-			SetLog("All Actions Disabled, Skipping ...", $COLOR_WARNING)
+			If _Sleep(2000) Then Return
+			ReturnAtHome()
+			RandomHumanAction()
 		EndIf
 		SetLog("Bot Humanization Finished !", $COLOR_SUCCESS1)
 		If _Sleep(1500) Then Return
@@ -1361,7 +1351,7 @@ Func MatchPriorityNValue($ActionNumber)
 		Case 4
 			$g_iMinimumPriority = 90
 		Case 5
-			$g_iMinimumPriority = 97
+			$g_iMinimumPriority = 98
 	EndSwitch
 EndFunc   ;==>MatchPriorityNValue
 
@@ -1478,7 +1468,7 @@ Func DoAPauseDuringReplay($g_iReplayToPause)
 		If $PauseScore > $MinimumToPause Then
 			SetLog("Let's Do a Small Pause To See What Happens ...", $COLOR_OLIVE)
 			Click(750, 630 + $g_iBottomOffsetY) ; click pause button
-			If _Sleep(Random(1000, 2500)) Then Return
+			If _Sleep(Random(1000, 2500, 1)) Then Return
 			SetLog("Pause Finished, Let's Relaunch Replay!", $COLOR_OLIVE)
 			Click(750, 630 + $g_iBottomOffsetY) ; click play button
 		EndIf
@@ -1489,7 +1479,7 @@ Func VisitAPlayer()
 	SetLog("Let's Visit a Player ...", $COLOR_INFO)
 	If QuickMIS("BC1", $g_sImgHumanizationVisit) Then
 		Click($g_iQuickMISX, $g_iQuickMISY)
-		If _Sleep(Random(4500, 6000)) Then Return
+		If _Sleep(Random(4500, 6000, 1)) Then Return
 
 		If Random(0, 2, 1) < 2 Then
 			If QuickMIS("BC1", $g_sImgPlayerProfil, 60, 10, 250, 40) Then
@@ -1633,7 +1623,7 @@ Func CheckTH()
 	Local $BuildingNameFull = getOcrAndCapture("coc-build", 250, 514 + $g_iBottomOffsetY, 350, 30)
 	If Not StringInStr($BuildingNameFull, "Town") Then
 		SetLog("Oups ! Wrong click", $COLOR_ACTION)
-		ClickAway("Right")
+		ClearScreen("Right")
 		Return
 	EndIf
 	Local $aResult = BuildingInfo(242, 514 + $g_iBottomOffsetY)
@@ -1641,10 +1631,10 @@ Func CheckTH()
 	If _Sleep(1500) Then Return
 	If ClickB("Info") Then
 		SetLog("... And Open His Info Window ...", $COLOR_OLIVE)
-		If _Sleep(Random(4000, 6000)) Then Return
+		If _Sleep(Random(4000, 6000, 1)) Then Return
 	Else
 		SetLog("Info Button Not Found", $COLOR_DEBUG)
-		ClickAway("Right")
+		ClearScreen("Right")
 		Return
 	EndIf
 
@@ -1704,7 +1694,7 @@ Func CheckMortar()
 			If Not StringInStr($BuildingNameFull, "Mortar") Then
 				SetLog("Oups ! Wrong click", $COLOR_ACTION)
 				If _Sleep(200) Then Return
-				ClickAway("Right")
+				ClearScreen("Right")
 				If _Sleep(1000) Then Return
 				ContinueLoop
 			EndIf
@@ -1713,11 +1703,11 @@ Func CheckMortar()
 			If _Sleep(1500) Then Return
 			If ClickB("Info") Then
 				SetLog("... And Open His Info Window ...", $COLOR_OLIVE)
-				If _Sleep(Random(4000, 6000)) Then Return
+				If _Sleep(Random(4000, 6000, 1)) Then Return
 			Else
 				SetLog("Info Button Not Found", $COLOR_DEBUG)
 				If _Sleep(200) Then Return
-				ClickAway("Right")
+				ClearScreen("Right")
 				If _Sleep(1000) Then Return
 				ContinueLoop
 			EndIf
@@ -1783,7 +1773,7 @@ Func CheckWizard()
 			If Not StringInStr($BuildingNameFull, "Wizard") Then
 				SetLog("Oups ! Wrong click", $COLOR_ACTION)
 				If _Sleep(200) Then Return
-				ClickAway("Right")
+				ClearScreen("Right")
 				If _Sleep(1000) Then Return
 				ContinueLoop
 			EndIf
@@ -1792,11 +1782,11 @@ Func CheckWizard()
 			If _Sleep(1500) Then Return
 			If ClickB("Info") Then
 				SetLog("... And Open His Info Window ...", $COLOR_OLIVE)
-				If _Sleep(Random(4000, 6000)) Then Return
+				If _Sleep(Random(4000, 6000, 1)) Then Return
 			Else
 				SetLog("Info Button Not Found", $COLOR_DEBUG)
 				If _Sleep(200) Then Return
-				ClickAway("Right")
+				ClearScreen("Right")
 				If _Sleep(1000) Then Return
 				ContinueLoop
 			EndIf
@@ -1854,7 +1844,7 @@ Func CheckXBows()
 			If Not StringInStr($BuildingNameFull, "Bow") Then
 				SetLog("Oups ! Wrong click", $COLOR_ACTION)
 				If _Sleep(200) Then Return
-				ClickAway("Right")
+				ClearScreen("Right")
 				If _Sleep(1000) Then Return
 				ContinueLoop
 			EndIf
@@ -1863,11 +1853,11 @@ Func CheckXBows()
 			If _Sleep(1500) Then Return
 			If ClickB("Info") Then
 				SetLog("... And Open His Info Window ...", $COLOR_OLIVE)
-				If _Sleep(Random(4000, 6000)) Then Return
+				If _Sleep(Random(4000, 6000, 1)) Then Return
 			Else
 				SetLog("Info Button Not Found", $COLOR_DEBUG)
 				If _Sleep(200) Then Return
-				ClickAway("Right")
+				ClearScreen("Right")
 				If _Sleep(1000) Then Return
 				ContinueLoop
 			EndIf
@@ -1927,7 +1917,7 @@ Func CheckInferno()
 			If Not StringInStr($BuildingNameFull, "nferno") Then
 				SetLog("Oups ! Wrong click", $COLOR_ACTION)
 				If _Sleep(200) Then Return
-				ClickAway("Right")
+				ClearScreen("Right")
 				If _Sleep(1000) Then Return
 				ContinueLoop
 			EndIf
@@ -1936,11 +1926,11 @@ Func CheckInferno()
 			If _Sleep(1500) Then Return
 			If ClickB("Info") Then
 				SetLog("... And Open His Info Window ...", $COLOR_OLIVE)
-				If _Sleep(Random(4000, 6000)) Then Return
+				If _Sleep(Random(4000, 6000, 1)) Then Return
 			Else
 				SetLog("Info Button Not Found", $COLOR_DEBUG)
 				If _Sleep(200) Then Return
-				ClickAway("Right")
+				ClearScreen("Right")
 				If _Sleep(1000) Then Return
 				ContinueLoop
 			EndIf
@@ -1980,7 +1970,7 @@ Func CheckEagle()
 	Local $BuildingNameFull = getOcrAndCapture("coc-build", 250, 514 + $g_iBottomOffsetY, 350, 30)
 	If Not StringInStr($BuildingNameFull, "Eagle") Then
 		SetLog("Oups ! Wrong click", $COLOR_ACTION)
-		ClickAway("Right")
+		ClearScreen("Right")
 		Return
 	EndIf
 	Local $aResult = BuildingInfo(242, 514 + $g_iBottomOffsetY)
@@ -1988,10 +1978,10 @@ Func CheckEagle()
 	If _Sleep(1500) Then Return
 	If ClickB("Info") Then
 		SetLog("... And Open His Info Window ...", $COLOR_OLIVE)
-		If _Sleep(Random(4000, 6000)) Then Return
+		If _Sleep(Random(4000, 6000, 1)) Then Return
 	Else
 		SetLog("Info Button Not Found", $COLOR_DEBUG)
-		ClickAway("Right")
+		ClearScreen("Right")
 		Return
 	EndIf
 	CloseWindow(False, False, False, True)
@@ -2039,7 +2029,7 @@ Func CheckScatter()
 			If Not StringInStr($BuildingNameFull, "Scatte") Then
 				SetLog("Oups ! Wrong click", $COLOR_ACTION)
 				If _Sleep(200) Then Return
-				ClickAway("Right")
+				ClearScreen("Right")
 				If _Sleep(1000) Then Return
 				ContinueLoop
 			EndIf
@@ -2048,11 +2038,11 @@ Func CheckScatter()
 			If _Sleep(1500) Then Return
 			If ClickB("Info") Then
 				SetLog("... And Open His Info Window ...", $COLOR_OLIVE)
-				If _Sleep(Random(4000, 6000)) Then Return
+				If _Sleep(Random(4000, 6000, 1)) Then Return
 			Else
 				SetLog("Info Button Not Found", $COLOR_DEBUG)
 				If _Sleep(200) Then Return
-				ClickAway("Right")
+				ClearScreen("Right")
 				If _Sleep(1000) Then Return
 				ContinueLoop
 			EndIf
@@ -2110,7 +2100,7 @@ Func CheckAirDefense()
 			If Not StringInStr($BuildingNameFull, "Defense") Then
 				SetLog("Oups ! Wrong click", $COLOR_ACTION)
 				If _Sleep(200) Then Return
-				ClickAway("Right")
+				ClearScreen("Right")
 				If _Sleep(1000) Then Return
 				ContinueLoop
 			EndIf
@@ -2119,11 +2109,11 @@ Func CheckAirDefense()
 			If _Sleep(1500) Then Return
 			If ClickB("Info") Then
 				SetLog("... And Open His Info Window ...", $COLOR_OLIVE)
-				If _Sleep(Random(4000, 6000)) Then Return
+				If _Sleep(Random(4000, 6000, 1)) Then Return
 			Else
 				SetLog("Info Button Not Found", $COLOR_DEBUG)
 				If _Sleep(200) Then Return
-				ClickAway("Right")
+				ClearScreen("Right")
 				If _Sleep(1000) Then Return
 				ContinueLoop
 			EndIf
@@ -2181,7 +2171,7 @@ Func GoldStorage()
 			If Not StringInStr($BuildingNameFull, "Gold") Then
 				SetLog("Oups ! Wrong click", $COLOR_ACTION)
 				If _Sleep(200) Then Return
-				ClickAway("Right")
+				ClearScreen("Right")
 				If _Sleep(1000) Then Return
 				ContinueLoop
 			EndIf
@@ -2190,11 +2180,11 @@ Func GoldStorage()
 			If _Sleep(1500) Then Return
 			If ClickB("Info") Then
 				SetLog("... And Open His Info Window ...", $COLOR_OLIVE)
-				If _Sleep(Random(4000, 6000)) Then Return
+				If _Sleep(Random(4000, 6000, 1)) Then Return
 			Else
 				SetLog("Info Button Not Found", $COLOR_DEBUG)
 				If _Sleep(200) Then Return
-				ClickAway("Right")
+				ClearScreen("Right")
 				If _Sleep(1000) Then Return
 				ContinueLoop
 			EndIf
@@ -2252,7 +2242,7 @@ Func ElixirStorage()
 			If Not StringInStr($BuildingNameFull, "Elixir") Then
 				SetLog("Oups ! Wrong click", $COLOR_ACTION)
 				If _Sleep(200) Then Return
-				ClickAway("Right")
+				ClearScreen("Right")
 				If _Sleep(1000) Then Return
 				ContinueLoop
 			EndIf
@@ -2261,11 +2251,11 @@ Func ElixirStorage()
 			If _Sleep(1500) Then Return
 			If ClickB("Info") Then
 				SetLog("... And Open His Info Window ...", $COLOR_OLIVE)
-				If _Sleep(Random(4000, 6000)) Then Return
+				If _Sleep(Random(4000, 6000, 1)) Then Return
 			Else
 				SetLog("Info Button Not Found", $COLOR_DEBUG)
 				If _Sleep(200) Then Return
-				ClickAway("Right")
+				ClearScreen("Right")
 				If _Sleep(1000) Then Return
 				ContinueLoop
 			EndIf
@@ -2298,7 +2288,7 @@ Func Monolith()
 	Local $BuildingNameFull = getOcrAndCapture("coc-build", 250, 514 + $g_iBottomOffsetY, 350, 30)
 	If Not StringInStr($BuildingNameFull, "Monolith") Then
 		SetLog("Oups ! Wrong click", $COLOR_ACTION)
-		ClickAway("Right")
+		ClearScreen("Right")
 		Return
 	EndIf
 	Local $aResult = BuildingInfo(242, 514 + $g_iBottomOffsetY)
@@ -2306,10 +2296,10 @@ Func Monolith()
 	If _Sleep(1500) Then Return
 	If ClickB("Info") Then
 		SetLog("... And Open His Info Window ...", $COLOR_OLIVE)
-		If _Sleep(Random(4000, 6000)) Then Return
+		If _Sleep(Random(4000, 6000, 1)) Then Return
 	Else
 		SetLog("Info Button Not Found", $COLOR_DEBUG)
-		ClickAway("Right")
+		ClearScreen("Right")
 		Return
 	EndIf
 	CloseWindow(False, False, False, True)
@@ -2337,7 +2327,7 @@ Func MultiArcher()
 	Local $BuildingNameFull = getOcrAndCapture("coc-build", 240, 514 + $g_iBottomOffsetY, 395, 30)
 	If Not StringInStr($BuildingNameFull, "Multi-Archer") Then
 		SetLog("Oups ! Wrong click", $COLOR_ACTION)
-		ClickAway("Right")
+		ClearScreen("Right")
 		Return
 	EndIf
 	Local $aResult = BuildingInfo(242, 514 + $g_iBottomOffsetY)
@@ -2345,10 +2335,10 @@ Func MultiArcher()
 	If _Sleep(1500) Then Return
 	If ClickB("Info") Then
 		SetLog("... And Open His Info Window ...", $COLOR_OLIVE)
-		If _Sleep(Random(4000, 6000)) Then Return
+		If _Sleep(Random(4000, 6000, 1)) Then Return
 	Else
 		SetLog("Info Button Not Found", $COLOR_DEBUG)
-		ClickAway("Right")
+		ClearScreen("Right")
 		Return
 	EndIf
 	CloseWindow(False, False, False, True)
@@ -2376,7 +2366,7 @@ Func Ricochet()
 	Local $BuildingNameFull = getOcrAndCapture("coc-build", 250, 514 + $g_iBottomOffsetY, 350, 30)
 	If Not StringInStr($BuildingNameFull, "Ricochet") Then
 		SetLog("Oups ! Wrong click", $COLOR_ACTION)
-		ClickAway("Right")
+		ClearScreen("Right")
 		Return
 	EndIf
 	Local $aResult = BuildingInfo(242, 514 + $g_iBottomOffsetY)
@@ -2384,10 +2374,10 @@ Func Ricochet()
 	If _Sleep(1500) Then Return
 	If ClickB("Info") Then
 		SetLog("... And Open His Info Window ...", $COLOR_OLIVE)
-		If _Sleep(Random(4000, 6000)) Then Return
+		If _Sleep(Random(4000, 6000, 1)) Then Return
 	Else
 		SetLog("Info Button Not Found", $COLOR_DEBUG)
-		ClickAway("Right")
+		ClearScreen("Right")
 		Return
 	EndIf
 	CloseWindow(False, False, False, True)
@@ -2398,7 +2388,7 @@ EndFunc   ;==>Ricochet
 
 Func DoNothing()
 	SetLog("Let The Bot Wait a Little Before Continue ...", $COLOR_OLIVE)
-	If _Sleep(Random(3000, 8000)) Then Return
+	If _Sleep(Random(3000, 8000, 1)) Then Return
 EndFunc   ;==>DoNothing
 
 Func LookAtRedNotifications()
@@ -2409,7 +2399,7 @@ Func LookAtRedNotifications()
 	If _ColorCheck(_GetPixelColor(50, 137, True), "F5151D", 20) Then
 		SetLog("You Have a New Message ...", $COLOR_OLIVE)
 		Click(40, 120 + $g_iMidOffsetY) ; open Messages button
-		If _Sleep(Random(3000, 7000)) Then Return
+		If _Sleep(Random(3000, 7000, 1)) Then Return
 		CloseWindow()
 	Else
 		$NoNotif += 1
@@ -2443,10 +2433,10 @@ Func LookAtRedNotifications()
 		EndIf
 		If _Sleep(Random(4000, 6000, 1)) Then Return
 		Click(40, 495 + $g_iMidOffsetY) ; open War menu
-		Local $iSleepForWindow = Random(3000, 5000)
+		Local $iSleepForWindow = Random(3000, 5000, 1)
 		If _Sleep($iSleepForWindow) Then Return
 		Click(60 + Random(0, 700, 1), 25 + Random(0, 5, 1)) ; Click to get any window away
-		Local $iSleepForWindow2 = Random(1000, 2000)
+		Local $iSleepForWindow2 = Random(1000, 2000, 1)
 		If _Sleep($iSleepForWindow2) Then Return
 		ReturnHomeFromHumanization()
 		If _Sleep(1500) Then Return
@@ -2655,7 +2645,11 @@ Func LookAtRedNotifications()
 		SetLog("There Is Something New On The Shop ...", $COLOR_OLIVE)
 		Local $ShopNotEveryTime = Random(1, 10, 1)
 		If $ShopNotEveryTime > 8 Then
-			Click(800, 610 + $g_iBottomOffsetY) ; open Shop
+			Local $ShopCoordsX[2] = [775, 825]
+			Local $ShopCoordsY[2] = [585 + $g_iBottomOffsetY, 625 + $g_iBottomOffsetY]
+			Local $ShopButtonClickX = Random($ShopCoordsX[0], $ShopCoordsX[1], 1)
+			Local $ShopButtonClickY = Random($ShopCoordsY[0], $ShopCoordsY[1], 1)
+			Click($ShopButtonClickX, $ShopButtonClickY, 1, 170, "Shop") ; open Shop
 			If _Sleep(Random(3000, 5000, 1)) Then Return
 			Local $NeedScroll = Random(0, 2, 1)
 			Local $NeedScroll2 = Random(0, 1, 1)
@@ -2700,7 +2694,7 @@ Func LookAtRedNotifications()
 							If _Sleep(1000) Then Return
 							Local $aiOkayButton = findButton("Okay", Default, 1, True)
 							If IsArray($aiOkayButton) And UBound($aiOkayButton, 1) = 2 Then
-								PureClick($aiOkayButton[0], $aiOkayButton[1], 2, 50, "#0117") ; Click Okay Button
+								PureClick($aiOkayButton[0], $aiOkayButton[1], 2, 150, "#0117") ; Click Okay Button
 							Else
 								SetLog("Error When Trying To Find Okay Button ... Skipping ...", $COLOR_WARNING)
 								ExitLoop
@@ -2718,7 +2712,7 @@ Func LookAtRedNotifications()
 							If _Sleep(1000) Then Return
 							Local $aiOkayButton = findButton("Okay", Default, 1, True)
 							If IsArray($aiOkayButton) And UBound($aiOkayButton, 1) = 2 Then
-								PureClick($aiOkayButton[0], $aiOkayButton[1], 2, 50, "#0117") ; Click Okay Button
+								PureClick($aiOkayButton[0], $aiOkayButton[1], 2, 150, "#0117") ; Click Okay Button
 							Else
 								SetLog("Error When Trying To Find Okay Button ... Skipping ...", $COLOR_WARNING)
 								ExitLoop
@@ -2745,99 +2739,108 @@ EndFunc   ;==>LookAtRedNotifications
 
 Func Scroll($MaxScroll)
 	For $i = 0 To $MaxScroll
-		Local $x = Random(430 - 20, 430 + 20, 1)
+		Local $xStart = Random(430 - 20, 430 + 20, 1)
+		Local $xEnd = Random(430 - 20, 430 + 20, 1)
 		Local $yStart = Random(475 - 20 + $g_iMidOffsetY, 475 + 20 + $g_iMidOffsetY, 1)
 		Local $yEnd = Random(200 - 20 + $g_iMidOffsetY, 200 + 20 + $g_iMidOffsetY, 1)
-		ClickDrag($x, $yStart, $x, $yEnd) ; generic random scroll
-		If _Sleep(4000) Then Return
+		ClickDrag($xStart, $yStart, $xEnd, $yEnd) ; generic random scroll
+		If _Sleep(Random(3000, 4000, 1)) Then Return
 		If Not $g_bRunState Then Return
 	Next
 EndFunc   ;==>Scroll
 
 Func ScrollList($MaxScroll)
 	For $i = 0 To $MaxScroll
-		Local $x = Random(690 - 20, 690 + 20, 1)
+		Local $xStart = Random(690 - 20, 690 + 20, 1)
+		Local $xEnd = Random(690 - 20, 690 + 20, 1)
 		Local $yStart = Random(580, 625, 1)
 		Local $yEnd = Random(270, 320, 1)
-		ClickDrag($x, $yStart, $x, $yEnd) ; generic random scroll
-		If _Sleep(4000) Then Return
+		ClickDrag($xStart, $yStart, $xEnd, $yEnd) ; generic random scroll
+		If _Sleep(Random(3000, 4000, 1)) Then Return
 		If Not $g_bRunState Then Return
 	Next
 EndFunc   ;==>ScrollList
 
 Func ScrollNewsLeft($MaxScroll)
 	For $i = 0 To $MaxScroll
-		Local $y = Random(150 + $g_iMidOffsetY, 470 + $g_iMidOffsetY, 1)
+		Local $yStart = Random(150 + $g_iMidOffsetY, 470 + $g_iMidOffsetY, 1)
+		Local $yEnd = Random($yStart - 20, $yStart + 20, 1)
 		Local $xStart = Random(340, 380, 1)
 		Local $xEnd = Random($xStart - 240, $xStart - 230, 1)
-		ClickDrag($xStart, $y, $xEnd, $y)
-		If _Sleep(4000) Then Return
+		ClickDrag($xStart, $yStart, $xEnd, $yEnd)
+		If _Sleep(Random(3000, 4000, 1)) Then Return
 		If Not $g_bRunState Then Return
 	Next
 EndFunc   ;==>ScrollNewsLeft
 
 Func ScrollNewsRight($MaxScroll)
 	For $i = 0 To $MaxScroll
-		Local $x = Random(460, 670, 1)
+		Local $xStart = Random(460, 670, 1)
+		Local $xEnd = Random($xStart - 20, $xStart + 20, 1)
 		Local $yStart = Random(500, 590, 1)
 		Local $yEnd = Random($yStart - 300, $yStart - 200, 1)
-		ClickDrag($x, $yStart, $x, $yEnd)
-		If _Sleep(4000) Then Return
+		ClickDrag($xStart, $yStart, $xEnd, $yEnd)
+		If _Sleep(Random(3000, 4000, 1)) Then Return
 		If Not $g_bRunState Then Return
 	Next
 EndFunc   ;==>ScrollNewsRight
 
 Func ScrollEvents($MaxScroll)
 	For $i = 0 To $MaxScroll
-		Local $x = Random(150, 530, 1)
+		Local $xStart = Random(150, 530, 1)
+		Local $xEnd = Random($xStart - 20, $xStart + 20, 1)
 		Local $yStart = Random(450, 500, 1)
 		Local $yEnd = Random($yStart - 290, $yStart - 190, 1)
-		ClickDrag($x, $yStart, $x, $yEnd)
-		If _Sleep(4000) Then Return
+		ClickDrag($xStart, $yStart, $xEnd, $yEnd)
+		If _Sleep(Random(3000, 4000, 1)) Then Return
 		If Not $g_bRunState Then Return
 	Next
 EndFunc   ;==>ScrollEvents
 
 Func ScrollCommunity($MaxScroll)
 	For $i = 0 To $MaxScroll
-		Local $x = Random(150, 530, 1)
+		Local $xStart = Random(150, 530, 1)
+		Local $xEnd = Random($xStart - 20, $xStart + 20, 1)
 		Local $yStart = Random(450, 500, 1)
 		Local $yEnd = Random($yStart - 290, $yStart - 190, 1)
-		ClickDrag($x, $yStart, $x, $yEnd)
-		If _Sleep(4000) Then Return
+		ClickDrag($xStart, $yStart, $xEnd, $yEnd)
+		If _Sleep(Random(3000, 4000, 1)) Then Return
 		If Not $g_bRunState Then Return
 	Next
 EndFunc   ;==>ScrollCommunity
 
 Func ScrollEsportsLeft($MaxScroll)
 	For $i = 0 To $MaxScroll
-		Local $y = Random(150 + $g_iMidOffsetY, 470 + $g_iMidOffsetY, 1)
+		Local $yStart = Random(150 + $g_iMidOffsetY, 470 + $g_iMidOffsetY, 1)
+		Local $yEnd = Random($yStart - 20, $yStart + 20, 1)
 		Local $xStart = Random(340, 380, 1)
 		Local $xEnd = Random($xStart - 240, $xStart - 230, 1)
-		ClickDrag($xStart, $y, $xEnd, $y)
-		If _Sleep(4000) Then Return
+		ClickDrag($xStart, $yStart, $xEnd, $yEnd)
+		If _Sleep(Random(3000, 4000, 1)) Then Return
 		If Not $g_bRunState Then Return
 	Next
 EndFunc   ;==>ScrollEsportsLeft
 
 Func ScrollEsportsRight($MaxScroll)
 	For $i = 0 To $MaxScroll
-		Local $x = Random(460, 730, 1)
+		Local $xStart = Random(460, 730, 1)
+		Local $xEnd = Random($xStart - 20, $xStart + 20, 1)
 		Local $yStart = Random(580, 640, 1)
 		Local $yEnd = Random($yStart - 400, $yStart - 350, 1)
-		ClickDrag($x, $yStart, $x, $yEnd)
-		If _Sleep(4000) Then Return
+		ClickDrag($xStart, $yStart, $xEnd, $yEnd)
+		If _Sleep(Random(3000, 4000, 1)) Then Return
 		If Not $g_bRunState Then Return
 	Next
 EndFunc   ;==>ScrollEsportsRight
 
 Func Scroll3Tabs($MaxScroll)
 	For $i = 0 To $MaxScroll
-		Local $x = Random(150, 630, 1)
+		Local $xStart = Random(150, 630, 1)
+		Local $xEnd = Random($xStart - 20, $xStart + 20, 1)
 		Local $yStart = Random(480, 620, 1)
 		Local $yEnd = Random($yStart - 220, $yStart - 190, 1)
-		ClickDrag($x, $yStart, $x, $yEnd)
-		If _Sleep(4000) Then Return
+		ClickDrag($xStart, $yStart, $xEnd, $yEnd)
+		If _Sleep(Random(3000, 4000, 1)) Then Return
 		If Not $g_bRunState Then Return
 	Next
 EndFunc   ;==>Scroll3Tabs
@@ -3138,10 +3141,11 @@ Func ReadClanChat()
 		Local $MaxScroll = Random(0, 4, 1)
 		SetLog("Let's Scrolling The Chat ...", $COLOR_OLIVE)
 		For $i = 0 To $MaxScroll
-			Local $x = Random(190 - 20, 190 + 20, 1)
+			Local $xStart = Random(170 - 20, 170 + 20, 1)
+			Local $xEnd = Random(170 - 20, 170 + 20, 1)
 			Local $yStart = Random(110 - 10, 110 + 10, 1)
 			Local $yEnd = Random(570 - 10, 570 + 10, 1)
-			ClickDrag($x, $yStart, $x, $yEnd) ; scroll the chat
+			ClickDrag($xStart, $yStart, $xEnd, $yEnd) ; scroll the chat
 			If _Sleep(Random(1000, 3000)) Then Return
 		Next
 		If _Sleep(1000) Then Return
@@ -3212,7 +3216,7 @@ Func CheckWarTime(ByRef $sResult, ByRef $bResult, $bReturnFrom = True, $WWR = Fa
 		If CloseWindow2(1) Then
 			SetLog("War is finished.", $COLOR_WARNING)
 			$IsWarEnded = True
-			Local $iSleepForWindow = Random(2500, 3000)
+			Local $iSleepForWindow = Random(2500, 3000, 1)
 			If _Sleep($iSleepForWindow) Then Return
 		EndIf
 	EndIf
@@ -3506,10 +3510,14 @@ Func BBBattleLog()
 		EndIf
 		If _Sleep(Random(500, 1000, 1)) Then Return
 		If Not $g_bRunState Then Return
-		Scroll(Random(1, 2, 1))
-		If Not $g_bRunState Then Return
-		If _Sleep(Random(3000, 5000, 1)) Then Return
-		If Not BBBattleWatchReplay() Then CloseWindow()
+		If Random(1, 3, 1) = 1 Then
+			Scroll(Random(1, 2, 1))
+			If Not $g_bRunState Then Return
+			If _Sleep(Random(3000, 5000, 1)) Then Return
+			If Not BBBattleWatchReplay() Then CloseWindow()
+		Else
+			CloseWindow()
+		EndIf
 		If Not $g_bRunState Then Return
 		If _Sleep(Random(1000, 2000, 1)) Then Return
 		ZoomOut()
@@ -3550,7 +3558,11 @@ Func BBBattleWatchReplay()
 					If _Sleep(1000) Then Return
 					SetLog("Exiting ...", $COLOR_OLIVE)
 					If _Sleep(Random(2000, 3000, 1)) Then Return
-					Click(61, 614 + $g_iBottomOffsetY) ; return home
+					Local $AttackCoordsX[2] = [45, 85]
+					Local $AttackCoordsY[2] = [590 + $g_iBottomOffsetY, 625 + $g_iBottomOffsetY]
+					Local $AttackButtonClickX = Random($AttackCoordsX[0], $AttackCoordsX[1], 1)
+					Local $AttackButtonClickY = Random($AttackCoordsY[0], $AttackCoordsY[1], 1)
+					Click($AttackButtonClickX, $AttackButtonClickY, 1, 160) ; return home
 					If Not $g_bRunState Then Return
 					If _Sleep(Random(2000, 3000, 1)) Then Return
 				EndIf
@@ -3562,7 +3574,11 @@ Func BBBattleWatchReplay()
 				WEnd
 				If _Sleep(1000) Then Return
 				If Not $g_bRunState Then Return
-				Click(61, 614 + $g_iBottomOffsetY) ; return home
+				Local $AttackCoordsX[2] = [45, 85]
+				Local $AttackCoordsY[2] = [590 + $g_iBottomOffsetY, 625 + $g_iBottomOffsetY]
+				Local $AttackButtonClickX = Random($AttackCoordsX[0], $AttackCoordsX[1], 1)
+				Local $AttackButtonClickY = Random($AttackCoordsY[0], $AttackCoordsY[1], 1)
+				Click($AttackButtonClickX, $AttackButtonClickY, 1, 160) ; return home
 				If Not $g_bRunState Then Return
 				If _Sleep(Random(2000, 3000, 1)) Then Return
 			EndIf
@@ -3592,7 +3608,11 @@ Func BBBattleWatchReplay()
 					If _Sleep(1000) Then Return
 					SetLog("Exiting ...", $COLOR_OLIVE)
 					If _Sleep(Random(2000, 3000, 1)) Then Return
-					Click(61, 614 + $g_iBottomOffsetY) ; return home
+					Local $AttackCoordsX[2] = [45, 85]
+					Local $AttackCoordsY[2] = [590 + $g_iBottomOffsetY, 625 + $g_iBottomOffsetY]
+					Local $AttackButtonClickX = Random($AttackCoordsX[0], $AttackCoordsX[1], 1)
+					Local $AttackButtonClickY = Random($AttackCoordsY[0], $AttackCoordsY[1], 1)
+					Click($AttackButtonClickX, $AttackButtonClickY, 1, 160) ; return home
 					If Not $g_bRunState Then Return
 					If _Sleep(Random(2000, 3000, 1)) Then Return
 				EndIf
@@ -3611,7 +3631,11 @@ Func BBBattleWatchReplay()
 				WEnd
 				If _Sleep(1000) Then Return
 				If Not $g_bRunState Then Return
-				Click(61, 614 + $g_iBottomOffsetY) ; return home
+				Local $AttackCoordsX[2] = [45, 85]
+				Local $AttackCoordsY[2] = [590 + $g_iBottomOffsetY, 625 + $g_iBottomOffsetY]
+				Local $AttackButtonClickX = Random($AttackCoordsX[0], $AttackCoordsX[1], 1)
+				Local $AttackButtonClickY = Random($AttackCoordsY[0], $AttackCoordsY[1], 1)
+				Click($AttackButtonClickX, $AttackButtonClickY, 1, 160) ; return home
 				If Not $g_bRunState Then Return
 				If _Sleep(Random(2000, 3000, 1)) Then Return
 			EndIf
@@ -3629,8 +3653,12 @@ EndFunc   ;==>BBBattleWatchReplay
 Func ReturnHomeFromHumanization()
 	While 1
 		If QuickMIS("BC1", $g_sImgReturnHome, 25, 570 + $g_iBottomOffsetY, 105, 630 + $g_iBottomOffsetY) Then
-			Click($g_iQuickMISX, $g_iQuickMISY + 15)
-			If _Sleep(3000) Then Return
+			Local $AttackCoordsX[2] = [45, 85]
+			Local $AttackCoordsY[2] = [590 + $g_iBottomOffsetY, 625 + $g_iBottomOffsetY]
+			Local $AttackButtonClickX = Random($AttackCoordsX[0], $AttackCoordsX[1], 1)
+			Local $AttackButtonClickY = Random($AttackCoordsY[0], $AttackCoordsY[1], 1)
+			Click($AttackButtonClickX, $AttackButtonClickY, 1, 160) ; return home
+			If _Sleep(Random(3000, 3500, 1)) Then Return
 			Local $aMain = findButton("AttackButton", Default, 1, True)
 			If IsArray($aMain) And UBound($aMain, 1) = 2 Then ExitLoop
 		Else
@@ -3664,8 +3692,12 @@ Func CheckRaidMap()
 			EndIf
 			_FileWriteLog($g_sProfileLogsPath & "\ModLog.log", " [" & $g_sProfileCurrentName & "] - Humanization : " & $ActionForModLog)
 			If _Sleep(1000) Then Return
-			Click($g_iQuickMISX, $g_iQuickMISY)
-			If _Sleep(Random(5000, 7000)) Then Return
+			Local $RaidMapCoordsX[2] = [775, 825]
+			Local $RaidMapCoordsY[2] = [585 + $g_iBottomOffsetY, 625 + $g_iBottomOffsetY]
+			Local $RaidMapButtonClickX = Random($RaidMapCoordsX[0], $RaidMapCoordsX[1], 1)
+			Local $RaidMapButtonClickY = Random($RaidMapCoordsY[0], $RaidMapCoordsY[1], 1)
+			Click($RaidMapButtonClickX, $RaidMapButtonClickY, 1, 170, "RaidMap") ; open Raid Map
+			If _Sleep(Random(5000, 7000, 1)) Then Return
 			If QuickMIS("BC1", $g_sImgRaidMap, 710, 25, 730, 45) Then
 				Local $sForRaidTimeOCR = getTimeForRaid(715, 55)
 				Local $iConvertedTime = ConvertOCRTime("Raid Time2", $sForRaidTimeOCR, False)
@@ -3680,7 +3712,11 @@ Func CheckRaidMap()
 				If QuickMIS("BC1", $g_sImgCCMap, 760, 570 + $g_iBottomOffsetY, 845, 650 + $g_iBottomOffsetY) Then
 					If $g_iQuickMISName = "RaidInfoButton" Then
 						SetLog("Lets Look At Raid Info", $COLOR_ACTION)
-						Click($g_iQuickMISX, $g_iQuickMISY)
+						Local $RaidInfoCoordsX[2] = [775, 825]
+						Local $RaidInfoCoordsY[2] = [585 + $g_iBottomOffsetY, 625 + $g_iBottomOffsetY]
+						Local $RaidInfoButtonClickX = Random($RaidInfoCoordsX[0], $RaidInfoCoordsX[1], 1)
+						Local $RaidInfoButtonClickY = Random($RaidInfoCoordsY[0], $RaidInfoCoordsY[1], 1)
+						Click($RaidInfoButtonClickX, $RaidInfoButtonClickY, 1, 170, "RaidInfo") ; open Raid Info
 						If _Sleep(2000) Then Return
 						SetLog("Lets Scroll Clan Info", $COLOR_ACTION)
 						For $i = 0 To Random(0, 2, 1)

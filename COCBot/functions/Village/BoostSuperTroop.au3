@@ -316,7 +316,7 @@ Func OpenBarrel($bTest = False)
 		EndIf
 	Else
 		SetLog("Couldn't Find Super Troop Barrel", $COLOR_ERROR)
-		ClickAway()
+		ClearScreen()
 	EndIf
 	Return False
 

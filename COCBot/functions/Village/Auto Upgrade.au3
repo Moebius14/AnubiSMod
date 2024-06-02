@@ -498,7 +498,7 @@ Func _AutoUpgrade()
 			Local $aiCancelButton = findButton("Cancel", Default, 1, True)
 			If IsArray($aiCancelButton) And UBound($aiCancelButton, 1) = 2 Then
 				SetLog("MBR is not designed to rush a TH upgrade", $COLOR_ERROR)
-				PureClick($aiCancelButton[0], $aiCancelButton[1], 2, 50, "#0117") ; Click Cancel Button
+				PureClick($aiCancelButton[0], $aiCancelButton[1], 2, 150, "#0117") ; Click Cancel Button
 				$UpgradeDone = False
 				If _Sleep(1500) Then Return
 				CloseWindow()
@@ -660,9 +660,16 @@ Func _AutoUpgrade()
 			EndIf
 		EndIf
 
-		ClickAway()
+		ClearScreen()
 
 	WEnd
+
+	If IsBuilderMenuOpen() Then
+		Click(435, 30)
+		If _Sleep(500) Then Return
+	EndIf
+	ClearScreen()
+	If _Sleep(500) Then Return
 
 	; resetting the offset of the lines
 	$g_iNextLineOffset = 75
@@ -683,7 +690,7 @@ Func AutoWallsStatsMAJ($CurrentWallLevel = 10)
 	SaveConfig()
 EndFunc   ;==>AutoWallsStatsMAJ
 
-Func SpecialVillageReport($bBypass = False, $bSuppressLog = False)
+Func SpecialVillageReport()
 
 	getBuilderCount(True) ; update builder data
 	If _Sleep($DELAYRESPOND) Then Return

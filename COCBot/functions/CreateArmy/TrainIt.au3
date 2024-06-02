@@ -17,6 +17,7 @@
 #include-once
 
 Func TrainIt($iIndex, $iQuantity = 1, $iSleep = 400)
+	$iSleep = Random($iSleep - $RandomClickTrainAddTimeMin, $iSleep + $RandomClickTrainAddTimeMax, 1)
 	If $g_bDebugSetlogTrain Then SetLog("Func TrainIt $iIndex=" & $iIndex & " $howMuch=" & $iQuantity & " $iSleep=" & $iSleep, $COLOR_DEBUG)
 	Local $bDark = ($iIndex >= $eMini And $iIndex <= $eAppWard)
 
@@ -30,7 +31,8 @@ Func TrainIt($iIndex, $iQuantity = 1, $iSleep = 400)
 				If IsArray($FullName) Then
 					Local $RNDName = GetRNDName($iIndex, $aTrainPos)
 					If IsArray($RNDName) Then
-						TrainClickP($aTrainPos, $iQuantity, $g_iTrainClickDelayfinal, $FullName, "#0266", $RNDName)
+						TrainClickP($aTrainPos, $iQuantity, $g_iTrainClickDelay, $FullName, "#0266", $RNDName)
+						$iSleep = Random($iSleep - $RandomClickTrainAddTimeMin, $iSleep + $RandomClickTrainAddTimeMax, 1)
 						If _Sleep($iSleep) Then Return
 						If $g_bOutOfElixir Then
 							SetLog("Not enough " & ($bDark ? "Dark " : "") & "Elixir to train position " & GetTroopName($iIndex) & " troops!", $COLOR_ERROR)

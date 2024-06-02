@@ -30,7 +30,7 @@ Func DropTrophy()
 			SetDebugLog("Current Trophy Count: " & $g_aiCurrentLoot[$eLootTrophy], $COLOR_DEBUG)
 			If $g_aiCurrentLoot[$eLootTrophy] <> "" Then ExitLoop
 			If _Sleep(1000) Then Return
-			ClickAway()
+			ClearScreen()
 		Next
 
 		If Not $IsdroptrophiesActive Then
@@ -60,8 +60,6 @@ Func DropTrophy()
 		If Not _Sleep($DELAYRUNBOT1) Then checkMainScreen(False)
 		If $g_bTrainEnabled Then     ; check for training enabled in halt mode
 			If $g_iActualTrainSkip < $g_iMaxTrainSkip Then
-				IschkAddRandomClickTimingDelay2()
-				IschkAddRandomClickTimingDelay1()
 				TrainSystem()
 				_Sleep($DELAYRUNBOT1)
 			Else
@@ -452,7 +450,7 @@ Func DropTrophy()
 										SetLog("Deploying Queen", $COLOR_INFO)
 										SelectDropTroop($g_iQueenSlot)
 										If _Sleep($DELAYDROPTROPHY1) Then ExitLoop
-										Click($aRandomEdge[$iRandomXY][0], $aRandomEdge[$iRandomXY][1], 1, 0, "#0180") ;Drop Queen
+										Click($aRandomEdge[$iRandomXY][0], $aRandomEdge[$iRandomXY][1], 1, 150, "#0180") ;Drop Queen
 										If _Sleep($DELAYDROPTROPHY4) Then ExitLoop
 										SelectDropTroop($g_iQueenSlot) ;If Queen was not activated: Boost Queen before EndBattle to restore some health
 										ReturnfromDropTrophies()
@@ -465,7 +463,7 @@ Func DropTrophy()
 										SetLog("Deploying King", $COLOR_INFO)
 										SelectDropTroop($g_iKingSlot)
 										If _Sleep($DELAYDROPTROPHY1) Then ExitLoop
-										Click($aRandomEdge[$iRandomXY][0], $aRandomEdge[$iRandomXY][1], 1, 0, "#0178") ;Drop King
+										Click($aRandomEdge[$iRandomXY][0], $aRandomEdge[$iRandomXY][1], 1, 150, "#0178") ;Drop King
 										If _Sleep($DELAYDROPTROPHY4) Then ExitLoop
 										SelectDropTroop($g_iKingSlot) ;If King was not activated: Boost King before EndBattle to restore some health
 										ReturnfromDropTrophies()
@@ -478,7 +476,7 @@ Func DropTrophy()
 										SetLog("Deploying Warden", $COLOR_INFO)
 										SelectDropTroop($g_iWardenSlot)
 										If _Sleep($DELAYDROPTROPHY1) Then ExitLoop
-										Click($aRandomEdge[$iRandomXY][0], $aRandomEdge[$iRandomXY][1], 1, 0, "#0000") ;Drop Warden
+										Click($aRandomEdge[$iRandomXY][0], $aRandomEdge[$iRandomXY][1], 1, 150, "#0000") ;Drop Warden
 										If _Sleep($DELAYDROPTROPHY4) Then ExitLoop
 										SelectDropTroop($g_iWardenSlot) ;If Warden was not activated: Boost Warden before EndBattle to restore some health
 										ReturnfromDropTrophies()
@@ -491,7 +489,7 @@ Func DropTrophy()
 										SetLog("Deploying Royal Champion", $COLOR_INFO)
 										SelectDropTroop($g_iChampionSlot)
 										If _Sleep($DELAYDROPTROPHY1) Then ExitLoop
-										Click($aRandomEdge[$iRandomXY][0], $aRandomEdge[$iRandomXY][1], 1, 0, "#0000") ;Drop Champion
+										Click($aRandomEdge[$iRandomXY][0], $aRandomEdge[$iRandomXY][1], 1, 150, "#0000") ;Drop Champion
 										If _Sleep($DELAYDROPTROPHY4) Then ExitLoop
 										SelectDropTroop($g_iChampionSlot) ;If Champion was not activated: Boost Champion before EndBattle to restore some health
 										ReturnfromDropTrophies()
@@ -512,7 +510,7 @@ Func DropTrophy()
 						If ($g_avAttackTroops[$i][0] >= $eBarb And $g_avAttackTroops[$i][0] <= $eWiza) Or $g_avAttackTroops[$i][0] = $eMini Then
 							SelectDropTroop($i)
 							If _Sleep($DELAYDROPTROPHY4) Then ExitLoop
-							Click($aRandomEdge[$iRandomXY][0], $aRandomEdge[$iRandomXY][1], 1, 0, "#0181") ;Drop one troop
+							Click($aRandomEdge[$iRandomXY][0], $aRandomEdge[$iRandomXY][1], 1, 150, "#0181") ;Drop one troop
 							SetLog("Deploying 1 " & $g_asTroopNames[$g_avAttackTroops[$i][0]], $COLOR_INFO)
 							$g_aiCurrentTroops[$g_avAttackTroops[$i][0]] -= 1
 							ExitLoop
@@ -539,6 +537,7 @@ Func DropTrophy()
 				SetLog("Trophy Drop Complete", $COLOR_INFO)
 				$IsdroptrophiesActive = 0
 				$IsDropTrophyBreaked = 0
+				ClearScreen()
 				IsSearchAttackEnabled()
 				TrainSystem()
 			EndIf

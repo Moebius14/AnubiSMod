@@ -91,7 +91,7 @@ Func ReturnHome($TakeSS = 1, $GoldChangeCheck = True) ;Return main screen
 			$aiSurrenderButton = findButton("EndBattle", Default, 1, True)
 			If IsArray($aiSurrenderButton) And UBound($aiSurrenderButton, 1) = 2 Then
 				If IsAttackPage() Then ; verify still on attack page, and battle has not ended magically before clicking
-					ClickP($aiSurrenderButton, 1, 0, "#0099") ;Click Surrender
+					ClickP($aiSurrenderButton, 1, 150, "#0099") ;Click Surrender
 					$j = 0
 					While 1 ; dynamic wait for Okay button
 						SetDebugLog("Wait for OK button to appear #" & $j)

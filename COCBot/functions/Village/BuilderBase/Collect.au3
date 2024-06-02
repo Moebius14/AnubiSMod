@@ -20,7 +20,7 @@ Func CollectBuilderBase($bSwitchToBB = False, $bSwitchToNV = False, $bSetLog = T
 	If Not $g_bRunState Then Return
 
 	If $bSwitchToBB Then
-		ClickAway()
+		ClearScreen("Defaut", False)
 		If Not SwitchBetweenBases(True, True) Then Return ; Switching to Builders Base
 	EndIf
 
@@ -56,7 +56,7 @@ Func CollectBuilderBase($bSwitchToBB = False, $bSwitchToNV = False, $bSetLog = T
 			If IsArray($aCollectXY) Then ; found array of locations
 				$t = Random(0, UBound($aCollectXY) - 1, 1) ; SC May 2017 update only need to pick one of each to collect all
 				If $g_bDebugSetlog Then SetDebugLog($sFilename & " found, random pick(" & $aCollectXY[$t][0] & "," & $aCollectXY[$t][1] & ")", $COLOR_SUCCESS)
-				If IsMainPageBuilderBase() Then Click($aCollectXY[$t][0], $aCollectXY[$t][1], 1, 0, "#0430")
+				If IsMainPageBuilderBase() Then Click($aCollectXY[$t][0], $aCollectXY[$t][1], 1, 150, "#0430")
 				If _Sleep($DELAYCOLLECT2) Then Return
 			EndIf
 		Next
@@ -73,7 +73,7 @@ Func CollectElixirCart($bSwitchToBB = False, $bSwitchToNV = False, $b_FirstElixC
 	If Not $g_bRunState Then Return
 
 	If $bSwitchToBB Then
-		ClickAway()
+		ClearScreen("Defaut", False)
 		If Not SwitchBetweenBases(True, True) Then Return ; Switching to Builders Base
 	EndIf
 
@@ -91,7 +91,7 @@ Func CollectElixirCart($bSwitchToBB = False, $bSwitchToNV = False, $b_FirstElixC
 	EndIf
 
 	SetDebugLog("Collecting Elixir Cart", $COLOR_INFO)
-	ClickAway("Left")
+	ClearScreen("Left", False)
 	If _Sleep($DELAYCOLLECT2) Then Return
 
 	$aiElixirCart = decodeSingleCoord(FindImageInPlace2("ElixirCart", $g_sImgElixirCart, 470, 90 + $g_iMidOffsetY, 620, 190 + $g_iMidOffsetY))

@@ -75,10 +75,12 @@ Func Blacksmith($bTest = False)
 	If _Sleep(1500) Then Return ; Wait for buttons to appear
 
 	Local $BuildingInfo = BuildingInfo(242, 468 + $g_iBottomOffsetY)
-	SetLog("Blacksmith is level " & $BuildingInfo[2])
+	If IsArray($BuildingInfo) And UBound($BuildingInfo) > 0 Then
+		SetLog("Blacksmith is level " & $BuildingInfo[2])
+	EndIf
 
 	If Not FindBSButton(False) Then
-		ClickAway()
+		ClearScreen()
 		If _Sleep(1000) Then Return
 		BuildingClickP($g_aiBlacksmithPos, "#0197") ; Click Blacksmith again. Case when new equipment is gained.
 		If _Sleep(1500) Then Return ; Wait for window to open
@@ -274,7 +276,7 @@ Func Blacksmith($bTest = False)
 							$Exitloop = True
 							ExitLoop
 						EndIf
-						Click(705, 545 + $g_iMidOffsetY, 1, 0, "#0299")     ; Click upgrade buttton
+						Click(705, 545 + $g_iMidOffsetY, 1, 150, "#0299")     ; Click upgrade buttton
 						If _Sleep(1500) Then Return
 						If Not $g_bRunState Then ExitLoop
 						If UBound(decodeSingleCoord(FindImageInPlace2("RedZero", $g_sImgRedZero, 585, 510 + $g_iMidOffsetY, 825, 570 + $g_iMidOffsetY, True))) > 1 Then
@@ -285,7 +287,7 @@ Func Blacksmith($bTest = False)
 							$Exitloop = True
 							ExitLoop
 						EndIf
-						Click(705, 545 + $g_iMidOffsetY, 1, 0, "#0299")     ; Click upgrade buttton (Confirm)
+						Click(705, 545 + $g_iMidOffsetY, 1, 150, "#0299")     ; Click upgrade buttton (Confirm)
 						If isGemOpen(True) Then
 							SetDebugLog("Gem Window Detected", $COLOR_DEBUG)
 							SetLog("Not enough resource to upgrade " & $g_asEquipmentOrderList[$g_aiCmbCustomEquipmentOrder[$i]][0], $COLOR_DEBUG2)
@@ -360,7 +362,7 @@ Func FindBSButton($bSetLog = True)
 	Else
 		SetLog("Cannot find Equipment Button" & ($bSetLog = True ? "" : " on first try") & "!", $COLOR_ERROR)
 		If $g_bDebugImageSave Then SaveDebugImage("EquipmentButton") ; Debug Only
-		ClickAway()
+		ClearScreen()
 		Return False
 	EndIf
 EndFunc   ;==>FindBSButton
