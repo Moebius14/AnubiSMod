@@ -64,6 +64,15 @@
 * Fixed CC Sieges Removing array issue.
 * Added Football scenery support (Attack Only).
 * Added Pressure and zoom out script randomization (Minitouch).
+* Added Rocket Spear Equipment support.
+* Added Wild West scenery (Attack Only).
+* Improved Sieges training ClickDrag.
+* Improved Blacksmith auto location.
+* Improved TH16 detection.
+* Improved Army count OCR.
+* Improved Donate detection for : SWall, ETitan, FFlinger, SDrag, Wizard.
+* Improved BatSpell detection in Army Overview.
+* Improved few obstacles detection. 
 
 * v8.1.6 **
 * Added "Before you upgrade" window support.

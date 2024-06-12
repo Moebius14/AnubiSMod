@@ -94,7 +94,7 @@ Func CCSpellsArray($bNeedCapture = True)
 		EndIf
 		If Not IsArray(_PixelSearch(539, 490 + $g_iMidOffsetY, 543, 490 + $g_iMidOffsetY, Hex(0xCFCFC8, 6), 20, True)) Then ; Second spell slot
 			ClickDrag(527, 495 + $g_iMidOffsetY, 455, 495 + $g_iMidOffsetY, 300)
-			If _Sleep(2000) Then Return
+			If _Sleep(Random(1500, 2000, 1)) Then Return
 			Local $aCurrentCCSpells2 = findMultiple(@ScriptDir & "\imgxml\ArmyOverview\Spells", $sCCSpellDiamond, $sCCSpellDiamond, 0, 1000, 0, "objectname,objectpoints", $bNeedCapture)
 			If IsArray($aCurrentCCSpells2) And IsArray($aCurrentCCSpells) Then
 				$TempQty = Number(getBarracksNewTroopQuantity(455, 454 + $g_iMidOffsetY))
@@ -110,13 +110,13 @@ Func CCSpellsArray($bNeedCapture = True)
 					ReDim $aCurrentCCSpells[UBound($aCurrentCCSpells) + 1]
 					$aCurrentCCSpells[1] = $aCurrentCCSpells2[0]
 					ClickDrag(455, 495 + $g_iMidOffsetY, 500, 495 + $g_iMidOffsetY, 300)
-					If _Sleep(1000) Then Return
+					If _Sleep(Random(800, 1000, 1)) Then Return
 					Return $aCurrentCCSpells
 				EndIf
 			EndIf
 			If Not IsArray(_PixelSearch(539, 490 + $g_iMidOffsetY, 543, 490 + $g_iMidOffsetY, Hex(0xCFCFC8, 6), 20, True)) Then ; Third spell slot
 				ClickDrag(527, 495 + $g_iMidOffsetY, 475, 495 + $g_iMidOffsetY, 300)
-				If _Sleep(2000) Then Return
+				If _Sleep(Random(1500, 2000, 1)) Then Return
 				$sCCSpellDiamond = GetDiamondFromRect2(475, 454 + $g_iMidOffsetY, 540, 530 + $g_iMidOffsetY)
 				$aCurrentCCSpells2 = findMultiple(@ScriptDir & "\imgxml\ArmyOverview\Spells", $sCCSpellDiamond, $sCCSpellDiamond, 0, 1000, 0, "objectname,objectpoints", $bNeedCapture)
 				If IsArray($aCurrentCCSpells2) And IsArray($aCurrentCCSpells) Then
@@ -126,7 +126,7 @@ Func CCSpellsArray($bNeedCapture = True)
 					$aCurrentCCSpells[2] = $aCurrentCCSpells2[0]
 				EndIf
 				ClickDrag(455, 495 + $g_iMidOffsetY, 570, 495 + $g_iMidOffsetY, 300)
-				If _Sleep(1000) Then Return
+				If _Sleep(Random(800, 1200, 1)) Then Return
 			EndIf
 		EndIf
 	EndIf

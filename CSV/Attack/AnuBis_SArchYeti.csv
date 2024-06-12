@@ -49,7 +49,7 @@ MAKE  |Q          |FRONT-LEFT |10         |0          |EXT-INT    |0          |0
 MAKE  |R          |FRONT-RIGHT|10         |0          |INT-EXT    |0          |0          |           |           |           |           |           |
 MAKE  |A          |FRONT-LEFT |10         |-12        |INT-EXT    |0          |0          |           |           |           |           |           |
 MAKE  |Z          |FRONT-RIGHT|10         |-12        |INT-EXT    |0          |0          |           |           |           |           |           |
-MAKE  |J          |FRONT-RIGHT|10         |-22        |INT-EXT    |0          |0          |           |           |           |           |           |
+MAKE  |J          |FRONT-RIGHT|10         |-23        |INT-EXT    |0          |0          |           |           |           |           |           |
 MAKE  |Y          |FRONT-LEFT |10         |-16        |INT-EXT    |0          |0          |           |           |           |           |           |
 MAKE  |M          |FRONT-LEFT |10         |0          |INT-EXT    |0          |0          |           |           |           |           |           |
 MAKE  |P          |FRONT-RIGHT|10         |0          |INT-EXT    |0          |0          |           |           |           |           |           |
@@ -85,13 +85,13 @@ DROP  |M          |1          |1          |BattleB    |50-70      |0          |1
 DROP  |M          |1          |1          |StoneS     |50-70      |0          |100-120    |           |           |           |           |           |
 WAIT  |500-750    |           |           |           |           |           |           |           |           |           |           |           |
 DROP  |Q          |10         |1          |ETitan     |70-95      |60-90      |50-100     |           |           |           |           |           |
+DROP  |Q          |10         |1          |Hunt       |70-95      |60-90      |50-100     |           |           |           |           |           |
 DROP  |Q          |10         |1          |King       |0          |0          |20-50      |           |           |           |           |           |
 DROP  |Q          |10         |1          |Warden     |0          |0          |20-50      |           |           |           |           |           |
 DROP  |Q          |10         |1          |Queen      |0          |0          |20-50      |           |           |           |           |           |
 DROP  |Q          |10         |1          |Champion   |0          |0          |150-170    |           |           |           |           |           |
 DROP  |A          |3          |1          |RSpell     |50-70      |0          |50-70      |           |           |           |           |           |
 DROP  |Z          |3          |1          |RSpell     |50-70      |0          |50-70      |           |           |           |           |           |
-DROP  |Q          |10         |1          |Hunt       |70-95      |60-90      |50-100     |           |           |           |           |           |
 DROP  |X          |1          |1          |FSpell     |50-70      |0          |50-70      |           |           |           |           |           |
 DROP  |B          |1          |1          |FSpell     |50-70      |0          |50-70      |           |           |           |           |           |
 DROP  |F          |1          |1          |FSpell     |50-70      |0          |50-70      |           |           |           |           |           |
@@ -99,17 +99,17 @@ DROP  |G          |1          |1          |FSpell     |50-70      |0          |5
 DROP  |C          |1          |1          |FSpell     |50-70      |0          |50-70      |           |           |           |           |           |
 DROP  |D          |1          |1          |FSpell     |50-70      |0          |50-70      |           |           |           |           |           |
 DROP  |T          |1          |1          |ISpell     |50-70      |0          |50-70      |           |           |           |           |           |
-WAIT  |2000-2500  |           |           |           |           |           |           |           |           |           |           |           |
+WAIT  |700-1000   |           |           |           |           |           |           |           |           |           |           |           |
 DROP  |J          |1          |1          |RSpell     |50-70      |0          |50-70      |           |           |           |           |           |
 DROP  |W          |1          |1          |FSpell     |50-70      |0          |50-70      |           |           |           |           |           |
 DROP  |H          |1          |1          |FSpell     |50-70      |0          |50-70      |           |           |           |           |           |
 DROP  |I          |1          |1          |FSpell     |50-70      |0          |50-70      |           |           |           |           |           |
-DROP  |U          |1          |1          |FSpell     |0          |0          |100-150    |           |           |           |           |           |
-DROP  |V          |1    	  |1          |FSpell     |0          |0          |100-150    |           |           |           |           |           |
-DROP  |E          |1          |1          |FSpell     |0          |0          |100-150    |           |           |           |           |           |
-DROP  |S          |1          |1          |FSpell     |0          |0          |100-150    |           |           |           |           |           |
-DROP  |R          |1     	  |1          |FSpell     |0          |0          |100-150    |           |           |           |           |           |
-DROP  |K          |1          |1          |FSpell     |0          |0          |100-150    |           |           |           |           |           |
+DROP  |U          |1          |1          |FSpell     |0          |0          |50-70      |           |           |           |           |           |
+DROP  |V          |1    	  |1          |FSpell     |0          |0          |50-70      |           |           |           |           |           |
+DROP  |E          |1          |1          |FSpell     |0          |0          |50-70      |           |           |           |           |           |
+DROP  |S          |1          |1          |FSpell     |0          |0          |50-70      |           |           |           |           |           |
+DROP  |R          |1     	  |1          |FSpell     |0          |0          |50-70      |           |           |           |           |           |
+DROP  |K          |1          |1          |FSpell     |0          |0          |50-70      |           |           |           |           |           |
 RECALC|           |           |           |           |           |           |           |           |           |           |           |           |
 DROP  |P-M        |1-8        |8          |REMAIN     |50-70      |100        |50-100     |           |           |           |           |           |
       |                                                                 																			  |

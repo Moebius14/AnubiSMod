@@ -114,7 +114,7 @@ Func Laboratory($debug = False)
 		While ($iCurPage < $iPage) ; go directly to the needed page
 			LabNextPage($iCurPage, $iPages, $iYMidPoint) ; go to next page of upgrades
 			$iCurPage += 1 ; Next page
-			If _Sleep(2000) Then Return
+			If _Sleep(Random(1800, 2200, 1)) Then Return
 		WEnd
 		SetDebugLog("On page " & $iCurPage & " of " & $iPages)
 		; Get coords of upgrade the user wants
@@ -333,7 +333,7 @@ Func Laboratory($debug = False)
 				While ($iCurPage < $iPage) ; go directly to the needed page
 					LabNextPage($iCurPage, $iPages, $iYMidPoint) ; go to next page of upgrades
 					$iCurPage += 1 ; Next page
-					If _Sleep(2000) Then Return
+					If _Sleep(Random(1800, 2200, 1)) Then Return
 				WEnd
 				$aPageUpgrades = findMultiple($g_sImgAnySpell, $sLabTroopsSectionDiam, $sLabTroopsSectionDiam, 0, 1000, 0, "objectname,objectpoints", True)
 
@@ -532,7 +532,7 @@ Func Laboratory($debug = False)
 
 			LabNextPage($iCurPage, $iPages, $iYMidPoint) ; go to next page of upgrades
 			$iCurPage += 1 ; Next page
-			If _Sleep($DELAYLABORATORY2) Then Return
+			If _Sleep(Random(1800, 2200, 1)) Then Return
 		WEnd
 
 		; If We got to here without returning, then nothing available for upgrade

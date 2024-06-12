@@ -251,6 +251,7 @@ Func ClickRemoveObstacle()
 		$bLoop += 1
 	WEnd
 
+	Local $aiButton = findButton("RemoveObstacle", Default, 1, True)
 	If IsArray($aiButton) And UBound($aiButton) >= 2 Then
 		SetDebugLog("Remove Button found! Clicking it at X: " & $aiButton[0] & ", Y: " & $aiButton[1], $COLOR_DEBUG1)
 		ClickP($aiButton)
@@ -258,8 +259,12 @@ Func ClickRemoveObstacle()
 		If $g_iFreeBuilderCount = 1 Then
 			Local $IsCleaningRunning = True
 			While $IsCleaningRunning
-				If _ColorCheck(_GetPixelColor(410, 595, True), "F4E7E6", 20) Then
-					Sleep(1000)
+				; check for Cancel Button
+				Local $offColors[3][3] = [[0xF5E7E7, 20, 23], [0x0D0D0D, 38, 29], [0xFFFFFF, 81, 0]] ; , 2nd pixel Grey in hammer, 3rd pixel black broken hammer, 4th pixel white edge of button
+				Local $CancelButton = _MultiPixelSearch(385, 572, 475, 605, 1, 1, Hex(0x0D0D0D, 6), $offColors, 40) ; first black pixel on side of button
+				SetDebugLog("Pixel Color #1: " & _GetPixelColor(390, 572, True) & ", #2: " & _GetPixelColor(410, 595, True) & ", #3: " & _GetPixelColor(428, 601, True) & ", #4: " & _GetPixelColor(471, 572, True), $COLOR_DEBUG)
+				If IsArray($CancelButton) Then
+					If _Sleep(500) Then ExitLoop
 				Else
 					$IsCleaningRunning = False
 				EndIf

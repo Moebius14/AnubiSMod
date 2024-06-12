@@ -18,7 +18,7 @@ Func EventRewards()
 
 	Local $Found = False
 	Local $RewardFirst = False
-	Local $Area[4] = [220, 55, 320, 110 + $g_iMidOffsetY]
+	Local $Area[4] = [220, 45, 320, 110 + $g_iMidOffsetY]
 	If $g_iTree = $eTreeMS Or $g_iTree = $eTreeEG Then
 		$Area[0] = 250
 		$Area[1] = 60 + $g_iMidOffsetY
@@ -113,15 +113,15 @@ Func CollectEventRewards()
 	If _Sleep(Random(1000, 3000, 1)) Then Return
 	If Not $g_bRunState Then Return
 
-	Local $offColors[3][3] = [[0xFFFFFF, 2, 0], [0x0D0D0D, 17, 16], [0x0D0D0D, 34, 0]] ; 2nd pixel white Color at Left, 3rd pixel Black Bottom color, 4th pixel black at right
-	Local $RightResResource = _MultiPixelSearch(770, 418, 780, 420, 1, 1, Hex(0x0D0D0D, 6), $offColors, 40) ; first black pixel on side of button
-	SetDebugLog("Pixel Color #1: " & _GetPixelColor(773, 418, True) & ", #2: " & _GetPixelColor(775, 418, True) & ", #3: " & _GetPixelColor(790, 434, True) & ", #4: " & _GetPixelColor(807, 418, True), $COLOR_DEBUG)
-	If IsArray($RightResResource) Then
+	Local $offColors[2][3] = [[0x0D0D0D, 32, 9], [0xFFF66A, 35, 2]] ; 2nd pixel black Color, 3rd pixel yellow color
+	Local $RightResResource = _MultiPixelSearch(759, 423, 810, 433, 1, 1, Hex(0xFFFFFF, 6), $offColors, 40) ; first white pixel on side of button
+	SetDebugLog("Pixel Color #1: " & _GetPixelColor(763, 423, True) & ", #2: " & _GetPixelColor(795, 432, True) & ", #3: " & _GetPixelColor(798, 425, True), $COLOR_DEBUG)
+	If Not IsArray($RightResResource) Then
 		Click(790, 385 + $g_iMidOffsetY)
 		If _Sleep(1500) Then Return
 	EndIf
 
-	Local $iClaim = 0
+	Local $iClaim = 0, $iBonus = 0
 	Local $IsOresPresent = 0
 	Local $IsShinyPresent = 0
 	Local $IsGlowyPresent = 0
@@ -201,33 +201,30 @@ Func CollectEventRewards()
 				EndIf
 			Next
 		EndIf
-		Local $IsLeftBall = False
-		Local $offColors[3][3] = [[0xFFFFFF, 2, 0], [0x0D0D0D, 17, 16], [0x0D0D0D, 34, 0]] ; 2nd pixel white Color at Left, 3rd pixel Black Bottom color, 4th pixel black at right
-		Local $LeftBall = _MultiPixelSearch(55, 418, 65, 420, 1, 1, Hex(0x0D0D0D, 6), $offColors, 40) ; first black pixel on side of button
-		SetDebugLog("Pixel Color #1: " & _GetPixelColor(58, 418, True) & ", #2: " & _GetPixelColor(60, 418, True) & ", #3: " & _GetPixelColor(75, 434, True) & ", #4: " & _GetPixelColor(92, 418, True), $COLOR_DEBUG)
-		If IsArray($LeftBall) Then $IsLeftBall = True
 
-		If Not _CheckPixel($aEventLeftEdge, $g_bCapturePixel) And $IsLeftBall Then ; far left edge And no reward at left.
+		Local $IsLeftRes = False
+		If _ColorCheck(_GetPixelColor(45, 385 + $g_iMidOffsetY, True), Hex(0xFFFFFF, 6), 15) And _ColorCheck(_GetPixelColor(100, 385 + $g_iMidOffsetY, True), Hex(0xFFFFFF, 6), 15) Then $IsLeftRes = True
+
+		If Not _CheckPixel($aEventLeftEdge, $g_bCapturePixel) And $IsLeftRes Then ; far left edge and progress bar at left.
 			If $i = 0 Then
 				SetLog("Dragging back for more... ", Default, Default, Default, Default, Default, Default, False) ; no end line
 			Else
 				SetLog($i & ".. ", Default, Default, Default, Default, Default, 0, $i < 13 ? False : Default) ; no time
 			EndIf
 			ClickDrag(120, 400 + $g_iMidOffsetY, 730, 400 + $g_iMidOffsetY, 1000)
-			If _Sleep(500) Then ExitLoop
+			If _Sleep(Random(500, 750, 1)) Then ExitLoop
 		Else
 			If $i > 0 Then SetLog($i & ".", Default, Default, Default, Default, Default, False) ; no time + end line
 			ExitLoop
 		EndIf
 	Next
-	SetLog($iClaim > 0 ? "Claimed " & $iClaim & " reward(s)!" : "Nothing to claim!", $COLOR_SUCCESS)
 	If _Sleep(500) Then Return
 	Local $bLoop = 0
 	While 1
 		If Not _CheckPixel($aEventRightEdge, $g_bCapturePixel) Or $bLoop = 15 Then ExitLoop
 		If QuickMIS("BC1", $g_sImgClaimBonus, 350, 335 + $g_iMidOffsetY, 590, 475 + $g_iMidOffsetY) Then
 			Click($g_iQuickMISX, $g_iQuickMISY)
-			SetLog("Bonus Collected", $COLOR_SUCCESS1)
+			$iBonus += 1
 			If _Sleep(1500) Then ExitLoop
 		Else
 			ExitLoop
@@ -235,6 +232,16 @@ Func CollectEventRewards()
 		If _Sleep(500) Then ExitLoop
 		$bLoop += 1
 	WEnd
+	Select
+		Case $iClaim > 0 And $iBonus = 0
+			SetLog("Claimed " & $iClaim & " reward" & ($iClaim > 1 ? "s" : "") & "!", $COLOR_SUCCESS)
+		Case $iClaim = 0 And $iBonus > 0
+			SetLog("Claimed " & $iBonus & " bonus" & ($iBonus > 1 ? "es" : "") & "!", $COLOR_SUCCESS)
+		Case $iClaim > 0 And $iBonus > 0
+			SetLog("Claimed " & $iClaim & " reward" & ($iClaim > 1 ? "s" : "") & " and " & $iBonus & " bonus" & ($iBonus > 1 ? "es" : "") & "!", $COLOR_SUCCESS)
+		Case $iClaim = 0 And $iBonus = 0
+			SetLog("Nothing to claim!", $COLOR_SUCCESS)
+	EndSelect
 	If _Sleep(500) Then Return
 EndFunc   ;==>CollectEventRewards
 

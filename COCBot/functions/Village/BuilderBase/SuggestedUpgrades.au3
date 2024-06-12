@@ -513,7 +513,7 @@ Func NewBuildings($aResult, $bDebugImage = $g_bDebugImageSave)
 						Else
 							If Not QuickMIS("BC1", $g_sImgAutoUpgradeNewBldgNo, 80, 60, 800, 570 + $g_iMidOffsetY) And QuickMIS("BC1", $sImgTunnel, 0, 190 + $g_iMidOffsetY, $g_iGAME_WIDTH, $g_iGAME_HEIGHT) Then
 								ClickDrag(700, 500 + $g_iMidOffsetY, 170, 80 + $g_iMidOffsetY)
-								If _Sleep(2000) Then Return
+								If _Sleep(Random(1500, 2000, 1)) Then Return
 								If QuickMIS("BC1", $g_sImgAutoUpgradeNewBldgYes, 80, 60, 800, 570 + $g_iMidOffsetY) Then
 									Click($g_iQuickMISX, $g_iQuickMISY)
 									SetLog("Placed a new Building on Builder Base!", $COLOR_INFO)

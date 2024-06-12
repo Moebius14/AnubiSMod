@@ -71,7 +71,7 @@ Func CollectCCGold($bTest = False)
 					If $AutoForgeSlotAvl Then
 						SetLog("Checking 3rd forge result", $COLOR_INFO)
 						ClickDrag(770, 290 + $g_iMidOffsetY, 640, 290 + $g_iMidOffsetY)
-						If _Sleep(2000) Then Return
+						If _Sleep(Random(1500, 2000, 1)) Then Return
 						If QuickMIS("BC1", $g_sImgCCGoldCollect, 450, 350 + $g_iMidOffsetY, 800, 415 + $g_iMidOffsetY) Then
 							If Not $bTest Then
 								$CollectingCCGold = getOcrAndCapture("coc-forge-ccgold", $g_iQuickMISX - 75, $g_iQuickMISY - 15, 60, 18, True)
@@ -106,7 +106,7 @@ Func CollectCCGold($bTest = False)
 					If $AutoForgeSlotAvl Then
 						SetLog("Checking 3rd and 4th forge result", $COLOR_INFO)
 						ClickDrag(770, 290 + $g_iMidOffsetY, 490, 290 + $g_iMidOffsetY)
-						If _Sleep(2000) Then Return
+						If _Sleep(Random(1500, 2000, 1)) Then Return
 						$aCollect = QuickMIS("CNX", $g_sImgCCGoldCollect, 450, 350 + $g_iMidOffsetY, 800, 415 + $g_iMidOffsetY)
 						_ArraySort($aCollect, 0, 0, 0, 1)
 						If IsArray($aCollect) And UBound($aCollect) > 0 And UBound($aCollect, $UBOUND_COLUMNS) > 1 Then
@@ -128,7 +128,7 @@ Func CollectCCGold($bTest = False)
 					Else
 						SetLog("Checking 4th forge result", $COLOR_INFO)
 						ClickDrag(770, 290 + $g_iMidOffsetY, 640, 290 + $g_iMidOffsetY)
-						If _Sleep(2000) Then Return
+						If _Sleep(Random(1500, 2000, 1)) Then Return
 						If QuickMIS("BC1", $g_sImgCCGoldCollect, 630, 350 + $g_iMidOffsetY, 800, 415 + $g_iMidOffsetY) Then
 							If Not $bTest Then
 								$CollectingCCGold = getOcrAndCapture("coc-forge-ccgold", $g_iQuickMISX - 75, $g_iQuickMISY - 15, 60, 18, True)
@@ -872,7 +872,7 @@ Func ForgeClanCapitalGold($bTest = False)
 		EndIf
 	EndIf
 
-	If _Sleep(2000) Then Return
+	If _Sleep(Random(1500, 2000, 1)) Then Return
 
 	If TimeForge($AutoForgeSlotAvl) Then
 		SetLog("Forge Time > 9h, will use Builder Potion", $COLOR_INFO)
@@ -2402,7 +2402,7 @@ Func TimeForge($AutoForgeSlotAvl = False)
 		EndIf
 	EndIf
 
-	If _Sleep(2000) Then Return
+	If _Sleep(Random(1500, 2000, 1)) Then Return
 	If $g_iTownHallLevel > 11 Then
 		If $g_iTownHallLevel < 14 Then
 			If $AutoForgeSlotAvl Then
@@ -2956,7 +2956,7 @@ Func CheckAvailableMagicItems($TestDebug = False)
 			While 1
 				If QuickMIS("BC1", $g_sImgTrainingWord, 630, 370 + $g_iMidOffsetY, 800, 455 + $g_iMidOffsetY) Then ExitLoop
 				ClickDrag(605, 513 + $g_iMidOffsetY, 620, 295 + $g_iMidOffsetY)
-				If _Sleep(1500) Then Return
+				If _Sleep(Random(1500, 2000, 1)) Then Return
 				$bLoop += 1
 				If $bLoop = 5 Then Return
 			WEnd
@@ -2993,9 +2993,9 @@ Func CheckAvailableMagicItems($TestDebug = False)
 
 		If $i = 0 Or $i = 3 Then
 			ClickDrag(605, 513 + $g_iMidOffsetY, 620, 295 + $g_iMidOffsetY)
-			If _Sleep(1500) Then ExitLoop
+			If _Sleep(Random(1500, 2000, 1)) Then Return
 		Else
-			If _Sleep(1000) Then ExitLoop
+			If _Sleep(Random(800, 1200, 1)) Then Return
 		EndIf
 
 	Next
@@ -3291,7 +3291,7 @@ Func SoldAndBuyItems($TestDebug = False, $ForceTime = False)
 		While 1
 			If QuickMIS("BC1", $g_sImgTrainingWord, 630, 370 + $g_iMidOffsetY, 800, 455 + $g_iMidOffsetY) Then ExitLoop
 			ClickDrag(605, 513 + $g_iMidOffsetY, 620, 295 + $g_iMidOffsetY)
-			If _Sleep(1500) Then Return
+			If _Sleep(Random(1500, 2000, 1)) Then Return
 			$bLoop += 1
 			If $bLoop = 5 Then Return
 		WEnd
@@ -3359,7 +3359,7 @@ Func ItemsNextPage($iRowTarget, ByRef $iRow)
 
 		If $iRow = $iRowTarget Then ExitLoop
 
-		If _Sleep(1500) Then Return
+		If _Sleep(Random(1500, 2000, 1)) Then Return
 
 	WEnd
 

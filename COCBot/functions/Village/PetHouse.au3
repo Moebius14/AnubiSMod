@@ -1104,7 +1104,7 @@ Func DragPetHouse($iPetIndex, ByRef $iPage)
 				ClickDrag(585, $iYPoint, 310, $iYPoint, 300)
 				SetDebugLog("Moving from page 1 to 2")
 			EndIf
-			If _Sleep(2500) Then Return
+			If _Sleep(Random(1800, 2500, 1)) Then Return
 			$iPage += 1
 		EndIf
 
@@ -1116,7 +1116,7 @@ Func DragPetHouse($iPetIndex, ByRef $iPage)
 				ClickDrag(60, $iYPoint, 660, $iYPoint, 300)
 				SetDebugLog("Moving from page 1 to 0")
 			EndIf
-			If _Sleep(2500) Then Return
+			If _Sleep(Random(1800, 2500, 1)) Then Return
 			$iPage -= 1
 		EndIf
 

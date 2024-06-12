@@ -50,8 +50,8 @@ MAKE  |C          |FRONT-RIGHT|10         |-9         |INT-EXT    |0          |0
 MAKE  |E          |FRONT-LEFT |10         |-9         |INT-EXT    |0          |0          |           |                                            				  |
 MAKE  |F          |FRONT-LEFT |10         |-17        |INT-EXT    |0          |0          |           |                                            				  |
 MAKE  |G          |FRONT-RIGHT|10         |-13        |INT-EXT    |0          |0          |           |                                            				  |
-MAKE  |H          |FRONT-LEFT |10         |-18        |INT-EXT    |0          |0          |           |                                            				  |
-MAKE  |I          |FRONT-RIGHT|10         |-21        |INT-EXT    |0          |0          |           |                                            				  |
+MAKE  |H          |FRONT-LEFT |10         |-24        |INT-EXT    |0          |0          |           |                                            				  |
+MAKE  |I          |FRONT-RIGHT|10         |-26        |INT-EXT    |0          |0          |           |                                            				  |
 MAKE  |J          |FRONT-LEFT |10         |-21        |INT-EXT    |0          |0          |           |                                            				  |
 MAKE  |K          |FRONT-RIGHT|10         |-19        |INT-EXT    |0          |0          |           |                                            				  |
 MAKE  |L          |RIGHT-FRONT|10         |0          |INT-EXT    |3          |0          |           |                                            				  |
@@ -82,26 +82,25 @@ DROP  |A          |1              |1          |LogL       |50-70      |27-50    
 WAIT  |500-1000   |               |           |           |           |           |           |       |                                            				  |
 DROP  |A          |1              |1          |ETitan     |50-70      |127-250    |250-300    |       |                                            				  |
 DROP  |B          |2              |1          |ETitan     |50-70      |127-250    |250-300    |       |                                            				  |
+DROP  |A          |1              |2          |Witc       |50-70      |127-150    |150-180    |       |                                            				  |
+DROP  |B          |2              |2          |Witc       |50-70      |127-150    |150-220    |       |                                            				  |
 DROP  |A          |1              |1          |Warden     |27-50      |0          |100-250    |       |                                            				  |
 DROP  |A          |1              |1          |KING       |27-50      |0          |100-250    |       |                                            				  |
 DROP  |A          |1              |1          |Queen      |27-50      |0          |100-250    |       |                                            				  |
 DROP  |A          |1              |1          |Champion   |27-50      |0          |100-250    |       |                                            				  |
-DROP  |A          |1              |2          |Witc       |50-70      |127-250    |150-180    |       |                                            				  |
-DROP  |B          |2              |2          |Witc       |50-70      |127-250    |150-220    |       |                                            				  |
-DROP  |C          |3              |1          |Rspell     |27-50      |0          |200-300    |       |                                            				  |
+DROP  |C          |3              |1          |Rspell     |27-50      |0          |200-250    |       |                                            				  |
 DROP  |E          |3              |1          |Rspell     |27-50      |0          |100-120    |       |                                            				  |
-DROP  |F          |1              |1          |CSpell     |27-50      |0          |100-120    |       |                                            				  |
-DROP  |R          |1              |1          |FSpell     |0          |0          |100-150    |       |                                            				  |
-DROP  |S          |1              |1          |FSpell     |0          |0          |100-150    |       |                                            				  |
-DROP  |T          |1              |1          |FSpell     |0          |0          |100-150    |       |                                            				  |
-DROP  |U          |1              |1          |FSpell     |0          |0          |100-150    |       |                                            				  |
-DROP  |N          |1              |1          |FSpell     |0          |0          |100-150    |       |                                            				  |
-DROP  |O          |1              |1          |FSpell     |0          |0          |100-150    |       |                                            				  |
-DROP  |P          |1              |1          |FSpell     |0          |0          |100-150    |       |                                            				  |
-DROP  |Q          |1              |1          |FSpell     |0          |0          |100-150    |       |                                            				  |
-DROP  |K          |1              |1          |CSpell     |27-50      |0          |200-300    |       |                                            				  |
-DROP  |H          |2              |1          |Rspell     |27-50      |0          |500-600    |       |                                            				  |
-DROP  |I          |2              |1          |Rspell     |27-50      |0          |100-150    |       |                                            				  |
+DROP  |F          |1              |1          |CSpell     |27-50      |0          |50-70      |       |                                            				  |
+DROP  |R          |1              |1          |FSpell     |0          |0          |50-70      |       |                                            				  |
+DROP  |S          |1              |1          |FSpell     |0          |0          |50-70      |       |                                            				  |
+DROP  |T          |1              |1          |FSpell     |0          |0          |50-70      |       |                                            				  |
+DROP  |U          |1              |1          |FSpell     |0          |0          |50-70      |       |                                            				  |
+DROP  |N          |1              |1          |FSpell     |0          |0          |50-70      |       |                                            				  |
+DROP  |O          |1              |1          |FSpell     |0          |0          |50-70      |       |                                            				  |
+DROP  |P          |1              |1          |FSpell     |0          |0          |50-70      |       |                                            				  |
+DROP  |Q          |1              |1          |FSpell     |0          |0          |50-70      |       |                                            				  |
+DROP  |H          |2              |1          |Rspell     |27-50      |0          |50-70      |       |                                            				  |
+DROP  |I          |2              |1          |Rspell     |27-50      |0          |50-70      |       |                                            				  |
 WAIT  |2500-3500  |               |           |           |           |           |           |       |                                            				  |
 DROP  |A-B        |1,2,4,5,6      |5          |REMAIN     |50-70      |100        |50-100     |       |                                            				  |
       |                                                                                                                                  			 			  |

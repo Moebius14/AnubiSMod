@@ -832,7 +832,7 @@ Func SCIDragIfNeeded($iSCIDAccount, $bVerifyAcc = True)
 		If Not IsSCIDAccComplete($iSCIDAccount) Then Return False
 	EndIf
 
-	If _Sleep(1000) Then Return
+	If _Sleep(Random(1000, 1200, 1)) Then Return
 
 	Return True
 EndFunc   ;==>SCIDragIfNeeded

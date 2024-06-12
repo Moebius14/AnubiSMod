@@ -905,13 +905,13 @@ Func ChallengeNextPage($iRowTarget, ByRef $iRow)
 		If $iRow < $iRowTarget Then
 			ClickDrag($iXMidPoint, 470 + $g_iMidOffsetY, $iXMidPoint, 270 + $g_iMidOffsetY)
 			$iRow += 1
-			If _Sleep(2500) Then Return
+			If _Sleep(Random(2000, 2500, 1)) Then Return
 		EndIf
 
 		If $iRow > $iRowTarget Then
 			ClickDrag($iXMidPoint, 250 + $g_iMidOffsetY, $iXMidPoint, 450 + $g_iMidOffsetY)
 			$iRow -= 1
-			If _Sleep(2500) Then Return
+			If _Sleep(Random(2000, 2500, 1)) Then Return
 		EndIf
 
 		If $iRow = $iRowTarget Then ExitLoop
@@ -2671,7 +2671,7 @@ Func DragRewardColumnIfNeeded($iColumn = 0)
 
 	If $iColumn < 6 Then Return
 	If $iColumn = 6 Then ClickDrag(755, 220, 755 - 108, 220, 200)
-	If _Sleep(100) Then Return
+	If _Sleep(Random(1000, 1500, 1)) Then Return
 
 	Return
 EndFunc   ;==>DragRewardColumnIfNeeded

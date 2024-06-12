@@ -26,7 +26,7 @@ Func isInsideDiamond($aCoords)
 	Local $x = $aCoords[0], $y = $aCoords[1], $xD, $yD
 	;Local $Left = 15, $Right = 835, $Top = 30, $Bottom = 645 ; set the diamond shape 860x780
 	; set the diamond shape based on reference village
-	If isOnMainVillage(True) And ($g_iTree = $eTreeEG Or $g_iTree = $eTreeMS) Then
+	If isOnMainVillage(True) And ($g_iTree = $eTreeEG Or $g_iTree = $eTreeMS Or $g_iTree = $eTreePG) Then
 		For $i = 0 To UBound($g_afRefCustomMainVillage) - 1
 			If $g_iTree <> $g_afRefCustomMainVillage[$i][5] Then ContinueLoop
 			Local $Left = $g_afRefCustomMainVillage[$i][0]
@@ -96,7 +96,7 @@ Func isInsideDiamond($aCoords)
 EndFunc   ;==>isInsideDiamond
 
 Func GetReduceDiamond($iPercent = 100)
-	If isOnMainVillage(True) And ($g_iTree = $eTreeEG Or $g_iTree = $eTreeMS) Then
+	If isOnMainVillage(True) And ($g_iTree = $eTreeEG Or $g_iTree = $eTreeMS Or $g_iTree = $eTreePG) Then
 		For $i = 0 To UBound($g_afRefCustomMainVillage) - 1
 			If $g_iTree <> $g_afRefCustomMainVillage[$i][5] Then ContinueLoop
 			Local $InnerDiamondLeft = $g_afRefCustomMainVillage[$i][0]

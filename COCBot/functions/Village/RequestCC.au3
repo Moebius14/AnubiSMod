@@ -394,16 +394,16 @@ Func RemoveCastleArmy($aToRemove)
 							$aPos[0] = $aToRemove[$i][2] ; x-coordinate of first Spell slot, or second when 3 spells
 							If $aToRemove[$i][0] = 11 Then
 								ClickDrag(527, 495 + $g_iMidOffsetY, 455, 495 + $g_iMidOffsetY, 300)
-								If _Sleep(1000) Then Return
+								If _Sleep(Random(1000, 1200, 1)) Then Return
 							EndIf
 						Case 2, 3
 							$aPos[0] = $aToRemove[$i][2] ; x-coordinate of second Spell slot
 							If $aToRemove[$i][0] = 2 Then
 								ClickDrag(527, 495 + $g_iMidOffsetY, 455, 495 + $g_iMidOffsetY, 300)
-								If _Sleep(2000) Then Return
+								If _Sleep(Random(2000, 2200, 1)) Then Return
 							Else
 								ClickDrag(527, 495 + $g_iMidOffsetY, 475, 495 + $g_iMidOffsetY, 300)
-								If _Sleep(2000) Then Return
+								If _Sleep(Random(2000, 2200, 1)) Then Return
 							EndIf
 					EndSwitch
 				Case 8, 9
@@ -415,7 +415,7 @@ Func RemoveCastleArmy($aToRemove)
 						Case 2
 							$aPos[0] = $aToRemove[$i][2] ; x-coordinate of second Siege slot when 2 available slots
 							ClickDrag(645, 495 + $g_iMidOffsetY, 573, 495 + $g_iMidOffsetY, 300)
-							If _Sleep(2000) Then Return
+							If _Sleep(Random(2000, 2200, 1)) Then Return
 					EndSwitch
 			EndSwitch
 			SetDebugLog(" - Click at slot " & $i & ". (" & $aPos[0] & ") x " & $aToRemove[$i][1])

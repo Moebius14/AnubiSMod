@@ -162,10 +162,10 @@ Func CollectDailyRewards($bGoldPass = False)
 	If _Sleep(Random(2000, 3000, 1)) Then Return
 	If Not $g_bRunState Then Return
 
-	Local $offColors[3][3] = [[0x40BC15, 15, 7], [0x0D0D0D, 14, 15], [0x0D0D0D, 29, 0]] ; 2nd pixel Green Color, 3rd pixel Black Bottom color, 4th pixel Black edge of button
-	Local $GreenButtonPixel = _MultiPixelSearch(778, 415, 815, 432, 1, 1, Hex(0x0D0D0D, 6), $offColors, 40) ; first black pixel on side of button
-	SetDebugLog("Pixel Color #1: " & _GetPixelColor(782, 415, True) & ", #2: " & _GetPixelColor(797, 422, True) & ", #3: " & _GetPixelColor(796, 430, True) & ", #4: " & _GetPixelColor(811, 415, True), $COLOR_DEBUG)
-	If IsArray($GreenButtonPixel) Then
+	Local $offColors[2][3] = [[0x0D0D0D, 28, 9], [0xFFFB6A, 35, 3]] ; 2nd pixel black Color, 3rd pixel yellow color
+	Local $TrophyButtonPixel = _MultiPixelSearch(765, 422, 810, 433, 1, 1, Hex(0xFFFFFF, 6), $offColors, 40) ; first white pixel on side of button
+	SetDebugLog("Pixel Color #1: " & _GetPixelColor(769, 422, True) & ", #2: " & _GetPixelColor(797, 431, True) & ", #3: " & _GetPixelColor(804, 425, True), $COLOR_DEBUG)
+	If Not IsArray($TrophyButtonPixel) Then
 		Click(795, 385 + $g_iMidOffsetY)
 		If _Sleep(1500) Then Return
 	EndIf
@@ -271,7 +271,7 @@ Func CollectDailyRewards($bGoldPass = False)
 				SetLog($i & ".. ", Default, Default, Default, Default, Default, 0, $i < 15 ? False : Default) ; no time
 			EndIf
 			ClickDrag(120, 400 + $g_iMidOffsetY, 740, 400 + $g_iMidOffsetY, 1000) ;x1 was 50. x2 was 810  Change for Dec '20 update
-			If _Sleep(500) Then ExitLoop
+			If _Sleep(Random(400, 600, 1)) Then ExitLoop
 		Else
 			If $i > 0 Then SetLog($i & ".", Default, Default, Default, Default, Default, False) ; no time + end line
 			ExitLoop

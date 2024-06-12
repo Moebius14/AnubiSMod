@@ -928,7 +928,7 @@ Func ForumAccept()
 	While 1
 		ForceCaptureRegion()
 		Local $offColors[3][3] = [[0xFFFFFF, 7, 0], [0x0D0D0D, 11, 0], [0x99D012, 14, 0]] ; 2nd pixel white Color, 3rd pixel black Bottom color, 4th pixel green edge of button
-		Local $Scroll = _MultiPixelSearch(329, 68, 347, 70, 1, 1, Hex(0x8ECC26, 6), $offColors, 40) ; first green pixel on side of button
+		Local $Scroll = _MultiPixelSearch(329, 68, 348, 70, 1, 1, Hex(0x8ECC26, 6), $offColors, 40) ; first green pixel on side of button
 		SetDebugLog("Pixel Color #1: " & _GetPixelColor(332, 68, True) & ", #2: " & _GetPixelColor(339, 68, True) & ", #3: " & _GetPixelColor(343, 68, True) & ", #4: " & _GetPixelColor(346, 68, True), $COLOR_DEBUG)
 		If IsArray($Scroll) Then
 			Click($Scroll[0] + 8, $Scroll[1])
@@ -986,7 +986,7 @@ Func ForumAccept()
 			Else
 				ForceCaptureRegion()
 				Local $offColors[3][3] = [[0xFFFFFF, 7, 0], [0x0D0D0D, 11, 0], [0x99D012, 14, 0]] ; 2nd pixel white Color, 3rd pixel black Bottom color, 4th pixel green edge of button
-				Local $Scroll = _MultiPixelSearch(329, 651, 347, 652, 1, 1, Hex(0x92D028, 6), $offColors, 40) ; first green pixel on side of button
+				Local $Scroll = _MultiPixelSearch(329, 651, 348, 653, 1, 1, Hex(0x92D028, 6), $offColors, 40) ; first green pixel on side of button
 				SetDebugLog("Pixel Color #1: " & _GetPixelColor(332, 651, True) & ", #2: " & _GetPixelColor(339, 651, True) & ", #3: " & _GetPixelColor(343, 651, True) & ", #4: " & _GetPixelColor(346, 651, True), $COLOR_DEBUG)
 				If IsArray($Scroll) Then
 					Click($Scroll[0] + 8, $Scroll[1])
@@ -997,7 +997,7 @@ Func ForumAccept()
 		Else
 			ForceCaptureRegion()
 			Local $offColors[3][3] = [[0xFFFFFF, 7, 0], [0x0D0D0D, 11, 0], [0x99D012, 14, 0]] ; 2nd pixel white Color, 3rd pixel black Bottom color, 4th pixel green edge of button
-			Local $Scroll = _MultiPixelSearch(329, 651, 347, 652, 1, 1, Hex(0x92D028, 6), $offColors, 40) ; first green pixel on side of button
+			Local $Scroll = _MultiPixelSearch(329, 651, 348, 653, 1, 1, Hex(0x92D028, 6), $offColors, 40) ; first green pixel on side of button
 			SetDebugLog("Pixel Color #1: " & _GetPixelColor(332, 651, True) & ", #2: " & _GetPixelColor(339, 651, True) & ", #3: " & _GetPixelColor(343, 651, True) & ", #4: " & _GetPixelColor(346, 651, True), $COLOR_DEBUG)
 			If IsArray($Scroll) Then
 				Click($Scroll[0] + 8, $Scroll[1])
@@ -1133,10 +1133,10 @@ Func SignUpWar()
 	While 1
 		ForceCaptureRegion()
 		Local $offColors[3][3] = [[0xFFFFFF, 10, 0], [0x0D0D0D, 11, 0], [0x99D012, 14, 0]] ; 2nd pixel white Color, 3rd pixel black Bottom color, 4th pixel green edge of button
-		Local $Scroll = _MultiPixelSearch(329, 68, 347, 70, 1, 1, Hex(0x8ECC26, 6), $offColors, 40) ; first green pixel on side of button
+		Local $Scroll = _MultiPixelSearch(329, 68, 348, 70, 1, 1, Hex(0x8ECC26, 6), $offColors, 40) ; first green pixel on side of button
 		SetDebugLog("Pixel Color #1: " & _GetPixelColor(332, 68, True) & ", #2: " & _GetPixelColor(339, 68, True) & ", #3: " & _GetPixelColor(343, 68, True) & ", #4: " & _GetPixelColor(346, 68, True), $COLOR_DEBUG)
 		Local $offColors2[3][3] = [[0xFFFFFE, 10, 0], [0x463F33, 13, 0], [0xEB9910, 17, 0]] ; 2nd pixel white Color, 3rd pixel black color, 4th pixel orange edge of button
-		Local $Scroll2 = _MultiPixelSearch(329, 71, 351, 72, 1, 1, Hex(0xEB9910, 6), $offColors2, 40) ; first orange pixel on side of button
+		Local $Scroll2 = _MultiPixelSearch(329, 71, 351, 73, 1, 1, Hex(0xEB9910, 6), $offColors2, 40) ; first orange pixel on side of button
 		SetDebugLog("Pixel Color #1: " & _GetPixelColor(332, 71, True) & ", #2: " & _GetPixelColor(342, 71, True) & ", #3: " & _GetPixelColor(345, 71, True) & ", #4: " & _GetPixelColor(349, 71, True), $COLOR_DEBUG)
 		If IsArray($Scroll) Then
 			Click($Scroll[0] + 8, $Scroll[1])
@@ -1186,10 +1186,10 @@ Func SignUpWar()
 		Else
 			ForceCaptureRegion()
 			Local $offColors[3][3] = [[0xFFFFFF, 7, 0], [0x0D0D0D, 11, 0], [0x99D012, 14, 0]] ; 2nd pixel white Color, 3rd pixel black Bottom color, 4th pixel green edge of button
-			Local $Scroll = _MultiPixelSearch(329, 651, 347, 652, 1, 1, Hex(0x92D028, 6), $offColors, 40) ; first green pixel on side of button
+			Local $Scroll = _MultiPixelSearch(329, 651, 348, 653, 1, 1, Hex(0x92D028, 6), $offColors, 40) ; first green pixel on side of button
 			SetDebugLog("Pixel Color #1: " & _GetPixelColor(332, 651, True) & ", #2: " & _GetPixelColor(339, 651, True) & ", #3: " & _GetPixelColor(343, 651, True) & ", #4: " & _GetPixelColor(346, 651, True), $COLOR_DEBUG)
 			Local $offColors2[3][3] = [[0xFFFFFF, 10, 0], [0x10100F, 13, 1], [0xEC990F, 17, 1]] ; 2nd pixel white Color, 3rd pixel black color, 4th pixel orange edge of button
-			Local $Scroll2 = _MultiPixelSearch(329, 651, 350, 653, 1, 1, Hex(0xF19B10, 6), $offColors2, 40) ; first orange pixel on side of button
+			Local $Scroll2 = _MultiPixelSearch(329, 651, 351, 653, 1, 1, Hex(0xF19B10, 6), $offColors2, 40) ; first orange pixel on side of button
 			SetDebugLog("Pixel Color #1: " & _GetPixelColor(332, 651, True) & ", #2: " & _GetPixelColor(342, 651, True) & ", #3: " & _GetPixelColor(345, 652, True) & ", #4: " & _GetPixelColor(349, 652, True), $COLOR_DEBUG)
 			If IsArray($Scroll) Then
 				Click($Scroll[0] + 8, $Scroll[1])

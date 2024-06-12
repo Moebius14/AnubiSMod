@@ -348,7 +348,7 @@ Func FindEventTroop()
 	If $FoundEventTroop Then Return
 
 	ClickDrag($iXMidPoint, 545 + $g_iMidOffsetY, $iXMidPoint, 187 + $g_iMidOffsetY, 500)
-	If _Sleep(1500) Then Return
+	If _Sleep(Random(1500, 2000, 1)) Then Return
 	For $i = 0 To $iPicsPerRow - 1 ; ; Row 1 Page 2
 		If IsArray(_PixelSearch($columnStart + ($picswidth * $i), $iColumnY1, $columnStart + 10 + ($picswidth * $i), $iColumnY1 + 10, Hex(0xEB780D, 6), 20, True)) Then
 			$FoundEventTroop = True
@@ -359,7 +359,7 @@ Func FindEventTroop()
 	If $FoundEventTroop Then
 		$iXMidPoint = Random(360, 520, 1)
 		ClickDrag($iXMidPoint, 230 + $g_iMidOffsetY, $iXMidPoint, 600 + $g_iMidOffsetY, 500)
-		If _Sleep(1000) Then Return
+		If _Sleep(Random(800, 1200, 1)) Then Return
 		Return
 	EndIf
 	For $i = 0 To $iPicsPerRow - 1 ; Row 2 Page 2
@@ -372,7 +372,7 @@ Func FindEventTroop()
 	If $FoundEventTroop Then
 		$iXMidPoint = Random(360, 520, 1)
 		ClickDrag($iXMidPoint, 230 + $g_iMidOffsetY, $iXMidPoint, 600 + $g_iMidOffsetY, 500)
-		If _Sleep(1000) Then Return
+		If _Sleep(Random(800, 1200, 1)) Then Return
 		Return
 	EndIf
 
@@ -401,7 +401,7 @@ Func StroopNextPage($iRowTarget, ByRef $iRow)
 
 		If $iRow = $iRowTarget Then ExitLoop
 
-		If _Sleep(1000) Then Return
+		If _Sleep(Random(800, 1200, 1)) Then Return
 
 	WEnd
 

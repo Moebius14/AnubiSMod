@@ -42,7 +42,7 @@ Func ProfileReport()
 			SetLog("Reward collected", $COLOR_SUCCESS)
 			For $i = 0 To 9
 				ClickDrag(321, 200 + $g_iMidOffsetY, 321, 540 + $g_iMidOffsetY, 2000)
-				If _Sleep(2000) Then Return ; 2000ms
+				If _Sleep(Random(1800, 2500, 1)) Then Return ; 2000ms
 				If _ColorCheck(_GetPixelColor($aCheckTopProfile[0], $aCheckTopProfile[1], True), Hex($aCheckTopProfile[2], 6), $aCheckTopProfile[3]) = True _
 						And _ColorCheck(_GetPixelColor($aCheckTopProfile2[0], $aCheckTopProfile2[1], True), Hex($aCheckTopProfile2[2], 6), $aCheckTopProfile2[3]) = True Then ExitLoop
 			Next

@@ -96,7 +96,7 @@ EndFunc   ;==>CollectAchievementsRandomization
 Func CollectAchievementsScroll()
 
 	ClickDrag(70, 630, 70, 220)
-	If _Sleep(1000) Then Return
+	If _Sleep(Random(1000, 1200, 1)) Then Return
 
 	Local $aImgAchievementsScrollEnd = decodeSingleCoord(findImage("ScrollEnd", $g_sImgAchievementsScrollEnd, GetDiamondFromRect("50, 700, 250, 550"), 1, True))
 	If UBound($aImgAchievementsScrollEnd) > 1 Then

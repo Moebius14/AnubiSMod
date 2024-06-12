@@ -716,11 +716,29 @@ Func AutoUpgradeWall($iWallCost)
 					If _Sleep($DELAYAUTOUPGRADEBUILDING1) Then Return
 					Local $bWallElixCost = getCostsUpgrade(552, 541 + $g_iMidOffsetY) ; get cost
 					If $bWallElixCost = "" Then $bWallElixCost = getCostsUpgrade(552, 532 + $g_iMidOffsetY) ; Try to get yellow cost (Discount)
-					If $g_aiCurrentLoot[$eLootElixir] < ($bWallElixCost + $g_iUpgradeWallMinElixir) Then
+					If $g_aiCurrentLoot[$eLootElixir] < ($bWallElixCost + $g_iUpgradeWallMinElixir + Number($g_iLaboratoryElixirCost)) Then
+						If $g_bAutoLabUpgradeEnable And $g_iLaboratoryElixirCost > 0 Then SetLog("Laboratory needs Elixir to Upgrade :  " & _NumberFormat($g_iLaboratoryElixirCost, True), $COLOR_WARNING)
 						SetLog("Insufficent Elixir to upgrade wall, checking Gold", $COLOR_WARNING)
 						CloseWindow2()
 						If _Sleep($DELAYAUTOUPGRADEBUILDING1) Then Return
-						ContinueLoop
+						$aUpgradeButton[0] -= 94
+						If Not WaitforPixel($aUpgradeButton[0], $aUpgradeButton[1] - 25, $aUpgradeButton[0] + 30, $aUpgradeButton[1] - 16, "FF887F", 20, 2) Then
+							ClickP($aUpgradeButton)
+							If _Sleep($DELAYAUTOUPGRADEBUILDING1) Then Return
+							Local $bWallGoldCost = getCostsUpgrade(552, 541 + $g_iMidOffsetY)         ; get cost
+							If $bWallGoldCost = "" Then $bWallGoldCost = getCostsUpgrade(552, 532 + $g_iMidOffsetY)     ; Try to get yellow cost (Discount)
+							If $g_aiCurrentLoot[$eLootGold] < ($bWallGoldCost + $g_iTxtSmartMinGold) Then
+								SetLog("Not enough Gold to upgrade Wall, looking next...", $COLOR_WARNING)
+								CloseWindow2()
+								If _Sleep($DELAYAUTOUPGRADEBUILDING1) Then Return
+								ContinueLoop
+							Else
+								$UpWindowOpen = True
+							EndIf
+						Else
+							SetLog("Not enough Gold to upgrade Wall, looking next...", $COLOR_WARNING)
+							ContinueLoop
+						EndIf
 					Else
 						$UpWindowOpen = True
 					EndIf
@@ -731,7 +749,7 @@ Func AutoUpgradeWall($iWallCost)
 					Local $bWallGoldCost = getCostsUpgrade(552, 541 + $g_iMidOffsetY) ; get cost
 					If $bWallGoldCost = "" Then $bWallGoldCost = getCostsUpgrade(552, 532 + $g_iMidOffsetY) ; Try to get yellow cost (Discount)
 					If $g_aiCurrentLoot[$eLootGold] < ($bWallGoldCost + $g_iUpgradeWallMinGold) Then
-						SetLog("Insufficent Gold to upgrade wall, checking Elixir", $COLOR_WARNING)
+						SetLog("Insufficent Gold to upgrade wall", $COLOR_WARNING)
 						CloseWindow2()
 						If _Sleep($DELAYAUTOUPGRADEBUILDING1) Then Return
 						ContinueLoop
@@ -784,16 +802,17 @@ Func AutoUpgradeWall($iWallCost)
 		SetLog("Launched upgrade of " & $g_aUpgradeNameLevel[1] & " to level " & $g_aUpgradeNameLevel[2] + 1 & " successfully !", $COLOR_SUCCESS)
 
 		SetLog(" - Cost : " & _NumberFormat($g_aUpgradeResourceCostDuration[1]) & " " & $g_aUpgradeResourceCostDuration[0], $COLOR_SUCCESS)
-		If $g_aUpgradeNameLevel[1] <> "Wall" Then SetLog(" - Duration : " & $g_aUpgradeResourceCostDuration[2], $COLOR_SUCCESS) ; Wall Case : No Upgrade Time
 
 		;Stats
-		AutoWallsStatsMAJ($g_aUpgradeNameLevel[2])
+		$g_iNbrOfWallsUpped += 1
 		If $g_aUpgradeResourceCostDuration[0] = "Gold" Then
 			$g_iNbrOfWallsUppedGold += 1
 			$g_iCostGoldWall += $g_aUpgradeResourceCostDuration[1]
+			PushMsg("UpgradeWithGold")
 		Else
 			$g_iNbrOfWallsUppedElixir += 1
 			$g_iCostElixirWall += $g_aUpgradeResourceCostDuration[1]
+			PushMsg("UpgradeWithElixir")
 		EndIf
 
 		If $g_iTxtCurrentVillageName <> "" Then

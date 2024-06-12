@@ -125,7 +125,7 @@ Func CCSiegeMachinesArray($bNeedCapture = True)
 		EndIf
 		If Not IsArray(_PixelSearch(658, 490 + $g_iMidOffsetY, 662, 490 + $g_iMidOffsetY, Hex(0xCFCFC8, 6), 20, True)) Then ; Second Siege slot
 			ClickDrag(645, 495 + $g_iMidOffsetY, 573, 495 + $g_iMidOffsetY, 300)
-			If _Sleep(2000) Then Return
+			If _Sleep(Random(1500, 2000, 1)) Then Return
 			Local $sCCSiegeDiamond = GetDiamondFromRect2(593, 454 + $g_iMidOffsetY, 658, 530 + $g_iMidOffsetY)
 			Local $aCurrentCCSiegeMachines2 = findMultiple(@ScriptDir & "\imgxml\ArmyOverview\SiegeMachines", $sCCSiegeDiamond, $sCCSiegeDiamond, 0, 1000, 0, "objectname,objectpoints", $bNeedCapture)
 			If IsArray($aCurrentCCSiegeMachines2) And IsArray($aCurrentCCSiegeMachines) Then
@@ -135,7 +135,7 @@ Func CCSiegeMachinesArray($bNeedCapture = True)
 				$aCurrentCCSiegeMachines[1] = $aCurrentCCSiegeMachines2[0]
 			EndIf
 			ClickDrag(573, 495 + $g_iMidOffsetY, 618, 495 + $g_iMidOffsetY, 300)
-			If _Sleep(1000) Then Return
+			If _Sleep(Random(800, 1200, 1)) Then Return
 		EndIf
 	EndIf
 	Return $aCurrentCCSiegeMachines

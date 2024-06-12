@@ -399,13 +399,13 @@ Func DragIfNeeded($Troop)
 		For $i = 1 To 4
 			If Not $bCheckPixel Then
 				ClickDrag(715, 433 + $g_iMidOffsetY, 300 - $ExtendedDragTroops4, 433 + $g_iMidOffsetY)
-				If _Sleep(2000) Then Return
+				If _Sleep(Random(1500, 2000, 1)) Then Return
 				If _ColorCheck(_GetPixelColor(776, 380 + $g_iMidOffsetY, True), Hex(0xD3D3CB, 6), 5) Then
 					$bCheckPixel = True
 					If $ExtendedTroops4 And $iIndex >= $eEDrag And $iIndex <= $eRootR Then
 						If $g_bDebugSetlogTrain Then SetLog("DragIfNeeded : MicroDrag to the left")
 						ClickDrag(250, 433 + $g_iMidOffsetY, 435, 433 + $g_iMidOffsetY)
-						If _Sleep(2000) Then Return
+						If _Sleep(Random(1500, 2000, 1)) Then Return
 					EndIf
 				EndIf
 			Else
@@ -418,7 +418,7 @@ Func DragIfNeeded($Troop)
 		For $i = 1 To 4
 			If Not $bCheckPixel Then
 				ClickDrag(200, 433 + $g_iMidOffsetY, 615 + $ExtendedDragTroops4, 433 + $g_iMidOffsetY)
-				If _Sleep(2000) Then Return
+				If _Sleep(Random(1500, 2000, 1)) Then Return
 				If _ColorCheck(_GetPixelColor(75, 380 + $g_iMidOffsetY, True), Hex(0xD3D3CB, 6), 5) Then $bCheckPixel = True
 			Else
 				Return True
@@ -1274,13 +1274,15 @@ Func MakingDonatedTroops($sType = "All")
 							ExitLoop (2) ;
 						EndIf
 						If $avDefaultTroopGroup[$i][2] <= $RemainTrainSpace[2] And $avDefaultTroopGroup[$i][4] > 0 Then
-							Local $howMuch = 1
+	;						Local $howMuch = 1
+							Local $howMuch = Number($RemainTrainSpace[2] / $avDefaultTroopGroup[$i][2])
 							DragIfNeeded($avDefaultTroopGroup[$i][0])
 							TrainIt($iTroopIndex, $howMuch, $g_iTrainClickDelay)
 							If _Sleep($DELAYRESPOND) Then Return ; add 5ms delay to catch TrainIt errors, and force return to back to main loop
 							Local $sTroopName = $g_asTroopNames[$iTroopIndex]
 							SetLog(" - Trained " & $howMuch & " " & $sTroopName, $COLOR_ACTION)
-							$avDefaultTroopGroup[$i][4] -= 1
+	;						$avDefaultTroopGroup[$i][4] -= 1
+							$avDefaultTroopGroup[$i][4] -= $howMuch
 							If _Sleep(1000) Then Return ; Needed Delay, OCR was not picking up Troop Changes
 						Else
 							ExitLoop
@@ -1495,7 +1497,7 @@ Func FillCCWMedals($g_bFullArmy = False, $g_bCheckSpells = False, $bFullArmyHero
 	If $BuildingInfo[1] = "Clan Castle" Then
 		If ClickB("Reinforce") Then
 			If _Sleep(1000) Then Return
-			If Number($g_iLootCCMedal) = 0 Then $g_iLootCCMedal = getOcrAndCapture("coc-bonus", 570, 383, 55, 16, True)
+			$g_iLootCCMedal = getOcrAndCapture("coc-bonus", 570, 353 + $g_iMidOffsetY, 55, 16, True)
 			If _Sleep(250) Then Return
 			If QuickMIS("BC1", $g_sImgCCReinforceBuy, 560, 450 + $g_iMidOffsetY, 610, 500 + $g_iMidOffsetY) Then
 				If WaitforPixel(518, 478 + $g_iMidOffsetY, 522, 482 + $g_iMidOffsetY, "6CBB1F", 10, 2) Then
@@ -1538,7 +1540,7 @@ Func FillCCWMedals($g_bFullArmy = False, $g_bCheckSpells = False, $bFullArmyHero
 			If $BuildingInfo[1] = "Clan Castle" Then
 				If ClickB("Reinforce") Then
 					If _Sleep(1000) Then Return
-					If Number($g_iLootCCMedal) = 0 Then $g_iLootCCMedal = getOcrAndCapture("coc-events", 570, 384, 55, 16, True)
+					$g_iLootCCMedal = getOcrAndCapture("coc-bonus", 570, 353 + $g_iMidOffsetY, 55, 16, True)
 					If _Sleep(250) Then Return
 					If QuickMIS("BC1", $g_sImgCCReinforceBuy, 560, 450 + $g_iMidOffsetY, 610, 500 + $g_iMidOffsetY) Then
 						If WaitforPixel(518, 478 + $g_iMidOffsetY, 522, 482 + $g_iMidOffsetY, "6CBB1F", 10, 2) Then
@@ -1576,7 +1578,7 @@ Func FillCCWMedals($g_bFullArmy = False, $g_bCheckSpells = False, $bFullArmyHero
 			If $BuildingInfo[1] = "Clan Castle" Then
 				If ClickB("Reinforce") Then
 					If _Sleep(1000) Then Return
-					If Number($g_iLootCCMedal) = 0 Then $g_iLootCCMedal = getOcrAndCapture("coc-events", 570, 384, 55, 16, True)
+					$g_iLootCCMedal = getOcrAndCapture("coc-bonus", 570, 353 + $g_iMidOffsetY, 55, 16, True)
 					If _Sleep(250) Then Return
 					If QuickMIS("BC1", $g_sImgCCReinforceBuy, 560, 450 + $g_iMidOffsetY, 610, 500 + $g_iMidOffsetY) Then
 						If WaitforPixel(518, 478 + $g_iMidOffsetY, 522, 482 + $g_iMidOffsetY, "6CBB1F", 10, 2) Then

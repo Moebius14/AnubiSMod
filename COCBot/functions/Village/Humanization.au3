@@ -208,7 +208,7 @@ Func LookAtWarLog()
 							Local $yStart = Random(550, 585, 1)
 							Local $yEnd = Random(340, 380, 1)
 							ClickDrag($x, $yStart, $x, $yEnd)
-							If _Sleep(4000) Then Return
+							If _Sleep(Random(3000, 4000, 1)) Then Return
 							If Not $g_bRunState Then Return
 						Next
 						Click(675, 250 + $g_iMidOffsetY) ; Defense Log Tab
@@ -219,7 +219,7 @@ Func LookAtWarLog()
 							Local $yStart = Random(550, 585, 1)
 							Local $yEnd = Random(340, 380, 1)
 							ClickDrag($x, $yStart, $x, $yEnd)
-							If _Sleep(4000) Then Return
+							If _Sleep(Random(3000, 4000, 1)) Then Return
 							If Not $g_bRunState Then Return
 						Next
 						If _Sleep(Random(2000, 3000, 1)) Then Return
@@ -2666,7 +2666,7 @@ Func LookAtRedNotifications()
 				Local $y = Random(160 + $g_iMidOffsetY, 580 + $g_iMidOffsetY, 1)
 				ClickDrag($xStart, $y, $xEnd, $y)     ; scroll the shop
 			EndIf
-			If _Sleep(2000) Then Return
+			If _Sleep(Random(2000, 2500, 1)) Then Return
 			CloseWindow()
 		Else
 			SetLog("Not Visit Shop Everytime !", $COLOR_DEBUG)
@@ -3342,6 +3342,7 @@ Func CheckWarTime(ByRef $sResult, ByRef $bResult, $bReturnFrom = True, $WWR = Fa
 								SetLog("CWL : Stay In This Day", $COLOR_OLIVE)
 							EndIf
 							$IsAllowedPreparationDay = False
+							If _Sleep(Random(3000, 5000, 1)) Then Return
 						Case 3
 							If $IsAllowedPreparationDay Then
 								If QuickMIS("BC1", $directoryDay & "\CWL_Preparation", 175, 585 + $g_iBottomOffsetY, 690, 625 + $g_iBottomOffsetY) Then ;Find Preparation Button
@@ -3351,7 +3352,7 @@ Func CheckWarTime(ByRef $sResult, ByRef $bResult, $bReturnFrom = True, $WWR = Fa
 										SetLog("CWL : Enter In Preparation Day", $COLOR_OLIVE)
 									EndIf
 									Click($g_iQuickMISX - 5, $g_iQuickMISY + 12)
-									If _Sleep(500) Then Return
+									If _Sleep(Random(3000, 5000, 1)) Then Return
 									If Not IsWarMenu() Then
 										SetLog("Error when trying to open CWL Preparation page.", $COLOR_ERROR)
 										$bLocalReturn = SetError(1, 0, "Error Open CWL Preparation page")
@@ -3360,13 +3361,14 @@ Func CheckWarTime(ByRef $sResult, ByRef $bResult, $bReturnFrom = True, $WWR = Fa
 							Else
 								SetLog("CWL : Stay In This Day", $COLOR_OLIVE)
 								$IsAllowedPreparationDay = False
+								If _Sleep(Random(3000, 5000, 1)) Then Return
 							EndIf
 						Case 4
 							If QuickMIS("BC1", $directoryDay & "\CWL_Battle", 175, 585 + $g_iBottomOffsetY, 690, 625 + $g_iBottomOffsetY) Then ; When Battle Day Is Unselected
 								SetLog("CWL : Enter In Battle Day", $COLOR_OLIVE)
 								$IsAllowedPreparationDay = False
 								Click($g_iQuickMISX - 5, $g_iQuickMISY + 12)
-								If _Sleep(500) Then Return
+								If _Sleep(Random(3000, 5000, 1)) Then Return
 								If Not IsWarMenu() Then
 									SetLog("Error when trying to open CWL Battle page.", $COLOR_ERROR)
 									$bLocalReturn = SetError(1, 0, "Error Open CWL Battle page")
@@ -3384,7 +3386,6 @@ Func CheckWarTime(ByRef $sResult, ByRef $bResult, $bReturnFrom = True, $WWR = Fa
 			EndIf
 		EndIf
 
-		If _Sleep(Random(3000, 5000, 1)) Then Return
 		If Not $g_bRunState Then Return
 
 		$sWarDay = QuickMIS("N1", $directoryDay, 360, 85, 505, 113, True, False) ; Prepare or Battle
@@ -3724,7 +3725,7 @@ Func CheckRaidMap()
 							Local $yStart = Random(570 + $g_iMidOffsetY, 600 + $g_iMidOffsetY, 1)
 							Local $yEnd = Random($yStart - 200, $yStart - 170, 1)
 							ClickDrag($x, $yStart, $x, $yEnd)
-							If _Sleep(2000) Then Return
+							If _Sleep(Random(1800, 2500, 1)) Then Return
 							If Not $g_bRunState Then Return
 						Next
 						Local $bToReScroll = 0

@@ -81,6 +81,7 @@ Func PrepareSearch($Mode = $DB) ;Click attack button and find match button, will
 		Local $sSearchDiamond = GetDiamondFromRect("300,195,815,630")
 		Local $avAttackButton = findMultiple($g_sImgPrepareLegendLeagueSearch, $sSearchDiamond, $sSearchDiamond, 0, 1000, 1, "objectname,objectpoints", True)
 		If IsArray($avAttackButton) And UBound($avAttackButton, 1) > 0 Then
+			If _Sleep(Random(250, 350, 1)) Then ExitLoop
 			$g_bLeagueAttack = True
 			$g_bLegendsAllMade = False
 			Local $avAttackButtonSubResult = $avAttackButton[0]
@@ -106,7 +107,7 @@ Func PrepareSearch($Mode = $DB) ;Click attack button and find match button, will
 					If _Sleep(200) Then Return
 					$aConfirmAttackButton = findButton("ConfirmAttack", Default, 1, True)
 					If IsArray($aConfirmAttackButton) And UBound($aConfirmAttackButton, 1) = 2 Then
-						ClickP($aConfirmAttackButton, 1, 150)
+						ClickP($aConfirmAttackButton, 1, 120)
 						ExitLoop
 					EndIf
 				Next
@@ -118,11 +119,11 @@ Func PrepareSearch($Mode = $DB) ;Click attack button and find match button, will
 				Local $aCoordinates = StringSplit($avAttackButtonSubResult[1], ",", $STR_NOCOUNT)
 				If IsArray($aCoordinates) And UBound($aCoordinates, 1) = 2 Then
 					$g_bLeagueAttack = False
-					Local $FindaMatchCoordsX[2] = [590, 715]
-					Local $FindaMatchCoordsY[2] = [385 + $g_iMidOffsetY, 445 + $g_iMidOffsetY]
+					Local $FindaMatchCoordsX[2] = [$aCoordinates[0] - 80, $aCoordinates[0] + 50]
+					Local $FindaMatchCoordsY[2] = [$aCoordinates[1] - 20, $aCoordinates[1] + 20]
 					Local $FindaMatchButtonClickX = Random($FindaMatchCoordsX[0], $FindaMatchCoordsX[1], 1)
 					Local $FindaMatchButtonClickY = Random($FindaMatchCoordsY[0], $FindaMatchCoordsY[1], 1)
-					Click($FindaMatchButtonClickX, $FindaMatchButtonClickY, 1, 180, "#0149")
+					Click($FindaMatchButtonClickX, $FindaMatchButtonClickY, 1, 120, "#0150")
 					ExitLoop
 				Else
 					SetLog("Couldn't find the Find a Match Button!", $COLOR_ERROR)
@@ -132,11 +133,11 @@ Func PrepareSearch($Mode = $DB) ;Click attack button and find match button, will
 			ElseIf StringInStr($sButtonState, "Sign", 0) > 0 Then
 				SetLog("Sign-up to Legend League", $COLOR_INFO)
 				Local $aCoordinates = StringSplit($avAttackButtonSubResult[1], ",", $STR_NOCOUNT)
-				ClickP($aCoordinates, 1, 150, "#0000")
+				ClickP($aCoordinates, 1, 120, "#0000")
 				If _Sleep(2000) Then Return
 				$aCoordinates = findButton("Okay", Default, 1, True)
 				If IsArray($aCoordinates) And UBound($aCoordinates) > 1 Then
-					ClickP($aCoordinates, 1, 150, "#0000")
+					ClickP($aCoordinates, 1, 120, "#0000")
 					If _Sleep(2000) Then Return
 				EndIf
 				SetLog("Sign-up to Legend League done", $COLOR_INFO)

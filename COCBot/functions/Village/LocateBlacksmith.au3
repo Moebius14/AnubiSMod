@@ -140,8 +140,8 @@ Func ImgLocateBlacksmith()
 	Next
 
 	If IsArray($aiBlacksmithCoords) And UBound($aiBlacksmithCoords, $UBOUND_ROWS) > 1 Then
-		$g_aiBlacksmithPos[0] = $aiBlacksmithCoords[0]
-		$g_aiBlacksmithPos[1] = $aiBlacksmithCoords[1]
+		$g_aiBlacksmithPos[0] = $aiBlacksmithCoords[0] + 6
+		$g_aiBlacksmithPos[1] = $aiBlacksmithCoords[1] + 10
 		Return True
 	EndIf
 
