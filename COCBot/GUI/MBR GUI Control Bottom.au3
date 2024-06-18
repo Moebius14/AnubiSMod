@@ -36,12 +36,12 @@ Func Initiate()
 		Local $sGameVersion = GetCoCAppVersion()
 		If Not @error Then SetLog(">>  CoC Game App Version = " & $sGameVersion, $COLOR_SUCCESS)
 
-		If GetVersionNormalized($sGameVersion) <> GetVersionNormalized($sGameMinimalVersion) Then
-			SetLog("Please Check CoC Game App Now !!", $COLOR_ERROR)
-			SetLog("CoC Game App Version Must Be : " & $sGameMinimalVersion, $COLOR_ERROR)
-			btnStop()
-			Return
-		EndIf
+	;	If GetVersionNormalized($sGameVersion) < GetVersionNormalized($sGameMinimalVersion) Then
+	;		SetLog("Please Check CoC Game App Now !!", $COLOR_ERROR)
+	;		SetLog("CoC Game App Version Must Be At Least : " & $sGameMinimalVersion, $COLOR_ERROR)
+	;		btnStop()
+	;		Return
+	;	EndIf
 
 		If Not $g_bSearchMode Then
 			SetLogCentered(" Bot Start ", Default, $COLOR_SUCCESS)

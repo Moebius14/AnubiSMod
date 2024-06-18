@@ -2020,7 +2020,7 @@ Func AutoUpgradeCC()
 			$IsCCGoldJustCollectedDChallenge = $IsCCGoldJustCollected
 			If $StartRaidConditions And $IsRaidRunning Then SetLog("Raid Weekend has already started", $COLOR_SUCCESS1)
 			If Not $g_bFirstStartForAll Then
-				If Number($g_iLootCCMedal) = 0 And Not $StartRaidConditions Then CatchCCMedals()
+				If Number($g_iLootCCMedal) = 0 And Not $StartRaidConditions Then CatchCCMedals(True)
 				If _Sleep(2000) Then Return
 				CatchSmallCCTrophies($StartRaidConditions)
 				If $StartRaidConditions And Not $IsRaidRunning Then
@@ -2481,7 +2481,19 @@ Func TimeForge($AutoForgeSlotAvl = False)
 	Return False
 EndFunc   ;==>TimeForge
 
-Func CatchCCMedals()
+Func CatchCCMedals($bForced = False)
+
+	Local Static $iLastTimeChecked[8]
+	If $g_bFirstStart Then $iLastTimeChecked[$g_iCurAccount] = ""
+
+	If Not $bForced And _DateIsValid($iLastTimeChecked[$g_iCurAccount]) Then
+		Local $iLastCheck = _DateDiff('n', $iLastTimeChecked[$g_iCurAccount], _NowCalc()) ; elapse time from last check (minutes)
+		SetDebugLog("CC Medals LastCheck: " & $iLastTimeChecked[$g_iCurAccount] & ", Check DateCalc: " & $iLastCheck)
+		; A check each from 3 to 4 hours [3*60 = 180 to 4*60 = 240]
+		Local $iDelayToCheck = Random(180, 240, 1)
+		If $iLastCheck <= $iDelayToCheck Then Return
+	EndIf
+
 	Local $Found = False
 	ClearScreen()
 	SetLog("Check CC Medals in Trader Menu", $COLOR_BLUE)
@@ -2552,6 +2564,7 @@ Func CatchCCMedals()
 	If _Sleep(1000) Then Return
 	CloseWindow()
 	$bControlCCMedal = False
+	$iLastTimeChecked[$g_iCurAccount] = _NowCalc()
 EndFunc   ;==>CatchCCMedals
 
 Func CatchSmallCCTrophies($StartRaidConditions = False)

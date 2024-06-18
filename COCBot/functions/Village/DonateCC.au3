@@ -144,7 +144,7 @@ Func getArmyRequest($aiDonateCoords, $bNeedCapture = True)
 			$aTempRequestArray = $aCurrentArmyRequest[$i] ; Declare Array to Temp Array
 			$iArmyIndex = TroopIndexLookup($aTempRequestArray[0], "getArmyRequest()") ; Get the Index of the Troop from the ShortName
 			; Troops
-			If $iArmyIndex >= $eBarb And $iArmyIndex <= $eAppWard Then
+			If $iArmyIndex >= $eBarb And $iArmyIndex <= $eDruid Then
 				$sClanText &= ", " & $g_asTroopNames[$iArmyIndex]
 				; Spells
 			ElseIf $iArmyIndex >= $eLSpell And $iArmyIndex <= $eOgSpell Then
@@ -472,7 +472,7 @@ Func DonateCC($bCheckForNewMsg = False)
 							For $i = 0 To 2
 								If $CorrectDonateCustom[$i][0] < $eBarb Then
 									$CorrectDonateCustom[$i][0] = $eArch ; Change strange small numbers to archer
-								ElseIf $CorrectDonateCustom[$i][0] > $eAppWard Then
+								ElseIf $CorrectDonateCustom[$i][0] > $eDruid Then
 									ContinueLoop ; If "Nothing" is selected then continue
 								EndIf
 								If $CorrectDonateCustom[$i][1] < 1 Then
@@ -564,7 +564,7 @@ Func DonateCC($bCheckForNewMsg = False)
 								For $i = 0 To 2
 									If $CorrectDonateCustom[$i][0] < $eBarb Then
 										$CorrectDonateCustom[$i][0] = $eArch ; Change strange small numbers to archer
-									ElseIf $CorrectDonateCustom[$i][0] > $eAppWard Then
+									ElseIf $CorrectDonateCustom[$i][0] > $eDruid Then
 										DonateWindow($aiDonateButton, $bClose)
 										$bDonate = True
 										$aiSearchArray[1] = $aiDonateButton[1] + 20
@@ -856,7 +856,8 @@ Func DonateTroopType(Const $iTroopIndex, $Quant = 0, Const $bDonateQueueOnly = F
 					$Quant = $i + 1
 					ExitLoop
 				EndIf
-				Click($g_iDonationWindowX + 35 + ($Slot * 68), $g_iDonationWindowY + 70 + $YComp, 1, $DELAYDONATECC5, "#0175")
+				Local $g_iTrainClickDelayfinal = Random($DELAYDONATECC5 - 5, $DELAYDONATECC5 + 5, 1)
+				PureClickTrain($g_iDonationWindowX + 35 + ($Slot * 68), $g_iDonationWindowY + 70 + $YComp, 1, $g_iTrainClickDelayfinal) ;Click once.
 			Next
 			If $bDonateAll Then $sTextToAll = " (to all requests)"
 			SetLog("Donated " & $Quant & " " & ($Quant > 1 ? $g_asTroopNamesPlural[$iTroopIndex] : $g_asTroopNames[$iTroopIndex]) & $sTextToAll, $COLOR_SUCCESS)
@@ -869,7 +870,7 @@ Func DonateTroopType(Const $iTroopIndex, $Quant = 0, Const $bDonateQueueOnly = F
 		EndIf
 
 		; Adjust Values for donated troops to prevent a Double ghost donate to stats and train
-		If $iTroopIndex >= $eTroopBarbarian And $iTroopIndex <= $eTroopAppWard Then
+		If $iTroopIndex >= $eTroopBarbarian And $iTroopIndex <= $eTroopDruid Then
 			;Reduce iTotalDonateCapacity by troops donated
 			$g_iTotalDonateTroopCapacity -= ($Quant * $g_aiTroopSpace[$iTroopIndex])
 			;If donated max allowed troop qty set $g_bSkipDonTroops = True
@@ -958,7 +959,7 @@ Func DonateSpellType(Const $iSpellIndex, Const $bDonateQueueOnly = False, Const 
 		EndIf
 		If Not $g_bDebugOCRdonate Then
 			For $i = 0 To ($g_iDonSpellsQuantity - 1)
-				Click($g_iDonationWindowX + 35 + ($Slot * 68), $g_iDonationWindowY + 70 + $YComp, 1, $DELAYDONATECC5, "#0600")
+				Click($g_iDonationWindowX + 35 + ($Slot * 68), $g_iDonationWindowY + 70 + $YComp, 1, $DELAYDONATECC6, "#0600")
 			Next
 			$DonatedSpell += 1
 

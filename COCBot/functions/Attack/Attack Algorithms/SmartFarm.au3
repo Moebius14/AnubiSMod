@@ -549,7 +549,7 @@ Func AttackSmartFarm($Nside, $SIDESNAMES)
 	SetDebugLog("Giants : " & $GiantComp & "  , per side: " & ($GiantComp / $nbSides) & " / deploy points per side: " & $g_iSlotsGiants)
 
 	If $g_bCustomDropOrderEnable Then
-		Local $listInfoDeploy[49][5] = [[MatchTroopDropName(0), $nbSides, MatchTroopWaveNb(0), 1, MatchSlotsPerEdge(0)], _
+		Local $listInfoDeploy[50][5] = [[MatchTroopDropName(0), $nbSides, MatchTroopWaveNb(0), 1, MatchSlotsPerEdge(0)], _
 				[MatchTroopDropName(1), $nbSides, MatchTroopWaveNb(1), 1, MatchSlotsPerEdge(1)], _
 				[MatchTroopDropName(2), $nbSides, MatchTroopWaveNb(2), 1, MatchSlotsPerEdge(2)], _
 				[MatchTroopDropName(3), $nbSides, MatchTroopWaveNb(3), 1, MatchSlotsPerEdge(3)], _
@@ -597,9 +597,10 @@ Func AttackSmartFarm($Nside, $SIDESNAMES)
 				[MatchTroopDropName(45), $nbSides, MatchTroopWaveNb(45), 1, MatchSlotsPerEdge(45)], _
 				[MatchTroopDropName(46), $nbSides, MatchTroopWaveNb(46), 1, MatchSlotsPerEdge(46)], _
 				[MatchTroopDropName(47), $nbSides, MatchTroopWaveNb(47), 1, MatchSlotsPerEdge(47)], _
-				[MatchTroopDropName(48), $nbSides, MatchTroopWaveNb(48), 1, MatchSlotsPerEdge(48)]]
+				[MatchTroopDropName(48), $nbSides, MatchTroopWaveNb(48), 1, MatchSlotsPerEdge(48)], _
+				[MatchTroopDropName(49), $nbSides, MatchTroopWaveNb(49), 1, MatchSlotsPerEdge(49)]]
 	Else
-		Local $listInfoDeploy[49][5] = [[$eGole, $nbSides, 1, 1, 2] _
+		Local $listInfoDeploy[50][5] = [[$eGole, $nbSides, 1, 1, 2] _
 				, [$eLava, $nbSides, 1, 1, 2] _
 				, [$eIceH, $nbSides, 1, 1, 2] _
 				, [$eIceG, $nbSides, 1, 1, 2] _
@@ -646,6 +647,7 @@ Func AttackSmartFarm($Nside, $SIDESNAMES)
 				, [$ePekk, $nbSides, 1, 1, 1] _
 				, [$eHunt, $nbSides, 1, 1, 0] _
 				, [$eAppWard, $nbSides, 1, 1, 1] _
+				, [$eDruid, $nbSides, 1, 1, 1] _
 				, ["CC", 1, 1, 1, 1] _
 				, ["HEROES", 1, 2, 1, 1]]
 	EndIf

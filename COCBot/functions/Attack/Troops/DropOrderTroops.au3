@@ -99,16 +99,18 @@ Func MatchTroopDropName($Num)
 		Case 42
 			Return $eAppWard
 		Case 43
-			Return $eGSkel
+			Return $eDruid
 		Case 44
-			Return $eRGhost
+			Return $eGSkel
 		Case 45
-			Return $ePWiza
+			Return $eRGhost
 		Case 46
-			Return $eIWiza
+			Return $ePWiza
 		Case 47
-			Return "CC"
+			Return $eIWiza
 		Case 48
+			Return "CC"
+		Case 49
 			Return "HEROES"
 	EndSwitch
 EndFunc   ;==>MatchTroopDropName
@@ -274,17 +276,19 @@ Func MatchSlotsPerEdge($Num)
 			Return 0
 		Case 42 ;$eAppWard
 			Return 0
-		Case 43 ;$eGSkel
+		Case 43 ;$eDruid
 			Return 0
-		Case 44 ;$eRGhost
+		Case 44 ;$eGSkel
 			Return 0
-		Case 45 ;$ePWiza
+		Case 45 ;$eRGhost
 			Return 0
-		Case 46 ;$eIWiza
+		Case 46 ;$ePWiza
 			Return 0
-		Case 47 ;CC
+		Case 47 ;$eIWiza
+			Return 0
+		Case 48 ;CC
 			Return 1
-		Case 48 ;HEROES
+		Case 49 ;HEROES
 			Return 1
 	EndSwitch
 EndFunc   ;==>MatchSlotsPerEdge

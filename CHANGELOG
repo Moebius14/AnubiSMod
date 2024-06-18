@@ -73,6 +73,9 @@
 * Improved Donate detection for : SWall, ETitan, FFlinger, SDrag, Wizard.
 * Improved BatSpell detection in Army Overview.
 * Improved few obstacles detection. 
+* Added Full Support for Druid Troop.
+* Updated Pets Cost.
+* Fixed SCID Switch
 
 * v8.1.6 **
 * Added "Before you upgrade" window support.

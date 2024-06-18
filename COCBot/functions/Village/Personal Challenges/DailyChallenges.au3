@@ -277,7 +277,11 @@ Func CollectDailyRewards($bGoldPass = False)
 			ExitLoop
 		EndIf
 	Next
-	SetLog($iClaim > 0 ? "Claimed " & $iClaim & " reward(s)!" : "Nothing to claim!", $COLOR_SUCCESS)
+	If $iClaim > 0 Then
+		SetLog("Claimed " & $iClaim & " reward" & ($iClaim > 1 ? "s" : "") & "!", $COLOR_SUCCESS)
+	Else
+		SetLog("Nothing to claim!", $COLOR_SUCCESS)
+	EndIf
 	If _Sleep(500) Then Return
 EndFunc   ;==>CollectDailyRewards
 

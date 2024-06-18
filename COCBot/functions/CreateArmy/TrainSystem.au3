@@ -24,7 +24,7 @@ Func TrainSystem()
 
 	If $g_bRequestTroopsEnable And ($g_abSearchCastleWaitEnable[$DB] Or $g_abSearchCastleWaitEnable[$LB]) And ((Not $bChkUseOnlyCCMedals And _
 			$g_aiCmbCCDecisionThen = 1 And $g_aiCmbCCDecisionTime > 0) Or $bChkUseOnlyCCMedals) Then
-		If Number($g_iLootCCMedal) = 0 Then CatchCCMedals()
+		If Number($g_iLootCCMedal) = 0 Then CatchCCMedals(True)
 	EndIf
 
 	$g_sTimeBeforeTrain = _NowCalc()
@@ -387,7 +387,7 @@ Func DragIfNeeded($Troop)
 	Local $bDrag = False, $ExtendedTroops4 = False, $ExtendedDragTroops4 = 0
 
 	If $iIndex > $g_iNextPageTroop Then $bDrag = True ; Drag if Troops is on Right side from $g_iNextPageTroop
-	If $iIndex > $eAppWard Then $bDrag = False ; No Drag If Event Troops
+	If $iIndex > $eDruid Then $bDrag = False ; No Drag If Event Troops
 	If $g_iNextPageTroop <= $eMine Then  ; MicroDragLeft if Moved 4+ slots to find Edrag and Yeti.
 		$ExtendedTroops4 = True
 		$ExtendedDragTroops4 = 70 ; Drag more to the right before.
@@ -455,7 +455,7 @@ EndFunc   ;==>IsElixirTroop
 
 Func IsDarkTroop($Troop)
 	Local $iIndex = TroopIndexLookup($Troop, "IsDarkTroop")
-	If $iIndex >= $eMini And $iIndex <= $eAppWard Then Return True
+	If $iIndex >= $eMini And $iIndex <= $eDruid Then Return True
 	Return False
 EndFunc   ;==>IsDarkTroop
 
@@ -755,7 +755,7 @@ Func GetSlotNumber($bSpells = False)
 		Case $bSpells = False
 			Local Const $Orders = [$eBarb, $eSBarb, $eArch, $eSArch, $eGiant, $eSGiant, $eGobl, $eSGobl, $eWall, $eSWall, $eBall, $eRBall, $eWiza, $eSWiza, $eHeal, $eDrag, $eSDrag, _
 					$eYeti, $eRDrag, $ePekk, $eBabyD, $eInfernoD, $eMine, $eSMine, $eEDrag, $eETitan, $eRootR, _
-					$eMini, $eSMini, $eHogs, $eSHogs, $eValk, $eSValk, $eGole, $eWitc, $eSWitc, $eLava, $eIceH, $eBowl, $eSBowl, $eIceG, $eHunt, $eAppWard, _
+					$eMini, $eSMini, $eHogs, $eSHogs, $eValk, $eSValk, $eGole, $eWitc, $eSWitc, $eLava, $eIceH, $eBowl, $eSBowl, $eIceG, $eHunt, $eAppWard, $eDruid,  _
 					$eGSkel, $eRGhost, $ePWiza, $eIWiza]
 
 			Local $allCurTroops[UBound($Orders)]
@@ -1463,7 +1463,7 @@ Func FillCCWMedals($g_bFullArmy = False, $g_bCheckSpells = False, $bFullArmyHero
 	CloseWindow2()
 	If _Sleep(500) Then Return
 
-	If $bControlCCMedal Then CatchCCMedals()
+	If $bControlCCMedal Then CatchCCMedals(True)
 
 	If Number($g_iLootCCMedal) <= Number($g_aiCmbCCMedalsSaveMin) Then
 		$bRet = "NoMedal"
@@ -1497,7 +1497,7 @@ Func FillCCWMedals($g_bFullArmy = False, $g_bCheckSpells = False, $bFullArmyHero
 	If $BuildingInfo[1] = "Clan Castle" Then
 		If ClickB("Reinforce") Then
 			If _Sleep(1000) Then Return
-			$g_iLootCCMedal = getOcrAndCapture("coc-bonus", 570, 353 + $g_iMidOffsetY, 55, 16, True)
+			If Number($g_iLootCCMedal) = 0 Then $g_iLootCCMedal = getOcrAndCapture("coc-bonus", 570, 353 + $g_iMidOffsetY, 55, 16, True)
 			If _Sleep(250) Then Return
 			If QuickMIS("BC1", $g_sImgCCReinforceBuy, 560, 450 + $g_iMidOffsetY, 610, 500 + $g_iMidOffsetY) Then
 				If WaitforPixel(518, 478 + $g_iMidOffsetY, 522, 482 + $g_iMidOffsetY, "6CBB1F", 10, 2) Then
@@ -1540,7 +1540,7 @@ Func FillCCWMedals($g_bFullArmy = False, $g_bCheckSpells = False, $bFullArmyHero
 			If $BuildingInfo[1] = "Clan Castle" Then
 				If ClickB("Reinforce") Then
 					If _Sleep(1000) Then Return
-					$g_iLootCCMedal = getOcrAndCapture("coc-bonus", 570, 353 + $g_iMidOffsetY, 55, 16, True)
+					If Number($g_iLootCCMedal) = 0 Then $g_iLootCCMedal = getOcrAndCapture("coc-bonus", 570, 353 + $g_iMidOffsetY, 55, 16, True)
 					If _Sleep(250) Then Return
 					If QuickMIS("BC1", $g_sImgCCReinforceBuy, 560, 450 + $g_iMidOffsetY, 610, 500 + $g_iMidOffsetY) Then
 						If WaitforPixel(518, 478 + $g_iMidOffsetY, 522, 482 + $g_iMidOffsetY, "6CBB1F", 10, 2) Then
@@ -1578,7 +1578,7 @@ Func FillCCWMedals($g_bFullArmy = False, $g_bCheckSpells = False, $bFullArmyHero
 			If $BuildingInfo[1] = "Clan Castle" Then
 				If ClickB("Reinforce") Then
 					If _Sleep(1000) Then Return
-					$g_iLootCCMedal = getOcrAndCapture("coc-bonus", 570, 353 + $g_iMidOffsetY, 55, 16, True)
+					If Number($g_iLootCCMedal) = 0 Then $g_iLootCCMedal = getOcrAndCapture("coc-bonus", 570, 353 + $g_iMidOffsetY, 55, 16, True)
 					If _Sleep(250) Then Return
 					If QuickMIS("BC1", $g_sImgCCReinforceBuy, 560, 450 + $g_iMidOffsetY, 610, 500 + $g_iMidOffsetY) Then
 						If WaitforPixel(518, 478 + $g_iMidOffsetY, 522, 482 + $g_iMidOffsetY, "6CBB1F", 10, 2) Then
@@ -1619,7 +1619,7 @@ Func FillCCWMedals($g_bFullArmy = False, $g_bCheckSpells = False, $bFullArmyHero
 
 	If $g_bDebugImageSaveMod Then
 		If _Sleep(2000) Then Return
-		CatchCCMedals()
+		CatchCCMedals(True)
 	EndIf
 
 	If _Sleep(2000) Then Return

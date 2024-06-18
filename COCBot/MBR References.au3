@@ -463,6 +463,7 @@ Func ReferenceGlobals()
 	$a1 = $eTroopIceGolem
 	$a1 = $eTroopHeadhunter
 	$a1 = $eTroopAppWard
+	$a1 = $eTroopDruid
 	$a1 = $eTroopGiantSkeleton
 	$a1 = $eTroopRoyalGhost
 	$a1 = $eTroopPartyWizard
@@ -514,6 +515,7 @@ Func ReferenceGlobals()
 	$a1 = $eIceG
 	$a1 = $eHunt
 	$a1 = $eAppWard
+	$a1 = $eDruid
 	$a1 = $eGSkel
 	$a1 = $eRGhost
 	$a1 = $ePWiza

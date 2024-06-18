@@ -5,7 +5,7 @@
 ; Parameters ....:
 ; Return values .: None
 ; Author ........: summoner
-; Modified ......: KnowJack (06/2015), Sardo (08/2015), Monkeyhunter(04/2016), MMHK(06/2018), Chilly-Chill (12/2019)
+; Modified ......: KnowJack (06/2015), Sardo (08/2015), Monkeyhunter(04/2016), MMHK(06/2018), Chilly-Chill (12/2019), Moebius14 (06/2024)
 ; Remarks .......: This file is part of MyBot, previously known as ClashGameBot. Copyright 2015-2024
 ;                  MyBot is distributed under the terms of the GNU GPL
 ; Related .......:
@@ -13,8 +13,8 @@
 ; Example .......: No
 ; ===============================================================================================================================
 Local $iSlotWidth = 108, $iDistBetweenSlots = 14 ; use for logic to upgrade troops.. good for generic-ness
-Local $iYMidPoint = 480 ;Space between rows in lab screen.  CHANGE ONLY WITH EXTREME CAUTION.
-Local $iPicsPerPage = 12, $iPages = 4 ; used to know exactly which page the users choice is on
+Local $iYMidPoint = Random(475, 485, 1) ;Space between rows in lab screen.  CHANGE ONLY WITH EXTREME CAUTION.
+Local $iPicsPerPage = 12, $iPages = 5 ; used to know exactly which page the users choice is on
 Local $sLabTroopsSection = "70,365,795,600"
 Local $sLabTroopsSectionDiam = GetDiamondFromRect($sLabTroopsSection)
 
@@ -109,8 +109,9 @@ Func Laboratory($debug = False)
 	If $g_iCmbLaboratory > 0 Then
 		SetDebugLog("User picked to upgrade " & $g_avLabTroops[$g_iCmbLaboratory][0])
 		Local $iPage = Ceiling($g_iCmbLaboratory / $iPicsPerPage) ; page # of user choice
-		If $g_iCmbLaboratory = 49 Then $iPage = 2
-		If $g_iCmbLaboratory = 50 Then $iPage = 4
+		If $g_iCmbLaboratory > 43 And $g_iCmbLaboratory <> 50 Then $iPage = 5
+		If $g_iCmbLaboratory = 50 Then $iPage = 2
+;		If $g_iCmbLaboratory = 51 Then $iPage = 4
 		While ($iCurPage < $iPage) ; go directly to the needed page
 			LabNextPage($iCurPage, $iPages, $iYMidPoint) ; go to next page of upgrades
 			$iCurPage += 1 ; Next page
@@ -118,15 +119,15 @@ Func Laboratory($debug = False)
 		WEnd
 		SetDebugLog("On page " & $iCurPage & " of " & $iPages)
 		; Get coords of upgrade the user wants
-		If $iCurPage >= $iPages Then ;Use last partial page
+		If $iCurPage >= $iPages Then
 			SetDebugLog("Finding on last page diamond")
-			If $g_iCmbLaboratory = 50 Then
+			If $g_iCmbLaboratory = 51 Then
 				Local $aPageUpgrades = findMultiple($g_sImgAnySiege, $sLabTroopsSectionDiam, $sLabTroopsSectionDiam, 0, 1000, 0, "objectname,objectpoints", True) ; Returns $aCurrentTroops[index] = $aArray[2] = ["TroopShortName", CordX,CordY]
 			Else
 				Local $aPageUpgrades = findMultiple($g_sImgLabResearch, $sLabTroopsSectionDiam, $sLabTroopsSectionDiam, 0, 1000, 0, "objectname,objectpoints", True)
 			EndIf
-		Else ;Use full page
-			If $g_iCmbLaboratory = 49 Then
+		Else
+			If $g_iCmbLaboratory = 50 Then
 				Local $aPageUpgrades = findMultiple($g_sImgAnySpell, $sLabTroopsSectionDiam, $sLabTroopsSectionDiam, 0, 1000, 0, "objectname,objectpoints", True)
 			Else
 				Local $aPageUpgrades = findMultiple($g_sImgLabResearch, $sLabTroopsSectionDiam, $sLabTroopsSectionDiam, 0, 1000, 0, "objectname,objectpoints", True) ; Returns $aCurrentTroops[index] = $aArray[2] = ["TroopShortName", CordX,CordY]
@@ -137,7 +138,7 @@ Func Laboratory($debug = False)
 		Local $AllSiegeUnabled = 0
 		If UBound($aPageUpgrades, 1) >= 1 Then ; if we found any troops
 
-			If $g_iCmbLaboratory < 49 Then
+			If $g_iCmbLaboratory < 50 Then
 
 				For $i = 0 To UBound($aPageUpgrades, 1) - 1 ; Loop through found upgrades
 					Local $aTempTroopArray = $aPageUpgrades[$i] ; Declare Array to Temp Array
@@ -150,7 +151,7 @@ Func Laboratory($debug = False)
 					If _Sleep($DELAYLABORATORY2) Then Return
 				Next
 
-			ElseIf $g_iCmbLaboratory = 49 Then
+			ElseIf $g_iCmbLaboratory = 50 Then
 
 				For $i = 0 To UBound($aPageUpgrades, 1) - 1 ; Loop through found upgrades
 					Local $aTempTroopArray = $aPageUpgrades[$i] ; Declare Array to Temp Array
@@ -170,12 +171,12 @@ Func Laboratory($debug = False)
 					Next
 				Next
 
-			ElseIf $g_iCmbLaboratory = 50 Then
+			ElseIf $g_iCmbLaboratory = 51 Then
 
 				For $i = 0 To UBound($aPageUpgrades, 1) - 1 ; Loop through found upgrades
 					Local $aTempTroopArray = $aPageUpgrades[$i] ; Declare Array to Temp Array
 
-					For $z = 42 To 48
+					For $z = 43 To 49
 						If $aTempTroopArray[0] = $g_avLabTroops[$z][2] Then ; if this is the file we want
 							$aCoords = decodeSingleCoord($aTempTroopArray[1])
 							$sCostResult = GetLabCostResult($aCoords) ; get cost of the upgrade
@@ -194,7 +195,7 @@ Func Laboratory($debug = False)
 
 		Else
 
-			If $g_iCmbLaboratory = 49 Then
+			If $g_iCmbLaboratory = 50 Then
 				For $t = 18 To 25
 					Local $iRaw = Mod($t, 2)
 					Local $iColumn = 0
@@ -241,7 +242,7 @@ Func Laboratory($debug = False)
 
 			Local $CloseLab = True
 
-			If $g_iCmbLaboratory < 49 Then
+			If $g_iCmbLaboratory < 50 Then
 
 				SetLog("Lab Upgrade " & $g_avLabTroops[$g_iCmbLaboratory][0] & " - Not available.", $COLOR_INFO)
 
@@ -283,7 +284,7 @@ Func Laboratory($debug = False)
 					$NewSelection = $g_avLabTroops[$g_aCmbLabUpgradeOrder[0]][0]
 				EndIf
 
-				If $g_iCmbLaboratory < 18 Or ($g_iCmbLaboratory > 31 And $g_iCmbLaboratory < 42) Then
+				If $g_iCmbLaboratory < 18 Or ($g_iCmbLaboratory > 31 And $g_iCmbLaboratory < 43) Then
 					If $isLabUpRequired Then SetLog("Laboratory Upgrade is Required To Upgrade This Troop", $COLOR_ACTION)
 					If $isTroopMaxed Then SetLog("This Troop Is Already Maxed", $COLOR_ACTION)
 					If $isLabUpRequired Or $isTroopMaxed Then SetLog("Selected Troop Upgrade Changed To " & $NewSelection, $COLOR_NAVY)
@@ -291,7 +292,7 @@ Func Laboratory($debug = False)
 					If $isLabUpRequired Then SetLog("Laboratory Upgrade is Required To Upgrade This Spell", $COLOR_ACTION)
 					If $isTroopMaxed Then SetLog("This Spell Is Already Maxed", $COLOR_ACTION)
 					If $isLabUpRequired Or $isTroopMaxed Then SetLog("Selected Spell Upgrade Changed To " & $NewSelection, $COLOR_NAVY)
-				ElseIf $g_iCmbLaboratory > 41 Then
+				ElseIf $g_iCmbLaboratory > 42 Then
 					If $isLabUpRequired Then SetLog("Laboratory Upgrade is Required To Upgrade This Siege Machine", $COLOR_ACTION)
 					If $isTroopMaxed Then SetLog("This Siege Machine Is Already Maxed", $COLOR_ACTION)
 					If $isLabUpRequired Or $isTroopMaxed Then SetLog("Selected Siege Machine Upgrade Changed To " & $NewSelection, $COLOR_NAVY)
@@ -302,7 +303,7 @@ Func Laboratory($debug = False)
 					$g_iCmbLaboratory = $g_aCmbLabUpgradeOrder[0]
 					If $g_iCmbLaboratory = -1 Then $g_iCmbLaboratory = 0
 					_GUICtrlComboBox_SetCurSel($g_hCmbLaboratory, $g_iCmbLaboratory)
-					If $g_iCmbLaboratory > 48 Then
+					If $g_iCmbLaboratory > 49 Then
 						_GUICtrlSetImage($g_hPicLabUpgrade, $g_sLibModIconPath, $g_avLabTroops[$g_iCmbLaboratory][1])
 					Else
 						_GUICtrlSetImage($g_hPicLabUpgrade, $g_sLibIconPath, $g_avLabTroops[$g_iCmbLaboratory][1])
@@ -327,7 +328,7 @@ Func Laboratory($debug = False)
 					chkLab()
 				EndIf
 
-			ElseIf $g_iCmbLaboratory = 49 Then
+			ElseIf $g_iCmbLaboratory = 50 Then
 
 				$iPage = 3
 				While ($iCurPage < $iPage) ; go directly to the needed page
@@ -399,7 +400,7 @@ Func Laboratory($debug = False)
 						$g_iCmbLaboratory = $g_aCmbLabUpgradeOrder[0]
 						If $g_iCmbLaboratory = -1 Then $g_iCmbLaboratory = 0
 						_GUICtrlComboBox_SetCurSel($g_hCmbLaboratory, $g_iCmbLaboratory)
-						If $g_iCmbLaboratory > 48 Then
+						If $g_iCmbLaboratory > 49 Then
 							_GUICtrlSetImage($g_hPicLabUpgrade, $g_sLibModIconPath, $g_avLabTroops[$g_iCmbLaboratory][1])
 						Else
 							_GUICtrlSetImage($g_hPicLabUpgrade, $g_sLibIconPath, $g_avLabTroops[$g_iCmbLaboratory][1])
@@ -422,9 +423,9 @@ Func Laboratory($debug = False)
 
 				Next
 
-			ElseIf $g_iCmbLaboratory = 50 Then
+			ElseIf $g_iCmbLaboratory = 51 Then
 
-				For $t = 42 To 48
+				For $t = 43 To 49
 
 					Local $iRaw = Mod($t, 2)
 					Local $iColumn = 0
@@ -468,7 +469,7 @@ Func Laboratory($debug = False)
 						$g_iCmbLaboratory = $g_aCmbLabUpgradeOrder[0]
 						If $g_iCmbLaboratory = -1 Then $g_iCmbLaboratory = 0
 						_GUICtrlComboBox_SetCurSel($g_hCmbLaboratory, $g_iCmbLaboratory)
-						If $g_iCmbLaboratory > 48 Then
+						If $g_iCmbLaboratory > 49 Then
 							_GUICtrlSetImage($g_hPicLabUpgrade, $g_sLibModIconPath, $g_avLabTroops[$g_iCmbLaboratory][1])
 						Else
 							_GUICtrlSetImage($g_hPicLabUpgrade, $g_sLibIconPath, $g_avLabTroops[$g_iCmbLaboratory][1])
@@ -497,9 +498,9 @@ Func Laboratory($debug = False)
 			Return False
 		EndIf
 
-		If $g_iCmbLaboratory < 49 Then $sCostResult = GetLabCostResult($aCoords) ; get cost of the upgrade
+		If $g_iCmbLaboratory < 50 Then $sCostResult = GetLabCostResult($aCoords) ; get cost of the upgrade
 
-		If $sCostResult = "" And $g_iCmbLaboratory < 48 Then ; not enough resources or Lab Upgrade Required
+		If $sCostResult = "" And $g_iCmbLaboratory < 49 Then ; not enough resources or Lab Upgrade Required
 			SetLog("Lab Upgrade " & $g_avLabTroops[$g_iCmbLaboratory][0] & " - Not enough Resources." & @CRLF & "We will try again later.", $COLOR_INFO)
 			SetDebugLog("Coords: (" & $aCoords[0] & "," & $aCoords[1] & ")")
 		Else
@@ -652,7 +653,13 @@ EndFunc   ;==>GetLabCostResult
 Func LabNextPage($iCurPage, $iPages, $iYMidPoint)
 	If $iCurPage >= $iPages Then Return ; nothing left to scroll
 	SetDebugLog("Drag to next full page.")
-	ClickDrag(720, $iYMidPoint - 50, 83, $iYMidPoint, 300)
+	If $iCurPage = 4 Then
+		SetDebugLog("Drag to last page.")
+		ClickDrag(680, Random($iYMidPoint - 50, $iYMidPoint + 50, 1), 550, $iYMidPoint, 300)
+	Else
+		SetDebugLog("Drag to next full page.")
+		ClickDrag(720, Random($iYMidPoint - 50, $iYMidPoint + 50, 1), 83, $iYMidPoint, 300)
+	EndIf
 EndFunc   ;==>LabNextPage
 
 ; check the lab to see if something is upgrading in the lab already

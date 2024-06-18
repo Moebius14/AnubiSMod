@@ -787,7 +787,7 @@ Func runBot() ;Bot that runs everything in order
 
 			If $g_bRequestTroopsEnable And ($g_abSearchCastleWaitEnable[$DB] Or $g_abSearchCastleWaitEnable[$LB]) And ((Not $bChkUseOnlyCCMedals And _
 					$g_aiCmbCCDecisionThen = 1 And $g_aiCmbCCDecisionTime > 0) Or $bChkUseOnlyCCMedals) Then
-				If Number($g_iLootCCMedal) = 0 Or $bControlCCMedal Then CatchCCMedals()
+				If Number($g_iLootCCMedal) = 0 Or $bControlCCMedal Then CatchCCMedals(True)
 			EndIf
 
 			AddIdleTime()
@@ -1064,7 +1064,11 @@ Func _Idle() ;Sequence that runs until Full Army
 
 		If $g_bRequestTroopsEnable And ($g_abSearchCastleWaitEnable[$DB] Or $g_abSearchCastleWaitEnable[$LB]) And ((Not $bChkUseOnlyCCMedals And _
 				$g_aiCmbCCDecisionThen = 1 And $g_aiCmbCCDecisionTime > 0) Or $bChkUseOnlyCCMedals) Then
-			If Number($g_iLootCCMedal) = 0 Then CatchCCMedals()
+			If Number($g_iLootCCMedal) = 0 Then
+				CatchCCMedals(True)
+			Else
+				CatchCCMedals()
+			EndIf
 		EndIf
 
 		If _Sleep($DELAYIDLE1) Then ExitLoop
@@ -1612,7 +1616,7 @@ Func FirstCheck()
 
 	If (Not $g_bChkEnableAutoUpgradeCC Or (Not $g_bChkEnableSmartSwitchCC And $g_bChkEnableAutoUpgradeCC)) And $bChkUseOnlyCCMedals And $g_bRequestTroopsEnable And _
 			($g_abSearchCastleWaitEnable[$DB] Or $g_abSearchCastleWaitEnable[$LB]) And ((Not $bChkUseOnlyCCMedals And $g_aiCmbCCDecisionThen = 1 And $g_aiCmbCCDecisionTime > 0) Or _
-			$bChkUseOnlyCCMedals) And Not $g_bFirstStartForAll Then CatchCCMedals()
+			$bChkUseOnlyCCMedals) And Not $g_bFirstStartForAll And $g_iLootCCMedal = 0 Then CatchCCMedals(True)
 	If _Sleep($DELAYRUNBOT1) Then Return
 	If Not $g_bRunState Then Return
 

@@ -19,7 +19,7 @@
 Func TrainIt($iIndex, $iQuantity = 1, $iSleep = 400)
 	$iSleep = Random($iSleep - $RandomClickTrainAddTimeMin, $iSleep + $RandomClickTrainAddTimeMax, 1)
 	If $g_bDebugSetlogTrain Then SetLog("Func TrainIt $iIndex=" & $iIndex & " $howMuch=" & $iQuantity & " $iSleep=" & $iSleep, $COLOR_DEBUG)
-	Local $bDark = ($iIndex >= $eMini And $iIndex <= $eAppWard)
+	Local $bDark = ($iIndex >= $eMini And $iIndex <= $eDruid)
 
 	For $i = 1 To 5 ; Do
 
@@ -118,7 +118,7 @@ Func GetFullName(Const $iIndex, Const $aTrainPos)
 
 	If $iIndex >= $eBarb And $iIndex <= $eIWiza Then
 		Local $IsDarkTroops = False
-		If $iIndex >= $eMini And $iIndex <= $eAppWard Then $IsDarkTroops = True
+		If $iIndex >= $eMini And $iIndex <= $eDruid Then $IsDarkTroops = True
 		Local $sTroopType = ($IsDarkTroops ? "Dark" : "Normal")
 		Return GetFullNameSlot($aTrainPos, $sTroopType, $iIndex)
 	EndIf
