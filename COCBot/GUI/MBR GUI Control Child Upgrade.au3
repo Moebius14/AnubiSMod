@@ -601,11 +601,11 @@ EndFunc   ;==>CloseHeroEquipment
 
 Func chkEquipmentOrder()
 	If GUICtrlRead($g_hChkCustomEquipmentOrderEnable) = $GUI_CHECKED Then
-		For $i = $g_EquipmentOrderLabel[0] To $g_ahImgEquipmentOrderSet
+		For $i = $g_hChkFinishCurrentEquipmentFirst To $g_ahImgEquipmentOrderSet
 			GUICtrlSetState($i, $GUI_ENABLE)
 		Next
 	Else
-		For $i = $g_EquipmentOrderLabel[0] To $g_ahImgEquipmentOrderSet
+		For $i = $g_hChkFinishCurrentEquipmentFirst To $g_ahImgEquipmentOrderSet
 			GUICtrlSetState($i, $GUI_DISABLE)
 		Next
 	EndIf

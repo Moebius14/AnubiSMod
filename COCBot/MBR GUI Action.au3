@@ -136,6 +136,7 @@ Func BotStart($bAutostartDelay = 0)
 	$AllCCRaidAttacksDone = 0
 	$CCWaitChrono = 0
 	$g_bFirstStartBarrel = 1
+	$g_sAvailableAppBuilder = 0
 
 	LoadCurrentProfile()
 	LoadCurrentAlias()

@@ -417,7 +417,8 @@ Func DonateCC($bCheckForNewMsg = False)
 				SetLog("No siege machines available, skip siege donation", $COLOR_OLIVE)
 				$g_bSkipDonSiege = True
 			ElseIf $g_iTotalDonateSiegeMachineCapacity = -1 Then
-				SetLog("This CC cannot accept Siege, skip Siege donation", $COLOR_ACTION)
+				; no message, this CC has no Siege capability
+				If $g_bDebugSetlog Then SetDebugLog("This CC cannot accept Siege, skip Siege donation", $COLOR_ACTION)
 				$g_bSkipDonSiege = True
 			ElseIf $g_iTotalDonateSiegeMachineCapacity = 0 Then
 				SetLog("Clan Castle Siege is full, skip Siege donation", $COLOR_ACTION)
@@ -1197,12 +1198,9 @@ Func RemainingCCcapacity($aiDonateButton)
 		$sCapSiegeMachine = $bDonateSiege ? getOcrSpaceCastleDonateShort(202, $aiDonateButton[1]) : -1
 	Else
 		$sCapTroops = getOcrSpaceCastleDonate(84, $aiDonateButton[1])
-		If StringRegExp($sCapTroops, "#([0-9]{2})") = 1 Then ; CC got Troops & Spells
-			$sCapSpells = $bDonateSpell ? getOcrSpaceCastleDonateShort(200, $aiDonateButton[1]) : -1
-			$sCapSiegeMachine = -1
-		Else
-			$sCapTroops = getOcrSpaceCastleDonate(84, $aiDonateButton[1]) ; CC got Troops Only ?
-			$sCapSpells = -1
+		If StringRegExp($sCapTroops, "#([0-9]{2})") = 1 Then ; CC got Troops
+			$sCapSpells = $bDonateSpell ? getOcrSpaceCastleDonateShort(200, $aiDonateButton[1]) : -1 ; CC got Spells ?
+			If $sCapSpells = "" Then $sCapSpells = -1 ; CC got Troops Only ?
 			$sCapSiegeMachine = -1
 		EndIf
 	EndIf

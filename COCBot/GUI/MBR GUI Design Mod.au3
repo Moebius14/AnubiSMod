@@ -16,7 +16,7 @@
 
 Global $g_hGUI_MOD = 0, $g_hGUI_MOD_TAB = 0, $g_hGUI_MOD_TAB_ITEM1 = 0, $g_hGUI_MOD_TAB_ITEM2 = 0
 Global $g_hChkUseBotHumanization = 0, $g_acmbPriority[11] = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
-Global $g_hLabel01 = 0, $g_hCmbMaxActionsNumber = 0, $g_IsRefusedFriends = 0, $g_hChkForumRequestOnly = 0, $g_hChkWarSignUp = 0, $hAllowWar = 0, $hRefuseWar = 0
+Global $g_hLabel01 = 0, $g_hCmbMaxActionsNumber = 0, $g_IsRefusedFriends = 0, $g_hChkForumRequestOnly = 0, $g_hChkWarSignUp = 0, $hAllowWar = 0, $hRefuseWar = 0, $g_hChkAppBuilder = 0
 Global $g_hGUI_WelcomeMessage = 0, $g_hBtnWelcomeMessage = 0, $g_hChkUseWelcomeMessage = 0, $g_hTxtRequestMessage = 0, $g_hTxtWelcomeMessage = 0, $g_hBtnWelcomeMessageClose = 0, $g_hChkAcceptAllRequests = 0
 Global $g_HowManyinCWLabel = 0, $g_HowManyinCWCombo = 0, $g_HowManyinCWLLabel = 0, $g_HowManyinCWLCombo = 0
 Global $g_hChkNoLabCheck = 0, $g_hChkNoLabCheckLabel = 0, $g_hChkNoLabCheckLabelTypo = 0
@@ -89,6 +89,10 @@ Func TabHumanizationGUI()
 	$g_hLabel01 = GUICtrlCreateLabel(GetTranslatedFileIni("MBR GUI Design Child Village - Misc", "Label_01", "Do nothing"), $x + 280, $y + 5, 110, 17)
 	$g_acmbPriority[10] = GUICtrlCreateCombo("", $x + 340, $y, 75, 25, BitOR($CBS_DROPDOWNLIST, $CBS_AUTOHSCROLL))
 	GUICtrlSetData(-1, $g_sFrequenceChain, "Ultra Often")
+
+	$g_hChkAppBuilder = GUICtrlCreateCheckbox(GetTranslatedFileIni("MBR GUI Design Child Village - Misc", "AppBuilder", "Auto-Assign Builder's Apprentice"), $x + 250, $y + 53, -1, -1)
+	_GUICtrlSetTip(-1, GetTranslatedFileIni("MBR GUI Design Child Village - Misc", "AppBuilder_Info01", "Check This To Auto-Assign Builder's Apprentice"))
+	GUICtrlSetState(-1, $GUI_UNCHECKED)
 
 	$x += 10
 	$y += 70

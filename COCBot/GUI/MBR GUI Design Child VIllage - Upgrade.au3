@@ -98,55 +98,55 @@ EndFunc   ;==>CreateVillageUpgrade
 
 Func CreateLaboratorySubTab()
 	Local $sTxtNames = GetTranslatedFileIni("MBR Global GUI Design", "Any", "Any") & "|" & _
-			GetTranslatedFileIni("MBR Global GUI Design Names Troops", "TxtBarbarians", "Barbarians") & "|" & _
-			GetTranslatedFileIni("MBR Global GUI Design Names Troops", "TxtArchers", "Archers") & "|" & _
-			GetTranslatedFileIni("MBR Global GUI Design Names Troops", "TxtGiants", "Giants") & "|" & _
-			GetTranslatedFileIni("MBR Global GUI Design Names Troops", "TxtGoblins", "Goblins") & "|" & _
-			GetTranslatedFileIni("MBR Global GUI Design Names Troops", "TxtWallBreakers", "Wall Breakers") & "|" & _
-			GetTranslatedFileIni("MBR Global GUI Design Names Troops", "TxtBalloons", "Balloons") & "|" & _
-			GetTranslatedFileIni("MBR Global GUI Design Names Troops", "TxtWizards", "Wizards") & "|" & _
-			GetTranslatedFileIni("MBR Global GUI Design Names Troops", "TxtHealers", "Healers") & "|" & _
-			GetTranslatedFileIni("MBR Global GUI Design Names Troops", "TxtDragons", "Dragons") & "|" & _
-			GetTranslatedFileIni("MBR Global GUI Design Names Troops", "TxtPekkas", "Pekkas") & "|" & _
-			GetTranslatedFileIni("MBR Global GUI Design Names Troops", "TxtBabyDragons", "Baby Dragons") & "|" & _
-			GetTranslatedFileIni("MBR Global GUI Design Names Troops", "TxtMiners", "Miners") & "|" & _
-			GetTranslatedFileIni("MBR Global GUI Design Names Troops", "TxtEDragons", "Electro Dragons") & "|" & _
-			GetTranslatedFileIni("MBR Global GUI Design Names Troops", "TxtYetis", "Yetis") & "|" & _
-			GetTranslatedFileIni("MBR Global GUI Design Names Troops", "TxtDragonRiders", "Dragon Riders") & "|" & _
-			GetTranslatedFileIni("MBR Global GUI Design Names Troops", "TxtElectroTitans", "Electro Titans") & "|" & _
-			GetTranslatedFileIni("MBR Global GUI Design Names Troops", "TxtRootRiders", "Root Riders") & "|" & _
-			GetTranslatedFileIni("MBR Global GUI Design Names Spells", "TxtLightningSpells", "Lightning Spells") & "|" & _
-			GetTranslatedFileIni("MBR Global GUI Design Names Spells", "TxtHealingSpells", "Healing Spells") & "|" & _
-			GetTranslatedFileIni("MBR Global GUI Design Names Spells", "TxtRageSpells", "Rage Spells") & "|" & _
-			GetTranslatedFileIni("MBR Global GUI Design Names Spells", "TxtJumpSpells", "Jump Spells") & "|" & _
-			GetTranslatedFileIni("MBR Global GUI Design Names Spells", "TxtFreezeSpells", "Freeze Spells") & "|" & _
-			GetTranslatedFileIni("MBR Global GUI Design Names Spells", "TxtCloneSpells", "Clone Spells") & "|" & _
-			GetTranslatedFileIni("MBR Global GUI Design Names Spells", "TxtInvisibilitySpells", "Invisibility Spells") & "|" & _
-			GetTranslatedFileIni("MBR Global GUI Design Names Spells", "TxtRecallSpells", "Recall Spells") & "|" & _
-			GetTranslatedFileIni("MBR Global GUI Design Names Spells", "TxtPoisonSpells", "Poison Spells") & "|" & _
-			GetTranslatedFileIni("MBR Global GUI Design Names Spells", "TxtEarthQuakeSpells", "EarthQuake Spells") & "|" & _
-			GetTranslatedFileIni("MBR Global GUI Design Names Spells", "TxtHasteSpells", "Haste Spells") & "|" & _
-			GetTranslatedFileIni("MBR Global GUI Design Names Spells", "TxtSkeletonSpells", "Skeleton Spells") & "|" & _
-			GetTranslatedFileIni("MBR Global GUI Design Names Spells", "TxtBatSpells", "Bat Spells") & "|" & _
-			GetTranslatedFileIni("MBR Global GUI Design Names Spells", "TxtOvergrowthSpells", "Overgrowth Spells") & "|" & _
-			GetTranslatedFileIni("MBR Global GUI Design Names Troops", "TxtMinions", "Minions") & "|" & _
-			GetTranslatedFileIni("MBR Global GUI Design Names Troops", "TxtHogRiders", "Hog Riders") & "|" & _
-			GetTranslatedFileIni("MBR Global GUI Design Names Troops", "TxtValkyries", "Valkyries") & "|" & _
-			GetTranslatedFileIni("MBR Global GUI Design Names Troops", "TxtGolems", "Golems") & "|" & _
-			GetTranslatedFileIni("MBR Global GUI Design Names Troops", "TxtWitches", "Witches") & "|" & _
-			GetTranslatedFileIni("MBR Global GUI Design Names Troops", "TxtLavaHounds", "Lava Hounds") & "|" & _
-			GetTranslatedFileIni("MBR Global GUI Design Names Troops", "TxtBowlers", "Bowlers") & "|" & _
-			GetTranslatedFileIni("MBR Global GUI Design Names Troops", "TxtIceGolems", "Ice Golems") & "|" & _
-			GetTranslatedFileIni("MBR Global GUI Design Names Troops", "TxtHeadhunters", "Headhunters") & "|" & _
-			GetTranslatedFileIni("MBR Global GUI Design Names Troops", "TxtAppWards", "App. Wardens") & "|" & _
-			GetTranslatedFileIni("MBR Global GUI Design Names Troops", "TxtDruids", "Druids") & "|" & _
-			GetTranslatedFileIni("MBR Global GUI Design Names Troops", "TxtWallWreckers", "Wall Wreckers") & "|" & _
-			GetTranslatedFileIni("MBR Global GUI Design Names Troops", "TxtBattleBlimps", "Battle Blimps") & "|" & _
-			GetTranslatedFileIni("MBR Global GUI Design Names Troops", "TxtStoneSlammers", "Stone Slammers") & "|" & _
-			GetTranslatedFileIni("MBR Global GUI Design Names Troops", "TxtSiegeBarracks", "Siege Barracks") & "|" & _
-			GetTranslatedFileIni("MBR Global GUI Design Names Troops", "TxtLogLaunchers", "Log Launchers") & "|" & _
-			GetTranslatedFileIni("MBR Global GUI Design Names Troops", "TxtFlameFlingers", "Flame Flingers") & "|" & _
-			GetTranslatedFileIni("MBR Global GUI Design Names Troops", "TxtBattleDrills", "Battle Drills") & "|" & _
+			GetTranslatedFileIni("MBR Global GUI Design Names Troops", "TxtBarbarian", "Barbarian") & "|" & _
+			GetTranslatedFileIni("MBR Global GUI Design Names Troops", "TxtArcher", "Archer") & "|" & _
+			GetTranslatedFileIni("MBR Global GUI Design Names Troops", "TxtGiant", "Giant") & "|" & _
+			GetTranslatedFileIni("MBR Global GUI Design Names Troops", "TxtGoblin", "Goblin") & "|" & _
+			GetTranslatedFileIni("MBR Global GUI Design Names Troops", "TxtWallBreaker", "Wall Breaker") & "|" & _
+			GetTranslatedFileIni("MBR Global GUI Design Names Troops", "TxtBalloon", "Balloon") & "|" & _
+			GetTranslatedFileIni("MBR Global GUI Design Names Troops", "TxtWizard", "Wizard") & "|" & _
+			GetTranslatedFileIni("MBR Global GUI Design Names Troops", "TxtHealer", "Healer") & "|" & _
+			GetTranslatedFileIni("MBR Global GUI Design Names Troops", "TxtDragon", "Dragon") & "|" & _
+			GetTranslatedFileIni("MBR Global GUI Design Names Troops", "TxtPekka", "Pekka") & "|" & _
+			GetTranslatedFileIni("MBR Global GUI Design Names Troops", "TxtBabyDragon", "Baby Dragon") & "|" & _
+			GetTranslatedFileIni("MBR Global GUI Design Names Troops", "TxtMiner", "Miner") & "|" & _
+			GetTranslatedFileIni("MBR Global GUI Design Names Troops", "TxtEDragon", "Electro Dragon") & "|" & _
+			GetTranslatedFileIni("MBR Global GUI Design Names Troops", "TxtYeti", "Yeti") & "|" & _
+			GetTranslatedFileIni("MBR Global GUI Design Names Troops", "TxtDragonRider", "Dragon Rider") & "|" & _
+			GetTranslatedFileIni("MBR Global GUI Design Names Troops", "TxtElectroTitan", "Electro Titan") & "|" & _
+			GetTranslatedFileIni("MBR Global GUI Design Names Troops", "TxtRootRider", "Root Rider") & "|" & _
+			GetTranslatedFileIni("MBR Global GUI Design Names Spells", "TxtLightningSpell", "Lightning Spell") & "|" & _
+			GetTranslatedFileIni("MBR Global GUI Design Names Spells", "TxtHealingSpell", "Healing Spell") & "|" & _
+			GetTranslatedFileIni("MBR Global GUI Design Names Spells", "TxtRageSpell", "Rage Spell") & "|" & _
+			GetTranslatedFileIni("MBR Global GUI Design Names Spells", "TxtJumpSpell", "Jump Spell") & "|" & _
+			GetTranslatedFileIni("MBR Global GUI Design Names Spells", "TxtFreezeSpell", "Freeze Spell") & "|" & _
+			GetTranslatedFileIni("MBR Global GUI Design Names Spells", "TxtCloneSpell", "Clone Spell") & "|" & _
+			GetTranslatedFileIni("MBR Global GUI Design Names Spells", "TxtInvisibilitySpell", "Invisibility Spell") & "|" & _
+			GetTranslatedFileIni("MBR Global GUI Design Names Spells", "TxtRecallSpell", "Recall Spell") & "|" & _
+			GetTranslatedFileIni("MBR Global GUI Design Names Spells", "TxtPoisonSpell", "Poison Spell") & "|" & _
+			GetTranslatedFileIni("MBR Global GUI Design Names Spells", "TxtEarthQuakeSpell", "EarthQuake Spell") & "|" & _
+			GetTranslatedFileIni("MBR Global GUI Design Names Spells", "TxtHasteSpell", "Haste Spell") & "|" & _
+			GetTranslatedFileIni("MBR Global GUI Design Names Spells", "TxtSkeletonSpell", "Skeleton Spell") & "|" & _
+			GetTranslatedFileIni("MBR Global GUI Design Names Spells", "TxtBatSpell", "Bat Spell") & "|" & _
+			GetTranslatedFileIni("MBR Global GUI Design Names Spells", "TxtOvergrowthSpell", "Overgrowth Spell") & "|" & _
+			GetTranslatedFileIni("MBR Global GUI Design Names Troops", "TxtMinion", "Minion") & "|" & _
+			GetTranslatedFileIni("MBR Global GUI Design Names Troops", "TxtHogRider", "Hog Rider") & "|" & _
+			GetTranslatedFileIni("MBR Global GUI Design Names Troops", "TxtValkyrie", "Valkyrie") & "|" & _
+			GetTranslatedFileIni("MBR Global GUI Design Names Troops", "TxtGolem", "Golem") & "|" & _
+			GetTranslatedFileIni("MBR Global GUI Design Names Troops", "TxtWitch", "Witch") & "|" & _
+			GetTranslatedFileIni("MBR Global GUI Design Names Troops", "TxtLavaHound", "Lava Hound") & "|" & _
+			GetTranslatedFileIni("MBR Global GUI Design Names Troops", "TxtBowler", "Bowler") & "|" & _
+			GetTranslatedFileIni("MBR Global GUI Design Names Troops", "TxtIceGolem", "Ice Golem") & "|" & _
+			GetTranslatedFileIni("MBR Global GUI Design Names Troops", "TxtHeadhunter", "Headhunter") & "|" & _
+			GetTranslatedFileIni("MBR Global GUI Design Names Troops", "TxtAppWard", "App. Warden") & "|" & _
+			GetTranslatedFileIni("MBR Global GUI Design Names Troops", "TxtDruid", "Druid") & "|" & _
+			GetTranslatedFileIni("MBR Global GUI Design Names Troops", "TxtWallWrecker", "Wall Wrecker") & "|" & _
+			GetTranslatedFileIni("MBR Global GUI Design Names Troops", "TxtBattleBlimp", "Battle Blimp") & "|" & _
+			GetTranslatedFileIni("MBR Global GUI Design Names Troops", "TxtStoneSlammer", "Stone Slammer") & "|" & _
+			GetTranslatedFileIni("MBR Global GUI Design Names Troops", "TxtSiegeBarrack", "Siege Barrack") & "|" & _
+			GetTranslatedFileIni("MBR Global GUI Design Names Troops", "TxtLogLauncher", "Log Launcher") & "|" & _
+			GetTranslatedFileIni("MBR Global GUI Design Names Troops", "TxtFlameFlinger", "Flame Flinger") & "|" & _
+			GetTranslatedFileIni("MBR Global GUI Design Names Troops", "TxtBattleDrill", "Battle Drill") & "|" & _
 			GetTranslatedFileIni("MBR Global GUI Design Names Troops", "TxtAnySpell", "Any Spell") & "|" & _
 			GetTranslatedFileIni("MBR Global GUI Design Names Troops", "TxtAnySiege", "Any Siege")
 
@@ -515,6 +515,10 @@ Func CreateHeroEquipment()
 	_GUICtrlSetTip(-1, GetTranslatedFileIni("MBR GUI Design Child Attack - Equipment", "ChkCustomEquipmentEnable_Info_01", "Enable to select a custom equipment upgrade order"))
 	GUICtrlSetOnEvent(-1, "chkEquipmentOrder")
 
+	$g_hChkFinishCurrentEquipmentFirst = GUICtrlCreateCheckbox(GetTranslatedFileIni("MBR GUI Design Child Attack - Equipment", "ChkFinishCurrentEquipmentFirst", "Finish Current Equipment First"), $x + 75, $y + 60, -1, -1)
+	GUICtrlSetState(-1, $GUI_CHECKED)
+	_GUICtrlSetTip(-1, GetTranslatedFileIni("MBR GUI Design Child Attack - Equipment", "ChkFinishCurrentEquipmentFirst_Info_01", "Finish current equipment first before trying upgrade next one"))
+
 	Local $sComboData = ""
 	For $t = 0 To UBound($g_asEquipmentOrderList) - 1
 		$sComboData &= $g_asEquipmentOrderList[$t][0] & "|"
@@ -524,7 +528,7 @@ Func CreateHeroEquipment()
 
 	; Create ComboBox(es) for selection of troop training order
 	$x += 40
-	$y = 90
+	$y = 110
 
 	For $z = 0 To UBound($g_ahCmbEquipmentOrder) - 1
 		If $z < 5 Then
@@ -542,7 +546,7 @@ Func CreateHeroEquipment()
 		ElseIf $z = 5 Then
 			If $z = 5 Then
 				$x += 250
-				$y = 90
+				$y = 110
 			EndIf
 			$g_EquipmentOrderLabel[$z] = GUICtrlCreateLabel($z + 1 & ":", $x - 36, $y + 3, -1, 25)
 			$g_hChkCustomEquipmentOrder[$z] = GUICtrlCreateCheckbox("", $x - 20, $y - 2, -1, 25)

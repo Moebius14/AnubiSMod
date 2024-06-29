@@ -2,7 +2,7 @@
 ; Name ..........: Blacksmith
 ; Description ...: Equipment Upgrade V1
 ; Author ........: Moebius (2023-12)
-; Modified ......:
+; Modified ......: Moebius (2024-06)
 ; Remarks .......: This file is part of MyBot Copyright 2015-2024
 ;                  MyBot is distributed under the terms of the GNU GPL
 ; Related .......: Returns True or False
@@ -108,6 +108,8 @@ Func Blacksmith($bTest = False)
 
 	OresReport()
 	If _Sleep(3000) Then Return
+
+	Local $GetOutNow = False
 
 	For $i = 0 To $eEquipmentCount - 1
 
@@ -273,8 +275,13 @@ Func Blacksmith($bTest = False)
 							SetLog("Not enough resource to upgrade " & $g_asEquipmentOrderList[$g_aiCmbCustomEquipmentOrder[$i]][0], $COLOR_DEBUG2)
 							If _Sleep(1500) Then Return
 							CloseWindow2()
-							$Exitloop = True
-							ExitLoop
+							If $g_bChkFinishCurrentEquipmentFirst Then ; New : Try next equipment only when current one upgrade is impossible (Maxed or BS up needed).
+								$GetOutNow = True
+								ExitLoop 2
+							Else
+								$Exitloop = True
+								ExitLoop
+							EndIf
 						EndIf
 						Click(705, 545 + $g_iMidOffsetY, 1, 150, "#0299")     ; Click upgrade buttton
 						If _Sleep(1500) Then Return
@@ -315,9 +322,15 @@ Func Blacksmith($bTest = False)
 						EndIf
 						If $bLoop = 10 Then
 							SetDebugLog("Something wrong happened", $COLOR_DEBUG)
+							$iLastTimeChecked[$g_iCurAccount] = ""
 							CloseWindow2()
-							$Exitloop = True
-							ExitLoop
+							If $g_bChkFinishCurrentEquipmentFirst Then ; New : Try next equipment only when current one upgrade is impossible (Maxed or BS up needed).
+								$GetOutNow = True
+								ExitLoop 2
+							Else
+								$Exitloop = True
+								ExitLoop
+							EndIf
 						EndIf
 						$bLoop += 1
 					WEnd
@@ -334,6 +347,10 @@ Func Blacksmith($bTest = False)
 				If _Sleep(500) Then Return
 				If $t = UBound($aEquipmentUpgrades, 1) - 1 Then SetLog($g_asEquipmentOrderList[$g_aiCmbCustomEquipmentOrder[$i]][0] & " unavailable", $COLOR_WARNING)
 			Next
+			If $GetOutNow Then
+				If _Sleep(1500) Then Return
+				ExitLoop
+			EndIf
 		Else
 			SetLog("No Equipment image found", $COLOR_WARNING)
 			If $g_bDebugImageSave Then SaveDebugImage("Blacksmith_NoEquipmentFound")

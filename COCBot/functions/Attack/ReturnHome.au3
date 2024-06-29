@@ -191,6 +191,7 @@ Func ReturnHome($TakeSS = 1, $GoldChangeCheck = True) ;Return main screen
 		SetDebugLog("Wait for Star Bonus window to appear #" & $counter)
 		If _Sleep($DELAYRETURNHOME4) Then Return
 		If StarBonus() Then SetLog("Star Bonus window closed chief!", $COLOR_INFO) ; Check for Star Bonus window to fill treasury (2016-01) update
+		If CheckStreakEvent() Then SetLog("Streak Event window closed chief!", $COLOR_INFO) ; Check for Streak Event window to (2024-06) update
 		$g_bFullArmy = False ; forcing check the army
 		$g_bIsFullArmywithHeroesAndSpells = False ; forcing check the army
 		If ReturnHomeMainPage() Then Return

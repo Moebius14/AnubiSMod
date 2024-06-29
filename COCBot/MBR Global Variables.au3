@@ -737,7 +737,7 @@ Global $g_aiHeroBoost[$eHeroCount] = ["1970/01/01 00:00:00", "1970/01/01 00:00:0
 Global $g_bLeagueAttack = False
 Global Enum $eLeagueUnranked, $eLeagueBronze, $eLeagueSilver, $eLeagueGold, $eLeagueCrystal, $eLeagueMaster, $eLeagueChampion, $eLeagueTitan, $eLeagueLegend, $eLeagueCount
 Global Const $g_asLeagueDetails[22][5] = [ _
-		["0", "Bronze III", "0", "B3", "400"], ["1000", "Bronze II", "0", "B2", "500"], ["1300", "Bronze I", "0", "B1", "600"], _
+		["700", "Bronze III", "0", "B3", "400"], ["1000", "Bronze II", "0", "B2", "500"], ["1300", "Bronze I", "0", "B1", "600"], _
 		["2600", "Silver III", "0", "S3", "800"], ["3700", "Silver II", "0", "S2", "1000"], ["4800", "Silver I", "0", "S1", "1200"], _
 		["10000", "Gold III", "0", "G3", "1400"], ["13500", "Gold II", "0", "G2", "1600"], ["17000", "Gold I", "0", "G1", "1800"], _
 		["40000", "Crystal III", "120", "c3", "2000"], ["55000", "Crystal II", "220", "c2", "2200"], ["70000", "Crystal I", "320", "c1", "2400"], _
@@ -1451,55 +1451,55 @@ Global $g_avStarLabTroops[13][5]
 Func TranslateTroopNames()
 	Dim $g_avLabTroops[52][3] = [ _
 			[GetTranslatedFileIni("MBR Global GUI Design", "Any", "Any"), $eIcnBlank], _
-			[GetTranslatedFileIni("MBR Global GUI Design Names Troops", "TxtBarbarians", "Barbarians"), $eIcnBarbarian, "Barb"], _
-			[GetTranslatedFileIni("MBR Global GUI Design Names Troops", "TxtArchers", "Archers"), $eIcnArcher, "Arch"], _
-			[GetTranslatedFileIni("MBR Global GUI Design Names Troops", "TxtGiants", "Giants"), $eIcnGiant, "Giant"], _
-			[GetTranslatedFileIni("MBR Global GUI Design Names Troops", "TxtGoblins", "Goblins"), $eIcnGoblin, "Gobl"], _
-			[GetTranslatedFileIni("MBR Global GUI Design Names Troops", "TxtWallBreakers", "Wall Breakers"), $eIcnWallBreaker, "Wall"], _
-			[GetTranslatedFileIni("MBR Global GUI Design Names Troops", "TxtBalloons", "Balloons"), $eIcnBalloon, "Ball"], _
-			[GetTranslatedFileIni("MBR Global GUI Design Names Troops", "TxtWizards", "Wizards"), $eIcnWizard, "Wiza"], _
-			[GetTranslatedFileIni("MBR Global GUI Design Names Troops", "TxtHealers", "Healers"), $eIcnHealer, "Heal"], _
-			[GetTranslatedFileIni("MBR Global GUI Design Names Troops", "TxtDragons", "Dragons"), $eIcnDragon, "Drag"], _
-			[GetTranslatedFileIni("MBR Global GUI Design Names Troops", "TxtPekkas", "Pekkas"), $eIcnPekka, "Pekk"], _
-			[GetTranslatedFileIni("MBR Global GUI Design Names Troops", "TxtBabyDragons", "Baby Dragons"), $eIcnBabyDragon, "BabyD"], _
-			[GetTranslatedFileIni("MBR Global GUI Design Names Troops", "TxtMiners", "Miners"), $eIcnMiner, "Mine"], _
-			[GetTranslatedFileIni("MBR Global GUI Design Names Troops", "TxtElectroDragons", "Electro Dragons"), $eIcnElectroDragon, "EDrag"], _
-			[GetTranslatedFileIni("MBR Global GUI Design Names Troops", "TxtYetis", "Yetis"), $eIcnYeti, "Yeti"], _
-			[GetTranslatedFileIni("MBR Global GUI Design Names Troops", "TxtDragonRiders", "Dragon Riders"), $eIcnDragonRider, "RDrag"], _
-			[GetTranslatedFileIni("MBR Global GUI Design Names Troops", "TxtElectroTitans", "Electro Titans"), $eIcnElectroTitan, "ETitan"], _
-			[GetTranslatedFileIni("MBR Global GUI Design Names Troops", "TxtRootRiders", "Root Riders"), $eIcnRootRider, "RootR"], _
-			[GetTranslatedFileIni("MBR Global GUI Design Names Spells", "TxtLightningSpells", "Lightning Spells"), $eIcnLightSpell, "LSpell"], _
-			[GetTranslatedFileIni("MBR Global GUI Design Names Spells", "TxtHealingSpells", "Healing Spells"), $eIcnHealSpell, "HSpell"], _
-			[GetTranslatedFileIni("MBR Global GUI Design Names Spells", "TxtRageSpells", "Rage Spells"), $eIcnRageSpell, "RSpell"], _
-			[GetTranslatedFileIni("MBR Global GUI Design Names Spells", "TxtJumpSpells", "Jump Spells"), $eIcnJumpSpell, "JSpell"], _
-			[GetTranslatedFileIni("MBR Global GUI Design Names Spells", "TxtFreezeSpells", "Freeze Spells"), $eIcnFreezeSpell, "FSpell"], _
-			[GetTranslatedFileIni("MBR Global GUI Design Names Spells", "TxtCloneSpells", "Clone Spells"), $eIcnCloneSpell, "CSpell"], _
-			[GetTranslatedFileIni("MBR Global GUI Design Names Spells", "TxtInvisibilitySpells", "Invisibility Spells"), $eIcnInvisibilitySpell, "ISpell"], _
-			[GetTranslatedFileIni("MBR Global GUI Design Names Spells", "TxtRecallSpells", "Recall Spells"), $eIcnRecallSpell, "ReSpell"], _
-			[GetTranslatedFileIni("MBR Global GUI Design Names Spells", "TxtPoisonSpells", "Poison Spells"), $eIcnPoisonSpell, "PSpell"], _
-			[GetTranslatedFileIni("MBR Global GUI Design Names Spells", "TxtEarthQuakeSpells", "EarthQuake Spells"), $eIcnEarthQuakeSpell, "ESpell"], _
-			[GetTranslatedFileIni("MBR Global GUI Design Names Spells", "TxtHasteSpells", "Haste Spells"), $eIcnHasteSpell, "HaSpell"], _
-			[GetTranslatedFileIni("MBR Global GUI Design Names Spells", "TxtSkeletonSpells", "Skeleton Spells"), $eIcnSkeletonSpell, "SkSpell"], _
-			[GetTranslatedFileIni("MBR Global GUI Design Names Spells", "TxtBatSpells", "Bat Spells"), $eIcnBatSpell, "BtSpell"], _
-			[GetTranslatedFileIni("MBR Global GUI Design Names Spells", "TxtOvergrowthSpells", "Overgrowth Spells"), $eIcnOvergrowthSpell, "OgSpell"], _
-			[GetTranslatedFileIni("MBR Global GUI Design Names Troops", "TxtMinions", "Minions"), $eIcnMinion, "Mini"], _
-			[GetTranslatedFileIni("MBR Global GUI Design Names Troops", "TxtHogRiders", "Hog Riders"), $eIcnHogRider, "Hogs"], _
-			[GetTranslatedFileIni("MBR Global GUI Design Names Troops", "TxtValkyries", "Valkyries"), $eIcnValkyrie, "Valk"], _
-			[GetTranslatedFileIni("MBR Global GUI Design Names Troops", "TxtGolems", "Golems"), $eIcnGolem, "Gole"], _
-			[GetTranslatedFileIni("MBR Global GUI Design Names Troops", "TxtWitches", "Witches"), $eIcnWitch, "Witc"], _
-			[GetTranslatedFileIni("MBR Global GUI Design Names Troops", "TxtLavaHounds", "Lava Hounds"), $eIcnLavaHound, "Lava"], _
-			[GetTranslatedFileIni("MBR Global GUI Design Names Troops", "TxtBowlers", "Bowlers"), $eIcnBowler, "Bowl"], _
-			[GetTranslatedFileIni("MBR Global GUI Design Names Troops", "TxtIceGolems", "Ice Golems"), $eIcnIceGolem, "IceG"], _
-			[GetTranslatedFileIni("MBR Global GUI Design Names Troops", "TxtHeadhunters", "Headhunters"), $eIcnHeadhunter, "Hunt"], _
-			[GetTranslatedFileIni("MBR Global GUI Design Names Troops", "TxtAppWards", "App. Wardens"), $eIcnAppWard, "AppWard"], _
-			[GetTranslatedFileIni("MBR Global GUI Design Names Troops", "TxtDruids", "Druids"), $eIcnDruid, "Druid"], _
-			[GetTranslatedFileIni("MBR Global GUI Design Names Troops", "TxtWallWreckers", "Wall Wreckers"), $eIcnWallW, "Siege"], _
-			[GetTranslatedFileIni("MBR Global GUI Design Names Troops", "TxtBattleBlimps", "Battle Blimps"), $eIcnBattleB, "Blimp"], _
-			[GetTranslatedFileIni("MBR Global GUI Design Names Troops", "TxtStoneSlammers", "Stone Slammer"), $eIcnStoneS, "Slammer"], _
-			[GetTranslatedFileIni("MBR Global GUI Design Names Troops", "TxtSiegeBarracks", "Siege Barracks"), $eIcnSiegeB, "SiegeB"], _
-			[GetTranslatedFileIni("MBR Global GUI Design Names Troops", "TxtLogLaunchers", "Log Launchers"), $eIcnLogL, "LogL"], _
-			[GetTranslatedFileIni("MBR Global GUI Design Names Troops", "TxtFlameFlingers", "Flame Flingers"), $eIcnFlameF, "FlameF"], _
-			[GetTranslatedFileIni("MBR Global GUI Design Names Troops", "TxtBattleDrills", "Battle Drills"), $eIcnBattleD, "BattleD"], _
+			[GetTranslatedFileIni("MBR Global GUI Design Names Troops", "TxtBarbarian", "Barbarian"), $eIcnBarbarian, "Barb"], _
+			[GetTranslatedFileIni("MBR Global GUI Design Names Troops", "TxtArcher", "Archer"), $eIcnArcher, "Arch"], _
+			[GetTranslatedFileIni("MBR Global GUI Design Names Troops", "TxtGiant", "Giant"), $eIcnGiant, "Giant"], _
+			[GetTranslatedFileIni("MBR Global GUI Design Names Troops", "TxtGoblin", "Goblin"), $eIcnGoblin, "Gobl"], _
+			[GetTranslatedFileIni("MBR Global GUI Design Names Troops", "TxtWallBreaker", "Wall Breaker"), $eIcnWallBreaker, "Wall"], _
+			[GetTranslatedFileIni("MBR Global GUI Design Names Troops", "TxtBalloon", "Balloon"), $eIcnBalloon, "Ball"], _
+			[GetTranslatedFileIni("MBR Global GUI Design Names Troops", "TxtWizard", "Wizard"), $eIcnWizard, "Wiza"], _
+			[GetTranslatedFileIni("MBR Global GUI Design Names Troops", "TxtHealer", "Healer"), $eIcnHealer, "Heal"], _
+			[GetTranslatedFileIni("MBR Global GUI Design Names Troops", "TxtDragon", "Dragon"), $eIcnDragon, "Drag"], _
+			[GetTranslatedFileIni("MBR Global GUI Design Names Troops", "TxtPekka", "Pekka"), $eIcnPekka, "Pekk"], _
+			[GetTranslatedFileIni("MBR Global GUI Design Names Troops", "TxtBabyDragon", "Baby Dragon"), $eIcnBabyDragon, "BabyD"], _
+			[GetTranslatedFileIni("MBR Global GUI Design Names Troops", "TxtMiner", "Miner"), $eIcnMiner, "Mine"], _
+			[GetTranslatedFileIni("MBR Global GUI Design Names Troops", "TxtElectroDragon", "Electro Dragon"), $eIcnElectroDragon, "EDrag"], _
+			[GetTranslatedFileIni("MBR Global GUI Design Names Troops", "TxtYeti", "Yeti"), $eIcnYeti, "Yeti"], _
+			[GetTranslatedFileIni("MBR Global GUI Design Names Troops", "TxtDragonRider", "Dragon Rider"), $eIcnDragonRider, "RDrag"], _
+			[GetTranslatedFileIni("MBR Global GUI Design Names Troops", "TxtElectroTitan", "Electro Titan"), $eIcnElectroTitan, "ETitan"], _
+			[GetTranslatedFileIni("MBR Global GUI Design Names Troops", "TxtRootRider", "Root Rider"), $eIcnRootRider, "RootR"], _
+			[GetTranslatedFileIni("MBR Global GUI Design Names Spells", "TxtLightningSpell", "Lightning Spell"), $eIcnLightSpell, "LSpell"], _
+			[GetTranslatedFileIni("MBR Global GUI Design Names Spells", "TxtHealingSpell", "Healing Spell"), $eIcnHealSpell, "HSpell"], _
+			[GetTranslatedFileIni("MBR Global GUI Design Names Spells", "TxtRageSpell", "Rage Spell"), $eIcnRageSpell, "RSpell"], _
+			[GetTranslatedFileIni("MBR Global GUI Design Names Spells", "TxtJumpSpell", "Jump Spell"), $eIcnJumpSpell, "JSpell"], _
+			[GetTranslatedFileIni("MBR Global GUI Design Names Spells", "TxtFreezeSpell", "Freeze Spell"), $eIcnFreezeSpell, "FSpell"], _
+			[GetTranslatedFileIni("MBR Global GUI Design Names Spells", "TxtCloneSpell", "Clone Spell"), $eIcnCloneSpell, "CSpell"], _
+			[GetTranslatedFileIni("MBR Global GUI Design Names Spells", "TxtInvisibilitySpell", "Invisibility Spell"), $eIcnInvisibilitySpell, "ISpell"], _
+			[GetTranslatedFileIni("MBR Global GUI Design Names Spells", "TxtRecallSpell", "Recall Spell"), $eIcnRecallSpell, "ReSpell"], _
+			[GetTranslatedFileIni("MBR Global GUI Design Names Spells", "TxtPoisonSpell", "Poison Spell"), $eIcnPoisonSpell, "PSpell"], _
+			[GetTranslatedFileIni("MBR Global GUI Design Names Spells", "TxtEarthQuakeSpell", "EarthQuake Spell"), $eIcnEarthQuakeSpell, "ESpell"], _
+			[GetTranslatedFileIni("MBR Global GUI Design Names Spells", "TxtHasteSpell", "Haste Spell"), $eIcnHasteSpell, "HaSpell"], _
+			[GetTranslatedFileIni("MBR Global GUI Design Names Spells", "TxtSkeletonSpell", "Skeleton Spell"), $eIcnSkeletonSpell, "SkSpell"], _
+			[GetTranslatedFileIni("MBR Global GUI Design Names Spells", "TxtBatSpell", "Bat Spell"), $eIcnBatSpell, "BtSpell"], _
+			[GetTranslatedFileIni("MBR Global GUI Design Names Spells", "TxtOvergrowthSpell", "Overgrowth Spell"), $eIcnOvergrowthSpell, "OgSpell"], _
+			[GetTranslatedFileIni("MBR Global GUI Design Names Troops", "TxtMinion", "Minion"), $eIcnMinion, "Mini"], _
+			[GetTranslatedFileIni("MBR Global GUI Design Names Troops", "TxtHogRider", "Hog Rider"), $eIcnHogRider, "Hogs"], _
+			[GetTranslatedFileIni("MBR Global GUI Design Names Troops", "TxtValkyrie", "Valkyrie"), $eIcnValkyrie, "Valk"], _
+			[GetTranslatedFileIni("MBR Global GUI Design Names Troops", "TxtGolem", "Golem"), $eIcnGolem, "Gole"], _
+			[GetTranslatedFileIni("MBR Global GUI Design Names Troops", "TxtWitch", "Witch"), $eIcnWitch, "Witc"], _
+			[GetTranslatedFileIni("MBR Global GUI Design Names Troops", "TxtLavaHound", "Lava Hound"), $eIcnLavaHound, "Lava"], _
+			[GetTranslatedFileIni("MBR Global GUI Design Names Troops", "TxtBowler", "Bowler"), $eIcnBowler, "Bowl"], _
+			[GetTranslatedFileIni("MBR Global GUI Design Names Troops", "TxtIceGolem", "Ice Golem"), $eIcnIceGolem, "IceG"], _
+			[GetTranslatedFileIni("MBR Global GUI Design Names Troops", "TxtHeadhunter", "Headhunter"), $eIcnHeadhunter, "Hunt"], _
+			[GetTranslatedFileIni("MBR Global GUI Design Names Troops", "TxtAppWard", "App. Warden"), $eIcnAppWard, "AppWard"], _
+			[GetTranslatedFileIni("MBR Global GUI Design Names Troops", "TxtDruid", "Druid"), $eIcnDruid, "Druid"], _
+			[GetTranslatedFileIni("MBR Global GUI Design Names Troops", "TxtWallWrecker", "Wall Wrecker"), $eIcnWallW, "Siege"], _
+			[GetTranslatedFileIni("MBR Global GUI Design Names Troops", "TxtBattleBlimp", "Battle Blimp"), $eIcnBattleB, "Blimp"], _
+			[GetTranslatedFileIni("MBR Global GUI Design Names Troops", "TxtStoneSlammer", "Stone Slammer"), $eIcnStoneS, "Slammer"], _
+			[GetTranslatedFileIni("MBR Global GUI Design Names Troops", "TxtSiegeBarrack", "Siege Barrack"), $eIcnSiegeB, "SiegeB"], _
+			[GetTranslatedFileIni("MBR Global GUI Design Names Troops", "TxtLogLauncher", "Log Launcher"), $eIcnLogL, "LogL"], _
+			[GetTranslatedFileIni("MBR Global GUI Design Names Troops", "TxtFlameFlinger", "Flame Flinger"), $eIcnFlameF, "FlameF"], _
+			[GetTranslatedFileIni("MBR Global GUI Design Names Troops", "TxtBattleDrill", "Battle Drill"), $eIcnBattleD, "BattleD"], _
 			[GetTranslatedFileIni("MBR Global GUI Design Names Troops", "TxtAnySpell", "Any Spell"), $eIcnAllSpell, "AnySpell"], _
 			[GetTranslatedFileIni("MBR Global GUI Design Names Troops", "TxtAnySiege", "Any Siege"), $eIcnAllSiege, "AnySiege"]]
 
@@ -1522,7 +1522,7 @@ EndFunc   ;==>TranslateTroopNames
 ; Upgrading - Wall
 ;Updated for Dec2023
 ;First cost is for upgrade to walls level 5.  MBR doesn't support walls until level 4.
-Global Const $g_aiWallCost[13] = [20000, 30000, 50000, 75000, 100000, 200000, 500000, 1000000, 2000000, 3000000, 5000000, 8000000, 9000000]
+Global Const $g_aiWallCost[13] = [20000, 30000, 50000, 75000, 100000, 200000, 500000, 1000000, 2000000, 3000000, 4000000, 6000000, 9000000]
 Global $g_iWallCost = 0
 
 ; Upgrading - Heroes
@@ -2034,7 +2034,7 @@ Global $g_asEquipmentOrderList[21][4] = [ _
 
 Global Enum $eBarbarianPuppet, $eRageVial, $eEQBoots, $eVampstache, $eGiantGauntlet, $eSpikyBall, $eArcherPuppet, $eInvisibilityVial, $eGiantArrow, $eHealerPuppet, _
 		$eFrozenArrow, $eEternalTome, $eLifeGem, $eRageGem, $eHealingTome, $eFireball, $eRoyalGem, $eSeekingShield, $eHogPuppet, $eHasteVial, $eRocketSpear, $eEquipmentCount
-Global $g_hChkCustomEquipmentOrderEnable = 0, $g_bChkCustomEquipmentOrderEnable = 0
+Global $g_hChkCustomEquipmentOrderEnable = 0, $g_bChkCustomEquipmentOrderEnable = 0, $g_hChkFinishCurrentEquipmentFirst = 0, $g_bChkFinishCurrentEquipmentFirst = 1
 Global $g_hBtnEquipmentOrderSet = 0, $g_ahImgEquipmentOrderSet = 0, $g_hBtnRemoveEquipment = 0
 Global $g_EquipmentOrderLabel[$eEquipmentCount] = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
 Global $g_ahCmbEquipmentOrder[$eEquipmentCount] = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
@@ -2264,4 +2264,7 @@ Global $IsAutoForgeSlotJustCollected = 0
 Global $SpecialEventReduction = 1 ; No Event
 
 ; COC Version
-Global $sGameMinimalVersion = "16.386.5"
+Global $sGameMinimalVersion = "16.386.9"
+
+;Builder's Apprentice
+Global $g_sAvailableAppBuilder = 0, $TimeDiffAppBuilder = 0, $g_bChkAppBuilder = False

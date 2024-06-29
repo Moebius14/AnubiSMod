@@ -148,6 +148,10 @@ Func SwitchAccountVariablesReload($sType = "Load", $iAccount = $g_iCurAccount)
 	;StarBonus
 	Static $SStarBonusReceived = $aiZero
 
+	;Builder's Apprentice
+	Static $gaSsAvailableAppBuilder = $aiZero
+	Static $aSTimeDiffAppBuilder = $aiZero
+
 	; First time switch account
 	Switch $sType
 		Case "Reset"
@@ -314,6 +318,10 @@ Func SwitchAccountVariablesReload($sType = "Load", $iAccount = $g_iCurAccount)
 			$gSiFreeBuilderCountBB = $aiZero
 			$gSiTotalBuilderCountBB = $aiZero
 			$g_SIsBuilderJarAvl = $aiTrue
+
+			;Builder's Apprentice
+			$gaSsAvailableAppBuilder = $aiZero
+			$aSTimeDiffAppBuilder = $aiZero
 
 		Case "Save"
 			$abFirstStart[$iAccount] = $g_bFirstStart
@@ -500,6 +508,10 @@ Func SwitchAccountVariablesReload($sType = "Load", $iAccount = $g_iCurAccount)
 			$abNotNeedAllTime0[$iAccount] = $g_abNotNeedAllTime[0]
 			$abNotNeedAllTime1[$iAccount] = $g_abNotNeedAllTime[1]
 			$SbControlCCMedal[$iAccount] = $bControlCCMedal
+
+			;Builder's Apprentice
+			$gaSsAvailableAppBuilder[$iAccount] = $g_sAvailableAppBuilder
+			$aSTimeDiffAppBuilder[$iAccount] = $TimeDiffAppBuilder
 
 		Case "Load"
 			$g_bFirstStart = $abFirstStart[$iAccount]
@@ -708,6 +720,10 @@ Func SwitchAccountVariablesReload($sType = "Load", $iAccount = $g_iCurAccount)
 
 			; Reset the log
 			$g_hLogFile = 0
+
+			;Builder's Apprentice
+			$g_sAvailableAppBuilder = $gaSsAvailableAppBuilder[$iAccount]
+			$TimeDiffAppBuilder = $aSTimeDiffAppBuilder[$iAccount]
 
 		Case "UpdateStats"
 			For $i = 0 To 3

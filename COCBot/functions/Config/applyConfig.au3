@@ -1032,6 +1032,7 @@ Func ApplyConfig_600_15($TypeReadSave)
 			GUICtrlSetData($g_hHeroMinUpgradeTime, $g_iHeroMinUpgradeTime)
 
 			GUICtrlSetState($g_hChkCustomEquipmentOrderEnable, $g_bChkCustomEquipmentOrderEnable ? $GUI_CHECKED : $GUI_UNCHECKED)
+			GUICtrlSetState($g_hChkFinishCurrentEquipmentFirst, $g_bChkFinishCurrentEquipmentFirst ? $GUI_CHECKED : $GUI_UNCHECKED)
 			For $z = 0 To UBound($g_ahCmbEquipmentOrder) - 1
 				GUICtrlSetState($g_hChkCustomEquipmentOrder[$z], $g_bChkCustomEquipmentOrder[$z] ? $GUI_CHECKED : $GUI_UNCHECKED)
 				_GUICtrlComboBox_SetCurSel($g_ahCmbEquipmentOrder[$z], $g_aiCmbCustomEquipmentOrder[$z])
@@ -1076,6 +1077,7 @@ Func ApplyConfig_600_15($TypeReadSave)
 			$g_bUseHeroBooks = (GUICtrlRead($g_hUseHeroBooks) = $GUI_CHECKED)
 			$g_iHeroMinUpgradeTime = GUICtrlRead($g_hHeroMinUpgradeTime)
 			$g_bChkCustomEquipmentOrderEnable = (GUICtrlRead($g_hChkCustomEquipmentOrderEnable) = $GUI_CHECKED)
+			$g_bChkFinishCurrentEquipmentFirst = (GUICtrlRead($g_hChkFinishCurrentEquipmentFirst) = $GUI_CHECKED)
 			For $z = 0 To UBound($g_ahCmbEquipmentOrder) - 1
 				$g_bChkCustomEquipmentOrder[$z] = (GUICtrlRead($g_hChkCustomEquipmentOrder[$z]) = $GUI_CHECKED)
 				$g_aiCmbCustomEquipmentOrder[$z] = _GUICtrlComboBox_GetCurSel($g_ahCmbEquipmentOrder[$z])
@@ -2683,6 +2685,7 @@ Func ApplyConfig_MOD_Humanization($TypeReadSave)
 			GUICtrlSetState($hAllowWar, $bAllowWar ? $GUI_CHECKED : $GUI_UNCHECKED)
 			GUICtrlSetState($hRefuseWar, $bRefuseWar ? $GUI_CHECKED : $GUI_UNCHECKED)
 			_GUICtrlComboBox_SetCurSel($g_acmbPriority[10], $g_iacmbPriority[10])
+			GUICtrlSetState($g_hChkAppBuilder, $g_bChkAppBuilder ? $GUI_CHECKED : $GUI_UNCHECKED)
 			chkUseBotHumanization()
 		Case "Save"
 			$g_bUseBotHumanization = (GUICtrlRead($g_hChkUseBotHumanization) = $GUI_CHECKED)
@@ -2696,6 +2699,7 @@ Func ApplyConfig_MOD_Humanization($TypeReadSave)
 			$bAllowWar = (GUICtrlRead($hAllowWar) = $GUI_CHECKED)
 			$bRefuseWar = (GUICtrlRead($hRefuseWar) = $GUI_CHECKED)
 			$g_iacmbPriority[10] = _GUICtrlComboBox_GetCurSel($g_acmbPriority[10])
+			$g_bChkAppBuilder = (GUICtrlRead($g_hChkAppBuilder) = $GUI_CHECKED)
 	EndSwitch
 EndFunc   ;==>ApplyConfig_MOD_Humanization
 

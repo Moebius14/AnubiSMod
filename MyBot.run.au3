@@ -862,6 +862,8 @@ Func runBot() ;Bot that runs everything in order
 				If CheckAndroidReboot() Then ContinueLoop 2 ; must be level 2 due to loop-in-loop
 			Next
 
+			AppBuilder()
+
 			If Not $g_bRunState Then Return
 			CheckDonateOften()
 

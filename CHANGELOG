@@ -75,7 +75,14 @@
 * Improved few obstacles detection. 
 * Added Full Support for Druid Troop.
 * Updated Pets Cost.
-* Fixed SCID Switch
+* Fixed SCID Switch.
+* Added Builder's Apprentice Support.
+* Updated Walls Cost.
+* Added Streak Event Window Support.
+* Added Choice To Finish Current Equipment Upgrade first.
+* Added New Survey Window Detection.
+* Updated Ban Window Detection.
+* Typo
 
 * v8.1.6 **
 * Added "Before you upgrade" window support.

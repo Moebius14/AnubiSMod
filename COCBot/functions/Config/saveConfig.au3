@@ -731,6 +731,7 @@ Func SaveConfig_600_15()
 	_Ini_Add("upgrade", "HeroMinUpgradeTime", $g_iHeroMinUpgradeTime)
 	; Equipment Order
 	_Ini_Add("upgrade", "ChkUpgradeEquipment", $g_bChkCustomEquipmentOrderEnable ? 1 : 0)
+	_Ini_Add("upgrade", "ChkFinishCurrentEquipmentFirst", $g_bChkFinishCurrentEquipmentFirst ? 1 : 0)
 	For $z = 0 To UBound($g_aiCmbCustomEquipmentOrder) - 1
 		_Ini_Add("upgrade", "ChkEquipment" & $z, $g_bChkCustomEquipmentOrder[$z] ? 1 : 0)
 		_Ini_Add("upgrade", "cmbEquipmentOrder" & $z, $g_aiCmbCustomEquipmentOrder[$z])
@@ -1452,6 +1453,7 @@ Func SaveConfig_MOD_Humanization()
 	_Ini_Add("Bot Humanization", "IschkAllowWar", $bAllowWar ? 1 : 0)
 	_Ini_Add("Bot Humanization", "IschkRefuseWar", $bRefuseWar ? 1 : 0)
 	_Ini_Add("Bot Humanization", "cmbPriority[10]", _GUICtrlComboBox_GetCurSel($g_acmbPriority[10]))
+	_Ini_Add("Bot Humanization", "IsChkAppBuilder", $g_bChkAppBuilder ? 1 : 0)
 EndFunc   ;==>SaveConfig_MOD_Humanization
 
 Func SaveConfig_MOD_Advanced()

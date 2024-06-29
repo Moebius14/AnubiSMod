@@ -728,14 +728,14 @@ Func ClickRemoveTroop($pos, $iTimes, $iSpeed)
 			Next
 		Else
 			For $i = 0 To ($iTimes - 1)
-				$iSpeed =  Random($StartiSpeed - $RandomClickTrainAddTimeMin, $StartiSpeed + $RandomClickTrainAddTimeMax, 1)
+				$iSpeed = Random($StartiSpeed - $RandomClickTrainAddTimeMin, $StartiSpeed + $RandomClickTrainAddTimeMax, 1)
 				PureClickTrain($pos[0], $pos[1], 1, $iSpeed) ;Click $iTimes.
 				$iSpeed = Random($StartiSpeed - $RandomClickTrainAddTimeMin, $StartiSpeed + $RandomClickTrainAddTimeMax, 1)
 			Next
 			If _Sleep($iSpeed, False) Then Return
 		EndIf
 	Else
-		$iSpeed =  Random($StartiSpeed - $RandomClickTrainAddTimeMin, $StartiSpeed + $RandomClickTrainAddTimeMax, 1)
+		$iSpeed = Random($StartiSpeed - $RandomClickTrainAddTimeMin, $StartiSpeed + $RandomClickTrainAddTimeMax, 1)
 		PureClickTrain($pos[0], $pos[1], 1, $iSpeed)
 		$iSpeed = Random($StartiSpeed - $RandomClickTrainAddTimeMin, $StartiSpeed + $RandomClickTrainAddTimeMax, 1)
 		If _Sleep($iSpeed, False) Then Return
@@ -755,7 +755,7 @@ Func GetSlotNumber($bSpells = False)
 		Case $bSpells = False
 			Local Const $Orders = [$eBarb, $eSBarb, $eArch, $eSArch, $eGiant, $eSGiant, $eGobl, $eSGobl, $eWall, $eSWall, $eBall, $eRBall, $eWiza, $eSWiza, $eHeal, $eDrag, $eSDrag, _
 					$eYeti, $eRDrag, $ePekk, $eBabyD, $eInfernoD, $eMine, $eSMine, $eEDrag, $eETitan, $eRootR, _
-					$eMini, $eSMini, $eHogs, $eSHogs, $eValk, $eSValk, $eGole, $eWitc, $eSWitc, $eLava, $eIceH, $eBowl, $eSBowl, $eIceG, $eHunt, $eAppWard, $eDruid,  _
+					$eMini, $eSMini, $eHogs, $eSHogs, $eValk, $eSValk, $eGole, $eWitc, $eSWitc, $eLava, $eIceH, $eBowl, $eSBowl, $eIceG, $eHunt, $eAppWard, $eDruid, _
 					$eGSkel, $eRGhost, $ePWiza, $eIWiza]
 
 			Local $allCurTroops[UBound($Orders)]
@@ -1274,14 +1274,14 @@ Func MakingDonatedTroops($sType = "All")
 							ExitLoop (2) ;
 						EndIf
 						If $avDefaultTroopGroup[$i][2] <= $RemainTrainSpace[2] And $avDefaultTroopGroup[$i][4] > 0 Then
-	;						Local $howMuch = 1
+							;						Local $howMuch = 1
 							Local $howMuch = Number($RemainTrainSpace[2] / $avDefaultTroopGroup[$i][2])
 							DragIfNeeded($avDefaultTroopGroup[$i][0])
 							TrainIt($iTroopIndex, $howMuch, $g_iTrainClickDelay)
 							If _Sleep($DELAYRESPOND) Then Return ; add 5ms delay to catch TrainIt errors, and force return to back to main loop
 							Local $sTroopName = $g_asTroopNames[$iTroopIndex]
 							SetLog(" - Trained " & $howMuch & " " & $sTroopName, $COLOR_ACTION)
-	;						$avDefaultTroopGroup[$i][4] -= 1
+							;						$avDefaultTroopGroup[$i][4] -= 1
 							$avDefaultTroopGroup[$i][4] -= $howMuch
 							If _Sleep(1000) Then Return ; Needed Delay, OCR was not picking up Troop Changes
 						Else
@@ -1506,7 +1506,11 @@ Func FillCCWMedals($g_bFullArmy = False, $g_bCheckSpells = False, $bFullArmyHero
 					SetLog("Cost Of Filling : " & $g_iCCMedalCost & " Medals", $COLOR_ACTION)
 					$g_iLootCCMedal -= Number($g_iCCMedalCost)
 					If Number($g_iLootCCMedal) <= Number($g_aiCmbCCMedalsSaveMin) Then
-						Click(315, 460 + $g_iMidOffsetY)
+						Local $CoordsX[2] = [280, 350]
+						Local $CoordsY[2] = [440 + $g_iMidOffsetY, 475 + $g_iMidOffsetY]
+						Local $ButtonClickX = Random($CoordsX[0], $CoordsX[1], 1)
+						Local $ButtonClickY = Random($CoordsY[0], $CoordsY[1], 1)
+						Click($ButtonClickX, $ButtonClickY, 1, 180, "CancelButton") ;Click Cancel
 						If _Sleep($DELAYBUILDINGINFO1) Then Return
 						ClearScreen()
 						$bRet = "NoMedal"
@@ -1515,7 +1519,9 @@ Func FillCCWMedals($g_bFullArmy = False, $g_bCheckSpells = False, $bFullArmyHero
 						If ProfileSwitchAccountEnabled() Then SwitchAccountVariablesReload("Save")
 						Return $bRet
 					EndIf
-					Click($g_iQuickMISX - 30, $g_iQuickMISY - 15)
+					Local $ButtonClickX = Random($g_iQuickMISX - 71, $g_iQuickMISX, 1)
+					Local $ButtonClickY = Random($g_iQuickMISY - 25, $g_iQuickMISY + 5, 1)
+					Click($ButtonClickX, $ButtonClickY, 1, 180, "BuyButton") ;Click Buy
 					$IsCCOpen = True
 					If _Sleep(1500) Then Return
 				EndIf
@@ -1549,13 +1555,19 @@ Func FillCCWMedals($g_bFullArmy = False, $g_bCheckSpells = False, $bFullArmyHero
 							SetLog("Cost Of Filling : " & $g_iCCMedalCost & " Medals", $COLOR_ACTION)
 							$g_iLootCCMedal -= $g_iCCMedalCost
 							If $g_iLootCCMedal <= $g_aiCmbCCMedalsSaveMin Then
-								Click(315, 460 + $g_iMidOffsetY)
+								Local $CoordsX[2] = [280, 350]
+								Local $CoordsY[2] = [440 + $g_iMidOffsetY, 475 + $g_iMidOffsetY]
+								Local $ButtonClickX = Random($CoordsX[0], $CoordsX[1], 1)
+								Local $ButtonClickY = Random($CoordsY[0], $CoordsY[1], 1)
+								Click($ButtonClickX, $ButtonClickY, 1, 180, "CancelButton") ;Click Cancel
 								If _Sleep($DELAYBUILDINGINFO1) Then Return
 								ClearScreen()
 								$bRet = "NoMedal"
 								ExitLoop
 							EndIf
-							Click($g_iQuickMISX - 30, $g_iQuickMISY - 15)
+							Local $ButtonClickX = Random($g_iQuickMISX - 71, $g_iQuickMISX, 1)
+							Local $ButtonClickY = Random($g_iQuickMISY - 25, $g_iQuickMISY + 5, 1)
+							Click($ButtonClickX, $ButtonClickY, 1, 180, "BuyButton") ;Click Buy
 							If _Sleep(1000) Then Return
 							$IsCCOpen = True
 							ExitLoop
@@ -1587,13 +1599,19 @@ Func FillCCWMedals($g_bFullArmy = False, $g_bCheckSpells = False, $bFullArmyHero
 							SetLog("Cost Of Filling : " & $g_iCCMedalCost & " Medals", $COLOR_ACTION)
 							$g_iLootCCMedal -= $g_iCCMedalCost
 							If $g_iLootCCMedal <= $g_aiCmbCCMedalsSaveMin Then
-								Click(315, 460 + $g_iMidOffsetY)
+								Local $CoordsX[2] = [280, 350]
+								Local $CoordsY[2] = [440 + $g_iMidOffsetY, 475 + $g_iMidOffsetY]
+								Local $ButtonClickX = Random($CoordsX[0], $CoordsX[1], 1)
+								Local $ButtonClickY = Random($CoordsY[0], $CoordsY[1], 1)
+								Click($ButtonClickX, $ButtonClickY, 1, 180, "CancelButton") ;Click Cancel
 								If _Sleep($DELAYBUILDINGINFO1) Then Return
 								ClearScreen()
 								$bRet = "NoMedal"
 								ExitLoop
 							EndIf
-							Click($g_iQuickMISX - 30, $g_iQuickMISY - 15)
+							Local $ButtonClickX = Random($g_iQuickMISX - 71, $g_iQuickMISX, 1)
+							Local $ButtonClickY = Random($g_iQuickMISY - 25, $g_iQuickMISY + 5, 1)
+							Click($ButtonClickX, $ButtonClickY, 1, 180, "BuyButton") ;Click Buy
 							If _Sleep(1000) Then Return
 							$IsCCOpen = True
 							ExitLoop

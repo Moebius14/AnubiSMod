@@ -45,6 +45,9 @@ Global Const $sImgClashOfMagicAdvert = @ScriptDir & "\imgxml\CheckObstacles\Clas
 Global Const $sImgClashNotResponding = @ScriptDir & "\imgxml\CheckObstacles\NotResp*"
 Global Const $g_sImgCOCUpdate = @ScriptDir & "\imgxml\CheckObstacles\COCUpdate*"
 Global Const $g_sImgClanCapitalResults = @ScriptDir & "\imgxml\other\CCResults*"
+Global Const $g_sImgLoading = @ScriptDir & "\imgxml\CheckObstacles\Loading*"
+Global Const $g_sImgInfoButton = @ScriptDir & "\imgxml\CheckObstacles\InfoButton*"
+Global Const $g_sImgNoThanks = @ScriptDir & "\imgxml\CheckObstacles\NoThks*"
 #EndRegion Obstacles
 
 #Region Main Village
@@ -91,6 +94,11 @@ Global $g_sImgRedZero = @ScriptDir & "\imgxml\Research\Blacksmith\RedZero\RedZer
 Global $g_sImgEventResource = @ScriptDir & "\imgxml\Event\Resource\"
 Global $g_sImgOresCollect = @ScriptDir & "\imgxml\Event\Ores\"
 Global $g_sImgClaimBonus = @ScriptDir & "\imgxml\DailyChallenge\"
+;Apprentice Builder
+Global $g_sImgGreenAssignButton = @ScriptDir & "\imgxml\Main Village\AppBuilder\"
+Global $ImgLocked = @ScriptDir & "\imgxml\Main Village\AppBuilder\Locked*"
+Global $ImgConfirmButton = @ScriptDir & "\imgxml\Main Village\AppBuilder\Confirm*"
+Global $ImgJobInProgress = @ScriptDir & "\imgxml\Main Village\AppBuilder\Job*"
 #EndRegion Main Village
 
 #Region Clan Capital

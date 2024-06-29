@@ -53,63 +53,33 @@ Func _checkObstacles($bBuilderBase = False, $bRecursive = False) ;Checks if some
 		If checkObstacles_GfxError() Then Return True
 	EndIf
 
-	If _ColorCheck(_GetPixelColor(810, 185 + $g_iMidOffsetY, $g_bCapturePixel), Hex(0x892B1F, 6), 20) Then
-		SetDebugLog("checkObstacles: Found Window to close")
-		PureClick(440, 510 + $g_iMidOffsetY, 1, 150, "#0132") ;See if village was attacked or upgrades finished : Click Okay
-		$g_abNotNeedAllTime[0] = True
-		$g_abNotNeedAllTime[1] = True
-		$g_bMinorObstacle = True
-		If _Sleep($DELAYCHECKOBSTACLES1) Then Return
-		Return False
-	EndIf
-
-	Local $bIsOnBuilderBase = isOnBuilderBase()
-	Local $bIsOnMainVillage = isOnMainVillage()
-	If $bIsOnBuilderBase Or $bIsOnMainVillage Then
-		Select
-			Case $bBuilderBase And Not $bIsOnBuilderBase And $bIsOnMainVillage
-				SetLog("Detected Main Village, trying to switch back to Builder Base")
-				$b_Switch = True
-			Case Not $bBuilderBase And $bIsOnBuilderBase And Not $bIsOnMainVillage
-				SetLog("Detected Builder Base, trying to switch back to Main Village")
-				$b_Switch = True
-		EndSelect
-		If $b_Switch Then
-			If SwitchBetweenBases(True, $bBuilderBase) Then
-				$g_bMinorObstacle = True
-				If _Sleep($DELAYCHECKOBSTACLES1) Then Return
-				Return False
-			EndIf
-		EndIf
-	EndIf
-
-	If UBound(decodeSingleCoord(FindImageInPlace2("Error", $g_sImgError, 630, 270 + $g_iMidOffsetY, 632, 290 + $g_iMidOffsetY, False))) > 1 Then
+	If UBound(decodeSingleCoord(FindImageInPlace2("Loading", $g_sImgLoading, 380, 570 + $g_iBottomOffsetY, 490, 620 + $g_iBottomOffsetY, False))) > 1 Then
 
 		;  Add check for banned account :(
-		$Result = getOcrReloadMessage(171, 358 + $g_iMidOffsetY, "Check Obstacles OCR 'policy at super'=") ; OCR text for "policy at super"
+		$Result = getOcrReloadMessage(290, 320 + $g_iMidOffsetY, "Check Obstacles OCR 'policy at super'=") ; OCR text for "policy at super"
 		If StringInStr($Result, "policy", $STR_NOCASESENSEBASIC) Then
 			$msg = "Sorry but account has been banned, Bot must stop!"
 			BanMsgBox()
 			Return checkObstacles_StopBot($msg) ; stop bot
 		EndIf
-		$Result = getOcrReloadMessage(171, 337 + $g_iMidOffsetY, "Check Obstacles OCR 'prohibited 3rd'= ") ; OCR text for "prohibited 3rd party"
+		$Result = getOcrReloadMessage(410, 276 + $g_iMidOffsetY, "Check Obstacles OCR 'prohibited 3rd'= ") ; OCR text for "prohibited 3rd party"
 		If StringInStr($Result, "3rd", $STR_NOCASESENSEBASIC) Then
 			$msg = "Sorry but account has been banned, Bot must stop!"
 			BanMsgBox()
 			Return checkObstacles_StopBot($msg) ; stop bot
 		EndIf
 
-		If TestCapture() Then Return "Village is out of sync or inactivity or connection lost"
-
-		;;;;;;;;;;;;;;;;;;;; Connection Lost & Error & OOS & Inactivity & Major Update;;;;;;;;;;;;;;;;;;;;
-		Return CheckAllObstacles($g_bDebugImageSave, 0, 4, $bRecursive)
-		;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-
 	EndIf
 
-	;;;;;;;;;;;;;;;;;;;; Google Play Or COC Error ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-	If CheckAllObstacles($g_bDebugImageSave, 5, 6, $bRecursive) Then Return True
-	;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+	If UBound(decodeSingleCoord(FindImageInPlace2("InfoButton", $g_sImgInfoButton, 740, 0, 840, 90 + $g_iMidOffsetY, False))) > 1 Then
+		Local $NoThanksButton = decodeSingleCoord(FindImageInPlace2("NoThanksButton", $g_sImgNoThanks, 100, 140 + $g_iMidOffsetY, 400, 235 + $g_iMidOffsetY, False))
+		If IsArray($NoThanksButton) And UBound($NoThanksButton) = 2 Then
+			SetLog("Detected Feedback Window!", $COLOR_INFO)
+			ClickP($NoThanksButton)
+			$g_bMinorObstacle = True
+			Return False
+		EndIf
+	EndIf
 
 	If UBound(decodeSingleCoord(FindImageInPlace2("Maintenance", $g_sImgMaintenance, 250, 40, 500, 100 + $g_iMidOffsetY, False))) > 1 Then ; Maintenance Break
 		$Result = getOcrMaintenanceTime(285, 581 + $g_iMidOffsetY, "Check Obstacles OCR Maintenance Break=") ; OCR text to find wait time
@@ -138,6 +108,30 @@ Func _checkObstacles($bBuilderBase = False, $bRecursive = False) ;Checks if some
 		checkObstacles_ResetSearch()
 	EndIf
 
+	If UBound(decodeSingleCoord(FindImageInPlace2("Error", $g_sImgError, 630, 270 + $g_iMidOffsetY, 632, 290 + $g_iMidOffsetY, False))) > 1 Then
+
+		If TestCapture() Then Return "Village is out of sync or inactivity or connection lost"
+
+		;;;;;;;;;;;;;;;;;;;; Connection Lost & Error & OOS & Inactivity & Major Update;;;;;;;;;;;;;;;;;;;;
+		Return CheckAllObstacles($g_bDebugImageSave, 0, 4, $bRecursive)
+		;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+	EndIf
+
+	;;;;;;;;;;;;;;;;;;;; Google Play Or COC Error ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+	If CheckAllObstacles($g_bDebugImageSave, 5, 6, $bRecursive) Then Return True
+	;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+	If _ColorCheck(_GetPixelColor(810, 185 + $g_iMidOffsetY, $g_bCapturePixel), Hex(0x892B1F, 6), 20) Then
+		SetDebugLog("checkObstacles: Found Window to close")
+		PureClick(440, 510 + $g_iMidOffsetY, 1, 150, "#0132") ;See if village was attacked or upgrades finished : Click Okay
+		$g_abNotNeedAllTime[0] = True
+		$g_abNotNeedAllTime[1] = True
+		$g_bMinorObstacle = True
+		If _Sleep($DELAYCHECKOBSTACLES1) Then Return
+		Return False
+	EndIf
+
 	If UBound(decodeSingleCoord(FindImageInPlace2("CCResults", $g_sImgClanCapitalResults, 210, 130 + $g_iMidOffsetY, 320, 240 + $g_iMidOffsetY, False))) > 1 Then ; Clan Capital Results
 		If _ColorCheck(_GetPixelColor(232, 312 + $g_iMidOffsetY, $g_bCapturePixel), Hex(0xFFFFFF, 6), 10) And _ColorCheck(_GetPixelColor(664, 242 + $g_iMidOffsetY, $g_bCapturePixel), Hex(0xFFFFFF, 6), 10) Then
 			$g_bMinorObstacle = True
@@ -147,12 +141,32 @@ Func _checkObstacles($bBuilderBase = False, $bRecursive = False) ;Checks if some
 		EndIf
 	EndIf
 
+	Local $bIsOnBuilderBase = isOnBuilderBase()
+	Local $bIsOnMainVillage = isOnMainVillage()
+	If $bIsOnBuilderBase Or $bIsOnMainVillage Then
+		Select
+			Case $bBuilderBase And Not $bIsOnBuilderBase And $bIsOnMainVillage
+				SetLog("Detected Main Village, trying to switch back to Builder Base")
+				$b_Switch = True
+			Case Not $bBuilderBase And $bIsOnBuilderBase And Not $bIsOnMainVillage
+				SetLog("Detected Builder Base, trying to switch back to Main Village")
+				$b_Switch = True
+		EndSelect
+		If $b_Switch Then
+			If SwitchBetweenBases(True, $bBuilderBase) Then
+				$g_bMinorObstacle = True
+				If _Sleep($DELAYCHECKOBSTACLES1) Then Return
+				Return False
+			EndIf
+		EndIf
+	EndIf
+
 	Local $bHasTopBlackBar = _ColorCheck(_GetPixelColor(10, 3, $g_bCapturePixel), Hex(0x000000, 6), 1) And _ColorCheck(_GetPixelColor(300, 6, $g_bCapturePixel), Hex(0x000000, 6), 1) And _
 			_ColorCheck(_GetPixelColor(600, 9, $g_bCapturePixel), Hex(0x000000, 6), 1)
 	If Not $bHasTopBlackBar And _CheckPixel($aIsMainGrayed, $g_bCapturePixel) Then
 		SetDebugLog("checkObstacles: Found gray Window to close")
 		Local $aConfirmButton = findButton("ConfirmButton", Default, 1, True)
-		If IsArray($aConfirmButton) And UBound($aConfirmButton, 1) = 2 Then
+		If IsArray($aConfirmButton) And UBound($aConfirmButton) = 2 Then
 			ClickP($aConfirmButton)
 			If _Sleep(1500) Then Return
 		Else
@@ -436,14 +450,14 @@ Func CheckAllObstacles($bDebugImageSave = $g_bDebugImageSave, $MinType = 0, $Max
 		$aiObstacleType[$i][0] = decodeSingleCoord(FindImageInPlace2("ErrorType", $aiObstacleType[$i][2], $aiObstacleType[$i][3], $aiObstacleType[$i][4] + _
 				$g_iMidOffsetY, $aiObstacleType[$i][5], $aiObstacleType[$i][6] + $g_iMidOffsetY, False))
 
-		If IsArray($aiObstacleType[$i][0]) And UBound($aiObstacleType[$i][0], 1) = 2 Then
+		If IsArray($aiObstacleType[$i][0]) And UBound($aiObstacleType[$i][0]) = 2 Then
 
 			SetLog($aiObstacleType[$i][1] & " (in " & Round(TimerDiff($hTimer) / 1000, 2) & " seconds)", $COLOR_INFO)
 
 			If $i = 0 Then
 				$aiObstacleType[7][0] = decodeSingleCoord(FindImageInPlace2("Device", $aiObstacleType[7][2], $aiObstacleType[7][3], $aiObstacleType[7][4] + _
 						$g_iMidOffsetY, $aiObstacleType[7][5], $aiObstacleType[7][6] + $g_iMidOffsetY, False))
-				If IsArray($aiObstacleType[7][0]) And UBound($aiObstacleType[7][0], 1) = 2 Then
+				If IsArray($aiObstacleType[7][0]) And UBound($aiObstacleType[7][0]) = 2 Then
 					SetLog($aiObstacleType[7][1] & " (in " & Round(TimerDiff($hTimer) / 1000, 2) & " seconds)", $COLOR_INFO)
 					If $g_iAnotherDeviceWaitTime > 3600 Then
 						SetLog("Another Device has connected, waiting " & Floor(Floor($g_iAnotherDeviceWaitTime / 60) / 60) & " hours " & Floor(Mod(Floor($g_iAnotherDeviceWaitTime / 60), 60)) & " minutes " & Floor(Mod($g_iAnotherDeviceWaitTime, 60)) & " seconds", $COLOR_ERROR)

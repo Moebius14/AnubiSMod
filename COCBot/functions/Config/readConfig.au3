@@ -821,6 +821,7 @@ Func ReadConfig_600_15()
 	IniReadS($g_iHeroMinUpgradeTime, $g_sProfileConfigPath, "upgrade", "HeroMinUpgradeTime", 5, "int")
 	; Equipment Order
 	IniReadS($g_bChkCustomEquipmentOrderEnable, $g_sProfileConfigPath, "upgrade", "ChkUpgradeEquipment", False, "Bool")
+	IniReadS($g_bChkFinishCurrentEquipmentFirst, $g_sProfileConfigPath, "upgrade", "ChkFinishCurrentEquipmentFirst", True, "Bool")
 	For $z = 0 To UBound($g_aiCmbCustomEquipmentOrder) - 1
 		IniReadS($g_bChkCustomEquipmentOrder[$z], $g_sProfileConfigPath, "upgrade", "ChkEquipment" & $z, False, "Bool")
 		IniReadS($g_aiCmbCustomEquipmentOrder[$z], $g_sProfileConfigPath, "upgrade", "cmbEquipmentOrder" & $z, -1)
@@ -1533,6 +1534,7 @@ Func ReadConfig_MOD_Humanization()
 	IniReadS($bAllowWar, $g_sProfileConfigPath, "Bot Humanization", "IschkAllowWar", $bAllowWar, "Bool")
 	IniReadS($bRefuseWar, $g_sProfileConfigPath, "Bot Humanization", "IschkRefuseWar", $bRefuseWar, "Bool")
 	IniReadS($g_iacmbPriority[10], $g_sProfileConfigPath, "Bot Humanization", "cmbPriority[10]", $g_iacmbPriority[10], "int")
+	IniReadS($g_bChkAppBuilder, $g_sProfileConfigPath, "Bot Humanization", "IsChkAppBuilder", $g_bChkAppBuilder, "Bool")
 EndFunc   ;==>ReadConfig_MOD_Humanization
 
 Func ReadConfig_MOD_Advanced()

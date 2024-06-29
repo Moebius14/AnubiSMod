@@ -3278,10 +3278,12 @@ Func CheckWarTime(ByRef $sResult, ByRef $bResult, $bReturnFrom = True, $WWR = Fa
 			For $t = 0 To 4 ; Check 5 times
 				If QuickMIS("BC1", $directoryDay & "\CWL_BattleDay", 175, 585 + $g_iBottomOffsetY, 690, 625 + $g_iBottomOffsetY) Then
 					If $xBattleDay > 0 Then Click($g_iQuickMISX - ($xBattleDay * 76) - 5, 615 + $g_iBottomOffsetY)
+					If _Sleep(Random(3000, 5000, 1)) Then Return
 					ExitLoop
 				Else
 					If QuickMIS("BC1", $directoryDay2, 175, 585 + $g_iBottomOffsetY, 690, 625 + $g_iBottomOffsetY) Then
 						If $xBattleDay > 0 Then Click($g_iQuickMISX - ($xBattleDay * 76) - 5, 615 + $g_iBottomOffsetY)
+						If _Sleep(Random(3000, 5000, 1)) Then Return
 						ExitLoop
 					EndIf
 				EndIf

@@ -277,7 +277,8 @@ Func GetButtonDiamond($sButtonName)
 		Case "EventFailed"
 			$btnDiamond = GetDiamondFromRect("230,180,777,560")
 		Case "ObjectButtons", "BoostOne", "BoostCT", "ClockTowerPot", "Upgrade", "Research", "Treasury", "RemoveObstacle", "CollectLootCart", "Pets", "HeroBooks", _
-				"LabPotion", "LabBoosted", "BuilderPot", "Reinforce", "Info", "THWeapon", "WallRing", "GearUp", "PetPotion", "PetBoosted", "MagicItems", "Equipment", "FinishNow" ; Full size of object buttons at the bottom
+				"LabPotion", "LabBoosted", "BuilderPot", "Reinforce", "Info", "THWeapon", "WallRing", "GearUp", "PetPotion", "PetBoosted", "MagicItems", "Equipment", "FinishNow", _
+				"BuildersApp" ; Full size of object buttons at the bottom
 			$btnDiamond = GetDiamondFromRect2(140, 500 + $g_iBottomOffsetY, 720, 590 + $g_iBottomOffsetY)
 		Case "Info"
 			$btnDiamond = GetDiamondFromRect2(140, 540 + $g_iBottomOffsetY, 720, 640 + $g_iBottomOffsetY)
