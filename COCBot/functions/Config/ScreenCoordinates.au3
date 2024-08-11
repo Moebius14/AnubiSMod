@@ -90,7 +90,7 @@ Global $aVillageHasDarkElixir[4] = [837, 134, 0x3D2D3D, 10] ; Main Page, Base ha
 Global $aCheckTopProfile[4] = [130, 350 + $g_iMidOffsetY, 0x6B7899, 5]
 Global $aCheckTopProfile2[4] = [160, 455 + $g_iMidOffsetY, 0x4E4D79, 5]
 
-Global $aIsTabOpen[4] = [0, 145 + $g_iMidOffsetY, 0xECECE5, 25];Check if specific Tab is opened, X Coordinate is a dummy
+Global $aIsTabOpen[4] = [0, 145 + $g_iMidOffsetY, 0xECECE5, 25] ;Check if specific Tab is opened, X Coordinate is a dummy
 
 Global $aReceivedTroops[5] = [567, 200 + $g_iMidOffsetY, 0xFFFFFF, 20, 60] ; Y of You have received blabla from xx!
 Global $aReceivedTroopsOCR[5] = [400, 158 + $g_iMidOffsetY, 0xFFFFFF, 20, 20] ; Y of You have received blabla from xx!
@@ -100,6 +100,10 @@ Global $aReceivedTroopsTreasury[5] = [560, 140 + $g_iMidOffsetY, 0xFFFFFF, 20, 3
 Global $aReceivedTroopsWeeklyDeals[5] = [240, 180 + $g_iMidOffsetY, 0xFFFFFF, 20, 30] ; Y of You have received blabla from xx!
 Global $aReceivedTroopsRaidMedals[5] = [240, 225 + $g_iMidOffsetY, 0xFFFFFF, 20, 30] ; Y of You have received blabla from xx!
 Global $aBoostTroopsWindow[5] = [330, 100 + $g_iMidOffsetY, 0xFFFFFF, 20, 50] ; Y of You have received blabla from xx!
+Global $aBuidersAppWindowTop[5] = [650, 90 + $g_iMidOffsetY, 0xFFFFFF, 20, 30] ; Y of You have received blabla from xx!
+Global $aBuidersAppWindowMid[5] = [397, 165 + $g_iMidOffsetY, 0xFFFFFF, 20, 145] ; Y of You have received blabla from xx!
+Global $aBuidersAppWindowConfirm[5] = [640, 160 + $g_iMidOffsetY, 0xFFFFFF, 15, 35] ; Y of You have received blabla from xx!
+Global $aReceivedTroopsCG[5] = [407, 160 + $g_iMidOffsetY, 0xFFFFFF, 15, 145] ; Y of You have received blabla from xx!
 
 ; King Health Bar, check at the middle of the bar, index - 10 is x-offset added to middle of health bar
 Global $aKingHealth = [-1, 569 + $g_iBottomOffsetY, 0x00D500, 15, 10]
@@ -150,8 +154,7 @@ Global $aButtonSetting[4] = [824, 555 + $g_iMidOffsetY, 0xFFFFFF, 10] ; Setting 
 Global $aIsSettingPage[4] = [778, 65 + $g_iMidOffsetY, 0xFF9095, 10] ; Main Screen, Setting page open - left upper corner of x button
 
 ;SuperCell ID
-Global $aButtonConnectedSCID[4] = [640, 160 + $g_iMidOffsetY, 0x2D89FD, 20] ; Setting screen, Supercell ID Connected button (Blue Part)
-Global $aCloseTabSCID[4] = [831, 57] ; Button Close Supercell ID tab
+Global $aCloseTabSCID[4] = [825, 35] ; Button Close Supercell ID tab, June 24
 
 ;Train
 Global $aButtonEditArmy[4] = [700, 495 + $g_iMidOffsetY, 0xD0F078, 25]
@@ -187,5 +190,5 @@ Global $aOpenedChatSelectTextBox[4] = [100, 650 + $g_iBottomOffsetY, 0xFFFFFF, 1
 Global $aChatSendBtn[4] = [840, 645 + $g_iBottomOffsetY, 0xFFFFFF, 10] ; color white Send Chat Textbox
 
 ;Event
-Global Const $aEventLeftEdge[4] = [45, 385 + $g_iMidOffsetY, 0x29231F, 20]
-Global Const $aEventRightEdge[4] = [810, 385 + $g_iMidOffsetY, 0x29231F, 20]
+Global Const $aEventLeftEdge[4] = [45, 403 + $g_iMidOffsetY, 0x29231F, 20]
+Global Const $aEventRightEdge[4] = [810, 403 + $g_iMidOffsetY, 0x29231F, 20]

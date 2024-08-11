@@ -175,7 +175,7 @@ Func ReturnHome($TakeSS = 1, $GoldChangeCheck = True) ;Return main screen
 		SetDebugLog("Wait for End Fight Scene to appear #" & $i)
 		If _CheckPixel($aEndFightSceneAvl, $g_bCapturePixel) Then ; check for the gold ribbon in the end of battle data screen
 			If IsReturnHomeBattlePage(True) Then
-				ClickP($aReturnHomeButton, 1, 0, "#0101") ;Click Return Home Button
+				ClickP($aReturnHomeButton, 1, 160, "#0101") ;Click Return Home Button
 				; sometimes 1st click is not closing, so try again
 				$iExitLoop = $i
 			EndIf
@@ -219,7 +219,7 @@ Func ReturnfromDropTrophies()
 	For $i = 0 To 5 ; dynamic wait loop for surrender button to appear (if end battle or surrender button are not found in 5*(200)ms + 10*(200)ms or 3 seconds, then give up.)
 		$aiSurrenderButton = findButton("Surrender", Default, 1, True)
 		If IsArray($aiSurrenderButton) And UBound($aiSurrenderButton, 1) = 2 Then
-			ClickP($aiSurrenderButton, 1, 0, "#0099") ;Click Surrender
+			ClickP($aiSurrenderButton, 1, 160, "#0099") ;Click Surrender
 			If _Sleep(500) Then Return
 			Local $j = 0
 			While 1 ; dynamic wait for Okay button
@@ -245,7 +245,7 @@ Func ReturnfromDropTrophies()
 		SetDebugLog("Wait for End Fight Scene to appear #" & $i)
 		If _CheckPixel($aEndFightSceneAvl, $g_bCapturePixel) Then ; check for the gold ribbon in the end of battle data screen
 			If IsReturnHomeBattlePage(True) Then
-				ClickP($aReturnHomeButton, 1, 0, "#0101") ;Click Return Home Button
+				ClickP($aReturnHomeButton, 1, 160, "#0101") ;Click Return Home Button
 				; sometimes 1st click is not closing, so try again
 				$iExitLoop = $i
 			EndIf

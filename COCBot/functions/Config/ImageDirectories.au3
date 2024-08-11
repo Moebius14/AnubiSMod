@@ -99,6 +99,7 @@ Global $g_sImgGreenAssignButton = @ScriptDir & "\imgxml\Main Village\AppBuilder\
 Global $ImgLocked = @ScriptDir & "\imgxml\Main Village\AppBuilder\Locked*"
 Global $ImgConfirmButton = @ScriptDir & "\imgxml\Main Village\AppBuilder\Confirm*"
 Global $ImgJobInProgress = @ScriptDir & "\imgxml\Main Village\AppBuilder\Job*"
+Global $ImgAssignMini = @ScriptDir & "\imgxml\Main Village\AppBuilder\AssignMini*"
 #EndRegion Main Village
 
 #Region Clan Capital

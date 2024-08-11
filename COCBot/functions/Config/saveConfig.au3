@@ -1453,7 +1453,7 @@ Func SaveConfig_MOD_Humanization()
 	_Ini_Add("Bot Humanization", "IschkAllowWar", $bAllowWar ? 1 : 0)
 	_Ini_Add("Bot Humanization", "IschkRefuseWar", $bRefuseWar ? 1 : 0)
 	_Ini_Add("Bot Humanization", "cmbPriority[10]", _GUICtrlComboBox_GetCurSel($g_acmbPriority[10]))
-	_Ini_Add("Bot Humanization", "IsChkAppBuilder", $g_bChkAppBuilder ? 1 : 0)
+	_Ini_Add("Bot Humanization", "IsChkAppBuilder", _GUICtrlComboBox_GetCurSel($g_hChkAppBuilder))
 EndFunc   ;==>SaveConfig_MOD_Humanization
 
 Func SaveConfig_MOD_Advanced()

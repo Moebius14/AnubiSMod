@@ -2685,7 +2685,7 @@ Func ApplyConfig_MOD_Humanization($TypeReadSave)
 			GUICtrlSetState($hAllowWar, $bAllowWar ? $GUI_CHECKED : $GUI_UNCHECKED)
 			GUICtrlSetState($hRefuseWar, $bRefuseWar ? $GUI_CHECKED : $GUI_UNCHECKED)
 			_GUICtrlComboBox_SetCurSel($g_acmbPriority[10], $g_iacmbPriority[10])
-			GUICtrlSetState($g_hChkAppBuilder, $g_bChkAppBuilder ? $GUI_CHECKED : $GUI_UNCHECKED)
+			_GUICtrlComboBox_SetCurSel($g_hChkAppBuilder, $g_bChkAppBuilder)
 			chkUseBotHumanization()
 		Case "Save"
 			$g_bUseBotHumanization = (GUICtrlRead($g_hChkUseBotHumanization) = $GUI_CHECKED)
@@ -2699,7 +2699,7 @@ Func ApplyConfig_MOD_Humanization($TypeReadSave)
 			$bAllowWar = (GUICtrlRead($hAllowWar) = $GUI_CHECKED)
 			$bRefuseWar = (GUICtrlRead($hRefuseWar) = $GUI_CHECKED)
 			$g_iacmbPriority[10] = _GUICtrlComboBox_GetCurSel($g_acmbPriority[10])
-			$g_bChkAppBuilder = (GUICtrlRead($g_hChkAppBuilder) = $GUI_CHECKED)
+			$g_bChkAppBuilder = _GUICtrlComboBox_GetCurSel($g_hChkAppBuilder)
 	EndSwitch
 EndFunc   ;==>ApplyConfig_MOD_Humanization
 

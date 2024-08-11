@@ -253,38 +253,70 @@ Func PetHouse($test = False)
 
 			Switch $g_iTownHallLevel
 				Case 14
-					If $i <= 2 Then $g_ePetLevels[$i] = 10
-				Case 15
 					Switch $BuildingInfo[2]
-						Case 1 To 4
-							If $i <= 2 Then $g_ePetLevels[$i] = 10
-							If $i > 3 Then ContinueLoop
-						Case 5
-							If $i = 0 Then
-								$g_ePetLevels[$i] = 15
-							ElseIf $i > 0 And $i <= 4 Then
+						Case 1
+							$g_ePetLevels[$i] = 10
+							If $i > 0 Then ContinueLoop
+						Case 2
+							$g_ePetLevels[$i] = 10
+							If $i > 1 Then ContinueLoop
+						Case 3
+							If $i <= 2 Then
 								$g_ePetLevels[$i] = 10
 							Else
 								ContinueLoop
 							EndIf
-						Case 6
-							If $i = 0 Then
-								$g_ePetLevels[$i] = 15
-							ElseIf $i > 0 And $i <= 5 Then
+						Case 4
+							If $i <= 2 Then
+								$g_ePetLevels[$i] = 10
+							ElseIf $i > 3 Then
+								ContinueLoop
+							EndIf
+						Case Else
+							$g_ePetLevels[$i] = 10
+					EndSwitch
+				Case 15
+					Switch $BuildingInfo[2]
+						Case 1
+							$g_ePetLevels[$i] = 10
+							If $i > 0 Then ContinueLoop
+						Case 2
+							$g_ePetLevels[$i] = 10
+							If $i > 1 Then ContinueLoop
+						Case 3
+							If $i <= 2 Then
 								$g_ePetLevels[$i] = 10
 							Else
+								ContinueLoop
+							EndIf
+						Case 4
+							If $i <= 2 Then
+								$g_ePetLevels[$i] = 10
+							ElseIf $i > 3 Then
+								ContinueLoop
+							EndIf
+						Case 5
+							If $i > 0 And $i <= 4 Then
+								$g_ePetLevels[$i] = 10
+							ElseIf $i >= 5 Then
+								ContinueLoop
+							EndIf
+						Case 6
+							If $i > 0 And $i <= 5 Then
+								$g_ePetLevels[$i] = 10
+							ElseIf $i >= 6 Then
 								ContinueLoop
 							EndIf
 						Case 7
 							If $i > 0 And $i <> 2 And $i <= 6 Then
 								$g_ePetLevels[$i] = 10
-							Else
+							ElseIf $i >= 7 Then
 								ContinueLoop
 							EndIf
 						Case 8
 							If $i > 0 And $i <> 2 And $i <= 7 Then
 								$g_ePetLevels[$i] = 10
-							Else
+							ElseIf $i >= 8 Then
 								ContinueLoop
 							EndIf
 						Case Else
@@ -292,35 +324,46 @@ Func PetHouse($test = False)
 					EndSwitch
 				Case 16
 					Switch $BuildingInfo[2]
-						Case 1 To 4
-							If $i <= 2 Then $g_ePetLevels[$i] = 10
-							If $i > 3 Then ContinueLoop
-						Case 5
-							If $i = 0 Then
-								$g_ePetLevels[$i] = 15
-							ElseIf $i > 0 And $i <= 4 Then
+						Case 1
+							$g_ePetLevels[$i] = 10
+							If $i > 0 Then ContinueLoop
+						Case 2
+							$g_ePetLevels[$i] = 10
+							If $i > 1 Then ContinueLoop
+						Case 3
+							If $i <= 2 Then
 								$g_ePetLevels[$i] = 10
 							Else
 								ContinueLoop
 							EndIf
-						Case 6
-							If $i = 0 Then
-								$g_ePetLevels[$i] = 15
-							ElseIf $i > 0 And $i <= 5 Then
+						Case 4
+							If $i <= 2 Then
 								$g_ePetLevels[$i] = 10
-							Else
+							ElseIf $i > 3 Then
+								ContinueLoop
+							EndIf
+						Case 5
+							If $i > 0 And $i <= 4 Then
+								$g_ePetLevels[$i] = 10
+							ElseIf $i >= 5 Then
+								ContinueLoop
+							EndIf
+						Case 6
+							If $i > 0 And $i <= 5 Then
+								$g_ePetLevels[$i] = 10
+							ElseIf $i >= 6 Then
 								ContinueLoop
 							EndIf
 						Case 7
 							If $i > 0 And $i <> 2 And $i <= 6 Then
 								$g_ePetLevels[$i] = 10
-							Else
+							ElseIf $i >= 7 Then
 								ContinueLoop
 							EndIf
 						Case 8
 							If $i > 0 And $i <> 2 And $i <= 7 Then
 								$g_ePetLevels[$i] = 10
-							Else
+							ElseIf $i >= 8 Then
 								ContinueLoop
 							EndIf
 						Case 9
@@ -477,7 +520,7 @@ EndFunc   ;==>CheckPetUpgrade
 ; checks our global variable to see if we know of something already upgrading
 Func PetUpgradeInProgress()
 	Local $TimeDiff ; time remaining on lab upgrade
-	If $g_sPetUpgradeTime <> "" Then $TimeDiff = _DateDiff("n", _NowCalc(), $g_sPetUpgradeTime) ; what is difference between end time and now in minutes?
+	If $g_sPetUpgradeTime <> "" Then $TimeDiff = _DateDiff('n', _NowCalc(), $g_sPetUpgradeTime) ; what is difference between end time and now in minutes?
 	If @error Then _logErrorDateDiff(@error)
 
 	If Not $g_bRunState Then Return
@@ -713,38 +756,68 @@ Func GetMinDark4PetUpgrade($PetHouseLevel = 0)
 
 		Switch $g_iTownHallLevel
 			Case 14
-				If $i <= 2 Then $g_ePetLevels[$i] = 10
-			Case 15
 				Switch $PetHouseLevel
-					Case 1 To 4
-						If $i <= 2 Then $g_ePetLevels[$i] = 10
-						If $i > 3 Then ContinueLoop
-					Case 5
-						If $i = 0 Then
-							$g_ePetLevels[$i] = 15
-						ElseIf $i > 0 And $i <= 4 Then
+					Case 1
+						$g_ePetLevels[$i] = 10
+						If $i > 0 Then ContinueLoop
+					Case 2
+						$g_ePetLevels[$i] = 10
+						If $i > 1 Then ContinueLoop
+					Case 3
+						If $i <= 2 Then
 							$g_ePetLevels[$i] = 10
 						Else
 							ContinueLoop
 						EndIf
-					Case 6
-						If $i = 0 Then
-							$g_ePetLevels[$i] = 15
-						ElseIf $i > 0 And $i <= 5 Then
+					Case 4
+						If $i <= 2 Then
+							$g_ePetLevels[$i] = 10
+						ElseIf $i > 3 Then
+							ContinueLoop
+						EndIf
+				EndSwitch
+			Case 15
+				Switch $PetHouseLevel
+					Case 1
+						$g_ePetLevels[$i] = 10
+						If $i > 0 Then ContinueLoop
+					Case 2
+						$g_ePetLevels[$i] = 10
+						If $i > 1 Then ContinueLoop
+					Case 3
+						If $i <= 2 Then
 							$g_ePetLevels[$i] = 10
 						Else
+							ContinueLoop
+						EndIf
+					Case 4
+						If $i <= 2 Then
+							$g_ePetLevels[$i] = 10
+						ElseIf $i > 3 Then
+							ContinueLoop
+						EndIf
+					Case 5
+						If $i > 0 And $i <= 4 Then
+							$g_ePetLevels[$i] = 10
+						ElseIf $i >= 5 Then
+							ContinueLoop
+						EndIf
+					Case 6
+						If $i > 0 And $i <= 5 Then
+							$g_ePetLevels[$i] = 10
+						ElseIf $i >= 6 Then
 							ContinueLoop
 						EndIf
 					Case 7
 						If $i > 0 And $i <> 2 And $i <= 6 Then
 							$g_ePetLevels[$i] = 10
-						Else
+						ElseIf $i >= 7 Then
 							ContinueLoop
 						EndIf
 					Case 8
 						If $i > 0 And $i <> 2 And $i <= 7 Then
 							$g_ePetLevels[$i] = 10
-						Else
+						ElseIf $i >= 8 Then
 							ContinueLoop
 						EndIf
 					Case Else
@@ -752,35 +825,46 @@ Func GetMinDark4PetUpgrade($PetHouseLevel = 0)
 				EndSwitch
 			Case 16
 				Switch $PetHouseLevel
-					Case 1 To 4
-						If $i <= 2 Then $g_ePetLevels[$i] = 10
-						If $i > 3 Then ContinueLoop
-					Case 5
-						If $i = 0 Then
-							$g_ePetLevels[$i] = 15
-						ElseIf $i > 0 And $i <= 4 Then
+					Case 1
+						$g_ePetLevels[$i] = 10
+						If $i > 0 Then ContinueLoop
+					Case 2
+						$g_ePetLevels[$i] = 10
+						If $i > 1 Then ContinueLoop
+					Case 3
+						If $i <= 2 Then
 							$g_ePetLevels[$i] = 10
 						Else
 							ContinueLoop
 						EndIf
-					Case 6
-						If $i = 0 Then
-							$g_ePetLevels[$i] = 15
-						ElseIf $i > 0 And $i <= 5 Then
+					Case 4
+						If $i <= 2 Then
 							$g_ePetLevels[$i] = 10
-						Else
+						ElseIf $i > 3 Then
+							ContinueLoop
+						EndIf
+					Case 5
+						If $i > 0 And $i <= 4 Then
+							$g_ePetLevels[$i] = 10
+						ElseIf $i >= 5 Then
+							ContinueLoop
+						EndIf
+					Case 6
+						If $i > 0 And $i <= 5 Then
+							$g_ePetLevels[$i] = 10
+						ElseIf $i >= 6 Then
 							ContinueLoop
 						EndIf
 					Case 7
 						If $i > 0 And $i <> 2 And $i <= 6 Then
 							$g_ePetLevels[$i] = 10
-						Else
+						ElseIf $i >= 7 Then
 							ContinueLoop
 						EndIf
 					Case 8
 						If $i > 0 And $i <> 2 And $i <= 7 Then
 							$g_ePetLevels[$i] = 10
-						Else
+						ElseIf $i >= 8 Then
 							ContinueLoop
 						EndIf
 					Case 9
@@ -944,38 +1028,68 @@ Func GetPetUpgradeList($PetHouseLevel = 0)
 
 			Switch $g_iTownHallLevel
 				Case 14
-					If $i <= 2 Then $g_ePetLevels[$i] = 10
-				Case 15
 					Switch $PetHouseLevel
-						Case 1 To 4
-							If $i <= 2 Then $g_ePetLevels[$i] = 10
-							If $i > 3 Then ContinueLoop
-						Case 5
-							If $i = 0 Then
-								$g_ePetLevels[$i] = 15
-							ElseIf $i > 0 And $i <= 4 Then
+						Case 1
+							$g_ePetLevels[$i] = 10
+							If $i > 0 Then ContinueLoop
+						Case 2
+							$g_ePetLevels[$i] = 10
+							If $i > 1 Then ContinueLoop
+						Case 3
+							If $i <= 2 Then
 								$g_ePetLevels[$i] = 10
 							Else
 								ContinueLoop
 							EndIf
-						Case 6
-							If $i = 0 Then
-								$g_ePetLevels[$i] = 15
-							ElseIf $i > 0 And $i <= 5 Then
+						Case 4
+							If $i <= 2 Then
+								$g_ePetLevels[$i] = 10
+							ElseIf $i > 3 Then
+								ContinueLoop
+							EndIf
+					EndSwitch
+				Case 15
+					Switch $PetHouseLevel
+						Case 1
+							$g_ePetLevels[$i] = 10
+							If $i > 0 Then ContinueLoop
+						Case 2
+							$g_ePetLevels[$i] = 10
+							If $i > 1 Then ContinueLoop
+						Case 3
+							If $i <= 2 Then
 								$g_ePetLevels[$i] = 10
 							Else
+								ContinueLoop
+							EndIf
+						Case 4
+							If $i <= 2 Then
+								$g_ePetLevels[$i] = 10
+							ElseIf $i > 3 Then
+								ContinueLoop
+							EndIf
+						Case 5
+							If $i > 0 And $i <= 4 Then
+								$g_ePetLevels[$i] = 10
+							ElseIf $i >= 5 Then
+								ContinueLoop
+							EndIf
+						Case 6
+							If $i > 0 And $i <= 5 Then
+								$g_ePetLevels[$i] = 10
+							ElseIf $i >= 6 Then
 								ContinueLoop
 							EndIf
 						Case 7
 							If $i > 0 And $i <> 2 And $i <= 6 Then
 								$g_ePetLevels[$i] = 10
-							Else
+							ElseIf $i >= 7 Then
 								ContinueLoop
 							EndIf
 						Case 8
 							If $i > 0 And $i <> 2 And $i <= 7 Then
 								$g_ePetLevels[$i] = 10
-							Else
+							ElseIf $i >= 8 Then
 								ContinueLoop
 							EndIf
 						Case Else
@@ -983,35 +1097,46 @@ Func GetPetUpgradeList($PetHouseLevel = 0)
 					EndSwitch
 				Case 16
 					Switch $PetHouseLevel
-						Case 1 To 4
-							If $i <= 2 Then $g_ePetLevels[$i] = 10
-							If $i > 3 Then ContinueLoop
-						Case 5
-							If $i = 0 Then
-								$g_ePetLevels[$i] = 15
-							ElseIf $i > 0 And $i <= 4 Then
+						Case 1
+							$g_ePetLevels[$i] = 10
+							If $i > 0 Then ContinueLoop
+						Case 2
+							$g_ePetLevels[$i] = 10
+							If $i > 1 Then ContinueLoop
+						Case 3
+							If $i <= 2 Then
 								$g_ePetLevels[$i] = 10
 							Else
 								ContinueLoop
 							EndIf
-						Case 6
-							If $i = 0 Then
-								$g_ePetLevels[$i] = 15
-							ElseIf $i > 0 And $i <= 5 Then
+						Case 4
+							If $i <= 2 Then
 								$g_ePetLevels[$i] = 10
-							Else
+							ElseIf $i > 3 Then
+								ContinueLoop
+							EndIf
+						Case 5
+							If $i > 0 And $i <= 4 Then
+								$g_ePetLevels[$i] = 10
+							ElseIf $i >= 5 Then
+								ContinueLoop
+							EndIf
+						Case 6
+							If $i > 0 And $i <= 5 Then
+								$g_ePetLevels[$i] = 10
+							ElseIf $i >= 6 Then
 								ContinueLoop
 							EndIf
 						Case 7
 							If $i > 0 And $i <> 2 And $i <= 6 Then
 								$g_ePetLevels[$i] = 10
-							Else
+							ElseIf $i >= 7 Then
 								ContinueLoop
 							EndIf
 						Case 8
 							If $i > 0 And $i <> 2 And $i <= 7 Then
 								$g_ePetLevels[$i] = 10
-							Else
+							ElseIf $i >= 8 Then
 								ContinueLoop
 							EndIf
 						Case 9

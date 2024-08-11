@@ -16,8 +16,8 @@
 Func imglocCheckWall()
 	Local $iXClickOffset = 0
 	Local $iYClickOffset = 0
-	Local $iXRange = 16
-	Local $iYRange = 14
+	Local $iXRange = 20
+	Local $iYRange = 20
 	Local $iLastGoodWallx = $g_aiLastGoodWallPos[0]
 	Local $iLastGoodWally = $g_aiLastGoodWallPos[1]
 	ConvertToVillagePos($iLastGoodWallx, $iLastGoodWally)
@@ -65,7 +65,7 @@ Func imglocCheckWall()
 	Else
 		For $i = 0 To UBound($FoundWalls) - 1
 			Local $WallCoordsArray = decodeMultipleCoords($FoundWalls[$i])
-			SetLog("Found: " & UBound($WallCoordsArray) & " possible Wall position: " & $FoundWalls[$i], $COLOR_SUCCESS)
+			SetLog("Found: " & UBound($WallCoordsArray) & " possible Wall position" & (UBound($WallCoordsArray) > 1 ? "s" : "") & ": " & $FoundWalls[$i], $COLOR_SUCCESS)
 			If ($g_aiLastGoodWallPos[0] > 0) And ($g_aiLastGoodWallPos[1] > 0) Then
 				SetLog("relative to " & ($iLastGoodWallx - $iXRange) & ", " & ($iLastGoodWally - $iYRange) & ".", $COLOR_SUCCESS)
 			EndIf
@@ -75,6 +75,83 @@ Func imglocCheckWall()
 					$aCoord[0] = $aCoord[0] + $iLastGoodWallx - $iXRange
 					$aCoord[1] = $aCoord[1] + $iLastGoodWally - $iYRange
 				EndIf
+				$aCoord[0] = $aCoord[0] + $iXClickOffset
+				$aCoord[1] = $aCoord[1] + $iYClickOffset
+				SetLog("Checking if found position is a Wall and of desired level.", $COLOR_SUCCESS)
+				;try click
+				GemClick($aCoord[0], $aCoord[1])
+				If _Sleep(500) Then Return
+				Local $aResult = BuildingInfo(242, 468 + $g_iBottomOffsetY) ; Get building name and level with OCR
+				If $aResult[0] = 2 Then ; We found a valid building name
+					If StringInStr($aResult[1], "wall") = True And Number($aResult[2]) = $levelWall Then ; we found a wall
+						SetLog("Position : " & $aCoord[0] & ", " & $aCoord[1] & " is a Wall Level: " & $levelWall & ".")
+						$g_aiLastGoodWallPos[0] = $aCoord[0]
+						$g_aiLastGoodWallPos[1] = $aCoord[1]
+						ConvertFromVillagePos($g_aiLastGoodWallPos[0], $g_aiLastGoodWallPos[1])
+						Return True
+					Else
+						ClearScreen()
+						If $g_bDebugSetlog Then
+							SetDebugLog("Position : " & $aCoord[0] & ", " & $aCoord[1] & " is not a Wall Level: " & $levelWall & ". It was: " & $aResult[1] & ", " & $aResult[2] & " !", $COLOR_DEBUG) ;debug
+						Else
+							SetLog("Position : " & $aCoord[0] & ", " & $aCoord[1] & " is not a Wall Level: " & $levelWall & ".", $COLOR_ERROR)
+							SetDebugLog("It was: " & $aResult[1] & ", " & $aResult[2], $COLOR_DEBUG, True) ; log actual wall values to file log only
+						EndIf
+						If UBound($WallCoordsArray) <= 1 Then Return imglocCheckWallRetry()
+					EndIf
+				Else
+					ClearScreen()
+				EndIf
+			Next
+		Next
+		$g_aiLastGoodWallPos[0] = -1
+		$g_aiLastGoodWallPos[1] = -1
+	EndIf
+	Return False
+
+EndFunc   ;==>imglocCheckWall
+
+Func imglocCheckWallRetry()
+	Local $iXClickOffset = 0
+	Local $iYClickOffset = 0
+	$g_aiLastGoodWallPos[0] = -1
+	$g_aiLastGoodWallPos[1] = -1
+
+	If _Sleep(500) Then Return
+
+	Local $levelWall = $g_iCmbUpgradeWallsLevel + 4
+
+	Switch $levelWall
+		Case 10
+			$iXClickOffset = 2
+			$iYClickOffset = 2
+		Case 11
+			$iXClickOffset = 1
+			$iYClickOffset = -2
+	EndSwitch
+
+
+	SetLog("Searching again for Wall(s) level: " & $levelWall & ". Using imgloc: ", $COLOR_SUCCESS)
+	;name , level , coords
+	Local $FoundWalls[1]
+	$FoundWalls[0] = "" ; empty value to make sure return value filled
+	_CaptureRegion2()
+	$FoundWalls = imglocFindWalls($levelWall, $CocDiamondECD, $CocDiamondECD, 10) ; lets get 10 points just to make sure we discard false positives
+	SetDebugLog("$FoundWalls = " & $FoundWalls)
+
+	ClearScreen()
+
+	If ($FoundWalls[0] = "") Then ; nothing found
+		SetLog("No wall(s) level: " & $levelWall & " found.", $COLOR_ERROR)
+		If SwitchToNextWallLevel() Then
+			SetLog("No more walls of current level, switching to next", $COLOR_ACTION)
+		EndIf
+	Else
+		For $i = 0 To UBound($FoundWalls) - 1
+			Local $WallCoordsArray = decodeMultipleCoords($FoundWalls[$i])
+			SetLog("Found: " & UBound($WallCoordsArray) & " possible Wall position" & (UBound($WallCoordsArray) > 1 ? "s" : "") & ": " & $FoundWalls[$i], $COLOR_SUCCESS)
+			For $fc = 0 To UBound($WallCoordsArray) - 1
+				Local $aCoord = $WallCoordsArray[$fc]
 				$aCoord[0] = $aCoord[0] + $iXClickOffset
 				$aCoord[1] = $aCoord[1] + $iYClickOffset
 				SetLog("Checking if found position is a Wall and of desired level.", $COLOR_SUCCESS)
@@ -108,7 +185,7 @@ Func imglocCheckWall()
 	EndIf
 	Return False
 
-EndFunc   ;==>imglocCheckWall
+EndFunc   ;==>imglocCheckWallRetry
 
 Func imglocFindWalls($walllevel, $searcharea = $CocDiamondECD, $redline = $CocDiamondECD, $maxreturn = 0)
 	; Will find maxreturn Wall in specified diamond

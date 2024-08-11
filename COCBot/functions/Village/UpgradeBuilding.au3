@@ -141,7 +141,7 @@ Func UpgradeBuilding()
 		If $g_abUpgradeRepeatEnable[$iz] Then ; if repeated upgrade, may need to check upgrade value
 
 			If $bChkAllRptUpgrade = False Then
-				$iDTDiff = Int(_DateDiff("n", _NowCalc(), $sNextCheckTime)) ; get date/time difference for repeat upgrade check
+				$iDTDiff = Int(_DateDiff('n', _NowCalc(), $sNextCheckTime)) ; get date/time difference for repeat upgrade check
 				If @error Then _logErrorDateDiff(@error)
 				If $g_bDebugSetlog Then
 					SetDebugLog("Delay time between repeat upgrade checks = " & $aCheckFrequency[($g_iTownHallLevel < 3 ? 0 : $g_iTownHallLevel - 3)] & " Min", $COLOR_DEBUG)
@@ -156,7 +156,7 @@ Func UpgradeBuilding()
 			EndIf
 
 			If _DateIsValid($g_avBuildingUpgrades[$iz][7]) Then ; check for valid date in upgrade array
-				$iUpGrdEndTimeDiff = Int(_DateDiff("n", _NowCalc(), $g_avBuildingUpgrades[$iz][7])) ; what is difference between End time and now in minutes?
+				$iUpGrdEndTimeDiff = Int(_DateDiff('n', _NowCalc(), $g_avBuildingUpgrades[$iz][7])) ; what is difference between End time and now in minutes?
 				If @error Then ; trap/log errors and zero time difference
 					_logErrorDateDiff(@error)
 					$iUpGrdEndTimeDiff = 0
@@ -389,7 +389,7 @@ Func UpgradeNormal($iUpgradeNumber)
 
 	If IsArray($aUpgradeButton) And UBound($aUpgradeButton, 1) = 2 Then
 		If _Sleep($DELAYUPGRADENORMAL2) Then Return
-		ClickP($aUpgradeButton, 1, 0, "#0297") ; Click Upgrade Button
+		ClickP($aUpgradeButton, 1, 150, "#0297") ; Click Upgrade Button
 		If _Sleep(2000) Then Return ; Wait for window to open
 		If $g_bDebugImageSave Then SaveDebugImage("UpgradeRegBtn1")
 		If _ColorCheck(_GetPixelColor(800, 88 + $g_iMidOffsetY, True), Hex(0xF38E8D, 6), 20) Then ; wait up to 2 seconds for upgrade window to open
@@ -522,7 +522,7 @@ Func UpgradeGearUp($iUpgradeNumber)
 
 	If IsArray($aUpgradeButton) And UBound($aUpgradeButton, 1) = 2 Then
 		If _Sleep($DELAYUPGRADENORMAL2) Then Return
-		ClickP($aUpgradeButton, 1, 0, "#0297") ; Click Upgrade Button
+		ClickP($aUpgradeButton, 1, 150, "#0297") ; Click Upgrade Button
 		If _Sleep(2000) Then Return ; Wait for window to open
 		If $g_bDebugImageSave Then SaveDebugImage("UpgradeRegBtn1")
 		If _ColorCheck(_GetPixelColor(737, 134 + $g_iMidOffsetY, True), Hex(0xFF8D95, 6), 20) Then ; wait up to 2 seconds for upgrade window to open
@@ -611,7 +611,7 @@ Func UpgradeHero($iUpgradeNumber)
 
 	If IsArray($aUpgradeButton) And UBound($aUpgradeButton, 1) = 2 Then
 		If _Sleep($DELAYUPGRADEHERO2) Then Return
-		ClickP($aUpgradeButton, 1, 0, "#0305") ; Click Upgrade Button
+		ClickP($aUpgradeButton, 1, 150, "#0305") ; Click Upgrade Button
 		If _Sleep(2000) Then Return ; Wait for window to open
 		If $g_bDebugImageSave Then SaveDebugImage("UpgradeDarkBtn1")
 		If _ColorCheck(_GetPixelColor(800, 88 + $g_iMidOffsetY, True), Hex(0xF38E8D, 6), 20) Then ; wait up to 2 seconds for upgrade window to open

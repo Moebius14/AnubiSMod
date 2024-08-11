@@ -68,7 +68,7 @@ Func TreasuryCollect()
 	If _Sleep($DELAYTREASURY2) Then Return
 	Local $aTreasuryButton = findButton("Treasury", Default, 1, True)
 	If IsArray($aTreasuryButton) And UBound($aTreasuryButton, 1) = 2 Then
-		If IsMainPage() Then ClickP($aTreasuryButton, 1, 0, "#0330")
+		If IsMainPage() Then ClickP($aTreasuryButton, 1, 150, "#0330")
 		If _Sleep($DELAYTREASURY1) Then Return
 	Else
 		SetLog("Cannot find the Treasury Button", $COLOR_ERROR)
@@ -95,7 +95,7 @@ Func TreasuryCollect()
 	If $bForceCollect Or ($g_bChkTreasuryCollect And ((Number($g_aiCurrentLoot[$eLootGold]) <= $g_iTxtTreasuryGold) Or (Number($g_aiCurrentLoot[$eLootElixir]) <= $g_iTxtTreasuryElixir) Or (Number($g_aiCurrentLoot[$eLootDarkElixir]) <= $g_iTxtTreasuryDark))) Then
 		Local $aCollectButton = findButton("Collect", Default, 1, True)
 		If IsArray($aCollectButton) And UBound($aCollectButton, 1) = 2 Then
-			ClickP($aCollectButton, 1, 0, "#0330")
+			ClickP($aCollectButton, 1, 130, "#0330")
 			If _Sleep($DELAYTREASURY2) Then Return
 			If ClickOkay("ConfirmCollectTreasury") Then ; Click Okay to confirm collect treasury loot
 				SetLog("Treasury collected successfully.", $COLOR_SUCCESS)

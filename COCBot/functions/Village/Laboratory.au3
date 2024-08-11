@@ -795,7 +795,7 @@ EndFunc   ;==>ChkLabUpgradeInProgress
 ; checks our global variable to see if we know of something already upgrading
 Func ChkUpgradeInProgress()
 	Local $TimeDiff ; time remaining on lab upgrade
-	If $g_sLabUpgradeTime <> "" Then $TimeDiff = _DateDiff("n", _NowCalc(), $g_sLabUpgradeTime) ; what is difference between end time and now in minutes?
+	If $g_sLabUpgradeTime <> "" Then $TimeDiff = _DateDiff('n', _NowCalc(), $g_sLabUpgradeTime) ; what is difference between end time and now in minutes?
 	If @error Then _logErrorDateDiff(@error)
 	SetDebugLog($g_avLabTroops[$g_iCmbLaboratory][0] & " Lab end time: " & $g_sLabUpgradeTime & ", DIFF= " & $TimeDiff, $COLOR_DEBUG)
 

@@ -149,7 +149,7 @@ Func EnableLongSearch()
 			Return False
 		Else
 			Local $KeepAlive[2] = [271, 351 + $g_iMidOffsetY]
-			ClickP($KeepAlive, 1, 0, "#0514") ; click on text just to keep game alive
+			ClickP($KeepAlive, 1, 160, "#0514") ; click on text just to keep game alive
 		EndIf
 
 		; Small delay

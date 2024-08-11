@@ -354,9 +354,11 @@ Func SwitchCOCAcc($NextAccount)
 		SetLog("Switching account failed!", $COLOR_ERROR)
 		SetSwitchAccLog("Switching to Acc " & $NextAccount + 1 & " Failed!", $COLOR_ERROR)
 		If $iRetry <= 3 Then
-			Local $ClickPoint = $aAway
-			If $g_bChkSuperCellID Then $ClickPoint = $aCloseTabSCID
-			ClickP($ClickPoint, 2, 500)
+			Local $ClickPoint = $aCloseTabSCID
+			ClickP($ClickPoint, 1, 500)
+			If _Sleep(1500) Then Return
+			CloseWindow2()
+			If _Sleep(500) Then Return
 			checkMainScreen()
 		Else
 			$iRetry = 0
@@ -603,7 +605,7 @@ Func CheckTroopTimeAllAccount($bExcludeCurrent = False) ; Return the minimum rem
 		If $bExcludeCurrent And $i = $g_iCurAccount Then ContinueLoop
 		If $abAccountNo[$i] And Not $g_abDonateOnly[$i] Then ;	Only check Active profiles
 			If _DateIsValid($g_asTrainTimeFinish[$i]) Then
-				Local $iRemainTrain = _DateDiff("n", _NowCalc(), $g_asTrainTimeFinish[$i])
+				Local $iRemainTrain = _DateDiff('n', _NowCalc(), $g_asTrainTimeFinish[$i])
 				; if remaining time is negative and stop mode, force 0 to ensure other accounts will be picked
 				If $iRemainTrain < 0 And SwitchAccountVariablesReload("$g_iCommandStop", $i) <> -1 Then
 					; Account was last time in halt attack mode, set time to 0

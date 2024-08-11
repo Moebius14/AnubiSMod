@@ -113,11 +113,11 @@ Func CollectEventRewards()
 	If _Sleep(Random(1000, 3000, 1)) Then Return
 	If Not $g_bRunState Then Return
 
-	Local $offColors[2][3] = [[0x0D0D0D, 32, 9], [0xFFF66A, 35, 2]] ; 2nd pixel black Color, 3rd pixel yellow color
+	Local $offColors[2][3] = [[0x0D0D0D, 31, 10], [0xFFFF7A, 35, 3]] ; 2nd pixel black Color, 3rd pixel yellow color
 	Local $RightResResource = _MultiPixelSearch(759, 423, 810, 433, 1, 1, Hex(0xFFFFFF, 6), $offColors, 40) ; first white pixel on side of button
-	SetDebugLog("Pixel Color #1: " & _GetPixelColor(763, 423, True) & ", #2: " & _GetPixelColor(795, 432, True) & ", #3: " & _GetPixelColor(798, 425, True), $COLOR_DEBUG)
+	SetDebugLog("Pixel Color #1: " & _GetPixelColor(763, 423, True) & ", #2: " & _GetPixelColor(794, 433, True) & ", #3: " & _GetPixelColor(798, 426, True), $COLOR_DEBUG)
 	If Not IsArray($RightResResource) Then
-		Click(790, 385 + $g_iMidOffsetY)
+		Click(790, 386 + $g_iMidOffsetY)
 		If _Sleep(1500) Then Return
 	EndIf
 
@@ -128,12 +128,12 @@ Func CollectEventRewards()
 	Local $IsStarryPresent = 0
 	For $i = 0 To 14
 		If Not $g_bRunState Then Return
-		Local $SearchArea = GetDiamondFromRect("35,336(800,270)")
+		Local $SearchArea = GetDiamondFromRect("35,336(800,275)")
 		Local $aResult = findMultiple(@ScriptDir & "\imgxml\DailyChallenge\", $SearchArea, $SearchArea, 0, 1000, 6, "objectname,objectpoints", True)
 		If $aResult <> "" And IsArray($aResult) Then
-			For $i = 0 To UBound($aResult) - 1
-				Local $aResultArray = $aResult[$i] ; ["Button Name", "x1,y1", "x2,y2", ...]
-				SetDebugLog("Find Claim buttons, $aResultArray[" & $i & "]: " & _ArrayToString($aResultArray))
+			For $t = 0 To UBound($aResult) - 1
+				Local $aResultArray = $aResult[$t] ; ["Button Name", "x1,y1", "x2,y2", ...]
+				SetDebugLog("Find Claim buttons, $aResultArray[" & $t & "]: " & _ArrayToString($aResultArray))
 				If IsArray($aResultArray) And $aResultArray[0] = "ClaimBtn" Then
 					Local $sAllCoordsString = _ArrayToString($aResultArray, "|", 1) ; "x1,y1|x2,y2|..."
 					Local $aAllCoords = decodeMultipleCoords($sAllCoordsString, 50, 50) ; [{coords1}, {coords2}, ...]
@@ -149,15 +149,15 @@ Func CollectEventRewards()
 							EndSwitch
 							$IsOresPresent = 1
 						EndIf
-						ClickP($aAllCoords[$j], 1, 0, "Claim " & $j + 1) ; Click Claim button
+						ClickP($aAllCoords[$j], 1, 160, "Claim " & $j + 1) ; Click Claim button
 						If WaitforPixel(329, 390 + $g_iMidOffsetY, 331, 392 + $g_iMidOffsetY, Hex(0xFDC875, 6), 20, 3) Then ; wait for Cancel Button popped up in 1.5 second
 							If $g_bChkSellRewards Then
 								Setlog("Selling extra reward for gems", $COLOR_SUCCESS)
-								ClickP($aPersonalChallengeOkBtn, 1, 0, "Okay Btn") ; Click the Okay
+								ClickP($aPersonalChallengeOkBtn, 1, 160, "Okay Btn") ; Click the Okay
 								$iClaim += 1
 							Else
 								SetLog("Cancel. Not selling extra rewards.", $COLOR_SUCCESS)
-								ClickP($aPersonalChallengeCancelBtn, 1, 0, "Cancel Btn") ; Click Claim button
+								ClickP($aPersonalChallengeCancelBtn, 1, 160, "Cancel Btn") ; Click Claim button
 							EndIf
 							If _Sleep(1000) Then ExitLoop
 						Else
@@ -203,18 +203,15 @@ Func CollectEventRewards()
 		EndIf
 
 		Local $IsLeftRes = False
-		If _ColorCheck(_GetPixelColor(45, 385 + $g_iMidOffsetY, True), Hex(0xFFFFFF, 6), 15) And _ColorCheck(_GetPixelColor(100, 385 + $g_iMidOffsetY, True), Hex(0xFFFFFF, 6), 15) Then $IsLeftRes = True
+		If _ColorCheck(_GetPixelColor(45, 386 + $g_iMidOffsetY, True), Hex(0xFFFFFF, 6), 15) And _ColorCheck(_GetPixelColor(100, 386 + $g_iMidOffsetY, True), Hex(0xFFFFFF, 6), 15) Then $IsLeftRes = True
 
 		If Not _CheckPixel($aEventLeftEdge, $g_bCapturePixel) And $IsLeftRes Then ; far left edge and progress bar at left.
-			If $i = 0 Then
-				SetLog("Dragging back for more... ", Default, Default, Default, Default, Default, Default, False) ; no end line
-			Else
-				SetLog($i & ".. ", Default, Default, Default, Default, Default, 0, $i < 13 ? False : Default) ; no time
-			EndIf
+			If $i = 0 Then SetLog("Dragging back for more... ") ; no end line
+			SetLog($i + 1 & ".. ", Default, Default, Default, Default, Default, 0, False) ; no reward
 			ClickDrag(120, 400 + $g_iMidOffsetY, 730, 400 + $g_iMidOffsetY, 1000)
-			If _Sleep(Random(500, 750, 1)) Then ExitLoop
+			If _Sleep(Random(400, 600, 1)) Then ExitLoop
 		Else
-			If $i > 0 Then SetLog($i & ".", Default, Default, Default, Default, Default, False) ; no time + end line
+			If $i > 1 And _CheckPixel($aEventLeftEdge, $g_bCapturePixel) Then SetLog("EndLine.", Default, Default, Default, Default, Default, 0, Default) ; no reward + end line
 			ExitLoop
 		EndIf
 	Next
@@ -264,6 +261,7 @@ Func CheckStreakEvent()
 	If Not $g_bRunState Then Return
 	Local $bRet = False
 	If Not _CheckPixel($aIsMainGrayed, $g_bCapturePixel, Default, "IsMainGrayed") Then Return $bRet ; Streak Event window opens on main base view, and grays page.
+	If _Sleep($DELAYSTARBONUS100) Then Return
 	Local $aContinueButton = findButton("Continue", Default, 1, True)
 	If IsArray($aContinueButton) And UBound($aContinueButton, 1) = 2 Then
 		ClickP($aContinueButton)
@@ -281,7 +279,7 @@ Func CheckStreakEvent()
 				Local $sAllCoordsString = _ArrayToString($aResultArray, "|", 1)     ; "x1,y1|x2,y2|..."
 				Local $aAllCoords = decodeMultipleCoords($sAllCoordsString, 50, 50)     ; [{coords1}, {coords2}, ...]
 				For $j = 0 To UBound($aAllCoords) - 1
-					ClickP($aAllCoords[$j], 1, 0, "Claim " & $j + 1)     ; Click Claim button
+					ClickP($aAllCoords[$j], 1, 160, "Claim " & $j + 1)     ; Click Claim button
 					If _Sleep(2000) Then Return
 				Next
 			EndIf

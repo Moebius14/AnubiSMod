@@ -220,7 +220,7 @@ Func CheckBuilderPotion()
 					SetLog("Builders Boosted Using Potion", $COLOR_SUCCESS1)
 					If $g_sBSUpgradeTime <> "" And _DateIsValid($g_sBSUpgradeTime) Then
 						Local $BSTimeDiff ; time remaining for Blacksmith upgrade
-						$BSTimeDiff = _DateDiff("n", _NowCalc(), $g_sBSUpgradeTime) ; what is difference between end time and now in minutes?
+						$BSTimeDiff = _DateDiff('n', _NowCalc(), $g_sBSUpgradeTime) ; what is difference between end time and now in minutes?
 						$g_sBSUpgradeTime = _DateAdd('n', Ceiling($BSTimeDiff - 540), _NowCalc())
 						If ProfileSwitchAccountEnabled() Then SwitchAccountVariablesReload("Save")
 					EndIf
@@ -255,7 +255,7 @@ Func CheckBuilderPotion()
 					SetLog("Builders Boosted Using Potion", $COLOR_SUCCESS1)
 					If $g_sBSUpgradeTime <> "" And _DateIsValid($g_sBSUpgradeTime) Then
 						Local $BSTimeDiff ; time remaining for Blacksmith upgrade
-						$BSTimeDiff = _DateDiff("n", _NowCalc(), $g_sBSUpgradeTime) ; what is difference between end time and now in minutes?
+						$BSTimeDiff = _DateDiff('n', _NowCalc(), $g_sBSUpgradeTime) ; what is difference between end time and now in minutes?
 						$g_sBSUpgradeTime = _DateAdd('n', Ceiling($BSTimeDiff - 540), _NowCalc())
 						If ProfileSwitchAccountEnabled() Then SwitchAccountVariablesReload("Save")
 					EndIf

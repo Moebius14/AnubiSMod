@@ -1601,6 +1601,7 @@ Func FirstCheck()
 	If Not $g_bRunState Then Return
 
 	If ($g_bChkEnableForgeBBGold Or $g_bChkEnableForgeBBElix) And ($g_aiCurrentLootBB[$eLootGoldBB] = 0 Or $g_aiCurrentLootBB[$eLootElixirBB] = 0) Then
+		IsBBDailyChallengeAvailable()
 		SetLog("Switch To Builder Base Early To Check BB Loot", $COLOR_DEBUG1)
 		SwitchBetweenBasesMod()
 		If $IstoSwitchMod Then

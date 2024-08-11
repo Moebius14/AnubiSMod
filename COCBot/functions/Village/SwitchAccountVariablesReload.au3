@@ -132,7 +132,6 @@ Func SwitchAccountVariablesReload($sType = "Load", $iAccount = $g_iCurAccount)
 
 	;Daily Challenge
 	Static $gaSsNewChallengeTime = $aiZero
-	Static $aSTimeDiffBBChallenge = $aiZero
 
 	;Clan Games
 	Static $gSbClanGamesCompleted = $aiZero
@@ -264,7 +263,6 @@ Func SwitchAccountVariablesReload($sType = "Load", $iAccount = $g_iCurAccount)
 
 			;Daily Challenge
 			$gaSsNewChallengeTime = $aiZero
-			$aSTimeDiffBBChallenge = $aiZero
 
 			;Clan Games
 			$gSbClanGamesCompleted = $aiZero
@@ -474,7 +472,6 @@ Func SwitchAccountVariablesReload($sType = "Load", $iAccount = $g_iCurAccount)
 
 			;Daily challenge
 			$gaSsNewChallengeTime[$iAccount] = $g_sNewChallengeTime
-			$aSTimeDiffBBChallenge[$iAccount] = $TimeDiffBBChallenge
 
 			;Clan Games
 			$gSbClanGamesCompleted[$iAccount] = $g_bClanGamesCompleted
@@ -681,7 +678,6 @@ Func SwitchAccountVariablesReload($sType = "Load", $iAccount = $g_iCurAccount)
 
 			;Daily challenge
 			$g_sNewChallengeTime = $gaSsNewChallengeTime[$iAccount]
-			$TimeDiffBBChallenge = $aSTimeDiffBBChallenge[$iAccount]
 
 			;Clan Games
 			$g_bClanGamesCompleted = $gSbClanGamesCompleted[$iAccount]
@@ -740,7 +736,7 @@ Func SwitchAccountVariablesReload($sType = "Load", $iAccount = $g_iCurAccount)
 			Local $day, $hour, $min, $sec
 			For $i = 0 To $g_iTotalAcc
 				If _DateIsValid($asLabUpgradeTime[$i]) Then
-					Local $iLabTime = _DateDiff("s", _NowCalc(), $asLabUpgradeTime[$i]) * 1000
+					Local $iLabTime = _DateDiff('s', _NowCalc(), $asLabUpgradeTime[$i]) * 1000
 					If $iLabTime > 0 Then
 						_TicksToDay($iLabTime, $day, $hour, $min, $sec)
 						GUICtrlSetData($g_ahLblLabTime[$i], $day > 0 ? StringFormat("%2ud %02i:%02i'", $day, $hour, $min) : StringFormat("%02i:%02i:%02i", $hour, $min, $sec))
@@ -753,7 +749,7 @@ Func SwitchAccountVariablesReload($sType = "Load", $iAccount = $g_iCurAccount)
 					GUICtrlSetData($g_ahLblLabTime[$i], "")
 				EndIf
 				If _DateIsValid($asStarLabUpgradeTime[$i]) Then
-					Local $iStarLabTime = _DateDiff("s", _NowCalc(), $asStarLabUpgradeTime[$i]) * 1000
+					Local $iStarLabTime = _DateDiff('s', _NowCalc(), $asStarLabUpgradeTime[$i]) * 1000
 					If $iStarLabTime > 0 Then
 						_TicksToDay($iStarLabTime, $day, $hour, $min, $sec)
 						GUICtrlSetData($g_ahLbLStarLabTime[$i], $day > 0 ? StringFormat("%2ud %02i:%02i'", $day, $hour, $min) : StringFormat("%02i:%02i:%02i", $hour, $min, $sec))
@@ -766,7 +762,7 @@ Func SwitchAccountVariablesReload($sType = "Load", $iAccount = $g_iCurAccount)
 					GUICtrlSetData($g_ahLbLStarLabTime[$i], "")
 				EndIf
 				If _DateIsValid($asPetLabUpgradeTime[$i]) Then
-					Local $iPetHouseTime = _DateDiff("s", _NowCalc(), $asPetLabUpgradeTime[$i]) * 1000
+					Local $iPetHouseTime = _DateDiff('s', _NowCalc(), $asPetLabUpgradeTime[$i]) * 1000
 					If $iPetHouseTime > 0 Then
 						_TicksToDay($iPetHouseTime, $day, $hour, $min, $sec)
 						GUICtrlSetData($g_ahLbLPetTime[$i], $day > 0 ? StringFormat("%2ud %02i:%02i'", $day, $hour, $min) : StringFormat("%02i:%02i:%02i", $hour, $min, $sec))

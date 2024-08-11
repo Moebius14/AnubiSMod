@@ -220,7 +220,7 @@ Func QueenUpgrade()
 			Local $aWhiteZeros = decodeSingleCoord(findImage("UpgradeWhiteZero", $g_sImgUpgradeWhiteZero, GetDiamondFromRect("560,565,670,595"), 1, True, Default))
 			Local $YellowSearch = _PixelSearch(610, 539 + $g_iMidOffsetY, 650, 543 + $g_iMidOffsetY, Hex(0xFFF10D, 6), 20)
 			If (IsArray($aWhiteZeros) And UBound($aWhiteZeros, 1) = 2) Then
-				ClickP($aWhiteZeros, 1, 0) ; Click upgrade buttton
+				ClickP($aWhiteZeros, 1, 150) ; Click upgrade buttton
 
 				If _Sleep($DELAYUPGRADEHERO1) Then Return
 				If $g_bDebugImageSave Then SaveDebugImage("UpgradeDarkBtn2")
@@ -236,7 +236,7 @@ Func QueenUpgrade()
 				$g_iCostDElixirHero += 1000 * ($g_afQueenUpgCost[$g_iQueenLevel - 1] * 1000 * (1 - Number($g_iBuilderBoostDiscount) / 100))
 				UpdateStats()
 			ElseIf IsArray($YellowSearch) Then
-				ClickP($YellowSearch, 1, 0) ; Click upgrade buttton
+				ClickP($YellowSearch, 1, 150) ; Click upgrade buttton
 
 				If _Sleep($DELAYUPGRADEHERO1) Then Return
 				If $g_bDebugImageSave Then SaveDebugImage("UpgradeDarkBtn2")
@@ -406,7 +406,7 @@ Func KingUpgrade()
 			Local $aWhiteZeros = decodeSingleCoord(findImage("UpgradeWhiteZero", $g_sImgUpgradeWhiteZero, GetDiamondFromRect("560,565,670,595"), 1, True, Default))
 			Local $YellowSearch = _PixelSearch(610, 539 + $g_iMidOffsetY, 650, 543 + $g_iMidOffsetY, Hex(0xFFF10D, 6), 20)
 			If IsArray($aWhiteZeros) And UBound($aWhiteZeros, 1) = 2 Then
-				ClickP($aWhiteZeros, 1, 0) ; Click upgrade buttton
+				ClickP($aWhiteZeros, 1, 150) ; Click upgrade buttton
 
 				If _Sleep($DELAYUPGRADEHERO1) Then Return
 				If $g_bDebugImageSave Then SaveDebugImage("UpgradeDarkBtn2")
@@ -422,7 +422,7 @@ Func KingUpgrade()
 				$g_iCostDElixirHero += 1000 * ($g_afKingUpgCost[$g_iKingLevel - 1] * 1000 * (1 - Number($g_iBuilderBoostDiscount) / 100))
 				UpdateStats()
 			ElseIf IsArray($YellowSearch) Then
-				ClickP($YellowSearch, 1, 0) ; Click upgrade buttton
+				ClickP($YellowSearch, 1, 150) ; Click upgrade buttton
 
 				If _Sleep($DELAYUPGRADEHERO1) Then Return
 				If $g_bDebugImageSave Then SaveDebugImage("UpgradeDarkBtn2")
@@ -493,7 +493,7 @@ Func WardenUpgrade()
 
 	If _Sleep($DELAYUPGRADEHERO2) Then Return
 
-	ClickP($g_aiWardenAltarPos, 1, 0, "#8888") ;Click Warden Altar
+	ClickP($g_aiWardenAltarPos, 1, 150, "#8888") ;Click Warden Altar
 
 	If _Sleep($DELAYUPGRADEHERO2) Then Return
 
@@ -603,7 +603,7 @@ Func WardenUpgrade()
 			Local $aWhiteZeros = decodeSingleCoord(findImage("UpgradeWhiteZero", $g_sImgUpgradeWhiteZero, GetDiamondFromRect("560,565,670,595"), 1, True, Default))
 			Local $YellowSearch = _PixelSearch(610, 539 + $g_iMidOffsetY, 650, 543 + $g_iMidOffsetY, Hex(0xFFF10D, 6), 20)
 			If IsArray($aWhiteZeros) And UBound($aWhiteZeros, 1) = 2 Then
-				ClickP($aWhiteZeros, 1, 0) ; Click upgrade buttton
+				ClickP($aWhiteZeros, 1, 150) ; Click upgrade buttton
 
 				If _Sleep($DELAYUPGRADEHERO1) Then Return
 				If $g_bDebugSetlog Then SaveDebugImage("UpgradeElixirBtn2")
@@ -621,7 +621,7 @@ Func WardenUpgrade()
 				$g_iWardenLevel += 1
 				UpdateStats()
 			ElseIf IsArray($YellowSearch) Then
-				ClickP($YellowSearch, 1, 0) ; Click upgrade buttton
+				ClickP($YellowSearch, 1, 150) ; Click upgrade buttton
 
 				If _Sleep($DELAYUPGRADEHERO1) Then Return
 				If $g_bDebugSetlog Then SaveDebugImage("UpgradeElixirBtn2")
@@ -793,7 +793,7 @@ Func ChampionUpgrade()
 			Local $aWhiteZeros = decodeSingleCoord(findImage("UpgradeWhiteZero", $g_sImgUpgradeWhiteZero, GetDiamondFromRect("560,565,670,595"), 1, True, Default))
 			Local $YellowSearch = _PixelSearch(610, 539 + $g_iMidOffsetY, 650, 543 + $g_iMidOffsetY, Hex(0xFFF10D, 6), 20)
 			If IsArray($aWhiteZeros) And UBound($aWhiteZeros, 1) = 2 Then
-				ClickP($aWhiteZeros, 1, 0) ; Click upgrade buttton
+				ClickP($aWhiteZeros, 1, 150) ; Click upgrade buttton
 
 				If _Sleep($DELAYUPGRADEHERO1) Then Return
 				If $g_bDebugImageSave Then SaveDebugImage("UpgradeDarkBtn2")
@@ -809,7 +809,7 @@ Func ChampionUpgrade()
 				$g_iCostDElixirHero += 1000 * ($g_afChampionUpgCost[$g_iChampionLevel - 1] * 1000 * (1 - Number($g_iBuilderBoostDiscount) / 100))
 				UpdateStats()
 			ElseIf IsArray($YellowSearch) Then
-				ClickP($YellowSearch, 1, 0) ; Click upgrade buttton
+				ClickP($YellowSearch, 1, 150) ; Click upgrade buttton
 
 				If _Sleep($DELAYUPGRADEHERO1) Then Return
 				If $g_bDebugImageSave Then SaveDebugImage("UpgradeDarkBtn2")

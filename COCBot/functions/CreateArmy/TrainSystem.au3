@@ -570,7 +570,7 @@ Func RemoveExtraTroops($toRemove)
 		If _Sleep(500) Then Return
 		If Not _CheckPixel($aButtonRemoveTroopsOK1, True) Then ; If no 'Okay' button found in army tab to save changes
 			SetLog("Cannot find/verify 'Okay' Button in Army tab", $COLOR_WARNING)
-			ClickP($aAway, 2, 0, "#0346") ; Click Away, Necessary! due to possible errors/changes
+			ClickP($aAway, 2, 150, "#0346") ; Click Away, Necessary! due to possible errors/changes
 			If _Sleep(400) Then OpenArmyOverview(True, "RemoveExtraTroops()") ; Open Army Window AGAIN
 			Return False ; Exit Function
 		EndIf
@@ -580,7 +580,7 @@ Func RemoveExtraTroops($toRemove)
 		If _Sleep(1200) Then Return
 		If Not _CheckPixel($aButtonRemoveTroopsOK2, True) Then ; If no 'Okay' button found to verify that we accept the changes
 			SetLog("Cannot find/verify 'Okay #2' Button in Army tab", $COLOR_WARNING)
-			ClickP($aAway, 2, 0, "#0346") ;Click Away
+			ClickP($aAway, 2, 150, "#0346") ;Click Away
 			Return False ; Exit function
 		EndIf
 
@@ -1204,7 +1204,6 @@ Func MakingDonatedTroops($sType = "All")
 	Local $Plural = 0
 	Local $areThereDonTroop = 0
 	Local $areThereDonSpell = 0
-	Local $areThereDonSiegeMachine = 0
 
 	For $j = 0 To $eTroopCount - 1
 		If $sType <> "Troops" And $sType <> "All" Then ExitLoop
@@ -1217,25 +1216,22 @@ Func MakingDonatedTroops($sType = "All")
 		If Not $g_bRunState Then Return
 		$areThereDonSpell += $g_aiDonateSpells[$j]
 	Next
+	If $areThereDonSpell = 0 And $areThereDonTroop = 0 Then Return
 
-	For $j = 0 To $eSiegeMachineCount - 1
-		If $sType <> "Siege" And $sType <> "All" Then ExitLoop
-		If Not $g_bRunState Then Return
-		$areThereDonSiegeMachine += $g_aiDonateSiegeMachines[$j]
-	Next
-	If $areThereDonSpell = 0 And $areThereDonTroop = 0 And $areThereDonSiegeMachine = 0 Then Return
-
-	SetLog("  making donated troops", $COLOR_ACTION1)
 	If $areThereDonTroop > 0 Then
+		Local $howMany = 0
 		; Load $g_aiDonateTroops[$i] Values into $avDefaultTroopGroup[$i][4]
 		For $i = 0 To UBound($avDefaultTroopGroup) - 1
 			For $j = 0 To $eTroopCount - 1
 				If $g_asTroopShortNames[$j] = $avDefaultTroopGroup[$i][0] Then
 					$avDefaultTroopGroup[$i][4] = $g_aiDonateTroops[$j]
+					If $g_aiDonateTroops[$j] > 0 Then $howMany += $g_aiDonateTroops[$j]
 					$g_aiDonateTroops[$j] = 0
 				EndIf
 			Next
 		Next
+
+		SetLog("  making donated troop" & ($howMany > 1 ? "s" : ""), $COLOR_ACTION1)
 
 		If Not OpenTroopsTab(True, "MakingDonatedTroops()") Then Return
 
@@ -1306,6 +1302,11 @@ Func MakingDonatedTroops($sType = "All")
 	EndIf
 
 	If $areThereDonSpell > 0 Then
+		Local $howMany = 0
+		For $i = 0 To $eSpellCount - 1
+			If $g_aiDonateSpells[$i] > 0 Then $howMany += $g_aiDonateSpells[$i]
+		Next
+		SetLog("  making donated spell" & ($howMany > 1 ? "s" : ""), $COLOR_ACTION1)
 		;Train Donated Spells
 		If Not OpenSpellsTab(True, "MakingDonatedTroops()") Then Return
 
@@ -1317,7 +1318,6 @@ Func MakingDonatedTroops($sType = "All")
 				Local $pos = GetTrainPos($i + $eLSpell)
 				Local $howMuch = $g_aiDonateSpells[$i]
 				TrainIt($eLSpell + $i, $howMuch, $g_iTrainClickDelay)
-				;PureClick($pos[0], $pos[1], $howMuch, 500)
 				If _Sleep($DELAYRESPOND) Then Return ; add 5ms delay to catch TrainIt errors, and force return to back to main loop
 				SetLog(" - Brewed " & $howMuch & " " & $g_asSpellNames[$i] & ($howMuch > 1 ? " Spells" : " Spell"), $COLOR_ACTION)
 				$g_aiDonateSpells[$i] -= $howMuch
@@ -1328,53 +1328,6 @@ Func MakingDonatedTroops($sType = "All")
 				SetLog(" - Current Capacity: " & $RemainTrainSpace[0] & "/" & ($RemainTrainSpace[1]))
 			EndIf
 		Next
-	EndIf
-
-	If $areThereDonSiegeMachine > 0 Then
-		;Train Donated Sieges
-		If Not OpenSiegeMachinesTab(True, "MakingDonatedTroops()") Then Return
-
-		WaitForClanMessage("TrainTabs")
-
-		Local $sImgSieges = @ScriptDir & "\imgxml\Train\Siege_Train\"
-		Local $sSearchArea = GetDiamondFromRect2(75, 345 + $g_iMidOffsetY, 780, 510 + $g_iMidOffsetY)
-		Local $iPage = 0
-
-		; Refill
-		For $iSiegeIndex = $eSiegeWallWrecker To $eSiegeMachineCount - 1
-			If Not $g_bRunState Then Return
-			Local $HowMany = $g_aiDonateSiegeMachines[$iSiegeIndex]
-
-			If $HowMany > 0 Then
-				DragSiegeIfNeeded($iSiegeIndex, $iPage)
-
-				Local $sFilename = $sImgSieges & $g_asSiegeMachineShortNames[$iSiegeIndex] & "*"
-				Local $aiSiegeCoord = decodeSingleCoord(findImage("TrainSiege", $sFilename, $sSearchArea, 1, True))
-
-				If IsArray($aiSiegeCoord) And UBound($aiSiegeCoord, 1) = 2 Then
-					For $i = 1 To $HowMany
-						Local $g_iTrainClickDelayfinal = Random($g_iTrainClickDelay - $RandomClickTrainAddTimeMin, $g_iTrainClickDelay + $RandomClickTrainAddTimeMax, 1)
-						PureClickTrain($aiSiegeCoord[0], $aiSiegeCoord[1], 1, $g_iTrainClickDelayfinal)
-					Next
-					Local $sSiegeName = $HowMany >= 2 ? $g_asSiegeMachineNames[$iSiegeIndex] & "s" : $g_asSiegeMachineNames[$iSiegeIndex] & ""
-					SetLog(" - Trained " & $HowMany & " " & $g_asSiegeMachineNames[$iSiegeIndex] & ($HowMany > 1 ? " SiegeMachines" : " SiegeMachine"), $COLOR_ACTION)
-					$g_aiDonateSiegeMachines[$iSiegeIndex] -= $HowMany
-					If _Sleep(250) Then Return
-				Else
-					SetLog("Can't train siege :" & $g_asSiegeMachineNames[$iSiegeIndex], $COLOR_ERROR)
-				EndIf
-			EndIf
-
-			If Not $g_bRunState Then Return
-		Next
-
-		; Get Siege Capacities
-		WaitForClanMessage("DonatedTroops")
-		Local $sSiegeInfo = getArmyCapacityOnTrainTroops(100, 163 + $g_iMidOffsetY) ; OCR read Siege built and total
-		If $g_bDebugSetlogTrain Then SetLog("OCR $sSiegeInfo = " & $sSiegeInfo, $COLOR_DEBUG)
-		Local $aGetSiegeCap = StringSplit($sSiegeInfo, "#", $STR_NOCOUNT) ; split the built Siege number from the total Siege number
-		SetLog("Total Siege Workshop Capacity: " & $aGetSiegeCap[0] & "/" & $aGetSiegeCap[1])
-		If Number($aGetSiegeCap[0]) = 0 Then Return
 	EndIf
 
 	Return True

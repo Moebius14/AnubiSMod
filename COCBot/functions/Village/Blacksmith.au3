@@ -23,7 +23,7 @@ Func Blacksmith($bTest = False)
 	If $g_bFirstStart Or $IsOresJustCollected Then $iLastTimeChecked[$g_iCurAccount] = ""
 
 	Local $BSTimeDiff ; time remaining for Blacksmith upgrade
-	If $g_sBSUpgradeTime <> "" And _DateIsValid($g_sBSUpgradeTime) Then $BSTimeDiff = _DateDiff("n", _NowCalc(), $g_sBSUpgradeTime) ; what is difference between end time and now in minutes?
+	If $g_sBSUpgradeTime <> "" And _DateIsValid($g_sBSUpgradeTime) Then $BSTimeDiff = _DateDiff('n', _NowCalc(), $g_sBSUpgradeTime) ; what is difference between end time and now in minutes?
 
 	; Check if is a valid date
 	If _DateIsValid($iLastTimeChecked[$g_iCurAccount]) Then
@@ -348,6 +348,7 @@ Func Blacksmith($bTest = False)
 				If $t = UBound($aEquipmentUpgrades, 1) - 1 Then SetLog($g_asEquipmentOrderList[$g_aiCmbCustomEquipmentOrder[$i]][0] & " unavailable", $COLOR_WARNING)
 			Next
 			If $GetOutNow Then
+				If $Updated Then OresReport()
 				If _Sleep(1500) Then Return
 				ExitLoop
 			EndIf
@@ -360,7 +361,7 @@ Func Blacksmith($bTest = False)
 	Local $IsinBlacksmith = False
 	Local $TimeDiff
 	If $g_sBSUpgradeTime <> "" Then
-		$TimeDiff = _DateDiff("n", _NowCalc(), $g_sBSUpgradeTime)
+		$TimeDiff = _DateDiff('n', _NowCalc(), $g_sBSUpgradeTime)
 		If $TimeDiff <= 0 Then $IsinBlacksmith = True
 	Else
 		If $g_sBSUpgradeTime = "" Or Not _DateIsValid($g_sBSUpgradeTime) Then $IsinBlacksmith = True

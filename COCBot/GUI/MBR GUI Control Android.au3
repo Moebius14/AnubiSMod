@@ -223,9 +223,9 @@ Func getAllEmulators()
 					$DisplayVersionMax = "5.21.120.1025"
 					$VersionMax = GetVersionNormalized($DisplayVersionMax)
 				Case "Nox"
-					$DisplayVersionMin = "7.0.5.7"
+					$DisplayVersionMin = "7.0.6.0"
 					$VersionMin = GetVersionNormalized($DisplayVersionMin)
-					$DisplayVersionMax = "7.0.5.9"
+					$DisplayVersionMax = "7.0.6.0"
 					$VersionMax = GetVersionNormalized($DisplayVersionMax)
 				Case "MEmu"
 					$DisplayVersionMin = "9.0.8.0"

@@ -943,9 +943,11 @@ Func chkUpgradePets()
 				SetDebugLog("Upgrade: " & $g_asPetNames[$i] & " disabled")
 			EndIf
 		Next
-		GUICtrlSetState($g_hChkUpgradePets[$ePetCount - 1], $GUI_DISABLE + $GUI_UNCHECKED)
-		$g_bUpgradePetsEnable[$ePetCount - 1] = False
-		SetDebugLog("Upgrade: " & $g_asPetNames[$ePetCount - 1] & " disabled")
+		For $i = $ePetCount - 2 To $ePetCount - 1
+			GUICtrlSetState($g_hChkUpgradePets[$i], $GUI_DISABLE + $GUI_UNCHECKED)
+			$g_bUpgradePetsEnable[$i] = False
+			SetDebugLog("Upgrade: " & $g_asPetNames[$i] & " disabled")
+		Next
 		GUICtrlSetState($g_hChkSortPetUpgrade, $GUI_ENABLE)
 		GUICtrlSetState($g_hCmbSortPetUpgrade, $GUI_ENABLE)
 		GUICtrlSetState($g_hUsePetPotion, $GUI_ENABLE)

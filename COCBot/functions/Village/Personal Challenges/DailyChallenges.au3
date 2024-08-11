@@ -83,11 +83,11 @@ Func OpenPersonalChallenges()
 		Local $bRet = False
 		For $i = 0 To 9
 			If _CheckPixel($aPersonalChallengeOpenButton1, $g_bCapturePixel) Then
-				ClickP($aPersonalChallengeOpenButton1, 1, 0, "#0666")
+				ClickP($aPersonalChallengeOpenButton1, 1, 160, "#0666")
 				$bRet = True
 				ExitLoop
 			ElseIf _CheckPixel($aPersonalChallengeOpenButton2, $g_bCapturePixel) Then
-				ClickP($aPersonalChallengeOpenButton2, 1, 0, "#0666")
+				ClickP($aPersonalChallengeOpenButton2, 1, 160, "#0666")
 				$bRet = True
 				ExitLoop
 			EndIf
@@ -158,15 +158,15 @@ Func CollectDailyRewards($bGoldPass = False)
 
 	SetLog("Collecting Daily Rewards...")
 
-	ClickP($aPersonalChallengeRewardsTab, 1, 0, "Rewards tab") ; Click Rewards tab
+	ClickP($aPersonalChallengeRewardsTab, 1, 160, "Rewards tab") ; Click Rewards tab
 	If _Sleep(Random(2000, 3000, 1)) Then Return
 	If Not $g_bRunState Then Return
 
-	Local $offColors[2][3] = [[0x0D0D0D, 28, 9], [0xFFFB6A, 35, 3]] ; 2nd pixel black Color, 3rd pixel yellow color
+	Local $offColors[2][3] = [[0x0E0E0E, 28, 9], [0xFFFC6A, 35, 3]] ; 2nd pixel black Color, 3rd pixel yellow color
 	Local $TrophyButtonPixel = _MultiPixelSearch(765, 422, 810, 433, 1, 1, Hex(0xFFFFFF, 6), $offColors, 40) ; first white pixel on side of button
 	SetDebugLog("Pixel Color #1: " & _GetPixelColor(769, 422, True) & ", #2: " & _GetPixelColor(797, 431, True) & ", #3: " & _GetPixelColor(804, 425, True), $COLOR_DEBUG)
 	If Not IsArray($TrophyButtonPixel) Then
-		Click(795, 385 + $g_iMidOffsetY)
+		Click(795, 383 + $g_iMidOffsetY)
 		If _Sleep(1500) Then Return
 	EndIf
 
@@ -182,9 +182,9 @@ Func CollectDailyRewards($bGoldPass = False)
 		Local $SearchArea = $bGoldPass ? GetDiamondFromRect("25,336(810,270)") : GetDiamondFromRect("25,550(810,60)")
 		Local $aResult = findMultiple(@ScriptDir & "\imgxml\DailyChallenge\", $SearchArea, $SearchArea, 0, 1000, $bGoldPass ? 5 : 2, "objectname,objectpoints", True)
 		If $aResult <> "" And IsArray($aResult) Then
-			For $i = 0 To UBound($aResult) - 1
-				Local $aResultArray = $aResult[$i] ; ["Button Name", "x1,y1", "x2,y2", ...]
-				SetDebugLog("Find Claim buttons, $aResultArray[" & $i & "]: " & _ArrayToString($aResultArray))
+			For $t = 0 To UBound($aResult) - 1
+				Local $aResultArray = $aResult[$t] ; ["Button Name", "x1,y1", "x2,y2", ...]
+				SetDebugLog("Find Claim buttons, $aResultArray[" & $t & "]: " & _ArrayToString($aResultArray))
 
 				If IsArray($aResultArray) And $aResultArray[0] = "ClaimBtn" Then
 					Local $sAllCoordsString = _ArrayToString($aResultArray, "|", 1) ; "x1,y1|x2,y2|..."
@@ -200,15 +200,15 @@ Func CollectDailyRewards($bGoldPass = False)
 						For $z = 0 To UBound($RewardImagesTypes) - 1
 							If QuickMIS("BC1", $RewardImagesTypes[$z][0], ($aAllCoords[$j])[0] - 50, ($aAllCoords[$j])[1] - 90, ($aAllCoords[$j])[0] + 45, ($aAllCoords[$j])[1] - 20) Then $RewardImagesTypes[$z][1] = 1
 						Next
-						ClickP($aAllCoords[$j], 1, 0, "Claim " & $j + 1) ; Click Claim button
+						ClickP($aAllCoords[$j], 1, 160, "Claim " & $j + 1) ; Click Claim button
 						If WaitforPixel(329, 390 + $g_iMidOffsetY, 331, 392 + $g_iMidOffsetY, Hex(0xFDC875, 6), 20, 3) Then ; wait for Cancel Button popped up in 1.5 second
 							If $g_bChkSellRewards Then
 								Setlog("Selling extra reward for gems", $COLOR_SUCCESS)
-								ClickP($aPersonalChallengeOkBtn, 1, 0, "Okay Btn") ; Click the Okay
+								ClickP($aPersonalChallengeOkBtn, 1, 160, "Okay Btn") ; Click the Okay
 								$iClaim += 1
 							Else
 								SetLog("Cancel. Not selling extra rewards.", $COLOR_SUCCESS)
-								ClickP($aPersonalChallengeCancelBtn, 1, 0, "Cancel Btn") ; Click Claim button
+								ClickP($aPersonalChallengeCancelBtn, 1, 160, "Cancel Btn") ; Click Claim button
 							EndIf
 							If _Sleep(1000) Then ExitLoop
 						Else
@@ -265,15 +265,12 @@ Func CollectDailyRewards($bGoldPass = False)
 			Next
 		EndIf
 		If _CheckPixel($aPersonalChallengeRewardsAvail, $g_bCapturePixel) And Not _CheckPixel($aPersonalChallengeLeftEdge, $g_bCapturePixel) Then ; far left edge
-			If $i = 0 Then
-				SetLog("Dragging back for more... ", Default, Default, Default, Default, Default, Default, False) ; no end line
-			Else
-				SetLog($i & ".. ", Default, Default, Default, Default, Default, 0, $i < 15 ? False : Default) ; no time
-			EndIf
-			ClickDrag(120, 400 + $g_iMidOffsetY, 740, 400 + $g_iMidOffsetY, 1000) ;x1 was 50. x2 was 810  Change for Dec '20 update
+			If $i = 0 Then SetLog("Dragging back for more... ") ; no end line
+			SetLog($i + 1 & ".. ", Default, Default, Default, Default, Default, 0, False) ; no reward
+			ClickDrag(120, 400 + $g_iMidOffsetY, 740, 400 + $g_iMidOffsetY, 1000)
 			If _Sleep(Random(400, 600, 1)) Then ExitLoop
 		Else
-			If $i > 0 Then SetLog($i & ".", Default, Default, Default, Default, Default, False) ; no time + end line
+			If $i > 1 Then SetLog("EndLine.", Default, Default, Default, Default, Default, 0, Default) ; no reward + end line
 			ExitLoop
 		EndIf
 	Next
@@ -289,7 +286,7 @@ Func CheckDiscountPerks()
 	SetLog("Checking for builder boost...")
 	If $g_bFirstStart Then $g_iBuilderBoostDiscount = 0
 
-	ClickP($aPersonalChallengePerksTab, 1, 0, "PerksTab")
+	ClickP($aPersonalChallengePerksTab, 1, 160, "PerksTab")
 
 	If Not WaitforPixel($aPersonalChallengePerksTab[0] - 1, $aPersonalChallengePerksTab[1] - 1, $aPersonalChallengePerksTab[0] + 1, $aPersonalChallengePerksTab[1] + 1, _
 			Hex($aPersonalChallengePerksTab[2], 6), $aPersonalChallengePerksTab[3], 2) Then Return        ; wait for Perks Tab completely loaded in 1 second
@@ -326,13 +323,13 @@ EndFunc   ;==>ClosePersonalChallenges
 Func CheckDiscountPerksMod()
 	SetLog("Checking for builder boost...")
 
-	If _CheckPixel($aPersonalChallengeOpenButton2, $g_bCapturePixel) Then ClickP($aPersonalChallengeOpenButton2, 1, 0, "#0666")
+	If _CheckPixel($aPersonalChallengeOpenButton2, $g_bCapturePixel) Then ClickP($aPersonalChallengeOpenButton2, 1, 160, "#0666")
 
 	If _Sleep(2500) Then Return
 
 	If $g_bFirstStart Then $g_iBuilderBoostDiscount = 0
 
-	ClickP($aPersonalChallengePerksTab, 1, 0, "PerksTab")
+	ClickP($aPersonalChallengePerksTab, 1, 160, "PerksTab")
 
 	If Not WaitforPixel($aPersonalChallengePerksTab[0] - 1, $aPersonalChallengePerksTab[1] - 1, $aPersonalChallengePerksTab[0] + 1, $aPersonalChallengePerksTab[1] + 1, _
 			Hex($aPersonalChallengePerksTab[2], 6), $aPersonalChallengePerksTab[3], 2) Then Return        ; wait for Perks Tab completely loaded in 1 second

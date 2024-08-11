@@ -43,10 +43,13 @@ Func PrepareAttackBB($AttackCount = 0)
 			CheckArmyReady()
 			CheckMachReady()
 			Return True
+		Else
+			SetLog("Builder Base Daily Challenge Unavailable", $COLOR_DEBUG1)
+			Return False
 		EndIf
 
 		If $AttackCount > 0 Then
-			If Not IsBBDailyChallengeStillAvailable() Then Return False
+			IsBBDailyChallengeStillAvailable()
 			If $g_IsBBDailyChallengeAvailable Then
 				$g_IsBBDailyChallengeAvailable = False
 				CheckLootAvail()
@@ -58,6 +61,8 @@ Func PrepareAttackBB($AttackCount = 0)
 				CheckArmyReady()
 				CheckMachReady()
 				Return True
+			Else
+				Return False
 			EndIf
 		EndIf
 	EndIf

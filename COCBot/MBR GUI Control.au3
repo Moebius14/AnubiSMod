@@ -1654,7 +1654,7 @@ Func SetTime($bForceUpdate = False)
 	EndIf
 
 	If _DateIsValid($g_sLabUpgradeTime) Then
-		Local $iLabTime = _DateDiff("s", _NowCalc(), $g_sLabUpgradeTime) * 1000
+		Local $iLabTime = _DateDiff('s', _NowCalc(), $g_sLabUpgradeTime) * 1000
 		If $iLabTime > 0 Then
 			_TicksToDay($iLabTime, $day, $hour, $min, $sec)
 			GUICtrlSetData($g_hLbLLabTime, $day > 0 ? StringFormat("%2ud %02i:%02i'", $day, $hour, $min) : StringFormat("%02i:%02i:%02i", $hour, $min, $sec))
@@ -1666,7 +1666,7 @@ Func SetTime($bForceUpdate = False)
 	EndIf
 
 	If _DateIsValid($g_sStarLabUpgradeTime) Then
-		Local $iStarLabTime = _DateDiff("s", _NowCalc(), $g_sStarLabUpgradeTime) * 1000
+		Local $iStarLabTime = _DateDiff('s', _NowCalc(), $g_sStarLabUpgradeTime) * 1000
 		If $iStarLabTime > 0 Then
 			_TicksToDay($iStarLabTime, $day, $hour, $min, $sec)
 			GUICtrlSetData($g_hLbLStarLabTime, $day > 0 ? StringFormat("%2ud %02i:%02i'", $day, $hour, $min) : StringFormat("%02i:%02i:%02i", $hour, $min, $sec))
@@ -1678,7 +1678,7 @@ Func SetTime($bForceUpdate = False)
 	EndIf
 
 	If _DateIsValid($g_sPetUpgradeTime) Then
-		Local $iPetTime = _DateDiff("s", _NowCalc(), $g_sPetUpgradeTime) * 1000
+		Local $iPetTime = _DateDiff('s', _NowCalc(), $g_sPetUpgradeTime) * 1000
 		If $iPetTime > 0 Then
 			_TicksToDay($iPetTime, $day, $hour, $min, $sec)
 			GUICtrlSetData($g_hLbLPetTime, $day > 0 ? StringFormat("%2ud %02i:%02i'", $day, $hour, $min) : StringFormat("%02i:%02i:%02i", $hour, $min, $sec))
@@ -1695,7 +1695,7 @@ Func SetTime($bForceUpdate = False)
 			GUICtrlSetData($g_ahLblResultRuntimeNowAcc[$g_iCurAccount], StringFormat("%02i:%02i:%02i", $hour, $min, $sec))
 			For $i = 0 To $g_iTotalAcc
 				If _DateIsValid($g_asTrainTimeFinish[$i]) Then
-					Local $iTime = _DateDiff("s", _NowCalc(), $g_asTrainTimeFinish[$i]) * 1000
+					Local $iTime = _DateDiff('s', _NowCalc(), $g_asTrainTimeFinish[$i]) * 1000
 					_TicksToTime(Abs($iTime), $hour, $min, $sec)
 					GUICtrlSetData($g_ahLblTroopTime[$i], ($iTime < 0 ? "-" : "") & StringFormat("%02i:%02i", $min, $sec))
 					GUICtrlSetData($g_ahLblTroopTimeRep[$i], ($iTime < 0 ? "-" : "") & StringFormat("%02i:%02i", $min, $sec))

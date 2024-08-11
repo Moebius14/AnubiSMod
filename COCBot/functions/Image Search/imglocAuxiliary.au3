@@ -311,7 +311,7 @@ Func GetButtonDiamond($sButtonName)
 		Case "ArmyTab", "TrainTroopsTab", "BrewSpellsTab", "BuildSiegeMachinesTab"
 			$btnDiamond = GetDiamondFromRect2(75, 110 + $g_iMidOffsetY, 740, 160 + $g_iMidOffsetY)
 		Case "WeeklyDeals", "RaidMedals"
-			$btnDiamond = GetDiamondFromRect2(30, 115 + $g_iMidOffsetY, 170, 320 + $g_iMidOffsetY)
+			$btnDiamond = GetDiamondFromRect2(30, 115 + $g_iMidOffsetY, 170, 365 + $g_iMidOffsetY)
 		Case "MessagesButton"
 			$btnDiamond = GetDiamondFromRect2(0, 0, 90, 170 + $g_iMidOffsetY)
 		Case "AttackLogTab", "ShareReplayButton"

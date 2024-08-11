@@ -17,7 +17,7 @@ Func ReplayShare($bShareLastReplay)
 	If Not $g_bShareAttackEnable Or Not $bShareLastReplay Then Return
 
 	Local Static $sLastTimeShared = ""
-	If $sLastTimeShared <> "" And Number(_DateDiff("n", $sLastTimeShared, _NowCalc())) <= 5 Then
+	If $sLastTimeShared <> "" And Number(_DateDiff('n', $sLastTimeShared, _NowCalc())) <= 5 Then
 		SetDebugLog("Last Replay got shared less than 30 Minutes ago, return (" & $sLastTimeShared & ")", $COLOR_DEBUG)
 		Return
 	EndIf

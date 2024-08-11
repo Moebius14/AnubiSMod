@@ -103,7 +103,7 @@ EndFunc   ;==>RequestCC
 Func _makerequest($aRequestButtonPos)
 	Local $sSendButtonArea = GetDiamondFromRect("220,150,650,650")
 
-	ClickP($aRequestButtonPos, 1, 0, "0336") ;click button request troops
+	ClickP($aRequestButtonPos, 1, 160, "0336") ;click button request troops
 
 	If _Sleep(250) Then Return
 	isGemOpen(True)

@@ -55,16 +55,14 @@ MAKE  |J          |FRONT-LEFT |10         |-21        |INT-EXT    |0          |0
 MAKE  |K          |FRONT-RIGHT|10         |-19        |INT-EXT    |0          |0          |           |                                            				  |
 MAKE  |L          |RIGHT-FRONT|10         |0          |INT-EXT    |3          |0          |           |                                            				  |
 MAKE  |M          |LEFT-FRONT |10         |0          |INT-EXT    |3          |0          |           |                                            				  |
-MAKE  |N          |FRONT-RIGHT|1          |0          |IGNORE     |0          |0          |TOWNHALL   |                                            				  |
-MAKE  |O          |FRONT-LEFT |1          |0          |IGNORE     |0          |0          |TOWNHALL   |                                            				  |
-MAKE  |P          |RIGHT-FRONT|1          |0          |IGNORE     |0          |0          |TOWNHALL   |                                            				  |
-MAKE  |Q          |LEFT-FRONT |1          |0          |IGNORE     |0          |0          |TOWNHALL   |                                            				  |
-MAKE  |R          |FRONT-RIGHT|1          |0          |IGNORE     |0          |0          |INFERNO    |                                            				  |
-MAKE  |S          |FRONT-LEFT |1          |0          |IGNORE     |0          |0          |INFERNO    |                                            				  |
-MAKE  |T          |RIGHT-FRONT|1          |0          |IGNORE     |0          |0          |INFERNO    |                                            				  |
-MAKE  |U          |LEFT-FRONT |1          |0          |IGNORE     |0          |0          |INFERNO    |                                            				  |
-MAKE  |X          |LEFT-FRONT |10         |0          |EXT-INT    |0          |0          |           |                                            				  |
-MAKE  |Y          |RIGHT-FRONT|10         |0          |EXT-INT    |0          |0          |           |                                            				  |
+MAKE  |N          |BACK-LEFT  |1          |0          |IGNORE     |0          |0          |TOWNHALL   |                                            				  |
+MAKE  |O          |BACK-RIGHT |1          |0          |IGNORE     |0          |0          |TOWNHALL   |                                            				  |
+MAKE  |P          |LEFT-BACK  |1          |0          |IGNORE     |0          |0          |TOWNHALL   |                                            				  |
+MAKE  |Q          |RIGHT-BACK |1          |0          |IGNORE     |0          |0          |TOWNHALL   |                                            				  |
+MAKE  |R          |BACK-LEFT  |1          |0          |IGNORE     |0          |0          |INFERNO    |                                            				  |
+MAKE  |S          |BACK-RIGHT |1          |0          |IGNORE     |0          |0          |INFERNO    |                                            				  |
+MAKE  |T          |LEFT-BACK  |1          |0          |IGNORE     |0          |0          |INFERNO    |                                            				  |
+MAKE  |U          |RIGHT-BACK |1          |0          |IGNORE     |0          |0          |INFERNO    |                                            				  |
       |                                                                                                                                  			 			  |
       |VECTOR_____|INDEX__________|QTY_X_VECT_|TROOPNAME__|DELAY_DROP_|DELAYCHANGE|SLEEPAFTER_|_______|___________________________________________________________|
 DROP  |A          |7-8            |1          |RootR      |50-70      |125-200    |225-250    |       |                                            				  |
@@ -78,7 +76,7 @@ WAIT  |500-1000   |               |           |           |           |         
 DROP  |A          |1              |1          |LogL       |50-70      |27-50      |120-150    |       |                                            				  |
 WAIT  |500-1000   |               |           |           |           |           |           |       |                                            				  |
 DROP  |A          |3,2,1          |3          |Witc       |50-70      |127-150    |0	      |       |                                            				  |
-DROP  |B          |1,2,3,4		  |4          |Witc       |50-70      |127-150    |150-220    |       |                                            				  |
+DROP  |B          |1,2,3,4		  |4          |Witc       |50-70      |127-150    |1350-1520  |       |                                            				  |
 DROP  |A          |4,3,2          |3          |Druid      |50-70      |127-150    |0	      |       |                                            				  |
 DROP  |B          |1,2,3		  |3          |Druid      |50-70      |127-150    |150-220    |       |                                            				  |
 DROP  |A          |1              |1          |Warden     |27-50      |0          |100-250    |       |                                            				  |

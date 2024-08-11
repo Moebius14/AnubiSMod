@@ -271,7 +271,7 @@ Func SmartWait4Train($iTestSeconds = Default)
 	If $g_bDebugSetlogTrain Or $g_bDebugSetlog Then SetLog("Train end time: " & _DateAdd("s", Int($iTrainWaitTime), $sNowTime), $COLOR_DEBUG)
 
 	If IsArray($g_asShieldStatus) And _DateIsValid($g_asShieldStatus[2]) Then ;check for valid shield time
-		$iShieldTime = _DateDiff("s", $sNowTime, $g_asShieldStatus[2]) ; find seconds until shield expires
+		$iShieldTime = _DateDiff('s', $sNowTime, $g_asShieldStatus[2]) ; find seconds until shield expires
 		If @error Then _logErrorDateDiff(@error)
 		If $g_bDebugSetlogTrain Or $g_bDebugSetlog Then SetLog("Shield time remain: " & $iShieldTime & " seconds", $COLOR_DEBUG)
 		; subtract 45 seconds from actual Shield to allow for misc emulator/App start & stop delays, to prevent being attacked

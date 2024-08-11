@@ -1,3 +1,12 @@
+* v24.08.11
+* Added WaitForClanMessage() To Builder's Apprentice Window.
+* Changed BBDailyChallengeAvailable : Switch even False Value Returned.
+* Improved Walls search function.
+* Fixed/Improved Pet Upgrade Related To TH/Pet House Level.
+* Updated Event Collect (August 2024).
+* Improved Root Tombs Collect.
+* Improved Humanization/WarDay Function.
+
 * v24.06.29**
 * Updated Obstacle Remove in progress detection.
 * Added Druid CSV. Updated few others.

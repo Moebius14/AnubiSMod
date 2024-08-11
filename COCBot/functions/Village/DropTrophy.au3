@@ -441,6 +441,7 @@ Func DropTrophy()
 						EndSwitch
 
 						Local $t
+						Local $DELAYDROPTROPHYHERO = _Sleep(Random(850, 1350, 1))
 						For $i = 1 To 4
 							$t = StringMid($sHeroPriority, $i, 1)
 							Switch $t
@@ -451,7 +452,7 @@ Func DropTrophy()
 										SelectDropTroop($g_iQueenSlot)
 										If _Sleep($DELAYDROPTROPHY1) Then ExitLoop
 										Click($aRandomEdge[$iRandomXY][0], $aRandomEdge[$iRandomXY][1], 1, 150, "#0180") ;Drop Queen
-										If _Sleep($DELAYDROPTROPHY4) Then ExitLoop
+										If _Sleep($DELAYDROPTROPHYHERO) Then ExitLoop
 										SelectDropTroop($g_iQueenSlot) ;If Queen was not activated: Boost Queen before EndBattle to restore some health
 										ReturnfromDropTrophies()
 										If _Sleep($DELAYDROPTROPHY1) Then ExitLoop
@@ -464,7 +465,7 @@ Func DropTrophy()
 										SelectDropTroop($g_iKingSlot)
 										If _Sleep($DELAYDROPTROPHY1) Then ExitLoop
 										Click($aRandomEdge[$iRandomXY][0], $aRandomEdge[$iRandomXY][1], 1, 150, "#0178") ;Drop King
-										If _Sleep($DELAYDROPTROPHY4) Then ExitLoop
+										If _Sleep($DELAYDROPTROPHYHERO) Then ExitLoop
 										SelectDropTroop($g_iKingSlot) ;If King was not activated: Boost King before EndBattle to restore some health
 										ReturnfromDropTrophies()
 										If _Sleep($DELAYDROPTROPHY1) Then ExitLoop
@@ -477,7 +478,7 @@ Func DropTrophy()
 										SelectDropTroop($g_iWardenSlot)
 										If _Sleep($DELAYDROPTROPHY1) Then ExitLoop
 										Click($aRandomEdge[$iRandomXY][0], $aRandomEdge[$iRandomXY][1], 1, 150, "#0000") ;Drop Warden
-										If _Sleep($DELAYDROPTROPHY4) Then ExitLoop
+										If _Sleep($DELAYDROPTROPHYHERO) Then ExitLoop
 										SelectDropTroop($g_iWardenSlot) ;If Warden was not activated: Boost Warden before EndBattle to restore some health
 										ReturnfromDropTrophies()
 										If _Sleep($DELAYDROPTROPHY1) Then ExitLoop
@@ -490,7 +491,7 @@ Func DropTrophy()
 										SelectDropTroop($g_iChampionSlot)
 										If _Sleep($DELAYDROPTROPHY1) Then ExitLoop
 										Click($aRandomEdge[$iRandomXY][0], $aRandomEdge[$iRandomXY][1], 1, 150, "#0000") ;Drop Champion
-										If _Sleep($DELAYDROPTROPHY4) Then ExitLoop
+										If _Sleep($DELAYDROPTROPHYHERO) Then ExitLoop
 										SelectDropTroop($g_iChampionSlot) ;If Champion was not activated: Boost Champion before EndBattle to restore some health
 										ReturnfromDropTrophies()
 										If _Sleep($DELAYDROPTROPHY1) Then ExitLoop

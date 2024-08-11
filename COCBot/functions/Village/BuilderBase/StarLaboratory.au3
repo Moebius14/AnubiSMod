@@ -43,7 +43,7 @@ Func StarLaboratory($bTestRun = False)
 	Local $iAvailElixir, $sElixirCount, $TimeDiff, $aArray, $Result, $aSearchForTroop
 	Local $iSelectedUpgrade = $g_iCmbStarLaboratory
 
-	If $g_sStarLabUpgradeTime <> "" Then $TimeDiff = _DateDiff("n", _NowCalc(), $g_sStarLabUpgradeTime) ; what is difference between end time and now in minutes?
+	If $g_sStarLabUpgradeTime <> "" Then $TimeDiff = _DateDiff('n', _NowCalc(), $g_sStarLabUpgradeTime) ; what is difference between end time and now in minutes?
 	If @error Then _logErrorDateDiff(@error)
 	If $g_bDebugSetlog Then SetDebugLog($g_avStarLabTroops[$g_iCmbStarLaboratory][3] & " Lab end time: " & $g_sStarLabUpgradeTime & ", DIFF= " & $TimeDiff, $COLOR_DEBUG)
 

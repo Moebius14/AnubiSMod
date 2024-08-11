@@ -149,6 +149,7 @@ Func _ClanGames($test = False, $HaltMode = False)
 		If $g_bChkClanGamesBBTroops Then ClanGameImageCopy($sImagePath, $sTempChallengePath, "BBT") ;BBT for BB Troops
 		;now we need to copy selected challenge before checking current running event is not wrong event selected
 
+		WaitForClanMessage("ClanGames")
 		; Let's get some information , like Remain Timer, Score and limit
 		If Not _ColorCheck(_GetPixelColor(295, 280 + $g_iMidOffsetY, True), Hex(0x53DE50, 6), 10) Then ;no greenbar = there is active event or completed event
 			If _Sleep(3000) Then Return ; just wait few second, as completed event will need sometime to animate on score
@@ -674,7 +675,7 @@ Func _ClanGames($test = False, $HaltMode = False)
 			EndIf
 
 			; Drop to top again , because coordinates Xaxis and Yaxis
-			ClickP($TabChallengesPosition, 2, 0, "#Tab")
+			ClickP($TabChallengesPosition, 2, 160, "#Tab")
 			If _Sleep(2000) Then Return
 		EndIf
 
@@ -931,6 +932,8 @@ Func FindEvent()
 	Local $aX[4] = [284, 418, 550, 685]
 	Local $aY[3] = [155 + $g_iMidOffsetY, 325 + $g_iMidOffsetY, 305 + $g_iMidOffsetY]
 
+	WaitForClanMessage("ClanGames")
+
 	For $y = 0 To UBound($aY) - 1
 		If $y = UBound($aY) - 1 Then
 			ChallengeNextPage(2, $iRow)
@@ -1183,6 +1186,7 @@ Func IsEventRunning($bOpenWindow = False)
 		If Not IsClanGamesWindow() Then Return
 	EndIf
 
+	WaitForClanMessage("ClanGames")
 	; Check if any event is running or not
 	If Not _ColorCheck(_GetPixelColor(295, 280 + $g_iMidOffsetY, True), Hex(0x53DE50, 6), 10) Then ; Green Bar from First Position
 		;Check if Event failed
@@ -1339,6 +1343,7 @@ Func IsEventRunning($bOpenWindow = False)
 
 				Click(340, 210 + $g_iMidOffsetY)
 				If _Sleep(2000) Then Return
+				WaitForClanMessage("ClanGames")
 				SetLog("Re-Check Event Type", $COLOR_DEBUG1)
 				If QuickMIS("BC1", $g_sImgVersus, 425, 180 + $g_iMidOffsetY, 700, 245 + $g_iMidOffsetY) And $CurrentActiveChallenge <> "Builder Hut" Then
 					If $aActiveEvent[0][0] = "D-BBreakdown" Or $aActiveEvent[0][0] = "BBD-BuildingDes" Then
@@ -1543,6 +1548,7 @@ Func StartsEvent($sEventName, $getCapture = True, $g_bChkClanGamesDebug = False)
 		Click(340, 210 + $g_iMidOffsetY) ;Click Active Challenge
 		If _Sleep(1000) Then Return
 		SetLog("Re-Check Event Type", $COLOR_DEBUG1)
+		WaitForClanMessage("ClanGames")
 		If QuickMIS("BC1", $g_sImgVersus, 425, 180 + $g_iMidOffsetY, 700, 245 + $g_iMidOffsetY, True, False) Then
 			If $sEventName = "Builder Hut" Then
 				Setlog("Running Challenge is MainVillage Challenge : " & $sEventName, $COLOR_ACTION)
@@ -1811,6 +1817,8 @@ Func FindEventToPurge()
 	Local $aX[4] = [284, 418, 550, 685]
 	Local $aY[3] = [155 + $g_iMidOffsetY, 325 + $g_iMidOffsetY, 305 + $g_iMidOffsetY]
 
+	WaitForClanMessage("ClanGames")
+
 	For $y = 0 To UBound($aY) - 1
 		If $y = UBound($aY) - 1 Then
 			ChallengeNextPage(2, $iRow)
@@ -1964,6 +1972,7 @@ Func PurgeEvent($bTest = False, $startFirst = True, $NoMistake = True, $iRow = 1
 		EndIf
 	Else
 		SetLog("Purge a Wrong Challenge", $COLOR_INFO)
+		WaitForClanMessage("ClanGames")
 		If QuickMIS("BC1", $g_sImgTrashPurge, 235, 140 + $g_iMidOffsetY, 825, 540 + $g_iMidOffsetY, True, False) Then
 			Click($g_iQuickMISX, $g_iQuickMISY)
 			If _Sleep(1500) Then Return

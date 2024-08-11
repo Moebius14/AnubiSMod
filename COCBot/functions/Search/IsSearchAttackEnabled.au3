@@ -218,7 +218,7 @@ Func IsSearchAttackEnabled()
 			EndIf
 			If _Sleep($DELAYRUNBOT3) Then Return
 			If $bCloseGame Then
-				$iWaitTime = _DateDiff("s", _NowCalc(), $aNoAttackTimes[1]) ; find time to stop attacking in seconds
+				$iWaitTime = _DateDiff('s', _NowCalc(), $aNoAttackTimes[1]) ; find time to stop attacking in seconds
 				If @error Then
 					_logErrorDateDiff(@error)
 					SetError(1, "Can not find NoAttack wait time", True)
@@ -401,7 +401,7 @@ EndFunc   ;==>IsSearchAttackEnabled
 
 Func _getTimeRemainTimeToday()
 	; calculates number of seconds left till midnight today
-	Local $iTimeRemain = _DateDiff("s", _NowCalc(), _NowCalcDate() & " 23:59:59")
+	Local $iTimeRemain = _DateDiff('s', _NowCalc(), _NowCalcDate() & " 23:59:59")
 	If @error Then
 		_logErrorDateDiff(@error)
 		SetError(1, "Can not determine time remaining today", 0)
@@ -413,7 +413,7 @@ EndFunc   ;==>_getTimeRemainTimeToday
 
 Func _IsTimeAfter($sCompareTime, $sCurrentTime = _NowCalc())
 	; Check to see if the amount of seconds remaining is less than 0
-	Local $bResult = _DateDiff("s", $sCurrentTime, $sCompareTime) < 0
+	Local $bResult = _DateDiff('s', $sCurrentTime, $sCompareTime) < 0
 	If @error Then
 		_logErrorDateDiff(@error)
 		SetError(1, "Can not check if time is after", False)
@@ -425,7 +425,7 @@ EndFunc   ;==>_IsTimeAfter
 
 Func _IsTimeBefore($sCompareTime, $sCurrentTime = _NowCalc())
 	; Check to see if the amount of seconds remaining is greater than 0
-	Local $bResult = _DateDiff("s", $sCurrentTime, $sCompareTime) > 0
+	Local $bResult = _DateDiff('s', $sCurrentTime, $sCompareTime) > 0
 	If @error Then
 		_logErrorDateDiff(@error)
 		SetError(1, "Can not check if time is before", False)

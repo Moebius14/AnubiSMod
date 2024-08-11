@@ -83,6 +83,19 @@
 * Added New Survey Window Detection.
 * Updated Ban Window Detection.
 * Typo
+* Improved Builder's Apprentice Cooldown OCR.
+* Added Magic Mirror Equipment Support.
+* Added Clash Game Stadium and Anime Sceneries Support (Attack Only).
+* Added More Builder's Apprentice Options.
+* Updated Close SCID Window Button Coordinates.
+* Updated Trader Menu Coordinates.
+* Updated Clan Capital Buildings OCR Area (Menu).
+* Improved Daily Challenge Collect.
+* Updated Nox Version Support.
+* Improved Few OCR Libs.
+* Improved few Sceneries Detection (attaack Only).
+* Improved Heroes Status Detection.
+* Fixed Super Archer Donation.
 
 * v8.1.6 **
 * Added "Before you upgrade" window support.

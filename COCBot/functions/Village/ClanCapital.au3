@@ -220,7 +220,7 @@ Func ClanCapitalReport($SetLog = True)
 				SetLog("Raid Weekend starts in " & $sRaidTimeOCR & "", $COLOR_GREEN)
 			ElseIf $iConvertedTime < 1440 And $iConvertedTime > 120 Then
 				SetLog("Raid Weekend starts in " & $sRaidTimeOCR & "", $COLOR_ACTION)
-			ElseIf $iConvertedTime < 120 Then
+			ElseIf $iConvertedTime < 120 And $sRaidTimeOCR <> "" Then
 				If _ColorCheck(_GetPixelColor(835, 637 + $g_iBottomOffsetY, True), Hex(0x85B525, 6), 20) Then ;Check Green Color on StartRaid Button
 					SetLog("Raid Weekend is Ready To Start", $COLOR_SUCCESS1)
 				Else
@@ -1664,7 +1664,7 @@ Func FindCCSuggestedUpgrade()
 			If Not $g_bChkEnablePriorArmyCC Then ExitLoop
 			If Not $g_bChkEnablePriorArmyCamp And Not $g_bChkEnablePriorBarracks And Not $g_bChkEnablePriorFactory And Not $g_bChkEnablePriorStorage Then ExitLoop
 			If _ColorCheck(_GetPixelColor($aUpgrade[$i][1] - 15, $aUpgrade[$i][2] - 6, True), Hex(0xFFFFFF, 6), 20) Then ContinueLoop ;check if we have progressbar, upgrade to ignore
-			$name = getCCBuildingNameSuggested($aUpgrade[$i][1] - 235, $aUpgrade[$i][2] - 12)
+			$name = getCCBuildingNameSuggested($aUpgrade[$i][1] - 250, $aUpgrade[$i][2] - 12)
 
 			If QuickMIS("BC1", $g_sImgDecoration, $aUpgrade[$i][1] - 260, $aUpgrade[$i][2] - 20, $aUpgrade[$i][1] - 160, $aUpgrade[$i][2] + 10) Then
 				$name = getCCBuildingNameBlue($aUpgrade[$i][1] - 230, $aUpgrade[$i][2] - 14)
@@ -1833,7 +1833,7 @@ Func FindCCSuggestedUpgrade()
 		For $i = 0 To UBound($aUpgrade) - 1
 			If Not $g_bChkEnablePriorHallsCC Then ExitLoop
 			If _ColorCheck(_GetPixelColor($aUpgrade[$i][1] - 15, $aUpgrade[$i][2] - 6, True), Hex(0xFFFFFF, 6), 20) Then ContinueLoop ;check if we have progressbar, upgrade to ignore
-			$name = getCCBuildingNameSuggested($aUpgrade[$i][1] - 235, $aUpgrade[$i][2] - 12)
+			$name = getCCBuildingNameSuggested($aUpgrade[$i][1] - 250, $aUpgrade[$i][2] - 12)
 
 			If QuickMIS("BC1", $g_sImgDecoration, $aUpgrade[$i][1] - 260, $aUpgrade[$i][2] - 20, $aUpgrade[$i][1] - 160, $aUpgrade[$i][2] + 10) Then
 				$name = getCCBuildingNameBlue($aUpgrade[$i][1] - 230, $aUpgrade[$i][2] - 14)
@@ -1870,7 +1870,7 @@ Func FindCCSuggestedUpgrade()
 
 		For $i = 0 To UBound($aUpgrade) - 1
 			If _ColorCheck(_GetPixelColor($aUpgrade[$i][1] - 15, $aUpgrade[$i][2] - 6, True), Hex(0xFFFFFF, 6), 20) Then ContinueLoop ;check if we have progressbar, upgrade to ignore
-			$name = getCCBuildingNameSuggested($aUpgrade[$i][1] - 235, $aUpgrade[$i][2] - 12)
+			$name = getCCBuildingNameSuggested($aUpgrade[$i][1] - 250, $aUpgrade[$i][2] - 12)
 
 			If QuickMIS("BC1", $g_sImgDecoration, $aUpgrade[$i][1] - 260, $aUpgrade[$i][2] - 20, $aUpgrade[$i][1] - 160, $aUpgrade[$i][2] + 10) Then
 				$name = getCCBuildingNameBlue($aUpgrade[$i][1] - 230, $aUpgrade[$i][2] - 14)
@@ -2234,7 +2234,11 @@ Func CapitalMainUpgradeLoop($aUpgrade)
 				ExitLoop
 			EndIf
 			If Not $g_bRunState Then Return
-			Click(700, 575 + $g_iMidOffsetY) ;Click Contribute
+			Local $ContributeCoordsX[2] = [670, 730]
+			Local $ContributeCoordsY[2] = [560 + $g_iMidOffsetY, 590 + $g_iMidOffsetY]
+			Local $ContributeButtonClickX = Random($ContributeCoordsX[0], $ContributeCoordsX[1], 1)
+			Local $ContributeButtonClickY = Random($ContributeCoordsY[0], $ContributeCoordsY[1], 1)
+			Click($ContributeButtonClickX, $ContributeButtonClickY, 1, 165, "#0155") ;Click Contribute
 			$g_iStatsClanCapUpgrade = $g_iStatsClanCapUpgrade + 1
 			AutoUpgradeCCLog($BuildingName)
 			If _Sleep(1500) Then Return
@@ -2274,7 +2278,11 @@ Func DistrictUpgrade($aUpgrade)
 				ExitLoop
 			EndIf
 			If Not $g_bRunState Then Return
-			Click(700, 575 + $g_iMidOffsetY) ;Click Contribute
+			Local $ContributeCoordsX[2] = [670, 730]
+			Local $ContributeCoordsY[2] = [560 + $g_iMidOffsetY, 590 + $g_iMidOffsetY]
+			Local $ContributeButtonClickX = Random($ContributeCoordsX[0], $ContributeCoordsX[1], 1)
+			Local $ContributeButtonClickY = Random($ContributeCoordsY[0], $ContributeCoordsY[1], 1)
+			Click($ContributeButtonClickX, $ContributeButtonClickY, 1, 165, "#0155") ;Click Contribute
 			$g_iStatsClanCapUpgrade = $g_iStatsClanCapUpgrade + 1
 			AutoUpgradeCCLog($BuildingName)
 			If _Sleep(1500) Then Return

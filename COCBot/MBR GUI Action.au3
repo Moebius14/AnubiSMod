@@ -127,8 +127,9 @@ Func BotStart($bAutostartDelay = 0)
 	Next
 	$bControlCCMedal = False
 	$g_iMinDark4PetUpgrade = 0
+	$g_iLaboratoryElixirCost = 0
+	$g_iLaboratoryDElixirCost = 0
 	$g_sNewChallengeTime = 0
-	$TimeDiffBBChallenge = 0
 	$g_iLootCCGold = 0
 	$g_iLootCCMedal = 0
 	$g_iCCTrophies = 0

@@ -193,29 +193,43 @@ Func SwitchBetweenBasesMod()
 		EndIf
 	EndIf
 
+	If $g_bChkBBAttackForDailyChallenge And Not $g_bIsBBevent Then
+		If _DateIsValid($g_sNewChallengeTime) Then
+			Local $TimeDiffBBChallenge = _DateDiff('n', _NowCalc(), $g_sNewChallengeTime)
+			If $TimeDiffBBChallenge > 0 Then
+
+				Local $iWaitTime = $TimeDiffBBChallenge * 60 * 1000
+				Local $sWaitTime = ""
+				Local $iMin, $iHour, $iWaitSec
+
+				$iWaitSec = Round($iWaitTime / 1000)
+				$iHour = Floor(Floor($iWaitSec / 60) / 60)
+				$iMin = Floor(Mod(Floor($iWaitSec / 60), 60))
+				If $iHour > 0 Then $sWaitTime &= $iHour & " hours "
+				If $iMin > 0 Then $sWaitTime &= $iMin & " minutes "
+				SetLog("Daily BB Challenge Unavailable", $COLOR_DEBUG1)
+				SetLog("New Challenge in " & $sWaitTime, $COLOR_ACTION)
+				SetLog("Check Builder Base Later", $COLOR_NAVY)
+
+				$IstoSwitchMod = 0
+				Return
+			EndIf
+		EndIf
+	EndIf
+
 	If Not $g_bChkBBaseFrequency Then ; Return True and End fonction Without Timing
 		If ($g_bChkEnableForgeBBGold Or $g_bChkEnableForgeBBElix) And ($g_aiCurrentLootBB[$eLootGoldBB] = 0 Or $g_aiCurrentLootBB[$eLootElixirBB] = 0) Then
 			$IstoSwitchMod = 1
 			Return
 		EndIf
-		If Not $g_bIsBBevent Then
-			If Not IsBBDailyChallengeAvailable() Then
-				$IstoSwitchMod = 0
-				Return
-			EndIf
-		EndIf
+		If Not $g_bIsBBevent Then IsBBDailyChallengeAvailable()
 		$IstoSwitchMod = 1
 		Return
 
 	ElseIf $g_bChkBBaseFrequency Then ; Cases Check Frequency enable
 
 		If $g_iCmbPriorityBBaseFrequency = 0 Then ; Case Everytime, Return True and End fonction Without Timing
-			If Not $g_bIsBBevent Then
-				If Not IsBBDailyChallengeAvailable() Then
-					$IstoSwitchMod = 0
-					Return
-				EndIf
-			EndIf
+			If Not $g_bIsBBevent Then IsBBDailyChallengeAvailable()
 			$IstoSwitchMod = 1
 			Return
 		EndIf
@@ -239,10 +253,7 @@ Func SwitchBetweenBasesMod()
 			If $iMin > 0 Then $sWaitTime &= $iMin & " minutes "
 			SetLog("Time to Check Builder Base", $COLOR_OLIVE)
 			SetLog("Next Builder Base Check : " & $sWaitTime & "", $COLOR_OLIVE)
-			If Not IsBBDailyChallengeAvailable() Then
-				$IstoSwitchMod = 0
-				Return
-			EndIf
+			IsBBDailyChallengeAvailable()
 			$IstoSwitchMod = 1
 			Return
 		EndIf
@@ -309,10 +320,7 @@ Func SwitchBetweenBasesMod()
 
 			SetLog("Time to Check Builder Base", $COLOR_OLIVE)
 			SetLog("Next Builder Base Check : " & $sWaitTime & "", $COLOR_OLIVE)
-			If Not IsBBDailyChallengeAvailable() Then
-				$IstoSwitchMod = 0
-				Return
-			EndIf
+			IsBBDailyChallengeAvailable()
 			$IstoSwitchMod = 1
 			Return
 		EndIf
@@ -755,15 +763,15 @@ EndFunc   ;==>StarBonusSearch
 
 Func IsBBDailyChallengeAvailable()
 
-	If Not $g_bChkBBAttackForDailyChallenge Or Not $g_bChkEnableBBAttack Then Return True
+	$g_IsBBDailyChallengeAvailable = True ; Reset
+	If Not $g_bChkBBAttackForDailyChallenge Or Not $g_bChkEnableBBAttack Then Return
 
 	Local $iWaitTime = 0
 	Local $sWaitTime = ""
 	Local $iMin, $iHour, $iWaitSec
 
 	If _DateIsValid($g_sNewChallengeTime) Then
-		$TimeDiffBBChallenge = _DateDiff("n", _NowCalc(), $g_sNewChallengeTime)
-		If ProfileSwitchAccountEnabled() Then SwitchAccountVariablesReload("Save")
+		Local $TimeDiffBBChallenge = _DateDiff('n', _NowCalc(), $g_sNewChallengeTime)
 		If $TimeDiffBBChallenge > 0 Then
 
 			$iWaitTime = $TimeDiffBBChallenge * 60 * 1000
@@ -777,8 +785,9 @@ Func IsBBDailyChallengeAvailable()
 
 			SetLog("Daily BB Challenge Unavailable", $COLOR_DEBUG1)
 			SetLog("New Challenge in " & $sWaitTime, $COLOR_ACTION)
-			SetLog("Check Builder Base Later", $COLOR_NAVY)
-			Return False
+
+			$g_IsBBDailyChallengeAvailable = False
+			Return
 		EndIf
 	EndIf
 
@@ -788,11 +797,11 @@ Func IsBBDailyChallengeAvailable()
 	Local $bRet = False
 	For $i = 0 To 9
 		If _CheckPixel($aPersonalChallengeOpenButton1, $g_bCapturePixel) Then
-			ClickP($aPersonalChallengeOpenButton1, 1, 0, "#0666")
+			ClickP($aPersonalChallengeOpenButton1, 1, 160, "#0666")
 			$bRet = True
 			ExitLoop
 		ElseIf _CheckPixel($aPersonalChallengeOpenButton2, $g_bCapturePixel) Then
-			ClickP($aPersonalChallengeOpenButton2, 1, 0, "#0666")
+			ClickP($aPersonalChallengeOpenButton2, 1, 160, "#0666")
 			$bRet = True
 			ExitLoop
 		EndIf
@@ -801,7 +810,8 @@ Func IsBBDailyChallengeAvailable()
 	If $bRet = False Then
 		SetLog("Can't find button", $COLOR_ERROR)
 		ClearScreen()
-		Return False
+		$g_IsBBDailyChallengeAvailable = False
+		Return
 	EndIf
 
 	Local $counter = 0
@@ -809,16 +819,19 @@ Func IsBBDailyChallengeAvailable()
 		SetDebugLog("Wait for Personal Challenge Close Button to appear #" & $counter)
 		If _Sleep($DELAYRUNBOT6) Then Return
 		$counter += 1
-		If $counter > 40 Then Return False
+		If $counter > 40 Then
+			$g_IsBBDailyChallengeAvailable = False
+			Return
+		EndIf
 	WEnd
 
 	If _Sleep(5000) Then Return
 
 	If QuickMIS("BC1", $g_sImgBBDailyAvail, 50, 350 + $g_iMidOffsetY, 120, 430 + $g_iMidOffsetY) Then
-		SetLog("Check Builder Base Now, Daily Challenge Available", $COLOR_SUCCESS1)
+		SetLog("Daily Challenge Available", $COLOR_SUCCESS1)
 		$g_IsBBDailyChallengeAvailable = True
 		CloseWindow()
-		Return True
+		Return
 	Else
 		SetLog("Daily BB Challenge Unavailable", $COLOR_DEBUG1)
 		Local $Result = getOcrAndCapture("coc-forgetime", 210, 558 + $g_iMidOffsetY, 95, 18, True)
@@ -829,7 +842,7 @@ Func IsBBDailyChallengeAvailable()
 		If $iBBDailyNewChalTime > 0 Then
 			$g_sNewChallengeTime = _DateAdd('n', Ceiling($iBBDailyNewChalTime), $StartTime)
 			SetLog("New Challenge @ " & $g_sNewChallengeTime, $COLOR_DEBUG1)
-			$TimeDiffBBChallenge = _DateDiff("n", _NowCalc(), $g_sNewChallengeTime) ; what is difference between end time and now in minutes?
+			Local $TimeDiffBBChallenge = _DateDiff('n', _NowCalc(), $g_sNewChallengeTime) ; what is difference between end time and now in minutes?
 			If ProfileSwitchAccountEnabled() Then SwitchAccountVariablesReload("Save")
 			If $TimeDiffBBChallenge > 0 Then
 
@@ -843,16 +856,16 @@ Func IsBBDailyChallengeAvailable()
 				If $iMin > 0 Then $sWaitTime &= $iMin & " minutes "
 
 				SetLog("New Challenge in " & $sWaitTime, $COLOR_ACTION)
-				SetLog("Check Builder Base Later", $COLOR_NAVY)
 
 				$g_IsBBDailyChallengeAvailable = False
 				CloseWindow()
-				Return False
+				Return
 			EndIf
 		Else
 			SetLog("Error processing New Challenge time required, try again!", $COLOR_WARNING)
+			$g_IsBBDailyChallengeAvailable = False
 			CloseWindow()
-			Return False
+			Return
 		EndIf
 	EndIf
 
@@ -860,18 +873,19 @@ EndFunc   ;==>IsBBDailyChallengeAvailable
 
 Func IsBBDailyChallengeStillAvailable()
 
-	If Not $g_bChkBBAttackForDailyChallenge Then Return True
+	$g_IsBBDailyChallengeAvailable = True ; Reset
+	If Not $g_bChkBBAttackForDailyChallenge Then Return
 
 	ClearScreen("Right", False)
 	If _Sleep($DELAYRUNBOT1) Then Return
 	Local $bRet = False
 	For $i = 0 To 9
 		If _CheckPixel($aPersonalChallengeOpenButton1, $g_bCapturePixel) Then
-			ClickP($aPersonalChallengeOpenButton1, 1, 0, "#0666")
+			ClickP($aPersonalChallengeOpenButton1, 1, 160, "#0666")
 			$bRet = True
 			ExitLoop
 		ElseIf _CheckPixel($aPersonalChallengeOpenButton2, $g_bCapturePixel) Then
-			ClickP($aPersonalChallengeOpenButton2, 1, 0, "#0666")
+			ClickP($aPersonalChallengeOpenButton2, 1, 160, "#0666")
 			$bRet = True
 			ExitLoop
 		EndIf
@@ -880,7 +894,8 @@ Func IsBBDailyChallengeStillAvailable()
 	If $bRet = False Then
 		SetLog("Can't find button", $COLOR_ERROR)
 		ClearScreen("Right", False)
-		Return False
+		$g_IsBBDailyChallengeAvailable = False
+		Return
 	EndIf
 
 	Local $counter = 0
@@ -888,7 +903,10 @@ Func IsBBDailyChallengeStillAvailable()
 		SetDebugLog("Wait for Personal Challenge Close Button to appear #" & $counter)
 		If _Sleep($DELAYRUNBOT6) Then Return
 		$counter += 1
-		If $counter > 40 Then Return False
+		If $counter > 40 Then
+			$g_IsBBDailyChallengeAvailable = False
+			Return
+		EndIf
 	WEnd
 
 	If _Sleep(5000) Then Return
@@ -897,12 +915,12 @@ Func IsBBDailyChallengeStillAvailable()
 		SetLog("Builder Base Daily Challenge Available", $COLOR_SUCCESS1)
 		$g_IsBBDailyChallengeAvailable = True
 		CloseWindow()
-		Return True
+		Return
 	Else
 		SetLog("Builder Base Daily Challenge Unavailable", $COLOR_DEBUG1)
 		$g_IsBBDailyChallengeAvailable = False
 		CloseWindow()
-		Return False
+		Return
 	EndIf
 
 EndFunc   ;==>IsBBDailyChallengeStillAvailable
