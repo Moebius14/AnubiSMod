@@ -859,7 +859,7 @@ Func LookAtCurrentWar()
 
 	If $g_bClanWarLeague Then
 		If QuickMIS("BC1", $directoryDay & "\CWL_Battle", 175, 585 + $g_iBottomOffsetY, 690, 625 + $g_iBottomOffsetY, True, False) Then ; When Battle Day Is Unselected
-			SetLog("Back To Battle Day", $COLOR_OLIVE)
+			SetLog($IsWarEnded = True ? "Back To Last Day" : "Back To Battle Day", $COLOR_OLIVE)
 			Click($g_iQuickMISX - 5, $g_iQuickMISY + 12)
 			If _Sleep(1500) Then Return
 		Else
@@ -992,12 +992,12 @@ Func WatchWarReplays()
 
 				If $g_bClanWarLeague Then
 					If QuickMIS("BC1", $directoryDay & "\CWL_Battle", 175, 585 + $g_iBottomOffsetY, 690, 625 + $g_iBottomOffsetY, True, False) Then ; When Battle Day Is Unselected
-						SetLog("Back To Battle Day", $COLOR_OLIVE)
+						SetLog($IsWarEnded = True ? "Back To Last Day" : "Back To Battle Day", $COLOR_OLIVE)
 						Click($g_iQuickMISX - 5, $g_iQuickMISY + 12)
 						If _Sleep(1500) Then Return
 					Else
 						If $IsWarEnded Then
-							SetLog("Back To Battle Day", $COLOR_OLIVE)
+							SetLog("Back To Last Day", $COLOR_OLIVE)
 							Click($bResult, 615 + $g_iBottomOffsetY)
 							If _Sleep(1500) Then Return
 						EndIf

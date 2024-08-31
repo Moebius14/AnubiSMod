@@ -93,9 +93,13 @@
 * Improved Daily Challenge Collect.
 * Updated Nox Version Support.
 * Improved Few OCR Libs.
-* Improved few Sceneries Detection (attaack Only).
+* Improved few Sceneries Detection (Attack Only).
 * Improved Heroes Status Detection.
 * Fixed Super Archer Donation.
+* Improved Anime Scenery Detection (Attack Only).
+* Fixed BS5 Shared Folder Mounting.
+* Updated Nox and BS5 Supported Versions.
+* Fixed Clan Games Rewards Collect (6th column + BOE).
 
 * v8.1.6 **
 * Added "Before you upgrade" window support.

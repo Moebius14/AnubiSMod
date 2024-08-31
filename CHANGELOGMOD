@@ -1,4 +1,9 @@
-* v24.08.11
+* v24.08.31 **
+* Added Force Use Clan Castle If No Siege Detected (Cases "Any" and "Selected Siege").
+* Updated and Improved Dead Bases Detection (No more Collector setting as well).
+* Updated few CSV's.
+
+* v24.08.11 **
 * Added WaitForClanMessage() To Builder's Apprentice Window.
 * Changed BBDailyChallengeAvailable : Switch even False Value Returned.
 * Improved Walls search function.

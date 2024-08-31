@@ -301,7 +301,7 @@ Func BotSearchMode()
 	CheckIfArmyIsReady()
 	ClickAway()
 	If _Sleep(100) Then Return FuncReturn()
-	If (IsSearchModeActive($DB) And checkCollectors(True, False)) Or IsSearchModeActive($LB) Then
+	If IsSearchModeActive($DB) Or IsSearchModeActive($LB) Then
 		If _Sleep(100) Then Return FuncReturn()
 		PrepareSearch()
 		If $g_bOutOfGold Then Return ; Check flag for enough gold to search

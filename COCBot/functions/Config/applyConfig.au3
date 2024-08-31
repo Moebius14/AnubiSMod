@@ -2201,20 +2201,11 @@ Func ApplyConfig_600_31($TypeReadSave)
 	; <><><><> Attack Plan / Search & Attack / Deadbase / Collectors <><><><>
 	Switch $TypeReadSave
 		Case "Read"
-			For $i = 6 To 15
-				GUICtrlSetState($g_ahChkDBCollectorLevel[$i], $g_abCollectorLevelEnabled[$i] ? $GUI_CHECKED : $GUI_UNCHECKED)
-				GUICtrlSetState($g_ahCmbDBCollectorLevel[$i], $g_abCollectorLevelEnabled[$i] ? $GUI_ENABLE : $GUI_DISABLE)
-				_GUICtrlComboBox_SetCurSel($g_ahCmbDBCollectorLevel[$i], $g_aiCollectorLevelFill[$i])
-			Next
 			GUICtrlSetState($g_hChkDBDisableCollectorsFilter, $g_bCollectorFilterDisable ? $GUI_CHECKED : $GUI_UNCHECKED)
 			_GUICtrlComboBox_SetCurSel($g_hCmbMinCollectorMatches, $g_iCollectorMatchesMin - 1)
 			GUICtrlSetData($g_hSldCollectorTolerance, $g_iCollectorToleranceOffset)
-			checkCollectors()
+			chkDBDisableCollectorsFilter()
 		Case "Save"
-			For $i = 6 To 15
-				$g_abCollectorLevelEnabled[$i] = (GUICtrlRead($g_ahChkDBCollectorLevel[$i]) = $GUI_CHECKED)
-				$g_aiCollectorLevelFill[$i] = _GUICtrlComboBox_GetCurSel($g_ahCmbDBCollectorLevel[$i])
-			Next
 			$g_bCollectorFilterDisable = (GUICtrlRead($g_hChkDBDisableCollectorsFilter) = $GUI_CHECKED)
 			$g_iCollectorMatchesMin = _GUICtrlComboBox_GetCurSel($g_hCmbMinCollectorMatches) + 1
 			$g_iCollectorToleranceOffset = GUICtrlRead($g_hSldCollectorTolerance)

@@ -1187,14 +1187,14 @@ Func _OpenAndroid($bRestart = False, $bStartOnlyAndroid = False)
 	If $bRestart = False Then
 		waitMainScreenMini()
 		If Not $g_bRunState Then Return False
-		Zoomout()
+		ZoomOut()
 	Else
 		WaitMainScreenMini()
 		If Not $g_bRunState Then Return False
 		If @error = 1 Then
 			Return False
 		EndIf
-		Zoomout()
+		ZoomOut()
 	EndIf
 
 	If Not $g_bRunState Then Return False
@@ -1844,8 +1844,8 @@ Func _AndroidAdbLaunchShellInstance($wasRunState = Default, $rebootAndroidIfNecc
 		; check shared folder
 		Local $pathFound = False
 		Local $iMount
-		For $iMount = 0 To 4
-			$s = LaunchConsole($g_sAndroidAdbPath, AddSpace($g_sAndroidAdbGlobalOptions) & "-s " & $g_sAndroidAdbDevice & " shell" & $g_sAndroidAdbShellOptions & " mount", $process_killed)
+		For $iMount = 0 To 2
+			$s = LaunchConsole($g_sAndroidAdbPath, AddSpace($g_sAndroidAdbGlobalOptions) & "-s " & $g_sAndroidAdbDevice & " shell" & $g_sAndroidAdbShellOptions & " mount|grep -E 'vboxsf|sharefolder'", $process_killed)
 			Local $path = $g_sAndroidPicturesPath
 			If StringRight($path, 1) = "/" Then $path = StringLeft($path, StringLen($path) - 1)
 			Local $aRegExResult = StringRegExp($s, "[^ ]+(?: on)* ([^ ]+).+", $STR_REGEXPARRAYGLOBALMATCH)
@@ -1861,6 +1861,12 @@ Func _AndroidAdbLaunchShellInstance($wasRunState = Default, $rebootAndroidIfNecc
 			Else
 				SetLog("Cannot create dummy file: " & $g_sAndroidPicturesHostPath & $dummyFile, $COLOR_ERROR)
 				Return SetError(4, 0)
+			EndIf
+			$s = LaunchConsole($g_sAndroidAdbPath, AddSpace($g_sAndroidAdbGlobalOptions) & "-s " & $g_sAndroidAdbDevice & " shell" & $g_sAndroidAdbShellOptions & " ls '" & $g_sAndroidPicturesPath & $dummyFile & "'", $process_killed)
+			If StringInStr($s, $dummyFile) > 0 And StringInStr($s, $dummyFile & ":") = 0 And StringInStr($s, "No such file or directory") = 0 And StringInStr($s, "syntax error") = 0 And StringInStr($s, "Permission denied") = 0 Then
+				$pathFound = True
+				SetDebugLog("Using " & $g_sAndroidPicturesPath & " for Android shared folder")
+				ExitLoop
 			EndIf
 			For $i = 0 To UBound($aMounts) - 1
 				$path = $aMounts[$i]

@@ -370,7 +370,7 @@ Func chkDebugFunc()
 	SetDebugLog("DebugFunc " & ($bDebugFunc ? "enabled" : "disabled"))
 EndFunc   ;==>chkDebugFunc
 
-Func chkDebugDisableZoomout()
+Func chkDebugDisableZoomOut()
 	$g_bDebugDisableZoomout = (GUICtrlRead($g_hChkDebugDisableZoomout) = $GUI_CHECKED)
 	SetDebugLog("DebugDisableZoomout " & ($g_bDebugDisableZoomout ? "enabled" : "disabled"))
 EndFunc   ;==>chkDebugDisableZoomout
@@ -663,7 +663,7 @@ Func btnTestDeadBase()
 	SetLog("$g_sImglocRedline = " & $g_sImglocRedline, $COLOR_INFO)
 
 	SetLog("Testing checkDeadBase()", $COLOR_INFO)
-	SetLog("Result checkDeadBase() = " & checkDeadBase(), $COLOR_INFO)
+	SetLog("Result checkDeadBase() = " & checkDeadBase(True), $COLOR_INFO)
 	SetLog("Testing checkDeadBase() DONE", $COLOR_INFO)
 
 	If $hHBMP <> 0 Then
@@ -682,10 +682,7 @@ Func btnTestDeadBaseFolder()
 		SetLog("btnTestDeadBaseFolder cancelled", $COLOR_INFO)
 	EndIf
 
-	;checkDeadBaseFolder($directory, "checkDeadBaseNew()", "checkDeadBaseSuperNew()")
-	Local $oldFill = 'checkDeadBaseSuperNew(False, "' & @ScriptDir & "\imgxml\deadbase\elix\fill\old\" & '")'
-	Local $newFill = 'checkDeadBaseSuperNew(False, "' & @ScriptDir & "\imgxml\deadbase\elix\fill\new\" & '")'
-	checkDeadBaseFolder($directory, $oldFill, $newFill)
+	checkDeadBaseFolder($directory)
 
 EndFunc   ;==>btnTestDeadBaseFolder
 

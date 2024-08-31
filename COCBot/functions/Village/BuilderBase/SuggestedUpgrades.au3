@@ -193,7 +193,7 @@ Func MainSuggestedUpgradeCode($bDebugImage = $g_bDebugImageSave)
 
 	If _Sleep(2000) Then Return
 
-	Zoomout()
+	ZoomOut()
 EndFunc   ;==>MainSuggestedUpgradeCode
 
 ; This function will Open the Suggested Window and check if is OK

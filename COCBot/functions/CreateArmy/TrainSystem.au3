@@ -1427,7 +1427,7 @@ Func FillCCWMedals($g_bFullArmy = False, $g_bCheckSpells = False, $bFullArmyHero
 	Local $g_iCCMedalCost = 0
 
 	SetLog("Trying To Fill Clan Castle With Medals", $COLOR_DEBUG1)
-	Zoomout()
+	ZoomOut()
 	If _Sleep(1000) Then Return
 
 	If ($g_aiClanCastlePos[0] = "-1" Or $g_aiClanCastlePos[1] = "-1") Then ;check for valid CC location

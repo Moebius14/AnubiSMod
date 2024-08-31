@@ -438,11 +438,13 @@ Func _VillageSearch() ;Control for searching a village that meets conditions
 		EndIf
 
 		; ----------------- ADD RANDOM DELAY IF REQUESTED -----------------------------------
-		If $g_iSearchDelayMin > 0 And $g_iSearchDelayMax > 0 Then ; Check if village delay values are set
-			If $g_iSearchDelayMin <> $g_iSearchDelayMax Then ; Check if random delay requested
-				If _Sleep(Round(1000 * Random($g_iSearchDelayMin, $g_iSearchDelayMax))) Then Return ;Delay time is random between min & max set by user
-			Else
-				If _Sleep(1000 * $g_iSearchDelayMin) Then Return ; Wait Village Serch delay set by user
+		If Not $checkDeadBase Then
+			If $g_iSearchDelayMin > 0 And $g_iSearchDelayMax > 0 Then ; Check if village delay values are set
+				If $g_iSearchDelayMin <> $g_iSearchDelayMax Then ; Check if random delay requested
+					If _Sleep(Round(1000 * Random($g_iSearchDelayMin, $g_iSearchDelayMax))) Then Return ;Delay time is random between min & max set by user
+				Else
+					If _Sleep(1000 * $g_iSearchDelayMin) Then Return ; Wait Village Serch delay set by user
+				EndIf
 			EndIf
 		EndIf
 		If _Sleep($DELAYRESPOND) Then Return

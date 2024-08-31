@@ -13,6 +13,10 @@
 ; Link ..........: https://github.com/MyBotRun/MyBot/wiki
 ; Example .......: No
 ; ===============================================================================================================================
+Func returntest()
+ Return
+EndFunc
+
 Func IsSearchAttackEnabled()
 
 	SetDebugLog("Begin IsSearchAttackScheduled:", $COLOR_DEBUG1)
@@ -133,10 +137,8 @@ Func IsSearchAttackEnabled()
 
 			UniversalCloseWaitOpenCoC($iWaitTime * 1000, "IsSearchAttackScheduled_", $g_bAttackPlannerCloseAll, True, $g_bAttackPlannerSuspendComputer) ; Close and Wait for attacking to start
 			$g_bRestart = True
-			Return
-		Else
-			Return False
 		EndIf
+		Return False
 	EndIf
 
 	If $g_bAttackPlannerRandomEnable Then ; random attack start/stop selected
@@ -254,10 +256,8 @@ Func IsSearchAttackEnabled()
 
 				UniversalCloseWaitOpenCoC($iWaitTime * 1000, "IsSearchAttackScheduled_", $g_bAttackPlannerCloseAll, True, $g_bAttackPlannerSuspendComputer) ; Close and Wait for attacking to start
 				$g_bRestart = True
-				Return
-			Else
-				Return False ; random time to stop attack found let bot idle
 			EndIf
+			Return False
 		Else
 			Return True
 		EndIf
@@ -390,10 +390,8 @@ Func IsSearchAttackEnabled()
 				; close emulator as directed
 				UniversalCloseWaitOpenCoC($iWaitTime * 1000, "IsSearchAttackScheduled_", $g_bAttackPlannerCloseAll, True, $g_bAttackPlannerSuspendComputer) ; Close and Wait for attacking to start
 				$g_bRestart = True
-				Return
-			Else
-				Return False ; if not planned to close anything, then stop attack
 			EndIf
+			Return False
 		EndIf
 	EndIf
 	Return True

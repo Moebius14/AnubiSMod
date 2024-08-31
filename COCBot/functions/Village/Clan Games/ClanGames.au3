@@ -698,7 +698,16 @@ Func _ClanGames($test = False, $HaltMode = False)
 				For $i = 0 To UBound($aTempSelectChallenges) - 1
 					If Not $g_bRunState Then Return
 					SetDebugLog("$aTempSelectChallenges: " & _ArrayToString($aTempSelectChallenges))
-					Setlog("Next Challenge will be " & $aTempSelectChallenges[$i][0] & " to do in " & $aTempSelectChallenges[$i][4] & " min.")
+					If Number($aTempSelectChallenges[$i][4]) > 0 Then
+						Setlog("Next Challenge will be " & $aTempSelectChallenges[$i][0] & " to do in " & $aTempSelectChallenges[$i][4] & " min.")
+					Else
+						$sTimeCG = ConvertOCRTime("ClanGames()", $g_sClanGamesTimeRemaining, False)
+						If $sTimeCG > 0 Then
+							Setlog("Next Challenge will be " & $aTempSelectChallenges[$i][0] & " to do in " & $g_sClanGamesTimeRemaining)
+						Else
+							Setlog("Next Challenge will be " & $aTempSelectChallenges[$i][0])
+						EndIf
+					EndIf
 					; Select and Start EVENT
 					ChallengeNextPage($aTempSelectChallenges[$i][6], $iRow)
 					$sEventName = $aTempSelectChallenges[$i][0]
@@ -2430,7 +2439,7 @@ Func CollectClanGamesRewards($bTest = False)
 			["FullPotPower", 90], _        ; 10 gems
 			["FullPotSuper", 90]]          ; 10 gems
 
-	Local $aiColumn[4] = [276, 246, 348, 453]
+	Local $aiColumn[4] = [276, 216 + $g_iMidOffsetY, 348, 423 + $g_iMidOffsetY]
 	Local $aFirstColumn = _MultiPixelSearch2(260, 205 + $g_iMidOffsetY, 290, 205 + $g_iMidOffsetY, 1, 1, Hex(0xD2D259, 6), 15)
 	If IsArray($aFirstColumn) Then
 		If $aFirstColumn[0] < 270 Then
@@ -2481,10 +2490,9 @@ Func CollectClanGamesRewards($bTest = False)
 	EndIf
 
 	Local $i = 0
-	Local $bLoop = True
 	Local $aCollectRewardsButton
 
-	While $bLoop
+	While 1
 		SetLog("Column :" & $i)
 
 		DragRewardColumnIfNeeded($i)
@@ -2566,19 +2574,17 @@ Func CollectClanGamesRewards($bTest = False)
 
 		EndIf
 
+		If ($i = 5 And _ColorCheck(_GetPixelColor(823, 200 + $g_iMidOffsetY, True), Hex(0xE8E8E0, 6), 20)) Or $i = 6 Then ExitLoop
+
+		$i += 1
+
 		If $i < 6 Then
 			$aiColumn[0] = ($aiColumn[0] + $iColumnWidth)
 			$aiColumn[2] = ($aiColumn[2] + $iColumnWidth)
 		Else
 			$aiColumn[0] = 745
-			$aiColumn[1] = 246
 			$aiColumn[2] = 818
-			$aiColumn[3] = 453
 		EndIf
-
-		If ($i = 5 And _ColorCheck(_GetPixelColor(823, 200 + $g_iMidOffsetY, True), Hex(0xE8E8E0, 6), 20)) Or $i = 6 Then $bLoop = False
-
-		$i += 1
 
 		If $g_bDebugImageSave Then SaveDebugImage("ClanGamesRewardsWindow", False)
 	WEnd
@@ -2679,8 +2685,8 @@ EndFunc   ;==>DebugClanGamesRewards
 Func DragRewardColumnIfNeeded($iColumn = 0)
 
 	If $iColumn < 6 Then Return
-	If $iColumn = 6 Then ClickDrag(755, 220, 755 - 108, 220, 200)
-	If _Sleep(Random(1000, 1500, 1)) Then Return
+	If $iColumn = 6 Then ClickDrag(755, 190 + $g_iMidOffsetY, 755 - 108, 190 + $g_iMidOffsetY, 200)
+	If _Sleep(Random(2000, 2500, 1)) Then Return
 
 	Return
 EndFunc   ;==>DragRewardColumnIfNeeded

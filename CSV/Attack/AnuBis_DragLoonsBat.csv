@@ -49,7 +49,7 @@ MAKE  |S          |FRONT-LEFT |10         |-7         |INT-EXT    |0          |0
 MAKE  |T          |FRONT-RIGHT|10         |-7         |INT-EXT    |0          |0          |           |           |           |           |           |
 MAKE  |C          |FRONT-LEFT |10         |-9         |INT-EXT    |0          |0          |           |           |           |           |           |
 MAKE  |D          |FRONT-RIGHT|10         |-9         |INT-EXT    |0          |0          |           |           |           |           |           |
-MAKE  |E          |FRONT-LEFT |10         |-16        |INT-EXT    |1          |1          |           |           |           |           |           |
+MAKE  |E          |FRONT-LEFT |10         |-20        |INT-EXT    |1          |1          |           |           |           |           |           |
 MAKE  |V          |LEFT-BACK  |10         |0          |INT-EXT    |0          |0          |           |           |           |           |           |
 MAKE  |G          |BACK-LEFT  |1          |0          |IGNORE     |0          |0          |INFERNO    |           |           |           |           |
 MAKE  |L          |BACK-RIGHT |1          |0          |IGNORE     |0          |0          |INFERNO    |           |           |           |           |
@@ -81,10 +81,9 @@ DROP  |Q          |10         |1          |King       |0          |0          |1
 DROP  |Q          |10         |1          |Queen      |0          |0          |400-450    |           |           |           |           |           |
 DROP  |Q          |10         |1          |Champion   |0          |0          |400-450    |           |           |           |           |           |
 WAIT  |6000-8000  |           |           |           |           |           |           |           |           |           |           |           |
+DROP  |E          |1          |1          |RSpell     |0          |0          |150-170    |           |           |           |           |           |
 DROP  |C          |8,9,10     |3          |BtSpell    |50-70      |37-50      |15-20      |           |           |           |           |           |
-DROP  |D          |1,2,3      |3          |BtSpell    |50-70      |37-50      |15-20      |           |           |           |           |           |
-WAIT  |500-1000   |           |           |           |           |           |           |           |           |           |           |           |
-DROP  |E          |3          |1          |RSpell     |0          |0          |150-170    |           |           |           |           |           |
+DROP  |D          |1,2,3      |3          |BtSpell    |50-70      |37-50      |0          |           |           |           |           |           |
 WAIT  |350-1200   |           |           |           |           |           |           |           |           |           |           |           |
 DROP  |Z          |1          |1          |FSpell     |0          |0          |190-230    |           |           |           |           |           |
 DROP  |L          |1          |1          |FSpell     |0          |0          |190-230    |           |           |           |           |           |

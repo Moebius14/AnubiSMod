@@ -176,7 +176,18 @@ Func OpenBarrel($bTest = False)
 		$Area[2] = 200
 		$Area[3] = 260 + $g_iMidOffsetY
 	EndIf
-	If QuickMIS("BC1", $g_sImgBoostTroopsBarrel, $Area[0], $Area[1], $Area[2], $Area[3]) Then
+
+	Local $bBarrelFound = False
+	For $t = 1 To 10
+		If QuickMIS("BC1", $g_sImgBoostTroopsBarrel, $Area[0], $Area[1], $Area[2], $Area[3]) Then
+			$bBarrelFound = True
+			ExitLoop
+		EndIf
+		If $t = 4 Then ZoomOut()
+		If _Sleep(200) Then Return
+	Next
+
+	If $bBarrelFound Then
 
 		Local $aSearchForProgress = 0
 		Local $iSTCount = 0, $bOpenBarrel = True, $bRet = False
@@ -318,6 +329,7 @@ Func OpenBarrel($bTest = False)
 		SetLog("Couldn't Find Super Troop Barrel", $COLOR_ERROR)
 		ClearScreen()
 	EndIf
+
 	Return False
 
 EndFunc   ;==>OpenBarrel

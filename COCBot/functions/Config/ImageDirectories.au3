@@ -217,9 +217,9 @@ Global $g_sImgChampionBar = @ScriptDir & "\imgxml\AttackBar\Champion*"
 #EndRegion Attack
 
 #Region Search
-Global $g_sImgElixirStorage = @ScriptDir & "\imgxml\deadbase\elix\storage\"
 Global $g_sImgElixirCollectorFill = @ScriptDir & "\imgxml\deadbase\elix\fill\"
 Global $g_sImgElixirCollectorLvl = @ScriptDir & "\imgxml\deadbase\elix\lvl\"
+Global $g_sImgElixirStorage = @ScriptDir & "\imgxml\deadbase\elix\storage\"
 Global $g_sImgWeakBaseBuildingsDir = @ScriptDir & "\imgxml\Buildings"
 Global $g_sImgWeakBaseBuildingsEagleDir = @ScriptDir & "\imgxml\Buildings\Eagle"
 Global $g_sImgWeakBaseBuildingsScatterDir = @ScriptDir & "\imgxml\Buildings\ScatterShot"

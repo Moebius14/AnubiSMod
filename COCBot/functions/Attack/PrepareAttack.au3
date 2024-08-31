@@ -185,7 +185,11 @@ Func SelectCastleOrSiege(ByRef $iTroopIndex, $iX, $iCmbSiege, $gMatchMode)
 
 		Case $eCastle, $eWallW, $eBattleB, $eStoneS, $eSiegeB, $eLogL, $eFlameF, $eBattleD ; NOT the same as current castle/siege
 			$bNeedSwitch = True
-			SetLog(GetTroopName($iTroopIndex) & ($ToUse <> $eCastle ? " level " & $g_iSiegeLevel & " detected. Try looking for " : " detected. Switching to ") & GetTroopName($ToUse))
+			If $iTroopIndex = $eCastle Then
+				SetLog(GetTroopName($iTroopIndex) & " detected. Switching to " & GetTroopName($ToUse))
+			Else
+				SetLog(GetTroopName($iTroopIndex) & ($ToUse <> $eCastle ? " level " & $g_iSiegeLevel & " detected. Try looking for " : " detected. Switching to ") & GetTroopName($ToUse))
+			EndIf
 
 		Case "Any" ; use any siege
 			If $iTroopIndex = $eCastle Or ($iTroopIndex <> $eCastle And $g_iSiegeLevel < $iMaxSiegeLevel And Not $g_abNoSearchForHigherLevel[$gMatchMode]) Then ; found Castle or a low level Siege
@@ -269,8 +273,17 @@ Func SelectCastleOrSiege(ByRef $iTroopIndex, $iX, $iCmbSiege, $gMatchMode)
 					$g_iSiegeLevel = $iFinalLevel
 					$iTroopIndex = $iFinalSiege
 				Else
-					If Not $bAnySiege Then SetLog("No " & GetTroopName($ToUse) & " found")
-					Click($iLastX, $iLastY, 1)
+					If $bAnySiege Then
+						SetLog("No Siege found")
+						If _Sleep(1500) Then Return
+						SetLog("Try To Use Clan Castle", $COLOR_FUCHSIA)
+						If SelectClanCastle($iX, $iLastX, $iLastY) Then $iTroopIndex = $eCastle
+					Else
+						SetLog("No " & GetTroopName($ToUse) & " found")
+						If _Sleep(1500) Then Return
+						SetLog("Try To Use Clan Castle", $COLOR_FUCHSIA)
+						If SelectClanCastle($iX, $iLastX, $iLastY) Then $iTroopIndex = $eCastle
+					EndIf
 				EndIf
 
 			Else
@@ -285,6 +298,47 @@ Func SelectCastleOrSiege(ByRef $iTroopIndex, $iX, $iCmbSiege, $gMatchMode)
 	If $g_bDebugSetlog Then SetDebugLog("Benchmark Switch Siege Detection: " & StringFormat("%.2f", _Timer_Diff($hStarttime)) & "'ms")
 
 EndFunc   ;==>SelectCastleOrSiege
+
+Func SelectClanCastle($iX, $iLastX, $iLastY)
+
+	; Lets detect the CC
+	Local $sSearchArea = GetDiamondFromRect(_Min(Number($iX - 50), 470) & ",539(440,70)")         ; x = 470 when Castle is at slot 6+ and there are 6 slots in siege switching window
+	Local $aSearchResult = findMultiple($g_sImgSwitchSiegeMachine, $sSearchArea, $sSearchArea, 0, 1000, 5, "objectname,objectpoints", True)
+
+	If $aSearchResult <> "" And IsArray($aSearchResult) Then
+		Local $aFinalCoords, $iFinalSiege
+
+		For $i = 0 To UBound($aSearchResult) - 1
+			Local $aAvailable = $aSearchResult[$i]
+			SetDebugLog("SelectClanCastle() $aSearchResult[" & $i & "]: " & _ArrayToString($aAvailable))
+
+			Local $iSiegeIndex = TroopIndexLookup($aAvailable[0], "SelectClanCastle()")
+			Local $sAllCoordsString = _ArrayToString($aAvailable, "|", 1)
+			Local $aAllCoords = decodeMultipleCoords($sAllCoordsString, 50)
+
+			If $iSiegeIndex = $eCastle Then
+				$aFinalCoords = $aAllCoords[0]
+				ExitLoop
+			EndIf
+
+		Next
+
+		If IsArray($aFinalCoords) Then
+			ClickP($aFinalCoords, 1, 150)
+			Return True
+		Else
+			SetLog("No Clan Castle found")
+			Click($iLastX, $iLastY, 1)
+		EndIf
+
+	Else
+		; If was not detectable lets click again on green icon to hide the window!
+		Setlog("Undetected Clan Castle", $COLOR_DEBUG)
+		Click($iLastX, $iLastY, 1)
+	EndIf
+
+	Return False
+EndFunc   ;==>SelectClanCastle
 
 Func SelectWardenMode($iMode, $XCoord)
 	; check current G.Warden's mode. Switch to preferred $iMode if needed. Return log text as "(Ground)"  or "(Air)"

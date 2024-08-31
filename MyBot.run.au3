@@ -984,12 +984,19 @@ Func runBot() ;Bot that runs everything in order
 				_RunFunction('DonateCC,Train')
 				If ProfileSwitchAccountEnabled() Then
 					$g_iCommandStop = 2
-					_RunFunction('DonateCC,Train')
+		;			_RunFunction('DonateCC,Train')
 					checkSwitchAcc()
+				Else
+					Local $bCloseGame = $g_bAttackPlannerCloseCoC Or $g_bAttackPlannerCloseAll Or $g_bAttackPlannerSuspendComputer
+					If Not $bCloseGame Then
+						$iWaitTime = Random($DELAYWAITATTACK1, $DELAYWAITATTACK2)
+						SetLog("Attacking Not Planned and Skipped, Waiting random " & StringFormat("%0.1f", $iWaitTime / 1000) & " Seconds", $COLOR_WARNING)
+						If _SleepStatus($iWaitTime) Then Return False
+					EndIf
 				EndIf
-				$iWaitTime = Random($DELAYWAITATTACK1, $DELAYWAITATTACK2)
-				SetLog("Attacking Not Planned and Skipped, Waiting random " & StringFormat("%0.1f", $iWaitTime / 1000) & " Seconds", $COLOR_WARNING)
-				If _SleepStatus($iWaitTime) Then Return False
+		;		$iWaitTime = Random($DELAYWAITATTACK1, $DELAYWAITATTACK2)
+		;		SetLog("Attacking Not Planned and Skipped, Waiting random " & StringFormat("%0.1f", $iWaitTime / 1000) & " Seconds", $COLOR_WARNING)
+		;		If _SleepStatus($iWaitTime) Then Return False
 			EndIf
 		Else ;When error occurs directly goes to attack
 			Local $sRestartText = $g_bIsSearchLimit ? " due search limit" : " after Out of Sync Error: Attack Now"
@@ -1192,7 +1199,7 @@ Func AttackMain() ;Main control for attack functions
 	ClearScreen()
 	If IsSearchAttackEnabled() Then
 		If Not $g_bRunState Then Return
-		If (IsSearchModeActive($DB) And checkCollectors(True, False)) Or IsSearchModeActive($LB) Then
+		If IsSearchModeActive($DB) Or IsSearchModeActive($LB) Then
 			If ProfileSwitchAccountEnabled() And ($g_aiAttackedCountSwitch[$g_iCurAccount] <= $g_aiAttackedCount - 2) Then checkSwitchAcc()
 			If $g_bUseCCBalanced Then ;launch profilereport() only if option balance D/R is activated
 				ProfileReport()

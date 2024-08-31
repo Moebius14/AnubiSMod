@@ -60,6 +60,7 @@ Func CheckTombs()
 			Next
 		EndIf
 		If $bRemoved1 Then
+			If _Sleep($DELAYCHECKTOMBS2) Then Return
 			;Second try if root tombs at first step
 			Local $return2[7] = ["None", "None", 0, 0, 0, "", ""]
 			Local $TombsXY2[2] = [0, 0]

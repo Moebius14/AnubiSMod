@@ -58,7 +58,7 @@ Func picUpgradeTypeLocation()
 	$g_bRunState = True
 	PureClick(1, 40, 1, 0, "#9999") ; Clear screen
 	Sleep(100)
-	Zoomout() ; Zoom out if needed
+	ZoomOut() ; Zoom out if needed
 	Local $inum
 	For $inum = 0 To UBound($g_avBuildingUpgrades, 1) - 1
 		If @GUI_CtrlId = $g_hPicUpgradeType[$inum] Then
@@ -851,7 +851,7 @@ EndFunc   ;==>cmbWalls
 Func btnWalls()
 	Local $wasRunState = $g_bRunState
 	$g_bRunState = True
-	Zoomout()
+	ZoomOut()
 	$g_iCmbUpgradeWallsLevel = _GUICtrlComboBox_GetCurSel($g_hCmbWalls)
 	If imglocCheckWall() Then SetLog("Hey Chef! We found the Wall!")
 	$g_bRunState = $wasRunState

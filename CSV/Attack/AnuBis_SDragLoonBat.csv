@@ -45,10 +45,10 @@ MAKE  |A          |FRONT-LEFT |10         |0          |EXT-INT    |0          |0
 MAKE  |B          |FRONT-RIGHT|10         |0          |INT-EXT    |0          |0          |           |           |           |           |           |
 MAKE  |V          |FRONT-RIGHT|10         |0          |EXT-INT    |0          |0          |           |           |           |           |           |
 MAKE  |K          |FRONT-LEFT |10         |0          |INT-EXT    |0          |0          |           |           |           |           |           |
-MAKE  |C          |FRONT-LEFT |10         |-11        |INT-EXT    |1          |1          |           |           |           |           |           |
-MAKE  |D          |FRONT-RIGHT|10         |-11        |INT-EXT    |1          |1          |           |           |           |           |           |
-MAKE  |E          |FRONT-LEFT |10         |-18        |INT-EXT    |1          |1          |           |           |           |           |           |
-MAKE  |F          |FRONT-RIGHT|10         |-18        |INT-EXT    |1          |1          |           |           |           |           |           |
+MAKE  |C          |FRONT-LEFT |10         |-11        |INT-EXT    |0          |0          |           |           |           |           |           |
+MAKE  |D          |FRONT-RIGHT|10         |-11        |INT-EXT    |0          |0          |           |           |           |           |           |
+MAKE  |E          |FRONT-LEFT |10         |-20        |INT-EXT    |1          |1          |           |           |           |           |           |
+MAKE  |F          |FRONT-RIGHT|10         |-20        |INT-EXT    |1          |1          |           |           |           |           |           |
 MAKE  |N          |RIGHT-FRONT|10         |0          |EXT-INT    |0          |0          |           |           |           |           |           |
 MAKE  |U          |LEFT-BACK  |1          |0          |IGNORE     |0          |0          |INFERNO    |           |           |           |           |
 MAKE  |Z          |RIGHT-BACK |1          |0          |IGNORE     |0          |0          |INFERNO    |           |           |           |           |
@@ -75,14 +75,14 @@ DROP  |A          |3          |1          |KING       |0          |0          |0
 WAIT  |1400-2500  |           |           |           |           |           |           |           |           |           |           |           |
 DROP  |A          |3          |1          |QUEEN      |0          |0          |0          |           |           |           |           |           |
 WAIT  |4000-6000  |           |           |           |           |           |           |           |           |           |           |           |
+DROP  |A          |6-10       |2          |SDrag      |50-70      |137-150    |15-20      |           |           |           |           |           |
+DROP  |B          |2-5        |1          |SDrag      |50-70      |137-150    |100-250    |           |           |           |           |           |
+DROP  |A          |5-7        |1          |SDrag      |50-70      |137-150    |15-20      |           |           |           |           |           |
+DROP  |B          |3-5        |1          |SDrag      |50-70      |137-150    |400-500    |           |           |           |           |           |
 DROP  |A          |5,6,7,8,9,10|6         |Ball       |50-70      |160-190    |0          |           |           |           |           |           |
 DROP  |B          |1,2,3,4,5,6|6          |Ball       |50-70      |160-190    |20-50      |           |           |           |           |           |
 DROP  |A          |7,9        |2          |Ball       |50-70      |160-190    |70-90      |           |           |           |           |           |
-DROP  |B          |2,4        |2          |Ball       |50-70      |160-190    |70-90      |           |           |           |           |           |
-DROP  |A          |6-10       |2          |SDrag      |50-70      |137-150    |15-20      |           |           |           |           |           |
-DROP  |B          |2-5        |1          |SDrag      |50-70      |137-150    |200-400    |           |           |           |           |           |
-DROP  |A          |5-7        |1          |SDrag      |50-70      |137-150    |15-20      |           |           |           |           |           |
-DROP  |B          |3-5        |1          |SDrag      |50-70      |137-150    |500-700    |           |           |           |           |           |
+DROP  |B          |2,4        |2          |Ball       |50-70      |160-190    |270-290    |           |           |           |           |           |
 DROP  |A          |10         |1          |Warden     |0	      |0          |500-650    |           |           |           |           |           |
 DROP  |C          |3          |1          |RSpell     |0          |0          |178-200    |           |           |           |           |           |
 DROP  |D          |2          |1          |RSpell     |0          |0          |530-550    |           |           |           |           |           |
@@ -90,7 +90,6 @@ DROP  |A          |9          |1          |CHAMPION   |0          |0          |1
 WAIT  |5000-6000  |           |           |           |           |           |           |           |           |           |           |           |
 DROP  |C          |7,8,9      |3          |BtSpell    |50-70      |37-50      |15-20      |           |           |           |           |           |
 DROP  |D          |2,3        |2          |BtSpell    |50-70      |37-50      |500-650    |           |           |           |           |           |
-WAIT  |400-700    |           |           |           |           |           |           |           |           |           |           |           |
 DROP  |E          |3          |1          |RSpell     |0          |0          |150-370    |           |           |           |           |           |
 DROP  |F          |3          |1          |RSpell     |0          |0          |150-570    |           |           |           |           |           |
 DROP  |R          |1          |1          |FSpell     |0          |0          |100-150    |           |           |           |           |           |

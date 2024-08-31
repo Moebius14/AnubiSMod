@@ -366,6 +366,7 @@ Func Blacksmith($bTest = False)
 	Else
 		If $g_sBSUpgradeTime = "" Or Not _DateIsValid($g_sBSUpgradeTime) Then $IsinBlacksmith = True
 	EndIf
+	If _Sleep(1000) Then Return
 	CloseWindow($IsinBlacksmith)
 	SetLog("Equipment Auto Upgrade finished", $COLOR_INFO)
 	If _Sleep(500) Then Return
