@@ -35,7 +35,7 @@ EndFunc   ;==>TestLaboratory
 
 Func Laboratory($debug = False)
 
-	If Not $g_bAutoLabUpgradeEnable Then Return ; Lab upgrade not enabled.
+	If Not $g_bAutoLabUpgradeEnable And $g_bFirstStartCheckDone Then Return ; Lab upgrade not enabled.
 
 	$IsLabtoRecheck = False
 
@@ -789,6 +789,11 @@ Func ChkLabUpgradeInProgress($name = "")
 		If ProfileSwitchAccountEnabled() Then SwitchAccountVariablesReload("Save") ; saving $asLabUpgradeTime[$g_iCurAccount] = $g_sLabUpgradeTime for instantly displaying in multi-stats
 		Return True
 	EndIf
+	;==========Show Red  Hide Green Hide Gray===
+	GUICtrlSetState($g_hPicLabGray, $GUI_HIDE)
+	GUICtrlSetState($g_hPicLabRed, $GUI_SHOW)
+	GUICtrlSetState($g_hPicLabGreen, $GUI_HIDE)
+	;===========================================
 	Return False ; returns False if no upgrade in progress
 EndFunc   ;==>ChkLabUpgradeInProgress
 

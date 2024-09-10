@@ -27,6 +27,9 @@ Func TestPetHouse()
 EndFunc   ;==>TestPetHouse
 
 Func PetHouse($test = False)
+
+	If Not $g_bRunState Then Return
+
 	Local $bUpgradePets = False
 	Local $iPage = 0
 
@@ -57,11 +60,14 @@ Func PetHouse($test = False)
 		$g_iMinDark4PetUpgrade = 0
 		Return False
 	Else
-		;==========Show Red  Hide Green Hide Gray===
-		GUICtrlSetState($g_hPicPetGray, $GUI_HIDE)
-		GUICtrlSetState($g_hPicPetRed, $GUI_SHOW)
-		GUICtrlSetState($g_hPicPetGreen, $GUI_HIDE)
-		;===========================================
+		If Not $g_bRunState Then Return
+		If $g_bFirstStartCheckDone = 1 Then
+			;==========Show Red  Hide Green Hide Gray===
+			GUICtrlSetState($g_hPicPetGray, $GUI_HIDE)
+			GUICtrlSetState($g_hPicPetRed, $GUI_SHOW)
+			GUICtrlSetState($g_hPicPetGreen, $GUI_HIDE)
+			;===========================================
+		EndIf
 	EndIf
 
 	; Get updated village elixir and dark elixir values
@@ -81,7 +87,7 @@ Func PetHouse($test = False)
 	BuildingClickP($g_aiPetHousePos, "#0197")
 	If _Sleep(1500) Then Return ; Wait for window to open
 
-	Local $BuildingInfo = BuildingInfo(242, 468 + $g_iBottomOffsetY)
+	Local $BuildingInfo = BuildingInfo(242, 475 + $g_iBottomOffsetY)
 	If IsArray($BuildingInfo) And UBound($BuildingInfo) > 0 Then
 		SetLog("Pet House is level " & $BuildingInfo[2])
 	EndIf
@@ -496,6 +502,13 @@ Func CheckPetUpgrade()
 	If $g_bDebugSetlog Then SetLog("_GetPixelColor(805, 245): " & _GetPixelColor(085, 215 + $g_iMidOffsetY, True) & ":BED79A", $COLOR_DEBUG)
 	If _ColorCheck(_GetPixelColor(805, 215 + $g_iMidOffsetY, True), Hex(0xBED79A, 6), 20) Then
 		SetLog("Pet House Upgrade in progress, waiting for completion", $COLOR_INFO)
+		If Not $g_bFirstStartCheckDone Then
+			;==========Hide Red  Show Green Hide Gray===
+			GUICtrlSetState($g_hPicPetGray, $GUI_HIDE)
+			GUICtrlSetState($g_hPicPetRed, $GUI_HIDE)
+			GUICtrlSetState($g_hPicPetGreen, $GUI_SHOW)
+			;===========================================
+		EndIf
 		If _Sleep($DELAYLABORATORY2) Then Return
 		; upgrade in process and time not recorded so update completion time!
 		Local $sPetTimeOCR = getPetUpgradeTime(235, 242 + $g_iMidOffsetY)
@@ -513,6 +526,13 @@ Func CheckPetUpgrade()
 		If ProfileSwitchAccountEnabled() Then SwitchAccountVariablesReload("Save")
 		CloseWindow(False, True)
 		Return True
+	EndIf
+	If Not $g_bFirstStartCheckDone Then
+		;==========Show Red  Hide Green Hide Gray===
+		GUICtrlSetState($g_hPicPetGray, $GUI_HIDE)
+		GUICtrlSetState($g_hPicPetRed, $GUI_SHOW)
+		GUICtrlSetState($g_hPicPetGreen, $GUI_HIDE)
+		;===========================================
 	EndIf
 	Return False ; returns False if no upgrade in progress
 EndFunc   ;==>CheckPetUpgrade
@@ -644,7 +664,7 @@ Func PetGuiDisplay()
 	If _Sleep(1500) Then Return ; Wait for window to open
 	; Find Research Button
 
-	Local $BuildingInfo = BuildingInfo(242, 468 + $g_iBottomOffsetY)
+	Local $BuildingInfo = BuildingInfo(242, 475 + $g_iBottomOffsetY)
 	If IsArray($BuildingInfo) And UBound($BuildingInfo) > 0 Then
 		SetLog("Pet House is level " & $BuildingInfo[2])
 	EndIf

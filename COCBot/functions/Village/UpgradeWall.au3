@@ -317,7 +317,7 @@ Func UpgradeWallGold($iWallCost = $g_iWallCost)
 
 	ClearScreen()
 	SetLog("No Upgrade Gold Button", $COLOR_ERROR)
-	Pushmsg("NowUpgradeGoldButton")
+	Pushmsg("NoUpgradeGoldButton")
 	Return "No"
 
 EndFunc   ;==>UpgradeWallGold
@@ -375,7 +375,7 @@ Func UpgradeWallElixir($iWallCost)
 
 	ClearScreen()
 	SetLog("No Upgrade Elixir Button", $COLOR_ERROR)
-	Pushmsg("NowUpgradeElixirButton")
+	Pushmsg("NoUpgradeElixirButton")
 	Return "No"
 
 EndFunc   ;==>UpgradeWallElixir
@@ -694,7 +694,7 @@ Func AutoUpgradeWall($iWallCost)
 		Click($aTmpCoord[0][1] + 20, $aTmpCoord[0][2])
 		If _Sleep($DELAYAUTOUPGRADEBUILDING1) Then Return
 
-		$g_aUpgradeNameLevel = BuildingInfo(242, 468 + $g_iBottomOffsetY)
+		$g_aUpgradeNameLevel = BuildingInfo(242, 475 + $g_iBottomOffsetY)
 		Local $aUpgradeButton
 
 		; check if any wrong click by verifying the presence of the Upgrade button (the hammer)
@@ -821,14 +821,6 @@ Func AutoUpgradeWall($iWallCost)
 			GUICtrlSetData($g_hTxtModLog, @CRLF & _NowTime() & " [" & $g_sProfileCurrentName & "] AutoWallUpgrade : " & $g_aUpgradeNameLevel[1] & " to level " & $g_aUpgradeNameLevel[2] + 1, 1)
 		EndIf
 		_FileWriteLog($g_sProfileLogsPath & "\ModLog.log", " [" & $g_sProfileCurrentName & "] - AutoWallUpgrade : " & $g_aUpgradeNameLevel[1] & " to level " & $g_aUpgradeNameLevel[2] + 1)
-
-		If $g_bChkNotifyUpgrade Then
-			Local $text = "Village : " & $g_sNotifyOrigin & "%0A"
-			$text &= "Profile : " & $g_sProfileCurrentName & "%0A"
-			Local $currentDate = Number(@MDAY)
-			$text &= "Auto Upgrade Of " & $g_aUpgradeNameLevel[1] & " Started"
-			NotifyPushToTelegram($text)
-		EndIf
 
 		ClearScreen()
 

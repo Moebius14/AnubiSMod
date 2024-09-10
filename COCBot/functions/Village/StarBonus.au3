@@ -30,7 +30,8 @@ Func StarBonus()
 		If IsArray($aiOkayButton) And UBound($aiOkayButton, 1) = 2 Then
 			PureClick($aiOkayButton[0], $aiOkayButton[1], 2, 50, "#0117") ; Click Okay Button
 			If _Sleep($DELAYSTARBONUS500) Then Return
-			$StarBonusReceived = 1
+			If $g_bChkCustomEquipmentOrderEnable Then $StarBonusReceived[0] = 1 ; BlackSmith
+			If $g_bChkTreasuryCollect = 2 Then $StarBonusReceived[1] = 1 ; Treasury Collect
 			Return True
 		Else
 			SetDebugLog("Cannot Find Okay Button", $COLOR_ERROR)

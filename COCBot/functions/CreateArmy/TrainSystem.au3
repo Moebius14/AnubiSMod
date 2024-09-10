@@ -1445,22 +1445,22 @@ Func FillCCWMedals($g_bFullArmy = False, $g_bCheckSpells = False, $bFullArmyHero
 	BuildingClick($g_aiClanCastlePos[0], $g_aiClanCastlePos[1], "#0250") ; select CC
 	If _Sleep($DELAYBUILDINGINFO1) Then Return
 
-	Local $BuildingInfo = BuildingInfo(242, 468 + $g_iBottomOffsetY)
+	Local $BuildingInfo = BuildingInfo(242, 475 + $g_iBottomOffsetY)
 
 	If $BuildingInfo[1] = "Clan Castle" Then
 		If ClickB("Reinforce") Then
 			If _Sleep(1000) Then Return
-			If Number($g_iLootCCMedal) = 0 Then $g_iLootCCMedal = getOcrAndCapture("coc-bonus", 570, 353 + $g_iMidOffsetY, 55, 16, True)
+			If Number($g_iLootCCMedal) = 0 Then $g_iLootCCMedal = getOcrAndCapture("coc-bonus", 555, 360 + $g_iMidOffsetY, 60, 16, True)
 			If _Sleep(250) Then Return
-			If QuickMIS("BC1", $g_sImgCCReinforceBuy, 560, 450 + $g_iMidOffsetY, 610, 500 + $g_iMidOffsetY) Then
-				If WaitforPixel(518, 478 + $g_iMidOffsetY, 522, 482 + $g_iMidOffsetY, "6CBB1F", 10, 2) Then
-					$g_iCCMedalCost = getOcrAndCapture("coc-CCMedalsUsed", 515, 460 + $g_iMidOffsetY, 50, 24, True)
+			If QuickMIS("BC1", $g_sImgCCReinforceBuy, 550, 455 + $g_iMidOffsetY, 610, 520 + $g_iMidOffsetY) Then
+				If WaitforPixel(488, 492 + $g_iMidOffsetY, 492, 496 + $g_iMidOffsetY, "6CBB1F", 10, 2) Then
+					$g_iCCMedalCost = getOcrAndCapture("coc-CCMedalsUsed", 505, 474 + $g_iMidOffsetY, 50, 24, True)
 					If $g_bDebugImageSaveMod Then SaveDebugRectImageCrop("CCMedalCost", "525,490,565,510")
 					SetLog("Cost Of Filling : " & $g_iCCMedalCost & " Medals", $COLOR_ACTION)
 					$g_iLootCCMedal -= Number($g_iCCMedalCost)
 					If Number($g_iLootCCMedal) <= Number($g_aiCmbCCMedalsSaveMin) Then
 						Local $CoordsX[2] = [280, 350]
-						Local $CoordsY[2] = [440 + $g_iMidOffsetY, 475 + $g_iMidOffsetY]
+						Local $CoordsY[2] = [455 + $g_iMidOffsetY, 490 + $g_iMidOffsetY]
 						Local $ButtonClickX = Random($CoordsX[0], $CoordsX[1], 1)
 						Local $ButtonClickY = Random($CoordsY[0], $CoordsY[1], 1)
 						Click($ButtonClickX, $ButtonClickY, 1, 180, "CancelButton") ;Click Cancel
@@ -1494,22 +1494,22 @@ Func FillCCWMedals($g_bFullArmy = False, $g_bCheckSpells = False, $bFullArmyHero
 			PureClickVisit($NewX, $NewY) ; select CC
 			If _Sleep($DELAYBUILDINGINFO1) Then Return
 
-			Local $BuildingInfo = BuildingInfo(242, 468 + $g_iBottomOffsetY)
+			Local $BuildingInfo = BuildingInfo(242, 475 + $g_iBottomOffsetY)
 
 			If $BuildingInfo[1] = "Clan Castle" Then
 				If ClickB("Reinforce") Then
 					If _Sleep(1000) Then Return
-					If Number($g_iLootCCMedal) = 0 Then $g_iLootCCMedal = getOcrAndCapture("coc-bonus", 570, 353 + $g_iMidOffsetY, 55, 16, True)
+					If Number($g_iLootCCMedal) = 0 Then $g_iLootCCMedal = getOcrAndCapture("coc-bonus", 555, 360 + $g_iMidOffsetY, 60, 16, True)
 					If _Sleep(250) Then Return
-					If QuickMIS("BC1", $g_sImgCCReinforceBuy, 560, 450 + $g_iMidOffsetY, 610, 500 + $g_iMidOffsetY) Then
-						If WaitforPixel(518, 478 + $g_iMidOffsetY, 522, 482 + $g_iMidOffsetY, "6CBB1F", 10, 2) Then
-							$g_iCCMedalCost = getOcrAndCapture("coc-CCMedalsUsed", 515, 460 + $g_iMidOffsetY, 50, 24, True)
+					If QuickMIS("BC1", $g_sImgCCReinforceBuy, 550, 455 + $g_iMidOffsetY, 610, 520 + $g_iMidOffsetY) Then
+						If WaitforPixel(488, 492 + $g_iMidOffsetY, 492, 496 + $g_iMidOffsetY, "6CBB1F", 10, 2) Then
+							$g_iCCMedalCost = getOcrAndCapture("coc-CCMedalsUsed", 505, 474 + $g_iMidOffsetY, 50, 24, True)
 							If $g_bDebugImageSaveMod Then SaveDebugRectImageCrop("CCMedalCost", "525,490,565,510")
 							SetLog("Cost Of Filling : " & $g_iCCMedalCost & " Medals", $COLOR_ACTION)
 							$g_iLootCCMedal -= $g_iCCMedalCost
 							If $g_iLootCCMedal <= $g_aiCmbCCMedalsSaveMin Then
 								Local $CoordsX[2] = [280, 350]
-								Local $CoordsY[2] = [440 + $g_iMidOffsetY, 475 + $g_iMidOffsetY]
+								Local $CoordsY[2] = [455 + $g_iMidOffsetY, 490 + $g_iMidOffsetY]
 								Local $ButtonClickX = Random($CoordsX[0], $CoordsX[1], 1)
 								Local $ButtonClickY = Random($CoordsY[0], $CoordsY[1], 1)
 								Click($ButtonClickX, $ButtonClickY, 1, 180, "CancelButton") ;Click Cancel
@@ -1538,22 +1538,22 @@ Func FillCCWMedals($g_bFullArmy = False, $g_bCheckSpells = False, $bFullArmyHero
 			PureClickVisit($NewX, $NewY) ; select CC
 			If _Sleep($DELAYBUILDINGINFO1) Then Return
 
-			$BuildingInfo = BuildingInfo(242, 468 + $g_iBottomOffsetY)
+			$BuildingInfo = BuildingInfo(242, 475 + $g_iBottomOffsetY)
 
 			If $BuildingInfo[1] = "Clan Castle" Then
 				If ClickB("Reinforce") Then
 					If _Sleep(1000) Then Return
-					If Number($g_iLootCCMedal) = 0 Then $g_iLootCCMedal = getOcrAndCapture("coc-bonus", 570, 353 + $g_iMidOffsetY, 55, 16, True)
+					If Number($g_iLootCCMedal) = 0 Then $g_iLootCCMedal = getOcrAndCapture("coc-bonus", 555, 360 + $g_iMidOffsetY, 60, 16, True)
 					If _Sleep(250) Then Return
-					If QuickMIS("BC1", $g_sImgCCReinforceBuy, 560, 450 + $g_iMidOffsetY, 610, 500 + $g_iMidOffsetY) Then
-						If WaitforPixel(518, 478 + $g_iMidOffsetY, 522, 482 + $g_iMidOffsetY, "6CBB1F", 10, 2) Then
-							$g_iCCMedalCost = getOcrAndCapture("coc-CCMedalsUsed", 515, 460 + $g_iMidOffsetY, 50, 24, True)
+					If QuickMIS("BC1", $g_sImgCCReinforceBuy, 550, 455 + $g_iMidOffsetY, 610, 520 + $g_iMidOffsetY) Then
+						If WaitforPixel(488, 492 + $g_iMidOffsetY, 492, 496 + $g_iMidOffsetY, "6CBB1F", 10, 2) Then
+							$g_iCCMedalCost = getOcrAndCapture("coc-CCMedalsUsed", 505, 474 + $g_iMidOffsetY, 50, 24, True)
 							If $g_bDebugImageSaveMod Then SaveDebugRectImageCrop("CCMedalCost", "525,490,565,510")
 							SetLog("Cost Of Filling : " & $g_iCCMedalCost & " Medals", $COLOR_ACTION)
 							$g_iLootCCMedal -= $g_iCCMedalCost
 							If $g_iLootCCMedal <= $g_aiCmbCCMedalsSaveMin Then
 								Local $CoordsX[2] = [280, 350]
-								Local $CoordsY[2] = [440 + $g_iMidOffsetY, 475 + $g_iMidOffsetY]
+								Local $CoordsY[2] = [455 + $g_iMidOffsetY, 490 + $g_iMidOffsetY]
 								Local $ButtonClickX = Random($CoordsX[0], $CoordsX[1], 1)
 								Local $ButtonClickY = Random($CoordsY[0], $CoordsY[1], 1)
 								Click($ButtonClickX, $ButtonClickY, 1, 180, "CancelButton") ;Click Cancel

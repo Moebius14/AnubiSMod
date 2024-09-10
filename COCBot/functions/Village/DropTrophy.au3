@@ -539,8 +539,12 @@ Func DropTrophy()
 				$IsdroptrophiesActive = 0
 				$IsDropTrophyBreaked = 0
 				ClearScreen()
-				IsSearchAttackEnabled()
-				TrainSystem()
+				If IsSearchAttackEnabled() Then
+					TrainSystem()
+				Else
+					If Not $g_bRunState Then Return
+					Return
+				EndIf
 			EndIf
 		WEnd
 		SetDebugLog("DropTrophy(): End", $COLOR_DEBUG)

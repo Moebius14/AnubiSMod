@@ -13,10 +13,14 @@
 ; Example .......: No
 ; ===============================================================================================================================
 Func PrepareSearch($Mode = $DB) ;Click attack button and find match button, will break shield
-	$g_iSearchRestartLimit = Random($g_iSearchRestartLimitMin, $g_iSearchRestartLimitMax, 1)
-	If Not $IsdroptrophiesActive And $g_bSearchRestartEnable Then
-		SetLog("Number of search limit for this loop : " & $g_iSearchRestartLimit & " searches", $COLOR_BLUE)
-		SetLog("Number of search limit for Break : " & $g_iSearchRestartLimitPause & " searches", $COLOR_BLUE)
+
+	If $Mode <> $DT Then
+		If $g_bSearchRestartEnable Then
+			$g_iSearchRestartLimit = Random($g_iSearchRestartLimitMin, $g_iSearchRestartLimitMax, 1)
+			SetLog("Number of search limit for this loop : " & $g_iSearchRestartLimit & " searches", $COLOR_BLUE)
+			SetLog("Number of search limit for Break : " & $g_iSearchRestartLimitPause & " searches", $COLOR_BLUE)
+		EndIf
+		If $b_CheckNoLeagueOpponent And $g_abAttackTypeEnable[$DB] Then SetLog("Only Research DeadBases Without League", $COLOR_ACTION)
 	EndIf
 	SetLog("Going to Attack", $COLOR_INFO)
 
@@ -45,16 +49,20 @@ Func PrepareSearch($Mode = $DB) ;Click attack button and find match button, will
 		If _Sleep($DELAYTREASURY4) Then Return
 
 		Local $aAttack = findButton("AttackButton", Default, 1, True)
+		Local $AttackCoordsX[2] = [45, 85]
+		Local $AttackCoordsY[2] = [590 + $g_iBottomOffsetY, 625 + $g_iBottomOffsetY]
+		Local $AttackButtonClickXY[2] = [Random($AttackCoordsX[0], $AttackCoordsX[1], 1), Random($AttackCoordsY[0], $AttackCoordsY[1], 1)]
 		If IsArray($aAttack) And UBound($aAttack, 1) = 2 Then
-			Local $AttackCoordsX[2] = [45, 85]
-			Local $AttackCoordsY[2] = [590 + $g_iBottomOffsetY, 625 + $g_iBottomOffsetY]
-			Local $AttackButtonClickX = Random($AttackCoordsX[0], $AttackCoordsX[1], 1)
-			Local $AttackButtonClickY = Random($AttackCoordsY[0], $AttackCoordsY[1], 1)
-			Click($AttackButtonClickX, $AttackButtonClickY, 1, 180, "#0149")
+			ClickP($AttackButtonClickXY, 1, 180, "#0149")
 		Else
-			SetLog("Couldn't find the Attack Button!", $COLOR_ERROR)
-			If $g_bDebugImageSave Then SaveDebugImage("AttackButtonNotFound")
-			Return
+			Local $aRescueAttack = findButton("RescueATKButton", Default, 1, True)
+			If IsArray($aRescueAttack) And UBound($aRescueAttack, 1) = 2 Then
+				ClickP($AttackButtonClickXY, 1, 180, "#0149")
+			Else
+				SetLog("Couldn't find the Attack Button!", $COLOR_ERROR)
+				If $g_bDebugImageSave Then SaveDebugImage("AttackButtonNotFound")
+				Return
+			EndIf
 		EndIf
 	EndIf
 

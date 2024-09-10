@@ -92,8 +92,8 @@ Func CloseWindow($IsinBlacksmith = False, $IsinPet = False, $IsinLab = False, $I
 			EndSelect
 
 			; clear building text - this area is needed for ZoomOut()
-			Local $sBuildingText = getNameBuilding(242, 468 + $g_iBottomOffsetY)
-			If $IsToClickRight Then $sBuildingText = getNameBuilding(242, 514 + $g_iBottomOffsetY)
+			Local $sBuildingText = getNameBuilding(242, 475 + $g_iBottomOffsetY)
+			If $IsToClickRight Then $sBuildingText = getNameBuilding(242, 520 + $g_iBottomOffsetY)
 
 			If $sBuildingText <> "" Then
 				SetDebugLog("Clearing Building Text", $COLOR_INFO)
@@ -160,7 +160,7 @@ Func ClearScreen($Area = "Defaut", $MainVillage = True)
 	Else
 		If _CheckPixel($aIsBuilderBaseGrayed, $g_bCapturePixel) Then $IsGrayed = True
 	EndIf
-	Local $sBuildingText = getNameBuilding(242, 468 + $g_iBottomOffsetY)
+	Local $sBuildingText = getNameBuilding(242, 475 + $g_iBottomOffsetY)
 	If $sBuildingText <> "" Or $IsGrayed Then
 		SetDebugLog("Clearing Screen", $COLOR_INFO)
 		Switch $Area

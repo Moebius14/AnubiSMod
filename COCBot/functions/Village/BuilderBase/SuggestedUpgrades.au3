@@ -61,7 +61,7 @@ Func MainSuggestedUpgradeCode($bDebugImage = $g_bDebugImageSave)
 	If Not $g_iChkBBSuggestedUpgrades Then Return
 	Local $bDebug = $g_bDebugSetlog
 	Local $bScreencap = True
-	Local $y = 102, $x = 510, $x1 = 630
+	Local $y = 102, $x = 490, $x1 = 630
 
 	BuilderBaseReport(True, True)
 
@@ -279,7 +279,7 @@ Func GetIconPosition($x, $y, $x1, $y1, $directory, $Screencap = True, $Debug = F
 EndFunc   ;==>GetIconPosition
 
 Func IsWallDetected()
-	Local $aBuildingName = BuildingInfo(242, 468 + $g_iBottomOffsetY)
+	Local $aBuildingName = BuildingInfo(242, 475 + $g_iBottomOffsetY)
 	If StringInStr($aBuildingName[1], "Wall") And Not $g_iChkBBSuggestedUpgradesIgnoreWall Then Return True
 	Return False
 EndFunc   ;==>IsWallDetected
@@ -312,7 +312,7 @@ Func GetUpgradeButton($sUpgButton = "", $Debug = False, $bDebugImage = $g_bDebug
 	; search icon bar for 'upgrade' icon
 	Local $aUpgradeIcon = decodeSingleCoord(findImage("GetUpgradeButon", $g_sImgAutoUpgradeBtnDir & "\*", $sIconBarDiamond, 1, True))
 	If IsArray($aUpgradeIcon) And UBound($aUpgradeIcon) = 2 Then
-		Local $aBuildingName = BuildingInfo(242, 468 + $g_iBottomOffsetY) ; read building text
+		Local $aBuildingName = BuildingInfo(242, 475 + $g_iBottomOffsetY) ; read building text
 		SetDebugLog("BuildingName 0 : " & $aBuildingName[0])
 		If $aBuildingName[0] >= 1 Then
 			SetLog("Building: " & $aBuildingName[1], $COLOR_INFO)

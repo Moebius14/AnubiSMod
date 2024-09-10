@@ -1,3 +1,8 @@
+* v24.09.xx
+* Improved DeadBase Detection system.
+* Updated Building Info Position for Humanization.
+* Fixed Fill CC with Medals.
+
 * v24.08.31 **
 * Added Force Use Clan Castle If No Siege Detected (Cases "Any" and "Selected Siege").
 * Updated and Improved Dead Bases Detection (No more Collector setting as well).

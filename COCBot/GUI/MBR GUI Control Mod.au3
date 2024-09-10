@@ -4,7 +4,7 @@
 ; Syntax ........:
 ; Parameters ....: None
 ; Return values .: None
-; Author ........: AnubiS (2021)
+; Author ........: Moebius14 (2021)
 ; Modified ......: 2023
 ; Remarks .......: This file is part of MyBot, previously known as ClashGameBot. Copyright 2016
 ;                  MyBot is distributed under the terms of the GNU GPL
@@ -155,7 +155,7 @@ Func SwitchBetweenBasesMod()
 		If $g_IsBuilderJarAvl And $g_iCmbBuilderJar > 0 And Not $g_bIsBBevent Then
 
 			SetLog("Time to Check Builder Base", $COLOR_OLIVE)
-			SetLog("Let's Use Builder Jar", $COLOR_ACTION)
+			SetLog("Let's Use Builder Star Jar", $COLOR_ACTION)
 
 			If Not $BBaseCheckTimer And ($g_bChkBBaseFrequency And $g_iCmbPriorityBBaseFrequency > 0) Then $BBaseCheckTimer = TimerInit()
 

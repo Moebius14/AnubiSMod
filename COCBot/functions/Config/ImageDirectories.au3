@@ -48,6 +48,8 @@ Global Const $g_sImgClanCapitalResults = @ScriptDir & "\imgxml\other\CCResults*"
 Global Const $g_sImgLoading = @ScriptDir & "\imgxml\CheckObstacles\Loading*"
 Global Const $g_sImgInfoButton = @ScriptDir & "\imgxml\CheckObstacles\InfoButton*"
 Global Const $g_sImgNoThanks = @ScriptDir & "\imgxml\CheckObstacles\NoThks*"
+Global Const $sImgPersonnalDatas = @ScriptDir & "\imgxml\CheckObstacles\PersonnalDatas*"
+Global Const $sImgDenyBtn = @ScriptDir & "\imgxml\CheckObstacles\DenyBtn*"
 #EndRegion Obstacles
 
 #Region Main Village
@@ -90,6 +92,7 @@ Global $g_sImgHeroEquipement = @ScriptDir & "\imgxml\Research\Blacksmith\"
 Global $g_sImgEquipmentResearch = @ScriptDir & "\imgxml\Research\Blacksmith\Equipment\"
 Global $g_sImgEquipmentNew = @ScriptDir & "\imgxml\Research\Blacksmith\New\New*"
 Global $g_sImgRedZero = @ScriptDir & "\imgxml\Research\Blacksmith\RedZero\RedZero*"
+Global $g_sImgSupercharge = @ScriptDir & "\imgxml\\Main Village\Supercharge\Supercharge*"
 ;Event
 Global $g_sImgEventResource = @ScriptDir & "\imgxml\Event\Resource\"
 Global $g_sImgOresCollect = @ScriptDir & "\imgxml\Event\Ores\"

@@ -393,8 +393,6 @@ Func SwitchCOCAcc($NextAccount)
 EndFunc   ;==>SwitchCOCAcc
 
 Func SwitchCOCAcc_DisconnectConnect(ByRef $bResult, $bDisconnectOnly = $g_bChkSharedPrefs)
-	Local $sGooglePlayButtonArea = GetDiamondFromRect("50,100,800,600")
-	Local $avGoogleButtonStatus, $sButtonState, $avGoogleButtonSubResult, $aiButtonPos
 	If Not $g_bRunState Then Return -1
 
 	For $i = 0 To 20 ; Checking Green Connect Button continuously in 20sec
@@ -442,7 +440,7 @@ EndFunc   ;==>SwitchCOCAcc_ClickAccount
 
 Func SwitchCOCAcc_ConnectedSCID(ByRef $bResult)
 	For $i = 0 To 20 ; Checking Blue Reload button continuously in 20sec
-		Local $aSuperCellIDReload = decodeSingleCoord(findImage("SupercellID Reload", $g_sImgSupercellIDReload, GetDiamondFromRect("570,145,635,200"), 1, True, Default))
+		Local $aSuperCellIDReload = decodeSingleCoord(findImage("SupercellID Reload", $g_sImgSupercellIDReload, GetDiamondFromRect("300,145,360,200"), 1, True, Default))
 		If IsArray($aSuperCellIDReload) And UBound($aSuperCellIDReload, 1) >= 2 Then
 			Click($aSuperCellIDReload[0], $aSuperCellIDReload[1], 1, 150, "Click Reload SC_ID")
 			Setlog("   1. Click Reload Supercell ID")
@@ -841,7 +839,7 @@ EndFunc   ;==>SCIDragIfNeeded
 
 Func IsSCIDAccComplete($iAccounts = 3)
 	SetLog("-----IsSCIDAccComplete----")
-	Local $iDistanceBetweenAccounts = 95
+	Local $iDistanceBetweenAccounts = 96 ; Was 95
 	Local $aiHeadCoord
 	Local $aiSearchArea[4] = [455, 347, 845, 437]
 	Local $bSaveImage = False
@@ -894,7 +892,7 @@ Func IsSCIDAccComplete($iAccounts = 3)
 				EndIf
 			Else
 				Local $x = $aiHeadCoord[0] - 10
-				Local $y = $aiHeadCoord[1] - 26
+				Local $y = $aiHeadCoord[1] - 24
 
 				; now crop image to have only village name and put in $hClone
 				Local $oBitmap = _GDIPlus_BitmapCreateFromHBITMAP($g_hHBitmap2)

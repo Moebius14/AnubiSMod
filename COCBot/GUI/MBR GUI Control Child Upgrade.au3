@@ -585,6 +585,7 @@ Func EnableUpgradeEquipment()
 	If $g_iTownHallLevel < 8 Then
 		GUICtrlSetState($g_hBtnHeroEquipment, $GUI_DISABLE)
 		GUICtrlSetState($g_hChkCustomEquipmentOrderEnable, $GUI_UNCHECKED)
+		GUICtrlSetState($g_hChkFinishCurrentEquipmentFirst, $GUI_UNCHECKED)
 		btnRemoveEquipment()
 	Else
 		GUICtrlSetState($g_hBtnHeroEquipment, $GUI_ENABLE)

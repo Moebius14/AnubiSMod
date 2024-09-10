@@ -195,7 +195,7 @@ Func OpenMagicItemWindow()
 	BuildingClick($g_aiTownHallPos[0], $g_aiTownHallPos[1])
 	If _Sleep($DELAYBUILDINGINFO1) Then Return
 
-	Local $BuildingInfo = BuildingInfo(242, 468 + $g_iBottomOffsetY)
+	Local $BuildingInfo = BuildingInfo(242, 475 + $g_iBottomOffsetY)
 
 	If $BuildingInfo[1] = "Town Hall" Then
 		SetDebugLog("Opening Magic Item Window")
@@ -215,7 +215,7 @@ Func OpenMagicItemWindow()
 		If _Sleep(Random(1000, 1500, 1)) Then Return
 		BuildingClick($g_aiTownHallPos[0], $g_aiTownHallPos[1])
 		If _Sleep($DELAYBUILDINGINFO1) Then Return
-		Local $BuildingInfo = BuildingInfo(242, 468 + $g_iBottomOffsetY)
+		Local $BuildingInfo = BuildingInfo(242, 475 + $g_iBottomOffsetY)
 		If $BuildingInfo[1] = "Town Hall" Then
 			If ClickB("MagicItems") Then
 				$bRet = True

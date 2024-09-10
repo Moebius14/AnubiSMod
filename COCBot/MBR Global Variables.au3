@@ -874,7 +874,7 @@ Global $g_iTxtRestartElixir = 25000
 Global $g_iTxtRestartDark = 500
 Global $g_bChkCollect = True, $g_bChkTombstones = True, $g_bChkCleanYard = True, $g_bChkGemsBox = False
 Global $g_bChkCollectCartFirst = False, $g_iTxtCollectGold = 0, $g_iTxtCollectElixir = 0, $g_iTxtCollectDark = 0
-Global $g_bChkTreasuryCollect = False
+Global $g_bChkTreasuryCollect = 0
 Global $g_iTxtTreasuryGold = 0
 Global $g_iTxtTreasuryElixir = 0
 Global $g_iTxtTreasuryDark = 0
@@ -1091,7 +1091,7 @@ Global $g_bAllBarracksUpgd = False
 
 ; <><><><> Attack Plan / Train Army / Boost <><><><>
 Global $g_iCmbBoostBarracks = 0, $g_iCmbBoostSpellFactory = 0, $g_iCmbBoostWorkshop = 0, $g_iCmbBoostBarbarianKing = 0, $g_iCmbBoostArcherQueen = 0, $g_iCmbBoostWarden = 0, $g_iCmbBoostChampion = 0, $g_iCmbBoostEverything = 0, _
-	   $g_iCmbBoostBuilders = 0, $g_iTimerBoostBuilders = 0
+	   $g_iCmbBoostBuilders = 0, $g_iTimerBoostBuilders = 0, $g_sBSUpgradeTime = ""
 Global $g_abBoostBarracksHours[24] = [True, True, True, True, True, True, True, True, True, True, True, True, True, True, True, True, True, True, True, True, True, True, True, True]
 
 ; <><><><> Attack Plan / Train Army / Train Order <><><><>
@@ -1140,7 +1140,7 @@ Global Const $g_aiDropOrderIcon[$eDropOrderCount + 1] = [ _
 		$eIcnPekka, $eIcnBabyDragon, $eIcnInfernoDragon, $eIcnMiner, $eIcnSuperMiner, $eIcnElectroDragon, $eIcnYeti, $eIcnDragonRider, $eIcnElectroTitan, $eIcnRootRider, $eIcnMinion, _
 		$eIcnSuperMinion, $eIcnHogRider, $eIcnSuperHogRider, $eIcnValkyrie, $eIcnSuperValkyrie, $eIcnGolem, $eIcnWitch, $eIcnSuperWitch, $eIcnLavaHound, $eIcnIceHound, $eIcnBowler, $eIcnSuperBowler, $eIcnIceGolem, $eIcnHeadhunter, $eIcnAppWard, _
 		$eIcnDruid, $eIcnGiantSkeleton, $eIcnRoyalGhost, $eIcnPartyWizard, $eIcnIceWizard, $eIcnCC, $eIcnHeroes]
-Global $g_bCustomDropOrderEnable = False, $g_aiCmbCustomDropOrder[$eDropOrderCount] = [-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1]
+Global $g_bCustomDropOrderEnable = False, $g_aiCmbCustomDropOrder[$eDropOrderCount] = [-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1]
 
 Global $g_aiDropOrder[$eDropOrderCount] = [ _
 		$eTroopBarbarianS, $eTroopSuperBarbarianS, $eTroopArcherS, $eTroopSuperArcherS, $eTroopGiantS, $eTroopSuperGiantS, $eTroopGoblinS, $eTroopSneakyGoblinS, $eTroopWallBreakerS, _
@@ -1239,7 +1239,7 @@ Global $g_iPercentageDamage = 0
 ; <<< nothing here - all in common Search & Attack grouping >>>
 
 ; <><><><> Attack Plan / Search & Attack / Deadbase / Collectors <><><><>
-Global $g_bCollectorFilterDisable = False
+Global $g_bCollectorFilterDisable = False, $b_CheckNoLeagueOpponent = False
 Global $g_iCollectorMatchesMin = 3
 Global $g_iCollectorToleranceOffset = 0
 
@@ -1643,7 +1643,7 @@ Global $g_bCheckChampionPower = False ; Check for Champion activate power
 Global $g_bDropQueen, $g_bDropKing, $g_bDropWarden, $g_bDropChampion
 
 ; Attack - Troops
-Global $g_aiSlotInArmy[$eTroopCount] = [-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1]
+Global $g_aiSlotInArmy[$eTroopCount] = [-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1]
 ; Red area search
 Global $g_aiPixelTopLeft[0]
 Global $g_aiPixelBottomLeft[0]
@@ -2005,7 +2005,7 @@ Global $ExternalArea[8][3]
 
 Global $g_aVillageSize[10] = ["", "", "", "", "", "", "", "", "", ""]
 
-; Blacksmith (20 equipment - May 2024)
+; Blacksmith (22 equipment - August 2024)
 Global $g_aiBlacksmithPos[2] = [-1, -1] ; Position of Blacksmith
 Global $g_asEquipmentOrderList[22][4] = [ _
 		[GetTranslatedFileIni("MBR GUI Design Child Village - Equipment", "TxtBarbarianPuppet", "Barbarian Puppet"), "BarbarianPuppet", "King", 103 + $g_iMidOffsetY], _
@@ -2052,7 +2052,8 @@ Global $g_aiCmbCustomEquipmentOrder[$eEquipmentCount] = [-1, -1, -1, -1, -1, -1,
 Global $g_hChkCustomEquipmentOrder[$eEquipmentCount] = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], $g_bChkCustomEquipmentOrder[$eEquipmentCount] = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
 Global Const $g_asEquipmentShortNames[$eEquipmentCount] = ["BarbPuppet", "RageVial", "Boots", "Stache", "Gauntlet", "SpikyBall", "ArchPuppet", _
 		"InvVial", "GArrow", "HealPuppet", "FArrow", "Mirror", "Eternal", "Life", "RageGem", "HealTome", "Fireball", "RoyalGem", "Shield", "HogPuppet", "HasteVial", "Rocket"]
-Global $StarBonusReceived = 0, $g_sBSUpgradeTime = ""
+Global $StarBonusReceived[2] = [0, 0] ; BlackSmith/Treasury
+Global $g_sBSmithUpgradeTime = ""
 
 ; Pet House
 Global $g_aiPetHousePos[2] = [-1, -1] ; Position of Pet House
@@ -2132,7 +2133,7 @@ Global $g_bAttackCGPlannerEnable = False, $g_bNotifyStopBot = False, _
 		$g_bAttackCGPlannerDayLimit = False, $g_iAttackCGPlannerDayMin = 3, $g_iAttackCGPlannerDayMax = 6, $iRandomAttackCGCountToday = 0
 Global $bCGPlannerThenContinue = True, $bCGPlannerThenStopBot = False, $g_bChkSTOPWhenCGPointsMax = False
 Global $g_aiAttackedCGCount = 0, $IsReachedMaxCGDayAttack = 0, $iNowDayCG = @YDAY
-Global $g_bFirstStartAccountCGRA = 0, $CGRACheckTimer = 0, $DelayReturnedtocheckCGRA = 0, $IsStatusForCG = 0, $g_bFirstStartForAll = 0
+Global $g_bFirstStartAccountCGRA = 0, $CGRACheckTimer = 0, $DelayReturnedtocheckCGRA = 0, $IsStatusForCG = 0, $g_bFirstStartCheckDone = 0
 Global $g_bClanGamesCompleted
 
 ;Magic Items
@@ -2140,16 +2141,11 @@ Global $PowerItemCapture = @ScriptDir & "\imgxml\Potions\Power*"
 Global $HeroItemCapture = @ScriptDir & "\imgxml\Potions\Hero*"
 Global $ResourceItemCapture = @ScriptDir & "\imgxml\Potions\Resource*"
 Global $TrainingItemCapture = @ScriptDir & "\imgxml\Potions\Training*"
-Global $BuilderItemCapture = @ScriptDir & "\imgxml\Potions\Builder*"
 Global $ResearchItemCapture = @ScriptDir & "\imgxml\Potions\Research*"
 Global $ClockItemCapture = @ScriptDir & "\imgxml\Potions\Clock*"
-Global $SuperItemCapture = @ScriptDir & "\imgxml\Potions\Super*"
-Global $PetItemCapture = @ScriptDir & "\imgxml\Potions\Pet*"
 Global $BJarItemCapture = @ScriptDir & "\imgxml\Potions\BJar*"
-Global $PotionsCaptures[10] = [$PowerItemCapture, $ResourceItemCapture, $TrainingItemCapture, $BuilderItemCapture, $ClockItemCapture, $HeroItemCapture, $ResearchItemCapture, $SuperItemCapture, $PetItemCapture, $BJarItemCapture]
-Global $PotionsNames[10] = ["Power", "Resource", "Training", "Builder", "Clock Tower", "Hero", "Research", "Super", "Pet", "Builder Jar"]
 Global $PotionsCapturesMedal[7] = [$PowerItemCapture, $ResourceItemCapture, $TrainingItemCapture, $ClockItemCapture, $HeroItemCapture, $ResearchItemCapture, $BJarItemCapture]
-Global $PotionsNamesMedal[7] = ["Power", "Resource", "Training", "Clock Tower", "Hero", "Research", "Builder Jar"]
+Global $PotionsNamesMedal[7] = ["Power Potion", "Resource Potion", "Training Potion", "Clock Tower Potion", "Hero Potion", "Research Potion", "Builder Star Jar"]
 Global $g_sImgTrainingWord = @ScriptDir & "\imgxml\Potions\TrainingWord\"
 
 ;Use Medals To Fill CC
@@ -2267,7 +2263,7 @@ Global $SpecialEventReduction = 1 ; No Event
 ;;;;;;;;;;;;;;;
 
 ; COC Version
-Global $sGameMinimalVersion = "16.386.14"
+Global $sGameMinimalVersion = "16.517.4"
 
 ;Builder's Apprentice
 Global $g_sAvailableAppBuilder = 0, $TimeDiffAppBuilder = 0, $g_bChkAppBuilder = 0

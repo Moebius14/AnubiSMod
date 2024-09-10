@@ -1,11 +1,11 @@
 ; #FUNCTION# ====================================================================================================================
 ; Name ..........: IsSearchAttackEnabled
 ; Description ...: Determines if user has selected to not attack.  Uses GUI schedule, random time, or daily attack limit options to stop attacking
-; Syntax ........: IsSearchAttackEnabled()
+; Syntax ........: IsSearchCGAttackEnabled()
 ; Parameters ....:
 ; Return values .: True = attacking CG is enabled, False = if attacking CG is disabled
 ;					 .; Will return error code if problem determining random no attack time.
-; Author ........: AnubiS (01-2022)
+; Author ........: Moebius14 (01-2022)
 ; Modified ......:
 ; Remarks .......: This file is part of MyBot, previously known as ClashGameBot. Copyright 2015-2024
 ;                  MyBot is distributed under the terms of the GNU GPL

@@ -517,7 +517,10 @@ Func CreateHeroEquipment()
 
 	$g_hChkFinishCurrentEquipmentFirst = GUICtrlCreateCheckbox(GetTranslatedFileIni("MBR GUI Design Child Attack - Equipment", "ChkFinishCurrentEquipmentFirst", "Finish Current Equipment First"), $x + 75, $y + 60, -1, -1)
 	GUICtrlSetState(-1, $GUI_CHECKED)
-	_GUICtrlSetTip(-1, GetTranslatedFileIni("MBR GUI Design Child Attack - Equipment", "ChkFinishCurrentEquipmentFirst_Info_01", "Finish current equipment first before trying upgrade next one"))
+	_GUICtrlSetTip(-1, GetTranslatedFileIni("MBR GUI Design Child Attack - Equipment", "ChkFinishCurrentEquipmentFirst_Info_01", "Finish current equipment first before trying to upgrade next one.") & @CRLF & _
+			GetTranslatedFileIni("MBR GUI Design Child Attack - Equipment", "ChkFinishCurrentEquipmentFirst_Info_02", "Note : Bot will try to upgrade next when :") & @CRLF & _
+			GetTranslatedFileIni("MBR GUI Design Child Attack - Equipment", "ChkFinishCurrentEquipmentFirst_Info_03", "- Current equipment will be maxed.") & @CRLF & _
+			GetTranslatedFileIni("MBR GUI Design Child Attack - Equipment", "ChkFinishCurrentEquipmentFirst_Info_04", "- TH/Blacksmith upgrade will be required to upgrade current equipment."))
 
 	Local $sComboData = ""
 	For $t = 0 To UBound($g_asEquipmentOrderList) - 1

@@ -246,17 +246,21 @@ Func ClickAttack()
 	Local $aCoords = decodeSingleCoord(findImage("ClickAttack", $g_sImgBBAttackButton, $sSearchDiamond, 1, True)) ; bottom
 	Local $bRet = False
 
+	Local $AttackCoordsX[2] = [45, 85]
+	Local $AttackCoordsY[2] = [590 + $g_iBottomOffsetY, 625 + $g_iBottomOffsetY]
+	Local $AttackButtonClickXY[2] = [Random($AttackCoordsX[0], $AttackCoordsX[1], 1), Random($AttackCoordsY[0], $AttackCoordsY[1], 1)]
 	If IsArray($aCoords) And UBound($aCoords) = 2 Then
 		SetDebugLog(String($aCoords[0]) & " " & String($aCoords[1]))
-		Local $AttackCoordsX[2] = [45, 85]
-		Local $AttackCoordsY[2] = [590 + $g_iBottomOffsetY, 625 + $g_iBottomOffsetY]
-		Local $AttackButtonClickX = Random($AttackCoordsX[0], $AttackCoordsX[1], 1)
-		Local $AttackButtonClickY = Random($AttackCoordsY[0], $AttackCoordsY[1], 1)
-		Click($AttackButtonClickX, $AttackButtonClickY, 1, 180, "#0149") ; Click Attack Button
+		ClickP($AttackButtonClickXY, 1, 180, "#0149") ; Click Attack Button
 		$bRet = True
 	Else
-		SetLog("Can not find button for Builders Base Attack button", $COLOR_ERROR)
-		If $g_bDebugImageSave Then SaveDebugDiamondImage("ClickAttack", $sSearchDiamond)
+		Local $aRescueAttack = findButton("RescueATKButton", Default, 1, True)
+		If IsArray($aRescueAttack) And UBound($aRescueAttack, 1) = 2 Then
+			ClickP($AttackButtonClickXY, 1, 180, "#0149")
+		Else
+			SetLog("Can not find button for Builders Base Attack button", $COLOR_ERROR)
+			If $g_bDebugImageSave Then SaveDebugDiamondImage("ClickAttack", $sSearchDiamond)
+		EndIf
 	EndIf
 
 	Return $bRet
@@ -299,10 +303,10 @@ Func BuilderJar()
 
 	If Not CheckLootAvail(False) Then
 		If CheckBBGoldStorageFull(False) And CheckBBElixirStorageFull(False) Then
-			SetLog("Storages Are Full, Builder Jar Won't Be Used", $COLOR_DEBUG2)
+			SetLog("Storages Are Full, Builder Star Jar Won't Be Used", $COLOR_DEBUG2)
 			Return
 		EndIf
-		SetLog("Use Builder Jar", $COLOR_INFO)
+		SetLog("Use Builder Star Jar", $COLOR_INFO)
 		If Not ClickAttack() Then Return
 		If _Sleep(2000) Then Return
 		If $g_bChkBBWaitForMachine Then
@@ -317,13 +321,13 @@ Func BuilderJar()
 			Click($g_iQuickMISX + 20, $g_iQuickMISY)
 			If _Sleep(1500) Then Return
 			If ClickB("BoostConfirm") Then
-				SetLog("Stars Unlocked With Builder Jar", $COLOR_SUCCESS)
+				SetLog("Stars Unlocked With Builder Star Jar", $COLOR_SUCCESS)
 				If $g_iCmbBuilderJar <= 5 Then
 					$g_iCmbBuilderJar -= 1
-					SetLog("Builder Jar Used. Remaining iteration" & ($g_iCmbBuilderJar > 1 ? "s: " : ": ") & $g_iCmbBuilderJar, $COLOR_SUCCESS)
+					SetLog("Builder Star Jar Used. Remaining iteration" & ($g_iCmbBuilderJar > 1 ? "s: " : ": ") & $g_iCmbBuilderJar, $COLOR_SUCCESS)
 					_GUICtrlComboBox_SetCurSel($g_hCmbBuilderJar, $g_iCmbBuilderJar)
 				EndIf
-				$ActionForModLog = "Using Builder Jar"
+				$ActionForModLog = "Using Builder Star Jar"
 				If $g_iTxtCurrentVillageName <> "" Then
 					GUICtrlSetData($g_hTxtModLog, @CRLF & _NowTime() & " [" & $g_iTxtCurrentVillageName & "] Stars Unlocked " & $ActionForModLog, 1)
 				Else
@@ -334,7 +338,7 @@ Func BuilderJar()
 				SetLog("No Confirm Button Found", $COLOR_DEBUG)
 			EndIf
 		Else
-			SetLog("No Builder Jar Found", $COLOR_DEBUG2)
+			SetLog("No Builder Star Jar Found", $COLOR_DEBUG2)
 			$g_IsBuilderJarAvl = 0
 		EndIf
 		If _Sleep(1000) Then Return

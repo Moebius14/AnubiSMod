@@ -132,7 +132,11 @@ Func _makerequest($aRequestButtonPos)
 		EndIf
 
 		If Not $g_bChkBackgroundMode And Not $g_bNoFocusTampering Then ControlFocus($g_hAndroidWindow, "", "") ; make sure Android has window focus
-		ClickP($g_avWindowCoordinates, 1, 100, "#0256")
+		Local $CoordsX[2] = [$g_avWindowCoordinates[0] - 60, $g_avWindowCoordinates[0] + 30]
+		Local $CoordsY[2] = [$g_avWindowCoordinates[1] - 15, $g_avWindowCoordinates[1] + 25]
+		Local $ButtonClickX = Random($CoordsX[0], $CoordsX[1], 1)
+		Local $ButtonClickY = Random($CoordsY[0], $CoordsY[1], 1)
+		Click($ButtonClickX, $ButtonClickY, 1, 100, "#0256")
 		$g_bCanRequestCC = False
 		If $g_abSearchCastleWaitEnable[$DB] Or $g_abSearchCastleWaitEnable[$LB] Then
 			If Not $bChkUseOnlyCCMedals And $g_aiCmbCCDecisionTime > 0 Then

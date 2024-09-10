@@ -971,9 +971,15 @@ Func WatchWarReplays()
 							If _Sleep(1000) Then Return
 							If Not $g_bRunState Then Return
 
+							Local $AttackCoordsX[2] = [45, 85]
+							Local $AttackCoordsY[2] = [590 + $g_iBottomOffsetY, 625 + $g_iBottomOffsetY]
+							Local $AttackButtonClickXY[2] = [Random($AttackCoordsX[0], $AttackCoordsX[1], 1), Random($AttackCoordsY[0], $AttackCoordsY[1], 1)]
 							Local $aBack = findButton("AttackButton", Default, 1, True)
 							If IsArray($aBack) And UBound($aBack, 1) = 2 Then
-								ClickP($aBack)
+								ClickP($AttackButtonClickXY)
+							Else
+								Local $aRescueAttack = findButton("RescueATKButton", Default, 1, True)
+								If IsArray($aRescueAttack) And UBound($aRescueAttack, 1) = 2 Then ClickP($AttackButtonClickXY)
 							EndIf
 
 						EndIf
@@ -1620,13 +1626,13 @@ Func CheckTH()
 
 	PureClickVisit($g_iTHx, $g_iTHy)
 	If _Sleep(800) Then Return
-	Local $BuildingNameFull = getOcrAndCapture("coc-build", 250, 514 + $g_iBottomOffsetY, 350, 30)
+	Local $BuildingNameFull = getNameBuilding(242, 520 + $g_iBottomOffsetY)
 	If Not StringInStr($BuildingNameFull, "Town") Then
 		SetLog("Oups ! Wrong click", $COLOR_ACTION)
 		ClearScreen("Right")
 		Return
 	EndIf
-	Local $aResult = BuildingInfo(242, 514 + $g_iBottomOffsetY)
+	Local $aResult = BuildingInfo(242, 520 + $g_iBottomOffsetY)
 	SetLog("TH Level " & $aResult[2], $COLOR_NAVY)
 	If _Sleep(1500) Then Return
 	If ClickB("Info") Then
@@ -1690,7 +1696,7 @@ Func CheckMortar()
 			SetLog("We Will Click On Mortar " & $count & "", $COLOR_OLIVE)
 			PureClickVisit($xInfo, $yInfo)
 			If _Sleep(800) Then Return
-			Local $BuildingNameFull = getOcrAndCapture("coc-build", 250, 514 + $g_iBottomOffsetY, 350, 30)
+			Local $BuildingNameFull = getNameBuilding(242, 520 + $g_iBottomOffsetY)
 			If Not StringInStr($BuildingNameFull, "Mortar") Then
 				SetLog("Oups ! Wrong click", $COLOR_ACTION)
 				If _Sleep(200) Then Return
@@ -1698,7 +1704,7 @@ Func CheckMortar()
 				If _Sleep(1000) Then Return
 				ContinueLoop
 			EndIf
-			Local $aResult = BuildingInfo(242, 514 + $g_iBottomOffsetY)
+			Local $aResult = BuildingInfo(242, 520 + $g_iBottomOffsetY)
 			SetLog("Mortar Level " & $aResult[2], $COLOR_NAVY)
 			If _Sleep(1500) Then Return
 			If ClickB("Info") Then
@@ -1769,7 +1775,7 @@ Func CheckWizard()
 			SetLog("We Will Click On Wizard Tower " & $count & "", $COLOR_OLIVE)
 			PureClickVisit($xInfo, $yInfo)
 			If _Sleep(800) Then Return
-			Local $BuildingNameFull = getOcrAndCapture("coc-build", 250, 514 + $g_iBottomOffsetY, 350, 30)
+			Local $BuildingNameFull = getNameBuilding(242, 520 + $g_iBottomOffsetY)
 			If Not StringInStr($BuildingNameFull, "Wizard") Then
 				SetLog("Oups ! Wrong click", $COLOR_ACTION)
 				If _Sleep(200) Then Return
@@ -1777,7 +1783,7 @@ Func CheckWizard()
 				If _Sleep(1000) Then Return
 				ContinueLoop
 			EndIf
-			Local $aResult = BuildingInfo(242, 514 + $g_iBottomOffsetY)
+			Local $aResult = BuildingInfo(242, 520 + $g_iBottomOffsetY)
 			SetLog("Wizard Tower Level " & $aResult[2], $COLOR_NAVY)
 			If _Sleep(1500) Then Return
 			If ClickB("Info") Then
@@ -1840,7 +1846,7 @@ Func CheckXBows()
 			SetLog("We Will Click On X-Bow " & $count & "", $COLOR_OLIVE)
 			PureClickVisit($xInfo + 9, $yInfo)
 			If _Sleep(800) Then Return
-			Local $BuildingNameFull = getOcrAndCapture("coc-build", 250, 514 + $g_iBottomOffsetY, 350, 30)
+			Local $BuildingNameFull = getNameBuilding(242, 520 + $g_iBottomOffsetY)
 			If Not StringInStr($BuildingNameFull, "Bow") Then
 				SetLog("Oups ! Wrong click", $COLOR_ACTION)
 				If _Sleep(200) Then Return
@@ -1848,7 +1854,7 @@ Func CheckXBows()
 				If _Sleep(1000) Then Return
 				ContinueLoop
 			EndIf
-			Local $aResult = BuildingInfo(242, 514 + $g_iBottomOffsetY)
+			Local $aResult = BuildingInfo(242, 520 + $g_iBottomOffsetY)
 			SetLog("X-Bow Level " & $aResult[2], $COLOR_NAVY)
 			If _Sleep(1500) Then Return
 			If ClickB("Info") Then
@@ -1913,7 +1919,7 @@ Func CheckInferno()
 			SetLog("We Will Click On Inferno Tower " & $count & "", $COLOR_OLIVE)
 			PureClickVisit($xInfo, $yInfo)
 			If _Sleep(800) Then Return
-			Local $BuildingNameFull = getOcrAndCapture("coc-build", 250, 514 + $g_iBottomOffsetY, 350, 30)
+			Local $BuildingNameFull = getNameBuilding(242, 520 + $g_iBottomOffsetY)
 			If Not StringInStr($BuildingNameFull, "nferno") Then
 				SetLog("Oups ! Wrong click", $COLOR_ACTION)
 				If _Sleep(200) Then Return
@@ -1921,7 +1927,7 @@ Func CheckInferno()
 				If _Sleep(1000) Then Return
 				ContinueLoop
 			EndIf
-			Local $aResult = BuildingInfo(242, 514 + $g_iBottomOffsetY)
+			Local $aResult = BuildingInfo(242, 520 + $g_iBottomOffsetY)
 			SetLog("Inferno Tower Level " & $aResult[2], $COLOR_NAVY)
 			If _Sleep(1500) Then Return
 			If ClickB("Info") Then
@@ -1967,13 +1973,13 @@ Func CheckEagle()
 	SetLog("We Will Click On Eagle Artillery...", $COLOR_OLIVE)
 	PureClickVisit($xInfo, $yInfo)
 	If _Sleep(800) Then Return
-	Local $BuildingNameFull = getOcrAndCapture("coc-build", 250, 514 + $g_iBottomOffsetY, 350, 30)
+	Local $BuildingNameFull = getNameBuilding(242, 520 + $g_iBottomOffsetY)
 	If Not StringInStr($BuildingNameFull, "Eagle") Then
 		SetLog("Oups ! Wrong click", $COLOR_ACTION)
 		ClearScreen("Right")
 		Return
 	EndIf
-	Local $aResult = BuildingInfo(242, 514 + $g_iBottomOffsetY)
+	Local $aResult = BuildingInfo(242, 520 + $g_iBottomOffsetY)
 	SetLog("Eagle Artillery Level " & $aResult[2], $COLOR_NAVY)
 	If _Sleep(1500) Then Return
 	If ClickB("Info") Then
@@ -2025,7 +2031,7 @@ Func CheckScatter()
 			SetLog("We Will Click On ScatterShot " & $count & "", $COLOR_OLIVE)
 			PureClickVisit($xInfo, $yInfo)
 			If _Sleep(800) Then Return
-			Local $BuildingNameFull = getOcrAndCapture("coc-build", 250, 514 + $g_iBottomOffsetY, 350, 30)
+			Local $BuildingNameFull = getNameBuilding(242, 520 + $g_iBottomOffsetY)
 			If Not StringInStr($BuildingNameFull, "Scatte") Then
 				SetLog("Oups ! Wrong click", $COLOR_ACTION)
 				If _Sleep(200) Then Return
@@ -2033,7 +2039,7 @@ Func CheckScatter()
 				If _Sleep(1000) Then Return
 				ContinueLoop
 			EndIf
-			Local $aResult = BuildingInfo(242, 514 + $g_iBottomOffsetY)
+			Local $aResult = BuildingInfo(242, 520 + $g_iBottomOffsetY)
 			SetLog("ScatterShot Level " & $aResult[2], $COLOR_NAVY)
 			If _Sleep(1500) Then Return
 			If ClickB("Info") Then
@@ -2096,7 +2102,7 @@ Func CheckAirDefense()
 			SetLog("We Will Click On Air Defense " & $count & "", $COLOR_OLIVE)
 			PureClickVisit($xInfo, $yInfo)
 			If _Sleep(800) Then Return
-			Local $BuildingNameFull = getOcrAndCapture("coc-build", 250, 514 + $g_iBottomOffsetY, 350, 30)
+			Local $BuildingNameFull = getNameBuilding(242, 520 + $g_iBottomOffsetY)
 			If Not StringInStr($BuildingNameFull, "Defense") Then
 				SetLog("Oups ! Wrong click", $COLOR_ACTION)
 				If _Sleep(200) Then Return
@@ -2104,7 +2110,7 @@ Func CheckAirDefense()
 				If _Sleep(1000) Then Return
 				ContinueLoop
 			EndIf
-			Local $aResult = BuildingInfo(242, 514 + $g_iBottomOffsetY)
+			Local $aResult = BuildingInfo(242, 520 + $g_iBottomOffsetY)
 			SetLog("Air Defense Level " & $aResult[2], $COLOR_NAVY)
 			If _Sleep(1500) Then Return
 			If ClickB("Info") Then
@@ -2167,7 +2173,7 @@ Func GoldStorage()
 			SetLog("We Will Click On Gold Storage " & $count & "", $COLOR_OLIVE)
 			PureClickVisit($xInfo, $yInfo)
 			If _Sleep(800) Then Return
-			Local $BuildingNameFull = getOcrAndCapture("coc-build", 250, 514 + $g_iBottomOffsetY, 350, 30)
+			Local $BuildingNameFull = getNameBuilding(242, 520 + $g_iBottomOffsetY)
 			If Not StringInStr($BuildingNameFull, "Gold") Then
 				SetLog("Oups ! Wrong click", $COLOR_ACTION)
 				If _Sleep(200) Then Return
@@ -2175,7 +2181,7 @@ Func GoldStorage()
 				If _Sleep(1000) Then Return
 				ContinueLoop
 			EndIf
-			Local $aResult = BuildingInfo(242, 514 + $g_iBottomOffsetY)
+			Local $aResult = BuildingInfo(242, 520 + $g_iBottomOffsetY)
 			SetLog("Gold Storage Level " & $aResult[2], $COLOR_NAVY)
 			If _Sleep(1500) Then Return
 			If ClickB("Info") Then
@@ -2238,7 +2244,7 @@ Func ElixirStorage()
 			SetLog("We Will Click On Elixir Storage " & $count & "", $COLOR_OLIVE)
 			PureClickVisit($xInfo, $yInfo)
 			If _Sleep(800) Then Return
-			Local $BuildingNameFull = getOcrAndCapture("coc-build", 250, 514 + $g_iBottomOffsetY, 350, 30)
+			Local $BuildingNameFull = getNameBuilding(242, 520 + $g_iBottomOffsetY)
 			If Not StringInStr($BuildingNameFull, "Elixir") Then
 				SetLog("Oups ! Wrong click", $COLOR_ACTION)
 				If _Sleep(200) Then Return
@@ -2246,7 +2252,7 @@ Func ElixirStorage()
 				If _Sleep(1000) Then Return
 				ContinueLoop
 			EndIf
-			Local $aResult = BuildingInfo(242, 514 + $g_iBottomOffsetY)
+			Local $aResult = BuildingInfo(242, 520 + $g_iBottomOffsetY)
 			SetLog("Elixir Storage Level " & $aResult[2], $COLOR_NAVY)
 			If _Sleep(1500) Then Return
 			If ClickB("Info") Then
@@ -2285,13 +2291,13 @@ Func Monolith()
 	SetLog("We Will Click On Monolith...", $COLOR_OLIVE)
 	PureClickVisit($xInfo, $yInfo)
 	If _Sleep(800) Then Return
-	Local $BuildingNameFull = getOcrAndCapture("coc-build", 250, 514 + $g_iBottomOffsetY, 350, 30)
+	Local $BuildingNameFull = getNameBuilding(242, 520 + $g_iBottomOffsetY)
 	If Not StringInStr($BuildingNameFull, "Monolith") Then
 		SetLog("Oups ! Wrong click", $COLOR_ACTION)
 		ClearScreen("Right")
 		Return
 	EndIf
-	Local $aResult = BuildingInfo(242, 514 + $g_iBottomOffsetY)
+	Local $aResult = BuildingInfo(242, 520 + $g_iBottomOffsetY)
 	SetLog("Monolith Level " & $aResult[2], $COLOR_NAVY)
 	If _Sleep(1500) Then Return
 	If ClickB("Info") Then
@@ -2324,13 +2330,13 @@ Func MultiArcher()
 	SetLog("We Will Click On Multi-Archer Tower...", $COLOR_OLIVE)
 	PureClickVisit($xInfo, $yInfo)
 	If _Sleep(800) Then Return
-	Local $BuildingNameFull = getOcrAndCapture("coc-build", 240, 514 + $g_iBottomOffsetY, 395, 30)
+	Local $BuildingNameFull = getNameBuilding(242, 520 + $g_iBottomOffsetY)
 	If Not StringInStr($BuildingNameFull, "Multi-Archer") Then
 		SetLog("Oups ! Wrong click", $COLOR_ACTION)
 		ClearScreen("Right")
 		Return
 	EndIf
-	Local $aResult = BuildingInfo(242, 514 + $g_iBottomOffsetY)
+	Local $aResult = BuildingInfo(242, 520 + $g_iBottomOffsetY)
 	SetLog("Multi-Archer Tower Level " & $aResult[2], $COLOR_NAVY)
 	If _Sleep(1500) Then Return
 	If ClickB("Info") Then
@@ -2363,13 +2369,13 @@ Func Ricochet()
 	SetLog("We Will Click On Ricochet Cannon...", $COLOR_OLIVE)
 	PureClickVisit($xInfo, $yInfo)
 	If _Sleep(800) Then Return
-	Local $BuildingNameFull = getOcrAndCapture("coc-build", 250, 514 + $g_iBottomOffsetY, 350, 30)
+	Local $BuildingNameFull = getNameBuilding(242, 520 + $g_iBottomOffsetY)
 	If Not StringInStr($BuildingNameFull, "Ricochet") Then
 		SetLog("Oups ! Wrong click", $COLOR_ACTION)
 		ClearScreen("Right")
 		Return
 	EndIf
-	Local $aResult = BuildingInfo(242, 514 + $g_iBottomOffsetY)
+	Local $aResult = BuildingInfo(242, 520 + $g_iBottomOffsetY)
 	SetLog("Ricochet Cannon Level " & $aResult[2], $COLOR_NAVY)
 	If _Sleep(1500) Then Return
 	If ClickB("Info") Then
@@ -3663,7 +3669,12 @@ Func ReturnHomeFromHumanization()
 			Click($AttackButtonClickX, $AttackButtonClickY, 1, 160) ; return home
 			If _Sleep(Random(3000, 3500, 1)) Then Return
 			Local $aMain = findButton("AttackButton", Default, 1, True)
-			If IsArray($aMain) And UBound($aMain, 1) = 2 Then ExitLoop
+			If IsArray($aMain) And UBound($aMain, 1) = 2 Then
+				ExitLoop
+			Else
+				Local $aRescueAttack = findButton("RescueATKButton", Default, 1, True)
+				If IsArray($aRescueAttack) And UBound($aRescueAttack, 1) = 2 Then ExitLoop
+			EndIf
 		Else
 			ExitLoop
 		EndIf

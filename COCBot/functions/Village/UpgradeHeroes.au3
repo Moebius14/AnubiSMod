@@ -119,11 +119,11 @@ Func QueenUpgrade()
 	If _Sleep($DELAYUPGRADEHERO2) Then Return
 
 	;Get Queen info and Level
-	Local $sInfo = BuildingInfo(242, 468 + $g_iBottomOffsetY) ; 860x780
+	Local $sInfo = BuildingInfo(242, 475 + $g_iBottomOffsetY) ; 860x780
 	If @error Then SetError(0, 0, 0)
 	Local $CountGetInfo = 0
 	While IsArray($sInfo) = False
-		$sInfo = BuildingInfo(242, 468 + $g_iBottomOffsetY) ; 860x780
+		$sInfo = BuildingInfo(242, 475 + $g_iBottomOffsetY) ; 860x780
 		If @error Then SetError(0, 0, 0)
 		Sleep(100)
 		$CountGetInfo += 1
@@ -304,11 +304,11 @@ Func KingUpgrade()
 	If _Sleep($DELAYUPGRADEHERO2) Then Return
 
 	;Get King info
-	Local $sInfo = BuildingInfo(242, 468 + $g_iBottomOffsetY) ; 860x780
+	Local $sInfo = BuildingInfo(242, 475 + $g_iBottomOffsetY) ; 860x780
 	If @error Then SetError(0, 0, 0)
 	Local $CountGetInfo = 0
 	While IsArray($sInfo) = False
-		$sInfo = BuildingInfo(242, 468 + $g_iBottomOffsetY) ; 860x780
+		$sInfo = BuildingInfo(242, 475 + $g_iBottomOffsetY) ; 860x780
 		If @error Then SetError(0, 0, 0)
 		If _Sleep(100) Then Return
 		$CountGetInfo += 1
@@ -498,11 +498,11 @@ Func WardenUpgrade()
 	If _Sleep($DELAYUPGRADEHERO2) Then Return
 
 	;Get Warden info
-	Local $sInfo = BuildingInfo(242, 468 + $g_iBottomOffsetY) ; 860x780
+	Local $sInfo = BuildingInfo(242, 475 + $g_iBottomOffsetY) ; 860x780
 	If @error Then SetError(0, 0, 0)
 	Local $CountGetInfo = 0
 	While IsArray($sInfo) = False
-		$sInfo = BuildingInfo(242, 468 + $g_iBottomOffsetY) ; 860x780
+		$sInfo = BuildingInfo(242, 475 + $g_iBottomOffsetY) ; 860x780
 		If @error Then SetError(0, 0, 0)
 		If _Sleep(100) Then Return
 		$CountGetInfo += 1
@@ -691,11 +691,11 @@ Func ChampionUpgrade()
 	If _Sleep($DELAYUPGRADEHERO2) Then Return
 
 	;Get Champion info and Level
-	Local $sInfo = BuildingInfo(242, 468 + $g_iBottomOffsetY) ; 860x780
+	Local $sInfo = BuildingInfo(242, 475 + $g_iBottomOffsetY) ; 860x780
 	If @error Then SetError(0, 0, 0)
 	Local $CountGetInfo = 0
 	While IsArray($sInfo) = False
-		$sInfo = BuildingInfo(242, 468 + $g_iBottomOffsetY) ; 860x780
+		$sInfo = BuildingInfo(242, 475 + $g_iBottomOffsetY) ; 860x780
 		If @error Then SetError(0, 0, 0)
 		Sleep(100)
 		$CountGetInfo += 1

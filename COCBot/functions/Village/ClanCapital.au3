@@ -1982,7 +1982,7 @@ Func AutoUpgradeCC()
 		getBuilderCount(True) ;check if we have available builder
 		Local $g_GoldenPass = _CheckPixel($aPersonalChallengeOpenButton2, $g_bCapturePixel)
 		Local $FreeBuilders = 0
-		If $bForgeEnabled And Not $g_bFirstStartForAll And Number($g_iLootCCGold) = 0 And Not $g_GoldenPass Then
+		If $bForgeEnabled And Not $g_bFirstStartCheckDone And Number($g_iLootCCGold) = 0 And Not $g_GoldenPass Then
 			Local $iUpgradeBuilders = 0
 			For $iz = 0 To UBound($g_avBuildingUpgrades, 1) - 1 ; loop through all upgrades to see if any are enabled.
 				If $g_abBuildingUpgradeEnable[$iz] = True Then $iUpgradeBuilders += 1 ; count number enabled
@@ -1990,7 +1990,7 @@ Func AutoUpgradeCC()
 			Local $iWallReserve = $g_bUpgradeWallSaveBuilder ? 1 : 0
 			$FreeBuilders = $g_iFreeBuilderCount - $iWallReserve - ReservedBuildersForHeroes(False) - $iUpgradeBuilders ;check builder reserve on wall, hero upgrade, Buildings upgrade
 		EndIf
-		If (Not $g_bFirstStartForAll And Number($g_iLootCCGold) = 0 And ((Not $bForgeEnabled Or Not $g_bChkEnableCollectCCGold) Or ($FreeBuilders < 1 And $bForgeEnabled And Not $g_GoldenPass))) Or _
+		If (Not $g_bFirstStartCheckDone And Number($g_iLootCCGold) = 0 And ((Not $bForgeEnabled Or Not $g_bChkEnableCollectCCGold) Or ($FreeBuilders < 1 And $bForgeEnabled And Not $g_GoldenPass))) Or _
 				($IsCCGoldJustCollectedDChallenge And Number($g_iLootCCGold) = 0) And Not UTCRaidWarning() Then
 			If _Sleep(1000) Then Return
 			If Not OpenForgeWindow() Then
@@ -2019,7 +2019,7 @@ Func AutoUpgradeCC()
 			$IsCCGoldJustCollected = 0
 			$IsCCGoldJustCollectedDChallenge = $IsCCGoldJustCollected
 			If $StartRaidConditions And $IsRaidRunning Then SetLog("Raid Weekend has already started", $COLOR_SUCCESS1)
-			If Not $g_bFirstStartForAll Then
+			If Not $g_bFirstStartCheckDone Then
 				If Number($g_iLootCCMedal) = 0 And Not $StartRaidConditions Then CatchCCMedals(True)
 				If _Sleep(2000) Then Return
 				CatchSmallCCTrophies($StartRaidConditions)
@@ -2226,7 +2226,7 @@ Func CapitalMainUpgradeLoop($aUpgrade)
 				$Failed = True
 				ExitLoop
 			EndIf
-			Local $BuildingName = getOcrAndCapture("coc-build", 180, 512 + $g_iBottomOffsetY, 510, 25)
+			Local $BuildingName = getOcrAndCapture("coc-build", 180, 520 + $g_iBottomOffsetY, 510, 25)
 			Click($aRet[1], $aRet[2])
 			If _Sleep(2000) Then Return
 			If Not WaitUpgradeWindowCC() Then
@@ -2271,7 +2271,7 @@ Func DistrictUpgrade($aUpgrade)
 				SetLog("Upgrade Ignored, Looking Next Upgrade", $COLOR_INFO) ; Shouldn't happen
 				ContinueLoop
 			EndIf
-			Local $BuildingName = getOcrAndCapture("coc-build", 180, 512 + $g_iBottomOffsetY, 510, 25)
+			Local $BuildingName = getOcrAndCapture("coc-build", 180, 520 + $g_iBottomOffsetY, 510, 25)
 			Click($aRet[1], $aRet[2])
 			If _Sleep(2000) Then Return
 			If Not WaitUpgradeWindowCC() Then
@@ -2333,7 +2333,7 @@ EndFunc   ;==>WaitForMap
 
 Func IsUpgradeCCIgnore()
 	Local $bRet = False
-	Local $UpgradeName = getOcrAndCapture("coc-build", 180, 512 + $g_iBottomOffsetY, 510, 25)
+	Local $UpgradeName = getOcrAndCapture("coc-build", 180, 520 + $g_iBottomOffsetY, 510, 25)
 	If Not $g_bChkAutoUpgradeCCIgnore And $g_bChkIsIgnoredWalls Then
 		If StringInStr($UpgradeName, "Wall") Then
 			SetDebugLog($UpgradeName & " Match with: Wall")
@@ -2890,8 +2890,8 @@ Func CheckAvailableMagicItems($TestDebug = False)
 
 	Local $Found = False
 	Local $aWDItems[0][3]
-	Local $MagicPot[7][4] = [["Training", 715, 717, 698], ["Clock Tower", 300, 302, 290], ["Builder Jar", 512, 514, 495], ["Power", 715, 717, 698], _
-			["Hero", 300, 302, 290], ["Resource", 512, 514, 495], ["Research", 715, 717, 698]]
+	Local $MagicPot[7][4] = [["Training Potion", 715, 717, 698], ["Clock Tower Potion", 300, 302, 290], ["Builder Star Jar", 512, 514, 495], ["Power Potion", 715, 717, 698], _
+			["Hero Potion", 300, 302, 290], ["Resource Potion", 512, 514, 495], ["Research Potion", 715, 717, 698]]
 
 	Local $g_iItemNumberY = 0
 	Local $aItemTile = 0
@@ -3137,7 +3137,7 @@ Func MagicItemsCalc($TestDebug = False)
 			$TempTotalMedals = 0
 			$GetOut = False
 			Switch $aWDCalcItems[$i][0]
-				Case "Training", "Clock Tower"
+				Case "Training Potion", "Clock Tower Potion"
 					For $t = 0 To $aWDCalcItems[$i][1] - 1
 						If $DiffMedalsCalc - ($t * 100) < -100 And $DiffMedalsCalc < 0 Then
 							$GetOut = True
@@ -3152,7 +3152,7 @@ Func MagicItemsCalc($TestDebug = False)
 							ExitLoop
 						EndIf
 					Next
-				Case "Builder Jar", "Power", "Hero"
+				Case "Builder Star Jar", "Power Potion", "Hero Potion"
 					For $t = 0 To $aWDCalcItems[$i][1] - 1
 						If $DiffMedalsCalc - ($t * 150) < -150 And $DiffMedalsCalc < 0 Then
 							$GetOut = True
@@ -3167,7 +3167,7 @@ Func MagicItemsCalc($TestDebug = False)
 							ExitLoop
 						EndIf
 					Next
-				Case "Resource", "Research"
+				Case "Resource Potion", "Research Potion"
 					For $t = 0 To $aWDCalcItems[$i][1] - 1
 						If $DiffMedalsCalc - ($t * 200) < -200 And $DiffMedalsCalc < 0 Then
 							$GetOut = True
@@ -3190,7 +3190,7 @@ Func MagicItemsCalc($TestDebug = False)
 				SetLog("Medals To use for " & $aWDCalcItems[$i][1] & " " & $aWDCalcItems[$i][0] & "s : " & $TempTotalMedals)
 			EndIf
 
-			; 0 : Name, 1 : Item To Buy, 2 : Stock of Item
+			; 0 : Name, 1 : How many Item To Buy, 2 : How many Item in Stock
 			If $aWDCalcItems[$i][1] > 0 Then _ArrayAdd($aWDCalcItemsFinal, $aWDCalcItems[$i][0] & "|" & $aWDCalcItems[$i][1] & "|" & $aWDCalcItems[$i][2])
 
 			If $GetOut Then ExitLoop
@@ -3241,7 +3241,7 @@ Func SoldAndBuyItems($TestDebug = False, $ForceTime = False)
 				Local $FindItem = decodeSingleCoord(FindImageInPlace2("Potions", $PotionsCapturesMedal[$t], 165, 195 + $g_iMidOffsetY, 695, 410 + $g_iMidOffsetY))
 				If IsArray($FindItem) And UBound($FindItem, 1) = 2 Then
 					$NumberToSold = Number($ArraySold[$i][2] - (5 - $ArraySold[$i][1]))
-					SetLog($ArraySold[$i][0] & " To Sold : " & $NumberToSold, $COLOR_INFO)
+					SetLog($ArraySold[$i][0] & ($NumberToSold > 1 ? "s" : "") & " To Sold : " & $NumberToSold, $COLOR_INFO)
 					SoldMagicItems($FindItem[0], $FindItem[1], $NumberToSold, $TestDebug)
 					If _Sleep(1000) Then ExitLoop
 					ExitLoop
@@ -3320,33 +3320,33 @@ Func SoldAndBuyItems($TestDebug = False, $ForceTime = False)
 		Local $iRow = 1, $iRowTarget = 1
 		For $z = 0 To UBound($ArraySold) - 1
 			Switch $ArraySold[$z][0]
-				Case "Training"
+				Case "Training Potion"
 					ItemsNextPage(1, $iRow)
-					SetLog($ArraySold[$z][0] & " To Buy : " & $ArraySold[$z][1], $COLOR_INFO)
+					SetLog($ArraySold[$z][0] & "" & ($ArraySold[$z][1] > 1 ? "s" : "") & " To Buy : " & $ArraySold[$z][1], $COLOR_INFO)
 					BuyMagicItems(720, 515 + $g_iMidOffsetY, $ArraySold[$z][1], $TestDebug)
-				Case "Clock Tower"
+				Case "Clock Tower Potion"
 					ItemsNextPage(2, $iRow)
-					SetLog($ArraySold[$z][0] & " To Buy : " & $ArraySold[$z][1], $COLOR_INFO)
+					SetLog($ArraySold[$z][0] & "" & ($ArraySold[$z][1] > 1 ? "s" : "") & " To Buy : " & $ArraySold[$z][1], $COLOR_INFO)
 					BuyMagicItems(310, 515 + $g_iMidOffsetY, $ArraySold[$z][1], $TestDebug)
-				Case "Builder Jar"
+				Case "Builder Star Jar"
 					ItemsNextPage(2, $iRow)
-					SetLog($ArraySold[$z][0] & " To Buy : " & $ArraySold[$z][1], $COLOR_INFO)
+					SetLog($ArraySold[$z][0] & "" & ($ArraySold[$z][1] > 1 ? "s" : "") & " To Buy : " & $ArraySold[$z][1], $COLOR_INFO)
 					BuyMagicItems(512, 515 + $g_iMidOffsetY, $ArraySold[$z][1], $TestDebug)
-				Case "Power"
+				Case "Power Potion"
 					ItemsNextPage(2, $iRow)
-					SetLog($ArraySold[$z][0] & " To Buy : " & $ArraySold[$z][1], $COLOR_INFO)
+					SetLog($ArraySold[$z][0] & "" & ($ArraySold[$z][1] > 1 ? "s" : "") & " To Buy : " & $ArraySold[$z][1], $COLOR_INFO)
 					BuyMagicItems(720, 515 + $g_iMidOffsetY, $ArraySold[$z][1], $TestDebug)
-				Case "Hero"
+				Case "Hero Potion"
 					ItemsNextPage(3, $iRow)
-					SetLog($ArraySold[$z][0] & " To Buy : " & $ArraySold[$z][1], $COLOR_INFO)
+					SetLog($ArraySold[$z][0] & "" & ($ArraySold[$z][1] > 1 ? "s" : "") & " To Buy : " & $ArraySold[$z][1], $COLOR_INFO)
 					BuyMagicItems(310, 515 + $g_iMidOffsetY, $ArraySold[$z][1], $TestDebug)
-				Case "Resource"
+				Case "Resource Potion"
 					ItemsNextPage(3, $iRow)
-					SetLog($ArraySold[$z][0] & " To Buy : " & $ArraySold[$z][1], $COLOR_INFO)
+					SetLog($ArraySold[$z][0] & "" & ($ArraySold[$z][1] > 1 ? "s" : "") & " To Buy : " & $ArraySold[$z][1], $COLOR_INFO)
 					BuyMagicItems(512, 515 + $g_iMidOffsetY, $ArraySold[$z][1], $TestDebug)
-				Case "Research"
+				Case "Research Potion"
 					ItemsNextPage(3, $iRow)
-					SetLog($ArraySold[$z][0] & " To Buy : " & $ArraySold[$z][1], $COLOR_INFO)
+					SetLog($ArraySold[$z][0] & "" & ($ArraySold[$z][1] > 1 ? "s" : "") & " To Buy : " & $ArraySold[$z][1], $COLOR_INFO)
 					BuyMagicItems(720, 515 + $g_iMidOffsetY, $ArraySold[$z][1], $TestDebug)
 			EndSwitch
 			If _Sleep(1000) Then Return
@@ -3400,7 +3400,7 @@ Func SoldMagicItems($x, $y, $ItemTime, $Test = False)
 			If _Sleep(Random(2000, 3500, 1)) Then Return
 		Next
 	Else
-		SetLog("Bot Should Click " & $ItemTime & " Times on this Item", $COLOR_DEBUG)
+		SetLog("Bot Should Click " & $ItemTime & " Time" & ($ItemTime > 1 ? "s" : "") & " on this Item", $COLOR_DEBUG)
 	EndIf
 EndFunc   ;==>SoldMagicItems
 
@@ -3414,7 +3414,7 @@ Func BuyMagicItems($x, $y, $ItemTime, $Test = False)
 			If _Sleep(Random(2000, 3500, 1)) Then Return
 		Next
 	Else
-		SetLog("Bot Should Click " & $ItemTime & " Times on this Item", $COLOR_DEBUG)
+		SetLog("Bot Should Click " & $ItemTime & " Time" & ($ItemTime > 1 ? "s" : "") & " on this Item", $COLOR_DEBUG)
 	EndIf
 EndFunc   ;==>BuyMagicItems
 
@@ -3450,8 +3450,8 @@ Func UTCTimeMedals()
 	EndIf
 
 	If IsArray($TimeHourUTC) And UBound($TimeHourUTC) > 0 And IsArray($DayOfTheWeek) And UBound($DayOfTheWeek) > 0 Then
-		If $TimeHourUTC[0] > 0 And $DayOfTheWeek[0] = 1 Then ; Will check Only Monday From 00:00 To 08:00 UTC
-			If $TimeHourUTC[0] < 8 Then Return True
+		If $TimeHourUTC[0] > 0 And $DayOfTheWeek[0] = 1 Then ; Will check Only Monday From 00:00 To 06:50 UTC (Raid Week-end ends at 7.00 UTC)
+			If $TimeHourUTC[0] < 6 Or ($TimeHourUTC[0] = 6 And $TimeHourUTC[1] < 50) Then Return True
 		EndIf
 	Else
 		If Number(@WDAY) = 1 Or Number(@WDAY) = 2 Then Return True
@@ -3463,6 +3463,7 @@ Func BtnForcePurgeMedals()
 	Local $wasRunState = $g_bRunState
 	$g_bRunState = True
 	AndroidShield("BtnForcePurgeMedals 1") ; Update shield status due to manual $g_bRunState
+	_GUICtrlTab_ClickTab($g_hTabMain, 0)
 	Local $Result = SoldAndBuyItems(False, True)
 	$g_bRunState = $wasRunState
 	AndroidShield("BtnForcePurgeMedals 2") ; Update shield status due to manual $g_bRunState
@@ -3503,7 +3504,8 @@ Func UTCRaidWarning()
 	EndIf
 
 	If IsArray($TimeHourUTC) And UBound($TimeHourUTC) > 0 And IsArray($DayOfTheWeek) And UBound($DayOfTheWeek) > 0 Then
-		If ($TimeHourUTC[0] >= 17 And $DayOfTheWeek[0] = 0) Or ($TimeHourUTC[0] > 0 And $TimeHourUTC[0] < 7 And $DayOfTheWeek[0] = 1) Then Return True ; Will check Only From Sunday 17:00 To Monday 07:00 UTC
+		If ($TimeHourUTC[0] >= 17 And $DayOfTheWeek[0] = 0) Or ($TimeHourUTC[0] > 0 And ($TimeHourUTC[0] < 6 Or ($TimeHourUTC[0] = 6 And $TimeHourUTC[1] < 50)) And _
+				$DayOfTheWeek[0] = 1) Then Return True ; Will check Only From Sunday 17:00 To Monday 06:50 UTC (Raid Week-end ends at 7.00 UTC)
 	Else
 		If Number(@WDAY) = 0 Or Number(@WDAY) = 1 Then Return True
 	EndIf

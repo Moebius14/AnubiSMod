@@ -64,7 +64,7 @@ Func _AutoUpgrade()
 		; search for ressource images in builders menu, if found, a possible upgrade is available
 		Local $aTmpCoord
 		Local $IsElix = False
-		$aTmpCoord = QuickMIS("CNX", $g_sImgResourceIcon, 410, $g_iNextLineOffset, 550, 370 + $g_iMidOffsetY) ;QuickMIS("CNX", $g_sImgResourceIcon, 410, 75, 550, 370 + $g_iMidOffsetY)
+		$aTmpCoord = QuickMIS("CNX", $g_sImgResourceIcon, 410, $g_iNextLineOffset, 565, 370 + $g_iMidOffsetY)
 		_ArraySort($aTmpCoord, 0, 0, 0, 2) ;sort by Y coord
 		If IsArray($aTmpCoord) And UBound($aTmpCoord) > 0 Then
 			$g_iNextLineOffset = $aTmpCoord[0][2] + 14
@@ -100,7 +100,7 @@ Func _AutoUpgrade()
 		Click($aTmpCoord[0][1] + 20, $aTmpCoord[0][2])
 		If _Sleep($DELAYAUTOUPGRADEBUILDING1) Then Return
 
-		$g_aUpgradeNameLevel = BuildingInfo(242, 468 + $g_iBottomOffsetY)
+		$g_aUpgradeNameLevel = BuildingInfo(242, 475 + $g_iBottomOffsetY)
 		Local $aUpgradeButton, $aTmpUpgradeButton
 
 		; check if any wrong click by verifying the presence of the Upgrade button (the hammer)
@@ -409,6 +409,7 @@ Func _AutoUpgrade()
 		If Not $UpWindowOpen Then
 			ClickP($aUpgradeButton)
 			If _Sleep($DELAYAUTOUPGRADEBUILDING1) Then Return
+			CloseSuperchargeWindow()
 		EndIf
 
 		If $b_Equipment Then
@@ -571,11 +572,9 @@ Func _AutoUpgrade()
 				If $g_aUpgradeResourceCostDuration[0] = "Gold" Then
 					$g_iNbrOfWallsUppedGold += 1
 					$g_iCostGoldWall += $g_aUpgradeResourceCostDuration[1]
-					PushMsg("UpgradeWithGold")
 				Else
 					$g_iNbrOfWallsUppedElixir += 1
 					$g_iCostElixirWall += $g_aUpgradeResourceCostDuration[1]
-					PushMsg("UpgradeWithElixir")
 				EndIf
 			Case "Monolith"
 				$g_iNbrOfBuildingsUppedDElixir += 1

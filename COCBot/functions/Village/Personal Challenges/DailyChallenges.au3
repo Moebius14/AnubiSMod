@@ -37,7 +37,7 @@ Func DailyChallenges($CCControl = True)
 		ClosePersonalChallenges()
 		Sleep(Random(2000, 3000, 1))
 	Else
-		If $bGoldPass And Not $g_bFirstStartForAll Then
+		If $bGoldPass And Not $g_bFirstStartCheckDone Then
 			If $bCheckDiscount Then CheckDiscountPerksMod()
 		EndIf
 	EndIf

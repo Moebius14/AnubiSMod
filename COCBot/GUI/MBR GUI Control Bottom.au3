@@ -67,6 +67,7 @@ Func Initiate()
 		$g_sStarLabUpgradeTime = ""
 		$g_sPetUpgradeTime = ""
 		$g_sBSUpgradeTime = ""
+		$g_sBSmithUpgradeTime = ""
 		For $i = 0 To $eLootCount - 1
 			$g_abFullStorage[$i] = False
 		Next

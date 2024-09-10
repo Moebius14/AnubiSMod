@@ -33,8 +33,10 @@ Func getTimeForRaid($x_start, $y_start) ; read actual time remaining in Lab for 
 	Return getOcrAndCapture("coc-timeforraid", $x_start, $y_start, 103, 20)
 EndFunc   ;==>getTimeForRaid
 
-Func getNameBuilding($x_start, $y_start) ; getNameBuilding(242,520) -> Gets complete name and level of the buildings, bottom of screen
-	Return getOcrAndCapture("coc-build", $x_start, $y_start, 420, 27)
+Func getNameBuilding($x_start, $y_start) ; getNameBuilding(242,Y) -> Gets complete name and level of the buildings, bottom of screen
+	Local $bResult = getOcrAndCapture("coc-build", $x_start, $y_start, 420, 27)
+	If $bResult = "" Or Not StringInStr($bResult, "Level") Then $bResult = getOcrAndCapture("coc-build2", $x_start, $y_start - 27, 420, 27) ; $y_start + (448 - 475)
+	Return $bResult
 EndFunc   ;==>getNameBuilding
 
 Func getGoldVillageSearch($x_start, $y_start) ;48, 69 -> Gets complete value of gold xxx,xxx while searching, top left, Getresources.au3

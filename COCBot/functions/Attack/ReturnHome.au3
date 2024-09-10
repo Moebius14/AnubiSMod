@@ -261,3 +261,34 @@ Func ReturnfromDropTrophies()
 	checkMainScreen()
 EndFunc   ;==>ReturnfromDropTrophies
 
+Func CheckStreakEvent()
+	If Not $g_bRunState Then Return
+	Local $bRet = False
+	If Not _CheckPixel($aIsMainGrayed, $g_bCapturePixel, Default, "IsMainGrayed") Then Return $bRet ; Streak Event window opens on main base view, and grays page.
+	If _Sleep($DELAYSTARBONUS100) Then Return
+	Local $aContinueButton = findButton("Continue", Default, 1, True)
+	If IsArray($aContinueButton) And UBound($aContinueButton, 1) = 2 Then
+		ClickP($aContinueButton)
+		If _Sleep(2500) Then Return
+	EndIf
+	If Not _ColorCheck(_GetPixelColor(290, 150 + $g_iMidOffsetY, $g_bCapturePixel), Hex(0x9B071A, 6), 20) And Not _ColorCheck(_GetPixelColor(560, 150 + $g_iMidOffsetY, $g_bCapturePixel), Hex(0x9B071A, 6), 20) Then Return $bRet
+	$bRet = True
+	Local $SearchArea = GetDiamondFromRect("20,260(820,140)")
+	Local $aResult = findMultiple(@ScriptDir & "\imgxml\DailyChallenge\", $SearchArea, $SearchArea, 0, 1000, 6, "objectname,objectpoints", True)
+	If $aResult <> "" And IsArray($aResult) Then
+		For $i = 0 To UBound($aResult) - 1
+			Local $aResultArray = $aResult[$i]     ; ["Button Name", "x1,y1", "x2,y2", ...]
+			SetDebugLog("Find Claim buttons, $aResultArray[" & $i & "]: " & _ArrayToString($aResultArray))
+			If IsArray($aResultArray) And $aResultArray[0] = "ClaimBtn" Then
+				Local $sAllCoordsString = _ArrayToString($aResultArray, "|", 1)     ; "x1,y1|x2,y2|..."
+				Local $aAllCoords = decodeMultipleCoords($sAllCoordsString, 50, 50)     ; [{coords1}, {coords2}, ...]
+				For $j = 0 To UBound($aAllCoords) - 1
+					ClickP($aAllCoords[$j], 1, 160, "Claim " & $j + 1)     ; Click Claim button
+					If _Sleep(2000) Then Return
+				Next
+			EndIf
+		Next
+	EndIf
+	CloseWindow2()
+	Return $bRet
+EndFunc   ;==>CheckStreakEvent

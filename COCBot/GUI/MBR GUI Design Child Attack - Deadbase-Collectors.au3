@@ -14,27 +14,33 @@
 ; ===============================================================================================================================
 #include-once
 
-Global $g_hChkDBDisableCollectorsFilter = 0
+Global $g_hChkDBDisableCollectorsFilter = 0, $g_hChkDBNoLeagueOpponent = 0
 Global $g_hCmbMinCollectorMatches = 0, $g_hSldCollectorTolerance = 0, $g_hLblCollectorWarning = 0
 
 Func CreateAttackSearchDeadBaseCollectors()
 	Local $x = 10, $y = 45
 	Local $sTxtTip = ""
 
-	GUICtrlCreateGroup(GetTranslatedFileIni("MBR GUI Design Child Attack - Deadbase-Collectors", "Group_01", "Collectors"), $x - 5, $y - 20, $g_iSizeWGrpTab4, 90)
+	GUICtrlCreateGroup(GetTranslatedFileIni("MBR GUI Design Child Attack - Deadbase-Collectors", "Group_01", "Collectors"), $x - 5, $y - 20, $g_iSizeWGrpTab4, 115)
 
 	$y += 15
-	$g_hChkDBDisableCollectorsFilter = GUICtrlCreateCheckbox(GetTranslatedFileIni("MBR GUI Design Child Attack - Deadbase-Collectors", "ChkDisableCollectorsFilter", "Disable Collector Filter"), $x + 20, $y, 140, 18)
+	$g_hChkDBNoLeagueOpponent = GUICtrlCreateCheckbox(GetTranslatedFileIni("MBR GUI Design Child Attack - Deadbase-Collectors", "chkDBNoLeagueOpponent", "No League Opponents"), $x + 20, $y, -1, 18)
+	GUICtrlSetState(-1, $GUI_UNCHECKED)
+	_GUICtrlSetTip(-1, GetTranslatedFileIni("MBR GUI Design Child Attack - Deadbase-Collectors", "chkDBNoLeagueOpponent_Info_01", "Only Search No League Opponents") & @CRLF & _
+			GetTranslatedFileIni("MBR GUI Design Child Attack - Deadbase-Collectors", "chkDBNoLeagueOpponent_Info_02", "Can Highly Increase Number Of Searches"))
+	_GUICtrlCreateIcon($g_sLibIconPath, $eUnranked, $x + 150, $y - 5, 24, 24)
+
+	$g_hChkDBDisableCollectorsFilter = GUICtrlCreateCheckbox(GetTranslatedFileIni("MBR GUI Design Child Attack - Deadbase-Collectors", "ChkDisableCollectorsFilter", "Disable Collector Filter"), $x + 20, $y + 25, -1, 18)
 	GUICtrlSetState(-1, $GUI_UNCHECKED)
 	GUICtrlSetOnEvent(-1, "chkDBDisableCollectorsFilter")
 	_GUICtrlSetTip(-1, GetTranslatedFileIni("MBR GUI Design Child Attack - Deadbase-Collectors", "ChkDisableCollectorsFilter_Info_01", "Disable Collector Filter CHANGES DeadBase into another ActiveBase search"))
 
-	GUICtrlCreateLabel(GetTranslatedFileIni("MBR GUI Design Child Attack - Deadbase-Collectors", "LblMinCollectorMatches", "Collectors required"), $x + 200, $y + 3, -1, -1)
+	GUICtrlCreateLabel(GetTranslatedFileIni("MBR GUI Design Child Attack - Deadbase-Collectors", "LblMinCollectorMatches", "Collectors required"), $x + 202, $y + 27, -1, -1)
 	$sTxtTip = GetTranslatedFileIni("MBR GUI Design Child Attack - Deadbase-Collectors", "CmbMinCollectorMatches_Info_01", 'Select how many collectors are needed to consider village "dead"')
 	_GUICtrlSetTip(-1, $sTxtTip)
-	$g_hCmbMinCollectorMatches = GUICtrlCreateCombo("", $x + 305, $y, 75, 20, BitOR($CBS_DROPDOWNLIST, $CBS_AUTOHSCROLL))
+	$g_hCmbMinCollectorMatches = GUICtrlCreateCombo("", $x + 305, $y + 23, 75, 20, BitOR($CBS_DROPDOWNLIST, $CBS_AUTOHSCROLL))
 	_GUICtrlSetTip(-1, $sTxtTip)
-	GUICtrlSetData(-1, "1|2|3|4|5|6", "3")
+	GUICtrlSetData(-1, "1|2|3|4|5|6|7", "3")
 	GUICtrlSetOnEvent(-1, "cmbMinCollectorMatches")
 
 	$y += 25

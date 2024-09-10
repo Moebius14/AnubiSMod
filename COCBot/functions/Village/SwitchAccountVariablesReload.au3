@@ -17,6 +17,7 @@ Func SwitchAccountVariablesReload($sType = "Load", $iAccount = $g_iCurAccount)
 
 	; Empty arrays
 	Local $aiZero[8] = [0, 0, 0, 0, 0, 0, 0, 0], $aiTrue[8] = [1, 1, 1, 1, 1, 1, 1, 1], $aiMinus[8] = [-1, -1, -1, -1, -1, -1, -1, -1]
+	Local $aiZero82[8][2] = [[0, 0], [0, 0], [0, 0], [0, 0], [0, 0], [0, 0], [0, 0], [0, 0]]
 	Local $aiZero83[8][3] = [[0, 0, 0], [0, 0, 0], [0, 0, 0], [0, 0, 0], [0, 0, 0], [0, 0, 0], [0, 0, 0], [0, 0, 0]]
 	Local $aiZero84[8][4] = [[0, 0, 0, 0], [0, 0, 0, 0], [0, 0, 0, 0], [0, 0, 0, 0], [0, 0, 0, 0], [0, 0, 0, 0], [0, 0, 0, 0], [0, 0, 0, 0]]
 	Local $asEmpty[8] = ["", "", "", "", "", "", "", ""]
@@ -111,6 +112,9 @@ Func SwitchAccountVariablesReload($sType = "Load", $iAccount = $g_iCurAccount)
 	Static $SIsPetPotJustCollected = $aiZero
 	Static $SIsAutoForgeSlotJustCollected = $aiZero
 
+	; BlackSmith
+	Static $asBSmithUpgradeTime = $asEmpty
+
 	;Event
 	Static $SIsOresJustCollected = $aiZero
 
@@ -145,7 +149,7 @@ Func SwitchAccountVariablesReload($sType = "Load", $iAccount = $g_iCurAccount)
 	Static $Sg_hCoolDownTimer = $aiZero
 
 	;StarBonus
-	Static $SStarBonusReceived = $aiZero
+	Static $SStarBonusReceived = $aiZero82
 
 	;Builder's Apprentice
 	Static $gaSsAvailableAppBuilder = $aiZero
@@ -258,6 +262,9 @@ Func SwitchAccountVariablesReload($sType = "Load", $iAccount = $g_iCurAccount)
 			$SIsPetPotJustCollected = $aiZero
 			$SIsAutoForgeSlotJustCollected = $aiZero
 
+			; BlackSmith
+			$asBSmithUpgradeTime = $asEmpty
+
 			;Event
 			$SIsOresJustCollected = $aiZero
 
@@ -276,7 +283,7 @@ Func SwitchAccountVariablesReload($sType = "Load", $iAccount = $g_iCurAccount)
 			$Sg_hCoolDownTimer = $aiZero
 
 			;StarBonus
-			$SStarBonusReceived = $aiZero
+			$SStarBonusReceived = $aiZero82
 
 			; Hero State
 			$aiHeroAvailable = $aiZero
@@ -324,7 +331,7 @@ Func SwitchAccountVariablesReload($sType = "Load", $iAccount = $g_iCurAccount)
 		Case "Save"
 			$abFirstStart[$iAccount] = $g_bFirstStart
 			$aiFirstRun[$iAccount] = $g_iFirstRun
-			$gSbFirstStartForAll[$iAccount] = $g_bFirstStartForAll
+			$gSbFirstStartForAll[$iAccount] = $g_bFirstStartCheckDone
 			$gSbFirstStartAccountFMI[$iAccount] = $g_bFirstStartAccountFMI
 			$gSbFirstStartAccountSBB[$iAccount] = $g_bFirstStartAccountSBB
 			$gSbFirstStartAccountSBB2[$iAccount] = $g_bFirstStartAccountSBB2
@@ -467,6 +474,9 @@ Func SwitchAccountVariablesReload($sType = "Load", $iAccount = $g_iCurAccount)
 			$SIsPetPotJustCollected[$iAccount] = $IsPetPotJustCollected
 			$SIsAutoForgeSlotJustCollected[$iAccount] = $IsAutoForgeSlotJustCollected
 
+			; BlackSmith
+			$asBSmithUpgradeTime[$iAccount] = $g_sBSmithUpgradeTime
+
 			;Event
 			$SIsOresJustCollected[$iAccount] = $IsOresJustCollected
 
@@ -485,7 +495,9 @@ Func SwitchAccountVariablesReload($sType = "Load", $iAccount = $g_iCurAccount)
 			$Sg_hCoolDownTimer[$iAccount] = $g_hCoolDownTimer
 
 			;StarBonus
-			$SStarBonusReceived[$iAccount] = $StarBonusReceived
+			For $i = 0 To 1
+				$SStarBonusReceived[$iAccount][$i] = $StarBonusReceived[$i]
+			Next
 
 			; Hero State
 			$aiHeroAvailable[$iAccount] = $g_iHeroAvailable
@@ -513,7 +525,7 @@ Func SwitchAccountVariablesReload($sType = "Load", $iAccount = $g_iCurAccount)
 		Case "Load"
 			$g_bFirstStart = $abFirstStart[$iAccount]
 			$g_iFirstRun = $aiFirstRun[$iAccount]
-			$g_bFirstStartForAll = $gSbFirstStartForAll[$iAccount]
+			$g_bFirstStartCheckDone = $gSbFirstStartForAll[$iAccount]
 			$g_bFirstStartAccountFMI = $gSbFirstStartAccountFMI[$iAccount]
 			$g_bFirstStartAccountSBB = $gSbFirstStartAccountSBB[$iAccount]
 			$g_bFirstStartAccountSBB2 = $gSbFirstStartAccountSBB2[$iAccount]
@@ -673,6 +685,9 @@ Func SwitchAccountVariablesReload($sType = "Load", $iAccount = $g_iCurAccount)
 			$IsPetPotJustCollected = $SIsPetPotJustCollected[$iAccount]
 			$IsAutoForgeSlotJustCollected = $SIsAutoForgeSlotJustCollected[$iAccount]
 
+			; BlackSmith
+			$g_sBSmithUpgradeTime = $asBSmithUpgradeTime[$iAccount]
+
 			;Event
 			$IsOresJustCollected = $SIsOresJustCollected[$iAccount]
 
@@ -691,7 +706,9 @@ Func SwitchAccountVariablesReload($sType = "Load", $iAccount = $g_iCurAccount)
 			$g_hCoolDownTimer = $Sg_hCoolDownTimer[$iAccount]
 
 			;StarBonus
-			$StarBonusReceived = $SStarBonusReceived[$iAccount]
+			For $i = 0 To 1
+				$StarBonusReceived[$i] = $SStarBonusReceived[$iAccount][$i]
+			Next
 
 			; Hero State
 			$g_iHeroAvailable = $aiHeroAvailable[$iAccount]

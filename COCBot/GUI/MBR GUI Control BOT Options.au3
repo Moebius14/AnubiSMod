@@ -582,9 +582,9 @@ Func btnTestImage()
 EndFunc   ;==>btnTestImage
 
 Func btnTestVillageSize()
-	SetLog("Test Village Size")
 
 	_GUICtrlTab_ClickTab($g_hTabMain, 0)
+	SetLog("Test Village Size")
 
 	BeginImageTest()
 	Local $currentRunState = $g_bRunState
@@ -636,6 +636,8 @@ Func btnTestVillageSize()
 EndFunc   ;==>btnTestVillageSize
 
 Func btnTestDeadBase()
+	_GUICtrlTab_ClickTab($g_hTabMain, 0)
+
 	Local $hBMP = 0, $hHBMP = 0
 	Local $sImageFile = FileOpenDialog("Select CoC screenshot to test, cancel to use live screenshot", $g_sProfileTempPath, "Image (*.png)", $FD_FILEMUSTEXIST, "", $g_hFrmBot)
 	If @error <> 0 Then
@@ -675,6 +677,7 @@ Func btnTestDeadBase()
 EndFunc   ;==>btnTestDeadBase
 
 Func btnTestDeadBaseFolder()
+	_GUICtrlTab_ClickTab($g_hTabMain, 0)
 
 	;Local $directory = FileOpenDialog("Select folder of CoC village screenshot to test for dead base", $g_sProfileTempPath, "Image (*.png)", $FD_PATHMUSTEXIST, "", $g_hFrmBot)
 	Local $directory = FileSelectFolder("Select folder of CoC village screenshot to test for dead base", "", $FSF_NEWDIALOG, @ScriptDir, $g_hFrmBot)

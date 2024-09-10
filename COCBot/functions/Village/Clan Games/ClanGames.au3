@@ -75,7 +75,7 @@ Func _ClanGames($test = False, $HaltMode = False)
 
 	If IsCGCoolDownTime() Then Return
 
-	If $iNowDayCG <> @YDAY Or Not $g_bFirstStartForAll Then ; if 1 day or more has passed since last time Or First start, update daily random value
+	If $iNowDayCG <> @YDAY Or Not $g_bFirstStartCheckDone Then ; if 1 day or more has passed since last time Or First start, update daily random value
 		$iNowDayCG = @YDAY ; set new year day value
 		$g_aiAttackedCGCount = 0
 		$IsReachedMaxCGDayAttack = 0
@@ -83,9 +83,9 @@ Func _ClanGames($test = False, $HaltMode = False)
 			Local $aiScoreLimit = GetTimesAndScores()
 			If $aiScoreLimit[0] < $aiScoreLimit[1] Then
 				$iRandomAttackCGCountToday = Random($g_iAttackCGPlannerDayMin, $g_iAttackCGPlannerDayMax, 1)
-				If Not $g_bFirstStartForAll Then
+				If Not $g_bFirstStartCheckDone Then
 					SetLog("Max Clan Games Challenges Today : " & $iRandomAttackCGCountToday & "", $COLOR_ERROR)
-				ElseIf $g_bFirstStartForAll Then
+				ElseIf $g_bFirstStartCheckDone Then
 					SetLog("It's A Brand New Day ! Reset Max Clan Games Challenges", $COLOR_ERROR)
 					SetLog("Max Clan Games Challenges Today : " & $iRandomAttackCGCountToday & "", $COLOR_ERROR)
 				EndIf
@@ -1325,7 +1325,7 @@ Func IsEventRunning($bOpenWindow = False)
 
 				$IsCGEventRunning = 1
 
-				If $g_bAttackCGPlannerEnable And $g_bAttackCGPlannerDayLimit And $g_bFirstStartForAll Then
+				If $g_bAttackCGPlannerEnable And $g_bAttackCGPlannerDayLimit And $g_bFirstStartCheckDone Then
 					Local $remainingCGattacks = $iRandomAttackCGCountToday - $g_aiAttackedCGCount
 					LiveDailyCount()
 					If $remainingCGattacks = 0 Then
@@ -1335,7 +1335,7 @@ Func IsEventRunning($bOpenWindow = False)
 					EndIf
 				EndIf
 
-				If $g_bAttackCGPlannerEnable And $g_bAttackCGPlannerDayLimit And Not $g_bFirstStartForAll Then
+				If $g_bAttackCGPlannerEnable And $g_bAttackCGPlannerDayLimit And Not $g_bFirstStartCheckDone Then
 					$g_bFirstStartAccountCGRA = 1
 					$g_aiAttackedCGCount += 1
 					LiveDailyCount()
@@ -1345,7 +1345,7 @@ Func IsEventRunning($bOpenWindow = False)
 					ElseIf $remainingCGattacks > 0 Then
 						SetLog("Remaining Challenges Today After This One : " & $remainingCGattacks & "", $COLOR_OLIVE)
 					EndIf
-					$g_bFirstStartForAll = 1
+					$g_bFirstStartCheckDone = 1
 				EndIf
 
 				;check if Challenge is BB Challenge, enabling force BB attack
@@ -1485,7 +1485,7 @@ Func IsEventRunning($bOpenWindow = False)
 		EndIf
 	Else
 		SetLog("No challenge under progress", $COLOR_INFO)
-		$g_bFirstStartForAll = 1
+		$g_bFirstStartCheckDone = 1
 		$IsCGEventRunning = 0
 		Return False
 	EndIf
@@ -1532,7 +1532,7 @@ Func StartsEvent($sEventName, $getCapture = True, $g_bChkClanGamesDebug = False)
 				LiveDailyCount()
 			EndIf
 			_FileWriteLog($g_sProfileLogsPath & "\ClanGames.log", " [" & $g_sProfileCurrentName & "] - Starting " & $sEventName & " for " & $Timer & " min")
-			$g_bFirstStartForAll = 1
+			$g_bFirstStartCheckDone = 1
 		Else
 			SetLog("Starting Event" & " [" & $sTimeCG & " min]", $COLOR_SUCCESS)
 			Click($g_iQuickMISX, $g_iQuickMISY)
@@ -1546,7 +1546,7 @@ Func StartsEvent($sEventName, $getCapture = True, $g_bChkClanGamesDebug = False)
 				LiveDailyCount()
 			EndIf
 			_FileWriteLog($g_sProfileLogsPath & "\ClanGames.log", " [" & $g_sProfileCurrentName & "] - Starting " & $sEventName & " for " & $sTimeCG & " min")
-			$g_bFirstStartForAll = 1
+			$g_bFirstStartCheckDone = 1
 		EndIf
 
 		;check if Challenge is BB Challenge, enabling force BB attack

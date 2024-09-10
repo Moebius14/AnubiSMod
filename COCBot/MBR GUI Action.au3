@@ -98,7 +98,7 @@ Func BotStart($bAutostartDelay = 0)
 	EndIf
 
 	;Mod<
-	$g_bFirstStartForAll = 0
+	$g_bFirstStartCheckDone = 0
 	$g_bFirstStartAccountFMI = 0
 	$g_bFirstStartAccountSBB = 0
 	$g_bFirstStartAccountSBB2 = 0

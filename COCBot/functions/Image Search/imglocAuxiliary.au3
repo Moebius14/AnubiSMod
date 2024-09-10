@@ -268,7 +268,7 @@ Func GetButtonDiamond($sButtonName)
 			$btnDiamond = GetDiamondFromRect("730,530,800,600")
 		Case "ReloadButton"
 			$btnDiamond = GetDiamondFromRect2(650, 530 + $g_iMidOffsetY, 850, 645 + $g_iMidOffsetY)
-		Case "AttackButton" ;Main Window Screen
+		Case "AttackButton", "RescueATKButton" ;Main Window Screen
 			$btnDiamond = GetDiamondFromRect2(0, 540 + $g_iBottomOffsetY, 160, 660 + $g_iBottomOffsetY)
 		Case "OpenTrainWindow" ;Main Window Screen
 			$btnDiamond = "15,560|65,560|65,610|15,610"
@@ -319,7 +319,7 @@ Func GetButtonDiamond($sButtonName)
 		Case "EndBattle", "Surrender"
 			$btnDiamond = GetDiamondFromRect("1,570,140,628")
 		Case "Okay", "Cancel", "Continue", "ConfirmButton"
-			$btnDiamond = GetDiamondFromRect("240,250,630,630")
+			$btnDiamond = GetDiamondFromRect("240,250,630,645")
 		Case "ChatDown" ; AnubiS Mod
 			$btnDiamond = GetDiamondFromRect2(13, 580 + $g_iBottomOffsetY, 50, 620 + $g_iBottomOffsetY)
 		Case "EventButton" ; Special Event Button

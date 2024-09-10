@@ -100,6 +100,14 @@
 * Fixed BS5 Shared Folder Mounting.
 * Updated Nox and BS5 Supported Versions.
 * Fixed Clan Games Rewards Collect (6th column + BOE).
+-------------------
+* Fixed SCID Switch (COC 16.517.4).
+* Added Auto-Deny for Personnal Datas Sharing.
+* Updated Building Info Position.
+* Fixed App Builder Assign Button detection.
+* Improved Apprentice Builder Time OCR.
+* Added support for dynamic building info position (Supercharge).
+* Improved Builder Base Upgrade Detection.
 
 * v8.1.6 **
 * Added "Before you upgrade" window support.

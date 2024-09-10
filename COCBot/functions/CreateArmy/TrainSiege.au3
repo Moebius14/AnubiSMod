@@ -132,20 +132,18 @@ Func DragSiegeIfNeeded($iSiegeIndex, ByRef $iPage)
 			Return True
 		Else
 			; Drag right to left
-			ClickDrag(725, $iY1, 315, $iY2, 250) ; to expose Battle Drill
-			If _Sleep(Random(1500, 2000, 1)) Then Return
+			ClickDrag(725, $iY1, 490 - 175, $iY2, 250) ; to expose Flame Flinger
 			$iPage += 1
 			Return True
 		EndIf
 	EndIf
 
 	If $iPage = 1 Then
-		If $iSiegeIndex >= $eSiegeLogLauncher And $iSiegeIndex <= $eSiegeBattleDrill Then
+		If $iSiegeIndex >= $eSiegeBattleBlimp And $iSiegeIndex <= $eSiegeBattleDrill Then
 			Return True
 		Else
 			; Drag left to right
-			ClickDrag(132, $iY1, 765, $iY2, 250) ; to expose Wall Wrecker
-			If _Sleep(Random(1500, 2000, 1)) Then Return
+			ClickDrag(312 - 175, $iY1, 547, $iY2, 250) ; to expose Wall Wrecker
 			$iPage -= 1
 			Return True
 		EndIf

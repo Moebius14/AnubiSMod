@@ -77,7 +77,7 @@ Func _LocatePetHouse($bCollect = True)
 			ClearScreen()
 			Return
 		EndIf
-		Local $sPetHouseInfo = BuildingInfo(242, 468 + $g_iBottomOffsetY)
+		Local $sPetHouseInfo = BuildingInfo(242, 475 + $g_iBottomOffsetY)
 		If $sPetHouseInfo[0] > 1 Or $sPetHouseInfo[0] = "" Then
 			If StringInStr($sPetHouseInfo[1], "Pet") = 0 Then
 				Local $sLocMsg = ($sPetHouseInfo[0] = "" ? "Nothing" : $sPetHouseInfo[1])

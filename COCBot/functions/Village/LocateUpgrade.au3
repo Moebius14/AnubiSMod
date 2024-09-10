@@ -233,7 +233,7 @@ Func UpgradeValue($inum, $bRepeat = False) ;function to find the value and type 
 
 	If $bOopsFlag And $g_bDebugImageSave Then SaveDebugImage("ButtonView")
 
-	$aResult = BuildingInfo(242, 468 + $g_iBottomOffsetY)
+	$aResult = BuildingInfo(242, 475 + $g_iBottomOffsetY)
 	If $aResult[0] > 0 Then
 		$g_avBuildingUpgrades[$inum][4] = $aResult[1] ; Store bldg name
 		GUICtrlSetData($g_hTxtUpgradeName[$inum], $g_avBuildingUpgrades[$inum][4]) ; Set GUI name to match $g_avBuildingUpgrades variable
@@ -285,6 +285,8 @@ Func UpgradeValue($inum, $bRepeat = False) ;function to find the value and type 
 		If _Sleep($DELAYUPGRADEVALUE5) Then Return
 		If $bOopsFlag And $g_bDebugImageSave Then SaveDebugImage("UpgradeView")
 
+		CloseSuperchargeWindow()
+
 		If $IsTHWeapon Then
 			Local $THWLevelUp = getOcrAndCapture("coc-THWeapon", 503, 113 + $g_iMidOffsetY, 18, 17)
 			If $THWLevelUp > 0 And $THWLevelUp <= 5 Then $g_avBuildingUpgrades[$inum][5] = Number($THWLevelUp - 1)
@@ -313,8 +315,14 @@ Func UpgradeValue($inum, $bRepeat = False) ;function to find the value and type 
 					Return False
 				EndIf
 
-				If _ColorCheck(_GetPixelColor(682, 545 + $g_iMidOffsetY, True), Hex(0xFFF456, 6), 20) Then $g_avBuildingUpgrades[$inum][3] = "Gold" ;Check if Gold required and update type
-				If _ColorCheck(_GetPixelColor(682, 545 + $g_iMidOffsetY, True), Hex(0xF558FF, 6), 20) Then $g_avBuildingUpgrades[$inum][3] = "Elixir" ;Check if Elixir required and update type
+				Local $aiSupercharge = decodeSingleCoord(FindImageInPlace2("Supercharge", $g_sImgSupercharge, 400, 445 + $g_iMidOffsetY, 455, 495 + $g_iMidOffsetY, True))
+				If IsArray($aiSupercharge) And UBound($aiSupercharge) = 2 Then
+					$g_avBuildingUpgrades[$inum][5] = $g_avBuildingUpgrades[$inum][5] & "+"
+					GUICtrlSetData($g_hTxtUpgradeLevel[$inum], $g_avBuildingUpgrades[$inum][5])
+				EndIf
+
+				If _ColorCheck(_GetPixelColor(682, 545 + $g_iMidOffsetY, True), Hex(0xFFF957, 6), 20) Then $g_avBuildingUpgrades[$inum][3] = "Gold" ;Check if Gold required and update type
+				If _ColorCheck(_GetPixelColor(682, 545 + $g_iMidOffsetY, True), Hex(0xFF5AFF, 6), 20) Then $g_avBuildingUpgrades[$inum][3] = "Elixir" ;Check if Elixir required and update type
 				If _ColorCheck(_GetPixelColor(682, 545 + $g_iMidOffsetY, True), Hex(0x4B3950, 6), 20) Then $g_avBuildingUpgrades[$inum][3] = "Dark" ;Check if Dark Elixir required and update type
 
 				$g_avBuildingUpgrades[$inum][2] = Number(getCostsUpgrade(552, 541 + $g_iMidOffsetY)) ; Try to read white text.
@@ -435,7 +443,6 @@ Func UpgradeValue($inum, $bRepeat = False) ;function to find the value and type 
 
 EndFunc   ;==>UpgradeValue
 
-
 Func ClearUpgradeInfo($inum)
 	; quick function to reset the $g_avBuildingUpgrades array for one upgrade
 	$g_aiPicUpgradeStatus[$inum] = $eIcnRedLight
@@ -448,3 +455,24 @@ Func ClearUpgradeInfo($inum)
 	$g_avBuildingUpgrades[$inum][6] = "" ; Clear upgrade time as it is invalid
 	$g_avBuildingUpgrades[$inum][7] = "" ; Clear upgrade end date/time as it is invalid
 EndFunc   ;==>ClearUpgradeInfo
+
+Func CloseSuperchargeWindow()
+
+	If Not _ColorCheck(_GetPixelColor(800, 88 + $g_iMidOffsetY, True), Hex(0xF38E8D, 6), 20) Then
+		If WaitforPixel(283, 193 + $g_iMidOffsetY, 287, 197 + $g_iMidOffsetY, Hex(0x121A87, 6), 20, 6) Then ; Wait 3 seconds
+			Local $hTimer = TimerInit()
+			While 1
+				If _Sleep(500) Then Return
+				Local $aContinueButton = findButton("Continue", Default, 1, True)
+				If IsArray($aContinueButton) And UBound($aContinueButton, 1) = 2 Then
+					ClickP($aContinueButton)
+					If _Sleep(2000) Then Return
+					ExitLoop
+				EndIf
+				Local $fDiff = TimerDiff($hTimer)
+				If $fDiff > 5000 Then ExitLoop
+			WEnd
+		EndIf
+	EndIf
+
+EndFunc   ;==>CloseSuperchargeWindow

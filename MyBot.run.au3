@@ -984,7 +984,6 @@ Func runBot() ;Bot that runs everything in order
 				_RunFunction('DonateCC,Train')
 				If ProfileSwitchAccountEnabled() Then
 					$g_iCommandStop = 2
-		;			_RunFunction('DonateCC,Train')
 					checkSwitchAcc()
 				Else
 					Local $bCloseGame = $g_bAttackPlannerCloseCoC Or $g_bAttackPlannerCloseAll Or $g_bAttackPlannerSuspendComputer
@@ -994,9 +993,6 @@ Func runBot() ;Bot that runs everything in order
 						If _SleepStatus($iWaitTime) Then Return False
 					EndIf
 				EndIf
-		;		$iWaitTime = Random($DELAYWAITATTACK1, $DELAYWAITATTACK2)
-		;		SetLog("Attacking Not Planned and Skipped, Waiting random " & StringFormat("%0.1f", $iWaitTime / 1000) & " Seconds", $COLOR_WARNING)
-		;		If _SleepStatus($iWaitTime) Then Return False
 			EndIf
 		Else ;When error occurs directly goes to attack
 			Local $sRestartText = $g_bIsSearchLimit ? " due search limit" : " after Out of Sync Error: Attack Now"
@@ -1516,7 +1512,7 @@ Func FirstCheck()
 	$g_bFullArmy = False
 	$g_iCommandStop = -1
 
-	If Not $g_bFirstStartForAll Then
+	If Not $g_bFirstStartCheckDone Then
 		;;;;;Check Clan Games Temp Files
 		ClearTempCGFiles()
 		;;;;;Check Clan Castle Capacities
@@ -1586,20 +1582,75 @@ Func FirstCheck()
 	EndIf
 	If Not $g_bRunState Then Return
 
-	IsSearchAttackEnabled()
+	If Not IsSearchAttackEnabled() Then
+
+		If Not $g_bRunState Then Return
+
+		$g_bRestart = False
+		$g_bFullArmy = False
+		$g_iCommandStop = -1
+
+		;;;;;Check Town Hall level
+		Local $iTownHallLevel = $g_iTownHallLevel
+		SetLog("Town Hall is currently saved as level " & $g_iTownHallLevel, $COLOR_INFO)
+
+		imglocTHSearch(False, True, True) ;Sets $g_iTownHallLevel
+		SetDebugLog("Detected Town Hall level is " & $g_iTownHallLevel, $COLOR_INFO)
+
+		If $g_iTownHallLevel = $iTownHallLevel Then
+			SetDebugLog("Town Hall level has not changed", $COLOR_INFO)
+		Else
+			SetLog("Town Hall level has changed!", $COLOR_INFO)
+			SetLog("New Town hall level detected as " & $g_iTownHallLevel, $COLOR_INFO)
+			applyConfig()
+			saveConfig()
+		EndIf
+		;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+		If $g_bChkCollectCartFirst Then CollectLootCart()
+
+		VillageReport()
+
+		If Not $g_bRunState Then Return
+
+		If $g_bOutOfGold And (Number($g_aiCurrentLoot[$eLootGold]) >= Number($g_iTxtRestartGold)) Then ; check if enough gold to begin searching again
+			$g_bOutOfGold = False ; reset out of gold flag
+			SetLog("Switching back to normal after no gold to search ...", $COLOR_SUCCESS)
+			Return ; Restart bot loop to reset $g_iCommandStop & $g_bTrainEnabled + $g_bDonationEnabled via BotCommand()
+		EndIf
+
+		If $g_bOutOfElixir And (Number($g_aiCurrentLoot[$eLootElixir]) >= Number($g_iTxtRestartElixir)) And (Number($g_aiCurrentLoot[$eLootDarkElixir]) >= Number($g_iTxtRestartDark)) Then ; check if enough elixir to begin searching again
+			$g_bOutOfElixir = False ; reset out of gold flag
+			SetLog("Switching back to normal setting after no elixir to train ...", $COLOR_SUCCESS)
+			Return ; Restart bot loop to reset $g_iCommandStop & $g_bTrainEnabled + $g_bDonationEnabled via BotCommand()
+		EndIf
+
+		If _Sleep($DELAYRUNBOT5) Then Return
+		checkMainScreen(False)
+		If $g_bRestart Then Return
+
+		If BotCommand() Then btnStop()
+		If Not $g_bChkBotStop And $g_bSearchReductionStorageEnable Then
+			isGoldFull(True)
+			isElixirFull(True)
+			isDarkElixirFull(True)
+		EndIf
+		If Not $g_bRunState Then Return
+	EndIf
+
 	If Not $g_bRunState Then Return
 	If _Sleep($DELAYRUNBOT5) Then Return
 	checkMainScreen(False)
 	If $g_bRestart Then Return
 
 	If Not $bChkUseOnlyCCMedals And $g_bRequestTroopsEnable And ($g_abSearchCastleWaitEnable[$DB] Or $g_abSearchCastleWaitEnable[$LB]) Then
-		If ($g_bFirstStartForAll And $IsForRequestEarly) Or Not $g_bFirstStartForAll Then
+		If ($g_bFirstStartCheckDone And $IsForRequestEarly) Or Not $g_bFirstStartCheckDone Then
 			SetLog("Wait For CC Enable : Request Early", $COLOR_DEBUG1)
 			RequestCC()
 		EndIf
 	EndIf
 
-	If Not $g_bFirstStartForAll Then
+	If Not $g_bFirstStartCheckDone Then
 		DailyChallenges(False)
 		If Not $g_bRunState Then Return
 	EndIf
@@ -1626,7 +1677,7 @@ Func FirstCheck()
 
 	If (Not $g_bChkEnableAutoUpgradeCC Or (Not $g_bChkEnableSmartSwitchCC And $g_bChkEnableAutoUpgradeCC)) And $bChkUseOnlyCCMedals And $g_bRequestTroopsEnable And _
 			($g_abSearchCastleWaitEnable[$DB] Or $g_abSearchCastleWaitEnable[$LB]) And ((Not $bChkUseOnlyCCMedals And $g_aiCmbCCDecisionThen = 1 And $g_aiCmbCCDecisionTime > 0) Or _
-			$bChkUseOnlyCCMedals) And Not $g_bFirstStartForAll And $g_iLootCCMedal = 0 Then CatchCCMedals(True)
+			$bChkUseOnlyCCMedals) And Not $g_bFirstStartCheckDone And $g_iLootCCMedal = 0 Then CatchCCMedals(True)
 	If _Sleep($DELAYRUNBOT1) Then Return
 	If Not $g_bRunState Then Return
 
@@ -1674,7 +1725,7 @@ Func FirstCheck()
 		EndIf
 	EndIf
 
-	If Not $g_bFirstStartForAll Then $g_bFirstStartForAll = 1
+	If Not $g_bFirstStartCheckDone Then $g_bFirstStartCheckDone = 1
 EndFunc   ;==>FirstCheck
 
 Func BuilderBase($bTest = False)

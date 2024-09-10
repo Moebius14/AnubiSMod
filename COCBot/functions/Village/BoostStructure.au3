@@ -26,7 +26,7 @@ Func BoostStructure($sName, $sOcrName, $aPos, ByRef $icmbBoostValue, $cmbBoostCt
 		BuildingClickP($aPos, "#0462")
 		If _Sleep($DELAYBOOSTHEROES2) Then Return
 		ForceCaptureRegion()
-		Local $aResult = BuildingInfo(242, 468 + $g_iBottomOffsetY)
+		Local $aResult = BuildingInfo(242, 475 + $g_iBottomOffsetY)
 		If $aResult[0] > 1 Then
 			Local $sN = $aResult[1] ; Store bldg name
 			Local $sL = $aResult[2] ; Sotre bdlg level
@@ -98,7 +98,7 @@ Func BoostPotion($sName, $sOcrName, $aPos, ByRef $icmbBoostValue, $cmbBoostCtrl)
 	BuildingClick($g_aiTownHallPos[0], $g_aiTownHallPos[1])
 	If _Sleep($DELAYBUILDINGINFO1) Then Return
 
-	Local $BuildingInfo = BuildingInfo(242, 468 + $g_iBottomOffsetY)
+	Local $BuildingInfo = BuildingInfo(242, 475 + $g_iBottomOffsetY)
 
 	If $BuildingInfo[1] = "Town Hall" Then
 		$ok = True
@@ -111,7 +111,7 @@ Func BoostPotion($sName, $sOcrName, $aPos, ByRef $icmbBoostValue, $cmbBoostCtrl)
 		Sleep(Random(1000, 1500, 1))
 		BuildingClick($g_aiTownHallPos[0], $g_aiTownHallPos[1])
 		If _Sleep($DELAYBUILDINGINFO1) Then Return
-		$BuildingInfo = BuildingInfo(242, 468 + $g_iBottomOffsetY)
+		$BuildingInfo = BuildingInfo(242, 475 + $g_iBottomOffsetY)
 		If $BuildingInfo[1] = "Town Hall" Then $ok = True
 	EndIf
 

@@ -277,13 +277,17 @@ Func CreateMiscNormalVillageSubTab()
 
 	$x = 15
 	$y += 22
-	_GUICtrlCreateIcon($g_sLibIconPath, $eIcnTreasury, $x + 22, $y - 14, 48, 48)
-	$g_hChkTreasuryCollect = GUICtrlCreateCheckbox(GetTranslatedFileIni("MBR GUI Design Child Village - Misc", "ChkTreasuryCollect", "Treasury"), $x + 100, $y - 2, -1, -1)
-	_GUICtrlSetTip(-1, GetTranslatedFileIni("MBR GUI Design Child Village - Misc", "ChkTreasuryCollect_Info_01", "Check this to automatically collect Treasury when FULL,") & @CRLF & _
+	_GUICtrlCreateIcon($g_sLibIconPath, $eIcnTreasury, $x + 5, $y - 14, 48, 48)
+	GUICtrlCreateLabel(GetTranslatedFileIni("MBR GUI Design Child Village - Misc", "TreasuryTitle", "Treasury"), $x + 55, $y + 2, -1, -1)
+	$g_hChkTreasuryCollect = GUICtrlCreateCombo("", $x + 105, $y - 2, 60, 25, BitOR($CBS_DROPDOWNLIST, $CBS_AUTOHSCROLL))
+	_GUICtrlSetTip(-1, GetTranslatedFileIni("MBR GUI Design Child Village - Misc", "ChkTreasuryCollect_Info_01", "Set ""Enable"" to automatically collect Treasury when FULL,") & @CRLF & _
 			GetTranslatedFileIni("MBR GUI Design Child Village - Misc", "ChkTreasuryCollect_Info_02", "'OR' when Storage values are BELOW minimum values on right,") & @CRLF & _
 			GetTranslatedFileIni("MBR GUI Design Child Village - Misc", "ChkTreasuryCollect_Info_03", "Use zero as min values to ONLY collect when Treasury is full") & @CRLF & _
-			GetTranslatedFileIni("MBR GUI Design Child Village - Misc", "ChkTreasuryCollect_Info_04", "Large minimum values will collect Treasury loot more often!"))
-	GUICtrlSetState(-1, $GUI_UNCHECKED)
+			GetTranslatedFileIni("MBR GUI Design Child Village - Misc", "ChkTreasuryCollect_Info_04", "Large minimum values will collect Treasury loot more often!") & @CRLF & @CRLF & _
+			GetTranslatedFileIni("MBR GUI Design Child Village - Misc", "ChkTreasuryCollect_Info_05", "Set ""Bonus"" to automatically collect Treasury Only when Daily Bonus Just Received") & @CRLF & _
+			GetTranslatedFileIni("MBR GUI Design Child Village - Misc", "ChkTreasuryCollect_Info_06", "'OR' when Storage values are BELOW minimum values on right,") & @CRLF & _
+			GetTranslatedFileIni("MBR GUI Design Child Village - Misc", "ChkTreasuryCollect_Info_07", "Use zero as min values to collect whatever Storage values."))
+	GUICtrlSetData(-1, "Disable|Enable|Bonus", "Disable")
 	GUICtrlSetOnEvent(-1, "ChkTreasuryCollect")
 
 	$x += 179
@@ -531,8 +535,8 @@ Func CreateMiscBuilderBaseSubTab()
 	GUICtrlSetOnEvent(-1, "ChkBBAttackForDailyChallenge")
 
 	;HArchH was y+30
-	$g_hChkUseBuilderJar = GUICtrlCreateCheckbox(GetTranslatedFileIni("MBR GUI Design Child Village - Misc", "ChkUseBuilderJar", "Use Builder Jar"), $x + 240, $y + 10)
-	_GUICtrlSetTip(-1, GetTranslatedFileIni("MBR GUI Design Child Village - Misc", "ChkUseBuilderJar_Info_01", "Check To Use Builder Jar When Stars Are Unavailable.") & @CRLF & _
+	$g_hChkUseBuilderJar = GUICtrlCreateCheckbox(GetTranslatedFileIni("MBR GUI Design Child Village - Misc", "ChkUseBuilderJar", "Use Builder Star Jar"), $x + 240, $y + 10)
+	_GUICtrlSetTip(-1, GetTranslatedFileIni("MBR GUI Design Child Village - Misc", "ChkUseBuilderJar_Info_01", "Check To Use Builder Star Jar When Stars Are Unavailable.") & @CRLF & _
 			"Won't Be Use If Storages Are Full Or BB Event Running.")
 	GUICtrlSetState(-1, $GUI_DISABLE)
 	GUICtrlSetOnEvent(-1, "chkEnableUseBuilderJar")

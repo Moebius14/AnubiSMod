@@ -77,7 +77,7 @@ Func _LocateBlacksmith($bCollect = True)
 			ClearScreen()
 			Return
 		EndIf
-		Local $sBlacksmithInfo = BuildingInfo(242, 468 + $g_iBottomOffsetY)
+		Local $sBlacksmithInfo = BuildingInfo(242, 475 + $g_iBottomOffsetY)
 		If $sBlacksmithInfo[0] > 1 Or $sBlacksmithInfo[0] = "" Then
 			If StringInStr($sBlacksmithInfo[1], "smith") = 0 Then
 				Local $sLocMsg = ($sBlacksmithInfo[0] = "" ? "Nothing" : $sBlacksmithInfo[1])

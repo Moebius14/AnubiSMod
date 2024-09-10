@@ -6,7 +6,7 @@
 ; Parameters ....: None
 ; Return values .: True if it is, returns false if it is not a dead base
 ; Author ........:  AtoZ , DinoBot (01-2015)
-; Modified ......: CodeSlinger69 (01-2017)
+; Modified ......: CodeSlinger69 (01-2017), Moebius14 (08-2024)
 ; Remarks .......: This file is part of MyBot, previously known as ClashGameBot. Copyright 2015-2024
 ;                  MyBot is distributed under the terms of the GNU GPL
 ; Related .......:
@@ -114,12 +114,15 @@ Func checkDeadBaseQuick($bForceCapture = True, $TestDeadBase = False)
 	Local $minLevel = 0
 	Local $maxLevel = 1000
 	Local $maxReturnPoints = 0 ; all positions
-	Local $returnProps = "objectname,objectpoints,objectlevel,fillLevel"
+	Local $returnProps = "objectname,objectpoints"
 	Local $TotalMatched = 0
 	Local $x, $y
 	Local $dbFound = False
-	Local $aCollectors[0][2]
 	Local $aTempArray, $aTempCoords, $aTempMultiCoords
+	Local $aTempArrayEx, $aTempCoordsEx, $aTempMultiCoordsEx
+	Local $aExclusions[0][2]
+	Local $aTempCollectors[0][2]
+	Local $aCollectors[0][2]
 
 	; check for any collector filling
 	Local $result = findMultiple($g_sImgElixirCollectorFill, $sCocDiamond, $redLines, $minLevel, $maxLevel, $maxReturnPoints, $returnProps, $bForceCapture)
@@ -127,26 +130,78 @@ Func checkDeadBaseQuick($bForceCapture = True, $TestDeadBase = False)
 
 	If $bFoundFilledCollectors Then
 
+		;Add found Exclusions into our Arrays
+		For $i = 0 To UBound($result, 1) - 1
+			$aTempArrayEx = $result[$i]
+			If Not StringInStr($aTempArrayEx[0], "exclusion", $STR_NOCASESENSEBASIC) Then ContinueLoop
+			$aTempMultiCoordsEx = decodeMultipleCoords($aTempArrayEx[1], 5, 5)
+			For $j = 0 To UBound($aTempMultiCoordsEx, 1) - 1
+				$aTempCoordsEx = $aTempMultiCoordsEx[$j]
+				_ArrayAdd($aExclusions, $aTempCoordsEx[0] & "|" & $aTempCoordsEx[1])
+			Next
+		Next
+		Local $bFoundExclusions = IsArray($aExclusions) = 1
+		If $bFoundExclusions Then
+			For $i = 0 To UBound($aExclusions) - 1
+				$aExclusions[$i][0] = Number($aExclusions[$i][0])
+				$aExclusions[$i][1] = Number($aExclusions[$i][1])
+			Next
+			RemoveDupCollectors($aExclusions)
+		EndIf
+
 		;Add found collectors into our Arrays
 		For $i = 0 To UBound($result, 1) - 1
 			$aTempArray = $result[$i]
+			If StringInStr($aTempArray[0], "exclusion", $STR_NOCASESENSEBASIC) Then ContinueLoop
 			$aTempMultiCoords = decodeMultipleCoords($aTempArray[1], 5, 5)
 			For $j = 0 To UBound($aTempMultiCoords, 1) - 1
 				$aTempCoords = $aTempMultiCoords[$j]
-				_ArrayAdd($aCollectors, $aTempCoords[0] & "|" & $aTempCoords[1])
+				_ArrayAdd($aTempCollectors, $aTempCoords[0] & "|" & $aTempCoords[1])
 			Next
 		Next
+		Local $bFoundTempCollectors = IsArray($aTempCollectors) = 1
+		If $bFoundTempCollectors Then
+			For $i = 0 To UBound($aTempCollectors) - 1
+				$aTempCollectors[$i][0] = Number($aTempCollectors[$i][0])
+				$aTempCollectors[$i][1] = Number($aTempCollectors[$i][1])
+			Next
+			RemoveDupCollectors($aTempCollectors)
+		EndIf
+
+		If $bFoundExclusions Then ; Exclusions (Cake, etc...)
+			If $bFoundTempCollectors Then
+				For $i = 0 To UBound($aTempCollectors, 1) - 1
+					Local $bExcluded = False
+					For $z = 0 To UBound($aExclusions, 1) - 1
+						Local $a = $aExclusions[$z][0] - $aTempCollectors[$i][0]
+						Local $b = $aExclusions[$z][1] - $aTempCollectors[$i][1]
+						Local $c = Sqrt($a * $a + $b * $b)
+						If $c < 25 Then
+							$bExcluded = True
+							ExitLoop
+						EndIf
+					Next
+					If Not $bExcluded Then _ArrayAdd($aCollectors, $aTempCollectors[$i][0] & "|" & $aTempCollectors[$i][1]) ; Only add if no exclusion is close.
+				Next
+			EndIf
+		Else
+			If $bFoundTempCollectors Then $aCollectors = $aTempCollectors ; no exclusion found.
+		EndIf
+
+		RemoveDupCollectors($aCollectors)
 
 		If UBound($aCollectors) < $g_iCollectorMatchesMin And Not $TestDeadBase Then
-			SetDebugLog("IMGLOC : DEADBASE NOT MATCHED: " & UBound($aCollectors) & "/" & $g_iCollectorMatchesMin, $COLOR_WARNING)
+			If UBound($aCollectors) > 0 Then
+				SetDebugLog("IMGLOC : DEADBASE NOT MATCHED: " & UBound($aCollectors) & "/" & $g_iCollectorMatchesMin, $COLOR_WARNING)
+			Else
+				SetDebugLog("IMGLOC : NOT A DEADBASE", $COLOR_INFO)
+			EndIf
 			$g_aZombie[3] = $TotalMatched
 			If $g_bDebugDeadBaseImage Then
 				setZombie(0, $g_iSearchElixir, $TotalMatched, $g_iSearchCount, $g_sImglocRedline)
 			EndIf
 			Return $dbFound
 		EndIf
-
-		RemoveDupCollectors($aCollectors)
 
 		For $i = 0 To UBound($aCollectors, 1) - 1
 			$x = $aCollectors[$i][0]
@@ -167,7 +222,11 @@ Func checkDeadBaseQuick($bForceCapture = True, $TestDeadBase = False)
 		If Not $bFoundFilledCollectors Then
 			SetDebugLog("IMGLOC : NOT A DEADBASE", $COLOR_INFO)
 		ElseIf Not $dbFound Then
-			SetDebugLog("IMGLOC : DEADBASE NOT MATCHED: " & $TotalMatched & "/" & $g_iCollectorMatchesMin, $COLOR_WARNING)
+			If UBound($aCollectors) > 0 Then
+				SetDebugLog("IMGLOC : DEADBASE NOT MATCHED: " & $TotalMatched & "/" & $g_iCollectorMatchesMin, $COLOR_WARNING)
+			Else
+				SetDebugLog("IMGLOC : NOT A DEADBASE", $COLOR_INFO)
+			EndIf
 		Else
 			SetDebugLog("IMGLOC : FOUND DEADBASE Matched: " & $TotalMatched & "/" & $g_iCollectorMatchesMin & ": " & UBound($aCollectors) & " collector points", $COLOR_GREEN)
 		EndIf
@@ -193,7 +252,7 @@ Func checkDeadBaseFolder($directory, $executeNewCode = "checkDeadBaseQuick(True,
 	Local $wasDebugsetlog = $g_bDebugSetlog
 	$g_bDebugSetlog = True
 
-	SetLog("Checking " & $aFiles[0] & " village screenshots for dead base...")
+	SetLog("Checking " & $aFiles[0] & " village screenshot" & ($aFiles[0] > 1 ? "s" : "") & " for dead base...")
 
 	Local $iTotalMsSuperNew = 0
 	Local $iSuperNewFound = 0
@@ -263,38 +322,47 @@ Func CheckForDeadEagle()
 	Return True
 EndFunc   ;==>CheckForDeadEagle
 
-Func RemoveDupCollectors(ByRef $arr, $sortBy = 0, $distance = 3)
+Func RemoveDupCollectors(ByRef $arr)
+	; Remove Dup X Sorted
 	Local $atmparray[0][2]
-	Local $tmpCoord = 0
-	Local $tmpCoord2 = 0
-	_ArraySort($arr, 0, 0, 0, $sortBy) ;sort by x
+	Local $tmpCoordX = 0
+	Local $tmpCoordY = 0
+	_ArraySort($arr, 0, 0, 0, 0) ;sort by x
 	For $i = 0 To UBound($arr) - 1
-		SetDebugLog("X:" & $arr[$i][$sortBy])
-		SetDebugLog("Y:" & $arr[$i][$sortBy + 1])
-		SetDebugLog("tmpCoord:" & $tmpCoord)
-		SetDebugLog("tmpCoord2:" & $tmpCoord2)
-		If $arr[$i][$sortBy] > $tmpCoord + $distance Then
-			If $arr[$i][$sortBy + 1] <> $tmpCoord2 + $distance Then
-				_ArrayAdd($atmparray, $arr[$i][0] & "|" & $arr[$i][1])
-				$tmpCoord = $arr[$i][$sortBy] + $distance
-				$tmpCoord2 = $arr[$i][$sortBy + 1] + $distance
-			EndIf
+		Local $a = $arr[$i][0] - $tmpCoordX
+		Local $b = $arr[$i][1] - $tmpCoordY
+		Local $c = Sqrt($a * $a + $b * $b)
+		If $c < 25 Then
+			SetDebugLog("Skip this dup : " & $arr[$i][0] & "," & $arr[$i][1], $COLOR_INFO)
+			ContinueLoop
 		Else
-			If $arr[$i][$sortBy] = $tmpCoord + $distance Then
-				If $arr[$i][$sortBy + 1] >= $tmpCoord2 + $distance Then
-					_ArrayAdd($atmparray, $arr[$i][0] & "|" & $arr[$i][1])
-					$tmpCoord = $arr[$i][$sortBy] + $distance
-					$tmpCoord2 = $arr[$i][$sortBy + 1] + $distance
-				Else
-					SetDebugLog("Skip this dup: " & $arr[$i][$sortBy + 1] & " is near " & $tmpCoord2, $COLOR_INFO)
-					ContinueLoop
-				EndIf
-			Else
-				SetDebugLog("Skip this dup: " & $arr[$i][$sortBy] & " is near " & $tmpCoord, $COLOR_INFO)
-				ContinueLoop
-			EndIf
+			_ArrayAdd($atmparray, $arr[$i][0] & "|" & $arr[$i][1])
+			$tmpCoordX = $arr[$i][0]
+			$tmpCoordY = $arr[$i][1]
 		EndIf
 	Next
-	$arr = $atmparray
-	SetDebugLog(_ArrayToString($arr))
+	; Remove Dup Y Sorted
+	Local $atmparray2[0][2]
+	$tmpCoordX = 0
+	$tmpCoordY = 0
+	_ArraySort($atmparray, 0, 0, 0, 1) ;sort by y
+	For $i = 0 To UBound($atmparray) - 1
+		Local $a = $atmparray[$i][0] - $tmpCoordX
+		Local $b = $atmparray[$i][1] - $tmpCoordY
+		Local $c = Sqrt($a * $a + $b * $b)
+		If $c < 25 Then
+			SetDebugLog("Skip this dup : " & $atmparray[$i][0] & "," & $atmparray[$i][1], $COLOR_INFO)
+			ContinueLoop
+		Else
+			_ArrayAdd($atmparray2, $atmparray[$i][0] & "|" & $atmparray[$i][1])
+			$tmpCoordX = $atmparray[$i][0]
+			$tmpCoordY = $atmparray[$i][1]
+		EndIf
+	Next
+	_ArraySort($atmparray2, 0, 0, 0, 0) ;sort by x
+	For $i = 0 To UBound($atmparray2) - 1
+		$atmparray2[$i][0] = Number($atmparray2[$i][0])
+		$atmparray2[$i][1] = Number($atmparray2[$i][1])
+	Next
+	$arr = $atmparray2
 EndFunc   ;==>RemoveDupCollectors

@@ -763,7 +763,7 @@ Func IsCCTreasuryFull()
 	If _Sleep($DELAYCOLLECT3) Then Return
 	BuildingClick($g_aiClanCastlePos[0], $g_aiClanCastlePos[1], "#0250") ; select CC
 	If _Sleep($DELAYTREASURY2) Then Return
-	Local $BuildingInfo = BuildingInfo(242, 468 + $g_iBottomOffsetY)
+	Local $BuildingInfo = BuildingInfo(242, 475 + $g_iBottomOffsetY)
 
 	If $BuildingInfo[1] = "Clan Castle" Then
 		SetDebugLog("Clan Castle Windows Is Open", $COLOR_DEBUG1)
@@ -778,7 +778,7 @@ Func IsCCTreasuryFull()
 			PureClickVisit($NewX, $NewY) ; select CC
 			If _Sleep($DELAYBUILDINGINFO1) Then Return
 
-			$BuildingInfo = BuildingInfo(242, 468 + $g_iBottomOffsetY)
+			$BuildingInfo = BuildingInfo(242, 475 + $g_iBottomOffsetY)
 
 			If $BuildingInfo[1] = "Clan Castle" Then ExitLoop
 			ClearScreen()
@@ -788,7 +788,7 @@ Func IsCCTreasuryFull()
 			PureClickVisit($NewX, $NewY) ; select CC
 			If _Sleep($DELAYBUILDINGINFO1) Then Return
 
-			$BuildingInfo = BuildingInfo(242, 468 + $g_iBottomOffsetY)
+			$BuildingInfo = BuildingInfo(242, 475 + $g_iBottomOffsetY)
 
 			If $BuildingInfo[1] = "Clan Castle" Then ExitLoop
 		Next
@@ -811,7 +811,7 @@ Func IsCCTreasuryFull()
 	EndIf
 
 	Local $IsTreasuryFull = False
-	Local $aFullCCBar = QuickMIS("CNX", $g_sImgFullCCRes, 658, 200 + $g_iMidOffsetY, 710, 315 + $g_iMidOffsetY)
+	Local $aFullCCBar = QuickMIS("CNX", $g_sImgFullCCRes, 685, 195 + $g_iMidOffsetY, 710, 315 + $g_iMidOffsetY)
 	If IsArray($aFullCCBar) And UBound($aFullCCBar) > 0 Then
 		SetDebugLog("CC full bars found = " & Number(UBound($aFullCCBar)), $COLOR_DEBUG)
 		If Number(UBound($aFullCCBar)) = 3 Then $IsTreasuryFull = True

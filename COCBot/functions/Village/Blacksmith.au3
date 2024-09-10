@@ -23,18 +23,18 @@ Func Blacksmith($bTest = False)
 	If $g_bFirstStart Or $IsOresJustCollected Then $iLastTimeChecked[$g_iCurAccount] = ""
 
 	Local $BSTimeDiff ; time remaining for Blacksmith upgrade
-	If $g_sBSUpgradeTime <> "" And _DateIsValid($g_sBSUpgradeTime) Then $BSTimeDiff = _DateDiff('n', _NowCalc(), $g_sBSUpgradeTime) ; what is difference between end time and now in minutes?
+	If $g_sBSmithUpgradeTime <> "" And _DateIsValid($g_sBSmithUpgradeTime) Then $BSTimeDiff = _DateDiff('n', _NowCalc(), $g_sBSmithUpgradeTime) ; what is difference between end time and now in minutes?
 
 	; Check if is a valid date
 	If _DateIsValid($iLastTimeChecked[$g_iCurAccount]) Then
 		Local $iLastCheck = _DateDiff('n', $iLastTimeChecked[$g_iCurAccount], _NowCalc()) ; elapse time from last check (minutes)
 		SetDebugLog("Blacksmith LastCheck: " & $iLastTimeChecked[$g_iCurAccount] & ", Check DateCalc: " & $iLastCheck)
-		If $g_sBSUpgradeTime = "" Then
+		If $g_sBSmithUpgradeTime = "" Then
 			; A check each 6 hours [6*60 = 360] Or when star Bonus Received (BS is not upgrading)
-			If $iLastCheck <= 360 And Not $StarBonusReceived Then Return
+			If $iLastCheck <= 360 And Not $StarBonusReceived[0] Then Return
 		Else
 			If $BSTimeDiff > 0 Then ; (BS is upgrading)
-				If $iLastCheck <= 360 And Not $StarBonusReceived Then Return ; A check each 6 hours [6*60 = 360] Or when star Bonus Received. Will be Check when BS upgrade will be finished.
+				If $iLastCheck <= 360 And Not $StarBonusReceived[0] Then Return ; A check each 6 hours [6*60 = 360] Or when star Bonus Received. Will be Check when BS upgrade will be finished.
 			EndIf
 		EndIf
 	EndIf
@@ -74,7 +74,7 @@ Func Blacksmith($bTest = False)
 	If Not $g_bRunState Then Return
 	If _Sleep(1500) Then Return ; Wait for buttons to appear
 
-	Local $BuildingInfo = BuildingInfo(242, 468 + $g_iBottomOffsetY)
+	Local $BuildingInfo = BuildingInfo(242, 475 + $g_iBottomOffsetY)
 	If IsArray($BuildingInfo) And UBound($BuildingInfo) > 0 Then
 		SetLog("Blacksmith is level " & $BuildingInfo[2])
 	EndIf
@@ -93,7 +93,7 @@ Func Blacksmith($bTest = False)
 	EndIf
 
 	$iLastTimeChecked[$g_iCurAccount] = _NowCalc()
-	$StarBonusReceived = 0
+	$StarBonusReceived[0] = 0
 	$IsOresJustCollected = 0
 
 	If $g_iTxtCurrentVillageName <> "" Then
@@ -360,11 +360,11 @@ Func Blacksmith($bTest = False)
 	If Not $g_bRunState Then Return
 	Local $IsinBlacksmith = False
 	Local $TimeDiff
-	If $g_sBSUpgradeTime <> "" Then
-		$TimeDiff = _DateDiff('n', _NowCalc(), $g_sBSUpgradeTime)
+	If $g_sBSmithUpgradeTime <> "" Then
+		$TimeDiff = _DateDiff('n', _NowCalc(), $g_sBSmithUpgradeTime)
 		If $TimeDiff <= 0 Then $IsinBlacksmith = True
 	Else
-		If $g_sBSUpgradeTime = "" Or Not _DateIsValid($g_sBSUpgradeTime) Then $IsinBlacksmith = True
+		If $g_sBSmithUpgradeTime = "" Or Not _DateIsValid($g_sBSmithUpgradeTime) Then $IsinBlacksmith = True
 	EndIf
 	If _Sleep(1000) Then Return
 	CloseWindow($IsinBlacksmith)
@@ -450,24 +450,24 @@ Func BlacksmithUpTime()
 				EndIf
 				Local $StartTime = _NowCalc()
 				If $RemainingTimeMinutes > 0 Then
-					$g_sBSUpgradeTime = _DateAdd('n', Ceiling($RemainingTimeMinutes), $StartTime)
-					SetLog("Blacksmith Upgrade Finishes in " & $RemainingTime & " (" & $g_sBSUpgradeTime & ")", $COLOR_SUCCESS)
+					$g_sBSmithUpgradeTime = _DateAdd('n', Ceiling($RemainingTimeMinutes), $StartTime)
+					SetLog("Blacksmith Upgrade Finishes in " & $RemainingTime & " (" & $g_sBSmithUpgradeTime & ")", $COLOR_SUCCESS)
 				Else
 					SetDebugLog("Remaining time read issue!", $COLOR_DEBUG)
-					$g_sBSUpgradeTime = ""
+					$g_sBSmithUpgradeTime = ""
 				EndIf
 				CloseWindow2()
 				If _Sleep(1000) Then Return
 			Else
 				SetDebugLog("Close Button of Blacksmith window not found!", $COLOR_DEBUG)
-				$g_sBSUpgradeTime = ""
+				$g_sBSmithUpgradeTime = ""
 			EndIf
 		Else
 			SetDebugLog("Info Button not found!", $COLOR_DEBUG)
-			$g_sBSUpgradeTime = ""
+			$g_sBSmithUpgradeTime = ""
 		EndIf
 	Else
-		$g_sBSUpgradeTime = ""
+		$g_sBSmithUpgradeTime = ""
 	EndIf
 	If ProfileSwitchAccountEnabled() Then SwitchAccountVariablesReload("Save")
 EndFunc   ;==>BlacksmithUpTime

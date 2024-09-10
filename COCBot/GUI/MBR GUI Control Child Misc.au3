@@ -731,14 +731,14 @@ Func ChkCollect()
 EndFunc   ;==>ChkCollect
 
 Func ChkTreasuryCollect()
-	If GUICtrlRead($g_hChkTreasuryCollect) = $GUI_CHECKED Then
-		GUICtrlSetState($g_hTxtTreasuryGold, $GUI_ENABLE)
-		GUICtrlSetState($g_hTxtTreasuryElixir, $GUI_ENABLE)
-		GUICtrlSetState($g_hTxtTreasuryDark, $GUI_ENABLE)
-	Else
+	If _GUICtrlComboBox_GetCurSel($g_hChkTreasuryCollect) = 0 Then
 		GUICtrlSetState($g_hTxtTreasuryGold, $GUI_DISABLE)
 		GUICtrlSetState($g_hTxtTreasuryElixir, $GUI_DISABLE)
 		GUICtrlSetState($g_hTxtTreasuryDark, $GUI_DISABLE)
+	Else
+		GUICtrlSetState($g_hTxtTreasuryGold, $GUI_ENABLE)
+		GUICtrlSetState($g_hTxtTreasuryElixir, $GUI_ENABLE)
+		GUICtrlSetState($g_hTxtTreasuryDark, $GUI_ENABLE)
 	EndIf
 EndFunc   ;==>ChkTreasuryCollect
 

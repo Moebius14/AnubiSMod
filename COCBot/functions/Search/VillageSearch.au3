@@ -209,6 +209,8 @@ Func _VillageSearch() ;Control for searching a village that meets conditions
 		AttackRemainingTime(True) ; Timer for knowing when attack starts, in 30 Sec. attack automatically starts and lasts for 3 Minutes
 		If $g_bRestart Then Return ; exit func
 
+		Local $bDetectionTimer = TimerInit()
+
 		$g_bCloudsActive = False
 
 		GetResources(False) ;Reads Resource Values
@@ -237,6 +239,20 @@ Func _VillageSearch() ;Control for searching a village that meets conditions
 				$match[$i] = CompareResources($i)
 			EndIf
 		Next
+
+		Local $bHasLeagueOpponent = True
+		Local $RefusedOpponent = False
+		If $b_CheckNoLeagueOpponent Then
+			If $match[$DB] Then
+				If Not HasLeagueOpponent() Then
+					SetLog(StringFormat("%3s", $g_iSearchCount) & "> No League Detected!", $COLOR_SUCCESS, "Lucida Console", 7.5)
+					$bHasLeagueOpponent = False
+				Else
+					$match[$DB] = False
+					$RefusedOpponent = True
+				EndIf
+			EndIf
+		EndIf
 
 		; reset village measures
 		setVillageOffset(0, 0, 1)
@@ -399,8 +415,14 @@ Func _VillageSearch() ;Control for searching a village that meets conditions
 			EndIf
 		EndIf
 
+		If Not $match[$DB] And $RefusedOpponent Then $match[$DB] = True ; To revert $match[$DB] state from false to true due to HasLeagueOpponent() result
+
 		If $match[$DB] And Not $dbBase Then
-			$noMatchTxt &= ", Not a " & $g_asModeText[$DB]
+			If $RefusedOpponent Then
+				$noMatchTxt &= ", League Detected! Not a " & $g_asModeText[$DB]
+			Else
+				$noMatchTxt &= ", Not a " & $g_asModeText[$DB]
+			EndIf
 		ElseIf $match[$LB] And $dbBase Then
 			$noMatchTxt &= ", Not a " & $g_asModeText[$LB]
 		EndIf
@@ -438,12 +460,21 @@ Func _VillageSearch() ;Control for searching a village that meets conditions
 		EndIf
 
 		; ----------------- ADD RANDOM DELAY IF REQUESTED -----------------------------------
-		If Not $checkDeadBase Then
-			If $g_iSearchDelayMin > 0 And $g_iSearchDelayMax > 0 Then ; Check if village delay values are set
-				If $g_iSearchDelayMin <> $g_iSearchDelayMax Then ; Check if random delay requested
-					If _Sleep(Round(1000 * Random($g_iSearchDelayMin, $g_iSearchDelayMax))) Then Return ;Delay time is random between min & max set by user
-				Else
-					If _Sleep(1000 * $g_iSearchDelayMin) Then Return ; Wait Village Serch delay set by user
+		Local $iDetectionTimer = TimerDiff($bDetectionTimer)
+		Local $iDetectionTimerSetLog = Round($iDetectionTimer)
+		SetDebugLog("Detections made in : " & $iDetectionTimerSetLog & "ms", $COLOR_DEBUG)
+		If $g_iSearchDelayMin > 0 And $g_iSearchDelayMax > 0 Then ; Check if village delay values are set
+			If $g_iSearchDelayMin <> $g_iSearchDelayMax Then ; Check if random delay requested
+				If $iDetectionTimer < $g_iSearchDelayMax Then
+					If $g_iSearchDelayMax < 10 Then
+						If _Sleep(Round(1000 * Random($g_iSearchDelayMin, $g_iSearchDelayMax))) Then Return ; Delay time is random between min & max set by user
+					EndIf
+				EndIf
+			Else
+				If $iDetectionTimer < $g_iSearchDelayMin Then
+					If $g_iSearchDelayMin < 10 Then
+						If _Sleep(1000 * $g_iSearchDelayMin) Then Return ; Wait Village Search delay set by user
+					EndIf
 				EndIf
 			EndIf
 		EndIf
@@ -666,3 +697,13 @@ Func WriteLogVillageSearch($x)
 	EndIf
 
 EndFunc   ;==>WriteLogVillageSearch
+
+Func HasLeagueOpponent()
+
+	Local $offColors[3][3] = [[0x616161, 14, 0], [0x6A6C6D, 14, 10], [0x6D7071, 14, 19]] ; 2nd pixel grey Color, 3rd pixel grey, 4th pixel grey at bottom
+	Local $GreyLeague = _MultiPixelSearch(12, 25, 32, 48, 1, 1, Hex(0xFFFFFF, 6), $offColors, 30) ; first white pixel on side of grey league
+	SetDebugLog("Pixel Color #1: " & _GetPixelColor(14, 25, True) & ", #2: " & _GetPixelColor(28, 25, True) & ", #3: " & _GetPixelColor(28, 35, True) & ", #4: " & _GetPixelColor(28, 44, True), $COLOR_DEBUG)
+	If IsArray($GreyLeague) Then Return False
+	Return True
+
+EndFunc   ;==>HasLeagueOpponent
