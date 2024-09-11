@@ -198,7 +198,7 @@ Func CheckBuilderPotion()
 	Local $IsForge = False
 	ClickMainBuilder()
 	If _Sleep(500) Then Return
-	If QuickMIS("BC1", $g_sImgAUpgradeHour, 430, 75 + $g_iMidOffsetY, 540, 110 + $g_iMidOffsetY) Then
+	If QuickMIS("BC1", $g_sImgAUpgradeHour, 430, 75 + $g_iMidOffsetY, 600, 110 + $g_iMidOffsetY) Then
 		Local $sUpgradeTime = getBuilderLeastUpgradeTime($g_iQuickMISX - 50, $g_iQuickMISY - 8)
 		Local $mUpgradeTime = ConvertOCRTime("Least Upgrade", $sUpgradeTime, False)
 		If $mUpgradeTime > 540 Then

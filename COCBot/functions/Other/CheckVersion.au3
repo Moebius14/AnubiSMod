@@ -104,9 +104,9 @@ Func CheckVersion()
 			GUICtrlSetState($g_hPicGreenMod, $GUI_SHOW)
 			GUICtrlSetState($g_hPicRedMod, $GUI_HIDE)
 			GUICtrlSetState($g_hPicGreyMod, $GUI_HIDE)
-			GUICtrlSetData($g_hLblVersionStatusMod, "V Dev")
+			GUICtrlSetData($g_hLblVersionStatusMod, " Beta")
 			GUICtrlSetFont($g_hLblVersionStatusMod, 7, $FW_BOLD, $GUI_FONTITALIC, "comic sans ms")
-			GUICtrlSetColor($g_hLblVersionStatusMod, 0x29a075)
+			GUICtrlSetColor($g_hLblVersionStatusMod, 0x2990a0)
 		EndIf
 	Else
 		GUICtrlSetState($g_hPicGreenMod, $GUI_HIDE)
@@ -166,9 +166,9 @@ Func CheckVersionStatus()
 			GUICtrlSetState($g_hPicGreenMod, $GUI_SHOW)
 			GUICtrlSetState($g_hPicRedMod, $GUI_HIDE)
 			GUICtrlSetState($g_hPicGreyMod, $GUI_HIDE)
-			GUICtrlSetData($g_hLblVersionStatusMod, "V Dev")
+			GUICtrlSetData($g_hLblVersionStatusMod, " Beta")
 			GUICtrlSetFont($g_hLblVersionStatusMod, 7, $FW_BOLD, $GUI_FONTITALIC, "comic sans ms")
-			GUICtrlSetColor($g_hLblVersionStatusMod, 0x29a075)
+			GUICtrlSetColor($g_hLblVersionStatusMod, 0x2990a0)
 		EndIf
 	Else
 		GUICtrlSetState($g_hPicGreenMod, $GUI_HIDE)

@@ -535,7 +535,7 @@ Func CreateMiscBuilderBaseSubTab()
 	GUICtrlSetOnEvent(-1, "ChkBBAttackForDailyChallenge")
 
 	;HArchH was y+30
-	$g_hChkUseBuilderJar = GUICtrlCreateCheckbox(GetTranslatedFileIni("MBR GUI Design Child Village - Misc", "ChkUseBuilderJar", "Use Builder Star Jar"), $x + 240, $y + 10)
+	$g_hChkUseBuilderJar = GUICtrlCreateCheckbox(GetTranslatedFileIni("MBR GUI Design Child Village - Misc", "ChkUseBuilderJar", "Use Builder Jar"), $x + 240, $y + 10)
 	_GUICtrlSetTip(-1, GetTranslatedFileIni("MBR GUI Design Child Village - Misc", "ChkUseBuilderJar_Info_01", "Check To Use Builder Star Jar When Stars Are Unavailable.") & @CRLF & _
 			"Won't Be Use If Storages Are Full Or BB Event Running.")
 	GUICtrlSetState(-1, $GUI_DISABLE)

@@ -103,6 +103,10 @@ Global $ImgLocked = @ScriptDir & "\imgxml\Main Village\AppBuilder\Locked*"
 Global $ImgConfirmButton = @ScriptDir & "\imgxml\Main Village\AppBuilder\Confirm*"
 Global $ImgJobInProgress = @ScriptDir & "\imgxml\Main Village\AppBuilder\Job*"
 Global $ImgAssignMini = @ScriptDir & "\imgxml\Main Village\AppBuilder\AssignMini*"
+; Treasury Hunt
+Global $ImgHammerOnRock = @ScriptDir & "\imgxml\Main Village\TreasuryHunt\Hammer\Hammer*"
+Global $ImgHammersOnRock = @ScriptDir & "\imgxml\Main Village\TreasuryHunt\Hammer\"
+Global $ImgLockOfChest = @ScriptDir & "\imgxml\Main Village\TreasuryHunt\Lock*"
 #EndRegion Main Village
 
 #Region Clan Capital
