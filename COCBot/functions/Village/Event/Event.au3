@@ -113,10 +113,8 @@ Func CollectEventRewards()
 	If _Sleep(Random(1000, 3000, 1)) Then Return
 	If Not $g_bRunState Then Return
 
-	Local $offColors[2][3] = [[0x0D0D0D, 31, 10], [0xFFFF7A, 35, 3]] ; 2nd pixel black Color, 3rd pixel yellow color
-	Local $RightResResource = _MultiPixelSearch(759, 423, 810, 433, 1, 1, Hex(0xFFFFFF, 6), $offColors, 40) ; first white pixel on side of button
-	SetDebugLog("Pixel Color #1: " & _GetPixelColor(763, 423, True) & ", #2: " & _GetPixelColor(794, 433, True) & ", #3: " & _GetPixelColor(798, 426, True), $COLOR_DEBUG)
-	If Not IsArray($RightResResource) Then
+	Local $aMiniCupButton = decodeSingleCoord(FindImageInPlace2("MiniCupButton", $ImgMiniCupButton, 760, 360 + $g_iMidOffsetY, 825, 415 + $g_iMidOffsetY, True))
+	If UBound($aMiniCupButton) < 2 Then
 		Click(790, 386 + $g_iMidOffsetY)
 		If _Sleep(1500) Then Return
 	EndIf

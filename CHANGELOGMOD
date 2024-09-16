@@ -3,6 +3,8 @@
 * Updated Building Info Position for Humanization.
 * Fixed Fill CC with Medals.
 * Fixed Upgrade time position in builder menu.
+* Fixed Purging CC Medals.
+* Improved Event Bar Position Detection.
 
 * v24.08.31 **
 * Added Force Use Clan Castle If No Siege Detected (Cases "Any" and "Selected Siege").

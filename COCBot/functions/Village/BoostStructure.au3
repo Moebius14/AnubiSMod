@@ -132,7 +132,7 @@ Func BoostPotion($sName, $sOcrName, $aPos, ByRef $icmbBoostValue, $cmbBoostCtrl)
 					ClickAway()
 					Return False ; Exit Function
 				EndIf
-				Click(260, 505 + $g_iMidOffsetY) ; Click on 'Use'
+				Click(600, 505 + $g_iMidOffsetY) ; Click on 'Use'
 				If _Sleep($DELAYBOOSTHEROES2) Then Return
 				If Not $g_bRunState Then Return
 				$Boost = findButton("BoostPotionGreen")

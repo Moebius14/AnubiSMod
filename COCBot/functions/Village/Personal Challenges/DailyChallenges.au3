@@ -162,11 +162,9 @@ Func CollectDailyRewards($bGoldPass = False)
 	If _Sleep(Random(2000, 3000, 1)) Then Return
 	If Not $g_bRunState Then Return
 
-	Local $offColors[2][3] = [[0x0E0E0E, 28, 9], [0xFFFC6A, 35, 3]] ; 2nd pixel black Color, 3rd pixel yellow color
-	Local $TrophyButtonPixel = _MultiPixelSearch(765, 422, 810, 433, 1, 1, Hex(0xFFFFFF, 6), $offColors, 40) ; first white pixel on side of button
-	SetDebugLog("Pixel Color #1: " & _GetPixelColor(769, 422, True) & ", #2: " & _GetPixelColor(797, 431, True) & ", #3: " & _GetPixelColor(804, 425, True), $COLOR_DEBUG)
-	If Not IsArray($TrophyButtonPixel) Then
-		Click(795, 383 + $g_iMidOffsetY)
+	Local $aMiniCupButton = decodeSingleCoord(FindImageInPlace2("MiniCupButton", $ImgMiniCupButton, 765, 355 + $g_iMidOffsetY, 830, 415 + $g_iMidOffsetY, True))
+	If UBound($aMiniCupButton) < 2 Then
+		Click(797, 386 + $g_iMidOffsetY)
 		If _Sleep(1500) Then Return
 	EndIf
 

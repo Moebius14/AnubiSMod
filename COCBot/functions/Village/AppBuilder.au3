@@ -99,7 +99,7 @@ Func AppBuilder()
 		If _Sleep(Random(1500, 2000, 1)) Then Return
 		If $IsTHUpInProgress Then
 			WaitForClanMessage("BuildersApprenticeConfirm")
-			If QuickMIS("BC1", $g_sImgGeneralCloseButton, 655, 115 + $g_iMidOffsetY, 720, 170 + $g_iMidOffsetY) Then
+			If QuickMIS("BC1", $g_sImgGeneralCloseButton, 655, 150 + $g_iMidOffsetY, 720, 200 + $g_iMidOffsetY) Then
 				Click($g_iQuickMISX, $g_iQuickMISY)
 				If _Sleep(Random(1500, 2000, 1)) Then Return
 			EndIf
@@ -113,6 +113,7 @@ Func AppBuilder()
 	If Not QuickMIS("BC1", $g_sImgGeneralCloseButton, 770, 100, 845, 130 + $g_iMidOffsetY) Then
 		SetLog("Builder's Apprentice Window Didn't Open", $COLOR_DEBUG1)
 		CloseWindow2()
+		If _Sleep(Random(1500, 2000, 1)) Then Return
 		ClearScreen()
 		Return
 	EndIf
@@ -292,11 +293,11 @@ Func AppBuilder()
 		Return
 	EndIf
 
-	Local $aConfirmButton = decodeSingleCoord(FindImageInPlace2("ConfirmButton", $ImgConfirmButton, 360, 460 + $g_iMidOffsetY, 520, 540 + $g_iMidOffsetY, True))
+	Local $aConfirmButton = decodeSingleCoord(FindImageInPlace2("ConfirmButton", $ImgConfirmButton, 360, 445 + $g_iMidOffsetY, 520, 520 + $g_iMidOffsetY, True))
 	If IsArray($aConfirmButton) And UBound($aConfirmButton) = 2 Then
 		Local $iAppBuilderAvailTime = 0
 		Local $CoordsX[2] = [390, 480]
-		Local $CoordsY[2] = [480 + $g_iMidOffsetY, 520 + $g_iMidOffsetY]
+		Local $CoordsY[2] = [460 + $g_iMidOffsetY, 500 + $g_iMidOffsetY]
 		Local $ButtonClickX = Random($CoordsX[0], $CoordsX[1], 1)
 		Local $ButtonClickY = Random($CoordsY[0], $CoordsY[1], 1)
 		Click($ButtonClickX, $ButtonClickY, 1, 180, "ConfirmButton") ;Click Confirm

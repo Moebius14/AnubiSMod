@@ -1074,7 +1074,7 @@ Func DonateWindow($aiDonateButton, $bOpen = True)
 	While Not (_ColorCheck(_GetPixelColor(356, $aiDonateButton[1], True, "DonateWindow"), Hex(0xFFFFFF, 6), 0))
 		If _Sleep($DELAYDONATEWINDOW2) Then Return
 		ForceCaptureRegion()
-		If _ColorCheck(_GetPixelColor(373, $aiDonateButton[1], True, "DonateWindow"), Hex(0xFFFFFF, 6), 0) Then ExitLoop
+		If _ColorCheck(_GetPixelColor(376, $aiDonateButton[1], True, "DonateWindow"), Hex(0xFFFFFF, 6), 0) Then ExitLoop
 		$icount += 1
 		If $icount = 20 Then ExitLoop
 	WEnd
@@ -1104,7 +1104,7 @@ Func DonateWindowCap(ByRef $g_bSkipDonTroops, ByRef $g_bSkipDonSpells)
 	If $g_bDebugSetlog Then SetDebugLog("DonateCapWindow Start", $COLOR_DEBUG)
 	;read troops capacity
 	If Not $g_bSkipDonTroops Then
-		Local $sReadCCTroopsCap = getCastleDonateCap($g_iDonationWindowX + 101, $g_iDonationWindowY + 15) ; use OCR to get donated/total capacity
+		Local $sReadCCTroopsCap = getCastleDonateCap($g_iDonationWindowX + 101, $g_iDonationWindowY + 14) ; use OCR to get donated/total capacity
 		SetDebugLog("$sReadCCTroopsCap: " & $sReadCCTroopsCap, $COLOR_DEBUG)
 
 		Local $aTempReadCCTroopsCap = StringSplit($sReadCCTroopsCap, "#")
@@ -1124,7 +1124,7 @@ Func DonateWindowCap(ByRef $g_bSkipDonTroops, ByRef $g_bSkipDonSpells)
 	EndIf
 
 	If Not $g_bSkipDonSpells Then
-		Local $sReadCCSpellsCap = getCastleDonateCap($g_iDonationWindowX + 95, $g_iDonationWindowY + 221) ; use OCR to get donated/total capacity
+		Local $sReadCCSpellsCap = getCastleDonateCap($g_iDonationWindowX + 95, $g_iDonationWindowY + 220) ; use OCR to get donated/total capacity
 		SetDebugLog("$sReadCCSpellsCap: " & $sReadCCSpellsCap, $COLOR_DEBUG)
 		Local $aTempReadCCSpellsCap = StringSplit($sReadCCSpellsCap, "#")
 		If $aTempReadCCSpellsCap[0] >= 2 Then

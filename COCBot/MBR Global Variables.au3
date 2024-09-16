@@ -1265,7 +1265,7 @@ Global $g_iAtkTBEnableCount = 150, $g_iAtkTBMaxTHLevel = 0, $g_iAtkTBMode = 0
 Global $g_bSearchReductionEnable = False, $g_iSearchReductionCount = 20, $g_iSearchReductionGold = 2000, $g_iSearchReductionElixir = 2000, $g_iSearchReductionGoldPlusElixir = 4000, _
 		$g_iSearchReductionDark = 100, $g_iSearchReductionTrophy = 2
 Global $g_bSearchReductionStorageEnable = False, $g_iSearchReductionGoldMod = 2000, $g_iSearchReductionElixirMod = 2000, $g_iSearchReductionDarkMod = 100
-Global $g_iSearchDelayMin = 1, $g_iSearchDelayMax = 5
+Global $g_iSearchDelayMin = 2, $g_iSearchDelayMax = 6
 Global $g_bSearchAttackNowEnable = False, $g_iSearchAttackNowDelay = 0, $g_bSearchRestartEnable = True, $g_iSearchRestartLimitMin = 20, $g_iSearchRestartLimitMax = 50, $g_bSearchAlertMe = True, $g_bSearchRestartPickupHero = False
 Global $g_iSearchRestartLimitMinPause = 70, $g_iSearchRestartLimitMaxPause = 90, $g_iSearchesPauseIntervalMin = 3, $g_iSearchesPauseIntervalMax = 7
 Global $g_asHeroHealTime[$eHeroCount] = ["", "", "", ""]
@@ -2158,13 +2158,14 @@ Global $g_aiCmbCCDecisionTime = 0, $g_aiCmbCCDecisionThen = 0, $CCWaitChrono = 0
 ; PumpKin GraveYard, Snow Day, Tiger Mountain, Primal(PR), Shadow(SH), Royale Scenery, Summer Scenery, Pixel Scenery, 10th Clash,
 ; Clash Fest, Magic Scenery, Epic Magic Scenery, Classic Scenery, Inferno Tower, Jolly Scenery, Magic Theater Scenery,
 ; Dark Ages, Painter, Goblin Caves, Future Scenery, Books of Clash, Spooky Scenery, Chess Scenery, Ghost Scenery, GingerBread Scenery,
-; Dragon Palace Scenery, Space Scenery, Egypt Scenery, Football Scenery, Wild West Scenery, Clash Game Stadium Scenery, Anime Scenery
+; Dragon Palace Scenery, Space Scenery, Egypt Scenery, Football Scenery, Wild West Scenery, Clash Game Stadium Scenery, Anime Scenery,
+; Clash Of Dragons
 ; Builder Base
 Global Enum $eTreeDSS, $eTreeDAS, $eTreeCC, $eTreePS, $eTreeEW, $eTreeHM, $eTreeJS, $eTreeEJ, $eTree9C, _
 		$eTreePG, $eTreeSD, $eTreeTM, $eTreePR, $eTreeSH, $eTreeRS, $eTreeSM, $eTreePX, $eTreeXC, _
 		$eTreeCF, $eTreeMS, $eTreeEM, $eTreeCS, $eTreeIT, $eTreeJO, $eTreeMT, $eTreeDA, $eTreePA, _
 		$eTreeGC, $eTreeFS, $eTreeBK, $eTreeSP, $eTreeCH, $eTreeGH, $eTreeGB, $eTreeDP, $eTreeSC, $eTreeEG, _
-		$eTreeFO, $eTreeWW, $eTreeGS, $eTreeAN, _
+		$eTreeFO, $eTreeWW, $eTreeGS, $eTreeAN, $eTreeCD, _
 		$eTreeBB, $eTreeOO, $eTreeCR, $eTreeNS, $eTreeCount
 
 Global $g_asSceneryNames[$eTreeCount] = [ _
@@ -2172,7 +2173,7 @@ Global $g_asSceneryNames[$eTreeCount] = [ _
 		"Pumpkin Graveyard", "Snowy Day", "Tiger Mountain", "Primal Scenery", "Shadow Scenery", "Royale Scenery", "Summer Scenery", "Pixel Scenery", "10th Clashiversary", _
 		"Clash Fest", "Magic Scenery", "Epic Magic Scenery", "Classic Scenery", "Inferno Town", "Jolly Scenery", "Magic Theater Scenery", _
 		"Dark Ages Scenery", "Painter Scenery", "Goblin Caves Scenery", "Future Scenery", "Books of Clash", "Spooky Scenery", "Chess Scenery", "Ghost Scenery", "GingerBread Scenery", _
-		"Dragon Palace Scenery", "Space Scenery", "Egypt Scenery", "Football Scenery", "Wild West Scenery", "Clash Game Stadium Scenery", "Anime Scenery", _
+		"Dragon Palace Scenery", "Space Scenery", "Egypt Scenery", "Football Scenery", "Wild West Scenery", "Clash Game Stadium Scenery", "Anime Scenery", "Clash of Dragons Scenery", _
 		"Builder Base", "OTTO Outpost", "Crystal Caverns", "Of The North Scenery"]
 
 ; village size, left, right, top, bottom, village size 2, AdjLeft, AdjRight, AdjTop, AdjBottom
@@ -2218,6 +2219,7 @@ Global Const $g_afRefVillage[$eTreeCount][10] = [ _
 		[463.948923805267, 38, 800, 64, 640, 463.948923805267, 50, 50, 42, 42], _    ; WW partial
 		[526.323586426313, 37, 823, 52, 642, 526.323586426313, 50, 50, 42, 42], _    ; GS partial
 		[503.599873876659, 31, 825, 34, 631, 503.599873876659, 50, 50, 42, 42], _    ; AN partial
+		[498.174826439333, 38, 829, 47, 638, 498.174826439333, 50, 50, 42, 42], _    ; CD partial
 		[376.2247294568, 114, 724, 152, 610, 376.2247294568, 50, 46, 38, 42], _      ; BB partial
 		[440.179472132523, 120, 732, 152, 608, 440.179472132523, 50, 46, 38, 42], _  ; OO partial
 		[379.741811787463, 130, 728, 162, 608, 379.741811787463, 50, 46, 38, 42], _  ; CR partial
@@ -2263,7 +2265,7 @@ Global $SpecialEventReduction = 1 ; No Event
 ;;;;;;;;;;;;;;;
 
 ; COC Version
-Global $sGameMinimalVersion = "16.517.4"
+Global $sGameMinimalVersion = "16.517.11"
 
 ;Builder's Apprentice
 Global $g_sAvailableAppBuilder = 0, $TimeDiffAppBuilder = 0, $g_bChkAppBuilder = 0

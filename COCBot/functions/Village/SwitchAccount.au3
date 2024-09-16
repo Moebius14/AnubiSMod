@@ -373,15 +373,6 @@ Func SwitchCOCAcc($NextAccount)
 	EndIf
 	waitMainScreen()
 	If Not $g_bRunState Then Return
-	;switch using scid sometime makes emulator seem freeze but not, need to send back button first for click work again
-	;If $g_bChkSuperCellID Then
-	;	SetDebugLog("Checkscidswitch: Send AndroidBackButton", $COLOR_DEBUG)
-	;	AndroidBackButton() ;Send back button to android
-	;	If _Sleep(1000) Then Return
-	;	If IsEndBattlePage() Then
-	;		AndroidBackButton()
-	;	EndIf
-	;EndIf
 	CheckObstacles()
 
 	SetLog("Switch Account Load Town Hall Level : " & $g_iTownHallLevel)
@@ -397,7 +388,7 @@ Func SwitchCOCAcc_DisconnectConnect(ByRef $bResult, $bDisconnectOnly = $g_bChkSh
 
 	For $i = 0 To 20 ; Checking Green Connect Button continuously in 20sec
 		; SupercellID
-		Local $aSuperCellIDConnected = decodeSingleCoord(findImage("SupercellID Connected", $g_sImgSupercellIDConnected, GetDiamondFromRect("630,150,720,200"), 1, True, Default))
+		Local $aSuperCellIDConnected = decodeSingleCoord(findImage("SupercellID Connected", $g_sImgSupercellIDConnected, GetDiamondFromRect("660,150,760,200"), 1, True, Default))
 		If IsArray($aSuperCellIDConnected) And UBound($aSuperCellIDConnected, 1) >= 2 Then
 			SetLog("Account connected to SuperCell ID")
 			Return 1
@@ -420,7 +411,7 @@ Func SwitchCOCAcc_ClickAccount(ByRef $bResult, $iNextAccount, $bStayDisconnected
 
 	For $i = 0 To 20 ; Checking Account List continuously in 20sec
 		; SupercellID
-		Local $aSuperCellIDConnected = decodeSingleCoord(findImage("SupercellID Connected", $g_sImgSupercellIDConnected, GetDiamondFromRect("630,150,720,200"), 1, True, Default))
+		Local $aSuperCellIDConnected = decodeSingleCoord(findImage("SupercellID Connected", $g_sImgSupercellIDConnected, GetDiamondFromRect("660,150,760,200"), 1, True, Default))
 		If IsArray($aSuperCellIDConnected) And UBound($aSuperCellIDConnected, 1) >= 2 Then
 			SetLog("Account connected to SuperCell ID, cannot disconnect")
 			If $bStayDisconnected Then
@@ -656,7 +647,6 @@ Func aquireSwitchAccountMutex($iSwitchAccountGroup = $g_iCmbSwitchAcc, $bReturnO
 			$g_ahMutex_SwitchAccountsGroup[0] = $iSwitchAccountGroup
 			$g_ahMutex_SwitchAccountsGroup[1] = $hMutex_Profile
 		EndIf
-		;SetDebugLog("Aquire Switch Accounts Group " & $iSwitchAccountGroup & " Mutex: " & $hMutex_Profile)
 		If $bReturnOnlyMutex Then
 			Return $hMutex_Profile
 		EndIf
@@ -676,7 +666,6 @@ EndFunc   ;==>aquireSwitchAccountMutex
 
 Func releaseSwitchAccountMutex()
 	If $g_ahMutex_SwitchAccountsGroup[1] Then
-		;SetDebugLog("Release Switch Accounts Group " & $g_ahMutex_SwitchAccountsGroup[0] & " Mutex: " & $g_ahMutex_SwitchAccountsGroup[1])
 		ReleaseMutex($g_ahMutex_SwitchAccountsGroup[1])
 		$g_ahMutex_SwitchAccountsGroup[0] = 0
 		$g_ahMutex_SwitchAccountsGroup[1] = 0
@@ -839,7 +828,7 @@ EndFunc   ;==>SCIDragIfNeeded
 
 Func IsSCIDAccComplete($iAccounts = 3)
 	SetLog("-----IsSCIDAccComplete----")
-	Local $iDistanceBetweenAccounts = 96 ; Was 95
+	Local $iDistanceBetweenAccounts = 96
 	Local $aiHeadCoord
 	Local $aiSearchArea[4] = [455, 347, 845, 437]
 	Local $bSaveImage = False

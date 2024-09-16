@@ -85,7 +85,7 @@ Func ReturnHome($TakeSS = 1, $GoldChangeCheck = True) ;Return main screen
 
 	; ---- CLICK SURRENDER BUTTON ----
 	If Not (IsReturnHomeBattlePage(True, False)) Then ; check if battle is already over
-		Local $bret = False
+		Local $bRet = False
 		For $i = 0 To 5 ; dynamic wait loop for surrender button to appear (if end battle or surrender button are not found in 5*(200)ms + 10*(200)ms or 3 seconds, then give up.)
 			SetDebugLog("Wait for surrender button to appear #" & $i)
 			$aiSurrenderButton = findButton("EndBattle", Default, 1, True)
@@ -107,7 +107,7 @@ Func ReturnHome($TakeSS = 1, $GoldChangeCheck = True) ;Return main screen
 								Case $i < 5 ; if Okay button not found in 10*(200)ms or 2 seconds, then give up.
 									ExitLoop
 								Case $i = 5 ; if Okay button not found Then Restart COC.
-									$bret = True
+									$bRet = True
 									ExitLoop 2
 							EndSelect
 						EndIf
@@ -120,7 +120,7 @@ Func ReturnHome($TakeSS = 1, $GoldChangeCheck = True) ;Return main screen
 			If ReturnHomeMainPage() Then Return
 			If _Sleep($DELAYRETURNHOME5) Then Return
 		Next
-		If $bret Then
+		If $bRet Then
 			SetLog("Have strange problem Couldn't Click Okay to Confirm surrender, Restarting CoC", $COLOR_ERROR)
 			CloseCoC(True)
 			Return
@@ -212,6 +212,7 @@ Func ReturnHome($TakeSS = 1, $GoldChangeCheck = True) ;Return main screen
 		$g_bIsFullArmywithHeroesAndSpells = False ; forcing check the army
 		If ReturnHomeMainPage() Then Return
 		$counter += 1
+		SetDebugLog("Loop #" & $counter)
 		If $counter >= 30 Or isProblemAffect(True) Then
 			SetLog("Cannot return home.", $COLOR_ERROR)
 			checkMainScreen()
@@ -279,15 +280,15 @@ EndFunc   ;==>ReturnfromDropTrophies
 
 Func CheckStreakEvent()
 	If Not $g_bRunState Then Return
-	Local $bret = False
+	Local $bRet = False
 	If _Sleep($DELAYSTARBONUS100) Then Return
 	Local $aContinueButton = findButton("Continue", Default, 1, True)
 	If IsArray($aContinueButton) And UBound($aContinueButton, 1) = 2 Then
 		ClickP($aContinueButton)
 		If _Sleep(2500) Then Return
 	EndIf
-	If Not _ColorCheck(_GetPixelColor(290, 150 + $g_iMidOffsetY, $g_bCapturePixel), Hex(0x9B071A, 6), 20) And Not _ColorCheck(_GetPixelColor(560, 150 + $g_iMidOffsetY, $g_bCapturePixel), Hex(0x9B071A, 6), 20) Then Return $bret
-	$bret = True
+	If Not _ColorCheck(_GetPixelColor(290, 150 + $g_iMidOffsetY, $g_bCapturePixel), Hex(0x9B071A, 6), 20) And Not _ColorCheck(_GetPixelColor(560, 150 + $g_iMidOffsetY, $g_bCapturePixel), Hex(0x9B071A, 6), 20) Then Return $bRet
+	$bRet = True
 	Local $SearchArea = GetDiamondFromRect("20,260(820,140)")
 	Local $aResult = findMultiple(@ScriptDir & "\imgxml\DailyChallenge\", $SearchArea, $SearchArea, 0, 1000, 6, "objectname,objectpoints", True)
 	If $aResult <> "" And IsArray($aResult) Then
@@ -305,13 +306,13 @@ Func CheckStreakEvent()
 		Next
 	EndIf
 	CloseWindow2()
-	Return $bret
+	Return $bRet
 EndFunc   ;==>CheckStreakEvent
 
 Func TreasureHunt()
 
 	If Not $g_bRunState Then Return
-	Local $bret = False
+	Local $bRet = False
 	Local $bHitDone = False
 	SetLog("Opening Chest", $COLOR_SUCCESS)
 	Local $bLoop = 0
@@ -332,7 +333,11 @@ Func TreasureHunt()
 							Local $ButtonClickY = Random($aiLockOfChest[1] - 20, $aiLockOfChest[1] + 20, 1)
 							SetLog("Hit Number : #" & $t + 1, $COLOR_ACTION)
 							Click($ButtonClickX, $ButtonClickY, 1, 130, "LockHit")
-							If _Sleep(Random(1800, 2500, 1)) Then Return
+							If $t = UBound($iHammers) - 1 Then
+								If _Sleep(Random(2000, 3000, 1)) Then Return
+							Else
+								If _Sleep(Random(700, 1200, 1)) Then Return
+							EndIf
 						Next
 						$bHitDone = True
 						ExitLoop 2
@@ -343,7 +348,7 @@ Func TreasureHunt()
 		EndIf
 		If _Sleep(1000) Then Return
 		$bLoop += 1
-		If $bLoop > 10 Then Return $bret ; Exit if more than 10 loops
+		If $bLoop > 10 Then Return $bRet ; Exit if more than 10 loops
 	WEnd
 
 	If $bHitDone Then
@@ -352,13 +357,13 @@ Func TreasureHunt()
 			If Not $g_bRunState Then Return
 			If ClickB("Continue") Then
 				SetLog("Reward Received", $COLOR_SUCCESS1)
-				$bret = True
+				$bRet = True
 				ExitLoop
 			EndIf
 			If _Sleep(100) Then Return
 		Next
 	EndIf
 
-	Return $bret
+	Return $bRet
 
 EndFunc   ;==>TreasureHunt

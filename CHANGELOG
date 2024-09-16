@@ -108,6 +108,10 @@
 * Added support for dynamic building info position (Supercharge).
 * Improved Builder Base Upgrade Detection.
 * Added Treasury Hunt Event Window Support (Beta).
+* Fixed Shared_Prefs Switch Method.
+* Removed Google Play Switch.
+* Improved DonateWindowCap().
+* Updated Use Boost Potion Button Position.
 
 * v8.1.6 **
 * Added "Before you upgrade" window support.

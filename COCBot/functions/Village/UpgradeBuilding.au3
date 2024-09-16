@@ -39,14 +39,14 @@ Func UpgradeBuilding()
 	; check to see if anything is enabled before wasting time.
 	For $iz = 0 To UBound($g_avBuildingUpgrades, 1) - 1
 		If $g_abBuildingUpgradeEnable[$iz] = True Then
-			If StringInStr($g_avBuildingUpgrades[$iz][4], "King") Or _
-					StringInStr($g_avBuildingUpgrades[$iz][4], "Queen") Or _
-					StringInStr($g_avBuildingUpgrades[$iz][4], "Warden") Or _
-					StringInStr($g_avBuildingUpgrades[$iz][4], "Champion") Then
-				$b_HeroCount += 1
+			If StringInStr($g_avBuildingUpgrades[$iz][4], "King", $STR_CASESENSE) Or _
+					StringInStr($g_avBuildingUpgrades[$iz][4], "Queen", $STR_CASESENSE) Or _
+					StringInStr($g_avBuildingUpgrades[$iz][4], "Warden", $STR_CASESENSE) Or _
+					StringInStr($g_avBuildingUpgrades[$iz][4], "Champion", $STR_CASESENSE) Then
+				If $g_bUseHeroBooks Then $b_HeroCount += 1
 				$IsUpgradeAnHero = True
 			EndIf
-			If StringInStr($g_avBuildingUpgrades[$iz][4], "Gear") Then
+			If StringInStr($g_avBuildingUpgrades[$iz][4], "Gear", $STR_CASESENSE) Then
 				$b_GearUpCount += 1
 				$IsGearUp = True
 			EndIf
@@ -92,13 +92,13 @@ Func UpgradeBuilding()
 	For $iz = 0 To UBound($g_avBuildingUpgrades, 1) - 1
 
 		Local $isHeroSelected = False
-		If StringInStr($g_avBuildingUpgrades[$iz][4], "King") Or _
-				StringInStr($g_avBuildingUpgrades[$iz][4], "Queen") Or _
-				StringInStr($g_avBuildingUpgrades[$iz][4], "Warden") Or _
-				StringInStr($g_avBuildingUpgrades[$iz][4], "Champion") Then $isHeroSelected = True
+		If StringInStr($g_avBuildingUpgrades[$iz][4], "King", $STR_CASESENSE) Or _
+				StringInStr($g_avBuildingUpgrades[$iz][4], "Queen", $STR_CASESENSE) Or _
+				StringInStr($g_avBuildingUpgrades[$iz][4], "Warden", $STR_CASESENSE) Or _
+				StringInStr($g_avBuildingUpgrades[$iz][4], "Champion", $STR_CASESENSE) Then $isHeroSelected = True
 
 		Local $IsGearSelected = False
-		If StringInStr($g_avBuildingUpgrades[$iz][4], "Gear") Then $IsGearSelected = True
+		If StringInStr($g_avBuildingUpgrades[$iz][4], "Gear", $STR_CASESENSE) Then $IsGearSelected = True
 
 		If $g_bDebugSetlog Then SetlogUpgradeValues($iz) ; massive debug data dump for each upgrade
 
@@ -132,7 +132,7 @@ Func UpgradeBuilding()
 							SetLog("Check Next Upgrades To find Hero Upgrade", $COLOR_ACTION)
 						Case $b_GearUpCount > 0 And $b_HeroCount > 0
 							SetLog("No builder available for #" & $iz + 1 & ", " & $g_avBuildingUpgrades[$iz][4], $COLOR_DEBUG)
-							SetLog("Check Next Upgrades To find Gear Up And HeroUpgrade", $COLOR_ACTION)
+							SetLog("Check Next Upgrades To find Gear Up And Hero Upgrade", $COLOR_ACTION)
 					EndSelect
 					ContinueLoop
 			EndSelect
@@ -191,7 +191,7 @@ Func UpgradeBuilding()
 								Case $b_GearUpCount = 0 And $b_HeroCount > 0
 									SetLog("Check Next Upgrades To find Hero Upgrade", $COLOR_ACTION)
 								Case $b_GearUpCount > 0 And $b_HeroCount > 0
-									SetLog("Check Next Upgrades To find Gear Up And HeroUpgrade", $COLOR_ACTION)
+									SetLog("Check Next Upgrades To find Gear Up And Hero Upgrade", $COLOR_ACTION)
 							EndSelect
 							ContinueLoop
 					EndSelect
@@ -221,7 +221,7 @@ Func UpgradeBuilding()
 				$g_iCostGoldBuilding += $g_avBuildingUpgrades[$iz][2]
 				UpdateStats()
 				$iAvailGold -= $g_avBuildingUpgrades[$iz][2]
-				If Not StringInStr($g_avBuildingUpgrades[$iz][4], "Gear") Then $iAvailBldr -= 1
+				If Not StringInStr($g_avBuildingUpgrades[$iz][4], "Gear", $STR_CASESENSE) Then $iAvailBldr -= 1
 			Case "Elixir"
 				$iAvailBldrBook = False
 				If $isHeroSelected Then $b_HeroCount -= 1

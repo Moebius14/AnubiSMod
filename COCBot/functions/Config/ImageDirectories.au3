@@ -97,6 +97,7 @@ Global $g_sImgSupercharge = @ScriptDir & "\imgxml\\Main Village\Supercharge\Supe
 Global $g_sImgEventResource = @ScriptDir & "\imgxml\Event\Resource\"
 Global $g_sImgOresCollect = @ScriptDir & "\imgxml\Event\Ores\"
 Global $g_sImgClaimBonus = @ScriptDir & "\imgxml\DailyChallenge\"
+Global $ImgMiniCupButton = @ScriptDir & "\imgxml\Event\MiniCup*"
 ;Apprentice Builder
 Global $g_sImgGreenAssignButton = @ScriptDir & "\imgxml\Main Village\AppBuilder\"
 Global $ImgLocked = @ScriptDir & "\imgxml\Main Village\AppBuilder\Locked*"

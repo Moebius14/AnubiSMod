@@ -785,9 +785,13 @@ Func runBot() ;Bot that runs everything in order
 				If $g_bRestart Then ContinueLoop 2 ; must be level 2 due to loop-in-loop
 			Next
 
-			If $g_bRequestTroopsEnable And ($g_abSearchCastleWaitEnable[$DB] Or $g_abSearchCastleWaitEnable[$LB]) And ((Not $bChkUseOnlyCCMedals And _
-					$g_aiCmbCCDecisionThen = 1 And $g_aiCmbCCDecisionTime > 0) Or $bChkUseOnlyCCMedals) Then
-				If Number($g_iLootCCMedal) = 0 Or $bControlCCMedal Then CatchCCMedals(True)
+			If $bControlCCMedal Then
+				CatchCCMedals(True)
+			Else
+				If $g_bRequestTroopsEnable And ($g_abSearchCastleWaitEnable[$DB] Or $g_abSearchCastleWaitEnable[$LB]) And ((Not $bChkUseOnlyCCMedals And _
+						$g_aiCmbCCDecisionThen = 1 And $g_aiCmbCCDecisionTime > 0) Or $bChkUseOnlyCCMedals) Then
+					If Number($g_iLootCCMedal) = 0 Then CatchCCMedals(True)
+				EndIf
 			EndIf
 
 			AddIdleTime()
@@ -1067,12 +1071,16 @@ Func _Idle() ;Sequence that runs until Full Army
 
 		If $g_CheckModVersion Then CheckVersionStatus()
 
-		If $g_bRequestTroopsEnable And ($g_abSearchCastleWaitEnable[$DB] Or $g_abSearchCastleWaitEnable[$LB]) And ((Not $bChkUseOnlyCCMedals And _
-				$g_aiCmbCCDecisionThen = 1 And $g_aiCmbCCDecisionTime > 0) Or $bChkUseOnlyCCMedals) Then
-			If Number($g_iLootCCMedal) = 0 Then
-				CatchCCMedals(True)
-			Else
-				CatchCCMedals()
+		If $bControlCCMedal Then
+			CatchCCMedals(True)
+		Else
+			If $g_bRequestTroopsEnable And ($g_abSearchCastleWaitEnable[$DB] Or $g_abSearchCastleWaitEnable[$LB]) And ((Not $bChkUseOnlyCCMedals And _
+					$g_aiCmbCCDecisionThen = 1 And $g_aiCmbCCDecisionTime > 0) Or $bChkUseOnlyCCMedals) Then
+				If Number($g_iLootCCMedal) = 0 Then
+					CatchCCMedals(True)
+				Else
+					CatchCCMedals()
+				EndIf
 			EndIf
 		EndIf
 
@@ -1675,9 +1683,14 @@ Func FirstCheck()
 	EndIf
 	If Not $g_bRunState Then Return
 
-	If (Not $g_bChkEnableAutoUpgradeCC Or (Not $g_bChkEnableSmartSwitchCC And $g_bChkEnableAutoUpgradeCC)) And $bChkUseOnlyCCMedals And $g_bRequestTroopsEnable And _
-			($g_abSearchCastleWaitEnable[$DB] Or $g_abSearchCastleWaitEnable[$LB]) And ((Not $bChkUseOnlyCCMedals And $g_aiCmbCCDecisionThen = 1 And $g_aiCmbCCDecisionTime > 0) Or _
-			$bChkUseOnlyCCMedals) And Not $g_bFirstStartCheckDone And $g_iLootCCMedal = 0 Then CatchCCMedals(True)
+	If $bControlCCMedal Then
+		CatchCCMedals(True)
+	Else
+		If (Not $g_bChkEnableAutoUpgradeCC Or (Not $g_bChkEnableSmartSwitchCC And $g_bChkEnableAutoUpgradeCC)) And $bChkUseOnlyCCMedals And $g_bRequestTroopsEnable And _
+				($g_abSearchCastleWaitEnable[$DB] Or $g_abSearchCastleWaitEnable[$LB]) And ((Not $bChkUseOnlyCCMedals And $g_aiCmbCCDecisionThen = 1 And $g_aiCmbCCDecisionTime > 0) Or _
+				$bChkUseOnlyCCMedals) And Not $g_bFirstStartCheckDone And $g_iLootCCMedal = 0 Then CatchCCMedals(True)
+	EndIf
+
 	If _Sleep($DELAYRUNBOT1) Then Return
 	If Not $g_bRunState Then Return
 

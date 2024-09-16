@@ -226,7 +226,7 @@ Func getCCSiegeCampCap($x_start, $y_start, $bNeedCapture = True) ;  -> Gets army
 EndFunc   ;==>getCCSiegeCampCap
 
 Func getCastleDonateCap($x_start, $y_start) ;  -> Gets clan castle capacity,  --> donatecc.au3
-	Return getOcrAndCapture("coc-army", $x_start, $y_start, 30, 14, True)
+	Return getOcrAndCapture("coc-army", $x_start, $y_start, 40, 14, True)
 EndFunc   ;==>getCastleDonateCap
 
 Func getOcrLanguage($x_start, $y_start) ;  -> Get english language - main screen - "Attack" text on attack button

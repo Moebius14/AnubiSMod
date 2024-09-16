@@ -1,8 +1,8 @@
 ; #FUNCTION# ====================================================================================================================
 ; Name ..........: imglocTHSearch
 ; Description ...: Searches for the TH in base, and returns; X&Y location, Bldg Level
-; Syntax ........: imglocTHSearch([$bReTest = False])
-; Parameters ....: $bReTest - [optional] a boolean value. Default is False.
+; Syntax ........: imglocTHSearch([$bRetest = False])
+; Parameters ....: $bRetest - [optional] a boolean value. Default is False.
 ; Return values .: None , sets several global variables
 ; Author ........: Trlopes (10-2016)
 ; Modified ......: CodeSlinger69 (01-2017)
@@ -19,7 +19,7 @@ Global $IMGLOCTHNEAR
 Global $IMGLOCTHFAR
 Global $IMGLOCTHRDISTANCE
 
-Func imglocTHSearch($bReTest = False, $myVillage = False, $bForceCapture = True)
+Func imglocTHSearch($bRetest = False, $myVillage = False, $bForceCapture = True)
 	Local $xdirectorya = @ScriptDir & "\imgxml\Buildings\Townhall"
 	Local $xdirectoryb = @ScriptDir & "\imgxml\Buildings\Townhall2"
 	Local $xdirectorySnowa = @ScriptDir & "\imgxml\Buildings\snow-Townhall"

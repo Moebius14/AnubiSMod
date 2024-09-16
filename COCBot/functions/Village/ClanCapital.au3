@@ -3392,7 +3392,7 @@ Func SoldMagicItems($x, $y, $ItemTime, $Test = False)
 			Click($x, $y)
 			If _Sleep(Random(2000, 3500, 1)) Then Return
 			If Not $g_bRunState Then Return
-			Click(600, 505 + $g_iMidOffsetY)
+			Click(255, 505 + $g_iMidOffsetY)
 			If _Sleep(Random(2000, 3500, 1)) Then Return
 			If Not $g_bRunState Then Return
 			Click(535, 425 + $g_iMidOffsetY)
