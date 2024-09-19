@@ -727,10 +727,8 @@ Func NotifyPushMessageToBoth($Message, $Source = "")
 				_GDIPlus_ImageSaveToFile($g_hBitmap, $g_sProfileTempPath & $Screnshotfilename)
 				_GDIPlus_ImageDispose($g_hBitmap)
 				If $g_bTGRequestBuilderInfo Then
-					If $g_bTGRequestBuilderInfo Then
-						NotifyPushFileToTelegram($Screnshotfilename, "Temp", "image/jpeg", $g_sNotifyOrigin & " | " & "Builder Information [Main]" & "%0A" & $Screnshotfilename)
-						SetLog("Notify Telegram: Builder Information [Main] sent!", $COLOR_GREEN)
-					EndIf
+					NotifyPushFileToTelegram($Screnshotfilename, "Temp", "image/jpeg", $g_sNotifyOrigin & " | " & "Builder Information [Main]" & "%0A" & $Screnshotfilename)
+					SetLog("Notify Telegram: Builder Information [Main] sent!", $COLOR_GREEN)
 				EndIf
 				$g_bTGRequestBuilderInfo = False
 				;wait a second and then delete the file
@@ -752,10 +750,8 @@ Func NotifyPushMessageToBoth($Message, $Source = "")
 				Local $Screnshotfilename = "Screenshot_" & $Date & "_" & $Time & ".jpg"
 				_GDIPlus_ImageSaveToFile($g_hBitmap, $g_sProfileTempPath & $Screnshotfilename)
 				If $g_bTGRequestShieldInfo Then
-					If $g_bTGRequestShieldInfo Then
-						NotifyPushFileToTelegram($Screnshotfilename, "Temp", "image/jpeg", $g_sNotifyOrigin & " | " & "Shield Information" & "%0A" & $Screnshotfilename)
-						SetLog("Notify Telegram: Shield Information sent!", $COLOR_SUCCESS)
-					EndIf
+					NotifyPushFileToTelegram($Screnshotfilename, "Temp", "image/jpeg", $g_sNotifyOrigin & " | " & "Shield Information" & "%0A" & $Screnshotfilename)
+					SetLog("Notify Telegram: Shield Information sent!", $COLOR_SUCCESS)
 				EndIf
 				$g_bTGRequestShieldInfo = False
 				;wait a second and then delete the file

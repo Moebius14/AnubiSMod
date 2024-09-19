@@ -877,3 +877,47 @@ Func ImgLogDebugProps($result)
 	Next
 EndFunc   ;==>ImgLogDebugProps
 
+Func RemoveDupXY(ByRef $arr)
+	; Remove Dup X Sorted
+	Local $atmparray[0][2]
+	Local $tmpCoordX = 0
+	Local $tmpCoordY = 0
+	_ArraySort($arr, 0, 0, 0, 0) ;sort by x
+	For $i = 0 To UBound($arr) - 1
+		Local $a = $arr[$i][0] - $tmpCoordX
+		Local $b = $arr[$i][1] - $tmpCoordY
+		Local $c = Sqrt($a * $a + $b * $b)
+		If $c < 25 Then
+			SetDebugLog("Skip this dup : " & $arr[$i][0] & "," & $arr[$i][1], $COLOR_INFO)
+			ContinueLoop
+		Else
+			_ArrayAdd($atmparray, $arr[$i][0] & "|" & $arr[$i][1])
+			$tmpCoordX = $arr[$i][0]
+			$tmpCoordY = $arr[$i][1]
+		EndIf
+	Next
+	; Remove Dup Y Sorted
+	Local $atmparray2[0][2]
+	$tmpCoordX = 0
+	$tmpCoordY = 0
+	_ArraySort($atmparray, 0, 0, 0, 1) ;sort by y
+	For $i = 0 To UBound($atmparray) - 1
+		Local $a = $atmparray[$i][0] - $tmpCoordX
+		Local $b = $atmparray[$i][1] - $tmpCoordY
+		Local $c = Sqrt($a * $a + $b * $b)
+		If $c < 25 Then
+			SetDebugLog("Skip this dup : " & $atmparray[$i][0] & "," & $atmparray[$i][1], $COLOR_INFO)
+			ContinueLoop
+		Else
+			_ArrayAdd($atmparray2, $atmparray[$i][0] & "|" & $atmparray[$i][1])
+			$tmpCoordX = $atmparray[$i][0]
+			$tmpCoordY = $atmparray[$i][1]
+		EndIf
+	Next
+	_ArraySort($atmparray2, 0, 0, 0, 0) ;sort by x
+	For $i = 0 To UBound($atmparray2) - 1
+		$atmparray2[$i][0] = Number($atmparray2[$i][0])
+		$atmparray2[$i][1] = Number($atmparray2[$i][1])
+	Next
+	$arr = $atmparray2
+EndFunc   ;==>RemoveDupXY

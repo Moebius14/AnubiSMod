@@ -850,7 +850,7 @@ Func DonateTroopType(Const $iTroopIndex, $Quant = 0, Const $bDonateQueueOnly = F
 				_ColorCheck(_GetPixelColor($g_iDonationWindowX + 17 + 10 + ($Slot * 68), $g_iDonationWindowY + 107 + $YComp, True), Hex(0x810D0E, 6), 20) Then ; check for 'STroups Red'
 			For $i = 0 To ($Quant - 1)
 				If _ColorCheck(_GetPixelColor($g_iDonationWindowX + 22 + ($Slot * 68), $g_iDonationWindowY + 105 + $YComp, True), Hex(0x6F6F6F, 6), 20) Or _
-				Not _ColorCheck(_GetPixelColor($g_iDonationWindowX, $g_iDonationWindowY + 70, True), Hex(0xFFFFFF, 6), 10) Then
+						Not _ColorCheck(_GetPixelColor($g_iDonationWindowX, $g_iDonationWindowY + 70, True), Hex(0xFFFFFF, 6), 10) Then
 					$Quant = $i + 1
 					ExitLoop
 				EndIf

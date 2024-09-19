@@ -220,7 +220,7 @@ Func StarLabUpgrade($iSelectedUpgrade, $bTestRun = False)
 
 		Case Else
 			; If none of other error conditions apply, begin upgrade process
-			Click($g_avStarLabTroops[$iSelectedUpgrade][0] + 45, $g_avStarLabTroops[$iSelectedUpgrade][1] + 55, 1, 150, "#0200") ; Click Upgrade troop button
+			Click($g_avStarLabTroops[$iSelectedUpgrade][0] + 45, $g_avStarLabTroops[$iSelectedUpgrade][1] + 55, 1, 120, "#0200") ; Click Upgrade troop button
 			If _Sleep($DELAYLABUPGRADE1) Then Return ; Wait for window to open
 			If $g_bDebugImageSave Then SaveDebugImage("StarLabUpgrade")
 
@@ -264,7 +264,7 @@ Func StarLabUpgrade($iSelectedUpgrade, $bTestRun = False)
 				EndIf
 
 				If Not $bTestRun Then
-					Click(695, 580 + $g_iMidOffsetY, 1, 150, "#0202") ; Everything is good - Click the upgrade button
+					Click(695, 580 + $g_iMidOffsetY, 1, 120, "#0202") ; Everything is good - Click the upgrade button
 					If $iSelectedUpgrade = $g_iCmbStarLaboratory Then
 						;HArchH When upgraded user's choice, reset to "Any" for the next time.
 						$g_iCmbStarLaboratory = 0 ; Reset user choice to "Any".

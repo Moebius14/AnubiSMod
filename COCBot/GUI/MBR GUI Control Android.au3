@@ -220,7 +220,7 @@ Func getAllEmulators()
 				Case "BlueStacks5"
 					$DisplayVersionMin = "5.13.220.1001"
 					$VersionMin = GetVersionNormalized($DisplayVersionMin)
-					$DisplayVersionMax = "5.21.550.1031"
+					$DisplayVersionMax = "5.21.560.1027" ; Was 5.21.556.1001
 					$VersionMax = GetVersionNormalized($DisplayVersionMax)
 				Case "Nox"
 					$DisplayVersionMin = "7.0.6.0"
@@ -240,7 +240,7 @@ Func getAllEmulators()
 						SetLog("You are using an unsupported " & $aEmulator[$i] & " version !", $COLOR_ERROR)
 						SetLog("Minimum Required Version : " & $DisplayVersionMin, $COLOR_SUCCESS)
 					Case $emuVer > $VersionMax
-						Setlog("This " & $aEmulator[$i] & " version has never been tested on this Mod", $COLOR_WARNING)
+						Setlog("This " & $aEmulator[$i] & " version has never been tested on this Mod !", $COLOR_WARNING)
 						SetLog("Max Tested Version : " & $DisplayVersionMax, $COLOR_SUCCESS)
 				EndSelect
 			EndIf

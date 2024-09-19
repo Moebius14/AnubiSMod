@@ -149,7 +149,7 @@ Func SwitchAccountVariablesReload($sType = "Load", $iAccount = $g_iCurAccount)
 	Static $Sg_hCoolDownTimer = $aiZero
 
 	;StarBonus
-	Static $SStarBonusReceived = $aiZero82
+	Static $SStarBonusReceived = $aiZero83
 
 	;Builder's Apprentice
 	Static $gaSsAvailableAppBuilder = $aiZero
@@ -283,7 +283,7 @@ Func SwitchAccountVariablesReload($sType = "Load", $iAccount = $g_iCurAccount)
 			$Sg_hCoolDownTimer = $aiZero
 
 			;StarBonus
-			$SStarBonusReceived = $aiZero82
+			$SStarBonusReceived = $aiZero83
 
 			; Hero State
 			$aiHeroAvailable = $aiZero
@@ -495,7 +495,7 @@ Func SwitchAccountVariablesReload($sType = "Load", $iAccount = $g_iCurAccount)
 			$Sg_hCoolDownTimer[$iAccount] = $g_hCoolDownTimer
 
 			;StarBonus
-			For $i = 0 To 1
+			For $i = 0 To 2
 				$SStarBonusReceived[$iAccount][$i] = $StarBonusReceived[$i]
 			Next
 
@@ -706,7 +706,7 @@ Func SwitchAccountVariablesReload($sType = "Load", $iAccount = $g_iCurAccount)
 			$g_hCoolDownTimer = $Sg_hCoolDownTimer[$iAccount]
 
 			;StarBonus
-			For $i = 0 To 1
+			For $i = 0 To 2
 				$StarBonusReceived[$i] = $SStarBonusReceived[$iAccount][$i]
 			Next
 

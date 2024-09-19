@@ -31,7 +31,7 @@ Func CleanBBYard()
 					$CleanBBYardXY = $aPoints[$i] ; Coords
 					If UBound($CleanBBYardXY) > 1 And isInsideDiamondXY($CleanBBYardXY[0], $CleanBBYardXY[1]) Then ; secure x because of clan chat tab
 						If $g_bDebugSetlog Then SetDebugLog($Filename & " found (" & $CleanBBYardXY[0] & "," & $CleanBBYardXY[1] & ")", $COLOR_SUCCESS)
-						If IsMainPageBuilderBase() Then Click($CleanBBYardXY[0], $CleanBBYardXY[1], 1, 150, "#0430")
+						If IsMainPageBuilderBase() Then Click($CleanBBYardXY[0], $CleanBBYardXY[1], 1, 120, "#0430")
 						$Locate = True
 						If _Sleep($DELAYCOLLECT3) Then Return
 						If Not ClickRemoveObstacleBB() Then ContinueLoop

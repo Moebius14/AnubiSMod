@@ -83,11 +83,11 @@ Func OpenPersonalChallenges()
 		Local $bRet = False
 		For $i = 0 To 9
 			If _CheckPixel($aPersonalChallengeOpenButton1, $g_bCapturePixel) Then
-				ClickP($aPersonalChallengeOpenButton1, 1, 160, "#0666")
+				ClickP($aPersonalChallengeOpenButton1, 1, 120, "#0666")
 				$bRet = True
 				ExitLoop
 			ElseIf _CheckPixel($aPersonalChallengeOpenButton2, $g_bCapturePixel) Then
-				ClickP($aPersonalChallengeOpenButton2, 1, 160, "#0666")
+				ClickP($aPersonalChallengeOpenButton2, 1, 120, "#0666")
 				$bRet = True
 				ExitLoop
 			EndIf
@@ -158,12 +158,13 @@ Func CollectDailyRewards($bGoldPass = False)
 
 	SetLog("Collecting Daily Rewards...")
 
-	ClickP($aPersonalChallengeRewardsTab, 1, 160, "Rewards tab") ; Click Rewards tab
+	ClickP($aPersonalChallengeRewardsTab, 1, 120, "Rewards tab") ; Click Rewards tab
 	If _Sleep(Random(2000, 3000, 1)) Then Return
 	If Not $g_bRunState Then Return
 
+	Local $IsWhiteAtRight = _ColorCheck(_GetPixelColor(773, 386 + $g_iMidOffsetY, True), Hex(0xFFFFFF, 6), 15) And _ColorCheck(_GetPixelColor(827, 386 + $g_iMidOffsetY, True), Hex(0xFFFFFF, 6), 15)
 	Local $aMiniCupButton = decodeSingleCoord(FindImageInPlace2("MiniCupButton", $ImgMiniCupButton, 765, 355 + $g_iMidOffsetY, 830, 415 + $g_iMidOffsetY, True))
-	If UBound($aMiniCupButton) < 2 Then
+	If UBound($aMiniCupButton) < 2 And $IsWhiteAtRight Then
 		Click(797, 386 + $g_iMidOffsetY)
 		If _Sleep(1500) Then Return
 	EndIf
@@ -175,91 +176,99 @@ Func CollectDailyRewards($bGoldPass = False)
 	Local $IsResPotPresent = 0
 	Local $IsPetPotPresent = 0
 	Local $IsAutoForgeSlotPresent = 0
+	Local $sAllCoordsString, $aAllCoordsTemp, $aTempCoords
+	Local $aAllCoords[0][2]
+
 	For $i = 0 To 15
 		If Not $g_bRunState Then Return
 		Local $SearchArea = $bGoldPass ? GetDiamondFromRect("25,336(810,270)") : GetDiamondFromRect("25,550(810,60)")
-		Local $aResult = findMultiple(@ScriptDir & "\imgxml\DailyChallenge\", $SearchArea, $SearchArea, 0, 1000, $bGoldPass ? 5 : 2, "objectname,objectpoints", True)
+		Local $aResult = findMultiple(@ScriptDir & "\imgxml\DailyChallenge\", $SearchArea, $SearchArea, 0, 1000, $bGoldPass ? 12 : 6, "objectname,objectpoints", True)
 		If $aResult <> "" And IsArray($aResult) Then
 			For $t = 0 To UBound($aResult) - 1
 				Local $aResultArray = $aResult[$t] ; ["Button Name", "x1,y1", "x2,y2", ...]
 				SetDebugLog("Find Claim buttons, $aResultArray[" & $t & "]: " & _ArrayToString($aResultArray))
-
 				If IsArray($aResultArray) And $aResultArray[0] = "ClaimBtn" Then
-					Local $sAllCoordsString = _ArrayToString($aResultArray, "|", 1) ; "x1,y1|x2,y2|..."
-					Local $aAllCoords = decodeMultipleCoords($sAllCoordsString, 50, 50) ; [{coords1}, {coords2}, ...]
-					Local $RewardImagesTypes[6][2] = [[$g_sImgCCGoldCollectDaily, $IsCCGoldPresent], _
-							[$g_sImgBOFCollectDaily, $IsBOFPresent], _
-							[$g_sImgBOSCollectDaily, $IsBOSPresent], _
-							[$g_sImgResPotCollectDaily, $IsResPotPresent], _
-							[$g_sImgPetPotCollectDaily, $IsPetPotPresent], _
-							[$g_sImgAutoForgeSlotDaily, $IsAutoForgeSlotPresent]]
-
-					For $j = 0 To UBound($aAllCoords) - 1
-						For $z = 0 To UBound($RewardImagesTypes) - 1
-							If QuickMIS("BC1", $RewardImagesTypes[$z][0], ($aAllCoords[$j])[0] - 50, ($aAllCoords[$j])[1] - 90, ($aAllCoords[$j])[0] + 45, ($aAllCoords[$j])[1] - 20) Then $RewardImagesTypes[$z][1] = 1
-						Next
-						ClickP($aAllCoords[$j], 1, 160, "Claim " & $j + 1) ; Click Claim button
-						If WaitforPixel(329, 390 + $g_iMidOffsetY, 331, 392 + $g_iMidOffsetY, Hex(0xFDC875, 6), 20, 3) Then ; wait for Cancel Button popped up in 1.5 second
-							If $g_bChkSellRewards Then
-								Setlog("Selling extra reward for gems", $COLOR_SUCCESS)
-								ClickP($aPersonalChallengeOkBtn, 1, 160, "Okay Btn") ; Click the Okay
-								$iClaim += 1
-							Else
-								SetLog("Cancel. Not selling extra rewards.", $COLOR_SUCCESS)
-								ClickP($aPersonalChallengeCancelBtn, 1, 160, "Cancel Btn") ; Click Claim button
-							EndIf
-							If _Sleep(1000) Then ExitLoop
-						Else
-							If _Sleep(Random(3000, 4000, 1)) Then ExitLoop
-							$iClaim += 1
-							For $z = 0 To UBound($RewardImagesTypes) - 1
-								If Not QuickMIS("BC1", $RewardImagesTypes[$z][0], ($aAllCoords[$j])[0] - 50, ($aAllCoords[$j])[1] - 90, ($aAllCoords[$j])[0] + 45, ($aAllCoords[$j])[1] - 20) And $RewardImagesTypes[$z][1] = 1 Then
-									Switch $z
-										Case 0
-											$IsCCGoldJustCollected = 1
-										Case 1
-											$IsBOFJustCollected = 1
-										Case 2
-											$IsBOSJustCollected = 1
-										Case 3
-											$IsResPotJustCollected = 1
-										Case 4
-											$IsPetPotJustCollected = 1
-										Case 5
-											$IsAutoForgeSlotJustCollected = 1
-									EndSwitch
-								EndIf
-							Next
-
-							Local $RewardTypes[6][2] = [[$IsCCGoldJustCollected, "Clan Capital Gold Collected"], _
-									[$IsBOFJustCollected, "Book Of Fighting Collected"], _
-									[$IsBOSJustCollected, "Book Of Spells Collected"], _
-									[$IsResPotJustCollected, "Research Potion Collected"], _
-									[$IsPetPotJustCollected, "Pet Potion Collected"], _
-									[$IsAutoForgeSlotJustCollected, "AutoForge Slot Collected"]]
-
-							For $z = 0 To UBound($RewardTypes) - 1
-								If $z = 0 Then $IsCCGoldJustCollectedDChallenge = $RewardTypes[$z][0]
-								If $RewardTypes[$z][0] = 1 Then
-									SetLog($RewardTypes[$z][1], $COLOR_SUCCESS1)
-									If $g_iTxtCurrentVillageName <> "" Then
-										GUICtrlSetData($g_hTxtModLog, @CRLF & _NowTime() & " [" & $g_iTxtCurrentVillageName & "] " & $RewardTypes[$z][1], 1)
-									Else
-										GUICtrlSetData($g_hTxtModLog, @CRLF & _NowTime() & " [" & $g_sProfileCurrentName & "] " & $RewardTypes[$z][1], 1)
-									EndIf
-									_FileWriteLog($g_sProfileLogsPath & "\ModLog.log", " [" & $g_sProfileCurrentName & "] " & $RewardTypes[$z][1])
-								EndIf
-							Next
-							If _Sleep(100) Then ExitLoop
-						EndIf
-						$IsCCGoldPresent = 0
-						$IsBOFPresent = 0
-						$IsBOSPresent = 0
-						$IsResPotPresent = 0
-						$IsPetPotPresent = 0
-						$IsAutoForgeSlotPresent = 0
+					$sAllCoordsString = _ArrayToString($aResultArray, "|", 1) ; "x1,y1|x2,y2|..."
+					$aAllCoordsTemp = decodeMultipleCoords($sAllCoordsString, 50, 50) ; [{coords1}, {coords2}, ...]
+					For $k = 0 To UBound($aAllCoordsTemp, 1) - 1
+						$aTempCoords = $aAllCoordsTemp[$k]
+						_ArrayAdd($aAllCoords, Number($aTempCoords[0]) & "|" & Number($aTempCoords[1]))
 					Next
 				EndIf
+			Next
+			RemoveDupXY($aAllCoords)
+			_ArraySort($aAllCoords, 1, 0, 0, 0) ;sort by x from right to left
+			Local $RewardImagesTypes[6][2] = [[$g_sImgCCGoldCollectDaily, $IsCCGoldPresent], _
+					[$g_sImgBOFCollectDaily, $IsBOFPresent], _
+					[$g_sImgBOSCollectDaily, $IsBOSPresent], _
+					[$g_sImgResPotCollectDaily, $IsResPotPresent], _
+					[$g_sImgPetPotCollectDaily, $IsPetPotPresent], _
+					[$g_sImgAutoForgeSlotDaily, $IsAutoForgeSlotPresent]]
+
+			For $j = 0 To UBound($aAllCoords) - 1
+				For $z = 0 To UBound($RewardImagesTypes) - 1
+					If QuickMIS("BC1", $RewardImagesTypes[$z][0], $aAllCoords[$j][0] - 50, $aAllCoords[$j][1] - 90, $aAllCoords[$j][0] + 45, $aAllCoords[$j][1] - 20) Then $RewardImagesTypes[$z][1] = 1
+				Next
+				Click($aAllCoords[$j][0], $aAllCoords[$j][1], 1, 120, "Claim " & $j + 1)         ; Click Claim button
+				If WaitforPixel(329, 390 + $g_iMidOffsetY, 331, 392 + $g_iMidOffsetY, Hex(0xFDC875, 6), 20, 3) Then         ; wait for Cancel Button popped up in 1.5 second
+					If $g_bChkSellRewards Then
+						Setlog("Selling extra reward for gems", $COLOR_SUCCESS)
+						ClickP($aPersonalChallengeOkBtn, 1, 120, "Okay Btn")         ; Click the Okay
+						$iClaim += 1
+					Else
+						SetLog("Cancel. Not selling extra rewards.", $COLOR_SUCCESS)
+						ClickP($aPersonalChallengeCancelBtn, 1, 120, "Cancel Btn")         ; Click Claim button
+					EndIf
+					If _Sleep(1000) Then ExitLoop
+				Else
+					If _Sleep(Random(3000, 4000, 1)) Then ExitLoop
+					$iClaim += 1
+					For $z = 0 To UBound($RewardImagesTypes) - 1
+						If Not QuickMIS("BC1", $RewardImagesTypes[$z][0], $aAllCoords[$j][0] - 50, $aAllCoords[$j][1] - 90, $aAllCoords[$j][0] + 45, $aAllCoords[$j][1] - 20) And $RewardImagesTypes[$z][1] = 1 Then
+							Switch $z
+								Case 0
+									$IsCCGoldJustCollected = 1
+								Case 1
+									$IsBOFJustCollected = 1
+								Case 2
+									$IsBOSJustCollected = 1
+								Case 3
+									$IsResPotJustCollected = 1
+								Case 4
+									$IsPetPotJustCollected = 1
+								Case 5
+									$IsAutoForgeSlotJustCollected = 1
+							EndSwitch
+						EndIf
+					Next
+
+					Local $RewardTypes[6][2] = [[$IsCCGoldJustCollected, "Clan Capital Gold Collected"], _
+							[$IsBOFJustCollected, "Book Of Fighting Collected"], _
+							[$IsBOSJustCollected, "Book Of Spells Collected"], _
+							[$IsResPotJustCollected, "Research Potion Collected"], _
+							[$IsPetPotJustCollected, "Pet Potion Collected"], _
+							[$IsAutoForgeSlotJustCollected, "AutoForge Slot Collected"]]
+
+					For $z = 0 To UBound($RewardTypes) - 1
+						If $z = 0 Then $IsCCGoldJustCollectedDChallenge = $RewardTypes[$z][0]
+						If $RewardTypes[$z][0] = 1 Then
+							SetLog($RewardTypes[$z][1], $COLOR_SUCCESS1)
+							If $g_iTxtCurrentVillageName <> "" Then
+								GUICtrlSetData($g_hTxtModLog, @CRLF & _NowTime() & " [" & $g_iTxtCurrentVillageName & "] " & $RewardTypes[$z][1], 1)
+							Else
+								GUICtrlSetData($g_hTxtModLog, @CRLF & _NowTime() & " [" & $g_sProfileCurrentName & "] " & $RewardTypes[$z][1], 1)
+							EndIf
+							_FileWriteLog($g_sProfileLogsPath & "\ModLog.log", " [" & $g_sProfileCurrentName & "] " & $RewardTypes[$z][1])
+						EndIf
+					Next
+					If _Sleep(100) Then ExitLoop
+				EndIf
+				$IsCCGoldPresent = 0
+				$IsBOFPresent = 0
+				$IsBOSPresent = 0
+				$IsResPotPresent = 0
+				$IsPetPotPresent = 0
+				$IsAutoForgeSlotPresent = 0
 			Next
 		EndIf
 		If _CheckPixel($aPersonalChallengeRewardsAvail, $g_bCapturePixel) And Not _CheckPixel($aPersonalChallengeLeftEdge, $g_bCapturePixel) Then ; far left edge
@@ -284,7 +293,7 @@ Func CheckDiscountPerks()
 	SetLog("Checking for builder boost...")
 	If $g_bFirstStart Then $g_iBuilderBoostDiscount = 0
 
-	ClickP($aPersonalChallengePerksTab, 1, 160, "PerksTab")
+	ClickP($aPersonalChallengePerksTab, 1, 120, "PerksTab")
 
 	If Not WaitforPixel($aPersonalChallengePerksTab[0] - 1, $aPersonalChallengePerksTab[1] - 1, $aPersonalChallengePerksTab[0] + 1, $aPersonalChallengePerksTab[1] + 1, _
 			Hex($aPersonalChallengePerksTab[2], 6), $aPersonalChallengePerksTab[3], 2) Then Return        ; wait for Perks Tab completely loaded in 1 second
@@ -321,13 +330,13 @@ EndFunc   ;==>ClosePersonalChallenges
 Func CheckDiscountPerksMod()
 	SetLog("Checking for builder boost...")
 
-	If _CheckPixel($aPersonalChallengeOpenButton2, $g_bCapturePixel) Then ClickP($aPersonalChallengeOpenButton2, 1, 160, "#0666")
+	If _CheckPixel($aPersonalChallengeOpenButton2, $g_bCapturePixel) Then ClickP($aPersonalChallengeOpenButton2, 1, 120, "#0666")
 
 	If _Sleep(2500) Then Return
 
 	If $g_bFirstStart Then $g_iBuilderBoostDiscount = 0
 
-	ClickP($aPersonalChallengePerksTab, 1, 160, "PerksTab")
+	ClickP($aPersonalChallengePerksTab, 1, 120, "PerksTab")
 
 	If Not WaitforPixel($aPersonalChallengePerksTab[0] - 1, $aPersonalChallengePerksTab[1] - 1, $aPersonalChallengePerksTab[0] + 1, $aPersonalChallengePerksTab[1] + 1, _
 			Hex($aPersonalChallengePerksTab[2], 6), $aPersonalChallengePerksTab[3], 2) Then Return        ; wait for Perks Tab completely loaded in 1 second

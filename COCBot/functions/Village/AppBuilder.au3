@@ -237,7 +237,7 @@ Func AppBuilder()
 		If IsArray($aiJobinProgress) And UBound($aiJobinProgress) = 2 Then
 			Local $Result = StringReplace(getOcrAndCapture("coc-BuildersApptime", 212, 167 + $g_iMidOffsetY, 75, 15, True), "b", "")
 			If $g_bDebugImageSaveMod Then SaveDebugImage($Result & "_", Default, False)
-;SaveDebugImage($Result & "_", Default, False)
+SaveDebugImage($Result & "_", Default, False)
 			Local $iAppBuilderAvailTime = ConvertOCRTime("BuildersApp Time", $Result, False)
 			SetLog("Job In Progress", $COLOR_SUCCESS)
 			If $iAppBuilderAvailTime > 60 Then
@@ -251,7 +251,7 @@ Func AppBuilder()
 		Else
 			Local $Result = StringReplace(getOcrAndCapture("coc-BuildersApptime", 222, 167 + $g_iMidOffsetY, 75, 15, True), "b", "")
 			If $g_bDebugImageSaveMod Then SaveDebugImage($Result & "_", Default, False)
-;SaveDebugImage($Result & "_", Default, False)
+SaveDebugImage($Result & "_", Default, False)
 			Local $iAppBuilderAvailTime = ConvertOCRTime("BuildersApp Time", $Result, False)
 			If $iAppBuilderAvailTime > 0 And $iAppBuilderAvailTime < 1380 Then SetLog("CoolDown Time", $COLOR_SUCCESS)
 			If $iAppBuilderAvailTime > 1380 Then
@@ -315,7 +315,7 @@ Func AppBuilder()
 		If IsArray($aiJobinProgress) And UBound($aiJobinProgress) = 2 Then
 			Local $Result = StringReplace(getOcrAndCapture("coc-BuildersApptime", 212, 167 + $g_iMidOffsetY, 75, 15, True), "b", "")
 			If $g_bDebugImageSaveMod Then SaveDebugImage($Result & "_", Default, False)
-;SaveDebugImage($Result & "_", Default, False)
+SaveDebugImage($Result & "_", Default, False)
 			SetLog("Job In Progress", $COLOR_SUCCESS)
 			$iAppBuilderAvailTime = ConvertOCRTime("BuildersApp Time", $Result, False)
 			If $iAppBuilderAvailTime > 60 Then

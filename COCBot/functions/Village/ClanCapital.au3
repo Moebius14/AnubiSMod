@@ -912,6 +912,7 @@ Func ForgeClanCapitalGold($bTest = False)
 	$g_aiCurrentLoot[$eLootDarkElixir] = $iCurrentDE
 	UpdateStats()
 	If ProfileSwitchAccountEnabled() Then SwitchAccountVariablesReload("Save")
+	If _Sleep(1000) Then Return
 	CloseWindow()
 EndFunc   ;==>ForgeClanCapitalGold
 
@@ -1239,7 +1240,7 @@ Func SwitchToCapitalMain()
 				Local $MapCoordsY[2] = [590 + $g_iBottomOffsetY, 625 + $g_iBottomOffsetY]
 				Local $MapButtonClickX = Random($MapCoordsX[0], $MapCoordsX[1], 1)
 				Local $MapButtonClickY = Random($MapCoordsY[0], $MapCoordsY[1], 1)
-				Click($MapButtonClickX, $MapButtonClickY, 1, 180, "MapButton") ;Click Map
+				Click($MapButtonClickX, $MapButtonClickY, 1, 120, "MapButton") ;Click Map
 				If _Sleep(3000) Then Return
 			EndIf
 		EndIf
@@ -1273,7 +1274,7 @@ Func SwitchToMainVillage()
 				Local $HomeCoordsY[2] = [590 + $g_iBottomOffsetY, 625 + $g_iBottomOffsetY]
 				Local $HomeButtonClickX = Random($HomeCoordsX[0], $HomeCoordsX[1], 1)
 				Local $HomeButtonClickY = Random($HomeCoordsY[0], $HomeCoordsY[1], 1)
-				Click($HomeButtonClickX, $HomeButtonClickY, 1, 180, "HomeButton") ;Click ReturnHome
+				Click($HomeButtonClickX, $HomeButtonClickY, 1, 120, "HomeButton") ;Click ReturnHome
 				If _Sleep(2000) Then Return
 				ExitLoop
 			EndIf
@@ -2238,7 +2239,7 @@ Func CapitalMainUpgradeLoop($aUpgrade)
 			Local $ContributeCoordsY[2] = [560 + $g_iMidOffsetY, 590 + $g_iMidOffsetY]
 			Local $ContributeButtonClickX = Random($ContributeCoordsX[0], $ContributeCoordsX[1], 1)
 			Local $ContributeButtonClickY = Random($ContributeCoordsY[0], $ContributeCoordsY[1], 1)
-			Click($ContributeButtonClickX, $ContributeButtonClickY, 1, 165, "#0155") ;Click Contribute
+			Click($ContributeButtonClickX, $ContributeButtonClickY, 1, 135, "#0155") ;Click Contribute
 			$g_iStatsClanCapUpgrade = $g_iStatsClanCapUpgrade + 1
 			AutoUpgradeCCLog($BuildingName)
 			If _Sleep(1500) Then Return
@@ -2282,7 +2283,7 @@ Func DistrictUpgrade($aUpgrade)
 			Local $ContributeCoordsY[2] = [560 + $g_iMidOffsetY, 590 + $g_iMidOffsetY]
 			Local $ContributeButtonClickX = Random($ContributeCoordsX[0], $ContributeCoordsX[1], 1)
 			Local $ContributeButtonClickY = Random($ContributeCoordsY[0], $ContributeCoordsY[1], 1)
-			Click($ContributeButtonClickX, $ContributeButtonClickY, 1, 165, "#0155") ;Click Contribute
+			Click($ContributeButtonClickX, $ContributeButtonClickY, 1, 135, "#0155") ;Click Contribute
 			$g_iStatsClanCapUpgrade = $g_iStatsClanCapUpgrade + 1
 			AutoUpgradeCCLog($BuildingName)
 			If _Sleep(1500) Then Return

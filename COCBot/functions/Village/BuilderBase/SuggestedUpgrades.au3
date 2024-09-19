@@ -318,12 +318,12 @@ Func GetUpgradeButton($sUpgButton = "", $Debug = False, $bDebugImage = $g_bDebug
 			SetLog("Building: " & $aBuildingName[1], $COLOR_INFO)
 			; Verify if is Builder Hall and If is to Upgrade
 			If StringInStr($aBuildingName[1], "Hall") And $g_iChkBBSuggestedUpgradesIgnoreHall Then
-				SetLog("Ups! Builder Hall is not to Upgrade!", $COLOR_ERROR)
+				SetLog("Oops! Builder Hall is not to Upgrade!", $COLOR_ERROR)
 				If _Sleep(1000) Then Return
 				Return False
 			EndIf
 			If StringInStr($aBuildingName[1], "Wall") And $g_iChkBBSuggestedUpgradesIgnoreWall Then
-				SetLog("Ups! Wall is not to Upgrade!", $COLOR_ERROR)
+				SetLog("Oops! Wall is not to Upgrade!", $COLOR_ERROR)
 				If _Sleep(1000) Then Return
 				Return False
 			EndIf

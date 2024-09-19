@@ -24,7 +24,7 @@ Func ReplayShare($bShareLastReplay)
 
 	SetLog("Sharing last Attack", $COLOR_INFO)
 
-	ClickAway()
+	ClearScreen()
 	If _Sleep($DELAYREPLAYSHARE2) Then Return
 
 	If ClickB("MessagesButton", Default, 300) Then

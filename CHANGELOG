@@ -107,11 +107,16 @@
 * Improved Apprentice Builder Time OCR.
 * Added support for dynamic building info position (Supercharge).
 * Improved Builder Base Upgrade Detection.
-* Added Treasury Hunt Event Window Support (Beta).
+* Added Treasury Hunt Event Window Support.
 * Fixed Shared_Prefs Switch Method.
 * Removed Google Play Switch.
 * Improved DonateWindowCap().
 * Updated Use Boost Potion Button Position.
+* Improved Daily Challenges Collect.
+* Added Clash of Dragons Scenery Support (Attack Only).
+* Added Special Event Attack Button Support.
+* Improved Chest Room Support.
+* Added Collect Resources only if not full.
 
 * v8.1.6 **
 * Added "Before you upgrade" window support.

@@ -128,12 +128,12 @@ Func Unbreakable()
 	Local $Message = _PixelSearch(23, 566 + $g_iBottomOffsetY, 36, 580 + $g_iBottomOffsetY, Hex(0xEBECDB, 6), 15, True) ;Check if Return Home button available and close the screen
 	If IsArray($Message) Then
 		If $g_bDebugSetlog Then SetDebugLog("Return Home Pixel = " & _GetPixelColor($Message[0], $Message[1], True) & ", Pos: " & $Message[0] & "/" & $Message[1], $COLOR_DEBUG)
-		PureClick(62, 607 + $g_iBottomOffsetY, 1, 0, "#0138")
+		PureClick(62, 607 + $g_iBottomOffsetY, 1, 130, "#0138")
 		If _Sleep($DELAYUNBREAKABLE3) Then Return True
 	EndIf
 
 	If _ColorCheck(_GetPixelColor(810, 185 + $g_iMidOffsetY, $g_bCapturePixel), Hex(0x892B1F, 6), 20) Then
-		PureClick(440, 510 + $g_iMidOffsetY, 1, 0, "#0132") ;See if village was attacked or upgrades finished : Click Okay
+		PureClick(440, 510 + $g_iMidOffsetY, 1, 130, "#0132") ;See if village was attacked or upgrades finished : Click Okay
 		If _Sleep($DELAYCHECKOBSTACLES1) Then Return
 	EndIf
 

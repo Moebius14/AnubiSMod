@@ -146,7 +146,7 @@ Func ClickFindNowButton()
 			Local $FindNowCoordsY[2] = [400 + $g_iMidOffsetY, 430 + $g_iMidOffsetY]
 			Local $FindNowButtonClickX = Random($FindNowCoordsX[0], $FindNowCoordsX[1], 1)
 			Local $FindNowButtonClickY = Random($FindNowCoordsY[0], $FindNowCoordsY[1], 1)
-			Click($FindNowButtonClickX, $FindNowButtonClickY, 1, 160, "#0149") ; Click FindNow Button
+			Click($FindNowButtonClickX, $FindNowButtonClickY, 1, 120, "#0149") ; Click FindNow Button
 			$bRet = True
 			ExitLoop
 		EndIf

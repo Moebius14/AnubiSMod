@@ -283,7 +283,7 @@ Func Blacksmith($bTest = False)
 								ExitLoop
 							EndIf
 						EndIf
-						Click(705, 545 + $g_iMidOffsetY, 1, 150, "#0299")     ; Click upgrade buttton
+						Click(705, 545 + $g_iMidOffsetY, 1, 120, "#0299")     ; Click upgrade buttton
 						If _Sleep(1500) Then Return
 						If Not $g_bRunState Then ExitLoop
 						If UBound(decodeSingleCoord(FindImageInPlace2("RedZero", $g_sImgRedZero, 585, 510 + $g_iMidOffsetY, 825, 570 + $g_iMidOffsetY, True))) > 1 Then
@@ -294,7 +294,7 @@ Func Blacksmith($bTest = False)
 							$Exitloop = True
 							ExitLoop
 						EndIf
-						Click(705, 545 + $g_iMidOffsetY, 1, 150, "#0299")     ; Click upgrade buttton (Confirm)
+						Click(705, 545 + $g_iMidOffsetY, 1, 120, "#0299")     ; Click upgrade buttton (Confirm)
 						If isGemOpen(True) Then
 							SetDebugLog("Gem Window Detected", $COLOR_DEBUG)
 							SetLog("Not enough resource to upgrade " & $g_asEquipmentOrderList[$g_aiCmbCustomEquipmentOrder[$i]][0], $COLOR_DEBUG2)

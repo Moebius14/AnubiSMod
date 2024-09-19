@@ -281,7 +281,7 @@ Func UpgradeValue($inum, $bRepeat = False) ;function to find the value and type 
 	EndIf
 
 	If IsArray($aUpgradeButton) And UBound($aUpgradeButton, 1) = 2 Then
-		ClickP($aUpgradeButton, 1, 150, "#0213") ; Click Upgrade Button
+		ClickP($aUpgradeButton, 1, 120, "#0213") ; Click Upgrade Button
 		If _Sleep($DELAYUPGRADEVALUE5) Then Return
 		If $bOopsFlag And $g_bDebugImageSave Then SaveDebugImage("UpgradeView")
 
@@ -465,7 +465,7 @@ Func CloseSuperchargeWindow()
 				If _Sleep(500) Then Return
 				Local $aContinueButton = findButton("Continue", Default, 1, True)
 				If IsArray($aContinueButton) And UBound($aContinueButton, 1) = 2 Then
-					ClickP($aContinueButton)
+					ClickP($aContinueButton, 1, 120, "#0433")
 					If _Sleep(2000) Then Return
 					ExitLoop
 				EndIf

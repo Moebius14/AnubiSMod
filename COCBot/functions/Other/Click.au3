@@ -16,9 +16,9 @@
 #include-once
 #include <WinAPISys.au3>
 
-Func Click($x, $y, $times = 1, $speed = 150, $debugtxt = "")
+Func Click($x, $y, $times = 1, $speed = 120, $debugtxt = "")
 	Local $txt = "", $aPrevCoor[2] = [$x, $y]
-    If $g_bUseRandomClick Then
+	If $g_bUseRandomClick Then
 		$x = Random($x - 5, $x + 5, 1)
 		$y = Random($y - 5, $y + 5, 1)
 		$speed = Random($speed - $speed * 0.15, $speed + $speed * 0.15, 1)
@@ -26,11 +26,11 @@ Func Click($x, $y, $times = 1, $speed = 150, $debugtxt = "")
 			$txt = _DecodeDebug($debugtxt)
 			SetLog("Random Click X: " & $aPrevCoor[0] & " To " & $x & ", Y: " & $aPrevCoor[1] & " To " & $y & ", Times: " & $times & ", Speed: " & $speed & " " & $debugtxt & $txt, $COLOR_ACTION, "Verdana", "7.5", 0)
 		EndIf
-    Else
+	Else
 		If $g_bDebugClick Or TestCapture() Then
 			$txt = _DecodeDebug($debugtxt)
 			SetLog("Click " & $x & "," & $y & "," & $times & "," & $speed & " " & $debugtxt & $txt, $COLOR_ACTION, "Verdana", "7.5", 0)
-        EndIf
+		EndIf
 	EndIf
 
 	If TestCapture() Then Return
@@ -100,8 +100,8 @@ Func isProblemAffectBeforeClick($iCount = 0)
 EndFunc   ;==>isProblemAffectBeforeClick
 
 ; ClickP : takes an array[2] (or array[4]) as a parameter [x,y]
-Func ClickP($point, $howMuch = 1, $speed = 150, $debugtxt = "")
-	If $speed = 0 Then $speed = 150
+Func ClickP($point, $howMuch = 1, $speed = 120, $debugtxt = "")
+	If $speed = 0 Then $speed = 120
 	Click($point[0], $point[1], $howMuch, $speed, $debugtxt)
 EndFunc   ;==>ClickP
 
@@ -119,9 +119,9 @@ Func BuildingClickP($point, $debugtxt = "")
 	Return BuildingClick($point[0], $point[1], $debugtxt)
 EndFunc   ;==>BuildingClickP
 
-Func PureClick($x, $y, $times = 1, $speed = 150, $debugtxt = "")
+Func PureClick($x, $y, $times = 1, $speed = 120, $debugtxt = "")
 	Local $txt = "", $aPrevCoor[2] = [$x, $y]
-    If $g_bUseRandomClick Then
+	If $g_bUseRandomClick Then
 		$x = Random($x - 5, $x + 5, 1)
 		$y = Random($y - 5, $y + 5, 1)
 		$speed = Random($speed - $speed * 0.15, $speed + $speed * 0.15, 1)
@@ -129,11 +129,11 @@ Func PureClick($x, $y, $times = 1, $speed = 150, $debugtxt = "")
 			$txt = _DecodeDebug($debugtxt)
 			SetLog("Random PureClick X: " & $aPrevCoor[0] & " To " & $x & ", Y: " & $aPrevCoor[1] & " To " & $y & ", Times: " & $times & ", Speed: " & $speed & " " & $debugtxt & $txt, $COLOR_ACTION, "Verdana", "7.5", 0)
 		EndIf
-    Else
+	Else
 		If $g_bDebugClick Then
 			$txt = _DecodeDebug($debugtxt)
 			SetLog("PureClick " & $x & "," & $y & "," & $times & "," & $speed & " " & $debugtxt & $txt, $COLOR_ACTION, "Verdana", "7.5", 0)
-        EndIf
+		EndIf
 	EndIf
 
 	If TestCapture() Then Return
@@ -161,18 +161,18 @@ EndFunc   ;==>PureClick
 
 Func PureClickTrain($x, $y, $times = 1, $speed = 165, $debugtxt = "")
 	Local $txt = "", $aPrevCoor[2] = [$x, $y]
-    If $g_bUseRandomClick Then
+	If $g_bUseRandomClick Then
 		$x = Random($x - 5, $x + 5, 1)
 		$y = Random($y - 5, $y + 5, 1)
 		If $g_bDebugClick Then
 			$txt = _DecodeDebug($debugtxt)
 			SetLog("Random PureClickTrain X: " & $aPrevCoor[0] & " To " & $x & ", Y: " & $aPrevCoor[1] & " To " & $y & ", Times: " & $times & ", Speed: " & $speed & " " & $debugtxt & $txt, $COLOR_ACTION, "Verdana", "7.5", 0)
 		EndIf
-    Else
+	Else
 		If $g_bDebugClick Then
 			$txt = _DecodeDebug($debugtxt)
 			SetLog("PureClickTrain " & $x & "," & $y & "," & $times & "," & $speed & " " & $debugtxt & $txt, $COLOR_ACTION, "Verdana", "7.5", 0)
-        EndIf
+		EndIf
 	EndIf
 
 	If TestCapture() Then Return
@@ -198,7 +198,7 @@ Func PureClickTrain($x, $y, $times = 1, $speed = 165, $debugtxt = "")
 	SuspendAndroid($SuspendMode)
 EndFunc   ;==>PureClickTrain
 
-Func PureClickVisit($x, $y, $times = 1, $speed = 150, $debugtxt = "")
+Func PureClickVisit($x, $y, $times = 1, $speed = 120, $debugtxt = "")
 	Local $txt = "", $aPrevCoor[2] = [$x, $y]
 
 	$speed = Random($speed - $speed * 0.15, $speed + $speed * 0.15, 1)
@@ -206,7 +206,7 @@ Func PureClickVisit($x, $y, $times = 1, $speed = 150, $debugtxt = "")
 	If $g_bDebugClick Then
 		$txt = _DecodeDebug($debugtxt)
 		SetLog("PureClick " & $x & "," & $y & "," & $times & "," & $speed & " " & $debugtxt & $txt, $COLOR_ACTION, "Verdana", "7.5", 0)
-    EndIf
+	EndIf
 
 	If TestCapture() Then Return
 
@@ -229,17 +229,17 @@ Func PureClickVisit($x, $y, $times = 1, $speed = 150, $debugtxt = "")
 		_ControlClick($x, $y)
 	EndIf
 	SuspendAndroid($SuspendMode)
-EndFunc   ;==>PureClick
+EndFunc   ;==>PureClickVisit
 
 ; PureClickP : takes an array[2] (or array[4]) as a parameter [x,y]
-Func PureClickP($point, $howMuch = 1, $speed = 150, $debugtxt = "")
-	If $speed = 0 Then $speed = 150
+Func PureClickP($point, $howMuch = 1, $speed = 120, $debugtxt = "")
+	If $speed = 0 Then $speed = 120
 	PureClick($point[0], $point[1], $howMuch, $speed, $debugtxt)
 EndFunc   ;==>PureClickP
 
-Func GemClick($x, $y, $times = 1, $speed = 150, $debugtxt = "")
+Func GemClick($x, $y, $times = 1, $speed = 120, $debugtxt = "")
 	Local $txt = "", $aPrevCoor[2] = [$x, $y]
-    If $g_bUseRandomClick Then
+	If $g_bUseRandomClick Then
 		$x = Random($x - 5, $x + 5, 1)
 		$y = Random($y - 5, $y + 5, 1)
 		$speed = Random($speed - $speed * 0.15, $speed + $speed * 0.15, 1)
@@ -247,7 +247,7 @@ Func GemClick($x, $y, $times = 1, $speed = 150, $debugtxt = "")
 			$txt = _DecodeDebug($debugtxt)
 			SetLog("Random GemClick X: " & $aPrevCoor[0] & " To " & $x & ", Y: " & $aPrevCoor[1] & " To " & $y & ", Times: " & $times & ", Speed: " & $speed & " " & $debugtxt & $txt, $COLOR_ACTION, "Verdana", "7.5", 0)
 		EndIf
-    Else
+	Else
 		If $g_bDebugClick Then
 			Local $txt = _DecodeDebug($debugtxt)
 			SetLog("GemClick " & $x & "," & $y & "," & $times & "," & $speed & " " & $debugtxt & $txt, $COLOR_ACTION, "Verdana", "7.5", 0)
@@ -310,13 +310,13 @@ Func GemClick($x, $y, $times = 1, $speed = 150, $debugtxt = "")
 EndFunc   ;==>GemClick
 
 ; GemClickP : takes an array[2] (or array[4]) as a parameter [x,y]
-Func GemClickP($point, $howMuch = 1, $speed = 150, $debugtxt = "")
-	If $speed = 0 Then $speed = 150
+Func GemClickP($point, $howMuch = 1, $speed = 120, $debugtxt = "")
+	If $speed = 0 Then $speed = 120
 	Return GemClick($point[0], $point[1], $howMuch, $speed, $debugtxt = "")
 EndFunc   ;==>GemClickP
 
-Func AttackClick($x, $y, $times = 1, $speed = 150, $afterDelay = 0, $debugtxt = "")
-	If $speed = 0 Then $speed = 150
+Func AttackClick($x, $y, $times = 1, $speed = 120, $afterDelay = 0, $debugtxt = "")
+	If $speed = 0 Then $speed = 120
 	$speed = Random($speed - $speed * 0.1, $speed + $speed * 0.1, 1)
 	Local $timer = __TimerInit()
 	; Protect the Attack Bar
@@ -328,8 +328,8 @@ Func AttackClick($x, $y, $times = 1, $speed = 150, $afterDelay = 0, $debugtxt = 
 	Return $result
 EndFunc   ;==>AttackClick
 
-Func AttackClickCSV($x, $y, $times = 1, $speed = 150, $afterDelay = 0, $debugtxt = "")
-	If $speed = 0 Then $speed = 150
+Func AttackClickCSV($x, $y, $times = 1, $speed = 120, $afterDelay = 0, $debugtxt = "")
+	If $speed = 0 Then $speed = 120
 	Local $timer = __TimerInit()
 	; Protect the Attack Bar
 	If $y > 555 + $g_iBottomOffsetY Then $y = 555 + $g_iBottomOffsetY
@@ -338,27 +338,27 @@ Func AttackClickCSV($x, $y, $times = 1, $speed = 150, $afterDelay = 0, $debugtxt
 	Local $delay = $times * $speed + $afterDelay - __TimerDiff($timer)
 	If IsKeepClicksActive() = False And $delay > 0 Then _Sleep($delay, False)
 	Return $result
-EndFunc   ;==>AttackClick
+EndFunc   ;==>AttackClickCSV
 
-Func ClickAway($Region = Default )
+Func ClickAway($Region = Default)
 	Local $aiRegionToUse = Random(0, 1, 1) > 0 ? $aiClickAwayRegionLeft : $aiClickAwayRegionRight
 	If $Region = "Left" Then
 		$aiRegionToUse = $aiClickAwayRegionLeft
 	ElseIf $Region = "Right" Then
 		$aiRegionToUse = $aiClickAwayRegionRight
 	EndIf
-	
+
 	Local $aiSpot[2] = [Random($aiRegionToUse[0], $aiRegionToUse[2], 1), Random($aiRegionToUse[1], $aiRegionToUse[3], 1)]
 	If $g_bDebugClick Then SetDebugLog("ClickAway(): on X:" & $aiSpot[0] & ", Y:" & $aiSpot[1], $COLOR_DEBUG)
 	ClickP($aiSpot, 1, 180, "#0000")
-EndFunc
+EndFunc   ;==>ClickAway
 
-Func ClickAway2();Random but Right Only
+Func ClickAway2() ;Random but Right Only
 	Local $aiRegionToUse = Random(0, 1, 1) > 0 ? $aiClickAwayRegionRight : $aiClickAwayRegionRight2
 	Local $aiSpot[2] = [Random($aiRegionToUse[0], $aiRegionToUse[2], 1), Random($aiRegionToUse[1], $aiRegionToUse[3], 1)]
 	If $g_bDebugClick Then SetDebugLog("ClickAway2(): on X:" & $aiSpot[0] & ", Y:" & $aiSpot[1], $COLOR_DEBUG)
 	ClickP($aiSpot, 1, 180, "#0000")
-EndFunc
+EndFunc   ;==>ClickAway2
 
 Func _DecodeDebug($message)
 	Local $separator = " | "
@@ -412,6 +412,8 @@ Func _DecodeDebug($message)
 			Return $separator & "Clean yard"
 		Case "#0430"
 			Return $separator & "Clean yard*"
+		Case "#0433"
+			Return $separator & "Continue"
 			;TRAIN
 		Case "#0266"
 			Return $separator & "Train - TrainIT Selected Troop"
@@ -468,7 +470,7 @@ Func _DecodeDebug($message)
 		Case "#0343"
 			Return $separator & "Train - Train Miner"
 		Case "#0344"
-			Return $separator & "Train - Train Super Miner"		
+			Return $separator & "Train - Train Super Miner"
 		Case "#0345"
 			Return $separator & "Train - Train Ice Golem"
 		Case "#0346"

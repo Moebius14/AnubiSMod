@@ -98,7 +98,7 @@ Func ForumAuthentication()
 			; Bot will not run 100% stable!!!
 			SetLog($sAuthenticationFailed1, $COLOR_ERROR)
 			SetLog($sAuthenticationFailed2, $COLOR_ERROR)
-			_Sleep(5000)
+			If _Sleep(5000) Then Return
 			Return False
 
 		Else

@@ -55,17 +55,17 @@ Func BoostTrainBuilding($sName, $iCmbBoost, $iCmbBoostCtrl)
 		Else
 			SetDebugLog("BoostTrainBuilding(): $sName called with a wrong Value.", $COLOR_ERROR)
 			ClickAway()
-			_Sleep($DELAYBOOSTBARRACKS2)
+			If _Sleep($DELAYBOOSTBARRACKS2) Then Return
 			Return $bBoosted
 		EndIf
 		Local $aBoostBtn = findButton("BoostBarrack")
 		If IsArray($aBoostBtn) Then
 			ClickP($aBoostBtn)
-			_Sleep($DELAYBOOSTBARRACKS1)
+			If _Sleep($DELAYBOOSTBARRACKS1) Then Return
 			Local $aGemWindowBtn = findButton("GEM")
 			If IsArray($aGemWindowBtn) Then
 				ClickP($aGemWindowBtn)
-				_Sleep($DELAYBOOSTBARRACKS2)
+				If _Sleep($DELAYBOOSTBARRACKS2) Then Return
 				If IsArray(findButton("EnterShop")) Then
 					SetLog("Not enough gems to boost " & $sName, $COLOR_ERROR)
 				Else
@@ -95,7 +95,7 @@ Func BoostTrainBuilding($sName, $iCmbBoost, $iCmbBoostCtrl)
 	EndIf
 
 	CloseWindow2()
-	_Sleep($DELAYBOOSTBARRACKS2)
+	If _Sleep($DELAYBOOSTBARRACKS2) Then Return
 
 	Return $bBoosted
 EndFunc   ;==>BoostTrainBuilding

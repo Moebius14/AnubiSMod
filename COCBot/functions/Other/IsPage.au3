@@ -210,6 +210,11 @@ Func IsReturnHomeBattlePage($useReturnValue = False, $makeDebugImageScreenshot =
 		Return True
 	EndIf
 
+	If IsPageLoop($aRewardButton, 1) Then
+		If $g_bDebugSetlog Or $g_bDebugClick Then SetLog("**Claim Reward Battle Window OK**", $COLOR_ACTION)
+		Return True
+	EndIf
+
 	If ($g_bDebugSetlog Or $g_bDebugClick) And ($makeDebugImageScreenshot = True) Then SetLog("**Return Home Battle Window FAIL**", $COLOR_ACTION)
 	If $g_bDebugImageSave And $makeDebugImageScreenshot Then SaveDebugImage("IsReturnHomeBattlePage")
 	If $useReturnValue Then

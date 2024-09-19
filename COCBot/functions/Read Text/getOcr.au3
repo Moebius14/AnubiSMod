@@ -35,7 +35,14 @@ EndFunc   ;==>getTimeForRaid
 
 Func getNameBuilding($x_start, $y_start) ; getNameBuilding(242,Y) -> Gets complete name and level of the buildings, bottom of screen
 	Local $bResult = getOcrAndCapture("coc-build", $x_start, $y_start, 420, 27)
-	If $bResult = "" Or Not StringInStr($bResult, "Level") Then $bResult = getOcrAndCapture("coc-build2", $x_start, $y_start - 27, 420, 27) ; $y_start + (448 - 475)
+	If StringInStr($bResult, "O T T O", $STR_CASESENSE) Then
+		$bResult = StringReplace($bResult, "O T T O", "O.T.T.O")
+		Return $bResult
+	ElseIf StringInStr($bResult, "B O B", $STR_CASESENSE) Then
+		$bResult = StringReplace($bResult, "B O B", "B.O.B")
+		Return $bResult
+	EndIf
+	If $bResult = "" Or Not StringInStr($bResult, "Level") Then $bResult = getOcrAndCapture("coc-build2", $x_start, $y_start - 27, 420, 27)
 	Return $bResult
 EndFunc   ;==>getNameBuilding
 

@@ -269,7 +269,7 @@ Func SelectCastleOrSiege(ByRef $iTroopIndex, $iX, $iCmbSiege, $gMatchMode)
 					SetLog($bAnySiege ? "No higher level siege machine found" : "No higher level of " & GetTroopName($iTroopIndex) & " found")
 					Click($iLastX, $iLastY, 1)
 				ElseIf IsArray($aFinalCoords) Then
-					ClickP($aFinalCoords, 1, 150)
+					ClickP($aFinalCoords, 1, 120)
 					$g_iSiegeLevel = $iFinalLevel
 					$iTroopIndex = $iFinalSiege
 				Else
@@ -324,7 +324,7 @@ Func SelectClanCastle($iX, $iLastX, $iLastY)
 		Next
 
 		If IsArray($aFinalCoords) Then
-			ClickP($aFinalCoords, 1, 150)
+			ClickP($aFinalCoords, 1, 120)
 			Return True
 		Else
 			SetLog("No Clan Castle found")
@@ -361,7 +361,7 @@ Func SelectWardenMode($iMode, $XCoord)
 			$sLogText = " (" & $aCurrentModeArray[0] & " mode)"
 		Else
 			Local $aArrowCoords = StringSplit($aCurrentModeArray[1], ",", $STR_NOCOUNT)
-			ClickP($aArrowCoords, 1, 150)
+			ClickP($aArrowCoords, 1, 120)
 			If _Sleep(1200) Then Return
 
 			Local $sSymbol = GetDiamondFromRect(_Min($XCoord - 30, 696) & ",576(162,18)") ; x = 696 when Grand Warden is at slot 10
@@ -372,12 +372,12 @@ Func SelectWardenMode($iMode, $XCoord)
 					SetDebugLog("SelectWardenMode() $aAvailableMode[" & $i & "]: " & _ArrayToString($aAvailableModeArray))
 					If $aAvailableModeArray[0] = $aSelectSymbol[$iMode] Then
 						Local $aSymbolCoords = StringSplit($aAvailableModeArray[1], ",", $STR_NOCOUNT)
-						ClickP($aSymbolCoords, 1, 150)
+						ClickP($aSymbolCoords, 1, 120)
 						$sLogText = " (" & $aSelectMode[$iMode] & " mode)"
 						ExitLoop
 					EndIf
 				Next
-				If $sLogText = "" Then ClickP($aArrowCoords, 1, 150)
+				If $sLogText = "" Then ClickP($aArrowCoords, 1, 120)
 				If $g_bDebugSetlog Then SetLog("Benchmark G. Warden mode selection: " & StringFormat("%.2f", _Timer_Diff($hStarttime)) & "'ms", $COLOR_DEBUG)
 			EndIf
 		EndIf

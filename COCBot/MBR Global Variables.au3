@@ -2052,7 +2052,7 @@ Global $g_aiCmbCustomEquipmentOrder[$eEquipmentCount] = [-1, -1, -1, -1, -1, -1,
 Global $g_hChkCustomEquipmentOrder[$eEquipmentCount] = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], $g_bChkCustomEquipmentOrder[$eEquipmentCount] = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
 Global Const $g_asEquipmentShortNames[$eEquipmentCount] = ["BarbPuppet", "RageVial", "Boots", "Stache", "Gauntlet", "SpikyBall", "ArchPuppet", _
 		"InvVial", "GArrow", "HealPuppet", "FArrow", "Mirror", "Eternal", "Life", "RageGem", "HealTome", "Fireball", "RoyalGem", "Shield", "HogPuppet", "HasteVial", "Rocket"]
-Global $StarBonusReceived[2] = [0, 0] ; BlackSmith/Treasury
+Global $StarBonusReceived[3] = [0, 0, 0] ; BlackSmith/Treasury/Snacks
 Global $g_sBSmithUpgradeTime = ""
 
 ; Pet House
@@ -2269,3 +2269,6 @@ Global $sGameMinimalVersion = "16.517.11"
 
 ;Builder's Apprentice
 Global $g_sAvailableAppBuilder = 0, $TimeDiffAppBuilder = 0, $g_bChkAppBuilder = 0
+
+;Magic Snacks
+Global $g_bChkUseSnacks = False

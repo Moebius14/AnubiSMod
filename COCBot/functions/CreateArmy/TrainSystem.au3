@@ -312,7 +312,7 @@ Func TrainUsingWhatToTrain($rWTT, $bQueue = $g_bIsFullArmywithHeroesAndSpells)
 				Local $NeededSpace = $g_aiTroopSpace[$iTroopIndex] * $rWTT[$i][1]
 			EndIf
 
-			Local $aLeftSpace = GetOCRCurrent(95, 163 + $g_iMidOffsetY)
+			Local $aLeftSpace = GetOCRCurrent(95, 162 + $g_iMidOffsetY)
 			Local $LeftSpace = $bQueue ? ($aLeftSpace[1] * 2) - $aLeftSpace[0] : $aLeftSpace[2]
 
 
@@ -355,7 +355,7 @@ Func BrewUsingWhatToTrain($rWTT, $bQueue = $g_bIsFullArmywithHeroesAndSpells)
 			Local $iSpellIndex = TroopIndexLookup($rWTT[$i][0], "BrewUsingWhatToTrain")
 			Local $NeededSpace = $g_aiSpellSpace[$iSpellIndex - $eLSpell] * $rWTT[$i][1]
 
-			Local $aLeftSpace = GetOCRCurrent(95, 163 + $g_iMidOffsetY)
+			Local $aLeftSpace = GetOCRCurrent(95, 162 + $g_iMidOffsetY)
 			Local $LeftSpace = $bQueue ? ($aLeftSpace[1] * 2) - $aLeftSpace[0] : $aLeftSpace[2]
 
 			If $NeededSpace > $LeftSpace Then $rWTT[$i][1] = Int($LeftSpace / $g_aiSpellSpace[$iSpellIndex - $eLSpell])
@@ -570,7 +570,7 @@ Func RemoveExtraTroops($toRemove)
 		If _Sleep(500) Then Return
 		If Not _CheckPixel($aButtonRemoveTroopsOK1, True) Then ; If no 'Okay' button found in army tab to save changes
 			SetLog("Cannot find/verify 'Okay' Button in Army tab", $COLOR_WARNING)
-			ClickP($aAway, 2, 150, "#0346") ; Click Away, Necessary! due to possible errors/changes
+			ClickP($aAway, 2, 120, "#0346") ; Click Away, Necessary! due to possible errors/changes
 			If _Sleep(400) Then OpenArmyOverview(True, "RemoveExtraTroops()") ; Open Army Window AGAIN
 			Return False ; Exit Function
 		EndIf
@@ -580,7 +580,7 @@ Func RemoveExtraTroops($toRemove)
 		If _Sleep(1200) Then Return
 		If Not _CheckPixel($aButtonRemoveTroopsOK2, True) Then ; If no 'Okay' button found to verify that we accept the changes
 			SetLog("Cannot find/verify 'Okay #2' Button in Army tab", $COLOR_WARNING)
-			ClickP($aAway, 2, 150, "#0346") ;Click Away
+			ClickP($aAway, 2, 120, "#0346") ;Click Away
 			Return False ; Exit function
 		EndIf
 
@@ -1179,7 +1179,7 @@ Func DeleteQueued($sArmyTypeQueued, $iOffsetQueued = 742)
 	While Not _ColorCheck(_GetPixelColor(773, 195 + $g_iMidOffsetY, True), Hex(0xCFCFC8, 6), 20) ; check gray background at 1st training slot
 		If $x = 0 Then SetLog(" - Delete " & $sArmyTypeQueued & " Queued!", $COLOR_INFO)
 		If Not $g_bRunState Then Return
-		Click($iOffsetQueued + 24, 198 + $g_iMidOffsetY, 1, 150)
+		Click($iOffsetQueued + 24, 198 + $g_iMidOffsetY, 1, 120)
 		$x += 1
 		If $x = 270 Then ExitLoop
 	WEnd
@@ -1243,7 +1243,7 @@ Func MakingDonatedTroops($sType = "All")
 			$Plural = 0
 			If $avDefaultTroopGroup[$i][4] > 0 Then
 				WaitForClanMessage("DonatedTroops")
-				$RemainTrainSpace = GetOCRCurrent(95, 163 + $g_iMidOffsetY)
+				$RemainTrainSpace = GetOCRCurrent(95, 162 + $g_iMidOffsetY)
 				If $RemainTrainSpace[2] < 0 Then $RemainTrainSpace[2] = $RemainTrainSpace[1] * 2 - $RemainTrainSpace[0] ; remain train space to full double army
 				If $RemainTrainSpace[2] = 0 Then ExitLoop ; army camps full
 
@@ -1261,7 +1261,7 @@ Func MakingDonatedTroops($sType = "All")
 				Else
 					For $z = 0 To $RemainTrainSpace[2] - 1
 						WaitForClanMessage("DonatedTroops")
-						$RemainTrainSpace = GetOCRCurrent(95, 163 + $g_iMidOffsetY)
+						$RemainTrainSpace = GetOCRCurrent(95, 162 + $g_iMidOffsetY)
 						If $RemainTrainSpace[0] = $RemainTrainSpace[1] Then ; army camps full
 							;Camps Full All Donate Counters should be zero!!!!
 							For $j = 0 To UBound($avDefaultTroopGroup, 1) - 1
@@ -1290,7 +1290,7 @@ Func MakingDonatedTroops($sType = "All")
 		;Top Off any remianing space with archers
 		If $sType = "All" Then
 			WaitForClanMessage("DonatedTroops")
-			$RemainTrainSpace = GetOCRCurrent(95, 163 + $g_iMidOffsetY)
+			$RemainTrainSpace = GetOCRCurrent(95, 162 + $g_iMidOffsetY)
 			If $RemainTrainSpace[0] < $RemainTrainSpace[1] Then ; army camps full
 				Local $howMuch = $RemainTrainSpace[2]
 				TrainIt($eTroopArcher, $howMuch, $g_iTrainClickDelay)
@@ -1324,7 +1324,7 @@ Func MakingDonatedTroops($sType = "All")
 
 				If _Sleep(1000) Then Return
 				WaitForClanMessage("DonatedTroops")
-				$RemainTrainSpace = GetOCRCurrent(95, 163 + $g_iMidOffsetY)
+				$RemainTrainSpace = GetOCRCurrent(95, 162 + $g_iMidOffsetY)
 				SetLog(" - Current Capacity: " & $RemainTrainSpace[0] & "/" & ($RemainTrainSpace[1]))
 			EndIf
 		Next

@@ -56,7 +56,7 @@ EndFunc   ;==>btnchkbxRepeat
 Func picUpgradeTypeLocation()
 	Local $wasRunState = $g_bRunState
 	$g_bRunState = True
-	PureClick(1, 40, 1, 0, "#9999") ; Clear screen
+	PureClick(1, 40, 1, 100, "#9999") ; Clear screen
 	Sleep(100)
 	ZoomOut() ; Zoom out if needed
 	Local $inum
@@ -72,7 +72,7 @@ Func picUpgradeTypeLocation()
 				If StringInStr($n, "collect", $STR_NOCASESENSEBASIC) Or _
 						StringInStr($n, "mine", $STR_NOCASESENSEBASIC) Or _
 						StringInStr($n, "drill", $STR_NOCASESENSEBASIC) Then
-					Click(1, 40, 1, 150, "#0999") ;Click away to deselect collector if was not full, and collected with previous click
+					Click(1, 40, 1, 120, "#0999") ;Click away to deselect collector if was not full, and collected with previous click
 					Sleep(100)
 					BuildingClick($g_avBuildingUpgrades[$inum][0], $g_avBuildingUpgrades[$inum][1], "#9999") ;Select collector
 				EndIf

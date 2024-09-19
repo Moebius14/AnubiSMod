@@ -22,7 +22,7 @@ Func CheckOverviewFullArmy($bOpenArmyWindow = False, $bCloseArmyWindow = False)
 
 	If $bOpenArmyWindow Then
 		If _Sleep($DELAYCHECKFULLARMY1) Then Return
-		Click($aArmyTrainButton[0], $aArmyTrainButton[1], 1, 150, "#0347") ; Click Button Army Overview
+		Click($aArmyTrainButton[0], $aArmyTrainButton[1], 1, 120, "#0347") ; Click Button Army Overview
 		If _Sleep($DELAYCHECKFULLARMY2) Then Return
 		Local $j = 0
 		While Not _ColorCheck(_GetPixelColor(180, 145 + $g_iMidOffsetY, True), Hex(0xECECE5, 6), 20) ; "ARMY tab"

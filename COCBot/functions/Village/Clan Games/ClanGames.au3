@@ -675,7 +675,7 @@ Func _ClanGames($test = False, $HaltMode = False)
 			EndIf
 
 			; Drop to top again , because coordinates Xaxis and Yaxis
-			ClickP($TabChallengesPosition, 2, 160, "#Tab")
+			ClickP($TabChallengesPosition, 2, 120, "#Tab")
 			If _Sleep(2000) Then Return
 		EndIf
 

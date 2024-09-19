@@ -44,11 +44,11 @@ Func BoostStructure($sName, $sOcrName, $aPos, ByRef $icmbBoostValue, $cmbBoostCt
 		Local $Boost = findButton("BoostOne")
 		If IsArray($Boost) Then
 			If $g_bDebugSetlog Then SetDebugLog("Boost Button X|Y = " & $Boost[0] & "|" & $Boost[1], $COLOR_DEBUG)
-			Click($Boost[0], $Boost[1], 1, 150, "#0463")
+			Click($Boost[0], $Boost[1], 1, 120, "#0463")
 			If _Sleep($DELAYBOOSTHEROES1) Then Return
 			$Boost = findButton("GEM")
 			If IsArray($Boost) Then
-				Click($Boost[0], $Boost[1], 1, 150, "#0464")
+				Click($Boost[0], $Boost[1], 1, 120, "#0464")
 				If _Sleep($DELAYBOOSTHEROES4) Then Return
 				If IsArray(findButton("EnterShop")) Then
 					SetLog("Not enough gems to boost " & $sName, $COLOR_ERROR)
@@ -120,7 +120,7 @@ Func BoostPotion($sName, $sOcrName, $aPos, ByRef $icmbBoostValue, $cmbBoostCtrl)
 		Local $Boost = findButton("MagicItems")
 		If UBound($Boost) > 1 Then
 			If $g_bDebugSetlog Then SetDebugLog("Magic Items Button X|Y = " & $Boost[0] & "|" & $Boost[1], $COLOR_DEBUG)
-			Click($Boost[0], $Boost[1], 1, 150, "#0463")
+			Click($Boost[0], $Boost[1], 1, 120, "#0463")
 			If _Sleep($DELAYBOOSTHEROES1) Then Return
 			$Boost = decodeSingleCoord(FindImageInPlace($sTile, @ScriptDir & "\imgxml\imglocbuttons\" & $sTile, $sRegionToSearch))
 			If UBound($Boost) > 1 Then
@@ -137,7 +137,7 @@ Func BoostPotion($sName, $sOcrName, $aPos, ByRef $icmbBoostValue, $cmbBoostCtrl)
 				If Not $g_bRunState Then Return
 				$Boost = findButton("BoostPotionGreen")
 				If IsArray($Boost) Then
-					Click($Boost[0], $Boost[1], 1, 150, "#0465")
+					Click($Boost[0], $Boost[1], 1, 120, "#0465")
 					If _Sleep($DELAYBOOSTHEROES4) Then Return
 					If $icmbBoostValue <= 5 Then
 						$icmbBoostValue -= 1
@@ -161,7 +161,7 @@ Func BoostPotion($sName, $sOcrName, $aPos, ByRef $icmbBoostValue, $cmbBoostCtrl)
 		SetLog("Cannot boost using training potion some error occured", $COLOR_ERROR)
 	EndIf
 	ClearScreen()
-	_Sleep(Random(2000, 3000, 1))
+	If _Sleep(Random(1000, 1500, 1)) Then Return
 	Return $boosted
 EndFunc   ;==>BoostPotion
 

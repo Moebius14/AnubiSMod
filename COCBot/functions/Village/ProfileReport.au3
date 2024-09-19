@@ -18,12 +18,12 @@ Func ProfileReport()
 	Local $iAttacksWon = 0, $iDefensesWon = 0
 
 	Local $iCount
-	ClickAway()
+	ClearScreen()
 	If _Sleep($DELAYPROFILEREPORT1) Then Return
 
 	SetLog("Profile Report", $COLOR_INFO)
 	SetLog("Opening Profile page to read Attacks, Defenses, Donations and received Troops", $COLOR_INFO)
-	Click(40, 32, 1, 0, "#0222") ; Click Info Profile Button
+	Click(40, 32, 1, 140, "#0222") ; Click Info Profile Button
 	If _Sleep($DELAYPROFILEREPORT2) Then Return
 
 	While Not _ColorCheck(_GetPixelColor(252, 100 + $g_iMidOffsetY, True), Hex(0xE8E8E0, 6), 5) ; wait for Info Profile to open
@@ -55,25 +55,25 @@ Func ProfileReport()
 	$iAttacksWon = ""
 
 	If _ColorCheck(_GetPixelColor($aProfileReport[0], $aProfileReport[1], True), Hex($aProfileReport[2], 6), $aProfileReport[3]) Then
-        SetDebugLog("Profile seems to be currently unranked", $COLOR_DEBUG)
-        $iAttacksWon = 0
-        $iDefensesWon = 0
-    Else
-        $iAttacksWon = getProfile(547, 449 + $g_iMidOffsetY)
-        If $g_bDebugSetlog Then SetDebugLog("$iAttacksWon: " & $iAttacksWon, $COLOR_DEBUG)
-        $iCount = 0
-        While $iAttacksWon = "" ; Wait for $attacksWon to be readable in case of slow PC
-            If _Sleep($DELAYPROFILEREPORT1) Then Return
-            $iAttacksWon = getProfile(547, 449 + $g_iMidOffsetY)
-            If $g_bDebugSetlog Then SetDebugLog("Read Loop $iAttacksWon: " & $iAttacksWon & ", Count: " & $iCount, $COLOR_DEBUG)
-            $iCount += 1
-            If $iCount >= 20 Then ExitLoop
-        WEnd
-        If $g_bDebugSetlog And $iCount >= 20 Then SetLog("Excess wait time for reading $AttacksWon: " & getProfile(547, 449 + $g_iMidOffsetY), $COLOR_DEBUG)
-        $iDefensesWon = getProfile(761, 449 + $g_iMidOffsetY)
-    EndIf
-    $g_iTroopsDonated = getProfile(179, 449 + $g_iMidOffsetY)
-    $g_iTroopsReceived = getProfile(363, 449 + $g_iMidOffsetY)
+		SetDebugLog("Profile seems to be currently unranked", $COLOR_DEBUG)
+		$iAttacksWon = 0
+		$iDefensesWon = 0
+	Else
+		$iAttacksWon = getProfile(547, 449 + $g_iMidOffsetY)
+		If $g_bDebugSetlog Then SetDebugLog("$iAttacksWon: " & $iAttacksWon, $COLOR_DEBUG)
+		$iCount = 0
+		While $iAttacksWon = "" ; Wait for $attacksWon to be readable in case of slow PC
+			If _Sleep($DELAYPROFILEREPORT1) Then Return
+			$iAttacksWon = getProfile(547, 449 + $g_iMidOffsetY)
+			If $g_bDebugSetlog Then SetDebugLog("Read Loop $iAttacksWon: " & $iAttacksWon & ", Count: " & $iCount, $COLOR_DEBUG)
+			$iCount += 1
+			If $iCount >= 20 Then ExitLoop
+		WEnd
+		If $g_bDebugSetlog And $iCount >= 20 Then SetLog("Excess wait time for reading $AttacksWon: " & getProfile(547, 449 + $g_iMidOffsetY), $COLOR_DEBUG)
+		$iDefensesWon = getProfile(761, 449 + $g_iMidOffsetY)
+	EndIf
+	$g_iTroopsDonated = getProfile(179, 449 + $g_iMidOffsetY)
+	$g_iTroopsReceived = getProfile(363, 449 + $g_iMidOffsetY)
 
 	SetLog(" [ATKW]: " & _NumberFormat($iAttacksWon) & " [DEFW]: " & _NumberFormat($iDefensesWon) & " [TDON]: " & _NumberFormat($g_iTroopsDonated) & " [TREC]: " & _NumberFormat($g_iTroopsReceived), $COLOR_SUCCESS)
 	CloseWindow() ; Close Profile page

@@ -173,7 +173,7 @@ Func UpgradeWall()
 
 				; Check Builder/Shop if open by accident
 				If _CheckPixel($g_aShopWindowOpen, $g_bCapturePixel, Default, "ChkShopOpen", $COLOR_DEBUG) = True Then
-					Click(820, 40, 1, 0, "#0315") ; Close it
+					Click(820, 40, 1, 100, "#0315") ; Close it
 				EndIf
 
 				ClearScreen()
@@ -293,7 +293,7 @@ Func UpgradeWallGold($iWallCost = $g_iWallCost)
 			SetLog("Upgrade stopped due no loot", $COLOR_ERROR)
 			Return "No"
 		EndIf
-		Click(620, 540 + $g_iMidOffsetY, 1, 150, "#0317")
+		Click(620, 540 + $g_iMidOffsetY, 1, 120, "#0317")
 		If _Sleep(1000) Then Return
 		If isGemOpen(True) Then
 			SetLog("Upgrade stopped due no loot", $COLOR_ERROR)
@@ -351,7 +351,7 @@ Func UpgradeWallElixir($iWallCost)
 			SetLog("Upgrade stopped due to insufficient loot", $COLOR_ERROR)
 			Return "No"
 		EndIf
-		Click(620, 540 + $g_iMidOffsetY, 1, 150, "#0317")
+		Click(620, 540 + $g_iMidOffsetY, 1, 120, "#0317")
 		If _Sleep(1000) Then Return
 		If isGemOpen(True) Then
 			SetLog("Upgrade stopped due to insufficient loot", $COLOR_ERROR)

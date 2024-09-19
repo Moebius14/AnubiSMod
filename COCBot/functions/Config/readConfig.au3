@@ -1528,6 +1528,7 @@ Func ReadConfig_MOD_Humanization()
 	IniReadS($bRefuseWar, $g_sProfileConfigPath, "Bot Humanization", "IschkRefuseWar", $bRefuseWar, "Bool")
 	IniReadS($g_iacmbPriority[10], $g_sProfileConfigPath, "Bot Humanization", "cmbPriority[10]", $g_iacmbPriority[10], "int")
 	IniReadS($g_bChkAppBuilder, $g_sProfileConfigPath, "Bot Humanization", "IsChkAppBuilder", $g_bChkAppBuilder, "int")
+	IniReadS($g_bChkUseSnacks, $g_sProfileConfigPath, "Bot Humanization", "IschkUseSnacks", $g_bChkUseSnacks, "Bool")
 EndFunc   ;==>ReadConfig_MOD_Humanization
 
 Func ReadConfig_MOD_Advanced()

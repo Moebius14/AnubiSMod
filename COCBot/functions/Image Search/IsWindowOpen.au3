@@ -80,7 +80,7 @@ Func CloseWindow($IsinBlacksmith = False, $IsinPet = False, $IsinLab = False, $I
 		If IsArray($aiButton) And UBound($aiButton) >= 2 Then
 			ClickP($aiButton, 1)
 			SetDebugLog("Window Closed!")
-			If _Sleep(1500) Then Return
+			If _Sleep(1000) Then Return
 
 			Select
 				Case $IsinLab

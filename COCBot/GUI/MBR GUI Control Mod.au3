@@ -797,11 +797,11 @@ Func IsBBDailyChallengeAvailable()
 	Local $bRet = False
 	For $i = 0 To 9
 		If _CheckPixel($aPersonalChallengeOpenButton1, $g_bCapturePixel) Then
-			ClickP($aPersonalChallengeOpenButton1, 1, 160, "#0666")
+			ClickP($aPersonalChallengeOpenButton1, 1, 120, "#0666")
 			$bRet = True
 			ExitLoop
 		ElseIf _CheckPixel($aPersonalChallengeOpenButton2, $g_bCapturePixel) Then
-			ClickP($aPersonalChallengeOpenButton2, 1, 160, "#0666")
+			ClickP($aPersonalChallengeOpenButton2, 1, 120, "#0666")
 			$bRet = True
 			ExitLoop
 		EndIf
@@ -881,11 +881,11 @@ Func IsBBDailyChallengeStillAvailable()
 	Local $bRet = False
 	For $i = 0 To 9
 		If _CheckPixel($aPersonalChallengeOpenButton1, $g_bCapturePixel) Then
-			ClickP($aPersonalChallengeOpenButton1, 1, 160, "#0666")
+			ClickP($aPersonalChallengeOpenButton1, 1, 120, "#0666")
 			$bRet = True
 			ExitLoop
 		ElseIf _CheckPixel($aPersonalChallengeOpenButton2, $g_bCapturePixel) Then
-			ClickP($aPersonalChallengeOpenButton2, 1, 160, "#0666")
+			ClickP($aPersonalChallengeOpenButton2, 1, 120, "#0666")
 			$bRet = True
 			ExitLoop
 		EndIf
@@ -1049,7 +1049,7 @@ EndFunc   ;==>ForumAccept
 
 Func SelectChatInput() ; select the textbox for Global chat or Clan Chat
 
-	Click($aChatSelectTextBox[0], $aChatSelectTextBox[1], 1, 150, "SelectTextBoxBtn")
+	Click($aChatSelectTextBox[0], $aChatSelectTextBox[1], 1, 120, "SelectTextBoxBtn")
 	If _Sleep(2000) Then Return
 
 	If _WaitForCheckPixel($aOpenedChatSelectTextBox, $g_bCapturePixel, Default, "Wait for Chat Select Text Box:") Then
@@ -1064,7 +1064,7 @@ EndFunc   ;==>SelectChatInput
 
 Func ChatTextInput($g_sMessage)
 
-	Click($aOpenedChatSelectTextBox[0], $aOpenedChatSelectTextBox[1], 1, 150, "ChatInput")
+	Click($aOpenedChatSelectTextBox[0], $aOpenedChatSelectTextBox[1], 1, 120, "ChatInput")
 	If _Sleep(1500) Then Return
 
 	SendText($g_sMessage)

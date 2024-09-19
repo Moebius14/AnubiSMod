@@ -866,7 +866,14 @@ Func runBot() ;Bot that runs everything in order
 				If CheckAndroidReboot() Then ContinueLoop 2 ; must be level 2 due to loop-in-loop
 			Next
 
-			AppBuilder()
+			Local $aRndFuncList = ['MagicSnacks', 'AppBuilder']
+			_ArrayShuffle($aRndFuncList)
+			For $Index In $aRndFuncList
+				If Not $g_bRunState Then Return
+				_RunFunction($Index)
+				If $g_bRestart Then ContinueLoop 2 ; must be level 2 due to loop-in-loop
+				If CheckAndroidReboot() Then ContinueLoop 2 ; must be level 2 due to loop-in-loop
+			Next
 
 			If Not $g_bRunState Then Return
 			CheckDonateOften()
@@ -1503,6 +1510,12 @@ Func __RunFunction($action)
 			_Sleep($DELAYRUNBOT3)
 		Case ""
 			SetDebugLog("Function call doesn't support empty string, please review array size", $COLOR_ERROR)
+		Case "MagicSnacks"
+			MagicSnacks()
+			_Sleep($DELAYRUNBOT3)
+		Case "AppBuilder"
+			AppBuilder()
+			_Sleep($DELAYRUNBOT3)
 		Case Else
 			SetLog("Unknown function call: " & $action, $COLOR_ERROR)
 	EndSwitch

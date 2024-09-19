@@ -499,7 +499,7 @@ Func _AutoUpgrade()
 			Local $aiCancelButton = findButton("Cancel", Default, 1, True)
 			If IsArray($aiCancelButton) And UBound($aiCancelButton, 1) = 2 Then
 				SetLog("MBR is not designed to rush a TH upgrade", $COLOR_ERROR)
-				PureClick($aiCancelButton[0], $aiCancelButton[1], 2, 150, "#0117") ; Click Cancel Button
+				PureClick($aiCancelButton[0], $aiCancelButton[1], 2, 120, "#0117") ; Click Cancel Button
 				$UpgradeDone = False
 				If _Sleep(1500) Then Return
 				CloseWindow()

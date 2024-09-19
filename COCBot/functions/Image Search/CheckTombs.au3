@@ -53,7 +53,7 @@ Func CheckTombs()
 				If IsCoordSafe($TombsXY[$j][0], $TombsXY[$j][1]) Then
 					If $g_bDebugSetlog Then SetDebugLog("Coords :" & $TombsXY[$j][0] & "," & $TombsXY[$j][1])
 					If IsMainPage() Then
-						Click($TombsXY[$j][0], $TombsXY[$j][1], 1, 150, "#0430")
+						Click($TombsXY[$j][0], $TombsXY[$j][1], 1, 120, "#0430")
 						If Not $bRemoved1 Then $bRemoved1 = IsMainPage()
 					EndIf
 				EndIf
@@ -92,7 +92,7 @@ Func CheckTombs()
 						If IsCoordSafe($TombsXY2[$z][0], $TombsXY2[$z][1]) Then
 							If $g_bDebugSetlog Then SetDebugLog("Coords :" & $TombsXY2[$z][0] & "," & $TombsXY2[$z][1])
 							If IsMainPage() Then
-								Click($TombsXY2[$z][0], $TombsXY2[$z][1], 1, 150, "#0430")
+								Click($TombsXY2[$z][0], $TombsXY2[$z][1], 1, 120, "#0430")
 								If Not $bRemoved2 Then $bRemoved2 = IsMainPage()
 							EndIf
 						EndIf
@@ -149,7 +149,7 @@ Func CleanYard()
 					$CleanYardXY = $aPoints[$i] ; Coords
 					If UBound($CleanYardXY) > 1 And IsCoordSafe($CleanYardXY[0], $CleanYardXY[1]) Then ; secure x because of clan chat tab
 						If $g_bDebugSetlog Then SetDebugLog($Filename & " found (" & $CleanYardXY[0] & "," & $CleanYardXY[1] & ")", $COLOR_SUCCESS)
-						If IsMainPage() Then Click($CleanYardXY[0], $CleanYardXY[1], 1, 150, "#0430")
+						If IsMainPage() Then Click($CleanYardXY[0], $CleanYardXY[1], 1, 120, "#0430")
 						$bLocate = True
 						If _Sleep($DELAYCOLLECT3) Then Return
 						If Not ClickRemoveObstacle() Then ContinueLoop
@@ -199,7 +199,7 @@ Func CleanYard()
 				For $j = 0 To UBound($GemBoxXY) - 1
 					If $g_bDebugSetlog Then SetDebugLog("Coords :" & $GemBoxXY[$j][0] & "," & $GemBoxXY[$j][1])
 					If IsCoordSafe($GemBoxXY[$j][0], $GemBoxXY[$j][1]) Then
-						If IsMainPage() Then Click($GemBoxXY[$j][0], $GemBoxXY[$j][1], 1, 150, "#0430")
+						If IsMainPage() Then Click($GemBoxXY[$j][0], $GemBoxXY[$j][1], 1, 120, "#0430")
 						If _Sleep($DELAYCHECKTOMBS2) Then Return
 						$bLocate = True
 						If _Sleep($DELAYCOLLECT3) Then Return

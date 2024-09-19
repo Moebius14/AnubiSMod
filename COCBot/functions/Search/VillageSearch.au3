@@ -508,7 +508,7 @@ Func _VillageSearch() ;Control for searching a village that meets conditions
 				Local $NextCoordsY[2] = [495 + $g_iBottomOffsetY, 540 + $g_iBottomOffsetY]
 				Local $NextButtonClickX = Random($NextCoordsX[0], $NextCoordsX[1], 1)
 				Local $NextButtonClickY = Random($NextCoordsY[0], $NextCoordsY[1], 1)
-				Click($NextButtonClickX, $NextButtonClickY, 1, 150, "#0155") ;Click Next
+				Click($NextButtonClickX, $NextButtonClickY, 1, 120, "#0155") ;Click Next
 				ExitLoop
 			Else
 				SetDebugLog("Wait to see Next Button... " & $i, $COLOR_DEBUG)

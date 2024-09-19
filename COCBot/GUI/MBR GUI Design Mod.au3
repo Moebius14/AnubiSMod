@@ -17,6 +17,7 @@
 Global $g_hGUI_MOD = 0, $g_hGUI_MOD_TAB = 0, $g_hGUI_MOD_TAB_ITEM1 = 0, $g_hGUI_MOD_TAB_ITEM2 = 0
 Global $g_hChkUseBotHumanization = 0, $g_acmbPriority[11] = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
 Global $g_hLabel01 = 0, $g_hCmbMaxActionsNumber = 0, $g_IsRefusedFriends = 0, $g_hChkForumRequestOnly = 0, $g_hChkWarSignUp = 0, $hAllowWar = 0, $hRefuseWar = 0, $g_hChkAppBuilderLabel = 0, $g_hChkAppBuilder = 0
+Global $g_hChkUseSnacks = 0
 Global $g_hGUI_WelcomeMessage = 0, $g_hBtnWelcomeMessage = 0, $g_hChkUseWelcomeMessage = 0, $g_hTxtRequestMessage = 0, $g_hTxtWelcomeMessage = 0, $g_hBtnWelcomeMessageClose = 0, $g_hChkAcceptAllRequests = 0
 Global $g_HowManyinCWLabel = 0, $g_HowManyinCWCombo = 0, $g_HowManyinCWLLabel = 0, $g_HowManyinCWLCombo = 0
 Global $g_hChkNoLabCheck = 0, $g_hChkNoLabCheckLabel = 0, $g_hChkNoLabCheckLabelTypo = 0
@@ -74,28 +75,32 @@ Func TabHumanizationGUI()
 	_GUICtrlSetTip(-1, "Set The Welcome Message After Accept")
 	GUICtrlSetOnEvent(-1, "BtnWelcomeMessage")
 
-	$g_hChkWarSignUp = GUICtrlCreateCheckbox(GetTranslatedFileIni("MBR GUI Design Child Village - Misc", "WarSignUp", "War Sign-Up"), $x + 250, $y + 52, -1, -1)
-	_GUICtrlSetTip(-1, GetTranslatedFileIni("MBR GUI Design Child Village - Misc", "WarSignUp_Info01", "Check This To Auto-Subscribe or Refuse War or CWL"))
-	GUICtrlSetOnEvent(-1, "ChkWarSignUp")
-	GUICtrlSetState(-1, $GUI_UNCHECKED)
-	GUIStartGroup()
-	$hAllowWar = GUICtrlCreateRadio("Yes", $x + 340, $y + 52, -1, -1)
-	GUICtrlSetState(-1, $GUI_CHECKED)
-	$hRefuseWar = GUICtrlCreateRadio("No", $x + 380, $y + 52, -1, -1)
-	GUICtrlSetState(-1, $GUI_UNCHECKED)
-
-	$y += 25
 	_GUICtrlCreateIcon($g_sLibModIconPath, $eIcnModZZZ, $x + 245, $y - 1, 26, 26)
 	$g_hLabel01 = GUICtrlCreateLabel(GetTranslatedFileIni("MBR GUI Design Child Village - Misc", "Label_01", "Do nothing"), $x + 280, $y + 5, 110, 17)
 	$g_acmbPriority[10] = GUICtrlCreateCombo("", $x + 340, $y, 75, 25, BitOR($CBS_DROPDOWNLIST, $CBS_AUTOHSCROLL))
 	GUICtrlSetData(-1, $g_sFrequenceChain, "Ultra Often")
 
-	$g_hChkAppBuilderLabel = GUICtrlCreateLabel(GetTranslatedFileIni("MBR GUI Design Child Village - Misc", "AppBuilder", "Builder's App."), $x + 250, $y + 55, 70, 17)
-	$g_hChkAppBuilder = GUICtrlCreateCombo("", $x + 330, $y + 51, 70, 20, BitOR($CBS_DROPDOWNLIST, $CBS_AUTOHSCROLL))
+	$y += 25
+	$g_hChkWarSignUp = GUICtrlCreateCheckbox(GetTranslatedFileIni("MBR GUI Design Child Village - Misc", "WarSignUp", "War Sign-Up"), $x + 250, $y + 3, -1, -1)
+	_GUICtrlSetTip(-1, GetTranslatedFileIni("MBR GUI Design Child Village - Misc", "WarSignUp_Info01", "Check This To Auto-Subscribe or Refuse War or CWL"))
+	GUICtrlSetOnEvent(-1, "ChkWarSignUp")
+	GUICtrlSetState(-1, $GUI_UNCHECKED)
+	GUIStartGroup()
+	$hAllowWar = GUICtrlCreateRadio("Yes", $x + 340, $y + 3, -1, -1)
+	GUICtrlSetState(-1, $GUI_CHECKED)
+	$hRefuseWar = GUICtrlCreateRadio("No", $x + 380, $y + 3, -1, -1)
+	GUICtrlSetState(-1, $GUI_UNCHECKED)
+
+	$g_hChkAppBuilderLabel = GUICtrlCreateLabel(GetTranslatedFileIni("MBR GUI Design Child Village - Misc", "AppBuilder", "Builder's App."), $x + 250, $y + 30, 70, 17)
+	$g_hChkAppBuilder = GUICtrlCreateCombo("", $x + 330, $y + 26, 70, 20, BitOR($CBS_DROPDOWNLIST, $CBS_AUTOHSCROLL))
 	GUICtrlSetData(-1, "Don't Use|Longest|Shortest", "Don't Use")
 	_GUICtrlSetTip(-1, GetTranslatedFileIni("MBR GUI Design Child Village - Misc", "AppBuilder_Info01", "Auto-Assign Builder's Apprentice") & @CRLF & _
 			GetTranslatedFileIni("MBR GUI Design Child Village - Misc", "AppBuilder_Info02", "Longest : Assign Builder's Apprentice To The Longest Upgrade.") & @CRLF & _
 			GetTranslatedFileIni("MBR GUI Design Child Village - Misc", "AppBuilder_Info03", "Shortest : Assign Builder's Apprentice To The Shortest Upgrade."))
+
+	$g_hChkUseSnacks = GUICtrlCreateCheckbox(GetTranslatedFileIni("MBR GUI Design Child Village - Misc", "ChkUseSnacks", "Use Magic Snacks"), $x + 250, $y + 50, -1, -1)
+	_GUICtrlSetTip(-1, GetTranslatedFileIni("MBR GUI Design Child Village - Misc", "ChkUseSnacks_Info01", "Check This To Use Magic Snacks When Available."))
+	GUICtrlSetState(-1, $GUI_UNCHECKED)
 
 	$x += 10
 	$y += 70

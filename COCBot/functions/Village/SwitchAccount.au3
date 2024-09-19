@@ -230,7 +230,7 @@ Func SwitchCOCAcc($NextAccount)
 		If Not $g_bRunState Then Return
 	Else
 		If Not $g_bRunState Then Return
-		If IsMainPage() Then Click($aButtonSetting[0], $aButtonSetting[1], 1, 150, "Click Setting")
+		If IsMainPage() Then Click($aButtonSetting[0], $aButtonSetting[1], 1, 120, "Click Setting")
 		If _Sleep(500) Then Return
 		While 1
 			If Not IsSettingPage() Then ExitLoop
@@ -336,7 +336,7 @@ Func SwitchCOCAcc($NextAccount)
 			; disconnect account again for saving shared_prefs
 			waitMainScreen()
 			If IsMainPage() Then
-				Click($aButtonSetting[0], $aButtonSetting[1], 1, 150, "Click Setting")
+				Click($aButtonSetting[0], $aButtonSetting[1], 1, 120, "Click Setting")
 				If _Sleep(500) Then Return
 				If SwitchCOCAcc_DisconnectConnect($bResult, $g_bChkSharedPrefs) = -1 Then Return ;Return if Error happend
 
@@ -433,7 +433,7 @@ Func SwitchCOCAcc_ConnectedSCID(ByRef $bResult)
 	For $i = 0 To 20 ; Checking Blue Reload button continuously in 20sec
 		Local $aSuperCellIDReload = decodeSingleCoord(findImage("SupercellID Reload", $g_sImgSupercellIDReload, GetDiamondFromRect("300,145,360,200"), 1, True, Default))
 		If IsArray($aSuperCellIDReload) And UBound($aSuperCellIDReload, 1) >= 2 Then
-			Click($aSuperCellIDReload[0], $aSuperCellIDReload[1], 1, 150, "Click Reload SC_ID")
+			Click($aSuperCellIDReload[0], $aSuperCellIDReload[1], 1, 120, "Click Reload SC_ID")
 			Setlog("   1. Click Reload Supercell ID")
 			If $g_bDebugSetlog Then SetSwitchAccLog("   1. Click Reload Supercell ID")
 			If _Sleep(3000) Then Return "Exit"
@@ -697,7 +697,7 @@ Func CheckLoginWithSupercellIDScreen()
 			Else
 				SetLog("Shared_prefs not pulled.", $COLOR_ERROR)
 				SetLog("Please pull shared_prefs in tab Bot/Profiles.", $COLOR_INFO)
-				Click($aiLogin[0], $aiLogin[1], 1, 150, "Click Log in with SC_ID")
+				Click($aiLogin[0], $aiLogin[1], 1, 120, "Click Log in with SC_ID")
 				If _Sleep(2000) Then Return
 				$bResult = True
 				If ProfileSwitchAccountEnabled() Then
@@ -718,7 +718,7 @@ Func CheckLoginWithSupercellIDScreen()
 		EndIf
 
 		If $g_bChkSuperCellID Then
-			Click($aiLogin[0], $aiLogin[1], 1, 150, "Click Log in with SC_ID")
+			Click($aiLogin[0], $aiLogin[1], 1, 120, "Click Log in with SC_ID")
 			If _Sleep(2000) Then Return
 			$bResult = True
 			If ProfileSwitchAccountEnabled() Then

@@ -96,7 +96,7 @@ Global $g_sImgSupercharge = @ScriptDir & "\imgxml\\Main Village\Supercharge\Supe
 ;Event
 Global $g_sImgEventResource = @ScriptDir & "\imgxml\Event\Resource\"
 Global $g_sImgOresCollect = @ScriptDir & "\imgxml\Event\Ores\"
-Global $g_sImgClaimBonus = @ScriptDir & "\imgxml\DailyChallenge\"
+Global $g_sImgClaimBonus = @ScriptDir & "\imgxml\DailyChallenge\Bonus"
 Global $ImgMiniCupButton = @ScriptDir & "\imgxml\Event\MiniCup*"
 ;Apprentice Builder
 Global $g_sImgGreenAssignButton = @ScriptDir & "\imgxml\Main Village\AppBuilder\"
@@ -108,6 +108,10 @@ Global $ImgAssignMini = @ScriptDir & "\imgxml\Main Village\AppBuilder\AssignMini
 Global $ImgHammerOnRock = @ScriptDir & "\imgxml\Main Village\TreasuryHunt\Hammer\Hammer*"
 Global $ImgHammersOnRock = @ScriptDir & "\imgxml\Main Village\TreasuryHunt\Hammer\"
 Global $ImgLockOfChest = @ScriptDir & "\imgxml\Main Village\TreasuryHunt\Lock*"
+;Magic Snack
+Global $g_sImgMagicSnacks = @ScriptDir & "\imgxml\MagicSnacks\"
+Global $g_sImgMagicSnacksToUse = @ScriptDir & "\imgxml\MagicSnacks\ToUse\UseMini*"
+Global $g_sImgUseButton = @ScriptDir & "\imgxml\MagicSnacks\ToUse\UseButton*"
 #EndRegion Main Village
 
 #Region Clan Capital

@@ -2700,7 +2700,7 @@ Func LookAtRedNotifications()
 							If _Sleep(1000) Then Return
 							Local $aiOkayButton = findButton("Okay", Default, 1, True)
 							If IsArray($aiOkayButton) And UBound($aiOkayButton, 1) = 2 Then
-								PureClick($aiOkayButton[0], $aiOkayButton[1], 2, 150, "#0117") ; Click Okay Button
+								PureClick($aiOkayButton[0], $aiOkayButton[1], 2, 120, "#0117") ; Click Okay Button
 							Else
 								SetLog("Error When Trying To Find Okay Button ... Skipping ...", $COLOR_WARNING)
 								ExitLoop
@@ -2718,7 +2718,7 @@ Func LookAtRedNotifications()
 							If _Sleep(1000) Then Return
 							Local $aiOkayButton = findButton("Okay", Default, 1, True)
 							If IsArray($aiOkayButton) And UBound($aiOkayButton, 1) = 2 Then
-								PureClick($aiOkayButton[0], $aiOkayButton[1], 2, 150, "#0117") ; Click Okay Button
+								PureClick($aiOkayButton[0], $aiOkayButton[1], 2, 120, "#0117") ; Click Okay Button
 							Else
 								SetLog("Error When Trying To Find Okay Button ... Skipping ...", $COLOR_WARNING)
 								ExitLoop
@@ -3571,7 +3571,7 @@ Func BBBattleWatchReplay()
 					Local $AttackCoordsY[2] = [590 + $g_iBottomOffsetY, 625 + $g_iBottomOffsetY]
 					Local $AttackButtonClickX = Random($AttackCoordsX[0], $AttackCoordsX[1], 1)
 					Local $AttackButtonClickY = Random($AttackCoordsY[0], $AttackCoordsY[1], 1)
-					Click($AttackButtonClickX, $AttackButtonClickY, 1, 160) ; return home
+					Click($AttackButtonClickX, $AttackButtonClickY, 1, 120) ; return home
 					If Not $g_bRunState Then Return
 					If _Sleep(Random(2000, 3000, 1)) Then Return
 				EndIf
@@ -3587,7 +3587,7 @@ Func BBBattleWatchReplay()
 				Local $AttackCoordsY[2] = [590 + $g_iBottomOffsetY, 625 + $g_iBottomOffsetY]
 				Local $AttackButtonClickX = Random($AttackCoordsX[0], $AttackCoordsX[1], 1)
 				Local $AttackButtonClickY = Random($AttackCoordsY[0], $AttackCoordsY[1], 1)
-				Click($AttackButtonClickX, $AttackButtonClickY, 1, 160) ; return home
+				Click($AttackButtonClickX, $AttackButtonClickY, 1, 120) ; return home
 				If Not $g_bRunState Then Return
 				If _Sleep(Random(2000, 3000, 1)) Then Return
 			EndIf
@@ -3621,7 +3621,7 @@ Func BBBattleWatchReplay()
 					Local $AttackCoordsY[2] = [590 + $g_iBottomOffsetY, 625 + $g_iBottomOffsetY]
 					Local $AttackButtonClickX = Random($AttackCoordsX[0], $AttackCoordsX[1], 1)
 					Local $AttackButtonClickY = Random($AttackCoordsY[0], $AttackCoordsY[1], 1)
-					Click($AttackButtonClickX, $AttackButtonClickY, 1, 160) ; return home
+					Click($AttackButtonClickX, $AttackButtonClickY, 1, 120) ; return home
 					If Not $g_bRunState Then Return
 					If _Sleep(Random(2000, 3000, 1)) Then Return
 				EndIf
@@ -3644,7 +3644,7 @@ Func BBBattleWatchReplay()
 				Local $AttackCoordsY[2] = [590 + $g_iBottomOffsetY, 625 + $g_iBottomOffsetY]
 				Local $AttackButtonClickX = Random($AttackCoordsX[0], $AttackCoordsX[1], 1)
 				Local $AttackButtonClickY = Random($AttackCoordsY[0], $AttackCoordsY[1], 1)
-				Click($AttackButtonClickX, $AttackButtonClickY, 1, 160) ; return home
+				Click($AttackButtonClickX, $AttackButtonClickY, 1, 120) ; return home
 				If Not $g_bRunState Then Return
 				If _Sleep(Random(2000, 3000, 1)) Then Return
 			EndIf
@@ -3666,7 +3666,7 @@ Func ReturnHomeFromHumanization()
 			Local $AttackCoordsY[2] = [590 + $g_iBottomOffsetY, 625 + $g_iBottomOffsetY]
 			Local $AttackButtonClickX = Random($AttackCoordsX[0], $AttackCoordsX[1], 1)
 			Local $AttackButtonClickY = Random($AttackCoordsY[0], $AttackCoordsY[1], 1)
-			Click($AttackButtonClickX, $AttackButtonClickY, 1, 160) ; return home
+			Click($AttackButtonClickX, $AttackButtonClickY, 1, 120) ; return home
 			If _Sleep(Random(3000, 3500, 1)) Then Return
 			Local $aMain = findButton("AttackButton", Default, 1, True)
 			If IsArray($aMain) And UBound($aMain, 1) = 2 Then

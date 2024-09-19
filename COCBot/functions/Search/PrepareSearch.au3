@@ -53,11 +53,11 @@ Func PrepareSearch($Mode = $DB) ;Click attack button and find match button, will
 		Local $AttackCoordsY[2] = [590 + $g_iBottomOffsetY, 625 + $g_iBottomOffsetY]
 		Local $AttackButtonClickXY[2] = [Random($AttackCoordsX[0], $AttackCoordsX[1], 1), Random($AttackCoordsY[0], $AttackCoordsY[1], 1)]
 		If IsArray($aAttack) And UBound($aAttack, 1) = 2 Then
-			ClickP($AttackButtonClickXY, 1, 180, "#0149")
+			ClickP($AttackButtonClickXY, 1, 130, "#0149")
 		Else
 			Local $aRescueAttack = findButton("RescueATKButton", Default, 1, True)
 			If IsArray($aRescueAttack) And UBound($aRescueAttack, 1) = 2 Then
-				ClickP($AttackButtonClickXY, 1, 180, "#0149")
+				ClickP($AttackButtonClickXY, 1, 130, "#0149")
 			Else
 				SetLog("Couldn't find the Attack Button!", $COLOR_ERROR)
 				If $g_bDebugImageSave Then SaveDebugImage("AttackButtonNotFound")
@@ -109,7 +109,7 @@ Func PrepareSearch($Mode = $DB) ;Click attack button and find match button, will
 				Return
 			ElseIf StringInStr($sButtonState, "FindMatchLegend", 0) > 0 Then
 				Local $aCoordinates = StringSplit($avAttackButtonSubResult[1], ",", $STR_NOCOUNT)
-				ClickP($aCoordinates, 1, 150, "#0149")
+				ClickP($aCoordinates, 1, 120, "#0149")
 				Local $aConfirmAttackButton
 				For $i = 0 To 10
 					If _Sleep(200) Then Return
@@ -213,7 +213,7 @@ Func PrepareSearch($Mode = $DB) ;Click attack button and find match button, will
 				SetDebugLog("ButtonPixel = " & $ButtonPixel[0] & ", " & $ButtonPixel[1], $COLOR_DEBUG) ;Debug
 				SetDebugLog("Shld Btn Pixel color found #1: " & _GetPixelColor($ButtonPixel[0], $ButtonPixel[1], True) & ", #2: " & _GetPixelColor($ButtonPixel[0] + 144, $ButtonPixel[1], True) & ", #3: " & _GetPixelColor($ButtonPixel[0] + 54, $ButtonPixel[1] + 17, True) & ", #4: " & _GetPixelColor($ButtonPixel[0] + 54, $ButtonPixel[1] + 27, True), $COLOR_DEBUG)
 			EndIf
-			Click($ButtonPixel[0] + 75, $ButtonPixel[1] + 25, 1, 150, "#0153") ; Click Okay Button
+			Click($ButtonPixel[0] + 75, $ButtonPixel[1] + 25, 1, 120, "#0153") ; Click Okay Button
 		EndIf
 	EndIf
 

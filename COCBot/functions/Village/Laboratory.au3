@@ -561,7 +561,7 @@ Func LaboratoryUpgrade($name, $aCoords, $sCostResult, $debug = False)
 		CloseWindow()
 		Return True ; return true as if we really started an upgrade
 	Else
-		Click(630, 545 + $g_iMidOffsetY, 1, 0, "#0202") ; Everything is good - Click the upgrade button
+		Click(630, 545 + $g_iMidOffsetY, 1, 120, "#0202") ; Everything is good - Click the upgrade button
 		If isGemOpen(True) = False Then ; check for gem window
 			; success
 			SetLog("Upgrade " & $name & " in your laboratory started with success...", $COLOR_SUCCESS)
@@ -572,6 +572,7 @@ Func LaboratoryUpgrade($name, $aCoords, $sCostResult, $debug = False)
 			ChkLabUpgradeInProgress($name)
 			If _Sleep($DELAYLABUPGRADE2) Then Return
 			CloseWindow(False, True)
+			If $StarBonusReceived[2] = 0 Then $StarBonusReceived[2] = 1
 			Return True ; upgrade started
 		Else
 			SetLog("Oops, Gems required for " & $name & " Upgrade, try again.", $COLOR_ERROR)

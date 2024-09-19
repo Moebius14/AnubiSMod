@@ -91,7 +91,7 @@ Func ReturnHome($TakeSS = 1, $GoldChangeCheck = True) ;Return main screen
 			$aiSurrenderButton = findButton("EndBattle", Default, 1, True)
 			If IsArray($aiSurrenderButton) And UBound($aiSurrenderButton, 1) = 2 Then
 				If IsAttackPage() Then ; verify still on attack page, and battle has not ended magically before clicking
-					ClickP($aiSurrenderButton, 1, 150, "#0099") ;Click Surrender
+					ClickP($aiSurrenderButton, 1, 120, "#0099") ;Click Surrender
 					$j = 0
 					While 1 ; dynamic wait for Okay button
 						SetDebugLog("Wait for OK button to appear #" & $j)
@@ -175,7 +175,7 @@ Func ReturnHome($TakeSS = 1, $GoldChangeCheck = True) ;Return main screen
 		SetDebugLog("Wait for End Fight Scene to appear #" & $i)
 		If _CheckPixel($aEndFightSceneAvl, $g_bCapturePixel) Then ; check for the gold ribbon in the end of battle data screen
 			If IsReturnHomeBattlePage(True) Then
-				ClickP($aReturnHomeButton, 1, 160, "#0101") ;Click Return Home Button
+				ClickP($aReturnHomeButton, 1, 120, "#0101") ;Click Return Home Button
 				; sometimes 1st click is not closing, so try again
 				$iExitLoop = $i
 			EndIf
@@ -236,7 +236,7 @@ Func ReturnfromDropTrophies()
 	For $i = 0 To 5 ; dynamic wait loop for surrender button to appear (if end battle or surrender button are not found in 5*(200)ms + 10*(200)ms or 3 seconds, then give up.)
 		$aiSurrenderButton = findButton("Surrender", Default, 1, True)
 		If IsArray($aiSurrenderButton) And UBound($aiSurrenderButton, 1) = 2 Then
-			ClickP($aiSurrenderButton, 1, 160, "#0099") ;Click Surrender
+			ClickP($aiSurrenderButton, 1, 120, "#0099") ;Click Surrender
 			If _Sleep(500) Then Return
 			Local $j = 0
 			While 1 ; dynamic wait for Okay button
@@ -262,7 +262,7 @@ Func ReturnfromDropTrophies()
 		SetDebugLog("Wait for End Fight Scene to appear #" & $i)
 		If _CheckPixel($aEndFightSceneAvl, $g_bCapturePixel) Then ; check for the gold ribbon in the end of battle data screen
 			If IsReturnHomeBattlePage(True) Then
-				ClickP($aReturnHomeButton, 1, 160, "#0101") ;Click Return Home Button
+				ClickP($aReturnHomeButton, 1, 120, "#0101") ;Click Return Home Button
 				; sometimes 1st click is not closing, so try again
 				$iExitLoop = $i
 			EndIf
@@ -281,28 +281,35 @@ EndFunc   ;==>ReturnfromDropTrophies
 Func CheckStreakEvent()
 	If Not $g_bRunState Then Return
 	Local $bRet = False
+	Local $sAllCoordsString, $aAllCoordsTemp, $aTempCoords
+	Local $aAllCoords[0][2]
 	If _Sleep($DELAYSTARBONUS100) Then Return
 	Local $aContinueButton = findButton("Continue", Default, 1, True)
 	If IsArray($aContinueButton) And UBound($aContinueButton, 1) = 2 Then
-		ClickP($aContinueButton)
+		ClickP($aContinueButton, 1, 120, "#0433")
 		If _Sleep(2500) Then Return
 	EndIf
-	If Not _ColorCheck(_GetPixelColor(290, 150 + $g_iMidOffsetY, $g_bCapturePixel), Hex(0x9B071A, 6), 20) And Not _ColorCheck(_GetPixelColor(560, 150 + $g_iMidOffsetY, $g_bCapturePixel), Hex(0x9B071A, 6), 20) Then Return $bRet
+	If Not _ColorCheck(_GetPixelColor(290, 120 + $g_iMidOffsetY, $g_bCapturePixel), Hex(0x9B071A, 6), 20) And Not _ColorCheck(_GetPixelColor(560, 150 + $g_iMidOffsetY, $g_bCapturePixel), Hex(0x9B071A, 6), 20) Then Return $bRet
 	$bRet = True
 	Local $SearchArea = GetDiamondFromRect("20,260(820,140)")
-	Local $aResult = findMultiple(@ScriptDir & "\imgxml\DailyChallenge\", $SearchArea, $SearchArea, 0, 1000, 6, "objectname,objectpoints", True)
+	Local $aResult = findMultiple(@ScriptDir & "\imgxml\DailyChallenge\", $SearchArea, $SearchArea, 0, 1000, 10, "objectname,objectpoints", True)
 	If $aResult <> "" And IsArray($aResult) Then
-		For $i = 0 To UBound($aResult) - 1
-			Local $aResultArray = $aResult[$i]     ; ["Button Name", "x1,y1", "x2,y2", ...]
-			SetDebugLog("Find Claim buttons, $aResultArray[" & $i & "]: " & _ArrayToString($aResultArray))
+		For $t = 0 To UBound($aResult) - 1
+			Local $aResultArray = $aResult[$t]     ; ["Button Name", "x1,y1", "x2,y2", ...]
+			SetDebugLog("Find Claim buttons, $aResultArray[" & $t & "]: " & _ArrayToString($aResultArray))
 			If IsArray($aResultArray) And $aResultArray[0] = "ClaimBtn" Then
-				Local $sAllCoordsString = _ArrayToString($aResultArray, "|", 1)     ; "x1,y1|x2,y2|..."
-				Local $aAllCoords = decodeMultipleCoords($sAllCoordsString, 50, 50)     ; [{coords1}, {coords2}, ...]
-				For $j = 0 To UBound($aAllCoords) - 1
-					ClickP($aAllCoords[$j], 1, 160, "Claim " & $j + 1)     ; Click Claim button
-					If _Sleep(2000) Then Return
+				$sAllCoordsString = _ArrayToString($aResultArray, "|", 1)     ; "x1,y1|x2,y2|..."
+				$aAllCoordsTemp = decodeMultipleCoords($sAllCoordsString, 50, 50)     ; [{coords1}, {coords2}, ...]
+				For $k = 0 To UBound($aAllCoordsTemp, 1) - 1
+					$aTempCoords = $aAllCoordsTemp[$k]
+					_ArrayAdd($aAllCoords, Number($aTempCoords[0]) & "|" & Number($aTempCoords[1]))
 				Next
 			EndIf
+		Next
+		RemoveDupXY($aAllCoords)
+		For $j = 0 To UBound($aAllCoords) - 1
+			Click($aAllCoords[$j][0], $aAllCoords[$j][1], 1, 120, "Claim " & $j + 1)         ; Click Claim button
+			If _Sleep(2000) Then Return
 		Next
 	EndIf
 	CloseWindow2()
@@ -325,7 +332,7 @@ Func TreasureHunt()
 				Local $aiLockOfChest = decodeSingleCoord(FindImageInPlace2("LockOfBox", $ImgLockOfChest, 400, 305 + $g_iMidOffsetY, 480, 390 + $g_iMidOffsetY, True))
 				If IsArray($aiLockOfChest) And UBound($aiLockOfChest) = 2 Then
 					Local $iHammers = QuickMIS("CNX", $ImgHammersOnRock, 340, 470 + $g_iMidOffsetY, 510, 520 + $g_iMidOffsetY)
-					If IsArray($iHammers) And UBound($iHammers) > 0 And UBound($iHammers, $UBOUND_COLUMNS) > 1 Then
+					If IsArray($iHammers) And UBound($iHammers) = 4 And UBound($iHammers, $UBOUND_COLUMNS) > 1 Then
 						SetLog("Detected Hammers : " & UBound($iHammers), $COLOR_INFO)
 						For $t = 0 To UBound($iHammers) - 1
 							If Not $g_bRunState Then Return
@@ -355,9 +362,14 @@ Func TreasureHunt()
 		SetLog("Click on Continue...", $COLOR_INFO)
 		For $i = 0 To 9
 			If Not $g_bRunState Then Return
-			If ClickB("Continue") Then
+			Local $aContinueButton = findButton("Continue", Default, 1, True)
+			If IsArray($aContinueButton) And UBound($aContinueButton, 1) = 2 Then
+				If _Sleep($DELAYRUNBOT1) Then Return ; 1000ms
+				ClickP($aContinueButton, 1, 120, "#0433")
 				SetLog("Reward Received", $COLOR_SUCCESS1)
 				$bRet = True
+				$StarBonusReceived[2] = 1 ; Snacks
+				If _Sleep($DELAYTREASURY2) Then Return ; 1500ms
 				ExitLoop
 			EndIf
 			If _Sleep(100) Then Return

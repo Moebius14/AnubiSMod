@@ -76,7 +76,7 @@ Func EventRewards()
 
 	Local $aContinueButton = findButton("Continue", Default, 1, True)
 	If IsArray($aContinueButton) And UBound($aContinueButton, 1) = 2 Then
-		ClickP($aContinueButton)
+		ClickP($aContinueButton, 1, 120, "#0433")
 		If _Sleep(2500) Then Return
 	EndIf
 
@@ -113,8 +113,9 @@ Func CollectEventRewards()
 	If _Sleep(Random(1000, 3000, 1)) Then Return
 	If Not $g_bRunState Then Return
 
+	Local $IsWhiteAtRight = _ColorCheck(_GetPixelColor(766, 386 + $g_iMidOffsetY, True), Hex(0xFFFFFF, 6), 15) And _ColorCheck(_GetPixelColor(820, 386 + $g_iMidOffsetY, True), Hex(0xFFFFFF, 6), 15)
 	Local $aMiniCupButton = decodeSingleCoord(FindImageInPlace2("MiniCupButton", $ImgMiniCupButton, 760, 360 + $g_iMidOffsetY, 825, 415 + $g_iMidOffsetY, True))
-	If UBound($aMiniCupButton) < 2 Then
+	If UBound($aMiniCupButton) < 2 And $IsWhiteAtRight Then
 		Click(790, 386 + $g_iMidOffsetY)
 		If _Sleep(1500) Then Return
 	EndIf
@@ -124,80 +125,91 @@ Func CollectEventRewards()
 	Local $IsShinyPresent = 0
 	Local $IsGlowyPresent = 0
 	Local $IsStarryPresent = 0
+	Local $sAllCoordsString, $aAllCoordsTemp, $aTempCoords
+	Local $aAllCoords[0][2]
+
 	For $i = 0 To 14
 		If Not $g_bRunState Then Return
 		Local $SearchArea = GetDiamondFromRect("35,336(800,275)")
-		Local $aResult = findMultiple(@ScriptDir & "\imgxml\DailyChallenge\", $SearchArea, $SearchArea, 0, 1000, 6, "objectname,objectpoints", True)
+		Local $aResult = findMultiple(@ScriptDir & "\imgxml\DailyChallenge\", $SearchArea, $SearchArea, 0, 1000, 12, "objectname,objectpoints", True)
 		If $aResult <> "" And IsArray($aResult) Then
 			For $t = 0 To UBound($aResult) - 1
 				Local $aResultArray = $aResult[$t] ; ["Button Name", "x1,y1", "x2,y2", ...]
 				SetDebugLog("Find Claim buttons, $aResultArray[" & $t & "]: " & _ArrayToString($aResultArray))
 				If IsArray($aResultArray) And $aResultArray[0] = "ClaimBtn" Then
-					Local $sAllCoordsString = _ArrayToString($aResultArray, "|", 1) ; "x1,y1|x2,y2|..."
-					Local $aAllCoords = decodeMultipleCoords($sAllCoordsString, 50, 50) ; [{coords1}, {coords2}, ...]
-					For $j = 0 To UBound($aAllCoords) - 1
-						If QuickMIS("BC1", $g_sImgOresCollect, ($aAllCoords[$j])[0] - 50, ($aAllCoords[$j])[1] - 90, ($aAllCoords[$j])[0] + 45, ($aAllCoords[$j])[1] - 20) Then
-							Switch $g_iQuickMISName
-								Case "Shiny"
-									$IsShinyPresent = 1
-								Case "Glowy"
-									$IsGlowyPresent = 1
-								Case "Starry"
-									$IsStarryPresent = 1
-							EndSwitch
-							$IsOresPresent = 1
-						EndIf
-						ClickP($aAllCoords[$j], 1, 160, "Claim " & $j + 1) ; Click Claim button
-						If WaitforPixel(329, 390 + $g_iMidOffsetY, 331, 392 + $g_iMidOffsetY, Hex(0xFDC875, 6), 20, 3) Then ; wait for Cancel Button popped up in 1.5 second
-							If $g_bChkSellRewards Then
-								Setlog("Selling extra reward for gems", $COLOR_SUCCESS)
-								ClickP($aPersonalChallengeOkBtn, 1, 160, "Okay Btn") ; Click the Okay
-								$iClaim += 1
-							Else
-								SetLog("Cancel. Not selling extra rewards.", $COLOR_SUCCESS)
-								ClickP($aPersonalChallengeCancelBtn, 1, 160, "Cancel Btn") ; Click Claim button
-							EndIf
-							If _Sleep(1000) Then ExitLoop
-						Else
-							If _Sleep(Random(4000, 5000, 1)) Then ExitLoop
-							$iClaim += 1
-							If Not QuickMIS("BC1", $g_sImgOresCollect, ($aAllCoords[$j])[0] - 50, ($aAllCoords[$j])[1] - 90, ($aAllCoords[$j])[0] + 45, ($aAllCoords[$j])[1] - 20) And $IsOresPresent = 1 Then
-								$IsOresJustCollected = 1
-								If $IsShinyPresent Then
-									SetLog("Shiny Ore Collected", $COLOR_SUCCESS1)
-									If $g_iTxtCurrentVillageName <> "" Then
-										GUICtrlSetData($g_hTxtModLog, @CRLF & _NowTime() & " [" & $g_iTxtCurrentVillageName & "] Event : Shiny Ore Collected", 1)
-									Else
-										GUICtrlSetData($g_hTxtModLog, @CRLF & _NowTime() & " [" & $g_sProfileCurrentName & "] Event : Shiny Ore Collected", 1)
-									EndIf
-									_FileWriteLog($g_sProfileLogsPath & "\ModLog.log", " [" & $g_sProfileCurrentName & "] - Event : Shiny Ore Collected")
-								ElseIf $IsGlowyPresent Then
-									SetLog("Glowy Ore Collected", $COLOR_SUCCESS1)
-									If $g_iTxtCurrentVillageName <> "" Then
-										GUICtrlSetData($g_hTxtModLog, @CRLF & _NowTime() & " [" & $g_iTxtCurrentVillageName & "] Event : Glowy Ore Collected", 1)
-									Else
-										GUICtrlSetData($g_hTxtModLog, @CRLF & _NowTime() & " [" & $g_sProfileCurrentName & "] Event : Glowy Ore Collected", 1)
-									EndIf
-									_FileWriteLog($g_sProfileLogsPath & "\ModLog.log", " [" & $g_sProfileCurrentName & "] - Event : Glowy Ore Collected")
-								ElseIf $IsStarryPresent Then
-									SetLog("Starry Ore Collected", $COLOR_SUCCESS1)
-									If $g_iTxtCurrentVillageName <> "" Then
-										GUICtrlSetData($g_hTxtModLog, @CRLF & _NowTime() & " [" & $g_iTxtCurrentVillageName & "] Event : Starry Ore Collected", 1)
-									Else
-										GUICtrlSetData($g_hTxtModLog, @CRLF & _NowTime() & " [" & $g_sProfileCurrentName & "] Event : Starry Ore Collected", 1)
-									EndIf
-									_FileWriteLog($g_sProfileLogsPath & "\ModLog.log", " [" & $g_sProfileCurrentName & "] - Event : Starry Ore Collected")
-								EndIf
-							EndIf
-							If _Sleep(100) Then ExitLoop
-						EndIf
-						$IsOresPresent = 0
-						$IsShinyPresent = 0
-						$IsGlowyPresent = 0
-						$IsStarryPresent = 0
+					$sAllCoordsString = _ArrayToString($aResultArray, "|", 1) ; "x1,y1|x2,y2|..."
+					$aAllCoordsTemp = decodeMultipleCoords($sAllCoordsString, 50, 50) ; [{coords1}, {coords2}, ...]
+					For $k = 0 To UBound($aAllCoordsTemp, 1) - 1
+						$aTempCoords = $aAllCoordsTemp[$k]
+						_ArrayAdd($aAllCoords, Number($aTempCoords[0]) & "|" & Number($aTempCoords[1]))
 					Next
 				EndIf
 			Next
+			RemoveDupXY($aAllCoords)
+			_ArraySort($aAllCoords, 1, 0, 0, 0) ;sort by x from right to left
+			For $j = 0 To UBound($aAllCoords) - 1
+				If QuickMIS("BC1", $g_sImgOresCollect, $aAllCoords[$j][0] - 50, $aAllCoords[$j][1] - 90, $aAllCoords[$j][0] + 45, $aAllCoords[$j][1] - 20) Then
+					Switch $g_iQuickMISName
+						Case "Shiny"
+							$IsShinyPresent = 1
+						Case "Glowy"
+							$IsGlowyPresent = 1
+						Case "Starry"
+							$IsStarryPresent = 1
+					EndSwitch
+					$IsOresPresent = 1
+				EndIf
+				Click($aAllCoords[$j][0], $aAllCoords[$j][1], 1, 120, "Claim " & $j + 1)         ; Click Claim button
+				If WaitforPixel(329, 390 + $g_iMidOffsetY, 331, 392 + $g_iMidOffsetY, Hex(0xFDC875, 6), 20, 3) Then         ; wait for Cancel Button popped up in 1.5 second
+					If $g_bChkSellRewards Then
+						Setlog("Selling extra reward for gems", $COLOR_SUCCESS)
+						ClickP($aPersonalChallengeOkBtn, 1, 120, "Okay Btn")         ; Click the Okay
+						$iClaim += 1
+					Else
+						SetLog("Cancel. Not selling extra rewards.", $COLOR_SUCCESS)
+						ClickP($aPersonalChallengeCancelBtn, 1, 120, "Cancel Btn")         ; Click Claim button
+					EndIf
+					If _Sleep(1000) Then ExitLoop
+				Else
+					If _Sleep(Random(4000, 5000, 1)) Then ExitLoop
+					$iClaim += 1
+					If Not QuickMIS("BC1", $g_sImgOresCollect, $aAllCoords[$j][0] - 50, $aAllCoords[$j][1] - 90, $aAllCoords[$j][0] + 45, $aAllCoords[$j][1] - 20) And $IsOresPresent = 1 Then
+						$IsOresJustCollected = 1
+						If $IsShinyPresent Then
+							SetLog("Shiny Ore Collected", $COLOR_SUCCESS1)
+							If $g_iTxtCurrentVillageName <> "" Then
+								GUICtrlSetData($g_hTxtModLog, @CRLF & _NowTime() & " [" & $g_iTxtCurrentVillageName & "] Event : Shiny Ore Collected", 1)
+							Else
+								GUICtrlSetData($g_hTxtModLog, @CRLF & _NowTime() & " [" & $g_sProfileCurrentName & "] Event : Shiny Ore Collected", 1)
+							EndIf
+							_FileWriteLog($g_sProfileLogsPath & "\ModLog.log", " [" & $g_sProfileCurrentName & "] - Event : Shiny Ore Collected")
+						ElseIf $IsGlowyPresent Then
+							SetLog("Glowy Ore Collected", $COLOR_SUCCESS1)
+							If $g_iTxtCurrentVillageName <> "" Then
+								GUICtrlSetData($g_hTxtModLog, @CRLF & _NowTime() & " [" & $g_iTxtCurrentVillageName & "] Event : Glowy Ore Collected", 1)
+							Else
+								GUICtrlSetData($g_hTxtModLog, @CRLF & _NowTime() & " [" & $g_sProfileCurrentName & "] Event : Glowy Ore Collected", 1)
+							EndIf
+							_FileWriteLog($g_sProfileLogsPath & "\ModLog.log", " [" & $g_sProfileCurrentName & "] - Event : Glowy Ore Collected")
+						ElseIf $IsStarryPresent Then
+							SetLog("Starry Ore Collected", $COLOR_SUCCESS1)
+							If $g_iTxtCurrentVillageName <> "" Then
+								GUICtrlSetData($g_hTxtModLog, @CRLF & _NowTime() & " [" & $g_iTxtCurrentVillageName & "] Event : Starry Ore Collected", 1)
+							Else
+								GUICtrlSetData($g_hTxtModLog, @CRLF & _NowTime() & " [" & $g_sProfileCurrentName & "] Event : Starry Ore Collected", 1)
+							EndIf
+							_FileWriteLog($g_sProfileLogsPath & "\ModLog.log", " [" & $g_sProfileCurrentName & "] - Event : Starry Ore Collected")
+						EndIf
+					EndIf
+					If _Sleep(100) Then ExitLoop
+				EndIf
+				$IsOresPresent = 0
+				$IsShinyPresent = 0
+				$IsGlowyPresent = 0
+				$IsStarryPresent = 0
+			Next
+
+
 		EndIf
 
 		Local $IsLeftRes = False

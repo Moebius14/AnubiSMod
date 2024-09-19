@@ -64,7 +64,7 @@ Func WindowsArrange($position, $offsetX = 0, $offsetY = 0)
 						$bAdjusted = $AndroidX <> $x Or $AndroidY <> $y
 						If $bAdjusted Then
 							WinMove($g_hAndroidWindow, "", $x, $y)
-							_Sleep($DELAYWINDOWSARRANGE1, True, False)
+							If _Sleep($DELAYWINDOWSARRANGE1, True, False) Then Return
 						EndIf
 						$bAdjusted = $bAdjusted = True Or $BotX <> $AndroidW + $offsetX * 2 Or $BotY <> $y
 						If $bAdjusted Then WinMove($g_hFrmBot, "", $x + $AndroidW + $offsetX, $y)
@@ -80,7 +80,7 @@ Func WindowsArrange($position, $offsetX = 0, $offsetY = 0)
 						$bAdjusted = $BotX <> $x Or $BotY <> $y
 						If $bAdjusted Then
 							WinMove($g_hFrmBot, "", $x, $y)
-							_Sleep($DELAYWINDOWSARRANGE1, True, False)
+							If _Sleep($DELAYWINDOWSARRANGE1, True, False) Then Return
 						EndIf
 						$bAdjusted = $bAdjusted Or $AndroidX <> $x + $BotW + $offsetX Or $AndroidY <> $y
 						If $bAdjusted Then WinMove($g_hAndroidWindow, "", $x + $BotW + $offsetX, $y)
@@ -108,7 +108,7 @@ Func WindowsArrange($position, $offsetX = 0, $offsetY = 0)
 			EndIf
 			If $bAdjusted = True Then
 				SetDebugLog("WindowsArrange: " & $position & ", offsetX=" & $offsetX & ", offsetY=" & $offsetY & ", X=" & $x & ", Y=" & $y)
-				_Sleep($DELAYWINDOWSARRANGE1, True, False)
+				If _Sleep($DELAYWINDOWSARRANGE1, True, False) Then Return
 			EndIf
 		EndIf
 	EndIf
