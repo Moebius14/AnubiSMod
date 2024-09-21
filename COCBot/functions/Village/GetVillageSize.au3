@@ -62,7 +62,7 @@ Func GetVillageSize($DebugLog = Default, $sStonePrefix = Default, $sTreePrefix =
 		SetDeBugLog("GVZ using : \imgxml\village\NormalVillage\", $COLOR_INFO)
 	EndIf
 
-	Local $hTimer = TimerInit()
+	Local $hTimer = __TimerInit()
 
 	Local $i, $findImage, $sArea, $a, $sScenery = "", $bForceCapture = False
 
@@ -160,7 +160,7 @@ Func GetVillageSize($DebugLog = Default, $sStonePrefix = Default, $sTreePrefix =
 		EndIf
 
 		SetDeBugLog("Scenery search (in " & Round(TimerDiff($hTimer) / 1000, 2) & " seconds)", $COLOR_INFO)
-		$hTimer = TimerInit()
+		$hTimer = __TimerInit()
 
 		If Not $bMeasureOnly Then
 			If $scenery[0] = 0 And $g_aiSearchZoomOutCounter[0] = 1 Then
@@ -179,7 +179,7 @@ Func GetVillageSize($DebugLog = Default, $sStonePrefix = Default, $sTreePrefix =
 	EndIf
 
 	SetDeBugLog("Scenery routines completed (in " & Round(TimerDiff($hTimer) / 1000, 2) & " seconds)", $COLOR_INFO)
-	$hTimer = TimerInit()
+	$hTimer = __TimerInit()
 
 	If $scenery[0] = 0 Then
 		If $bIsOnMainBase Then SetDeBugLog("No Supported Sceneries Found!", $COLOR_ERROR)
@@ -250,7 +250,7 @@ Func GetVillageSize($DebugLog = Default, $sStonePrefix = Default, $sTreePrefix =
 	EndIf
 
 	SetDeBugLog("Stone search (in " & Round(TimerDiff($hTimer) / 1000, 2) & " seconds)", $COLOR_INFO)
-	$hTimer = TimerInit()
+	$hTimer = __TimerInit()
 
 	If $stone[0] = 0 Then
 		SetDeBugLog("Searching ALL tree files!", $COLOR_INFO)
@@ -327,7 +327,7 @@ Func GetVillageSize($DebugLog = Default, $sStonePrefix = Default, $sTreePrefix =
 	EndIf
 
 	SetDeBugLog("Tree search (in " & Round(TimerDiff($hTimer) / 1000, 2) & " seconds)", $COLOR_INFO)
-	$hTimer = TimerInit()
+	$hTimer = __TimerInit()
 
 	Local $iX_Exp = 0
 	Local $iY_Exp = 0

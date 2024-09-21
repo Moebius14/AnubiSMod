@@ -17,6 +17,8 @@ Func MagicSnacks()
 
 	If Not $g_bChkUseSnacks Then Return False
 
+	If Not $g_bRunState Then Return
+
 	Local $aSnacksButton = findButton("Snacks", Default, 1, True)
 	If Not IsArray($aSnacksButton) Or UBound($aSnacksButton, 1) < 2 Then Return False
 
@@ -26,8 +28,8 @@ Func MagicSnacks()
 	If $StarBonusReceived[2] = 0 And _DateIsValid($iLastTimeChecked[$g_iCurAccount]) Then
 		Local $iLastCheck = _DateDiff('n', $iLastTimeChecked[$g_iCurAccount], _NowCalc()) ; elapse time from last check (minutes)
 		SetDebugLog("Magic Snacks LastCheck: " & $iLastTimeChecked[$g_iCurAccount] & ", Check DateCalc: " & $iLastCheck)
-		; A check each from 2 to 4 hours [2*60 = 120 to 4*60 = 240]
-		Local $iDelayToCheck = Random(120, 240, 1)
+		; A check each from 2 to 3 hours [2*60 = 120 to 3*60 = 180]
+		Local $iDelayToCheck = Random(120, 180, 1)
 		If $iLastCheck <= $iDelayToCheck Then Return
 	EndIf
 
@@ -49,114 +51,210 @@ Func MagicSnacks()
 		If _Sleep(1000) Then Return
 
 		Local $aMagicSnacks[0][4]
-		Local $aMagicSnacksTemp = QuickMIS("CNX", $g_sImgMagicSnacks, 200, 560 + $g_iBottomOffsetY, 620, 630 + $g_iBottomOffsetY) ; 0 : Name, 1 : X Coord, 2 : Y Coord, 3 : Empty
+		Local $aMagicSnacksEmpty[0][4]
+		Local $bRecheck = False, $bLoop = 0
+		Local $aMagicSnacksTemp = QuickMIS("CNX", $g_sImgMagicSnacks, 300, 560 + $g_iBottomOffsetY, 620, 630 + $g_iBottomOffsetY) ; 0 : Name, 1 : X Coord, 2 : Y Coord, 3 : Empty
 		If IsArray($aMagicSnacksTemp) And UBound($aMagicSnacksTemp) > 0 And UBound($aMagicSnacksTemp, $UBOUND_COLUMNS) > 1 Then
-			For $i = 0 To UBound($aMagicSnacksTemp) - 1
-				$aMagicSnacksTemp[$i][1] = Number($aMagicSnacksTemp[$i][1])
-				$aMagicSnacksTemp[$i][2] = Number($aMagicSnacksTemp[$i][2])
-			Next
-			_ArraySort($aMagicSnacksTemp, 1, 0, 0, 1) ; X Coord from right to left
-			For $i = 0 To UBound($aMagicSnacksTemp) - 1
-				Switch $aMagicSnacksTemp[$i][1]
-					Case 206 To 300
-						Local $aiToUse = decodeSingleCoord(FindImageInPlace2("ToUse", $g_sImgMagicSnacksToUse, 206, 555 + $g_iBottomOffsetY, 258, 580 + $g_iBottomOffsetY, True))
-					Case 312 To 406
-						Local $aiToUse = decodeSingleCoord(FindImageInPlace2("ToUse", $g_sImgMagicSnacksToUse, 312, 555 + $g_iBottomOffsetY, 364, 580 + $g_iBottomOffsetY, True))
-					Case 418 To 512
-						Local $aiToUse = decodeSingleCoord(FindImageInPlace2("ToUse", $g_sImgMagicSnacksToUse, 418, 555 + $g_iBottomOffsetY, 470, 580 + $g_iBottomOffsetY, True))
-					Case 524 To 618
-						Local $aiToUse = decodeSingleCoord(FindImageInPlace2("ToUse", $g_sImgMagicSnacksToUse, 524, 555 + $g_iBottomOffsetY, 576, 580 + $g_iBottomOffsetY, True))
-				EndSwitch
-				If IsArray($aiToUse) And UBound($aiToUse) = 2 Then
-					_ArrayAdd($aMagicSnacks, $aMagicSnacksTemp[$i][0] & "|" & $aMagicSnacksTemp[$i][1] & "|" & $aMagicSnacksTemp[$i][2] & "| Yes")
-				Else
-					_ArrayAdd($aMagicSnacks, $aMagicSnacksTemp[$i][0] & "|" & $aMagicSnacksTemp[$i][1] & "|" & $aMagicSnacksTemp[$i][2] & "| No")
+			Local $iSnacksCount = UBound($aMagicSnacksTemp)
+			While 1
+				If $bLoop >= UBound($aMagicSnacksTemp) Then ExitLoop
+				SetDebugLog("Loop #" & $bLoop, $COLOR_DEBUG)
+				$bLoop += 1
+				If $bRecheck Then
+					$aMagicSnacks = $aMagicSnacksEmpty ; Empty array
+					SetLog("Item Position might change, Re-Check!", $COLOR_ACTION)
+					$aMagicSnacksTemp = QuickMIS("CNX", $g_sImgMagicSnacks, 300, 560 + $g_iBottomOffsetY, 620, 630 + $g_iBottomOffsetY)
+					$bRecheck = False
 				EndIf
-			Next
-			;;; To Be Sure ;;;;;
-			For $i = 0 To UBound($aMagicSnacks) - 1
-				$aMagicSnacks[$i][1] = Number($aMagicSnacks[$i][1])
-				$aMagicSnacks[$i][2] = Number($aMagicSnacks[$i][2])
-			Next
-			_ArraySort($aMagicSnacks, 1, 0, 0, 1) ; 0 : Name, 1 : X Coord from right to left, 2 : Y Coord, 3 : IsToUse
-			;;;;;;;;;;;;;;;;;;;;
-
-			For $i = 0 To UBound($aMagicSnacks) - 1
-				If StringInStr($aMagicSnacks[$i][3], "No", $STR_NOCASESENSEBASIC) Then
-					SetLog("Snack " & $aMagicSnacks[$i][0] & " can't be used" & ($i = UBound($aMagicSnacks) - 1 ? "." : ", looking next..."), $COLOR_DEBUG1)
-					If _Sleep(1000) Then Return
-				ElseIf StringInStr($aMagicSnacks[$i][3], "Yes", $STR_NOCASESENSEBASIC) Then
-					If StringInStr($aMagicSnacks[$i][0], "Soup", $STR_NOCASESENSEBASIC) Then
-						If $IsAnyLabUpgrade Then
-							SetLog("Snack " & $aMagicSnacks[$i][0] & " can be used.", $COLOR_SUCCESS1)
-							Click($aMagicSnacks[$i][1], $aMagicSnacks[$i][2])
-							If _Sleep(1000) Then Return
-							Local $aiUseButton = decodeSingleCoord(FindImageInPlace2("UseButton", $g_sImgUseButton, 380, 470 + $g_iMidOffsetY, 500, 540 + $g_iMidOffsetY, True))
-							If IsArray($aiUseButton) And UBound($aiUseButton) = 2 Then
-								ClickB($aiUseButton)
-								If _Sleep(1000) Then Return
-								$g_sLabUpgradeTime = _DateAdd('n', Ceiling($iLabFinishTimeMod - 180), _NowCalc())
-								SetLog("Recalculate Research time, using Study Soup (" & $g_sLabUpgradeTime & ")")
-								LabStatusGUIUpdate()
-								$ActionForModLog = "Boosting Research"
-								If $g_iTxtCurrentVillageName <> "" Then
-									GUICtrlSetData($g_hTxtModLog, @CRLF & _NowTime() & " [" & $g_iTxtCurrentVillageName & "] Laboratory : " & $ActionForModLog & " Using Study Soup", 1)
-								Else
-									GUICtrlSetData($g_hTxtModLog, @CRLF & _NowTime() & " [" & $g_sProfileCurrentName & "] Laboratory : " & $ActionForModLog & " Using Study Soup", 1)
-								EndIf
-								_FileWriteLog($g_sProfileLogsPath & "\ModLog.log", " [" & $g_sProfileCurrentName & "] - Laboratory : " & $ActionForModLog)
-							Else
-								SetDebugLog("Cannot Find Use Button", $COLOR_ERROR)
-								CloseWindow2()
-							EndIf
-						Else
-							SetLog("Snack " & $aMagicSnacks[$i][0] & " can't be used" & ($i = UBound($aMagicSnacks) - 1 ? "." : ", looking next..."), $COLOR_DEBUG1)
-						EndIf
-					ElseIf StringInStr($aMagicSnacks[$i][0], "Bite", $STR_NOCASESENSEBASIC) Then
-						If $IsAnyBuildingUpgrade Then
-							SetLog("Snack " & $aMagicSnacks[$i][0] & " can be used.", $COLOR_SUCCESS1)
-							Click($aMagicSnacks[$i][1], $aMagicSnacks[$i][2])
-							If _Sleep(1000) Then Return
-							Local $aiUseButton = decodeSingleCoord(FindImageInPlace2("UseButton", $g_sImgUseButton, 380, 470 + $g_iMidOffsetY, 500, 540 + $g_iMidOffsetY, True))
-							If IsArray($aiUseButton) And UBound($aiUseButton) = 2 Then
-								ClickB($aiUseButton)
-								If _Sleep(1000) Then Return
-								$ActionForModLog = "Boosting Builders"
-								If $g_iTxtCurrentVillageName <> "" Then
-									GUICtrlSetData($g_hTxtModLog, @CRLF & _NowTime() & " [" & $g_iTxtCurrentVillageName & "] Upgrade Village : " & $ActionForModLog & " Using Builder Bite", 1)
-								Else
-									GUICtrlSetData($g_hTxtModLog, @CRLF & _NowTime() & " [" & $g_sProfileCurrentName & "] Upgrade Village : " & $ActionForModLog & " Using Builder Bite", 1)
-								EndIf
-								_FileWriteLog($g_sProfileLogsPath & "\ModLog.log", " [" & $g_sProfileCurrentName & "] - Upgrade Village : " & $ActionForModLog)
-							Else
-								SetDebugLog("Cannot Find Use Button", $COLOR_ERROR)
-								CloseWindow2()
-							EndIf
-						Else
-							SetLog("Snack " & $aMagicSnacks[$i][0] & " can't be used" & ($i = UBound($aMagicSnacks) - 1 ? "." : ", looking next..."), $COLOR_DEBUG1)
-						EndIf
+				For $i = 0 To UBound($aMagicSnacksTemp) - 1
+					$aMagicSnacksTemp[$i][1] = Number($aMagicSnacksTemp[$i][1])
+					$aMagicSnacksTemp[$i][2] = Number($aMagicSnacksTemp[$i][2])
+				Next
+				_ArraySort($aMagicSnacksTemp, 1, 0, 0, 1) ; X Coord from right to left
+				For $i = 0 To UBound($aMagicSnacksTemp) - 1
+					Switch $aMagicSnacksTemp[$i][1]
+						Case 312 To 406
+							Local $aiToUse = decodeSingleCoord(FindImageInPlace2("ToUse", $g_sImgMagicSnacksToUse, 312, 555 + $g_iBottomOffsetY, 364, 578 + $g_iBottomOffsetY, True))
+						Case 418 To 512
+							Local $aiToUse = decodeSingleCoord(FindImageInPlace2("ToUse", $g_sImgMagicSnacksToUse, 418, 555 + $g_iBottomOffsetY, 470, 578 + $g_iBottomOffsetY, True))
+						Case 524 To 618
+							Local $aiToUse = decodeSingleCoord(FindImageInPlace2("ToUse", $g_sImgMagicSnacksToUse, 524, 555 + $g_iBottomOffsetY, 576, 578 + $g_iBottomOffsetY, True))
+					EndSwitch
+					If IsArray($aiToUse) And UBound($aiToUse) = 2 Then
+						_ArrayAdd($aMagicSnacks, $aMagicSnacksTemp[$i][0] & "|" & $aMagicSnacksTemp[$i][1] & "|" & $aMagicSnacksTemp[$i][2] & "| Yes")
 					Else
-						SetLog("Snack " & $aMagicSnacks[$i][0] & " can be used.", $COLOR_SUCCESS1)
-						Click($aMagicSnacks[$i][1], $aMagicSnacks[$i][2])
-						If _Sleep(1000) Then Return
-						Local $aiUseButton = decodeSingleCoord(FindImageInPlace2("UseButton", $g_sImgUseButton, 380, 470 + $g_iMidOffsetY, 500, 540 + $g_iMidOffsetY, True))
-						If IsArray($aiUseButton) And UBound($aiUseButton) = 2 Then
-							ClickB($aiUseButton)
-							If _Sleep(1000) Then Return
-							$ActionForModLog = $aMagicSnacks[$i][0]
-							If $g_iTxtCurrentVillageName <> "" Then
-								GUICtrlSetData($g_hTxtModLog, @CRLF & _NowTime() & " [" & $g_iTxtCurrentVillageName & "] Using Magic Snack : " & $ActionForModLog, 1)
-							Else
-								GUICtrlSetData($g_hTxtModLog, @CRLF & _NowTime() & " [" & $g_sProfileCurrentName & "] Using Magic Snack : " & $ActionForModLog, 1)
-							EndIf
-							_FileWriteLog($g_sProfileLogsPath & "\ModLog.log", " [" & $g_sProfileCurrentName & "] - Using Magic Snack : " & $ActionForModLog)
+						Switch $aMagicSnacksTemp[$i][1]
+							Case 312 To 406
+								Local $aiIsFull = decodeSingleCoord(FindImageInPlace2("MagicSnackIsFull", $g_sImgMagicSnacksFull, 312, 555 + $g_iBottomOffsetY, 364, 578 + $g_iBottomOffsetY, True))
+							Case 418 To 512
+								Local $aiIsFull = decodeSingleCoord(FindImageInPlace2("MagicSnackIsFull", $g_sImgMagicSnacksFull, 418, 555 + $g_iBottomOffsetY, 470, 578 + $g_iBottomOffsetY, True))
+							Case 524 To 618
+								Local $aiIsFull = decodeSingleCoord(FindImageInPlace2("MagicSnackIsFull", $g_sImgMagicSnacksFull, 524, 555 + $g_iBottomOffsetY, 576, 578 + $g_iBottomOffsetY, True))
+						EndSwitch
+						If IsArray($aiIsFull) And UBound($aiIsFull) = 2 Then
+							_ArrayAdd($aMagicSnacks, $aMagicSnacksTemp[$i][0] & "|" & $aMagicSnacksTemp[$i][1] & "|" & $aMagicSnacksTemp[$i][2] & "| Full")
 						Else
-							SetDebugLog("Cannot Find Use Button", $COLOR_ERROR)
-							CloseWindow2()
+							_ArrayAdd($aMagicSnacks, $aMagicSnacksTemp[$i][0] & "|" & $aMagicSnacksTemp[$i][1] & "|" & $aMagicSnacksTemp[$i][2] & "| No")
 						EndIf
 					EndIf
-				EndIf
-			Next
+				Next
+				;;; Array Rework ;;;;;
+				For $i = 0 To UBound($aMagicSnacks) - 1
+					ConvertName($aMagicSnacks[$i][0])
+					$aMagicSnacks[$i][1] = Number($aMagicSnacks[$i][1])
+					$aMagicSnacks[$i][2] = Number($aMagicSnacks[$i][2])
+				Next
+				_ArraySort($aMagicSnacks, 0, 0, 0, 1) ; 0 : Name, 1 : X Coord from left to right, 2 : Y Coord, 3 : IsToUse
+				;;;;;;;;;;;;;;;;;;;;
+
+				For $i = 0 To UBound($aMagicSnacks) - 1
+					If StringInStr($aMagicSnacks[$i][3], "No", $STR_NOCASESENSEBASIC) Then
+						SetLog($aMagicSnacks[$i][0] & " already used" & ($i = UBound($aMagicSnacks) - 1 ? "." : ", looking next..."), $COLOR_DEBUG1)
+						If StringInStr($aMagicSnacks[$i][0], "Cake", $STR_NOCASESENSEBASIC) Then
+							If Not _DateIsValid($ClanCastleCakeTimer) Then
+								Switch $aMagicSnacks[$i][1]
+									Case 312 To 406
+										Local $aiOCRXCord = 312
+									Case 418 To 512
+										Local $aiOCRXCord = 418
+									Case 524 To 618
+										Local $aiOCRXCord = 524
+								EndSwitch
+								Local $TimerReadOCR = getOcrAndCapture("coc-guardshield", $aiOCRXCord, 634 + $g_iBottomOffsetY, 80, 16)
+								Local $TimerReadMinutes = ConvertOCRTime("CakeTime", $TimerReadOCR, False)
+								If $TimerReadMinutes > 0 Then
+									Local $StartTime = _NowCalc() ; what is date:time now
+									$ClanCastleCakeTimer = _DateAdd('n', Ceiling($TimerReadMinutes), $StartTime)
+									SetLog("Clan Castle Cake Will Finish @ " & $ClanCastleCakeTimer, $COLOR_DEBUG1)
+								EndIf
+							EndIf
+						EndIf
+						If $aMagicSnacks[$i][1] > 524 Then ExitLoop 2 ; Exit loops if last snack
+						If _Sleep(1000) Then Return
+					ElseIf StringInStr($aMagicSnacks[$i][3], "Full", $STR_NOCASESENSEBASIC) Then
+						SetLog($aMagicSnacks[$i][0] & " can't used (Full)" & ($i = UBound($aMagicSnacks) - 1 ? "." : ", looking next..."), $COLOR_DEBUG1)
+						If $aMagicSnacks[$i][1] > 524 Then ExitLoop 2 ; Exit loops if last snack
+						If _Sleep(1000) Then Return
+					ElseIf StringInStr($aMagicSnacks[$i][3], "Yes", $STR_NOCASESENSEBASIC) Then
+						If StringInStr($aMagicSnacks[$i][0], "Soup", $STR_NOCASESENSEBASIC) Then
+							If $IsAnyLabUpgrade Then
+								SetLog($aMagicSnacks[$i][0] & " can be used.", $COLOR_SUCCESS1)
+								If _Sleep(500) Then Return
+								Click($aMagicSnacks[$i][1], $aMagicSnacks[$i][2])
+								If _Sleep(1000) Then Return
+								Local $aiUseButton = decodeSingleCoord(FindImageInPlace2("UseButton", $g_sImgUseButton, 380, 470 + $g_iMidOffsetY, 500, 540 + $g_iMidOffsetY, True))
+								If IsArray($aiUseButton) And UBound($aiUseButton) = 2 Then
+									ClickP($aiUseButton)
+									If _Sleep(1000) Then Return
+									$g_sLabUpgradeTime = _DateAdd('n', Ceiling($iLabFinishTimeMod - 180), _NowCalc())
+									SetLog("Recalculate Research time, using Study Soup (" & $g_sLabUpgradeTime & ")")
+									LabStatusGUIUpdate()
+									$ActionForModLog = "Boosting Lab Research"
+									If $g_iTxtCurrentVillageName <> "" Then
+										GUICtrlSetData($g_hTxtModLog, @CRLF & _NowTime() & " [" & $g_iTxtCurrentVillageName & "] Magic Snacks : " & $ActionForModLog & " Using Study Soup", 1)
+									Else
+										GUICtrlSetData($g_hTxtModLog, @CRLF & _NowTime() & " [" & $g_sProfileCurrentName & "] Magic Snacks : " & $ActionForModLog & " Using Study Soup", 1)
+									EndIf
+									_FileWriteLog($g_sProfileLogsPath & "\ModLog.log", " [" & $g_sProfileCurrentName & "] - Magic Snacks : " & $ActionForModLog)
+									If $aMagicSnacks[$i][1] > 524 Then ExitLoop 2 ; Exit loops if last snack
+									$bRecheck = True
+									If _Sleep(1000) Then Return
+									ExitLoop
+								Else
+									SetDebugLog("Cannot Find Use Button", $COLOR_ERROR)
+									CloseWindow2()
+								EndIf
+							Else
+								SetLog($aMagicSnacks[$i][0] & " already used" & ($i = UBound($aMagicSnacks) - 1 ? "." : ", looking next..."), $COLOR_DEBUG1)
+							EndIf
+						ElseIf StringInStr($aMagicSnacks[$i][0], "Bite", $STR_NOCASESENSEBASIC) Then
+							If $IsAnyBuildingUpgrade Then
+								SetLog($aMagicSnacks[$i][0] & " can be used.", $COLOR_SUCCESS1)
+								If _Sleep(500) Then Return
+								Click($aMagicSnacks[$i][1], $aMagicSnacks[$i][2])
+								If _Sleep(1000) Then Return
+								Local $aiUseButton = decodeSingleCoord(FindImageInPlace2("UseButton", $g_sImgUseButton, 380, 470 + $g_iMidOffsetY, 500, 540 + $g_iMidOffsetY, True))
+								If IsArray($aiUseButton) And UBound($aiUseButton) = 2 Then
+									ClickP($aiUseButton)
+									If _Sleep(1000) Then Return
+									$ActionForModLog = "Boosting Builders"
+									If $g_iTxtCurrentVillageName <> "" Then
+										GUICtrlSetData($g_hTxtModLog, @CRLF & _NowTime() & " [" & $g_iTxtCurrentVillageName & "] Magic Snacks : " & $ActionForModLog & " Using Builder Bite", 1)
+									Else
+										GUICtrlSetData($g_hTxtModLog, @CRLF & _NowTime() & " [" & $g_sProfileCurrentName & "] Magic Snacks : " & $ActionForModLog & " Using Builder Bite", 1)
+									EndIf
+									_FileWriteLog($g_sProfileLogsPath & "\ModLog.log", " [" & $g_sProfileCurrentName & "] - Magic Snacks : " & $ActionForModLog)
+									If $aMagicSnacks[$i][1] > 524 Then ExitLoop 2 ; Exit loops if last snack
+									$bRecheck = True
+									If _Sleep(1000) Then Return
+									ExitLoop
+								Else
+									SetDebugLog("Cannot Find Use Button", $COLOR_ERROR)
+									CloseWindow2()
+								EndIf
+							Else
+								SetLog($aMagicSnacks[$i][0] & " already used" & ($i = UBound($aMagicSnacks) - 1 ? "." : ", looking next..."), $COLOR_DEBUG1)
+							EndIf
+						ElseIf StringInStr($aMagicSnacks[$i][0], "Cake", $STR_NOCASESENSEBASIC) Then
+							If $bChkUseOnlyCCMedals Or (Not $bChkUseOnlyCCMedals And $g_aiCmbCCDecisionThen = 1) Then
+								SetLog($aMagicSnacks[$i][0] & " can be used.", $COLOR_SUCCESS1)
+								If _Sleep(500) Then Return
+								Click($aMagicSnacks[$i][1], $aMagicSnacks[$i][2])
+								If _Sleep(1000) Then Return
+								Local $aiUseButton = decodeSingleCoord(FindImageInPlace2("UseButton", $g_sImgUseButton, 380, 470 + $g_iMidOffsetY, 500, 540 + $g_iMidOffsetY, True))
+								If IsArray($aiUseButton) And UBound($aiUseButton) = 2 Then
+									ClickP($aiUseButton)
+									$ClanCastleCakeTimer = __TimerInit()
+									If _Sleep(1000) Then Return
+									$ActionForModLog = "Using Clan Castle Cake"
+									If $g_iTxtCurrentVillageName <> "" Then
+										GUICtrlSetData($g_hTxtModLog, @CRLF & _NowTime() & " [" & $g_iTxtCurrentVillageName & "] Magic Snacks : " & $ActionForModLog, 1)
+									Else
+										GUICtrlSetData($g_hTxtModLog, @CRLF & _NowTime() & " [" & $g_sProfileCurrentName & "] Magic Snacks : " & $ActionForModLog, 1)
+									EndIf
+									_FileWriteLog($g_sProfileLogsPath & "\ModLog.log", " [" & $g_sProfileCurrentName & "] - Magic Snacks : " & $ActionForModLog)
+									If $aMagicSnacks[$i][1] > 524 Then ExitLoop 2 ; Exit loops if last snack
+									$bRecheck = True
+									If _Sleep(1000) Then Return
+									ExitLoop
+								Else
+									SetDebugLog("Cannot Find Use Button", $COLOR_ERROR)
+									CloseWindow2()
+								EndIf
+							Else
+								SetLog($aMagicSnacks[$i][0] & " already used" & ($i = UBound($aMagicSnacks) - 1 ? "." : ", looking next..."), $COLOR_DEBUG1)
+							EndIf
+						Else
+							SetLog($aMagicSnacks[$i][0] & " can be used.", $COLOR_SUCCESS1)
+							Click($aMagicSnacks[$i][1], $aMagicSnacks[$i][2])
+							If _Sleep(1000) Then Return
+							Local $aiUseButton = decodeSingleCoord(FindImageInPlace2("UseButton", $g_sImgUseButton, 380, 470 + $g_iMidOffsetY, 500, 540 + $g_iMidOffsetY, True))
+							If IsArray($aiUseButton) And UBound($aiUseButton) = 2 Then
+								ClickP($aiUseButton)
+								If _Sleep(1000) Then Return
+								$ActionForModLog = $aMagicSnacks[$i][0]
+								If $g_iTxtCurrentVillageName <> "" Then
+									GUICtrlSetData($g_hTxtModLog, @CRLF & _NowTime() & " [" & $g_iTxtCurrentVillageName & "] Using Magic Snack : " & $ActionForModLog, 1)
+								Else
+									GUICtrlSetData($g_hTxtModLog, @CRLF & _NowTime() & " [" & $g_sProfileCurrentName & "] Using Magic Snack : " & $ActionForModLog, 1)
+								EndIf
+								_FileWriteLog($g_sProfileLogsPath & "\ModLog.log", " [" & $g_sProfileCurrentName & "] - Using Magic Snack : " & $ActionForModLog)
+								If $aMagicSnacks[$i][1] > 524 Then ExitLoop 2 ; Exit loops if last snack
+								$bRecheck = True
+								If _Sleep(1000) Then Return
+								ExitLoop
+							Else
+								SetDebugLog("Cannot Find Use Button", $COLOR_ERROR)
+								CloseWindow2()
+							EndIf
+						EndIf
+						If $aMagicSnacks[$i][1] > 524 Then ExitLoop 2 ; Exit loops if last snack
+						If _Sleep(1000) Then Return
+					EndIf
+				Next
+				If _Sleep(1000) Then Return
+			WEnd
+			If _Sleep(500) Then Return
 		EndIf
 		If ClickB("Snacks") Then SetLog("Closing Magic Snacks", $COLOR_SUCCESS)
 		Return True
@@ -170,7 +268,7 @@ Func AllowBoostingBuildersForSnacks()
 	If Not getBuilderCount() Then Return False
 	If _Sleep($DELAYRESPOND) Then Return
 
-	If $g_iTotalBuilderCount - $g_iFreeBuilderCount < 2 Then
+	If Number($g_iFreeBuilderCount) < 2 Then
 		SetLog("Enough Upgrades in Progress", $COLOR_SUCCESS)
 		Return True
 	Else
@@ -179,3 +277,29 @@ Func AllowBoostingBuildersForSnacks()
 	EndIf
 EndFunc   ;==>AllowBoostingBuildersForSnacks
 
+Func ConvertName(ByRef $bName)
+
+	Local $bProperName = ""
+
+	Switch $bName
+		Case "BuilderBite"
+			$bProperName = "Builder Bite"
+		Case "BuilderJar"
+			$bProperName = "Builder Star Jar"
+		Case "CastleCake"
+			$bProperName = "Castle Cake"
+		Case "PowerPancake"
+			$bProperName = "Power Pancake"
+		Case "StudySoup"
+			$bProperName = "Study Soup"
+		Case "TrainingTreat"
+			$bProperName = "Training Treat"
+		Case "MightyMorsel"
+			$bProperName = "Mighty Morsel"
+		Case Else
+			$bProperName = $bName
+	EndSwitch
+
+	$bName = $bProperName
+
+EndFunc   ;==>ConvertName

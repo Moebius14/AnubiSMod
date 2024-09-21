@@ -83,7 +83,7 @@ EndFunc   ;==>Collect
 
 Func CollectLootCart()
 	If $LootCartTimer <> 0 Then
-		Local $LootCartTimerDiff = TimerDiff($LootCartTimer)
+		Local $LootCartTimerDiff = __TimerDiff($LootCartTimer)
 	ElseIf $LootCartTimer = 0 Then
 		Local $LootCartTimerDiff = 0
 	EndIf
@@ -93,7 +93,7 @@ Func CollectLootCart()
 			Return
 		EndIf
 	EndIf
-	$LootCartTimer = TimerInit()
+	$LootCartTimer = __TimerInit()
 	$LootCartFrequency = Random((1 * 60 * 60 * 1000), (2 * 60 * 60 * 1000), 1)
 
 	SetLog("Searching for a Loot Cart", $COLOR_INFO)

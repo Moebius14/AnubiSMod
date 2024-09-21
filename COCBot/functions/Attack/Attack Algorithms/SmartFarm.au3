@@ -60,7 +60,7 @@ EndFunc   ;==>TestSmartFarm
 Func ChkSmartFarm($TypeResources = "All")
 
 	; Initial Timer
-	Local $hTimer = TimerInit()
+	Local $hTimer = __TimerInit()
 
 	; [0] = x , [1] = y , [2] = Side , [3] = In/out , [4] = Side,  [5]= Is string with 5 coordinates to deploy
 	Local $aResourcesOUT[0][6]
@@ -74,7 +74,7 @@ Func ChkSmartFarm($TypeResources = "All")
 	; Local $aMines = SmartFarmDetection("Mines")
 	; Local $aDrills = SmartFarmDetection("Drills")
 
-	$hTimer = TimerInit()
+	$hTimer = __TimerInit()
 
 	If $g_iSearchTH = "-" Then FindTownHall(True, True)
 	; [0] = Level , [1] = Xaxis , [2] = Yaxis , [3] = Distances to redlines
@@ -216,7 +216,7 @@ Func SmartFarmDetection($txtBuildings = "Mines")
 
 
 	; Initial Timer
-	Local $hTimer = TimerInit()
+	Local $hTimer = __TimerInit()
 
 	; Prepared for Winter Theme
 	Switch $txtBuildings

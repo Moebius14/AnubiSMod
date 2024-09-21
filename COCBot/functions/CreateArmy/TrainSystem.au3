@@ -173,9 +173,10 @@ Func CheckIfArmyIsReady()
 		EndIf
 		$g_bIsFullArmywithHeroesAndSpells = False
 	EndIf
+	Local $IsToFillCCWithCake = TimeToFillCCWithCake()
 	If $g_bFullArmy And $g_bCheckSpells And $bFullArmyHero Then ; Force Switch while waiting for CC in SwitchAcc
 		If Not $bFullArmyCC Then
-			If $g_aiCmbCCDecisionTime > 0 And Not $bChkUseOnlyCCMedals And $g_aiCmbCCDecisionThen = 1 Then
+			If $g_aiCmbCCDecisionTime > 0 And (Not $bChkUseOnlyCCMedals Or Not $IsToFillCCWithCake) And $g_aiCmbCCDecisionThen = 1 Then
 				$g_bWaitForCCTroopSpell = False ; To Not Switch if fill with medals
 			Else
 				$g_bWaitForCCTroopSpell = True
@@ -199,7 +200,7 @@ Func CheckIfArmyIsReady()
 			SetLog("Chief, is your Army ready? No, not yet!", $COLOR_ACTION)
 			If $sLogText <> "" Then SetLog(@TAB & "Waiting for " & $sLogText, $COLOR_ACTION)
 		Else
-			If $g_aiCmbCCDecisionTime > 0 And $g_aiCmbCCDecisionThen = 0 And Not $bChkUseOnlyCCMedals And $g_bRequestTroopsEnable And _
+			If $g_aiCmbCCDecisionTime > 0 And $g_aiCmbCCDecisionThen = 0 And (Not $bChkUseOnlyCCMedals Or Not $IsToFillCCWithCake) And $g_bRequestTroopsEnable And _
 					$g_bFullArmy And $g_bCheckSpells And $bFullArmyHero And $bFullSiege Then ; Wait For Time Then Attack (Time reached)
 				If $g_bNotifyTGEnable And $g_bNotifyAlertCampFull Then PushMsg("CampFull")
 				SetLog("Chief, is your Army ready? Yes, it is!", $COLOR_SUCCESS)
@@ -214,7 +215,7 @@ Func CheckIfArmyIsReady()
 	EndIf
 
 	If $g_bFullArmy And $g_bCheckSpells And $bFullArmyHero And $bFullSiege Then
-		If Not $bFullArmyCC And $g_bRequestTroopsEnable And ((Not $bChkUseOnlyCCMedals And $g_aiCmbCCDecisionThen = 1 And $IsTofillWithMedals) Or $bChkUseOnlyCCMedals) And $IsTofillWithMedalsPause Then
+		If Not $bFullArmyCC And $g_bRequestTroopsEnable And (((Not $bChkUseOnlyCCMedals Or Not $IsToFillCCWithCake) And $g_aiCmbCCDecisionThen = 1 And $IsTofillWithMedals) Or $bChkUseOnlyCCMedals Or $IsToFillCCWithCake) And $IsTofillWithMedalsPause Then
 			Local $IsCCFilled = FillCCWMedals(True, True, True, True, False, False)
 			Local $MedalsSetlog = _NumberFormat($g_iLootCCMedal, True)
 			If $IsCCFilled = "Filled" Then
@@ -254,6 +255,34 @@ Func CheckIfArmyIsReady()
 	EndIf
 
 EndFunc   ;==>CheckIfArmyIsReady
+
+Func TimeToFillCCWithCake($SetLog = True)
+
+	If $g_aiCmbCCDecisionTime = 0 Then Return False
+
+	If _DateIsValid($ClanCastleCakeTimer) Then
+		Local $TimeDiffCakeTimer = _DateDiff('n', _NowCalc(), $ClanCastleCakeTimer)
+		If $TimeDiffCakeTimer < 12 * 60 Then
+			Local $iWaitTime = $TimeDiffCakeTimer * 60 * 1000
+			Local $sWaitTime = ""
+
+			Local $iWaitSec = Round($iWaitTime / 1000)
+			Local $iHour = Floor(Floor($iWaitSec / 60) / 60)
+			Local $iMin = Floor(Mod(Floor($iWaitSec / 60), 60))
+			If $iHour > 0 Then $sWaitTime &= $iHour & " hours "
+			If $iMin > 0 Then $sWaitTime &= $iMin & " minutes "
+
+			If $SetLog Then SetLog("Clan Castle Cake Will Finish in " & $sWaitTime, $COLOR_ACTION)
+			Return True
+		Else
+			$ClanCastleCakeTimer = 0
+			Return False
+		EndIf
+	Else
+		Return False
+	EndIf
+
+EndFunc   ;==>TimeToFillCCWithCake
 
 Func CheckSpells()
 	If Not $g_bRunState Then Return
@@ -1450,7 +1479,10 @@ Func FillCCWMedals($g_bFullArmy = False, $g_bCheckSpells = False, $bFullArmyHero
 	If $BuildingInfo[1] = "Clan Castle" Then
 		If ClickB("Reinforce") Then
 			If _Sleep(1000) Then Return
-			If Number($g_iLootCCMedal) = 0 Then $g_iLootCCMedal = getOcrAndCapture("coc-bonus", 555, 360 + $g_iMidOffsetY, 60, 16, True)
+			If Number($g_iLootCCMedal) = 0 Then
+				$g_iLootCCMedal = getOcrAndCapture("coc-bonus", 555, 360 + $g_iMidOffsetY, 60, 16, True)
+				If $g_iLootCCMedal = "" Then $g_iLootCCMedal = getOcrAndCapture("coc-bonus", 555, 320 + $g_iMidOffsetY, 60, 16, True)
+			EndIf
 			If _Sleep(250) Then Return
 			If QuickMIS("BC1", $g_sImgCCReinforceBuy, 550, 455 + $g_iMidOffsetY, 610, 520 + $g_iMidOffsetY) Then
 				If WaitforPixel(488, 492 + $g_iMidOffsetY, 492, 496 + $g_iMidOffsetY, "6CBB1F", 10, 2) Then
@@ -1463,7 +1495,7 @@ Func FillCCWMedals($g_bFullArmy = False, $g_bCheckSpells = False, $bFullArmyHero
 						Local $CoordsY[2] = [455 + $g_iMidOffsetY, 490 + $g_iMidOffsetY]
 						Local $ButtonClickX = Random($CoordsX[0], $CoordsX[1], 1)
 						Local $ButtonClickY = Random($CoordsY[0], $CoordsY[1], 1)
-						Click($ButtonClickX, $ButtonClickY, 1, 180, "CancelButton") ;Click Cancel
+						Click($ButtonClickX, $ButtonClickY, 1, 130, "CancelButton") ;Click Cancel
 						If _Sleep($DELAYBUILDINGINFO1) Then Return
 						ClearScreen()
 						$bRet = "NoMedal"
@@ -1474,7 +1506,41 @@ Func FillCCWMedals($g_bFullArmy = False, $g_bCheckSpells = False, $bFullArmyHero
 					EndIf
 					Local $ButtonClickX = Random($g_iQuickMISX - 71, $g_iQuickMISX, 1)
 					Local $ButtonClickY = Random($g_iQuickMISY - 25, $g_iQuickMISY + 5, 1)
-					Click($ButtonClickX, $ButtonClickY, 1, 180, "BuyButton") ;Click Buy
+					Click($ButtonClickX, $ButtonClickY, 1, 130, "BuyButton") ;Click Buy
+					$IsCCOpen = True
+					If _Sleep(1500) Then Return
+				EndIf
+			ElseIf QuickMIS("BC1", $g_sImgCCReinforceBuy, 550, 415 + $g_iMidOffsetY, 610, 480 + $g_iMidOffsetY) Then
+				If WaitforPixel(488, 452 + $g_iMidOffsetY, 492, 456 + $g_iMidOffsetY, "6CBB1F", 10, 2) Then
+					$g_iCCMedalCost = getOcrAndCapture("coc-CCMedalsUsed", 505, 434 + $g_iMidOffsetY, 50, 24, True)
+					If $g_bDebugImageSaveMod Then SaveDebugRectImageCrop("CCMedalCost", "525,490,565,510")
+					SetLog("Cost Of Filling : " & $g_iCCMedalCost & " Medals", $COLOR_ACTION)
+					$g_iLootCCMedal -= Number($g_iCCMedalCost)
+					If Number($g_iLootCCMedal) <= Number($g_aiCmbCCMedalsSaveMin) Then
+						Local $CoordsX[2] = [280, 350]
+						Local $CoordsY[2] = [415 + $g_iMidOffsetY, 450 + $g_iMidOffsetY]
+						Local $ButtonClickX = Random($CoordsX[0], $CoordsX[1], 1)
+						Local $ButtonClickY = Random($CoordsY[0], $CoordsY[1], 1)
+						Click($ButtonClickX, $ButtonClickY, 1, 130, "CancelButton") ;Click Cancel
+						If _Sleep($DELAYBUILDINGINFO1) Then Return
+						ClearScreen()
+						$bRet = "NoMedal"
+						GUICtrlSetData($g_lblCapitalMedal, _NumberFormat($g_iLootCCMedal, True))
+						UpdateStats()
+						If ProfileSwitchAccountEnabled() Then SwitchAccountVariablesReload("Save")
+						Return $bRet
+					EndIf
+					Local $ButtonClickX = Random($g_iQuickMISX - 71, $g_iQuickMISX, 1)
+					Local $ButtonClickY = Random($g_iQuickMISY - 25, $g_iQuickMISY + 5, 1)
+					Click($ButtonClickX, $ButtonClickY, 1, 130, "BuyButton") ;Click Buy
+					$IsCCOpen = True
+					If _Sleep(1500) Then Return
+				EndIf
+			ElseIf QuickMIS("BC1", $g_sImgCCReinforceCake, 455, 440 + $g_iMidOffsetY, 515, 510 + $g_iMidOffsetY) Then
+				If WaitforPixel(488, 492 + $g_iMidOffsetY, 492, 496 + $g_iMidOffsetY, "6CBB1F", 10, 2) Then
+					Local $ButtonClickX = Random($g_iQuickMISX + 40, $g_iQuickMISX + 100, 1)
+					Local $ButtonClickY = Random($g_iQuickMISY - 20, $g_iQuickMISY + 20, 1)
+					Click($ButtonClickX, $ButtonClickY, 1, 130, "BuyButton") ;Click Buy
 					$IsCCOpen = True
 					If _Sleep(1500) Then Return
 				EndIf
@@ -1499,7 +1565,10 @@ Func FillCCWMedals($g_bFullArmy = False, $g_bCheckSpells = False, $bFullArmyHero
 			If $BuildingInfo[1] = "Clan Castle" Then
 				If ClickB("Reinforce") Then
 					If _Sleep(1000) Then Return
-					If Number($g_iLootCCMedal) = 0 Then $g_iLootCCMedal = getOcrAndCapture("coc-bonus", 555, 360 + $g_iMidOffsetY, 60, 16, True)
+					If Number($g_iLootCCMedal) = 0 Then
+						$g_iLootCCMedal = getOcrAndCapture("coc-bonus", 555, 360 + $g_iMidOffsetY, 60, 16, True)
+						If $g_iLootCCMedal = "" Then $g_iLootCCMedal = getOcrAndCapture("coc-bonus", 555, 320 + $g_iMidOffsetY, 60, 16, True)
+					EndIf
 					If _Sleep(250) Then Return
 					If QuickMIS("BC1", $g_sImgCCReinforceBuy, 550, 455 + $g_iMidOffsetY, 610, 520 + $g_iMidOffsetY) Then
 						If WaitforPixel(488, 492 + $g_iMidOffsetY, 492, 496 + $g_iMidOffsetY, "6CBB1F", 10, 2) Then
@@ -1512,7 +1581,7 @@ Func FillCCWMedals($g_bFullArmy = False, $g_bCheckSpells = False, $bFullArmyHero
 								Local $CoordsY[2] = [455 + $g_iMidOffsetY, 490 + $g_iMidOffsetY]
 								Local $ButtonClickX = Random($CoordsX[0], $CoordsX[1], 1)
 								Local $ButtonClickY = Random($CoordsY[0], $CoordsY[1], 1)
-								Click($ButtonClickX, $ButtonClickY, 1, 180, "CancelButton") ;Click Cancel
+								Click($ButtonClickX, $ButtonClickY, 1, 130, "CancelButton") ;Click Cancel
 								If _Sleep($DELAYBUILDINGINFO1) Then Return
 								ClearScreen()
 								$bRet = "NoMedal"
@@ -1520,10 +1589,44 @@ Func FillCCWMedals($g_bFullArmy = False, $g_bCheckSpells = False, $bFullArmyHero
 							EndIf
 							Local $ButtonClickX = Random($g_iQuickMISX - 71, $g_iQuickMISX, 1)
 							Local $ButtonClickY = Random($g_iQuickMISY - 25, $g_iQuickMISY + 5, 1)
-							Click($ButtonClickX, $ButtonClickY, 1, 180, "BuyButton") ;Click Buy
+							Click($ButtonClickX, $ButtonClickY, 1, 130, "BuyButton") ;Click Buy
 							If _Sleep(1000) Then Return
 							$IsCCOpen = True
 							ExitLoop
+						EndIf
+					ElseIf QuickMIS("BC1", $g_sImgCCReinforceBuy, 550, 415 + $g_iMidOffsetY, 610, 480 + $g_iMidOffsetY) Then
+						If WaitforPixel(488, 452 + $g_iMidOffsetY, 492, 456 + $g_iMidOffsetY, "6CBB1F", 10, 2) Then
+							$g_iCCMedalCost = getOcrAndCapture("coc-CCMedalsUsed", 505, 434 + $g_iMidOffsetY, 50, 24, True)
+							If $g_bDebugImageSaveMod Then SaveDebugRectImageCrop("CCMedalCost", "525,490,565,510")
+							SetLog("Cost Of Filling : " & $g_iCCMedalCost & " Medals", $COLOR_ACTION)
+							$g_iLootCCMedal -= Number($g_iCCMedalCost)
+							If Number($g_iLootCCMedal) <= Number($g_aiCmbCCMedalsSaveMin) Then
+								Local $CoordsX[2] = [280, 350]
+								Local $CoordsY[2] = [415 + $g_iMidOffsetY, 450 + $g_iMidOffsetY]
+								Local $ButtonClickX = Random($CoordsX[0], $CoordsX[1], 1)
+								Local $ButtonClickY = Random($CoordsY[0], $CoordsY[1], 1)
+								Click($ButtonClickX, $ButtonClickY, 1, 130, "CancelButton") ;Click Cancel
+								If _Sleep($DELAYBUILDINGINFO1) Then Return
+								ClearScreen()
+								$bRet = "NoMedal"
+								GUICtrlSetData($g_lblCapitalMedal, _NumberFormat($g_iLootCCMedal, True))
+								UpdateStats()
+								If ProfileSwitchAccountEnabled() Then SwitchAccountVariablesReload("Save")
+								Return $bRet
+							EndIf
+							Local $ButtonClickX = Random($g_iQuickMISX - 71, $g_iQuickMISX, 1)
+							Local $ButtonClickY = Random($g_iQuickMISY - 25, $g_iQuickMISY + 5, 1)
+							Click($ButtonClickX, $ButtonClickY, 1, 130, "BuyButton") ;Click Buy
+							$IsCCOpen = True
+							If _Sleep(1500) Then Return
+						EndIf
+					ElseIf QuickMIS("BC1", $g_sImgCCReinforceCake, 455, 440 + $g_iMidOffsetY, 515, 510 + $g_iMidOffsetY) Then
+						If WaitforPixel(488, 492 + $g_iMidOffsetY, 492, 496 + $g_iMidOffsetY, "6CBB1F", 10, 2) Then
+							Local $ButtonClickX = Random($g_iQuickMISX + 40, $g_iQuickMISX + 100, 1)
+							Local $ButtonClickY = Random($g_iQuickMISY - 20, $g_iQuickMISY + 20, 1)
+							Click($ButtonClickX, $ButtonClickY, 1, 130, "BuyButton") ;Click Buy
+							$IsCCOpen = True
+							If _Sleep(1500) Then Return
 						EndIf
 					EndIf
 				Else
@@ -1543,7 +1646,10 @@ Func FillCCWMedals($g_bFullArmy = False, $g_bCheckSpells = False, $bFullArmyHero
 			If $BuildingInfo[1] = "Clan Castle" Then
 				If ClickB("Reinforce") Then
 					If _Sleep(1000) Then Return
-					If Number($g_iLootCCMedal) = 0 Then $g_iLootCCMedal = getOcrAndCapture("coc-bonus", 555, 360 + $g_iMidOffsetY, 60, 16, True)
+					If Number($g_iLootCCMedal) = 0 Then
+						$g_iLootCCMedal = getOcrAndCapture("coc-bonus", 555, 360 + $g_iMidOffsetY, 60, 16, True)
+						If $g_iLootCCMedal = "" Then $g_iLootCCMedal = getOcrAndCapture("coc-bonus", 555, 320 + $g_iMidOffsetY, 60, 16, True)
+					EndIf
 					If _Sleep(250) Then Return
 					If QuickMIS("BC1", $g_sImgCCReinforceBuy, 550, 455 + $g_iMidOffsetY, 610, 520 + $g_iMidOffsetY) Then
 						If WaitforPixel(488, 492 + $g_iMidOffsetY, 492, 496 + $g_iMidOffsetY, "6CBB1F", 10, 2) Then
@@ -1556,7 +1662,7 @@ Func FillCCWMedals($g_bFullArmy = False, $g_bCheckSpells = False, $bFullArmyHero
 								Local $CoordsY[2] = [455 + $g_iMidOffsetY, 490 + $g_iMidOffsetY]
 								Local $ButtonClickX = Random($CoordsX[0], $CoordsX[1], 1)
 								Local $ButtonClickY = Random($CoordsY[0], $CoordsY[1], 1)
-								Click($ButtonClickX, $ButtonClickY, 1, 180, "CancelButton") ;Click Cancel
+								Click($ButtonClickX, $ButtonClickY, 1, 130, "CancelButton") ;Click Cancel
 								If _Sleep($DELAYBUILDINGINFO1) Then Return
 								ClearScreen()
 								$bRet = "NoMedal"
@@ -1564,10 +1670,44 @@ Func FillCCWMedals($g_bFullArmy = False, $g_bCheckSpells = False, $bFullArmyHero
 							EndIf
 							Local $ButtonClickX = Random($g_iQuickMISX - 71, $g_iQuickMISX, 1)
 							Local $ButtonClickY = Random($g_iQuickMISY - 25, $g_iQuickMISY + 5, 1)
-							Click($ButtonClickX, $ButtonClickY, 1, 180, "BuyButton") ;Click Buy
+							Click($ButtonClickX, $ButtonClickY, 1, 130, "BuyButton") ;Click Buy
 							If _Sleep(1000) Then Return
 							$IsCCOpen = True
 							ExitLoop
+						EndIf
+					ElseIf QuickMIS("BC1", $g_sImgCCReinforceBuy, 550, 415 + $g_iMidOffsetY, 610, 480 + $g_iMidOffsetY) Then
+						If WaitforPixel(488, 452 + $g_iMidOffsetY, 492, 456 + $g_iMidOffsetY, "6CBB1F", 10, 2) Then
+							$g_iCCMedalCost = getOcrAndCapture("coc-CCMedalsUsed", 505, 434 + $g_iMidOffsetY, 50, 24, True)
+							If $g_bDebugImageSaveMod Then SaveDebugRectImageCrop("CCMedalCost", "525,490,565,510")
+							SetLog("Cost Of Filling : " & $g_iCCMedalCost & " Medals", $COLOR_ACTION)
+							$g_iLootCCMedal -= Number($g_iCCMedalCost)
+							If Number($g_iLootCCMedal) <= Number($g_aiCmbCCMedalsSaveMin) Then
+								Local $CoordsX[2] = [280, 350]
+								Local $CoordsY[2] = [415 + $g_iMidOffsetY, 450 + $g_iMidOffsetY]
+								Local $ButtonClickX = Random($CoordsX[0], $CoordsX[1], 1)
+								Local $ButtonClickY = Random($CoordsY[0], $CoordsY[1], 1)
+								Click($ButtonClickX, $ButtonClickY, 1, 130, "CancelButton") ;Click Cancel
+								If _Sleep($DELAYBUILDINGINFO1) Then Return
+								ClearScreen()
+								$bRet = "NoMedal"
+								GUICtrlSetData($g_lblCapitalMedal, _NumberFormat($g_iLootCCMedal, True))
+								UpdateStats()
+								If ProfileSwitchAccountEnabled() Then SwitchAccountVariablesReload("Save")
+								Return $bRet
+							EndIf
+							Local $ButtonClickX = Random($g_iQuickMISX - 71, $g_iQuickMISX, 1)
+							Local $ButtonClickY = Random($g_iQuickMISY - 25, $g_iQuickMISY + 5, 1)
+							Click($ButtonClickX, $ButtonClickY, 1, 130, "BuyButton") ;Click Buy
+							$IsCCOpen = True
+							If _Sleep(1500) Then Return
+						EndIf
+					ElseIf QuickMIS("BC1", $g_sImgCCReinforceCake, 455, 440 + $g_iMidOffsetY, 515, 510 + $g_iMidOffsetY) Then
+						If WaitforPixel(488, 492 + $g_iMidOffsetY, 492, 496 + $g_iMidOffsetY, "6CBB1F", 10, 2) Then
+							Local $ButtonClickX = Random($g_iQuickMISX + 40, $g_iQuickMISX + 100, 1)
+							Local $ButtonClickY = Random($g_iQuickMISY - 20, $g_iQuickMISY + 20, 1)
+							Click($ButtonClickX, $ButtonClickY, 1, 130, "BuyButton") ;Click Buy
+							$IsCCOpen = True
+							If _Sleep(1500) Then Return
 						EndIf
 					EndIf
 				Else
@@ -1607,7 +1747,8 @@ Func IsTimeWaitForCC($g_bFullArmy = False, $g_bCheckSpells = False, $bFullArmyHe
 
 	If Not $g_bFullArmy Or Not $g_bCheckSpells Or Not $bFullArmyHero Or Not $bFullSiege Then Return True
 
-	If $bChkUseOnlyCCMedals Then Return False
+	Local $IsToFillCCWithCake = TimeToFillCCWithCake(False)
+	If $bChkUseOnlyCCMedals Or $IsToFillCCWithCake Then Return False
 
 	If $g_aiCmbCCDecisionTime = 0 Then Return True
 
@@ -1615,7 +1756,7 @@ Func IsTimeWaitForCC($g_bFullArmy = False, $g_bCheckSpells = False, $bFullArmyHe
 
 	If $CCWaitChrono = 0 Then Return False
 
-	Local $CCWaitTimerDiff = TimerDiff($CCWaitChrono)
+	Local $CCWaitTimerDiff = __TimerDiff($CCWaitChrono)
 	Local $DelayReturnedCCDecisionTime = ($g_aiCmbCCDecisionTime * 60 * 1000)
 
 	If $CCWaitTimerDiff > (30 * 60 * 1000) Then

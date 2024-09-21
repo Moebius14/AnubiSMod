@@ -428,7 +428,7 @@ Func ForgeClanCapitalGold($bTest = False)
 				SetLog("Builders Boosted Using Potion", $COLOR_SUCCESS1)
 				If $g_iCmbBoostBuilders <= 5 Then $g_iCmbBoostBuilders -= 1
 				If $g_iCmbBoostBuilders > 0 Then
-					$g_iTimerBoostBuilders = TimerInit()
+					$g_iTimerBoostBuilders = __TimerInit()
 				Else
 					$g_iTimerBoostBuilders = 0
 				EndIf
@@ -884,7 +884,7 @@ Func ForgeClanCapitalGold($bTest = False)
 				SetLog("Builders Boosted Using Potion", $COLOR_SUCCESS1)
 				If $g_iCmbBoostBuilders <= 5 Then $g_iCmbBoostBuilders -= 1
 				If $g_iCmbBoostBuilders > 0 Then
-					$g_iTimerBoostBuilders = TimerInit()
+					$g_iTimerBoostBuilders = __TimerInit()
 				Else
 					$g_iTimerBoostBuilders = 0
 				EndIf

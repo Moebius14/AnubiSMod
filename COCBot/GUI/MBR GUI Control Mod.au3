@@ -157,7 +157,7 @@ Func SwitchBetweenBasesMod()
 			SetLog("Time to Check Builder Base", $COLOR_OLIVE)
 			SetLog("Let's Use Builder Star Jar", $COLOR_ACTION)
 
-			If Not $BBaseCheckTimer And ($g_bChkBBaseFrequency And $g_iCmbPriorityBBaseFrequency > 0) Then $BBaseCheckTimer = TimerInit()
+			If Not $BBaseCheckTimer And ($g_bChkBBaseFrequency And $g_iCmbPriorityBBaseFrequency > 0) Then $BBaseCheckTimer = __TimerInit()
 
 			If $g_bChkBBaseFrequency And $g_iCmbPriorityBBaseFrequency > 0 Then
 
@@ -236,7 +236,7 @@ Func SwitchBetweenBasesMod()
 
 		If Not $BBaseCheckTimer And Not $g_bIsBBevent Then ; First Time
 
-			$BBaseCheckTimer = TimerInit()
+			$BBaseCheckTimer = __TimerInit()
 
 			Local $DelayReturnedtocheckBBaseInf = ($g_iCmbPriorityBBaseFrequency - ($g_iCmbPriorityBBaseFrequency * $g_icmbAdvancedVariation))
 			Local $DelayReturnedtocheckBBaseSup = ($g_iCmbPriorityBBaseFrequency + ($g_iCmbPriorityBBaseFrequency * $g_icmbAdvancedVariation))
@@ -260,7 +260,7 @@ Func SwitchBetweenBasesMod()
 
 		If $g_bIsBBevent Then ; Case BB Event Detected
 			SetLog("BB Event Detected : Time to Switch To Builder Base", $COLOR_OLIVE)
-			$BBaseCheckTimer = TimerInit()
+			$BBaseCheckTimer = __TimerInit()
 
 			Local $DelayReturnedtocheckBBaseInf = ($g_iCmbPriorityBBaseFrequency - ($g_iCmbPriorityBBaseFrequency * $g_icmbAdvancedVariation))
 			Local $DelayReturnedtocheckBBaseSup = ($g_iCmbPriorityBBaseFrequency + ($g_iCmbPriorityBBaseFrequency * $g_icmbAdvancedVariation))
@@ -280,7 +280,7 @@ Func SwitchBetweenBasesMod()
 			Return
 		EndIf
 
-		Local $BBaseCheckTimerDiff = TimerDiff($BBaseCheckTimer)
+		Local $BBaseCheckTimerDiff = __TimerDiff($BBaseCheckTimer)
 
 		If $BBaseCheckTimer > 0 And $BBaseCheckTimerDiff < $DelayReturnedtocheckBBaseMS Then ;Delay not reached : return False
 
@@ -302,7 +302,7 @@ Func SwitchBetweenBasesMod()
 
 		If $BBaseCheckTimer > 0 And $BBaseCheckTimerDiff > $DelayReturnedtocheckBBaseMS Then ;Delay reached : reset chrono ans set new delay. Return True
 
-			$BBaseCheckTimer = TimerInit()
+			$BBaseCheckTimer = __TimerInit()
 
 			Local $DelayReturnedtocheckBBaseInf = ($g_iCmbPriorityBBaseFrequency - ($g_iCmbPriorityBBaseFrequency * $g_icmbAdvancedVariation))
 			Local $DelayReturnedtocheckBBaseSup = ($g_iCmbPriorityBBaseFrequency + ($g_iCmbPriorityBBaseFrequency * $g_icmbAdvancedVariation))
@@ -479,7 +479,7 @@ Func SwitchBetweenBasesMod2()
 		If $iLastCheck > $iDelayToCheck Then
 			If UTCRaidWarning() Then
 				$iLastTimeCCRaidChecked[$g_iCurAccount] = _NowCalc()
-				$CCBaseCheckTimer = TimerInit()
+				$CCBaseCheckTimer = __TimerInit()
 				$DelayReturnedtocheckCCBaseMS = Random($DelayReturnedtocheckCCBaseInf, $DelayReturnedtocheckCCBaseSup, 1)
 				Local $iWaitTime = $DelayReturnedtocheckCCBaseMS
 				Local $sWaitTime = ""
@@ -498,7 +498,7 @@ Func SwitchBetweenBasesMod2()
 	Else
 		If UTCRaidWarning() Then
 			$iLastTimeCCRaidChecked[$g_iCurAccount] = _NowCalc()
-			$CCBaseCheckTimer = TimerInit()
+			$CCBaseCheckTimer = __TimerInit()
 			$DelayReturnedtocheckCCBaseMS = Random($DelayReturnedtocheckCCBaseInf, $DelayReturnedtocheckCCBaseSup, 1)
 			Local $iWaitTime = $DelayReturnedtocheckCCBaseMS
 			Local $sWaitTime = ""
@@ -531,7 +531,7 @@ Func SwitchBetweenBasesMod2()
 
 	If Not $CCBaseCheckTimer Then ; First Time
 
-		$CCBaseCheckTimer = TimerInit()
+		$CCBaseCheckTimer = __TimerInit()
 
 		$DelayReturnedtocheckCCBaseMS = Random($DelayReturnedtocheckCCBaseInf, $DelayReturnedtocheckCCBaseSup, 1)
 
@@ -555,7 +555,7 @@ Func SwitchBetweenBasesMod2()
 		Return True
 	EndIf
 
-	Local $CCBaseCheckTimerDiff = TimerDiff($CCBaseCheckTimer)
+	Local $CCBaseCheckTimerDiff = __TimerDiff($CCBaseCheckTimer)
 
 	If $CCBaseCheckTimer > 0 And $CCBaseCheckTimerDiff < $DelayReturnedtocheckCCBaseMS And Not ($IsCCGoldJustCollected Or $IsCCGoldJustCollectedDChallenge) Then ;Delay not reached And no CCGold : Return False
 
@@ -576,7 +576,7 @@ Func SwitchBetweenBasesMod2()
 
 	If ($CCBaseCheckTimer > 0 And $CCBaseCheckTimerDiff > $DelayReturnedtocheckCCBaseMS) Or $IsCCGoldJustCollected Or $IsCCGoldJustCollectedDChallenge Or $IsAutoForgeSlotJustCollected Then ;Delay reached or CCgold: reset chrono ans set new delay. Return True
 
-		$CCBaseCheckTimer = TimerInit()
+		$CCBaseCheckTimer = __TimerInit()
 
 		$DelayReturnedtocheckCCBaseMS = Random($DelayReturnedtocheckCCBaseInf, $DelayReturnedtocheckCCBaseSup, 1)
 

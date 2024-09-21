@@ -2151,6 +2151,8 @@ Global $g_sImgTrainingWord = @ScriptDir & "\imgxml\Potions\TrainingWord\"
 ;Use Medals To Fill CC
 Global $IsForRequestEarly = True, $IsTofillWithMedals = False, $IsTofillWithMedalsPause = True
 Global $g_sImgCCReinforceBuy = @ScriptDir & "\imgxml\imglocbuttons\Buy"
+Global $g_sImgCCReinforceCake = @ScriptDir & "\imgxml\imglocbuttons\Cake"
+Global $ClanCastleCakeTimer = 0
 Global $bChkUseOnlyCCMedals = False, $g_aiCmbCCMedalsSaveMin = 100
 Global $g_aiCmbCCDecisionTime = 0, $g_aiCmbCCDecisionThen = 0, $CCWaitChrono = 0, $RequestAlreadyMade = False
 

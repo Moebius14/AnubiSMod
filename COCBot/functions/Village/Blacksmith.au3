@@ -19,6 +19,8 @@ Func Blacksmith($bTest = False)
 
 	If Not $g_bChkCustomEquipmentOrderEnable Then Return
 
+	If Not $g_bRunState Then Return
+
 	Local Static $iLastTimeChecked[8]
 	If $g_bFirstStart Or $IsOresJustCollected Then $iLastTimeChecked[$g_iCurAccount] = ""
 

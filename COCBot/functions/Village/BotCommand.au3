@@ -733,7 +733,7 @@ Func IsCCTreasuryFull()
 
 	SetLog("Star Bonus Available ! Continue Attacking...", $COLOR_SUCCESS1)
 
-	Local $CCTreasuryCheckTimerDiff = TimerDiff($TreasuryCheckChrono)
+	Local $CCTreasuryCheckTimerDiff = __TimerDiff($TreasuryCheckChrono)
 	If $TreasuryCheckChrono <> 0 Then
 		If $CCTreasuryCheckTimerDiff < 2 * 60 * 60 * 1000 Then
 			Switch $IsToCheckCCTreasury
@@ -817,7 +817,7 @@ Func IsCCTreasuryFull()
 		If Number(UBound($aFullCCBar)) = 3 Then $IsTreasuryFull = True
 	EndIf
 
-	$TreasuryCheckChrono = TimerInit()
+	$TreasuryCheckChrono = __TimerInit()
 	If _Sleep(200) Then Return
 	CloseWindow()
 

@@ -390,7 +390,7 @@ EndFunc   ;==>checkObstacles_GfxError
 
 Func ClashOfMagicAdvert($bDebugImageSave = $g_bDebugImageSave)
 	; Initial Timer
-	Local $hTimer = TimerInit()
+	Local $hTimer = __TimerInit()
 
 	SetDebugLog("Searching for Clash Of Magic Advert ...", $COLOR_DEBUG)
 
@@ -446,7 +446,7 @@ Func CheckAllObstacles($bDebugImageSave = $g_bDebugImageSave, $MinType = 0, $Max
 			["", $sImgDenyBtn, 340, 510, 540, 590]]
 
 	; Initial Timer
-	Local $hTimer = TimerInit()
+	Local $hTimer = __TimerInit()
 
 	For $i = $MinType To $MaxType
 

@@ -123,7 +123,7 @@ Func CollectElixirCart($bSwitchToBB = False, $bSwitchToNV = False, $b_FirstElixC
 			$aiAxes = decodeSingleCoord(FindImageInPlace2("Axes", $g_sImgAxes, 470, 90 + $g_iMidOffsetY, 610, 190 + $g_iMidOffsetY))
 			If IsArray($aiAxes) And UBound($aiAxes, 1) = 2 Then
 				$bRet = True
-				$ElixirCartTimer = TimerInit()
+				$ElixirCartTimer = __TimerInit()
 				ExitLoop
 			EndIf
 			If _Sleep(200) Then Return
@@ -139,7 +139,7 @@ Func CollectElixirCart($bSwitchToBB = False, $bSwitchToNV = False, $b_FirstElixC
 				EndIf
 				$aiElixirCart = decodeSingleCoord(FindImageInPlace2("ElixirCart", $g_sImgElixirCart, 470, 90 + $g_iMidOffsetY, 620, 190 + $g_iMidOffsetY))
 				If IsArray($aiElixirCart) And UBound($aiElixirCart, 1) = 2 Then ExitLoop
-				$ElixirCartTimerDiff = TimerDiff($ElixirCartTimer)
+				$ElixirCartTimerDiff = __TimerDiff($ElixirCartTimer)
 				If $ElixirCartTimerDiff > $WaitOpponentTime * 1000 Then
 					SetLog("Don't wait more for the opponent", $COLOR_INFO)
 					PureClick($aiAxes[0], $aiAxes[1] + 16)

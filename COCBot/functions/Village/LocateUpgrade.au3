@@ -460,7 +460,7 @@ Func CloseSuperchargeWindow()
 
 	If Not _ColorCheck(_GetPixelColor(800, 88 + $g_iMidOffsetY, True), Hex(0xF38E8D, 6), 20) Then
 		If WaitforPixel(283, 193 + $g_iMidOffsetY, 287, 197 + $g_iMidOffsetY, Hex(0x121A87, 6), 20, 6) Then ; Wait 3 seconds
-			Local $hTimer = TimerInit()
+			Local $hTimer = __TimerInit()
 			While 1
 				If _Sleep(500) Then Return
 				Local $aContinueButton = findButton("Continue", Default, 1, True)
@@ -469,7 +469,7 @@ Func CloseSuperchargeWindow()
 					If _Sleep(2000) Then Return
 					ExitLoop
 				EndIf
-				Local $fDiff = TimerDiff($hTimer)
+				Local $fDiff = __TimerDiff($hTimer)
 				If $fDiff > 5000 Then ExitLoop
 			WEnd
 		EndIf

@@ -117,6 +117,12 @@
 * Added Special Event Attack Button Support.
 * Improved Chest Room Support.
 * Added Collect Resources only if not full.
+----------------------------
+* Improved Build lib ("O" and "E").
+* Improved few time controlers.
+* Improved Treasury chest control.
+* Improved Attack! Button management.
+* Improved Claim Reward Button detection.
 
 * v8.1.6 **
 * Added "Before you upgrade" window support.

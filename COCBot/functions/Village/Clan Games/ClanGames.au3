@@ -105,10 +105,10 @@ Func _ClanGames($test = False, $HaltMode = False)
 			EndIf
 		Next
 		If $bCheckHeroes Then
-			Local $CheckHeroTimerDiff = TimerDiff($CheckHeroTimer)
+			Local $CheckHeroTimerDiff = __TimerDiff($CheckHeroTimer)
 			If $CheckHeroTimerDiff > $CheckHeroDelay Or $CheckHeroTimer = 0 Then
 				getArmyHeroCount(True, True, True)
-				$CheckHeroTimer = TimerInit()
+				$CheckHeroTimer = __TimerInit()
 			EndIf
 		EndIf
 	EndIf
@@ -124,7 +124,7 @@ Func _ClanGames($test = False, $HaltMode = False)
 	Local Static $YourAccScore[8][2] = [[-1, True], [-1, True], [-1, True], [-1, True], [-1, True], [-1, True], [-1, True], [-1, True]]
 
 	; Initial Timer
-	Local $hTimer = TimerInit()
+	Local $hTimer = __TimerInit()
 
 	; Enter on Clan Games window
 	If IsClanGamesWindow() Then
@@ -260,7 +260,7 @@ Func _ClanGames($test = False, $HaltMode = False)
 	While $EventLoopOut
 
 		$EventLoopOut = False
-		If $IsLooped > 0 Then $hTimer = TimerInit()
+		If $IsLooped > 0 Then $hTimer = __TimerInit()
 
 		Local $HowManyImages = _FileListToArray($sTempChallengePath, "*", $FLTA_FILES)
 		If IsArray($HowManyImages) Then
@@ -551,7 +551,7 @@ Func _ClanGames($test = False, $HaltMode = False)
 		EndIf
 
 		If $g_bChkClanGamesDebug Then Setlog("_ClanGames aAllDetectionsOnScreen (in " & Round(TimerDiff($hTimer) / 1000, 2) & " seconds)", $COLOR_INFO)
-		$hTimer = TimerInit()
+		$hTimer = __TimerInit()
 
 		; Sort by Yaxis
 		_ArraySort($aSelectChallenges, 1, 0, 0, 2)
@@ -1605,7 +1605,7 @@ Func PurgeUncheckedEvent($iRow = 1)
 	If _Sleep(2000) Then Return
 
 	; Initial Timer
-	Local $hTimer = TimerInit()
+	Local $hTimer = __TimerInit()
 	Local $sImagePath = @ScriptDir & "\imgxml\Resources\ClanGamesImages\Challenges"
 	Local $sTempChallengePath = @TempDir & "\" & $g_sProfileCurrentName & "\Challenges\"
 	Local $EventLoopOut = True
@@ -1634,7 +1634,7 @@ Func PurgeUncheckedEvent($iRow = 1)
 	While $EventLoopOut
 
 		$EventLoopOut = False
-		If $IsLooped > 0 Then $hTimer = TimerInit()
+		If $IsLooped > 0 Then $hTimer = __TimerInit()
 
 		Local $aAllDetectionsOnScreen2 = FindEventToPurge()
 		$iRow = 2
@@ -1763,7 +1763,7 @@ Func PurgeUncheckedEvent($iRow = 1)
 		EndIf
 
 		If $g_bChkClanGamesDebug Then Setlog("_ClanGames aAllDetectionsOnScreen2 (in " & Round(TimerDiff($hTimer) / 1000, 2) & " seconds)", $COLOR_INFO)
-		$hTimer = TimerInit()
+		$hTimer = __TimerInit()
 
 		; Sort by Yaxis
 		_ArraySort($aSelectChallenges, 1, 0, 0, 2)
@@ -2712,7 +2712,7 @@ EndFunc   ;==>CooldownTime
 Func SetCGCoolDownTime($bTest = False)
 	$sPurgeTimeCG = 0
 	SetDebugLog("$g_hCoolDownTimer before: " & $g_hCoolDownTimer, $COLOR_DEBUG2)
-	$g_hCoolDownTimer = TimerInit()
+	$g_hCoolDownTimer = __TimerInit()
 	If _Sleep(1500) Then Return
 
 	If $g_bChkClanGamesPurgeAnyClose And $b_COCClose Then

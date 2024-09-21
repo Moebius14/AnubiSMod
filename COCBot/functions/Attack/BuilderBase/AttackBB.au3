@@ -455,7 +455,7 @@ Func DeployBBTroop($sName, $x, $y, $iAmount, $ai_AttackDropPoints)
 		PureClickP($iPixel)
 		Local $b_MachineTimeOffset = 0
 		If $sName = "Battle Copter" Or $sName = "Battle Machine" Then
-			Local $b_MachineTimeOffsetDiff = TimerInit()
+			Local $b_MachineTimeOffsetDiff = __TimerInit()
 			Local $bRet = False
 			For $i = 1 To 16 ; 4 seconds limit
 				If Not $g_bRunState Then Return
@@ -463,12 +463,11 @@ Func DeployBBTroop($sName, $x, $y, $iAmount, $ai_AttackDropPoints)
 				Local $aBMPosCheck = GetMachinePos()
 				If IsArray($aBMPosCheck) And $aBMPosCheck <> 0 And Number($aBMPos[1]) <> Number($aBMPosCheck[1]) Then
 					If $g_bDebugSetLog Then
-						Local $b_MachineTimeOffsetSec = Round($b_MachineTimeOffset / 1000, 2)
+						Local $b_MachineTimeOffsetSec = Round(__TimerDiff($b_MachineTimeOffsetDiff) / 1000, 2)
 						SetLog("$aBMPosCheck fixed in : " & $b_MachineTimeOffsetSec & " second", $COLOR_DEBUG)
 					EndIf
 					$bRet = True
 				EndIf
-				$b_MachineTimeOffset = TimerDiff($b_MachineTimeOffsetDiff)
 				If $bRet Then ExitLoop
 			Next
 			Local $g_DeployColor[2] = [0xCD3AFF, 0xFF8BFF]

@@ -155,6 +155,9 @@ Func SwitchAccountVariablesReload($sType = "Load", $iAccount = $g_iCurAccount)
 	Static $gaSsAvailableAppBuilder = $aiZero
 	Static $aSTimeDiffAppBuilder = $aiZero
 
+	;Magic Snack (Clan Castle Timer)
+	Static $SClanCastleCakeTimer = $aiZero
+
 	; First time switch account
 	Switch $sType
 		Case "Reset"
@@ -327,6 +330,9 @@ Func SwitchAccountVariablesReload($sType = "Load", $iAccount = $g_iCurAccount)
 			;Builder's Apprentice
 			$gaSsAvailableAppBuilder = $aiZero
 			$aSTimeDiffAppBuilder = $aiZero
+
+			;Magic Snack (Clan Castle Timer)
+			$SClanCastleCakeTimer = $aiZero
 
 		Case "Save"
 			$abFirstStart[$iAccount] = $g_bFirstStart
@@ -521,6 +527,9 @@ Func SwitchAccountVariablesReload($sType = "Load", $iAccount = $g_iCurAccount)
 			;Builder's Apprentice
 			$gaSsAvailableAppBuilder[$iAccount] = $g_sAvailableAppBuilder
 			$aSTimeDiffAppBuilder[$iAccount] = $TimeDiffAppBuilder
+
+			;Magic Snack (Clan Castle Timer)
+			$SClanCastleCakeTimer[$iAccount] = $ClanCastleCakeTimer
 
 		Case "Load"
 			$g_bFirstStart = $abFirstStart[$iAccount]
@@ -737,6 +746,9 @@ Func SwitchAccountVariablesReload($sType = "Load", $iAccount = $g_iCurAccount)
 			;Builder's Apprentice
 			$g_sAvailableAppBuilder = $gaSsAvailableAppBuilder[$iAccount]
 			$TimeDiffAppBuilder = $aSTimeDiffAppBuilder[$iAccount]
+
+			;Magic Snack (Clan Castle Timer)
+			$ClanCastleCakeTimer = $SClanCastleCakeTimer[$iAccount]
 
 		Case "UpdateStats"
 			For $i = 0 To 3

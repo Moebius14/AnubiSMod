@@ -788,8 +788,9 @@ Func runBot() ;Bot that runs everything in order
 			If $bControlCCMedal Then
 				CatchCCMedals(True)
 			Else
-				If $g_bRequestTroopsEnable And ($g_abSearchCastleWaitEnable[$DB] Or $g_abSearchCastleWaitEnable[$LB]) And ((Not $bChkUseOnlyCCMedals And _
-						$g_aiCmbCCDecisionThen = 1 And $g_aiCmbCCDecisionTime > 0) Or $bChkUseOnlyCCMedals) Then
+				Local $IsToFillCCWithCake = TimeToFillCCWithCake(False)
+				If $g_bRequestTroopsEnable And ($g_abSearchCastleWaitEnable[$DB] Or $g_abSearchCastleWaitEnable[$LB]) And (((Not $bChkUseOnlyCCMedals Or Not $IsToFillCCWithCake) And _
+						$g_aiCmbCCDecisionThen = 1 And $g_aiCmbCCDecisionTime > 0) Or $bChkUseOnlyCCMedals Or $IsToFillCCWithCake) Then
 					If Number($g_iLootCCMedal) = 0 Then CatchCCMedals(True)
 				EndIf
 			EndIf
@@ -985,7 +986,8 @@ Func runBot() ;Bot that runs everything in order
 					If _Sleep($DELAYRUNBOT1) Then Return
 					If $g_bRestart Then ContinueLoop
 					CheckDonateOften()
-					If $g_bRequestTroopsEnable And ($g_abSearchCastleWaitEnable[$DB] Or $g_abSearchCastleWaitEnable[$LB]) And Not $bChkUseOnlyCCMedals And $IsForRequestEarly Then
+					Local $IsToFillCCWithCake = TimeToFillCCWithCake(False)
+					If $g_bRequestTroopsEnable And ($g_abSearchCastleWaitEnable[$DB] Or $g_abSearchCastleWaitEnable[$LB]) And (Not $bChkUseOnlyCCMedals Or Not $IsToFillCCWithCake) And $IsForRequestEarly Then
 						SetLog("Wait For CC Enable : Request Early", $COLOR_DEBUG1)
 						RequestCC()
 					EndIf
@@ -1043,7 +1045,8 @@ Func runBot() ;Bot that runs everything in order
 				ContinueLoop
 			EndIf
 			CheckDonateOften()
-			If $g_bRequestTroopsEnable And ($g_abSearchCastleWaitEnable[$DB] Or $g_abSearchCastleWaitEnable[$LB]) And Not $bChkUseOnlyCCMedals And $IsForRequestEarly Then
+			Local $IsToFillCCWithCake = TimeToFillCCWithCake(False)
+			If $g_bRequestTroopsEnable And ($g_abSearchCastleWaitEnable[$DB] Or $g_abSearchCastleWaitEnable[$LB]) And (Not $bChkUseOnlyCCMedals Or Not $IsToFillCCWithCake) And $IsForRequestEarly Then
 				SetLog("Wait For CC Enable : Request Early", $COLOR_DEBUG1)
 				RequestCC()
 			EndIf
@@ -1081,8 +1084,9 @@ Func _Idle() ;Sequence that runs until Full Army
 		If $bControlCCMedal Then
 			CatchCCMedals(True)
 		Else
-			If $g_bRequestTroopsEnable And ($g_abSearchCastleWaitEnable[$DB] Or $g_abSearchCastleWaitEnable[$LB]) And ((Not $bChkUseOnlyCCMedals And _
-					$g_aiCmbCCDecisionThen = 1 And $g_aiCmbCCDecisionTime > 0) Or $bChkUseOnlyCCMedals) Then
+			Local $IsToFillCCWithCake = TimeToFillCCWithCake(False)
+			If $g_bRequestTroopsEnable And ($g_abSearchCastleWaitEnable[$DB] Or $g_abSearchCastleWaitEnable[$LB]) And (((Not $bChkUseOnlyCCMedals Or Not $IsToFillCCWithCake) And _
+					$g_aiCmbCCDecisionThen = 1 And $g_aiCmbCCDecisionTime > 0) Or $bChkUseOnlyCCMedals Or $IsToFillCCWithCake) Then
 				If Number($g_iLootCCMedal) = 0 Then
 					CatchCCMedals(True)
 				Else
@@ -1288,6 +1292,7 @@ Func AttackMain() ;Main control for attack functions
 				$g_iSearchRestartLimitPauseTime = Round((Random($g_iSearchesPauseIntervalMin, $g_iSearchesPauseIntervalMax)), 2)
 				$IsNewAttack = False
 			EndIf
+			ClearScreen()
 			PrepareSearch()
 			If Not $g_bRunState Then Return
 			If $g_bOutOfGold Then Return ; Check flag for enough gold to search
@@ -1664,7 +1669,8 @@ Func FirstCheck()
 	checkMainScreen(False)
 	If $g_bRestart Then Return
 
-	If Not $bChkUseOnlyCCMedals And $g_bRequestTroopsEnable And ($g_abSearchCastleWaitEnable[$DB] Or $g_abSearchCastleWaitEnable[$LB]) Then
+	Local $IsToFillCCWithCake = TimeToFillCCWithCake(False)
+	If (Not $bChkUseOnlyCCMedals Or Not $IsToFillCCWithCake) And $g_bRequestTroopsEnable And ($g_abSearchCastleWaitEnable[$DB] Or $g_abSearchCastleWaitEnable[$LB]) Then
 		If ($g_bFirstStartCheckDone And $IsForRequestEarly) Or Not $g_bFirstStartCheckDone Then
 			SetLog("Wait For CC Enable : Request Early", $COLOR_DEBUG1)
 			RequestCC()
@@ -1745,7 +1751,8 @@ Func FirstCheck()
 			EndIf
 		EndIf
 		CheckDonateOften()
-		If $g_bRequestTroopsEnable And ($g_abSearchCastleWaitEnable[$DB] Or $g_abSearchCastleWaitEnable[$LB]) And Not $bChkUseOnlyCCMedals And $IsForRequestEarly Then
+		Local $IsToFillCCWithCake = TimeToFillCCWithCake(False)
+		If $g_bRequestTroopsEnable And ($g_abSearchCastleWaitEnable[$DB] Or $g_abSearchCastleWaitEnable[$LB]) And (Not $bChkUseOnlyCCMedals Or Not $IsToFillCCWithCake) And $IsForRequestEarly Then
 			SetLog("Wait For CC Enable : Request Early", $COLOR_DEBUG1)
 			RequestCC()
 		EndIf

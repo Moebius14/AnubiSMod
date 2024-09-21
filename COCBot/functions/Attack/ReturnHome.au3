@@ -6,7 +6,7 @@
 ;                  $GoldChangeCheck     - [optional] an unknown value. Default is True.
 ; Return values .: None
 ; Author ........:
-; Modified ......: KnowJack (07-2015), MonkeyHunter (01-2016), CodeSlinger69 (01-2017), MonkeyHunter (03-2017)
+; Modified ......: KnowJack (07-2015), MonkeyHunter (01-2016), CodeSlinger69 (01-2017), MonkeyHunter (03-2017), Moebius14 (09-2024)
 ; Remarks .......: This file is part of MyBot, previously known as ClashGameBot. Copyright 2015-2024
 ;                  MyBot is distributed under the terms of the GNU GPL
 ; Related .......:
@@ -194,7 +194,7 @@ Func ReturnHome($TakeSS = 1, $GoldChangeCheck = True) ;Return main screen
 		Local $bIsMainGrayed = _CheckPixel($aIsMainGrayed, $g_bCapturePixel, Default, "IsMainGrayed")
 		Select
 			Case Not $bIsMain And Not $bIsMainGrayed
-				If TreasureHunt() Then
+				If TreasureHunt($counter) Then
 					SetLog("Treasury Hunt window closed chief!", $COLOR_INFO) ; Check for Treasury Hunt Event window to (2024-09) update
 					ContinueLoop
 				EndIf
@@ -316,11 +316,23 @@ Func CheckStreakEvent()
 	Return $bRet
 EndFunc   ;==>CheckStreakEvent
 
-Func TreasureHunt()
+Func TreasureHunt($counter = 0)
 
 	If Not $g_bRunState Then Return
 	Local $bRet = False
 	Local $bHitDone = False
+
+	If $counter > 0 Then
+		Local $aContinueButton = findButton("Continue", Default, 1, True) ; In case all below failed in the ReturnHome loop, unlikely
+		If IsArray($aContinueButton) And UBound($aContinueButton, 1) = 2 Then
+			ClickP($aContinueButton, 1, 120, "#0433")
+			SetLog("Reward Received", $COLOR_SUCCESS1)
+			$StarBonusReceived[2] = 1 ; Snacks
+			If _Sleep($DELAYTREASURY2) Then Return ; 1500ms
+			Return True
+		EndIf
+	EndIf
+
 	SetLog("Opening Chest", $COLOR_SUCCESS)
 	Local $bLoop = 0
 	While 1
@@ -332,13 +344,13 @@ Func TreasureHunt()
 				Local $aiLockOfChest = decodeSingleCoord(FindImageInPlace2("LockOfBox", $ImgLockOfChest, 400, 305 + $g_iMidOffsetY, 480, 390 + $g_iMidOffsetY, True))
 				If IsArray($aiLockOfChest) And UBound($aiLockOfChest) = 2 Then
 					Local $iHammers = QuickMIS("CNX", $ImgHammersOnRock, 340, 470 + $g_iMidOffsetY, 510, 520 + $g_iMidOffsetY)
-					If IsArray($iHammers) And UBound($iHammers) = 4 And UBound($iHammers, $UBOUND_COLUMNS) > 1 Then
+					If IsArray($iHammers) And UBound($iHammers) > 1 And UBound($iHammers, $UBOUND_COLUMNS) > 1 Then
 						SetLog("Detected Hammers : " & UBound($iHammers), $COLOR_INFO)
 						For $t = 0 To UBound($iHammers) - 1
 							If Not $g_bRunState Then Return
 							Local $ButtonClickX = Random($aiLockOfChest[0] - 20, $aiLockOfChest[0] + 20, 1)
 							Local $ButtonClickY = Random($aiLockOfChest[1] - 20, $aiLockOfChest[1] + 20, 1)
-							SetLog("Hit Number : #" & $t + 1, $COLOR_ACTION)
+							SetLog(($t = 0 ? "Hit Number : #" : "#") & $t + 1 & ".. ", $COLOR_ACTION, Default, Default, Default, Default, ($t = 0 ? Default : False), ($t = UBound($iHammers) - 1 ? Default : False))
 							Click($ButtonClickX, $ButtonClickY, 1, 130, "LockHit")
 							If $t = UBound($iHammers) - 1 Then
 								If _Sleep(Random(2000, 3000, 1)) Then Return
@@ -360,19 +372,30 @@ Func TreasureHunt()
 
 	If $bHitDone Then
 		SetLog("Click on Continue...", $COLOR_INFO)
-		For $i = 0 To 9
+		For $i = 0 To 30
 			If Not $g_bRunState Then Return
-			Local $aContinueButton = findButton("Continue", Default, 1, True)
-			If IsArray($aContinueButton) And UBound($aContinueButton, 1) = 2 Then
-				If _Sleep($DELAYRUNBOT1) Then Return ; 1000ms
-				ClickP($aContinueButton, 1, 120, "#0433")
-				SetLog("Reward Received", $COLOR_SUCCESS1)
-				$bRet = True
-				$StarBonusReceived[2] = 1 ; Snacks
-				If _Sleep($DELAYTREASURY2) Then Return ; 1500ms
-				ExitLoop
+			Local $offColors[3][3] = [[0x8BD13A, 5, 0], [0x8BD13A, 9, 6], [0x0D0D0D, 12, 11]] ; 2nd pixel Green Color, 3rd pixel Green Color, 4th pixel Black bottom edge of Button
+			Local $ContinueButtonEdge = _MultiPixelSearch(366, 535, 385, 550, 1, 1, Hex(0x0D0D0D, 6), $offColors, 15) ; first black pixel on side of Button
+			SetDebugLog("Pixel Color #1: " & _GetPixelColor(368, 535, True) & ", #2: " & _GetPixelColor(373, 535, True) & ", #3: " & _GetPixelColor(377, 541, True) & ", #4: " & _GetPixelColor(380, 546, True), $COLOR_DEBUG)
+			If IsArray($ContinueButtonEdge) Then
+				If _Sleep(500) Then Return
+				Local $aContinueButton = findButton("Continue", Default, 1, True)
+				If IsArray($aContinueButton) And UBound($aContinueButton, 1) = 2 Then
+					ClickP($aContinueButton, 1, 120, "#0433")
+					SetLog("Reward Received", $COLOR_SUCCESS1)
+					$bRet = True
+					$StarBonusReceived[2] = 1 ; Snacks
+					If _Sleep($DELAYTREASURY2) Then Return ; 1500ms
+					ExitLoop
+				EndIf
 			EndIf
-			If _Sleep(100) Then Return
+			If _Sleep(300) Then Return
+			If $i = 30 Then
+				SaveDebugImage("ChestRoomError")
+				SetLog("Cannot find Continue button", $COLOR_ERROR)
+				If _Sleep(200) Then Return
+				Click(430, 495 + $g_iMidOffsetY)
+			EndIf
 		Next
 	EndIf
 

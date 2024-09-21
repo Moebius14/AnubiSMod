@@ -265,12 +265,12 @@ Func DonateCC($bCheckForNewMsg = False)
 		$sNewClanString = ""
 		If _Sleep($DELAYDONATECC2) Then ExitLoop
 
-		$iTimer = TimerInit()
+		$iTimer = __TimerInit()
 		$sSearchArea = GetDiamondFromArray($aiSearchArray)
 		$aiDonateButton = decodeSingleCoord(findImage("Donate Button", $g_sImgDonateCC & "DonateButton*", $sSearchArea, 1, True, Default))
 
-		If $g_bDebugSetlog Then SetDebugLog("Get all Buttons in " & StringFormat("%.2f", TimerDiff($iTimer)) & "'ms", $COLOR_DEBUG)
-		$iTimer = TimerInit()
+		If $g_bDebugSetlog Then SetDebugLog("Get all Buttons in " & StringFormat("%.2f", __TimerDiff($iTimer)) & "'ms", $COLOR_DEBUG)
+		$iTimer = __TimerInit()
 
 		If IsArray($aiDonateButton) And UBound($aiDonateButton, 1) >= 2 Then ; if Donate Button found
 
@@ -340,10 +340,10 @@ Func DonateCC($bCheckForNewMsg = False)
 						EndIf
 					Next
 
-					If $g_bDebugSetlog Then SetDebugLog("Get Request OCR in " & StringFormat("%.2f", TimerDiff($iTimer)) & "'ms", $COLOR_DEBUG)
+					If $g_bDebugSetlog Then SetDebugLog("Get Request OCR in " & StringFormat("%.2f", __TimerDiff($iTimer)) & "'ms", $COLOR_DEBUG)
 				EndIf
 
-				$iTimer = TimerInit()
+				$iTimer = __TimerInit()
 
 				If $ClanString = "" Or $ClanString = " " Then
 					SetLog("Unable to read Chat Request!", $COLOR_ERROR)
@@ -390,8 +390,8 @@ Func DonateCC($bCheckForNewMsg = False)
 
 			;;; Get remaining CC capacity of requested troops from your ClanMates
 			RemainingCCcapacity($aiDonateButton)
-			If $g_bDebugSetlog Then SetDebugLog("Get remaining CC capacity in " & StringFormat("%.2f", TimerDiff($iTimer)) & "'ms", $COLOR_DEBUG)
-			$iTimer = TimerInit()
+			If $g_bDebugSetlog Then SetDebugLog("Get remaining CC capacity in " & StringFormat("%.2f", __TimerDiff($iTimer)) & "'ms", $COLOR_DEBUG)
+			$iTimer = __TimerInit()
 
 			;;; Donate Filter
 			If $g_iTotalDonateTroopCapacity <= 0 Then
@@ -451,8 +451,8 @@ Func DonateCC($bCheckForNewMsg = False)
 
 				; read available donate cap, and ByRef set the $g_bSkipDonTroops and $g_bSkipDonSpells flags
 				DonateWindowCap($g_bSkipDonTroops, $g_bSkipDonSpells)
-				If $g_bDebugSetlog Then SetDebugLog("Get available donate cap in " & StringFormat("%.2f", TimerDiff($iTimer)) & "'ms", $COLOR_DEBUG)
-				$iTimer = TimerInit()
+				If $g_bDebugSetlog Then SetDebugLog("Get available donate cap in " & StringFormat("%.2f", __TimerDiff($iTimer)) & "'ms", $COLOR_DEBUG)
+				$iTimer = __TimerInit()
 				If $g_bSkipDonTroops And $g_bSkipDonSpells And $g_bSkipDonSiege Then
 					DonateWindow($aiDonateButton, $bClose)
 					$bDonate = True
@@ -499,8 +499,8 @@ Func DonateCC($bCheckForNewMsg = False)
 							EndIf
 						Next
 					EndIf
-					If $g_bDebugSetlog Then SetDebugLog("Get Donated troops in " & StringFormat("%.2f", TimerDiff($iTimer)) & "'ms", $COLOR_DEBUG)
-					$iTimer = TimerInit()
+					If $g_bDebugSetlog Then SetDebugLog("Get Donated troops in " & StringFormat("%.2f", __TimerDiff($iTimer)) & "'ms", $COLOR_DEBUG)
+					$iTimer = __TimerInit()
 
 				EndIf
 
@@ -532,8 +532,8 @@ Func DonateCC($bCheckForNewMsg = False)
 							EndIf
 						EndIf
 					Next
-					If $g_bDebugSetlog Then SetDebugLog("Get Donated Spells in " & StringFormat("%.2f", TimerDiff($iTimer)) & "'ms", $COLOR_DEBUG)
-					$iTimer = TimerInit()
+					If $g_bDebugSetlog Then SetDebugLog("Get Donated Spells in " & StringFormat("%.2f", __TimerDiff($iTimer)) & "'ms", $COLOR_DEBUG)
+					$iTimer = __TimerInit()
 				EndIf
 			EndIf
 
@@ -545,8 +545,8 @@ Func DonateCC($bCheckForNewMsg = False)
 				If $bDonateAllTroop And Not $g_bSkipDonTroops Then
 					; read available donate cap, and ByRef set the $g_bSkipDonTroops and $g_bSkipDonSpells flags
 					DonateWindowCap($g_bSkipDonTroops, $g_bSkipDonSpells)
-					Setlog("Get available donate cap (to all) in " & StringFormat("%.2f", TimerDiff($iTimer)) & "'ms", $COLOR_DEBUG)
-					$iTimer = TimerInit()
+					Setlog("Get available donate cap (to all) in " & StringFormat("%.2f", __TimerDiff($iTimer)) & "'ms", $COLOR_DEBUG)
+					$iTimer = __TimerInit()
 					If $g_bSkipDonTroops And $g_bSkipDonSpells Then
 						DonateWindow($aiDonateButton, $bClose)
 						$bDonate = True
@@ -596,8 +596,8 @@ Func DonateCC($bCheckForNewMsg = False)
 							Next
 						EndIf
 					Next
-					If $g_bDebugSetlog Then SetDebugLog("Get Donated troops (to all) in " & StringFormat("%.2f", TimerDiff($iTimer)) & "'ms", $COLOR_DEBUG)
-					$iTimer = TimerInit()
+					If $g_bDebugSetlog Then SetDebugLog("Get Donated troops (to all) in " & StringFormat("%.2f", __TimerDiff($iTimer)) & "'ms", $COLOR_DEBUG)
+					$iTimer = __TimerInit()
 				EndIf
 
 				If $bDonateAllSpell And Not $g_bSkipDonSpells Then
@@ -612,8 +612,8 @@ Func DonateCC($bCheckForNewMsg = False)
 							ExitLoop
 						EndIf
 					Next
-					If $g_bDebugSetlog Then SetDebugLog("Get Donated Spells (to all)  in " & StringFormat("%.2f", TimerDiff($iTimer)) & "'ms", $COLOR_DEBUG)
-					$iTimer = TimerInit()
+					If $g_bDebugSetlog Then SetDebugLog("Get Donated Spells (to all)  in " & StringFormat("%.2f", __TimerDiff($iTimer)) & "'ms", $COLOR_DEBUG)
+					$iTimer = __TimerInit()
 				EndIf
 
 				;Siege
@@ -629,8 +629,8 @@ Func DonateCC($bCheckForNewMsg = False)
 							ExitLoop
 						EndIf
 					Next
-					If $g_bDebugSetlog Then SetDebugLog("Get Donated Sieges (to all)  in " & StringFormat("%.2f", TimerDiff($iTimer)) & "'ms", $COLOR_DEBUG)
-					$iTimer = TimerInit()
+					If $g_bDebugSetlog Then SetDebugLog("Get Donated Sieges (to all)  in " & StringFormat("%.2f", __TimerDiff($iTimer)) & "'ms", $COLOR_DEBUG)
+					$iTimer = __TimerInit()
 				EndIf
 
 				$g_bDonateAllRespectBlk = False
@@ -648,7 +648,7 @@ Func DonateCC($bCheckForNewMsg = False)
 		$sSearchArea = GetDiamondFromArray($aiSearchArray)
 		$aiDonateButton = decodeSingleCoord(findImage("Donate Button", $g_sImgDonateCC & "DonateButton*", $sSearchArea, 1, True, Default))
 
-		If $g_bDebugSetlog Then SetDebugLog("Get more donate buttons in " & StringFormat("%.2f", TimerDiff($iTimer)) & "'ms", $COLOR_DEBUG)
+		If $g_bDebugSetlog Then SetDebugLog("Get more donate buttons in " & StringFormat("%.2f", __TimerDiff($iTimer)) & "'ms", $COLOR_DEBUG)
 
 		If IsArray($aiDonateButton) And UBound($aiDonateButton, 1) >= 2 Then
 			If $g_bDebugSetlog Then SetDebugLog("More Donate buttons found, new $aiDonateButton: (" & $aiDonateButton[0] & "," & $aiDonateButton[1] & ")", $COLOR_DEBUG)

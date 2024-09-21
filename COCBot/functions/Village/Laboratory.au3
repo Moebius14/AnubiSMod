@@ -44,6 +44,8 @@ Func Laboratory($debug = False)
 		Return
 	EndIf
 
+	If Not $g_bRunState Then Return
+
 	If $g_aiLaboratoryPos[0] = 0 Or $g_aiLaboratoryPos[1] = 0 Then
 		SetLog("Laboratory Location unknown!", $COLOR_WARNING)
 		LocateLab() ; Lab location unknown, so find it.

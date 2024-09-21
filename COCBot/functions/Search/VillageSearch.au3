@@ -209,7 +209,7 @@ Func _VillageSearch() ;Control for searching a village that meets conditions
 		AttackRemainingTime(True) ; Timer for knowing when attack starts, in 30 Sec. attack automatically starts and lasts for 3 Minutes
 		If $g_bRestart Then Return ; exit func
 
-		Local $bDetectionTimer = TimerInit()
+		Local $bDetectionTimer = __TimerInit()
 
 		$g_bCloudsActive = False
 
@@ -460,7 +460,7 @@ Func _VillageSearch() ;Control for searching a village that meets conditions
 		EndIf
 
 		; ----------------- ADD RANDOM DELAY IF REQUESTED -----------------------------------
-		Local $iDetectionTimer = TimerDiff($bDetectionTimer)
+		Local $iDetectionTimer = Round(__TimerDiff($bDetectionTimer) / 1000, 2)
 		Local $iDetectionTimerSetLog = Round($iDetectionTimer)
 		SetDebugLog("Detections made in : " & $iDetectionTimerSetLog & "ms", $COLOR_DEBUG)
 		If $g_iSearchDelayMin > 0 And $g_iSearchDelayMax > 0 Then ; Check if village delay values are set

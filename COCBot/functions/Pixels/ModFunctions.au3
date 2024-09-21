@@ -53,12 +53,12 @@ Func _WaitForCheckImg($sPathImage, $sSearchZone = Default, $aText = Default, $iW
 	If $iWait = Default Then $iWait = 2000
 	If $iDelay = Default Then $iDelay = 250
 
-	Local $hTimer = TimerInit()
+	Local $hTimer = __TimerInit()
 	Do
 		Local $aRetutn = findMultipleQuick($sPathImage, Default, $sSearchZone, True, $aText)
 		If IsArray($aRetutn) Then Return True
 		If _Sleep($iDelay) Then Return
-	Until ($iWait < TimerDiff($hTimer))
+	Until ($iWait < __TimerDiff($hTimer))
 	Return False
 EndFunc   ;==>_WaitForCheckImg
 
@@ -66,12 +66,12 @@ Func _WaitForCheckImgGone($sPathImage, $sSearchZone = Default, $aText = Default,
 	If $iWait = Default Then $iWait = 2000
 	If $iDelay = Default Then $iDelay = 250
 
-	Local $hTimer = TimerInit()
+	Local $hTimer = __TimerInit()
 	Do
 		Local $aRetutn = findMultipleQuick($sPathImage, Default, $sSearchZone, True, $aText)
 		If Not IsArray($aRetutn) Then Return True
 		If _Sleep($iDelay) Then Return
-	Until ($iWait < TimerDiff($hTimer))
+	Until ($iWait < __TimerDiff($hTimer))
 	Return False
 EndFunc   ;==>_WaitForCheckImgGone
 

@@ -14,7 +14,7 @@
 ; ===============================================================================================================================
 #include-once
 Func ZoomOut() ;Zooms out
-	Local $hTimer = TimerInit()
+	Local $hTimer = __TimerInit()
 	$g_aiSearchZoomOutCounter[0] = 0
 	$g_aiSearchZoomOutCounter[1] = 1
 	ResumeAndroid()

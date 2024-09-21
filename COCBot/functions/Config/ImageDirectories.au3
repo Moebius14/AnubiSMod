@@ -111,6 +111,7 @@ Global $ImgLockOfChest = @ScriptDir & "\imgxml\Main Village\TreasuryHunt\Lock*"
 ;Magic Snack
 Global $g_sImgMagicSnacks = @ScriptDir & "\imgxml\MagicSnacks\"
 Global $g_sImgMagicSnacksToUse = @ScriptDir & "\imgxml\MagicSnacks\ToUse\UseMini*"
+Global $g_sImgMagicSnacksFull = @ScriptDir & "\imgxml\MagicSnacks\ToUse\Full*"
 Global $g_sImgUseButton = @ScriptDir & "\imgxml\MagicSnacks\ToUse\UseButton*"
 #EndRegion Main Village
 

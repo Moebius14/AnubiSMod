@@ -31,24 +31,23 @@ Func PrepareAttackBB($AttackCount = 0)
 	EndIf
 
 	If $g_bChkBBAttackForDailyChallenge Then
-		If $g_IsBBDailyChallengeAvailable Then
-			SetLog("Attack To Earn A Star, No Matter What !!", $COLOR_DEBUG2)
-			$g_IsBBDailyChallengeAvailable = False
-			CheckLootAvail()
-			CheckBBGoldStorageFull()
-			CheckBBElixirStorageFull()
-			If $AttackCount = 0 Then CheckForSlots()
-			If Not ClickAttack() Then Return False
-			If _Sleep(1500) Then Return
-			CheckArmyReady()
-			CheckMachReady()
-			Return True
+		If $AttackCount = 0 Then
+			If $g_IsBBDailyChallengeAvailable Then
+				SetLog("Attack To Earn A Star, No Matter What !!", $COLOR_DEBUG2)
+				CheckLootAvail()
+				CheckBBGoldStorageFull()
+				CheckBBElixirStorageFull()
+				If $AttackCount = 0 Then CheckForSlots()
+				If Not ClickAttack() Then Return False
+				If _Sleep(1500) Then Return
+				CheckArmyReady()
+				CheckMachReady()
+				Return True
+			Else
+				SetLog("Builder Base Daily Challenge Unavailable", $COLOR_DEBUG1)
+				Return False
+			EndIf
 		Else
-			SetLog("Builder Base Daily Challenge Unavailable", $COLOR_DEBUG1)
-			Return False
-		EndIf
-
-		If $AttackCount > 0 Then
 			IsBBDailyChallengeStillAvailable()
 			If $g_IsBBDailyChallengeAvailable Then
 				$g_IsBBDailyChallengeAvailable = False
