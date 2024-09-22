@@ -43,7 +43,7 @@ Func CleanBBYard()
 						If $g_iFreeBuilderCountBB = 0 Then
 							SetLog("No More Builders available")
 							If _Sleep(2000) Then Return
-							ExitLoop (2)
+							ExitLoop 2
 						EndIf
 					EndIf
 				Next

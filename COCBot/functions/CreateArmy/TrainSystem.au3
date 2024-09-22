@@ -1279,9 +1279,8 @@ Func MakingDonatedTroops($sType = "All")
 				Local $iTroopIndex = TroopIndexLookup($avDefaultTroopGroup[$i][0], "MakingDonatedTroops")
 
 				If $avDefaultTroopGroup[$i][2] * $avDefaultTroopGroup[$i][4] <= $RemainTrainSpace[2] Then ; Troopheight x donate troop qty <= avaible train space
-					Local $howMuch = $avDefaultTroopGroup[$i][4]
 					DragIfNeeded($avDefaultTroopGroup[$i][0])
-					TrainIt($iTroopIndex, $howMuch, $g_iTrainClickDelay)
+					TrainIt($iTroopIndex, $avDefaultTroopGroup[$i][4], $g_iTrainClickDelay)
 					If _Sleep($DELAYRESPOND) Then Return ; add 5ms delay to catch TrainIt errors, and force return to back to main loop
 					Local $sTroopName = ($avDefaultTroopGroup[$i][4] > 1 ? $g_asTroopNamesPlural[$iTroopIndex] : $g_asTroopNames[$iTroopIndex])
 					SetLog(" - Trained " & $avDefaultTroopGroup[$i][4] & " " & $sTroopName, $COLOR_ACTION)
@@ -1296,15 +1295,22 @@ Func MakingDonatedTroops($sType = "All")
 							For $j = 0 To UBound($avDefaultTroopGroup, 1) - 1
 								$avDefaultTroopGroup[$j][4] = 0
 							Next
-							ExitLoop (2) ;
+							ExitLoop 2
 						EndIf
 						If $avDefaultTroopGroup[$i][2] <= $RemainTrainSpace[2] And $avDefaultTroopGroup[$i][4] > 0 Then
-							Local $howMuch = Number($RemainTrainSpace[2] / $avDefaultTroopGroup[$i][2])
+							Local $AsExpected = IsInt(Number($RemainTrainSpace[2] / $avDefaultTroopGroup[$i][2]))
+							Local $howMuch = Floor(Number($RemainTrainSpace[2] / $avDefaultTroopGroup[$i][2]))
 							DragIfNeeded($avDefaultTroopGroup[$i][0])
 							TrainIt($iTroopIndex, $howMuch, $g_iTrainClickDelay)
 							If _Sleep($DELAYRESPOND) Then Return ; add 5ms delay to catch TrainIt errors, and force return to back to main loop
-							Local $sTroopName = $g_asTroopNames[$iTroopIndex]
-							SetLog(" - Trained " & $howMuch & " " & $sTroopName, $COLOR_ACTION)
+							Local $sTroopName = ($howMuch > 1 ? $g_asTroopNamesPlural[$iTroopIndex] : $g_asTroopNames[$iTroopIndex])
+							If $AsExpected Then
+								SetLog(" - Trained " & $howMuch & " " & $sTroopName, $COLOR_ACTION)
+							Else
+								Local $WasExpected = Ceiling(Number($RemainTrainSpace[2] / $avDefaultTroopGroup[$i][2]))
+								SetLog(" - Trained Only " & $howMuch & " " & $sTroopName, $COLOR_ACTION)
+								SetLog($WasExpected & " " & $sTroopName & " were expected", $COLOR_ACTION)
+							EndIf
 							$avDefaultTroopGroup[$i][4] -= $howMuch
 							If _Sleep(1000) Then Return ; Needed Delay, OCR was not picking up Troop Changes
 						Else

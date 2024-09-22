@@ -44,7 +44,7 @@ Func _PixelSearch($iLeft, $iTop, $iRight, $iBottom, $sColor, $iColorVariation, $
 	Return 0
 EndFunc   ;==>_PixelSearch
 
-Func WaitForClanMessage($bType)
+Func WaitForClanMessage($bType, $bTopCoords = 0, $bBottomCoords = 0)
 	Switch $bType
 		Case "DonatedTroops"
 			If IsArray(_PixelSearch($aReceivedTroopsOCR[0], $aReceivedTroopsOCR[1], $aReceivedTroopsOCR[0], $aReceivedTroopsOCR[1] + $aReceivedTroopsOCR[4], Hex($aReceivedTroopsOCR[2], 6), $aReceivedTroopsOCR[3], True)) Then
@@ -165,6 +165,27 @@ Func WaitForClanMessage($bType)
 				SetDebugLog("Detected Clan Castle Message. Waiting until it's gone", $COLOR_INFO)
 				Local $Safetyexit = 0
 				While IsArray(_PixelSearch($aReceivedTroopsCG[0], $aReceivedTroopsCG[1], $aReceivedTroopsCG[0], $aReceivedTroopsCG[1] + $aReceivedTroopsCG[4], Hex($aReceivedTroopsCG[2], 6), $aReceivedTroopsCG[3], True))
+					If _Sleep($DELAYTRAIN1) Then Return
+					$Safetyexit += 1
+					If $Safetyexit > 20 Then ExitLoop ; If waiting longer than 20 secs, something is wrong
+				WEnd
+			EndIf
+		Case "Donate"
+			Local $aReceivedTroopsDonate[5] = [333, 100, 0xFFFFFF, 15, 215]
+			If $bTopCoords > 90 Then $aReceivedTroopsDonate[1] = $bTopCoords
+			If $bTopCoords > 340 Then Return
+			Select
+				Case $bTopCoords > 90 And $bBottomCoords = 0
+					$aReceivedTroopsDonate[4] = Abs($aReceivedTroopsDonate[4] - ($bTopCoords - 100))
+				Case $bTopCoords = 0 And $bBottomCoords > 90
+					$aReceivedTroopsDonate[4] = Abs($bBottomCoords - $aReceivedTroopsDonate[1])
+				Case $bTopCoords > 90 And $bBottomCoords > 90
+					$aReceivedTroopsDonate[4] = $bBottomCoords - $bTopCoords
+			EndSelect
+			If IsArray(_PixelSearch($aReceivedTroopsDonate[0], $aReceivedTroopsDonate[1], $aReceivedTroopsDonate[0], $aReceivedTroopsDonate[1] + $aReceivedTroopsDonate[4], Hex($aReceivedTroopsDonate[2], 6), $aReceivedTroopsDonate[3], True)) Then
+				SetDebugLog("Detected Clan Castle Message. Waiting until it's gone", $COLOR_INFO)
+				Local $Safetyexit = 0
+				While IsArray(_PixelSearch($aReceivedTroopsDonate[0], $aReceivedTroopsDonate[1], $aReceivedTroopsDonate[0], $aReceivedTroopsDonate[1] + $aReceivedTroopsDonate[4], Hex($aReceivedTroopsDonate[2], 6), $aReceivedTroopsDonate[3], True))
 					If _Sleep($DELAYTRAIN1) Then Return
 					$Safetyexit += 1
 					If $Safetyexit > 20 Then ExitLoop ; If waiting longer than 20 secs, something is wrong

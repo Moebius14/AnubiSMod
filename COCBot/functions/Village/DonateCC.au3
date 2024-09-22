@@ -232,14 +232,7 @@ Func DonateCC($bCheckForNewMsg = False)
 
 	If _Sleep($DELAYDONATECC4) Then Return
 
-	; check for "I Understand" button
-	Local $aCoord = decodeSingleCoord(findImage("I Understand", $g_sImgChatIUnterstand, GetDiamondFromRect("50,400,280,550")))
-	If UBound($aCoord) > 1 Then
-		SetLog('Clicking "I Understand" button', $COLOR_ACTION)
-		ClickP($aCoord)
-		If _Sleep($DELAYDONATECC2) Then Return
-	EndIf
-
+	WaitForClanMessage("Donate")
 	While 1
 		ForceCaptureRegion()
 		Local $offColors[3][3] = [[0xFFFFFF, 7, 0], [0x0D0D0D, 11, 0], [0x99D012, 14, 0]] ; 2nd pixel white Color, 3rd pixel black Bottom color, 4th pixel green edge of button
@@ -265,6 +258,7 @@ Func DonateCC($bCheckForNewMsg = False)
 		$sNewClanString = ""
 		If _Sleep($DELAYDONATECC2) Then ExitLoop
 
+		WaitForClanMessage("Donate", $aiSearchArray[1])
 		$iTimer = __TimerInit()
 		$sSearchArea = GetDiamondFromArray($aiSearchArray)
 		$aiDonateButton = decodeSingleCoord(findImage("Donate Button", $g_sImgDonateCC & "DonateButton*", $sSearchArea, 1, True, Default))
@@ -639,6 +633,7 @@ Func DonateCC($bCheckForNewMsg = False)
 
 		EndIf
 
+		WaitForClanMessage("Donate", $aiSearchArray[1])
 		$sSearchArea = GetDiamondFromArray($aiSearchArray)
 		$aiDonateButton = decodeSingleCoord(findImage("Donate Button", $g_sImgDonateCC & "DonateButton*", $sSearchArea, 1, True, Default))
 
@@ -775,6 +770,7 @@ Func DonateTroopType(Const $iTroopIndex, $Quant = 0, Const $bDonateQueueOnly = F
 	EndIf
 
 	Local $g_iDonTroopsLimitClan = 0
+	WaitForClanMessage("Donate", $g_iDonationWindowY + 15 - 10, $g_iDonationWindowY + 15 + 14 + 10)
 	Local $g_iDonTroopsLimitClanOCR = getOcrAndCapture("coc-t-lim", $g_iDonationWindowX + 101, $g_iDonationWindowY + 15, 40, 14, True)
 	Local $aTempDonTroopsLimitClan = StringSplit($g_iDonTroopsLimitClanOCR, "#")
 	If $aTempDonTroopsLimitClan[0] >= 2 Then $g_iDonTroopsLimitClan = $aTempDonTroopsLimitClan[2]
@@ -818,6 +814,7 @@ Func DonateTroopType(Const $iTroopIndex, $Quant = 0, Const $bDonateQueueOnly = F
 
 	; Verify if the type of troop to donate exists
 	SetLog("Troops Condition Matched", $COLOR_OLIVE)
+	WaitForClanMessage("Donate", $g_iDonationWindowY + 107 + $YComp - 10, $g_iDonationWindowY + 107 + $YComp + 10)
 	If _ColorCheck(_GetPixelColor($g_iDonationWindowX + 17 + ($Slot * 68), $g_iDonationWindowY + 105 + $YComp, True), Hex(0x4079B8, 6), 20) Or _
 			_ColorCheck(_GetPixelColor($g_iDonationWindowX + 17 + 5 + ($Slot * 68), $g_iDonationWindowY + 106 + $YComp, True), Hex(0x4079B8, 6), 20) Or _
 			_ColorCheck(_GetPixelColor($g_iDonationWindowX + 17 + 10 + ($Slot * 68), $g_iDonationWindowY + 107 + $YComp, True), Hex(0x4079B8, 6), 20) Or _ ; check for 'blue'
@@ -903,6 +900,7 @@ Func DonateSpellType(Const $iSpellIndex, Const $bDonateQueueOnly = False, Const 
 	EndIf
 
 	Local $g_iDonSpellsLimitClan = 0
+	WaitForClanMessage("Donate", $g_iDonationWindowY + 220 - 10, $g_iDonationWindowY + 220 + 14 + 10)
 	Local $g_iDonSpellsLimitClanOCR = getOcrAndCapture("coc-t-lim", $g_iDonationWindowX + 94, $g_iDonationWindowY + 220, 30, 14, True)
 	Local $aTempDonSpellsLimitClan = StringSplit($g_iDonSpellsLimitClanOCR, "#")
 	If $aTempDonSpellsLimitClan[0] >= 2 Then $g_iDonSpellsLimitClan = $aTempDonSpellsLimitClan[2]
@@ -943,6 +941,7 @@ Func DonateSpellType(Const $iSpellIndex, Const $bDonateQueueOnly = False, Const 
 	$YComp = 203 ; correct 860x780
 
 	SetLog("Spells Condition Matched", $COLOR_OLIVE)
+	WaitForClanMessage("Donate", $g_iDonationWindowY + 107 + $YComp - 10, $g_iDonationWindowY + 107 + $YComp + 10)
 	If _ColorCheck(_GetPixelColor($g_iDonationWindowX + 17 + ($Slot * 68), $g_iDonationWindowY + 105 + $YComp, True), Hex(0x6F47C1, 6), 20) Or _
 			_ColorCheck(_GetPixelColor($g_iDonationWindowX + 17 + 5 + ($Slot * 68), $g_iDonationWindowY + 106 + $YComp, True), Hex(0x6F47C1, 6), 20) Or _
 			_ColorCheck(_GetPixelColor($g_iDonationWindowX + 17 + 10 + ($Slot * 68), $g_iDonationWindowY + 107 + $YComp, True), Hex(0x6F47C1, 6), 20) Then ; check for 'purple'
@@ -1066,6 +1065,8 @@ Func DonateWindow($aiDonateButton, $bOpen = True)
 		Return
 	EndIf
 
+	WaitForClanMessage("Donate", $aiDonateButton[1] - 20, $aiDonateButton[1] + 20)
+
 	Local $aiSearchArray[4] = [$aiDonateButton[0] - 20, $aiDonateButton[1] - 20, $aiDonateButton[0] + 20, $aiDonateButton[1] + 20]
 	Local $aiDonateButtonCheck = decodeSingleCoord(findImage("Donate Button", $g_sImgDonateCC & "DonateButton*", GetDiamondFromArray($aiSearchArray), 1, True, Default))
 
@@ -1077,6 +1078,8 @@ Func DonateWindow($aiDonateButton, $bOpen = True)
 	EndIf
 
 	If _Sleep($DELAYDONATEWINDOW1) Then Return
+
+	WaitForClanMessage("Donate", $aiDonateButton[1] - 20, $aiDonateButton[1] + 20)
 
 	Local $icount = 0
 	While Not (_ColorCheck(_GetPixelColor(356, $aiDonateButton[1], True, "DonateWindow"), Hex(0xFFFFFF, 6), 0))
@@ -1091,6 +1094,8 @@ Func DonateWindow($aiDonateButton, $bOpen = True)
 	; Will search the first pure white color at Top and Left of donate window.
 	$g_iDonationWindowY = 0
 	$g_iDonationWindowX = 0
+
+	WaitForClanMessage("Donate")
 
 	Local $aDonationWindowX = _MultiPixelSearch2(342, $aiDonateButton[1], 390, $aiDonateButton[1], 1, 1, Hex(0xFFFFFF, 6), 10)
 	Local $aDonationWindowY = _MultiPixelSearch2(628, 0, 630, $g_iDEFAULT_HEIGHT, 1, 1, Hex(0xFFFFFF, 6), 10)
