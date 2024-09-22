@@ -99,7 +99,10 @@ Func TabHumanizationGUI()
 			GetTranslatedFileIni("MBR GUI Design Child Village - Misc", "AppBuilder_Info03", "Shortest : Assign Builder's Apprentice To The Shortest Upgrade."))
 
 	$g_hChkUseSnacks = GUICtrlCreateCheckbox(GetTranslatedFileIni("MBR GUI Design Child Village - Misc", "ChkUseSnacks", "Use Magic Snacks"), $x + 250, $y + 50, -1, -1)
-	_GUICtrlSetTip(-1, GetTranslatedFileIni("MBR GUI Design Child Village - Misc", "ChkUseSnacks_Info01", "Check This To Use Magic Snacks When Available."))
+	_GUICtrlSetTip(-1, GetTranslatedFileIni("MBR GUI Design Child Village - Misc", "ChkUseSnacks_Info01", "Check This To Use Magic Snacks When Available.") & @CRLF & _
+			GetTranslatedFileIni("MBR GUI Design Child Village - Misc", "ChkUseSnacks_Info02", "Bot can use Study Soup when there's a laboratory upgrade running.") & @CRLF & _
+			GetTranslatedFileIni("MBR GUI Design Child Village - Misc", "ChkUseSnacks_Info03", "Bot can use Builder Bite when there is less than 2 free builders.") & @CRLF & _
+			GetTranslatedFileIni("MBR GUI Design Child Village - Misc", "ChkUseSnacks_Info04", "Bot can use Castle Cake when medal system is set to fill CC."))
 	GUICtrlSetState(-1, $GUI_UNCHECKED)
 
 	$x += 10
