@@ -6,7 +6,7 @@
 ; Return values .: None
 ; Author ........: Zax (2015)
 ; Modified ......: Safar46 (2015), Hervidero (2015-04), HungLe (2015-04), Sardo (2015-08), Promac (2015-12), Hervidero (2016-01), MonkeyHunter (2016-07),
-;				   CodeSlinger69 (2017)
+;				   CodeSlinger69 (2017), Moebius14 (2024-09)
 ; Remarks .......: This file is part of MyBot, previously known as ClashGameBot. Copyright 2015-2024
 ;                  MyBot is distributed under the terms of the GNU GPL
 ; Related .......:
@@ -16,7 +16,7 @@
 
 Global $g_aiPrepDon[6] = [0, 0, 0, 0, 0, 0]
 Global $g_iTotalDonateTroopCapacity, $g_iTotalDonateSpellCapacity, $g_iTotalDonateSiegeMachineCapacity
-Global $g_iDonTroopsLimit = 50, $iDonSpellsLimit = 1, $g_iDonTroopsAv = 0, $g_iDonSpellsAv = 0
+Global $g_iDonTroopsLimit = 50, $iDonSpellsLimit = 3, $g_iDonTroopsAv = 0, $g_iDonSpellsAv = 0
 Global $g_iDonTroopsQuantityAv = 0, $g_iDonTroopsQuantity = 0, $g_iDonSpellsQuantityAv = 0, $g_iDonSpellsQuantity = 0
 Global $g_bSkipDonTroops = False, $g_bSkipDonSpells = False, $g_bSkipDonSiege = False
 Global $g_bDonateAllRespectBlk = False ; is turned on off durning donate all section, must be false all other times
@@ -257,7 +257,7 @@ Func DonateCC($bCheckForNewMsg = False)
 	If $g_iCommandStop <> 0 And $g_iCommandStop <> 3 Then SetLog("Checking for Donate Requests in Clan Chat", $COLOR_INFO)
 
 	Local $iTimer
-	Local $sSearchArea, $aiSearchArray[4] = [240, 90, 330, 680]
+	Local $sSearchArea, $aiSearchArray[4] = [240, 90, 330, 670]
 	Local $aiDonateButton
 
 	While $bDonate
@@ -428,15 +428,13 @@ Func DonateCC($bCheckForNewMsg = False)
 			;;; Flagged to Skip Check
 			If $g_bSkipDonTroops And $g_bSkipDonSpells And $g_bSkipDonSiege Then
 				$bDonate = True
-				$aiSearchArray[1] += 50
+				$aiSearchArray[1] = $aiDonateButton[1] + 20
 				ContinueLoop ; go to next button if cant read Castle Troops and Spells before the donate window opens
 			EndIf
 
 			;;; Open Donate Window
 			If _Sleep($DELAYDONATECC3) Then Return
 			If Not DonateWindow($aiDonateButton, $bOpen) Then
-				$bDonate = True
-				$aiSearchArray[1] = $aiDonateButton[1] + 20
 				SetLog("Donate Window did not open - Exiting Donate", $COLOR_ERROR)
 				ExitLoop ; Leave donate to prevent a bot hang condition
 			EndIf
@@ -457,7 +455,6 @@ Func DonateCC($bCheckForNewMsg = False)
 					DonateWindow($aiDonateButton, $bClose)
 					$bDonate = True
 					$aiSearchArray[1] = $aiDonateButton[1] + 20
-					If _Sleep($DELAYDONATECC2) Then ExitLoop
 					ContinueLoop ; go to next button if already donated, maybe this is an impossible case..
 				EndIf
 
@@ -551,7 +548,6 @@ Func DonateCC($bCheckForNewMsg = False)
 						DonateWindow($aiDonateButton, $bClose)
 						$bDonate = True
 						$aiSearchArray[1] = $aiDonateButton[1] + 20
-						If _Sleep($DELAYDONATECC2) Then ExitLoop
 						ContinueLoop ; go to next button if already donated, maybe this is an impossible case..
 					EndIf
 					If $g_bDebugSetlog Then SetDebugLog("Troop All checkpoint.", $COLOR_DEBUG)
@@ -569,14 +565,12 @@ Func DonateCC($bCheckForNewMsg = False)
 										DonateWindow($aiDonateButton, $bClose)
 										$bDonate = True
 										$aiSearchArray[1] = $aiDonateButton[1] + 20
-										If _Sleep($DELAYDONATECC2) Then ExitLoop
 										ContinueLoop ; If "Nothing" is selected then continue
 									EndIf
 									If $CorrectDonateCustom[$i][1] < 1 Then
 										DonateWindow($aiDonateButton, $bClose)
 										$bDonate = True
 										$aiSearchArray[1] = $aiDonateButton[1] + 20
-										If _Sleep($DELAYDONATECC2) Then ExitLoop
 										ContinueLoop ; If donate number is smaller than 1 then continue
 									ElseIf $CorrectDonateCustom[$i][1] > 8 Then
 										$CorrectDonateCustom[$i][1] = 8 ; Number larger than 8 is unnecessary
@@ -684,8 +678,8 @@ Func DonateCC($bCheckForNewMsg = False)
 	WEnd
 
 	If Not ClickB("ClanChat") Then
-		ClickAway("Right")
-		If _Sleep(1000) Then Return
+		CloseWindow2()
+		If _Sleep(500) Then Return
 		If Not ClickB("ClanChat") Then
 			SetLog("Error finding the Clan Tab Button", $COLOR_ERROR)
 			AndroidPageError("DonateCC")
@@ -897,7 +891,6 @@ Func DonateSpellType(Const $iSpellIndex, Const $bDonateQueueOnly = False, Const 
 	Local $Slot = -1, $detectedSlot = -1
 	Local $YComp = 0, $donaterow = -1
 	Local $donateposinrow = -1
-	;Local $sTextToAll = ""
 
 	If $g_iTotalDonateSpellCapacity = 0 Then Return
 	If $g_bDebugSetlog Then SetDebugLog("DonateSpellType Start: " & $g_asSpellNames[$iSpellIndex], $COLOR_DEBUG)
@@ -909,15 +902,21 @@ Func DonateSpellType(Const $iSpellIndex, Const $bDonateQueueOnly = False, Const 
 		Return
 	EndIf
 
-	If $g_iDonSpellsQuantityAv >= $iDonSpellsLimit Then
-		$g_iDonSpellsQuantity = $iDonSpellsLimit
-	Else
-		$g_iDonSpellsQuantity = $g_iDonSpellsQuantityAv
-	EndIf
+	Local $g_iDonSpellsLimitClan = 0
+	Local $g_iDonSpellsLimitClanOCR = getOcrAndCapture("coc-t-lim", $g_iDonationWindowX + 94, $g_iDonationWindowY + 220, 30, 14, True)
+	Local $aTempDonSpellsLimitClan = StringSplit($g_iDonSpellsLimitClanOCR, "#")
+	If $aTempDonSpellsLimitClan[0] >= 2 Then $g_iDonSpellsLimitClan = $aTempDonSpellsLimitClan[2]
+	If ($g_iDonSpellsLimitClan <> "" Or $g_iDonSpellsLimitClan = 0) And Number($g_iDonSpellsLimitClan) <> Number($iDonSpellsLimit) Then $iDonSpellsLimit = $g_iDonSpellsLimitClan
 
-	If $bDonateQueueOnly And $g_aiAvailQueuedSpell[$iSpellIndex] = 0 Then
-		SetLog("Sorry Chief! " & $g_asSpellNames[$iSpellIndex] & " is not ready in queue for donation!")
-		Return
+	$g_iDonSpellsQuantity = _Min(Number($g_iDonSpellsQuantityAv), Number($iDonSpellsLimit))
+	If $bDonateQueueOnly Then
+		If $g_aiAvailQueuedSpell[$iSpellIndex] <= 0 Then
+			SetLog("Sorry Chief! " & $g_asSpellNames[$iSpellIndex] & " is not ready in queue for donation!")
+			Return
+		ElseIf $g_aiAvailQueuedSpell[$iSpellIndex] < $g_iDonSpellsQuantity Then
+			SetLog("Queue available for donation: " & $g_aiAvailQueuedSpell[$iSpellIndex] & "x " & $g_asSpellNames[$iSpellIndex])
+			$g_iDonSpellsQuantity = $g_aiAvailQueuedSpell[$iSpellIndex]
+		EndIf
 	EndIf
 
 	; Detect the Spells Slot
@@ -963,8 +962,6 @@ Func DonateSpellType(Const $iSpellIndex, Const $bDonateQueueOnly = False, Const 
 
 			$g_bFullArmySpells = False
 			$g_bFullArmy = False
-			$g_aiDonateSpells[$iSpellIndex] += 1
-			If $bDonateQueueOnly Then $g_aiAvailQueuedTroop[$iSpellIndex] -= 1
 			If $g_iCommandStop = 3 Then
 				$g_iCommandStop = 0
 				$g_bFullArmySpells = False
@@ -972,10 +969,21 @@ Func DonateSpellType(Const $iSpellIndex, Const $bDonateQueueOnly = False, Const 
 			$g_aiDonateStatsSpells[$iSpellIndex][0] += $g_iDonSpellsQuantity
 		EndIf
 
-		SetLog("Donating " & $g_iDonSpellsQuantity & " " & $g_asSpellNames[$iSpellIndex] & " Spell.", $COLOR_GREEN)
+		SetLog("Donating " & $g_iDonSpellsQuantity & " " & $g_asSpellNames[$iSpellIndex] & " Spell" & ($g_iDonSpellsQuantity > 1 ? "s" : ""), $COLOR_GREEN)
 
-		; Assign the donated quantity Spells to train : $Don $g_asSpellName
-		; need to implement assign $DonPoison etc later
+		; Adjust Values for donated spells to prevent a Double ghost donate to stats and train
+		If $iSpellIndex >= $eSpellLightning And $iSpellIndex <= $eSpellOvergrowth Then
+			$g_iTotalDonateSpellCapacity -= ($g_iDonSpellsQuantity * $g_aiSpellSpace[$iSpellIndex])
+			;If donated max allowed troop qty set $g_bSkipDonSpells = True
+			If $iDonSpellsLimit = $g_iDonSpellsQuantity Then
+				$g_bSkipDonSpells = True
+			EndIf
+		EndIf
+
+		; Assign the donated quantity spells to brew : $Don $g_asSpellName
+		$g_aiDonateSpells[$iSpellIndex] += $g_iDonSpellsQuantity
+		If $bDonateQueueOnly Then $g_aiAvailQueuedTroop[$iSpellIndex] -= $g_iDonSpellsQuantity
+
 	Else
 		Local $Text = "Unable to donate " & $g_asSpellNames[$iSpellIndex] & ".Donate screen not visible, will retry next run.", $LocalColor = $COLOR_ERROR
 		If _ColorCheck(_GetPixelColor($g_iDonationWindowX + 17 + 5 + ($Slot * 68), $g_iDonationWindowY + 105 + $YComp, True), Hex(0x606060, 6), 20) Or _       ; Dark Gray from Queued Spells
@@ -1052,7 +1060,7 @@ Func DonateWindow($aiDonateButton, $bOpen = True)
 	If $g_bDebugSetlog And Not $bOpen Then SetLog("DonateWindow Close Start", $COLOR_DEBUG)
 
 	If Not $bOpen Then ; close window and exit
-		ClickAway()
+		CloseWindow2()
 		If _Sleep($DELAYDONATEWINDOW1) Then Return
 		If $g_bDebugSetlog Then SetDebugLog("DonateWindow Close Exit", $COLOR_DEBUG)
 		Return

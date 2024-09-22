@@ -74,22 +74,22 @@ Func MagicSnacks()
 				For $i = 0 To UBound($aMagicSnacksTemp) - 1
 					Switch $aMagicSnacksTemp[$i][1]
 						Case 312 To 406
-							Local $aiToUse = decodeSingleCoord(FindImageInPlace2("ToUse", $g_sImgMagicSnacksToUse, 312, 555 + $g_iBottomOffsetY, 364, 578 + $g_iBottomOffsetY, True))
+							Local $aiToUse = decodeSingleCoord(FindImageInPlace2("ToUse", $g_sImgMagicSnacksToUse, 312, 555 + $g_iBottomOffsetY, 364, 580 + $g_iBottomOffsetY, True))
 						Case 418 To 512
-							Local $aiToUse = decodeSingleCoord(FindImageInPlace2("ToUse", $g_sImgMagicSnacksToUse, 418, 555 + $g_iBottomOffsetY, 470, 578 + $g_iBottomOffsetY, True))
+							Local $aiToUse = decodeSingleCoord(FindImageInPlace2("ToUse", $g_sImgMagicSnacksToUse, 418, 555 + $g_iBottomOffsetY, 470, 580 + $g_iBottomOffsetY, True))
 						Case 524 To 618
-							Local $aiToUse = decodeSingleCoord(FindImageInPlace2("ToUse", $g_sImgMagicSnacksToUse, 524, 555 + $g_iBottomOffsetY, 576, 578 + $g_iBottomOffsetY, True))
+							Local $aiToUse = decodeSingleCoord(FindImageInPlace2("ToUse", $g_sImgMagicSnacksToUse, 524, 555 + $g_iBottomOffsetY, 576, 580 + $g_iBottomOffsetY, True))
 					EndSwitch
 					If IsArray($aiToUse) And UBound($aiToUse) = 2 Then
 						_ArrayAdd($aMagicSnacks, $aMagicSnacksTemp[$i][0] & "|" & $aMagicSnacksTemp[$i][1] & "|" & $aMagicSnacksTemp[$i][2] & "| Yes")
 					Else
 						Switch $aMagicSnacksTemp[$i][1]
 							Case 312 To 406
-								Local $aiIsFull = decodeSingleCoord(FindImageInPlace2("MagicSnackIsFull", $g_sImgMagicSnacksFull, 312, 555 + $g_iBottomOffsetY, 364, 578 + $g_iBottomOffsetY, True))
+								Local $aiIsFull = decodeSingleCoord(FindImageInPlace2("MagicSnackIsFull", $g_sImgMagicSnacksFull, 312, 555 + $g_iBottomOffsetY, 364, 580 + $g_iBottomOffsetY, True))
 							Case 418 To 512
-								Local $aiIsFull = decodeSingleCoord(FindImageInPlace2("MagicSnackIsFull", $g_sImgMagicSnacksFull, 418, 555 + $g_iBottomOffsetY, 470, 578 + $g_iBottomOffsetY, True))
+								Local $aiIsFull = decodeSingleCoord(FindImageInPlace2("MagicSnackIsFull", $g_sImgMagicSnacksFull, 418, 555 + $g_iBottomOffsetY, 470, 580 + $g_iBottomOffsetY, True))
 							Case 524 To 618
-								Local $aiIsFull = decodeSingleCoord(FindImageInPlace2("MagicSnackIsFull", $g_sImgMagicSnacksFull, 524, 555 + $g_iBottomOffsetY, 576, 578 + $g_iBottomOffsetY, True))
+								Local $aiIsFull = decodeSingleCoord(FindImageInPlace2("MagicSnackIsFull", $g_sImgMagicSnacksFull, 524, 555 + $g_iBottomOffsetY, 576, 580 + $g_iBottomOffsetY, True))
 						EndSwitch
 						If IsArray($aiIsFull) And UBound($aiIsFull) = 2 Then
 							_ArrayAdd($aMagicSnacks, $aMagicSnacksTemp[$i][0] & "|" & $aMagicSnacksTemp[$i][1] & "|" & $aMagicSnacksTemp[$i][2] & "| Full")
@@ -120,7 +120,7 @@ Func MagicSnacks()
 									Case 524 To 618
 										Local $aiOCRXCord = 524
 								EndSwitch
-								Local $TimerReadOCR = getOcrAndCapture("coc-guardshield", $aiOCRXCord, 634 + $g_iBottomOffsetY, 80, 16)
+								Local $TimerReadOCR = getOcrAndCapture("coc-guardshield", $aiOCRXCord, 634 + $g_iBottomOffsetY, 82, 16)
 								Local $TimerReadMinutes = ConvertOCRTime("CakeTime", $TimerReadOCR, False)
 								If $TimerReadMinutes > 0 Then
 									Local $StartTime = _NowCalc() ; what is date:time now
