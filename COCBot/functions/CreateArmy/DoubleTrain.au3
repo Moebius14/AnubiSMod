@@ -243,11 +243,12 @@ Func CheckQueueTroopAndTrainRemain($ArmyCamp, $bDebug)
 
 	Local $XQueueStart = 775
 	For $i = 0 To 10
-		If _ColorCheck(_GetPixelColor(766 - $i * 60.5, 185 + $g_iMidOffsetY, True), Hex(0xD7AFA9, 6), 20) Then ; Pink background found
+		If _ColorCheck(_GetPixelColor(766 - ($i * 60.5), 185 + $g_iMidOffsetY, True), Hex(0xD7AFA9, 6), 20) Then ; Pink background found
 			$XQueueStart -= 60.5 * $i
 			ExitLoop
 		EndIf
 	Next
+	$XQueueStart += 3
 
 	Local $aiQueueTroops = CheckQueueTroops(True, $bDebug, $XQueueStart)
 	If Not IsArray($aiQueueTroops) Then Return False
@@ -303,6 +304,7 @@ Func CheckQueueSpellAndTrainRemain($ArmyCamp, $bDebug, $iUnbalancedSpell = 0)
 			ExitLoop
 		EndIf
 	Next
+	$XQueueStart += 3
 
 	Local $aiQueueSpells = CheckQueueSpells(True, $bDebug, $XQueueStart)
 	If Not IsArray($aiQueueSpells) Then Return False

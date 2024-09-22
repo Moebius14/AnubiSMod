@@ -934,7 +934,7 @@ Func WhatToTrain($ReturnExtraTroopsOnly = False, $bFullArmy = $g_bIsFullArmywith
 	Return $ToReturn
 EndFunc   ;==>WhatToTrain
 
-Func CheckQueueTroops($bGetQuantity = True, $bSetLog = True, $x = 777, $bQtyWSlot = False)
+Func CheckQueueTroops($bGetQuantity = True, $bSetLog = True, $x = 778, $bQtyWSlot = False)
 	Local $aResult[1] = [""]
 	If $bSetLog Then SetLog("Checking Troops Queue", $COLOR_INFO)
 
@@ -977,7 +977,7 @@ Func CheckQueueTroops($bGetQuantity = True, $bSetLog = True, $x = 777, $bQtyWSlo
 	Return $aResult
 EndFunc   ;==>CheckQueueTroops
 
-Func CheckQueueSpells($bGetQuantity = True, $bSetLog = True, $x = 777, $bQtyWSlot = False)
+Func CheckQueueSpells($bGetQuantity = True, $bSetLog = True, $x = 778, $bQtyWSlot = False)
 	Local $avResult[$eSpellCount]
 	Local $sImageDir = @ScriptDir & "\imgxml\ArmyOverview\SpellsQueued"
 

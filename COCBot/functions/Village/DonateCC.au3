@@ -83,18 +83,19 @@ Func IsDonateQueueOnly(ByRef $abDonateQueueOnly)
 					ContinueLoop 2
 				EndIf
 			Next
+			$xQueue += 3
 
 			If $i = 0 Then
-				Local $aSearchResult = CheckQueueTroops(True, False, $xQueue + 10, True) ; $aResult[$Slots][2]: [0] = Name, [1] = Qty
+				Local $aSearchResult = CheckQueueTroops(True, False, $xQueue, True) ; $aResult[$Slots][2]: [0] = Name, [1] = Qty
 			Else
-				Local $aSearchResult = CheckQueueSpells(True, False, $xQueue + 6, True)
+				Local $aSearchResult = CheckQueueSpells(True, False, $xQueue, True)
 			EndIf
 			If Not IsArray($aSearchResult) Then ContinueLoop
 
 			For $j = 0 To (UBound($aSearchResult) - 1)
 				Local $TroopIndex = TroopIndexLookup($aSearchResult[$j][0], "IsDonateQueueOnly()")
 				If $TroopIndex < 0 Then ContinueLoop
-				If IsArray(_PixelSearch(($xQueue - 9) - $j * 60.5, 234 + $g_iMidOffsetY, ($xQueue - 5) - $j * 60.5, 234 + $g_iMidOffsetY, Hex(0x96A724, 6), 20, True)) Then ; the green check symbol
+				If IsArray(_PixelSearch(($xQueue - 12) - ($j * 60.5), 234 + $g_iMidOffsetY, ($xQueue - 8) - ($j * 60.5), 234 + $g_iMidOffsetY, Hex(0x96A623, 6), 20, True)) Then ; the green check symbol
 					If $i = 0 Then
 						If _ArrayIndexValid($g_aiAvailQueuedTroop, $TroopIndex) Then
 							$g_aiAvailQueuedTroop[$TroopIndex] += $aSearchResult[$j][1]
