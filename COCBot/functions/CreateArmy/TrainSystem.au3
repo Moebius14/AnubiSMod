@@ -1341,18 +1341,16 @@ Func MakingDonatedTroops($sType = "All")
 
 		For $i = 0 To $eSpellCount - 1
 			If Not $g_bRunState Then Return
-			If $g_aiDonateSpells[$i] > 0 Then
+			WaitForClanMessage("DonatedTroops")
+			$RemainTrainSpace = GetOCRCurrent(95, 162 + $g_iMidOffsetY)
+			If $g_aiDonateSpells[$i] > 0 And $RemainTrainSpace[0] < $RemainTrainSpace[1] Then
 				Local $pos = GetTrainPos($i + $eLSpell)
 				Local $howMuch = $g_aiDonateSpells[$i]
 				TrainIt($eLSpell + $i, $howMuch, $g_iTrainClickDelay)
 				If _Sleep($DELAYRESPOND) Then Return ; add 5ms delay to catch TrainIt errors, and force return to back to main loop
 				SetLog(" - Brewed " & $howMuch & " " & $g_asSpellNames[$i] & ($howMuch > 1 ? " Spells" : " Spell"), $COLOR_ACTION)
 				$g_aiDonateSpells[$i] -= $howMuch
-
 				If _Sleep(1000) Then Return
-				WaitForClanMessage("DonatedTroops")
-				$RemainTrainSpace = GetOCRCurrent(95, 162 + $g_iMidOffsetY)
-				SetLog(" - Current Capacity: " & $RemainTrainSpace[0] & "/" & ($RemainTrainSpace[1]))
 			EndIf
 		Next
 	EndIf
