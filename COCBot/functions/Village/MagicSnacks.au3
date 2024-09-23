@@ -100,7 +100,6 @@ Func MagicSnacks()
 				Next
 				;;; Array Rework ;;;;;
 				For $i = 0 To UBound($aMagicSnacks) - 1
-					ConvertName($aMagicSnacks[$i][0])
 					$aMagicSnacks[$i][1] = Number($aMagicSnacks[$i][1])
 					$aMagicSnacks[$i][2] = Number($aMagicSnacks[$i][2])
 				Next
@@ -109,7 +108,7 @@ Func MagicSnacks()
 
 				For $i = 0 To UBound($aMagicSnacks) - 1
 					If StringInStr($aMagicSnacks[$i][3], "No", $STR_NOCASESENSEBASIC) Then
-						SetLog($aMagicSnacks[$i][0] & " already used" & ($i = UBound($aMagicSnacks) - 1 ? "." : ", looking next..."), $COLOR_DEBUG1)
+						SetLog(ConvertName($aMagicSnacks[$i][0]) & " already used" & ($i = UBound($aMagicSnacks) - 1 ? "." : ", looking next..."), $COLOR_DEBUG1)
 						If StringInStr($aMagicSnacks[$i][0], "Cake", $STR_NOCASESENSEBASIC) Then
 							If Not _DateIsValid($ClanCastleCakeTimer) Then
 								Switch $aMagicSnacks[$i][1]
@@ -132,13 +131,43 @@ Func MagicSnacks()
 						If $aMagicSnacks[$i][1] > 524 Then ExitLoop 2 ; Exit loops if last snack
 						If _Sleep(1000) Then Return
 					ElseIf StringInStr($aMagicSnacks[$i][3], "Full", $STR_NOCASESENSEBASIC) Then
-						SetLog($aMagicSnacks[$i][0] & " can't used (Full)" & ($i = UBound($aMagicSnacks) - 1 ? "." : ", looking next..."), $COLOR_DEBUG1)
-						If $aMagicSnacks[$i][1] > 524 Then ExitLoop 2 ; Exit loops if last snack
-						If _Sleep(1000) Then Return
+						If StringInStr($aMagicSnacks[$i][0], "BuilderPotion", $STR_NOCASESENSEBASIC) Then
+							If $IsAnyBuildingUpgrade Then
+								SetLog(ConvertName($aMagicSnacks[$i][0]) & " can be used, even full", $COLOR_SUCCESS1)
+								If _Sleep(500) Then Return
+								Click($aMagicSnacks[$i][1], $aMagicSnacks[$i][2])
+								If _Sleep(1000) Then Return
+								Local $aiUseButton = decodeSingleCoord(FindImageInPlace2("UseButton", $g_sImgUseButton, 380, 470 + $g_iMidOffsetY, 500, 540 + $g_iMidOffsetY, True))
+								If IsArray($aiUseButton) And UBound($aiUseButton) = 2 Then
+									ClickP($aiUseButton)
+									If _Sleep(1000) Then Return
+									$ActionForModLog = "Boosting Builders"
+									If $g_iTxtCurrentVillageName <> "" Then
+										GUICtrlSetData($g_hTxtModLog, @CRLF & _NowTime() & " [" & $g_iTxtCurrentVillageName & "] Magic Snacks : " & $ActionForModLog & " Using Builder Potion", 1)
+									Else
+										GUICtrlSetData($g_hTxtModLog, @CRLF & _NowTime() & " [" & $g_sProfileCurrentName & "] Magic Snacks : " & $ActionForModLog & " Using Builder Potion", 1)
+									EndIf
+									_FileWriteLog($g_sProfileLogsPath & "\ModLog.log", " [" & $g_sProfileCurrentName & "] - Magic Snacks : " & $ActionForModLog)
+									If $aMagicSnacks[$i][1] > 524 Then ExitLoop 2 ; Exit loops if last snack
+									$bRecheck = True
+									If _Sleep(1000) Then Return
+									ExitLoop
+								Else
+									SetDebugLog("Cannot Find Use Button", $COLOR_ERROR)
+									CloseWindow2()
+								EndIf
+							Else
+								SetLog(ConvertName($aMagicSnacks[$i][0]) & " won't be used" & ($i = UBound($aMagicSnacks) - 1 ? "." : ", looking next..."), $COLOR_DEBUG1)
+							EndIf
+						Else
+							SetLog(ConvertName($aMagicSnacks[$i][0]) & " can't used (Full)" & ($i = UBound($aMagicSnacks) - 1 ? "." : ", looking next..."), $COLOR_DEBUG1)
+							If $aMagicSnacks[$i][1] > 524 Then ExitLoop 2 ; Exit loops if last snack
+							If _Sleep(1000) Then Return
+						EndIf
 					ElseIf StringInStr($aMagicSnacks[$i][3], "Yes", $STR_NOCASESENSEBASIC) Then
 						If StringInStr($aMagicSnacks[$i][0], "Soup", $STR_NOCASESENSEBASIC) Then
 							If $IsAnyLabUpgrade Then
-								SetLog($aMagicSnacks[$i][0] & " can be used.", $COLOR_SUCCESS1)
+								SetLog(ConvertName($aMagicSnacks[$i][0]) & " can be used.", $COLOR_SUCCESS1)
 								If _Sleep(500) Then Return
 								Click($aMagicSnacks[$i][1], $aMagicSnacks[$i][2])
 								If _Sleep(1000) Then Return
@@ -165,11 +194,11 @@ Func MagicSnacks()
 									CloseWindow2()
 								EndIf
 							Else
-								SetLog($aMagicSnacks[$i][0] & " already used" & ($i = UBound($aMagicSnacks) - 1 ? "." : ", looking next..."), $COLOR_DEBUG1)
+								SetLog(ConvertName($aMagicSnacks[$i][0]) & " already used" & ($i = UBound($aMagicSnacks) - 1 ? "." : ", looking next..."), $COLOR_DEBUG1)
 							EndIf
 						ElseIf StringInStr($aMagicSnacks[$i][0], "Bite", $STR_NOCASESENSEBASIC) Then
 							If $IsAnyBuildingUpgrade Then
-								SetLog($aMagicSnacks[$i][0] & " can be used.", $COLOR_SUCCESS1)
+								SetLog(ConvertName($aMagicSnacks[$i][0]) & " can be used.", $COLOR_SUCCESS1)
 								If _Sleep(500) Then Return
 								Click($aMagicSnacks[$i][1], $aMagicSnacks[$i][2])
 								If _Sleep(1000) Then Return
@@ -193,11 +222,11 @@ Func MagicSnacks()
 									CloseWindow2()
 								EndIf
 							Else
-								SetLog($aMagicSnacks[$i][0] & " already used" & ($i = UBound($aMagicSnacks) - 1 ? "." : ", looking next..."), $COLOR_DEBUG1)
+								SetLog(ConvertName($aMagicSnacks[$i][0]) & " already used" & ($i = UBound($aMagicSnacks) - 1 ? "." : ", looking next..."), $COLOR_DEBUG1)
 							EndIf
 						ElseIf StringInStr($aMagicSnacks[$i][0], "Cake", $STR_NOCASESENSEBASIC) Then
 							If $bChkUseOnlyCCMedals Or (Not $bChkUseOnlyCCMedals And $g_aiCmbCCDecisionThen = 1) Then
-								SetLog($aMagicSnacks[$i][0] & " can be used.", $COLOR_SUCCESS1)
+								SetLog(ConvertName($aMagicSnacks[$i][0]) & " can be used.", $COLOR_SUCCESS1)
 								If _Sleep(500) Then Return
 								Click($aMagicSnacks[$i][1], $aMagicSnacks[$i][2])
 								If _Sleep(1000) Then Return
@@ -222,10 +251,10 @@ Func MagicSnacks()
 									CloseWindow2()
 								EndIf
 							Else
-								SetLog($aMagicSnacks[$i][0] & " already used" & ($i = UBound($aMagicSnacks) - 1 ? "." : ", looking next..."), $COLOR_DEBUG1)
+								SetLog(ConvertName($aMagicSnacks[$i][0]) & " already used" & ($i = UBound($aMagicSnacks) - 1 ? "." : ", looking next..."), $COLOR_DEBUG1)
 							EndIf
 						Else
-							SetLog($aMagicSnacks[$i][0] & " can be used.", $COLOR_SUCCESS1)
+							SetLog(ConvertName($aMagicSnacks[$i][0]) & " can be used.", $COLOR_SUCCESS1)
 							Click($aMagicSnacks[$i][1], $aMagicSnacks[$i][2])
 							If _Sleep(1000) Then Return
 							Local $aiUseButton = decodeSingleCoord(FindImageInPlace2("UseButton", $g_sImgUseButton, 380, 470 + $g_iMidOffsetY, 500, 540 + $g_iMidOffsetY, True))
@@ -277,7 +306,7 @@ Func AllowBoostingBuildersForSnacks()
 	EndIf
 EndFunc   ;==>AllowBoostingBuildersForSnacks
 
-Func ConvertName(ByRef $bName)
+Func ConvertName($bName = "")
 
 	Local $bProperName = ""
 
@@ -296,10 +325,22 @@ Func ConvertName(ByRef $bName)
 			$bProperName = "Training Treat"
 		Case "MightyMorsel"
 			$bProperName = "Mighty Morsel"
+		Case "TrainingPotion"
+			$bProperName = "Training Potion"
+		Case "PowerPotion"
+			$bProperName = "Power Potion"
+		Case "BuilderPotion"
+			$bProperName = "Builder Potion"
+		Case "RuneofElixir"
+			$bProperName = "Rune of Elixir"
+		Case "Shovel"
+			$bProperName = "Shovel"
+		Case "ResourcePotion"
+			$bProperName = "Resource Potion"
 		Case Else
 			$bProperName = $bName
 	EndSwitch
 
-	$bName = $bProperName
+	Return $bProperName
 
 EndFunc   ;==>ConvertName

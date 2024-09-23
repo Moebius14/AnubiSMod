@@ -51,10 +51,11 @@ Func WaitForClanMessage($bType, $bTopCoords = 0, $bBottomCoords = 0)
 				SetDebugLog("Detected Clan Castle Message Blocking Troop Count. Waiting until it's gone", $COLOR_INFO)
 				Local $Safetyexit = 0
 				While IsArray(_PixelSearch($aReceivedTroopsOCR[0], $aReceivedTroopsOCR[1], $aReceivedTroopsOCR[0], $aReceivedTroopsOCR[1] + $aReceivedTroopsOCR[4], Hex($aReceivedTroopsOCR[2], 6), $aReceivedTroopsOCR[3], True))
-					If _Sleep($DELAYTRAIN1) Then Return
+					If _Sleep($DELAYRUNBOT1) Then Return
 					$Safetyexit += 1
 					If $Safetyexit > 20 Then ExitLoop ; If waiting longer than 20 secs, something is wrong
 				WEnd
+				If _Sleep($DELAYRUNBOT1) Then Return
 			EndIf
 		Case "TrainTabs"
 			If IsArray(_PixelSearch($aReceivedTroopsDouble[0], $aReceivedTroopsDouble[1], $aReceivedTroopsDouble[0], $aReceivedTroopsDouble[1] + $aReceivedTroopsDouble[4], Hex($aReceivedTroopsDouble[2], 6), $aReceivedTroopsDouble[3], True)) Or _
@@ -63,10 +64,11 @@ Func WaitForClanMessage($bType, $bTopCoords = 0, $bBottomCoords = 0)
 				Local $Safetyexit = 0
 				While IsArray(_PixelSearch($aReceivedTroopsDouble[0], $aReceivedTroopsDouble[1], $aReceivedTroopsDouble[0], $aReceivedTroopsDouble[1] + $aReceivedTroopsDouble[4], Hex($aReceivedTroopsDouble[2], 6), $aReceivedTroopsDouble[3], True)) Or _
 						IsArray(_PixelSearch($aReceivedTroopsOCR[0], $aReceivedTroopsOCR[1], $aReceivedTroopsOCR[0], $aReceivedTroopsOCR[1] + $aReceivedTroopsOCR[4], Hex($aReceivedTroopsOCR[2], 6), $aReceivedTroopsOCR[3], True))
-					If _Sleep($DELAYTRAIN1) Then Return
+					If _Sleep($DELAYRUNBOT1) Then Return
 					$Safetyexit += 1
 					If $Safetyexit > 20 Then ExitLoop ; If waiting longer than 20 secs, something is wrong
 				WEnd
+				If _Sleep($DELAYRUNBOT1) Then Return
 			EndIf
 		Case "ArmyOverview"
 			If IsArray(_PixelSearch($aReceivedTroops[0], $aReceivedTroops[1], $aReceivedTroops[0], $aReceivedTroops[1] + $aReceivedTroops[4], Hex($aReceivedTroops[2], 6), $aReceivedTroops[3], True)) Or _
@@ -75,37 +77,40 @@ Func WaitForClanMessage($bType, $bTopCoords = 0, $bBottomCoords = 0)
 				Local $Safetyexit = 0
 				While IsArray(_PixelSearch($aReceivedTroops[0], $aReceivedTroops[1], $aReceivedTroops[0], $aReceivedTroops[1] + $aReceivedTroops[4], Hex($aReceivedTroops[2], 6), $aReceivedTroops[3], True)) Or _
 						IsArray(_PixelSearch($aReceivedTroopsOCR[0], $aReceivedTroopsOCR[1], $aReceivedTroopsOCR[0], $aReceivedTroopsOCR[1] + $aReceivedTroopsOCR[4], Hex($aReceivedTroopsOCR[2], 6), $aReceivedTroopsOCR[3], True))
-					If _Sleep($DELAYTRAIN1) Then Return
+					If _Sleep($DELAYRUNBOT1) Then Return
 					$Safetyexit += 1
 					If $Safetyexit > 20 Then ExitLoop ; If waiting longer than 20 secs, something is wrong
 				WEnd
+				If _Sleep($DELAYRUNBOT1) Then Return
 			EndIf
 		Case "SuperTroops"
 			If IsArray(_PixelSearch($aBoostTroopsWindow[0], $aBoostTroopsWindow[1], $aBoostTroopsWindow[0], $aBoostTroopsWindow[1] + $aBoostTroopsWindow[4], Hex($aBoostTroopsWindow[2], 6), $aBoostTroopsWindow[3], True)) Then
 				SetDebugLog("Detected Clan Castle Message. Waiting until it's gone", $COLOR_INFO)
 				Local $Safetyexit = 0
 				While IsArray(_PixelSearch($aBoostTroopsWindow[0], $aBoostTroopsWindow[1], $aBoostTroopsWindow[0], $aBoostTroopsWindow[1] + $aBoostTroopsWindow[4], Hex($aBoostTroopsWindow[2], 6), $aBoostTroopsWindow[3], True))
-					If _Sleep($DELAYTRAIN1) Then Return
+					If _Sleep($DELAYRUNBOT1) Then Return
 					$Safetyexit += 1
 					If $Safetyexit > 20 Then ExitLoop ; If waiting longer than 20 secs, something is wrong
 				WEnd
+				If _Sleep($DELAYRUNBOT1) Then Return
 			EndIf
 		Case "RaidMedals"
 			If IsArray(_PixelSearch($aReceivedTroopsRaidMedals[0], $aReceivedTroopsRaidMedals[1], $aReceivedTroopsRaidMedals[0], $aReceivedTroopsRaidMedals[1] + $aReceivedTroopsRaidMedals[4], Hex($aReceivedTroopsRaidMedals[2], 6), $aReceivedTroopsRaidMedals[3], True)) Then
 				SetDebugLog("Detected Clan Castle Message. Waiting until it's gone", $COLOR_INFO)
 				Local $Safetyexit = 0
 				While IsArray(_PixelSearch($aReceivedTroopsRaidMedals[0], $aReceivedTroopsRaidMedals[1], $aReceivedTroopsRaidMedals[0], $aReceivedTroopsRaidMedals[1] + $aReceivedTroopsRaidMedals[4], Hex($aReceivedTroopsRaidMedals[2], 6), $aReceivedTroopsRaidMedals[3], True))
-					If _Sleep($DELAYTRAIN1) Then Return
+					If _Sleep($DELAYRUNBOT1) Then Return
 					$Safetyexit += 1
 					If $Safetyexit > 20 Then ExitLoop ; If waiting longer than 20 secs, something is wrong
 				WEnd
+				If _Sleep($DELAYRUNBOT1) Then Return
 			EndIf
 		Case "WeeklyDeals"
 			If IsArray(_PixelSearch($aReceivedTroopsWeeklyDeals[0], $aReceivedTroopsWeeklyDeals[1], $aReceivedTroopsWeeklyDeals[0], $aReceivedTroopsWeeklyDeals[1] + $aReceivedTroopsWeeklyDeals[4], Hex($aReceivedTroopsWeeklyDeals[2], 6), $aReceivedTroopsWeeklyDeals[3], True)) Then
 				SetDebugLog("Detected Clan Castle Message. Waiting until it's gone", $COLOR_INFO)
 				Local $Safetyexit = 0
 				While IsArray(_PixelSearch($aReceivedTroopsWeeklyDeals[0], $aReceivedTroopsWeeklyDeals[1], $aReceivedTroopsWeeklyDeals[0], $aReceivedTroopsWeeklyDeals[1] + $aReceivedTroopsWeeklyDeals[4], Hex($aReceivedTroopsWeeklyDeals[2], 6), $aReceivedTroopsWeeklyDeals[3], True))
-					If _Sleep($DELAYTRAIN1) Then Return
+					If _Sleep($DELAYRUNBOT1) Then Return
 					$Safetyexit += 1
 					If $Safetyexit > 20 Then ExitLoop ; If waiting longer than 20 secs, something is wrong
 				WEnd
@@ -115,27 +120,29 @@ Func WaitForClanMessage($bType, $bTopCoords = 0, $bBottomCoords = 0)
 				SetDebugLog("Detected Clan Castle Message. Waiting until it's gone", $COLOR_INFO)
 				Local $Safetyexit = 0
 				While IsArray(_PixelSearch($aReceivedTroopsTreasury[0], $aReceivedTroopsTreasury[1], $aReceivedTroopsTreasury[0], $aReceivedTroopsTreasury[1] + $aReceivedTroopsTreasury[4], Hex($aReceivedTroopsTreasury[2], 6), $aReceivedTroopsTreasury[3], True))
-					If _Sleep($DELAYTRAIN1) Then Return
+					If _Sleep($DELAYRUNBOT1) Then Return
 					$Safetyexit += 1
 					If $Safetyexit > 20 Then ExitLoop ; If waiting longer than 20 secs, something is wrong
 				WEnd
+				If _Sleep($DELAYRUNBOT1) Then Return
 			EndIf
 		Case "Tabs"
 			If IsArray(_PixelSearch($aReceivedTroopsTab[0], $aReceivedTroopsTab[1], $aReceivedTroopsTab[0], $aReceivedTroopsTab[1] + $aReceivedTroopsTab[4], Hex($aReceivedTroopsTab[2], 6), $aReceivedTroopsTab[3], True)) Then
 				SetDebugLog("Detected Clan Castle Message. Waiting until it's gone", $COLOR_INFO)
 				Local $Safetyexit = 0
 				While IsArray(_PixelSearch($aReceivedTroopsTab[0], $aReceivedTroopsTab[1], $aReceivedTroopsTab[0], $aReceivedTroopsTab[1] + $aReceivedTroopsTab[4], Hex($aReceivedTroopsTab[2], 6), $aReceivedTroopsTab[3], True))
-					If _Sleep($DELAYTRAIN1) Then Return
+					If _Sleep($DELAYRUNBOT1) Then Return
 					$Safetyexit += 1
 					If $Safetyexit > 20 Then ExitLoop ; If waiting longer than 20 secs, something is wrong
 				WEnd
+				If _Sleep($DELAYRUNBOT1) Then Return
 			EndIf
 		Case "BuildersApprenticeTop"
 			If IsArray(_PixelSearch($aBuidersAppWindowTop[0], $aBuidersAppWindowTop[1], $aBuidersAppWindowTop[0], $aBuidersAppWindowTop[1] + $aBuidersAppWindowTop[4], Hex($aBuidersAppWindowTop[2], 6), $aBuidersAppWindowTop[3], True)) Then
 				SetDebugLog("Detected Clan Castle Message. Waiting until it's gone", $COLOR_INFO)
 				Local $Safetyexit = 0
 				While IsArray(_PixelSearch($aBuidersAppWindowTop[0], $aBuidersAppWindowTop[1], $aBuidersAppWindowTop[0], $aBuidersAppWindowTop[1] + $aBuidersAppWindowTop[4], Hex($aBuidersAppWindowTop[2], 6), $aBuidersAppWindowTop[3], True))
-					If _Sleep($DELAYTRAIN1) Then Return
+					If _Sleep($DELAYRUNBOT1) Then Return
 					$Safetyexit += 1
 					If $Safetyexit > 20 Then ExitLoop ; If waiting longer than 20 secs, something is wrong
 				WEnd
@@ -145,30 +152,33 @@ Func WaitForClanMessage($bType, $bTopCoords = 0, $bBottomCoords = 0)
 				SetDebugLog("Detected Clan Castle Message. Waiting until it's gone", $COLOR_INFO)
 				Local $Safetyexit = 0
 				While IsArray(_PixelSearch($aBuidersAppWindowMid[0], $aBuidersAppWindowMid[1], $aBuidersAppWindowMid[0], $aBuidersAppWindowMid[1] + $aBuidersAppWindowMid[4], Hex($aBuidersAppWindowMid[2], 6), $aBuidersAppWindowMid[3], True))
-					If _Sleep($DELAYTRAIN1) Then Return
+					If _Sleep($DELAYRUNBOT1) Then Return
 					$Safetyexit += 1
 					If $Safetyexit > 20 Then ExitLoop ; If waiting longer than 20 secs, something is wrong
 				WEnd
+				If _Sleep($DELAYRUNBOT1) Then Return
 			EndIf
 		Case "BuildersApprenticeConfirm"
 			If IsArray(_PixelSearch($aBuidersAppWindowConfirm[0], $aBuidersAppWindowConfirm[1], $aBuidersAppWindowConfirm[0], $aBuidersAppWindowConfirm[1] + $aBuidersAppWindowConfirm[4], Hex($aBuidersAppWindowConfirm[2], 6), $aBuidersAppWindowConfirm[3], True)) Then
 				SetDebugLog("Detected Clan Castle Message. Waiting until it's gone", $COLOR_INFO)
 				Local $Safetyexit = 0
 				While IsArray(_PixelSearch($aBuidersAppWindowConfirm[0], $aBuidersAppWindowConfirm[1], $aBuidersAppWindowConfirm[0], $aBuidersAppWindowConfirm[1] + $aBuidersAppWindowConfirm[4], Hex($aBuidersAppWindowConfirm[2], 6), $aBuidersAppWindowConfirm[3], True))
-					If _Sleep($DELAYTRAIN1) Then Return
+					If _Sleep($DELAYRUNBOT1) Then Return
 					$Safetyexit += 1
 					If $Safetyexit > 20 Then ExitLoop ; If waiting longer than 20 secs, something is wrong
 				WEnd
+				If _Sleep($DELAYRUNBOT1) Then Return
 			EndIf
 		Case "ClanGames"
 			If IsArray(_PixelSearch($aReceivedTroopsCG[0], $aReceivedTroopsCG[1], $aReceivedTroopsCG[0], $aReceivedTroopsCG[1] + $aReceivedTroopsCG[4], Hex($aReceivedTroopsCG[2], 6), $aReceivedTroopsCG[3], True)) Then
 				SetDebugLog("Detected Clan Castle Message. Waiting until it's gone", $COLOR_INFO)
 				Local $Safetyexit = 0
 				While IsArray(_PixelSearch($aReceivedTroopsCG[0], $aReceivedTroopsCG[1], $aReceivedTroopsCG[0], $aReceivedTroopsCG[1] + $aReceivedTroopsCG[4], Hex($aReceivedTroopsCG[2], 6), $aReceivedTroopsCG[3], True))
-					If _Sleep($DELAYTRAIN1) Then Return
+					If _Sleep($DELAYRUNBOT1) Then Return
 					$Safetyexit += 1
 					If $Safetyexit > 20 Then ExitLoop ; If waiting longer than 20 secs, something is wrong
 				WEnd
+				If _Sleep($DELAYRUNBOT1) Then Return
 			EndIf
 		Case "Donate"
 			Local $aReceivedTroopsDonate[5] = [333, 100, 0xFFFFFF, 15, 215]
@@ -186,10 +196,11 @@ Func WaitForClanMessage($bType, $bTopCoords = 0, $bBottomCoords = 0)
 				SetDebugLog("Detected Clan Castle Message. Waiting until it's gone", $COLOR_INFO)
 				Local $Safetyexit = 0
 				While IsArray(_PixelSearch($aReceivedTroopsDonate[0], $aReceivedTroopsDonate[1], $aReceivedTroopsDonate[0], $aReceivedTroopsDonate[1] + $aReceivedTroopsDonate[4], Hex($aReceivedTroopsDonate[2], 6), $aReceivedTroopsDonate[3], True))
-					If _Sleep($DELAYTRAIN1) Then Return
+					If _Sleep($DELAYRUNBOT1) Then Return
 					$Safetyexit += 1
 					If $Safetyexit > 20 Then ExitLoop ; If waiting longer than 20 secs, something is wrong
 				WEnd
+				If _Sleep($DELAYRUNBOT1) Then Return
 			EndIf
 		Case Else
 			Return

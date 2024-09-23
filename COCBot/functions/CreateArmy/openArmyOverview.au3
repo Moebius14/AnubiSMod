@@ -65,9 +65,18 @@ Func OpenTrainTab($sTab, $bSetLog = True, $sWhereFrom = "Undefined")
 		SetDebugLog("Error in OpenTrainTab: Cannot find the Army Overview Window", $COLOR_ERROR)
 		Return FuncReturn(SetError(1, 0, False), $g_bDebugSetlogTrain)
 	EndIf
-	
-	Local $aTabButton = findButton(StringStripWS($sTab, 8), Default, 1, True)
-	If IsArray($aTabButton) And UBound($aTabButton, 1) = 2 Then
+
+	WaitForClanMessage("Tabs")
+	Local $bIsCleanArea = False
+	For $i = 0 To 6
+		Local $aTabButton = findButton(StringStripWS($sTab, 8), Default, 1, True)
+		If IsArray($aTabButton) And UBound($aTabButton, 1) = 2 Then
+			$bIsCleanArea = True
+			ExitLoop
+		EndIf
+		If _Sleep($DELAYRUNBOT3) Then Return
+	Next
+	If $bIsCleanArea Then
 		Switch $aTabButton[0]
 			Case 75 To 200
 				$aIsTabOpen[0] = 175

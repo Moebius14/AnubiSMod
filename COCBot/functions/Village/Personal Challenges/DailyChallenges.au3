@@ -178,12 +178,14 @@ Func CollectDailyRewards($bGoldPass = False)
 	Local $IsAutoForgeSlotPresent = 0
 	Local $sAllCoordsString, $aAllCoordsTemp, $aTempCoords
 	Local $aAllCoords[0][2]
+	Local $aAllCoordsBackup[0][2]
 
 	For $i = 0 To 15
 		If Not $g_bRunState Then Return
 		Local $SearchArea = $bGoldPass ? GetDiamondFromRect("25,336(810,270)") : GetDiamondFromRect("25,550(810,60)")
 		Local $aResult = findMultiple(@ScriptDir & "\imgxml\DailyChallenge\", $SearchArea, $SearchArea, 0, 1000, $bGoldPass ? 12 : 6, "objectname,objectpoints", True)
 		If $aResult <> "" And IsArray($aResult) Then
+			If $i > 0 Then $aAllCoords = $aAllCoordsBackup ; Empty Array
 			For $t = 0 To UBound($aResult) - 1
 				Local $aResultArray = $aResult[$t] ; ["Button Name", "x1,y1", "x2,y2", ...]
 				SetDebugLog("Find Claim buttons, $aResultArray[" & $t & "]: " & _ArrayToString($aResultArray))
@@ -210,7 +212,7 @@ Func CollectDailyRewards($bGoldPass = False)
 					If QuickMIS("BC1", $RewardImagesTypes[$z][0], $aAllCoords[$j][0] - 50, $aAllCoords[$j][1] - 90, $aAllCoords[$j][0] + 45, $aAllCoords[$j][1] - 20) Then $RewardImagesTypes[$z][1] = 1
 				Next
 				Click($aAllCoords[$j][0], $aAllCoords[$j][1], 1, 120, "Claim " & $j + 1)         ; Click Claim button
-				If WaitforPixel(329, 390 + $g_iMidOffsetY, 331, 392 + $g_iMidOffsetY, Hex(0xFDC875, 6), 20, 3) Then         ; wait for Cancel Button popped up in 1.5 second
+				If WaitforPixel(329, 390 + $g_iMidOffsetY, 331, 392 + $g_iMidOffsetY, Hex(0xFFC877, 6), 20, 3) Then         ; wait for Cancel Button popped up in 1.5 second
 					If $g_bChkSellRewards Then
 						Setlog("Selling extra reward for gems", $COLOR_SUCCESS)
 						ClickP($aPersonalChallengeOkBtn, 1, 120, "Okay Btn")         ; Click the Okay

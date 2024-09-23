@@ -174,7 +174,7 @@ Global Const $aPersonalChallengeRewardsAvail[4] = [450, 61 + $g_iMidOffsetY, 0xF
 Global Const $aPersonalChallengeRewardsTab[4] = [385, 105 + $g_iMidOffsetY, 0x698293, 20] ; Personal Challenge - Rewards tab unchecked with Gold Pass - Jun23 Update
 Global Const $aPersonalChallengePerksTab[4] = [545, 105 + $g_iMidOffsetY, 0xEDB905, 20] ; Personal Challenge - Perks tab Checked - Dec23 Update
 Global Const $aPersonalChallengeLeftEdge[4] = [30, 385 + $g_iMidOffsetY, 0x29231F, 20] ; Personal Challenge Window - Rewards tab - Black left edge
-Global Const $aPersonalChallengeCancelBtn[4] = [288, 391 + $g_iMidOffsetY, 0xFDC875, 20] ; Personal Challenge Window - Cancel button at Storage Full msg
+Global Const $aPersonalChallengeCancelBtn[4] = [288, 391 + $g_iMidOffsetY, 0xFFC877, 20] ; Personal Challenge Window - Cancel button at Storage Full msg
 Global Const $aPersonalChallengeOkBtn[4] = [500, 391 + $g_iMidOffsetY, 0xDFF887, 20] ; Personal Challenge Window - Okay button at Storage Full msg
 
 ;BB Attack 2.0

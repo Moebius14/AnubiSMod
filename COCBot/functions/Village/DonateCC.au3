@@ -50,6 +50,17 @@ Func PrepareDonateCC()
 	$g_iActiveDonate = BitOR($g_aiPrepDon[0], $g_aiPrepDon[1], $g_aiPrepDon[2], $g_aiPrepDon[3], $g_aiPrepDon[4], $g_aiPrepDon[5])
 EndFunc   ;==>PrepareDonateCC
 
+Func Testnamesoftroopss()
+	Local $bTroopTypeCount = 0
+	For $i = 0 To $eTroopCount - 1
+		If $g_abChkDonateTroop[$i] then
+			$bTroopTypeCount += 1
+			SetLog($g_asTroopShortNames[$i] & " Checked")
+		EndIf
+	Next
+	SetLog("Troops count = " & $bTroopTypeCount)
+EndFunc; CheckQueueTroops(True, False, 778, True)
+
 Func IsDonateQueueOnly(ByRef $abDonateQueueOnly)
 	If Not $abDonateQueueOnly[0] And Not $abDonateQueueOnly[1] Then Return
 
@@ -58,6 +69,7 @@ Func IsDonateQueueOnly(ByRef $abDonateQueueOnly)
 		If $i < $eSpellCount Then $g_aiAvailQueuedSpell[$i] = 0
 	Next
 	If Not OpenArmyOverview(True, "IsDonateQueueOnly()") Then Return
+	
 	For $i = 0 To 1
 		If Not $g_aiPrepDon[$i * 2] And Not $g_aiPrepDon[$i * 2 + 1] Then $abDonateQueueOnly[$i] = False
 		If $abDonateQueueOnly[$i] Then
@@ -70,6 +82,28 @@ Func IsDonateQueueOnly(ByRef $abDonateQueueOnly)
 			EndIf
 
 			If Not OpenTrainTab($i = 0 ? "Train Troops Tab" : "Brew Spells Tab", True, "IsDonateQueueOnly()") Then ContinueLoop
+
+			If $i = 0 Then
+				Local $bTroopTypeCount = 0
+				Local $bTroopTypeToDonateTemp = "", $bTroopTypeToDonate = ""
+				For $t = 0 To $eTroopCount - 1
+					If $g_abChkDonateTroop[$t] then
+						$bTroopTypeCount += 1
+						$bTroopTypeToDonateTemp = $g_asTroopShortNames[$t]
+					EndIf
+				Next
+				If $bTroopTypeCount = 1 Then $bTroopTypeToDonate = $bTroopTypeToDonateTemp
+			Else
+				Local $bSpellTypeCount = 0
+				Local $bSpellTypeToDonateTemp = "", $bSpellTypeToDonate = ""
+				For $t = 0 To $eSpellCount - 1
+					If $g_abChkDonateSpell[$t] then
+						$bSpellTypeCount += 1
+						$bSpellTypeToDonateTemp = $g_asSpellShortNames[$t]
+					EndIf
+				Next
+				If $bSpellTypeCount = 1 Then $bSpellTypeToDonate = $bSpellTypeToDonateTemp
+			EndIf
 
 			Local $xQueue = 775
 			For $j = 0 To 10
@@ -108,12 +142,12 @@ Func IsDonateQueueOnly(ByRef $abDonateQueueOnly)
 						EndIf
 					EndIf
 				ElseIf $j = 0 Or ($j = 1 And $aSearchResult[1][0] = $aSearchResult[0][0]) Then
-					If $i = 0 Then
+					If $i = 0 And $bTroopTypeToDonate = $aSearchResult[$j][0] Then
 						If _ArrayIndexValid($g_aiAvailQueuedTroop, $TroopIndex) Then
 							$g_aiAvailQueuedTroop[$TroopIndex] += $aSearchResult[$j][1]
 							SetLog("  - " & $g_asTroopNames[$TroopIndex] & " x" & $aSearchResult[$j][1] & " (training)")
 						EndIf
-					Else
+					ElseIf $bSpellTypeToDonate = $aSearchResult[$j][0] Then
 						If _ArrayIndexValid($g_aiAvailQueuedSpell, $TroopIndex - $eLSpell) Then
 							$g_aiAvailQueuedSpell[$TroopIndex - $eLSpell] += $aSearchResult[$j][1]
 							SetLog("  - " & $g_asSpellNames[$TroopIndex - $eLSpell] & " x" & $aSearchResult[$j][1] & " (training)")
@@ -625,12 +659,12 @@ Func DonateCC($bCheckForNewMsg = False)
 				$g_bDonateAllRespectBlk = False
 			EndIf
 
-			$bDonate = True
-			$aiSearchArray[1] = $aiDonateButton[1] + 20
-
 			If _Sleep($DELAYDONATEWINDOW1) Then ExitLoop
 			If _ColorCheck(_GetPixelColor($g_iDonationWindowX + 3, $aiDonateButton[1], True), Hex(0xFFFFFF, 6), 10) Then CloseWindow2()
 			If _Sleep($DELAYDONATEWINDOW1) Then ExitLoop
+
+			$bDonate = True
+			$aiSearchArray[1] = $aiDonateButton[1] + 20
 
 		EndIf
 
@@ -1060,8 +1094,9 @@ Func DonateWindow($aiDonateButton, $bOpen = True)
 	If $g_bDebugSetlog And Not $bOpen Then SetLog("DonateWindow Close Start", $COLOR_DEBUG)
 
 	If Not $bOpen Then ; close window and exit
-		CloseWindow2()
 		If _Sleep($DELAYDONATEWINDOW1) Then Return
+		CloseWindow2()
+		If _Sleep(500) Then Return
 		If $g_bDebugSetlog Then SetDebugLog("DonateWindow Close Exit", $COLOR_DEBUG)
 		Return
 	EndIf

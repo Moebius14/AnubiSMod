@@ -127,12 +127,14 @@ Func CollectEventRewards()
 	Local $IsStarryPresent = 0
 	Local $sAllCoordsString, $aAllCoordsTemp, $aTempCoords
 	Local $aAllCoords[0][2]
+	Local $aAllCoordsBackup[0][2]
 
 	For $i = 0 To 14
 		If Not $g_bRunState Then Return
 		Local $SearchArea = GetDiamondFromRect("35,336(800,275)")
 		Local $aResult = findMultiple(@ScriptDir & "\imgxml\DailyChallenge\", $SearchArea, $SearchArea, 0, 1000, 12, "objectname,objectpoints", True)
 		If $aResult <> "" And IsArray($aResult) Then
+			If $i > 0 Then $aAllCoords = $aAllCoordsBackup ; Empty Array
 			For $t = 0 To UBound($aResult) - 1
 				Local $aResultArray = $aResult[$t] ; ["Button Name", "x1,y1", "x2,y2", ...]
 				SetDebugLog("Find Claim buttons, $aResultArray[" & $t & "]: " & _ArrayToString($aResultArray))
