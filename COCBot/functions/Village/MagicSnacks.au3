@@ -337,6 +337,8 @@ Func ConvertName($bName = "")
 			$bProperName = "Shovel"
 		Case "ResourcePotion"
 			$bProperName = "Resource Potion"
+		Case "HeroPotion"
+			$bProperName = "Hero Potion"
 		Case Else
 			$bProperName = $bName
 	EndSwitch
