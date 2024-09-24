@@ -227,12 +227,12 @@ Func DonateCC($bCheckForNewMsg = False)
 	Local $abDonateQueueOnly = $g_abChkDonateQueueOnly
 	IsDonateQueueOnly($abDonateQueueOnly)
 	If $abDonateQueueOnly[0] And _ArrayMax($g_aiAvailQueuedTroop) = 0 Then
-		SetLog("Failed to read queue, skip donating troops")
+		SetDebugLog("Failed to read queue, skip donating troops")
 		$bDonateTroop = False
 		$bDonateAllTroop = False
 	EndIf
 	If $abDonateQueueOnly[1] And _ArrayMax($g_aiAvailQueuedSpell) = 0 Then
-		SetLog("Failed to read queue, skip donating spells")
+		SetDebugLog("Failed to read queue, skip donating spells")
 		$bDonateSpell = False
 		$bDonateAllSpell = False
 	EndIf

@@ -70,6 +70,31 @@ Func _checkObstacles($bBuilderBase = False, $bRecursive = False) ;Checks if some
 		EndIf
 
 	EndIf
+	
+	Local $aPixelSearchGrey = _PixelSearch(481, 490 + $g_iMidOffsetY, 483, 494 + $g_iMidOffsetY, Hex(0xCBCDD3, 6), 10, True)
+	Local $aPixelSearchFlamme = _PixelSearch(277, 134 + $g_iMidOffsetY, 279, 136 + $g_iMidOffsetY, Hex(0xFFFFDB, 6), 10, True)
+	If IsArray($aPixelSearchGrey) And IsArray($aPixelSearchFlamme) Then
+		Local $aiLockOfChest = decodeSingleCoord(FindImageInPlace2("LockOfBox", $ImgLockOfChest, 400, 305 + $g_iMidOffsetY, 480, 390 + $g_iMidOffsetY, True))
+		If IsArray($aiLockOfChest) And UBound($aiLockOfChest) = 2 Then
+			TreasureHunt()
+			$g_bMinorObstacle = True
+			Return False
+		EndIf
+	Else
+		Local $aPixelSearchLight = _PixelSearch(404, 11, 406, 13, Hex(0xFEFEED, 6), 10, True)
+		Local $aPixelSearchGreenContinue = _PixelSearch(428, 506 + $g_iMidOffsetY, 432, 508 + $g_iMidOffsetY, Hex(0x88D039, 6), 10, True)
+		If IsArray($aPixelSearchLight) And IsArray($aPixelSearchGreenContinue) Then
+			Local $aContinueButton = findButton("Continue", Default, 1, True)
+			If IsArray($aContinueButton) And UBound($aContinueButton, 1) = 2 Then
+				ClickP($aContinueButton, 1, 120, "#0433")
+				SetLog("Reward Received", $COLOR_SUCCESS1)
+				$StarBonusReceived[2] = 1 ; Snacks
+				If _Sleep($DELAYTREASURY2) Then Return ; 1500ms
+				$g_bMinorObstacle = True
+				Return False
+			EndIf
+		EndIf
+	EndIf
 
 	If UBound(decodeSingleCoord(FindImageInPlace2("InfoButton", $g_sImgInfoButton, 740, 0, 840, 90 + $g_iMidOffsetY, False))) > 1 Then
 		Local $NoThanksButton = decodeSingleCoord(FindImageInPlace2("NoThanksButton", $g_sImgNoThanks, 100, 140 + $g_iMidOffsetY, 400, 235 + $g_iMidOffsetY, False))
