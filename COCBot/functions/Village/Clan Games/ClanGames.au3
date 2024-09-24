@@ -2704,7 +2704,6 @@ Func CooldownTime()
 		Local $sPurgeTimeCG = ConvertOCRTime("SetCGCoolDownTime()", $sPurgeTimeRemain, False, "sec")
 		SetDebugLog("$sPurgeTimeCG : " & $sPurgeTimeCG & " Seconds", $COLOR_DEBUG2)
 		$g_hCoolDownTimer = _DateAdd('s', $sPurgeTimeCG - 600, _NowCalc()) ; Date of purge
-		WaitForClanMessage("ClanGames")
 		CloseWindow()
 		Return True
 	EndIf
