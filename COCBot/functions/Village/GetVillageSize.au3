@@ -159,7 +159,7 @@ Func GetVillageSize($DebugLog = Default, $sStonePrefix = Default, $sTreePrefix =
 			Next
 		EndIf
 
-		SetDeBugLog("Scenery search (in " & Round(TimerDiff($hTimer) / 1000, 2) & " seconds)", $COLOR_INFO)
+		SetDeBugLog("Scenery search (in " & Round(__TimerDiff($hTimer) / 1000, 2) & " seconds)", $COLOR_INFO)
 		$hTimer = __TimerInit()
 
 		If Not $bMeasureOnly Then
@@ -178,7 +178,7 @@ Func GetVillageSize($DebugLog = Default, $sStonePrefix = Default, $sTreePrefix =
 		EndIf
 	EndIf
 
-	SetDeBugLog("Scenery routines completed (in " & Round(TimerDiff($hTimer) / 1000, 2) & " seconds)", $COLOR_INFO)
+	SetDeBugLog("Scenery routines completed (in " & Round(__TimerDiff($hTimer) / 1000, 2) & " seconds)", $COLOR_INFO)
 	$hTimer = __TimerInit()
 
 	If $scenery[0] = 0 Then
@@ -249,7 +249,7 @@ Func GetVillageSize($DebugLog = Default, $sStonePrefix = Default, $sTreePrefix =
 		;Return $aResult
 	EndIf
 
-	SetDeBugLog("Stone search (in " & Round(TimerDiff($hTimer) / 1000, 2) & " seconds)", $COLOR_INFO)
+	SetDeBugLog("Stone search (in " & Round(__TimerDiff($hTimer) / 1000, 2) & " seconds)", $COLOR_INFO)
 	$hTimer = __TimerInit()
 
 	If $stone[0] = 0 Then
@@ -326,7 +326,7 @@ Func GetVillageSize($DebugLog = Default, $sStonePrefix = Default, $sTreePrefix =
 		;Return $aResult
 	EndIf
 
-	SetDeBugLog("Tree search (in " & Round(TimerDiff($hTimer) / 1000, 2) & " seconds)", $COLOR_INFO)
+	SetDeBugLog("Tree search (in " & Round(__TimerDiff($hTimer) / 1000, 2) & " seconds)", $COLOR_INFO)
 	$hTimer = __TimerInit()
 
 	Local $iX_Exp = 0
@@ -403,7 +403,7 @@ Func GetVillageSize($DebugLog = Default, $sStonePrefix = Default, $sTreePrefix =
 	$g_aVillageSize[8] = $aResult[8]
 	$g_aVillageSize[9] = $aResult[9]
 
-	SetDeBugLog("GetVillageSize calculations (in " & Round(TimerDiff($hTimer) / 1000, 2) & " seconds)", $COLOR_INFO)
+	SetDeBugLog("GetVillageSize calculations (in " & Round(__TimerDiff($hTimer) / 1000, 2) & " seconds)", $COLOR_INFO)
 
 	Return FuncReturn($aResult)
 EndFunc   ;==>GetVillageSize

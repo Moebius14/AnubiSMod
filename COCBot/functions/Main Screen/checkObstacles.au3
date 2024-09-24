@@ -399,7 +399,7 @@ Func ClashOfMagicAdvert($bDebugImageSave = $g_bDebugImageSave)
 	If $bDebugImageSave Then SaveDebugRectImage("ClashOfMagicAdvert", "820,10,850,35")
 
 	If IsArray($aiClashOfMagicAdvert) And UBound($aiClashOfMagicAdvert, 1) = 2 Then
-		SetLog("Detected Clash Of Magic Advert! (in " & Round(TimerDiff($hTimer) / 1000, 2) & " seconds)", $COLOR_INFO)
+		SetLog("Detected Clash Of Magic Advert! (in " & Round(__TimerDiff($hTimer) / 1000, 2) & " seconds)", $COLOR_INFO)
 
 		If _Sleep(500) Then Return
 
@@ -408,7 +408,7 @@ Func ClashOfMagicAdvert($bDebugImageSave = $g_bDebugImageSave)
 		Return True
 	EndIf
 
-	SetDebugLog("No Clash Of Magic Advert found! (in " & Round(TimerDiff($hTimer) / 1000, 2) & " seconds)", $COLOR_INFO)
+	SetDebugLog("No Clash Of Magic Advert found! (in " & Round(__TimerDiff($hTimer) / 1000, 2) & " seconds)", $COLOR_INFO)
 
 	Return False
 EndFunc   ;==>ClashOfMagicAdvert
@@ -455,13 +455,13 @@ Func CheckAllObstacles($bDebugImageSave = $g_bDebugImageSave, $MinType = 0, $Max
 
 		If IsArray($aiObstacleType[$i][0]) And UBound($aiObstacleType[$i][0]) = 2 Then
 
-			SetLog($aiObstacleType[$i][1] & " (in " & Round(TimerDiff($hTimer) / 1000, 2) & " seconds)", $COLOR_INFO)
+			SetLog($aiObstacleType[$i][1] & " (in " & Round(__TimerDiff($hTimer) / 1000, 2) & " seconds)", $COLOR_INFO)
 
 			If $i = 0 Then
 				$aiObstacleType[8][0] = decodeSingleCoord(FindImageInPlace2("Device", $aiObstacleType[8][2], $aiObstacleType[8][3], $aiObstacleType[8][4] + _
 						$g_iMidOffsetY, $aiObstacleType[8][5], $aiObstacleType[8][6] + $g_iMidOffsetY, False))
 				If IsArray($aiObstacleType[8][0]) And UBound($aiObstacleType[8][0]) = 2 Then
-					SetLog($aiObstacleType[8][1] & " (in " & Round(TimerDiff($hTimer) / 1000, 2) & " seconds)", $COLOR_INFO)
+					SetLog($aiObstacleType[8][1] & " (in " & Round(__TimerDiff($hTimer) / 1000, 2) & " seconds)", $COLOR_INFO)
 					If $g_iAnotherDeviceWaitTime > 3600 Then
 						SetLog("Another Device has connected, waiting " & Floor(Floor($g_iAnotherDeviceWaitTime / 60) / 60) & " hours " & Floor(Mod(Floor($g_iAnotherDeviceWaitTime / 60), 60)) & " minutes " & Floor(Mod($g_iAnotherDeviceWaitTime, 60)) & " seconds", $COLOR_ERROR)
 						PushMsg("AnotherDevice3600")
@@ -557,7 +557,7 @@ Func CheckAllObstacles($bDebugImageSave = $g_bDebugImageSave, $MinType = 0, $Max
 
 	Next
 
-	SetDebugLog("No Obstacle Window found! (in " & Round(TimerDiff($hTimer) / 1000, 2) & " seconds)", $COLOR_DEBUG)
+	SetDebugLog("No Obstacle Window found! (in " & Round(__TimerDiff($hTimer) / 1000, 2) & " seconds)", $COLOR_DEBUG)
 
 	Return $bRet
 

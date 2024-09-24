@@ -128,6 +128,14 @@ Func _ClanGames($test = False, $HaltMode = False)
 
 	; Enter on Clan Games window
 	If IsClanGamesWindow() Then
+
+		;check cooldown purge
+		If CooldownTime() Then
+			ClearTempCGFiles()
+			Return
+		EndIf
+		If Not $g_bRunState Then Return ;trap pause or stop bot
+
 		; Let's selected only the necessary images
 		Local $sImagePath = @ScriptDir & "\imgxml\Resources\ClanGamesImages\Challenges"
 		Local $sTempChallengePath = @TempDir & "\" & $g_sProfileCurrentName & "\Challenges\"
@@ -208,7 +216,7 @@ Func _ClanGames($test = False, $HaltMode = False)
 				SetDebuglog("Clan Games Minute Remain: " & $sTimeCG)
 				If $g_bChkClanGamesStopBeforeReachAndPurge And $sTimeCG > 1440 Then ; purge, but not purge on last day of clangames
 					$b_COCClose = 0
-					If CooldownTime() Or IsEventRunning() Then Return
+					If IsEventRunning() Then Return
 					SetLog("Stop before completing your limit and only Purge")
 					SetLog("Lets only purge 1 random challenge", $COLOR_WARNING)
 					PurgeEvent(False, True)
@@ -222,12 +230,7 @@ Func _ClanGames($test = False, $HaltMode = False)
 		ClickAway()
 		Return
 	EndIf
-
-	;check cooldown purge
-	If CooldownTime() Then
-		ClearTempCGFiles()
-		Return
-	EndIf
+	
 	If Not $g_bRunState Then Return ;trap pause or stop bot
 	If IsEventRunning() Then
 		ClearTempCGFiles()
@@ -447,28 +450,28 @@ Func _ClanGames($test = False, $HaltMode = False)
 								; King Upgrading
 								If $g_iHeroUpgrading[0] = 1 Then
 									Local $KingEquipment[5] = ["Barbarian Puppet", "Rage Vial", "Earth Quake Boots", "Vampstache", "Giant Gauntlet"]
-									For $t = 0 To Ubound($KingEquipment) - 1
+									For $t = 0 To UBound($KingEquipment) - 1
 										If $EquipmentChallenges[$j][1] = $KingEquipment[$t] Then ExitLoop
 									Next
 								EndIf
 								; Queen Upgrading
 								If $g_iHeroUpgrading[1] = 1 Then
 									Local $QueenEquipment[5] = ["Archer Puppet", "Invisibility Vial", "Giant Arrow", "Healer Puppet", "Frozen Arrow"]
-									For $t = 0 To Ubound($QueenEquipment) - 1
+									For $t = 0 To UBound($QueenEquipment) - 1
 										If $EquipmentChallenges[$j][1] = $QueenEquipment[$t] Then ExitLoop
 									Next
 								EndIf
 								; Warden Upgrading
 								If $g_iHeroUpgrading[2] = 1 Then
 									Local $WardenEquipment[5] = ["Eternal Tome", "Life Gem", "Rage Gem", "Healing Tome", "Fireball"]
-									For $t = 0 To Ubound($WardenEquipment) - 1
+									For $t = 0 To UBound($WardenEquipment) - 1
 										If $EquipmentChallenges[$j][1] = $WardenEquipment[$t] Then ExitLoop
 									Next
 								EndIf
 								; Champion Upgrading
 								If $g_iHeroUpgrading[3] = 1 Then
 									Local $ChampionEquipment[4] = ["Royal Gem", "Seeking Shield", "Hog Rider Puppet", "Haste Vial"]
-									For $t = 0 To Ubound($ChampionEquipment) - 1
+									For $t = 0 To UBound($ChampionEquipment) - 1
 										If $EquipmentChallenges[$j][1] = $ChampionEquipment[$t] Then ExitLoop
 									Next
 								EndIf
@@ -550,7 +553,7 @@ Func _ClanGames($test = False, $HaltMode = False)
 			Next
 		EndIf
 
-		If $g_bChkClanGamesDebug Then Setlog("_ClanGames aAllDetectionsOnScreen (in " & Round(TimerDiff($hTimer) / 1000, 2) & " seconds)", $COLOR_INFO)
+		If $g_bChkClanGamesDebug Then Setlog("_ClanGames aAllDetectionsOnScreen (in " & Round(__TimerDiff($hTimer) / 1000, 2) & " seconds)", $COLOR_INFO)
 		$hTimer = __TimerInit()
 
 		; Sort by Yaxis
@@ -1120,6 +1123,7 @@ Func IsClanGamesRunning() ;to check whether clangames current state, return stri
 		If _CheckPixel($aGameTime, True) Then
 			Local $sTimeRemain = getOcrTimeGameTime(370, 461 + $g_iMidOffsetY) ; read Clan Games waiting time
 			If $sTimeRemain <> "" Then SetLog("Clan Games will start in " & $sTimeRemain, $COLOR_INFO)
+			$g_sClanGamesTimeRemaining = $sTimeRemain
 			$sState = "Prepare"
 		Else
 			SetLog("Clan Games Window Not Opened", $COLOR_DEBUG)
@@ -1762,7 +1766,7 @@ Func PurgeUncheckedEvent($iRow = 1)
 			Return False
 		EndIf
 
-		If $g_bChkClanGamesDebug Then Setlog("_ClanGames aAllDetectionsOnScreen2 (in " & Round(TimerDiff($hTimer) / 1000, 2) & " seconds)", $COLOR_INFO)
+		If $g_bChkClanGamesDebug Then Setlog("_ClanGames aAllDetectionsOnScreen2 (in " & Round(__TimerDiff($hTimer) / 1000, 2) & " seconds)", $COLOR_INFO)
 		$hTimer = __TimerInit()
 
 		; Sort by Yaxis
@@ -2691,18 +2695,16 @@ Func DragRewardColumnIfNeeded($iColumn = 0)
 	Return
 EndFunc   ;==>DragRewardColumnIfNeeded
 
-Func CooldownTime($getCapture = True)
+Func CooldownTime()
 	;check cooldown purge
-	$sPurgeTimeCG = 0
-	Local $aiCoolDown = decodeSingleCoord(findImage("Cooldown", $g_sImgCoolPurge & "\*.xml", GetDiamondFromRect("480,370,570,420"), 1, True, Default))
-	If IsArray($aiCoolDown) And UBound($aiCoolDown, 1) >= 2 Then
+	Local $aiCoolDown = decodeSingleCoord(FindImageInPlace2("Cooldown", $g_sImgCoolPurge, 480, 330 + $g_iMidOffsetY, 570, 385 + $g_iMidOffsetY, True))
+	If IsArray($aiCoolDown) And UBound($aiCoolDown) = 2 Then
 		SetLog("Cooldown Purge Detected", $COLOR_INFO)
-		If _Sleep(1500) Then Return
-		If $g_bChkClanGamesPurgeAnyClose Then
-			Local $sPurgeTimeRemain = getOcrTimeGameTime(500, 262 + $g_iMidOffsetY) ; read CoolDown time
-			$sPurgeTimeCG = ConvertOCRTime("SetCGCoolDownTime()", $sPurgeTimeRemain, False, "sec")
-			SetDebugLog("$sPurgeTimeCG : " & $sPurgeTimeCG & " Seconds", $COLOR_DEBUG2)
-		EndIf
+		Local $sPurgeTimeRemain = getOcrTimeGameTime(500, 262 + $g_iMidOffsetY) ; read CoolDown time
+		Local $sPurgeTimeCG = ConvertOCRTime("SetCGCoolDownTime()", $sPurgeTimeRemain, False, "sec")
+		SetDebugLog("$sPurgeTimeCG : " & $sPurgeTimeCG & " Seconds", $COLOR_DEBUG2)
+		$g_hCoolDownTimer = _DateAdd('s', $sPurgeTimeCG - 600, _NowCalc()) ; Date of purge
+		WaitForClanMessage("ClanGames")
 		CloseWindow()
 		Return True
 	EndIf
@@ -2710,59 +2712,49 @@ Func CooldownTime($getCapture = True)
 EndFunc   ;==>CooldownTime
 
 Func SetCGCoolDownTime($bTest = False)
-	$sPurgeTimeCG = 0
-	SetDebugLog("$g_hCoolDownTimer before: " & $g_hCoolDownTimer, $COLOR_DEBUG2)
-	$g_hCoolDownTimer = __TimerInit()
+	$g_hCoolDownTimer = _DateAdd('s', 0, _NowCalc()) ; Set Date Now!
 	If _Sleep(1500) Then Return
 
-	If $g_bChkClanGamesPurgeAnyClose And $b_COCClose Then
-		Local $sPurgeTimeRemain = getOcrTimeGameTime(500, 262 + $g_iMidOffsetY) ; read CoolDown time
-		$sPurgeTimeCG = ConvertOCRTime("SetCGCoolDownTime()", $sPurgeTimeRemain, False, "sec")
-		SetDebugLog("$sPurgeTimeCG : " & $sPurgeTimeCG & " Seconds", $COLOR_DEBUG2)
-	EndIf
-
-	SetDebugLog("$g_hCoolDownTimer after 1500 ms : " & Round(TimerDiff($g_hCoolDownTimer) / 1000 / 60, 2) & " Minutes", $COLOR_DEBUG2)
+	Local $sPurgeTimeRemain = getOcrTimeGameTime(500, 262 + $g_iMidOffsetY) ; read CoolDown time
+	Local $sPurgeTimeCG = ConvertOCRTime("SetCGCoolDownTime()", $sPurgeTimeRemain, False, "sec")
+	SetDebugLog("$sPurgeTimeCG : " & $sPurgeTimeCG & " Seconds", $COLOR_DEBUG2)
+	SetDebugLog("$g_hCoolDownTimer after 1500 ms : " & _DateDiff('s', $g_hCoolDownTimer, _NowCalc()) * 1000 & " ms", $COLOR_DEBUG2)
 
 	If $bTest Then
 		If _Sleep(1500) Then Return
-		SetLog("Timer after 3000 ms : " & Round(TimerDiff($g_hCoolDownTimer) / 1000 / 60, 2) & " Minutes", $COLOR_DEBUG2)
+		SetLog("Timer after 3000 ms : " & _DateDiff('s', $g_hCoolDownTimer, _NowCalc()) * 1000 & " ms", $COLOR_DEBUG2)
 		$g_hCoolDownTimer = 0
 	EndIf
 EndFunc   ;==>SetCGCoolDownTime
 
 Func IsCGCoolDownTime($SetLog = True)
-	If $g_hCoolDownTimer = 0 Then Return False
+	If Not _DateIsValid($g_hCoolDownTimer) Or $g_hCoolDownTimer = 0 Then Return False
 
-	Local $iTimer = Round(TimerDiff($g_hCoolDownTimer) / 1000 / 60, 2)
-	Local $iSec = Round(TimerDiff($g_hCoolDownTimer) / 1000)
-	SetDebugLog("CG Cooldown Timer : " & $iTimer)
-
-	If $iTimer > 10 Then
-		$sPurgeTimeCG = 0
-		$g_hCoolDownTimer = 0
-		Return False
-	Else
-		Local $sWaitTime = "", $iMin
-		$iMin = Floor($iTimer)
-		If $iTimer < 1 Then
-			$iSec = Round($iTimer * 60)
-		Else
-			$iSec = $iSec - ($iMin * 60)
-		EndIf
-		If $iMin = 1 Then $sWaitTime &= $iMin & " minute "
-		If $iMin > 1 Then $sWaitTime &= $iMin & " minutes "
-		If $iSec > 1 Then $sWaitTime &= $iSec & " seconds"
-		If $SetLog Then SetLog("Cooldown Time Detected: " & $sWaitTime, $COLOR_DEBUG2)
-		Return True
-	EndIf
-
-	If $g_bChkClanGamesPurgeAnyClose And $b_COCClose Then
-		If $sPurgeTimeCG = 0 Then
+	Local $iTimer = 0, $iSec = 0
+	If _DateIsValid($g_hCoolDownTimer) Then
+		If _DateDiff('s', $g_hCoolDownTimer, _NowCalc()) >= 600 Then
+			$g_hCoolDownTimer = 0
 			Return False
 		Else
-			Return True
+			$iTimer = _DateDiff('n', $g_hCoolDownTimer, _NowCalc())
+			$iSec = _DateDiff('s', $g_hCoolDownTimer, _NowCalc())
 		EndIf
+	Else
+		Return False
 	EndIf
+
+	Local $sWaitTime = "", $iMin
+	$iMin = Floor($iTimer)
+	If $iTimer < 1 Then
+		$iSec = Round($iTimer * 60)
+	Else
+		$iSec = $iSec - ($iMin * 60)
+	EndIf
+	If $iMin = 1 Then $sWaitTime &= $iMin & " minute "
+	If $iMin > 1 Then $sWaitTime &= $iMin & " minutes "
+	If $iSec > 1 Then $sWaitTime &= $iSec & " seconds"
+	If $SetLog Then SetLog("Cooldown Time Detected: " & $sWaitTime, $COLOR_DEBUG2)
+	Return True
 
 EndFunc   ;==>IsCGCoolDownTime
 

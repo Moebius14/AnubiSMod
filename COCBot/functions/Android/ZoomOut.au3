@@ -22,7 +22,7 @@ Func ZoomOut() ;Zooms out
 	getBSPos() ; Update $g_hAndroidWindow and Android Window Positions
 	If Not $g_bRunState Then
 		SetDebugLog("Exit ZoomOut, bot not running")
-		SetDebugLog("ZoomOut Completed(in " & Round(TimerDiff($hTimer) / 1000, 2) & " seconds)", $COLOR_INFO)
+		SetDebugLog("ZoomOut Completed(in " & Round(__TimerDiff($hTimer) / 1000, 2) & " seconds)", $COLOR_INFO)
 		Return
 	EndIf
 	Local $Result
@@ -34,14 +34,14 @@ Func ZoomOut() ;Zooms out
 			$Result = AndroidOnlyZoomOut()
 		EndIf
 		$g_bSkipFirstZoomout = True
-		SetDebugLog("ZoomOut Completed(in " & Round(TimerDiff($hTimer) / 1000, 2) & " seconds)", $COLOR_INFO)
+		SetDebugLog("ZoomOut Completed(in " & Round(__TimerDiff($hTimer) / 1000, 2) & " seconds)", $COLOR_INFO)
 		Return $Result
 	EndIf
 
 	; Android embedded, only use Android zoomout
 	$Result = AndroidOnlyZoomOut()
 	$g_bSkipFirstZoomout = True
-	SetDebugLog("ZoomOut Completed(in " & Round(TimerDiff($hTimer) / 1000, 2) & " seconds)", $COLOR_INFO)
+	SetDebugLog("ZoomOut Completed(in " & Round(__TimerDiff($hTimer) / 1000, 2) & " seconds)", $COLOR_INFO)
 	Return $Result
 EndFunc   ;==>ZoomOut
 

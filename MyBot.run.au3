@@ -895,14 +895,14 @@ Func runBot() ;Bot that runs everything in order
 				If $AllowCG Then _ClanGames()
 				If Not $g_bRunState Then Return
 				If IsCGCoolDownTime(False) And $g_bChkClanGamesPurgeAnyClose And $b_COCClose Then
-					Local $iWaitTime = Random($sPurgeTimeCG * 1000, ($sPurgeTimeCG + 60) * 1000, 1)
-					If ProfileSwitchAccountEnabled() And $sPurgeTimeCG > 420 Then
+					Local $iWaitTime = Random((600 - (_DateDiff('s', $g_hCoolDownTimer, _NowCalc()) + 60)) * 1000, (600 - _DateDiff('s', $g_hCoolDownTimer, _NowCalc())) * 1000, 1) ; ms
+					If ProfileSwitchAccountEnabled() And _DateDiff('s', $g_hCoolDownTimer, _NowCalc()) < 180 Then
 						SetLog("Switch Account While Purging", $COLOR_INFO)
 						checkSwitchAcc(True)
 					Else
 						SetLog("CoC Will be Closed While Purging", $COLOR_INFO)
 						UniversalCloseWaitOpenCoC($iWaitTime, "CloseCocWhilePurging")
-						$sPurgeTimeCG = 0
+						$g_hCoolDownTimer = 0
 						ContinueLoop
 					EndIf
 				EndIf
@@ -1244,14 +1244,14 @@ Func AttackMain() ;Main control for attack functions
 			If $AllowCG Then _ClanGames() ;Trying to do this above in the main loop
 			If Not $g_bRunState Then Return
 			If IsCGCoolDownTime(False) And $g_bChkClanGamesPurgeAnyClose And $b_COCClose Then
-				Local $iWaitTime = Random($sPurgeTimeCG * 1000, ($sPurgeTimeCG + 60) * 1000, 1)
-				If ProfileSwitchAccountEnabled() And $sPurgeTimeCG > 420 Then
+				Local $iWaitTime = Random((600 - (_DateDiff('s', $g_hCoolDownTimer, _NowCalc()) + 60)) * 1000, (600 - _DateDiff('s', $g_hCoolDownTimer, _NowCalc())) * 1000, 1) ; ms
+				If ProfileSwitchAccountEnabled() And _DateDiff('s', $g_hCoolDownTimer, _NowCalc()) < 180 Then
 					SetLog("Switch Account While Purging", $COLOR_INFO)
 					checkSwitchAcc(True)
 				Else
 					SetLog("CoC Will be Closed While Purging", $COLOR_INFO)
 					UniversalCloseWaitOpenCoC($iWaitTime, "CloseCocWhilePurging")
-					$sPurgeTimeCG = 0
+					$g_hCoolDownTimer = 0
 					Return
 				EndIf
 			EndIf
@@ -1720,7 +1720,7 @@ Func FirstCheck()
 	If Not $g_bRunState Then Return
 
 	$iNowDayCG = @YDAY ; record numeric value for today
-	$sPurgeTimeCG = 0
+	$g_hCoolDownTimer = 0
 	_ClanGames()
 	GotoBBTodoCG()
 

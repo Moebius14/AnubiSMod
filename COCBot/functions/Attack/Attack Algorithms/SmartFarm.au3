@@ -83,7 +83,7 @@ Func ChkSmartFarm($TypeResources = "All")
 
 	; [0] = x , [1] = y , [2] = Distance to Redline ,[3] = In/Out, [4] = Side,  [5]= Is array Dim[2] with 5 coordinates to deploy
 	Local $aAll = SmartFarmDetection($TypeResources)
-	SetDebugLog(" TOTAL detection Calculated  (in " & Round(TimerDiff($hTimer) / 1000, 2) & " seconds)", $COLOR_INFO)
+	SetDebugLog(" TOTAL detection Calculated  (in " & Round(__TimerDiff($hTimer) / 1000, 2) & " seconds)", $COLOR_INFO)
 
 	; Let's determinate what resource is out or in side the village
 	; Collectors
@@ -188,7 +188,7 @@ Func ChkSmartFarm($TypeResources = "All")
 	EndIf
 
 	Setlog("Attack at " & UBound($BestSideToAttack) & " Side(s) - " & _ArrayToString($BestSideToAttack), $COLOR_INFO)
-	Setlog(" Check Calculated  (in " & Round(TimerDiff($hTimer) / 1000, 2) & " seconds)", $COLOR_INFO)
+	Setlog(" Check Calculated  (in " & Round(__TimerDiff($hTimer) / 1000, 2) & " seconds)", $COLOR_INFO)
 	If Not $g_bRunState Then Return
 
 	; DEBUG , image with all information
@@ -197,7 +197,7 @@ Func ChkSmartFarm($TypeResources = "All")
 		For $i = 0 To UBound($BestSideToAttack) - 1
 			$redline[$i] = GetOffsetRedline($BestSideToAttack[$i], 5)
 		Next
-		DebugImageSmartFarm($THdetails, $aResourcesIN, $aResourcesOUT, Round(TimerDiff($hTimer) / 1000, 2) & "'s", _ArrayToString($BestSideToAttack), $redline)
+		DebugImageSmartFarm($THdetails, $aResourcesIN, $aResourcesOUT, Round(__TimerDiff($hTimer) / 1000, 2) & "'s", _ArrayToString($BestSideToAttack), $redline)
 	EndIf
 
 	; Variable to return : $Return[3]  [0] = To attack InSide  [1] = Quant. Sides  [2] = Name Sides
@@ -347,7 +347,7 @@ Func SmartFarmDetection($txtBuildings = "Mines")
 			$tempObbjs = Null
 		Next
 		; End of building loop
-		SetDebugLog($txtBuildings & " Calculated  (in " & Round(TimerDiff($hTimer) / 1000, 2) & " seconds)", $COLOR_INFO)
+		SetDebugLog($txtBuildings & " Calculated  (in " & Round(__TimerDiff($hTimer) / 1000, 2) & " seconds)", $COLOR_INFO)
 		Return $aReturn
 	Else
 		SetLog("ERROR|NONE Building - Detection: " & $txtBuildings, $COLOR_INFO)

@@ -122,8 +122,7 @@ Func MagicSnacks()
 								Local $TimerReadOCR = getOcrAndCapture("coc-guardshield", $aiOCRXCord, 634 + $g_iBottomOffsetY, 82, 16)
 								Local $TimerReadMinutes = ConvertOCRTime("CakeTime", $TimerReadOCR, False)
 								If $TimerReadMinutes > 0 Then
-									Local $StartTime = _NowCalc() ; what is date:time now
-									$ClanCastleCakeTimer = _DateAdd('n', Ceiling($TimerReadMinutes), $StartTime)
+									$ClanCastleCakeTimer = _DateAdd('n', Ceiling($TimerReadMinutes), _NowCalc())
 									SetLog("Clan Castle Cake Will Finish @ " & $ClanCastleCakeTimer, $COLOR_DEBUG1)
 								EndIf
 							EndIf

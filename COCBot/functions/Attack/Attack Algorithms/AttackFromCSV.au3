@@ -197,9 +197,9 @@ Func Algorithm_AttackCSV($testattack = False, $captureredarea = True)
 		debugAttackCSV("SLOT n.: " & $i & " - Troop: " & GetTroopName($g_avAttackTroops[$i][0]) & " (" & $g_avAttackTroops[$i][0] & ") - Quantity: " & $g_avAttackTroops[$i][1])
 	Next
 
-	Local $hTimerTOTAL = __timerinit()
+	Local $hTimerTOTAL = __TimerInit()
 	;02.01 - REDAREA -----------------------------------------------------------------------------------------------------------------------------------------
-	Local $hTimer = __timerinit()
+	Local $hTimer = __TimerInit()
 
 	SetDebugLog("Redline mode: " & $g_aiAttackScrRedlineRoutine[$g_iMatchMode])
 	SetDebugLog("Dropline mode: " & $g_aiAttackScrDroplineEdge[$g_iMatchMode])
@@ -378,7 +378,7 @@ Func Algorithm_AttackCSV($testattack = False, $captureredarea = True)
 
 	;04.01 If drop troop near gold mine
 	If $g_bCSVLocateMine Then
-		$hTimer = __timerinit()
+		$hTimer = __TimerInit()
 		SuspendAndroid()
 		$g_aiPixelMine = GetLocationMine()
 		ResumeAndroid()
@@ -418,7 +418,7 @@ Func Algorithm_AttackCSV($testattack = False, $captureredarea = True)
 
 	;04.02  If drop troop near elisir
 	If $g_bCSVLocateElixir Then
-		$hTimer = __timerinit()
+		$hTimer = __TimerInit()
 		SuspendAndroid()
 		$g_aiPixelElixir = GetLocationElixir()
 		ResumeAndroid()
@@ -459,7 +459,7 @@ Func Algorithm_AttackCSV($testattack = False, $captureredarea = True)
 	;04.03 If drop troop near drill
 	If $g_bCSVLocateDrill Then
 		;SetLog("Locating drills")
-		$hTimer = __timerinit()
+		$hTimer = __TimerInit()
 		SuspendAndroid()
 		$g_aiPixelDarkElixir = GetLocationDarkElixir()
 		ResumeAndroid()
@@ -549,7 +549,7 @@ Func Algorithm_AttackCSV($testattack = False, $captureredarea = True)
 	EndIf
 
 	If $g_bCSVLocateStorageDarkElixir = True Then
-		$hTimer = __timerinit()
+		$hTimer = __TimerInit()
 		SuspendAndroid()
 		; USES OLD OPENCV DETECTION
 		Local $g_aiPixelDarkElixirStorage = GetLocationDarkElixirStorageWithLevel()
