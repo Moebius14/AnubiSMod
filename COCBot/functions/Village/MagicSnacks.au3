@@ -160,7 +160,7 @@ Func MagicSnacks()
 								SetLog(ConvertName($aMagicSnacks[$i][0]) & " won't be used" & ($i = UBound($aMagicSnacks) - 1 ? "." : ", looking next..."), $COLOR_DEBUG1)
 							EndIf
 						Else
-							SetLog(ConvertName($aMagicSnacks[$i][0]) & " can't used (Full)" & ($i = UBound($aMagicSnacks) - 1 ? "." : ", looking next..."), $COLOR_DEBUG1)
+							SetLog(ConvertName($aMagicSnacks[$i][0]) & " can't be used (Full)" & ($i = UBound($aMagicSnacks) - 1 ? "." : ", looking next..."), $COLOR_DEBUG1)
 							If $aMagicSnacks[$i][1] > 524 Then ExitLoop 2 ; Exit loops if last snack
 							If _Sleep(1000) Then Return
 						EndIf
