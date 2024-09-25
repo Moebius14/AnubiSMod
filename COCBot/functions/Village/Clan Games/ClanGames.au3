@@ -230,7 +230,7 @@ Func _ClanGames($test = False, $HaltMode = False)
 		ClickAway()
 		Return
 	EndIf
-	
+
 	If Not $g_bRunState Then Return ;trap pause or stop bot
 	If IsEventRunning() Then
 		ClearTempCGFiles()
@@ -2742,15 +2742,12 @@ Func IsCGCoolDownTime($SetLog = True)
 		Return False
 	EndIf
 
-	Local $sWaitTime = "", $iMin
-	$iMin = Floor($iTimer)
-	If $iTimer < 1 Then
-		$iSec = Round($iTimer * 60)
-	Else
+	Local $sWaitTime = ""
+	Local $iMin = $iTimer
+	If $iMin >= 1 Then
 		$iSec = $iSec - ($iMin * 60)
+		$sWaitTime &= $iMin & " minute" & ($iMin > 1 ? "s " : " ")
 	EndIf
-	If $iMin = 1 Then $sWaitTime &= $iMin & " minute "
-	If $iMin > 1 Then $sWaitTime &= $iMin & " minutes "
 	If $iSec > 1 Then $sWaitTime &= $iSec & " seconds"
 	If $SetLog Then SetLog("Cooldown Time Detected: " & $sWaitTime, $COLOR_DEBUG2)
 	Return True
