@@ -193,8 +193,8 @@ Func OpenBarrel($bTest = False)
 		Local $iSTCount = 0, $bOpenBarrel = True, $bRet = False
 		Local $aiSearchNoBoost[4] = [$g_iQuickMISX - 10, $g_iQuickMISY - 10, $g_iQuickMISX + 25, $g_iQuickMISY + 35]
 		Local $aiSearchArrayLower[4] = [$g_iQuickMISX - 10, $g_iQuickMISY - 21, $g_iQuickMISX + 18, $g_iQuickMISY - 11]
-		Local $aiSearchArrayUpper[4] = [$g_iQuickMISX - 10, $g_iQuickMISY - 35, $g_iQuickMISX + 18, $g_iQuickMISY - 25]
-		Local $aiSearchArrayThird[4] = [$g_iQuickMISX - 10, $g_iQuickMISY - 49, $g_iQuickMISX + 18, $g_iQuickMISY - 39]
+		Local $aiSearchArrayUpper[4] = [$g_iQuickMISX - 10, $g_iQuickMISY - 33, $g_iQuickMISX + 18, $g_iQuickMISY - 23]
+		Local $aiSearchArrayThird[4] = [$g_iQuickMISX - 10, $g_iQuickMISY - 45, $g_iQuickMISX + 18, $g_iQuickMISY - 35]
 		Local $BarrelStoppedLoop = False, $IsEvent = False
 
 		For $i = 0 To 5 ; To Detect Stopped Barrel even with animation.

@@ -66,9 +66,9 @@ Func OpenTrainTab($sTab, $bSetLog = True, $sWhereFrom = "Undefined")
 		Return FuncReturn(SetError(1, 0, False), $g_bDebugSetlogTrain)
 	EndIf
 
-	WaitForClanMessage("Tabs")
 	Local $bIsCleanArea = False
-	For $i = 0 To 6
+	For $i = 0 To 9
+		WaitForClanMessage("Tabs")
 		Local $aTabButton = findButton(StringStripWS($sTab, 8), Default, 1, True)
 		If IsArray($aTabButton) And UBound($aTabButton, 1) = 2 Then
 			$bIsCleanArea = True

@@ -2180,7 +2180,7 @@ Global $g_asSceneryNames[$eTreeCount] = [ _
 
 ; village size, left, right, top, bottom, village size 2, AdjLeft, AdjRight, AdjTop, AdjBottom
 Global Const $g_afRefVillage[$eTreeCount][10] = [ _
-		[476.814083840611, 36, 799, 64, 636, 470.847607649426, 50, 50, 42, 42], _    ; SS complete
+		[499.612307505107, 34, 802, 58, 642, 488.170666746794, 50, 50, 42, 42], _    ; SS complete
 		[476.470652278333, 36, 801, 63, 633, 476.470652278333, 50, 50, 42, 42], _    ; AS partial
 		[463.064874687304, 56, 800, 68, 622, 473.183193210402, 50, 50, 42, 42], _    ; CC complete
 		[487.190577721375, 35, 809, 57, 632, 487.190577721375, 50, 50, 42, 42], _    ; PS partial

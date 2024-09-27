@@ -895,7 +895,7 @@ Func runBot() ;Bot that runs everything in order
 				If $AllowCG Then _ClanGames()
 				If Not $g_bRunState Then Return
 				If IsCGCoolDownTime(False) And $g_bChkClanGamesPurgeAnyClose And $b_COCClose Then
-					Local $iWaitTime = Random((600 - (_DateDiff('s', $g_hCoolDownTimer, _NowCalc()) + 60)) * 1000, (600 - _DateDiff('s', $g_hCoolDownTimer, _NowCalc())) * 1000, 1) ; ms
+					Local $iWaitTime = Random((600 - _DateDiff('s', $g_hCoolDownTimer, _NowCalc())) * 1000, (660 - _DateDiff('s', $g_hCoolDownTimer, _NowCalc())) * 1000, 1) ; ms
 					If ProfileSwitchAccountEnabled() And _DateDiff('s', $g_hCoolDownTimer, _NowCalc()) < 180 Then
 						SetLog("Switch Account While Purging", $COLOR_INFO)
 						checkSwitchAcc(True)
@@ -1244,7 +1244,7 @@ Func AttackMain() ;Main control for attack functions
 			If $AllowCG Then _ClanGames() ;Trying to do this above in the main loop
 			If Not $g_bRunState Then Return
 			If IsCGCoolDownTime(False) And $g_bChkClanGamesPurgeAnyClose And $b_COCClose Then
-				Local $iWaitTime = Random((600 - (_DateDiff('s', $g_hCoolDownTimer, _NowCalc()) + 60)) * 1000, (600 - _DateDiff('s', $g_hCoolDownTimer, _NowCalc())) * 1000, 1) ; ms
+				Local $iWaitTime = Random((600 - _DateDiff('s', $g_hCoolDownTimer, _NowCalc())) * 1000, (660 - _DateDiff('s', $g_hCoolDownTimer, _NowCalc())) * 1000, 1) ; ms
 				If ProfileSwitchAccountEnabled() And _DateDiff('s', $g_hCoolDownTimer, _NowCalc()) < 180 Then
 					SetLog("Switch Account While Purging", $COLOR_INFO)
 					checkSwitchAcc(True)

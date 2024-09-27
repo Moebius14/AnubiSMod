@@ -128,6 +128,9 @@
 * Improved MakingDonatedTroops().
 * Improved IsDonateQueueOnly().
 * Improved Clan Games Event Purge Cooldown Management.
+* Hidden Clan Games Equipement Challenges.
+* Changed Defaut Scenery Detection Points (Allows broken boat).
+* Improved BB Troops Upgrade Red Cost OCR.
 
 * v8.1.6 **
 * Added "Before you upgrade" window support.

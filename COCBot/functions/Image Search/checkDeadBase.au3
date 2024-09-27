@@ -123,6 +123,10 @@ Func checkDeadBaseQuick($bForceCapture = True, $TestDeadBase = False)
 	Local $aExclusions[0][2]
 	Local $aTempCollectors[0][2]
 	Local $aCollectors[0][2]
+	Local $iSuperchargeSearch = False
+
+	; Supercharge
+	If $g_iTownHallLevel >= $g_iMaxTHLevel - 2 Then $iSuperchargeSearch = True
 
 	; check for any collector filling
 	Local $result = findMultiple($g_sImgElixirCollectorFill, $sCocDiamond, $redLines, $minLevel, $maxLevel, $maxReturnPoints, $returnProps, $bForceCapture)
@@ -153,6 +157,9 @@ Func checkDeadBaseQuick($bForceCapture = True, $TestDeadBase = False)
 		For $i = 0 To UBound($result, 1) - 1
 			$aTempArray = $result[$i]
 			If StringInStr($aTempArray[0], "exclusion", $STR_NOCASESENSEBASIC) Then ContinueLoop
+			If Not $iSuperchargeSearch Then
+				If StringInStr($aTempArray[0], "supercharge", $STR_NOCASESENSEBASIC) Then ContinueLoop ; Could be boosted collectors
+			EndIf
 			$aTempMultiCoords = decodeMultipleCoords($aTempArray[1], 5, 5)
 			For $j = 0 To UBound($aTempMultiCoords, 1) - 1
 				$aTempCoords = $aTempMultiCoords[$j]

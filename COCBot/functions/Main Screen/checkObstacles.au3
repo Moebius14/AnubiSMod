@@ -70,7 +70,7 @@ Func _checkObstacles($bBuilderBase = False, $bRecursive = False) ;Checks if some
 		EndIf
 
 	EndIf
-	
+
 	Local $aPixelSearchGrey = _PixelSearch(481, 490 + $g_iMidOffsetY, 483, 494 + $g_iMidOffsetY, Hex(0xCBCDD3, 6), 10, True)
 	Local $aPixelSearchFlamme = _PixelSearch(277, 134 + $g_iMidOffsetY, 279, 136 + $g_iMidOffsetY, Hex(0xFFFFDB, 6), 10, True)
 	If IsArray($aPixelSearchGrey) And IsArray($aPixelSearchFlamme) Then
@@ -190,6 +190,16 @@ Func _checkObstacles($bBuilderBase = False, $bRecursive = False) ;Checks if some
 			_ColorCheck(_GetPixelColor(600, 9, $g_bCapturePixel), Hex(0x000000, 6), 1)
 	If Not $bHasTopBlackBar And _CheckPixel($aIsMainGrayed, $g_bCapturePixel) Then
 		SetDebugLog("checkObstacles: Found gray Window to close")
+		; Daily Reward Window
+		Local $aPixelSearchLeftGold = _PixelSearch(126, 545 + $g_iMidOffsetY, 130, 545 + $g_iMidOffsetY, Hex(0xFBE000, 6), 10, True)
+		Local $aPixelSearchRightGold = _PixelSearch(816, 555 + $g_iMidOffsetY, 820, 555 + $g_iMidOffsetY, Hex(0xFCE227, 6), 10, True)
+		If IsArray($aPixelSearchLeftGold) And IsArray($aPixelSearchRightGold) Then
+			CheckDailyRewardWindow()
+			$g_bMinorObstacle = True
+			If _Sleep($DELAYCHECKOBSTACLES1) Then Return
+			Return False
+		EndIf
+		;
 		Local $aConfirmButton = findButton("ConfirmButton", Default, 1, True)
 		If IsArray($aConfirmButton) And UBound($aConfirmButton) = 2 Then
 			ClickP($aConfirmButton)
@@ -522,16 +532,16 @@ Func CheckAllObstacles($bDebugImageSave = $g_bDebugImageSave, $MinType = 0, $Max
 				;; 1 : Error! (Out of Sync)/OOS Then Click on "Reload Game"
 				Case 0 To 1
 					$Ref = 0
-				;; 2 : Rate Clash Of Clans Then click On "Never"
+					;; 2 : Rate Clash Of Clans Then click On "Never"
 				Case 2
 					$Ref = 1
-				;; 3 : Important Notice Then Click On "OK"
+					;; 3 : Important Notice Then Click On "OK"
 				Case 3
 					$Ref = 2
-				;; 5 : Google Play Services Has Stopped Then Click on "OK"
+					;; 5 : Google Play Services Has Stopped Then Click on "OK"
 				Case 5
 					$Ref = 3
-				;; 7 : Personnal Data sharing
+					;; 7 : Personnal Data sharing
 				Case 7
 					$Ref = 4
 			EndSwitch
@@ -587,3 +597,32 @@ Func CheckAllObstacles($bDebugImageSave = $g_bDebugImageSave, $MinType = 0, $Max
 	Return $bRet
 
 EndFunc   ;==>CheckAllObstacles
+
+Func CheckDailyRewardWindow()
+	If Not $g_bRunState Then Return
+	Local $sAllCoordsString, $aAllCoordsTemp, $aTempCoords
+	Local $aAllCoords[0][2]
+	If _Sleep($DELAYSTARBONUS100) Then Return
+	Local $SearchArea = GetDiamondFromRect("80,280(660,250)")
+	Local $aResult = findMultiple(@ScriptDir & "\imgxml\DailyChallenge\", $SearchArea, $SearchArea, 0, 1000, 7, "objectname,objectpoints", True)
+	If $aResult <> "" And IsArray($aResult) Then
+		For $t = 0 To UBound($aResult) - 1
+			Local $aResultArray = $aResult[$t]     ; ["Button Name", "x1,y1", "x2,y2", ...]
+			SetDebugLog("Find Claim buttons, $aResultArray[" & $t & "]: " & _ArrayToString($aResultArray))
+			If IsArray($aResultArray) And $aResultArray[0] = "ClaimBtn" Then
+				$sAllCoordsString = _ArrayToString($aResultArray, "|", 1)     ; "x1,y1|x2,y2|..."
+				$aAllCoordsTemp = decodeMultipleCoords($sAllCoordsString, 50, 50)     ; [{coords1}, {coords2}, ...]
+				For $k = 0 To UBound($aAllCoordsTemp, 1) - 1
+					$aTempCoords = $aAllCoordsTemp[$k]
+					_ArrayAdd($aAllCoords, Number($aTempCoords[0]) & "|" & Number($aTempCoords[1]))
+				Next
+			EndIf
+		Next
+		RemoveDupXY($aAllCoords)
+		For $j = 0 To UBound($aAllCoords) - 1
+			Click($aAllCoords[$j][0], $aAllCoords[$j][1], 1, 120, "Claim " & $j + 1)         ; Click Claim button
+			If _Sleep(2000) Then Return
+		Next
+	EndIf
+	CloseWindow2()
+EndFunc   ;==>CheckDailyRewardWindow

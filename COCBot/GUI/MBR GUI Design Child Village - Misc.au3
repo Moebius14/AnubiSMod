@@ -1106,15 +1106,16 @@ Func CreateClanGamesSettings()
 		$g_ahCGMainGroundItem[$j] = GUICtrlCreateTreeViewItem($tmpChallenges[$j][1], $g_hChkCGMainGround)
 		GUICtrlSetOnEvent(-1, "CGMainGroundTVItem")
 	Next
-
-	$g_hChkCGEquipment = GUICtrlCreateTreeViewItem("Equipment Challenges", $g_hClanGamesTV)
-	GUICtrlSetOnEvent(-1, "CGEquipmentTVRoot")
-	$tmpChallenges = ClanGamesChallenges("$EquipmentChallenges")
-	For $j = 0 To UBound($tmpChallenges) - 1
-		$g_ahCGEquipmentItem[$j] = GUICtrlCreateTreeViewItem($tmpChallenges[$j][1], $g_hChkCGEquipment)
-		GUICtrlSetOnEvent(-1, "CGEquipmentTVItem")
-	Next
-
+	; Equipement Challenges Not Available Yet !
+	#cs
+		$g_hChkCGEquipment = GUICtrlCreateTreeViewItem("Equipment Challenges", $g_hClanGamesTV)
+		GUICtrlSetOnEvent(-1, "CGEquipmentTVRoot")
+		$tmpChallenges = ClanGamesChallenges("$EquipmentChallenges")
+		For $j = 0 To UBound($tmpChallenges) - 1
+			$g_ahCGEquipmentItem[$j] = GUICtrlCreateTreeViewItem($tmpChallenges[$j][1], $g_hChkCGEquipment)
+			GUICtrlSetOnEvent(-1, "CGEquipmentTVItem")
+		Next
+	#ce
 	$g_hChkCGMainMisc = GUICtrlCreateTreeViewItem("Miscellaneous Challenges", $g_hClanGamesTV)
 	GUICtrlSetOnEvent(-1, "CGMainMiscTVRoot")
 	$tmpChallenges = ClanGamesChallenges("$MiscChallenges")
