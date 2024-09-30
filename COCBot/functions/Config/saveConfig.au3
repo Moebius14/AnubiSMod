@@ -1353,7 +1353,6 @@ Func SaveConfig_600_52_2()
 	For $t = 0 To $eTroopCount - 1
 		_Ini_Add("troop", $g_asTroopShortNames[$t], $g_aiArmyCustomTroops[$t])
 	Next
-
 	For $s = 0 To $eSpellCount - 1
 		_Ini_Add("Spells", $g_asSpellShortNames[$s], $g_aiArmyCustomSpells[$s])
 	Next
