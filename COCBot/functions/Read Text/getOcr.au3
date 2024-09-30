@@ -42,7 +42,7 @@ Func getNameBuilding($x_start, $y_start) ; getNameBuilding(242,Y) -> Gets comple
 		$bResult = StringReplace($bResult, "B O B", "B.O.B")
 		Return $bResult
 	EndIf
-	If $bResult = "" Or Not StringInStr($bResult, "Level") Then $bResult = getOcrAndCapture("coc-build2", $x_start, $y_start - 27, 420, 27)
+	If $bResult = "" Or (Not StringInStr($bResult, "Level") And Not StringInStr($bResult, "Broken")) Then $bResult = getOcrAndCapture("coc-build2", $x_start, $y_start - 27, 420, 27)
 	Return $bResult
 EndFunc   ;==>getNameBuilding
 

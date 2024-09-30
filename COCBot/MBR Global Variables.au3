@@ -2241,7 +2241,7 @@ Global $g_iNextPageTroop = $eETitan
 
 ;ClanCapital
 Global $g_iLootCCGold = 0, $g_iLootCCMedal = 0, $g_iCCTrophies = 0, $g_bChkEnableAutoUpgradeCC = False, $g_bChkAutoUpgradeCCIgnore = False, $g_bChkEnableSmartSwitchCC = False
-Global $g_bChkEnablePurgeMedal = False, $g_iacmdMedalsExpected = 1500, $bControlCCMedal = False
+Global $g_bChkEnablePurgeMedal = False, $g_iacmdMedalsExpected = 1500, $bControlCCMedal = False, $iPurgeDone[8] = [False, False, False, False, False, False, False, False]
 Global $IsRaidRunning = 0, $AllCCRaidAttacksDone = 0, $g_iRank = ""
 Global $g_bChkEnableCollectCCGold = False, $g_bChkEnableForgeGold = False, $g_bChkEnableForgeElix = False, $g_bChkEnableSmartUse = False
 Global $g_bChkEnableForgeDE = False, $g_bChkEnableForgeBBGold = False, $g_bChkEnableForgeBBElix = False, $g_iCmbForgeBuilder = 0

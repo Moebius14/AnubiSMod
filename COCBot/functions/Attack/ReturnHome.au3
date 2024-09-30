@@ -381,6 +381,10 @@ Func TreasureHunt($counter = 0)
 				If _Sleep(500) Then Return
 				Local $aContinueButton = findButton("Continue", Default, 1, True)
 				If IsArray($aContinueButton) And UBound($aContinueButton, 1) = 2 Then
+				;	If _Sleep(1000) Then Return
+				;	SaveDebugImage("ChestReward")
+					CheckRewardType()
+					If _Sleep(500) Then Return
 					ClickP($aContinueButton, 1, 120, "#0433")
 					SetLog("Reward Received", $COLOR_SUCCESS1)
 					$bRet = True
@@ -402,3 +406,16 @@ Func TreasureHunt($counter = 0)
 	Return $bRet
 
 EndFunc   ;==>TreasureHunt
+
+Func CheckRewardType()
+
+	If _Sleep(1000) Then Return
+	If QuickMIS("BC1", $g_sImgCCGoldCollectDaily, 320, 210 + $g_iMidOffsetY, 550, 410 + $g_iMidOffsetY) Then
+		$IsCCGoldJustCollected = 1
+		Return
+	ElseIf QuickMIS("BC1", $g_sImgOresCollect, 320, 210 + $g_iMidOffsetY, 550, 410 + $g_iMidOffsetY) Then
+		$IsOresJustCollected = 1
+		Return
+	EndIf
+
+EndFunc   ;==>CheckRewardType

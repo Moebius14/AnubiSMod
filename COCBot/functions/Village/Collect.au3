@@ -76,8 +76,14 @@ Func Collect($bCheckTreasury = True)
 	If _Sleep($DELAYCOLLECT3) Then Return
 	checkMainScreen(False) ; check if errors during function
 
-	If Not $g_bChkCollectCartFirst And ($g_iTxtCollectGold = 0 Or $g_aiCurrentLoot[$eLootGold] < Number($g_iTxtCollectGold) Or $g_iTxtCollectElixir = 0 Or $g_aiCurrentLoot[$eLootElixir] < Number($g_iTxtCollectElixir) Or $g_iTxtCollectDark = 0 Or $g_aiCurrentLoot[$eLootDarkElixir] < Number($g_iTxtCollectDark)) Then CollectLootCart()
-	If $g_bChkTreasuryCollect > 0 And $bCheckTreasury Then TreasuryCollect()
+	$aGoldFull = _FullResPixelSearch($aIsGoldFull[0], $aIsGoldFull[0] + 4, $aIsGoldFull[1], 1, Hex(0x0D0D0D, 6), $aIsGoldFull[2], $aIsGoldFull[3])
+	$aElixirFull = _FullResPixelSearch($aIsElixirFull[0], $aIsElixirFull[0] + 4, $aIsElixirFull[1], 1, Hex(0x0D0D0D, 6), $aIsElixirFull[2], $aIsElixirFull[3])
+	$aDarkElixirFull = _FullResPixelSearch($aIsDarkElixirFull[0], $aIsDarkElixirFull[0] + 4, $aIsDarkElixirFull[1], 1, Hex(0x0D0D0D, 6), $aIsDarkElixirFull[2], $aIsDarkElixirFull[3])
+	Local $iAllResourcesFull = IsArray($aGoldFull) And IsArray($aElixirFull) And IsArray($aDarkElixirFull)
+
+	If Not $g_bChkCollectCartFirst And ($g_iTxtCollectGold = 0 Or $g_aiCurrentLoot[$eLootGold] < Number($g_iTxtCollectGold) Or $g_iTxtCollectElixir = 0 Or _
+			$g_aiCurrentLoot[$eLootElixir] < Number($g_iTxtCollectElixir) Or $g_iTxtCollectDark = 0 Or $g_aiCurrentLoot[$eLootDarkElixir] < Number($g_iTxtCollectDark)) And Not $iAllResourcesFull Then CollectLootCart()
+	If $g_bChkTreasuryCollect > 0 And $bCheckTreasury And Not $iAllResourcesFull Then TreasuryCollect()
 	EndGainCost("Collect")
 EndFunc   ;==>Collect
 
@@ -142,6 +148,12 @@ Func CollectLootCart()
 		If IsArray($aiCollectButton) And UBound($aiCollectButton) = 2 Then
 			SetLog("Clicking to collect loot cart.", $COLOR_SUCCESS)
 			ClickP($aiCollectButton)
+			If _Sleep(2000) Then Return
+			$aiCollectButton = findButton("CollectLootCart", Default, 1, True)
+			If IsArray($aiCollectButton) And UBound($aiCollectButton) = 2 Then
+				Click($g_iQuickMISX, $g_iQuickMISY)
+				If _Sleep(500) Then Return
+			EndIf
 			If _ColorCheck(_GetPixelColor(390, 340 + $g_iMidOffsetY, True), Hex(0xEA8A3B, 6), 20) Then     ; close chat
 				If Not ClickB("ClanChat") Then
 					SetDebugLog("Error finding the Clan Tab Button", $COLOR_ERROR)

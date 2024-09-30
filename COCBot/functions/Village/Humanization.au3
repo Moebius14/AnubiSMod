@@ -1645,7 +1645,7 @@ Func CheckTH()
 	EndIf
 
 	For $t = 1 To 3
-		If QuickMIS("BC1", $3DotsVisiting, 780, 450 + $g_iMidOffsetY, 820, 485 + $g_iMidOffsetY) And Random(0, 5, 1) < 2 Then
+		If QuickMIS("BC1", $3DotsVisiting, 780, 445 + $g_iMidOffsetY, 820, 485 + $g_iMidOffsetY) And Random(0, 5, 1) < 2 Then
 			Click($g_iQuickMISX, $g_iQuickMISY)
 			If _Sleep(Random(2500, 3500, 1)) Then Return
 		EndIf
@@ -1719,7 +1719,7 @@ Func CheckMortar()
 			EndIf
 
 			For $t = 1 To 3
-				If QuickMIS("BC1", $3DotsVisiting, 780, 450 + $g_iMidOffsetY, 820, 485 + $g_iMidOffsetY) And Random(0, 5, 1) < 2 Then
+				If QuickMIS("BC1", $3DotsVisiting, 780, 375 + $g_iMidOffsetY, 820, 490 + $g_iMidOffsetY) And Random(0, 5, 1) < 2 Then
 					Click($g_iQuickMISX, $g_iQuickMISY)
 					If _Sleep(Random(2500, 3500, 1)) Then Return
 				EndIf
@@ -1869,7 +1869,7 @@ Func CheckXBows()
 			EndIf
 
 			For $t = 1 To 3
-				If QuickMIS("BC1", $3DotsVisiting, 780, 450 + $g_iMidOffsetY, 820, 485 + $g_iMidOffsetY) And Random(0, 5, 1) < 2 Then
+				If QuickMIS("BC1", $3DotsVisiting, 780, 375 + $g_iMidOffsetY, 820, 490 + $g_iMidOffsetY) And Random(0, 5, 1) < 2 Then
 					Click($g_iQuickMISX, $g_iQuickMISY)
 					If _Sleep(Random(2500, 3500, 1)) Then Return
 				EndIf
@@ -1942,7 +1942,7 @@ Func CheckInferno()
 			EndIf
 
 			For $t = 1 To 3
-				If QuickMIS("BC1", $3DotsVisiting, 780, 450 + $g_iMidOffsetY, 820, 485 + $g_iMidOffsetY) And Random(0, 5, 1) < 2 Then
+				If QuickMIS("BC1", $3DotsVisiting, 780, 375 + $g_iMidOffsetY, 820, 490 + $g_iMidOffsetY) And Random(0, 5, 1) < 2 Then
 					Click($g_iQuickMISX, $g_iQuickMISY)
 					If _Sleep(Random(2500, 3500, 1)) Then Return
 				EndIf

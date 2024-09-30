@@ -3213,18 +3213,20 @@ Func SoldAndBuyItems($TestDebug = False, $ForceTime = False)
 
 	If Not $g_bChkEnablePurgeMedal And Not $TestDebug Then Return
 
-	Local Static $iLastTimeChecked[8] = [0, 0, 0, 0, 0, 0, 0, 0]
 	If Not $ForceTime Then
 		If UTCTimeMedals() Then
-			If $iLastTimeChecked[$g_iCurAccount] = @MDAY And Not $TestDebug Then Return
+			If $iPurgeDone[$g_iCurAccount] And Not $TestDebug Then Return
 		Else
-			If Not $TestDebug Then Return
+			If Not $TestDebug Then
+				$iPurgeDone[$g_iCurAccount] = False
+				Return
+			EndIf
 		EndIf
 	EndIf
 
-	If $TestDebug Then $g_iLootCCMedal = 4840 ; Just For Test
+	If Not $TestDebug And Not $ForceTime Then $iPurgeDone[$g_iCurAccount] = True
 
-	If Not $TestDebug And Not $ForceTime Then $iLastTimeChecked[$g_iCurAccount] = @MDAY
+	If $TestDebug Then $g_iLootCCMedal = 4840 ; Just For Test
 
 	Local $ArraySold = MagicItemsCalc($TestDebug)
 	If $ArraySold = False Then Return
