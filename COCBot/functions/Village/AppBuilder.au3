@@ -145,7 +145,7 @@ Func AppBuilder()
 			_ArraySort($GreenAssignButtons, 1, 0, 0, 2)
 		EndIf
 		For $i = 0 To UBound($GreenAssignButtons) - 1
-			Local $bRemainingUpTimeOCR = getOcrAndCapture("coc-BAUpgradeTime", $GreenAssignButtons[$i][1] - 166, $GreenAssignButtons[$i][2] - 5, 114, 16, True)
+			Local $bRemainingUpTimeOCR = getOcrAndCapture("coc-BAUpgradeTime", $GreenAssignButtons[$i][1] - 166, $GreenAssignButtons[$i][2] - 3, 114, 16, True)
 			Local $iRemainingTime = ConvertOCRTime("Upgrade Time", $bRemainingUpTimeOCR, False)
 			SetDebugLog("Remaining Up OCR Time = " & $bRemainingUpTimeOCR & ", $iRemainingTime = " & $iRemainingTime & " m", $COLOR_INFO)
 			Local $bBAGranted = False

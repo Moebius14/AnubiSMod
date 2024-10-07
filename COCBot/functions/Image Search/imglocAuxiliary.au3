@@ -255,30 +255,23 @@ EndFunc   ;==>findButton
 
 Func GetButtonDiamond($sButtonName)
 	Local $btnDiamond = "FV"
-	;$g_iMidOffsetY $g_iBottomOffsetY
 
 	Switch $sButtonName
 		Case "ClanGamesStorageFullYes"
-			$btnDiamond = GetDiamondFromRect("460,400,615,480")
-		Case "ClanGamesCollectRewards"
-			$btnDiamond = GetDiamondFromRect("570,470,830,530")
-		Case "ClanGamesClaimReward"
-			$btnDiamond = GetDiamondFromRect("570,470,830,530")
-		Case "UpgradePets"
-			$btnDiamond = GetDiamondFromRect("730,530,800,600")
+			$btnDiamond = GetDiamondFromRect2(460, 370 + $g_iMidOffsetY, 615, 450 + $g_iMidOffsetY)
+		Case "ClanGamesCollectRewards", "ClanGamesClaimReward"
+			$btnDiamond = GetDiamondFromRect2(570, 440 + $g_iMidOffsetY, 830, 500 + $g_iMidOffsetY)
 		Case "ReloadButton"
 			$btnDiamond = GetDiamondFromRect2(650, 530 + $g_iMidOffsetY, 850, 645 + $g_iMidOffsetY)
 		Case "AttackButton", "RescueATKButton" ;Main Window Screen
 			$btnDiamond = GetDiamondFromRect2(0, 540 + $g_iBottomOffsetY, 160, 660 + $g_iBottomOffsetY)
-		Case "OpenTrainWindow" ;Main Window Screen
-			$btnDiamond = "15,560|65,560|65,610|15,610"
 		Case "TrashEvent"
-			$btnDiamond = GetDiamondFromRect("100,200,840,540")
+			$btnDiamond = GetDiamondFromRect2(100, 170 + $g_iMidOffsetY, 840, 510 + $g_iMidOffsetY)
 		Case "EventFailed"
-			$btnDiamond = GetDiamondFromRect("230,180,777,560")
+			$btnDiamond = GetDiamondFromRect2(230, 150 + $g_iMidOffsetY, 777, 530 + $g_iMidOffsetY)
 		Case "ObjectButtons", "BoostOne", "BoostCT", "ClockTowerPot", "Upgrade", "Research", "Treasury", "RemoveObstacle", "CollectLootCart", "Pets", "HeroBooks", _
 				"LabPotion", "LabBoosted", "BuilderPot", "Reinforce", "Info", "THWeapon", "WallRing", "GearUp", "PetPotion", "PetBoosted", "MagicItems", "Equipment", "FinishNow", _
-				"BuildersApp" ; Full size of object buttons at the bottom
+				"BuildersApp" ; Buttons at the bottom
 			$btnDiamond = GetDiamondFromRect2(140, 500 + $g_iBottomOffsetY, 720, 590 + $g_iBottomOffsetY)
 		Case "Info"
 			$btnDiamond = GetDiamondFromRect2(140, 540 + $g_iBottomOffsetY, 720, 640 + $g_iBottomOffsetY)
@@ -288,26 +281,12 @@ Func GetButtonDiamond($sButtonName)
 			$btnDiamond = GetDiamondFromRect2(445, 530 + $g_iMidOffsetY, 500, 570 + $g_iMidOffsetY)
 		Case "EnterShop"
 			$btnDiamond = GetDiamondFromRect2(350, 380 + $g_iMidOffsetY, 515, 460 + $g_iMidOffsetY)
-		Case "EndBattleSurrender" ;surrender - attackwindow
-			$btnDiamond = "12,577|125,577|125,615|12,615"
 		Case "ClanChat"
-			$btnDiamond = GetDiamondFromRect("10,310,420,370")
+			$btnDiamond = GetDiamondFromRect2(10, 280 + $g_iMidOffsetY, 420, 340 + $g_iMidOffsetY)
 		Case "Snacks"
-			$btnDiamond = GetDiamondFromRect("620,660,680,720")
-		Case "ChatOpenRequestPage" ;mainwindow - chat open
-			$btnDiamond = "5,688|65,688|65,615|5,725"
-		Case "Profile" ;mainwindow - only visible if chat closed
-			$btnDiamond = "172,15|205,15|205,48|172,48"
-		Case "DonateWindow" ;mainwindow - only when donate window is visible
-			$btnDiamond = "310,0|360,0|360,732|310,732"
-		Case "DonateButton" ;mainwindow - only when chat window is visible
-			$btnDiamond = "200,85|305,85|305,680|200,680"
-		Case "UpDonation" ;mainwindow - only when chat window is visible
-			$btnDiamond = "282,85|306,85|306,130|282,130"
-		Case "DownDonation" ;mainwindow - only when chat window is visible
-			$btnDiamond = "282,635|306,635|306,680|282,680"
+			$btnDiamond = GetDiamondFromRect2(620, 600 + $g_iBottomOffsetY, 680, 660 + $g_iBottomOffsetY)
 		Case "Collect"
-			$btnDiamond = "350,450|505,450|505,521|350,521"
+			$btnDiamond = GetDiamondFromRect2(370, 430 + $g_iMidOffsetY, 510, 490 + $g_iMidOffsetY)
 		Case "BoostBarrack", "BarrackBoosted"
 			$btnDiamond = GetDiamondFromRect2(675, 285 + $g_iMidOffsetY, 770, 330 + $g_iMidOffsetY)
 		Case "ArmyTab", "TrainTroopsTab", "BrewSpellsTab", "BuildSiegeMachinesTab"
@@ -319,9 +298,9 @@ Func GetButtonDiamond($sButtonName)
 		Case "AttackLogTab", "ShareReplayButton"
 			$btnDiamond = GetDiamondFromRect2(280, 80, 805, 160 + $g_iMidOffsetY)
 		Case "EndBattle", "Surrender"
-			$btnDiamond = GetDiamondFromRect("1,570,140,628")
+			$btnDiamond = GetDiamondFromRect2(1, 510 + $g_iBottomOffsetY, 140, 568 + $g_iBottomOffsetY)
 		Case "Okay", "Cancel", "Continue", "ConfirmButton"
-			$btnDiamond = GetDiamondFromRect("240,250,630,645")
+			$btnDiamond = GetDiamondFromRect2(240, 220 + $g_iMidOffsetY, 630, 615 + $g_iMidOffsetY)
 		Case "ChatDown" ; AnubiS Mod
 			$btnDiamond = GetDiamondFromRect2(13, 580 + $g_iBottomOffsetY, 50, 620 + $g_iBottomOffsetY)
 		Case "EventButton" ; Special Event Button
@@ -329,6 +308,7 @@ Func GetButtonDiamond($sButtonName)
 		Case Else
 			$btnDiamond = "FV" ; use full image to locate button
 	EndSwitch
+
 	Return $btnDiamond
 EndFunc   ;==>GetButtonDiamond
 
@@ -853,7 +833,7 @@ Func Slot($iX, $iY) ; Return Slots for Quantity Reading on Army Window
 				Return 505
 			Case 525 To 573 ; CC Spell Slot 2
 				Return 520
-			Case 598 To 660; CC Siege Machines
+			Case 598 To 660 ; CC Siege Machines
 				Return 610
 		EndSwitch
 	EndIf

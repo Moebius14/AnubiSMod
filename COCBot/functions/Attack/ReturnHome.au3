@@ -410,12 +410,47 @@ EndFunc   ;==>TreasureHunt
 Func CheckRewardType()
 
 	If _Sleep(1000) Then Return
-	If QuickMIS("BC1", $g_sImgCCGoldCollectDaily, 320, 210 + $g_iMidOffsetY, 550, 410 + $g_iMidOffsetY) Then
-		$IsCCGoldJustCollected = 1
-		Return
-	ElseIf QuickMIS("BC1", $g_sImgOresCollect, 320, 210 + $g_iMidOffsetY, 550, 410 + $g_iMidOffsetY) Then
+	If Not $g_bRunState Then Return
+
+	Local $bSearchArea[4] = [320, 210 + $g_iMidOffsetY, 550, 410 + $g_iMidOffsetY]
+
+	If QuickMIS("BC1", $g_sImgOresCollect, $bSearchArea[0], $bSearchArea[1], $bSearchArea[2], $bSearchArea[3]) Then
 		$IsOresJustCollected = 1
 		Return
 	EndIf
+	If QuickMIS("BC1", $g_sImgTresuryHuntRewards, $bSearchArea[0], $bSearchArea[1], $bSearchArea[2], $bSearchArea[3]) Then
+		Switch $g_iQuickMISName
+			Case "CapitalGold"
+				$IsCCGoldJustCollected = 1
+			Case "PetPot"
+				$IsPetPotJustCollected = 1
+			Case "ResPot"
+				$IsResPotJustCollected = 1
+		EndSwitch
+	EndIf
 
 EndFunc   ;==>CheckRewardType
+
+Func AfterRewardsRoutines($bCheckMainScreen = True)
+
+	If Not $IsResPotJustCollected And Not $IsPetPotJustCollected And Not $IsCCGoldJustCollected Then Return
+	If $bCheckMainScreen And (($g_bUseLabPotion And $IsResPotJustCollected) Or ($g_bUsePetPotion And $IsPetPotJustCollected) Or $IsCCGoldJustCollected) Then checkMainScreen(False)
+
+	If $g_bUseLabPotion And $IsResPotJustCollected Then
+		SetLog("Time To Check Laboratory, Research Potion Just Collected", $COLOR_OLIVE)
+		If _Sleep(500) Then Return
+		LabGuiDisplay()
+	ElseIf $g_bUsePetPotion And $IsPetPotJustCollected Then
+		SetLog("Time To Check Pet House, Pet Potion Just Collected", $COLOR_OLIVE)
+		If _Sleep(500) Then Return
+		PetGuiDisplay()
+	ElseIf $IsCCGoldJustCollected Then
+		If SwitchBetweenBasesMod2() Then
+			ForgeClanCapitalGold()
+			_Sleep($DELAYRUNBOT3)
+			AutoUpgradeCC()
+			_Sleep($DELAYRUNBOT3)
+		EndIf
+	EndIf
+
+EndFunc   ;==>AfterRewardsRoutines

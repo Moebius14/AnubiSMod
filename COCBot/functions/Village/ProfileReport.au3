@@ -33,26 +33,44 @@ Func ProfileReport()
 	WEnd
 	If $iCount >= 25 Then SetDebugLog("Profile Page did not open after " & $iCount & " Loops", $COLOR_DEBUG)
 
-	; Check If exist 'Claim Reward' button , click and return to Top of the Profile Page
-	Local $aSearchResult
-	For $i = 0 To 1 ; Check twice,  because the button is animated
-		$aSearchResult = decodeSingleCoord(findImage("CollectReward", $g_sImgCollectReward, GetDiamondFromRect("560,220,830,630"), 1, True)) ; To Do After October 2023 update
-		If IsArray($aSearchResult) And UBound($aSearchResult) = 2 Then
-			Click($aSearchResult[0], $aSearchResult[1])
-			SetLog("Reward collected", $COLOR_SUCCESS)
-			For $i = 0 To 9
-				ClickDrag(321, 200 + $g_iMidOffsetY, 321, 540 + $g_iMidOffsetY, 2000)
-				If _Sleep(Random(1800, 2500, 1)) Then Return ; 2000ms
-				If _ColorCheck(_GetPixelColor($aCheckTopProfile[0], $aCheckTopProfile[1], True), Hex($aCheckTopProfile[2], 6), $aCheckTopProfile[3]) = True _
-						And _ColorCheck(_GetPixelColor($aCheckTopProfile2[0], $aCheckTopProfile2[1], True), Hex($aCheckTopProfile2[2], 6), $aCheckTopProfile2[3]) = True Then ExitLoop
+	Local $sSearchArea = GetDiamondFromRect2(660, 130 + $g_iMidOffsetY, 845, 645 + $g_iMidOffsetY)
+	Local $aClaimButtons = findMultiple($g_sImgAchievementsClaimReward, $sSearchArea, $sSearchArea, 0, 1000, 0, "objectname,objectpoints", True)
+	If IsArray($aClaimButtons) And UBound($aClaimButtons) > 0 Then
+		If $g_bChkCollectAchievements Then
+			For $i = 0 To UBound($aClaimButtons) - 1
+				Local $aTemp = $aClaimButtons[$i]
+				Local $aClaimButtonXY = decodeMultipleCoords($aTemp[1])
+				For $t = 0 To UBound($aClaimButtonXY) - 1
+					Local $aTemp = $aClaimButtonXY[$t]
+					Click($aTemp[0], $aTemp[1])
+					SetLog("Achievement reward collected", $COLOR_SUCCESS)
+					If _Sleep(1500) Then Return
+				Next
 			Next
-			ExitLoop ; ok task was done , lets exit from here|
 		EndIf
-		If _Sleep($DELAYPROFILEREPORT1) Then Return ; 500ms
-	Next
+		For $z = 0 To 12
+			Local $bX1 = Random(321, 325, 1), $bX2 = Random(326, 330, 1)
+			Local $bY1 = Random(198 + $g_iMidOffsetY, 200 + $g_iMidOffsetY, 1), $bY2 = Random(538 + $g_iMidOffsetY, 540 + $g_iMidOffsetY, 1)
+			ClickDrag($bX1, $bY1, $bX2, $bY2, 1000)
+			If _Sleep(Random(1500, 2500, 1)) Then Return ; 2000ms
+			If _ColorCheck(_GetPixelColor($aCheckTopProfile[0], $aCheckTopProfile[1], True), Hex($aCheckTopProfile[2], 6), $aCheckTopProfile[3]) And _
+					_ColorCheck(_GetPixelColor($aCheckTopProfile2[0], $aCheckTopProfile2[1], True), Hex($aCheckTopProfile2[2], 6), $aCheckTopProfile2[3]) Then ExitLoop
+		Next
+	Else
+		If Not _ColorCheck(_GetPixelColor($aCheckTopProfile[0], $aCheckTopProfile[1], True), Hex($aCheckTopProfile[2], 6), $aCheckTopProfile[3]) And _
+				Not _ColorCheck(_GetPixelColor($aCheckTopProfile2[0], $aCheckTopProfile2[1], True), Hex($aCheckTopProfile2[2], 6), $aCheckTopProfile2[3]) Then
+			For $z = 0 To 12
+				Local $bX1 = Random(321, 325, 1), $bX2 = Random(326, 330, 1)
+				Local $bY1 = Random(198 + $g_iMidOffsetY, 200 + $g_iMidOffsetY, 1), $bY2 = Random(538 + $g_iMidOffsetY, 540 + $g_iMidOffsetY, 1)
+				ClickDrag($bX1, $bY1, $bX2, $bY2, 1000)
+				If _Sleep(Random(1500, 2500, 1)) Then Return ; 2000ms
+				If _ColorCheck(_GetPixelColor($aCheckTopProfile[0], $aCheckTopProfile[1], True), Hex($aCheckTopProfile[2], 6), $aCheckTopProfile[3]) And _
+						_ColorCheck(_GetPixelColor($aCheckTopProfile2[0], $aCheckTopProfile2[1], True), Hex($aCheckTopProfile2[2], 6), $aCheckTopProfile2[3]) Then ExitLoop
+			Next
+		EndIf
+	EndIf
 
 	If _Sleep($DELAYPROFILEREPORT1) Then Return
-	$iAttacksWon = ""
 
 	If _ColorCheck(_GetPixelColor($aProfileReport[0], $aProfileReport[1], True), Hex($aProfileReport[2], 6), $aProfileReport[3]) Then
 		SetDebugLog("Profile seems to be currently unranked", $COLOR_DEBUG)

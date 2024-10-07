@@ -568,7 +568,7 @@ Func _AutoUpgrade()
 		;Stats
 		Switch $g_aUpgradeNameLevel[1]
 			Case "Wall"
-				$g_iNbrOfWallsUpped += 1
+				AutoWallsStatsMAJ($g_aUpgradeNameLevel[2])
 				If $g_aUpgradeResourceCostDuration[0] = "Gold" Then
 					$g_iNbrOfWallsUppedGold += 1
 					$g_iCostGoldWall += $g_aUpgradeResourceCostDuration[1]
@@ -682,6 +682,14 @@ Func _AutoUpgrade()
 	ZoomOut() ; re-center village
 
 EndFunc   ;==>_AutoUpgrade
+
+Func AutoWallsStatsMAJ($CurrentWallLevel = 10)
+	$g_aiWallsCurrentCount[$CurrentWallLevel + 1] = $g_aiWallsCurrentCount[$CurrentWallLevel + 1] + 1
+	$g_aiWallsCurrentCount[$CurrentWallLevel] = $g_aiWallsCurrentCount[$CurrentWallLevel] - 1
+	GUICtrlSetData($g_ahWallsCurrentCount[$CurrentWallLevel + 1], $g_aiWallsCurrentCount[$CurrentWallLevel + 1])
+	GUICtrlSetData($g_ahWallsCurrentCount[$CurrentWallLevel], $g_aiWallsCurrentCount[$CurrentWallLevel])
+	SaveConfig()
+EndFunc   ;==>AutoWallsStatsMAJ
 
 Func SpecialVillageReport()
 

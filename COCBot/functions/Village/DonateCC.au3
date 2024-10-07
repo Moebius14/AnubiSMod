@@ -20,7 +20,7 @@ Global $g_iDonTroopsLimit = 50, $iDonSpellsLimit = 3, $g_iDonTroopsAv = 0, $g_iD
 Global $g_iDonTroopsQuantityAv = 0, $g_iDonTroopsQuantity = 0, $g_iDonSpellsQuantityAv = 0, $g_iDonSpellsQuantity = 0
 Global $g_bSkipDonTroops = False, $g_bSkipDonSpells = False, $g_bSkipDonSiege = False
 Global $g_bDonateAllRespectBlk = False ; is turned on off durning donate all section, must be false all other times
-Global $g_aiAvailQueuedTroop[$eTroopCount], $g_aiAvailQueuedSpell[$eSpellCount]
+Global $g_aiAvailQueuedTroop[$eTroopCount], $g_aiAvailQueuedSpell[$eSpellCount], $g_aiAvailSiege[$eSiegeMachineCount]
 
 Func PrepareDonateCC()
 	;Troops
@@ -58,6 +58,8 @@ Func IsDonateQueueOnly(ByRef $abDonateQueueOnly)
 		If $i < $eSpellCount Then $g_aiAvailQueuedSpell[$i] = 0
 	Next
 	If Not OpenArmyOverview(True, "IsDonateQueueOnly()") Then Return
+
+	If $g_aiPrepDon[4] = 1 Or $g_aiPrepDon[5] = 1 Then getArmySiegeMachines(False, False, False, False, True)
 
 	For $i = 0 To 1
 		If Not $g_aiPrepDon[$i * 2] And Not $g_aiPrepDon[$i * 2 + 1] Then $abDonateQueueOnly[$i] = False
@@ -142,14 +144,49 @@ Func IsDonateQueueOnly(ByRef $abDonateQueueOnly)
 							SetLog("  - " & $g_asSpellNames[$TroopIndex - $eLSpell] & " x" & $aSearchResult[$j][1] & " (training)")
 						EndIf
 					EndIf
-					ExitLoop
 				ElseIf $j >= 2 Then
 					ExitLoop
 				EndIf
 			Next
 			If _Sleep(250) Then ContinueLoop
+			If $i = 0 Then
+				If _ArrayMax($g_aiAvailQueuedTroop) = 0 Then SetLog("Troop queue is not ready, skip donating troops", $COLOR_OLIVE)
+			Else
+				If _ArrayMax($g_aiAvailQueuedSpell) = 0 Then SetLog("Spell queue is not ready, skip donating spells", $COLOR_OLIVE)
+			EndIf
 		EndIf
 	Next
+
+	If $g_aiPrepDon[4] = 1 Or $g_aiPrepDon[5] = 1 Then
+
+		SetLog("Checking sieges for donation", $COLOR_ACTION)
+
+		If Not OpenSiegeMachinesTab(True, "TrainSiege()") Then Return
+		If _Sleep(500) Then Return
+		Local $aCheckIsOccupied[4] = [766, 202 + $g_iMidOffsetY, 0xE21012, 15]
+		Local $aCheckIsFilled[4] = [765, 185 + $g_iMidOffsetY, 0xD7AFA9, 15]
+		Local $xQueue = 775
+
+		WaitForClanMessage("TrainTabs")
+
+		; check queueing siege
+		If _CheckPixel($aCheckIsFilled, True, Default, "Siege is Filled") Or _CheckPixel($aCheckIsOccupied, True, Default, "Siege is Queued") Then
+			Local $Dir = @ScriptDir & "\imgxml\ArmyOverview\SiegeMachinesQueued"
+			Local $aSearchResult = SearchArmy($Dir, 75, 188 + $g_iMidOffsetY, 777, 245 + $g_iMidOffsetY, "Queue")
+			If $aSearchResult[0][0] <> "" Then
+				For $i = 0 To UBound($aSearchResult) - 1
+					If IsArray(_PixelSearch(($xQueue - 12) - ($i * 60.5), 234 + $g_iMidOffsetY, ($xQueue - 8) - ($i * 60.5), 234 + $g_iMidOffsetY, Hex(0x96A623, 6), 20, True)) Then ; the green check symbol
+						Local $iSiegeIndex = TroopIndexLookup($aSearchResult[$i][0]) - $eWallW
+						$g_aiCurrentSiegeMachines[$iSiegeIndex] += $aSearchResult[$i][3]
+						SetLog("  - " & $g_asSiegeMachineNames[$iSiegeIndex] & " x" & $g_aiCurrentSiegeMachines[$iSiegeIndex])
+					EndIf
+				Next
+			EndIf
+		EndIf
+		$g_aiAvailSiege = $g_aiCurrentSiegeMachines
+
+	EndIf
+
 	CloseWindow2()
 	If _Sleep($DELAYDONATECC2) Then Return
 
@@ -184,7 +221,7 @@ Func getArmyRequest($aiDonateCoords, $bNeedCapture = True)
 	Return StringTrimLeft($sClanText, 2)
 EndFunc   ;==>getArmyRequest
 
-Func DonateCC($bCheckForNewMsg = False)
+Func DonateCC($bUpdateStats = True)
 
 	Local $bDonateTroop = ($g_aiPrepDon[0] = 1)
 	Local $bDonateAllTroop = ($g_aiPrepDon[1] = 1)
@@ -218,25 +255,67 @@ Func DonateCC($bCheckForNewMsg = False)
 		Return ; exit func if no planned donate checkmarks
 	EndIf
 
-	;check for new chats first, Every fith time skip this to just check a little bit more frequent
-	If ($bCheckForNewMsg And Random(0, 3, 1) < 3) Then
-		If Not _ColorCheck(_GetPixelColor(26, 312 + $g_iMidOffsetY, True), Hex(0xF00810, 6), 20) Then Return ;exit if no new chats
-	EndIf
-
 	; check if donate queued troops & spells only
 	Local $abDonateQueueOnly = $g_abChkDonateQueueOnly
 	IsDonateQueueOnly($abDonateQueueOnly)
 	If $abDonateQueueOnly[0] And _ArrayMax($g_aiAvailQueuedTroop) = 0 Then
-		SetDebugLog("Failed to read queue, skip donating troops")
 		$bDonateTroop = False
 		$bDonateAllTroop = False
 	EndIf
 	If $abDonateQueueOnly[1] And _ArrayMax($g_aiAvailQueuedSpell) = 0 Then
-		SetDebugLog("Failed to read queue, skip donating spells")
 		$bDonateSpell = False
 		$bDonateAllSpell = False
 	EndIf
+
+	If Not $g_abChkDonateQueueOnly[0] And Not $g_abChkDonateQueueOnly[1] Then
+
+		If $bDonateSiege Or $bDonateAllSiege Then
+
+			SetLog("Checking sieges for donation", $COLOR_ACTION)
+
+			getArmySiegeMachines(True, True, False, False, True)
+			If _Sleep(500) Then Return
+
+			If Not OpenSiegeMachinesTab(True, "TrainSiege()") Then Return
+			If _Sleep(500) Then Return
+
+			Local $aCheckIsOccupied[4] = [766, 202 + $g_iMidOffsetY, 0xE21012, 15]
+			Local $aCheckIsFilled[4] = [765, 185 + $g_iMidOffsetY, 0xD7AFA9, 15]
+			Local $xQueue = 778
+
+			WaitForClanMessage("TrainTabs")
+
+			; check queueing siege
+			If _CheckPixel($aCheckIsFilled, True, Default, "Siege is Filled") Or _CheckPixel($aCheckIsOccupied, True, Default, "Siege is Queued") Then
+				Local $Dir = @ScriptDir & "\imgxml\ArmyOverview\SiegeMachinesQueued"
+				Local $aSearchResult = SearchArmy($Dir, 75, 188 + $g_iMidOffsetY, 777, 245 + $g_iMidOffsetY, "Queue")
+				If $aSearchResult[0][0] <> "" Then
+					For $i = 0 To UBound($aSearchResult) - 1
+						If IsArray(_PixelSearch(($xQueue - 12) - ($i * 60.5), 234 + $g_iMidOffsetY, ($xQueue - 8) - ($i * 60.5), 234 + $g_iMidOffsetY, Hex(0x96A623, 6), 20, True)) Then ; the green check symbol
+							Local $iSiegeIndex = TroopIndexLookup($aSearchResult[$i][0]) - $eWallW
+							$g_aiCurrentSiegeMachines[$iSiegeIndex] += $aSearchResult[$i][3]
+							SetLog("  - " & $g_asSiegeMachineNames[$iSiegeIndex] & " x" & $g_aiCurrentSiegeMachines[$iSiegeIndex])
+						EndIf
+					Next
+				EndIf
+			EndIf
+
+			CloseWindow2()
+			If _Sleep($DELAYDONATECC2) Then Return
+
+		EndIf
+		$g_aiAvailSiege = $g_aiCurrentSiegeMachines
+
+	EndIf
+
+	Local $bAvailableSiege = True
+	If ($bDonateSiege Or $bDonateAllSiege) And _ArrayMax($g_aiAvailSiege) = 0 Then
+		SetLog("No siege machines available, skip donating sieges", $COLOR_OLIVE)
+		$bAvailableSiege = False
+	EndIf
+
 	$bDonate = BitOR($bDonateTroop, $bDonateAllTroop, $bDonateSpell, $bDonateAllSpell, $bDonateSiege, $bDonateAllSiege)
+	If $bDonate Then $bDonate = BitOR($bDonateTroop, $bDonateAllTroop, $bDonateSpell, $bDonateAllSpell, $bAvailableSiege)
 	If Not $bDonate Then Return
 
 	;Opens clan tab and verbose in log
@@ -378,20 +457,35 @@ Func DonateCC($bCheckForNewMsg = False)
 					EndIf
 
 					; checking if Chat Request matches any donate keyword. If match, proceed with further steps.
+					Local $bDonateTroopMatched = False, $bDonateSpellMatched = False, $bDonateSiegeMatched = False
 					If Not $bDonateAllTroop And Not $bDonateAllSpell And Not $bDonateAllSiege Then
 						Local $Checked = False
-						For $i = 0 To UBound($g_abChkDonateTroop) - 1 ; $eTroopCount (20) + $g_iCustomDonateConfigs (4) + $eSiegeMachineCount (2) - 1 = 26 - 1 = 25
-							If $g_abChkDonateTroop[$i] Then ; checking Troops, Custom & SiegeMachine
-								If $i < $eTroopCount + $g_iCustomDonateConfigs Then ; 0 - 23 (20 troops + 4 combos of custom donate)
-									If $g_bDebugSetlog Then SetDebugLog("Troop: [" & $i & "] checking!", $COLOR_DEBUG)
-									If CheckDonateTroop($i >= $eTroopCount ? 99 : $i, $g_asTxtDonateTroop[$i], $g_asTxtBlacklistTroop[$i], $ClanString, $bNewSystemToDonate) Then $Checked = True
-								Else
-									If $g_bDebugSetlog Then SetDebugLog("Siege: [" & $i - $eTroopCount - $g_iCustomDonateConfigs & "] checking!", $COLOR_DEBUG)
-									If CheckDonateSiege($i - $eTroopCount - $g_iCustomDonateConfigs, $g_asTxtDonateTroop[$i], $g_asTxtBlacklistTroop[$i], $ClanString, $bNewSystemToDonate) Then $Checked = True
+						For $i = 0 To ($eTroopCount + $g_iCustomDonateConfigs - $g_iSpecialTroops) - 1 ; 0 - 45 (48 troops + 2 combos of custom donate - 4 Special Troops which can't be donated)
+							If $g_abChkDonateTroop[$i] Then ; checking Troops & Custom
+								If $g_bDebugSetlog Then SetDebugLog("Troop: [" & $i & "] checking!", $COLOR_DEBUG)
+								If CheckDonateTroop($i, $g_asTxtDonateTroop[$i], $g_asTxtBlacklistTroop[$i], $ClanString, $bNewSystemToDonate, True, $abDonateQueueOnly[0]) Then
+									If Not $bNewSystemToDonate Then $bDonateTroopMatched = True
+									$Checked = True
 								EndIf
 							EndIf
-							If Not $Checked And $i < UBound($g_abChkDonateSpell) And $g_abChkDonateSpell[$i] And CheckDonateSpell($i, $g_asTxtDonateSpell[$i], $g_asTxtBlacklistSpell[$i], $ClanString, $bNewSystemToDonate) Then $Checked = True
-							If $Checked Then ExitLoop
+						Next
+						For $i = 0 To UBound($g_abChkDonateSpell) - 1 ; 0 - 13 (14 Spells)
+							If $g_abChkDonateSpell[$i] Then ; checking Spells
+								If $g_bDebugSetlog Then SetDebugLog("Spell: [" & $i & "] checking!", $COLOR_DEBUG)
+								If CheckDonateSpell($i, $g_asTxtDonateSpell[$i], $g_asTxtBlacklistSpell[$i], $ClanString, $bNewSystemToDonate, True, $abDonateQueueOnly[1]) Then
+									If Not $bNewSystemToDonate Then $bDonateSpellMatched = True
+									$Checked = True
+								EndIf
+							EndIf
+						Next
+						For $i = ($eTroopCount + $g_iCustomDonateConfigs) To ($eTroopCount + $g_iCustomDonateConfigs + $eSiegeMachineCount) - 1 ; 50 - 56 (7 Siege Machines)
+							If $g_abChkDonateTroop[$i] Then ; checking SiegeMachines
+								If $g_bDebugSetlog Then SetDebugLog("Siege: [" & $i - $eTroopCount - $g_iCustomDonateConfigs & "] checking!", $COLOR_DEBUG)
+								If CheckDonateSiege($i - $eTroopCount - $g_iCustomDonateConfigs, $g_asTxtDonateTroop[$i], $g_asTxtBlacklistTroop[$i], $ClanString, $bNewSystemToDonate, True) Then
+									If Not $bNewSystemToDonate Then $bDonateSiegeMatched = True
+									$Checked = True
+								EndIf
+							EndIf
 						Next
 						If Not $Checked Then
 							SetDebugLog("Chat Request does not match any donate keyword, go to next request")
@@ -400,10 +494,15 @@ Func DonateCC($bCheckForNewMsg = False)
 							ContinueLoop
 						EndIf
 						SetDebugLog("Chat Request matches a donate keyword, proceed with donating")
+					Else
+						$bDonateTroopMatched = True
+						$bDonateSpellMatched = True
+						$bDonateSiegeMatched = True
 					EndIf
 				EndIf
 			ElseIf $bDonateAllTroop Or $bDonateAllSpell Or $bDonateAllSiege Then
 				SetLog("Skip reading chat requests. Donate all is enabled!", $COLOR_ACTION)
+				Local $bDonateTroopMatched = True, $bDonateSpellMatched = True, $bDonateSiegeMatched = True
 			EndIf
 
 			;;; Get remaining CC capacity of requested troops from your ClanMates
@@ -411,36 +510,65 @@ Func DonateCC($bCheckForNewMsg = False)
 			If $g_bDebugSetlog Then SetDebugLog("Get remaining CC capacity in " & StringFormat("%.2f", __TimerDiff($iTimer)) & "'ms", $COLOR_DEBUG)
 			$iTimer = __TimerInit()
 
+			Local $bTroopsSetlog = True, $bSpellsSetlog = True, $bSiegesSetlog = True
 			;;; Donate Filter
+			;;; Troops
 			If $g_iTotalDonateTroopCapacity <= 0 Then
 				SetLog("Clan Castle troops are full, skip troop donation", $COLOR_ACTION)
 				$g_bSkipDonTroops = True
+			ElseIf $g_iTotalDonateTroopCapacity > 0 Then
+				If Not $bNewSystemToDonate Then
+					If Not $bDonateTroopMatched Then
+						If $bTroopsSetlog Then SetLog("Troop request doesn't match, skip troop donation", $COLOR_ACTION)
+						$bTroopsSetlog = False
+						$g_bSkipDonTroops = True
+					EndIf
+				EndIf
 			EndIf
+			;;; Spells
 			If $g_iCurrentSpells = 0 And $g_iCurrentSpells <> "" Then
 				SetLog("No spells available, skip spell donation...", $COLOR_OLIVE)
-				$g_bSkipDonSpells = True
-			ElseIf $g_iTotalDonateSpellCapacity = 0 Then
-				SetLog("Clan Castle spells are full, skip spell donation...", $COLOR_ACTION)
 				$g_bSkipDonSpells = True
 			ElseIf $g_iTotalDonateSpellCapacity = -1 Then
 				; no message, this CC has no Spell capability
 				If $g_bDebugSetlog Then SetDebugLog("This CC cannot accept spells, skip spell donation", $COLOR_DEBUG)
 				$g_bSkipDonSpells = True
+			ElseIf $g_iTotalDonateSpellCapacity = 0 Then
+				SetLog("Clan Castle spells are full, skip spell donation...", $COLOR_ACTION)
+				$g_bSkipDonSpells = True
+			ElseIf $g_iTotalDonateSpellCapacity > 0 Then
+				If Not $bNewSystemToDonate Then
+					If Not $bDonateSpellMatched Then
+						If $bSpellsSetlog Then SetLog("Spell request doesn't match, skip spell donation", $COLOR_ACTION)
+						$bSpellsSetlog = False
+						$g_bSkipDonSpells = True
+					EndIf
+				EndIf
 			EndIf
-
+			;;; Sieges
 			If Not $bDonateSiege And Not $bDonateAllSiege Then
 				SetLog("Siege donation is not enabled, skip siege donation", $COLOR_ACTION)
 				$g_bSkipDonSiege = True
-			ElseIf $g_aiCurrentSiegeMachines[$eSiegeWallWrecker] = 0 And $g_aiCurrentSiegeMachines[$eSiegeBattleBlimp] = 0 And $g_aiCurrentSiegeMachines[$eSiegeStoneSlammer] = 0 And $g_aiCurrentSiegeMachines[$eSiegeBarracks] = 0 And $g_aiCurrentSiegeMachines[$eSiegeLogLauncher] = 0 And $g_aiCurrentSiegeMachines[$eSiegeFlameFlinger] = 0 And $g_aiCurrentSiegeMachines[$eSiegeBattleDrill] = 0 Then
+			ElseIf $g_aiCurrentSiegeMachines[$eSiegeWallWrecker] = 0 And $g_aiCurrentSiegeMachines[$eSiegeBattleBlimp] = 0 And $g_aiCurrentSiegeMachines[$eSiegeStoneSlammer] = 0 And _
+					$g_aiCurrentSiegeMachines[$eSiegeBarracks] = 0 And $g_aiCurrentSiegeMachines[$eSiegeLogLauncher] = 0 And $g_aiCurrentSiegeMachines[$eSiegeFlameFlinger] = 0 And _
+					$g_aiCurrentSiegeMachines[$eSiegeBattleDrill] = 0 Then
 				SetLog("No siege machines available, skip siege donation", $COLOR_OLIVE)
 				$g_bSkipDonSiege = True
 			ElseIf $g_iTotalDonateSiegeMachineCapacity = -1 Then
 				; no message, this CC has no Siege capability
-				If $g_bDebugSetlog Then SetDebugLog("This CC cannot accept Siege, skip Siege donation", $COLOR_ACTION)
+				If $g_bDebugSetlog Then SetDebugLog("This CC cannot accept siege, skip siege donation", $COLOR_ACTION)
 				$g_bSkipDonSiege = True
 			ElseIf $g_iTotalDonateSiegeMachineCapacity = 0 Then
-				SetLog("Clan Castle Siege is full, skip Siege donation", $COLOR_ACTION)
+				SetLog("Clan Castle Siege is full, skip siege donation", $COLOR_ACTION)
 				$g_bSkipDonSiege = True
+			ElseIf $g_iTotalDonateSiegeMachineCapacity > 0 Then
+				If Not $bNewSystemToDonate Then
+					If Not $bDonateSiegeMatched Then
+						If $bSiegesSetlog Then SetLog("Siege request doesn't match, skip siege donation", $COLOR_ACTION)
+						$bSiegesSetlog = False
+						$g_bSkipDonSiege = True
+					EndIf
+				EndIf
 			EndIf
 
 			;;; Flagged to Skip Check
@@ -519,21 +647,6 @@ Func DonateCC($bCheckForNewMsg = False)
 
 				EndIf
 
-				;;; DONATE SIEGE
-				If Not $g_bSkipDonSiege And $bDonateSiege Then
-					If $g_bDebugSetlog Then SetDebugLog("Siege checkpoint.", $COLOR_DEBUG)
-					For $SiegeIndex = $eSiegeWallWrecker To $eSiegeMachineCount - 1
-						; $eTroopCount - 1 + $g_iCustomDonateConfigs + $i
-						Local $index = $eTroopCount + $g_iCustomDonateConfigs + $SiegeIndex
-						If $g_abChkDonateTroop[$index] Then
-							If CheckDonateSiege($SiegeIndex, $g_asTxtDonateTroop[$index], $g_asTxtBlacklistTroop[$index], $ClanString, $bNewSystemToDonate) Then
-								DonateSiegeType($SiegeIndex)
-							EndIf
-						EndIf
-					Next
-
-				EndIf
-
 				;;; DONATION SPELLS
 				If $bDonateSpell And Not $g_bSkipDonSpells Then
 					SetDebugLog("Spell checkpoint.", $COLOR_DEBUG)
@@ -541,7 +654,7 @@ Func DonateCC($bCheckForNewMsg = False)
 					For $i = 0 To UBound($g_aiDonateSpellPriority) - 1
 						Local $iSpellIndex = $g_aiDonateSpellPriority[$i]
 						If $g_abChkDonateSpell[$iSpellIndex] Then
-							If CheckDonateSpell($iSpellIndex, $g_asTxtDonateSpell[$iSpellIndex], $g_asTxtBlacklistSpell[$iSpellIndex], $ClanString, $bNewSystemToDonate) Then
+							If CheckDonateSpell($iSpellIndex, $g_asTxtDonateSpell[$iSpellIndex], $g_asTxtBlacklistSpell[$iSpellIndex], $ClanString, $bNewSystemToDonate, $abDonateQueueOnly[1]) Then
 								DonateSpellType($iSpellIndex, $abDonateQueueOnly[1])
 								If _Sleep($DELAYDONATECC3) Then ExitLoop
 							EndIf
@@ -550,6 +663,19 @@ Func DonateCC($bCheckForNewMsg = False)
 					If $g_bDebugSetlog Then SetDebugLog("Get Donated Spells in " & StringFormat("%.2f", __TimerDiff($iTimer)) & "'ms", $COLOR_DEBUG)
 					$iTimer = __TimerInit()
 				EndIf
+			EndIf
+
+			;;; DONATE SIEGE
+			If Not $g_bSkipDonSiege And $bDonateSiege Then
+				If $g_bDebugSetlog Then SetDebugLog("Siege checkpoint.", $COLOR_DEBUG)
+				For $SiegeIndex = $eSiegeWallWrecker To $eSiegeMachineCount - 1
+					Local $index = $eTroopCount + $g_iCustomDonateConfigs + $SiegeIndex
+					If $g_abChkDonateTroop[$index] Then
+						If CheckDonateSiege($SiegeIndex, $g_asTxtDonateTroop[$index], $g_asTxtBlacklistTroop[$index], $ClanString, $bNewSystemToDonate) Then
+							DonateSiegeType($SiegeIndex)
+						EndIf
+					EndIf
+				Next
 			EndIf
 
 			;;; Donate to All Zone
@@ -600,7 +726,7 @@ Func DonateCC($bCheckForNewMsg = False)
 							For $i = 0 To UBound($g_aiDonateTroopPriority) - 1
 								Local $iTroopIndex = $g_aiDonateTroopPriority[$i]
 								If $g_abChkDonateAllTroop[$iTroopIndex] Then
-									If CheckDonateTroop($iTroopIndex, $g_asTxtDonateTroop[$iTroopIndex], $g_asTxtBlacklistTroop[$iTroopIndex], $ClanString, $bNewSystemToDonate) Then
+									If CheckDonateTroop($iTroopIndex, $g_asTxtDonateTroop[$iTroopIndex], $g_asTxtBlacklistTroop[$iTroopIndex], $ClanString, $bNewSystemToDonate, $abDonateQueueOnly[0]) Then
 										DonateTroopType($iTroopIndex, 0, $abDonateQueueOnly[0], $bDonateAllTroop)
 									EndIf
 									ExitLoop
@@ -618,7 +744,7 @@ Func DonateCC($bCheckForNewMsg = False)
 					For $i = 0 To UBound($g_aiDonateSpellPriority) - 1
 						Local $iSpellIndex = $g_aiDonateSpellPriority[$i]
 						If $g_abChkDonateAllSpell[$iSpellIndex] Then
-							If CheckDonateSpell($iSpellIndex, $g_asTxtDonateSpell[$iSpellIndex], $g_asTxtBlacklistSpell[$iSpellIndex], $ClanString, $bNewSystemToDonate) Then
+							If CheckDonateSpell($iSpellIndex, $g_asTxtDonateSpell[$iSpellIndex], $g_asTxtBlacklistSpell[$iSpellIndex], $ClanString, $bNewSystemToDonate, $abDonateQueueOnly[1]) Then
 								DonateSpellType($iSpellIndex, $abDonateQueueOnly[1], $bDonateAllSpell)
 							EndIf
 							ExitLoop
@@ -705,40 +831,40 @@ Func DonateCC($bCheckForNewMsg = False)
 		EndIf
 	EndIf
 
-	UpdateStats()
+	If $bUpdateStats Then UpdateStats()
 	If _Sleep($DELAYDONATECC2) Then Return
 EndFunc   ;==>DonateCC
 
-Func CheckDonateTroop(Const $iTroopIndex, Const $sDonateTroopString, Const $sBlacklistTroopString, Const $sClanString, $bNewSystemDonate = False)
+Func CheckDonateTroop(Const $iTroopIndex, Const $sDonateTroopString, Const $sBlacklistTroopString, Const $sClanString, $bNewSystemDonate = False, $bSetLog = False, $abDonateQueueOnly = False)
 	Local $sName = ($iTroopIndex = 99 ? "Custom" : $g_asTroopNames[$iTroopIndex])
-	Return CheckDonate($sName, $bNewSystemDonate = True ? $sName : $sDonateTroopString, $sBlacklistTroopString, $sClanString)
+	Return CheckDonate($sName, $bNewSystemDonate = True ? $sName : $sDonateTroopString, $sBlacklistTroopString, $sClanString, $bSetLog, $abDonateQueueOnly)
 EndFunc   ;==>CheckDonateTroop
 
-Func CheckDonateSpell(Const $iSpellIndex, Const $sDonateSpellString, Const $sBlacklistSpellString, Const $sClanString, $bNewSystemDonate = False)
+Func CheckDonateSpell(Const $iSpellIndex, Const $sDonateSpellString, Const $sBlacklistSpellString, Const $sClanString, $bNewSystemDonate = False, $bSetLog = False, $abDonateQueueOnly = False)
 	Local $sName = $g_asSpellNames[$iSpellIndex]
-	Return CheckDonate($sName, $bNewSystemDonate = True ? $sName : $sDonateSpellString, $sBlacklistSpellString, $sClanString)
+	Return CheckDonate($sName, $bNewSystemDonate = True ? $sName : $sDonateSpellString, $sBlacklistSpellString, $sClanString, $bSetLog, $abDonateQueueOnly)
 EndFunc   ;==>CheckDonateSpell
 
-Func CheckDonateSiege(Const $iSiegeIndex, Const $sDonateSpellString, Const $sBlacklistSpellString, Const $sClanString, $bNewSystemDonate = False)
+Func CheckDonateSiege(Const $iSiegeIndex, Const $sDonateSiegeString, Const $sBlacklistSiegeString, Const $sClanString, $bNewSystemDonate = False, $bSetLog = False)
 	Local $sName = $g_asSiegeMachineNames[$iSiegeIndex]
-	Return CheckDonate($sName, $bNewSystemDonate = True ? $sName : $sDonateSpellString, $sBlacklistSpellString, $sClanString)
+	Return CheckDonate($sName, $bNewSystemDonate = True ? $sName : $sDonateSiegeString, $sBlacklistSiegeString, $sClanString, $bSetLog)
 EndFunc   ;==>CheckDonateSiege
 
-Func CheckDonate(Const $sName, Const $sDonateString, Const $sBlacklistString, Const $sClanString)
+Func CheckDonate(Const $sName, Const $sDonateString, Const $sBlacklistString, Const $sClanString, Const $bSetLog, $bQueueOnly = False)
 	Local $asSplitDonate = StringSplit($sDonateString, @CRLF, $STR_ENTIRESPLIT)
 	Local $asSplitBlacklist = StringSplit($sBlacklistString, @CRLF, $STR_ENTIRESPLIT)
 	Local $asSplitGeneralBlacklist = StringSplit($g_sTxtGeneralBlacklist, @CRLF, $STR_ENTIRESPLIT)
 
 	For $i = 1 To UBound($asSplitGeneralBlacklist) - 1
 		If CheckDonateString($asSplitGeneralBlacklist[$i], $sClanString) Then
-			SetLog("General Blacklist Keyword found: " & $asSplitGeneralBlacklist[$i], $COLOR_ERROR)
+			If $bSetLog Then SetLog("General Blacklist Keyword found: " & $asSplitGeneralBlacklist[$i], $COLOR_ERROR)
 			Return False
 		EndIf
 	Next
 
 	For $i = 1 To UBound($asSplitBlacklist) - 1
 		If CheckDonateString($asSplitBlacklist[$i], $sClanString) Then
-			SetLog($sName & " Blacklist Keyword found: " & $asSplitBlacklist[$i], $COLOR_ERROR)
+			If $bSetLog Then SetLog($sName & " Blacklist Keyword found: " & $asSplitBlacklist[$i], $COLOR_ERROR)
 			Return False
 		EndIf
 	Next
@@ -746,7 +872,46 @@ Func CheckDonate(Const $sName, Const $sDonateString, Const $sBlacklistString, Co
 	If Not $g_bDonateAllRespectBlk Then
 		For $i = 1 To UBound($asSplitDonate) - 1
 			If CheckDonateString($asSplitDonate[$i], $sClanString) Then
-				SetLog($sName & " Keyword found: " & $asSplitDonate[$i], $COLOR_SUCCESS)
+				If $bSetLog Then SetLog($sName & " Keyword found: " & $asSplitDonate[$i], $COLOR_SUCCESS)
+				If $bQueueOnly And $sName <> "Custom" Then
+					Local $bTroopIndex = -1, $bSpellIndex = -1
+					For $z = 0 To ($eTroopCount + $g_iCustomDonateConfigs - $g_iSpecialTroops) - 1 ; Troops 0 To 45
+						If $g_asTroopNames[$z] = $sName Then
+							$bTroopIndex = $z
+							ExitLoop
+						EndIf
+					Next
+					For $z = 0 To UBound($g_abChkDonateSpell) - 1 ; 0 To 13
+						If $g_asSpellNames[$z] = $sName Then
+							$bSpellIndex = $z
+							ExitLoop
+						EndIf
+					Next
+					If $bTroopIndex >= 0 And $g_abChkDonateQueueOnly[0] And ($bTroopIndex < $eTroopCount + $g_iCustomDonateConfigs - $g_iSpecialTroops) Then
+						If $g_aiAvailQueuedTroop[$bTroopIndex] <= 0 Then
+							SetDebugLog($sName & " is not ready in troop queue for donation!")
+							Return False
+						EndIf
+					ElseIf $bSpellIndex >= 0 And $g_abChkDonateQueueOnly[1] And $bSpellIndex < UBound($g_abChkDonateSpell) Then
+						If $g_aiAvailQueuedSpell[$bSpellIndex] <= 0 Then
+							SetDebugLog($sName & " is not ready in spell queue for donation!")
+							Return False
+						EndIf
+					EndIf
+				EndIf
+				Local $bSiegeIndex = -1
+				For $z = 0 To $eSiegeMachineCount - 1 ; 0 - 6 (7 Siege Machines)
+					If $g_asSiegeMachineNames[$z] = $sName Then
+						$bSiegeIndex = $z
+						ExitLoop
+					EndIf
+				Next
+				If $bSiegeIndex >= 0 Then
+					If $g_aiAvailSiege[$bSiegeIndex] <= 0 Then
+						SetDebugLog($sName & " is not available for donation!")
+						Return False
+					EndIf
+				EndIf
 				Return True
 			EndIf
 		Next
@@ -863,6 +1028,9 @@ Func DonateTroopType(Const $iTroopIndex, $Quant = 0, Const $bDonateQueueOnly = F
 				_ColorCheck(_GetPixelColor($g_iDonationWindowX + 17 + ($Slot * 68), $g_iDonationWindowY + 105 + $YComp, True), Hex(0x810D0E, 6), 20) Or _
 				_ColorCheck(_GetPixelColor($g_iDonationWindowX + 17 + 5 + ($Slot * 68), $g_iDonationWindowY + 106 + $YComp, True), Hex(0x810D0E, 6), 20) Or _
 				_ColorCheck(_GetPixelColor($g_iDonationWindowX + 17 + 10 + ($Slot * 68), $g_iDonationWindowY + 107 + $YComp, True), Hex(0x810D0E, 6), 20) Then ; check for 'STroups Red'
+
+			SetLog("Donating " & $Quant & " " & ($Quant > 1 ? $g_asTroopNamesPlural[$iTroopIndex] : $g_asTroopNames[$iTroopIndex]) & ($bDonateAll ? " (to all requests)" : ""), $COLOR_SUCCESS)
+
 			For $i = 0 To ($Quant - 1)
 				If _ColorCheck(_GetPixelColor($g_iDonationWindowX + 22 + ($Slot * 68), $g_iDonationWindowY + 105 + $YComp, True), Hex(0x6F6F6F, 6), 20) Or _
 						Not _ColorCheck(_GetPixelColor($g_iDonationWindowX, $g_iDonationWindowY + 70, True), Hex(0xFFFFFF, 6), 10) Then
@@ -872,14 +1040,10 @@ Func DonateTroopType(Const $iTroopIndex, $Quant = 0, Const $bDonateQueueOnly = F
 				Local $g_iTrainClickDelayfinal = Random($DELAYDONATECC5 - 5, $DELAYDONATECC5 + 5, 1) ; 15ms +/- 5 ms
 				PureClickTrain($g_iDonationWindowX + 35 + ($Slot * 68), $g_iDonationWindowY + 70 + $YComp, 1, $g_iTrainClickDelayfinal) ;Click once.
 			Next
-			If $bDonateAll Then $sTextToAll = " (to all requests)"
-			SetLog("Donated " & $Quant & " " & ($Quant > 1 ? $g_asTroopNamesPlural[$iTroopIndex] : $g_asTroopNames[$iTroopIndex]) & $sTextToAll, $COLOR_SUCCESS)
 			$DonatedTroopCount += 1
-			$g_aiDonateStatsTroops[$iTroopIndex][0] += $Quant
-			If $g_iCommandStop = 3 Then
-				$g_iCommandStop = 0
-				$g_bFullArmy = False
-			EndIf
+			$g_bFullArmy = False
+			If $g_iCommandStop = 3 Then $g_iCommandStop = 0
+
 		EndIf
 
 		; Adjust Values for donated troops to prevent a Double ghost donate to stats and train
@@ -894,7 +1058,9 @@ Func DonateTroopType(Const $iTroopIndex, $Quant = 0, Const $bDonateQueueOnly = F
 
 		; Assign the donated quantity troops to train : $Don $g_asTroopName
 		$g_aiDonateTroops[$iTroopIndex] += $Quant
+		$g_aiDonateStatsTroops[$iTroopIndex][0] += $Quant
 		If $bDonateQueueOnly Then $g_aiAvailQueuedTroop[$iTroopIndex] -= $Quant
+
 	Else
 		Local $Text = "Unable to donate " & ($g_iDonTroopsQuantity > 1 ? $g_asTroopNamesPlural[$iTroopIndex] : $g_asTroopNames[$iTroopIndex]) & ".Donate screen not visible, will retry next run.", $LocalColor = $COLOR_ERROR
 		If _ColorCheck(_GetPixelColor($g_iDonationWindowX + 22 + ($Slot * 68), $g_iDonationWindowY + 105 + $YComp, True), Hex(0x6F6F6F, 6), 20) Or _       ; Dark Gray from Queued Spells
@@ -908,7 +1074,7 @@ Func DonateTroopType(Const $iTroopIndex, $Quant = 0, Const $bDonateQueueOnly = F
 EndFunc   ;==>DonateTroopType
 
 Func DonateSpellType(Const $iSpellIndex, Const $bDonateQueueOnly = False, Const $bDonateAll = False)
-	Local $DonatedSpell = 0
+	Local $DonatedSpellCount = 0
 	Local $Slot = -1, $detectedSlot = -1
 	Local $YComp = 0, $donaterow = -1
 	Local $donateposinrow = -1
@@ -978,21 +1144,18 @@ Func DonateSpellType(Const $iSpellIndex, Const $bDonateQueueOnly = False, Const 
 			SaveDebugImage("LiveDonateCC-r" & $donaterow & "-c" & $donateposinrow & "-" & $g_asSpellNames[$iSpellIndex] & "_")
 		EndIf
 		If Not $g_bDebugOCRdonate Then
+
+			SetLog("Donating " & $g_iDonSpellsQuantity & " " & $g_asSpellNames[$iSpellIndex] & " Spell" & ($g_iDonSpellsQuantity > 1 ? "s" : "") & ($bDonateAll ? " (to all requests)" : ""), $COLOR_GREEN)
+
 			For $i = 0 To ($g_iDonSpellsQuantity - 1)
 				Click($g_iDonationWindowX + 35 + ($Slot * 68), $g_iDonationWindowY + 70 + $YComp, 1, $DELAYDONATECC6, "#0600")
 			Next
-			$DonatedSpell += 1
-
+			$DonatedSpellCount += 1
 			$g_bFullArmySpells = False
 			$g_bFullArmy = False
-			If $g_iCommandStop = 3 Then
-				$g_iCommandStop = 0
-				$g_bFullArmySpells = False
-			EndIf
-			$g_aiDonateStatsSpells[$iSpellIndex][0] += $g_iDonSpellsQuantity
-		EndIf
+			If $g_iCommandStop = 3 Then $g_iCommandStop = 0
 
-		SetLog("Donating " & $g_iDonSpellsQuantity & " " & $g_asSpellNames[$iSpellIndex] & " Spell" & ($g_iDonSpellsQuantity > 1 ? "s" : ""), $COLOR_GREEN)
+		EndIf
 
 		; Adjust Values for donated spells to prevent a Double ghost donate to stats and train
 		If $iSpellIndex >= $eSpellLightning And $iSpellIndex <= $eSpellOvergrowth Then
@@ -1005,7 +1168,8 @@ Func DonateSpellType(Const $iSpellIndex, Const $bDonateQueueOnly = False, Const 
 
 		; Assign the donated quantity spells to brew : $Don $g_asSpellName
 		$g_aiDonateSpells[$iSpellIndex] += $g_iDonSpellsQuantity
-		If $bDonateQueueOnly Then $g_aiAvailQueuedTroop[$iSpellIndex] -= $g_iDonSpellsQuantity
+		$g_aiDonateStatsSpells[$iSpellIndex][0] += $g_iDonSpellsQuantity
+		If $bDonateQueueOnly Then $g_aiAvailQueuedSpell[$iSpellIndex] -= $g_iDonSpellsQuantity
 
 	Else
 		Local $Text = "Unable to donate " & $g_asSpellNames[$iSpellIndex] & ".Donate screen not visible, will retry next run.", $LocalColor = $COLOR_ERROR
@@ -1016,11 +1180,11 @@ Func DonateSpellType(Const $iSpellIndex, Const $bDonateQueueOnly = False, Const 
 		EndIf
 		SetLog($Text, $LocalColor)
 	EndIf
-	If $DonatedSpell > 0 Then $IsSpellDonated = True
+	If $DonatedSpellCount > 0 Then $IsSpellDonated = True
 EndFunc   ;==>DonateSpellType
 
 Func DonateSiegeType(Const $iSiegeIndex, $bDonateAll = False)
-	Local $DonatedSiege = 0
+	Local $DonatedSiegeCount = 0
 	Local $Slot = -1, $detectedSlot = -1
 	Local $YComp = 0, $donaterow = -1
 	Local $donateposinrow = -1
@@ -1028,6 +1192,11 @@ Func DonateSiegeType(Const $iSiegeIndex, $bDonateAll = False)
 
 	If $g_iTotalDonateSiegeMachineCapacity < 1 Then Return
 	If $g_bDebugSetlog Then SetDebugLog("DonateSiegeType Start: " & $g_asSiegeMachineNames[$iSiegeIndex], $COLOR_DEBUG)
+
+	If $g_aiAvailSiege[$iSiegeIndex] <= 0 Then
+		SetLog("Sorry Chief! " & $g_asSiegeMachineNames[$iSiegeIndex] & " is not ready for donation!")
+		Return
+	EndIf
 
 	$Slot = DetectSlotSiege($iSiegeIndex, $g_iDonationWindowX)
 	If $Slot = -1 Then
@@ -1059,23 +1228,27 @@ Func DonateSiegeType(Const $iSiegeIndex, $bDonateAll = False)
 		SaveDebugImage("LiveDonateCC-r" & $donaterow & "-c" & $donateposinrow & "-" & $g_asSiegeMachineNames[$iSiegeIndex] & "_")
 	EndIf
 
+	SetLog("Sieges Condition Matched", $COLOR_OLIVE)
 	If _ColorCheck(_GetPixelColor($g_iDonationWindowX + 17 + ($Slot * 68), $g_iDonationWindowY + 105 + $YComp, True), Hex(0x4079B8, 6), 20) Or _
 			_ColorCheck(_GetPixelColor($g_iDonationWindowX + 17 + 5 + ($Slot * 68), $g_iDonationWindowY + 106 + $YComp, True), Hex(0x4079B8, 6), 20) Or _
 			_ColorCheck(_GetPixelColor($g_iDonationWindowX + 17 + 10 + ($Slot * 68), $g_iDonationWindowY + 107 + $YComp, True), Hex(0x4079B8, 6), 20) Then ; check for 'blue'
 
-		Click($g_iDonationWindowX + 35 + ($Slot * 68), $g_iDonationWindowY + 70 + $YComp, 1, $DELAYDONATECC1, "#0175")
-		$DonatedSiege += 1
-		If $g_iCommandStop = 3 Then
-			$g_iCommandStop = 0
-			$g_bFullArmy = False
-		EndIf
 		SetLog("Donating 1 " & ($g_asSiegeMachineNames[$iSiegeIndex]) & ($bDonateAll ? " (to all requests)" : ""), $COLOR_GREEN)
+
+		Click($g_iDonationWindowX + 35 + ($Slot * 68), $g_iDonationWindowY + 70 + $YComp, 1, $DELAYDONATECC1, "#0175")
+		$DonatedSiegeCount += 1
+		$g_bFullArmy = False
+		If $g_iCommandStop = 3 Then $g_iCommandStop = 0
+
+		; Assign the donated quantity sieges to train : $Don $g_asSiegeMachineShortNames
 		$g_aiDonateSiegeMachines[$iSiegeIndex] += 1
 		$g_aiDonateStatsSieges[$iSiegeIndex][0] += 1
+		$g_aiAvailSiege[$iSiegeIndex] -= 1
+
 	Else
 		SetLog("No " & $g_asSiegeMachineNames[$iSiegeIndex] & " available to donate..", $COLOR_ERROR)
 	EndIf
-	If $DonatedSiege > 0 Then $IsSiegeDonated = True
+	If $DonatedSiegeCount > 0 Then $IsSiegeDonated = True
 EndFunc   ;==>DonateSiegeType
 
 Func DonateWindow($aiDonateButton, $bOpen = True)

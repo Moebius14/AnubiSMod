@@ -101,6 +101,25 @@ Func checkDeadBase($TestDeadBase = False)
 	EndIf
 EndFunc   ;==>checkDeadBase
 
+Func SuperchargeCheck($TestDeadBase = False)
+	; Supercharge
+	If $TestDeadBase Or ($g_iTownHallLevel >= $g_iMaxTHLevel - 2 And $g_bSupercharge) Then
+		If Not FileExists($g_sImgElixirCollectorFill & "supercharge*.xml") Then
+			FileCopy($g_sImgElixirSupercharge, $g_sImgElixirCollectorFill)
+			If _Sleep($DELAYRUNBOT3) Then Return ; 200 ms
+		EndIf
+	Else
+		CleanSuperchargeTemplates()
+	EndIf
+EndFunc   ;==>SuperchargeCheck
+
+Func CleanSuperchargeTemplates()
+	If FileExists($g_sImgElixirCollectorFill & "supercharge*.xml") Then
+		FileDelete($g_sImgElixirCollectorFill & "supercharge*.xml")
+		If _Sleep($DELAYRUNBOT6) Then Return ; 100 ms
+	EndIf
+EndFunc   ;==>CleanSuperchargeTemplates
+
 Func checkDeadBaseQuick($bForceCapture = True, $TestDeadBase = False)
 
 	If $g_bCollectorFilterDisable Then
@@ -123,10 +142,6 @@ Func checkDeadBaseQuick($bForceCapture = True, $TestDeadBase = False)
 	Local $aExclusions[0][2]
 	Local $aTempCollectors[0][2]
 	Local $aCollectors[0][2]
-	Local $iSuperchargeSearch = False
-
-	; Supercharge
-	If $g_iTownHallLevel >= $g_iMaxTHLevel - 2 Then $iSuperchargeSearch = True
 
 	; check for any collector filling
 	Local $result = findMultiple($g_sImgElixirCollectorFill, $sCocDiamond, $redLines, $minLevel, $maxLevel, $maxReturnPoints, $returnProps, $bForceCapture)
@@ -157,9 +172,6 @@ Func checkDeadBaseQuick($bForceCapture = True, $TestDeadBase = False)
 		For $i = 0 To UBound($result, 1) - 1
 			$aTempArray = $result[$i]
 			If StringInStr($aTempArray[0], "exclusion", $STR_NOCASESENSEBASIC) Then ContinueLoop
-			If Not $iSuperchargeSearch Then
-				If StringInStr($aTempArray[0], "supercharge", $STR_NOCASESENSEBASIC) Then ContinueLoop ; Could be boosted collectors
-			EndIf
 			$aTempMultiCoords = decodeMultipleCoords($aTempArray[1], 5, 5)
 			For $j = 0 To UBound($aTempMultiCoords, 1) - 1
 				$aTempCoords = $aTempMultiCoords[$j]
@@ -183,7 +195,7 @@ Func checkDeadBaseQuick($bForceCapture = True, $TestDeadBase = False)
 						Local $a = $aExclusions[$z][0] - $aTempCollectors[$i][0]
 						Local $b = $aExclusions[$z][1] - $aTempCollectors[$i][1]
 						Local $c = Sqrt($a * $a + $b * $b)
-						If $c < 25 Then
+						If $c < 20 Then
 							$bExcluded = True
 							ExitLoop
 						EndIf
@@ -264,6 +276,8 @@ Func checkDeadBaseFolder($directory, $executeNewCode = "checkDeadBaseQuick(True,
 	Local $iTotalMsSuperNew = 0
 	Local $iSuperNewFound = 0
 
+	SuperchargeCheck(True)
+
 	For $i = 1 To $aFiles[0]
 
 		Local $sFile = $aFiles[$i]
@@ -291,6 +305,8 @@ Func checkDeadBaseFolder($directory, $executeNewCode = "checkDeadBaseQuick(True,
 		TestCapture(0)
 
 	Next
+
+	CleanSuperchargeTemplates()
 
 	SetLog("Checking dead base completed")
 	SetLog("Collectors found  : " & $iSuperNewFound)

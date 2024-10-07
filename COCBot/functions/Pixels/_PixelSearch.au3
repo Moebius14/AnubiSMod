@@ -192,11 +192,17 @@ Func WaitForClanMessage($bType, $bTopCoords = 0, $bBottomCoords = 0)
 				Case $bTopCoords > 90 And $bBottomCoords > 90
 					$aReceivedTroopsDonate[4] = $bBottomCoords - $bTopCoords
 			EndSelect
-			If IsArray(_PixelSearch($aReceivedTroopsDonate[0], $aReceivedTroopsDonate[1], $aReceivedTroopsDonate[0], $aReceivedTroopsDonate[1] + $aReceivedTroopsDonate[4], Hex($aReceivedTroopsDonate[2], 6), $aReceivedTroopsDonate[3], True)) Then
+			Local $bArrayToSearch = _PixelSearch($aReceivedTroopsDonate[0], $aReceivedTroopsDonate[1], $aReceivedTroopsDonate[0], $aReceivedTroopsDonate[1] + $aReceivedTroopsDonate[4], Hex($aReceivedTroopsDonate[2], 6), $aReceivedTroopsDonate[3], True)
+			If IsArray($bArrayToSearch) Then
+				If _ColorCheck(_GetPixelColor($bArrayToSearch[0], $bArrayToSearch[1] - 10, True), Hex(0x95C334, 6), 20) And _ColorCheck(_GetPixelColor($bArrayToSearch[0], $bArrayToSearch[1] + 10, True), Hex(0x95C334, 6), 20) Then
+					If _Sleep($DELAYRUNBOT1) Then Return
+					Return
+				EndIf
 				SetDebugLog("Detected Clan Castle Message. Waiting until it's gone", $COLOR_INFO)
 				Local $Safetyexit = 0
-				While IsArray(_PixelSearch($aReceivedTroopsDonate[0], $aReceivedTroopsDonate[1], $aReceivedTroopsDonate[0], $aReceivedTroopsDonate[1] + $aReceivedTroopsDonate[4], Hex($aReceivedTroopsDonate[2], 6), $aReceivedTroopsDonate[3], True))
+				While IsArray($bArrayToSearch)
 					If _Sleep($DELAYRUNBOT1) Then Return
+					If _ColorCheck(_GetPixelColor($bArrayToSearch[0], $bArrayToSearch[1] - 10, True), Hex(0x95C334, 6), 20) And _ColorCheck(_GetPixelColor($bArrayToSearch[0], $bArrayToSearch[1] + 10, True), Hex(0x95C334, 6), 20) Then ExitLoop
 					$Safetyexit += 1
 					If $Safetyexit > 20 Then ExitLoop ; If waiting longer than 20 secs, something is wrong
 				WEnd

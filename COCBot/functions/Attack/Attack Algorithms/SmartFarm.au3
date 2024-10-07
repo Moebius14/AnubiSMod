@@ -31,7 +31,10 @@ Func TestSmartFarm()
 		If _Sleep(100) Then Return FuncReturn()
 		PrepareSearch()
 		If $g_bOutOfGold Then Return ; Check flag for enough gold to search
-		If $g_bRestart Then Return
+		If $g_bRestart Then
+			CleanSuperchargeTemplates()
+			Return
+		EndIf
 		If _Sleep(1000) Then Return FuncReturn()
 		VillageSearch()
 		If $g_bOutOfGold Then Return ; Check flag for enough gold to search
@@ -51,6 +54,8 @@ Func TestSmartFarm()
 	ReturnHome($g_bTakeLootSnapShot)
 
 	Setlog("Finish the SmartFarm Attack()", $COLOR_INFO)
+
+	CleanSuperchargeTemplates()
 
 	$g_bRunState = $RuntimeA
 

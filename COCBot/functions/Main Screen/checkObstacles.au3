@@ -157,15 +157,6 @@ Func _checkObstacles($bBuilderBase = False, $bRecursive = False) ;Checks if some
 		Return False
 	EndIf
 
-	If UBound(decodeSingleCoord(FindImageInPlace2("CCResults", $g_sImgClanCapitalResults, 210, 130 + $g_iMidOffsetY, 320, 240 + $g_iMidOffsetY, False))) > 1 Then ; Clan Capital Results
-		If _ColorCheck(_GetPixelColor(232, 312 + $g_iMidOffsetY, $g_bCapturePixel), Hex(0xFFFFFF, 6), 10) And _ColorCheck(_GetPixelColor(664, 242 + $g_iMidOffsetY, $g_bCapturePixel), Hex(0xFFFFFF, 6), 10) Then
-			$g_bMinorObstacle = True
-			$bControlCCMedal = True
-			CloseWindow()
-			Return False
-		EndIf
-	EndIf
-
 	Local $bIsOnBuilderBase = isOnBuilderBase()
 	Local $bIsOnMainVillage = isOnMainVillage()
 	If $bIsOnBuilderBase Or $bIsOnMainVillage Then
@@ -190,6 +181,15 @@ Func _checkObstacles($bBuilderBase = False, $bRecursive = False) ;Checks if some
 			_ColorCheck(_GetPixelColor(600, 9, $g_bCapturePixel), Hex(0x000000, 6), 1)
 	If Not $bHasTopBlackBar And _CheckPixel($aIsMainGrayed, $g_bCapturePixel) Then
 		SetDebugLog("checkObstacles: Found gray Window to close")
+		; Clan Capital Result
+		If UBound(decodeSingleCoord(FindImageInPlace2("CCResults", $g_sImgClanCapitalResults, 210, 130 + $g_iMidOffsetY, 320, 240 + $g_iMidOffsetY, True))) > 1 Then
+			If _ColorCheck(_GetPixelColor(247, 311 + $g_iMidOffsetY, $g_bCapturePixel), Hex(0xFFFFFF, 6), 10) And _ColorCheck(_GetPixelColor(669, 242 + $g_iMidOffsetY, $g_bCapturePixel), Hex(0xFFFFFF, 6), 10) Then
+				$g_bMinorObstacle = True
+				$bControlCCMedal = True
+				CloseWindow()
+				Return False
+			EndIf
+		EndIf
 		; Daily Reward Window
 		Local $aPixelSearchLeftGold = _PixelSearch(126, 545 + $g_iMidOffsetY, 130, 545 + $g_iMidOffsetY, Hex(0xFBE000, 6), 10, True)
 		Local $aPixelSearchRightGold = _PixelSearch(816, 555 + $g_iMidOffsetY, 820, 555 + $g_iMidOffsetY, Hex(0xFCE227, 6), 10, True)

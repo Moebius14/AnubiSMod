@@ -498,7 +498,7 @@ Func SwitchAccountVariablesReload($sType = "Load", $iAccount = $g_iCurAccount)
 			$Sg_hCoolDownTimer[$iAccount] = $g_hCoolDownTimer
 
 			;StarBonus
-			For $i = 0 To 2
+			For $i = 0 To UBound($StarBonusReceived) - 1
 				$SStarBonusReceived[$iAccount][$i] = $StarBonusReceived[$i]
 			Next
 
@@ -711,7 +711,7 @@ Func SwitchAccountVariablesReload($sType = "Load", $iAccount = $g_iCurAccount)
 			$g_hCoolDownTimer = $Sg_hCoolDownTimer[$iAccount]
 
 			;StarBonus
-			For $i = 0 To 2
+			For $i = 0 To UBound($StarBonusReceived) - 1
 				$StarBonusReceived[$i] = $SStarBonusReceived[$iAccount][$i]
 			Next
 

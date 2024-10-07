@@ -1298,6 +1298,7 @@ Func ReadConfig_600_31()
 	; <><><><> Attack Plan / Search & Attack / Deadbase / Collectors <><><><>
 	IniReadS($b_CheckNoLeagueOpponent, $g_sProfileConfigPath, "search", "chkDBNoLeagueOpponent", False, "Bool")
 	IniReadS($g_bCollectorFilterDisable, $g_sProfileConfigPath, "search", "chkDisableCollectorsFilter", False, "Bool")
+	IniReadS($g_bSupercharge, $g_sProfileConfigPath, "search", "chkSupercharge", False, "Bool")
 	IniReadS($g_iCollectorMatchesMin, $g_sProfileConfigPath, "collectors", "minmatches", $g_iCollectorMatchesMin) ; 1-7 collectors
 	If $g_iCollectorMatchesMin < 1 Or $g_iCollectorMatchesMin > 7 Then $g_iCollectorMatchesMin = 3
 	IniReadS($g_iCollectorToleranceOffset, $g_sProfileConfigPath, "collectors", "tolerance", 0, "int")

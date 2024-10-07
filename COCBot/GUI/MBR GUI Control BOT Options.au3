@@ -448,7 +448,7 @@ Func btnTestDonateCC()
 	$g_aiCurrentSiegeMachines[$eSiegeLogLauncher] = 1
 	$g_aiCurrentSiegeMachines[$eSiegeFlameFlinger] = 1
 	$g_aiCurrentSiegeMachines[$eSiegeBattleDrill] = 1
-	DonateCC()
+	DonateCC(False)
 	SetLog(_PadStringCenter(" Test DonateCC end ", 54, "="), $COLOR_INFO)
 
 	$g_bRunState = $currentRunState
@@ -664,9 +664,13 @@ Func btnTestDeadBase()
 	SetLog("FindTownhall() = " & FindTownhall(True), $COLOR_INFO)
 	SetLog("$g_sImglocRedline = " & $g_sImglocRedline, $COLOR_INFO)
 
+	SuperchargeCheck(True)
+
 	SetLog("Testing checkDeadBase()", $COLOR_INFO)
 	SetLog("Result checkDeadBase() = " & checkDeadBase(True), $COLOR_INFO)
 	SetLog("Testing checkDeadBase() DONE", $COLOR_INFO)
+
+	CleanSuperchargeTemplates()
 
 	If $hHBMP <> 0 Then
 		_WinAPI_DeleteObject($hHBMP)
@@ -679,7 +683,6 @@ EndFunc   ;==>btnTestDeadBase
 Func btnTestDeadBaseFolder()
 	_GUICtrlTab_ClickTab($g_hTabMain, 0)
 
-	;Local $directory = FileOpenDialog("Select folder of CoC village screenshot to test for dead base", $g_sProfileTempPath, "Image (*.png)", $FD_PATHMUSTEXIST, "", $g_hFrmBot)
 	Local $directory = FileSelectFolder("Select folder of CoC village screenshot to test for dead base", "", $FSF_NEWDIALOG, @ScriptDir, $g_hFrmBot)
 	If @error <> 0 Then
 		SetLog("btnTestDeadBaseFolder cancelled", $COLOR_INFO)

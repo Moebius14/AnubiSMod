@@ -154,6 +154,8 @@ Func BotStart($bAutostartDelay = 0)
 	CloseHeroEquipment()
 	;Mod>
 
+	CleanSuperchargeTemplates()
+
 	; wait for slot
 	LockBotSlot(True)
 	If $g_bRunState = False Then Return FuncReturn()
@@ -201,6 +203,7 @@ Func BotStart($bAutostartDelay = 0)
 EndFunc   ;==>BotStart
 
 Func BotStop()
+	CleanSuperchargeTemplates()
 	FuncEnter(BotStop)
 	; release bot slot
 	LockBotSlot(False)
@@ -305,11 +308,15 @@ Func BotSearchMode()
 		If _Sleep(100) Then Return FuncReturn()
 		PrepareSearch()
 		If $g_bOutOfGold Then Return ; Check flag for enough gold to search
-		If $g_bRestart Then Return
+		If $g_bRestart Then
+			CleanSuperchargeTemplates()
+			Return
+		EndIf
 		If _Sleep(1000) Then Return FuncReturn()
 		VillageSearch()
 		If $g_bOutOfGold Then Return ; Check flag for enough gold to search
 		If _Sleep(100) Then Return FuncReturn()
+		CleanSuperchargeTemplates()
 	Else
 		SetLog("Your Army is not prepared, check the Attack/train options")
 	EndIf

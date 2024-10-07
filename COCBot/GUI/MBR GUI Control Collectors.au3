@@ -16,8 +16,10 @@
 
 Func chkDBDisableCollectorsFilter()
 	If GUICtrlRead($g_hChkDBDisableCollectorsFilter) = $GUI_CHECKED Then
+		GUICtrlSetState($g_hChkSupercharge, $GUI_DISABLE)
 		GUICtrlSetState($g_hCmbMinCollectorMatches, $GUI_DISABLE)
 	Else
+		GUICtrlSetState($g_hChkSupercharge, $GUI_ENABLE)
 		GUICtrlSetState($g_hCmbMinCollectorMatches, $GUI_ENABLE)
 	EndIf
 EndFunc   ;==>chkDBDisableCollectorsFilter

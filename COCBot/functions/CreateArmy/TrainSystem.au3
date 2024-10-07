@@ -711,7 +711,7 @@ Func IsQueueEmpty($sType = "Troops", $bSkipTabCheck = False, $removeExtraTroopsQ
 	ElseIf IsArray(_PixelSearch($iArrowX, $iArrowY, $iArrowX + 4, $iArrowY, Hex(0xAFDC87, 6), 30, True)) And _
 			IsArray(_PixelSearch($iArrowX, $iArrowY + 3, $iArrowX + 4, $iArrowY + 3, Hex(0x79BF30, 6), 30, True)) And Not $removeExtraTroopsQueue Then
 
-		If Not WaitforPixel($iArrowX - 12, $iArrowY - 1, $iArrowX - 7, $iArrowY + 1, Hex(0xAFDC87, 6), 30, 2) Then Return False  ; check if boost arrow
+		If Not WaitforPixel($iArrowX - 9, $iArrowY - 1, $iArrowX - 5, $iArrowY + 1, Hex(0xAFDC87, 6), 30, 2) Then Return False  ; check if boost arrow
 
 	EndIf
 	If _Sleep($DELAYRESPOND) Then Return

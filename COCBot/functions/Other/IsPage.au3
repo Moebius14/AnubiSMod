@@ -206,13 +206,17 @@ Func IsReturnHomeBattlePage($useReturnValue = False, $makeDebugImageScreenshot =
 	;    for goldelixirchange and activate heroes
 
 	If IsPageLoop($aReturnHomeButton, 1) Then
-		If $g_bDebugSetlog Or $g_bDebugClick Then SetLog("**Return Home Battle Window OK**", $COLOR_ACTION)
-		Return True
+		If _ColorCheck(_GetPixelColor($aReturnHomeButton[0], 545 + $g_iMidOffsetY, True), Hex(0xFFFFFF, 6), 10) Then ; White Color From Button (Double Check)
+			If $g_bDebugSetlog Or $g_bDebugClick Then SetLog("**Return Home Battle Window OK**", $COLOR_ACTION)
+			Return True
+		EndIf
 	EndIf
 
 	If IsPageLoop($aRewardButton, 1) Then
-		If $g_bDebugSetlog Or $g_bDebugClick Then SetLog("**Claim Reward Battle Window OK**", $COLOR_ACTION)
-		Return True
+		If _ColorCheck(_GetPixelColor($aRewardButton[0] + 2, 546 + $g_iMidOffsetY, True), Hex(0xFFFFFF, 6), 10) Then ; White Color From Button (Double Check)
+			If $g_bDebugSetlog Or $g_bDebugClick Then SetLog("**Claim Reward Battle Window OK**", $COLOR_ACTION)
+			Return True
+		EndIf
 	EndIf
 
 	If ($g_bDebugSetlog Or $g_bDebugClick) And ($makeDebugImageScreenshot = True) Then SetLog("**Return Home Battle Window FAIL**", $COLOR_ACTION)

@@ -1234,6 +1234,7 @@ Func SaveConfig_600_31()
 	ApplyConfig_600_31(GetApplyConfigSaveAction())
 	_Ini_Add("search", "chkDBNoLeagueOpponent", $b_CheckNoLeagueOpponent ? 1 : 0)
 	_Ini_Add("search", "chkDisableCollectorsFilter", $g_bCollectorFilterDisable ? 1 : 0)
+	_Ini_Add("search", "chkSupercharge", $g_bSupercharge ? 1 : 0)
 	_Ini_Add("collectors", "minmatches", $g_iCollectorMatchesMin)
 	_Ini_Add("collectors", "tolerance", $g_iCollectorToleranceOffset)
 EndFunc   ;==>SaveConfig_600_31

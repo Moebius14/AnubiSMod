@@ -45,7 +45,7 @@ Func MagicSnacks()
 	If AllowBoostingBuildersForSnacks() Then $IsAnyBuildingUpgrade = True
 
 	If ClickB("Snacks") Then
-		SetLog("Check Magic Snacks", $COLOR_SUCCESS)
+		SetLog("Check Magic Snacks", $COLOR_INFO)
 		$iLastTimeChecked[$g_iCurAccount] = _NowCalc()
 		If $StarBonusReceived[2] = 1 Then $StarBonusReceived[2] = 0
 		If _Sleep(1000) Then Return
@@ -108,7 +108,7 @@ Func MagicSnacks()
 
 				For $i = 0 To UBound($aMagicSnacks) - 1
 					If StringInStr($aMagicSnacks[$i][3], "No", $STR_NOCASESENSEBASIC) Then
-						SetLog(ConvertName($aMagicSnacks[$i][0]) & " already used" & ($i = UBound($aMagicSnacks) - 1 ? "." : ", looking next..."), $COLOR_DEBUG1)
+						SetLog(ConvertName($aMagicSnacks[$i][0]) & " already used" & ($i = UBound($aMagicSnacks) - 1 ? "." : ", looking next..."), $COLOR_WARNING)
 						If StringInStr($aMagicSnacks[$i][0], "Castle", $STR_NOCASESENSEBASIC) Then
 							If Not _DateIsValid($ClanCastleCakeTimer) Then
 								Switch $aMagicSnacks[$i][1]
@@ -123,7 +123,7 @@ Func MagicSnacks()
 								Local $TimerReadMinutes = ConvertOCRTime("CakeTime", $TimerReadOCR, False)
 								If $TimerReadMinutes > 0 Then
 									$ClanCastleCakeTimer = _DateAdd('n', Ceiling($TimerReadMinutes), _NowCalc())
-									SetLog("Clan Castle Cake Will Finish @ " & $ClanCastleCakeTimer, $COLOR_DEBUG1)
+									SetLog("Clan Castle Cake Will Finish @ " & $ClanCastleCakeTimer, $COLOR_INFO)
 								EndIf
 							EndIf
 						EndIf
@@ -156,11 +156,11 @@ Func MagicSnacks()
 									CloseWindow2()
 								EndIf
 							Else
-								SetLog(ConvertName($aMagicSnacks[$i][0]) & " won't be used" & ($i = UBound($aMagicSnacks) - 1 ? "." : ", looking next..."), $COLOR_DEBUG1)
-								SetLog("Not Enough Upgrades in Progress", $COLOR_DEBUG)
+								SetLog(ConvertName($aMagicSnacks[$i][0]) & " won't be used" & ($i = UBound($aMagicSnacks) - 1 ? "." : ", looking next..."), $COLOR_WARNING)
+								SetLog("Not Enough Upgrades in Progress", $COLOR_DEBUG1)
 							EndIf
 						Else
-							SetLog(ConvertName($aMagicSnacks[$i][0]) & " can't be used (Full)" & ($i = UBound($aMagicSnacks) - 1 ? "." : ", looking next..."), $COLOR_DEBUG1)
+							SetLog(ConvertName($aMagicSnacks[$i][0]) & " can't be used (Full)" & ($i = UBound($aMagicSnacks) - 1 ? "." : ", looking next..."), $COLOR_WARNING)
 							If $aMagicSnacks[$i][1] > 524 Then ExitLoop 2 ; Exit loops if last snack
 							If _Sleep(1000) Then Return
 						EndIf
@@ -194,8 +194,8 @@ Func MagicSnacks()
 									CloseWindow2()
 								EndIf
 							Else
-								SetLog(ConvertName($aMagicSnacks[$i][0]) & " won't be used" & ($i = UBound($aMagicSnacks) - 1 ? "." : ", looking next..."), $COLOR_DEBUG1)
-								SetLog("No Laboratory Upgrade in Progress", $COLOR_DEBUG)
+								SetLog(ConvertName($aMagicSnacks[$i][0]) & " won't be used" & ($i = UBound($aMagicSnacks) - 1 ? "." : ", looking next..."), $COLOR_WARNING)
+								SetLog("No Laboratory Upgrade in Progress", $COLOR_DEBUG1)
 							EndIf
 						ElseIf StringInStr($aMagicSnacks[$i][0], "Bite", $STR_NOCASESENSEBASIC) Then
 							If $IsAnyBuildingUpgrade Then
@@ -223,8 +223,8 @@ Func MagicSnacks()
 									CloseWindow2()
 								EndIf
 							Else
-								SetLog(ConvertName($aMagicSnacks[$i][0]) & " won't be used" & ($i = UBound($aMagicSnacks) - 1 ? "." : ", looking next..."), $COLOR_DEBUG1)
-								SetLog("Not Enough Upgrades in Progress", $COLOR_DEBUG)
+								SetLog(ConvertName($aMagicSnacks[$i][0]) & " won't be used" & ($i = UBound($aMagicSnacks) - 1 ? "." : ", looking next..."), $COLOR_WARNING)
+								SetLog("Not Enough Upgrades in Progress", $COLOR_DEBUG1)
 							EndIf
 						ElseIf StringInStr($aMagicSnacks[$i][0], "Castle", $STR_NOCASESENSEBASIC) Then
 							If $bChkUseOnlyCCMedals Or (Not $bChkUseOnlyCCMedals And $g_aiCmbCCDecisionThen = 1) Then
@@ -253,8 +253,8 @@ Func MagicSnacks()
 									CloseWindow2()
 								EndIf
 							Else
-								SetLog(ConvertName($aMagicSnacks[$i][0]) & " won't be used" & ($i = UBound($aMagicSnacks) - 1 ? "." : ", looking next..."), $COLOR_DEBUG1)
-								SetLog("Can be used only when CC Medal Filling", $COLOR_DEBUG)
+								SetLog(ConvertName($aMagicSnacks[$i][0]) & " won't be used" & ($i = UBound($aMagicSnacks) - 1 ? "." : ", looking next..."), $COLOR_WARNING)
+								SetLog("Can be used only when CC Medal Filling", $COLOR_DEBUG1)
 							EndIf
 						Else
 							SetLog(ConvertName($aMagicSnacks[$i][0]) & " can be used.", $COLOR_SUCCESS1)
@@ -288,7 +288,7 @@ Func MagicSnacks()
 			WEnd
 			If _Sleep(500) Then Return
 		EndIf
-		If ClickB("Snacks") Then SetLog("Closing Magic Snacks", $COLOR_SUCCESS)
+		If ClickB("Snacks") Then SetLog("Closing Magic Snacks", $COLOR_INFO)
 		Return True
 	Else
 		Return False
@@ -344,6 +344,8 @@ Func ConvertName($bName = "")
 			$bProperName = "Hero Potion"
 		Case "BookOfHero"
 			$bProperName = "Book Of Hero"
+		Case "ResearchPotion"
+			$bProperName = "Research Potion"
 		Case Else
 			$bProperName = $bName
 	EndSwitch

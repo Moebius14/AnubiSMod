@@ -981,6 +981,7 @@ Func runBot() ;Bot that runs everything in order
 					$g_bSkipFirstZoomout = False
 					If $g_bOutOfGold Then
 						SetLog("Switching to Halt Attack, Stay Online/Collect mode ...", $COLOR_ERROR)
+						AfterRewardsRoutines()
 						ContinueLoop
 					EndIf
 					If _Sleep($DELAYRUNBOT1) Then Return
@@ -991,6 +992,7 @@ Func runBot() ;Bot that runs everything in order
 						SetLog("Wait For CC Enable : Request Early", $COLOR_DEBUG1)
 						RequestCC()
 					EndIf
+					AfterRewardsRoutines()
 				EndIf
 			Else
 				If Not $g_bRunState Then Return
@@ -1040,6 +1042,7 @@ Func runBot() ;Bot that runs everything in order
 			$g_bSkipFirstZoomout = False
 			If $g_bOutOfGold Then
 				SetLog("Switching to Halt Attack, Stay Online/Collect mode ...", $COLOR_ERROR)
+				AfterRewardsRoutines()
 				$g_bIsClientSyncError = False ; reset fast restart flag to stop OOS mode and start collecting resources
 				$IsAttackStarted = False
 				ContinueLoop
@@ -1051,6 +1054,7 @@ Func runBot() ;Bot that runs everything in order
 				RequestCC()
 			EndIf
 			If _Sleep($DELAYRUNBOT5) Then Return
+			AfterRewardsRoutines()
 			If $g_bRestart Then ContinueLoop
 		EndIf
 	WEnd
@@ -1186,6 +1190,7 @@ Func _Idle() ;Sequence that runs until Full Army
 			;If $g_bFullArmy Then ExitLoop		; Never will reach to SmartWait4Train() to close coc while Heroes/Spells not ready 'if' Army is full, so better to be commented
 			If _Sleep($DELAYIDLE1) Then ExitLoop
 			checkMainScreen(False)
+			AfterRewardsRoutines(False)
 		EndIf
 		If _Sleep($DELAYIDLE1) Then Return
 		If $g_bRestart Then ExitLoop
@@ -1229,6 +1234,7 @@ Func AttackMain() ;Main control for attack functions
 				$g_bIsClientSyncError = False ; reset OOS flag to prevent looping.
 				$IsAttackStarted = False
 				If _Sleep($DELAYATTACKMAIN1) Then Return
+				AfterRewardsRoutines()
 				Return ; return to runbot, refill armycamps
 			EndIf
 			If $g_bDebugSetlog Then
@@ -1296,23 +1302,36 @@ Func AttackMain() ;Main control for attack functions
 			PrepareSearch()
 			If Not $g_bRunState Then Return
 			If $g_bOutOfGold Then Return ; Check flag for enough gold to search
-			If $g_bRestart Then Return
+			If $g_bRestart Then
+				CleanSuperchargeTemplates()
+				Return
+			EndIf
 			VillageSearch()
 			If $g_bOutOfGold Then Return ; Check flag for enough gold to search
 			If Not $g_bRunState Then Return
-			If $g_bRestart Then Return
+			If $g_bRestart Then
+				CleanSuperchargeTemplates()
+				Return
+			EndIf
 			PrepareAttack($g_iMatchMode)
 			If Not $g_bRunState Then Return
-			If $g_bRestart Then Return
+			If $g_bRestart Then
+				CleanSuperchargeTemplates()
+				Return
+			EndIf
 			Attack()
 			If Not $g_bRunState Then Return
-			If $g_bRestart Then Return
+			If $g_bRestart Then
+				CleanSuperchargeTemplates()
+				Return
+			EndIf
 			ReturnHome($g_bTakeLootSnapShot)
 			If Not $g_bRunState Then Return
 			If _Sleep($DELAYATTACKMAIN2) Then Return
 			If $g_abSearchCastleWaitEnable[$DB] Or $g_abSearchCastleWaitEnable[$LB] Then
 				If Not $bChkUseOnlyCCMedals And $g_aiCmbCCDecisionTime > 0 Then $CCWaitChrono = 0
 			EndIf
+			CleanSuperchargeTemplates()
 			Return True
 		Else
 			SetLog("None of search condition match:", $COLOR_WARNING)
@@ -1745,6 +1764,7 @@ Func FirstCheck()
 				If $g_bOutOfGold Then
 					SetLog("Switching to Halt Attack, Stay Online/Collect mode", $COLOR_ERROR)
 					$g_bFirstStart = True ; reset First time flag to ensure army balancing when returns to training
+					AfterRewardsRoutines()
 					Return
 				EndIf
 				If _Sleep($DELAYRUNBOT1) Then Return
@@ -1756,6 +1776,7 @@ Func FirstCheck()
 			SetLog("Wait For CC Enable : Request Early", $COLOR_DEBUG1)
 			RequestCC()
 		EndIf
+		AfterRewardsRoutines()
 	EndIf
 
 	If Not $g_bFirstStartCheckDone Then $g_bFirstStartCheckDone = 1

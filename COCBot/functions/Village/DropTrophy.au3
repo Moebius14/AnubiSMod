@@ -332,17 +332,27 @@ Func DropTrophy()
 				If _Sleep($DELAYDROPTROPHY4) Then ExitLoop
 				ZoomOut()
 				PrepareSearch($DT)
-				If $g_bOutOfGold Or $g_bRestart Then Return
+				If $g_bOutOfGold Then Return
+				If $g_bRestart Then
+					CleanSuperchargeTemplates()
+					Return
+				EndIf
 
 				WaitForClouds() ; Wait for clouds to disappear
 
-				If $g_bRestart Then Return ; exit func
+				If $g_bRestart Then
+					CleanSuperchargeTemplates()
+					Return
+				EndIf
 
 				If _Sleep($DELAYDROPTROPHY4) Then ExitLoop
 
 				$g_iSearchCount = 0
 				GetResources(False, $DT) ; no log, use $DT matchmode (DropThrophy)
-				If $g_bRestart Then Return ; exit func
+				If $g_bRestart Then
+					CleanSuperchargeTemplates()
+					Return
+				EndIf
 
 				If $g_bDropTrophyAtkDead Then
 					; Check for Dead Base on 1st search
@@ -363,18 +373,23 @@ Func DropTrophy()
 							SetLog("      " & "Dead Base Found while dropping Trophies!", $COLOR_SUCCESS, "Lucida Console", 7.5)
 							SetLog("Identification of your troops:", $COLOR_INFO)
 							PrepareAttack($DB) ; ==== Troops :checks for type, slot, and quantity ===
-							If $g_bRestart Then Return
+							If $g_bRestart Then
+								CleanSuperchargeTemplates()
+								Return
+							EndIf
 							Attack()
 							ReturnHome($g_bTakeLootSnapShot)
 							$g_bIsClientSyncError = False ; reset OOS flag to get new new army
 							$g_bIsSearchLimit = False ; reset search limit flag to get new new army
 							$g_bRestart = True ; Set restart flag after dead base attack to ensure troops are trained
 							SetDebugLog("Drop Trophy END: Dead Base was attacked, reset army and return to Village.", $COLOR_DEBUG)
+							CleanSuperchargeTemplates()
 							ExitLoop ; or Return, Will end function, no troops left to drop Trophies, will need to Train new Troops first
 						Else
 							SetLog("      " & "Not a Dead Base, resuming Trophy Dropping.", $COLOR_BLACK, "Lucida Console", 7.5)
 						EndIf
 					EndIf
+					CleanSuperchargeTemplates()
 				EndIf
 
 				; Normal Drop Trophy, no check for Dead Base

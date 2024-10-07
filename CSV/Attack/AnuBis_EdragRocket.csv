@@ -45,9 +45,8 @@ MAKE  |M          |LEFT-BACK  |10         |0          |EXT-INT    |0          |0
 MAKE  |N          |RIGHT-BACK |10         |0          |EXT-INT    |0          |0          |    		  |           |           |           |           |
 MAKE  |S          |FRONT-LEFT |10         |-7         |INT-EXT    |0          |0          |           |           |           |           |           |
 MAKE  |T          |FRONT-RIGHT|10         |-8         |INT-EXT    |0          |0          |           |           |           |           |           |
-MAKE  |U          |FRONT-LEFT |10         |-20        |INT-EXT    |0          |0          |           |           |           |           |           |
-MAKE  |V          |FRONT-RIGHT|10         |-20        |INT-EXT    |0          |0          |           |           |           |           |           |
-MAKE  |X          |FRONT-RIGHT|10         |-23        |INT-EXT    |0          |0          |           |           |           |           |           |
+MAKE  |U          |FRONT-LEFT |10         |-23        |INT-EXT    |0          |0          |           |           |           |           |           |
+MAKE  |V          |FRONT-RIGHT|10         |-23        |INT-EXT    |0          |0          |           |           |           |           |           |
 MAKE  |C          |LEFT-FRONT |10         |0          |EXT-INT    |0          |0          |           |           |           |           |           |
 MAKE  |D          |RIGHT-FRONT|10         |0          |EXT-INT    |0          |0          |           |           |           |           |           |
 MAKE  |W          |LEFT-BACK  |1          |0          |IGNORE     |0          |0          |EAGLE	  |           |           |           |           |
@@ -78,17 +77,16 @@ DROP  |R          |1-6        |5          |Ball       |50-70      |127-150    |0
 DROP  |Q          |5,9        |2          |Ball       |50-70      |127-150    |15-20      |           |           |           |           |           |
 DROP  |R          |2,5        |2          |Ball       |50-70      |127-150    |15-20      |           |           |           |           |           |
 DROP  |Q          |10         |1          |Warden     |50-70      |0          |300-350    |           |           |           |           |           |
-DROP  |S          |5          |1          |RSpell     |0          |0          |400-600    |           |           |           |           |           |
+DROP  |S          |5          |1          |RSpell     |0          |0          |300-350    |           |           |           |           |           |
 DROP  |S          |1          |1          |RSpell     |0          |0          |400-600    |           |           |           |           |           |
 DROP  |T          |4          |1          |RSpell     |0          |0          |830-890    |           |           |           |           |           |
 DROP  |Q          |10         |1          |King       |0          |0          |150-200    |           |			  |           |           |           |
-DROP  |Q          |10         |1          |SiegeB     |0          |50-70      |350-470    |           |           |           |           |           |
-DROP  |Q          |10         |1          |Queen      |0          |0          |900-950    |           |           |           |           |           |
-DROP  |Q          |10         |1          |Champion   |0          |0          |900-950    |           |           |           |           |           |
-DROP  |P          |1          |1          |FSpell     |0          |0          |400-600    |           |           |           |           |           |
-DROP  |A          |1          |1          |FSpell     |0          |0          |400-600    |           |           |           |           |           |
-DROP  |B          |1          |1          |FSpell     |0          |0          |400-600    |           |           |           |           |           |
-DROP  |U          |3          |1          |RSpell     |0          |0          |400-600    |           |           |           |           |           |
+DROP  |Q          |10         |1          |Queen      |0          |0          |150-200    |           |           |           |           |           |
+DROP  |Q          |10         |1          |Champion   |0          |0          |150-200    |           |           |           |           |           |
+DROP  |P          |1          |1          |FSpell     |0          |0          |200-400    |           |           |           |           |           |
+DROP  |A          |1          |1          |FSpell     |0          |0          |200-400    |           |           |           |           |           |
+DROP  |B          |1          |1          |FSpell     |0          |0          |200-400    |           |           |           |           |           |
+DROP  |U          |3          |1          |RSpell     |0          |0          |100-150    |           |           |           |           |           |
 DROP  |V          |2          |1          |RSpell     |0          |0          |100-150    |           |           |           |           |           |
 WAIT  |3000-3300  |           |           |           |           |           |           |           |           |           |           |           |
 DROP  |P          |1          |1          |FSpell     |0          |0          |400-600    |           |           |           |           |           |

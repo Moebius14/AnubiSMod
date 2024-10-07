@@ -2203,12 +2203,14 @@ Func ApplyConfig_600_31($TypeReadSave)
 		Case "Read"
 			GUICtrlSetState($g_hChkDBNoLeagueOpponent, $b_CheckNoLeagueOpponent ? $GUI_CHECKED : $GUI_UNCHECKED)
 			GUICtrlSetState($g_hChkDBDisableCollectorsFilter, $g_bCollectorFilterDisable ? $GUI_CHECKED : $GUI_UNCHECKED)
+			GUICtrlSetState($g_hChkSupercharge, $g_bSupercharge ? $GUI_CHECKED : $GUI_UNCHECKED)
 			_GUICtrlComboBox_SetCurSel($g_hCmbMinCollectorMatches, $g_iCollectorMatchesMin - 1)
 			GUICtrlSetData($g_hSldCollectorTolerance, $g_iCollectorToleranceOffset)
 			chkDBDisableCollectorsFilter()
 		Case "Save"
 			$b_CheckNoLeagueOpponent = (GUICtrlRead($g_hChkDBNoLeagueOpponent) = $GUI_CHECKED)
 			$g_bCollectorFilterDisable = (GUICtrlRead($g_hChkDBDisableCollectorsFilter) = $GUI_CHECKED)
+			$g_bSupercharge = (GUICtrlRead($g_hChkSupercharge) = $GUI_CHECKED)
 			$g_iCollectorMatchesMin = _GUICtrlComboBox_GetCurSel($g_hCmbMinCollectorMatches) + 1
 			$g_iCollectorToleranceOffset = GUICtrlRead($g_hSldCollectorTolerance)
 	EndSwitch

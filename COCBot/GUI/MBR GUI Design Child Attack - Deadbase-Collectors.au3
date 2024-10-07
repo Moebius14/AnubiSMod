@@ -14,7 +14,7 @@
 ; ===============================================================================================================================
 #include-once
 
-Global $g_hChkDBDisableCollectorsFilter = 0, $g_hChkDBNoLeagueOpponent = 0
+Global $g_hChkDBDisableCollectorsFilter = 0, $g_hChkDBNoLeagueOpponent = 0, $g_hChkSupercharge = 0
 Global $g_hCmbMinCollectorMatches = 0, $g_hSldCollectorTolerance = 0, $g_hLblCollectorWarning = 0
 
 Func CreateAttackSearchDeadBaseCollectors()
@@ -34,6 +34,12 @@ Func CreateAttackSearchDeadBaseCollectors()
 	GUICtrlSetState(-1, $GUI_UNCHECKED)
 	GUICtrlSetOnEvent(-1, "chkDBDisableCollectorsFilter")
 	_GUICtrlSetTip(-1, GetTranslatedFileIni("MBR GUI Design Child Attack - Deadbase-Collectors", "ChkDisableCollectorsFilter_Info_01", "Disable Collector Filter CHANGES DeadBase into another ActiveBase search"))
+
+	$g_hChkSupercharge = GUICtrlCreateCheckbox(GetTranslatedFileIni("MBR GUI Design Child Attack - Deadbase-Collectors", "chkSupercharge", "Search Supercharge Collectors"), $x + 202, $y, -1, 18)
+	GUICtrlSetState(-1, $GUI_UNCHECKED)
+	_GUICtrlSetTip(-1, GetTranslatedFileIni("MBR GUI Design Child Attack - Deadbase-Collectors", "chkSupercharge_Info_01", "Also look for Supercharge collectors") & @CRLF & _
+			GetTranslatedFileIni("MBR GUI Design Child Attack - Deadbase-Collectors", "chkSupercharge_Info_02", "Will slightly increase collector detection time") & @CRLF & _
+			GetTranslatedFileIni("MBR GUI Design Child Attack - Deadbase-Collectors", "chkSupercharge_Info_03", "Will Be Useful From TH" & $g_iMaxTHLevel - 2))
 
 	GUICtrlCreateLabel(GetTranslatedFileIni("MBR GUI Design Child Attack - Deadbase-Collectors", "LblMinCollectorMatches", "Collectors required"), $x + 202, $y + 27, -1, -1)
 	$sTxtTip = GetTranslatedFileIni("MBR GUI Design Child Attack - Deadbase-Collectors", "CmbMinCollectorMatches_Info_01", 'Select how many collectors are needed to consider village "dead"')

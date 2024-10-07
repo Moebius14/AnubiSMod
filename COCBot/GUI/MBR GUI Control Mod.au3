@@ -193,30 +193,6 @@ Func SwitchBetweenBasesMod()
 		EndIf
 	EndIf
 
-	If $g_bChkBBAttackForDailyChallenge And Not $g_bIsBBevent Then
-		If _DateIsValid($g_sNewChallengeTime) Then
-			Local $TimeDiffBBChallenge = _DateDiff('n', _NowCalc(), $g_sNewChallengeTime)
-			If $TimeDiffBBChallenge > 0 Then
-
-				Local $iWaitTime = $TimeDiffBBChallenge * 60 * 1000
-				Local $sWaitTime = ""
-				Local $iMin, $iHour, $iWaitSec
-
-				$iWaitSec = Round($iWaitTime / 1000)
-				$iHour = Floor(Floor($iWaitSec / 60) / 60)
-				$iMin = Floor(Mod(Floor($iWaitSec / 60), 60))
-				If $iHour > 0 Then $sWaitTime &= $iHour & " hours "
-				If $iMin > 0 Then $sWaitTime &= $iMin & " minutes "
-				SetLog("Daily BB Challenge Unavailable", $COLOR_DEBUG1)
-				SetLog("New Challenge in " & $sWaitTime, $COLOR_ACTION)
-				SetLog("Check Builder Base Later", $COLOR_NAVY)
-
-				$IstoSwitchMod = 0
-				Return
-			EndIf
-		EndIf
-	EndIf
-
 	If Not $g_bChkBBaseFrequency Then ; Return True and End fonction Without Timing
 		If ($g_bChkEnableForgeBBGold Or $g_bChkEnableForgeBBElix) And ($g_aiCurrentLootBB[$eLootGoldBB] = 0 Or $g_aiCurrentLootBB[$eLootElixirBB] = 0) Then
 			$IstoSwitchMod = 1

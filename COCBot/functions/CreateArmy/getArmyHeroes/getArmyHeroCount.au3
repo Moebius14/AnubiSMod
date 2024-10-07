@@ -571,6 +571,8 @@ Func LabGuiDisplay() ; called from main loop to get an early status for indictor
 		GUICtrlSetData($g_hLbLLabTime, "")
 		;=============================================
 		CloseWindow()
+		$iLastTimeChecked[$g_iCurAccount] = ""
+		If $g_bNoLabCheck Then $g_bFirstStartForLab = 0
 		Return
 	EndIf
 
