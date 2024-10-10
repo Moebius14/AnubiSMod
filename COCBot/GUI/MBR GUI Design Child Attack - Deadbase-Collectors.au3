@@ -35,7 +35,7 @@ Func CreateAttackSearchDeadBaseCollectors()
 	GUICtrlSetOnEvent(-1, "chkDBDisableCollectorsFilter")
 	_GUICtrlSetTip(-1, GetTranslatedFileIni("MBR GUI Design Child Attack - Deadbase-Collectors", "ChkDisableCollectorsFilter_Info_01", "Disable Collector Filter CHANGES DeadBase into another ActiveBase search"))
 
-	$g_hChkSupercharge = GUICtrlCreateCheckbox(GetTranslatedFileIni("MBR GUI Design Child Attack - Deadbase-Collectors", "chkSupercharge", "Search Supercharge Collectors"), $x + 202, $y, -1, 18)
+	$g_hChkSupercharge = GUICtrlCreateCheckbox(GetTranslatedFileIni("MBR GUI Design Child Attack - Deadbase-Collectors", "chkSupercharge", "Look For Supercharge Collectors"), $x + 202, $y, -1, 18)
 	GUICtrlSetState(-1, $GUI_UNCHECKED)
 	_GUICtrlSetTip(-1, GetTranslatedFileIni("MBR GUI Design Child Attack - Deadbase-Collectors", "chkSupercharge_Info_01", "Also look for Supercharge collectors") & @CRLF & _
 			GetTranslatedFileIni("MBR GUI Design Child Attack - Deadbase-Collectors", "chkSupercharge_Info_02", "Will slightly increase collector detection time") & @CRLF & _

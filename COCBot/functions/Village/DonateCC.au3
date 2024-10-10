@@ -17,7 +17,7 @@
 Global $g_aiPrepDon[6] = [0, 0, 0, 0, 0, 0]
 Global $g_iTotalDonateTroopCapacity, $g_iTotalDonateSpellCapacity, $g_iTotalDonateSiegeMachineCapacity
 Global $g_iDonTroopsLimit = 50, $iDonSpellsLimit = 3, $g_iDonTroopsAv = 0, $g_iDonSpellsAv = 0
-Global $g_iDonTroopsQuantityAv = 0, $g_iDonTroopsQuantity = 0, $g_iDonSpellsQuantityAv = 0, $g_iDonSpellsQuantity = 0
+Global $g_iDonTroopsQuantityAv = 0, $g_iDonSpellsQuantityAv = 0
 Global $g_bSkipDonTroops = False, $g_bSkipDonSpells = False, $g_bSkipDonSiege = False
 Global $g_bDonateAllRespectBlk = False ; is turned on off durning donate all section, must be false all other times
 Global $g_aiAvailQueuedTroop[$eTroopCount], $g_aiAvailQueuedSpell[$eSpellCount], $g_aiAvailSiege[$eSiegeMachineCount]
@@ -124,24 +124,24 @@ Func IsDonateQueueOnly(ByRef $abDonateQueueOnly)
 					If $i = 0 Then
 						If _ArrayIndexValid($g_aiAvailQueuedTroop, $TroopIndex) Then
 							$g_aiAvailQueuedTroop[$TroopIndex] += $aSearchResult[$j][1]
-							SetLog("  - " & $g_asTroopNames[$TroopIndex] & " x" & $aSearchResult[$j][1])
+							SetLog("  - " & $g_asTroopNames[$TroopIndex] & ($aSearchResult[$j][1] > 1 ? "s" : "") & " x" & $aSearchResult[$j][1])
 						EndIf
 					Else
 						If _ArrayIndexValid($g_aiAvailQueuedSpell, $TroopIndex - $eLSpell) Then
 							$g_aiAvailQueuedSpell[$TroopIndex - $eLSpell] += $aSearchResult[$j][1]
-							SetLog("  - " & $g_asSpellNames[$TroopIndex - $eLSpell] & " x" & $aSearchResult[$j][1])
+							SetLog("  - " & $g_asSpellNames[$TroopIndex - $eLSpell] & " Spell" & ($aSearchResult[$j][1] > 1 ? "s" : "") & " x" & $aSearchResult[$j][1])
 						EndIf
 					EndIf
 				ElseIf $j = 0 Or ($j = 1 And $aSearchResult[1][0] = $aSearchResult[0][0]) Then
 					If $i = 0 Then
 						If _ArrayIndexValid($g_aiAvailQueuedTroop, $TroopIndex) And $bTroopTypeToDonate = $aSearchResult[$j][0] Then
 							$g_aiAvailQueuedTroop[$TroopIndex] += $aSearchResult[$j][1]
-							SetLog("  - " & $g_asTroopNames[$TroopIndex] & " x" & $aSearchResult[$j][1] & " (training)")
+							SetLog("  - " & $g_asTroopNames[$TroopIndex] & ($aSearchResult[$j][1] > 1 ? "s" : "") & " x" & $aSearchResult[$j][1] & " (training)")
 						EndIf
 					Else
 						If _ArrayIndexValid($g_aiAvailQueuedSpell, $TroopIndex - $eLSpell) And $bSpellTypeToDonate = $aSearchResult[$j][0] Then
 							$g_aiAvailQueuedSpell[$TroopIndex - $eLSpell] += $aSearchResult[$j][1]
-							SetLog("  - " & $g_asSpellNames[$TroopIndex - $eLSpell] & " x" & $aSearchResult[$j][1] & " (training)")
+							SetLog("  - " & $g_asSpellNames[$TroopIndex - $eLSpell] & " Spell" & ($aSearchResult[$j][1] > 1 ? "s" : "") & " x" & $aSearchResult[$j][1] & " (training)")
 						EndIf
 					EndIf
 				ElseIf $j >= 2 Then
@@ -178,7 +178,7 @@ Func IsDonateQueueOnly(ByRef $abDonateQueueOnly)
 					If IsArray(_PixelSearch(($xQueue - 12) - ($i * 60.5), 234 + $g_iMidOffsetY, ($xQueue - 8) - ($i * 60.5), 234 + $g_iMidOffsetY, Hex(0x96A623, 6), 20, True)) Then ; the green check symbol
 						Local $iSiegeIndex = TroopIndexLookup($aSearchResult[$i][0]) - $eWallW
 						$g_aiCurrentSiegeMachines[$iSiegeIndex] += $aSearchResult[$i][3]
-						SetLog("  - " & $g_asSiegeMachineNames[$iSiegeIndex] & " x" & $g_aiCurrentSiegeMachines[$iSiegeIndex])
+						SetLog("  - " & $g_asSiegeMachineNames[$iSiegeIndex] & ($g_aiCurrentSiegeMachines[$iSiegeIndex] > 1 ? "s" : "") & " x" & $g_aiCurrentSiegeMachines[$iSiegeIndex])
 					EndIf
 				Next
 			EndIf
@@ -197,29 +197,189 @@ Func getArmyRequest($aiDonateCoords, $bNeedCapture = True)
 	Local $aiSearchArray[4] = [25, $aiDonateCoords[1] - 90, 340, $aiDonateCoords[1] - 40]
 	Local $sRequestDiamond = GetDiamondFromRect($aiSearchArray)
 	; Returns $aCurrentRequests[index] = $aArray[2] = ["TroopShortName", CordX,CordY]
-	Local $aCurrentArmyRequest = findMultiple(@ScriptDir & "\imgxml\DonateCC\Army", $sRequestDiamond, $sRequestDiamond, 0, 1000, 0, "objectname,objectpoints", $bNeedCapture)
+	Local $aCurrentArmyRequestTemp = findMultiple(@ScriptDir & "\imgxml\DonateCC\Army", $sRequestDiamond, $sRequestDiamond, 0, 1000, 0, "objectname,objectpoints", $bNeedCapture)
 
-	Local $aTempRequestArray, $iArmyIndex = -1, $sClanText = ""
-	If UBound($aCurrentArmyRequest, 1) >= 1 Then
-		For $i = 0 To UBound($aCurrentArmyRequest, 1) - 1 ; Loop through found CC Requests
-			$aTempRequestArray = $aCurrentArmyRequest[$i] ; Declare Array to Temp Array
-			$iArmyIndex = TroopIndexLookup($aTempRequestArray[0], "getArmyRequest()") ; Get the Index of the Troop from the ShortName
-			; Troops
-			If $iArmyIndex >= $eBarb And $iArmyIndex <= $eDruid Then
-				$sClanText &= ", " & $g_asTroopNames[$iArmyIndex]
-				; Spells
-			ElseIf $iArmyIndex >= $eLSpell And $iArmyIndex <= $eOgSpell Then
-				$sClanText &= ", " & $g_asSpellNames[$iArmyIndex - $eLSpell]
-				; Sieges
-			ElseIf $iArmyIndex >= $eWallW And $iArmyIndex <= $eBattleD Then
-				$sClanText &= ", " & $g_asSiegeMachineNames[$iArmyIndex - $eWallW]
-			ElseIf $iArmyIndex = -1 Then
-				ContinueLoop
-			EndIf
+	If UBound($aCurrentArmyRequestTemp, 1) >= 1 Then
+		Local $aTempRequestArray, $TempArray[0][3]
+		For $i = 0 To UBound($aCurrentArmyRequestTemp, 1) - 1 ; Loop through found CC Requests
+			$aTempRequestArray = $aCurrentArmyRequestTemp[$i] ; Declare Array to Temp Array
+			Local $aCoords = decodeSingleCoord($aTempRequestArray[1])
+			_ArrayAdd($TempArray, $aTempRequestArray[0] & "|" & $aCoords[0] & "|" & $aCoords[1])
 		Next
+		For $i = 0 To UBound($TempArray, 1) - 1
+			$TempArray[$i][1] = Number($TempArray[$i][1])
+			$TempArray[$i][2] = Number($TempArray[$i][2])
+		Next
+		_ArraySort($TempArray, 0, 0, 0, 1)
+		Local $aCurrentArmyRequest[UBound($TempArray)][2]
+		For $i = 0 To UBound($TempArray, 1) - 1
+			$aCurrentArmyRequest[$i][0] = $TempArray[$i][0]
+			$aCurrentArmyRequest[$i][1] = $TempArray[$i][1] & "," & $TempArray[$i][2]
+		Next
+	Else
+		Local $bReturn = ""
+		Return $bReturn
 	EndIf
-	Return StringTrimLeft($sClanText, 2)
+
+	Local $iArmyIndex = -1, $sClanText = "", $sReqArray[0][3], $HownManyTroop = 0, $HownManySpell = 0, $HownManySiege = 0, $eRequestCount = 0
+	For $i = 0 To UBound($aCurrentArmyRequest) - 1     ; Loop through found CC Requests
+		$iArmyIndex = TroopIndexLookup($aCurrentArmyRequest[$i][0], "getArmyRequest()")     ; Get the Index of the Troop from the ShortName
+		Local $aCoords = decodeSingleCoord($aCurrentArmyRequest[$i][1])
+		Local $bXCoordsOCR = 0
+		Switch $aCoords[0]
+			Case 35 To 85
+				$bXCoordsOCR = 45
+			Case 86 To 136
+				$bXCoordsOCR = 96
+			Case 137 To 187
+				$bXCoordsOCR = 147
+			Case 188 To 238
+				$bXCoordsOCR = 198
+			Case 239 To 289
+				$bXCoordsOCR = 249
+			Case 290 To 340
+				$bXCoordsOCR = 300
+		EndSwitch
+		$eRequestCount = Number(getOcrAndCapture("coc-NewSysDonate", $bXCoordsOCR, $aiDonateCoords[1] - 90, 30, 14))
+		_ArrayAdd($sReqArray, $iArmyIndex & "|" & $eRequestCount & "| 0")
+		; Troops
+		If $iArmyIndex >= $eBarb And $iArmyIndex <= $eDruid Then
+			$sClanText &= ", " & $eRequestCount & " " & ($eRequestCount > 1 ? $g_asTroopNamesPlural[$iArmyIndex] : $g_asTroopNames[$iArmyIndex])
+			$HownManyTroop += 1
+			; Spells
+		ElseIf $iArmyIndex >= $eLSpell And $iArmyIndex <= $eOgSpell Then
+			$sClanText &= ", " & $eRequestCount & " " & $g_asSpellNames[$iArmyIndex - $eLSpell]
+			$HownManySpell += 1
+			; Sieges
+		ElseIf $iArmyIndex >= $eWallW And $iArmyIndex <= $eBattleD Then
+			$sClanText &= ", "  & $eRequestCount & $g_asSiegeMachineNames[$iArmyIndex - $eWallW] & ($eRequestCount > 1 ? "s" : "")
+			$HownManySiege += 1
+		ElseIf $iArmyIndex = -1 Then
+			ContinueLoop
+		EndIf
+	Next
+
+	For $i = 0 To UBound($sReqArray) - 1
+		If $sReqArray[$i][0] >= $eBarb And $sReqArray[$i][0] <= $eDruid Then
+			$sReqArray[$i][2] = $HownManyTroop
+		ElseIf $sReqArray[$i][0] >= $eLSpell And $sReqArray[$i][0] <= $eOgSpell Then
+			$sReqArray[$i][2] = $HownManySpell
+		ElseIf $sReqArray[$i][0] >= $eWallW And $sReqArray[$i][0] <= $eBattleD Then
+			$sReqArray[$i][2] = $HownManySiege
+		EndIf
+	Next
+
+	For $i = 0 To UBound($sReqArray, 1) - 1
+		$sReqArray[$i][1] = Number($sReqArray[$i][1])
+		$sReqArray[$i][2] = Number($sReqArray[$i][2])
+	Next
+
+	Local $ReturnedArray[2] = [StringTrimLeft($sClanText, 2), $sReqArray]
+
+	Return $ReturnedArray
 EndFunc   ;==>getArmyRequest
+
+#cs
+Func getArmyRequestTEST($bNeedCapture = True)
+
+	BeginImageTest()
+	Local $currentRunState = $g_bRunState
+	$g_bRunState = True
+	$g_bRestart = False
+
+	_CaptureRegion()
+	_CaptureRegion2Sync()
+
+	Local $aiSearchArray[4] = [240, 600, 330, 666]
+	Local $sSearchArea = GetDiamondFromArray($aiSearchArray)
+	Local $aiDonateButton = decodeSingleCoord(findImage("Donate Button", $g_sImgDonateCC & "DonateButton*", $sSearchArea, 1, True, Default))
+
+	; Contains iXStart, $iYStart, $iXEnd, $iYEnd
+	Local $aiSearchArray[4] = [25, $aiDonateButton[1] - 90, 340, $aiDonateButton[1] - 40]
+	Local $sRequestDiamond = GetDiamondFromRect($aiSearchArray)
+	; Returns $aCurrentRequests[index] = $aArray[2] = ["TroopShortName", CordX,CordY]
+	Local $aCurrentArmyRequestTemp = findMultiple(@ScriptDir & "\imgxml\DonateCC\Army", $sRequestDiamond, $sRequestDiamond, 0, 1000, 0, "objectname,objectpoints", $bNeedCapture)
+
+	If UBound($aCurrentArmyRequestTemp, 1) >= 1 Then
+		Local $aTempRequestArray, $TempArray[0][3]
+		For $i = 0 To UBound($aCurrentArmyRequestTemp, 1) - 1 ; Loop through found CC Requests
+			$aTempRequestArray = $aCurrentArmyRequestTemp[$i] ; Declare Array to Temp Array
+			Local $aCoords = decodeSingleCoord($aTempRequestArray[1])
+			_ArrayAdd($TempArray, $aTempRequestArray[0] & "|" & $aCoords[0] & "|" & $aCoords[1])
+		Next
+		For $i = 0 To UBound($TempArray, 1) - 1
+			$TempArray[$i][1] = Number($TempArray[$i][1])
+			$TempArray[$i][2] = Number($TempArray[$i][2])
+		Next
+		_ArraySort($TempArray, 0, 0, 0, 1)
+		Local $aCurrentArmyRequest[UBound($TempArray)][2]
+		For $i = 0 To UBound($TempArray, 1) - 1
+			$aCurrentArmyRequest[$i][0] = $TempArray[$i][0]
+			$aCurrentArmyRequest[$i][1] = $TempArray[$i][1] & "," & $TempArray[$i][2]
+		Next
+	Else
+		Local $bReturn = ""
+		Return $bReturn
+	EndIf
+
+	Local $iArmyIndex = -1, $sClanText = "", $sReqArray[0][3], $HownManyTroop = 0, $HownManySpell = 0, $HownManySiege = 0, $eRequestCount = 0
+	For $i = 0 To UBound($aCurrentArmyRequest) - 1     ; Loop through found CC Requests
+		$iArmyIndex = TroopIndexLookup($aCurrentArmyRequest[$i][0], "getArmyRequest()")     ; Get the Index of the Troop from the ShortName
+		Local $aCoords = decodeSingleCoord($aCurrentArmyRequest[$i][1])
+		Local $bXCoordsOCR = 0
+		Switch $aCoords[0]
+			Case 35 To 85
+				$bXCoordsOCR = 45
+			Case 86 To 136
+				$bXCoordsOCR = 96
+			Case 137 To 187
+				$bXCoordsOCR = 147
+			Case 188 To 238
+				$bXCoordsOCR = 198
+			Case 239 To 289
+				$bXCoordsOCR = 249
+			Case 290 To 340
+				$bXCoordsOCR = 300
+		EndSwitch
+		$eRequestCount = Number(getOcrAndCapture("coc-NewSysDonate", $bXCoordsOCR, $aiDonateButton[1] - 90, 30, 14))
+		_ArrayAdd($sReqArray, $iArmyIndex & "|" & $eRequestCount & "| 0")
+		; Troops
+		If $iArmyIndex >= $eBarb And $iArmyIndex <= $eDruid Then
+			$sClanText &= ", " & $eRequestCount & " " & ($eRequestCount > 1 ? $g_asTroopNamesPlural[$iArmyIndex] : $g_asTroopNames[$iArmyIndex])
+			$HownManyTroop += 1
+			; Spells
+		ElseIf $iArmyIndex >= $eLSpell And $iArmyIndex <= $eOgSpell Then
+			$sClanText &= ", " & $eRequestCount & " " & $g_asSpellNames[$iArmyIndex - $eLSpell]
+			$HownManySpell += 1
+			; Sieges
+		ElseIf $iArmyIndex >= $eWallW And $iArmyIndex <= $eBattleD Then
+			$sClanText &= ", "  & $eRequestCount & $g_asSiegeMachineNames[$iArmyIndex - $eWallW] & ($eRequestCount > 1 ? "s" : "")
+			$HownManySiege += 1
+		ElseIf $iArmyIndex = -1 Then
+			ContinueLoop
+		EndIf
+	Next
+
+	For $i = 0 To UBound($sReqArray) - 1
+		If $sReqArray[$i][0] >= $eBarb And $sReqArray[$i][0] <= $eDruid Then
+			$sReqArray[$i][2] = $HownManyTroop
+		ElseIf $sReqArray[$i][0] >= $eLSpell And $sReqArray[$i][0] <= $eOgSpell Then
+			$sReqArray[$i][2] = $HownManySpell
+		ElseIf $sReqArray[$i][0] >= $eWallW And $sReqArray[$i][0] <= $eBattleD Then
+			$sReqArray[$i][2] = $HownManySiege
+		EndIf
+	Next
+
+	For $i = 0 To UBound($sReqArray, 1) - 1
+		$sReqArray[$i][1] = Number($sReqArray[$i][1])
+		$sReqArray[$i][2] = Number($sReqArray[$i][2])
+	Next
+
+	Local $ReturnedArray[2] = [StringTrimLeft($sClanText, 2), $sReqArray]
+
+	Return $ReturnedArray
+EndFunc   ;==>getArmyRequestTEST
+#ce
 
 Func DonateCC($bUpdateStats = True)
 
@@ -238,9 +398,11 @@ Func DonateCC($bUpdateStats = True)
 
 	Local $ReturnT = ($g_CurrentCampUtilization >= ($g_iTotalCampSpace * $g_iTrainArmyFullTroopPct / 100) * .95) ? (True) : (False)
 
+	Local $sNewClanStringTemp[2]
 	Local $ClanString = ""
 
 	Local $sNewClanString = ""
+	Local $sNewSystemRequestCountArray[0][3]
 	Local $bNewSystemToDonate = False
 
 	If Not $g_bChkDonate Or Not $bDonate Or Not $g_bDonationEnabled Then
@@ -294,7 +456,7 @@ Func DonateCC($bUpdateStats = True)
 						If IsArray(_PixelSearch(($xQueue - 12) - ($i * 60.5), 234 + $g_iMidOffsetY, ($xQueue - 8) - ($i * 60.5), 234 + $g_iMidOffsetY, Hex(0x96A623, 6), 20, True)) Then ; the green check symbol
 							Local $iSiegeIndex = TroopIndexLookup($aSearchResult[$i][0]) - $eWallW
 							$g_aiCurrentSiegeMachines[$iSiegeIndex] += $aSearchResult[$i][3]
-							SetLog("  - " & $g_asSiegeMachineNames[$iSiegeIndex] & " x" & $g_aiCurrentSiegeMachines[$iSiegeIndex])
+							SetLog("  - " & $g_asSiegeMachineNames[$iSiegeIndex] & ($g_aiCurrentSiegeMachines[$iSiegeIndex] > 1 ? "s" : "") & " x" & $g_aiCurrentSiegeMachines[$iSiegeIndex])
 						EndIf
 					Next
 				EndIf
@@ -387,12 +549,14 @@ Func DonateCC($bUpdateStats = True)
 			; Read chat request for DonateTroop and DonateSpell
 			If $bDonateTroop Or $bDonateSpell Or $bDonateSiege Then
 				; New Donation System
-				$sNewClanString = getArmyRequest($aiDonateButton)
+				$sNewClanStringTemp = getArmyRequest($aiDonateButton)
+				If IsArray($sNewClanStringTemp) Then $sNewClanString = $sNewClanStringTemp[0]
 				; Reset Var
 				$bNewSystemToDonate = False
 
 				If $sNewClanString <> "" Then
 					$ClanString = $sNewClanString
+					If IsArray($sNewClanStringTemp) Then $sNewSystemRequestCountArray = $sNewClanStringTemp[1]
 					$bNewSystemToDonate = True
 				Else
 					Local $Alphabets[4] = [$g_bChkExtraAlphabets, $g_bChkExtraChinese, $g_bChkExtraKorean, $g_bChkExtraPersian]
@@ -469,7 +633,7 @@ Func DonateCC($bUpdateStats = True)
 								EndIf
 							EndIf
 						Next
-						For $i = 0 To UBound($g_abChkDonateSpell) - 1 ; 0 - 13 (14 Spells)
+						For $i = 0 To $eSpellCount - 1 ; 0 - 13 (14 Spells)
 							If $g_abChkDonateSpell[$i] Then ; checking Spells
 								If $g_bDebugSetlog Then SetDebugLog("Spell: [" & $i & "] checking!", $COLOR_DEBUG)
 								If CheckDonateSpell($i, $g_asTxtDonateSpell[$i], $g_asTxtBlacklistSpell[$i], $ClanString, $bNewSystemToDonate, True, $abDonateQueueOnly[1]) Then
@@ -636,7 +800,16 @@ Func DonateCC($bUpdateStats = True)
 							Local $iTroopIndex = $g_aiDonateTroopPriority[$i]
 							If $g_abChkDonateTroop[$iTroopIndex] Then
 								If CheckDonateTroop($iTroopIndex, $g_asTxtDonateTroop[$iTroopIndex], $g_asTxtBlacklistTroop[$iTroopIndex], $ClanString, $bNewSystemToDonate) Then
-									DonateTroopType($iTroopIndex, 0, $abDonateQueueOnly[0])
+									Local $bCount = 0
+									If $bNewSystemToDonate Then
+										For $z = 0 To UBound($sNewSystemRequestCountArray) - 1
+											If $sNewSystemRequestCountArray[$z][0] = $iTroopIndex And $sNewSystemRequestCountArray[$z][2] > 1 Then
+												$bCount = $sNewSystemRequestCountArray[$z][1]
+												If $bCount = "" Then $bCount = 0
+											EndIf
+										Next
+									EndIf
+									DonateTroopType($iTroopIndex, $bCount, $abDonateQueueOnly[0])
 									If _Sleep($DELAYDONATECC3) Then ExitLoop
 								EndIf
 							EndIf
@@ -655,7 +828,16 @@ Func DonateCC($bUpdateStats = True)
 						Local $iSpellIndex = $g_aiDonateSpellPriority[$i]
 						If $g_abChkDonateSpell[$iSpellIndex] Then
 							If CheckDonateSpell($iSpellIndex, $g_asTxtDonateSpell[$iSpellIndex], $g_asTxtBlacklistSpell[$iSpellIndex], $ClanString, $bNewSystemToDonate, $abDonateQueueOnly[1]) Then
-								DonateSpellType($iSpellIndex, $abDonateQueueOnly[1])
+								Local $bCount = 0
+								If $bNewSystemToDonate Then
+									For $z = 0 To UBound($sNewSystemRequestCountArray) - 1
+										If $sNewSystemRequestCountArray[$z][0] - $eLSpell = $iSpellIndex And $sNewSystemRequestCountArray[$z][2] > 1 Then
+											$bCount = $sNewSystemRequestCountArray[$z][1]
+											If $bCount = "" Then $bCount = 0
+										EndIf
+									Next
+								EndIf
+								DonateSpellType($iSpellIndex, $bCount, $abDonateQueueOnly[1])
 								If _Sleep($DELAYDONATECC3) Then ExitLoop
 							EndIf
 						EndIf
@@ -672,7 +854,16 @@ Func DonateCC($bUpdateStats = True)
 					Local $index = $eTroopCount + $g_iCustomDonateConfigs + $SiegeIndex
 					If $g_abChkDonateTroop[$index] Then
 						If CheckDonateSiege($SiegeIndex, $g_asTxtDonateTroop[$index], $g_asTxtBlacklistTroop[$index], $ClanString, $bNewSystemToDonate) Then
-							DonateSiegeType($SiegeIndex)
+							Local $bCount = 0
+							If $bNewSystemToDonate Then
+								For $z = 0 To UBound($sNewSystemRequestCountArray) - 1
+									If $sNewSystemRequestCountArray[$z][0] - $eWallW = $index And $sNewSystemRequestCountArray[$z][2] > 1 Then
+										$bCount = $sNewSystemRequestCountArray[$z][1]
+										If $bCount = "" Then $bCount = 0
+									EndIf
+								Next
+							EndIf
+							DonateSiegeType($SiegeIndex, $bCount)
 						EndIf
 					EndIf
 				Next
@@ -727,7 +918,16 @@ Func DonateCC($bUpdateStats = True)
 								Local $iTroopIndex = $g_aiDonateTroopPriority[$i]
 								If $g_abChkDonateAllTroop[$iTroopIndex] Then
 									If CheckDonateTroop($iTroopIndex, $g_asTxtDonateTroop[$iTroopIndex], $g_asTxtBlacklistTroop[$iTroopIndex], $ClanString, $bNewSystemToDonate, $abDonateQueueOnly[0]) Then
-										DonateTroopType($iTroopIndex, 0, $abDonateQueueOnly[0], $bDonateAllTroop)
+										Local $bCount = 0
+										If $bNewSystemToDonate Then
+											For $z = 0 To UBound($sNewSystemRequestCountArray) - 1
+												If $sNewSystemRequestCountArray[$z][0] = $iTroopIndex And $sNewSystemRequestCountArray[$z][2] > 1 Then
+													$bCount = $sNewSystemRequestCountArray[$z][1]
+													If $bCount = "" Then $bCount = 0
+												EndIf
+											Next
+										EndIf
+										DonateTroopType($iTroopIndex, $bCount, $abDonateQueueOnly[0], $bDonateAllTroop)
 									EndIf
 									ExitLoop
 								EndIf
@@ -745,7 +945,16 @@ Func DonateCC($bUpdateStats = True)
 						Local $iSpellIndex = $g_aiDonateSpellPriority[$i]
 						If $g_abChkDonateAllSpell[$iSpellIndex] Then
 							If CheckDonateSpell($iSpellIndex, $g_asTxtDonateSpell[$iSpellIndex], $g_asTxtBlacklistSpell[$iSpellIndex], $ClanString, $bNewSystemToDonate, $abDonateQueueOnly[1]) Then
-								DonateSpellType($iSpellIndex, $abDonateQueueOnly[1], $bDonateAllSpell)
+								Local $bCount = 0
+								If $bNewSystemToDonate Then
+									For $z = 0 To UBound($sNewSystemRequestCountArray) - 1
+										If $sNewSystemRequestCountArray[$z][0] - $eLSpell = $iSpellIndex And $sNewSystemRequestCountArray[$z][2] > 1 Then
+											$bCount = $sNewSystemRequestCountArray[$z][1]
+											If $bCount = "" Then $bCount = 0
+										EndIf
+									Next
+								EndIf
+								DonateSpellType($iSpellIndex, $bCount, $abDonateQueueOnly[1], $bDonateAllSpell)
 							EndIf
 							ExitLoop
 						EndIf
@@ -762,7 +971,16 @@ Func DonateCC($bUpdateStats = True)
 						Local $index = $eTroopCount + $g_iCustomDonateConfigs + $SiegeIndex
 						If $g_abChkDonateAllTroop[$index] Then
 							If CheckDonateSiege($SiegeIndex, $g_asTxtDonateTroop[$index], $g_asTxtBlacklistTroop[$index], $ClanString, $bNewSystemToDonate) Then
-								DonateSiegeType($SiegeIndex, True)
+								Local $bCount = 0
+								If $bNewSystemToDonate Then
+								For $z = 0 To UBound($sNewSystemRequestCountArray) - 1
+									If $sNewSystemRequestCountArray[$z][0] - $eWallW = $index And $sNewSystemRequestCountArray[$z][2] > 1 Then
+										$bCount = $sNewSystemRequestCountArray[$z][1]
+										If $bCount = "" Then $bCount = 0
+									EndIf
+								Next
+							EndIf
+								DonateSiegeType($SiegeIndex, $bCount, True)
 							EndIf
 							ExitLoop
 						EndIf
@@ -881,7 +1099,7 @@ Func CheckDonate(Const $sName, Const $sDonateString, Const $sBlacklistString, Co
 							ExitLoop
 						EndIf
 					Next
-					For $z = 0 To UBound($g_abChkDonateSpell) - 1 ; 0 To 13
+					For $z = 0 To $eSpellCount - 1 ; 0 To 13
 						If $g_asSpellNames[$z] = $sName Then
 							$bSpellIndex = $z
 							ExitLoop
@@ -892,7 +1110,7 @@ Func CheckDonate(Const $sName, Const $sDonateString, Const $sBlacklistString, Co
 							SetDebugLog($sName & " is not ready in troop queue for donation!")
 							Return False
 						EndIf
-					ElseIf $bSpellIndex >= 0 And $g_abChkDonateQueueOnly[1] And $bSpellIndex < UBound($g_abChkDonateSpell) Then
+					ElseIf $bSpellIndex >= 0 And $g_abChkDonateQueueOnly[1] And $bSpellIndex < $eSpellCount Then
 						If $g_aiAvailQueuedSpell[$bSpellIndex] <= 0 Then
 							SetDebugLog($sName & " is not ready in spell queue for donation!")
 							Return False
@@ -971,7 +1189,7 @@ Func DonateTroopType(Const $iTroopIndex, $Quant = 0, Const $bDonateQueueOnly = F
 			SetLog("Sorry Chief! " & $g_asTroopNames[$iTroopIndex] & " is not ready in queue for donation!")
 			Return
 		ElseIf $g_aiAvailQueuedTroop[$iTroopIndex] < $Quant Then
-			SetLog("Queue available for donation: " & $g_aiAvailQueuedTroop[$iTroopIndex] & "x " & $g_asTroopNames[$iTroopIndex])
+			SetLog("Queue available for donation: " & $g_aiAvailQueuedTroop[$iTroopIndex] & "x " & $g_asTroopNames[$iTroopIndex] & ($g_aiAvailQueuedTroop[$iTroopIndex] > 1 ? "s" : ""))
 			$Quant = $g_aiAvailQueuedTroop[$iTroopIndex]
 		EndIf
 	EndIf
@@ -1062,10 +1280,10 @@ Func DonateTroopType(Const $iTroopIndex, $Quant = 0, Const $bDonateQueueOnly = F
 		If $bDonateQueueOnly Then $g_aiAvailQueuedTroop[$iTroopIndex] -= $Quant
 
 	Else
-		Local $Text = "Unable to donate " & ($g_iDonTroopsQuantity > 1 ? $g_asTroopNamesPlural[$iTroopIndex] : $g_asTroopNames[$iTroopIndex]) & ".Donate screen not visible, will retry next run.", $LocalColor = $COLOR_ERROR
+		Local $Text = "Unable to donate " & ($Quant > 1 ? $g_asTroopNamesPlural[$iTroopIndex] : $g_asTroopNames[$iTroopIndex]) & ".Donate screen not visible, will retry next run.", $LocalColor = $COLOR_ERROR
 		If _ColorCheck(_GetPixelColor($g_iDonationWindowX + 22 + ($Slot * 68), $g_iDonationWindowY + 105 + $YComp, True), Hex(0x6F6F6F, 6), 20) Or _       ; Dark Gray from Queued Spells
 				_ColorCheck(_GetPixelColor($g_iDonationWindowX + 22 + ($Slot * 68), $g_iDonationWindowY + 105 + $YComp, True), Hex(0xDADAD5, 6), 20) Then ; Light Gray from Empty Slots
-			$Text = "No " & ($g_iDonTroopsQuantity > 1 ? $g_asTroopNamesPlural[$iTroopIndex] : $g_asTroopNames[$iTroopIndex]) & " available to donate.."
+			$Text = "No " & ($Quant > 1 ? $g_asTroopNamesPlural[$iTroopIndex] : $g_asTroopNames[$iTroopIndex]) & " available to donate.."
 			$LocalColor = $COLOR_INFO
 		EndIf
 		SetLog($Text, $LocalColor)
@@ -1073,7 +1291,7 @@ Func DonateTroopType(Const $iTroopIndex, $Quant = 0, Const $bDonateQueueOnly = F
 	If $DonatedTroopCount > 0 Then $IsTroopDonated = True
 EndFunc   ;==>DonateTroopType
 
-Func DonateSpellType(Const $iSpellIndex, Const $bDonateQueueOnly = False, Const $bDonateAll = False)
+Func DonateSpellType(Const $iSpellIndex, $Quant = 0, Const $bDonateQueueOnly = False, Const $bDonateAll = False)
 	Local $DonatedSpellCount = 0
 	Local $Slot = -1, $detectedSlot = -1
 	Local $YComp = 0, $donaterow = -1
@@ -1096,14 +1314,14 @@ Func DonateSpellType(Const $iSpellIndex, Const $bDonateQueueOnly = False, Const 
 	If $aTempDonSpellsLimitClan[0] >= 2 Then $g_iDonSpellsLimitClan = $aTempDonSpellsLimitClan[2]
 	If ($g_iDonSpellsLimitClan <> "" Or $g_iDonSpellsLimitClan = 0) And Number($g_iDonSpellsLimitClan) <> Number($iDonSpellsLimit) Then $iDonSpellsLimit = $g_iDonSpellsLimitClan
 
-	$g_iDonSpellsQuantity = _Min(Number($g_iDonSpellsQuantityAv), Number($iDonSpellsLimit))
+	If $Quant = 0 Or $Quant > _Min(Number($g_iDonSpellsQuantityAv), Number($iDonSpellsLimit)) Then $Quant = _Min(Number($g_iDonSpellsQuantityAv), Number($iDonSpellsLimit))
 	If $bDonateQueueOnly Then
 		If $g_aiAvailQueuedSpell[$iSpellIndex] <= 0 Then
 			SetLog("Sorry Chief! " & $g_asSpellNames[$iSpellIndex] & " is not ready in queue for donation!")
 			Return
-		ElseIf $g_aiAvailQueuedSpell[$iSpellIndex] < $g_iDonSpellsQuantity Then
-			SetLog("Queue available for donation: " & $g_aiAvailQueuedSpell[$iSpellIndex] & "x " & $g_asSpellNames[$iSpellIndex])
-			$g_iDonSpellsQuantity = $g_aiAvailQueuedSpell[$iSpellIndex]
+		ElseIf $g_aiAvailQueuedSpell[$iSpellIndex] < $Quant Then
+			SetLog("Queue available for donation: " & $g_aiAvailQueuedSpell[$iSpellIndex] & "x " & $g_asSpellNames[$iSpellIndex] & "Spell" & ($g_aiAvailQueuedSpell[$iSpellIndex] > 1 ? "s" : ""))
+			$Quant = $g_aiAvailQueuedSpell[$iSpellIndex]
 		EndIf
 	EndIf
 
@@ -1145,9 +1363,9 @@ Func DonateSpellType(Const $iSpellIndex, Const $bDonateQueueOnly = False, Const 
 		EndIf
 		If Not $g_bDebugOCRdonate Then
 
-			SetLog("Donating " & $g_iDonSpellsQuantity & " " & $g_asSpellNames[$iSpellIndex] & " Spell" & ($g_iDonSpellsQuantity > 1 ? "s" : "") & ($bDonateAll ? " (to all requests)" : ""), $COLOR_GREEN)
+			SetLog("Donating " & $Quant & " " & $g_asSpellNames[$iSpellIndex] & " Spell" & ($Quant > 1 ? "s" : "") & ($bDonateAll ? " (to all requests)" : ""), $COLOR_GREEN)
 
-			For $i = 0 To ($g_iDonSpellsQuantity - 1)
+			For $i = 0 To ($Quant - 1)
 				Click($g_iDonationWindowX + 35 + ($Slot * 68), $g_iDonationWindowY + 70 + $YComp, 1, $DELAYDONATECC6, "#0600")
 			Next
 			$DonatedSpellCount += 1
@@ -1159,17 +1377,17 @@ Func DonateSpellType(Const $iSpellIndex, Const $bDonateQueueOnly = False, Const 
 
 		; Adjust Values for donated spells to prevent a Double ghost donate to stats and train
 		If $iSpellIndex >= $eSpellLightning And $iSpellIndex <= $eSpellOvergrowth Then
-			$g_iTotalDonateSpellCapacity -= ($g_iDonSpellsQuantity * $g_aiSpellSpace[$iSpellIndex])
+			$g_iTotalDonateSpellCapacity -= ($Quant * $g_aiSpellSpace[$iSpellIndex])
 			;If donated max allowed troop qty set $g_bSkipDonSpells = True
-			If $iDonSpellsLimit = $g_iDonSpellsQuantity Then
+			If $iDonSpellsLimit = $Quant Then
 				$g_bSkipDonSpells = True
 			EndIf
 		EndIf
 
 		; Assign the donated quantity spells to brew : $Don $g_asSpellName
-		$g_aiDonateSpells[$iSpellIndex] += $g_iDonSpellsQuantity
-		$g_aiDonateStatsSpells[$iSpellIndex][0] += $g_iDonSpellsQuantity
-		If $bDonateQueueOnly Then $g_aiAvailQueuedSpell[$iSpellIndex] -= $g_iDonSpellsQuantity
+		$g_aiDonateSpells[$iSpellIndex] += $Quant
+		$g_aiDonateStatsSpells[$iSpellIndex][0] += $Quant
+		If $bDonateQueueOnly Then $g_aiAvailQueuedSpell[$iSpellIndex] -= $Quant
 
 	Else
 		Local $Text = "Unable to donate " & $g_asSpellNames[$iSpellIndex] & ".Donate screen not visible, will retry next run.", $LocalColor = $COLOR_ERROR
@@ -1183,7 +1401,7 @@ Func DonateSpellType(Const $iSpellIndex, Const $bDonateQueueOnly = False, Const 
 	If $DonatedSpellCount > 0 Then $IsSpellDonated = True
 EndFunc   ;==>DonateSpellType
 
-Func DonateSiegeType(Const $iSiegeIndex, $bDonateAll = False)
+Func DonateSiegeType(Const $iSiegeIndex, $Quant = 0, $bDonateAll = False)
 	Local $DonatedSiegeCount = 0
 	Local $Slot = -1, $detectedSlot = -1
 	Local $YComp = 0, $donaterow = -1
@@ -1197,6 +1415,8 @@ Func DonateSiegeType(Const $iSiegeIndex, $bDonateAll = False)
 		SetLog("Sorry Chief! " & $g_asSiegeMachineNames[$iSiegeIndex] & " is not ready for donation!")
 		Return
 	EndIf
+
+	If $Quant = 0 Then $Quant = Number($g_iTotalDonateSiegeMachineCapacity)
 
 	$Slot = DetectSlotSiege($iSiegeIndex, $g_iDonationWindowX)
 	If $Slot = -1 Then
@@ -1233,17 +1453,19 @@ Func DonateSiegeType(Const $iSiegeIndex, $bDonateAll = False)
 			_ColorCheck(_GetPixelColor($g_iDonationWindowX + 17 + 5 + ($Slot * 68), $g_iDonationWindowY + 106 + $YComp, True), Hex(0x4079B8, 6), 20) Or _
 			_ColorCheck(_GetPixelColor($g_iDonationWindowX + 17 + 10 + ($Slot * 68), $g_iDonationWindowY + 107 + $YComp, True), Hex(0x4079B8, 6), 20) Then ; check for 'blue'
 
-		SetLog("Donating 1 " & ($g_asSiegeMachineNames[$iSiegeIndex]) & ($bDonateAll ? " (to all requests)" : ""), $COLOR_GREEN)
+		SetLog("Donating " & $Quant & " " & ($g_asSiegeMachineNames[$iSiegeIndex]) & ($bDonateAll ? " (to all requests)" : ""), $COLOR_GREEN)
 
-		Click($g_iDonationWindowX + 35 + ($Slot * 68), $g_iDonationWindowY + 70 + $YComp, 1, $DELAYDONATECC1, "#0175")
-		$DonatedSiegeCount += 1
+		For $i = 0 To ($Quant - 1)
+			Click($g_iDonationWindowX + 35 + ($Slot * 68), $g_iDonationWindowY + 70 + $YComp, 1, $DELAYDONATECC6, "#0600")
+		Next
+		$DonatedSiegeCount += $Quant
 		$g_bFullArmy = False
 		If $g_iCommandStop = 3 Then $g_iCommandStop = 0
 
 		; Assign the donated quantity sieges to train : $Don $g_asSiegeMachineShortNames
-		$g_aiDonateSiegeMachines[$iSiegeIndex] += 1
-		$g_aiDonateStatsSieges[$iSiegeIndex][0] += 1
-		$g_aiAvailSiege[$iSiegeIndex] -= 1
+		$g_aiDonateSiegeMachines[$iSiegeIndex] += $Quant
+		$g_aiDonateStatsSieges[$iSiegeIndex][0] += $Quant
+		$g_aiAvailSiege[$iSiegeIndex] -= $Quant
 
 	Else
 		SetLog("No " & $g_asSiegeMachineNames[$iSiegeIndex] & " available to donate..", $COLOR_ERROR)
@@ -1518,23 +1740,29 @@ Func DetectSlotTroop(Const $iTroopIndex, $g_iDonationWindowX = 353)
 		Local $y1 = $y + 62
 
 		$FullTemp = SearchImgloc($g_sImgDonateTroops, $x, $y, $x1, $y1)
-		If $g_bDebugSetlog Then SetDebugLog("Troop Slot: " & $Slot & " SearchImgloc returned:" & $FullTemp[0] & ".", $COLOR_DEBUG)
 
-		If StringInStr($FullTemp[0] & " ", "empty") > 0 Then ExitLoop
+		If IsArray($FullTemp) And UBound($FullTemp) > 0 Then
 
-		If $FullTemp[0] <> "" Then
-			Local $iFoundTroopIndex = TroopIndexLookup($FullTemp[0])
-			For $i = $eTroopBarbarian To $eTroopCount - 1
-				If $iFoundTroopIndex = $i Then
-					If $g_bDebugSetlog Then SetDebugLog("Detected " & $g_asTroopNames[$i], $COLOR_DEBUG)
-					If $iTroopIndex = $i Then Return $Slot
-					ExitLoop
-				EndIf
-				If $i = $eTroopCount - 1 Then ; detection failed
-					If $g_bDebugSetlog Then SetDebugLog("Slot: " & $Slot & "Troop Detection Failed", $COLOR_DEBUG)
-				EndIf
-			Next
+			If $g_bDebugSetlog Then SetDebugLog("Troop Slot: " & $Slot & " SearchImgloc returned:" & $FullTemp[0] & ".", $COLOR_DEBUG)
+
+			If StringInStr($FullTemp[0], "empty") > 0 Then ExitLoop
+
+			If $FullTemp[0] <> "" Then
+				Local $iFoundTroopIndex = TroopIndexLookup($FullTemp[0])
+				For $i = $eTroopBarbarian To $eTroopCount - 1
+					If $iFoundTroopIndex = $i Then
+						If $g_bDebugSetlog Then SetDebugLog("Detected " & $g_asTroopNames[$i], $COLOR_DEBUG)
+						If $iTroopIndex = $i Then Return $Slot
+						ExitLoop
+					EndIf
+					If $i = $eTroopCount - 1 Then ; detection failed
+						If $g_bDebugSetlog Then SetDebugLog("Slot: " & $Slot & "Troop Detection Failed", $COLOR_DEBUG)
+					EndIf
+				Next
+			EndIf
+
 		EndIf
+
 	Next
 
 	For $Slot = 7 To 13
@@ -1544,23 +1772,29 @@ Func DetectSlotTroop(Const $iTroopIndex, $g_iDonationWindowX = 353)
 		Local $y1 = $y + 62
 
 		$FullTemp = SearchImgloc($g_sImgDonateTroops, $x, $y, $x1, $y1)
-		If $g_bDebugSetlog Then SetDebugLog("Troop Slot: " & $Slot & " SearchImgloc returned:" & $FullTemp[0] & ".", $COLOR_DEBUG)
 
-		If StringInStr($FullTemp[0] & " ", "empty") > 0 Then ExitLoop
+		If IsArray($FullTemp) And UBound($FullTemp) > 0 Then
 
-		If $FullTemp[0] <> "" Then
-			For $i = $eTroopBarbarian To $eTroopCount - 1
-				Local $iFoundTroopIndex = TroopIndexLookup($FullTemp[0])
-				If $iFoundTroopIndex = $i Then
-					If $g_bDebugSetlog Then SetDebugLog("Detected " & $g_asTroopNames[$i], $COLOR_DEBUG)
-					If $iTroopIndex = $i Then Return $Slot
-					ExitLoop
-				EndIf
-				If $i = $eTroopCount - 1 Then ; detection failed
-					If $g_bDebugSetlog Then SetDebugLog("Slot: " & $Slot & " Troop Detection Failed", $COLOR_DEBUG)
-				EndIf
-			Next
+			If $g_bDebugSetlog Then SetDebugLog("Troop Slot: " & $Slot & " SearchImgloc returned:" & $FullTemp[0] & ".", $COLOR_DEBUG)
+
+			If StringInStr($FullTemp[0], "empty") > 0 Then ExitLoop
+
+			If $FullTemp[0] <> "" Then
+				For $i = $eTroopBarbarian To $eTroopCount - 1
+					Local $iFoundTroopIndex = TroopIndexLookup($FullTemp[0])
+					If $iFoundTroopIndex = $i Then
+						If $g_bDebugSetlog Then SetDebugLog("Detected " & $g_asTroopNames[$i], $COLOR_DEBUG)
+						If $iTroopIndex = $i Then Return $Slot
+						ExitLoop
+					EndIf
+					If $i = $eTroopCount - 1 Then ; detection failed
+						If $g_bDebugSetlog Then SetDebugLog("Slot: " & $Slot & " Troop Detection Failed", $COLOR_DEBUG)
+					EndIf
+				Next
+			EndIf
+
 		EndIf
+
 	Next
 
 	Return -1
@@ -1577,23 +1811,29 @@ Func DetectSlotSpell(Const $iSpellIndex, $g_iDonationWindowX = 353)
 		Local $y1 = $y + 62
 
 		$FullTemp = SearchImgloc($g_sImgDonateSpells, $x, $y, $x1, $y1)
-		SetDebugLog("Spell Slot: " & $Slot & " SearchImgloc returned:" & $FullTemp[0] & ".", $COLOR_DEBUG)
 
-		If StringInStr($FullTemp[0] & " ", "empty") > 0 Then ExitLoop
+		If IsArray($FullTemp) And UBound($FullTemp) > 0 Then
 
-		If $FullTemp[0] <> "" Then
-			For $i = $eSpellLightning To $eSpellCount - 1
-				Local $sTmp = StringLeft($g_asSpellNames[$i], 4)
-				If StringInStr($FullTemp[0] & " ", $sTmp) > 0 Then
-					If $g_bDebugSetlog Then SetDebugLog("Detected " & $g_asSpellNames[$i], $COLOR_DEBUG)
-					If $iSpellIndex = $i Then Return $Slot
-					ExitLoop
-				EndIf
-				If $i = $eSpellCount - 1 Then ; detection failed
-					If $g_bDebugSetlog Then SetDebugLog("Slot: " & $Slot & "Spell Detection Failed", $COLOR_DEBUG)
-				EndIf
-			Next
+			SetDebugLog("Spell Slot: " & $Slot & " SearchImgloc returned:" & $FullTemp[0] & ".", $COLOR_DEBUG)
+
+			If StringInStr($FullTemp[0], "empty") > 0 Then ExitLoop
+
+			If $FullTemp[0] <> "" Then
+				For $i = $eSpellLightning To $eSpellCount - 1
+					Local $sTmp = StringLeft($g_asSpellNames[$i], 4)
+					If StringInStr($FullTemp[0] & " ", $sTmp) > 0 Then
+						If $g_bDebugSetlog Then SetDebugLog("Detected " & $g_asSpellNames[$i], $COLOR_DEBUG)
+						If $iSpellIndex = $i Then Return $Slot
+						ExitLoop
+					EndIf
+					If $i = $eSpellCount - 1 Then ; detection failed
+						If $g_bDebugSetlog Then SetDebugLog("Slot: " & $Slot & "Spell Detection Failed", $COLOR_DEBUG)
+					EndIf
+				Next
+			EndIf
+
 		EndIf
+
 	Next
 
 	Return -1
@@ -1610,22 +1850,28 @@ Func DetectSlotSiege(Const $iSiegeIndex, $g_iDonationWindowX = 353)
 		Local $y1 = $y + 62
 
 		$FullTemp = SearchImgloc($g_sImgDonateSiege, $x, $y, $x1, $y1)
-		SetDebugLog("Siege Slot: " & $Slot & " SearchImgloc returned:" & $FullTemp[0] & ".", $COLOR_DEBUG)
 
-		If StringInStr($FullTemp[0] & " ", "empty") > 0 Then ExitLoop
+		If IsArray($FullTemp) And UBound($FullTemp) > 0 Then
 
-		If $FullTemp[0] <> "" Then
-			For $i = $eSiegeWallWrecker To $eSiegeMachineCount - 1
-				If $FullTemp[0] = $g_asSiegeMachineShortNames[$i] Then
-					SetDebugLog("Detected " & $g_asSiegeMachineNames[$i], $COLOR_DEBUG)
-					If $iSiegeIndex = $i Then Return $Slot
-					ExitLoop
-				EndIf
-				If $i = $eSiegeMachineCount - 1 Then ; detection failed
-					SetDebugLog("Slot: " & $Slot & "Troop Detection Failed", $COLOR_DEBUG)
-				EndIf
-			Next
+			SetDebugLog("Siege Slot: " & $Slot & " SearchImgloc returned:" & $FullTemp[0] & ".", $COLOR_DEBUG)
+
+			If StringInStr($FullTemp[0], "empty") > 0 Then ExitLoop
+
+			If $FullTemp[0] <> "" Then
+				For $i = $eSiegeWallWrecker To $eSiegeMachineCount - 1
+					If $FullTemp[0] = $g_asSiegeMachineShortNames[$i] Then
+						SetDebugLog("Detected " & $g_asSiegeMachineNames[$i], $COLOR_DEBUG)
+						If $iSiegeIndex = $i Then Return $Slot
+						ExitLoop
+					EndIf
+					If $i = $eSiegeMachineCount - 1 Then ; detection failed
+						SetDebugLog("Slot: " & $Slot & "Troop Detection Failed", $COLOR_DEBUG)
+					EndIf
+				Next
+			EndIf
+
 		EndIf
+
 	Next
 
 	For $Slot = 7 To 13
@@ -1637,20 +1883,25 @@ Func DetectSlotSiege(Const $iSiegeIndex, $g_iDonationWindowX = 353)
 		$FullTemp = SearchImgloc($g_sImgDonateSiege, $x, $y, $x1, $y1)
 		SetDebugLog("Siege Slot: " & $Slot & " SearchImgloc returned:" & $FullTemp[0] & ".", $COLOR_DEBUG)
 
-		If StringInStr($FullTemp[0] & " ", "empty") > 0 Then ExitLoop
+		If IsArray($FullTemp) And UBound($FullTemp) > 0 Then
 
-		If $FullTemp[0] <> "" Then
-			For $i = $eSiegeWallWrecker To $eSiegeMachineCount - 1
-				If $FullTemp[0] = $g_asSiegeMachineShortNames[$i] Then
-					SetDebugLog("Detected " & $g_asSiegeMachineNames[$i], $COLOR_DEBUG)
-					If $iSiegeIndex = $i Then Return $Slot
-					ExitLoop
-				EndIf
-				If $i = $eSiegeMachineCount - 1 Then ; detection failed
-					SetDebugLog("Slot: " & $Slot & "Troop Detection Failed", $COLOR_DEBUG)
-				EndIf
-			Next
+			If StringInStr($FullTemp[0], "empty") > 0 Then ExitLoop
+
+			If $FullTemp[0] <> "" Then
+				For $i = $eSiegeWallWrecker To $eSiegeMachineCount - 1
+					If $FullTemp[0] = $g_asSiegeMachineShortNames[$i] Then
+						SetDebugLog("Detected " & $g_asSiegeMachineNames[$i], $COLOR_DEBUG)
+						If $iSiegeIndex = $i Then Return $Slot
+						ExitLoop
+					EndIf
+					If $i = $eSiegeMachineCount - 1 Then ; detection failed
+						SetDebugLog("Slot: " & $Slot & "Troop Detection Failed", $COLOR_DEBUG)
+					EndIf
+				Next
+			EndIf
+
 		EndIf
+
 	Next
 
 	Return -1

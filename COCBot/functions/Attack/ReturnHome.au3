@@ -381,8 +381,6 @@ Func TreasureHunt($counter = 0)
 				If _Sleep(500) Then Return
 				Local $aContinueButton = findButton("Continue", Default, 1, True)
 				If IsArray($aContinueButton) And UBound($aContinueButton, 1) = 2 Then
-				;	If _Sleep(1000) Then Return
-				;	SaveDebugImage("ChestReward")
 					CheckRewardType()
 					If _Sleep(500) Then Return
 					ClickP($aContinueButton, 1, 120, "#0433")
