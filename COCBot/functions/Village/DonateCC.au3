@@ -252,7 +252,7 @@ Func getArmyRequest($aiDonateCoords, $bNeedCapture = True)
 			$HownManySpell += 1
 			; Sieges
 		ElseIf $iArmyIndex >= $eWallW And $iArmyIndex <= $eBattleD Then
-			$sClanText &= ", " & $eRequestCount & $g_asSiegeMachineNames[$iArmyIndex - $eWallW] & ($eRequestCount > 1 ? "s" : "")
+			$sClanText &= ", " & $eRequestCount & " " & $g_asSiegeMachineNames[$iArmyIndex - $eWallW] & ($eRequestCount > 1 ? "s" : "")
 			$HownManySiege += 1
 		ElseIf $iArmyIndex = -1 Then
 			ContinueLoop
@@ -352,7 +352,7 @@ Func getArmyRequestTEST($bNeedCapture = True)
 			$HownManySpell += 1
 			; Sieges
 		ElseIf $iArmyIndex >= $eWallW And $iArmyIndex <= $eBattleD Then
-			$sClanText &= ", "  & $eRequestCount & $g_asSiegeMachineNames[$iArmyIndex - $eWallW] & ($eRequestCount > 1 ? "s" : "")
+			$sClanText &= ", "  & $eRequestCount & " " & $g_asSiegeMachineNames[$iArmyIndex - $eWallW] & ($eRequestCount > 1 ? "s" : "")
 			$HownManySiege += 1
 		ElseIf $iArmyIndex = -1 Then
 			ContinueLoop
