@@ -252,7 +252,7 @@ Func getArmyRequest($aiDonateCoords, $bNeedCapture = True)
 			$HownManySpell += 1
 			; Sieges
 		ElseIf $iArmyIndex >= $eWallW And $iArmyIndex <= $eBattleD Then
-			$sClanText &= ", "  & $eRequestCount & $g_asSiegeMachineNames[$iArmyIndex - $eWallW] & ($eRequestCount > 1 ? "s" : "")
+			$sClanText &= ", " & $eRequestCount & $g_asSiegeMachineNames[$iArmyIndex - $eWallW] & ($eRequestCount > 1 ? "s" : "")
 			$HownManySiege += 1
 		ElseIf $iArmyIndex = -1 Then
 			ContinueLoop
@@ -278,7 +278,7 @@ Func getArmyRequest($aiDonateCoords, $bNeedCapture = True)
 
 	Return $ReturnedArray
 EndFunc   ;==>getArmyRequest
-
+#cs
 Func getArmyRequestTEST($bNeedCapture = True)
 
 	BeginImageTest()
@@ -378,7 +378,7 @@ Func getArmyRequestTEST($bNeedCapture = True)
 
 	Return $ReturnedArray[1]
 EndFunc   ;==>getArmyRequestTEST
-
+#ce
 Func DonateCC($bUpdateStats = True)
 
 	Local $bDonateTroop = ($g_aiPrepDon[0] = 1)
@@ -527,7 +527,6 @@ Func DonateCC($bUpdateStats = True)
 		$aiDonateButton = decodeSingleCoord(findImage("Donate Button", $g_sImgDonateCC & "DonateButton*", $sSearchArea, 1, True, Default))
 
 		If $g_bDebugSetlog Then SetDebugLog("Get all Buttons in " & StringFormat("%.2f", __TimerDiff($iTimer)) & "'ms", $COLOR_DEBUG)
-		$iTimer = __TimerInit()
 
 		If IsArray($aiDonateButton) And UBound($aiDonateButton, 1) >= 2 Then ; if Donate Button found
 
@@ -538,6 +537,11 @@ Func DonateCC($bUpdateStats = True)
 				ContinueLoop ; go to next button if cant read Castle Troops and Spells before the donate window opens
 			EndIf
 
+			;;; Get remaining CC capacity of requested troops from your ClanMates
+			$iTimer = __TimerInit()
+			RemainingCCcapacity($aiDonateButton)
+			If $g_bDebugSetlog Then SetDebugLog("Get remaining CC capacity in " & StringFormat("%.2f", __TimerDiff($iTimer)) & "'ms", $COLOR_DEBUG)
+
 			;;reset every run
 			$bDonate = False
 			$g_bSkipDonTroops = False
@@ -546,6 +550,7 @@ Func DonateCC($bUpdateStats = True)
 
 			; Read chat request for DonateTroop and DonateSpell
 			If $bDonateTroop Or $bDonateSpell Or $bDonateSiege Then
+				$iTimer = __TimerInit()
 				; New Donation System
 				$sNewClanStringTemp = getArmyRequest($aiDonateButton)
 				If IsArray($sNewClanStringTemp) Then $sNewClanString = $sNewClanStringTemp[0]
@@ -626,8 +631,16 @@ Func DonateCC($bUpdateStats = True)
 							If $g_abChkDonateTroop[$i] Then ; checking Troops & Custom
 								If $g_bDebugSetlog Then SetDebugLog("Troop: [" & $i & "] checking!", $COLOR_DEBUG)
 								If CheckDonateTroop($i, $g_asTxtDonateTroop[$i], $g_asTxtBlacklistTroop[$i], $ClanString, $bNewSystemToDonate, True, $abDonateQueueOnly[0]) Then
-									If Not $bNewSystemToDonate Then $bDonateTroopMatched = True
-									$Checked = True
+									If Not $bNewSystemToDonate Then
+										; Space to donate troop?
+										$g_iDonTroopsQuantityAv = Floor($g_iTotalDonateTroopCapacity / $g_aiTroopSpace[$i])
+										If $g_iTotalDonateTroopCapacity > 0 And $g_iDonTroopsQuantityAv < 1 Then
+											SetLog($g_asTroopNames[$i] & " doesn't fit in the remaining space!", $COLOR_ACTION)
+										Else
+											$bDonateTroopMatched = True
+											$Checked = True
+										EndIf
+									EndIf
 								EndIf
 							EndIf
 						Next
@@ -635,8 +648,16 @@ Func DonateCC($bUpdateStats = True)
 							If $g_abChkDonateSpell[$i] Then ; checking Spells
 								If $g_bDebugSetlog Then SetDebugLog("Spell: [" & $i & "] checking!", $COLOR_DEBUG)
 								If CheckDonateSpell($i, $g_asTxtDonateSpell[$i], $g_asTxtBlacklistSpell[$i], $ClanString, $bNewSystemToDonate, True, $abDonateQueueOnly[1]) Then
-									If Not $bNewSystemToDonate Then $bDonateSpellMatched = True
-									$Checked = True
+									If Not $bNewSystemToDonate Then
+										; Space to donate spell?
+										$g_iDonSpellsQuantityAv = Floor($g_iTotalDonateSpellCapacity / $g_aiSpellSpace[$i])
+										If $g_iTotalDonateSpellCapacity > 0 And $g_iDonSpellsQuantityAv < 1 Then
+											SetLog($g_asSpellNames[$i] & " Spell doesn't fit in the remaining space!", $COLOR_ACTION)
+										Else
+											$bDonateSpellMatched = True
+											$Checked = True
+										EndIf
+									EndIf
 								EndIf
 							EndIf
 						Next
@@ -667,25 +688,13 @@ Func DonateCC($bUpdateStats = True)
 				Local $bDonateTroopMatched = True, $bDonateSpellMatched = True, $bDonateSiegeMatched = True
 			EndIf
 
-			;;; Get remaining CC capacity of requested troops from your ClanMates
-			RemainingCCcapacity($aiDonateButton)
-			If $g_bDebugSetlog Then SetDebugLog("Get remaining CC capacity in " & StringFormat("%.2f", __TimerDiff($iTimer)) & "'ms", $COLOR_DEBUG)
-			$iTimer = __TimerInit()
-
-			Local $bTroopsSetlog = True, $bSpellsSetlog = True, $bSiegesSetlog = True
 			;;; Donate Filter
 			;;; Troops
 			If $g_iTotalDonateTroopCapacity <= 0 Then
 				SetLog("Clan Castle troops are full, skip troop donation", $COLOR_ACTION)
 				$g_bSkipDonTroops = True
 			ElseIf $g_iTotalDonateTroopCapacity > 0 Then
-				If Not $bNewSystemToDonate Then
-					If Not $bDonateTroopMatched Then
-						If $bTroopsSetlog Then SetLog("Troop request doesn't match, skip troop donation", $COLOR_ACTION)
-						$bTroopsSetlog = False
-						$g_bSkipDonTroops = True
-					EndIf
-				EndIf
+				If Not $bNewSystemToDonate And Not $bDonateTroopMatched Then $g_bSkipDonTroops = True
 			EndIf
 			;;; Spells
 			If $g_iCurrentSpells = 0 And $g_iCurrentSpells <> "" Then
@@ -699,13 +708,7 @@ Func DonateCC($bUpdateStats = True)
 				SetLog("Clan Castle spells are full, skip spell donation...", $COLOR_ACTION)
 				$g_bSkipDonSpells = True
 			ElseIf $g_iTotalDonateSpellCapacity > 0 Then
-				If Not $bNewSystemToDonate Then
-					If Not $bDonateSpellMatched Then
-						If $bSpellsSetlog Then SetLog("Spell request doesn't match, skip spell donation", $COLOR_ACTION)
-						$bSpellsSetlog = False
-						$g_bSkipDonSpells = True
-					EndIf
-				EndIf
+				If Not $bNewSystemToDonate And Not $bDonateSpellMatched Then $g_bSkipDonSpells = True
 			EndIf
 			;;; Sieges
 			If Not $bDonateSiege And Not $bDonateAllSiege Then
@@ -726,8 +729,7 @@ Func DonateCC($bUpdateStats = True)
 			ElseIf $g_iTotalDonateSiegeMachineCapacity > 0 Then
 				If Not $bNewSystemToDonate Then
 					If Not $bDonateSiegeMatched Then
-						If $bSiegesSetlog Then SetLog("Siege request doesn't match, skip siege donation", $COLOR_ACTION)
-						$bSiegesSetlog = False
+						SetLog("Siege request doesn't match, skip siege donation", $COLOR_ACTION)
 						$g_bSkipDonSiege = True
 					EndIf
 				EndIf
@@ -971,13 +973,13 @@ Func DonateCC($bUpdateStats = True)
 							If CheckDonateSiege($SiegeIndex, $g_asTxtDonateTroop[$index], $g_asTxtBlacklistTroop[$index], $ClanString, $bNewSystemToDonate) Then
 								Local $bCount = 0
 								If $bNewSystemToDonate Then
-								For $z = 0 To UBound($sNewSystemRequestCountArray) - 1
-									If $sNewSystemRequestCountArray[$z][0] - $eWallW = $index And $sNewSystemRequestCountArray[$z][2] > 1 Then
-										$bCount = $sNewSystemRequestCountArray[$z][1]
-										If $bCount = "" Then $bCount = 0
-									EndIf
-								Next
-							EndIf
+									For $z = 0 To UBound($sNewSystemRequestCountArray) - 1
+										If $sNewSystemRequestCountArray[$z][0] - $eWallW = $index And $sNewSystemRequestCountArray[$z][2] > 1 Then
+											$bCount = $sNewSystemRequestCountArray[$z][1]
+											If $bCount = "" Then $bCount = 0
+										EndIf
+									Next
+								EndIf
 								DonateSiegeType($SiegeIndex, $bCount, True)
 							EndIf
 							ExitLoop
