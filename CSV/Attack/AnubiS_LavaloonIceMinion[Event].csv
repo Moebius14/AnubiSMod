@@ -1,5 +1,5 @@
 NOTE  |Author: AnubiS
-NOTE  |Attack: IceLavaloonIceMinion [Event]
+NOTE  |Attack: LavaloonIceMinion [Event]
 NOTE  |*** Support TH14, TH15, TH16
 NOTE  |CC : 1 Rage 1 Freeze and Balloons
 NOTE  |Siege : Stone Slammers
@@ -8,9 +8,8 @@ NOTE  |Script work on "EXTERNAL EDGES"
       |--------------------------------------------------------IceLoonSMini Start---------------------------------------------------------------------|
       |  																																			  |
       |_TROOPNAME_|__FLEXIBLE_|____TH06___|____TH07___|____TH08___|____TH09___|____TH10___|____TH11___|____TH12___|____TH13___|____TH14___|____TH15___|
-TRAIN |Ball       |0          |0          |0          |0          |0          |0          |0          |0          |0          |14         |14         |
-TRAIN |IceH       |0          |0          |0          |0          |0          |0          |0          |0          |0          |1          |1          |
-TRAIN |IMini      |0          |0          |0          |0          |0          |0          |0          |0          |0          |18         |18         |
+TRAIN |Ball       |0          |0          |0          |0          |0          |0          |0          |0          |0          |18         |18         |
+TRAIN |IMini      |0          |0          |0          |0          |0          |0          |0          |0          |0          |23         |23         |
 TRAIN |LavaLoon   |0          |0          |0          |0          |0          |0          |0          |0          |0          |6          |6          |
       |                                                                                                                     						  |
 TRAIN |RSpell     |0          |0          |0          |0          |0          |0          |0          |3          |3          |3          |3          |
@@ -74,24 +73,23 @@ DROP  |V          |11         |1          |HaSpell    |30-50      |30-70      |4
 DROP  |V          |4          |1          |HaSpell    |30-50      |30-70      |400-600    |           |           |           |           |           |
 DROP  |Z          |4          |1          |HaSpell    |30-50      |30-70      |400-600    |           |           |           |           |           |
 DROP  |Z          |11         |1          |HaSpell    |30-50      |30-70      |400-600    |           |           |           |           |           |
-DROP  |A          |1          |1          |IceH       |30-50      |30-70      |100-200    |           |           |           |           |           |
+DROP  |I          |3,6,9      |3          |LavaLoon   |50-70      |160-190    |0          |           |           |           |           |           |
+DROP  |J          |2,5,8      |3          |LavaLoon   |50-70      |160-190    |0          |           |           |           |           |           |
 DROP  |A          |1          |1          |Castle     |0          |0          |0          |           |           |           |           |           |
 DROP  |A          |1          |1          |WallW      |0          |0          |300        |           |           |           |           |           |
 DROP  |A          |1          |1          |BattleB    |0          |0          |300        |           |           |           |           |           |
 DROP  |A          |1          |1          |StoneS     |0          |0          |300        |           |           |           |           |           |
-DROP  |I          |3,6,9      |3          |LavaLoon   |50-70      |160-190    |0          |           |           |           |           |           |
-DROP  |J          |2,5,8      |3          |LavaLoon   |50-70      |160-190    |100-250    |           |           |           |           |           |
-DROP  |I          |3,4,5,6,7,8|6          |Ball       |80-100     |40-50      |0          |           |           |           |           |           |
-DROP  |J          |1,2,3,4,6,7|6          |Ball       |80-100     |40-50      |50-80      |           |           |           |           |           |
-DROP  |J          |4		  |1          |Ball       |80-100     |40-50      |100-150    |           |           |           |           |           |
-DROP  |I          |6		  |1          |Ball       |80-100     |40-50      |0		  |           |           |           |           |           |
+DROP  |I          |3-10       |8          |Ball       |80-100     |70-90      |0          |           |           |           |           |           |
+DROP  |J          |1-8        |8          |Ball       |80-100     |70-90      |50-80      |           |           |           |           |           |
+DROP  |J-I        |5          |1          |Ball       |80-100     |140-150    |0		  |           |           |           |           |           |
 DROP  |A          |1          |1          |Warden     |0          |0          |40-150     |           |           |           |           |           |
 DROP  |A          |1          |1          |King       |0          |130-170    |40-150     |           |           |           |           |           |
 DROP  |A          |1          |1          |Queen      |0          |130-170    |40-150     |           |           |           |           |           |
 DROP  |A          |1          |1          |Champion   |0          |130-170    |40-150     |           |           |           |           |           |
 DROP  |C          |3-10       |8          |IMini      |80-100     |100-120    |0          |           |           |           |           |           |
 DROP  |D          |1-8        |8          |IMini      |80-100     |100-120    |50-80      |           |           |           |           |           |
-DROP  |D-C        |5   	      |1          |IMini      |80-100     |100-120    |100-200    |           |           |           |           |           |
+DROP  |D          |7,5,2,1    |4          |IMini      |80-100     |100-120    |0          |           |           |           |           |           |
+DROP  |C          |8,5,3      |3          |IMini      |80-100     |100-120    |100-200    |           |           |           |           |           |
 DROP  |E          |14         |1          |HaSpell    |0          |0          |300        |           |           |           |           |           |
 DROP  |E          |6          |1          |RSpell     |0          |0          |250-300    |           |           |           |           |           |
 DROP  |F          |3          |1          |RSpell     |0          |0          |250-300    |           |           |           |           |           |

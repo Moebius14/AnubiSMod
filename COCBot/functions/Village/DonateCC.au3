@@ -631,7 +631,9 @@ Func DonateCC($bUpdateStats = True)
 							If $g_abChkDonateTroop[$i] Then ; checking Troops & Custom
 								If $g_bDebugSetlog Then SetDebugLog("Troop: [" & $i & "] checking!", $COLOR_DEBUG)
 								If CheckDonateTroop($i, $g_asTxtDonateTroop[$i], $g_asTxtBlacklistTroop[$i], $ClanString, $bNewSystemToDonate, True, $abDonateQueueOnly[0]) Then
-									If Not $bNewSystemToDonate Then
+									If $bNewSystemToDonate Then
+										$Checked = True
+									Else
 										; Space to donate troop?
 										$g_iDonTroopsQuantityAv = Floor($g_iTotalDonateTroopCapacity / $g_aiTroopSpace[$i])
 										If $g_iTotalDonateTroopCapacity > 0 And $g_iDonTroopsQuantityAv < 1 Then
@@ -648,7 +650,9 @@ Func DonateCC($bUpdateStats = True)
 							If $g_abChkDonateSpell[$i] Then ; checking Spells
 								If $g_bDebugSetlog Then SetDebugLog("Spell: [" & $i & "] checking!", $COLOR_DEBUG)
 								If CheckDonateSpell($i, $g_asTxtDonateSpell[$i], $g_asTxtBlacklistSpell[$i], $ClanString, $bNewSystemToDonate, True, $abDonateQueueOnly[1]) Then
-									If Not $bNewSystemToDonate Then
+									If $bNewSystemToDonate Then
+										$Checked = True
+									Else
 										; Space to donate spell?
 										$g_iDonSpellsQuantityAv = Floor($g_iTotalDonateSpellCapacity / $g_aiSpellSpace[$i])
 										If $g_iTotalDonateSpellCapacity > 0 And $g_iDonSpellsQuantityAv < 1 Then
