@@ -111,7 +111,7 @@ Func ParseAttackCSV_Settings_variables(ByRef $aiCSVTroops, ByRef $aiCSVTroopsBoo
 							ContinueLoop ; discard TRAIN commands due to the invalid troop amount/setting ex. int(chars)=0, negative #. "0" won't get alerted
 						EndIf
 						Switch $iTroopIndex
-							Case $eBarb To $eIWiza
+							Case $eBarb To $eIMini
 								$aiCSVTroops[$iTroopIndex] = Int($asCommand[$iTHCol])
 								If Int($asCommand[$iFlexCol]) > 0 Then $iFlexTroopIndex = $iTroopIndex
 								For $t = 0 To UBound($g_asSuperTroopShortNames) - 1

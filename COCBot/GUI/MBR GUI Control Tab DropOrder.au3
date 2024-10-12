@@ -128,7 +128,7 @@ Func BtnDropOrderSet()
 	_ArrayShuffle($aiDropOrder, $iStartShuffle)
 	For $i = 0 To UBound($g_ahCmbDropOrder) - 1
 		_GUICtrlComboBox_SetCurSel($g_ahCmbDropOrder[$i], $aiDropOrder[$i])
-		If $aiDropOrder[$i] + 1 < $eDropOrderCount - 5 Or $aiDropOrder[$i] + 1 > $eDropOrderCount - 2 Then
+		If $aiDropOrder[$i] < $eDropOrderCount - $g_iEventTroops - 2 Or $aiDropOrder[$i] >= $eDropOrderCount - 2 Then
 			_GUICtrlSetImage($g_ahImgDropOrder[$i], $g_sLibIconPath, $g_aiDropOrderIcon[$aiDropOrder[$i] + 1])
 		Else
 			_GUICtrlSetImage($g_ahImgDropOrder[$i], $g_sLibModIconPath, $g_aiDropOrderIcon[$aiDropOrder[$i] + 1])

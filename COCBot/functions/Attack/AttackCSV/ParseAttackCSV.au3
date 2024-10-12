@@ -297,7 +297,7 @@ Func ParseAttackCSV($debug = False)
 								; Let's get the troops again and quantities
 								If PrepareAttack($g_iMatchMode, True) > 0 Then
 									; a Loop from all troops
-									For $ii = $eBarb To $eIWiza ; launch all remaining troops
+									For $ii = $eBarb To $eIMini ; launch all remaining troops
 										; Loop on all detected troops
 										For $x = 0 To UBound($g_avAttackTroops) - 1
 											; If the Name exist and haves more than zero is deploy it

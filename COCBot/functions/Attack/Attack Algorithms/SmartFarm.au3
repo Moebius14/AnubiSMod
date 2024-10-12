@@ -554,7 +554,7 @@ Func AttackSmartFarm($Nside, $SIDESNAMES)
 	SetDebugLog("Giants : " & $GiantComp & "  , per side: " & ($GiantComp / $nbSides) & " / deploy points per side: " & $g_iSlotsGiants)
 
 	If $g_bCustomDropOrderEnable Then
-		Local $listInfoDeploy[50][5] = [[MatchTroopDropName(0), $nbSides, MatchTroopWaveNb(0), 1, MatchSlotsPerEdge(0)], _
+		Local $listInfoDeploy[55][5] = [[MatchTroopDropName(0), $nbSides, MatchTroopWaveNb(0), 1, MatchSlotsPerEdge(0)], _
 				[MatchTroopDropName(1), $nbSides, MatchTroopWaveNb(1), 1, MatchSlotsPerEdge(1)], _
 				[MatchTroopDropName(2), $nbSides, MatchTroopWaveNb(2), 1, MatchSlotsPerEdge(2)], _
 				[MatchTroopDropName(3), $nbSides, MatchTroopWaveNb(3), 1, MatchSlotsPerEdge(3)], _
@@ -603,9 +603,14 @@ Func AttackSmartFarm($Nside, $SIDESNAMES)
 				[MatchTroopDropName(46), $nbSides, MatchTroopWaveNb(46), 1, MatchSlotsPerEdge(46)], _
 				[MatchTroopDropName(47), $nbSides, MatchTroopWaveNb(47), 1, MatchSlotsPerEdge(47)], _
 				[MatchTroopDropName(48), $nbSides, MatchTroopWaveNb(48), 1, MatchSlotsPerEdge(48)], _
-				[MatchTroopDropName(49), $nbSides, MatchTroopWaveNb(49), 1, MatchSlotsPerEdge(49)]]
+				[MatchTroopDropName(49), $nbSides, MatchTroopWaveNb(49), 1, MatchSlotsPerEdge(49)], _
+				[MatchTroopDropName(50), $nbSides, MatchTroopWaveNb(50), 1, MatchSlotsPerEdge(50)], _
+				[MatchTroopDropName(51), $nbSides, MatchTroopWaveNb(51), 1, MatchSlotsPerEdge(51)], _
+				[MatchTroopDropName(52), $nbSides, MatchTroopWaveNb(52), 1, MatchSlotsPerEdge(52)], _
+				[MatchTroopDropName(53), $nbSides, MatchTroopWaveNb(53), 1, MatchSlotsPerEdge(53)], _
+				[MatchTroopDropName(54), $nbSides, MatchTroopWaveNb(54), 1, MatchSlotsPerEdge(54)]]
 	Else
-		Local $listInfoDeploy[50][5] = [[$eGole, $nbSides, 1, 1, 2] _
+		Local $listInfoDeploy[55][5] = [[$eGole, $nbSides, 1, 1, 2] _
 				, [$eLava, $nbSides, 1, 1, 2] _
 				, [$eIceH, $nbSides, 1, 1, 2] _
 				, [$eIceG, $nbSides, 1, 1, 2] _
@@ -642,6 +647,11 @@ Func AttackSmartFarm($Nside, $SIDESNAMES)
 				, [$eSWiza, $nbSides, 1, 1, 0] _
 				, [$ePWiza, $nbSides, 1, 1, 0] _
 				, [$eIWiza, $nbSides, 1, 1, 0] _
+				, [$eBarcher, $nbSides, 1, 1, 0] _
+				, [$eGWitch, $nbSides, 1, 1, 0] _
+				, [$eHWiza, $nbSides, 1, 1, 0] _
+				, [$eLavaloon, $nbSides, 1, 1, 0] _
+				, [$eIMini, $nbSides, 1, 1, 0] _
 				, [$eMini, $nbSides, 1, 1, 0] _
 				, [$eSMini, $nbSides, 1, 1, 0] _
 				, [$eWitc, $nbSides, 1, 1, 1] _
@@ -677,7 +687,7 @@ Func AttackSmartFarm($Nside, $SIDESNAMES)
 			If $g_bDebugSetlog Then SetDebugLog("No Wast time... exit, no troops usable left", $COLOR_DEBUG)
 			ExitLoop ;Check remaining quantities
 		EndIf
-		For $i = $eBarb To $eIWiza
+		For $i = $eBarb To $eIMini
 			; launch remaining troops
 			If LaunchTroop($i, $nbSides, 1, 1, 1) Then
 				CheckHeroesHealth()

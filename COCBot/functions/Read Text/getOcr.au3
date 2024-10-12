@@ -550,8 +550,16 @@ Func getOcrImgLoc(ByRef Const $_hHBitmap, $sLanguage)
 EndFunc   ;==>getOcrImgLoc
 
 Func getCCBuildingName($x_start, $y_start) ;  -> Get BuildingName on builder menu
-	Local $BuildingName = "", $Count = 1
-	Local $Name = getOcrAndCapture("coc-ccbuildermenu-name", $x_start, $y_start, 200, 18, False)
+	Local $Name = "", $BuildingName = "", $Count = 1
+	For $i = 1 To 2
+		$Name = getOcrAndCapture("coc-ccbuildermenu-name", $x_start, $y_start, 200, 18, False)
+		If $Name = "" Then
+			If _Sleep(50) Then Return
+			$Name = getOcrAndCapture("coc-ccbuildermenu-name", $x_start, $y_start + $i, 200, 18, False)
+		Else
+			ExitLoop
+		EndIf
+	Next
 	If StringRegExp($Name, "x\d{1,}") Then
 		Local $aCount = StringRegExp($Name, "\d{1,}", 1) ;check if we found count of building
 		If IsArray($aCount) Then $Count = $aCount[0]
@@ -576,8 +584,17 @@ Func getCCBuildingName($x_start, $y_start) ;  -> Get BuildingName on builder men
 EndFunc   ;==>getCCBuildingName
 
 Func getCCBuildingNameSuggested($x_start, $y_start) ;  -> Get BuildingName on builder menu
-	Local $BuildingName = "", $Count = 1
-	Local $Name = getOcrAndCapture("coc-ccbuildermenu-name", $x_start, $y_start, 200, 18, False)
+	Local $Name = "", $BuildingName = "", $Count = 1
+	For $i = 1 To 2
+		$Name = getOcrAndCapture("coc-ccbuildermenu-name", $x_start, $y_start, 200, 18, False)
+		If $Name = "" Then
+			If _Sleep(50) Then Return
+			$Name = getOcrAndCapture("coc-ccbuildermenu-name", $x_start, $y_start + $i, 200, 18, False)
+		Else
+			ExitLoop
+		EndIf
+	Next
+
 	If StringRegExp($Name, "x\d{1,}") Then
 		Local $aCount = StringRegExp($Name, "\d{1,}", 1) ;check if we found count of building
 		If IsArray($aCount) Then $Count = $aCount[0]
@@ -606,8 +623,16 @@ Func getCCBuildingNameSuggested($x_start, $y_start) ;  -> Get BuildingName on bu
 EndFunc   ;==>getCCBuildingNameSuggested
 
 Func getCCBuildingNameBlue($x_start, $y_start) ;  -> Get BuildingName on builder menu
-	Local $BuildingName = "", $Count = 1
-	Local $Name = getOcrAndCapture("coc-ccbuildermenu-nameblue", $x_start, $y_start, 200, 18, False)
+	Local $Name = "", $BuildingName = "", $Count = 1
+	For $i = 1 To 2
+		$Name = getOcrAndCapture("coc-ccbuildermenu-nameblue", $x_start, $y_start, 200, 18, False)
+		If $Name = "" Then
+			If _Sleep(50) Then Return
+			$Name = getOcrAndCapture("coc-ccbuildermenu-nameblue", $x_start, $y_start + $i, 200, 18, False)
+		Else
+			ExitLoop
+		EndIf
+	Next
 	If StringRegExp($Name, "x\d{1,}") Then
 		Local $aCount = StringRegExp($Name, "\d{1,}", 1) ;check if we found count of building
 		If IsArray($aCount) Then $Count = $aCount[0]

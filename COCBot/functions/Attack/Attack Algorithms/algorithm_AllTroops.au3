@@ -78,7 +78,7 @@ Func algorithm_AllTroops() ;Attack Algorithm for all existing troops
 		Switch $g_aiAttackStdDropOrder[$g_iMatchMode]
 			Case 0
 				If $g_bCustomDropOrderEnable Then
-					Local $listInfoDeploy[50][5] = [[MatchTroopDropName(0), MatchSidesDrop(0), MatchTroopWaveNb(0), 1, MatchSlotsPerEdge(0)], _
+					Local $listInfoDeploy[55][5] = [[MatchTroopDropName(0), MatchSidesDrop(0), MatchTroopWaveNb(0), 1, MatchSlotsPerEdge(0)], _
 							[MatchTroopDropName(1), MatchSidesDrop(1), MatchTroopWaveNb(1), 1, MatchSlotsPerEdge(1)], _
 							[MatchTroopDropName(2), MatchSidesDrop(2), MatchTroopWaveNb(2), 1, MatchSlotsPerEdge(2)], _
 							[MatchTroopDropName(3), MatchSidesDrop(3), MatchTroopWaveNb(3), 1, MatchSlotsPerEdge(3)], _
@@ -127,9 +127,14 @@ Func algorithm_AllTroops() ;Attack Algorithm for all existing troops
 							[MatchTroopDropName(46), MatchSidesDrop(46), MatchTroopWaveNb(46), 1, MatchSlotsPerEdge(46)], _
 							[MatchTroopDropName(47), MatchSidesDrop(47), MatchTroopWaveNb(47), 1, MatchSlotsPerEdge(47)], _
 							[MatchTroopDropName(48), MatchSidesDrop(48), MatchTroopWaveNb(48), 1, MatchSlotsPerEdge(48)], _
-							[MatchTroopDropName(49), MatchSidesDrop(49), MatchTroopWaveNb(49), 1, MatchSlotsPerEdge(49)]]
+							[MatchTroopDropName(49), MatchSidesDrop(49), MatchTroopWaveNb(49), 1, MatchSlotsPerEdge(49)], _
+							[MatchTroopDropName(50), MatchSidesDrop(50), MatchTroopWaveNb(50), 1, MatchSlotsPerEdge(50)], _
+							[MatchTroopDropName(51), MatchSidesDrop(51), MatchTroopWaveNb(51), 1, MatchSlotsPerEdge(51)], _
+							[MatchTroopDropName(52), MatchSidesDrop(52), MatchTroopWaveNb(52), 1, MatchSlotsPerEdge(52)], _
+							[MatchTroopDropName(53), MatchSidesDrop(53), MatchTroopWaveNb(53), 1, MatchSlotsPerEdge(53)], _
+							[MatchTroopDropName(54), MatchSidesDrop(54), MatchTroopWaveNb(54), 1, MatchSlotsPerEdge(54)]]
 				Else
-					Local $listInfoDeploy[50][5] = [[$eGole, $nbSides, 1, 1, 2] _
+					Local $listInfoDeploy[55][5] = [[$eGole, $nbSides, 1, 1, 2] _
 							, [$eIceG, $nbSides, 1, 1, 2] _
 							, [$eLava, $nbSides, 1, 1, 2] _
 							, [$eYeti, $nbSides, 1, 1, 2] _
@@ -170,6 +175,11 @@ Func algorithm_AllTroops() ;Attack Algorithm for all existing troops
 							, [$eSWiza, $nbSides, 1, 1, 0] _
 							, [$ePWiza, $nbSides, 1, 1, 0] _
 							, [$eIWiza, $nbSides, 1, 1, 0] _
+							, [$eBarcher, $nbSides, 1, 1, 0] _
+							, [$eGWitch, $nbSides, 1, 1, 0] _
+							, [$eHWiza, $nbSides, 1, 1, 0] _
+							, [$eLavaloon, $nbSides, 1, 1, 0] _
+							, [$eIMini, $nbSides, 1, 1, 0] _
 							, [$eMini, $nbSides, 1, 1, 0] _
 							, [$eSMini, $nbSides, 1, 1, 0] _
 							, [$eWitc, $nbSides, 1, 1, 1] _
@@ -222,7 +232,7 @@ Func algorithm_AllTroops() ;Attack Algorithm for all existing troops
 		Switch $g_aiAttackStdDropOrder[$g_iMatchMode]
 			Case 0
 				If $g_bCustomDropOrderEnable Then
-					Local $listInfoDeploy[50][5] = [[MatchTroopDropName(0), MatchSidesDrop(0), MatchTroopWaveNb(0), 1, MatchSlotsPerEdge(0)], _
+					Local $listInfoDeploy[55][5] = [[MatchTroopDropName(0), MatchSidesDrop(0), MatchTroopWaveNb(0), 1, MatchSlotsPerEdge(0)], _
 							[MatchTroopDropName(1), MatchSidesDrop(1), MatchTroopWaveNb(1), 1, MatchSlotsPerEdge(1)], _
 							[MatchTroopDropName(2), MatchSidesDrop(2), MatchTroopWaveNb(2), 1, MatchSlotsPerEdge(2)], _
 							[MatchTroopDropName(3), MatchSidesDrop(3), MatchTroopWaveNb(3), 1, MatchSlotsPerEdge(3)], _
@@ -271,9 +281,14 @@ Func algorithm_AllTroops() ;Attack Algorithm for all existing troops
 							[MatchTroopDropName(46), MatchSidesDrop(46), MatchTroopWaveNb(46), 1, MatchSlotsPerEdge(46)], _
 							[MatchTroopDropName(47), MatchSidesDrop(47), MatchTroopWaveNb(47), 1, MatchSlotsPerEdge(47)], _
 							[MatchTroopDropName(48), MatchSidesDrop(48), MatchTroopWaveNb(48), 1, MatchSlotsPerEdge(48)], _
-							[MatchTroopDropName(49), MatchSidesDrop(49), MatchTroopWaveNb(49), 1, MatchSlotsPerEdge(49)]]
+							[MatchTroopDropName(49), MatchSidesDrop(49), MatchTroopWaveNb(49), 1, MatchSlotsPerEdge(49)], _
+							[MatchTroopDropName(50), MatchSidesDrop(50), MatchTroopWaveNb(50), 1, MatchSlotsPerEdge(50)], _
+							[MatchTroopDropName(51), MatchSidesDrop(51), MatchTroopWaveNb(51), 1, MatchSlotsPerEdge(51)], _
+							[MatchTroopDropName(52), MatchSidesDrop(52), MatchTroopWaveNb(52), 1, MatchSlotsPerEdge(52)], _
+							[MatchTroopDropName(53), MatchSidesDrop(53), MatchTroopWaveNb(53), 1, MatchSlotsPerEdge(53)], _
+							[MatchTroopDropName(54), MatchSidesDrop(54), MatchTroopWaveNb(54), 1, MatchSlotsPerEdge(54)]]
 				Else
-					Local $listInfoDeploy[50][5] = [[$eGole, $nbSides, 1, 1, 2] _
+					Local $listInfoDeploy[53][5] = [[$eGole, $nbSides, 1, 1, 2] _
 							, [$eIceG, $nbSides, 1, 1, 2] _
 							, [$eLava, $nbSides, 1, 1, 2] _
 							, [$eYeti, $nbSides, 1, 1, 2] _
@@ -314,6 +329,11 @@ Func algorithm_AllTroops() ;Attack Algorithm for all existing troops
 							, [$eSWiza, $nbSides, 1, 1, 0] _
 							, [$ePWiza, $nbSides, 1, 1, 0] _
 							, [$eIWiza, $nbSides, 1, 1, 0] _
+							, [$eBarcher, $nbSides, 1, 1, 0] _
+							, [$eGWitch, $nbSides, 1, 1, 0] _
+							, [$eHWiza, $nbSides, 1, 1, 0] _
+							, [$eLavaloon, $nbSides, 1, 1, 0] _
+							, [$eIMini, $nbSides, 1, 1, 0] _
 							, [$eMini, $nbSides, 1, 1, 0] _
 							, [$eSMini, $nbSides, 1, 1, 0] _
 							, [$eWitc, $nbSides, 1, 1, 1] _

@@ -337,7 +337,7 @@ Func TrainUsingWhatToTrain($rWTT, $bQueue = $g_bIsFullArmywithHeroesAndSpells)
 			If IsSpellToBrew($rWTT[$i][0]) Then ContinueLoop
 			Local $iTroopIndex = TroopIndexLookup($rWTT[$i][0], "TrainUsingWhatToTrain()")
 
-			If $iTroopIndex >= $eBarb And $iTroopIndex <= $eIWiza Then
+			If $iTroopIndex >= $eBarb And $iTroopIndex <= $eIMini Then
 				Local $NeededSpace = $g_aiTroopSpace[$iTroopIndex] * $rWTT[$i][1]
 			EndIf
 
@@ -346,7 +346,7 @@ Func TrainUsingWhatToTrain($rWTT, $bQueue = $g_bIsFullArmywithHeroesAndSpells)
 
 
 			If $NeededSpace > $LeftSpace Then
-				If $iTroopIndex >= $eBarb And $iTroopIndex <= $eIWiza Then
+				If $iTroopIndex >= $eBarb And $iTroopIndex <= $eIMini Then
 					$rWTT[$i][1] = Int($LeftSpace / $g_aiTroopSpace[$iTroopIndex])
 				EndIf
 			EndIf
@@ -354,7 +354,7 @@ Func TrainUsingWhatToTrain($rWTT, $bQueue = $g_bIsFullArmywithHeroesAndSpells)
 			If $rWTT[$i][1] > 0 Then
 				If Not DragIfNeeded($rWTT[$i][0]) Then Return False
 
-				If $iTroopIndex >= $eBarb And $iTroopIndex <= $eIWiza Then
+				If $iTroopIndex >= $eBarb And $iTroopIndex <= $eIMini Then
 					Local $sTroopName = ($rWTT[$i][1] > 1 ? $g_asTroopNamesPlural[$iTroopIndex] : $g_asTroopNames[$iTroopIndex])
 				EndIf
 
@@ -414,10 +414,11 @@ Func DragIfNeeded($Troop)
 	Local $bCheckPixel = False
 	Local $iIndex = TroopIndexLookup($Troop, "DragIfNeeded")
 	Local $bDrag = False, $ExtendedTroops4 = False, $ExtendedDragTroops4 = 0
+	Local $bMoveCount = $eETitan - $g_iNextPageTroop
 
 	If $iIndex > $g_iNextPageTroop Then $bDrag = True ; Drag if Troops is on Right side from $g_iNextPageTroop
 	If $iIndex > $eDruid Then $bDrag = False ; No Drag If Event Troops
-	If $g_iNextPageTroop <= $eMine Then  ; MicroDragLeft if Moved 4+ slots to find Edrag and Yeti.
+	If $bMoveCount > 4 Then  ; MicroDragLeft if Moved 4+ slots at left to find hidden columns.
 		$ExtendedTroops4 = True
 		$ExtendedDragTroops4 = 70 ; Drag more to the right before.
 	EndIf
@@ -431,7 +432,7 @@ Func DragIfNeeded($Troop)
 				If _Sleep(Random(1500, 2000, 1)) Then Return
 				If _ColorCheck(_GetPixelColor(776, 380 + $g_iMidOffsetY, True), Hex(0xD3D3CB, 6), 5) Then
 					$bCheckPixel = True
-					If $ExtendedTroops4 And $iIndex >= $eEDrag And $iIndex <= $eRootR Then
+					If $ExtendedTroops4 And $iIndex > $g_iNextPageTroop And $iIndex <= $g_iNextPageTroop + $bMoveCount Then
 						If $g_bDebugSetlogTrain Then SetLog("DragIfNeeded : MicroDrag to the left")
 						ClickDrag(250, 433 + $g_iMidOffsetY, 435, 433 + $g_iMidOffsetY)
 						If _Sleep(Random(1500, 2000, 1)) Then Return
@@ -478,7 +479,7 @@ EndFunc   ;==>DoWhatToTrainContainSpell
 
 Func IsElixirTroop($Troop)
 	Local $iIndex = TroopIndexLookup($Troop, "IsElixirTroop")
-	If $iIndex >= $eBarb And $iIndex <= $eRootR Then Return True
+	If ($iIndex >= $eBarb And $iIndex <= $eRootR) Or $iIndex >= $eGSkel Then Return True
 	Return False
 EndFunc   ;==>IsElixirTroop
 
@@ -785,7 +786,7 @@ Func GetSlotNumber($bSpells = False)
 			Local Const $Orders = [$eBarb, $eSBarb, $eArch, $eSArch, $eGiant, $eSGiant, $eGobl, $eSGobl, $eWall, $eSWall, $eBall, $eRBall, $eWiza, $eSWiza, $eHeal, $eDrag, $eSDrag, _
 					$eYeti, $eRDrag, $ePekk, $eBabyD, $eInfernoD, $eMine, $eSMine, $eEDrag, $eETitan, $eRootR, _
 					$eMini, $eSMini, $eHogs, $eSHogs, $eValk, $eSValk, $eGole, $eWitc, $eSWitc, $eLava, $eIceH, $eBowl, $eSBowl, $eIceG, $eHunt, $eAppWard, $eDruid, _
-					$eGSkel, $eRGhost, $ePWiza, $eIWiza]
+					$eGSkel, $eRGhost, $ePWiza, $eIWiza, $eBarcher, $eGWitch, $eHWiza, $eLavaloon, $eIMini]
 
 			Local $allCurTroops[UBound($Orders)]
 

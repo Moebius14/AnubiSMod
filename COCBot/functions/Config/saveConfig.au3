@@ -653,7 +653,7 @@ Func SaveConfig_600_12()
 
 	For $i = 0 To $eTroopCount - 1 + $g_iCustomDonateConfigs
 		Local $sIniName = ""
-		If $i >= $eTroopBarbarian And $i <= $eTroopIceWizard Then
+		If $i >= $eTroopBarbarian And $i <= $eTroopIceMinion Then
 			$sIniName = StringReplace($g_asTroopNamesPlural[$i], " ", "")
 		ElseIf $i = $eCustomA Then
 			$sIniName = "CustomA"

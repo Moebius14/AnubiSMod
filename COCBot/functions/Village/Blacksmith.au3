@@ -2,14 +2,14 @@
 ; Name ..........: Blacksmith
 ; Description ...: Equipment Upgrade V1
 ; Author ........: Moebius (2023-12)
-; Modified ......: Moebius (2024-06)
+; Modified ......: Moebius (2024-10)
 ; Remarks .......: This file is part of MyBot Copyright 2015-2024
 ;                  MyBot is distributed under the terms of the GNU GPL
 ; Related .......: Returns True or False
 ; Link ..........: https://github.com/MyBotRun/MyBot/wiki
 ; Example .......:
 ; ===============================================================================================================================
-Local $sSearchEquipmentDiamond = GetDiamondFromRect2(90, 375 + $g_iMidOffsetY, 390, 570 + $g_iMidOffsetY) ; Until 6 Equipment (3 columns)
+Local $sSearchEquipmentDiamond = GetDiamondFromRect2(90, 375 + $g_iMidOffsetY, 480, 570 + $g_iMidOffsetY) ; Until 8 Equipment (4 columns)
 
 Func Blacksmith($bTest = False)
 

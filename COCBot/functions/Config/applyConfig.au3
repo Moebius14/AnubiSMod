@@ -2263,7 +2263,7 @@ Func ApplyConfig_600_33($TypeReadSave)
 			chkDropOrder()
 			For $p = 0 To UBound($g_ahCmbDropOrder) - 1
 				_GUICtrlComboBox_SetCurSel($g_ahCmbDropOrder[$p], $g_aiCmbCustomDropOrder[$p])
-				If $g_aiCmbCustomDropOrder[$p] + 1 < $eDropOrderCount - 5 Or $g_aiCmbCustomDropOrder[$p] + 1 > $eDropOrderCount - 2 Then
+				If $g_aiCmbCustomDropOrder[$p] < $eDropOrderCount - $g_iEventTroops - 2 Or $g_aiCmbCustomDropOrder[$p] >= $eDropOrderCount - 2 Then
 					_GUICtrlSetImage($g_ahImgDropOrder[$p], $g_sLibIconPath, $g_aiDropOrderIcon[$g_aiCmbCustomDropOrder[$p] + 1])
 				Else
 					_GUICtrlSetImage($g_ahImgDropOrder[$p], $g_sLibModIconPath, $g_aiDropOrderIcon[$g_aiCmbCustomDropOrder[$p] + 1])
@@ -2475,7 +2475,7 @@ Func ApplyConfig_600_54($TypeReadSave)
 			chkTroopOrder()
 			For $z = 0 To UBound($g_ahCmbTroopOrder) - 1
 				_GUICtrlComboBox_SetCurSel($g_ahCmbTroopOrder[$z], $g_aiCmbCustomTrainOrder[$z])
-				If $g_aiCmbCustomTrainOrder[$z] + 1 < $eTroopCount - 3 Then
+				If $g_aiCmbCustomTrainOrder[$z] + 1 < $eTroopCount - ($g_iEventTroops - 1) Then
 					_GUICtrlSetImage($g_ahImgTroopOrder[$z], $g_sLibIconPath, $g_aiTroopOrderIcon[$g_aiCmbCustomTrainOrder[$z] + 1])
 				Else
 					_GUICtrlSetImage($g_ahImgTroopOrder[$z], $g_sLibModIconPath, $g_aiTroopOrderIcon[$g_aiCmbCustomTrainOrder[$z] + 1])

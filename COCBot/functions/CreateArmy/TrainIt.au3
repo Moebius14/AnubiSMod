@@ -88,7 +88,7 @@ Func GetTrainPos(Const $iIndex)
 	If $g_bDebugSetlogTrain Then SetLog("GetTrainPos($iIndex=" & $iIndex & ")", $COLOR_DEBUG)
 
 	; Get the Image path to search
-	If ($iIndex >= $eBarb And $iIndex <= $eIWiza) Then
+	If ($iIndex >= $eBarb And $iIndex <= $eIMini) Then
 		Local $sFilter = String($g_asTroopShortNames[$iIndex]) & "*"
 		Local $asImageToUse = _FileListToArray($g_sImgTrainTroops, $sFilter, $FLTA_FILES, True)
 		If Not @error Then
@@ -116,7 +116,7 @@ EndFunc   ;==>GetTrainPos
 Func GetFullName(Const $iIndex, Const $aTrainPos)
 	If $g_bDebugSetlogTrain Then SetLog("GetFullName($iIndex=" & $iIndex & ")", $COLOR_DEBUG)
 
-	If $iIndex >= $eBarb And $iIndex <= $eIWiza Then
+	If $iIndex >= $eBarb And $iIndex <= $eIMini Then
 		Local $IsDarkTroops = False
 		If $iIndex >= $eMini And $iIndex <= $eDruid Then $IsDarkTroops = True
 		Local $sTroopType = ($IsDarkTroops ? "Dark" : "Normal")

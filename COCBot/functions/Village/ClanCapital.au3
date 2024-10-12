@@ -1329,7 +1329,7 @@ EndFunc   ;==>ClickCCBuilder
 Func IsIgnored($aUpgradeX, $aUpgradeY, $SetLog = True)
 	Local $name[2] = ["", 0]
 	Local $bRet = False
-	$name = getCCBuildingName($aUpgradeX - 275, $aUpgradeY - 8)
+	$name = getCCBuildingName($aUpgradeX - 275, $aUpgradeY - 9)
 	If $g_bChkAutoUpgradeCCIgnore And $g_bChkIsIgnoredWalls Then
 		For $y In $aCCBuildingIgnoreWWalls
 			If StringInStr($name[0], $y) Then
@@ -1374,7 +1374,7 @@ Func FindCCExistingUpgrade()
 			If Not $g_bChkEnablePriorPrioritized Then ExitLoop
 			If QuickMIS("BC1", $g_sImgPrioritizeCC, $aUpgrade[$i][1] + 3, $aUpgrade[$i][2] - 12, $aUpgrade[$i][1] + 23, $aUpgrade[$i][2] + 8) Then
 				If IsIgnored($aUpgrade[$i][1], $aUpgrade[$i][2]) Then ContinueLoop
-				$name = getCCBuildingName($aUpgrade[$i][1] - 275, $aUpgrade[$i][2] - 8)
+				$name = getCCBuildingName($aUpgrade[$i][1] - 275, $aUpgrade[$i][2] - 9)
 				SetLog("Prioritized Upgrade Detected : " & $name[0], $COLOR_SUCCESS1)
 				$aResult = $aBackup
 				_ArrayAdd($aResult, $name[0] & "|" & $aUpgrade[$i][1] & "|" & $aUpgrade[$i][2])
@@ -1387,7 +1387,8 @@ Func FindCCExistingUpgrade()
 		For $i = 0 To UBound($aUpgrade) - 1 ; Prior Army Stuff
 			If Not $g_bChkEnablePriorArmyCC Then ExitLoop
 			If Not $g_bChkEnablePriorArmyCamp And Not $g_bChkEnablePriorBarracks And Not $g_bChkEnablePriorFactory And Not $g_bChkEnablePriorStorage Then ExitLoop
-			$name = getCCBuildingName($aUpgrade[$i][1] - 275, $aUpgrade[$i][2] - 8)
+			$name = getCCBuildingName($aUpgrade[$i][1] - 275, $aUpgrade[$i][2] - 9)
+
 			If $g_bChkEnablePriorArmyCamp And $g_bChkEnablePriorBarracks And $g_bChkEnablePriorFactory And $g_bChkEnablePriorStorage Then
 				For $y In $g_bChkIsPriorArmy
 					If StringInStr($name[0], $y) Then
@@ -1550,7 +1551,7 @@ Func FindCCExistingUpgrade()
 
 		For $i = 0 To UBound($aUpgrade) - 1 ; Prior Hall
 			If Not $g_bChkEnablePriorHallsCC Then ExitLoop
-			$name = getCCBuildingName($aUpgrade[$i][1] - 275, $aUpgrade[$i][2] - 8)
+			$name = getCCBuildingName($aUpgrade[$i][1] - 275, $aUpgrade[$i][2] - 9)
 			For $y In $g_bChkIsPriorHall
 				If StringInStr($name[0], $y) Then
 					SetLog("Upgrade for Hall Detected", $COLOR_SUCCESS1)
@@ -1565,7 +1566,7 @@ Func FindCCExistingUpgrade()
 
 		For $i = 0 To UBound($aUpgrade) - 1 ; Prior Ruins
 			If Not $g_bChkEnablePriorRuinsCC Then ExitLoop
-			$name = getCCBuildingName($aUpgrade[$i][1] - 275, $aUpgrade[$i][2] - 8)
+			$name = getCCBuildingName($aUpgrade[$i][1] - 275, $aUpgrade[$i][2] - 9)
 			If StringInStr($name[0], "Ruins") Then
 				SetLog("Upgrade for Ruins Detected", $COLOR_SUCCESS1)
 				$aResult = $aBackup
@@ -1577,7 +1578,7 @@ Func FindCCExistingUpgrade()
 		If $IsFoundRuins = True Then Return $aResult
 
 		For $i = 0 To UBound($aUpgrade) - 1 ; Ignore Walls Or/And Decorations
-			$name = getCCBuildingName($aUpgrade[$i][1] - 275, $aUpgrade[$i][2] - 8)
+			$name = getCCBuildingName($aUpgrade[$i][1] - 275, $aUpgrade[$i][2] - 9)
 			If $g_bChkAutoUpgradeCCIgnore And $g_bChkIsIgnoredWalls Then
 				For $y In $aCCBuildingIgnoreWWalls
 					If StringInStr($name[0], $y) Then
@@ -1627,7 +1628,7 @@ Func FindCCExistingUpgradeRuinsOnly()
 			If IsIgnored($aUpgrade[$i][1], $aUpgrade[$i][2]) Then ContinueLoop
 
 			If QuickMis("BC1", $g_sImgPrioritizeCC, $aUpgrade[$i][1] + 3, $aUpgrade[$i][2] - 12, $aUpgrade[$i][1] + 23, $aUpgrade[$i][2] + 8) Then
-				$name = getCCBuildingName($aUpgrade[$i][1] - 275, $aUpgrade[$i][2] - 8)
+				$name = getCCBuildingName($aUpgrade[$i][1] - 275, $aUpgrade[$i][2] - 9)
 				SetLog("Prioritized Upgrade Detected : " & $name[0], $COLOR_SUCCESS1)
 				$aResult = $aBackup
 				_ArrayAdd($aResult, $name[0] & "|" & $aUpgrade[$i][1] & "|" & $aUpgrade[$i][2])
@@ -1638,7 +1639,7 @@ Func FindCCExistingUpgradeRuinsOnly()
 		If $IsPrioritized = True Then Return $aResult
 
 		For $i = 0 To UBound($aUpgrade) - 1 ; Prior Ruins
-			$name = getCCBuildingName($aUpgrade[$i][1] - 275, $aUpgrade[$i][2] - 8)
+			$name = getCCBuildingName($aUpgrade[$i][1] - 275, $aUpgrade[$i][2] - 9)
 			If StringInStr($name[0], "Ruins") Then
 				SetLog("Upgrade for Ruins Detected", $COLOR_DEBUG)
 				$aResult = $aBackup
@@ -1657,15 +1658,15 @@ Func FindCCSuggestedUpgrade()
 	Local $aResult[0][3], $aBackup[0][3], $name[2] = ["", 0]
 	Local $IsFoundArmy = False, $IsFoundHall = False, $IsFoundRuins = False
 
-	Local $aUpgrade = QuickMIS("CNX", $g_sImgResourceCC, 400, 100, 565, 330 + $g_iMidOffsetY)
+	Local $aUpgrade = QuickMIS("CNX", $g_sImgResourceCC, 400, 100, 565, 360 + $g_iMidOffsetY)
 	If IsArray($aUpgrade) And UBound($aUpgrade) > 0 Then
 		_ArraySort($aUpgrade, 0, 0, 0, 2) ;sort by Y coord
 
 		For $i = 0 To UBound($aUpgrade) - 1
 			If Not $g_bChkEnablePriorArmyCC Then ExitLoop
 			If Not $g_bChkEnablePriorArmyCamp And Not $g_bChkEnablePriorBarracks And Not $g_bChkEnablePriorFactory And Not $g_bChkEnablePriorStorage Then ExitLoop
-			If _ColorCheck(_GetPixelColor($aUpgrade[$i][1] - 15, $aUpgrade[$i][2] - 6, True), Hex(0xFFFFFF, 6), 20) Then ContinueLoop ;check if we have progressbar, upgrade to ignore
-			$name = getCCBuildingNameSuggested($aUpgrade[$i][1] - 250, $aUpgrade[$i][2] - 12)
+			If IsArray(_PixelSearch($aUpgrade[$i][1] - 17, $aUpgrade[$i][2] - 8, $aUpgrade[$i][1] - 15, $aUpgrade[$i][2] - 4, Hex(0xFFFFFF, 6), 20, True)) Then ContinueLoop ;check if we have progressbar, upgrade to ignore
+			$name = getCCBuildingNameSuggested($aUpgrade[$i][1] - 250, $aUpgrade[$i][2] - 14)
 
 			If QuickMIS("BC1", $g_sImgDecoration, $aUpgrade[$i][1] - 260, $aUpgrade[$i][2] - 20, $aUpgrade[$i][1] - 160, $aUpgrade[$i][2] + 10) Then
 				$name = getCCBuildingNameBlue($aUpgrade[$i][1] - 230, $aUpgrade[$i][2] - 14)
@@ -1833,8 +1834,8 @@ Func FindCCSuggestedUpgrade()
 
 		For $i = 0 To UBound($aUpgrade) - 1
 			If Not $g_bChkEnablePriorHallsCC Then ExitLoop
-			If _ColorCheck(_GetPixelColor($aUpgrade[$i][1] - 15, $aUpgrade[$i][2] - 6, True), Hex(0xFFFFFF, 6), 20) Then ContinueLoop ;check if we have progressbar, upgrade to ignore
-			$name = getCCBuildingNameSuggested($aUpgrade[$i][1] - 250, $aUpgrade[$i][2] - 12)
+			If IsArray(_PixelSearch($aUpgrade[$i][1] - 17, $aUpgrade[$i][2] - 8, $aUpgrade[$i][1] - 15, $aUpgrade[$i][2] - 4, Hex(0xFFFFFF, 6), 20, True)) Then ContinueLoop ;check if we have progressbar, upgrade to ignore
+			$name = getCCBuildingNameSuggested($aUpgrade[$i][1] - 250, $aUpgrade[$i][2] - 14)
 
 			If QuickMIS("BC1", $g_sImgDecoration, $aUpgrade[$i][1] - 260, $aUpgrade[$i][2] - 20, $aUpgrade[$i][1] - 160, $aUpgrade[$i][2] + 10) Then
 				$name = getCCBuildingNameBlue($aUpgrade[$i][1] - 230, $aUpgrade[$i][2] - 14)
@@ -1854,7 +1855,7 @@ Func FindCCSuggestedUpgrade()
 
 		For $i = 0 To UBound($aUpgrade) - 1
 			If Not $g_bChkEnablePriorRuinsCC Then ExitLoop
-			If _ColorCheck(_GetPixelColor($aUpgrade[$i][1] - 15, $aUpgrade[$i][2] - 6, True), Hex(0xFFFFFF, 6), 20) Then ;check if we have progressbar, upgrade to ignore
+			If IsArray(_PixelSearch($aUpgrade[$i][1] - 17, $aUpgrade[$i][2] - 8, $aUpgrade[$i][1] - 15, $aUpgrade[$i][2] - 4, Hex(0xFFFFFF, 6), 20, True)) Then ;check if we have progressbar, upgrade to ignore
 				ContinueLoop
 			Else
 				$name = getCCBuildingNameBlue($aUpgrade[$i][1] - 230, $aUpgrade[$i][2] - 14)
@@ -1870,8 +1871,8 @@ Func FindCCSuggestedUpgrade()
 		If $IsFoundRuins = True Then Return $aResult
 
 		For $i = 0 To UBound($aUpgrade) - 1
-			If _ColorCheck(_GetPixelColor($aUpgrade[$i][1] - 15, $aUpgrade[$i][2] - 6, True), Hex(0xFFFFFF, 6), 20) Then ContinueLoop ;check if we have progressbar, upgrade to ignore
-			$name = getCCBuildingNameSuggested($aUpgrade[$i][1] - 250, $aUpgrade[$i][2] - 12)
+			If IsArray(_PixelSearch($aUpgrade[$i][1] - 17, $aUpgrade[$i][2] - 8, $aUpgrade[$i][1] - 15, $aUpgrade[$i][2] - 4, Hex(0xFFFFFF, 6), 20, True)) Then ContinueLoop ;check if we have progressbar, upgrade to ignore
+			$name = getCCBuildingNameSuggested($aUpgrade[$i][1] - 250, $aUpgrade[$i][2] - 14)
 
 			If QuickMIS("BC1", $g_sImgDecoration, $aUpgrade[$i][1] - 260, $aUpgrade[$i][2] - 20, $aUpgrade[$i][1] - 160, $aUpgrade[$i][2] + 10) Then
 				$name = getCCBuildingNameBlue($aUpgrade[$i][1] - 230, $aUpgrade[$i][2] - 14)
@@ -1908,11 +1909,11 @@ Func FindCCSuggestedUpgradeRuinsOnly()
 	Local $aResult[0][3], $aBackup[0][3], $name[2] = ["", 0]
 	Local $IsFoundRuins = False
 
-	Local $aUpgrade = QuickMIS("CNX", $g_sImgResourceCC, 400, 100, 565, 330 + $g_iMidOffsetY)
+	Local $aUpgrade = QuickMIS("CNX", $g_sImgResourceCC, 400, 100, 565, 360 + $g_iMidOffsetY)
 	If IsArray($aUpgrade) And UBound($aUpgrade) > 0 Then
 		_ArraySort($aUpgrade, 0, 0, 0, 2) ;sort by Y coord
 		For $i = 0 To UBound($aUpgrade) - 1
-			If _ColorCheck(_GetPixelColor($aUpgrade[$i][1] - 15, $aUpgrade[$i][2] - 6, True), Hex(0xFFFFFF, 6), 20) Then ;check if we have progressbar, upgrade to ignore
+			If IsArray(_PixelSearch($aUpgrade[$i][1] - 17, $aUpgrade[$i][2] - 8, $aUpgrade[$i][1] - 15, $aUpgrade[$i][2] - 4, Hex(0xFFFFFF, 6), 20, True)) Then ;check if we have progressbar, upgrade to ignore
 				ContinueLoop
 			Else
 				$name = getCCBuildingNameBlue($aUpgrade[$i][1] - 230, $aUpgrade[$i][2] - 14)

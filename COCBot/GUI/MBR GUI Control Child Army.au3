@@ -58,7 +58,7 @@ Func lblTotalCountTroop1()
 			$TotalTroopsToTrain += $iCount * $g_aiTroopSpace[$i]
 			;Set Troop Train Info
 			If $iTmpTroops > UBound($g_ahPicTrainArmyTroopTmp) - 1 Then ContinueLoop
-			If $i < $eTroopCount - 4 Then
+			If $i < $eTroopCount - $g_iEventTroops Then
 				_GUICtrlSetImage($g_ahPicTrainArmyTroopTmp[$iTmpTroops], $g_sLibIconPath, $g_aTroopsIcon[$i])
 			Else
 				_GUICtrlSetImage($g_ahPicTrainArmyTroopTmp[$iTmpTroops], $g_sLibModIconPath, $g_aTroopsIcon[$i])
@@ -655,7 +655,7 @@ Func GUITrainOrder()
 	Local $iCtrlIdImage = $iGUI_CtrlId + 1 ; record control ID for $g_ahImgTroopOrder[$z] based on control of combobox that called this function
 	Local $iTroopIndex = _GUICtrlComboBox_GetCurSel($iGUI_CtrlId) + 1 ; find zero based index number of troop selected in combo box, add one for enum of proper icon
 
-	If $iTroopIndex < $eTroopCount - 3 Then
+	If $iTroopIndex < $eTroopCount - ($g_iEventTroops - 1) Then
 		_GUICtrlSetImage($iCtrlIdImage, $g_sLibIconPath, $g_aiTroopOrderIcon[$iTroopIndex]) ; set proper troop icon
 	Else
 		_GUICtrlSetImage($iCtrlIdImage, $g_sLibModIconPath, $g_aiTroopOrderIcon[$iTroopIndex]) ; set proper troop icon
@@ -726,7 +726,7 @@ Func BtnTroopOrderSet()
 
 	For $i = 0 To UBound($g_ahCmbTroopOrder) - 1
 		_GUICtrlComboBox_SetCurSel($g_ahCmbTroopOrder[$i], $aiUsedTroop[$i])
-		If $aiUsedTroop[$i] + 1 < $eTroopCount - 3 Then
+		If $aiUsedTroop[$i] <= $eTroopCount - $g_iEventTroops - 1 Then
 			_GUICtrlSetImage($g_ahImgTroopOrder[$i], $g_sLibIconPath, $g_aiTroopOrderIcon[$aiUsedTroop[$i] + 1])
 		Else
 			_GUICtrlSetImage($g_ahImgTroopOrder[$i], $g_sLibModIconPath, $g_aiTroopOrderIcon[$aiUsedTroop[$i] + 1])
@@ -1164,10 +1164,10 @@ Func HideAllTroops()
 	For $i = $g_ahTxtTrainArmySiegeCount[$eSiegeWallWrecker] To $g_ahTxtTrainArmySiegeCount[$eSiegeBattleDrill]
 		GUICtrlSetState($i, $GUI_HIDE)
 	Next
-	For $i = $g_ahPicTrainArmyTroop[$eTroopGiantSkeleton] To $g_ahPicTrainArmyTroop[$eTroopIceWizard]
+	For $i = $g_ahPicTrainArmyTroop[$eTroopGiantSkeleton] To $g_ahPicTrainArmyTroop[$eTroopIceMinion]
 		GUICtrlSetState($i, $GUI_HIDE)
 	Next
-	For $i = $g_ahTxtTrainArmyTroopCount[$eTroopGiantSkeleton] To $g_ahTxtTrainArmyTroopCount[$eTroopIceWizard]
+	For $i = $g_ahTxtTrainArmyTroopCount[$eTroopGiantSkeleton] To $g_ahTxtTrainArmyTroopCount[$eTroopIceMinion]
 		GUICtrlSetState($i, $GUI_HIDE)
 	Next
 EndFunc   ;==>HideAllTroops
@@ -1251,10 +1251,10 @@ EndFunc   ;==>BtnSieges
 
 Func BtnEventTroops()
 	HideAllTroops()
-	For $i = $g_ahPicTrainArmyTroop[$eTroopGiantSkeleton] To $g_ahPicTrainArmyTroop[$eTroopIceWizard]
+	For $i = $g_ahPicTrainArmyTroop[$eTroopGiantSkeleton] To $g_ahPicTrainArmyTroop[$eTroopIceMinion]
 		GUICtrlSetState($i, $GUI_SHOW)
 	Next
-	For $i = $g_ahTxtTrainArmyTroopCount[$eTroopGiantSkeleton] To $g_ahTxtTrainArmyTroopCount[$eTroopIceWizard]
+	For $i = $g_ahTxtTrainArmyTroopCount[$eTroopGiantSkeleton] To $g_ahTxtTrainArmyTroopCount[$eTroopIceMinion]
 		GUICtrlSetState($i, $GUI_SHOW)
 	Next
 	SetBtnSelector("EventTroops")
