@@ -34,7 +34,7 @@ Func getTimeForRaid($x_start, $y_start) ; read actual time remaining in Lab for 
 EndFunc   ;==>getTimeForRaid
 
 Func getNameBuilding($x_start, $y_start) ; getNameBuilding(242,Y) -> Gets complete name and level of the buildings, bottom of screen
-	Local $b_Obstacles[9] = ["Broken", "Cart", "Tree", "Mush", "Trunk", "Bush", "Bark", "Gem", "Cake"]
+	Local $b_Obstacles[10] = ["Broken", "Cart", "Tree", "Mush", "Trunk", "Bush", "Bark", "Gem", "Cake", "Hydra"]
 	Local $bResult = getOcrAndCapture("coc-build", $x_start, $y_start, 420, 27)
 	If StringInStr($bResult, "O T T O", $STR_CASESENSE) Then
 		$bResult = StringReplace($bResult, "O T T O", "O.T.T.O")

@@ -19,7 +19,6 @@ Func GetAttackBar($bRemaining = False, $pMatchMode = $DB, $bDebug = False)
 	Local $iYBelowRowOne = 630, $aiOCRLocation[2] = [-1, -1], $aSlotAmountX[0][3]
 	Local $g_bCheckExtAttackBar = True
 
-
 	If $g_bDraggedAttackBar Then DragAttackBar($g_iTotalAttackSlot, True)
 
 	;Reset All Static Variables if GetAttackBar is not for Remaining
