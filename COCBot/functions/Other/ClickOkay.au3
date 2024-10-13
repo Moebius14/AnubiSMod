@@ -27,7 +27,7 @@ Func ClickOkay($FeatureName = "Okay", $bCheckOneTime = False)
 		EndIf
 		If $bCheckOneTime Then Return False ; enable external control of loop count or follow on actions, return false if not clicked
 		If $i > 5 Then
-			SetLog("Can not find button for " & $FeatureName & ", giving up", $COLOR_ERROR)
+			SetLog("Can not find button for " & $FeatureName & ", giving up", $COLOR_ACTION1)
 			If $g_bDebugImageSave Then SaveDebugImage($FeatureName & "_ButtonCheck_")
 			SetError(1, @extended, False)
 			Return
