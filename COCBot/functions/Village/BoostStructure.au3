@@ -170,12 +170,13 @@ EndFunc   ;==>BoostPotion
 Func AllowBoostingBuilders($Masked = False)
 	If $g_iCmbBoostBuilders = 0 Then Return False
 
-	Local $g_iTimerBoostBuildersDiff = __TimerDiff($g_iTimerBoostBuilders)
-	If $g_iTimerBoostBuildersDiff > 0 And $g_iTimerBoostBuildersDiff < Number(60 * 60 * 1000) Then ; < 1 Hour
-		Local $BoostedMin = Round($g_iTimerBoostBuildersDiff / 60 / 1000) ; Convert in Minutes
-		SetLog("Builder Potion :", $COLOR_NAVY)
-		SetLog("Last iteration " & $BoostedMin & " minutes ago, Recheck later", $COLOR_NAVY)
-		Return False
+	If _DateIsValid($g_iTimerBoostBuilders) Then
+		Local $g_iTimerBoostBuildersDiff = _DateDiff('n', $g_iTimerBoostBuilders, _NowCalc())
+		If $g_iTimerBoostBuildersDiff < 60 Then ; < 1 Hour
+			SetLog("Builder Potion :", $COLOR_NAVY)
+			SetLog("Last iteration " & $g_iTimerBoostBuildersDiff & " minutes ago, Recheck later", $COLOR_NAVY)
+			Return False
+		EndIf
 	EndIf
 
 	If Not $Masked Then
@@ -228,7 +229,7 @@ Func CheckBuilderPotion()
 					EndIf
 					If $g_iCmbBoostBuilders <= 5 Then $g_iCmbBoostBuilders -= 1
 					If $g_iCmbBoostBuilders > 0 Then
-						$g_iTimerBoostBuilders = __TimerInit()
+						$g_iTimerBoostBuilders = _NowCalc()
 					Else
 						$g_iTimerBoostBuilders = 0
 					EndIf
@@ -263,7 +264,7 @@ Func CheckBuilderPotion()
 					EndIf
 					If $g_iCmbBoostBuilders <= 5 Then $g_iCmbBoostBuilders -= 1
 					If $g_iCmbBoostBuilders > 0 Then
-						$g_iTimerBoostBuilders = __TimerInit()
+						$g_iTimerBoostBuilders = _NowCalc()
 					Else
 						$g_iTimerBoostBuilders = 0
 					EndIf

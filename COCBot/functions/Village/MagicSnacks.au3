@@ -235,7 +235,7 @@ Func MagicSnacks()
 								Local $aiUseButton = decodeSingleCoord(FindImageInPlace2("UseButton", $g_sImgUseButton, 380, 470 + $g_iMidOffsetY, 500, 540 + $g_iMidOffsetY, True))
 								If IsArray($aiUseButton) And UBound($aiUseButton) = 2 Then
 									ClickP($aiUseButton)
-									$ClanCastleCakeTimer = __TimerInit()
+									$ClanCastleCakeTimer = _NowCalc()
 									If _Sleep(1000) Then Return
 									$ActionForModLog = "Using Clan Castle Cake"
 									If $g_iTxtCurrentVillageName <> "" Then

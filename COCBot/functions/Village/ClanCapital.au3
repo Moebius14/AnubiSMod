@@ -428,7 +428,7 @@ Func ForgeClanCapitalGold($bTest = False)
 				SetLog("Builders Boosted Using Potion", $COLOR_SUCCESS1)
 				If $g_iCmbBoostBuilders <= 5 Then $g_iCmbBoostBuilders -= 1
 				If $g_iCmbBoostBuilders > 0 Then
-					$g_iTimerBoostBuilders = __TimerInit()
+					$g_iTimerBoostBuilders = _NowCalc()
 				Else
 					$g_iTimerBoostBuilders = 0
 				EndIf
@@ -884,7 +884,7 @@ Func ForgeClanCapitalGold($bTest = False)
 				SetLog("Builders Boosted Using Potion", $COLOR_SUCCESS1)
 				If $g_iCmbBoostBuilders <= 5 Then $g_iCmbBoostBuilders -= 1
 				If $g_iCmbBoostBuilders > 0 Then
-					$g_iTimerBoostBuilders = __TimerInit()
+					$g_iTimerBoostBuilders = _NowCalc()
 				Else
 					$g_iTimerBoostBuilders = 0
 				EndIf
@@ -2496,12 +2496,14 @@ Func CatchCCMedals($bForced = False)
 	Local Static $iLastTimeChecked[8]
 	If $g_bFirstStart Then $iLastTimeChecked[$g_iCurAccount] = ""
 
-	If Not $bForced And _DateIsValid($iLastTimeChecked[$g_iCurAccount]) Then
-		Local $iLastCheck = _DateDiff('n', $iLastTimeChecked[$g_iCurAccount], _NowCalc()) ; elapse time from last check (minutes)
-		SetDebugLog("CC Medals LastCheck: " & $iLastTimeChecked[$g_iCurAccount] & ", Check DateCalc: " & $iLastCheck)
-		; A check each from 3 to 4 hours [3*60 = 180 to 4*60 = 240]
-		Local $iDelayToCheck = Random(180, 240, 1)
-		If $iLastCheck <= $iDelayToCheck Then Return
+	If Not $bForced Then
+		If _DateIsValid($iLastTimeChecked[$g_iCurAccount]) Then
+			Local $iLastCheck = _DateDiff('n', $iLastTimeChecked[$g_iCurAccount], _NowCalc()) ; elapse time from last check (minutes)
+			SetDebugLog("CC Medals LastCheck: " & $iLastTimeChecked[$g_iCurAccount] & ", Check DateCalc: " & $iLastCheck)
+			; A check each from 3 to 4 hours [3*60 = 180 to 4*60 = 240]
+			Local $iDelayToCheck = Random(180, 240, 1)
+			If $iLastCheck <= $iDelayToCheck Then Return
+		EndIf
 	EndIf
 
 	Local $Found = False

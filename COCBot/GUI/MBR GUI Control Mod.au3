@@ -157,7 +157,7 @@ Func SwitchBetweenBasesMod()
 			SetLog("Time to Check Builder Base", $COLOR_OLIVE)
 			SetLog("Let's Use Builder Star Jar", $COLOR_ACTION)
 
-			If Not $BBaseCheckTimer And ($g_bChkBBaseFrequency And $g_iCmbPriorityBBaseFrequency > 0) Then $BBaseCheckTimer = __TimerInit()
+			If Not _DateIsValid($BBaseCheckTimer) And ($g_bChkBBaseFrequency And $g_iCmbPriorityBBaseFrequency > 0) Then $BBaseCheckTimer = _NowCalc()
 
 			If $g_bChkBBaseFrequency And $g_iCmbPriorityBBaseFrequency > 0 Then
 
@@ -210,9 +210,9 @@ Func SwitchBetweenBasesMod()
 			Return
 		EndIf
 
-		If Not $BBaseCheckTimer And Not $g_bIsBBevent Then ; First Time
+		If Not _DateIsValid($BBaseCheckTimer) And Not $g_bIsBBevent Then ; First Time
 
-			$BBaseCheckTimer = __TimerInit()
+			$BBaseCheckTimer = _NowCalc()
 
 			Local $DelayReturnedtocheckBBaseInf = ($g_iCmbPriorityBBaseFrequency - ($g_iCmbPriorityBBaseFrequency * $g_icmbAdvancedVariation))
 			Local $DelayReturnedtocheckBBaseSup = ($g_iCmbPriorityBBaseFrequency + ($g_iCmbPriorityBBaseFrequency * $g_icmbAdvancedVariation))
@@ -236,7 +236,7 @@ Func SwitchBetweenBasesMod()
 
 		If $g_bIsBBevent Then ; Case BB Event Detected
 			SetLog("BB Event Detected : Time to Switch To Builder Base", $COLOR_OLIVE)
-			$BBaseCheckTimer = __TimerInit()
+			$BBaseCheckTimer = _NowCalc()
 
 			Local $DelayReturnedtocheckBBaseInf = ($g_iCmbPriorityBBaseFrequency - ($g_iCmbPriorityBBaseFrequency * $g_icmbAdvancedVariation))
 			Local $DelayReturnedtocheckBBaseSup = ($g_iCmbPriorityBBaseFrequency + ($g_iCmbPriorityBBaseFrequency * $g_icmbAdvancedVariation))
@@ -256,50 +256,54 @@ Func SwitchBetweenBasesMod()
 			Return
 		EndIf
 
-		Local $BBaseCheckTimerDiff = __TimerDiff($BBaseCheckTimer)
+		If _DateIsValid($BBaseCheckTimer) Then
+			Local $BBaseCheckTimerDiff = _DateDiff('s', $BBaseCheckTimer, _NowCalc()) * 1000 ; ms
 
-		If $BBaseCheckTimer > 0 And $BBaseCheckTimerDiff < $DelayReturnedtocheckBBaseMS Then ;Delay not reached : return False
+			If $BBaseCheckTimerDiff < $DelayReturnedtocheckBBaseMS Then ;Delay not reached : return False
 
-			Local $iWaitTime = ($DelayReturnedtocheckBBaseMS - $BBaseCheckTimerDiff)
-			Local $sWaitTime = ""
-			Local $iMin, $iHour, $iWaitSec
+				Local $iWaitTime = ($DelayReturnedtocheckBBaseMS - $BBaseCheckTimerDiff)
+				Local $sWaitTime = ""
+				Local $iMin, $iHour, $iWaitSec
 
-			$iWaitSec = Round($iWaitTime / 1000)
-			$iHour = Floor(Floor($iWaitSec / 60) / 60)
-			$iMin = Floor(Mod(Floor($iWaitSec / 60), 60))
-			If $iHour > 0 Then $sWaitTime &= $iHour & " hours "
-			If $iMin > 0 Then $sWaitTime &= $iMin & " minutes "
-			If $iWaitSec <= 60 Then $sWaitTime = "Imminent"
+				$iWaitSec = Round($iWaitTime / 1000)
+				$iHour = Floor(Floor($iWaitSec / 60) / 60)
+				$iMin = Floor(Mod(Floor($iWaitSec / 60), 60))
+				If $iHour > 0 Then $sWaitTime &= $iHour & " hours "
+				If $iMin > 0 Then $sWaitTime &= $iMin & " minutes "
+				If $iWaitSec <= 60 Then $sWaitTime = "Imminent"
 
-			SetLog("Next Builder Base Check : " & $sWaitTime & "", $COLOR_OLIVE)
-			$IstoSwitchMod = 0
-			Return
+				SetLog("Next Builder Base Check : " & $sWaitTime & "", $COLOR_OLIVE)
+				$IstoSwitchMod = 0
+				Return
+			EndIf
+
+			If $BBaseCheckTimerDiff > $DelayReturnedtocheckBBaseMS Then ;Delay reached : reset chrono ans set new delay. Return True
+
+				$BBaseCheckTimer = _NowCalc()
+
+				Local $DelayReturnedtocheckBBaseInf = ($g_iCmbPriorityBBaseFrequency - ($g_iCmbPriorityBBaseFrequency * $g_icmbAdvancedVariation))
+				Local $DelayReturnedtocheckBBaseSup = ($g_iCmbPriorityBBaseFrequency + ($g_iCmbPriorityBBaseFrequency * $g_icmbAdvancedVariation))
+				$DelayReturnedtocheckBBaseMS = Random($DelayReturnedtocheckBBaseInf, $DelayReturnedtocheckBBaseSup, 1)
+
+				Local $iWaitTime = $DelayReturnedtocheckBBaseMS
+				Local $sWaitTime = ""
+				Local $iMin, $iHour, $iWaitSec
+
+				$iWaitSec = Round($iWaitTime / 1000)
+				$iHour = Floor(Floor($iWaitSec / 60) / 60)
+				$iMin = Floor(Mod(Floor($iWaitSec / 60), 60))
+				If $iHour > 0 Then $sWaitTime &= $iHour & " hours "
+				If $iMin > 0 Then $sWaitTime &= $iMin & " minutes "
+
+				SetLog("Time to Check Builder Base", $COLOR_OLIVE)
+				SetLog("Next Builder Base Check : " & $sWaitTime & "", $COLOR_OLIVE)
+				IsBBDailyChallengeAvailable()
+				$IstoSwitchMod = 1
+				Return
+			EndIf
+
 		EndIf
 
-		If $BBaseCheckTimer > 0 And $BBaseCheckTimerDiff > $DelayReturnedtocheckBBaseMS Then ;Delay reached : reset chrono ans set new delay. Return True
-
-			$BBaseCheckTimer = __TimerInit()
-
-			Local $DelayReturnedtocheckBBaseInf = ($g_iCmbPriorityBBaseFrequency - ($g_iCmbPriorityBBaseFrequency * $g_icmbAdvancedVariation))
-			Local $DelayReturnedtocheckBBaseSup = ($g_iCmbPriorityBBaseFrequency + ($g_iCmbPriorityBBaseFrequency * $g_icmbAdvancedVariation))
-			$DelayReturnedtocheckBBaseMS = Random($DelayReturnedtocheckBBaseInf, $DelayReturnedtocheckBBaseSup, 1)
-
-			Local $iWaitTime = $DelayReturnedtocheckBBaseMS
-			Local $sWaitTime = ""
-			Local $iMin, $iHour, $iWaitSec
-
-			$iWaitSec = Round($iWaitTime / 1000)
-			$iHour = Floor(Floor($iWaitSec / 60) / 60)
-			$iMin = Floor(Mod(Floor($iWaitSec / 60), 60))
-			If $iHour > 0 Then $sWaitTime &= $iHour & " hours "
-			If $iMin > 0 Then $sWaitTime &= $iMin & " minutes "
-
-			SetLog("Time to Check Builder Base", $COLOR_OLIVE)
-			SetLog("Next Builder Base Check : " & $sWaitTime & "", $COLOR_OLIVE)
-			IsBBDailyChallengeAvailable()
-			$IstoSwitchMod = 1
-			Return
-		EndIf
 	EndIf
 EndFunc   ;==>SwitchBetweenBasesMod
 
@@ -434,13 +438,11 @@ EndFunc   ;==>_cmbAttackCGPlannerDayLimit
 
 Func SwitchBetweenBasesMod2()
 
-	Local Static $iLastTimeCCRaidChecked[8]
-
 	If Not $g_bFirstStartAccountSBB2 Then
 		$CCBaseCheckTimer = 0
 		$DelayReturnedtocheckCCBaseMS = 0
 		$g_bFirstStartAccountSBB2 = 1
-		$iLastTimeCCRaidChecked[$g_iCurAccount] = ""
+		$iLastTimeCCRaidChecked = 0
 	EndIf
 
 	$g_iCmbPriorityCCBaseFrequency = _GUICtrlComboBox_GetCurSel($g_hCmbPriorityCCBaseFrequency) * 60 * 60 * 1000
@@ -448,14 +450,14 @@ Func SwitchBetweenBasesMod2()
 	Local $DelayReturnedtocheckCCBaseInf = ($g_iCmbPriorityCCBaseFrequency - ($g_iCmbPriorityCCBaseFrequency * $g_icmbAdvancedVariationCC))
 	Local $DelayReturnedtocheckCCBaseSup = ($g_iCmbPriorityCCBaseFrequency + ($g_iCmbPriorityCCBaseFrequency * $g_icmbAdvancedVariationCC))
 
-	If _DateIsValid($iLastTimeCCRaidChecked[$g_iCurAccount]) Then
-		Local $iLastCheck = _DateDiff('n', $iLastTimeCCRaidChecked[$g_iCurAccount], _NowCalc()) ; elapse time from last check (minutes)
+	If _DateIsValid($iLastTimeCCRaidChecked) Then
+		Local $iLastCheck = _DateDiff('n', $iLastTimeCCRaidChecked, _NowCalc()) ; elapse time from last check (minutes)
 		; A check each from 2 to 2.5 hours [2*60 = 120 to 2.5*60 = 150]
 		Local $iDelayToCheck = Random(120, 150, 1)
 		If $iLastCheck > $iDelayToCheck Then
 			If UTCRaidWarning() Then
-				$iLastTimeCCRaidChecked[$g_iCurAccount] = _NowCalc()
-				$CCBaseCheckTimer = __TimerInit()
+				$iLastTimeCCRaidChecked = _NowCalc()
+				$CCBaseCheckTimer = _NowCalc()
 				$DelayReturnedtocheckCCBaseMS = Random($DelayReturnedtocheckCCBaseInf, $DelayReturnedtocheckCCBaseSup, 1)
 				Local $iWaitTime = $DelayReturnedtocheckCCBaseMS
 				Local $sWaitTime = ""
@@ -473,8 +475,8 @@ Func SwitchBetweenBasesMod2()
 		EndIf
 	Else
 		If UTCRaidWarning() Then
-			$iLastTimeCCRaidChecked[$g_iCurAccount] = _NowCalc()
-			$CCBaseCheckTimer = __TimerInit()
+			$iLastTimeCCRaidChecked = _NowCalc()
+			$CCBaseCheckTimer = _NowCalc()
 			$DelayReturnedtocheckCCBaseMS = Random($DelayReturnedtocheckCCBaseInf, $DelayReturnedtocheckCCBaseSup, 1)
 			Local $iWaitTime = $DelayReturnedtocheckCCBaseMS
 			Local $sWaitTime = ""
@@ -505,10 +507,9 @@ Func SwitchBetweenBasesMod2()
 		Return True
 	EndIf
 
-	If Not $CCBaseCheckTimer Then ; First Time
+	If Not _DateIsValid($CCBaseCheckTimer) Then ; First Time
 
-		$CCBaseCheckTimer = __TimerInit()
-
+		$CCBaseCheckTimer = _NowCalc()
 		$DelayReturnedtocheckCCBaseMS = Random($DelayReturnedtocheckCCBaseInf, $DelayReturnedtocheckCCBaseSup, 1)
 
 		Local $iWaitTime = $DelayReturnedtocheckCCBaseMS
@@ -529,52 +530,57 @@ Func SwitchBetweenBasesMod2()
 		EndIf
 		SetLog("Next Check For Clan Capital Stuff : " & $sWaitTime & "", $COLOR_OLIVE)
 		Return True
+
 	EndIf
 
-	Local $CCBaseCheckTimerDiff = __TimerDiff($CCBaseCheckTimer)
+	If _DateIsValid($CCBaseCheckTimer) Then
 
-	If $CCBaseCheckTimer > 0 And $CCBaseCheckTimerDiff < $DelayReturnedtocheckCCBaseMS And Not ($IsCCGoldJustCollected Or $IsCCGoldJustCollectedDChallenge) Then ;Delay not reached And no CCGold : Return False
+		Local $CCBaseCheckTimerDiff = _DateDiff('s', $CCBaseCheckTimer, _NowCalc()) * 1000
 
-		Local $iWaitTime = ($DelayReturnedtocheckCCBaseMS - $CCBaseCheckTimerDiff)
-		Local $sWaitTime = ""
-		Local $iMin, $iHour, $iWaitSec
+		If $CCBaseCheckTimerDiff < $DelayReturnedtocheckCCBaseMS And Not ($IsCCGoldJustCollected Or $IsCCGoldJustCollectedDChallenge) Then ;Delay not reached And no CCGold : Return False
 
-		$iWaitSec = Round($iWaitTime / 1000)
-		$iHour = Floor(Floor($iWaitSec / 60) / 60)
-		$iMin = Floor(Mod(Floor($iWaitSec / 60), 60))
-		If $iHour > 0 Then $sWaitTime &= $iHour & " hours "
-		If $iMin > 0 Then $sWaitTime &= $iMin & " minutes "
-		If $iWaitSec <= 60 Then $sWaitTime = "Imminent"
+			Local $iWaitTime = ($DelayReturnedtocheckCCBaseMS - $CCBaseCheckTimerDiff)
+			Local $sWaitTime = ""
+			Local $iMin, $iHour, $iWaitSec
 
-		SetLog("Next Check For Clan Capital Stuff : " & $sWaitTime & "", $COLOR_OLIVE)
-		Return False
-	EndIf
+			$iWaitSec = Round($iWaitTime / 1000)
+			$iHour = Floor(Floor($iWaitSec / 60) / 60)
+			$iMin = Floor(Mod(Floor($iWaitSec / 60), 60))
+			If $iHour > 0 Then $sWaitTime &= $iHour & " hours "
+			If $iMin > 0 Then $sWaitTime &= $iMin & " minutes "
+			If $iWaitSec <= 60 Then $sWaitTime = "Imminent"
 
-	If ($CCBaseCheckTimer > 0 And $CCBaseCheckTimerDiff > $DelayReturnedtocheckCCBaseMS) Or $IsCCGoldJustCollected Or $IsCCGoldJustCollectedDChallenge Or $IsAutoForgeSlotJustCollected Then ;Delay reached or CCgold: reset chrono ans set new delay. Return True
-
-		$CCBaseCheckTimer = __TimerInit()
-
-		$DelayReturnedtocheckCCBaseMS = Random($DelayReturnedtocheckCCBaseInf, $DelayReturnedtocheckCCBaseSup, 1)
-
-		Local $iWaitTime = $DelayReturnedtocheckCCBaseMS
-		Local $sWaitTime = ""
-		Local $iMin, $iHour, $iWaitSec
-
-		$iWaitSec = Round($iWaitTime / 1000)
-		$iHour = Floor(Floor($iWaitSec / 60) / 60)
-		$iMin = Floor(Mod(Floor($iWaitSec / 60), 60))
-		If $iHour > 0 Then $sWaitTime &= $iHour & " hours "
-		If $iMin > 0 Then $sWaitTime &= $iMin & " minutes "
-
-		If $IsCCGoldJustCollected Or $IsCCGoldJustCollectedDChallenge Then
-			SetLog("Time To Check Clan Capital Stuff, CC Gold Just Collected", $COLOR_OLIVE)
-		ElseIf $IsAutoForgeSlotJustCollected Then
-			SetLog("Time To Check Clan Capital Stuff, Auto Forge Slot Just Unlocked", $COLOR_OLIVE)
-		Else
-			SetLog("Time To Check Clan Capital Stuff", $COLOR_OLIVE)
+			SetLog("Next Check For Clan Capital Stuff : " & $sWaitTime & "", $COLOR_OLIVE)
+			Return False
 		EndIf
-		SetLog("Next Check For Clan Capital Stuff : " & $sWaitTime & "", $COLOR_OLIVE)
-		Return True
+
+		If $CCBaseCheckTimerDiff > $DelayReturnedtocheckCCBaseMS Or $IsCCGoldJustCollected Or $IsCCGoldJustCollectedDChallenge Or $IsAutoForgeSlotJustCollected Then ;Delay reached or CCgold: reset chrono ans set new delay. Return True
+
+			$CCBaseCheckTimer = _NowCalc()
+
+			$DelayReturnedtocheckCCBaseMS = Random($DelayReturnedtocheckCCBaseInf, $DelayReturnedtocheckCCBaseSup, 1)
+
+			Local $iWaitTime = $DelayReturnedtocheckCCBaseMS
+			Local $sWaitTime = ""
+			Local $iMin, $iHour, $iWaitSec
+
+			$iWaitSec = Round($iWaitTime / 1000)
+			$iHour = Floor(Floor($iWaitSec / 60) / 60)
+			$iMin = Floor(Mod(Floor($iWaitSec / 60), 60))
+			If $iHour > 0 Then $sWaitTime &= $iHour & " hours "
+			If $iMin > 0 Then $sWaitTime &= $iMin & " minutes "
+
+			If $IsCCGoldJustCollected Or $IsCCGoldJustCollectedDChallenge Then
+				SetLog("Time To Check Clan Capital Stuff, CC Gold Just Collected", $COLOR_OLIVE)
+			ElseIf $IsAutoForgeSlotJustCollected Then
+				SetLog("Time To Check Clan Capital Stuff, Auto Forge Slot Just Unlocked", $COLOR_OLIVE)
+			Else
+				SetLog("Time To Check Clan Capital Stuff", $COLOR_OLIVE)
+			EndIf
+			SetLog("Next Check For Clan Capital Stuff : " & $sWaitTime & "", $COLOR_OLIVE)
+			Return True
+		EndIf
+
 	EndIf
 EndFunc   ;==>SwitchBetweenBasesMod2
 

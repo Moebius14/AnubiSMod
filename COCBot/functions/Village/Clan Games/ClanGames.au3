@@ -105,10 +105,15 @@ Func _ClanGames($test = False, $HaltMode = False)
 			EndIf
 		Next
 		If $bCheckHeroes Then
-			Local $CheckHeroTimerDiff = __TimerDiff($CheckHeroTimer)
-			If $CheckHeroTimerDiff > $CheckHeroDelay Or $CheckHeroTimer = 0 Then
+			If $CheckHeroTimer = 0 Then
 				getArmyHeroCount(True, True, True)
-				$CheckHeroTimer = __TimerInit()
+				$CheckHeroTimer = _NowCalc()
+			ElseIf _DateIsValid($CheckHeroTimer) Then
+				Local $CheckHeroTimerDiff = _DateDiff('s', $CheckHeroTimer, _NowCalc())
+				If $CheckHeroTimerDiff > $CheckHeroDelay then
+					getArmyHeroCount(True, True, True)
+					$CheckHeroTimer = _NowCalc()
+				EndIf
 			EndIf
 		EndIf
 	EndIf

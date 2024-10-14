@@ -257,7 +257,9 @@ EndFunc   ;==>CollectEventRewards
 Func CloseEventWindow()
 	SetLog("Closing Event Window", $COLOR_INFO)
 
-	CloseWindow()
+	CloseWindow2()
+	If _Sleep(Random(1000, 1500, 1)) Then Return
+	ClickAway() ; Info Title will change each event...
 
 	Local $counter = 0
 	While Not IsMainPage(1) ; test for Personal Challenge Close Button

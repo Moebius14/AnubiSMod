@@ -47,6 +47,7 @@ Func SwitchAccountVariablesReload($sType = "Load", $iAccount = $g_iCurAccount)
 	Static $SBBaseCheckTimer = $aiZero
 	Static $SDelayReturnedtocheckBBaseMS = $aiZero
 	Static $SCCBaseCheckTimer = $aiZero
+	Static $SiLastTimeCCRaidChecked = $aiZero
 	Static $SDelayReturnedtocheckCCBaseMS = $aiZero
 	Static $SIstoRecheckTrader = $aiZero
 	Static $SIsdroptrophiesActive = $aiZero
@@ -182,6 +183,7 @@ Func SwitchAccountVariablesReload($sType = "Load", $iAccount = $g_iCurAccount)
 			$SBBaseCheckTimer = $aiZero
 			$SDelayReturnedtocheckBBaseMS = $aiZero
 			$SCCBaseCheckTimer = $aiZero
+			$SiLastTimeCCRaidChecked = $aiZero
 			$SDelayReturnedtocheckCCBaseMS = $aiZero
 			$SIstoRecheckTrader = $aiZero
 			$SIsdroptrophiesActive = $aiZero
@@ -355,6 +357,7 @@ Func SwitchAccountVariablesReload($sType = "Load", $iAccount = $g_iCurAccount)
 			$SBBaseCheckTimer[$iAccount] = $BBaseCheckTimer
 			$SDelayReturnedtocheckBBaseMS[$iAccount] = $DelayReturnedtocheckBBaseMS
 			$SCCBaseCheckTimer[$iAccount] = $CCBaseCheckTimer
+			$SiLastTimeCCRaidChecked[$iAccount] = $iLastTimeCCRaidChecked
 			$SDelayReturnedtocheckCCBaseMS[$iAccount] = $DelayReturnedtocheckCCBaseMS
 			$SIstoRecheckTrader[$iAccount] = $IstoRecheckTrader
 			$SIsdroptrophiesActive[$iAccount] = $IsdroptrophiesActive
@@ -551,6 +554,7 @@ Func SwitchAccountVariablesReload($sType = "Load", $iAccount = $g_iCurAccount)
 			$BBaseCheckTimer = $SBBaseCheckTimer[$iAccount]
 			$DelayReturnedtocheckBBaseMS = $SDelayReturnedtocheckBBaseMS[$iAccount]
 			$CCBaseCheckTimer = $SCCBaseCheckTimer[$iAccount]
+			$iLastTimeCCRaidChecked = $SiLastTimeCCRaidChecked[$iAccount]
 			$DelayReturnedtocheckCCBaseMS = $SDelayReturnedtocheckCCBaseMS[$iAccount]
 			$IstoRecheckTrader = $SIstoRecheckTrader[$iAccount]
 			$IsdroptrophiesActive = $SIsdroptrophiesActive[$iAccount]

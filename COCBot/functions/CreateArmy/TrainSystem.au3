@@ -1759,32 +1759,34 @@ Func IsTimeWaitForCC($g_bFullArmy = False, $g_bCheckSpells = False, $bFullArmyHe
 
 	If $CCWaitChrono = 0 Then Return False
 
-	Local $CCWaitTimerDiff = __TimerDiff($CCWaitChrono)
-	Local $DelayReturnedCCDecisionTime = ($g_aiCmbCCDecisionTime * 60 * 1000)
-
-	If $CCWaitTimerDiff > (30 * 60 * 1000) Then
-		If $CCWaitChrono > 0 Then $CCWaitChrono = 0
-		Return True
-	EndIf
-
-	If $CCWaitTimerDiff < $DelayReturnedCCDecisionTime Then
-
-		Local $iWaitTime = ($DelayReturnedCCDecisionTime - $CCWaitTimerDiff)
-		Local $sWaitTime = ""
-		Local $iMin, $iWaitSec, $iWaitSec2
-		$iWaitSec = Round($iWaitTime / 1000)
-		$iMin = Floor(Mod(Floor($iWaitSec / 60), 60))
-		If $iMin > 0 Then $sWaitTime &= $iMin & " minutes "
-		If $iWaitSec <= 60 Then $sWaitTime &= $iWaitSec & " seconds "
-		If $iWaitSec > 60 Then
-			$iWaitSec2 = (Round($iWaitTime / 1000)) - ($iMin * 60)
-			$sWaitTime &= $iWaitSec2 & " seconds "
+	If _DateIsValid($CCWaitChrono) Then
+		Local $CCWaitTimerDiff = _DateDiff('s', $CCWaitChrono, _NowCalc())
+		If $CCWaitTimerDiff > 30 * 60 Then ; 30 minutes (30 * 60 seconds)
+			$CCWaitChrono = 0
+			Return True
 		EndIf
 
-		If $SetLog And Not $bFullArmyCC Then SetLog("Waiting For Clan Castle For : " & $sWaitTime, $COLOR_FUCHSIA)
-		Return True
+		Local $DelayReturnedCCDecisionTime = ($g_aiCmbCCDecisionTime * 60 * 1000) ; ms
+		Local $CCWaitTimerDiffMs = $CCWaitTimerDiff * 1000 ; ms
+		If $CCWaitTimerDiffMs < $DelayReturnedCCDecisionTime Then
+			Local $iWaitTime = ($DelayReturnedCCDecisionTime - $CCWaitTimerDiffMs)
+			Local $sWaitTime = ""
+			Local $iMin, $iWaitSec, $iWaitSec2
+			$iWaitSec = Round($iWaitTime / 1000)
+			$iMin = Floor(Mod(Floor($iWaitSec / 60), 60))
+			If $iMin > 0 Then $sWaitTime &= $iMin & " minutes "
+			If $iWaitSec <= 60 Then $sWaitTime &= $iWaitSec & " seconds "
+			If $iWaitSec > 60 Then
+				$iWaitSec2 = (Round($iWaitTime / 1000)) - ($iMin * 60)
+				$sWaitTime &= $iWaitSec2 & " seconds "
+			EndIf
+			If $SetLog And Not $bFullArmyCC Then SetLog("Waiting For Clan Castle For : " & $sWaitTime, $COLOR_FUCHSIA)
+			Return True
+		Else
+			If $SetLog And Not $bFullArmyCC Then SetLog("Wait For Clan Castle Ended", $COLOR_FUCHSIA)
+			Return False
+		EndIf
 	Else
-		If $SetLog And Not $bFullArmyCC Then SetLog("Wait For Clan Castle Ended", $COLOR_FUCHSIA)
 		Return False
 	EndIf
 

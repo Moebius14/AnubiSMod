@@ -140,11 +140,8 @@ Func _makerequest($aRequestButtonPos)
 		$g_bCanRequestCC = False
 		If $g_abSearchCastleWaitEnable[$DB] Or $g_abSearchCastleWaitEnable[$LB] Then
 			If Not $bChkUseOnlyCCMedals And $g_aiCmbCCDecisionTime > 0 Then
-				Local $CCWaitTimerDiff = __TimerDiff($CCWaitChrono)
-				If $CCWaitChrono = 0 Or $CCWaitTimerDiff > (30 * 60 * 1000) Then
-					$CCWaitChrono = __TimerInit()
-					SetDebugLog("Timer initiated", $COLOR_ERROR)
-				EndIf
+				$CCWaitChrono = _NowCalc()
+				SetDebugLog("Timer initiated")
 			EndIf
 		EndIf
 
@@ -242,7 +239,7 @@ Func IsFullClanCastle()
 
 		If $g_aiCmbCCDecisionThen = 1 And $g_bFullArmy And $g_bCheckSpells Then
 			If $bNeedRequest Then
-				If $CCWaitChrono > 0 Then
+				If _DateIsValid($CCWaitChrono) Then
 					$IsForRequestEarly = False
 					$IsTofillWithMedals = True
 					Return False

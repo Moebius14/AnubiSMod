@@ -1936,7 +1936,7 @@ Global $g_bChkClanGamesPurge = 0
 Global $g_bChkClanGamesStopBeforeReachAndPurge = 0
 Global $g_sClanGamesScore = "N/A", $g_sClanGamesTimeRemaining = "N/A"
 Global $CheckHeroTimer = 0
-Global $CheckHeroDelay = 30 * 1000 ; 30 seconds
+Global $CheckHeroDelay = 30 ; 30 seconds
 Global $g_bChkForceBBAttackOnClanGames = True, $g_bIsBBevent = 0
 Global $bSearchBBEventFirst = False, $bSearchMainEventFirst = False, $bSearchBothVillages = True
 Global $g_bChkClanGamesPurgeAny = 0, $g_bChkClanGamesPurgeAnyClose = 0, $g_hCoolDownTimer = 0, $b_COCClose = 1
@@ -2236,10 +2236,11 @@ Global Const $g_afRefVillage[$eTreeCount][10] = [ _
 		[444.044042164249, 114, 739, 150, 615, 444.044042164249, 50, 46, 38, 42]]    ; NS partial
 
 ; left, right, top, bottom, village size
-Global Const $g_afRefCustomMainVillage[3][6] = [ _
+Global Const $g_afRefCustomMainVillage[4][6] = [ _
 		[88, 778, 112, 624, 439.489958643413, $eTreeMS], _ ; Magic Main Village
-		[38, 822, 48, 634, 496.873764541968, $eTreePG], _   ; Pumpkin Graveyard Main Village
-		[97, 760, 124, 614, 405.46550540893, $eTreeEG]]    ; Egypt Main Village
+		[38, 822, 48, 634, 496.873764541968, $eTreePG], _  ; Pumpkin Graveyard Main Village
+		[97, 760, 124, 614, 405.46550540893, $eTreeEG], _  ; Egypt Main Village
+		[40, 817, 48, 630, 490.949366617362, $eTreeSD]]    ; Snow Day
 
 Global $g_iTree = $eTreeDSS ; default to classic
 Global $g_aiSearchZoomOutCounter[2] = [0, 1] ; 0: Counter of SearchZoomOut calls, 1: # of post zoomouts after image found
@@ -2253,7 +2254,7 @@ Global $g_bChkEnablePurgeMedal = False, $g_iacmdMedalsExpected = 1500, $bControl
 Global $IsRaidRunning = 0, $AllCCRaidAttacksDone = 0, $g_iRank = ""
 Global $g_bChkEnableCollectCCGold = False, $g_bChkEnableForgeGold = False, $g_bChkEnableForgeElix = False, $g_bChkEnableSmartUse = False
 Global $g_bChkEnableForgeDE = False, $g_bChkEnableForgeBBGold = False, $g_bChkEnableForgeBBElix = False, $g_iCmbForgeBuilder = 0
-Global $g_bFirstStartAccountSBB2 = 0, $CCBaseCheckTimer = 0, $DelayReturnedtocheckCCBaseMS = 0, $iAttack = 0
+Global $g_bFirstStartAccountSBB2 = 0, $iLastTimeCCRaidChecked = 0, $CCBaseCheckTimer = 0, $DelayReturnedtocheckCCBaseMS = 0, $iAttack = 0
 Global $g_iCmbPriorityCCBaseFrequency = 2, $g_icmbAdvancedVariationCC = 3, $IsCCGoldJustCollected = 0, $IsCCGoldJustCollectedDChallenge = 0
 Global $g_iacmdGoldSaveMin = 150000, $g_iacmdElixSaveMin = 1000, $g_iacmdDarkSaveMin = 1000, $g_iacmdBBGoldSaveMin = 1000, $g_iacmdBBElixSaveMin = 1000
 Global $g_bChkStartWeekendRaid = False, $g_bChkEnablePriorArmyCC = False, $g_bChkEnablePriorHallsCC = False, $g_bChkEnablePriorRuinsCC = False, $g_bChkIsIgnoredWalls = False, _
