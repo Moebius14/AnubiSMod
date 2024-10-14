@@ -163,9 +163,9 @@ Func IsDonateQueueOnly(ByRef $abDonateQueueOnly)
 
 		If Not OpenSiegeMachinesTab(True, "TrainSiege()") Then Return
 		If _Sleep(500) Then Return
-		Local $aCheckIsOccupied[4] = [766, 202 + $g_iMidOffsetY, 0xE21012, 15]
+		Local $aCheckIsOccupied[4] = [766, 202 + $g_iMidOffsetY, 0xE70D0F, 15]
 		Local $aCheckIsFilled[4] = [765, 185 + $g_iMidOffsetY, 0xD7AFA9, 15]
-		Local $xQueue = 775
+		Local $xQueue = 778
 
 		WaitForClanMessage("TrainTabs")
 
@@ -339,7 +339,7 @@ Func DonateCC($bUpdateStats = True)
 			If Not OpenSiegeMachinesTab(True, "TrainSiege()") Then Return
 			If _Sleep(500) Then Return
 
-			Local $aCheckIsOccupied[4] = [766, 202 + $g_iMidOffsetY, 0xE21012, 15]
+			Local $aCheckIsOccupied[4] = [766, 202 + $g_iMidOffsetY, 0xE70D0F, 15]
 			Local $aCheckIsFilled[4] = [765, 185 + $g_iMidOffsetY, 0xD7AFA9, 15]
 			Local $xQueue = 778
 
