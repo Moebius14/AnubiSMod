@@ -360,15 +360,15 @@ Func DonateCC($bUpdateStats = True)
 					Next
 				EndIf
 			EndIf
+			$g_aiAvailSiege = $g_aiCurrentSiegeMachines
+			For $iSiegeIndex = $eSiegeWallWrecker To $eSiegeMachineCount - 1
+				If $g_aiAvailSiege[$iSiegeIndex] > 0 Then SetLog("  - " & $g_asSiegeMachineNames[$iSiegeIndex] & ($g_aiAvailSiege[$iSiegeIndex] > 1 ? "s" : "") & " x" & $g_aiAvailSiege[$iSiegeIndex])
+			Next
 
 			CloseWindow2()
 			If _Sleep($DELAYDONATECC2) Then Return
 
 		EndIf
-		$g_aiAvailSiege = $g_aiCurrentSiegeMachines
-		For $iSiegeIndex = $eSiegeWallWrecker To $eSiegeMachineCount - 1
-			If $g_aiAvailSiege[$iSiegeIndex] > 0 Then SetLog("  - " & $g_asSiegeMachineNames[$iSiegeIndex] & ($g_aiAvailSiege[$iSiegeIndex] > 1 ? "s" : "") & " x" & $g_aiAvailSiege[$iSiegeIndex])
-		Next
 
 	EndIf
 
