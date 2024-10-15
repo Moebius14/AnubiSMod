@@ -21,6 +21,7 @@ Func UpgradeWall()
 	If Not $g_bRunState Then Return
 
 	If $g_bAutoUpgradeWallsEnable = True Then
+		VillageReport(True, True)
 		SetLog("Checking Upgrade Walls", $COLOR_INFO)
 		SetDebugLog("$iWallCost:" & $iWallCost)
 		Local $ToSkip = False
