@@ -699,7 +699,7 @@ Func ChkLabUpgradeInProgress($name = "")
 
 			If Not $bUseBooks And $g_bUseBOE And $iLabFinishTimeDay >= $g_iUseBOETime Then
 				SetLog("Use Book of Everything Enabled", $COLOR_INFO)
-				SetLog("Lab Upgrade time > than " & $g_iUseBOETime & " day", $COLOR_INFO)
+				SetLog("Lab Upgrade time > than " & $g_iUseBOETime & " day" & ($g_iUseBOETime > 1 ? "s" : ""), $COLOR_INFO)
 				If QuickMIS("BFI", $g_sImgBooks & "BOE*", 720 - $GobBuilderOffsetRunningBooks, 225 + $g_iMidOffsetY, 770 - $GobBuilderOffsetRunningBooks, 275 + $g_iMidOffsetY) Then
 					Click($g_iQuickMISX, $g_iQuickMISY)
 					If _Sleep(1000) Then Return
@@ -724,7 +724,7 @@ Func ChkLabUpgradeInProgress($name = "")
 			If StringInStr($name, "Spell") Then
 				If Not $bUseBooks And $g_bUseBOS And $iLabFinishTimeDay >= $g_iUseBOSTime Then
 					SetLog("Use Book of Spells Enabled", $COLOR_INFO)
-					SetLog("Lab Upgrade time > than " & $g_iUseBOSTime & " day", $COLOR_INFO)
+					SetLog("Lab Upgrade time > than " & $g_iUseBOSTime & " day" & ($g_iUseBOSTime > 1 ? "s" : ""), $COLOR_INFO)
 					If QuickMIS("BFI", $g_sImgBooks & "BOS*", 720 - $GobBuilderOffsetRunningBooks, 225 + $g_iMidOffsetY, 770 - $GobBuilderOffsetRunningBooks, 275 + $g_iMidOffsetY) Then
 						Click($g_iQuickMISX, $g_iQuickMISY)
 						If _Sleep(1000) Then Return
@@ -748,7 +748,7 @@ Func ChkLabUpgradeInProgress($name = "")
 			Else
 				If Not $bUseBooks And $g_bUseBOF And $iLabFinishTimeDay >= $g_iUseBOFTime Then
 					SetLog("Use Book of Fighting Enabled", $COLOR_INFO)
-					SetLog("Lab Upgrade time > than " & $g_iUseBOFTime & " day", $COLOR_INFO)
+					SetLog("Lab Upgrade time > than " & $g_iUseBOFTime & " day" & ($g_iUseBOFTime > 1 ? "s" : ""), $COLOR_INFO)
 					If QuickMIS("BFI", $g_sImgBooks & "BOF*", 720 - $GobBuilderOffsetRunningBooks, 225 + $g_iMidOffsetY, 770 - $GobBuilderOffsetRunningBooks, 275 + $g_iMidOffsetY) Then
 						Click($g_iQuickMISX, $g_iQuickMISY)
 						If _Sleep(1000) Then Return

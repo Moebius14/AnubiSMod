@@ -55,8 +55,6 @@ MAKE  |H          |FRONT-LEFT |10         |-15        |INT-EXT    |0          |0
 MAKE  |I          |FRONT-RIGHT|10         |-21        |INT-EXT    |1          |0          |           |                                               |
 MAKE  |J          |FRONT-LEFT |10         |-21        |INT-EXT    |0          |1          |           |                                               |
 MAKE  |K          |FRONT-RIGHT|1          |-1         |IGNORE     |           |           |IN-WALL    |                                               |
-MAKE  |L          |RIGHT-FRONT|10         |0          |INT-EXT    |3          |0          |           |                                               |
-MAKE  |M          |LEFT-FRONT |10         |0          |INT-EXT    |3          |0          |           |                                               |
 MAKE  |N          |FRONT-RIGHT|1          |0          |IGNORE     |0          |0          |TOWNHALL   |                                               |
 MAKE  |O          |FRONT-LEFT |1          |0          |IGNORE     |0          |0          |TOWNHALL   |                                               |
 MAKE  |P          |RIGHT-FRONT|1          |0          |IGNORE     |0          |0          |TOWNHALL   |                                               |
@@ -67,6 +65,7 @@ MAKE  |T          |RIGHT-FRONT|1          |0          |IGNORE     |0          |0
 MAKE  |U          |LEFT-FRONT |1          |0          |IGNORE     |0          |0          |INFERNO    |                                               |
 MAKE  |X          |FRONT-LEFT |10         |0          |EXT-INT    |0          |0          |           |                                               |
 MAKE  |Y          |FRONT-RIGHT|10         |0          |INT-EXT    |0          |0          |           |                                               |
+MAKE  |L          |LEFT-BACK  |10         |0          |INT-EXT    |0          |0          |           |                                               |
       |                                                                                                                                               |
       |VECTOR_____|INDEX__________|QTY_X_VECT_|TROOPNAME__|DELAY_DROP_|DELAYCHANGE|SLEEPAFTER_|_______|_______________________________________________|
 DROP  |F          |1              |4          |ESpell     |150-170    |150-170    |100-120    |       |                                               |
@@ -106,6 +105,6 @@ DROP  |I          |3              |1          |HaSpell    |30-50      |0        
 DROP  |J          |3              |1          |Haspell    |30-50      |0          |400-600    |       |                                               |
 DROP  |J          |1              |1          |Rspell     |30-50      |0          |50-100     |       |                                               |
 WAIT  |2500-3500  |               |           |           |           |           |           |       |                                               |
-DROP  |A          |6,7,8,9,10     |5          |REMAIN     |50-70      |127-250    |50-100     |       |                                               |
+DROP  |L          |1,2,3,4,5  |5          |REMAIN     |80-100     |160-190    |50-100     |           |           |           |           |           |
       |                                                                                                                                               |
       |-----------------------------------------------WitchGowitchSWall End---------------------------------------------------------------------------|
