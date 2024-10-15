@@ -178,12 +178,14 @@ Func IsDonateQueueOnly(ByRef $abDonateQueueOnly)
 					If IsArray(_PixelSearch(($xQueue - 12) - ($i * 60.5), 234 + $g_iMidOffsetY, ($xQueue - 8) - ($i * 60.5), 234 + $g_iMidOffsetY, Hex(0x96A623, 6), 20, True)) Then ; the green check symbol
 						Local $iSiegeIndex = TroopIndexLookup($aSearchResult[$i][0]) - $eWallW
 						$g_aiCurrentSiegeMachines[$iSiegeIndex] += $aSearchResult[$i][3]
-						SetLog("  - " & $g_asSiegeMachineNames[$iSiegeIndex] & ($g_aiCurrentSiegeMachines[$iSiegeIndex] > 1 ? "s" : "") & " x" & $g_aiCurrentSiegeMachines[$iSiegeIndex])
 					EndIf
 				Next
 			EndIf
 		EndIf
 		$g_aiAvailSiege = $g_aiCurrentSiegeMachines
+		For $iSiegeIndex = $eSiegeWallWrecker To $eSiegeMachineCount - 1
+			If $g_aiAvailSiege[$iSiegeIndex] > 0 Then SetLog("  - " & $g_asSiegeMachineNames[$iSiegeIndex] & ($g_aiAvailSiege[$iSiegeIndex] > 1 ? "s" : "") & " x" & $g_aiAvailSiege[$iSiegeIndex])
+		Next
 
 	EndIf
 
@@ -354,7 +356,6 @@ Func DonateCC($bUpdateStats = True)
 						If IsArray(_PixelSearch(($xQueue - 12) - ($i * 60.5), 234 + $g_iMidOffsetY, ($xQueue - 8) - ($i * 60.5), 234 + $g_iMidOffsetY, Hex(0x96A623, 6), 20, True)) Then ; the green check symbol
 							Local $iSiegeIndex = TroopIndexLookup($aSearchResult[$i][0]) - $eWallW
 							$g_aiCurrentSiegeMachines[$iSiegeIndex] += $aSearchResult[$i][3]
-							SetLog("  - " & $g_asSiegeMachineNames[$iSiegeIndex] & ($g_aiCurrentSiegeMachines[$iSiegeIndex] > 1 ? "s" : "") & " x" & $g_aiCurrentSiegeMachines[$iSiegeIndex])
 						EndIf
 					Next
 				EndIf
@@ -365,6 +366,9 @@ Func DonateCC($bUpdateStats = True)
 
 		EndIf
 		$g_aiAvailSiege = $g_aiCurrentSiegeMachines
+		For $iSiegeIndex = $eSiegeWallWrecker To $eSiegeMachineCount - 1
+			If $g_aiAvailSiege[$iSiegeIndex] > 0 Then SetLog("  - " & $g_asSiegeMachineNames[$iSiegeIndex] & ($g_aiAvailSiege[$iSiegeIndex] > 1 ? "s" : "") & " x" & $g_aiAvailSiege[$iSiegeIndex])
+		Next
 
 	EndIf
 
