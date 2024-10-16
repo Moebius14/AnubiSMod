@@ -2276,7 +2276,7 @@ Global $SpecialEventReduction = 1 ; No Event
 ;;;;;;;;;;;;;;;
 
 ; COC Version
-Global $sGameMinimalVersion = "16.517.16"
+Global $sGameMinimalVersion = "16.517.17"
 
 ;Builder's Apprentice
 Global $g_sAvailableAppBuilder = 0, $TimeDiffAppBuilder = 0, $g_bChkAppBuilder = 0

@@ -83,12 +83,12 @@ Func CloseWindow($IsinBlacksmith = False, $IsinPet = False, $IsinLab = False, $I
 			If _Sleep(1000) Then Return
 
 			Select
-				Case $IsinLab
-					UseLabPotion()
-				Case $IsinPet
-					UsePetPotion()
 				Case $IsinBlacksmith
 					BlacksmithUpTime()
+				Case $IsinPet
+					UsePetPotion()
+				Case $IsinLab
+					UseLabPotion()
 			EndSelect
 
 			; clear building text - this area is needed for ZoomOut()

@@ -573,7 +573,7 @@ Func LaboratoryUpgrade($name, $aCoords, $sCostResult, $debug = False)
 			PushMsg("LabSuccess")
 			ChkLabUpgradeInProgress($name)
 			If _Sleep($DELAYLABUPGRADE2) Then Return
-			CloseWindow(False, True)
+			CloseWindow(False, False, True)
 			If $StarBonusReceived[2] = 0 Then $StarBonusReceived[2] = 1
 			Return True ; upgrade started
 		Else
