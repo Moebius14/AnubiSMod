@@ -252,7 +252,7 @@ Func IsFullClanCastle()
 		If $bNeedRequest Then
 			$g_bCanRequestCC = True
 			Local $IsToFillCCWithCake = TimeToFillCCWithCake(False)
-			If (Not $bChkUseOnlyCCMedals Or Not $IsToFillCCWithCake) Then
+			If (Not $bChkUseOnlyCCMedals And Not $IsToFillCCWithCake) Then
 				If ($g_aiCmbCCDecisionThen = 1 And $IsForRequestEarly) Or $g_aiCmbCCDecisionThen <> 1 Then RequestCC(False, "IsFullClanCastle")
 			EndIf
 			$IsForRequestEarly = False

@@ -176,7 +176,7 @@ Func CheckIfArmyIsReady()
 	Local $IsToFillCCWithCake = TimeToFillCCWithCake()
 	If $g_bFullArmy And $g_bCheckSpells And $bFullArmyHero Then ; Force Switch while waiting for CC in SwitchAcc
 		If Not $bFullArmyCC Then
-			If $g_aiCmbCCDecisionTime > 0 And (Not $bChkUseOnlyCCMedals Or Not $IsToFillCCWithCake) And $g_aiCmbCCDecisionThen = 1 Then
+			If $g_aiCmbCCDecisionTime > 0 And (Not $bChkUseOnlyCCMedals And Not $IsToFillCCWithCake) And $g_aiCmbCCDecisionThen = 1 Then
 				$g_bWaitForCCTroopSpell = False ; To Not Switch if fill with medals
 			Else
 				$g_bWaitForCCTroopSpell = True
@@ -200,7 +200,7 @@ Func CheckIfArmyIsReady()
 			SetLog("Chief, is your Army ready? No, not yet!", $COLOR_ACTION)
 			If $sLogText <> "" Then SetLog(@TAB & "Waiting for " & $sLogText, $COLOR_ACTION)
 		Else
-			If $g_aiCmbCCDecisionTime > 0 And $g_aiCmbCCDecisionThen = 0 And (Not $bChkUseOnlyCCMedals Or Not $IsToFillCCWithCake) And $g_bRequestTroopsEnable And _
+			If $g_aiCmbCCDecisionTime > 0 And $g_aiCmbCCDecisionThen = 0 And (Not $bChkUseOnlyCCMedals And Not $IsToFillCCWithCake) And $g_bRequestTroopsEnable And _
 					$g_bFullArmy And $g_bCheckSpells And $bFullArmyHero And $bFullSiege Then ; Wait For Time Then Attack (Time reached)
 				If $g_bNotifyTGEnable And $g_bNotifyAlertCampFull Then PushMsg("CampFull")
 				SetLog("Chief, is your Army ready? Yes, it is!", $COLOR_SUCCESS)
@@ -215,7 +215,7 @@ Func CheckIfArmyIsReady()
 	EndIf
 
 	If $g_bFullArmy And $g_bCheckSpells And $bFullArmyHero And $bFullSiege Then
-		If Not $bFullArmyCC And $g_bRequestTroopsEnable And (((Not $bChkUseOnlyCCMedals Or Not $IsToFillCCWithCake) And $g_aiCmbCCDecisionThen = 1 And $IsTofillWithMedals) Or $bChkUseOnlyCCMedals Or $IsToFillCCWithCake) And $IsTofillWithMedalsPause Then
+		If Not $bFullArmyCC And $g_bRequestTroopsEnable And (((Not $bChkUseOnlyCCMedals And Not $IsToFillCCWithCake) And $g_aiCmbCCDecisionThen = 1 And $IsTofillWithMedals) Or $bChkUseOnlyCCMedals Or $IsToFillCCWithCake) And $IsTofillWithMedalsPause Then
 			Local $IsCCFilled = FillCCWMedals(True, True, True, True, False, False)
 			Local $MedalsSetlog = _NumberFormat($g_iLootCCMedal, True)
 			If $IsCCFilled = "Filled" Then

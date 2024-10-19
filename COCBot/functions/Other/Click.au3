@@ -320,7 +320,14 @@ Func AttackClick($x, $y, $times = 1, $speed = 120, $afterDelay = 0, $debugtxt = 
 	$speed = Random($speed - $speed * 0.1, $speed + $speed * 0.1, 1)
 	Local $timer = __TimerInit()
 	; Protect the Attack Bar
-	If $y > 555 + $g_iBottomOffsetY Then $y = 555 + $g_iBottomOffsetY
+	If $y > 555 + $g_iBottomOffsetY Then
+		$y = Random(553, 555, 1) + $g_iBottomOffsetY
+		If $x > ($g_iGAME_WIDTH / 2) Then
+			$x = Random(($g_iGAME_WIDTH / 2) + 60, ($g_iGAME_WIDTH / 2) + 100, 1)
+		Else
+			$x = Random(($g_iGAME_WIDTH / 2) - 100, ($g_iGAME_WIDTH / 2) - 60, 1)
+		EndIf
+	EndIf
 	AttackRemainingTime(False) ; flag attack started
 	Local $result = PureClick($x, $y, $times, $speed, $debugtxt)
 	Local $delay = $times * $speed + $afterDelay - __TimerDiff($timer)
@@ -332,7 +339,14 @@ Func AttackClickCSV($x, $y, $times = 1, $speed = 120, $afterDelay = 0, $debugtxt
 	If $speed = 0 Then $speed = 120
 	Local $timer = __TimerInit()
 	; Protect the Attack Bar
-	If $y > 555 + $g_iBottomOffsetY Then $y = 555 + $g_iBottomOffsetY
+	If $y > 555 + $g_iBottomOffsetY Then
+		$y = Random(553, 555, 1) + $g_iBottomOffsetY
+		If $x > ($g_iGAME_WIDTH / 2) Then
+			$x = Random(($g_iGAME_WIDTH / 2) + 60, ($g_iGAME_WIDTH / 2) + 100, 1)
+		Else
+			$x = Random(($g_iGAME_WIDTH / 2) - 100, ($g_iGAME_WIDTH / 2) - 60, 1)
+		EndIf
+	EndIf
 	AttackRemainingTime(False) ; flag attack started
 	Local $result = PureClickTrain($x, $y, $times, $speed, $debugtxt)
 	Local $delay = $times * $speed + $afterDelay - __TimerDiff($timer)
