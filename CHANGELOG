@@ -1,4 +1,11 @@
-* v8.1.7
+* v8.1.8
+* Improved Shield Time OCR (Partially Hidden "M" is now read).
+* Improved Donate System (When Pictures Request).
+* Updated Close While Training/Without Shield Option.
+* Added Snow Day Scenery Full Support.
+* Fixed Open Machines Tab When Donate Queue Only For Troops And Spells is unchecked.  
+
+* v8.1.7 **
 * Added Fireball equipment support.
 * Improved Donation system.
 * Fixed Overgrowth spell donate strings translation.

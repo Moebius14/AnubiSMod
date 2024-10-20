@@ -335,7 +335,7 @@ Func DonateCC($bUpdateStats = True)
 
 			SetLog("Checking sieges for donation", $COLOR_ACTION)
 
-			getArmySiegeMachines(True, True, False, False, True)
+			getArmySiegeMachines(True, False, False, False, True)
 			If _Sleep(500) Then Return
 
 			If Not OpenSiegeMachinesTab(True, "TrainSiege()") Then Return

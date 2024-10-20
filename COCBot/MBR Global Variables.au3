@@ -2240,7 +2240,7 @@ Global Const $g_afRefCustomMainVillage[4][6] = [ _
 		[88, 778, 112, 624, 439.489958643413, $eTreeMS], _ ; Magic Main Village
 		[38, 822, 48, 634, 496.873764541968, $eTreePG], _  ; Pumpkin Graveyard Main Village
 		[97, 760, 124, 614, 405.46550540893, $eTreeEG], _  ; Egypt Main Village
-		[40, 817, 48, 630, 490.949366617362, $eTreeSD]]    ; Snow Day
+		[40, 817, 48, 630, 490.949366617362, $eTreeSD]]    ; Snow Day Main Village
 
 Global $g_iTree = $eTreeDSS ; default to classic
 Global $g_aiSearchZoomOutCounter[2] = [0, 1] ; 0: Counter of SearchZoomOut calls, 1: # of post zoomouts after image found
