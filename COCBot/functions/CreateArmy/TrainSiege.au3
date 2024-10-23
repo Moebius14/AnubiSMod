@@ -134,6 +134,7 @@ Func DragSiegeIfNeeded($iSiegeIndex, ByRef $iPage)
 		Else
 			; Drag right to left
 			ClickDrag(725, $iY1, 490 - 175, $iY2, 250) ; to expose Flame Flinger
+			If _Sleep(Random(1500, 2000, 1)) Then Return
 			$iPage = 1
 			Return True
 		EndIf
@@ -145,6 +146,7 @@ Func DragSiegeIfNeeded($iSiegeIndex, ByRef $iPage)
 		Else
 			; Drag left to right
 			ClickDrag(312 - 175, $iY1, 560, $iY2, 250) ; to expose Wall Wrecker
+			If _Sleep(Random(1500, 2000, 1)) Then Return
 			$iPage = 0
 			Return True
 		EndIf
