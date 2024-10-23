@@ -1,9 +1,15 @@
 * v8.1.8
 * Improved Shield Time OCR (Partially Hidden "M" is now read).
-* Improved Donate System (When Pictures Request).
+* Improved Donate System (Requests with Pictures).
 * Updated Close While Training/Without Shield Option.
 * Added Snow Day Scenery Full Support.
-* Fixed Open Machines Tab When Donate Queue Only For Troops And Spells is unchecked.  
+* Fixed Open Machines Tab When Donate Queue Only For Troops And Spells is unchecked.
+* Improved BB Tropps Red Cost OCR.
+* Improved Battle Drill Detection.
+* Improved Train "Hidden Troops" when the troop bar is moved all the way to the right.
+* Improved Clan Games Moved Tile Detection.
+* Added Clan Games Challenges Sorting by Scores.
+* Improved Few Clan Games Challenges Detection.
 
 * v8.1.7 **
 * Added Fireball equipment support.

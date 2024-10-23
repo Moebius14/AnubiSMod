@@ -1195,14 +1195,14 @@ Func CreateClanGamesSettings()
 	GUICtrlSetState(-1, $GUI_UNCHECKED)
 
 	$y += 35
-	$g_hChkClanGamesSort = GUICtrlCreateCheckbox(GetTranslatedFileIni("MBR GUI Design Child Village - Misc", "ChkClanGamesSort", "Sort Challenges By :"), $x, $y, -1, -1)
+	$g_hChkClanGamesSort = GUICtrlCreateCheckbox(GetTranslatedFileIni("MBR GUI Design Child Village - Misc", "ChkClanGamesSort", "Challenges Sorting :"), $x, $y, -1, -1)
 	GUICtrlSetOnEvent(-1, "chkSortClanGames")
 	GUICtrlSetState(-1, $GUI_CHECKED)
 
 	$y += 23
 	$g_hCmbClanGamesSort = GUICtrlCreateCombo("", $x + 20, $y, 120, 18, BitOR($CBS_DROPDOWNLIST, $CBS_AUTOHSCROLL))
-	Local $sCmbTxt = "Easier Difficulties|Shortest Time|Longest Time"
-	GUICtrlSetData(-1, $sCmbTxt, "Easier Difficulties")
+	Local $sCmbTxt = "Lower Difficulties|Shortest Times|Longest Times|Lowest Points|Highest Points"
+	GUICtrlSetData(-1, $sCmbTxt, "Lower Difficulties")
 
 	$y += 45
 	GUICtrlCreateGroup(GetTranslatedFileIni("MBR GUI Design Child Village - Misc", "ClangamesDesc", "Description"), $x - 10, $y - 15, 250, 120)

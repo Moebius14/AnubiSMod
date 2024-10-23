@@ -55,6 +55,7 @@ Func TrainSiege($bTrainFullSiege = False, $bDebugSetLog = $g_bDebugSetLog)
 			SetLog(@TAB & "To Build: " & $g_aiArmyCompSiegeMachines[$iSiegeIndex], $COLOR_DEBUG)
 			SetLog(@TAB & "Current Army: " & $g_aiCurrentSiegeMachines[$iSiegeIndex], $COLOR_DEBUG)
 			SetLog(@TAB & "In queue: " & $aiQueueSiegeMachine[$iSiegeIndex], $COLOR_DEBUG)
+			SetLog(@TAB & "Total: " & $aiTotalSiegeMachine[$iSiegeIndex], $COLOR_DEBUG)
 		Next
 	EndIf
 
@@ -133,7 +134,7 @@ Func DragSiegeIfNeeded($iSiegeIndex, ByRef $iPage)
 		Else
 			; Drag right to left
 			ClickDrag(725, $iY1, 490 - 175, $iY2, 250) ; to expose Flame Flinger
-			$iPage += 1
+			$iPage = 1
 			Return True
 		EndIf
 	EndIf
@@ -143,8 +144,8 @@ Func DragSiegeIfNeeded($iSiegeIndex, ByRef $iPage)
 			Return True
 		Else
 			; Drag left to right
-			ClickDrag(312 - 175, $iY1, 547, $iY2, 250) ; to expose Wall Wrecker
-			$iPage -= 1
+			ClickDrag(312 - 175, $iY1, 560, $iY2, 250) ; to expose Wall Wrecker
+			$iPage = 0
 			Return True
 		EndIf
 	EndIf

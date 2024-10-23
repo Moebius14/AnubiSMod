@@ -433,12 +433,21 @@ Func DragIfNeeded($Troop)
 				If _ColorCheck(_GetPixelColor(776, 380 + $g_iMidOffsetY, True), Hex(0xD3D3CB, 6), 5) Then
 					$bCheckPixel = True
 					If $ExtendedTroops4 And $iIndex > $g_iNextPageTroop And $iIndex <= $g_iNextPageTroop + $bMoveCount Then
+						If _ColorCheck(_GetPixelColor(776, 380 + $g_iMidOffsetY, True), Hex(0xD3D3CB, 6), 5) Then
+							If $g_bDebugSetlogTrain Then SetLog("DragIfNeeded : MicroDrag to the left")
+							ClickDrag(250, 433 + $g_iMidOffsetY, 435, 433 + $g_iMidOffsetY)
+							If _Sleep(Random(1500, 2000, 1)) Then Return
+						EndIf
+					EndIf
+				EndIf
+			Else
+				If $ExtendedTroops4 And $iIndex > $g_iNextPageTroop And $iIndex <= $g_iNextPageTroop + $bMoveCount Then
+					If _ColorCheck(_GetPixelColor(776, 380 + $g_iMidOffsetY, True), Hex(0xD3D3CB, 6), 5) Then
 						If $g_bDebugSetlogTrain Then SetLog("DragIfNeeded : MicroDrag to the left")
 						ClickDrag(250, 433 + $g_iMidOffsetY, 435, 433 + $g_iMidOffsetY)
 						If _Sleep(Random(1500, 2000, 1)) Then Return
 					EndIf
 				EndIf
-			Else
 				Return True
 			EndIf
 		Next

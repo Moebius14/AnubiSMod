@@ -1108,7 +1108,7 @@ Func DonateTroopType(Const $iTroopIndex, $Quant = 0, Const $bDonateQueueOnly = F
 		$g_bDebugOcr = True
 	EndIf
 
-	$Slot = DetectSlotTroop($iTroopIndex, $g_iDonationWindowX)
+	$Slot = DetectSlotTroop($iTroopIndex)
 	$detectedSlot = $Slot
 	If $g_bDebugOCRdonate Then $g_bDebugOcr = $oldDebugOcr
 
@@ -1239,7 +1239,7 @@ Func DonateSpellType(Const $iSpellIndex, $Quant = 0, Const $bDonateQueueOnly = F
 		$g_bDebugOcr = True
 	EndIf
 
-	$Slot = DetectSlotSpell($iSpellIndex, $g_iDonationWindowX)
+	$Slot = DetectSlotSpell($iSpellIndex)
 	$detectedSlot = $Slot
 	If $g_bDebugSetlog Then SetDebugLog("slot found = " & $Slot, $COLOR_DEBUG)
 	If $g_bDebugOCRdonate Then $g_bDebugOcr = $oldDebugOcr
@@ -1326,7 +1326,7 @@ Func DonateSiegeType(Const $iSiegeIndex, $Quant = 0, $bDonateAll = False)
 
 	If $Quant = 0 Then $Quant = Number($g_iTotalDonateSiegeMachineCapacity)
 
-	$Slot = DetectSlotSiege($iSiegeIndex, $g_iDonationWindowX)
+	$Slot = DetectSlotSiege($iSiegeIndex)
 	If $Slot = -1 Then
 		SetLog("No " & $g_asSiegeMachineNames[$iSiegeIndex] & " available to donate..", $COLOR_ERROR)
 		Return
@@ -1455,7 +1455,6 @@ Func DonateWindowCap(ByRef $g_bSkipDonTroops, ByRef $g_bSkipDonSpells)
 			If $aTempReadCCTroopsCap[2] > 0 Then
 				$g_iDonTroopsAv = $aTempReadCCTroopsCap[1]
 				$g_iDonTroopsLimit = $aTempReadCCTroopsCap[2]
-				;SetLog("Donate Troops: " & $g_iDonTroopsAv & "/" & $g_iDonTroopsLimit)
 			EndIf
 		Else
 			SetLog("Error reading the Castle Troop Capacity", $COLOR_ERROR) ; log if there is read error
@@ -1491,7 +1490,7 @@ Func DonateWindowCap(ByRef $g_bSkipDonTroops, ByRef $g_bSkipDonSpells)
 		SetLog("Donate Spell Limit Reached")
 	EndIf
 
-	If $g_bSkipDonTroops = True And $g_bSkipDonSpells = True And $g_iDonTroopsAv < $g_iDonTroopsLimit And $g_iDonSpellsAv < $iDonSpellsLimit Then
+	If $g_bSkipDonTroops And $g_bSkipDonSpells And $g_iDonTroopsAv < $g_iDonTroopsLimit And $g_iDonSpellsAv < $iDonSpellsLimit Then
 		SetLog("Donate Troops: " & $g_iDonTroopsAv & "/" & $g_iDonTroopsLimit & ", Spells: " & $g_iDonSpellsAv & "/" & $iDonSpellsLimit)
 	EndIf
 	If Not $g_bSkipDonSpells And $g_iDonTroopsAv < $g_iDonTroopsLimit And $g_iDonSpellsAv = $iDonSpellsLimit Then SetLog("Donate Troops: " & $g_iDonTroopsAv & "/" & $g_iDonTroopsLimit)
@@ -1638,7 +1637,8 @@ Func RemainingCCcapacity($aiDonateButton)
 	Return "OK"
 EndFunc   ;==>RemainingCCcapacity
 
-Func DetectSlotTroop(Const $iTroopIndex, $g_iDonationWindowX = 353)
+Func DetectSlotTroop(Const $iTroopIndex)
+	If _Sleep(500) Then Return
 	Local $FullTemp
 
 	For $Slot = 0 To 6
@@ -1709,7 +1709,8 @@ Func DetectSlotTroop(Const $iTroopIndex, $g_iDonationWindowX = 353)
 
 EndFunc   ;==>DetectSlotTroop
 
-Func DetectSlotSpell(Const $iSpellIndex, $g_iDonationWindowX = 353)
+Func DetectSlotSpell(Const $iSpellIndex)
+	If _Sleep(500) Then Return
 	Local $FullTemp
 
 	For $Slot = 14 To 20
@@ -1748,12 +1749,13 @@ Func DetectSlotSpell(Const $iSpellIndex, $g_iDonationWindowX = 353)
 
 EndFunc   ;==>DetectSlotSpell
 
-Func DetectSlotSiege(Const $iSiegeIndex, $g_iDonationWindowX = 353)
+Func DetectSlotSiege(Const $iSiegeIndex)
+	If _Sleep(500) Then Return
 	Local $FullTemp
 
 	For $Slot = 0 To 6
-		Local $x = $g_iDonationWindowX + 14 + (68 * $Slot)
-		Local $y = $g_iDonationWindowY + 37
+		Local $x = $g_iDonationWindowX + 14 + (68 * $Slot) ; 353 + 14 + 68 = 435 ; SearchImgloc($g_sImgDonateSiege, 435, 280, 498, 342)
+		Local $y = $g_iDonationWindowY + 37 ; 243 + 37 = 280
 		Local $x1 = $x + 63
 		Local $y1 = $y + 62
 

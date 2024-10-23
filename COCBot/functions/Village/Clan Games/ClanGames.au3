@@ -84,10 +84,10 @@ Func _ClanGames($test = False, $HaltMode = False)
 			If $aiScoreLimit[0] < $aiScoreLimit[1] Then
 				$iRandomAttackCGCountToday = Random($g_iAttackCGPlannerDayMin, $g_iAttackCGPlannerDayMax, 1)
 				If Not $g_bFirstStartCheckDone Then
-					SetLog("Max Clan Games Challenges Today : " & $iRandomAttackCGCountToday & "", $COLOR_ERROR)
+					SetLog("Max Clan Games Challenges Today : " & $iRandomAttackCGCountToday & "", $COLOR_FUCHSIA)
 				ElseIf $g_bFirstStartCheckDone Then
-					SetLog("It's A Brand New Day ! Reset Max Clan Games Challenges", $COLOR_ERROR)
-					SetLog("Max Clan Games Challenges Today : " & $iRandomAttackCGCountToday & "", $COLOR_ERROR)
+					SetLog("It's A Brand New Day ! Reset Max Clan Games Challenges", $COLOR_FUCHSIA)
+					SetLog("Max Clan Games Challenges Today : " & $iRandomAttackCGCountToday & "", $COLOR_FUCHSIA)
 				EndIf
 			EndIf
 			CloseWindow()
@@ -110,7 +110,7 @@ Func _ClanGames($test = False, $HaltMode = False)
 				$CheckHeroTimer = _NowCalc()
 			ElseIf _DateIsValid($CheckHeroTimer) Then
 				Local $CheckHeroTimerDiff = _DateDiff('s', $CheckHeroTimer, _NowCalc())
-				If $CheckHeroTimerDiff > $CheckHeroDelay then
+				If $CheckHeroTimerDiff > $CheckHeroDelay Then
 					getArmyHeroCount(True, True, True)
 					$CheckHeroTimer = _NowCalc()
 				EndIf
@@ -121,11 +121,11 @@ Func _ClanGames($test = False, $HaltMode = False)
 	; A user Log and a Click away just in case
 	ClearScreen()
 	SetLog("Entering Clan Games", $COLOR_INFO)
-	If _Sleep(1000) Then Return
+	If _Sleep(500) Then Return
 
 	; Local and Static Variables
 	Local $TabChallengesPosition[2] = [810, 170 + $g_iMidOffsetY]
-	Local $sTimeRemain = "", $sEventName = "", $getCapture = True
+	Local $sTimeRemain = "", $sEventName = "", $sEventPoints = 0, $getCapture = True
 	Local Static $YourAccScore[8][2] = [[-1, True], [-1, True], [-1, True], [-1, True], [-1, True], [-1, True], [-1, True], [-1, True]]
 
 	; Initial Timer
@@ -335,7 +335,7 @@ Func _ClanGames($test = False, $HaltMode = False)
 
 		Local $aAllDetectionsOnScreen = FindEvent()
 
-		Local $aSelectChallenges[0][6]
+		Local $aSelectChallenges[0][9]
 
 		If UBound($aAllDetectionsOnScreen) > 0 Then
 			For $i = 0 To UBound($aAllDetectionsOnScreen) - 1
@@ -349,8 +349,8 @@ Func _ClanGames($test = False, $HaltMode = False)
 							If $aAllDetectionsOnScreen[$i][1] = $LootChallenges[$j][0] Then
 								; Verify your TH level and Challenge kind
 								If $g_iTownHallLevel < $LootChallenges[$j][2] Then ExitLoop
-								; [0] Event Name Full Name  , [1] Xaxis ,  [2] Yaxis , [3] Difficulty, [4] CGMAIN/CGBB
-								Local $aArray[6] = [$LootChallenges[$j][1], $aAllDetectionsOnScreen[$i][2], $aAllDetectionsOnScreen[$i][3], $LootChallenges[$j][3], $aAllDetectionsOnScreen[$i][4], $aAllDetectionsOnScreen[$i][6]]
+								; [0] Event Name Full Name  , [1] Xaxis ,  [2] Yaxis , [3] Difficulty, [4] CGMAIN/CGBB, [5] Page, [6] Image Name
+								Local $aArray[7] = [$LootChallenges[$j][1], $aAllDetectionsOnScreen[$i][2], $aAllDetectionsOnScreen[$i][3], $LootChallenges[$j][3], $aAllDetectionsOnScreen[$i][4], $aAllDetectionsOnScreen[$i][6], $aAllDetectionsOnScreen[$i][1]]
 							EndIf
 						Next
 					Case "A"
@@ -359,8 +359,8 @@ Func _ClanGames($test = False, $HaltMode = False)
 						For $j = 0 To UBound($AirTroopChallenges) - 1
 							; Match the names
 							If $aAllDetectionsOnScreen[$i][1] = $AirTroopChallenges[$j][0] Then
-								; [0] Event Name Full Name  , [1] Xaxis ,  [2] Yaxis , [3] Difficulty, [4] CGMAIN/CGBB
-								Local $aArray[6] = [$AirTroopChallenges[$j][1], $aAllDetectionsOnScreen[$i][2], $aAllDetectionsOnScreen[$i][3], $AirTroopChallenges[$j][3], $aAllDetectionsOnScreen[$i][4], $aAllDetectionsOnScreen[$i][6]]
+								; [0] Event Name Full Name  , [1] Xaxis ,  [2] Yaxis , [3] Difficulty, [4] CGMAIN/CGBB, [5] Page, [6] Image Name
+								Local $aArray[7] = [$AirTroopChallenges[$j][1], $aAllDetectionsOnScreen[$i][2], $aAllDetectionsOnScreen[$i][3], $AirTroopChallenges[$j][3], $aAllDetectionsOnScreen[$i][4], $aAllDetectionsOnScreen[$i][6], $aAllDetectionsOnScreen[$i][1]]
 							EndIf
 						Next
 					Case "S" ; - grumpy
@@ -369,8 +369,8 @@ Func _ClanGames($test = False, $HaltMode = False)
 						For $j = 0 To UBound($SpellChallenges) - 1 ; loop through all challenges
 							; Match the names
 							If $aAllDetectionsOnScreen[$i][1] = $SpellChallenges[$j][0] Then
-								; [0] Event Name Full Name  , [1] Xaxis ,  [2] Yaxis , [3] Difficulty, [4] CGMAIN/CGBB
-								Local $aArray[6] = [$SpellChallenges[$j][1], $aAllDetectionsOnScreen[$i][2], $aAllDetectionsOnScreen[$i][3], $SpellChallenges[$j][3], $aAllDetectionsOnScreen[$i][4], $aAllDetectionsOnScreen[$i][6]]
+								; [0] Event Name Full Name  , [1] Xaxis ,  [2] Yaxis , [3] Difficulty, [4] CGMAIN/CGBB, [5] Page, [6] Image Name
+								Local $aArray[7] = [$SpellChallenges[$j][1], $aAllDetectionsOnScreen[$i][2], $aAllDetectionsOnScreen[$i][3], $SpellChallenges[$j][3], $aAllDetectionsOnScreen[$i][4], $aAllDetectionsOnScreen[$i][6], $aAllDetectionsOnScreen[$i][1]]
 							EndIf
 						Next
 					Case "G"
@@ -379,8 +379,8 @@ Func _ClanGames($test = False, $HaltMode = False)
 						For $j = 0 To UBound($GroundTroopChallenges) - 1
 							; Match the names
 							If $aAllDetectionsOnScreen[$i][1] = $GroundTroopChallenges[$j][0] Then
-								; [0] Event Name Full Name  , [1] Xaxis ,  [2] Yaxis , [3] Difficulty, [4] CGMAIN/CGBB
-								Local $aArray[6] = [$GroundTroopChallenges[$j][1], $aAllDetectionsOnScreen[$i][2], $aAllDetectionsOnScreen[$i][3], $GroundTroopChallenges[$j][3], $aAllDetectionsOnScreen[$i][4], $aAllDetectionsOnScreen[$i][6]]
+								; [0] Event Name Full Name  , [1] Xaxis ,  [2] Yaxis , [3] Difficulty, [4] CGMAIN/CGBB, [5] Page, [6] Image Name
+								Local $aArray[7] = [$GroundTroopChallenges[$j][1], $aAllDetectionsOnScreen[$i][2], $aAllDetectionsOnScreen[$i][3], $GroundTroopChallenges[$j][3], $aAllDetectionsOnScreen[$i][4], $aAllDetectionsOnScreen[$i][6], $aAllDetectionsOnScreen[$i][1]]
 							EndIf
 						Next
 					Case "B"
@@ -417,8 +417,8 @@ Func _ClanGames($test = False, $HaltMode = False)
 								; Check if you are using Heroes
 								If $BattleChallenges[$j][1] = "No Heroics Allowed" And ((Int($g_aiAttackUseHeroes[$DB]) > $eHeroNone And $g_iMatchMode = $DB) Or (Int($g_aiAttackUseHeroes[$LB]) > $eHeroNone And $g_iMatchMode = $LB)) Then ExitLoop
 
-								; [0] Event Name Full Name  , [1] Xaxis ,  [2] Yaxis , [3] Difficulty, [4] CGMAIN/CGBB
-								Local $aArray[6] = [$BattleChallenges[$j][1], $aAllDetectionsOnScreen[$i][2], $aAllDetectionsOnScreen[$i][3], $BattleChallenges[$j][3], $aAllDetectionsOnScreen[$i][4], $aAllDetectionsOnScreen[$i][6]]
+								; [0] Event Name Full Name  , [1] Xaxis ,  [2] Yaxis , [3] Difficulty, [4] CGMAIN/CGBB, [5] Page, [6] Image Name
+								Local $aArray[7] = [$BattleChallenges[$j][1], $aAllDetectionsOnScreen[$i][2], $aAllDetectionsOnScreen[$i][3], $BattleChallenges[$j][3], $aAllDetectionsOnScreen[$i][4], $aAllDetectionsOnScreen[$i][6], $aAllDetectionsOnScreen[$i][1]]
 							EndIf
 						Next
 					Case "D"
@@ -440,8 +440,8 @@ Func _ClanGames($test = False, $HaltMode = False)
 								If $aAllDetectionsOnScreen[$i][1] = "BBreakdown" And $aAllDetectionsOnScreen[$i][4] = "CGBB" Then ContinueLoop
 								If $aAllDetectionsOnScreen[$i][1] = "WallWhacker" And $aAllDetectionsOnScreen[$i][4] = "CGBB" Then ContinueLoop
 
-								; [0] Event Name Full Name  , [1] Xaxis ,  [2] Yaxis , [3] Difficulty, [4] CGMAIN/CGBB
-								Local $aArray[6] = [$DestructionChallenges[$j][1], $aAllDetectionsOnScreen[$i][2], $aAllDetectionsOnScreen[$i][3], $DestructionChallenges[$j][3], $aAllDetectionsOnScreen[$i][4], $aAllDetectionsOnScreen[$i][6]]
+								; [0] Event Name Full Name  , [1] Xaxis ,  [2] Yaxis , [3] Difficulty, [4] CGMAIN/CGBB, [5] Page, [6] Image Name
+								Local $aArray[7] = [$DestructionChallenges[$j][1], $aAllDetectionsOnScreen[$i][2], $aAllDetectionsOnScreen[$i][3], $DestructionChallenges[$j][3], $aAllDetectionsOnScreen[$i][4], $aAllDetectionsOnScreen[$i][6], $aAllDetectionsOnScreen[$i][1]]
 							EndIf
 						Next
 					Case "E"
@@ -480,8 +480,8 @@ Func _ClanGames($test = False, $HaltMode = False)
 										If $EquipmentChallenges[$j][1] = $ChampionEquipment[$t] Then ExitLoop
 									Next
 								EndIf
-								; [0] Event Name Full Name  , [1] Xaxis ,  [2] Yaxis , [3] Difficulty, [4] CGMAIN/CGBB
-								Local $aArray[6] = [$EquipmentChallenges[$j][1], $aAllDetectionsOnScreen[$i][2], $aAllDetectionsOnScreen[$i][3], $EquipmentChallenges[$j][3], $aAllDetectionsOnScreen[$i][4], $aAllDetectionsOnScreen[$i][6]]
+								; [0] Event Name Full Name  , [1] Xaxis ,  [2] Yaxis , [3] Difficulty, [4] CGMAIN/CGBB, [5] Page, [6] Image Name
+								Local $aArray[7] = [$EquipmentChallenges[$j][1], $aAllDetectionsOnScreen[$i][2], $aAllDetectionsOnScreen[$i][3], $EquipmentChallenges[$j][3], $aAllDetectionsOnScreen[$i][4], $aAllDetectionsOnScreen[$i][6], $aAllDetectionsOnScreen[$i][1]]
 							EndIf
 						Next
 					Case "M"
@@ -505,7 +505,7 @@ Func _ClanGames($test = False, $HaltMode = False)
 								If $MiscChallenges[$j][1] = "Donate Spells" And ($g_aiPrepDon[2] = 0 And $g_aiPrepDon[3] = 0) Then ExitLoop
 
 								; [0] Event Name Full Name  , [1] Xaxis ,  [2] Yaxis , [3] Difficulty, [4] CGMAIN/CGBB
-								Local $aArray[6] = [$MiscChallenges[$j][1], $aAllDetectionsOnScreen[$i][2], $aAllDetectionsOnScreen[$i][3], $MiscChallenges[$j][3], $aAllDetectionsOnScreen[$i][4], $aAllDetectionsOnScreen[$i][6]]
+								Local $aArray[7] = [$MiscChallenges[$j][1], $aAllDetectionsOnScreen[$i][2], $aAllDetectionsOnScreen[$i][3], $MiscChallenges[$j][3], $aAllDetectionsOnScreen[$i][4], $aAllDetectionsOnScreen[$i][6], $aAllDetectionsOnScreen[$i][1]]
 							EndIf
 						Next
 					Case "BBB" ; BB Battle challenges
@@ -514,8 +514,8 @@ Func _ClanGames($test = False, $HaltMode = False)
 						For $j = 0 To UBound($BBBattleChallenges) - 1
 							; Match the names
 							If $aAllDetectionsOnScreen[$i][1] = $BBBattleChallenges[$j][0] Then
-								; [0] Event Name Full Name  , [1] Xaxis ,  [2] Yaxis , [3] Difficulty, [4] CGMAIN/CGBB
-								Local $aArray[6] = [$BBBattleChallenges[$j][1], $aAllDetectionsOnScreen[$i][2], $aAllDetectionsOnScreen[$i][3], $BBBattleChallenges[$j][3], $aAllDetectionsOnScreen[$i][4], $aAllDetectionsOnScreen[$i][6]]
+								; [0] Event Name Full Name  , [1] Xaxis ,  [2] Yaxis , [3] Difficulty, [4] CGMAIN/CGBB, [5] Page, [6] Image Name
+								Local $aArray[7] = [$BBBattleChallenges[$j][1], $aAllDetectionsOnScreen[$i][2], $aAllDetectionsOnScreen[$i][3], $BBBattleChallenges[$j][3], $aAllDetectionsOnScreen[$i][4], $aAllDetectionsOnScreen[$i][6], $aAllDetectionsOnScreen[$i][1]]
 							EndIf
 						Next
 					Case "BBD" ; BB Destruction challenges
@@ -528,8 +528,8 @@ Func _ClanGames($test = False, $HaltMode = False)
 								If $aAllDetectionsOnScreen[$i][1] = "BuildingDes" And $aAllDetectionsOnScreen[$i][4] = "CGMain" Then ContinueLoop
 								If $aAllDetectionsOnScreen[$i][1] = "WallDes" And $aAllDetectionsOnScreen[$i][4] = "CGMain" Then ContinueLoop
 
-								; [0] Event Name Full Name  , [1] Xaxis ,  [2] Yaxis , [3] Difficulty, [4] CGMAIN/CGBB
-								Local $aArray[6] = [$BBDestructionChallenges[$j][1], $aAllDetectionsOnScreen[$i][2], $aAllDetectionsOnScreen[$i][3], $BBDestructionChallenges[$j][3], $aAllDetectionsOnScreen[$i][4], $aAllDetectionsOnScreen[$i][6]]
+								; [0] Event Name Full Name  , [1] Xaxis ,  [2] Yaxis , [3] Difficulty, [4] CGMAIN/CGBB, [5] Page, [6] Image Name
+								Local $aArray[7] = [$BBDestructionChallenges[$j][1], $aAllDetectionsOnScreen[$i][2], $aAllDetectionsOnScreen[$i][3], $BBDestructionChallenges[$j][3], $aAllDetectionsOnScreen[$i][4], $aAllDetectionsOnScreen[$i][6], $aAllDetectionsOnScreen[$i][1]]
 							EndIf
 						Next
 					Case "BBT" ; BB Troop challenges
@@ -538,13 +538,13 @@ Func _ClanGames($test = False, $HaltMode = False)
 						For $j = 0 To UBound($BBTroopsChallenges) - 1
 							; Match the names
 							If $aAllDetectionsOnScreen[$i][1] = $BBTroopsChallenges[$j][0] Then
-								; [0] Event Name Full Name  , [1] Xaxis ,  [2] Yaxis , [3] Difficulty, [4] CGMAIN/CGBB
-								Local $aArray[6] = [$BBTroopsChallenges[$j][1], $aAllDetectionsOnScreen[$i][2], $aAllDetectionsOnScreen[$i][3], $BBTroopsChallenges[$j][3], $aAllDetectionsOnScreen[$i][4], $aAllDetectionsOnScreen[$i][6]]
+								; [0] Event Name Full Name  , [1] Xaxis ,  [2] Yaxis , [3] Difficulty, [4] CGMAIN/CGBB, [5] Page, [6] Image Name
+								Local $aArray[7] = [$BBTroopsChallenges[$j][1], $aAllDetectionsOnScreen[$i][2], $aAllDetectionsOnScreen[$i][3], $BBTroopsChallenges[$j][3], $aAllDetectionsOnScreen[$i][4], $aAllDetectionsOnScreen[$i][6], $aAllDetectionsOnScreen[$i][1]]
 							EndIf
 						Next
 				EndSwitch
 				If IsDeclared("aArray") And $aArray[0] <> "" Then
-					ReDim $aSelectChallenges[UBound($aSelectChallenges) + 1][8]
+					ReDim $aSelectChallenges[UBound($aSelectChallenges) + 1][9]
 					$aSelectChallenges[UBound($aSelectChallenges) - 1][0] = $aArray[0] ; Event Name Full Name
 					$aSelectChallenges[UBound($aSelectChallenges) - 1][1] = $aArray[1] ; Xaxis
 					$aSelectChallenges[UBound($aSelectChallenges) - 1][2] = $aArray[2] ; Yaxis
@@ -552,7 +552,8 @@ Func _ClanGames($test = False, $HaltMode = False)
 					$aSelectChallenges[UBound($aSelectChallenges) - 1][4] = 0          ; timer minutes
 					$aSelectChallenges[UBound($aSelectChallenges) - 1][5] = $aArray[4] ; EventType: MainVillage/BuilderBase
 					$aSelectChallenges[UBound($aSelectChallenges) - 1][6] = $aArray[5] ; Challenge Page
-					$aSelectChallenges[UBound($aSelectChallenges) - 1][7] = 0            ; Event Points
+					$aSelectChallenges[UBound($aSelectChallenges) - 1][7] = 0          ; Event Points
+					$aSelectChallenges[UBound($aSelectChallenges) - 1][8] = $aArray[6] ; Image Name
 					$aArray[0] = ""
 				EndIf
 			Next
@@ -567,25 +568,25 @@ Func _ClanGames($test = False, $HaltMode = False)
 		_ArraySort($aSelectChallenges, 1, 0, 0, 6)
 
 		If UBound($aSelectChallenges) > 0 Then
-			; let's get the Event timing
+			; let's get the Event timing & points
 			For $i = 0 To UBound($aSelectChallenges) - 1
 				ChallengeNextPage($aSelectChallenges[$i][6], $iRow)
 				Click($aSelectChallenges[$i][1], $aSelectChallenges[$i][2])
 				If _Sleep(1500) Then Return
 				Local $EventHours = GetEventInformation()
 				Local $EventPoints = GetEventPoints()
-				If $EventHours > 0 Then
-					Setlog("Detected " & $aSelectChallenges[$i][0] & " difficulty of " & $aSelectChallenges[$i][3] & " Time: " & $EventHours & " min", $COLOR_INFO)
+				$aSelectChallenges[$i][4] = Number($EventHours)
+				$aSelectChallenges[$i][7] = Number($EventPoints)
+				If $aSelectChallenges[$i][4] > 0 Then
+					Setlog("Detected " & $aSelectChallenges[$i][0] & " : Difficulty : " & $aSelectChallenges[$i][3] & ", " & $aSelectChallenges[$i][7] & " Pts, " & $aSelectChallenges[$i][4] & " min", $COLOR_INFO)
 				Else
-					Setlog("Detected " & $aSelectChallenges[$i][0] & " difficulty of " & $aSelectChallenges[$i][3] & " Time: Out Of Time", $COLOR_DEBUG1)
+					Setlog("Detected " & $aSelectChallenges[$i][0] & " : Difficulty : " & $aSelectChallenges[$i][3] & ", " & $aSelectChallenges[$i][7] & " Pts, Out Of Time", $COLOR_DEBUG1)
 				EndIf
 				Click($aSelectChallenges[$i][1], $aSelectChallenges[$i][2])
 				If _Sleep(250) Then Return
-				$aSelectChallenges[$i][4] = Number($EventHours)
-				$aSelectChallenges[$i][7] = Number($EventPoints)
 			Next
 
-			Local $aTempSelectChallenges[0][7]
+			Local $aTempSelectChallenges[0][9]
 			For $i = 0 To UBound($aSelectChallenges) - 1
 				; let's get the 1440 minutes events then remove from array
 				If $aSelectChallenges[$i][4] = 1440 And $g_bChkClanGamesNoOneDay Then
@@ -602,7 +603,7 @@ Func _ClanGames($test = False, $HaltMode = False)
 						EndIf
 					EndIf
 				EndIf
-				ReDim $aTempSelectChallenges[UBound($aTempSelectChallenges) + 1][7]
+				ReDim $aTempSelectChallenges[UBound($aTempSelectChallenges) + 1][9]
 				$aTempSelectChallenges[UBound($aTempSelectChallenges) - 1][0] = $aSelectChallenges[$i][0] ; Event Name Full Name
 				$aTempSelectChallenges[UBound($aTempSelectChallenges) - 1][1] = $aSelectChallenges[$i][1] ; Xaxis
 				$aTempSelectChallenges[UBound($aTempSelectChallenges) - 1][2] = $aSelectChallenges[$i][2] ; Yaxis
@@ -610,10 +611,12 @@ Func _ClanGames($test = False, $HaltMode = False)
 				$aTempSelectChallenges[UBound($aTempSelectChallenges) - 1][4] = Number($aSelectChallenges[$i][4]) ; timer minutes
 				$aTempSelectChallenges[UBound($aTempSelectChallenges) - 1][5] = $aSelectChallenges[$i][5] ; EventType: MainVillage/BuilderBase
 				$aTempSelectChallenges[UBound($aTempSelectChallenges) - 1][6] = $aSelectChallenges[$i][6] ; Challenge Page
+				$aTempSelectChallenges[UBound($aTempSelectChallenges) - 1][7] = Number($aSelectChallenges[$i][7]) ; Event Points
+				$aTempSelectChallenges[UBound($aTempSelectChallenges) - 1][8] = $aSelectChallenges[$i][8] ; Image Name
 			Next
 
-			Local $aTmpBBChallenges[0][7]
-			Local $aTmpMainChallenges[0][7]
+			Local $aTmpBBChallenges[0][9]
+			Local $aTmpMainChallenges[0][9]
 			If $g_bChkForceBBAttackOnClanGames And $bSearchBBEventFirst Then
 				Local $CGMAinCount = 0
 				SetLog("Try To Do BB Challenge First", $COLOR_DEBUG1)
@@ -622,7 +625,7 @@ Func _ClanGames($test = False, $HaltMode = False)
 						$CGMAinCount += 1
 						ContinueLoop
 					EndIf
-					ReDim $aTmpBBChallenges[UBound($aTmpBBChallenges) + 1][7]
+					ReDim $aTmpBBChallenges[UBound($aTmpBBChallenges) + 1][9]
 					$aTmpBBChallenges[UBound($aTmpBBChallenges) - 1][0] = $aTempSelectChallenges[$i][0] ; Event Name Full Name
 					$aTmpBBChallenges[UBound($aTmpBBChallenges) - 1][1] = $aTempSelectChallenges[$i][1] ; Xaxis
 					$aTmpBBChallenges[UBound($aTmpBBChallenges) - 1][2] = $aTempSelectChallenges[$i][2] ; Yaxis
@@ -630,6 +633,8 @@ Func _ClanGames($test = False, $HaltMode = False)
 					$aTmpBBChallenges[UBound($aTmpBBChallenges) - 1][4] = Number($aTempSelectChallenges[$i][4]) ; timer minutes
 					$aTmpBBChallenges[UBound($aTmpBBChallenges) - 1][5] = $aTempSelectChallenges[$i][5] ; EventType: MainVillage/BuilderBase
 					$aTmpBBChallenges[UBound($aTmpBBChallenges) - 1][6] = $aTempSelectChallenges[$i][6] ; Challenge Page
+					$aTmpBBChallenges[UBound($aTmpBBChallenges) - 1][7] = Number($aTempSelectChallenges[$i][7]) ; Event Points
+					$aTmpBBChallenges[UBound($aTmpBBChallenges) - 1][8] = $aTempSelectChallenges[$i][8] ; Image Name
 				Next
 
 				If UBound($aTmpBBChallenges) > 0 Then
@@ -654,7 +659,7 @@ Func _ClanGames($test = False, $HaltMode = False)
 						$CGBBCount += 1
 						ContinueLoop
 					EndIf
-					ReDim $aTmpMainChallenges[UBound($aTmpMainChallenges) + 1][7]
+					ReDim $aTmpMainChallenges[UBound($aTmpMainChallenges) + 1][9]
 					$aTmpMainChallenges[UBound($aTmpMainChallenges) - 1][0] = $aTempSelectChallenges[$i][0] ; Event Name Full Name
 					$aTmpMainChallenges[UBound($aTmpMainChallenges) - 1][1] = $aTempSelectChallenges[$i][1] ; Xaxis
 					$aTmpMainChallenges[UBound($aTmpMainChallenges) - 1][2] = $aTempSelectChallenges[$i][2] ; Yaxis
@@ -662,6 +667,8 @@ Func _ClanGames($test = False, $HaltMode = False)
 					$aTmpMainChallenges[UBound($aTmpMainChallenges) - 1][4] = Number($aTempSelectChallenges[$i][4]) ; timer minutes
 					$aTmpMainChallenges[UBound($aTmpMainChallenges) - 1][5] = $aTempSelectChallenges[$i][5] ; EventType: MainVillage/BuilderBase
 					$aTmpMainChallenges[UBound($aTmpMainChallenges) - 1][6] = $aTempSelectChallenges[$i][6] ; Challenge Page
+					$aTmpMainChallenges[UBound($aTmpMainChallenges) - 1][7] = Number($aTempSelectChallenges[$i][7]) ; Event Points
+					$aTmpMainChallenges[UBound($aTmpMainChallenges) - 1][8] = $aTempSelectChallenges[$i][8] ; Image Name
 				Next
 
 				If UBound($aTmpMainChallenges) > 0 Then
@@ -694,32 +701,41 @@ Func _ClanGames($test = False, $HaltMode = False)
 					Switch $g_iSortClanGames
 						Case 0 ;sort by Difficulty
 							_ArraySort($aTempSelectChallenges, 0, 0, 0, 3) ;sort ascending, lower difficulty = easiest
-							SetLog("Sort Challenges by Difficulty", $COLOR_ACTION)
+							SetLog("Sort Challenges by Difficulty, Lowest First", $COLOR_ACTION)
 						Case 1 ;sort by Time
-							_ArraySort($aTempSelectChallenges, 0, 0, 0, 4) ;sort descending, shortest time first
+							_ArraySort($aTempSelectChallenges, 0, 0, 0, 4) ;sort ascending, shortest time first
 							SetLog("Sort Challenges by Time, Shortest First", $COLOR_ACTION)
 						Case 2 ;sort by Time
 							_ArraySort($aTempSelectChallenges, 1, 0, 0, 4) ;sort descending, longest time first
 							SetLog("Sort Challenges by Time, Longest First", $COLOR_ACTION)
+						Case 3 ;sort by Points
+							_ArraySort($aTempSelectChallenges, 0, 0, 0, 7) ;sort ascending, lowest points first
+							SetLog("Sort Challenges by Points, Lowest First", $COLOR_ACTION)
+						Case 4 ;sort by Points
+							_ArraySort($aTempSelectChallenges, 1, 0, 0, 7) ;sort descending, highest points first
+							SetLog("Sort Challenges by Points, Highest First", $COLOR_ACTION)
 					EndSwitch
 				EndIf
 				For $i = 0 To UBound($aTempSelectChallenges) - 1
 					If Not $g_bRunState Then Return
 					SetDebugLog("$aTempSelectChallenges: " & _ArrayToString($aTempSelectChallenges))
 					If Number($aTempSelectChallenges[$i][4]) > 0 Then
-						Setlog("Next Challenge will be " & $aTempSelectChallenges[$i][0] & " to do in " & $aTempSelectChallenges[$i][4] & " min.")
+						Setlog("Next Challenge will be " & $aTempSelectChallenges[$i][0] & " to do in " & $aTempSelectChallenges[$i][4] & " min for " & $aTempSelectChallenges[$i][7] & " pts.")
 					Else
 						$sTimeCG = ConvertOCRTime("ClanGames()", $g_sClanGamesTimeRemaining, False)
 						If $sTimeCG > 0 Then
-							Setlog("Next Challenge will be " & $aTempSelectChallenges[$i][0] & " to do in " & $g_sClanGamesTimeRemaining)
+							Setlog("Next Challenge will be " & $aTempSelectChallenges[$i][0] & " to do in " & $g_sClanGamesTimeRemaining & " for " & $aTempSelectChallenges[$i][7] & " pts.")
 						Else
-							Setlog("Next Challenge will be " & $aTempSelectChallenges[$i][0])
+							Setlog("Next Challenge will be " & $aTempSelectChallenges[$i][0] & " for " & $aTempSelectChallenges[$i][7] & " pts.")
 						EndIf
 					EndIf
 					; Select and Start EVENT
 					ChallengeNextPage($aTempSelectChallenges[$i][6], $iRow)
 					$sEventName = $aTempSelectChallenges[$i][0]
-					If Not QuickMIS("BC1", $sTempChallengePath & "Selected\", $aTempSelectChallenges[$i][1] - 60, $aTempSelectChallenges[$i][2] - 60, $aTempSelectChallenges[$i][1] + 60, $aTempSelectChallenges[$i][2] + 60, True) Then
+					$sEventPoints = $aTempSelectChallenges[$i][7]
+					Local $SearchSelected = decodeSingleCoord(FindImageInPlace2("Selected", $sTempChallengePath & "Selected\*" & $aTempSelectChallenges[$i][8] & "*", $aTempSelectChallenges[$i][1] - 60, _
+							$aTempSelectChallenges[$i][2] - 60, $aTempSelectChallenges[$i][1] + 60, $aTempSelectChallenges[$i][2] + 60, True))
+					If Not IsArray($SearchSelected) Or UBound($SearchSelected) < 2 Then
 						SetLog($sEventName & " not found on previous location detected", $COLOR_ERROR)
 						SetLog("Maybe challenge tile changed, Restart Search...", $COLOR_INFO)
 						If _Sleep(2000) Then Return
@@ -741,7 +757,7 @@ Func _ClanGames($test = False, $HaltMode = False)
 					$CurrentActiveChallenge = $aTempSelectChallenges[$i][0]
 					Click($aTempSelectChallenges[$i][1], $aTempSelectChallenges[$i][2])
 					If _Sleep(1500) Then Return
-					Return ClickOnEvent($YourAccScore, $aiScoreLimit, $sEventName, $getCapture)
+					Return ClickOnEvent($YourAccScore, $aiScoreLimit, $sEventName, $sEventPoints, $getCapture)
 				Next
 			EndIf
 		EndIf
@@ -1074,7 +1090,7 @@ Func IsClanGamesWindow()
 			SetLog("Caravan available! Entering Clan Games", $COLOR_SUCCESS)
 			Click($g_iQuickMISX, $g_iQuickMISY)
 			; Just wait for window open
-			If _Sleep(2500) Then Return
+			If _Sleep(3000) Then Return
 			$sState = IsClanGamesRunning()
 			Switch $sState
 				Case "Prepare"
@@ -1338,7 +1354,7 @@ Func IsEventRunning($bOpenWindow = False)
 					Local $remainingCGattacks = $iRandomAttackCGCountToday - $g_aiAttackedCGCount
 					LiveDailyCount()
 					If $remainingCGattacks = 0 Then
-						SetLog("Running Last Challenge Of This Day", $COLOR_ERROR)
+						SetLog("Running Last Challenge Of This Day", $COLOR_FUCHSIA)
 					ElseIf $remainingCGattacks > 0 Then
 						SetLog("Remaining Challenges Today After This One : " & $remainingCGattacks & "", $COLOR_OLIVE)
 					EndIf
@@ -1350,7 +1366,7 @@ Func IsEventRunning($bOpenWindow = False)
 					LiveDailyCount()
 					Local $remainingCGattacks = $iRandomAttackCGCountToday - $g_aiAttackedCGCount
 					If $remainingCGattacks = 0 Then
-						SetLog("Running Last Challenge Of This Day", $COLOR_ERROR)
+						SetLog("Running Last Challenge Of This Day", $COLOR_FUCHSIA)
 					ElseIf $remainingCGattacks > 0 Then
 						SetLog("Remaining Challenges Today After This One : " & $remainingCGattacks & "", $COLOR_OLIVE)
 					EndIf
@@ -1396,7 +1412,7 @@ Func IsEventRunning($bOpenWindow = False)
 							$CurrentActiveChallenge = "Hog Glider"
 						EndIf
 					EndIf
-					Setlog("Running Challenge is BB Challenge : " & $CurrentActiveChallenge, $COLOR_ACTION)
+					Setlog("Running Challenge is in Builder Base : " & $CurrentActiveChallenge, $COLOR_ACTION)
 					If $g_bChkClanGamesStopBeforeReachAndPurge Then
 						Local $sTimeCG = ConvertOCRTime("ClanGames()", $g_sClanGamesTimeRemaining, False)
 						If $sTimeCG > 1440 Then
@@ -1452,7 +1468,7 @@ Func IsEventRunning($bOpenWindow = False)
 							$CurrentActiveChallenge = "HogRider"
 						EndIf
 					EndIf
-					Setlog("Running Challenge is MainVillage Challenge : " & $CurrentActiveChallenge, $COLOR_ACTION)
+					Setlog("Running Challenge is in Main Village : " & $CurrentActiveChallenge, $COLOR_ACTION)
 					If $g_bChkClanGamesStopBeforeReachAndPurge Then
 						Local $sTimeCG = ConvertOCRTime("ClanGames()", $g_sClanGamesTimeRemaining, False)
 						If $sTimeCG > 1440 Then
@@ -1501,7 +1517,7 @@ Func IsEventRunning($bOpenWindow = False)
 	Return False
 EndFunc   ;==>IsEventRunning
 
-Func ClickOnEvent(ByRef $YourAccScore, $ScoreLimits, $sEventName, $getCapture)
+Func ClickOnEvent(ByRef $YourAccScore, $ScoreLimits, $sEventName, $sEventPoints, $getCapture)
 	If Not $YourAccScore[$g_iCurAccount][1] Then
 		Local $text = "", $color = $COLOR_SUCCESS
 		If $YourAccScore[$g_iCurAccount][0] <> $ScoreLimits[0] Then
@@ -1517,44 +1533,44 @@ Func ClickOnEvent(ByRef $YourAccScore, $ScoreLimits, $sEventName, $getCapture)
 	$YourAccScore[$g_iCurAccount][0] = $ScoreLimits[0]
 	If $g_bChkClanGamesDebug Then SetLog("ClickOnEvent $YourAccScore[" & $g_iCurAccount & "][1]: " & $YourAccScore[$g_iCurAccount][1])
 	If $g_bChkClanGamesDebug Then SetLog("ClickOnEvent $YourAccScore[" & $g_iCurAccount & "][0]: " & $YourAccScore[$g_iCurAccount][0])
-	If Not StartsEvent($sEventName, $getCapture, $g_bChkClanGamesDebug) Then Return False
+	If Not StartsEvent($sEventName, $sEventPoints, $getCapture, $g_bChkClanGamesDebug) Then Return False
 	CloseWindow()
 	Return True
 EndFunc   ;==>ClickOnEvent
 
-Func StartsEvent($sEventName, $getCapture = True, $g_bChkClanGamesDebug = False)
+Func StartsEvent($sEventName, $sEventPoints, $getCapture = True, $g_bChkClanGamesDebug = False)
 	If Not $g_bRunState Then Return
 
 	If QuickMIS("BC1", $g_sImgStart, 230, 120 + $g_iMidOffsetY, 840, 520 + $g_iMidOffsetY) Then
 		Local $Timer = GetEventTimeInMinutes($g_iQuickMISX, $g_iQuickMISY)
 		Local $sTimeCG = ConvertOCRTime("ClanGames()", $g_sClanGamesTimeRemaining, False)
 		If $Timer > 0 Then
-			SetLog("Starting Challenge" & " [" & $Timer & " min]", $COLOR_SUCCESS)
+			SetLog("Starting Challenge" & " [" & $Timer & " min] [" & $sEventPoints & " pts]", $COLOR_SUCCESS)
 			Click($g_iQuickMISX, $g_iQuickMISY)
 			If $g_iTxtCurrentVillageName <> "" Then
-				GUICtrlSetData($g_hTxtClanGamesLog, @CRLF & _NowTime() & " [" & $g_iTxtCurrentVillageName & "] - Starting " & $sEventName & " for " & $Timer & " min", 1)
+				GUICtrlSetData($g_hTxtClanGamesLog, @CRLF & _NowTime() & " [" & $g_iTxtCurrentVillageName & "] - Starting " & $sEventName & " for " & $Timer & " min and " & $sEventPoints & " pts", 1)
 				$g_aiAttackedCGCount += 1
 				LiveDailyCount()
 			Else
-				GUICtrlSetData($g_hTxtClanGamesLog, @CRLF & _NowTime() & " [" & $g_sProfileCurrentName & "] - Starting " & $sEventName & " for " & $Timer & " min", 1)
+				GUICtrlSetData($g_hTxtClanGamesLog, @CRLF & _NowTime() & " [" & $g_sProfileCurrentName & "] - Starting " & $sEventName & " for " & $Timer & " min and " & $sEventPoints & " pts", 1)
 				$g_aiAttackedCGCount += 1
 				LiveDailyCount()
 			EndIf
-			_FileWriteLog($g_sProfileLogsPath & "\ClanGames.log", " [" & $g_sProfileCurrentName & "] - Starting " & $sEventName & " for " & $Timer & " min")
+			_FileWriteLog($g_sProfileLogsPath & "\ClanGames.log", " [" & $g_sProfileCurrentName & "] - Starting " & $sEventName & " for " & $Timer & " min and " & $sEventPoints & " pts")
 			$g_bFirstStartCheckDone = 1
 		Else
-			SetLog("Starting Event" & " [" & $sTimeCG & " min]", $COLOR_SUCCESS)
+			SetLog("Starting Event" & " [" & $sTimeCG & " min] [" & $sEventPoints & " pts]", $COLOR_SUCCESS)
 			Click($g_iQuickMISX, $g_iQuickMISY)
 			If $g_iTxtCurrentVillageName <> "" Then
-				GUICtrlSetData($g_hTxtClanGamesLog, @CRLF & _NowTime() & " [" & $g_iTxtCurrentVillageName & "] - Starting " & $sEventName & " for " & $sTimeCG & " min", 1)
+				GUICtrlSetData($g_hTxtClanGamesLog, @CRLF & _NowTime() & " [" & $g_iTxtCurrentVillageName & "] - Starting " & $sEventName & " for " & $sTimeCG & " min and " & $sEventPoints & " pts", 1)
 				$g_aiAttackedCGCount += 1
 				LiveDailyCount()
 			Else
-				GUICtrlSetData($g_hTxtClanGamesLog, @CRLF & _NowTime() & " [" & $g_sProfileCurrentName & "] - Starting " & $sEventName & " for " & $sTimeCG & " min", 1)
+				GUICtrlSetData($g_hTxtClanGamesLog, @CRLF & _NowTime() & " [" & $g_sProfileCurrentName & "] - Starting " & $sEventName & " for " & $sTimeCG & " min and " & $sEventPoints & " pts", 1)
 				$g_aiAttackedCGCount += 1
 				LiveDailyCount()
 			EndIf
-			_FileWriteLog($g_sProfileLogsPath & "\ClanGames.log", " [" & $g_sProfileCurrentName & "] - Starting " & $sEventName & " for " & $sTimeCG & " min")
+			_FileWriteLog($g_sProfileLogsPath & "\ClanGames.log", " [" & $g_sProfileCurrentName & "] - Starting " & $sEventName & " for " & $sTimeCG & " min and " & $sEventPoints & " pts")
 			$g_bFirstStartCheckDone = 1
 		EndIf
 
@@ -1569,15 +1585,15 @@ Func StartsEvent($sEventName, $getCapture = True, $g_bChkClanGamesDebug = False)
 		WaitForClanMessage("ClanGames")
 		If QuickMIS("BC1", $g_sImgVersus, 425, 180 + $g_iMidOffsetY, 700, 245 + $g_iMidOffsetY, True, False) Then
 			If $sEventName = "Builder Hut" Then
-				Setlog("Running Challenge is MainVillage Challenge : " & $sEventName, $COLOR_ACTION)
+				Setlog("Running Challenge is in Main Village : " & $sEventName, $COLOR_ACTION)
 				$g_bIsBBevent = 0
 			Else
-				Setlog("Running Challenge is BB Challenge : " & $sEventName, $COLOR_ACTION)
+				Setlog("Running Challenge is in Builder Base : " & $sEventName, $COLOR_ACTION)
 				$g_bIsBBevent = 1
 				If ProfileSwitchAccountEnabled() And $g_bChkBBMaxEventsInARow Then $g_aiAttackedBBEventCount += 1
 			EndIf
 		Else
-			Setlog("Running Challenge is MainVillage Challenge : " & $sEventName, $COLOR_ACTION)
+			Setlog("Running Challenge is in Main Village : " & $sEventName, $COLOR_ACTION)
 			$g_bIsBBevent = 0
 			Local $LootChallenges = ClanGamesChallenges("$LootChallenges")
 			For $j = 0 To UBound($LootChallenges) - 1
@@ -1999,7 +2015,7 @@ Func PurgeEvent($bTest = False, $startFirst = True, $NoMistake = True, $iRow = 1
 				SetLog("Click OK", $COLOR_INFO)
 				If $bTest Then Return
 				Click($g_iQuickMISX, $g_iQuickMISY)
-				If _Sleep(1000) Then Return
+				If _Sleep(1500) Then Return
 				If $g_iTxtCurrentVillageName <> "" Then
 					GUICtrlSetData($g_hTxtClanGamesLog, @CRLF & _NowTime() & " [" & $g_iTxtCurrentVillageName & "] - PurgeEvent: Purge a Wrong Challenge ", 1)
 				Else
@@ -2776,7 +2792,7 @@ Func UTCTimeCG()
 	WEnd
 	If $ErrorCycle = 10 Then
 		If Number(@MDAY) >= 21 Then
-			Return True
+			Return UTCTimeCGRescue1()
 		Else
 			Return False
 		EndIf
@@ -2786,7 +2802,7 @@ Func UTCTimeCG()
 		$DayUTC = StringSplit($Time[0], "-", $STR_NOCOUNT)
 		$TimeHourUTC = StringSplit($Time[1], ":", $STR_NOCOUNT)
 	Else
-		If Number(@MDAY) >= 21 Then Return True
+		If Number(@MDAY) >= 21 Then Return UTCTimeCGRescue1()
 	EndIf
 	If IsArray($TimeHourUTC) And UBound($TimeHourUTC) > 0 Then
 		If $TimeHourUTC[0] > 6 And $DayUTC[2] = 22 Then
@@ -2796,10 +2812,76 @@ Func UTCTimeCG()
 			Return True
 		EndIf
 	Else
-		If Number(@MDAY) >= 21 Then Return True
+		If Number(@MDAY) >= 21 Then Return UTCTimeCGRescue1()
 	EndIf
 	Return False
 EndFunc   ;==>UTCTimeCG
+
+Func UTCTimeCGRescue1()
+	Local $Time, $DayUTC, $TimeHourUTC
+	If _Sleep(100) Then Return
+	Local $String = BinaryToString(InetRead("https://timeapi.io/api/time/current/zone?timeZone=utc", 1))
+	Local $ErrorCycle = 0
+	While @error <> 0
+		$String = BinaryToString(InetRead("https://timeapi.io/api/time/current/zone?timeZone=utc", 1))
+		If @error <> 0 Then
+			$ErrorCycle += 1
+		Else
+			ExitLoop
+		EndIf
+		If _Sleep(150) Then Return
+		If $ErrorCycle = 10 Then ExitLoop
+	WEnd
+	If $ErrorCycle = 10 Then
+		If Number(@MDAY) >= 21 Then
+			Return UTCTimeCGRescue2()
+		Else
+			Return False
+		EndIf
+	EndIf
+	$Time = StringRegExp($String, 'dateTime":"(.+?)T(\d+:\d+:\d+)', $STR_REGEXPARRAYMATCH)
+	If IsArray($Time) And UBound($Time) > 0 Then
+		$DayUTC = StringSplit($Time[0], "-", $STR_NOCOUNT)
+		$TimeHourUTC = StringSplit($Time[1], ":", $STR_NOCOUNT)
+	Else
+		If Number(@MDAY) >= 21 Then Return UTCTimeCGRescue2()
+	EndIf
+	If IsArray($TimeHourUTC) And UBound($TimeHourUTC) > 0 Then
+		If $TimeHourUTC[0] > 6 And $DayUTC[2] = 22 Then
+			If $TimeHourUTC[0] = 7 And $TimeHourUTC[1] > 50 Then Return True ; Clan Games begins the 22th at 8am utc. Check from 7:50am UTC.
+			If $TimeHourUTC[0] > 7 Then Return True
+		ElseIf $DayUTC[2] > 22 Then ; To be sure
+			Return True
+		EndIf
+	Else
+		If Number(@MDAY) >= 21 Then Return UTCTimeCGRescue2()
+	EndIf
+	Return False
+EndFunc   ;==>UTCTimeCGRescue1
+
+Func UTCTimeCGRescue2()
+	Local $UTCTime, $UTCString, $Date, $Time, $Day, $idayNumber, $TimeHour
+	If _Sleep(100) Then Return
+	$UTCTime = _Date_Time_GetSystemTime()
+	$UTCString = _Date_Time_SystemTimeToDateTimeStr($UTCTime)
+	;Day UTC
+	$Date = StringLeft($UTCString, 10)
+	$Day = StringSplit($Date, "/", $STR_NOCOUNT)
+	$idayNumber = $Day[1]
+	;Time UTC
+	$Time = StringRight($UTCString, 8)
+	$TimeHour = StringSplit($Time, ":", $STR_NOCOUNT)
+	If IsArray($TimeHour) And IsArray($Day) Then
+		If $TimeHour[0] > 6 And $idayNumber = 22 Then
+			If $TimeHour[0] = 7 And $TimeHour[1] > 50 Then Return True ; Clan Games begins the 22th at 8am utc. Check from 7:50am UTC.
+		ElseIf $idayNumber > 22 Then ; To be sure
+			Return True
+		EndIf
+	Else
+		If Number(@MDAY) >= 21 Then Return True
+	EndIf
+	Return False
+EndFunc   ;==>UTCTimeCGRescue2
 
 Func CreateCGRewardsFile()
 	Local $aRewardsList[41][2] = [ _  ; books-1, gems-2, runes-3, shovel-4,  50gems-5, wall rings-6, full wall - 7, all other Pots - 8, 10gems - 9

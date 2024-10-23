@@ -54,7 +54,6 @@ MAKE  |G          |FRONT-RIGHT|10         |-15        |INT-EXT    |0          |0
 MAKE  |H          |FRONT-LEFT |10         |-15        |INT-EXT    |0          |0          |           |                                               |
 MAKE  |I          |FRONT-RIGHT|10         |-21        |INT-EXT    |1          |0          |           |                                               |
 MAKE  |J          |FRONT-LEFT |10         |-21        |INT-EXT    |0          |1          |           |                                               |
-MAKE  |K          |FRONT-RIGHT|1          |-1         |IGNORE     |           |           |IN-WALL    |                                               |
 MAKE  |N          |FRONT-RIGHT|1          |0          |IGNORE     |0          |0          |TOWNHALL   |                                               |
 MAKE  |O          |FRONT-LEFT |1          |0          |IGNORE     |0          |0          |TOWNHALL   |                                               |
 MAKE  |P          |RIGHT-FRONT|1          |0          |IGNORE     |0          |0          |TOWNHALL   |                                               |
