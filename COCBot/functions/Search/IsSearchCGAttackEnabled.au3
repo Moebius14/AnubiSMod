@@ -77,12 +77,12 @@ Func IsSearchCGAttackEnabled()
 		Return False
 	ElseIf $g_bAttackCGPlannerDayLimit And Not _OverAttackCGLimit() Then
 		Local $remainingCGattacks = $iRandomAttackCGCountToday - $g_aiAttackedCGCount
-		SetLog("Max Clan Games Challenges Today : " & $iRandomAttackCGCountToday & "", $COLOR_ERROR)
+		SetLog("Max Clan Games Challenges Today : " & $iRandomAttackCGCountToday & "", $COLOR_FUCHSIA)
 		SetLog("Challenges Done in Clan Games Today : " & $g_aiAttackedCGCount & "", $COLOR_BLUE)
 		If $remainingCGattacks > 1 Then
 			SetLog("Remaining Challenges in Clan Games Today : " & $remainingCGattacks & "", $COLOR_SUCCESS1)
 		ElseIf $remainingCGattacks = 1 Then
-			SetLog("Last Challenge in Clan Games Today", $COLOR_ERROR)
+			SetLog("Last Challenge in Clan Games Today", $COLOR_FUCHSIA)
 		EndIf
 		Return True
 	EndIf
