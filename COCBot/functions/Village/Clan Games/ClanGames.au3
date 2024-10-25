@@ -126,7 +126,6 @@ Func _ClanGames($test = False, $HaltMode = False)
 	; Local and Static Variables
 	Local $TabChallengesPosition[2] = [810, 170 + $g_iMidOffsetY]
 	Local $sTimeRemain = "", $sEventName = "", $sEventPoints = 0, $getCapture = True
-	Local Static $YourAccScore[8][2] = [[-1, True], [-1, True], [-1, True], [-1, True], [-1, True], [-1, True], [-1, True], [-1, True]]
 
 	; Initial Timer
 	Local $hTimer = __TimerInit()
@@ -221,7 +220,10 @@ Func _ClanGames($test = False, $HaltMode = False)
 				SetDebuglog("Clan Games Minute Remain: " & $sTimeCG)
 				If $g_bChkClanGamesStopBeforeReachAndPurge And $sTimeCG > 1440 Then ; purge, but not purge on last day of clangames
 					$b_COCClose = 0
-					If IsEventRunning() Then Return
+					If IsEventRunning() Then
+						ClearTempCGFiles()
+						Return
+					EndIf
 					SetLog("Stop before completing your limit and only Purge")
 					SetLog("Lets only purge 1 random challenge", $COLOR_WARNING)
 					PurgeEvent(False, True)
@@ -229,7 +231,7 @@ Func _ClanGames($test = False, $HaltMode = False)
 					Return
 				EndIf
 			EndIf
-			If $YourAccScore[$g_iCurAccount][0] = -1 Then $YourAccScore[$g_iCurAccount][0] = $aiScoreLimit[0]
+			If $YourAccScore[0] = -1 Then $YourAccScore[0] = $aiScoreLimit[0]
 		EndIf
 	Else
 		ClickAway()
@@ -578,9 +580,9 @@ Func _ClanGames($test = False, $HaltMode = False)
 				$aSelectChallenges[$i][4] = Number($EventHours)
 				$aSelectChallenges[$i][7] = Number($EventPoints)
 				If $aSelectChallenges[$i][4] > 0 Then
-					Setlog("Detected " & $aSelectChallenges[$i][0] & " : Difficulty : " & $aSelectChallenges[$i][3] & ", " & $aSelectChallenges[$i][7] & " Pts, " & $aSelectChallenges[$i][4] & " min", $COLOR_INFO)
+					Setlog("Detected " & $aSelectChallenges[$i][0] & " : Difficulty " & $aSelectChallenges[$i][3] & ", " & $aSelectChallenges[$i][7] & " pts, " & $aSelectChallenges[$i][4] & " mins", $COLOR_INFO)
 				Else
-					Setlog("Detected " & $aSelectChallenges[$i][0] & " : Difficulty : " & $aSelectChallenges[$i][3] & ", " & $aSelectChallenges[$i][7] & " Pts, Out Of Time", $COLOR_DEBUG1)
+					Setlog("Detected " & $aSelectChallenges[$i][0] & " : Difficulty " & $aSelectChallenges[$i][3] & ", " & $aSelectChallenges[$i][7] & " pts, Out Of Time", $COLOR_DEBUG1)
 				EndIf
 				Click($aSelectChallenges[$i][1], $aSelectChallenges[$i][2])
 				If _Sleep(250) Then Return
@@ -720,7 +722,7 @@ Func _ClanGames($test = False, $HaltMode = False)
 					If Not $g_bRunState Then Return
 					SetDebugLog("$aTempSelectChallenges: " & _ArrayToString($aTempSelectChallenges))
 					If Number($aTempSelectChallenges[$i][4]) > 0 Then
-						Setlog("Next Challenge will be " & $aTempSelectChallenges[$i][0] & " to do in " & $aTempSelectChallenges[$i][4] & " min for " & $aTempSelectChallenges[$i][7] & " pts.")
+						Setlog("Next Challenge will be " & $aTempSelectChallenges[$i][0] & " to do in " & $aTempSelectChallenges[$i][4] & " mins for " & $aTempSelectChallenges[$i][7] & " pts.")
 					Else
 						$sTimeCG = ConvertOCRTime("ClanGames()", $g_sClanGamesTimeRemaining, False)
 						If $sTimeCG > 0 Then
@@ -1210,8 +1212,8 @@ Func GetTimesAndScores($SetLog = True)
 EndFunc   ;==>GetTimesAndScores
 
 Func IsEventRunning($bOpenWindow = False)
-	Local $aEventFailed[4] = [295, 265 + $g_iMidOffsetY, 0xEA2B24, 20]
-	Local $aEventPurged[4] = [295, 285 + $g_iMidOffsetY, 0x58C890, 20]
+	Local $aEventFailed[4] = [295, 265 + $g_iMidOffsetY, 0xEA2B26, 20]
+	Local $aGreyPixel[4] = [295, 280 + $g_iMidOffsetY, 0xA6A6A6, 20]
 	Local $sTempChallengePath = @TempDir & "\" & $g_sProfileCurrentName & "\Challenges\"
 
 	If $bOpenWindow Then
@@ -1220,9 +1222,9 @@ Func IsEventRunning($bOpenWindow = False)
 		If Not IsClanGamesWindow() Then Return
 	EndIf
 
-	WaitForClanMessage("ClanGames")
+	WaitForClanMessage("ClanGames", 0, 225 + $g_iMidOffsetY)
 	; Check if any event is running or not
-	If Not _ColorCheck(_GetPixelColor(295, 280 + $g_iMidOffsetY, True), Hex(0x53DE50, 6), 10) Then ; Green Bar from First Position
+	If Not _ColorCheck(_GetPixelColor(295, 280 + $g_iMidOffsetY, True), Hex(0x53E052, 6), 10) Then ; Green Bar from First Position
 		;Check if Event failed
 		If _CheckPixel($aEventFailed, True) Then
 			SetLog("Couldn't finish last challenge! Lets trash it and look for a new one", $COLOR_INFO)
@@ -1234,10 +1236,20 @@ Func IsEventRunning($bOpenWindow = False)
 				CloseWindow()
 				Return True
 			EndIf
-		ElseIf _CheckPixel($aEventPurged, True) Then
-			SetLog("A challenge purge cooldown in progress!", $COLOR_WARNING)
-			CloseWindow()
-			Return True
+		ElseIf _CheckPixel($aGreyPixel, True) Then ; Grey Pixel from First Position
+			If CooldownTime() Then
+				Return True
+			Else
+				Click(450, 90 + $g_iMidOffsetY) ;Click Clan Tab
+				If _Sleep(500) Then Return
+				Click(320, 90 + $g_iMidOffsetY) ;Click Challenge Tab
+				If _Sleep(500) Then Return
+				If CooldownTime() Then
+					Return True
+				Else ; Unknown case
+					Return True
+				EndIf
+			EndIf
 		Else
 			SetLog("A challenge is already in progress!", $COLOR_SUCCESS)
 
@@ -1518,10 +1530,10 @@ Func IsEventRunning($bOpenWindow = False)
 EndFunc   ;==>IsEventRunning
 
 Func ClickOnEvent(ByRef $YourAccScore, $ScoreLimits, $sEventName, $sEventPoints, $getCapture)
-	If Not $YourAccScore[$g_iCurAccount][1] Then
+	If Not $YourAccScore[1] Then
 		Local $text = "", $color = $COLOR_SUCCESS
-		If $YourAccScore[$g_iCurAccount][0] <> $ScoreLimits[0] Then
-			$text = "You got " & $ScoreLimits[0] - $YourAccScore[$g_iCurAccount][0] & " points in last Challenge"
+		If $YourAccScore[0] <> $ScoreLimits[0] Then
+			$text = "You got " & $ScoreLimits[0] - $YourAccScore[0] & " points in last Challenge"
 		Else
 			$text = "You could not complete the last challenge!"
 			$color = $COLOR_WARNING
@@ -1529,10 +1541,10 @@ Func ClickOnEvent(ByRef $YourAccScore, $ScoreLimits, $sEventName, $sEventPoints,
 		SetLog($text, $color)
 		_FileWriteLog($g_sProfileLogsPath & "\ClanGames.log", " [" & $g_sProfileCurrentName & "] - " & $text)
 	EndIf
-	$YourAccScore[$g_iCurAccount][1] = False
-	$YourAccScore[$g_iCurAccount][0] = $ScoreLimits[0]
-	If $g_bChkClanGamesDebug Then SetLog("ClickOnEvent $YourAccScore[" & $g_iCurAccount & "][1]: " & $YourAccScore[$g_iCurAccount][1])
-	If $g_bChkClanGamesDebug Then SetLog("ClickOnEvent $YourAccScore[" & $g_iCurAccount & "][0]: " & $YourAccScore[$g_iCurAccount][0])
+	$YourAccScore[1] = False
+	$YourAccScore[0] = $ScoreLimits[0]
+	If $g_bChkClanGamesDebug Then SetLog("ClickOnEvent $YourAccScore[1]: " & $YourAccScore[1])
+	If $g_bChkClanGamesDebug Then SetLog("ClickOnEvent $YourAccScore[0]: " & $YourAccScore[0])
 	If Not StartsEvent($sEventName, $sEventPoints, $getCapture, $g_bChkClanGamesDebug) Then Return False
 	CloseWindow()
 	Return True
@@ -1545,32 +1557,32 @@ Func StartsEvent($sEventName, $sEventPoints, $getCapture = True, $g_bChkClanGame
 		Local $Timer = GetEventTimeInMinutes($g_iQuickMISX, $g_iQuickMISY)
 		Local $sTimeCG = ConvertOCRTime("ClanGames()", $g_sClanGamesTimeRemaining, False)
 		If $Timer > 0 Then
-			SetLog("Starting Challenge" & " [" & $Timer & " min] [" & $sEventPoints & " pts]", $COLOR_SUCCESS)
+			SetLog("Starting Challenge" & " [" & $Timer & " mins] [" & $sEventPoints & " pts]", $COLOR_SUCCESS)
 			Click($g_iQuickMISX, $g_iQuickMISY)
 			If $g_iTxtCurrentVillageName <> "" Then
-				GUICtrlSetData($g_hTxtClanGamesLog, @CRLF & _NowTime() & " [" & $g_iTxtCurrentVillageName & "] - Starting " & $sEventName & " for " & $Timer & " min and " & $sEventPoints & " pts", 1)
+				GUICtrlSetData($g_hTxtClanGamesLog, @CRLF & _NowTime() & " [" & $g_iTxtCurrentVillageName & "] - Starting " & $sEventName & " for " & $Timer & " mins and " & $sEventPoints & " pts", 1)
 				$g_aiAttackedCGCount += 1
 				LiveDailyCount()
 			Else
-				GUICtrlSetData($g_hTxtClanGamesLog, @CRLF & _NowTime() & " [" & $g_sProfileCurrentName & "] - Starting " & $sEventName & " for " & $Timer & " min and " & $sEventPoints & " pts", 1)
+				GUICtrlSetData($g_hTxtClanGamesLog, @CRLF & _NowTime() & " [" & $g_sProfileCurrentName & "] - Starting " & $sEventName & " for " & $Timer & " mins and " & $sEventPoints & " pts", 1)
 				$g_aiAttackedCGCount += 1
 				LiveDailyCount()
 			EndIf
-			_FileWriteLog($g_sProfileLogsPath & "\ClanGames.log", " [" & $g_sProfileCurrentName & "] - Starting " & $sEventName & " for " & $Timer & " min and " & $sEventPoints & " pts")
+			_FileWriteLog($g_sProfileLogsPath & "\ClanGames.log", " [" & $g_sProfileCurrentName & "] - Starting " & $sEventName & " for " & $Timer & " mins and " & $sEventPoints & " pts")
 			$g_bFirstStartCheckDone = 1
 		Else
-			SetLog("Starting Event" & " [" & $sTimeCG & " min] [" & $sEventPoints & " pts]", $COLOR_SUCCESS)
+			SetLog("Starting Event" & " [" & $sTimeCG & " mins] [" & $sEventPoints & " pts]", $COLOR_SUCCESS)
 			Click($g_iQuickMISX, $g_iQuickMISY)
 			If $g_iTxtCurrentVillageName <> "" Then
-				GUICtrlSetData($g_hTxtClanGamesLog, @CRLF & _NowTime() & " [" & $g_iTxtCurrentVillageName & "] - Starting " & $sEventName & " for " & $sTimeCG & " min and " & $sEventPoints & " pts", 1)
+				GUICtrlSetData($g_hTxtClanGamesLog, @CRLF & _NowTime() & " [" & $g_iTxtCurrentVillageName & "] - Starting " & $sEventName & " for " & $sTimeCG & " mins and " & $sEventPoints & " pts", 1)
 				$g_aiAttackedCGCount += 1
 				LiveDailyCount()
 			Else
-				GUICtrlSetData($g_hTxtClanGamesLog, @CRLF & _NowTime() & " [" & $g_sProfileCurrentName & "] - Starting " & $sEventName & " for " & $sTimeCG & " min and " & $sEventPoints & " pts", 1)
+				GUICtrlSetData($g_hTxtClanGamesLog, @CRLF & _NowTime() & " [" & $g_sProfileCurrentName & "] - Starting " & $sEventName & " for " & $sTimeCG & " mins and " & $sEventPoints & " pts", 1)
 				$g_aiAttackedCGCount += 1
 				LiveDailyCount()
 			EndIf
-			_FileWriteLog($g_sProfileLogsPath & "\ClanGames.log", " [" & $g_sProfileCurrentName & "] - Starting " & $sEventName & " for " & $sTimeCG & " min and " & $sEventPoints & " pts")
+			_FileWriteLog($g_sProfileLogsPath & "\ClanGames.log", " [" & $g_sProfileCurrentName & "] - Starting " & $sEventName & " for " & $sTimeCG & " mins and " & $sEventPoints & " pts")
 			$g_bFirstStartCheckDone = 1
 		EndIf
 

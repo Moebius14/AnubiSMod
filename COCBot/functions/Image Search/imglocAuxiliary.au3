@@ -266,9 +266,9 @@ Func GetButtonDiamond($sButtonName)
 		Case "AttackButton", "RescueATKButton" ;Main Window Screen
 			$btnDiamond = GetDiamondFromRect2(0, 540 + $g_iBottomOffsetY, 160, 660 + $g_iBottomOffsetY)
 		Case "TrashEvent"
-			$btnDiamond = GetDiamondFromRect2(100, 170 + $g_iMidOffsetY, 840, 510 + $g_iMidOffsetY)
+			$btnDiamond = GetDiamondFromRect2(430, 280 + $g_iMidOffsetY, 800, 380 + $g_iMidOffsetY)
 		Case "EventFailed"
-			$btnDiamond = GetDiamondFromRect2(230, 150 + $g_iMidOffsetY, 777, 530 + $g_iMidOffsetY)
+			$btnDiamond = GetDiamondFromRect2(280, 155 + $g_iMidOffsetY, 400, 260 + $g_iMidOffsetY)
 		Case "ObjectButtons", "BoostOne", "BoostCT", "ClockTowerPot", "Upgrade", "Research", "Treasury", "RemoveObstacle", "CollectLootCart", "Pets", "HeroBooks", _
 				"LabPotion", "LabBoosted", "BuilderPot", "Reinforce", "Info", "THWeapon", "WallRing", "GearUp", "PetPotion", "PetBoosted", "MagicItems", "Equipment", "FinishNow", _
 				"BuildersApp" ; Buttons at the bottom

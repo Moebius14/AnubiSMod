@@ -29,7 +29,7 @@ Known issues/bugs: Runs spam advertisements that cause errors during game.
 BlueStacks
 ==========
 http://www.bluestacks.com/
-Versions 5.13.220.1001 - 5.21.580.1017
+Versions 5.13.220.1001 - 5.21.600.1019
 MyBot Command Line Key: BlueStacks5
 Default Instance Key: Pie64
 Second Instance Key:  Pie64_1

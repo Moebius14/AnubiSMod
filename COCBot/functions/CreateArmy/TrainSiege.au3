@@ -14,11 +14,80 @@
 ; ===============================================================================================================================
 #include-once
 
+Func WhichSiegeToTrain($bTrainFullSiege = False)
+	Local $ToReturnTemp[1][2] = [["WallW", 0]] ; 2 element dynamic list [Siege, quantity]
+	Local $ToReturn[2] = ["WallW", 0] ; 2 elements Only
+	Local $bDoubleSiege = False
+	If ($g_bDoubleTrain Or $bTrainFullSiege) And $g_iTotalTrainSpaceSiege <= 3 Then $bDoubleSiege = True
+	; Sieges
+	For $i = 0 To $eSiegeMachineCount - 1
+		If $g_aiArmyCompSiegeMachines[$i] > 0 Then
+			$ToReturnTemp[UBound($ToReturnTemp) - 1][0] = $g_asSiegeMachineShortNames[$i]
+			$ToReturnTemp[UBound($ToReturnTemp) - 1][1] = $g_aiArmyCompSiegeMachines[$i] * ($bDoubleSiege ? 2 : 1)
+			ReDim $ToReturnTemp[UBound($ToReturnTemp) + 1][2]
+		EndIf
+	Next
+	$ToReturn[0] = $ToReturnTemp[0][0]
+	$ToReturn[1] = Number($ToReturnTemp[0][1])
+	Return $ToReturn
+EndFunc   ;==>WhichSiegeToTrain
+
+Func RemoveSieges($bHowToRemoveSieges)
+	Local $bReturn[2] = [-1, -1]
+	If Not $bHowToRemoveSieges[0] And Not $bHowToRemoveSieges[1] Then Return $bReturn
+	If $bHowToRemoveSieges[1] Then $bReturn[1] = RemoveSiegesQueue()
+	If _Sleep(1000) Then Return
+	If $bHowToRemoveSieges[0] Then
+		If Not OpenArmyTab(False, "Removesieges") Then Return
+		If _Sleep(300) Then Return
+		Local $sSiegeInfo = getSiegeCampCap(707, 168 + $g_iMidOffsetY, True) ; OCR read Siege built and total
+		If $g_bDebugSetlogTrain Then SetLog("OCR $sSiegeInfo = " & $sSiegeInfo, $COLOR_DEBUG)
+		Local $aGetSiegeCap = StringSplit($sSiegeInfo, "#", $STR_NOCOUNT) ; split the built Siege number from the total Siege number
+		If UBound($aGetSiegeCap) = 2 Then
+			Click(775, 175 + $g_iMidOffsetY)
+			If _Sleep(1000) Then Return
+			Local $aiOkayButton = findButton("Okay", Default, 1, True)
+			If IsArray($aiOkayButton) And UBound($aiOkayButton, 1) = 2 Then
+				Click($aiOkayButton[0], $aiOkayButton[1])     ; Click Okay Button
+				$bReturn[0] = 0
+			Else
+				Click(325, 415 + $g_iMidOffsetY)     ; Click Cancel Button
+			EndIf
+			If _Sleep(500) Then Return
+			If Not OpenSiegeMachinesTab(True, "TrainSiege()") Then Return
+		Else
+			If _Sleep(500) Then Return
+			If Not OpenSiegeMachinesTab(True, "TrainSiege()") Then Return
+		EndIf
+	EndIf
+	Return $bReturn
+EndFunc   ;==>RemoveSieges
+
+Func RemoveSiegesQueue() ; Will remove All Sieges in queue
+	Local Const $x = 766
+	Local Const $y = 202 + $g_iMidOffsetY ; Red pixel check Y location
+	Local Const $yRemoveBtn = 198 + $g_iMidOffsetY ; Troop remove button Y location
+	Local $bColorCheck = False
+	Local $bLoop = 0
+	If Not $g_bRunState Then Return FuncReturn(False, $g_bDebugSetlogTrain)
+	$bColorCheck = _ColorCheck(_GetPixelColor($x, $y, True, $g_bDebugSetlogTrain ? "RemoveSiegesQueue:E70D0F" : Default), Hex(0xE70D0F, 6), 20)
+	While $bColorCheck
+		Local $g_iTrainClickDelayfinal = Random($g_iTrainClickDelay - $RandomClickTrainAddTimeMin, $g_iTrainClickDelay + $RandomClickTrainAddTimeMax, 1)
+		Click($x, $yRemoveBtn, 1, $g_iTrainClickDelayfinal)  ; click remove button
+		If _Sleep(200) Then Return
+		$bColorCheck = _ColorCheck(_GetPixelColor($x, $y, True, $g_bDebugSetlogTrain ? "RemoveSiegesQueue:E70D0F" : Default), Hex(0xE70D0F, 6), 20)
+		$bLoop += 1
+		If $bLoop = 7 Then ExitLoop
+	WEnd
+	Return 0
+EndFunc   ;==>RemoveSiegesQueue
+
 Func TrainSiege($bTrainFullSiege = False, $bDebugSetLog = $g_bDebugSetLog)
+
+	Local $rWhichSiegeToTrain = WhichSiegeToTrain($bTrainFullSiege)
 	Local $iPage = 0 ;
 	Local $sImgSieges = @ScriptDir & "\imgxml\Train\Siege_Train\"
 	Local $sSearchArea = GetDiamondFromRect2(75, 345 + $g_iMidOffsetY, 780, 520 + $g_iMidOffsetY)
-
 
 	; Check if is necessary run the routine
 	If Not $g_bRunState Then Return
@@ -56,6 +125,30 @@ Func TrainSiege($bTrainFullSiege = False, $bDebugSetLog = $g_bDebugSetLog)
 			SetLog(@TAB & "Current Army: " & $g_aiCurrentSiegeMachines[$iSiegeIndex], $COLOR_DEBUG)
 			SetLog(@TAB & "In queue: " & $aiQueueSiegeMachine[$iSiegeIndex], $COLOR_DEBUG)
 			SetLog(@TAB & "Total: " & $aiTotalSiegeMachine[$iSiegeIndex], $COLOR_DEBUG)
+		Next
+	EndIf
+
+	Local $bMultiSieges = 0
+	For $i = 0 To $eSiegeMachineCount - 1
+		If $g_aiArmyCompSiegeMachines[$i] > 0 Then $bMultiSieges += 1
+	Next
+	If $bMultiSieges = 1 Then
+		Local $bHowToRemoveSieges[2] = [False, False]
+		For $i = 0 To $eSiegeMachineCount - 1
+			If $g_aiCurrentSiegeMachines[$i] > 0 Then
+				If $g_asSiegeMachineShortNames[$i] <> $rWhichSiegeToTrain[0] Then $bHowToRemoveSieges[0] = True
+			EndIf
+			If $g_aiArmyCompSiegeMachines[$i] > 0 Then
+				If $aiQueueSiegeMachine[$i] = 0 Then $bHowToRemoveSieges[1] = True
+			EndIf
+		Next
+		Local $bNewCount = RemoveSieges($bHowToRemoveSieges)
+		For $i = 0 To $eSiegeMachineCount - 1
+			If $g_aiArmyCompSiegeMachines[$i] > 0 Then
+				If $bNewCount[0] > -1 Then $g_aiCurrentSiegeMachines[$i] = $bNewCount[0]
+				If $bNewCount[1] > -1 Then $aiQueueSiegeMachine[$i] = $bNewCount[1]
+				$aiTotalSiegeMachine[$i] = $g_aiCurrentSiegeMachines[$i] + $aiQueueSiegeMachine[$i]
+			EndIf
 		Next
 	EndIf
 

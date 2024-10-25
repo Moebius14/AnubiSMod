@@ -436,7 +436,7 @@ Func NotifyRemoteControlProc()
 						GUICtrlSetData($g_hLblResultRuntime, $day > 0 ? StringFormat("%2u Day(s) %02i:%02i:%02i", $day, $hour, $min, $sec) : StringFormat("%02i:%02i:%02i", $hour, $min, $sec))
 						$txtStats &= "%0A" & GetTranslatedFileIni("MBR Func_Notify", "LOG_Info_07", "Run Time") & ": " & GUICtrlRead($g_hLblResultRuntime) ;This label only changes when on the stats screen, so update it here.
 						;Optionally show Clan Games stats
-						If (GUICtrlRead($g_hLblRemainTime) <> "N/A" And GUICtrlRead($g_hLblRemainTime) <> "0d 00h") Then
+						If GUICtrlRead($g_hLblRemainTime) <> "N/A" Then
 							$txtStats &= "%0A%0A" & "Clan Games:"
 							$txtStats &= "%0A" & "[T]: " & GUICtrlRead($g_hLblRemainTime) & " [S]: " & GUICtrlRead($g_hLblYourScore)
 						EndIf

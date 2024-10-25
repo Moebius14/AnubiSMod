@@ -211,7 +211,7 @@ Func lblTotalCountSiege()
 		If ($g_iTotalTrainSpaceSiege <= 3) Then
 			GUICtrlSetBkColor($g_ahTxtTrainArmySiegeCount[$i], $COLOR_WHITE)
 		Else
-			GUICtrlSetBkColor($g_ahTxtTrainArmySiegeCount[$i], $COLOR_RED)
+			GUICtrlSetBkColor($g_ahTxtTrainArmySiegeCount[$i], ($g_bDoubleTrain ? $COLOR_RED : $COLOR_WHITE))
 		EndIf
 	Next
 EndFunc   ;==>lblTotalCountSiege
@@ -1109,6 +1109,15 @@ Func ChkPreciseArmy()
 		$g_bPreciseArmy = False
 	EndIf
 EndFunc   ;==>ChkPreciseArmy
+
+Func ChkDoubleTrain()
+	If GUICtrlRead($g_hChkDoubleTrain) = $GUI_CHECKED Then
+		$g_bDoubleTrain = True
+	Else
+		$g_bDoubleTrain = False
+	EndIf
+	lblTotalCountSiege()
+EndFunc   ;==>ChkDoubleTrain
 
 Func RemoveAllTmpTrain($sWhat = "All")
 	If $sWhat = "All" Or $sWhat = "Troop" Then

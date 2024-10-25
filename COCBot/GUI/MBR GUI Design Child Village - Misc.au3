@@ -886,12 +886,12 @@ Func CreateMiscClanGamesV3SubTab()
 	_GUICtrlCreatePic($g_sLibIconPathMOD, $x + 5, $y, 94, 128, $SS_BITMAP)
 
 	GUICtrlCreateGroup(GetTranslatedFileIni("MBR GUI Design Child Village - Misc", "ChkClanGamesTimeRemaining", "Time Remaining"), $x - 5, $y + 135, 110, 40)
-	$g_hLblRemainTime = GUICtrlCreateLabel("0d 00h", $x + 15, $y + 135 + 15, 65, 17, $SS_CENTER)
+	$g_hLblRemainTime = GUICtrlCreateLabel("N/A", $x + 15, $y + 135 + 15, 65, 17, $SS_CENTER)
 	GUICtrlSetFont(-1, 9.5, $FW_BOLD, $GUI_FONTNORMAL)
 	GUICtrlCreateGroup("", -99, -99, 1, 1)
 
 	GUICtrlCreateGroup(GetTranslatedFileIni("MBR GUI Design Child Village - Misc", "ChkClanGamesYourScore", "Your Score"), $x - 5, $y + 158 + 20, 110, 40)
-	$g_hLblYourScore = GUICtrlCreateLabel("0/0", $x + 15, $y + 158 + 35, 65, 17, $SS_CENTER)
+	$g_hLblYourScore = GUICtrlCreateLabel("N/A", $x + 15, $y + 158 + 35, 65, 17, $SS_CENTER)
 	GUICtrlSetFont(-1, 9.5, $FW_BOLD, $GUI_FONTNORMAL)
 	GUICtrlCreateGroup("", -99, -99, 1, 1)
 	$y = 33

@@ -170,6 +170,7 @@ Func WaitForClanMessage($bType, $bTopCoords = 0, $bBottomCoords = 0)
 				If _Sleep($DELAYRUNBOT1) Then Return
 			EndIf
 		Case "ClanGames"
+			If $bBottomCoords > 0 Then $aReceivedTroopsCG[4] = Abs($bBottomCoords - $aReceivedTroopsCG[1])
 			If IsArray(_PixelSearch($aReceivedTroopsCG[0], $aReceivedTroopsCG[1], $aReceivedTroopsCG[0], $aReceivedTroopsCG[1] + $aReceivedTroopsCG[4], Hex($aReceivedTroopsCG[2], 6), $aReceivedTroopsCG[3], True)) Then
 				SetDebugLog("Detected Clan Castle Message. Waiting until it's gone", $COLOR_INFO)
 				Local $Safetyexit = 0

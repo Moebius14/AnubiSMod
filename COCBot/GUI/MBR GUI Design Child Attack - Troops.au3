@@ -301,6 +301,7 @@ Func CreateCustomTrainSubTab()
 			GetTranslatedFileIni("MBR Global GUI Design", "DoubleTrainTip1", "Make sure to enter exactly the 'Total Camp',") & @CRLF & _
 			GetTranslatedFileIni("MBR Global GUI Design", "DoubleTrainTip2", "'Total Spell' and number of Troops/Spells in your Setting") & @CRLF & _
 			GetTranslatedFileIni("MBR Global GUI Design", "DoubleTrainTip3", "Note: Donations + Double Train can produce an unbalanced army!"))
+	GUICtrlSetOnEvent(-1, "ChkDoubleTrain")
 
 	_GUICtrlCreateIcon($g_sLibIconPath, $eIcnTroopsCost, $g_iSizeWGrpTab3 - 125, $y + 19, 24, 24)
 	$g_hLblTotalTimeCamp = GUICtrlCreateLabel(" 0s", $g_iSizeWGrpTab3 - 99, $y + 24, 70, 15, $SS_RIGHT)

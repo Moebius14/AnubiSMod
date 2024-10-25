@@ -23,6 +23,8 @@ Func SwitchAccountVariablesReload($sType = "Load", $iAccount = $g_iCurAccount)
 	Local $asEmpty[8] = ["", "", "", "", "", "", "", ""]
 	Local $aiZeroTroop[$eTroopCount] = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
 	Local $aiZeroSpell[$eSpellCount] = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+	Local $aiMinusOneTrue[8][2] = [[-1, True], [-1, True], [-1, True], [-1, True], [-1, True], [-1, True], [-1, True], [-1, True]]
+	Local $aiNonAvailable[8] = ["N/A", "N/A", "N/A", "N/A", "N/A", "N/A", "N/A", "N/A"]
 
 	; FirstRun
 	Static $abFirstStart = $aiTrue
@@ -139,6 +141,9 @@ Func SwitchAccountVariablesReload($sType = "Load", $iAccount = $g_iCurAccount)
 	Static $gaSsNewChallengeTime = $aiZero
 
 	;Clan Games
+	Static $Sg_sClanGamesScore = $aiNonAvailable
+	Static $Sg_sClanGamesTimeRemaining = $aiNonAvailable
+	Static $SYourAccScore = $aiMinusOneTrue
 	Static $gSbClanGamesCompleted = $aiZero
 	Static $gSaiAttackedCGCount = $aiZero
 	Static $IsSReachedMaxCGDayAttack = $aiZero
@@ -276,6 +281,9 @@ Func SwitchAccountVariablesReload($sType = "Load", $iAccount = $g_iCurAccount)
 			$gaSsNewChallengeTime = $aiZero
 
 			;Clan Games
+			$Sg_sClanGamesScore = $aiNonAvailable
+			$Sg_sClanGamesTimeRemaining = $aiNonAvailable
+			$SYourAccScore = $aiMinusOneTrue
 			$gSbClanGamesCompleted = $aiZero
 			$gSaiAttackedCGCount = $aiZero
 			$IsSReachedMaxCGDayAttack = $aiZero
@@ -491,6 +499,11 @@ Func SwitchAccountVariablesReload($sType = "Load", $iAccount = $g_iCurAccount)
 			$gaSsNewChallengeTime[$iAccount] = $g_sNewChallengeTime
 
 			;Clan Games
+			$Sg_sClanGamesScore[$iAccount] = $g_sClanGamesScore
+			$Sg_sClanGamesTimeRemaining[$iAccount] = $g_sClanGamesTimeRemaining
+			For $i = 0 To UBound($YourAccScore) - 1
+				$SYourAccScore[$iAccount][$i] = $YourAccScore[$i]
+			Next
 			$gSbClanGamesCompleted[$iAccount] = $g_bClanGamesCompleted
 			$gSaiAttackedCGCount[$iAccount] = $g_aiAttackedCGCount
 			$IsSReachedMaxCGDayAttack[$iAccount] = $IsReachedMaxCGDayAttack
@@ -705,6 +718,11 @@ Func SwitchAccountVariablesReload($sType = "Load", $iAccount = $g_iCurAccount)
 			$g_sNewChallengeTime = $gaSsNewChallengeTime[$iAccount]
 
 			;Clan Games
+			$g_sClanGamesScore = $Sg_sClanGamesScore[$iAccount]
+			$g_sClanGamesTimeRemaining = $Sg_sClanGamesTimeRemaining[$iAccount]
+			For $i = 0 To UBound($YourAccScore) - 1
+				$YourAccScore[$i] = $SYourAccScore[$iAccount][$i]
+			Next
 			$g_bClanGamesCompleted = $gSbClanGamesCompleted[$iAccount]
 			$g_aiAttackedCGCount = $gSaiAttackedCGCount[$iAccount]
 			$IsReachedMaxCGDayAttack = $IsSReachedMaxCGDayAttack[$iAccount]

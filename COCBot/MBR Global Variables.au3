@@ -1925,6 +1925,7 @@ $g_oBldgImages.add($eBldgRicochet & "_" & "0", @ScriptDir & "\imgxml\Buildings\R
 ; EOF
 
 ; Clan Games v3
+Global $YourAccScore[2] = [-1, True]
 Global $g_aiAttackedBBEventCount = 0, $g_aiLimitBBEventCount = 2, $g_bChkBBMaxEventsInARow = False
 Global $g_bChkClanGamesEnabled = 0
 Global $g_bChkClanGamesAllTimes = 1, $g_bChkClanGamesNoOneDay = 0
