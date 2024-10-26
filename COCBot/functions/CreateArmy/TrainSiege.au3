@@ -33,9 +33,9 @@ Func WhichSiegeToTrain($bTrainFullSiege = False)
 EndFunc   ;==>WhichSiegeToTrain
 
 Func RemoveSieges($bHowToRemoveSieges)
-	Local $bReturn[2] = [-1, -1]
+	Local $bReturn[3] = [False, -1, -1]
 	If Not $bHowToRemoveSieges[0] And Not $bHowToRemoveSieges[1] Then Return $bReturn
-	If $bHowToRemoveSieges[1] Then $bReturn[1] = RemoveSiegesQueue()
+	If $bHowToRemoveSieges[1] Then $bReturn[2] = RemoveSiegesQueue()
 	If _Sleep(1000) Then Return
 	If $bHowToRemoveSieges[0] Then
 		If Not OpenArmyTab(False, "Removesieges") Then Return
@@ -49,7 +49,7 @@ Func RemoveSieges($bHowToRemoveSieges)
 			Local $aiOkayButton = findButton("Okay", Default, 1, True)
 			If IsArray($aiOkayButton) And UBound($aiOkayButton, 1) = 2 Then
 				Click($aiOkayButton[0], $aiOkayButton[1])     ; Click Okay Button
-				$bReturn[0] = 0
+				$bReturn[1] = 0
 			Else
 				Click(325, 415 + $g_iMidOffsetY)     ; Click Cancel Button
 			EndIf
@@ -60,6 +60,7 @@ Func RemoveSieges($bHowToRemoveSieges)
 			If Not OpenSiegeMachinesTab(True, "TrainSiege()") Then Return
 		EndIf
 	EndIf
+	If $bReturn[1] > -1 Or $bReturn[2] > -1 Then $bReturn[0] = True
 	Return $bReturn
 EndFunc   ;==>RemoveSieges
 
@@ -135,21 +136,28 @@ Func TrainSiege($bTrainFullSiege = False, $bDebugSetLog = $g_bDebugSetLog)
 	If $bMultiSieges = 1 Then
 		Local $bHowToRemoveSieges[2] = [False, False]
 		For $i = 0 To $eSiegeMachineCount - 1
+			;Main
 			If $g_aiCurrentSiegeMachines[$i] > 0 Then
 				If $g_asSiegeMachineShortNames[$i] <> $rWhichSiegeToTrain[0] Then $bHowToRemoveSieges[0] = True
 			EndIf
+			;Queue
 			If $g_aiArmyCompSiegeMachines[$i] > 0 Then
 				If $aiQueueSiegeMachine[$i] = 0 Then $bHowToRemoveSieges[1] = True
 			EndIf
-		Next
-		Local $bNewCount = RemoveSieges($bHowToRemoveSieges)
-		For $i = 0 To $eSiegeMachineCount - 1
-			If $g_aiArmyCompSiegeMachines[$i] > 0 Then
-				If $bNewCount[0] > -1 Then $g_aiCurrentSiegeMachines[$i] = $bNewCount[0]
-				If $bNewCount[1] > -1 Then $aiQueueSiegeMachine[$i] = $bNewCount[1]
-				$aiTotalSiegeMachine[$i] = $g_aiCurrentSiegeMachines[$i] + $aiQueueSiegeMachine[$i]
+			If $aiQueueSiegeMachine[$i] > 0 Then
+				If $g_asSiegeMachineShortNames[$i] <> $rWhichSiegeToTrain[0] Then $bHowToRemoveSieges[1] = True
 			EndIf
 		Next
+		Local $bNewCount = RemoveSieges($bHowToRemoveSieges)
+		If $bNewCount[0] Then
+			For $i = 0 To $eSiegeMachineCount - 1
+				If $g_aiArmyCompSiegeMachines[$i] > 0 Then
+					If $bNewCount[1] > -1 Then $g_aiCurrentSiegeMachines[$i] = $bNewCount[1]
+					If $bNewCount[2] > -1 Then $aiQueueSiegeMachine[$i] = $bNewCount[2]
+					$aiTotalSiegeMachine[$i] = $g_aiCurrentSiegeMachines[$i] + $aiQueueSiegeMachine[$i]
+				EndIf
+			Next
+		EndIf
 	EndIf
 
 	; Refill
