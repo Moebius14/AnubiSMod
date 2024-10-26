@@ -208,10 +208,14 @@ Func lblTotalCountSiege()
 	Next
 
 	For $i = 0 To $eSiegeMachineCount - 1
-		If ($g_iTotalTrainSpaceSiege <= 3) Then
+		If $g_iTotalTrainSpaceSiege <= 3 Then
 			GUICtrlSetBkColor($g_ahTxtTrainArmySiegeCount[$i], $COLOR_WHITE)
 		Else
-			GUICtrlSetBkColor($g_ahTxtTrainArmySiegeCount[$i], ($g_bDoubleTrain ? $COLOR_RED : $COLOR_WHITE))
+			If $g_bDoubleTrain Then
+				GUICtrlSetBkColor($g_ahTxtTrainArmySiegeCount[$i], $COLOR_RED)
+			Else
+				GUICtrlSetBkColor($g_ahTxtTrainArmySiegeCount[$i], ($g_iTotalTrainSpaceSiege > 6 ? $COLOR_RED : $COLOR_WHITE))
+			EndIf
 		EndIf
 	Next
 EndFunc   ;==>lblTotalCountSiege

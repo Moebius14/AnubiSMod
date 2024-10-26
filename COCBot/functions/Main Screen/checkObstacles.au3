@@ -268,7 +268,7 @@ Func _checkObstacles($bBuilderBase = False, $bRecursive = False) ;Checks if some
 		Return True
 	EndIf
 	If _CheckPixel($aNoCloudsAttack, $g_bCapturePixel) Then ; Prevent drop of troops while searching
-		$aMessage = _PixelSearch(23, 566 + $g_iBottomOffsetY, 36, 580 + $g_iBottomOffsetY, Hex(0xF4F7E3, 6), 10, True)
+		$aMessage = _PixelSearch(23, 566 + $g_iBottomOffsetY, 36, 580 + $g_iBottomOffsetY, Hex(0xDADDCC, 6), 10, True)
 		If IsArray($aMessage) Then
 			SetDebugLog("checkObstacles: Found Return Home button")
 			PureClick(67, 602 + $g_iBottomOffsetY, 1, 120, "#0138") ;Check if Return Home button available
@@ -277,7 +277,7 @@ Func _checkObstacles($bBuilderBase = False, $bRecursive = False) ;Checks if some
 		EndIf
 	EndIf
 	If IsPostDefenseSummaryPage() Then
-		$aMessage = _PixelSearch(23, 566 + $g_iBottomOffsetY, 36, 580 + $g_iBottomOffsetY, Hex(0xEBECDB, 6), 10, True)
+		$aMessage = _PixelSearch(23, 566 + $g_iBottomOffsetY, 36, 580 + $g_iBottomOffsetY, Hex(0xDADDCC, 6), 10, True)
 		If IsArray($aMessage) Then
 			SetDebugLog("checkObstacles: Found Post Defense Summary to close")
 			PureClick(62, 607 + $g_iBottomOffsetY, 1, 120, "#0138") ;Check if Return Home button available

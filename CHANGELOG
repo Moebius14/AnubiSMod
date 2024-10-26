@@ -12,6 +12,7 @@
 * Improved Few Clan Games Challenges Detection.
 * Cleaned CG Purge Code.
 * Improved Sieges Training Logic.
+* Updated IsPostDefenseSummaryPage() and CheckObstacles()
 
 * v8.1.7 **
 * Added Fireball equipment support.

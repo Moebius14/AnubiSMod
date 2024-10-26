@@ -243,6 +243,9 @@ Func getArmyRequest($aiDonateCoords, $bNeedCapture = True)
 				$bXCoordsOCR = 300
 		EndSwitch
 		$eRequestCount = Number(getOcrAndCapture("coc-NewSysDonate", $bXCoordsOCR, $aiDonateCoords[1] - 90, 30, 14))
+		If $eRequestCount > 50 Then
+			If $iArmyIndex = $eETitan Or $iArmyIndex = $eHeal Then $eRequestCount = StringReplace($eRequestCount, "7", "", 0) ; Healer And ETitan white hair could be detected as "7"
+		EndIf
 		_ArrayAdd($sReqArray, $iArmyIndex & "|" & $eRequestCount & "| 0")
 		; Troops
 		If $iArmyIndex >= $eBarb And $iArmyIndex <= $eDruid Then
