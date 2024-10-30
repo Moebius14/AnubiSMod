@@ -719,7 +719,8 @@ Func ReadConfig_600_12()
 	IniReadS($g_bChkDonate, $g_sProfileConfigPath, "donate", "Doncheck", True, "Bool")
 	IniReadS($g_abChkDonateQueueOnly[0], $g_sProfileConfigPath, "donate", "chkDonateQueueOnly[0]", True, "Bool")
 	IniReadS($g_abChkDonateQueueOnly[1], $g_sProfileConfigPath, "donate", "chkDonateQueueOnly[1]", True, "Bool")
-	For $i = 0 To $eTroopCount - 1 + $g_iCustomDonateConfigs
+
+	For $i = 0 To $eTroopCount + $g_iCustomDonateConfigs - 1
 		Local $sIniName = ""
 		If $i >= $eTroopBarbarian And $i <= $eTroopIceMinion Then
 			$sIniName = StringReplace($g_asTroopNamesPlural[$i], " ", "")
@@ -1310,13 +1311,11 @@ Func ReadConfig_600_32()
 	IniReadS($g_iDropTrophyMin, $g_sProfileConfigPath, "search", "MinTrophy", 5000, "int")
 	IniReadS($g_iDropTrophyMax, $g_sProfileConfigPath, "search", "MaxTrophy", 5000, "int")
 	IniReadS($g_bDropTrophyUseHeroes, $g_sProfileConfigPath, "search", "chkTrophyHeroes", False, "Bool")
+	IniReadS($g_iChkHeroesPriorityRandom, $g_sProfileConfigPath, "search", "ChkHeroesPriorityRandom", True, "Bool")
 	IniReadS($g_bChkTrophyAtkWithHeroesOnly, $g_sProfileConfigPath, "search", "ChkTrophyAtkWithHeroesOnly", False, "Bool")
 	IniReadS($bWaitOnlyOneHeroForDT, $g_sProfileConfigPath, "search", "WaitOnlyOneHeroForDT", True, "Bool")
 	IniReadS($bWaitAllHeroesForDT, $g_sProfileConfigPath, "search", "WaitAllHeroesForDT", False, "Bool")
 	IniReadS($g_iDropTrophyHeroesPriority, $g_sProfileConfigPath, "search", "cmbTrophyHeroesPriority", 0, "int")
-	IniReadS($g_iDropTrophyHeroesPriority1, $g_sProfileConfigPath, "search", "cmbTrophyHeroesPriority1", 0, "int")
-	IniReadS($g_iDropTrophyHeroesPriority2, $g_sProfileConfigPath, "search", "cmbTrophyHeroesPriority2", 0, "int")
-	IniReadS($g_iDropTrophyHeroesPriority3, $g_sProfileConfigPath, "search", "cmbTrophyHeroesPriority3", 0, "int")
 	IniReadS($g_bDropTrophyAtkDead, $g_sProfileConfigPath, "search", "chkTrophyAtkDead", False, "Bool")
 	IniReadS($g_iDropTrophyArmyMinPct, $g_sProfileConfigPath, "search", "DTArmyMin", 70, "int")
 EndFunc   ;==>ReadConfig_600_32

@@ -1303,7 +1303,7 @@ EndFunc   ;==>SwitchToMainVillage
 Func IsCCBuilderMenuOpen()
 	Local $bRet = False
 	For $i = 0 To 3
-		If IsArray(_PixelSearch(399, 72, 401, 74, Hex(0xFFFFFF, 6), 15, True)) Then
+		If IsArray(_PixelSearch(399, 72, 401, 74, Hex(0xFFFFFF, 6), 30, True)) Then
 			SetDebugLog("Found White Border Color", $COLOR_ACTION)
 			$bRet = True ;got correct color for border
 			ExitLoop

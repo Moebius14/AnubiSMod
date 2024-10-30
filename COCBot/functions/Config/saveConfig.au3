@@ -651,7 +651,7 @@ Func SaveConfig_600_12()
 	_Ini_Add("donate", "chkDonateQueueOnly[0]", $g_abChkDonateQueueOnly[0] ? 1 : 0)
 	_Ini_Add("donate", "chkDonateQueueOnly[1]", $g_abChkDonateQueueOnly[1] ? 1 : 0)
 
-	For $i = 0 To $eTroopCount - 1 + $g_iCustomDonateConfigs
+	For $i = 0 To $eTroopCount + $g_iCustomDonateConfigs - 1
 		Local $sIniName = ""
 		If $i >= $eTroopBarbarian And $i <= $eTroopIceMinion Then
 			$sIniName = StringReplace($g_asTroopNamesPlural[$i], " ", "")
@@ -1246,13 +1246,11 @@ Func SaveConfig_600_32()
 	_Ini_Add("search", "MaxTrophy", $g_iDropTrophyMax)
 	_Ini_Add("search", "MinTrophy", $g_iDropTrophyMin)
 	_Ini_Add("search", "chkTrophyHeroes", $g_bDropTrophyUseHeroes ? 1 : 0)
+	_Ini_Add("search", "ChkHeroesPriorityRandom", $g_iChkHeroesPriorityRandom ? 1 : 0)
 	_Ini_Add("search", "ChkTrophyAtkWithHeroesOnly", $g_bChkTrophyAtkWithHeroesOnly ? 1 : 0)
 	_Ini_Add("search", "WaitOnlyOneHeroForDT", $bWaitOnlyOneHeroForDT ? 1 : 0)
 	_Ini_Add("search", "WaitAllHeroesForDT", $bWaitAllHeroesForDT ? 1 : 0)
 	_Ini_Add("search", "cmbTrophyHeroesPriority", $g_iDropTrophyHeroesPriority)
-	_Ini_Add("search", "cmbTrophyHeroesPriority1", $g_iDropTrophyHeroesPriority1)
-	_Ini_Add("search", "cmbTrophyHeroesPriority2", $g_iDropTrophyHeroesPriority2)
-	_Ini_Add("search", "cmbTrophyHeroesPriority3", $g_iDropTrophyHeroesPriority3)
 	_Ini_Add("search", "chkTrophyAtkDead", $g_bDropTrophyAtkDead ? 1 : 0)
 	_Ini_Add("search", "DTArmyMin", $g_iDropTrophyArmyMinPct)
 EndFunc   ;==>SaveConfig_600_32

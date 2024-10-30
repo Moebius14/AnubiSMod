@@ -26,7 +26,7 @@ Func PrepareDonateCC()
 	;Troops
 	$g_aiPrepDon[0] = 0
 	$g_aiPrepDon[1] = 0
-	For $i = 0 To $eTroopCount - 1 + $g_iCustomDonateConfigs
+	For $i = 0 To $eTroopCount + $g_iCustomDonateConfigs - 1
 		$g_aiPrepDon[0] = BitOR($g_aiPrepDon[0], ($g_abChkDonateTroop[$i] ? 1 : 0))
 		$g_aiPrepDon[1] = BitOR($g_aiPrepDon[1], ($g_abChkDonateAllTroop[$i] ? 1 : 0))
 	Next
@@ -534,7 +534,7 @@ Func DonateCC($bUpdateStats = True)
 					Local $bDonateTroopMatched = False, $bDonateSpellMatched = False, $bDonateSiegeMatched = False
 					If Not $bDonateAllTroop And Not $bDonateAllSpell And Not $bDonateAllSiege Then
 						Local $Checked = False
-						For $i = 0 To ($eTroopCount + $g_iCustomDonateConfigs - $g_iEventTroops) - 1 ; 0 - 45 (All troops + 2 combos of custom donate - Event Troops which can't be donated)
+						For $i = 0 To $eTroopCount + $g_iCustomDonateConfigs - 1 ; 0 - 54 (All troops + 2 combos of custom donate - Event Troops which can't be donated)
 							If $g_abChkDonateTroop[$i] Then ; checking Troops & Custom
 								If $g_bDebugSetlog Then SetDebugLog("Troop: [" & $i & "] checking!", $COLOR_DEBUG)
 								If CheckDonateTroop($i, $g_asTxtDonateTroop[$i], $g_asTxtBlacklistTroop[$i], $ClanString, $bNewSystemToDonate, True, $abDonateQueueOnly[0]) Then
@@ -572,7 +572,7 @@ Func DonateCC($bUpdateStats = True)
 								EndIf
 							EndIf
 						Next
-						For $i = ($eTroopCount + $g_iCustomDonateConfigs) To ($eTroopCount + $g_iCustomDonateConfigs + $eSiegeMachineCount) - 1 ; 51 - 57 (7 Siege Machines)
+						For $i = ($eTroopCount + $g_iCustomDonateConfigs) To ($eTroopCount + $g_iCustomDonateConfigs + $eSiegeMachineCount) - 1 ; 55 - 61 (7 Siege Machines)
 							If $g_abChkDonateTroop[$i] Then ; checking SiegeMachines
 								If $g_bDebugSetlog Then SetDebugLog("Siege: [" & $i - $eTroopCount - $g_iCustomDonateConfigs & "] checking!", $COLOR_DEBUG)
 								If CheckDonateSiege($i - $eTroopCount - $g_iCustomDonateConfigs, $g_asTxtDonateTroop[$i], $g_asTxtBlacklistTroop[$i], $ClanString, $bNewSystemToDonate, True) Then
@@ -1004,7 +1004,7 @@ Func CheckDonate(Const $sName, Const $sDonateString, Const $sBlacklistString, Co
 				If $bSetLog Then SetLog($sName & " Keyword found: " & $asSplitDonate[$i], $COLOR_SUCCESS)
 				If $bQueueOnly And $sName <> "Custom" Then
 					Local $bTroopIndex = -1, $bSpellIndex = -1
-					For $z = 0 To ($eTroopCount + $g_iCustomDonateConfigs - $g_iEventTroops) - 1 ; Troops 0 To 45
+					For $z = 0 To $eTroopCount - $g_iEventTroops - 1 ; Troops 0 To 43
 						If $g_asTroopNames[$z] = $sName Then
 							$bTroopIndex = $z
 							ExitLoop
@@ -1016,7 +1016,7 @@ Func CheckDonate(Const $sName, Const $sDonateString, Const $sBlacklistString, Co
 							ExitLoop
 						EndIf
 					Next
-					If $bTroopIndex >= 0 And $g_abChkDonateQueueOnly[0] And ($bTroopIndex < $eTroopCount + $g_iCustomDonateConfigs - $g_iEventTroops) Then
+					If $bTroopIndex >= 0 And $g_abChkDonateQueueOnly[0] And $bTroopIndex < $eTroopCount - $g_iEventTroops Then
 						If $g_aiAvailQueuedTroop[$bTroopIndex] <= 0 Then
 							SetDebugLog($sName & " is not ready in troop queue for donation!")
 							Return False

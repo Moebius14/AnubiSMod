@@ -50,6 +50,7 @@ Global Const $g_sImgInfoButton = @ScriptDir & "\imgxml\CheckObstacles\InfoButton
 Global Const $g_sImgNoThanks = @ScriptDir & "\imgxml\CheckObstacles\NoThks*"
 Global Const $sImgPersonnalDatas = @ScriptDir & "\imgxml\CheckObstacles\PersonnalDatas*"
 Global Const $sImgDenyBtn = @ScriptDir & "\imgxml\CheckObstacles\DenyBtn*"
+Global Const $g_sImgOkayBlue = @ScriptDir & "\imgxml\other\OkayBlue*"
 #EndRegion Obstacles
 
 #Region Main Village

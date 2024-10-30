@@ -518,7 +518,7 @@ Func chkTrophyRange()
 		GUICtrlSetState($g_hTxtDropTrophyArmyMin, $GUI_DISABLE)
 		GUICtrlSetState($g_hLblDropTrophyArmyMin, $GUI_DISABLE)
 		GUICtrlSetState($g_hLblDropTrophyArmyPercent, $GUI_DISABLE)
-		For $i = $g_hLblTrophyHeroesPriority To $g_hCmbTrophyHeroesPriority3
+		For $i = $g_hLblTrophyHeroesPriority To $g_hChkHeroesPriorityRandom
 			GUICtrlSetState($i, $GUI_DISABLE)
 		Next
 		For $i = $g_hChkTrophyAtkWithHeroesOnly To $hWaitAllHeroesForDT
@@ -684,18 +684,30 @@ EndFunc   ;==>TxtMaxTrophy
 
 Func chkTrophyHeroes()
 	If GUICtrlRead($g_hChkTrophyHeroes) = $GUI_CHECKED Then
-		For $i = $g_hLblTrophyHeroesPriority To $g_hCmbTrophyHeroesPriority3
+		For $i = $g_hLblTrophyHeroesPriority To $g_hChkHeroesPriorityRandom
 			GUICtrlSetState($i, $GUI_ENABLE)
 		Next
 		GUICtrlSetState($g_hChkTrophyAtkWithHeroesOnly, $GUI_ENABLE)
-		ChkTrophyAtkWithHeroesOnly()
+		ChkHeroesPriorityRandom()
 	Else
-		For $i = $g_hLblTrophyHeroesPriority To $g_hCmbTrophyHeroesPriority3
+		For $i = $g_hLblTrophyHeroesPriority To $g_hChkHeroesPriorityRandom
 			GUICtrlSetState($i, $GUI_DISABLE)
 		Next
 		For $i = $g_hChkTrophyAtkWithHeroesOnly To $hWaitAllHeroesForDT
 			GUICtrlSetState($i, $GUI_DISABLE)
 		Next
+	EndIf
+EndFunc   ;==>chkTrophyHeroes
+
+Func ChkHeroesPriorityRandom()
+	If GUICtrlRead($g_hChkHeroesPriorityRandom) = $GUI_CHECKED Then
+		GUICtrlSetState($g_hCmbTrophyHeroesPriority, $GUI_DISABLE)
+		GUICtrlSetState($g_hChkTrophyAtkWithHeroesOnly, $GUI_ENABLE)
+		ChkTrophyAtkWithHeroesOnly()
+	Else
+		GUICtrlSetState($g_hCmbTrophyHeroesPriority, $GUI_ENABLE)
+		GUICtrlSetState($g_hChkTrophyAtkWithHeroesOnly, $GUI_ENABLE)
+		ChkTrophyAtkWithHeroesOnly()
 	EndIf
 EndFunc   ;==>chkTrophyHeroes
 

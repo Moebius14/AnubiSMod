@@ -342,19 +342,11 @@ EndFunc   ;==>ClickMainBuilder
 
 Func IsBuilderMenuOpen()
 	Local $bRet = False
-	Local $aBorder0[4] = [400, 73, 0x8C9CB6, 20]
-	Local $aBorder1[4] = [400, 73, 0xC0C9D3, 20]
-	Local $aBorder2[4] = [400, 73, 0xBEBFBC, 20]
-	Local $aBorder3[4] = [400, 73, 0xFFFFFF, 20]
-	Local $aBorder4[4] = [400, 73, 0xF7F8F5, 20]
-	Local $aBorder5[4] = [400, 73, 0xC3CBD9, 20]
-	Local $aBorder6[4] = [400, 73, 0xF4F4F5, 20]
 	Local $sTriangle
 
 	For $i = 0 To 5
-		If _CheckPixel($aBorder0, True) Or _CheckPixel($aBorder1, True) Or _CheckPixel($aBorder2, True) Or _CheckPixel($aBorder3, True) Or _CheckPixel($aBorder4, True) Or _
-				_CheckPixel($aBorder5, True) Or _CheckPixel($aBorder6, True) Then
-			SetDebugLog("Found Border Color: " & _GetPixelColor($aBorder0[0], $aBorder0[1], True), $COLOR_ACTION)
+		If IsArray(_PixelSearch(399, 72, 401, 74, Hex(0xFFFFFF, 6), 30, True)) Then
+			SetDebugLog("Found White Border Color", $COLOR_ACTION)
 			$bRet = True ;got correct color for border
 			ExitLoop
 		EndIf

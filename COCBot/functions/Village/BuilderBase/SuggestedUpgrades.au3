@@ -206,7 +206,7 @@ Func ClickOnBuilder()
 
 	If IsArray($asSearchResult) And UBound($asSearchResult) = 2 Then
 
-		If IsArray(_PixelSearch($asSearchResult[0] - 1, $asSearchResult[1] + 53, $asSearchResult[0] + 1, $asSearchResult[1] + 55, Hex(0xFFFFFF, 6), 15, True)) Then Return True
+		If IsArray(_PixelSearch($asSearchResult[0] - 1, $asSearchResult[1] + 53, $asSearchResult[0] + 1, $asSearchResult[1] + 55, Hex(0xFFFFFF, 6), 30, True)) Then Return True
 
 		; Master Builder Check pixel [i] icon
 		Local Const $aMasterBuilder[4] = [$asSearchResult[0] - 15, $asSearchResult[1] - 9, 0x7ABDE3, 10]
@@ -222,7 +222,7 @@ Func ClickOnBuilder()
 				Click($aMasterBuilder[0], $aMasterBuilder[1], 1)
 				If _Sleep(2000) Then Return
 				; Let's verify if the Suggested Window open
-				If IsArray(_PixelSearch($asSearchResult[0] - 1, $asSearchResult[1] + 53, $asSearchResult[0] + 1, $asSearchResult[1] + 55, Hex(0xFFFFFF, 6), 15, True)) Then
+				If IsArray(_PixelSearch($asSearchResult[0] - 1, $asSearchResult[1] + 53, $asSearchResult[0] + 1, $asSearchResult[1] + 55, Hex(0xFFFFFF, 6), 30, True)) Then
 					Return True
 				Else
 					$sDebugText = "Window didn't opened"

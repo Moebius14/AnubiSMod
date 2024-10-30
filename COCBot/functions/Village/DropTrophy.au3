@@ -402,18 +402,6 @@ Func DropTrophy()
 				; Drop a Hero or Troop
 				If $g_bDropTrophyUseHeroes Then
 					;a) identify heroes avaiables...
-					Local $g_iHeroesPriorityMod = Random(0, 3, 1)
-					Local $g_iDropTrophyHeroesPriority0
-					Switch $g_iHeroesPriorityMod
-						Case 0
-							$g_iDropTrophyHeroesPriority0 = $g_iDropTrophyHeroesPriority
-						Case 1
-							$g_iDropTrophyHeroesPriority0 = $g_iDropTrophyHeroesPriority1
-						Case 2
-							$g_iDropTrophyHeroesPriority0 = $g_iDropTrophyHeroesPriority2
-						Case 3
-							$g_iDropTrophyHeroesPriority0 = $g_iDropTrophyHeroesPriority3
-					EndSwitch
 					SetSlotSpecialTroops()
 
 					;b) calculate random drop point...
@@ -436,7 +424,9 @@ Func DropTrophy()
 					;c) check if hero avaiable and drop according to priority
 					If ($g_iQueenSlot <> -1 Or $g_iKingSlot <> -1 Or $g_iWardenSlot <> -1 Or $g_iChampionSlot <> -1) Then
 						Local $sHeroPriority
-						Switch $g_iDropTrophyHeroesPriority0
+						Local $SwitchPriority = $g_iDropTrophyHeroesPriority
+						If $g_iChkHeroesPriorityRandom Then $SwitchPriority = Random(0, 7, 1)
+						Switch $SwitchPriority
 							Case 0
 								$sHeroPriority = "QKWC"
 							Case 1

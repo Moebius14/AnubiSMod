@@ -187,7 +187,7 @@ Func CheckBBuilderTime()
 			If _Sleep(250) Then Return
 			Local $asSearchResult = decodeSingleCoord(FindImageInPlace2("MasterBuilderHead", $g_sImgMasterBuilderHead, 445, 0, 500, 54, True))
 			If IsArray($asSearchResult) And UBound($asSearchResult) = 2 Then
-				If IsArray(_PixelSearch($asSearchResult[0] - 1, $asSearchResult[1] + 53, $asSearchResult[0] + 1, $asSearchResult[1] + 55, Hex(0xFFFFFF, 6), 15, True)) Then ClickP($asSearchResult)
+				If IsArray(_PixelSearch($asSearchResult[0] - 1, $asSearchResult[1] + 53, $asSearchResult[0] + 1, $asSearchResult[1] + 55, Hex(0xFFFFFF, 6), 30, True)) Then ClickP($asSearchResult)
 			EndIf
 			If _Sleep(1000) Then Return
 			ClearScreen("Right", False)
@@ -198,7 +198,7 @@ Func CheckBBuilderTime()
 	If _Sleep(250) Then Return
 	Local $asSearchResult = decodeSingleCoord(FindImageInPlace2("MasterBuilderHead", $g_sImgMasterBuilderHead, 445, 0, 500, 54, True))
 	If IsArray($asSearchResult) And UBound($asSearchResult) = 2 Then
-		If IsArray(_PixelSearch($asSearchResult[0] - 1, $asSearchResult[1] + 53, $asSearchResult[0] + 1, $asSearchResult[1] + 55, Hex(0xFFFFFF, 6), 15, True)) Then ClickP($asSearchResult)
+		If IsArray(_PixelSearch($asSearchResult[0] - 1, $asSearchResult[1] + 53, $asSearchResult[0] + 1, $asSearchResult[1] + 55, Hex(0xFFFFFF, 6), 30, True)) Then ClickP($asSearchResult)
 	EndIf
 	If _Sleep(1000) Then Return
 	ClearScreen("Right", False)
@@ -221,7 +221,7 @@ Func ClickOnBuilder2()
 			Click($aMasterBuilder[0], $aMasterBuilder[1], 1)
 			If _Sleep(2000) Then Return
 			; Let's verify if the Suggested Window open
-			If IsArray(_PixelSearch($asSearchResult[0] - 1, $asSearchResult[1] + 53, $asSearchResult[0] + 1, $asSearchResult[1] + 55, Hex(0xFFFFFF, 6), 15, True)) Then
+			If IsArray(_PixelSearch($asSearchResult[0] - 1, $asSearchResult[1] + 53, $asSearchResult[0] + 1, $asSearchResult[1] + 55, Hex(0xFFFFFF, 6), 30, True)) Then
 				Return True
 			Else
 				$sDebugText = "Window didn't opened"

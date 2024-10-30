@@ -12,7 +12,10 @@
 * Improved Few Clan Games Challenges Detection.
 * Cleaned CG Purge Code.
 * Improved Sieges Training Logic.
-* Updated IsPostDefenseSummaryPage() and CheckObstacles()
+* Updated IsPostDefenseSummaryPage() and CheckObstacles().
+* Increased Tolerance for CC/BB/Main White Menu Border Detection.
+* Fixed Array Bounds Error in CheckDonate().
+* Fixed Druid Donation.
 
 * v8.1.7 **
 * Added Fireball equipment support.

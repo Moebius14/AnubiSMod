@@ -181,6 +181,13 @@ Func _checkObstacles($bBuilderBase = False, $bRecursive = False) ;Checks if some
 			_ColorCheck(_GetPixelColor(600, 9, $g_bCapturePixel), Hex(0x000000, 6), 1)
 	If Not $bHasTopBlackBar And _CheckPixel($aIsMainGrayed, $g_bCapturePixel) Then
 		SetDebugLog("checkObstacles: Found gray Window to close")
+		;Offers Received from SuperCell Store
+		Local $aiSCOffer = decodeSingleCoord(FindImageInPlace2("SCOffers", $g_sImgOkayBlue, 360, 400 + $g_iMidOffsetY, 510, 500 + $g_iMidOffsetY, True))
+		If IsArray($aiSCOffer) And UBound($aiSCOffer) = 2 Then
+			ClickP($aiSCOffer)
+			$g_bMinorObstacle = True
+			Return False
+		EndIf
 		; Clan Capital Result
 		If UBound(decodeSingleCoord(FindImageInPlace2("CCResults", $g_sImgClanCapitalResults, 210, 130 + $g_iMidOffsetY, 320, 240 + $g_iMidOffsetY, True))) > 1 Then
 			If _ColorCheck(_GetPixelColor(247, 311 + $g_iMidOffsetY, $g_bCapturePixel), Hex(0xFFFFFF, 6), 10) And _ColorCheck(_GetPixelColor(669, 242 + $g_iMidOffsetY, $g_bCapturePixel), Hex(0xFFFFFF, 6), 10) Then
