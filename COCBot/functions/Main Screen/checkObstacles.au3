@@ -77,6 +77,7 @@ Func _checkObstacles($bBuilderBase = False, $bRecursive = False) ;Checks if some
 		Local $aiLockOfChest = decodeSingleCoord(FindImageInPlace2("LockOfBox", $ImgLockOfChest, 400, 305 + $g_iMidOffsetY, 480, 390 + $g_iMidOffsetY, True))
 		If IsArray($aiLockOfChest) And UBound($aiLockOfChest) = 2 Then
 			TreasureHunt()
+			If _Sleep($DELAYCHECKOBSTACLES1) Then Return
 			$g_bMinorObstacle = True
 			Return False
 		EndIf
@@ -101,6 +102,7 @@ Func _checkObstacles($bBuilderBase = False, $bRecursive = False) ;Checks if some
 		If IsArray($NoThanksButton) And UBound($NoThanksButton) = 2 Then
 			SetLog("Detected Feedback Window!", $COLOR_INFO)
 			ClickP($NoThanksButton)
+			If _Sleep($DELAYCHECKOBSTACLES1) Then Return
 			$g_bMinorObstacle = True
 			Return False
 		EndIf
@@ -185,6 +187,7 @@ Func _checkObstacles($bBuilderBase = False, $bRecursive = False) ;Checks if some
 		Local $aiSCOffer = decodeSingleCoord(FindImageInPlace2("SCOffers", $g_sImgOkayBlue, 360, 400 + $g_iMidOffsetY, 510, 500 + $g_iMidOffsetY, True))
 		If IsArray($aiSCOffer) And UBound($aiSCOffer) = 2 Then
 			ClickP($aiSCOffer)
+			If _Sleep($DELAYCHECKOBSTACLES1) Then Return
 			$g_bMinorObstacle = True
 			Return False
 		EndIf
@@ -194,6 +197,7 @@ Func _checkObstacles($bBuilderBase = False, $bRecursive = False) ;Checks if some
 				$g_bMinorObstacle = True
 				$bControlCCMedal = True
 				CloseWindow()
+				If _Sleep($DELAYCHECKOBSTACLES1) Then Return
 				Return False
 			EndIf
 		EndIf
@@ -213,7 +217,7 @@ Func _checkObstacles($bBuilderBase = False, $bRecursive = False) ;Checks if some
 			If _Sleep(1500) Then Return
 		Else
 			PureClickP($aAway, 1, 120, "#0133") ;Click away If things are open
-			If _Sleep(1000) Then Return
+			If _Sleep($DELAYCHECKOBSTACLES1) Then Return
 		EndIf
 		If _CheckPixel($aIsMain, $g_bCapturePixel) Then
 			$g_bMinorObstacle = True
@@ -267,6 +271,7 @@ Func _checkObstacles($bBuilderBase = False, $bRecursive = False) ;Checks if some
 	If _CheckPixel($aEndFightSceneBtn, $g_bCapturePixel) Then
 		SetDebugLog("checkObstacles: Found End Fight Scene to close")
 		PureClickP($aEndFightSceneBtn, 1, 120, "#0137") ;If in that victory or defeat scene
+		If _Sleep($DELAYCHECKOBSTACLES1) Then Return
 		Return True
 	EndIf
 	If _CheckPixel($aSurrenderButton, $g_bCapturePixel) Then

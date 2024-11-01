@@ -1276,8 +1276,8 @@ Func _RestartAndroidCoC($bInitAndroid = True, $bRestart = True, $bStopCoC = True
 	; reset time lag
 	InitAndroidTimeLag()
 
-	; wait 18 sec. CoC might have just crashed
-	If _SleepStatus(18000) Then Return False
+	; wait 12 sec. CoC might have just crashed
+	If _SleepStatus(12000) Then Return False
 
 	If GetAndroidProcessPID(Default, False) = 0 And @error = 0 Then
 		If $iRetry > 2 And $iRecursive > 2 Then

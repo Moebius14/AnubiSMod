@@ -237,7 +237,7 @@ Func AppBuilder()
 	Else
 		Local $aiJobinProgress = decodeSingleCoord(FindImageInPlace2("JobInProgress", $ImgJobInProgress, 390, 220 + $g_iMidOffsetY, 490, 280 + $g_iMidOffsetY, True))
 		If IsArray($aiJobinProgress) And UBound($aiJobinProgress) = 2 Then
-			Local $Result = StringReplace(getOcrAndCapture("coc-BuildersApptime", 212, 167 + $g_iMidOffsetY, 75, 15, True), "b", "")
+			Local $Result = StringRegExpReplace(getOcrAndCapture("coc-BuildersApptime", 212, 167 + $g_iMidOffsetY, 75, 15, True), "[bc]", "")
 			If $g_bDebugImageSaveMod Then SaveDebugImage($Result & "_", Default, False)
 			Local $iAppBuilderAvailTime = ConvertOCRTime("BuildersApp Time", $Result, False)
 			SetLog("Job In Progress", $COLOR_SUCCESS)
@@ -250,7 +250,7 @@ Func AppBuilder()
 				Return
 			EndIf
 		Else
-			Local $Result = StringReplace(getOcrAndCapture("coc-BuildersApptime", 222, 167 + $g_iMidOffsetY, 75, 15, True), "b", "")
+			Local $Result = StringRegExpReplace(getOcrAndCapture("coc-BuildersApptime", 222, 167 + $g_iMidOffsetY, 75, 15, True), "[bc]", "")
 			If $g_bDebugImageSaveMod Then SaveDebugImage($Result & "_", Default, False)
 			Local $iAppBuilderAvailTime = ConvertOCRTime("BuildersApp Time", $Result, False)
 			If $iAppBuilderAvailTime > 0 And $iAppBuilderAvailTime < 1380 Then SetLog("CoolDown Time", $COLOR_SUCCESS)
@@ -313,7 +313,7 @@ Func AppBuilder()
 		WaitForClanMessage("BuildersApprenticeMid")
 		Local $aiJobinProgress = decodeSingleCoord(FindImageInPlace2("JobInProgress", $ImgJobInProgress, 390, 220 + $g_iMidOffsetY, 490, 280 + $g_iMidOffsetY, True))
 		If IsArray($aiJobinProgress) And UBound($aiJobinProgress) = 2 Then
-			Local $Result = StringReplace(getOcrAndCapture("coc-BuildersApptime", 212, 167 + $g_iMidOffsetY, 75, 15, True), "b", "")
+			Local $Result = StringRegExpReplace(getOcrAndCapture("coc-BuildersApptime", 212, 167 + $g_iMidOffsetY, 75, 15, True), "[bc]", "")
 			If $g_bDebugImageSaveMod Then SaveDebugImage($Result & "_", Default, False)
 			SetLog("Job In Progress", $COLOR_SUCCESS)
 			$iAppBuilderAvailTime = ConvertOCRTime("BuildersApp Time", $Result, False)

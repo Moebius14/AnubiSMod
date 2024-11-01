@@ -16,6 +16,8 @@
 * Increased Tolerance for CC/BB/Main White Menu Border Detection.
 * Fixed Array Bounds Error in CheckDonate().
 * Fixed Druid Donation.
+* Updated CheckObstacles().
+* Improved Builder's Apprentice Cooldown OCR.
 
 * v8.1.7 **
 * Added Fireball equipment support.
