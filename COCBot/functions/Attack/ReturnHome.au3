@@ -191,7 +191,7 @@ Func ReturnHome($TakeSS = 1, $GoldChangeCheck = True) ;Return main screen
 	While 1
 		If _Sleep($DELAYRETURNHOME4) Then Return
 		Local $bIsMain = _CheckPixel($aIsMain, $g_bCapturePixel, Default, "IsMain")
-		Local $bIsMainGrayed = _CheckPixel($aIsMainGrayed, $g_bCapturePixel, Default, "IsMainGrayed")
+		Local $bIsMainGrayed = IsMainGrayed()
 		Select
 			Case Not $bIsMain And Not $bIsMainGrayed
 				If TreasureHunt($counter) Then

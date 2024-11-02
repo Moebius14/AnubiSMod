@@ -25,7 +25,7 @@ Func StarBonus()
 		; Find and Click Okay button
 		Local $aiOkayButton = findButton("Okay", Default, 1, True)
 		If IsArray($aiOkayButton) And UBound($aiOkayButton, 1) = 2 Then
-			PureClick($aiOkayButton[0], $aiOkayButton[1], 2, 50, "#0117") ; Click Okay Button
+			PureClickP($aiOkayButton, 1, 100, "#0117") ; Click Okay Button
 			If _Sleep($DELAYSTARBONUS500) Then Return
 			If $g_bChkCustomEquipmentOrderEnable Then $StarBonusReceived[0] = 1 ; BlackSmith
 			If $g_bChkTreasuryCollect = 2 Then $StarBonusReceived[1] = 1 ; Treasury Collect

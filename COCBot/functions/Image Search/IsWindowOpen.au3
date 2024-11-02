@@ -156,9 +156,9 @@ EndFunc   ;==>CloseWindow2
 Func ClearScreen($Area = "Defaut", $MainVillage = True)
 	Local $IsGrayed = False
 	If $MainVillage Then
-		If _CheckPixel($aIsMainGrayed, $g_bCapturePixel) Then $IsGrayed = True
+		If IsMainGrayed() Then $IsGrayed = True
 	Else
-		If _CheckPixel($aIsBuilderBaseGrayed, $g_bCapturePixel) Then $IsGrayed = True
+		If IsBuilderBaseGrayed() Then $IsGrayed = True
 	EndIf
 	Local $sBuildingText = getNameBuilding(242, 475 + $g_iBottomOffsetY)
 	If $sBuildingText <> "" Or $IsGrayed Then

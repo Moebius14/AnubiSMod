@@ -5,7 +5,7 @@
 ; Parameters ....:
 ; Return values .: Returns True when there is something blocking
 ; Author ........: Hungle (2014)
-; Modified ......: KnowJack (2015), Sardo (08-2015), TheMaster1st(10-2015), MonkeyHunter (08-2016), MMHK (12-2016)
+; Modified ......: KnowJack (2015), Sardo (08-2015), TheMaster1st(10-2015), MonkeyHunter (08-2016), MMHK (12-2016), Moebius (11-2024)
 ; Remarks .......: This file is part of MyBot, previously known as ClashGameBot. Copyright 2015-2024
 ;                  MyBot is distributed under the terms of the GNU GPL
 ; Related .......:
@@ -181,9 +181,9 @@ Func _checkObstacles($bBuilderBase = False, $bRecursive = False) ;Checks if some
 
 	Local $bHasTopBlackBar = _ColorCheck(_GetPixelColor(10, 3, $g_bCapturePixel), Hex(0x000000, 6), 1) And _ColorCheck(_GetPixelColor(300, 6, $g_bCapturePixel), Hex(0x000000, 6), 1) And _
 			_ColorCheck(_GetPixelColor(600, 9, $g_bCapturePixel), Hex(0x000000, 6), 1)
-	If Not $bHasTopBlackBar And _CheckPixel($aIsMainGrayed, $g_bCapturePixel) Then
+	If Not $bHasTopBlackBar And IsMainGrayed() Then
 		SetDebugLog("checkObstacles: Found gray Window to close")
-		;Offers Received from SuperCell Store
+		; Offers Received from SuperCell Store
 		Local $aiSCOffer = decodeSingleCoord(FindImageInPlace2("SCOffers", $g_sImgOkayBlue, 360, 400 + $g_iMidOffsetY, 510, 500 + $g_iMidOffsetY, True))
 		If IsArray($aiSCOffer) And UBound($aiSCOffer) = 2 Then
 			ClickP($aiSCOffer)
@@ -214,9 +214,9 @@ Func _checkObstacles($bBuilderBase = False, $bRecursive = False) ;Checks if some
 		Local $aConfirmButton = findButton("ConfirmButton", Default, 1, True)
 		If IsArray($aConfirmButton) And UBound($aConfirmButton) = 2 Then
 			ClickP($aConfirmButton)
-			If _Sleep(1500) Then Return
+			If _Sleep($DELAYCHECKOBSTACLES1) Then Return
 		Else
-			PureClickP($aAway, 1, 120, "#0133") ;Click away If things are open
+			ClickAway() ; Click away If things are open
 			If _Sleep($DELAYCHECKOBSTACLES1) Then Return
 		EndIf
 		If _CheckPixel($aIsMain, $g_bCapturePixel) Then
@@ -224,12 +224,14 @@ Func _checkObstacles($bBuilderBase = False, $bRecursive = False) ;Checks if some
 			If _Sleep($DELAYCHECKOBSTACLES1) Then Return
 			Return False
 		Else
-			If _CheckPixel($aIsMainGrayed, $g_bCapturePixel) Then
+			CloseWindow2()
+			If _Sleep($DELAYCHECKOBSTACLES1) Then Return
+			If IsMainGrayed() Then
 				SetDebugLog("checkObstacles: Still found gray Window to close, trying to close again")
 				Local $bLoop = 0
 				While 1
-					PureClickP($aAway, 1, 120, "#0133") ;Click away If things are open
-					If _Sleep(1500) Then ExitLoop
+					ClickAway() ; Click away If things are open
+					If _Sleep($DELAYCHECKOBSTACLES1) Then ExitLoop
 					If _CheckPixel($aIsMain, $g_bCapturePixel) Then ExitLoop
 					$bLoop += 1
 					If $bLoop = 10 Then ExitLoop
@@ -240,16 +242,39 @@ Func _checkObstacles($bBuilderBase = False, $bRecursive = False) ;Checks if some
 		If _Sleep($DELAYCHECKOBSTACLES1) Then Return
 		Return False
 	EndIf
-	If Not $bHasTopBlackBar And _CheckPixel($aIsBuilderBaseGrayed, $g_bCapturePixel) Then
+	If Not $bHasTopBlackBar And IsBuilderBaseGrayed() Then
 		SetLog("checkObstacles: Found Builder Base gray Window to close")
-		ClickAway("Left")
-		$g_bMinorObstacle = True
+		; Offers Received from SuperCell Store
+		Local $aiSCOffer = decodeSingleCoord(FindImageInPlace2("SCOffers", $g_sImgOkayBlue, 360, 400 + $g_iMidOffsetY, 510, 500 + $g_iMidOffsetY, True))
+		If IsArray($aiSCOffer) And UBound($aiSCOffer) = 2 Then
+			ClickP($aiSCOffer)
+			If _Sleep($DELAYCHECKOBSTACLES1) Then Return
+			$g_bMinorObstacle = True
+			Return False
+		EndIf
+		; Clan Capital Result
+		If UBound(decodeSingleCoord(FindImageInPlace2("CCResults", $g_sImgClanCapitalResults, 210, 130 + $g_iMidOffsetY, 320, 240 + $g_iMidOffsetY, True))) > 1 Then
+			If _ColorCheck(_GetPixelColor(247, 311 + $g_iMidOffsetY, $g_bCapturePixel), Hex(0xFFFFFF, 6), 10) And _ColorCheck(_GetPixelColor(669, 242 + $g_iMidOffsetY, $g_bCapturePixel), Hex(0xFFFFFF, 6), 10) Then
+				$g_bMinorObstacle = True
+				$bControlCCMedal = True
+				CloseWindow()
+				If _Sleep($DELAYCHECKOBSTACLES1) Then Return
+				Return False
+			EndIf
+		EndIf
+		CloseWindow2()
 		If _Sleep($DELAYCHECKOBSTACLES1) Then Return
-		Return False
-	EndIf
-	If _ColorCheck(_GetPixelColor(792, 39, $g_bCapturePixel), Hex(0xDC0408, 6), 20) Then
-		SetDebugLog("checkObstacles: Found Window with Close Button to close")
-		PureClick(792, 39, 1, 120, "#0134") ;Clicks X
+		If IsBuilderBaseGrayed() Then
+			SetDebugLog("checkObstacles: Still found gray Window to close, trying to close again")
+			Local $bLoop = 0
+			While 1
+				ClickAway("Left") ;Click away If things are open
+				If _Sleep($DELAYCHECKOBSTACLES1) Then ExitLoop
+				If _CheckPixel($aIsOnBuilderBase, $g_bCapturePixel) Then ExitLoop
+				$bLoop += 1
+				If $bLoop = 10 Then ExitLoop
+			WEnd
+		EndIf
 		$g_bMinorObstacle = True
 		If _Sleep($DELAYCHECKOBSTACLES1) Then Return
 		Return False
@@ -263,10 +288,11 @@ Func _checkObstacles($bBuilderBase = False, $bRecursive = False) ;Checks if some
 	EndIf
 	If _CheckPixel($aChatTab, $g_bCapturePixel) And _CheckPixel($aChatTab2, $g_bCapturePixel) And _CheckPixel($aChatTab3, $g_bCapturePixel) Then
 		SetDebugLog("checkObstacles: Found Chat Tab to close")
-		PureClickP($aChatTab2, 1, 120, "#0136") ;Clicks chat tab
-		$g_bMinorObstacle = True
-		If _Sleep($DELAYCHECKOBSTACLES1) Then Return
-		Return False
+		If ClickB("ClanChat") Then ; Clicks chat Button
+			$g_bMinorObstacle = True
+			If _Sleep($DELAYCHECKOBSTACLES1) Then Return
+			Return False
+		EndIf
 	EndIf
 	If _CheckPixel($aEndFightSceneBtn, $g_bCapturePixel) Then
 		SetDebugLog("checkObstacles: Found End Fight Scene to close")
@@ -638,3 +664,30 @@ Func CheckDailyRewardWindow()
 	EndIf
 	CloseWindow2()
 EndFunc   ;==>CheckDailyRewardWindow
+
+Func IsMainGrayed()
+
+	Local $offColors1[3][3] = [[0x3D5F72, 4, 0], [0x070707, 6, 0], [0x7B7B77, 8, 0]] ; 2nd light blue pixel, 3rd pixel Black, 4th pixel White
+	Local $IsMainGrayed = _MultiPixelSearch(373, 8, 390, 8, 1, 1, Hex(0x576F7B, 6), $offColors1, 15) ; first light blue pixel on left of button
+	SetDebugLog("Main 1 Pixel Color #1: " & _GetPixelColor(375, 8, True) & ", #2: " & _GetPixelColor(379, 8, True) & ", #3: " & _GetPixelColor(381, 8, True) & ", #4: " & _GetPixelColor(383, 8, True), $COLOR_DEBUG)
+	If IsArray($IsMainGrayed) Then Return True
+
+	Local $offColors2[3][3] = [[0x253944, 4, 0], [0x040404, 6, 0], [0x4A4A47, 8, 0]] ; 2nd light blue pixel, 3rd pixel Black, 4th pixel White
+	Local $IsMainGrayed2 = _MultiPixelSearch(373, 8, 390, 8, 1, 1, Hex(0x34434A, 6), $offColors2, 15) ; first light blue pixel on left of button
+	SetDebugLog("Main 2 Pixel Color #1: " & _GetPixelColor(375, 8, True) & ", #2: " & _GetPixelColor(379, 8, True) & ", #3: " & _GetPixelColor(381, 8, True) & ", #4: " & _GetPixelColor(383, 8, True), $COLOR_DEBUG)
+	If IsArray($IsMainGrayed2) Then Return True
+
+	Return False
+
+EndFunc   ;==>IsMainGrayed
+
+Func IsBuilderBaseGrayed()
+
+	Local $offColors[3][3] = [[0x3D5F72, 4, 0], [0x070707, 6, 0], [0x7B7B77, 8, 0]] ; 2nd light blue pixel, 3rd pixel Black, 4th pixel White
+	Local $IsBuilderBaseGrayed = _MultiPixelSearch(441, 8, 465, 8, 1, 1, Hex(0x576F7B, 6), $offColors, 15) ; first light blue pixel on left of button
+	SetDebugLog("BB Pixel Color #1: " & _GetPixelColor(451, 8, True) & ", #2: " & _GetPixelColor(455, 8, True) & ", #3: " & _GetPixelColor(457, 8, True) & ", #4: " & _GetPixelColor(459, 8, True), $COLOR_DEBUG)
+	If IsArray($IsBuilderBaseGrayed) Then Return True
+
+	Return False
+
+EndFunc   ;==>IsBuilderBaseGrayed

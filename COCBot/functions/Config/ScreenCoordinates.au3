@@ -3,7 +3,7 @@
 ; Description ...: Global variables for commonly used X|Y positions, screen check color, and tolerance
 ; Syntax ........: $aXXXXX[Y]  : XXXX is name of point or item being checked, Y = 2 for position only, or 4 when color/tolerance value included
 ; Author ........:
-; Modified ......: Moebius (09/2023)
+; Modified ......: Moebius (11/2024)
 ; Remarks .......: This file is part of MyBot, previously known as ClashGameBot. Copyright 2015-2024
 ;                  MyBot is distributed under the terms of the GNU GPL
 ; Related .......:
@@ -21,8 +21,6 @@ Global $aiClickAwayRegionRight2 = [760, 176, 835, 185]
 Global $aCenterEnemyVillageClickDrag = [65, 545] ; Scroll village using this location in the water
 Global $aCenterHomeVillageClickDrag = [430, 650] ; Scroll village using this location in the water
 Global $aIsMain[4] = [378, 10, 0x7ABDE3, 15] ; Main Screen, Builder Info Icon / October 2023
-Global $aIsMainGrayed[4] = [378, 10, 0x3D5F72, 15] ; Main Screen, Builder Info Icon grayed
-Global $aIsBuilderBaseGrayed[4] = [369, 9, 0x3F5F6F, 15] ; Builder Base, Builder Info Icon grayed
 Global $aIsOnBuilderBase[4] = [838, 18, 0xFFFF45, 10] ; Check the Gold Coin from resources , is a square not round
 Global $aAttackButton[2] = [60, 614 + $g_iBottomOffsetY] ; Attack Button, Main Screen
 Global $aFindMatchButton[4] = [470, 20 + $g_iBottomOffsetY, 0xD8A420, 10] ; Find Multiplayer Match Button, Attack Screen 860x780 without shield
@@ -43,9 +41,9 @@ Global $aEndFightSceneAvl[4] = [241, 196 + $g_iMidOffsetY, 0xFFF098, 20] ; Victo
 Global $aEndFightSceneReportGold = $aEndFightSceneAvl ; Missing... TripleM ???
 Global $aReturnHomeButton[4] = [430, 566 + $g_iMidOffsetY, 0x6CBB1F, 15] ; Return Home Button, End Battle Screen
 Global $aRewardButton[4] = [430, 573 + $g_iMidOffsetY, 0x6CBB1F, 15] ; Claim Reward Button, End Battle Screen
-Global $aChatTab[4] = [412, 290 + $g_iMidOffsetY, 0xF3AA28, 20] ; Chat Window Open, Main Screen
-Global $aChatTab2[4] = [412, 305 + $g_iMidOffsetY, 0xF3AA28, 20] ; Chat Window Open, Main Screen
-Global $aChatTab3[4] = [412, 325 + $g_iMidOffsetY, 0xEA8A3B, 20] ; Chat Window Open, Main Screen
+Global $aChatTab[4] = [392, 290 + $g_iMidOffsetY, 0xF3AB28, 20] ; Chat Window Open, Main Screen
+Global $aChatTab2[4] = [391, 310 + $g_iMidOffsetY, 0xFFFFFF, 20] ; Chat Window Open, Main Screen
+Global $aChatTab3[4] = [392, 335 + $g_iMidOffsetY, 0xEA8A3B, 20] ; Chat Window Open, Main Screen
 Global $aArmyCampSize[2] = [153, 168 + $g_iMidOffsetY] ; Training Window, Overview screen, Current Size/Total Size
 Global $aSiegeMachineSize[2] = [707, 168 + $g_iMidOffsetY] ; Training Window, Overview screen, Current Number/Total Number
 Global $aArmySpellSize[2] = [143, 296 + $g_iMidOffsetY] ; Training Window Overviewscreen, current number/total capacity
