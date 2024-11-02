@@ -2234,12 +2234,16 @@ Global Const $g_afRefVillage[$eTreeCount][10] = [ _
 		[379.741811787463, 130, 728, 162, 608, 379.741811787463, 50, 46, 38, 42], _  ; CR partial
 		[444.044042164249, 114, 739, 150, 615, 444.044042164249, 50, 46, 38, 42]]    ; NS partial
 
-; left, right, top, bottom, village size
-Global Const $g_afRefCustomMainVillage[4][6] = [ _
-		[88, 778, 112, 624, 439.489958643413, $eTreeMS], _ ; Magic Main Village
-		[38, 822, 48, 634, 496.873764541968, $eTreePG], _  ; Pumpkin Graveyard Main Village
-		[97, 760, 124, 614, 405.46550540893, $eTreeEG], _  ; Egypt Main Village
-		[40, 817, 48, 630, 490.949366617362, $eTreeSD]]    ; Snow Day Main Village
+; left, right, top, bottom, village size, $eTreeCount, Special Pos for Upper Buildings
+Global Const $g_afRefCustomMainVillage[4][7] = [ _
+		[88, 778, 112, 624, 439.489958643413, $eTreeMS, True], _ ; Magic Main Village
+		[38, 822, 48, 634, 496.873764541968, $eTreePG, False], _ ; Pumpkin Graveyard Main Village
+		[97, 760, 124, 614, 405.46550540893, $eTreeEG, True], _  ; Egypt Main Village
+		[40, 817, 48, 630, 490.949366617362, $eTreeSD, False]]   ; Snow Day Main Village
+
+Global $g_asSceneryCodes[$eTreeCount - 4] = [ _
+		"DSS", "DAS", "CC", "PS", "EW", "HM", "JS", "EJ", "9C", "PG", "SD", "TM", "PR", "SH", "RS", "SM", "PX", "XC", "CF", "MS", "EM", "CS", "IT", "JO", "MT", "DA", "PA", _
+		"GC", "FS", "BK", "SP", "CH", "GH", "GB", "DP", "SC", "EG", "FO", "WW", "GS", "AN", "CD", "DO"]
 
 Global $g_iTree = $eTreeDSS ; default to classic
 Global $g_aiSearchZoomOutCounter[2] = [0, 1] ; 0: Counter of SearchZoomOut calls, 1: # of post zoomouts after image found

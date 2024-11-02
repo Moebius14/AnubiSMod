@@ -19,7 +19,7 @@ Func EventRewards()
 	Local $Found = False
 	Local $RewardFirst = False
 	Local $Area[4] = [220, 45, 320, 110 + $g_iMidOffsetY]
-	If $g_iTree = $eTreeMS Or $g_iTree = $eTreeEG Then
+	If IsCustomScenery("Upper") Then
 		$Area[0] = 250
 		$Area[1] = 60 + $g_iMidOffsetY
 		$Area[2] = 350

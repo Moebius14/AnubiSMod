@@ -170,7 +170,7 @@ EndFunc   ;==>BoostSuperTroop
 Func OpenBarrel($bTest = False)
 
 	Local $Area[4] = [30, 90 + $g_iMidOffsetY, 180, 240 + $g_iMidOffsetY]
-	If $g_iTree = $eTreeMS Or $g_iTree = $eTreeEG Then
+	If IsCustomScenery("Upper") Then
 		$Area[0] = 90
 		$Area[1] = 160 + $g_iMidOffsetY
 		$Area[2] = 200

@@ -42,7 +42,7 @@ Func _ClanGames($test = False, $HaltMode = False)
 
 	Local $sFound = False
 	Local $Area[4] = [180, 55, 300, 120 + $g_iMidOffsetY]
-	If $g_iTree = $eTreeMS Or $g_iTree = $eTreeEG Then
+	If IsCustomScenery("Upper") Then
 		$Area[0] = 200
 		$Area[1] = 85 + $g_iMidOffsetY
 		$Area[2] = 320
@@ -1079,7 +1079,7 @@ Func IsClanGamesWindow()
 	Local $Found = False
 	Local $currentDate = Number(@MDAY)
 	Local $Area[4] = [180, 55, 300, 120 + $g_iMidOffsetY]
-	If $g_iTree = $eTreeMS Or $g_iTree = $eTreeEG Then
+	If IsCustomScenery("Upper") Then
 		$Area[0] = 200
 		$Area[1] = 85 + $g_iMidOffsetY
 		$Area[2] = 320

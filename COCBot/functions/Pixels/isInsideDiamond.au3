@@ -26,13 +26,14 @@ Func isInsideDiamond($aCoords)
 	Local $x = $aCoords[0], $y = $aCoords[1], $xD, $yD
 	;Local $Left = 15, $Right = 835, $Top = 30, $Bottom = 645 ; set the diamond shape 860x780
 	; set the diamond shape based on reference village
-	If isOnMainVillage(True) And ($g_iTree = $eTreeEG Or $g_iTree = $eTreeMS Or $g_iTree = $eTreePG Or $g_iTree = $eTreeSD) Then
+	If isOnMainVillage(True) And IsCustomScenery() Then
 		For $i = 0 To UBound($g_afRefCustomMainVillage) - 1
-			If $g_iTree <> $g_afRefCustomMainVillage[$i][5] Then ContinueLoop
-			Local $Left = $g_afRefCustomMainVillage[$i][0]
-			Local $Right = $g_afRefCustomMainVillage[$i][1]
-			Local $Top = $g_afRefCustomMainVillage[$i][2]
-			Local $Bottom = $g_afRefCustomMainVillage[$i][3]
+			If $g_iTree = $g_afRefCustomMainVillage[$i][5] Then
+				Local $Left = $g_afRefCustomMainVillage[$i][0]
+				Local $Right = $g_afRefCustomMainVillage[$i][1]
+				Local $Top = $g_afRefCustomMainVillage[$i][2]
+				Local $Bottom = $g_afRefCustomMainVillage[$i][3]
+			EndIf
 		Next
 	Else
 		Local $Left = $g_afRefVillage[$g_iTree][1]
@@ -96,14 +97,15 @@ Func isInsideDiamond($aCoords)
 EndFunc   ;==>isInsideDiamond
 
 Func GetReduceDiamond($iPercent = 100)
-	If isOnMainVillage(True) And ($g_iTree = $eTreeEG Or $g_iTree = $eTreeMS Or $g_iTree = $eTreePG Or $g_iTree = $eTreeSD) Then
+	If isOnMainVillage(True) And IsCustomScenery() Then
 		For $i = 0 To UBound($g_afRefCustomMainVillage) - 1
-			If $g_iTree <> $g_afRefCustomMainVillage[$i][5] Then ContinueLoop
-			Local $InnerDiamondLeft = $g_afRefCustomMainVillage[$i][0]
-			Local $InnerDiamondRight = $g_afRefCustomMainVillage[$i][1]
-			Local $InnerDiamondTop = $g_afRefCustomMainVillage[$i][2]
-			Local $InnerDiamondBottom = $g_afRefCustomMainVillage[$i][3]
-			Local $iSize = $g_afRefCustomMainVillage[$i][4] * 0.5
+			If $g_iTree = $g_afRefCustomMainVillage[$i][5] Then
+				Local $InnerDiamondLeft = $g_afRefCustomMainVillage[$i][0]
+				Local $InnerDiamondRight = $g_afRefCustomMainVillage[$i][1]
+				Local $InnerDiamondTop = $g_afRefCustomMainVillage[$i][2]
+				Local $InnerDiamondBottom = $g_afRefCustomMainVillage[$i][3]
+				Local $iSize = $g_afRefCustomMainVillage[$i][4] * 0.5
+			EndIf
 		Next
 	Else
 		Local $InnerDiamondLeft = $g_afRefVillage[$g_iTree][1]

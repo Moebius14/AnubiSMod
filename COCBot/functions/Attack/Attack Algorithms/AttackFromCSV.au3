@@ -41,13 +41,14 @@ Global $g_aiDeployableLRTB = [0, $g_iGAME_WIDTH - 1, 0, 626] ; used by another i
 
 Func ConvertInternalExternArea()
 	; set the diamond shape based on reference village
-	If isOnMainVillage(True) And ($g_iTree = $eTreeEG Or $g_iTree = $eTreeMS Or $g_iTree = $eTreePG Or $g_iTree = $eTreeSD) Then
+	If isOnMainVillage(True) And IsCustomScenery() Then
 		For $i = 0 To UBound($g_afRefCustomMainVillage) - 1
-			If $g_iTree <> $g_afRefCustomMainVillage[$i][5] Then ContinueLoop
-			Local $InnerDiamondLeft = $g_afRefCustomMainVillage[$i][0]
-			Local $InnerDiamondRight = $g_afRefCustomMainVillage[$i][1]
-			Local $InnerDiamondTop = $g_afRefCustomMainVillage[$i][2]
-			Local $InnerDiamondBottom = $g_afRefCustomMainVillage[$i][3]
+			If $g_iTree = $g_afRefCustomMainVillage[$i][5] Then
+				Local $InnerDiamondLeft = $g_afRefCustomMainVillage[$i][0]
+				Local $InnerDiamondRight = $g_afRefCustomMainVillage[$i][1]
+				Local $InnerDiamondTop = $g_afRefCustomMainVillage[$i][2]
+				Local $InnerDiamondBottom = $g_afRefCustomMainVillage[$i][3]
+			EndIf
 		Next
 	Else
 		Local $InnerDiamondLeft = $g_afRefVillage[$g_iTree][1]
