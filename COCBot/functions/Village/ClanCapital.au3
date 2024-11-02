@@ -420,36 +420,40 @@ Func ForgeClanCapitalGold($bTest = False)
 
 	If TimeForge($AutoForgeSlotAvl) Then
 		SetLog("Forge Time > 9h, will use Builder Potion", $COLOR_INFO)
-		If QuickMIS("BC1", $g_sBoostBuilderInForge, 650, 450 + $g_iMidOffsetY, 720, 510 + $g_iMidOffsetY) Then
-			Click($g_iQuickMISX + 50, $g_iQuickMISY)
-			If _Sleep(1000) Then Return
-			If Not $g_bRunState Then Return
-			If ClickB("BoostConfirm") Then
-				SetLog("Builders Boosted Using Potion", $COLOR_SUCCESS1)
-				If $g_iCmbBoostBuilders <= 5 Then $g_iCmbBoostBuilders -= 1
-				If $g_iCmbBoostBuilders > 0 Then
-					$g_iTimerBoostBuilders = _NowCalc()
-				Else
-					$g_iTimerBoostBuilders = 0
+		If _ColorCheck(_GetPixelColor(673, 470 + $g_iMidOffsetY, True), Hex(0xBAB1FF, 6), 10) Then
+			If QuickMIS("BC1", $g_sBoostBuilderInForge, 700, 455 + $g_iMidOffsetY, 760, 505 + $g_iMidOffsetY) Then
+				Click($g_iQuickMISX, $g_iQuickMISY)
+				If _Sleep(1000) Then Return
+				If Not $g_bRunState Then Return
+				If ClickB("BoostConfirm") Then
+					SetLog("Builders Boosted Using Potion", $COLOR_SUCCESS1)
+					If $g_iCmbBoostBuilders <= 5 Then $g_iCmbBoostBuilders -= 1
+					If $g_iCmbBoostBuilders > 0 Then
+						$g_iTimerBoostBuilders = _NowCalc()
+					Else
+						$g_iTimerBoostBuilders = 0
+					EndIf
+					If $g_iCmbBoostBuilders <= 5 Then
+						SetLog("Builders Boost completed. Remaining iteration" & ($g_iCmbBoostBuilders > 1 ? "s: " : ": ") & $g_iCmbBoostBuilders, $COLOR_SUCCESS)
+						_GUICtrlComboBox_SetCurSel($g_hCmbBoostBuilders, $g_iCmbBoostBuilders)
+					ElseIf $g_iCmbBoostBuilders = 6 Then
+						SetLog("Builders Boost completed.", $COLOR_SUCCESS)
+					EndIf
+					$ActionForModLog = "Boosting Builders"
+					If $g_iTxtCurrentVillageName <> "" Then
+						GUICtrlSetData($g_hTxtModLog, @CRLF & _NowTime() & " [" & $g_iTxtCurrentVillageName & "] Upgrade Village : " & $ActionForModLog & " Using Potion", 1)
+					Else
+						GUICtrlSetData($g_hTxtModLog, @CRLF & _NowTime() & " [" & $g_sProfileCurrentName & "] Upgrade Village : " & $ActionForModLog & " Using Potion", 1)
+					EndIf
+					_FileWriteLog($g_sProfileLogsPath & "\ModLog.log", " [" & $g_sProfileCurrentName & "] - Upgrade Village : " & $ActionForModLog)
 				EndIf
-				If $g_iCmbBoostBuilders <= 5 Then
-					SetLog("Builders Boost completed. Remaining iteration" & ($g_iCmbBoostBuilders > 1 ? "s: " : ": ") & $g_iCmbBoostBuilders, $COLOR_SUCCESS)
-					_GUICtrlComboBox_SetCurSel($g_hCmbBoostBuilders, $g_iCmbBoostBuilders)
-				ElseIf $g_iCmbBoostBuilders = 6 Then
-					SetLog("Builders Boost completed.", $COLOR_SUCCESS)
-				EndIf
-				$ActionForModLog = "Boosting Builders"
-				If $g_iTxtCurrentVillageName <> "" Then
-					GUICtrlSetData($g_hTxtModLog, @CRLF & _NowTime() & " [" & $g_iTxtCurrentVillageName & "] Upgrade Village : " & $ActionForModLog & " Using Potion", 1)
-				Else
-					GUICtrlSetData($g_hTxtModLog, @CRLF & _NowTime() & " [" & $g_sProfileCurrentName & "] Upgrade Village : " & $ActionForModLog & " Using Potion", 1)
-				EndIf
-				_FileWriteLog($g_sProfileLogsPath & "\ModLog.log", " [" & $g_sProfileCurrentName & "] - Upgrade Village : " & $ActionForModLog)
+			Else
+				SetLog("BuilderPot Not Found", $COLOR_DEBUG)
 			EndIf
 		Else
 			SetLog("BuilderPot Not Found", $COLOR_DEBUG)
 		EndIf
-		If _Sleep(Random(1000, 2500, 1)) Then Return
+		If _Sleep(Random(1000, 1500, 1)) Then Return
 	EndIf
 
 	If $b_ToStopCheck Or $g_iCmbForgeBuilder = 0 Then
@@ -876,36 +880,40 @@ Func ForgeClanCapitalGold($bTest = False)
 
 	If TimeForge($AutoForgeSlotAvl) Then
 		SetLog("Forge Time > 9h, will use Builder Potion", $COLOR_INFO)
-		If QuickMIS("BC1", $g_sBoostBuilderInForge, 650, 450 + $g_iMidOffsetY, 720, 510 + $g_iMidOffsetY) Then
-			Click($g_iQuickMISX + 50, $g_iQuickMISY)
-			If _Sleep(1000) Then Return
-			If Not $g_bRunState Then Return
-			If ClickB("BoostConfirm") Then
-				SetLog("Builders Boosted Using Potion", $COLOR_SUCCESS1)
-				If $g_iCmbBoostBuilders <= 5 Then $g_iCmbBoostBuilders -= 1
-				If $g_iCmbBoostBuilders > 0 Then
-					$g_iTimerBoostBuilders = _NowCalc()
-				Else
-					$g_iTimerBoostBuilders = 0
+		If _ColorCheck(_GetPixelColor(673, 470 + $g_iMidOffsetY, True), Hex(0xBAB1FF, 6), 10) Then
+			If QuickMIS("BC1", $g_sBoostBuilderInForge, 700, 455 + $g_iMidOffsetY, 760, 505 + $g_iMidOffsetY) Then
+				Click($g_iQuickMISX, $g_iQuickMISY)
+				If _Sleep(1000) Then Return
+				If Not $g_bRunState Then Return
+				If ClickB("BoostConfirm") Then
+					SetLog("Builders Boosted Using Potion", $COLOR_SUCCESS1)
+					If $g_iCmbBoostBuilders <= 5 Then $g_iCmbBoostBuilders -= 1
+					If $g_iCmbBoostBuilders > 0 Then
+						$g_iTimerBoostBuilders = _NowCalc()
+					Else
+						$g_iTimerBoostBuilders = 0
+					EndIf
+					If $g_iCmbBoostBuilders <= 5 Then
+						SetLog("Builders Boost completed. Remaining iteration" & ($g_iCmbBoostBuilders > 1 ? "s: " : ": ") & $g_iCmbBoostBuilders, $COLOR_SUCCESS)
+						_GUICtrlComboBox_SetCurSel($g_hCmbBoostBuilders, $g_iCmbBoostBuilders)
+					ElseIf $g_iCmbBoostBuilders = 6 Then
+						SetLog("Builders Boost completed.", $COLOR_SUCCESS)
+					EndIf
+					$ActionForModLog = "Boosting Builders"
+					If $g_iTxtCurrentVillageName <> "" Then
+						GUICtrlSetData($g_hTxtModLog, @CRLF & _NowTime() & " [" & $g_iTxtCurrentVillageName & "] Upgrade Village : " & $ActionForModLog & " Using Potion", 1)
+					Else
+						GUICtrlSetData($g_hTxtModLog, @CRLF & _NowTime() & " [" & $g_sProfileCurrentName & "] Upgrade Village : " & $ActionForModLog & " Using Potion", 1)
+					EndIf
+					_FileWriteLog($g_sProfileLogsPath & "\ModLog.log", " [" & $g_sProfileCurrentName & "] - Upgrade Village : " & $ActionForModLog)
 				EndIf
-				If $g_iCmbBoostBuilders <= 5 Then
-					SetLog("Builders Boost completed. Remaining iteration" & ($g_iCmbBoostBuilders > 1 ? "s: " : ": ") & $g_iCmbBoostBuilders, $COLOR_SUCCESS)
-					_GUICtrlComboBox_SetCurSel($g_hCmbBoostBuilders, $g_iCmbBoostBuilders)
-				ElseIf $g_iCmbBoostBuilders = 6 Then
-					SetLog("Builders Boost completed.", $COLOR_SUCCESS)
-				EndIf
-				$ActionForModLog = "Boosting Builders"
-				If $g_iTxtCurrentVillageName <> "" Then
-					GUICtrlSetData($g_hTxtModLog, @CRLF & _NowTime() & " [" & $g_iTxtCurrentVillageName & "] Upgrade Village : " & $ActionForModLog & " Using Potion", 1)
-				Else
-					GUICtrlSetData($g_hTxtModLog, @CRLF & _NowTime() & " [" & $g_sProfileCurrentName & "] Upgrade Village : " & $ActionForModLog & " Using Potion", 1)
-				EndIf
-				_FileWriteLog($g_sProfileLogsPath & "\ModLog.log", " [" & $g_sProfileCurrentName & "] - Upgrade Village : " & $ActionForModLog)
+			Else
+				SetLog("BuilderPot Not Found", $COLOR_DEBUG)
 			EndIf
 		Else
 			SetLog("BuilderPot Not Found", $COLOR_DEBUG)
 		EndIf
-		If _Sleep(1000) Then Return
+		If _Sleep(Random(1000, 1500, 1)) Then Return
 	EndIf
 	$g_aiCurrentLoot[$eLootGold] = $iCurrentGold
 	$g_aiCurrentLoot[$eLootElixir] = $iCurrentElix

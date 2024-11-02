@@ -262,6 +262,14 @@ Func _checkObstacles($bBuilderBase = False, $bRecursive = False) ;Checks if some
 				Return False
 			EndIf
 		EndIf
+		; Star Bonus Window (After Restart)
+		If QuickMIS("BC1", $g_sImgBBAttackBonus, 360, 450 + $g_iMidOffsetY, 500, 510 + $g_iMidOffsetY) Then
+			SetLog("Congrats Chief, Stars Bonus Awarded", $COLOR_INFO)
+			Click($g_iQuickMISX, $g_iQuickMISY)
+			If _Sleep(2000) Then Return
+			$g_bMinorObstacle = True
+			Return False
+		EndIf
 		CloseWindow2()
 		If _Sleep($DELAYCHECKOBSTACLES1) Then Return
 		If IsBuilderBaseGrayed() Then
@@ -684,7 +692,7 @@ EndFunc   ;==>IsMainGrayed
 Func IsBuilderBaseGrayed()
 
 	Local $offColors[3][3] = [[0x3D5F72, 4, 0], [0x070707, 6, 0], [0x7B7B77, 8, 0]] ; 2nd light blue pixel, 3rd pixel Black, 4th pixel White
-	Local $IsBuilderBaseGrayed = _MultiPixelSearch(441, 8, 465, 8, 1, 1, Hex(0x576F7B, 6), $offColors, 15) ; first light blue pixel on left of button
+	Local $IsBuilderBaseGrayed = _MultiPixelSearch(440, 8, 465, 8, 1, 1, Hex(0x576F7B, 6), $offColors, 15) ; first light blue pixel on left of button
 	SetDebugLog("BB Pixel Color #1: " & _GetPixelColor(451, 8, True) & ", #2: " & _GetPixelColor(455, 8, True) & ", #3: " & _GetPixelColor(457, 8, True) & ", #4: " & _GetPixelColor(459, 8, True), $COLOR_DEBUG)
 	If IsArray($IsBuilderBaseGrayed) Then Return True
 

@@ -173,7 +173,7 @@ Func CollectEventRewards()
 					EndIf
 					If _Sleep(1000) Then ExitLoop
 				Else
-					If _Sleep(Random(4000, 5000, 1)) Then ExitLoop
+					If _Sleep(Random(3000, 4000, 1)) Then ExitLoop
 					$iClaim += 1
 					If Not QuickMIS("BC1", $g_sImgOresCollect, $aAllCoords[$j][0] - 50, $aAllCoords[$j][1] - 90, $aAllCoords[$j][0] + 45, $aAllCoords[$j][1] - 20) And $IsOresPresent = 1 Then
 						$IsOresJustCollected = 1
@@ -210,13 +210,9 @@ Func CollectEventRewards()
 				$IsGlowyPresent = 0
 				$IsStarryPresent = 0
 			Next
-
-
 		EndIf
-
 		Local $IsLeftRes = False
 		If _ColorCheck(_GetPixelColor(45, 386 + $g_iMidOffsetY, True), Hex(0xFFFFFF, 6), 15) And _ColorCheck(_GetPixelColor(100, 386 + $g_iMidOffsetY, True), Hex(0xFFFFFF, 6), 15) Then $IsLeftRes = True
-
 		If Not _CheckPixel($aEventLeftEdge, $g_bCapturePixel) And $IsLeftRes Then ; far left edge and progress bar at left.
 			If $i = 0 Then SetLog("Dragging back for more... ") ; no end line
 			SetLog($i + 1 & ".. ", Default, Default, Default, Default, Default, 0, False) ; no reward

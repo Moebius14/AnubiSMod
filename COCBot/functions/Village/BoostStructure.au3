@@ -215,101 +215,101 @@ Func CheckBuilderPotion()
 				SetLog("Upgrade Time > 9h, will use Builder Potion", $COLOR_INFO)
 			EndIf
 
-			If QuickMIS("BC1", $g_sBoostBuilderInForge, 650, 450 + $g_iMidOffsetY, 720, 510 + $g_iMidOffsetY) Then
-				Click($g_iQuickMISX + 50, $g_iQuickMISY)
-				If _Sleep(1000) Then Return
-				If Not $g_bRunState Then Return
-				If ClickB("BoostConfirm") Then
-					SetLog("Builders Boosted Using Potion", $COLOR_SUCCESS1)
-					If $g_sBSUpgradeTime <> "" And _DateIsValid($g_sBSUpgradeTime) Then
-						Local $BSTimeDiff ; time remaining for Blacksmith upgrade
-						$BSTimeDiff = _DateDiff('n', _NowCalc(), $g_sBSUpgradeTime) ; what is difference between end time and now in minutes?
-						$g_sBSUpgradeTime = _DateAdd('n', Ceiling($BSTimeDiff - 540), _NowCalc())
-						If ProfileSwitchAccountEnabled() Then SwitchAccountVariablesReload("Save")
-					EndIf
-					If $g_iCmbBoostBuilders <= 5 Then $g_iCmbBoostBuilders -= 1
-					If $g_iCmbBoostBuilders > 0 Then
-						$g_iTimerBoostBuilders = _NowCalc()
+			If $IsForge Then
+				If _ColorCheck(_GetPixelColor(673, 470 + $g_iMidOffsetY, True), Hex(0xBAB1FF, 6), 10) Then
+					If QuickMIS("BC1", $g_sBoostBuilderInForge, 700, 455 + $g_iMidOffsetY, 760, 505 + $g_iMidOffsetY) Then
+						Click($g_iQuickMISX, $g_iQuickMISY)
+						If _Sleep(1000) Then Return
+						If Not $g_bRunState Then Return
+						If ClickB("BoostConfirm") Then
+							SetLog("Builders Boosted Using Potion", $COLOR_SUCCESS1)
+							If $g_sBSUpgradeTime <> "" And _DateIsValid($g_sBSUpgradeTime) Then
+								Local $BSTimeDiff ; time remaining for Blacksmith upgrade
+								$BSTimeDiff = _DateDiff('n', _NowCalc(), $g_sBSUpgradeTime) ; what is difference between end time and now in minutes?
+								$g_sBSUpgradeTime = _DateAdd('n', Ceiling($BSTimeDiff - 540), _NowCalc())
+								If ProfileSwitchAccountEnabled() Then SwitchAccountVariablesReload("Save")
+							EndIf
+							If $g_iCmbBoostBuilders <= 5 Then $g_iCmbBoostBuilders -= 1
+							If $g_iCmbBoostBuilders > 0 Then
+								$g_iTimerBoostBuilders = _NowCalc()
+							Else
+								$g_iTimerBoostBuilders = 0
+							EndIf
+							If $g_iCmbBoostBuilders <= 5 Then
+								SetLog("Builders Boost completed. Remaining iteration" & ($g_iCmbBoostBuilders > 1 ? "s: " : ": ") & $g_iCmbBoostBuilders, $COLOR_SUCCESS)
+								_GUICtrlComboBox_SetCurSel($g_hCmbBoostBuilders, $g_iCmbBoostBuilders)
+							ElseIf $g_iCmbBoostBuilders = 6 Then
+								SetLog("Builders Boost completed.", $COLOR_SUCCESS)
+							EndIf
+							$ActionForModLog = "Boosting Builders"
+							If $g_iTxtCurrentVillageName <> "" Then
+								GUICtrlSetData($g_hTxtModLog, @CRLF & _NowTime() & " [" & $g_iTxtCurrentVillageName & "] Upgrade Village : " & $ActionForModLog & " Using Potion", 1)
+							Else
+								GUICtrlSetData($g_hTxtModLog, @CRLF & _NowTime() & " [" & $g_sProfileCurrentName & "] Upgrade Village : " & $ActionForModLog & " Using Potion", 1)
+							EndIf
+							_FileWriteLog($g_sProfileLogsPath & "\ModLog.log", " [" & $g_sProfileCurrentName & "] - Upgrade Village : " & $ActionForModLog)
+						EndIf
 					Else
-						$g_iTimerBoostBuilders = 0
+						SetLog("BuilderPot Not Found", $COLOR_DEBUG)
 					EndIf
-					If $g_iCmbBoostBuilders <= 5 Then
-						SetLog("Builders Boost completed. Remaining iteration" & ($g_iCmbBoostBuilders > 1 ? "s: " : ": ") & $g_iCmbBoostBuilders, $COLOR_SUCCESS)
-						_GUICtrlComboBox_SetCurSel($g_hCmbBoostBuilders, $g_iCmbBoostBuilders)
-					ElseIf $g_iCmbBoostBuilders = 6 Then
-						SetLog("Builders Boost completed.", $COLOR_SUCCESS)
-					EndIf
-					$ActionForModLog = "Boosting Builders"
-					If $g_iTxtCurrentVillageName <> "" Then
-						GUICtrlSetData($g_hTxtModLog, @CRLF & _NowTime() & " [" & $g_iTxtCurrentVillageName & "] Upgrade Village : " & $ActionForModLog & " Using Potion", 1)
-					Else
-						GUICtrlSetData($g_hTxtModLog, @CRLF & _NowTime() & " [" & $g_sProfileCurrentName & "] Upgrade Village : " & $ActionForModLog & " Using Potion", 1)
-					EndIf
-					_FileWriteLog($g_sProfileLogsPath & "\ModLog.log", " [" & $g_sProfileCurrentName & "] - Upgrade Village : " & $ActionForModLog)
-					CloseWindow2()
-					ZoomOut()
-					Return
+				Else
+					SetLog("BuilderPot Not Found", $COLOR_DEBUG)
 				EndIf
-			EndIf
-
-			If ClickB("BuilderPot") Then
-				If _Sleep(1000) Then Return
-				If ClickB("BoostConfirm") Then
-					SetLog("Builders Boosted Using Potion", $COLOR_SUCCESS1)
-					If $g_sBSUpgradeTime <> "" And _DateIsValid($g_sBSUpgradeTime) Then
-						Local $BSTimeDiff ; time remaining for Blacksmith upgrade
-						$BSTimeDiff = _DateDiff('n', _NowCalc(), $g_sBSUpgradeTime) ; what is difference between end time and now in minutes?
-						$g_sBSUpgradeTime = _DateAdd('n', Ceiling($BSTimeDiff - 540), _NowCalc())
-						If ProfileSwitchAccountEnabled() Then SwitchAccountVariablesReload("Save")
-					EndIf
-					If $g_iCmbBoostBuilders <= 5 Then $g_iCmbBoostBuilders -= 1
-					If $g_iCmbBoostBuilders > 0 Then
-						$g_iTimerBoostBuilders = _NowCalc()
-					Else
-						$g_iTimerBoostBuilders = 0
-					EndIf
-					If $g_iCmbBoostBuilders <= 5 Then
-						SetLog("Builders Boost completed. Remaining iteration" & ($g_iCmbBoostBuilders > 1 ? "s: " : ": ") & $g_iCmbBoostBuilders, $COLOR_SUCCESS)
-						_GUICtrlComboBox_SetCurSel($g_hCmbBoostBuilders, $g_iCmbBoostBuilders)
-					ElseIf $g_iCmbBoostBuilders = 6 Then
-						SetLog("Builders Boost completed.", $COLOR_SUCCESS)
-					EndIf
-					$ActionForModLog = "Boosting Builders"
-					If $g_iTxtCurrentVillageName <> "" Then
-						GUICtrlSetData($g_hTxtModLog, @CRLF & _NowTime() & " [" & $g_iTxtCurrentVillageName & "] Upgrade Village : " & $ActionForModLog & " Using Potion", 1)
-					Else
-						GUICtrlSetData($g_hTxtModLog, @CRLF & _NowTime() & " [" & $g_sProfileCurrentName & "] Upgrade Village : " & $ActionForModLog & " Using Potion", 1)
-					EndIf
-					_FileWriteLog($g_sProfileLogsPath & "\ModLog.log", " [" & $g_sProfileCurrentName & "] - Upgrade Village : " & $ActionForModLog)
-					ClearScreen()
-				EndIf
+				CloseWindow2()
+				If _Sleep(500) Then Return
 			Else
-				SetLog("BuilderPot Not Found", $COLOR_DEBUG)
-				ClearScreen()
+				If ClickB("BuilderPot") Then
+					If _Sleep(1000) Then Return
+					If ClickB("BoostConfirm") Then
+						SetLog("Builders Boosted Using Potion", $COLOR_SUCCESS1)
+						If $g_sBSUpgradeTime <> "" And _DateIsValid($g_sBSUpgradeTime) Then
+							Local $BSTimeDiff ; time remaining for Blacksmith upgrade
+							$BSTimeDiff = _DateDiff('n', _NowCalc(), $g_sBSUpgradeTime) ; what is difference between end time and now in minutes?
+							$g_sBSUpgradeTime = _DateAdd('n', Ceiling($BSTimeDiff - 540), _NowCalc())
+							If ProfileSwitchAccountEnabled() Then SwitchAccountVariablesReload("Save")
+						EndIf
+						If $g_iCmbBoostBuilders <= 5 Then $g_iCmbBoostBuilders -= 1
+						If $g_iCmbBoostBuilders > 0 Then
+							$g_iTimerBoostBuilders = _NowCalc()
+						Else
+							$g_iTimerBoostBuilders = 0
+						EndIf
+						If $g_iCmbBoostBuilders <= 5 Then
+							SetLog("Builders Boost completed. Remaining iteration" & ($g_iCmbBoostBuilders > 1 ? "s: " : ": ") & $g_iCmbBoostBuilders, $COLOR_SUCCESS)
+							_GUICtrlComboBox_SetCurSel($g_hCmbBoostBuilders, $g_iCmbBoostBuilders)
+						ElseIf $g_iCmbBoostBuilders = 6 Then
+							SetLog("Builders Boost completed.", $COLOR_SUCCESS)
+						EndIf
+						$ActionForModLog = "Boosting Builders"
+						If $g_iTxtCurrentVillageName <> "" Then
+							GUICtrlSetData($g_hTxtModLog, @CRLF & _NowTime() & " [" & $g_iTxtCurrentVillageName & "] Upgrade Village : " & $ActionForModLog & " Using Potion", 1)
+						Else
+							GUICtrlSetData($g_hTxtModLog, @CRLF & _NowTime() & " [" & $g_sProfileCurrentName & "] Upgrade Village : " & $ActionForModLog & " Using Potion", 1)
+						EndIf
+						_FileWriteLog($g_sProfileLogsPath & "\ModLog.log", " [" & $g_sProfileCurrentName & "] - Upgrade Village : " & $ActionForModLog)
+					EndIf
+				Else
+					SetLog("BuilderPot Not Found", $COLOR_DEBUG)
+				EndIf
 			EndIf
 		Else
 			If $IsForge Then
 				SetLog("Forge Time < 9h, cancel using Builder Potion", $COLOR_INFO)
 				CloseWindow2()
+				If _Sleep(500) Then Return
 			Else
 				SetLog("Upgrade Time < 9h, cancel using Builder Potion", $COLOR_INFO)
-				If IsBuilderMenuOpen() Then
-					Click(435, 30)
-					If _Sleep(500) Then Return
-				EndIf
-				ClearScreen()
-				If _Sleep(500) Then Return
 			EndIf
 		EndIf
 	Else
 		SetLog("Failed to read Upgrade time on BuilderMenu", $COLOR_ERROR)
-		If IsBuilderMenuOpen() Then
-			Click(435, 30)
-			If _Sleep(500) Then Return
-		EndIf
-		ClearScreen()
+	EndIf
+	If IsBuilderMenuOpen() Then
+		Click(435, 30)
 		If _Sleep(500) Then Return
 	EndIf
+	ClearScreen()
+	If _Sleep(500) Then Return
 	ZoomOut()
 EndFunc   ;==>CheckBuilderPotion
 
