@@ -167,7 +167,7 @@ Func BotCommand()
 						EndIf
 						SetLog(($iCmbBotCond = 23 ? "Star bonus unavailable. " : "") & "Bot Will Stop After Routines", $COLOR_DEBUG)
 						$IsToCheckBeforeStop = True
-						Sleep(Random(3500, 5500, 1))
+						If _Sleep(Random(3500, 5500, 1)) Then Return
 						If $g_bAutoUpgradeWallsEnable And $g_bChkWallUpFirst Then
 							UpgradeWall()
 							If _Sleep($DELAYRUNBOT3) Then Return
@@ -215,9 +215,9 @@ Func BotCommand()
 							NotifyWhenStop("Stop")
 						EndIf
 					EndIf
-					Sleep(Random(3500, 5500, 1))
+					If _Sleep(Random(3500, 5500, 1)) Then Return
 					CloseCoC(False)
-					Sleep(Random(1500, 2500, 1))
+					If _Sleep(Random(1500, 2500, 1)) Then Return
 					SetLog("MyBot.run Bot Stop as requested", $COLOR_INFO)
 					If _Sleep($DELAYBOTCOMMAND1) Then Return
 					Return True
@@ -245,7 +245,7 @@ Func BotCommand()
 						EndIf
 						SetLog(($iCmbBotCond = 23 ? "Star bonus unavailable. " : "") & "Bot Will Be Closed After Routines", $COLOR_DEBUG)
 						$IsToCheckBeforeStop = True
-						Sleep(Random(3500, 5500, 1))
+						If _Sleep(Random(3500, 5500, 1)) Then Return
 						If $g_bAutoUpgradeWallsEnable And $g_bChkWallUpFirst Then
 							UpgradeWall()
 							If _Sleep($DELAYRUNBOT3) Then Return
@@ -319,7 +319,7 @@ Func BotCommand()
 						EndIf
 						SetLog(($iCmbBotCond = 23 ? "Star bonus unavailable. " : "") & "Android And Bot Will Stop After Routines", $COLOR_DEBUG)
 						$IsToCheckBeforeStop = True
-						Sleep(Random(3500, 5500, 1))
+						If _Sleep(Random(3500, 5500, 1)) Then Return
 						If $g_bAutoUpgradeWallsEnable And $g_bChkWallUpFirst Then
 							UpgradeWall()
 							If _Sleep($DELAYRUNBOT3) Then Return
@@ -394,7 +394,7 @@ Func BotCommand()
 						EndIf
 						SetLog(($iCmbBotCond = 23 ? "Star bonus unavailable. " : "") & "Computer Will ShutDown After Routines", $COLOR_DEBUG)
 						$IsToCheckBeforeStop = True
-						Sleep(Random(3500, 5500, 1))
+						If _Sleep(Random(3500, 5500, 1)) Then Return
 						If $g_bAutoUpgradeWallsEnable And $g_bChkWallUpFirst Then
 							UpgradeWall()
 							If _Sleep($DELAYRUNBOT3) Then Return
@@ -468,7 +468,7 @@ Func BotCommand()
 						EndIf
 						SetLog(($iCmbBotCond = 23 ? "Star bonus unavailable. " : "") & "Computer Will Sleep After Routines", $COLOR_DEBUG)
 						$IsToCheckBeforeStop = True
-						Sleep(Random(3500, 5500, 1))
+						If _Sleep(Random(3500, 5500, 1)) Then Return
 						If $g_bAutoUpgradeWallsEnable And $g_bChkWallUpFirst Then
 							UpgradeWall()
 							If _Sleep($DELAYRUNBOT3) Then Return
@@ -542,7 +542,7 @@ Func BotCommand()
 						EndIf
 						SetLog(($iCmbBotCond = 23 ? "Star bonus unavailable. " : "") & "Computer Will Reboot After Routines", $COLOR_DEBUG)
 						$IsToCheckBeforeStop = True
-						Sleep(Random(3500, 5500, 1))
+						If _Sleep(Random(3500, 5500, 1)) Then Return
 						If $g_bAutoUpgradeWallsEnable And $g_bChkWallUpFirst Then
 							UpgradeWall()
 							If _Sleep($DELAYRUNBOT3) Then Return

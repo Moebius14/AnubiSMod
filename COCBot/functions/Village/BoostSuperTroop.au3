@@ -19,6 +19,10 @@ Func BoostSuperTroop($bTest = False)
 
 	If Not $g_bSuperTroopsEnable Then Return $bRet
 
+	If $g_iTownHallLevel < 11 Then
+		Return $bRet
+	EndIf
+
 	If $g_iCommandStop = 0 Or $g_iCommandStop = 3 Then ;halt attack.. do not boost now
 		If $g_bSkipBoostSuperTroopOnHalt Then
 			SetLog("BoostSuperTroop() skipped, account on halt attack mode", $COLOR_DEBUG)

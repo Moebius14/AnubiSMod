@@ -932,7 +932,7 @@ Global $g_aiClanCastleSiegeWaitType[2]
 
 ; <><><><> Village / Donate - Donate <><><><>
 Global $g_bChkDonate = True
-Global $g_abChkDonateQueueOnly[2]
+Global $g_abChkDonateQueueOnly[3]
 Global Enum $eCustomA = $eTroopCount, $eCustomB = $eTroopCount + 1
 Global Const $g_iCustomDonateConfigs = 2
 Global $g_abChkDonateTroop[$eTroopCount + $g_iCustomDonateConfigs + $eSiegeMachineCount] = [False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False]
@@ -2279,7 +2279,7 @@ Global $SpecialEventReduction = 1 ; No Event
 ;;;;;;;;;;;;;;;
 
 ; COC Version
-Global $sGameMinimalVersion = "16.517.22"
+Global $sGameMinimalVersion = "16.517.24"
 
 ;Builder's Apprentice
 Global $g_sAvailableAppBuilder = 0, $TimeDiffAppBuilder = 0, $g_bChkAppBuilder = 0

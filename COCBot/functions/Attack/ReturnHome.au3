@@ -279,6 +279,7 @@ Func ReturnfromDropTrophies()
 EndFunc   ;==>ReturnfromDropTrophies
 
 Func CheckStreakEvent()
+	SetDebugLog("Begin Steak Event window check", $COLOR_DEBUG1)
 	If Not $g_bRunState Then Return
 	Local $bRet = False
 	Local $sAllCoordsString, $aAllCoordsTemp, $aTempCoords
@@ -289,7 +290,10 @@ Func CheckStreakEvent()
 		ClickP($aContinueButton, 1, 120, "#0433")
 		If _Sleep(2500) Then Return
 	EndIf
-	If Not _ColorCheck(_GetPixelColor(290, 120 + $g_iMidOffsetY, $g_bCapturePixel), Hex(0x9B071A, 6), 20) And Not _ColorCheck(_GetPixelColor(560, 150 + $g_iMidOffsetY, $g_bCapturePixel), Hex(0x9B071A, 6), 20) Then Return $bRet
+	If Not _ColorCheck(_GetPixelColor(290, 120 + $g_iMidOffsetY, $g_bCapturePixel), Hex(0x9B071A, 6), 20) And Not _ColorCheck(_GetPixelColor(560, 150 + $g_iMidOffsetY, $g_bCapturePixel), Hex(0x9B071A, 6), 20) Then
+		SetDebugLog("Streak Event window not found?", $COLOR_DEBUG)
+		Return $bRet
+	EndIf
 	$bRet = True
 	Local $SearchArea = GetDiamondFromRect("20,260(820,140)")
 	Local $aResult = findMultiple(@ScriptDir & "\imgxml\DailyChallenge\", $SearchArea, $SearchArea, 0, 1000, 10, "objectname,objectpoints", True)

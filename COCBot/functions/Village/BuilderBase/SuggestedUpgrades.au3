@@ -511,42 +511,52 @@ Func NewBuildings($aResult, $bDebugImage = $g_bDebugImageSave)
 
 							Return True
 						Else
+
 							If Not QuickMIS("BC1", $g_sImgAutoUpgradeNewBldgNo, 80, 60, 800, 570 + $g_iMidOffsetY) And QuickMIS("BC1", $sImgTunnel, 0, 190 + $g_iMidOffsetY, $g_iGAME_WIDTH, $g_iGAME_HEIGHT) Then
 								ClickDrag(700, 500 + $g_iMidOffsetY, 170, 80 + $g_iMidOffsetY)
 								If _Sleep(Random(1500, 2000, 1)) Then Return
+								Zoomout()
+								If _Sleep(250) Then Return
 								If QuickMIS("BC1", $g_sImgAutoUpgradeNewBldgYes, 80, 60, 800, 570 + $g_iMidOffsetY) Then
 									Click($g_iQuickMISX, $g_iQuickMISY)
 									SetLog("Placed a new Building on Builder Base!", $COLOR_INFO)
-
 									If _Sleep(1000) Then Return
-
 									; Lets check if exist the [x] , Some Buildings like Traps when you place one will give other to place automatically!
 									If QuickMIS("BC1", $g_sImgAutoUpgradeNewBldgNo, 80, 60, 800, 570 + $g_iMidOffsetY) Then
 										SetLog("Found another building!")
 										Click($g_iQuickMISX, $g_iQuickMISY)
 									EndIf
-
 									Return True
 								EndIf
 							EndIf
 
-							For $j = 0 To 9
+							For $j = 0 To 8
 								If QuickMIS("BC1", $g_sImgAutoUpgradeNewBldgNo, 80, 60, 800, 570 + $g_iMidOffsetY) Then
-									Click($g_iQuickMISX, $g_iQuickMISY)
+									ClickDrag($g_iQuickMISX + 15, $g_iQuickMISY + 36, $g_iQuickMISX + 15 + 40, $g_iQuickMISY + 36 + 30, 500)
+									If _Sleep(Random(1500, 2000, 1)) Then Return
+									If QuickMIS("BC1", $g_sImgAutoUpgradeNewBldgYes, 80, 60, 800, 570 + $g_iMidOffsetY) Then
+										Click($g_iQuickMISX, $g_iQuickMISY)
+										SetLog("Placed a new Building on Builder Base!", $COLOR_INFO)
+										If _Sleep(1000) Then Return False
+										; Lets check if exist the [x] , Some Buildings like Traps when you place one will give other to place automatically!
+										If QuickMIS("BC1", $g_sImgAutoUpgradeNewBldgNo, 80, 60, 800, 570 + $g_iMidOffsetY) Then
+											SetLog("Found another building!")
+											Click($g_iQuickMISX, $g_iQuickMISY)
+										EndIf
+										Return True
+									EndIf
 									SetLog("Failed to deploy a new building on BB! [" & $g_iQuickMISX & "," & $g_iQuickMISY & "]", $COLOR_ERROR)
-
-									If _Sleep(100) Then Return False
-
-									ClickOnBuilder()
-
-									If _Sleep(1000) Then Return False
-									ExitLoop
+									If _Sleep(250) Then Return False
+									If $j = 8 And QuickMIS("BC1", $g_sImgAutoUpgradeNewBldgNo, 80, 60, 800, 570 + $g_iMidOffsetY) Then
+										Click($g_iQuickMISX, $g_iQuickMISY)
+										If _Sleep(1000) Then Return False
+									EndIf
+								Else
+									SetLog("Failed to locate Cancel button [x] : " & $j)
 								EndIf
-
-								SetLog("Failed to locate Cancel button [x] : " & $j)
-
-								If _Sleep(100) Then Return
+								If _Sleep(250) Then Return
 							Next
+
 						EndIf
 					EndIf
 				Else

@@ -650,6 +650,7 @@ Func SaveConfig_600_12()
 	_Ini_Add("donate", "Doncheck", $g_bChkDonate ? 1 : 0)
 	_Ini_Add("donate", "chkDonateQueueOnly[0]", $g_abChkDonateQueueOnly[0] ? 1 : 0)
 	_Ini_Add("donate", "chkDonateQueueOnly[1]", $g_abChkDonateQueueOnly[1] ? 1 : 0)
+	_Ini_Add("donate", "chkDonateQueueOnly[2]", $g_abChkDonateQueueOnly[2] ? 1 : 0)
 
 	For $i = 0 To $eTroopCount + $g_iCustomDonateConfigs - 1
 		Local $sIniName = ""

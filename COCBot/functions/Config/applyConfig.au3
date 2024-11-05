@@ -799,6 +799,7 @@ Func ApplyConfig_600_12($TypeReadSave)
 			GUICtrlSetState($g_hChkDonate, $g_bChkDonate ? $GUI_CHECKED : $GUI_UNCHECKED)
 			GUICtrlSetState($g_hChkDonateQueueTroopOnly, $g_abChkDonateQueueOnly[0] ? $GUI_CHECKED : $GUI_UNCHECKED)
 			GUICtrlSetState($g_hChkDonateQueueSpellOnly, $g_abChkDonateQueueOnly[1] ? $GUI_CHECKED : $GUI_UNCHECKED)
+			GUICtrlSetState($g_hChkDonateQueueMachineOnly, $g_abChkDonateQueueOnly[2] ? $GUI_CHECKED : $GUI_UNCHECKED)
 			Doncheck()
 
 			For $i = 0 To $eTroopCount + $g_iCustomDonateConfigs - 1
@@ -882,6 +883,7 @@ Func ApplyConfig_600_12($TypeReadSave)
 			$g_bChkDonate = (GUICtrlRead($g_hChkDonate) = $GUI_CHECKED)
 			$g_abChkDonateQueueOnly[0] = (GUICtrlRead($g_hChkDonateQueueTroopOnly) = $GUI_CHECKED)
 			$g_abChkDonateQueueOnly[1] = (GUICtrlRead($g_hChkDonateQueueSpellOnly) = $GUI_CHECKED)
+			$g_abChkDonateQueueOnly[2] = (GUICtrlRead($g_hChkDonateQueueMachineOnly) = $GUI_CHECKED)
 
 			For $i = 0 To $eTroopCount + $g_iCustomDonateConfigs - 1
 				$g_abChkDonateTroop[$i] = (GUICtrlRead($g_ahChkDonateTroop[$i]) = $GUI_CHECKED)

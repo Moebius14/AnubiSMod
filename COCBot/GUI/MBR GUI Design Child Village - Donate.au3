@@ -58,7 +58,7 @@ Global $g_hLblDonateTroopTBD1 = 0, $g_hLblDonateTroopTBD2 = 0, $g_hLblDonateTroo
 Global $g_hGrpDonateGeneralBlacklist = 0, $g_hTxtGeneralBlacklist = 0
 Global $lblBtnCustomE = 0
 
-Global $g_hChkDonateQueueTroopOnly = 0, $g_hChkDonateQueueSpellOnly = 0
+Global $g_hChkDonateQueueTroopOnly = 0, $g_hChkDonateQueueSpellOnly = 0, $g_hChkDonateQueueMachineOnly = 0
 
 ; Schedule
 Global $g_hChkDonateHoursEnable = 0, $g_ahChkDonateHours[24] = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
@@ -359,6 +359,7 @@ Func CreateDonateSubTab()
 	Local $sTxtDonateAll = GetTranslatedFileIni("MBR GUI Design Child Village - Donate", "TxtDonateAll", "Donate to All")
 	Local $sTxtDonateQueueTroop = GetTranslatedFileIni("MBR GUI Design Child Village - Donate", "TxtDonateQueueTroop", "Queued troop only")
 	Local $sTxtDonateQueueSpell = GetTranslatedFileIni("MBR GUI Design Child Village - Donate", "TxtDonateQueueSpell", "Queued spell only")
+	Local $sTxtDonateQueueMachine = GetTranslatedFileIni("MBR GUI Design Child Village - Donate", "TxtDonateQueueMachine", "Queued machine only")
 	Local $sTxtIgnoreAll = GetTranslatedFileIni("MBR GUI Design Child Village - Donate", "TxtIgnoreAll", "This will also ignore ALL keywords.")
 	Local $sTxtKeywords = GetTranslatedFileIni("MBR GUI Design Child Village - Donate", "TxtKeywords", "Keywords for donating")
 	Local $sTxtKeywordsNo = GetTranslatedFileIni("MBR GUI Design Child Village - Donate", "TxtKeywordsNo", "Do NOT donate to these keywords")
@@ -1014,6 +1015,9 @@ Func CreateDonateSubTab()
 	_GUICtrlSetTip(-1, GetTranslatedFileIni("MBR GUI Design Child Village - Donate", "TxtDonateQueueTroopTip", "Only donate troops which are ready in 2nd army,\r\nor troops which are training in first slot of 2nd army.\r\nIf 2nd army is not prepared, donate whatever exists in 1st army."))
 	$g_hChkDonateQueueSpellOnly = GUICtrlCreateCheckbox($sTxtDonateQueueSpell, $x + 275, $y + 41, -1, -1)
 	_GUICtrlSetTip(-1, GetTranslatedFileIni("MBR GUI Design Child Village - Donate", "TxtDonateQueueSpellTip", "Only donate spells which are ready in 2nd army,\r\nor spells which are training in first slot of 2nd army.\r\n\If 2nd army is not prepared, donate whatever exists in 1st army."))
+	GUICtrlSetState(-1, $GUI_HIDE)
+	$g_hChkDonateQueueMachineOnly = GUICtrlCreateCheckbox($sTxtDonateQueueMachine, $x + 275, $y + 41, -1, -1)
+	_GUICtrlSetTip(-1, GetTranslatedFileIni("MBR GUI Design Child Village - Donate", "TxtDonateQueueMachineTip", "Only donate machines which are ready in queue."))
 	GUICtrlSetState(-1, $GUI_HIDE)
 
 	$g_ahGrpDonateTroop[$eTroopBarbarian] = GUICtrlCreateGroup($sTxtBarbarians, $x - 20, $y + 15, 216, 134)

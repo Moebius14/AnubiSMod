@@ -59,7 +59,7 @@ Func IsDonateQueueOnly(ByRef $abDonateQueueOnly)
 	Next
 	If Not OpenArmyOverview(True, "IsDonateQueueOnly()") Then Return
 
-	If $g_aiPrepDon[4] = 1 Or $g_aiPrepDon[5] = 1 Then getArmySiegeMachines(False, False, False, False, True)
+	If BitOR($g_aiPrepDon[4], $g_aiPrepDon[5]) Then getArmySiegeMachines(False, False, False, False, True)
 
 	For $i = 0 To 1
 		If Not $g_aiPrepDon[$i * 2] And Not $g_aiPrepDon[$i * 2 + 1] Then $abDonateQueueOnly[$i] = False
@@ -157,7 +157,10 @@ Func IsDonateQueueOnly(ByRef $abDonateQueueOnly)
 		EndIf
 	Next
 
-	If $g_aiPrepDon[4] = 1 Or $g_aiPrepDon[5] = 1 Then
+	If BitOR($g_aiPrepDon[4], $g_aiPrepDon[5]) Then
+
+		Local $aCurrentTroopsEmpty[$eSiegeMachineCount] = [0, 0, 0, 0, 0, 0, 0] ; Local Copy to reset Siege Machine Array
+		$g_aiAvailSiege = $aCurrentTroopsEmpty ; Reset Current Siege Machine Array
 
 		SetLog("Checking sieges for donation", $COLOR_ACTION)
 
@@ -177,12 +180,16 @@ Func IsDonateQueueOnly(ByRef $abDonateQueueOnly)
 				For $i = 0 To UBound($aSearchResult) - 1
 					If IsArray(_PixelSearch(($xQueue - 12) - ($i * 60.5), 234 + $g_iMidOffsetY, ($xQueue - 8) - ($i * 60.5), 234 + $g_iMidOffsetY, Hex(0x96A623, 6), 20, True)) Then ; the green check symbol
 						Local $iSiegeIndex = TroopIndexLookup($aSearchResult[$i][0]) - $eWallW
-						$g_aiCurrentSiegeMachines[$iSiegeIndex] += $aSearchResult[$i][3]
+						If $abDonateQueueOnly[2] Then
+							$g_aiAvailSiege[$iSiegeIndex] += $aSearchResult[$i][3]
+						Else
+							$g_aiCurrentSiegeMachines[$iSiegeIndex] += $aSearchResult[$i][3]
+						EndIf
 					EndIf
 				Next
 			EndIf
 		EndIf
-		$g_aiAvailSiege = $g_aiCurrentSiegeMachines
+		If Not $abDonateQueueOnly[2] Then $g_aiAvailSiege = $g_aiCurrentSiegeMachines
 		For $iSiegeIndex = $eSiegeWallWrecker To $eSiegeMachineCount - 1
 			If $g_aiAvailSiege[$iSiegeIndex] > 0 Then SetLog("  - " & $g_asSiegeMachineNames[$iSiegeIndex] & ($g_aiAvailSiege[$iSiegeIndex] > 1 ? "s" : "") & " x" & $g_aiAvailSiege[$iSiegeIndex])
 		Next
@@ -338,7 +345,14 @@ Func DonateCC($bUpdateStats = True)
 
 			SetLog("Checking sieges for donation", $COLOR_ACTION)
 
-			getArmySiegeMachines(True, False, False, False, True)
+			Local $aCurrentTroopsEmpty[$eSiegeMachineCount] = [0, 0, 0, 0, 0, 0, 0] ; Local Copy to reset Siege Machine Array
+			$g_aiAvailSiege = $aCurrentTroopsEmpty ; Reset Current Siege Machine Array
+
+			If $abDonateQueueOnly[2] Then
+				OpenArmyOverview(True, "getSiegeMachinesQueued")
+			Else
+				getArmySiegeMachines(True, False, False, False, True)
+			EndIf
 			If _Sleep(500) Then Return
 
 			If Not OpenSiegeMachinesTab(True, "TrainSiege()") Then Return
@@ -358,12 +372,16 @@ Func DonateCC($bUpdateStats = True)
 					For $i = 0 To UBound($aSearchResult) - 1
 						If IsArray(_PixelSearch(($xQueue - 12) - ($i * 60.5), 234 + $g_iMidOffsetY, ($xQueue - 8) - ($i * 60.5), 234 + $g_iMidOffsetY, Hex(0x96A623, 6), 20, True)) Then ; the green check symbol
 							Local $iSiegeIndex = TroopIndexLookup($aSearchResult[$i][0]) - $eWallW
-							$g_aiCurrentSiegeMachines[$iSiegeIndex] += $aSearchResult[$i][3]
+							If $abDonateQueueOnly[2] Then
+								$g_aiAvailSiege[$iSiegeIndex] += $aSearchResult[$i][3]
+							Else
+								$g_aiCurrentSiegeMachines[$iSiegeIndex] += $aSearchResult[$i][3]
+							EndIf
 						EndIf
 					Next
 				EndIf
 			EndIf
-			$g_aiAvailSiege = $g_aiCurrentSiegeMachines
+			If Not $abDonateQueueOnly[2] Then $g_aiAvailSiege = $g_aiCurrentSiegeMachines
 			For $iSiegeIndex = $eSiegeWallWrecker To $eSiegeMachineCount - 1
 				If $g_aiAvailSiege[$iSiegeIndex] > 0 Then SetLog("  - " & $g_asSiegeMachineNames[$iSiegeIndex] & ($g_aiAvailSiege[$iSiegeIndex] > 1 ? "s" : "") & " x" & $g_aiAvailSiege[$iSiegeIndex])
 			Next
