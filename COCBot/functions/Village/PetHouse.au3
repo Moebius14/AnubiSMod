@@ -415,7 +415,7 @@ Func PetHouse($test = False)
 				If _Sleep($DELAYLABORATORY2) Then Return
 
 				; get DE requirement to upgrade Pet
-				Local $iDarkElixirReq = 1000 * Number($g_aiPetUpgradeCostPerLevel[$i][$iPetLevel])
+				Local $iDarkElixirReq = 1000 * Number($g_aiPetUpgradeCostPerLevel[$i][$iPetLevel]) * $SpecialEventReduction
 				$iDarkElixirReq = Int($iDarkElixirReq - ($iDarkElixirReq * Number($g_iBuilderBoostDiscount) / 100))
 
 				SetLog("DE Requirement: " & _NumberFormat($iDarkElixirReq, True))
@@ -930,7 +930,7 @@ Func GetMinDark4PetUpgrade($PetHouseLevel = 0)
 			If _Sleep($DELAYLABORATORY2) Then Return
 
 			; get DE requirement to upgrade Pet
-			Local $iDarkElixirReq = (1000 * Number($g_aiPetUpgradeCostPerLevel[$i][$iPetLevel]))
+			Local $iDarkElixirReq = (1000 * Number($g_aiPetUpgradeCostPerLevel[$i][$iPetLevel])) * $SpecialEventReduction
 			$iDarkElixirReq = Int($iDarkElixirReq - ($iDarkElixirReq * Number($g_iBuilderBoostDiscount) / 100))
 
 			SetLog("DE Requirement: " & _NumberFormat($iDarkElixirReq, True))
@@ -1206,7 +1206,7 @@ Func GetPetUpgradeList($PetHouseLevel = 0)
 			If $iPetLevel = $g_ePetLevels[$i] Then ;skip read upgrade cost because pet is maxed
 				$Unlocked = "MaxLevel"
 			Else
-				$iDarkElixirReq = 1000 * Number($g_aiPetUpgradeCostPerLevel[$i][$iPetLevel])
+				$iDarkElixirReq = 1000 * Number($g_aiPetUpgradeCostPerLevel[$i][$iPetLevel]) * $SpecialEventReduction
 				$iDarkElixirReq = Int($iDarkElixirReq - ($iDarkElixirReq * Number($g_iBuilderBoostDiscount) / 100))
 			EndIf
 			_ArrayAdd($aPet, $i & "|" & $Name & "|" & $Unlocked & "|" & $iPetLevel & "|" & $iDarkElixirReq & "|" & $x)

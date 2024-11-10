@@ -93,7 +93,7 @@ Func CheckIfArmyIsReady()
 	Local $bFullArmyCC = False
 	Local $iTotalSpellsToBrew = 0
 	Local $bFullArmyHero = False
-	Local $bFullSiege = False
+	Local $g_bCheckSiege = False
 	$g_bWaitForCCTroopSpell = False ; reset for waiting CC in SwitchAcc
 	$IsForRequestEarly = True
 
@@ -149,7 +149,7 @@ Func CheckIfArmyIsReady()
 	EndIf
 
 	$bFullArmyCC = IsFullClanCastle()
-	$bFullSiege = CheckSiegeMachine()
+	$g_bCheckSiege = CheckSiegeMachine()
 
 	; If Drop Trophy with Heroes is checked and a Hero is Available or under the trophies range, then set $g_bFullArmyHero to True
 	If Not IsWaitforHeroesActive() And $g_bDropTrophyUseHeroes Then $bFullArmyHero = True
@@ -161,14 +161,14 @@ Func CheckIfArmyIsReady()
 		EndIf
 	EndIf
 
-	If $g_bFullArmy And $g_bCheckSpells And $bFullArmyHero And $bFullArmyCC And $bFullSiege Then
+	If $g_bFullArmy And $g_bCheckSpells And $bFullArmyHero And $bFullArmyCC And $g_bCheckSiege Then
 		$g_bIsFullArmywithHeroesAndSpells = True
 	Else
 		If $g_bDebugSetlog Then
 			SetDebugLog(" $g_bFullArmy: " & String($g_bFullArmy), $COLOR_DEBUG)
 			SetDebugLog(" $g_bCheckSpells: " & String($g_bCheckSpells), $COLOR_DEBUG)
 			SetDebugLog(" $bFullArmyHero: " & String($bFullArmyHero), $COLOR_DEBUG)
-			SetDebugLog(" $bFullSiege: " & String($bFullSiege), $COLOR_DEBUG)
+			SetDebugLog(" $g_bCheckSiege: " & String($g_bCheckSiege), $COLOR_DEBUG)
 			SetDebugLog(" $bFullArmyCC: " & String($bFullArmyCC), $COLOR_DEBUG)
 		EndIf
 		$g_bIsFullArmywithHeroesAndSpells = False
@@ -188,7 +188,7 @@ Func CheckIfArmyIsReady()
 	If Not $g_bFullArmy Then $sLogText &= " Troops,"
 	If Not $g_bCheckSpells Then $sLogText &= " Spells,"
 	If Not $bFullArmyHero Then $sLogText &= " Heroes,"
-	If Not $bFullSiege Then $sLogText &= " Siege Machine,"
+	If Not $g_bCheckSiege Then $sLogText &= " Siege Machine,"
 	If Not $bFullArmyCC Then $sLogText &= " Clan Castle,"
 	If StringRight($sLogText, 1) = "," Then $sLogText = StringTrimRight($sLogText, 1) ; Remove last "," as it is not needed
 
@@ -196,12 +196,12 @@ Func CheckIfArmyIsReady()
 		If $g_bNotifyTGEnable And $g_bNotifyAlertCampFull Then PushMsg("CampFull")
 		SetLog("Chief, is your Army ready? Yes, it is!", $COLOR_SUCCESS)
 	Else ; Missing stuff
-		If IsTimeWaitForCC($g_bFullArmy, $g_bCheckSpells, $bFullArmyHero, $bFullSiege, True, $bFullArmyCC) Then ; Wait For Time Then Medals filling
+		If IsTimeWaitForCC($g_bFullArmy, $g_bCheckSpells, $bFullArmyHero, $g_bCheckSiege, True, $bFullArmyCC) Then ; Wait For Time Then Medals filling
 			SetLog("Chief, is your Army ready? No, not yet!", $COLOR_ACTION)
-			If $sLogText <> "" Then SetLog(@TAB & "Waiting for " & $sLogText, $COLOR_ACTION)
+			If $sLogText <> "" Then SetLog(@TAB & "Waiting for" & $sLogText, $COLOR_ACTION)
 		Else
 			If $g_aiCmbCCDecisionTime > 0 And $g_aiCmbCCDecisionThen = 0 And (Not $bChkUseOnlyCCMedals And Not $IsToFillCCWithCake) And $g_bRequestTroopsEnable And _
-					$g_bFullArmy And $g_bCheckSpells And $bFullArmyHero And $bFullSiege Then ; Wait For Time Then Attack (Time reached)
+					$g_bFullArmy And $g_bCheckSpells And $bFullArmyHero And $g_bCheckSiege Then ; Wait For Time Then Attack (Time reached)
 				If $g_bNotifyTGEnable And $g_bNotifyAlertCampFull Then PushMsg("CampFull")
 				SetLog("Chief, is your Army ready? Yes, it is!", $COLOR_SUCCESS)
 				$bFullArmyCC = True
@@ -209,12 +209,12 @@ Func CheckIfArmyIsReady()
 				$g_bWaitForCCTroopSpell = False ; To Not Switch if fill with medals
 			Else ; No Wait For CC (unchecked request)
 				SetLog("Chief, is your Army ready? No, not yet!", $COLOR_ACTION)
-				If $sLogText <> "" Then SetLog(@TAB & "Waiting for " & $sLogText, $COLOR_ACTION)
+				If $sLogText <> "" Then SetLog(@TAB & "Waiting for" & $sLogText, $COLOR_ACTION)
 			EndIf
 		EndIf
 	EndIf
 
-	If $g_bFullArmy And $g_bCheckSpells And $bFullArmyHero And $bFullSiege Then
+	If $g_bFullArmy And $g_bCheckSpells And $bFullArmyHero And $g_bCheckSiege Then
 		If Not $bFullArmyCC And $g_bRequestTroopsEnable And (((Not $bChkUseOnlyCCMedals And Not $IsToFillCCWithCake) And $g_aiCmbCCDecisionThen = 1 And $IsTofillWithMedals) Or $bChkUseOnlyCCMedals Or $IsToFillCCWithCake) And $IsTofillWithMedalsPause Then
 			Local $IsCCFilled = FillCCWMedals(True, True, True, True, False, False)
 			Local $MedalsSetlog = _NumberFormat($g_iLootCCMedal, True)
@@ -306,14 +306,16 @@ Func CheckSiegeMachine()
 
 	If Not $g_bRunState Then Return
 
-	Local $bToReturn = True
+	Local $bToReturn = False
 
 	If IsWaitforSiegeMachine() Then
 		For $i = $eSiegeWallWrecker To $eSiegeMachineCount - 1
-			If $g_aiCurrentSiegeMachines[$i] < $g_aiArmyCompSiegeMachines[$i] Then $bToReturn = False
-			If $g_bDebugSetlogTrain Then
-				SetLog("$g_aiCurrentSiegeMachines[" & $g_asSiegeMachineNames[$i] & "]: " & $g_aiCurrentSiegeMachines[$i])
-				SetLog("$g_aiArmyCompSiegeMachine[" & $g_asSiegeMachineNames[$i] & "]: " & $g_aiArmyCompSiegeMachines[$i])
+			If $g_aiArmyCompSiegeMachines[$i] > 0 Then
+				If $g_aiCurrentSiegeMachines[$i] > 0 Then $bToReturn = True
+				If $g_bDebugSetlogTrain Then
+					SetLog("$g_aiCurrentSiegeMachines[" & $g_asSiegeMachineNames[$i] & "]: " & $g_aiCurrentSiegeMachines[$i])
+					SetLog("$g_aiArmyCompSiegeMachine[" & $g_asSiegeMachineNames[$i] & "]: " & $g_aiArmyCompSiegeMachines[$i])
+				EndIf
 			EndIf
 		Next
 	Else
@@ -1445,11 +1447,11 @@ Func ValidateSearchArmyResult($aSearchResult, $iIndex = 0)
 	Return False
 EndFunc   ;==>ValidateSearchArmyResult
 
-Func FillCCWMedals($g_bFullArmy = False, $g_bCheckSpells = False, $bFullArmyHero = False, $bFullSiege = False, $SetLog = True, $bFullArmyCC = False)
+Func FillCCWMedals($g_bFullArmy = False, $g_bCheckSpells = False, $bFullArmyHero = False, $g_bCheckSiege = False, $SetLog = True, $bFullArmyCC = False)
 
 	Local $bRet
 
-	If IsTimeWaitForCC($g_bFullArmy, $g_bCheckSpells, $bFullArmyHero, $bFullSiege, $SetLog, $bFullArmyCC) Then
+	If IsTimeWaitForCC($g_bFullArmy, $g_bCheckSpells, $bFullArmyHero, $g_bCheckSiege, $SetLog, $bFullArmyCC) Then
 		$bRet = "WaitForCC"
 		Return $bRet
 	EndIf
@@ -1753,11 +1755,11 @@ Func FillCCWMedals($g_bFullArmy = False, $g_bCheckSpells = False, $bFullArmyHero
 	Return $bRet
 EndFunc   ;==>FillCCWMedals
 
-Func IsTimeWaitForCC($g_bFullArmy = False, $g_bCheckSpells = False, $bFullArmyHero = False, $bFullSiege = False, $SetLog = True, $bFullArmyCC = False)
+Func IsTimeWaitForCC($g_bFullArmy = False, $g_bCheckSpells = False, $bFullArmyHero = False, $g_bCheckSiege = False, $SetLog = True, $bFullArmyCC = False)
 
 	If $bFullArmyCC Then Return False
 
-	If Not $g_bFullArmy Or Not $g_bCheckSpells Or Not $bFullArmyHero Or Not $bFullSiege Then Return True
+	If Not $g_bFullArmy Or Not $g_bCheckSpells Or Not $bFullArmyHero Or Not $g_bCheckSiege Then Return True
 
 	Local $IsToFillCCWithCake = TimeToFillCCWithCake(False)
 	If $bChkUseOnlyCCMedals Or $IsToFillCCWithCake Then Return False

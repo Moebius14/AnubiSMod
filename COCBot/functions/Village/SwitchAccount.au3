@@ -125,9 +125,23 @@ Func CheckSwitchAcc($IsPurging = False)
 		$g_aiTimeTrain[2] = 0
 		If IsWaitforHeroesActive() Then CheckWaitHero() ; update $g_aiTimeTrain[2]
 
-		ClickAway()
+		$g_aiTimeTrain[3] = 0
+		If IsWaitforSiegeMachine() Then ; update $g_aiTimeTrain[2]
+			OpenArmyTab(False, "SmartWait4Train()") ; Open train overview
+			Local $sSiegeInfo = getSiegeCampCap(707, 168 + $g_iMidOffsetY, True) ; OCR read Siege built and total
+			If $g_bDebugSetlogTrain Then SetLog("OCR $sSiegeInfo = " & $sSiegeInfo, $COLOR_DEBUG)
+			Local $aGetSiegeCap = StringSplit($sSiegeInfo, "#", $STR_NOCOUNT) ; split the built Siege number from the total Siege number
+			If UBound($aGetSiegeCap) = 2 Then
+				If $aGetSiegeCap[0] > 0 Then $g_aiTimeTrain[3] = 0 ; Available Siege
+			Else
+				TrainSiege(False, $g_bDebugSetLog, True)
+			EndIf
+		EndIf
 
-		$iWaitTime = _ArrayMax($g_aiTimeTrain, 1, 0, 2) ; Not check Siege Machine time: $g_aiTimeTrain[3]
+		CloseWindow()
+		If _Sleep($DELAYCHECKARMYCAMP4) Then Return
+
+		$iWaitTime = _ArrayMax($g_aiTimeTrain, 1, -1, -1, 0)
 		If $bReachAttackLimit And $iWaitTime <= 0 Then
 			SetLog("This account has attacked twice in a row, switching to another account", $COLOR_INFO)
 			SetSwitchAccLog(" - Reach attack limit: " & $g_aiAttackedCount - $g_aiAttackedCountSwitch[$g_iCurAccount])

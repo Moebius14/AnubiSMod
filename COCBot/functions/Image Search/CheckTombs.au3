@@ -20,6 +20,7 @@ Func CheckTombs()
 	EndIf
 	; Timer
 	Local $hTimer = __TimerInit()
+	Local $bRemoved1 = False, $bRemoved2 = False
 
 	; Setup arrays, including default return values for $return
 	Local $return[7] = ["None", "None", 0, 0, 0, "", ""]
@@ -46,7 +47,6 @@ Func CheckTombs()
 		If $g_bDebugSetlog Then SetDebugLog("Type :" & $return[1])
 		If $g_bDebugSetlog Then SetDebugLog("Total Objects :" & $return[4])
 
-		Local $bRemoved1 = False
 		If IsArray($TombsXY) Then
 			; Loop through all found points for the item and click them to clear them, there should only be one
 			For $j = 0 To UBound($TombsXY) - 1
@@ -54,11 +54,12 @@ Func CheckTombs()
 					If $g_bDebugSetlog Then SetDebugLog("Coords :" & $TombsXY[$j][0] & "," & $TombsXY[$j][1])
 					If IsMainPage() Then
 						Click($TombsXY[$j][0], $TombsXY[$j][1], 1, 120, "#0430")
-						If Not $bRemoved1 Then $bRemoved1 = IsMainPage()
+						If Not $bRemoved1 Then $bRemoved1 = True
 					EndIf
 				EndIf
 			Next
 		EndIf
+
 		If $bRemoved1 Then
 			If _Sleep($DELAYCHECKTOMBS2) Then Return
 			;Second try if root tombs at first step
@@ -85,7 +86,6 @@ Func CheckTombs()
 				If $g_bDebugSetlog Then SetDebugLog("Type :" & $return2[1])
 				If $g_bDebugSetlog Then SetDebugLog("Total Objects :" & $return2[4])
 
-				Local $bRemoved2 = False
 				If IsArray($TombsXY2) Then
 					; Loop through all found points for the item and click them to clear them, there should only be one
 					For $z = 0 To UBound($TombsXY2) - 1
@@ -93,7 +93,7 @@ Func CheckTombs()
 							If $g_bDebugSetlog Then SetDebugLog("Coords :" & $TombsXY2[$z][0] & "," & $TombsXY2[$z][1])
 							If IsMainPage() Then
 								Click($TombsXY2[$z][0], $TombsXY2[$z][1], 1, 120, "#0430")
-								If Not $bRemoved2 Then $bRemoved2 = IsMainPage()
+								If Not $bRemoved2 Then $bRemoved2 = True
 							EndIf
 						EndIf
 					Next
@@ -101,7 +101,7 @@ Func CheckTombs()
 			EndIf
 		EndIf
 
-		If $bRemoved1 Or $bRemoved2 Then
+		If BitOr($bRemoved1, $bRemoved2) Then
 			SetLog("Tombs removed!", $COLOR_DEBUG1)
 			$g_abNotNeedAllTime[1] = False
 		Else

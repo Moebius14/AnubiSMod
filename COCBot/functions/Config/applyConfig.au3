@@ -1497,6 +1497,7 @@ Func ApplyConfig_600_28_DB($TypeReadSave)
 			$g_iHeroWaitAttackNoBit[$DB][3] = GUICtrlRead($g_hChkDBChampionWait) = $GUI_CHECKED ? 1 : 0
 			GUICtrlSetState($g_hChkDBSpellsWait, $g_abSearchSpellsWaitEnable[$DB] ? $GUI_CHECKED : $GUI_UNCHECKED)
 			chkDBSpellsWait()
+			GUICtrlSetState($g_hChkDBMachineWait, $g_abSearchSiegeWaitEnable[$DB] ? $GUI_CHECKED : $GUI_UNCHECKED)
 			GUICtrlSetState($g_hChkDBWaitForCastle, $g_abSearchCastleWaitEnable[$DB] ? $GUI_CHECKED : $GUI_UNCHECKED)
 			ChkWaitForCastle()
 			; Search - Filters
@@ -1562,6 +1563,7 @@ Func ApplyConfig_600_28_DB($TypeReadSave)
 			$g_aiSearchNotWaitHeroesEnable[$DB] = GUICtrlRead($g_hChkDBNotWaitHeroes) = $GUI_CHECKED ? 1 : 0
 			chkNotWaitHeroes()
 			$g_abSearchSpellsWaitEnable[$DB] = (GUICtrlRead($g_hChkDBSpellsWait) = $GUI_CHECKED)
+			$g_abSearchSiegeWaitEnable[$DB] = (GUICtrlRead($g_hChkDBMachineWait) = $GUI_CHECKED)
 			$g_abSearchCastleWaitEnable[$DB] = (GUICtrlRead($g_hChkDBWaitForCastle) = $GUI_CHECKED)
 			; Search - Filters
 			$g_iDeadEagleSearch = GUICtrlRead($g_hTxtDeadEagleSearch)
@@ -1633,6 +1635,7 @@ Func ApplyConfig_600_28_LB($TypeReadSave)
 			$g_iHeroWaitAttackNoBit[$LB][3] = GUICtrlRead($g_hChkABChampionWait) = $GUI_CHECKED ? 1 : 0
 			GUICtrlSetState($g_hChkABSpellsWait, $g_abSearchSpellsWaitEnable[$LB] ? $GUI_CHECKED : $GUI_UNCHECKED)
 			chkABSpellsWait()
+			GUICtrlSetState($g_hChkABMachineWait, $g_abSearchSiegeWaitEnable[$LB] ? $GUI_CHECKED : $GUI_UNCHECKED)
 			GUICtrlSetState($g_hChkABWaitForCastle, $g_abSearchCastleWaitEnable[$LB] ? $GUI_CHECKED : $GUI_UNCHECKED)
 			ChkWaitForCastle()
 			; Search - Filters
@@ -1694,6 +1697,7 @@ Func ApplyConfig_600_28_LB($TypeReadSave)
 			$g_aiSearchNotWaitHeroesEnable[$LB] = GUICtrlRead($g_hChkABNotWaitHeroes) = $GUI_CHECKED ? 1 : 0
 			ChkNotWaitHeroes()
 			$g_abSearchSpellsWaitEnable[$LB] = (GUICtrlRead($g_hChkABSpellsWait) = $GUI_CHECKED)
+			$g_abSearchSiegeWaitEnable[$LB] = (GUICtrlRead($g_hChkABMachineWait) = $GUI_CHECKED)
 			$g_abSearchCastleWaitEnable[$LB] = (GUICtrlRead($g_hChkABWaitForCastle) = $GUI_CHECKED)
 			; Search - Filters
 			$g_aiFilterMeetGE[$LB] = _GUICtrlComboBox_GetCurSel($g_hCmbABMeetGE)

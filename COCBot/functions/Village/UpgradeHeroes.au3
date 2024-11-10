@@ -170,8 +170,8 @@ Func QueenUpgrade()
 		SetDebugLog("getResourcesMainScreen didn't get the DE value", $COLOR_DEBUG)
 	EndIf
 
-	If $g_aiCurrentLoot[$eLootDarkElixir] < ($g_afQueenUpgCost[$g_iQueenLevel] * 1000) * (1 - Number($g_iBuilderBoostDiscount) / 100) + $g_iUpgradeMinDark Then
-		SetLog("Insufficient DE for Upg Queen, requires: " & ($g_afQueenUpgCost[$g_iQueenLevel] * 1000) * (1 - Number($g_iBuilderBoostDiscount) / 100) & " + " & $g_iUpgradeMinDark, $COLOR_INFO)
+	If $g_aiCurrentLoot[$eLootDarkElixir] < ($g_afQueenUpgCost[$g_iQueenLevel] * 1000 * $SpecialEventReduction) * (1 - Number($g_iBuilderBoostDiscount) / 100) + $g_iUpgradeMinDark Then
+		SetLog("Insufficient DE for Upg Queen, requires: " & ($g_afQueenUpgCost[$g_iQueenLevel] * 1000 * $SpecialEventReduction) * (1 - Number($g_iBuilderBoostDiscount) / 100) & " + " & $g_iUpgradeMinDark, $COLOR_INFO)
 		If $g_iHeroReservedBuilder = 0 Then Return
 		Local $aUpgradeButton = findButton("Upgrade", Default, 1, True)
 		If IsArray($aUpgradeButton) And UBound($aUpgradeButton, 1) = 2 Then
@@ -233,7 +233,7 @@ Func QueenUpgrade()
 				$bHeroUpgrade = True
 				If _Sleep($DELAYUPGRADEHERO2) Then Return ; Wait for window to close
 				$g_iNbrOfHeroesUpped += 1
-				$g_iCostDElixirHero += 1000 * ($g_afQueenUpgCost[$g_iQueenLevel - 1] * 1000 * (1 - Number($g_iBuilderBoostDiscount) / 100))
+				$g_iCostDElixirHero += 1000 * ($g_afQueenUpgCost[$g_iQueenLevel - 1] * 1000 * $SpecialEventReduction * (1 - Number($g_iBuilderBoostDiscount) / 100))
 				UpdateStats()
 			ElseIf IsArray($YellowSearch) Then
 				ClickP($YellowSearch, 1, 120) ; Click upgrade buttton
@@ -249,7 +249,7 @@ Func QueenUpgrade()
 				$bHeroUpgrade = True
 				If _Sleep($DELAYUPGRADEHERO2) Then Return ; Wait for window to close
 				$g_iNbrOfHeroesUpped += 1
-				$g_iCostDElixirHero += 1000 * ($g_afQueenUpgCost[$g_iQueenLevel - 1] * 1000 * (1 - Number($g_iBuilderBoostDiscount) / 100))
+				$g_iCostDElixirHero += 1000 * ($g_afQueenUpgCost[$g_iQueenLevel - 1] * 1000 * $SpecialEventReduction * (1 - Number($g_iBuilderBoostDiscount) / 100))
 				UpdateStats()
 			Else
 				SetLog("Queen Upgrade Fail! No DE!", $COLOR_ERROR)
@@ -355,8 +355,8 @@ Func KingUpgrade()
 	EndIf
 	If _Sleep(100) Then Return
 
-	If $g_aiCurrentLoot[$eLootDarkElixir] < ($g_afKingUpgCost[$g_iKingLevel] * 1000) * (1 - Number($g_iBuilderBoostDiscount) / 100) + $g_iUpgradeMinDark Then
-		SetLog("Insufficient DE for Upg King, requires: " & ($g_afKingUpgCost[$g_iKingLevel] * 1000) * (1 - Number($g_iBuilderBoostDiscount) / 100) & " + " & $g_iUpgradeMinDark, $COLOR_INFO)
+	If $g_aiCurrentLoot[$eLootDarkElixir] < ($g_afKingUpgCost[$g_iKingLevel] * 1000 * $SpecialEventReduction) * (1 - Number($g_iBuilderBoostDiscount) / 100) + $g_iUpgradeMinDark Then
+		SetLog("Insufficient DE for Upg King, requires: " & (($g_afKingUpgCost[$g_iKingLevel] * 1000) * $SpecialEventReduction) * (1 - Number($g_iBuilderBoostDiscount) / 100) & " + " & $g_iUpgradeMinDark, $COLOR_INFO)
 		If $g_iHeroReservedBuilder = 0 Then Return
 		Local $aUpgradeButton = findButton("Upgrade", Default, 1, True)
 		If IsArray($aUpgradeButton) And UBound($aUpgradeButton, 1) = 2 Then
@@ -419,7 +419,7 @@ Func KingUpgrade()
 				$bHeroUpgrade = True
 				If _Sleep($DELAYUPGRADEHERO2) Then Return ; Wait for window to close
 				$g_iNbrOfHeroesUpped += 1
-				$g_iCostDElixirHero += 1000 * ($g_afKingUpgCost[$g_iKingLevel - 1] * 1000 * (1 - Number($g_iBuilderBoostDiscount) / 100))
+				$g_iCostDElixirHero += 1000 * ($g_afKingUpgCost[$g_iKingLevel - 1] * $SpecialEventReduction * 1000 * (1 - Number($g_iBuilderBoostDiscount) / 100))
 				UpdateStats()
 			ElseIf IsArray($YellowSearch) Then
 				ClickP($YellowSearch, 1, 120) ; Click upgrade buttton
@@ -435,7 +435,7 @@ Func KingUpgrade()
 				$bHeroUpgrade = True
 				If _Sleep($DELAYUPGRADEHERO2) Then Return ; Wait for window to close
 				$g_iNbrOfHeroesUpped += 1
-				$g_iCostDElixirHero += 1000 * ($g_afKingUpgCost[$g_iKingLevel - 1] * 1000 * (1 - Number($g_iBuilderBoostDiscount) / 100))
+				$g_iCostDElixirHero += 1000 * ($g_afKingUpgCost[$g_iKingLevel - 1] * $SpecialEventReduction * 1000 * (1 - Number($g_iBuilderBoostDiscount) / 100))
 				UpdateStats()
 			Else
 				SetLog("King Upgrade Fail! No DE!", $COLOR_ERROR)
@@ -550,8 +550,8 @@ Func WardenUpgrade()
 
 	If _Sleep(100) Then Return
 
-	If $g_aiCurrentLoot[$eLootElixir] < ($g_afWardenUpgCost[$g_iWardenLevel] * 1000000) * (1 - Number($g_iBuilderBoostDiscount) / 100) + $g_iUpgradeMinElixir Then
-		SetLog("Insufficient Elixir for Warden Upgrade, requires: " & ($g_afWardenUpgCost[$g_iWardenLevel] * 1000000) * (1 - Number($g_iBuilderBoostDiscount) / 100) & " + " & $g_iUpgradeMinElixir, $COLOR_INFO)
+	If $g_aiCurrentLoot[$eLootElixir] < ($g_afWardenUpgCost[$g_iWardenLevel] * 1000000 * $SpecialEventReduction) * (1 - Number($g_iBuilderBoostDiscount) / 100) + $g_iUpgradeMinElixir Then
+		SetLog("Insufficient Elixir for Warden Upgrade, requires: " & ($g_afWardenUpgCost[$g_iWardenLevel] * 1000000 * $SpecialEventReduction) * (1 - Number($g_iBuilderBoostDiscount) / 100) & " + " & $g_iUpgradeMinElixir, $COLOR_INFO)
 		If $g_iHeroReservedBuilder = 0 Then Return
 		Local $aUpgradeButton = findButton("Upgrade", Default, 1, True)
 		If IsArray($aUpgradeButton) And UBound($aUpgradeButton, 1) = 2 Then
@@ -617,7 +617,7 @@ Func WardenUpgrade()
 				$bHeroUpgrade = True
 				If _Sleep($DELAYUPGRADEHERO2) Then Return ; Wait for window to close
 				$g_iNbrOfWardenUpped += 1
-				$g_iCostElixirWarden += 1000 * ($g_afWardenUpgCost[$g_iWardenLevel - 1] * 1000 * (1 - Number($g_iBuilderBoostDiscount) / 100))
+				$g_iCostElixirWarden += 1000 * ($g_afWardenUpgCost[$g_iWardenLevel - 1] * 1000 * $SpecialEventReduction * (1 - Number($g_iBuilderBoostDiscount) / 100))
 				$g_iWardenLevel += 1
 				UpdateStats()
 			ElseIf IsArray($YellowSearch) Then
@@ -635,7 +635,7 @@ Func WardenUpgrade()
 				$bHeroUpgrade = True
 				If _Sleep($DELAYUPGRADEHERO2) Then Return ; Wait for window to close
 				$g_iNbrOfWardenUpped += 1
-				$g_iCostElixirWarden += 1000 * ($g_afWardenUpgCost[$g_iWardenLevel - 1] * 1000 * (1 - Number($g_iBuilderBoostDiscount) / 100))
+				$g_iCostElixirWarden += 1000 * ($g_afWardenUpgCost[$g_iWardenLevel - 1] * 1000 * $SpecialEventReduction * (1 - Number($g_iBuilderBoostDiscount) / 100))
 				$g_iWardenLevel += 1
 				UpdateStats()
 			Else
@@ -742,9 +742,8 @@ Func ChampionUpgrade()
 		SetDebugLog("getResourcesMainScreen didn't get the DE value", $COLOR_DEBUG)
 	EndIf
 
-	;	If $g_aiCurrentLoot[$eLootDarkElixir] < ($g_afChampionUpgCost[$g_iChampionLevel] * 1000) * (1 - Number($g_iBuilderBoostDiscount) / 100) + $g_iUpgradeMinDark Then
-	If $g_aiCurrentLoot[$eLootDarkElixir] < ($g_afChampionUpgCost[$g_iChampionLevel] * 1000) - ((($g_afChampionUpgCost[$g_iChampionLevel] * 1000) * Number($g_iBuilderBoostDiscount) / 100) - $g_iUpgradeMinDark) Then
-		SetLog("Insufficient DE for Upg Champion, requires: " & ($g_afChampionUpgCost[$g_iChampionLevel] * 1000) * (1 - Number($g_iBuilderBoostDiscount) / 100) & " + " & $g_iUpgradeMinDark, $COLOR_INFO)
+	If $g_aiCurrentLoot[$eLootDarkElixir] < ($g_afChampionUpgCost[$g_iChampionLevel] * 1000 * $SpecialEventReduction) * (1 - Number($g_iBuilderBoostDiscount) / 100) + $g_iUpgradeMinDark Then
+		SetLog("Insufficient DE for Upg Champion, requires: " & (($g_afChampionUpgCost[$g_iChampionLevel] * 1000) * $SpecialEventReduction) * (1 - Number($g_iBuilderBoostDiscount) / 100) & " + " & $g_iUpgradeMinDark, $COLOR_INFO)
 		If $g_iHeroReservedBuilder = 0 Then Return
 		Local $aUpgradeButton = findButton("Upgrade", Default, 1, True)
 		If IsArray($aUpgradeButton) And UBound($aUpgradeButton, 1) = 2 Then
@@ -806,7 +805,7 @@ Func ChampionUpgrade()
 				$bHeroUpgrade = True
 				If _Sleep($DELAYUPGRADEHERO2) Then Return ; Wait for window to close
 				$g_iNbrOfHeroesUpped += 1
-				$g_iCostDElixirHero += 1000 * ($g_afChampionUpgCost[$g_iChampionLevel - 1] * 1000 * (1 - Number($g_iBuilderBoostDiscount) / 100))
+				$g_iCostDElixirHero += 1000 * ($g_afChampionUpgCost[$g_iChampionLevel - 1] * 1000 * $SpecialEventReduction * (1 - Number($g_iBuilderBoostDiscount) / 100))
 				UpdateStats()
 			ElseIf IsArray($YellowSearch) Then
 				ClickP($YellowSearch, 1, 120) ; Click upgrade buttton
@@ -822,7 +821,7 @@ Func ChampionUpgrade()
 				$bHeroUpgrade = True
 				If _Sleep($DELAYUPGRADEHERO2) Then Return ; Wait for window to close
 				$g_iNbrOfHeroesUpped += 1
-				$g_iCostDElixirHero += 1000 * ($g_afChampionUpgCost[$g_iChampionLevel - 1] * 1000 * (1 - Number($g_iBuilderBoostDiscount) / 100))
+				$g_iCostDElixirHero += 1000 * ($g_afChampionUpgCost[$g_iChampionLevel - 1] * 1000 * $SpecialEventReduction * (1 - Number($g_iBuilderBoostDiscount) / 100))
 				UpdateStats()
 			Else
 				SetLog("Champion Upgrade Fail! No DE!", $COLOR_ERROR)

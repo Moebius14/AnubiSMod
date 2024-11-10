@@ -17,7 +17,7 @@
 Func SmartWait4Train($iTestSeconds = Default)
 	If Not $g_bRunState Then Return
 
-	Static $ichkCloseWaitSpell = 0, $ichkCloseWaitHero = 0
+	Static $ichkCloseWaitSpell = 0, $ichkCloseWaitHero = 0, $ichkCloseWaitSiege = 0
 	Local $bTest = ($iTestSeconds <> Default)
 
 	If $g_bDebugSetlogTrain Or $g_bDebugSetlog Then SetLog("Begin SmartWait4Train:", $COLOR_DEBUG1)
@@ -44,6 +44,7 @@ Func SmartWait4Train($iTestSeconds = Default)
 	Local Const $TRAINWAIT_TROOP = 0x02 ; Value when wait for troop training and valid time exists
 	Local Const $TRAINWAIT_SPELL = 0x04 ; Value when wait for spell cooking and valid time exists
 	Local Const $TRAINWAIT_HERO = 0x08 ; Value when wait for hero healing, valid time exists, and Wait for Hero is enabled for active atttack modes
+	Local Const $TRAINWAIT_SIEGE = 0x16 ; Value when wait for siege training and valid time exists
 
 	Local $iTrainWaitCloseFlag = $TRAINWAIT_NOWAIT
 	Local $sNowTime = "", $sTrainEndTime = ""
@@ -199,6 +200,32 @@ Func SmartWait4Train($iTestSeconds = Default)
 		$g_aiTimeTrain[2] = 0 ; clear hero remain time if disabled during stop
 	EndIf
 
+	; get siege training time remaining if enabled
+	If ($g_bCloseWithoutShield Or BitAND($iTrainWaitCloseFlag, $TRAINWAIT_SHIELD) = $TRAINWAIT_SHIELD) And IsWaitforSiegeMachine() Then
+		$ichkCloseWaitSiege = 1
+		If $g_bDebugSetlogTrain Or $g_bDebugSetlog Then SetLog("$ichkCloseWaitSiege enabled", $COLOR_DEBUG)
+		OpenArmyTab(False, "SmartWait4Train()") ; Open train overview
+		Local $sSiegeInfo = getSiegeCampCap(707, 168 + $g_iMidOffsetY, True) ; OCR read Siege built and total
+		If $g_bDebugSetlogTrain Then SetLog("OCR $sSiegeInfo = " & $sSiegeInfo, $COLOR_DEBUG)
+		Local $aGetSiegeCap = StringSplit($sSiegeInfo, "#", $STR_NOCOUNT) ; split the built Siege number from the total Siege number
+		If UBound($aGetSiegeCap) = 2 Then
+			If $aGetSiegeCap[0] > 0 Then $g_aiTimeTrain[3] = 0 ; Available Siege
+		Else
+			TrainSiege(False, $g_bDebugSetLog, True)
+		EndIf
+		If $g_bDebugSetlogTrain Or $g_bDebugSetlog Then SetLog("TrainSiege returned: " & $g_aiTimeTrain[3], $COLOR_DEBUG)
+		If _Sleep($DELAYRESPOND) Then Return
+		If $g_aiTimeTrain[3] > 0 Then
+			If $g_bCloseRandomTime Then
+				$g_aiTimeTrain[3] += $g_aiTimeTrain[3] * $RandomAddPercent ; add some random percent
+			EndIf
+			$iTrainWaitCloseFlag = BitOR($iTrainWaitCloseFlag, $TRAINWAIT_SIEGE)
+		EndIf
+		If $g_bDebugSetlogTrain Or $g_bDebugSetlog Then SetLog("$iTrainWaitCloseFlag:" & $iTrainWaitCloseFlag & ", siege time = " & StringFormat("%.2f", $g_aiTimeTrain[3]), $COLOR_DEBUG)
+	Else
+		$ichkCloseWaitSiege = 0
+	EndIf
+
 	; update CC remaining time till next request if request made and CC not full
 	If $g_iCCRemainTime = 0 And _ColorCheck(_GetPixelColor($aRequestTroopsAO[0], $aRequestTroopsAO[1] + 10, True), Hex($aRequestTroopsAO[3], 6), $aRequestTroopsAO[5]) And Not _ColorCheck(_GetPixelColor($aRequestTroopsAO[0], $aRequestTroopsAO[1], True), Hex($aRequestTroopsAO[4], 6), $aRequestTroopsAO[5]) Then
 		getArmyCCStatus()
@@ -212,13 +239,30 @@ Func SmartWait4Train($iTestSeconds = Default)
 	; determine time to close CoC
 	Local $iTrainWaitTime
 	Switch $iTrainWaitCloseFlag
-		Case 14 To 15 ; BitAND($iTrainWaitCloseFlag, $TRAINWAIT_HERO, $TRAINWAIT_SPELL, $TRAINWAIT_TROOP, $TRAINWAIT_SHIELD) = $iTrainWaitCloseFlag
+		Case 30 To 31 ; BitAND($iTrainWaitCloseFlag, $TRAINWAIT_HERO, $TRAINWAIT_SPELL, $TRAINWAIT_TROOP, $TRAINWAIT_SHIELD, $TRAINWAIT_SIEGE) = $iTrainWaitCloseFlag
+			$iTrainWaitTime = _ArrayMax($g_aiTimeTrain, 1, -1, -1, 0) ; use larger of troop, spell, hero or siege time
+		Case 28 To 29
+			$iTrainWaitTime = _ArrayMax($g_aiTimeTrain, 1, 1, 3, 0) ; use larger of spell or hero or siege time
+		Case 26 To 27
+			Local $iTrainWaitTimeTemp = _Max($g_aiTimeTrain[0], $g_aiTimeTrain[2]) ; use larger of train or hero or siege time
+			$iTrainWaitTime = _Max($iTrainWaitTimeTemp, $g_aiTimeTrain[3])
+		Case 24 To 25
+			$iTrainWaitTime = _Max($g_aiTimeTrain[2], $g_aiTimeTrain[3]) ; use larger of Hero or siege time
+		Case 22 To 23
+			Local $iTrainWaitTimeTemp = _Max($g_aiTimeTrain[0], $g_aiTimeTrain[1]) ; use larger of train or spell or siege time
+			$iTrainWaitTime = _Max($iTrainWaitTimeTemp, $g_aiTimeTrain[3])
+		Case 20 To 21
+			$iTrainWaitTime = _Max($g_aiTimeTrain[1], $g_aiTimeTrain[3]) ; use larger of spell or siege time
+		Case 18 To 19
+			$iTrainWaitTime = _Max($g_aiTimeTrain[0], $g_aiTimeTrain[3]) ; use larger of troop or siege time
+		Case 16 To 17
+			$iTrainWaitTime = $g_aiTimeTrain[3] ; use siege time
+		Case 14 To 15
 			$iTrainWaitTime = _ArrayMax($g_aiTimeTrain, 1, 0, 2, 0) ; use larger of troop, spell, or hero time
 		Case 12 To 13
 			$iTrainWaitTime = _Max($g_aiTimeTrain[1], $g_aiTimeTrain[2]) ; use larger of spell or hero time
 		Case 10 To 11
 			$iTrainWaitTime = _Max($g_aiTimeTrain[0], $g_aiTimeTrain[2]) ; use larger of train or hero time
-			If $iTrainWaitTime < 11 And $g_bCloseRandom And $g_idRadio_RandomMod Then $StopEmulator = False
 		Case 8 To 9
 			$iTrainWaitTime = $g_aiTimeTrain[2] ; use hero time
 		Case 6 To 7
@@ -239,6 +283,8 @@ Func SmartWait4Train($iTestSeconds = Default)
 			SetLog("SmartWait cannot determine time to close CoC!", $COLOR_ERROR)
 			Return ; stop trying to close while training this time
 	EndSwitch
+
+	If $iTrainWaitTime < 11 And $g_bCloseRandom And $g_idRadio_RandomMod Then $StopEmulator = False
 
 	If $g_bDropTrophyUseHeroes = 1 And $g_bDropTrophyEnable = 1 And (Number($g_aiCurrentLoot[$eLootTrophy]) > Number($g_iDropTrophyMax) Or $IsDropTrophyBreaked) Then
 		If IsToFillCCWithMedalsOnly() Then
@@ -314,7 +360,7 @@ Func SmartWait4Train($iTestSeconds = Default)
 				ResetTrainTimeArray()
 			EndIf
 			; if shield is zero, or not available, then check all 3 close without shield flags
-		ElseIf ($g_bCloseWithoutShield And $g_aiTimeTrain[0] > 0) Or ($ichkCloseWaitSpell = 1 And $g_aiTimeTrain[1] > 0) Or ($ichkCloseWaitHero = 1 And $g_aiTimeTrain[2] > 0) Then
+		ElseIf ($g_bCloseWithoutShield And $g_aiTimeTrain[0] > 0) Or ($ichkCloseWaitSpell = 1 And $g_aiTimeTrain[1] > 0) Or ($ichkCloseWaitHero = 1 And $g_aiTimeTrain[2] > 0) Or ($ichkCloseWaitSiege = 1 And $g_aiTimeTrain[3] > 0) Then
 			;when no shield close game for $iTrainWaitTime time as determined above
 			SetLog("Smart Wait time = " & StringFormat("%.2f", $iTrainWaitTime / 60) & " Minutes", $COLOR_INFO)
 			If $g_bNotifyTGEnable And $g_bNotifyAlertSmartWaitTime Then NotifyPushToTelegram($g_sNotifyOrigin & " : " & "%0A" & GetTranslatedFileIni("MBR Func_Notify", "Smart-Wait-Time_Info_05", "Smart Wait Time = ") & StringFormat("%.2f", $iTrainWaitTime / 60) & GetTranslatedFileIni("MBR Func_Notify", "Smart-Wait-Time_Info_02", " Minutes") & "%0A" & GetTranslatedFileIni("MBR Func_Notify", "Smart-Wait-Time_Info_03", "Wait For Troops Ready"))

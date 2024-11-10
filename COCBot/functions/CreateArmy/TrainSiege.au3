@@ -83,7 +83,7 @@ Func RemoveSiegesQueue() ; Will remove All Sieges in queue
 	Return 0
 EndFunc   ;==>RemoveSiegesQueue
 
-Func TrainSiege($bTrainFullSiege = False, $bDebugSetLog = $g_bDebugSetLog)
+Func TrainSiege($bTrainFullSiege = False, $bDebugSetLog = $g_bDebugSetLog, $bSetLog = False)
 
 	Local $rWhichSiegeToTrain = WhichSiegeToTrain($bTrainFullSiege)
 	Local $iPage = 0 ;
@@ -216,9 +216,9 @@ Func TrainSiege($bTrainFullSiege = False, $bDebugSetLog = $g_bDebugSetLog)
 	EndIf
 	If _Sleep(500) Then Return
 
-	; OCR to get remain time - coc-siegeremain
-	Local $sSiegeTime = getRemainTrainTimer(700, 162 + $g_iMidOffsetY) ; Get time via OCR.
-	If $sSiegeTime <> "" Then $g_aiTimeTrain[3] = ConvertOCRTime("Remaining Siege build", $sSiegeTime, True) ; Update global array
+	; OCR to get remain time
+	Local $sSiegeTime = getRemainTHero(723, 233 + $g_iMidOffsetY) ; Get time via OCR.
+	If $sSiegeTime <> "" Then $g_aiTimeTrain[3] = ConvertOCRTime("Remaining Siege build", $sSiegeTime, $bSetLog) ; Update global array
 
 EndFunc   ;==>TrainSiege
 

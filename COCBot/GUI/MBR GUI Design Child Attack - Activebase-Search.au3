@@ -19,7 +19,7 @@ Global $g_hChkABActivateSearches = 0, $g_hTxtABSearchesMin = 0, $g_hTxtABSearche
 Global $g_hChkABActivateTropies = 0, $g_hTxtABTropiesMin = 0, $g_hTxtABTropiesMax = 0  ; Trophy limit
 Global $g_hChkABActivateCamps = 0, $g_hTxtABArmyCamps = 0 ; Camp limit
 Global $g_hChkABKingWait = 0, $g_hChkABQueenWait = 0, $g_hChkABWardenWait = 0, $g_hChkABChampionWait = 0, $g_hChkABNotWaitHeroes = 0
-Global $g_hChkABSpellsWait = 0, $g_hChkABWaitForCastle = 0
+Global $g_hChkABSpellsWait = 0, $g_hChkABMachineWait = 0, $g_hChkABWaitForCastle = 0
 
 Global $g_hLblABSearches = 0, $g_hLblABTropies = 0, $g_hLblABArmyCamps = 0
 Global $g_hPicABHeroesWait = 0, $g_hTxtABHeroesWait = 0, $g_hPicABKingWait = 0, $g_hPicABKingSleepWait = 0, $g_hPicABQueenWait = 0, $g_hPicABQueenSleepWait = 0, _
@@ -170,7 +170,11 @@ Func CreateAttackSearchActiveBaseSearch()
 			GetTranslatedFileIni("MBR GUI Design Child Attack - Search", "ChkSpellsWait_Info_02", -1))
 	GUICtrlSetOnEvent(-1, "chkABSpellsWait")
 
-	$g_hChkABWaitForCastle = GUICtrlCreateCheckbox(GetTranslatedFileIni("MBR GUI Design Child Attack - Search", "ChkWaitForCastle", -1), $x, $y + 20, -1, -1)
+	$g_hChkABMachineWait = GUICtrlCreateCheckbox(GetTranslatedFileIni("MBR GUI Design Child Attack - Search", "ChkDBMachineWait", -1), $x, $y + 20, -1, -1)
+	_GUICtrlSetTip(-1, GetTranslatedFileIni("MBR GUI Design Child Attack - Search", "ChkDBMachineWait_Info_01", -1) & @CRLF & _
+			GetTranslatedFileIni("MBR GUI Design Child Attack - Search", "ChkDBMachineWait_Info_02", -1))
+
+	$g_hChkABWaitForCastle = GUICtrlCreateCheckbox(GetTranslatedFileIni("MBR GUI Design Child Attack - Search", "ChkWaitForCastle", -1), $x, $y + 40, -1, -1)
 	_GUICtrlSetTip(-1, GetTranslatedFileIni("MBR GUI Design Child Attack - Search", "ChkWaitForCastle_Info_01", -1))
 	GUICtrlSetOnEvent(-1, "ChkWaitForCastle")
 	GUICtrlCreateGroup("", -99, -99, 1, 1)

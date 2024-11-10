@@ -19,7 +19,7 @@ Global $g_hChkDBActivateSearches = 0, $g_hTxtDBSearchesMin = 0, $g_hTxtDBSearche
 Global $g_hChkDBActivateTropies = 0, $g_hTxtDBTropiesMin = 0, $g_hTxtDBTropiesMax = 0  ; Trophy limit
 Global $g_hChkDBActivateCamps = 0, $g_hTxtDBArmyCamps = 0 ; Camp limit
 Global $g_hChkDBKingWait = 0, $g_hChkDBQueenWait = 0, $g_hChkDBWardenWait = 0, $g_hChkDBChampionWait = 0, $g_hChkNotWaitHeros = 0, $g_hChkDBNotWaitHeroes = 0
-Global $g_hChkDBSpellsWait = 0, $g_hChkDBWaitForCastle = 0
+Global $g_hChkDBSpellsWait = 0, $g_hChkDBMachineWait = 0, $g_hChkDBWaitForCastle = 0
 
 Global $g_hLblDBSearches = 0, $g_hLblDBTropies = 0, $g_hLblDBArmyCamps = 0
 Global $g_hPicDBHeroesWait = 0, $g_hTxtDBHeroesWait = 0, $g_hPicDBKingWait = 0, $g_hPicDBKingSleepWait = 0, $g_hPicDBQueenWait = 0, $g_hPicDBQueenSleepWait = 0, _
@@ -168,11 +168,15 @@ Func CreateAttackSearchDeadBaseSearch()
 	$y += 25
 	$x = 10
 	$g_hChkDBSpellsWait = GUICtrlCreateCheckbox(GetTranslatedFileIni("MBR GUI Design Child Attack - Search", "ChkSpellsWait", "Wait for Spells to be Ready"), $x, $y, -1, -1)
-	_GUICtrlSetTip(-1, GetTranslatedFileIni("MBR GUI Design Child Attack - Search", "ChkSpellsWait_Info_01", "Stop searching for this attack type when Spells are not ready") & @CRLF & _
+	_GUICtrlSetTip(-1, GetTranslatedFileIni("MBR GUI Design Child Attack - Search", "ChkSpellsWait_Info_01", "Stop searching for this attack type when Spells are not ready.") & @CRLF & _
 			GetTranslatedFileIni("MBR GUI Design Child Attack - Search", "ChkSpellsWait_Info_02", "Warning: Do not enable unless you have spell factory or bot will not attack!"))
 	GUICtrlSetOnEvent(-1, "chkDBSpellsWait")
 
-	$g_hChkDBWaitForCastle = GUICtrlCreateCheckbox(GetTranslatedFileIni("MBR GUI Design Child Attack - Search", "ChkWaitForCastle", "Wait for Clan Castle"), $x, $y + 20, -1, -1)
+	$g_hChkDBMachineWait = GUICtrlCreateCheckbox(GetTranslatedFileIni("MBR GUI Design Child Attack - Search", "ChkDBMachineWait", "Wait for Siege to be Ready"), $x, $y + 20, -1, -1)
+	_GUICtrlSetTip(-1, GetTranslatedFileIni("MBR GUI Design Child Attack - Search", "ChkDBMachineWait_Info_01", "Stop searching for this attack type when Siege is not ready.") & @CRLF & _
+			GetTranslatedFileIni("MBR GUI Design Child Attack - Search", "ChkDBMachineWait_Info_02", "Warning: Do not enable unless you have Workshop or bot will not attack!"))
+
+	$g_hChkDBWaitForCastle = GUICtrlCreateCheckbox(GetTranslatedFileIni("MBR GUI Design Child Attack - Search", "ChkWaitForCastle", "Wait for Clan Castle"), $x, $y + 40, -1, -1)
 	_GUICtrlSetTip(-1, GetTranslatedFileIni("MBR GUI Design Child Attack - Search", "ChkWaitForCastle_Info_01", "Wait until your Clan Castle is filled, as requested."))
 	GUICtrlSetOnEvent(-1, "ChkWaitForCastle")
 	GUICtrlCreateGroup("", -99, -99, 1, 1)
