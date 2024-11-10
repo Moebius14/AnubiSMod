@@ -354,7 +354,7 @@ Func GetVillageSize($DebugLog = Default, $sStonePrefix = Default, $sTreePrefix =
 		$b = $stone[1] - $tree[1]
 		$c = Sqrt($a * $a + $b * $b) - $stone[4] - $tree[4]
 
-		If IsCustomScenery() Then
+		If $bIsOnMainBase And IsCustomScenery() Then
 			For $i = 0 To UBound($g_afRefCustomMainVillage) - 1
 				If $g_iTree = $g_afRefCustomMainVillage[$i][5] Then $iRefSize = $g_afRefCustomMainVillage[$i][4]
 			Next
