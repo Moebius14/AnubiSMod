@@ -174,7 +174,7 @@ EndFunc   ;==>BoostSuperTroop
 Func OpenBarrel($bTest = False)
 
 	Local $Area[4] = [30, 90 + $g_iMidOffsetY, 180, 240 + $g_iMidOffsetY]
-	If IsCustomScenery("Upper") Then
+	If IsCustomScenery(True, "Upper") Then
 		$Area[0] = 90
 		$Area[1] = 160 + $g_iMidOffsetY
 		$Area[2] = 200

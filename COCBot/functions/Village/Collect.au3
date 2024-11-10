@@ -124,7 +124,7 @@ Func CollectLootCart()
 	EndIf
 
 	Local $Area[4] = [0, 180 + $g_iMidOffsetY, 120, 280 + $g_iMidOffsetY]
-	If IsCustomScenery("Upper") Then
+	If IsCustomScenery(True, "Upper") Then
 		$Area[0] = 40
 		$Area[1] = 220 + $g_iMidOffsetY
 		$Area[2] = 150

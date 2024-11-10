@@ -141,7 +141,7 @@ EndFunc   ;==>GetFreeMagic
 Func OpenTraderWindow()
 	Local $Found = False
 	Local $Area[4] = [90, 100 + $g_iMidOffsetY, 210, 210 + $g_iMidOffsetY]
-	If IsCustomScenery("Upper") Then
+	If IsCustomScenery(True, "Upper") Then
 		$Area[0] = 120
 		$Area[1] = 150 + $g_iMidOffsetY
 		$Area[2] = 240

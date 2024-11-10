@@ -26,7 +26,8 @@ Func isInsideDiamond($aCoords)
 	Local $x = $aCoords[0], $y = $aCoords[1], $xD, $yD
 	;Local $Left = 15, $Right = 835, $Top = 30, $Bottom = 645 ; set the diamond shape 860x780
 	; set the diamond shape based on reference village
-	If isOnMainVillage(True) And IsCustomScenery() Then
+	Local $bIsOnMainBase = isOnMainVillage(True)
+	If IsCustomScenery($bIsOnMainBase) Then
 		For $i = 0 To UBound($g_afRefCustomMainVillage) - 1
 			If $g_iTree = $g_afRefCustomMainVillage[$i][5] Then
 				Local $Left = $g_afRefCustomMainVillage[$i][0]
@@ -97,7 +98,8 @@ Func isInsideDiamond($aCoords)
 EndFunc   ;==>isInsideDiamond
 
 Func GetReduceDiamond($iPercent = 100)
-	If isOnMainVillage(True) And IsCustomScenery() Then
+	Local $bIsOnMainBase = isOnMainVillage(True)
+	If IsCustomScenery($bIsOnMainBase) Then
 		For $i = 0 To UBound($g_afRefCustomMainVillage) - 1
 			If $g_iTree = $g_afRefCustomMainVillage[$i][5] Then
 				Local $InnerDiamondLeft = $g_afRefCustomMainVillage[$i][0]

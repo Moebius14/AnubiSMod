@@ -187,7 +187,7 @@ Func GetVillageSize($DebugLog = Default, $sStonePrefix = Default, $sTreePrefix =
 		Local $aStoneFiles = _FileListToArray($sDirectory, $sStonePrefix & "*.*", $FLTA_FILES)
 	Else
 		SetDeBugLog("Loading Stone Scenery: " & $sScenery, $COLOR_INFO)
-		If IsCustomScenery("Scenery", $sScenery) Then
+		If IsCustomScenery($bIsOnMainBase, "Scenery", $sScenery) Then
 			Local $aStoneFiles = _FileListToArray($sDirectory2, $sStonePrefix & $sScenery & "*.*", $FLTA_FILES)
 		Else
 			Local $aStoneFiles = _FileListToArray($sDirectory, $sStonePrefix & $sScenery & "*.*", $FLTA_FILES)
@@ -214,7 +214,7 @@ Func GetVillageSize($DebugLog = Default, $sStonePrefix = Default, $sTreePrefix =
 			$bottom = $y0 + $iAdditionalY
 			$sArea = Int($x1) & "," & Int($y1) & "|" & Int($right) & "," & Int($y1) & "|" & Int($right) & "," & Int($bottom) & "|" & Int($x1) & "," & Int($bottom)
 			SetDebugLog("GetVillageSize check for image " & $findImage)
-			If IsCustomScenery("Scenery", $sScenery) Then
+			If IsCustomScenery($bIsOnMainBase, "Scenery", $sScenery) Then
 				$a = decodeSingleCoord(findImage($findImage, $sDirectory2 & "\" & $findImage, $sArea, 1, $bForceCapture))
 			Else
 				$a = decodeSingleCoord(findImage($findImage, $sDirectory & "\" & $findImage, $sArea, 1, $bForceCapture))
@@ -258,7 +258,7 @@ Func GetVillageSize($DebugLog = Default, $sStonePrefix = Default, $sTreePrefix =
 	ElseIf $asStoneScenery = "DS" Then
 		Local $aTreeFiles = _FileListToArray($sDirectory, $sTreePrefix & "D*.*", $FLTA_FILES)
 	Else
-		If IsCustomScenery("Scenery", $sScenery) Then
+		If IsCustomScenery($bIsOnMainBase, "Scenery", $sScenery) Then
 			Local $aTreeFiles = _FileListToArray($sDirectory2, $sTreePrefix & $asStoneScenery & "*.*", $FLTA_FILES)
 		Else
 			Local $aTreeFiles = _FileListToArray($sDirectory, $sTreePrefix & $asStoneScenery & "*.*", $FLTA_FILES)
@@ -285,7 +285,7 @@ Func GetVillageSize($DebugLog = Default, $sStonePrefix = Default, $sTreePrefix =
 			$bottom = $y0 + $iAdditionalY
 			$sArea = Int($x1) & "," & Int($y1) & "|" & Int($right) & "," & Int($y1) & "|" & Int($right) & "," & Int($bottom) & "|" & Int($x1) & "," & Int($bottom)
 			SetDebugLog("GetVillageSize check for image " & $findImage)
-			If IsCustomScenery("Scenery", $sScenery) Then
+			If IsCustomScenery($bIsOnMainBase, "Scenery", $sScenery) Then
 				$a = decodeSingleCoord(findImage($findImage, $sDirectory2 & "\" & $findImage, $sArea, 1, False))
 			Else
 				$a = decodeSingleCoord(findImage($findImage, $sDirectory & "\" & $findImage, $sArea, 1, False))
@@ -354,7 +354,7 @@ Func GetVillageSize($DebugLog = Default, $sStonePrefix = Default, $sTreePrefix =
 		$b = $stone[1] - $tree[1]
 		$c = Sqrt($a * $a + $b * $b) - $stone[4] - $tree[4]
 
-		If $bIsOnMainBase And IsCustomScenery() Then
+		If IsCustomScenery($bIsOnMainBase) Then
 			For $i = 0 To UBound($g_afRefCustomMainVillage) - 1
 				If $g_iTree = $g_afRefCustomMainVillage[$i][5] Then $iRefSize = $g_afRefCustomMainVillage[$i][4]
 			Next
@@ -493,7 +493,8 @@ Func IsCoordSafe($x, $y)
 	Return $bResult
 EndFunc   ;==>IsCoordSafe
 
-Func IsCustomScenery($bZone = "All", $bScenery = "")
+Func IsCustomScenery($bIsOnMainBase = True, $bZone = "All", $bScenery = "")
+	If Not $bIsOnMainBase Then Return False
 	Switch $bZone
 		Case "All"
 			For $i = 0 To UBound($g_afRefCustomMainVillage) - 1
