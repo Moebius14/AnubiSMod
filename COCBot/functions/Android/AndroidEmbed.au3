@@ -356,7 +356,7 @@ Func _AndroidEmbed($Embed = True, $CallWinGetAndroidHandle = True, $bForceEmbed 
 			Return False
 		EndIf
 		;Switch $g_sAndroidEmulator
-		;	Case "BlueStacks", "BlueStacks2"
+		;	Case "BlueStacks5"
 		If $aPosCtl[2] <> $g_iAndroidClientWidth Then
 			If $g_bDebugAndroidEmbedded Then SetDebugLog("AndroidEmbed: $aPosCtl[2] = " & $aPosCtl[2] & " changed to " & $g_iAndroidClientWidth, Default, True)
 			$aPosCtl[2] = $g_iAndroidClientWidth

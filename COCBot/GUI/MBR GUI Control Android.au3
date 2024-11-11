@@ -202,7 +202,7 @@ Func getAllEmulators()
 		Local $IsTocontact = 0
 		Local $HelpLink = "Contact Your Favorite Developer!"
 		For $i = 0 To UBound($aEmulator) - 1
-			Local $emuVer = ""
+			Local $emuVer = "", $bMatchingEmulator = False
 			If StringInStr($aEmulator[$i], "BlueStacks5") Then $emuVer = GetVersionNormalized($__BlueStacks5_Version)
 			If StringInStr($aEmulator[$i], "nox") Then $emuVer = GetVersionNormalized($__Nox_Version)
 			If StringInStr($aEmulator[$i], "Memu") Then $emuVer = GetVersionNormalized($__MEmu_Version)
@@ -211,34 +211,39 @@ Func getAllEmulators()
 
 			Switch $aEmulator[$i]
 				Case "BlueStacks5"
+					$bMatchingEmulator = True
 					$DisplayVersionMin = "5.13.220.1001"
 					$VersionMin = GetVersionNormalized($DisplayVersionMin)
-					$DisplayVersionMax = "5.21.600.1019"
+					$DisplayVersionMax = "5.21.610.1003"
 					$VersionMax = GetVersionNormalized($DisplayVersionMax)
 				Case "Nox"
+					$bMatchingEmulator = True
 					$DisplayVersionMin = "7.0.6.0"
 					$VersionMin = GetVersionNormalized($DisplayVersionMin)
 					$DisplayVersionMax = "7.0.6.1"
 					$VersionMax = GetVersionNormalized($DisplayVersionMax)
 				Case "MEmu"
+					$bMatchingEmulator = True
 					$DisplayVersionMin = "9.0.8.0"
 					$VersionMin = GetVersionNormalized($DisplayVersionMin)
 					$DisplayVersionMax = "9.1.2.0"
 					$VersionMax = GetVersionNormalized($DisplayVersionMax)
+				Case Else
+					; diabled of the others
 			EndSwitch
 
-			If $emuVer <> "" And ($emuVer < $VersionMin Or $emuVer > $VersionMax) Then
-				Select
-					Case $emuVer < $VersionMin
-						SetLog("You are using an unsupported " & $aEmulator[$i] & " version !", $COLOR_ERROR)
-						SetLog("Minimum Required Version : " & $DisplayVersionMin, $COLOR_SUCCESS)
-					Case $emuVer > $VersionMax
-						Setlog("This " & $aEmulator[$i] & " version has never been tested on this Mod !", $COLOR_WARNING)
-						SetLog("Max Tested Version : " & $DisplayVersionMax, $COLOR_SUCCESS)
-				EndSelect
-			EndIf
-
-			If $emuVer = "" Then
+			If $bMatchingEmulator Then
+				If ($emuVer < $VersionMin Or $emuVer > $VersionMax) Then
+					Select
+						Case $emuVer < $VersionMin
+							SetLog("You are using an unsupported " & $aEmulator[$i] & " version !", $COLOR_ERROR)
+							SetLog("Minimum Required Version : " & $DisplayVersionMin, $COLOR_SUCCESS)
+						Case $emuVer > $VersionMax
+							Setlog("This " & $aEmulator[$i] & " version has never been tested on this Mod !", $COLOR_WARNING)
+							SetLog("Max Tested Version : " & $DisplayVersionMax, $COLOR_SUCCESS)
+					EndSelect
+				EndIf
+			Else
 				SetLog("You are using an unsupported Emulator : " & $aEmulator[$i], $COLOR_ERROR)
 				$IsTocontact += 1
 				ContinueLoop
