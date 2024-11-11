@@ -1763,7 +1763,7 @@ Func CheckScreenAndroid($ClientWidth, $ClientHeight, $bSetLog = True)
 		EndIf
 	Else
 		Switch $g_sAndroidEmulator
-			Case "BlueStacks", "BlueStacks2", "BlueStacks5" ; BlueStacks doesn't support it
+			Case "BlueStacks5" ; BlueStacks doesn't support it
 			Case Else
 				SetDebugLog($g_sAndroidEmulator & " Display Font Scale cannot be verified", $COLOR_ERROR)
 		EndSwitch
@@ -4942,8 +4942,6 @@ Func CheckEmuNewVersions()
 	Local $HelpLink = "Please visit MyBot Forum!"
 
 	Switch $g_sAndroidEmulator
-		Case "BlueStacks2"
-			$NewVersion = GetVersionNormalized("0.0.0.0")
 		Case "BlueStacks5"
  			$NewVersion = GetVersionNormalized("5.13.215")
 		Case "MEmu"

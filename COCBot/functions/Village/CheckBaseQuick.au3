@@ -47,12 +47,14 @@ Func CheckBaseQuick($sReturnHome = "")
 		getArmySpellCapacity(False, True)
 		If _Sleep($DELAYRESPOND) Then Return
 		If (Not SkipDonateNearFullTroops(True) Or $g_iCommandStop = 3 Or $g_iCommandStop = 0) And BalanceDonRec(True) Then DonateCC()
+		Local $IsAnythingDonated = False
+		If $IsTroopDonated Or $IsSpellDonated Or $IsSiegeDonated Then $IsAnythingDonated = True
 		If _Sleep($DELAYRUNBOT1) Then Return
 		checkMainScreen(False) ; required here due to many possible function exits
 		If $g_bRestart Then Return
 
 		CheckOverviewFullArmy(True) ; Check if army needs to be trained due donations
-		If Not ($g_bFullArmy) And $g_bTrainEnabled Then
+		If (Not ($g_bFullArmy) Or $IsAnythingDonated) And $g_bTrainEnabled Then
 			If $g_iActualTrainSkip < $g_iMaxTrainSkip Then
 				; Train()
 				TrainSystem()
@@ -69,7 +71,9 @@ Func CheckBaseQuick($sReturnHome = "")
 				Return
 			EndIf
 		EndIf
-
+		$IsTroopDonated = False
+		$IsSpellDonated = False
+		$IsSiegeDonated = False
 		Collect() ; Empty Collectors
 		If _Sleep($DELAYRUNBOT1) Then Return
 

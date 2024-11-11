@@ -3423,6 +3423,9 @@ Func SoldAndBuyItems($TestDebug = False, $ForceTime = False)
 			If _Sleep(1000) Then Return
 		Next
 
+		Local $ReadCCMedalsOCR = getOcrAndCapture("coc-ccmedals-trader", 65, 567 + $g_iMidOffsetY, 60, 15, True)
+		$g_iLootCCMedal = $ReadCCMedalsOCR
+
 		CloseWindow()
 
 		GUICtrlSetData($g_lblCapitalMedal, _NumberFormat($g_iLootCCMedal, True))

@@ -163,12 +163,6 @@ Func getAllEmulators()
 	GUICtrlSetData($g_hCmbAndroidEmulator, '')
 
 	; Bluestacks :
-	$__BlueStacks_Version = RegRead($g_sHKLM & "\SOFTWARE\BlueStacks\", "Version")
-	If Not @error Then
-		If GetVersionNormalized($__BlueStacks_Version) < GetVersionNormalized("0.10") Then $sEmulatorString &= "BlueStacks|"
-		If GetVersionNormalized($__BlueStacks_Version) > GetVersionNormalized("1.0") Then $sEmulatorString &= "BlueStacks2|"
-	EndIf
-
 	$__BlueStacks5_Version = RegRead($g_sHKLM & "\SOFTWARE\BlueStacks_nxt\", "Version")
 	If Not @error Then
 		If GetVersionNormalized($__BlueStacks5_Version) > GetVersionNormalized("5.0") Then $sEmulatorString &= "BlueStacks5|"
@@ -194,7 +188,6 @@ Func getAllEmulators()
 		EndIf
 		For $i = 0 To UBound($aEmulator) - 1
 			Local $emuVer = ""
-			If StringInStr($aEmulator[$i], "BlueStacks") Then $emuVer = $__BlueStacks_Version
 			If StringInStr($aEmulator[$i], "BlueStacks5") Then $emuVer = $__BlueStacks5_Version
 			If StringInStr($aEmulator[$i], "Memu") Then $emuVer = $__MEmu_Version
 			If StringInStr($aEmulator[$i], "nox") Then $emuVer = $__Nox_Version
@@ -274,14 +267,6 @@ Func getAllEmulatorsInstances()
 	Local $sEmulatorPath = 0
 
 	Switch $Emulator
-		Case "BlueStacks"
-			GUICtrlSetData($g_hCmbAndroidInstance, "Android", "Android")
-			Return
-		Case "BlueStacks2"
-			GUICtrlSetData($g_hCmbAndroidInstance, "Android", "Android")
-			Local $VMsBlueStacks = ""
-			$VMsBlueStacks = RegRead($g_sHKLM & "\SOFTWARE\BlueStacks\", "DataDir")
-			$sEmulatorPath = $VMsBlueStacks ; C:\ProgramData\BlueStacks\Engine
 		Case "BlueStacks5"
 			Local $VMsBlueStacks = RegRead($g_sHKLM & "\SOFTWARE\BlueStacks_nxt\", "DataDir")
 			$sEmulatorPath = $VMsBlueStacks ; C:\ProgramData\BlueStacks\Engine
@@ -298,7 +283,7 @@ Func getAllEmulatorsInstances()
 	$sEmulatorPath = StringReplace($sEmulatorPath, "\\", "\")
 
 	; BS Multi Instance
-	Local $sBlueStacksFolder = ($Emulator = "BlueStacks2" Or $Emulator = "BlueStacks5") ? ("Pie*;Oreo*;Nougat*;Android*") : ("*")
+	Local $sBlueStacksFolder = ($Emulator = "BlueStacks5") ? ("Pie*;Oreo*;Nougat*;Android*") : ("*")
 
 	; Getting all VM Folders
 	Local $eError = 0
