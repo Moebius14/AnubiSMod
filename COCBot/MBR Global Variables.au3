@@ -293,8 +293,8 @@ Global $g_bFoundInstalledAndroid = False
 Global Const $g_iOpenAndroidActiveMaxTry = 3 ; Try recursively 3 times to open Android
 Global Const $g_iAndroidBackgroundModeDirectX = 1
 Global Const $g_iAndroidBackgroundModeOpenGL = 2
-Global $g_iAndroidBackgroundMode = 2 ; 0 = Default (using $g_iAndroidBackgroundModeDefault), 1 = WinAPI mode (faster, but requires Android DirectX), 2 = ADB screencap mode (slower, but alwasy works even if Monitor is off -> "True Brackground Mode")
-Global $g_iAndroidBackgroundModeDefault = 2 ; Uses 1 or 2 of $g_iAndroidBackgroundMode
+Global $g_iAndroidBackgroundMode = 0 ; 0 = Default (using $g_iAndroidBackgroundModeDefault), 1 = WinAPI mode (faster, but requires Android DirectX), 2 = ADB screencap mode (slower, but alwasy works even if Monitor is off -> "True Brackground Mode")
+Global $g_iAndroidBackgroundModeDefault = 1 ; Uses 1 or 2 of $g_iAndroidBackgroundMode
 Global $g_iAndroidConfig = 0 ; Default selected Android Config of $g_avAndroidAppConfig array
 Global $g_sAndroidVersion ; Identified version of Android Emulator (not Android Version, this is the version of the vendor!)
 Global $g_sAndroidEmulator ; Emulator used (BS, BS2, MEmu, Nox)
