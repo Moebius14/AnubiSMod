@@ -418,7 +418,8 @@ Func LabGuiDisplay() ; called from main loop to get an early status for indictor
 		$IsBOSJustCollected = 0
 		$IsResPotJustCollected = 0
 		If Not $GobBuilderPresent Then ; Just in case
-			If UBound(decodeSingleCoord(FindImageInPlace2("GobBuilder", $g_sImgGobBuilderLab, 510, 140 + $g_iMidOffsetY, 575, 195 + $g_iMidOffsetY, True))) > 1 Then
+			If UBound(decodeSingleCoord(FindImageInPlace2("GobBuilder", $g_sImgGobBuilderLab, 510, 140 + $g_iMidOffsetY, 575, 195 + $g_iMidOffsetY, True))) > 1 Or _
+					UBound(decodeSingleCoord(FindImageInPlace2("GobBuilder", $g_sImgGobBuilder, 420, 115 + $g_iMidOffsetY, 490, 160 + $g_iMidOffsetY, True))) > 1 Then
 				$GobBuilderPresent = True
 				$GobBuilderOffsetRunning = 355
 				$GobBuilderOffsetRunningBooks = 435

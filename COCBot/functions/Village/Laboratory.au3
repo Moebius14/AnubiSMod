@@ -91,7 +91,8 @@ Func Laboratory($debug = False)
 	If Not FindResearchButton() Then Return False ; cant start because we cannot find the research button
 
 	If Not $GobBuilderPresent Then ; Just in case
-		If UBound(decodeSingleCoord(FindImageInPlace2("GobBuilder", $g_sImgGobBuilderLab, 510, 140 + $g_iMidOffsetY, 575, 195 + $g_iMidOffsetY, True))) > 1 Then
+		If UBound(decodeSingleCoord(FindImageInPlace2("GobBuilder", $g_sImgGobBuilderLab, 510, 140 + $g_iMidOffsetY, 575, 195 + $g_iMidOffsetY, True))) > 1 Or _
+				UBound(decodeSingleCoord(FindImageInPlace2("GobBuilder", $g_sImgGobBuilder, 420, 115 + $g_iMidOffsetY, 490, 160 + $g_iMidOffsetY, True))) > 1 Then
 			$GobBuilderPresent = True
 			$GobBuilderOffsetRunning = 355
 			$GobBuilderOffsetRunningBooks = 435
@@ -113,7 +114,7 @@ Func Laboratory($debug = False)
 		Local $iPage = Ceiling($g_iCmbLaboratory / $iPicsPerPage) ; page # of user choice
 		If $g_iCmbLaboratory > 43 And $g_iCmbLaboratory <> 50 Then $iPage = 5
 		If $g_iCmbLaboratory = 50 Then $iPage = 2
-;		If $g_iCmbLaboratory = 51 Then $iPage = 4
+		;		If $g_iCmbLaboratory = 51 Then $iPage = 4
 		While ($iCurPage < $iPage) ; go directly to the needed page
 			LabNextPage($iCurPage, $iPages, $iYMidPoint) ; go to next page of upgrades
 			$iCurPage += 1 ; Next page
