@@ -98,7 +98,7 @@ Global $aReceivedTroopsRaidMedals[5] = [240, 225 + $g_iMidOffsetY, 0xFFFFFF, 20,
 Global $aBoostTroopsWindow[5] = [330, 100 + $g_iMidOffsetY, 0xFFFFFF, 20, 50] ; Y of You have received blabla from xx!
 Global $aBuidersAppWindowTop[5] = [650, 90 + $g_iMidOffsetY, 0xFFFFFF, 20, 30] ; Y of You have received blabla from xx!
 Global $aBuidersAppWindowMid[5] = [397, 165 + $g_iMidOffsetY, 0xFFFFFF, 20, 145] ; Y of You have received blabla from xx!
-Global $aBuidersAppWindowConfirm[5] = [640, 130 + $g_iMidOffsetY, 0xFFFFFF, 15, 30] ; Y of You have received blabla from xx!
+Global $aBuidersAppWindowConfirm[5] = [640, 160 + $g_iMidOffsetY, 0xFFFFFF, 15, 30] ; Y of You have received blabla from xx!
 Global $aReceivedTroopsCG[5] = [407, 160 + $g_iMidOffsetY, 0xFFFFFF, 15, 145] ; Y of You have received blabla from xx!
 
 ; King Health Bar, check at the middle of the bar, index - 10 is x-offset added to middle of health bar
