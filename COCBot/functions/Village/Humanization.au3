@@ -3471,12 +3471,13 @@ Func ClickClanFilter($MaxTime, $FilterX, $FilterY)
 EndFunc   ;==>ClickClanFilter
 
 Func BBBattleLog()
-	If Not $g_bUseBotHumanization Then Return
+	Local $NoExecution = "NoExec"
+	If Not $g_bUseBotHumanization Then Return $NoExecution
 	Local $IsToViewBBBattleLog = Random(0, 100, 1)
 	Local $ViewPriorityNumber = 0
 	Local $RedSignal = _ColorCheck(_GetPixelColor(50, 103 + $g_iMidOffsetY, True), Hex(0xF61621, 6), 20)
 	If $g_iacmbPriorityBB[0] = 0 Then Return
-	If $g_iacmbPriorityBB[0] = 1 Then $ViewPriorityNumber = 85
+	If $g_iacmbPriorityBB[0] = 1 Then $ViewPriorityNumber = 90
 	If $g_iacmbPriorityBB[0] = 2 Then $ViewPriorityNumber = 70
 	If $g_iacmbPriorityBB[0] = 3 Then $ViewPriorityNumber = 50
 	If $g_iacmbPriorityBB[0] = 4 Then $ViewPriorityNumber = 30
@@ -3523,13 +3524,19 @@ Func BBBattleLog()
 			Scroll(Random(1, 2, 1))
 			If Not $g_bRunState Then Return
 			If _Sleep(Random(3000, 5000, 1)) Then Return
-			If Not BBBattleWatchReplay() Then CloseWindow()
+			If Not BBBattleWatchReplay() Then
+				CloseWindow2()
+				If _Sleep(Random(1000, 1500, 1)) Then Return
+			Else
+				If _Sleep(Random(1000, 1500, 1)) Then Return
+				ZoomOut()
+			EndIf
 		Else
-			CloseWindow()
+			CloseWindow2()
+			If _Sleep(Random(1000, 1500, 1)) Then Return
 		EndIf
-		If Not $g_bRunState Then Return
-		If _Sleep(Random(1000, 2000, 1)) Then Return
-		ZoomOut()
+	Else
+		Return $NoExecution
 	EndIf
 
 EndFunc   ;==>BBBattleLog
@@ -3538,7 +3545,7 @@ Func BBBattleWatchReplay()
 	Local $IsToWatchBBReplays = Random(0, 100, 1)
 	Local $WatchPriorityNumber = 0
 	If $g_iacmbPriorityBB[1] = 0 Then Return
-	If $g_iacmbPriorityBB[1] = 1 Then $WatchPriorityNumber = 85
+	If $g_iacmbPriorityBB[1] = 1 Then $WatchPriorityNumber = 90
 	If $g_iacmbPriorityBB[1] = 2 Then $WatchPriorityNumber = 70
 	If $g_iacmbPriorityBB[1] = 3 Then $WatchPriorityNumber = 50
 	If $g_iacmbPriorityBB[1] = 4 Then $WatchPriorityNumber = 30

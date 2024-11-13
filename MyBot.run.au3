@@ -1865,9 +1865,12 @@ Func BuilderBase($bTest = False)
 			If _Sleep(Random($DELAYRUNBOT4, $DELAYRUNBOT3, 1)) Then Return
 		EndIf
 
-		BBBattleLog()
-		If _Sleep(Random($DELAYRUNBOT4, $DELAYRUNBOT3, 1)) Then Return
-		If checkObstacles() Then Return
+		If BBBattleLog() <> "NoExec" Then
+			If _Sleep(Random($DELAYRUNBOT4, $DELAYRUNBOT3, 1)) Then Return
+			If checkObstacles() Then Return
+		Else
+			If _Sleep(Random($DELAYRUNBOT4, $DELAYRUNBOT3, 1)) Then Return
+		EndIf
 
 		BuilderBaseReport()
 		If _Sleep(Random($DELAYRUNBOT4, $DELAYRUNBOT3, 1)) Then Return
