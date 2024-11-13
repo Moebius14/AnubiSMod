@@ -42,8 +42,8 @@ Func CollectCCGold($bTest = False)
 		Next
 		If $bWindowOpened Then
 			$aCollect = QuickMIS("CNX", $g_sImgCCGoldCollect, 60, 350 + $g_iMidOffsetY, 770, 415 + $g_iMidOffsetY)
-			_ArraySort($aCollect, 0, 0, 0, 1)
 			If IsArray($aCollect) And UBound($aCollect) > 0 And UBound($aCollect, $UBOUND_COLUMNS) > 1 Then
+				_ArraySort($aCollect, 0, 0, 0, 1)
 				For $i = 0 To UBound($aCollect) - 1
 					If Not $bTest Then
 						$CollectingCCGold = getOcrAndCapture("coc-forge-ccgold", $aCollect[$i][1] - 75, $aCollect[$i][2] - 15, 60, 18, True)
@@ -108,8 +108,8 @@ Func CollectCCGold($bTest = False)
 						ClickDrag(770, 290 + $g_iMidOffsetY, 490, 290 + $g_iMidOffsetY)
 						If _Sleep(Random(1500, 2000, 1)) Then Return
 						$aCollect = QuickMIS("CNX", $g_sImgCCGoldCollect, 450, 350 + $g_iMidOffsetY, 800, 415 + $g_iMidOffsetY)
-						_ArraySort($aCollect, 0, 0, 0, 1)
 						If IsArray($aCollect) And UBound($aCollect) > 0 And UBound($aCollect, $UBOUND_COLUMNS) > 1 Then
+							_ArraySort($aCollect, 0, 0, 0, 1)
 							For $i = 0 To UBound($aCollect) - 1
 								If Not $bTest Then
 									$CollectingCCGold = getOcrAndCapture("coc-forge-ccgold", $aCollect[$i][1] - 75, $aCollect[$i][2] - 15, 60, 18, True)
@@ -503,8 +503,8 @@ Func ForgeClanCapitalGold($bTest = False)
 		EndIf
 	EndIf
 
-	RemoveDupCNX($iActiveForge)
 	If IsArray($iActiveForge) And UBound($iActiveForge) > 0 Then
+		RemoveDupCNX($iActiveForge)
 		If UBound($iActiveForge) >= $iBuilderToUse Then
 			SetLog("We have All Builder Active for Forge", $COLOR_INFO)
 			CloseWindow()
@@ -535,11 +535,11 @@ Func ForgeClanCapitalGold($bTest = False)
 		EndIf
 	EndIf
 
-	RemoveDupCNX($aCraft)
-	_ArraySort($aCraft, 0, 0, 0, 1) ;sort by column 1 (x coord)
-	SetDebugLog("Count of Craft Button : " & UBound($aCraft), $COLOR_DEBUG)
-
 	If IsArray($aCraft) And UBound($aCraft) > 0 And UBound($aCraft, $UBOUND_COLUMNS) > 1 Then
+
+		RemoveDupCNX($aCraft)
+		_ArraySort($aCraft, 0, 0, 0, 1) ;sort by column 1 (x coord)
+		SetDebugLog("Count of Craft Button : " & UBound($aCraft), $COLOR_DEBUG)
 
 		Local $iBuilderToAssign = 0
 		Local $UnactiveCraftToStart = $iBuilderToUse - $iBuilder
@@ -2728,60 +2728,12 @@ Func PicCCTrophies()
 EndFunc   ;==>PicCCTrophies
 
 Func UTCTime()
-	Local $Day, $Time, $TimeHourUTC
-	If _Sleep(100) Then Return
-	Local $String = BinaryToString(InetRead("http://worldtimeapi.org/api/timezone/Etc/UTC.txt", 1))
-	Local $ErrorCycle = 0
-	While @error <> 0
-		$String = BinaryToString(InetRead("http://worldtimeapi.org/api/timezone/Etc/UTC.txt", 1))
-		If @error <> 0 Then
-			$ErrorCycle += 1
-		Else
-			ExitLoop
-		EndIf
-		If _Sleep(150) Then Return
-		If $ErrorCycle = 10 Then ExitLoop
-	WEnd
-	If $ErrorCycle = 10 Then
-		If Number(@WDAY) = 5 Or Number(@WDAY) = 6 Then
-			Return UTCTimeRescue1()
-		Else
-			Return False
-		EndIf
-	EndIf
-	$Day = StringRegExp($String, 'day_of_week: (.+?)', $STR_REGEXPARRAYMATCH)
-	$Time = StringRegExp($String, 'datetime: (.+?)T(\d+:\d+:\d+)', $STR_REGEXPARRAYMATCH)
-	If IsArray($Time) And UBound($Time) > 0 Then
-		$TimeHourUTC = StringSplit($Time[1], ":", $STR_NOCOUNT)
-	Else
-		Return UTCTimeRescue1()
-	EndIf
-	If IsArray($TimeHourUTC) And UBound($TimeHourUTC) > 0 Then
-		If $TimeHourUTC[0] > 6 And $Day[0] = 5 Then Return True ;Raid begins Friday at 7am utc.
-	Else
-		If Number(@WDAY) = 5 Or Number(@WDAY) = 6 Then Return UTCTimeRescue1()
-	EndIf
-	Return False
-EndFunc   ;==>UTCTime
-
-Func UTCTimeRescue1()
 	Local $Time, $DayOfTheWeek, $TimeHourUTC
 	If _Sleep(100) Then Return
 	Local $String = BinaryToString(InetRead("https://timeapi.io/api/time/current/zone?timeZone=utc", 1))
-	Local $ErrorCycle = 0
-	While @error <> 0
-		$String = BinaryToString(InetRead("https://timeapi.io/api/time/current/zone?timeZone=utc", 1))
-		If @error <> 0 Then
-			$ErrorCycle += 1
-		Else
-			ExitLoop
-		EndIf
-		If _Sleep(200) Then Return
-		If $ErrorCycle = 15 Then ExitLoop
-	WEnd
-	If $ErrorCycle = 15 Then
+	If @error Then
 		If Number(@WDAY) = 0 Or Number(@WDAY) = 1 Then
-			Return UTCTimeRescue2()
+			Return UTCTimeRescue1()
 		Else
 			Return False
 		EndIf
@@ -2791,10 +2743,36 @@ Func UTCTimeRescue1()
 	If IsArray($Time) And UBound($Time) > 0 Then
 		$TimeHourUTC = StringSplit($Time[1], ":", $STR_NOCOUNT)
 	Else
-		If Number(@WDAY) = 0 Or Number(@WDAY) = 1 Then Return UTCTimeRescue2()
+		If Number(@WDAY) = 0 Or Number(@WDAY) = 1 Then Return UTCTimeRescue1()
 	EndIf
 	If IsArray($TimeHourUTC) And UBound($TimeHourUTC) > 0 Then
 		If $TimeHourUTC[0] > 6 And $DayOfTheWeek[0] = "Friday" Then Return True ;Raid begins Friday at 7am utc.
+	Else
+		If Number(@WDAY) = 5 Or Number(@WDAY) = 6 Then Return UTCTimeRescue1()
+	EndIf
+	Return False
+EndFunc   ;==>UTCTime
+
+Func UTCTimeRescue1()
+	Local $Day, $Time, $TimeHourUTC
+	If _Sleep(100) Then Return
+	Local $String = BinaryToString(InetRead("http://worldtimeapi.org/api/timezone/Etc/UTC.txt", 1))
+	If @error Then
+		If Number(@WDAY) = 5 Or Number(@WDAY) = 6 Then
+			Return UTCTimeRescue2()
+		Else
+			Return False
+		EndIf
+	EndIf
+	$Day = StringRegExp($String, 'day_of_week: (.+?)', $STR_REGEXPARRAYMATCH)
+	$Time = StringRegExp($String, 'datetime: (.+?)T(\d+:\d+:\d+)', $STR_REGEXPARRAYMATCH)
+	If IsArray($Time) And UBound($Time) > 0 Then
+		$TimeHourUTC = StringSplit($Time[1], ":", $STR_NOCOUNT)
+	Else
+		Return UTCTimeRescue2()
+	EndIf
+	If IsArray($TimeHourUTC) And UBound($TimeHourUTC) > 0 Then
+		If $TimeHourUTC[0] > 6 And $Day[0] = 5 Then Return True ;Raid begins Friday at 7am utc.
 	Else
 		If Number(@WDAY) = 5 Or Number(@WDAY) = 6 Then Return UTCTimeRescue2()
 	EndIf
@@ -3495,34 +3473,23 @@ EndFunc   ;==>BuyMagicItems
 Func UTCTimeMedals()
 	Local $Time, $DayOfTheWeek, $TimeHourUTC
 	If _Sleep(100) Then Return
-	Local $String = BinaryToString(InetRead("http://worldtimeapi.org/api/timezone/Etc/UTC.txt", 1))
-	Local $ErrorCycle = 0
-	While @error <> 0
-		$String = BinaryToString(InetRead("http://worldtimeapi.org/api/timezone/Etc/UTC.txt", 1))
-		If @error <> 0 Then
-			$ErrorCycle += 1
-		Else
-			ExitLoop
-		EndIf
-		If _Sleep(200) Then Return
-		If $ErrorCycle = 15 Then ExitLoop
-	WEnd
-	If $ErrorCycle = 15 Then
+	Local $String = BinaryToString(InetRead("https://timeapi.io/api/time/current/zone?timeZone=utc", 1))
+	If @error Then
 		If Number(@WDAY) = 1 Or Number(@WDAY) = 2 Then
-			Return UTCTimeCGRescue1()
+			Return UTCTimeMedalsRescue1()
 		Else
 			Return False
 		EndIf
 	EndIf
-	$Time = StringRegExp($String, 'datetime: (.+?)T(\d+:\d+:\d+)', $STR_REGEXPARRAYMATCH)
-	$DayOfTheWeek = StringRegExp($String, 'day_of_week: (\d)', $STR_REGEXPARRAYMATCH)
+	$Time = StringRegExp($String, 'dateTime":"(.+?)T(\d+:\d+:\d+)', $STR_REGEXPARRAYMATCH)
+	$DayOfTheWeek = StringRegExp($String, 'dayOfWeek":"(\w+)', $STR_REGEXPARRAYMATCH)
 	If IsArray($Time) And UBound($Time) > 0 Then
 		$TimeHourUTC = StringSplit($Time[1], ":", $STR_NOCOUNT)
 	Else
 		Return UTCTimeMedalsRescue1()
 	EndIf
 	If IsArray($TimeHourUTC) And UBound($TimeHourUTC) > 0 And IsArray($DayOfTheWeek) And UBound($DayOfTheWeek) > 0 Then
-		If $TimeHourUTC[0] > 0 And $DayOfTheWeek[0] = 1 Then ; Will check Only Monday From 00:00 To 06:50 UTC (Raid Week-end ends at 7.00 UTC)
+		If $TimeHourUTC[0] > 0 And $DayOfTheWeek[0] = "Monday" Then ; Will check Only Monday From 00:00 To 06:50 UTC (Raid Week-end ends at 7.00 UTC)
 			If $TimeHourUTC[0] < 6 Or ($TimeHourUTC[0] = 6 And $TimeHourUTC[1] < 50) Then Return True
 		EndIf
 	Else
@@ -3534,34 +3501,23 @@ EndFunc   ;==>UTCTimeMedals
 Func UTCTimeMedalsRescue1()
 	Local $Time, $DayOfTheWeek, $TimeHourUTC
 	If _Sleep(100) Then Return
-	Local $String = BinaryToString(InetRead("https://timeapi.io/api/time/current/zone?timeZone=utc", 1))
-	Local $ErrorCycle = 0
-	While @error <> 0
-		$String = BinaryToString(InetRead("https://timeapi.io/api/time/current/zone?timeZone=utc", 1))
-		If @error <> 0 Then
-			$ErrorCycle += 1
-		Else
-			ExitLoop
-		EndIf
-		If _Sleep(200) Then Return
-		If $ErrorCycle = 15 Then ExitLoop
-	WEnd
-	If $ErrorCycle = 15 Then
+	Local $String = BinaryToString(InetRead("http://worldtimeapi.org/api/timezone/Etc/UTC.txt", 1))
+	If @error Then
 		If Number(@WDAY) = 1 Or Number(@WDAY) = 2 Then
-			Return UTCTimeCGRescue2()
+			Return UTCTimeMedalsRescue2()
 		Else
 			Return False
 		EndIf
 	EndIf
-	$Time = StringRegExp($String, 'dateTime":"(.+?)T(\d+:\d+:\d+)', $STR_REGEXPARRAYMATCH)
-	$DayOfTheWeek = StringRegExp($String, 'dayOfWeek":"(\w+)', $STR_REGEXPARRAYMATCH)
+	$Time = StringRegExp($String, 'datetime: (.+?)T(\d+:\d+:\d+)', $STR_REGEXPARRAYMATCH)
+	$DayOfTheWeek = StringRegExp($String, 'day_of_week: (\d)', $STR_REGEXPARRAYMATCH)
 	If IsArray($Time) And UBound($Time) > 0 Then
 		$TimeHourUTC = StringSplit($Time[1], ":", $STR_NOCOUNT)
 	Else
 		Return UTCTimeMedalsRescue2()
 	EndIf
 	If IsArray($TimeHourUTC) And UBound($TimeHourUTC) > 0 And IsArray($DayOfTheWeek) And UBound($DayOfTheWeek) > 0 Then
-		If $TimeHourUTC[0] > 0 And $DayOfTheWeek[0] = "Monday" Then ; Will check Only Monday From 00:00 To 06:50 UTC (Raid Week-end ends at 7.00 UTC)
+		If $TimeHourUTC[0] > 0 And $DayOfTheWeek[0] = 1 Then ; Will check Only Monday From 00:00 To 06:50 UTC (Raid Week-end ends at 7.00 UTC)
 			If $TimeHourUTC[0] < 6 Or ($TimeHourUTC[0] = 6 And $TimeHourUTC[1] < 50) Then Return True
 		EndIf
 	Else
@@ -3604,63 +3560,12 @@ Func BtnForcePurgeMedals()
 EndFunc   ;==>BtnForcePurgeMedals
 
 Func UTCRaidWarning()
-	If Not $g_bNotifyTGEnable Or Not $g_bChkCCRaidWarning Then Return False
-	If $AllCCRaidAttacksDone Then Return False
-	Local $Time, $DayOfTheWeek, $TimeHourUTC
-	If _Sleep(100) Then Return
-	Local $String = BinaryToString(InetRead("http://worldtimeapi.org/api/timezone/Etc/UTC.txt", 1))
-	Local $ErrorCycle = 0
-	While @error <> 0
-		$String = BinaryToString(InetRead("http://worldtimeapi.org/api/timezone/Etc/UTC.txt", 1))
-		If @error <> 0 Then
-			$ErrorCycle += 1
-		Else
-			ExitLoop
-		EndIf
-		If _Sleep(200) Then Return
-		If $ErrorCycle = 15 Then ExitLoop
-	WEnd
-	If $ErrorCycle = 15 Then
-		If Number(@WDAY) = 0 Or Number(@WDAY) = 1 Then
-			Return UTCRaidWarningRescue1()
-		Else
-			Return False
-		EndIf
-	EndIf
-	$Time = StringRegExp($String, 'datetime: (.+?)T(\d+:\d+:\d+)', $STR_REGEXPARRAYMATCH)
-	$DayOfTheWeek = StringRegExp($String, 'day_of_week: (\d)', $STR_REGEXPARRAYMATCH)
-	If IsArray($Time) And UBound($Time) > 0 Then
-		$TimeHourUTC = StringSplit($Time[1], ":", $STR_NOCOUNT)
-	Else
-		If Number(@WDAY) = 0 Or Number(@WDAY) = 1 Then Return UTCRaidWarningRescue1()
-	EndIf
-	If IsArray($TimeHourUTC) And UBound($TimeHourUTC) > 0 And IsArray($DayOfTheWeek) And UBound($DayOfTheWeek) > 0 Then
-		If ($TimeHourUTC[0] >= 17 And $DayOfTheWeek[0] = 0) Or ($TimeHourUTC[0] > 0 And ($TimeHourUTC[0] < 6 Or ($TimeHourUTC[0] = 6 And $TimeHourUTC[1] < 50)) And _
-				$DayOfTheWeek[0] = 1) Then Return True ; Will check Only From Sunday 17:00 To Monday 06:50 UTC (Raid Week-end ends at 7.00 UTC)
-	Else
-		If Number(@WDAY) = 0 Or Number(@WDAY) = 1 Then Return UTCRaidWarningRescue1()
-	EndIf
-	Return False
-EndFunc   ;==>UTCRaidWarning
-
-Func UTCRaidWarningRescue1()
 	Local $Time, $DayOfTheWeek, $TimeHourUTC
 	If _Sleep(100) Then Return
 	Local $String = BinaryToString(InetRead("https://timeapi.io/api/time/current/zone?timeZone=utc", 1))
-	Local $ErrorCycle = 0
-	While @error <> 0
-		$String = BinaryToString(InetRead("https://timeapi.io/api/time/current/zone?timeZone=utc", 1))
-		If @error <> 0 Then
-			$ErrorCycle += 1
-		Else
-			ExitLoop
-		EndIf
-		If _Sleep(200) Then Return
-		If $ErrorCycle = 15 Then ExitLoop
-	WEnd
-	If $ErrorCycle = 15 Then
+	If @error Then
 		If Number(@WDAY) = 0 Or Number(@WDAY) = 1 Then
-			Return UTCRaidWarningRescue2()
+			Return UTCRaidWarningRescue1()
 		Else
 			Return False
 		EndIf
@@ -3670,11 +3575,40 @@ Func UTCRaidWarningRescue1()
 	If IsArray($Time) And UBound($Time) > 0 Then
 		$TimeHourUTC = StringSplit($Time[1], ":", $STR_NOCOUNT)
 	Else
-		If Number(@WDAY) = 0 Or Number(@WDAY) = 1 Then Return UTCRaidWarningRescue2()
+		If Number(@WDAY) = 0 Or Number(@WDAY) = 1 Then Return UTCRaidWarningRescue1()
 	EndIf
 	If IsArray($TimeHourUTC) And UBound($TimeHourUTC) > 0 And IsArray($DayOfTheWeek) And UBound($DayOfTheWeek) > 0 Then
 		If ($TimeHourUTC[0] >= 17 And $DayOfTheWeek[0] = "Sunday") Or ($TimeHourUTC[0] > 0 And ($TimeHourUTC[0] < 6 Or ($TimeHourUTC[0] = 6 And $TimeHourUTC[1] < 50)) And _
 				$DayOfTheWeek[0] = "Monday") Then Return True ; Will check Only From Sunday 17:00 To Monday 06:50 UTC (Raid Week-end ends at 7.00 UTC)
+	Else
+		If Number(@WDAY) = 0 Or Number(@WDAY) = 1 Then Return UTCRaidWarningRescue1()
+	EndIf
+	Return False
+EndFunc   ;==>UTCRaidWarning
+
+Func UTCRaidWarningRescue1()
+	If Not $g_bNotifyTGEnable Or Not $g_bChkCCRaidWarning Then Return False
+	If $AllCCRaidAttacksDone Then Return False
+	Local $Time, $DayOfTheWeek, $TimeHourUTC
+	If _Sleep(100) Then Return
+	Local $String = BinaryToString(InetRead("http://worldtimeapi.org/api/timezone/Etc/UTC.txt", 1))
+	If @error Then
+		If Number(@WDAY) = 0 Or Number(@WDAY) = 1 Then
+			Return UTCRaidWarningRescue2()
+		Else
+			Return False
+		EndIf
+	EndIf
+	$Time = StringRegExp($String, 'datetime: (.+?)T(\d+:\d+:\d+)', $STR_REGEXPARRAYMATCH)
+	$DayOfTheWeek = StringRegExp($String, 'day_of_week: (\d)', $STR_REGEXPARRAYMATCH)
+	If IsArray($Time) And UBound($Time) > 0 Then
+		$TimeHourUTC = StringSplit($Time[1], ":", $STR_NOCOUNT)
+	Else
+		If Number(@WDAY) = 0 Or Number(@WDAY) = 1 Then Return UTCRaidWarningRescue2()
+	EndIf
+	If IsArray($TimeHourUTC) And UBound($TimeHourUTC) > 0 And IsArray($DayOfTheWeek) And UBound($DayOfTheWeek) > 0 Then
+		If ($TimeHourUTC[0] >= 17 And $DayOfTheWeek[0] = 0) Or ($TimeHourUTC[0] > 0 And ($TimeHourUTC[0] < 6 Or ($TimeHourUTC[0] = 6 And $TimeHourUTC[1] < 50)) And _
+				$DayOfTheWeek[0] = 1) Then Return True ; Will check Only From Sunday 17:00 To Monday 06:50 UTC (Raid Week-end ends at 7.00 UTC)
 	Else
 		If Number(@WDAY) = 0 Or Number(@WDAY) = 1 Then Return UTCRaidWarningRescue2()
 	EndIf

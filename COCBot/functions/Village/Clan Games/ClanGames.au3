@@ -564,12 +564,12 @@ Func _ClanGames($test = False, $HaltMode = False)
 		If $g_bChkClanGamesDebug Then Setlog("_ClanGames aAllDetectionsOnScreen (in " & Round(__TimerDiff($hTimer) / 1000, 2) & " seconds)", $COLOR_INFO)
 		$hTimer = __TimerInit()
 
-		; Sort by Yaxis
-		_ArraySort($aSelectChallenges, 1, 0, 0, 2)
-		; Then Sort by Page
-		_ArraySort($aSelectChallenges, 1, 0, 0, 6)
-
 		If UBound($aSelectChallenges) > 0 Then
+			; Sort by Yaxis
+			_ArraySort($aSelectChallenges, 1, 0, 0, 2)
+			; Then Sort by Page
+			_ArraySort($aSelectChallenges, 1, 0, 0, 6)
+
 			; let's get the Event timing & points
 			For $i = 0 To UBound($aSelectChallenges) - 1
 				ChallengeNextPage($aSelectChallenges[$i][6], $iRow)
@@ -1802,13 +1802,13 @@ Func PurgeUncheckedEvent($iRow = 1)
 		If $g_bChkClanGamesDebug Then Setlog("_ClanGames aAllDetectionsOnScreen2 (in " & Round(__TimerDiff($hTimer) / 1000, 2) & " seconds)", $COLOR_INFO)
 		$hTimer = __TimerInit()
 
-		; Sort by Yaxis
-		_ArraySort($aSelectChallenges, 1, 0, 0, 2)
-		; Then Sort by Page
-		_ArraySort($aSelectChallenges, 1, 0, 0, 6)
-
 		If IsDeclared("aSelectChallenges") Then
 			If UBound($aSelectChallenges) > 0 Then
+				; Sort by Yaxis
+				_ArraySort($aSelectChallenges, 1, 0, 0, 2)
+				; Then Sort by Page
+				_ArraySort($aSelectChallenges, 1, 0, 0, 6)
+
 				For $i = 0 To UBound($aSelectChallenges) - 1
 					If Not $g_bRunState Then Return
 					SetDebugLog("$aSelectChallenges: " & _ArrayToString($aSelectChallenges))
@@ -2790,26 +2790,15 @@ EndFunc   ;==>IsCGCoolDownTime
 Func UTCTimeCG()
 	Local $Time, $DayUTC, $TimeHourUTC
 	If _Sleep(100) Then Return
-	Local $String = BinaryToString(InetRead("http://worldtimeapi.org/api/timezone/Etc/UTC.txt", 1))
-	Local $ErrorCycle = 0
-	While @error <> 0
-		$String = BinaryToString(InetRead("http://worldtimeapi.org/api/timezone/Etc/UTC.txt", 1))
-		If @error <> 0 Then
-			$ErrorCycle += 1
-		Else
-			ExitLoop
-		EndIf
-		If _Sleep(150) Then Return
-		If $ErrorCycle = 10 Then ExitLoop
-	WEnd
-	If $ErrorCycle = 10 Then
+	Local $String = BinaryToString(InetRead("https://timeapi.io/api/time/current/zone?timeZone=utc", 1))
+	If @error Then
 		If Number(@MDAY) >= 21 Then
 			Return UTCTimeCGRescue1()
 		Else
 			Return False
 		EndIf
 	EndIf
-	$Time = StringRegExp($String, 'datetime: (.+?)T(\d+:\d+:\d+)', $STR_REGEXPARRAYMATCH)
+	$Time = StringRegExp($String, 'dateTime":"(.+?)T(\d+:\d+:\d+)', $STR_REGEXPARRAYMATCH)
 	If IsArray($Time) And UBound($Time) > 0 Then
 		$DayUTC = StringSplit($Time[0], "-", $STR_NOCOUNT)
 		$TimeHourUTC = StringSplit($Time[1], ":", $STR_NOCOUNT)
@@ -2832,26 +2821,15 @@ EndFunc   ;==>UTCTimeCG
 Func UTCTimeCGRescue1()
 	Local $Time, $DayUTC, $TimeHourUTC
 	If _Sleep(100) Then Return
-	Local $String = BinaryToString(InetRead("https://timeapi.io/api/time/current/zone?timeZone=utc", 1))
-	Local $ErrorCycle = 0
-	While @error <> 0
-		$String = BinaryToString(InetRead("https://timeapi.io/api/time/current/zone?timeZone=utc", 1))
-		If @error <> 0 Then
-			$ErrorCycle += 1
-		Else
-			ExitLoop
-		EndIf
-		If _Sleep(150) Then Return
-		If $ErrorCycle = 10 Then ExitLoop
-	WEnd
-	If $ErrorCycle = 10 Then
+	Local $String = BinaryToString(InetRead("http://worldtimeapi.org/api/timezone/Etc/UTC.txt", 1))
+	If @error Then
 		If Number(@MDAY) >= 21 Then
 			Return UTCTimeCGRescue2()
 		Else
 			Return False
 		EndIf
 	EndIf
-	$Time = StringRegExp($String, 'dateTime":"(.+?)T(\d+:\d+:\d+)', $STR_REGEXPARRAYMATCH)
+	$Time = StringRegExp($String, 'datetime: (.+?)T(\d+:\d+:\d+)', $STR_REGEXPARRAYMATCH)
 	If IsArray($Time) And UBound($Time) > 0 Then
 		$DayUTC = StringSplit($Time[0], "-", $STR_NOCOUNT)
 		$TimeHourUTC = StringSplit($Time[1], ":", $STR_NOCOUNT)

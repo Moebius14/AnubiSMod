@@ -210,7 +210,7 @@ Func Algorithm_AttackCSV($testattack = False, $captureredarea = True)
 	If $captureredarea Then _GetRedArea($g_aiAttackScrRedlineRoutine[$g_iMatchMode])
 	If _Sleep($DELAYRESPOND) Then Return
 
-	Local $htimerREDAREA = Round(__timerdiff($hTimer) / 1000, 2)
+	Local $htimerREDAREA = Round(__Timerdiff($hTimer) / 1000, 2)
 	debugAttackCSV("Calculated  (in " & $htimerREDAREA & " seconds) :")
 	debugAttackCSV("	[" & UBound($g_aiPixelTopLeft) & "] pixels TopLeft")
 	debugAttackCSV("	[" & UBound($g_aiPixelTopRight) & "] pixels TopRight")
@@ -350,7 +350,7 @@ Func Algorithm_AttackCSV($testattack = False, $captureredarea = True)
 	If StringLen($tempvectstr2) > 0 Then $tempvectstr2 = StringLeft($tempvectstr2, StringLen($tempvectstr2) - 1)
 	$g_aiPixelBottomRightDOWNDropLine = GetListPixel($tempvectstr1, ",", "BR-DOWN")
 	$g_aiPixelBottomRightUPDropLine = GetListPixel($tempvectstr2, ",", "BR-UP")
-	SetLog("> Drop Lines located in  " & Round(__timerdiff($hTimer) / 1000, 2) & " seconds", $COLOR_INFO)
+	SetLog("> Drop Lines located in  " & Round(__Timerdiff($hTimer) / 1000, 2) & " seconds", $COLOR_INFO)
 	If _Sleep($DELAYRESPOND) Then Return
 
 	; 03 - TOWNHALL ------------------------------------------------------------------------
@@ -386,7 +386,7 @@ Func Algorithm_AttackCSV($testattack = False, $captureredarea = True)
 		ResumeAndroid()
 		If _Sleep($DELAYRESPOND) Then Return
 		CleanRedArea($g_aiPixelMine)
-		Local $htimerMine = Round(__timerdiff($hTimer) / 1000, 2)
+		Local $htimerMine = Round(__Timerdiff($hTimer) / 1000, 2)
 		If (IsArray($g_aiPixelMine)) Then
 			For $i = 0 To UBound($g_aiPixelMine) - 1
 				Local $pixel = $g_aiPixelMine[$i]
@@ -412,7 +412,7 @@ Func Algorithm_AttackCSV($testattack = False, $captureredarea = True)
 				EndIf
 			Next
 		EndIf
-		SetLog("> Mines located in " & Round(__timerdiff($hTimer) / 1000, 2) & " seconds", $COLOR_INFO)
+		SetLog("> Mines located in " & Round(__Timerdiff($hTimer) / 1000, 2) & " seconds", $COLOR_INFO)
 	Else
 		SetLog("> Mines detection not needed, skip", $COLOR_INFO)
 	EndIf
@@ -426,7 +426,7 @@ Func Algorithm_AttackCSV($testattack = False, $captureredarea = True)
 		ResumeAndroid()
 		If _Sleep($DELAYRESPOND) Then Return
 		CleanRedArea($g_aiPixelElixir)
-		Local $htimerMine = Round(__timerdiff($hTimer) / 1000, 2)
+		Local $htimerMine = Round(__Timerdiff($hTimer) / 1000, 2)
 		If (IsArray($g_aiPixelElixir)) Then
 			For $i = 0 To UBound($g_aiPixelElixir) - 1
 				Local $pixel = $g_aiPixelElixir[$i]
@@ -452,7 +452,7 @@ Func Algorithm_AttackCSV($testattack = False, $captureredarea = True)
 				EndIf
 			Next
 		EndIf
-		SetLog("> Elixir collectors located in " & Round(__timerdiff($hTimer) / 1000, 2) & " seconds", $COLOR_INFO)
+		SetLog("> Elixir collectors located in " & Round(__Timerdiff($hTimer) / 1000, 2) & " seconds", $COLOR_INFO)
 	Else
 		SetLog("> Elixir collectors detection not needed, skip", $COLOR_INFO)
 	EndIf
@@ -467,7 +467,7 @@ Func Algorithm_AttackCSV($testattack = False, $captureredarea = True)
 		ResumeAndroid()
 		If _Sleep($DELAYRESPOND) Then Return
 		CleanRedArea($g_aiPixelDarkElixir)
-		Local $htimerMine = Round(__timerdiff($hTimer) / 1000, 2)
+		Local $htimerMine = Round(__Timerdiff($hTimer) / 1000, 2)
 		If (IsArray($g_aiPixelDarkElixir)) Then
 			For $i = 0 To UBound($g_aiPixelDarkElixir) - 1
 				Local $pixel = $g_aiPixelDarkElixir[$i]
@@ -493,7 +493,7 @@ Func Algorithm_AttackCSV($testattack = False, $captureredarea = True)
 				EndIf
 			Next
 		EndIf
-		SetLog("> Drills located in " & Round(__timerdiff($hTimer) / 1000, 2) & " seconds", $COLOR_INFO)
+		SetLog("> Drills located in " & Round(__Timerdiff($hTimer) / 1000, 2) & " seconds", $COLOR_INFO)
 	Else
 		SetLog("> Drills detection not needed, skip", $COLOR_INFO)
 	EndIf
@@ -567,7 +567,7 @@ Func Algorithm_AttackCSV($testattack = False, $captureredarea = True)
 				$g_aiCSVDarkElixirStoragePos = $temp
 			EndIf
 		EndIf
-		SetLog("> Dark Elixir Storage located in " & Round(__timerdiff($hTimer) / 1000, 2) & " seconds", $COLOR_INFO)
+		SetLog("> Dark Elixir Storage located in " & Round(__Timerdiff($hTimer) / 1000, 2) & " seconds", $COLOR_INFO)
 	Else
 		SetLog("> Dark Elixir Storage detection not needed, skip", $COLOR_INFO)
 	EndIf
@@ -768,7 +768,7 @@ Func Algorithm_AttackCSV($testattack = False, $captureredarea = True)
 	EndIf
 
 	; Log total CSV prep time
-	SetLog(">> Total time: " & Round(__timerdiff($hTimerTOTAL) / 1000, 2) & " seconds", $COLOR_INFO)
+	SetLog(">> Total time: " & Round(__Timerdiff($hTimerTOTAL) / 1000, 2) & " seconds", $COLOR_INFO)
 
 	; 15 - DEBUGIMAGE ------------------------------------------------------------------------
 	If $g_bDebugMakeIMGCSV Then AttackCSVDEBUGIMAGE() ;make IMG debug

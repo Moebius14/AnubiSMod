@@ -20,7 +20,7 @@ Global Const $DELAYRESPOND = 5 ; Just to make stop button more Responsive
 Global Const $DELAYRUNBOT1 = 1000
 Global Const $DELAYRUNBOT2 = 800
 Global Const $DELAYRUNBOT3 = 200
-
+Global Const $DELAYRUNBOT4 = 150
 Global Const $DELAYRUNBOT5 = 500
 Global Const $DELAYRUNBOT6 = 100
 Global Const $DELAYIDLE1 = 200

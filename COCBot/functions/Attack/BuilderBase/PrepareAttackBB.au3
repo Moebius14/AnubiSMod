@@ -298,12 +298,14 @@ EndFunc   ;==>ReturnHomeDropTrophyBB
 
 Func BuilderJar()
 
-	If Not $g_bChkEnableBBAttack Or Not $g_bChkUseBuilderJar Or $g_iCmbBuilderJar = 0 Or $g_bIsBBevent Or $g_bChkBBAttackForDailyChallenge Then Return
+	Local $NoExecution = "NoExec"
+
+	If Not $g_bChkEnableBBAttack Or Not $g_bChkUseBuilderJar Or $g_iCmbBuilderJar = 0 Or $g_bIsBBevent Or $g_bChkBBAttackForDailyChallenge Then Return $NoExecution
 
 	If Not CheckLootAvail(False) Then
 		If CheckBBGoldStorageFull(False) And CheckBBElixirStorageFull(False) Then
 			SetLog("Storages Are Full, Builder Star Jar Won't Be Used", $COLOR_DEBUG2)
-			Return
+			Return $NoExecution
 		EndIf
 		SetLog("Use Builder Star Jar", $COLOR_INFO)
 		If Not ClickAttack() Then Return
@@ -348,9 +350,11 @@ EndFunc   ;==>BuilderJar
 
 Func BuilderJarCheck()
 
-	If Not $g_bChkUseBuilderJar Or $g_iCmbBuilderJar = 0 Then Return
+	Local $NoExecution = "NoExec"
 
-	If Not $g_bChkEnableBBAttack Or CheckLootAvail(False) Or $g_bIsBBevent Or $g_bChkBBAttackForDailyChallenge Then Return
+	If Not $g_bChkUseBuilderJar Or $g_iCmbBuilderJar = 0 Then Return $NoExecution
+
+	If Not $g_bChkEnableBBAttack Or CheckLootAvail(False) Or $g_bIsBBevent Or $g_bChkBBAttackForDailyChallenge Then Return $NoExecution
 
 	If Not ClickAttack() Then Return
 	If _Sleep(2000) Then Return

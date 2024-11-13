@@ -607,12 +607,14 @@ EndFunc   ;==>AnyDefUpgrade
 
 Func BOBBuildingUpgrades($bTest = False)
 
-	If Not $g_bDoubleCannonUpgrade And Not $g_bArcherTowerUpgrade And Not $g_bMultiMortarUpgrade And Not $g_bAnyDefUpgrade And Not $g_bBattleMachineUpgrade And Not $g_bBattlecopterUpgrade Then Return False
+	Local $NoExecution = "NoExec"
+
+	If Not $g_bDoubleCannonUpgrade And Not $g_bArcherTowerUpgrade And Not $g_bMultiMortarUpgrade And Not $g_bAnyDefUpgrade And Not $g_bBattleMachineUpgrade And Not $g_bBattlecopterUpgrade Then Return $NoExecution
 
 	; Master Builder is not available return
 	If $g_iFreeBuilderCountBB = 0 Then
 		SetLog("No Master Builder available for BOB Control upgrades !", $COLOR_INFO)
-		Return False
+		Return $NoExecution
 	EndIf
 
 	If $g_bDoubleCannonUpgrade Then

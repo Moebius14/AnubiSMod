@@ -1782,71 +1782,95 @@ Func BuilderBase($bTest = False)
 	If SwitchBetweenBases(True, True) And isOnBuilderBase() Then
 
 		CollectBuilderBase()
-		If _Sleep($DELAYRUNBOT3) Then Return
+		If _Sleep(Random($DELAYRUNBOT4, $DELAYRUNBOT3, 1)) Then Return
 		If checkObstacles() Then Return
 
 		BuilderBaseReport()
-		If _Sleep($DELAYRUNBOT3) Then Return
+		If _Sleep(Random($DELAYRUNBOT4, $DELAYRUNBOT3, 1)) Then Return
 		If checkObstacles() Then Return
 
 		CleanBBYard()
-		If _Sleep($DELAYRUNBOT3) Then Return
+		If _Sleep(Random($DELAYRUNBOT4, $DELAYRUNBOT3, 1)) Then Return
 		If checkObstacles() Then Return
 
 		;	LocateBuilderHall()
-		;	If _Sleep($DELAYRUNBOT3) Then Return
+		;	If _Sleep(Random($DELAYRUNBOT4, $DELAYRUNBOT3, 1)) Then Return
 		;	If checkObstacles() Then Return
 
 		Local $StartLabONGui = StarLabGuiDisplay()
-		If _Sleep($DELAYRUNBOT3) Then Return
-		If checkObstacles() Then Return
+		If _Sleep(Random($DELAYRUNBOT4, $DELAYRUNBOT3, 1)) Then Return
+		If $StartLabONGui Then
+			If checkObstacles() Then Return
+		EndIf
 
-		BuilderJar()
-		If _Sleep($DELAYRUNBOT3) Then Return
-		If checkObstacles() Then Return
+		If BuilderJar() <> "NoExec" Then
+			If _Sleep(Random($DELAYRUNBOT4, $DELAYRUNBOT3, 1)) Then Return
+			If checkObstacles() Then Return
+		Else
+			If _Sleep(Random($DELAYRUNBOT4, $DELAYRUNBOT3, 1)) Then Return
+		EndIf
 
+		Local $hBBTimer = __TimerInit()
 		DoAttackBB()
-		If _Sleep($DELAYRUNBOT3) Then Return
+		If _Sleep(Random($DELAYRUNBOT4, $DELAYRUNBOT3, 1)) Then Return
 		If checkObstacles() Then Return
 		If $g_bRestart Then Return
 
-		CollectBuilderBase(False, False, False, False)
-		If _Sleep($DELAYRUNBOT3) Then Return
-		If checkObstacles() Then Return
+		If __Timerdiff($hBBTimer) > 30 * 1000 Then ; Check Only If Attack Process Lasts More Than 30 seconds.
+			CollectBuilderBase(False, False, False, False)
+			If _Sleep(Random($DELAYRUNBOT4, $DELAYRUNBOT3, 1)) Then Return
+			If checkObstacles() Then Return
 
-		BuilderBaseReport(True, True)
-		If _Sleep($DELAYRUNBOT3) Then Return
-		If checkObstacles() Then Return
+			BuilderBaseReport(True, True)
+			If _Sleep(Random($DELAYRUNBOT4, $DELAYRUNBOT3, 1)) Then Return
+			If checkObstacles() Then Return
+		EndIf
 
-		BOBBuildingUpgrades()
-		If _Sleep($DELAYRUNBOT3) Then Return
-		If checkObstacles() Then Return
+		If BOBBuildingUpgrades() <> "NoExec" Then
+			If _Sleep(Random($DELAYRUNBOT4, $DELAYRUNBOT3, 1)) Then Return
+			If checkObstacles() Then Return
+		Else
+			If _Sleep(Random($DELAYRUNBOT4, $DELAYRUNBOT3, 1)) Then Return
+		EndIf
 		If $g_bRestart Then Return
 
 		Local $StartLabON = StarLaboratory()
-		If _Sleep($DELAYRUNBOT3) Then Return
-		If checkObstacles() Then Return
+		If _Sleep(Random($DELAYRUNBOT4, $DELAYRUNBOT3, 1)) Then Return
+		If $StartLabON Then
+			If checkObstacles() Then Return
+		EndIf
+		If $g_bRestart Then Return
 
-		MainSuggestedUpgradeCode()
-		If _Sleep($DELAYRUNBOT3) Then Return
-		If checkObstacles() Then Return
+		If MainSuggestedUpgradeCode() <> "NoExec" Then
+			If _Sleep(Random($DELAYRUNBOT4, $DELAYRUNBOT3, 1)) Then Return
+			If checkObstacles() Then Return
+		Else
+			If _Sleep(Random($DELAYRUNBOT4, $DELAYRUNBOT3, 1)) Then Return
+		EndIf
 
 		Local $bUseCTPot = False
+		getBuilderCount(False, True) ; Update Builder Variables for Builders Base
 		If ($StartLabON Or $StartLabONGui) And $iStarLabFinishTimeMod > 540 And CheckBBuilderTime() Then $bUseCTPot = True
-		StartClockTowerBoost(False, False, $bUseCTPot)
-		If _Sleep($DELAYRUNBOT3) Then Return
-		If checkObstacles() Then Return
+		If StartClockTowerBoost(False, False, $bUseCTPot) <> "NoExec" Then
+			If _Sleep(Random($DELAYRUNBOT4, $DELAYRUNBOT3, 1)) Then Return
+			If checkObstacles() Then Return
+		Else
+			If _Sleep(Random($DELAYRUNBOT4, $DELAYRUNBOT3, 1)) Then Return
+		EndIf
 
-		BuilderJarCheck()
-		If _Sleep($DELAYRUNBOT3) Then Return
-		If checkObstacles() Then Return
+		If BuilderJarCheck() <> "NoExec" Then
+			If _Sleep(Random($DELAYRUNBOT4, $DELAYRUNBOT3, 1)) Then Return
+			If checkObstacles() Then Return
+		Else
+			If _Sleep(Random($DELAYRUNBOT4, $DELAYRUNBOT3, 1)) Then Return
+		EndIf
 
 		BBBattleLog()
-		If _Sleep($DELAYRUNBOT3) Then Return
+		If _Sleep(Random($DELAYRUNBOT4, $DELAYRUNBOT3, 1)) Then Return
 		If checkObstacles() Then Return
 
 		BuilderBaseReport()
-		If _Sleep($DELAYRUNBOT3) Then Return
+		If _Sleep(Random($DELAYRUNBOT4, $DELAYRUNBOT3, 1)) Then Return
 		If checkObstacles() Then Return
 
 		; switch back to normal village

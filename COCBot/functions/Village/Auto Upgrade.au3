@@ -65,8 +65,8 @@ Func _AutoUpgrade()
 		Local $aTmpCoord
 		Local $IsElix = False
 		$aTmpCoord = QuickMIS("CNX", $g_sImgResourceIcon, 410, $g_iNextLineOffset, 565, 370 + $g_iMidOffsetY)
-		_ArraySort($aTmpCoord, 0, 0, 0, 2) ;sort by Y coord
 		If IsArray($aTmpCoord) And UBound($aTmpCoord) > 0 Then
+			_ArraySort($aTmpCoord, 0, 0, 0, 2) ;sort by Y coord
 			$g_iNextLineOffset = $aTmpCoord[0][2] + 14
 			If QuickMIS("BC1", $g_sImgAUpgradeZero, $aTmpCoord[0][1], $aTmpCoord[0][2] - 8, $aTmpCoord[0][1] + 100, $aTmpCoord[0][2] + 7) Then
 				SetLog("Possible upgrade found !", $COLOR_SUCCESS)

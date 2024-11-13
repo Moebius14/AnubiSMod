@@ -24,6 +24,7 @@
 * Removed BS1 and BS2 Code.
 * Improved Finish Now Button Detection (Apprentice).
 * Fixed Read Laboratory Remaining Time When Goblin Builder is working.
+* Changed Main UTC Provider.
 
 * v8.1.7 **
 * Added Fireball equipment support.

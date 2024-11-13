@@ -680,8 +680,8 @@ Func AutoUpgradeWall($iWallCost)
 		Local $aTmpCoord
 		Local $IsElix = False
 		$aTmpCoord = QuickMIS("CNX", $g_sImgResourceIcon, 410, $g_iNextLineOffset, 550, 370 + $g_iMidOffsetY)
-		_ArraySort($aTmpCoord, 0, 0, 0, 2) ;sort by Y coord
 		If IsArray($aTmpCoord) And UBound($aTmpCoord) > 0 Then
+			_ArraySort($aTmpCoord, 0, 0, 0, 2) ;sort by Y coord
 			$g_iNextLineOffset = $aTmpCoord[0][2] + 14
 			If QuickMIS("BC1", $g_sImgAUpgradeZero, $aTmpCoord[0][1], $aTmpCoord[0][2] - 8, $aTmpCoord[0][1] + 100, $aTmpCoord[0][2] + 7) Then
 				SetLog("Possible upgrade found !", $COLOR_SUCCESS)
@@ -691,8 +691,39 @@ Func AutoUpgradeWall($iWallCost)
 				ContinueLoop
 			EndIf
 		Else
-			SetLog("No more wall upgrade available... Exiting ...", $COLOR_INFO)
-			ExitLoop
+			Local $bFound = False
+			For $i = 0 To 5
+				$aTmpCoord = QuickMIS("CNX", $g_sImgResourceIcon, 410, $g_iNextLineOffset, 550, 370 + $g_iMidOffsetY)
+				If IsArray($aTmpCoord) And UBound($aTmpCoord) > 0 Then
+					$bFound = True
+					ExitLoop
+				EndIf
+				If _Sleep(1000) Then Return ; Wait until 6 seconds to be sure (Donation Could Hide Menu)
+			Next
+			If $bFound Then
+				_ArraySort($aTmpCoord, 0, 0, 0, 2) ;sort by Y coord
+				$g_iNextLineOffset = $aTmpCoord[0][2] + 14
+				If QuickMIS("BC1", $g_sImgAUpgradeZero, $aTmpCoord[0][1], $aTmpCoord[0][2] - 8, $aTmpCoord[0][1] + 100, $aTmpCoord[0][2] + 7) Then
+					SetLog("Possible upgrade found !", $COLOR_SUCCESS)
+					If $aTmpCoord[0][0] = "Elix" Then $IsElix = True
+				Else
+					SetLog("Not Enough Ressource, looking next...", $COLOR_INFO)
+					ContinueLoop
+				EndIf
+			Else
+				SetLog("No more wall upgrade available... Exiting ...", $COLOR_INFO)
+				SetLog("Congrats !", $COLOR_FUCHSIA)
+				$g_bUpgradeWallAutoModEnabled = False
+				GUICtrlSetState($g_hChkUpgradeWallAutoModEnabled, $GUI_UNCHECKED)
+				ChkUpgradeWallAutoModEnabled()
+				$g_bUpgradeWallSaveBuilder = False
+				GUICtrlSetState($g_hChkSaveWallBldr, $GUI_UNCHECKED)
+				chkSaveWallBldr()
+				$g_bAutoUpgradeWallsEnable = False
+				GUICtrlSetState($g_hChkWalls, $GUI_UNCHECKED)
+				chkWalls()
+				ExitLoop
+			EndIf
 		EndIf
 
 		; if it's an upgrade, will click on the upgrade, in builders menu

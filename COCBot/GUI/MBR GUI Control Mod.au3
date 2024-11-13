@@ -941,8 +941,8 @@ Func ForumAccept()
 	While 1
 		Local $aTmpCoord = QuickMIS("CNX", $g_sImgACCEPT, 200, 115, 300, 615 + $g_iBottomOffsetY)
 		If _Sleep(1000) Then ExitLoop
-		_ArraySort($aTmpCoord, 0, 0, 0, 2)
 		If IsArray($aTmpCoord) And UBound($aTmpCoord) > 0 Then
+			_ArraySort($aTmpCoord, 0, 0, 0, 2)
 			SetLog("Joining Request Detected", $COLOR_SUCCESS1)
 			$bRet = False
 			If _Sleep(500) Then ExitLoop

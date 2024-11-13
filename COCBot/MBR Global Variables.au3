@@ -2234,7 +2234,7 @@ Global Const $g_afRefCustomMainVillage[5][7] = [ _
 		[38, 822, 48, 634, 496.873764541968, $eTreePG, False], _ ; Pumpkin Graveyard Main Village
 		[97, 760, 124, 614, 405.46550540893, $eTreeEG, True], _  ; Egypt Main Village
 		[40, 817, 48, 630, 490.949366617362, $eTreeSD, False], _ ; Snow Day Main Village
-		[111, 765, 102, 596, 432.079859248387, $eTreeJU, True]]  ; Justice Main Village
+		[111, 765, 102, 596, 556.323458536752, $eTreeJU, True]]  ; Justice Main Village
 
 Global $g_asSceneryCodes[$eTreeCount - 4] = [ _
 		"DSS", "DAS", "CC", "PS", "EW", "HM", "JS", "EJ", "9C", "PG", "SD", "TM", "PR", "SH", "RS", "SM", "PX", "XC", "CF", "MS", "EM", "CS", "IT", "JO", "MT", "DA", "PA", _

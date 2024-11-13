@@ -48,7 +48,9 @@ EndFunc   ;==>ClockTimeGained
 
 Func StartClockTowerBoost($bSwitchToBB = False, $bSwitchToNV = False, $bConditionsToUseClockPotion = False)
 
-	If Not $g_bChkStartClockTowerBoost Then Return
+	Local $NoExecution = "NoExec"
+
+	If Not $g_bChkStartClockTowerBoost Then Return $NoExecution
 	If Not $g_bRunState Then Return
 
 	Local $TimeGained = 0
@@ -62,12 +64,12 @@ Func StartClockTowerBoost($bSwitchToBB = False, $bSwitchToNV = False, $bConditio
 
 	Local $bCTBoost = True
 	If $g_bChkCTBoostBlderBz Then
-		getBuilderCount(True, True) ; Update Builder Variables for Builders Base
 		If $g_iFreeBuilderCountBB = $g_iTotalBuilderCountBB Then $bCTBoost = False ; Builder is not busy, skip Boost
 	EndIf
 
 	If Not $bCTBoost Then
 		SetLog("Skip Clock Tower Boost as no Building is currently under Upgrade!", $COLOR_INFO)
+		Return $NoExecution
 	Else ; Start Boosting
 		SetLog("Boosting Clock Tower", $COLOR_INFO)
 		If _Sleep($DELAYCOLLECT2) Then Return
@@ -172,8 +174,6 @@ Func CheckBBuilderTime()
 	If Not $g_bRunState Then Return
 
 	If Not $bUseClockPotion Then Return False
-
-	getBuilderCount(False, True)
 
 	If $g_iFreeBuilderCountBB > 0 Then Return False ; Change july 2023 : All Builders have work To use Clock Potion.
 

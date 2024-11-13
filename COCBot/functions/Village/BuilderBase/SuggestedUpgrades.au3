@@ -57,8 +57,10 @@ EndFunc   ;==>chkPlacingNewBuildings
 ; MAIN CODE
 Func MainSuggestedUpgradeCode($bDebugImage = $g_bDebugImageSave)
 
+	Local $NoExecution = "NoExec"
+
 	; If is not selected return
-	If Not $g_iChkBBSuggestedUpgrades Then Return
+	If Not $g_iChkBBSuggestedUpgrades Then Return $NoExecution
 	Local $bDebug = $g_bDebugSetlog
 	Local $bScreencap = True
 	Local $y = 102, $x = 490, $x1 = 630
@@ -68,7 +70,7 @@ Func MainSuggestedUpgradeCode($bDebugImage = $g_bDebugImageSave)
 	; Master Builder is not available return
 	If $g_iFreeBuilderCountBB = 0 Then
 		SetLog("No Master Builder available for suggested upgrades !", $COLOR_INFO)
-		Return
+		Return $NoExecution
 	EndIf
 
 	; Check if you are on Builder Base
@@ -83,9 +85,9 @@ Func MainSuggestedUpgradeCode($bDebugImage = $g_bDebugImageSave)
 				SetDebugLog("Upgrade Window Opened successfully", $COLOR_INFO)
 				; Proceeds with icon detection
 				Local $aLine = QuickMIS("CNX", $g_sImgAutoUpgradeBB, $x, $y, $x1, 340 + $g_iMidOffsetY)
-				_ArraySort($aLine, 0, 0, 0, 2) ;sort by Y coord
 				; Proceeds with icon detection
 				If IsArray($aLine) And UBound($aLine) > 0 Then
+					_ArraySort($aLine, 0, 0, 0, 2) ;sort by Y coord
 					For $i = 0 To UBound($aLine) - 1
 						Local $g_WallDetected = False
 						Local $aResult = GetIconPosition($x, $aLine[$i][2] - 10, $x1, $aLine[$i][2] + 10, $g_sImgAutoUpgradeBB, $bScreencap, $bDebug, $bDebugImage)
