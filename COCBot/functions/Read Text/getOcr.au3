@@ -34,7 +34,7 @@ Func getTimeForRaid($x_start, $y_start) ; read actual time remaining in Lab for 
 EndFunc   ;==>getTimeForRaid
 
 Func getNameBuilding($x_start, $y_start) ; getNameBuilding(242,Y) -> Gets complete name and level of the buildings, bottom of screen
-	Local $b_Obstacles[9] = ["Broken", "Cart", "Tree", "Mush", "Trunk", "Bush", "Bark", "Gem", "Cake"]
+	Local $b_Obstacles[10] = ["Broken", "Cart", "Tree", "Mush", "Trunk", "Bush", "Bark", "Gem", "Cake", "Groove"]
 	Local $bResult = getOcrAndCapture("coc-build", $x_start, $y_start, 420, 27)
 	If StringInStr($bResult, "O T T O", $STR_CASESENSE) Then
 		$bResult = StringReplace($bResult, "O T T O", "O.T.T.O")
@@ -44,7 +44,7 @@ Func getNameBuilding($x_start, $y_start) ; getNameBuilding(242,Y) -> Gets comple
 		Return $bResult
 	Else
 		For $i = 0 To UBound($b_Obstacles) - 1
-			If StringInStr($bResult, $b_Obstacles[$i]) Then Return $bResult
+			If StringInStr($bResult, $b_Obstacles[$i], $STR_NOCASESENSEBASIC) Then Return $bResult
 		Next
 	EndIf
 	If $bResult = "" Or Not StringInStr($bResult, "Level") Then $bResult = getOcrAndCapture("coc-build2", $x_start, $y_start - 27, 420, 27)
@@ -141,7 +141,7 @@ Func getStarLabUpgrdResourceRed($x_start, $y_start) ; -> Gets complete value of 
 EndFunc   ;==>getStarLabUpgrdResourceRed
 
 Func getBldgUpgradeTime($x_start, $y_start) ; -> Gets complete remain building upgrade time
-	Local $Result = StringReplace(getOcrAndCapture("coc-uptime", $x_start, $y_start, 105, 18, True), "b", "")
+	Local $Result = StringRegExpReplace(getOcrAndCapture("coc-uptime", $x_start, $y_start, 105, 18, True), "[bc]", "")
 	Return $Result
 EndFunc   ;==>getBldgUpgradeTime
 

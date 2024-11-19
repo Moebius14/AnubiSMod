@@ -962,6 +962,7 @@ Func runBot() ;Bot that runs everything in order
 
 			If $g_bFirstStart Then SetDebugLog("First loop completed!")
 			$g_bFirstStart = False ; already finished first loop since bot started.
+			If Not $g_bFirstStartCheckDone Then $g_bFirstStartCheckDone = 1 ; Case ProfileSwitchAccountEnabled() And $g_abDonateOnly[$g_iCurAccount]
 
 			If ProfileSwitchAccountEnabled() And ($g_iCommandStop = 0 Or $g_iCommandStop = 3 Or $g_abDonateOnly[$g_iCurAccount] Or $g_bForceSwitch) Then checkSwitchAcc()
 			If IsSearchAttackEnabled() Then ; If attack scheduled has attack disabled now, stop wall upgrades, and attack.

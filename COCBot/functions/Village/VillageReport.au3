@@ -40,9 +40,9 @@ Func VillageReport($bBypass = False, $bSuppressLog = False)
 		$g_iGemAmount = getResourcesMainScreen(740, 171)
 		If Not $bSuppressLog Then SetLog(" [G]: " & _NumberFormat($g_aiCurrentLoot[$eLootGold]) & " [E]: " & _NumberFormat($g_aiCurrentLoot[$eLootElixir]) & " [D]: " & _NumberFormat($g_aiCurrentLoot[$eLootDarkElixir]) & " [GEM]: " & _NumberFormat($g_iGemAmount), $COLOR_SUCCESS)
 	Else
-		$g_aiCurrentLoot[$eLootGold] = getResourcesMainScreen(701, 23)
-		$g_aiCurrentLoot[$eLootElixir] = getResourcesMainScreen(701, 74)
-		$g_iGemAmount = getResourcesMainScreen(719, 123)
+		$g_aiCurrentLoot[$eLootGold] = getResourcesMainScreen(696, 23)
+		$g_aiCurrentLoot[$eLootElixir] = getResourcesMainScreen(696, 74)
+		$g_iGemAmount = getResourcesMainScreen(740, 123)
 		If Not $bSuppressLog Then SetLog(" [G]: " & _NumberFormat($g_aiCurrentLoot[$eLootGold]) & " [E]: " & _NumberFormat($g_aiCurrentLoot[$eLootElixir]) & " [GEM]: " & _NumberFormat($g_iGemAmount), $COLOR_SUCCESS)
 		If ProfileSwitchAccountEnabled() Then $g_aiCurrentLoot[$eLootDarkElixir] = "" ; prevent applying Dark Elixir of previous account to current account
 	EndIf

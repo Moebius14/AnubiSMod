@@ -142,6 +142,7 @@ Func BotStart($bAutostartDelay = 0)
 	$CCWaitChrono = 0
 	$g_bFirstStartBarrel = 1
 	$g_sAvailableAppBuilder = 0
+	$g_iBuilderBoostDiscount = 0
 
 	LoadCurrentProfile()
 	LoadCurrentAlias()

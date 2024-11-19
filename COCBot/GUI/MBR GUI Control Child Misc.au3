@@ -190,6 +190,12 @@ Func BtnSaveprofile()
 	Setlog("Done!", $COLOR_SUCCESS)
 EndFunc   ;==>BtnSaveprofile
 
+Func BtnCopyProfileName()
+	Setlog("Copying your Profile Name", $COLOR_INFO)
+	GUICtrlSetData($g_hTxtCurrentVillageName, $g_sProfileCurrentName)
+	Setlog("Done!", $COLOR_SUCCESS)
+EndFunc   ;==>BtnCopyProfileName
+
 Func BtnSaveAlias()
 	Setlog("Saving your Village Name", $COLOR_INFO)
 	SaveConfig()
@@ -709,7 +715,7 @@ Func ChkHeroesPriorityRandom()
 		GUICtrlSetState($g_hChkTrophyAtkWithHeroesOnly, $GUI_ENABLE)
 		ChkTrophyAtkWithHeroesOnly()
 	EndIf
-EndFunc   ;==>chkTrophyHeroes
+EndFunc   ;==>ChkHeroesPriorityRandom
 
 Func ChkTrophyAtkWithHeroesOnly()
 	If GUICtrlRead($g_hChkTrophyAtkWithHeroesOnly) = $GUI_CHECKED Then

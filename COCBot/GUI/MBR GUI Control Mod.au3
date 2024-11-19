@@ -19,17 +19,20 @@
 Func chkUseBotHumanization()
 	If GUICtrlRead($g_hChkUseBotHumanization) = $GUI_CHECKED Then
 		$g_bUseBotHumanization = True
-		For $i = $g_IsRefusedFriends To $g_acmbPriority[10]
-			GUICtrlSetState($i, $GUI_ENABLE)
-		Next
-		For $i = $g_HowManyinCWLabel To $g_HowManyinCWLCombo
+		For $i = $g_IsRefusedFriends To $g_hChkWarSignUp
 			GUICtrlSetState($i, $GUI_ENABLE)
 		Next
 		ChkForumRequestOnly()
 		ChkWarSignUp()
+		For $i = $g_HowManyinCWLabel To $g_HowManyinCWLCombo
+			GUICtrlSetState($i, $GUI_ENABLE)
+		Next
 	Else
 		$g_bUseBotHumanization = False
 		For $i = $g_IsRefusedFriends To $g_acmbPriority[10]
+			GUICtrlSetState($i, $GUI_DISABLE)
+		Next
+		For $i = $g_hChkWarSignUp To $hRefuseWar
 			GUICtrlSetState($i, $GUI_DISABLE)
 		Next
 		For $i = $g_HowManyinCWLabel To $g_HowManyinCWLCombo

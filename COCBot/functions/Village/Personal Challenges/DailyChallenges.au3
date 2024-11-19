@@ -309,6 +309,8 @@ Func CheckDiscountPerks()
 		Local $aDiscount = StringSplit($sDiscount, "%", $STR_NOCOUNT)
 		$g_iBuilderBoostDiscount = Number($aDiscount[0])
 		SetLog($g_iBuilderBoostDiscount > 0 ? "Current Builder boost: " & $g_iBuilderBoostDiscount & "%" : "Keep working hard on challenges", $COLOR_SUCCESS)
+		cmbWalls()
+		If ProfileSwitchAccountEnabled() Then SwitchAccountVariablesReload("Save")
 	Else
 		SetLog("Cannot read builder boost", $COLOR_ERROR)
 	EndIf
@@ -352,6 +354,8 @@ Func CheckDiscountPerksMod()
 		Local $aDiscount = StringSplit($sDiscount, "%", $STR_NOCOUNT)
 		$g_iBuilderBoostDiscount = Number($aDiscount[0])
 		SetLog($g_iBuilderBoostDiscount > 0 ? "Current Builder boost: " & $g_iBuilderBoostDiscount & "%" : "Keep working hard on challenges", $COLOR_SUCCESS)
+		cmbWalls()
+		If ProfileSwitchAccountEnabled() Then SwitchAccountVariablesReload("Save")
 	Else
 		SetLog("Cannot read builder boost", $COLOR_ERROR)
 	EndIf

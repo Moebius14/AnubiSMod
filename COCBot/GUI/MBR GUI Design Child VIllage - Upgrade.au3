@@ -935,182 +935,204 @@ Func CreateAutoUpgradeSubTab()
 	GUICtrlSetOnEvent(-1, "chkUpgradesToIgnore")
 
 	_GUICtrlCreateIcon($g_sLibIconPath, $eIconTH15Weapon, $x + 50, $y + $yRow1, $iIconSize, $iIconSize)
-	$g_hChkUpgradesToIgnore[15] = GUICtrlCreateCheckbox("", $x + 65 - $xOff, $y + $yRow1 + $yChkOff, 17, 17)
+	$g_hChkUpgradesToIgnore[1] = GUICtrlCreateCheckbox("", $x + 65 - $xOff, $y + $yRow1 + $yChkOff, 17, 17)
 	_GUICtrlSetTip(-1, "Ignore TownHall Weapon Upgrade")
 	GUICtrlSetOnEvent(-1, "chkUpgradesToIgnore")
 
 	_GUICtrlCreateIcon($g_sLibIconPath, $eIcnKing, $x + 110, $y + $yRow1, $iIconSize, $iIconSize)
-	$g_hChkUpgradesToIgnore[1] = GUICtrlCreateCheckbox("", $x + 125 - $xOff, $y + $yRow1 + $yChkOff, 17, 17)
+	$g_hChkUpgradesToIgnore[2] = GUICtrlCreateCheckbox("", $x + 125 - $xOff, $y + $yRow1 + $yChkOff, 17, 17)
 	_GUICtrlSetTip(-1, "Ignore Barbarian King Upgrade")
 	GUICtrlSetOnEvent(-1, "chkUpgradesToIgnore")
 
 	_GUICtrlCreateIcon($g_sLibIconPath, $eIcnQueen, $x + 155, $y + $yRow1, $iIconSize, $iIconSize)
-	$g_hChkUpgradesToIgnore[2] = GUICtrlCreateCheckbox("", $x + 170 - $xOff, $y + $yRow1 + $yChkOff, 17, 17)
+	$g_hChkUpgradesToIgnore[3] = GUICtrlCreateCheckbox("", $x + 170 - $xOff, $y + $yRow1 + $yChkOff, 17, 17)
 	_GUICtrlSetTip(-1, "Ignore Archer Queen Upgrade")
 	GUICtrlSetOnEvent(-1, "chkUpgradesToIgnore")
 
 	_GUICtrlCreateIcon($g_sLibIconPath, $eIcnWarden, $x + 200, $y + $yRow1, $iIconSize, $iIconSize)
-	$g_hChkUpgradesToIgnore[3] = GUICtrlCreateCheckbox("", $x + 215 - $xOff, $y + $yRow1 + $yChkOff, 17, 17)
+	$g_hChkUpgradesToIgnore[4] = GUICtrlCreateCheckbox("", $x + 215 - $xOff, $y + $yRow1 + $yChkOff, 17, 17)
 	_GUICtrlSetTip(-1, "Ignore Grand Warden Upgrade")
 	GUICtrlSetOnEvent(-1, "chkUpgradesToIgnore")
 
 	_GUICtrlCreateIcon($g_sLibIconPath, $eIcnChampion, $x + 245, $y + $yRow1, $iIconSize, $iIconSize)
-	$g_hChkUpgradesToIgnore[14] = GUICtrlCreateCheckbox("", $x + 260 - $xOff, $y + $yRow1 + $yChkOff, 17, 17)
+	$g_hChkUpgradesToIgnore[5] = GUICtrlCreateCheckbox("", $x + 260 - $xOff, $y + $yRow1 + $yChkOff, 17, 17)
 	_GUICtrlSetTip(-1, "Ignore Royal Champion Upgrade")
 	GUICtrlSetOnEvent(-1, "chkUpgradesToIgnore")
 
 	_GUICtrlCreateIcon($g_sLibIconPath, $eIcnCC, $x + 305, $y + $yRow1, $iIconSize, $iIconSize)
-	$g_hChkUpgradesToIgnore[4] = GUICtrlCreateCheckbox("", $x + 320 - $xOff, $y + $yRow1 + $yChkOff, 17, 17)
+	$g_hChkUpgradesToIgnore[6] = GUICtrlCreateCheckbox("", $x + 320 - $xOff, $y + $yRow1 + $yChkOff, 17, 17)
 	_GUICtrlSetTip(-1, "Ignore Clan Castle Upgrade")
 	GUICtrlSetOnEvent(-1, "chkUpgradesToIgnore")
 
 	_GUICtrlCreateIcon($g_sLibIconPath, $eIcnLaboratory, $x + 365, $y + $yRow1, $iIconSize, $iIconSize)
-	$g_hChkUpgradesToIgnore[5] = GUICtrlCreateCheckbox("", $x + 380 - $xOff, $y + $yRow1 + $yChkOff, 17, 17)
+	$g_hChkUpgradesToIgnore[7] = GUICtrlCreateCheckbox("", $x + 380 - $xOff, $y + $yRow1 + $yChkOff, 17, 17)
 	_GUICtrlSetTip(-1, "Ignore Laboratory Upgrade")
 	GUICtrlSetOnEvent(-1, "chkUpgradesToIgnore")
 
 	_GUICtrlCreateIcon($g_sLibIconPath, $eIcnWall, $x + 5, $y + $yRow2, $iIconSize, $iIconSize)
-	$g_hChkUpgradesToIgnore[6] = GUICtrlCreateCheckbox("", $x + 20 - $xOff, $y + $yRow2 + $yChkOff, 17, 17)
+	$g_hChkUpgradesToIgnore[8] = GUICtrlCreateCheckbox("", $x + 20 - $xOff, $y + $yRow2 + $yChkOff, 17, 17)
 	_GUICtrlSetTip(-1, "Ignore Wall Upgrade")
 	GUICtrlSetOnEvent(-1, "chkUpgradesToIgnore")
 
 	_GUICtrlCreateIcon($g_sLibIconPath, $eIcnBarrack, $x + 65, $y + $yRow2, $iIconSize, $iIconSize)
-	$g_hChkUpgradesToIgnore[7] = GUICtrlCreateCheckbox("", $x + 80 - $xOff, $y + $yRow2 + $yChkOff, 17, 17)
+	$g_hChkUpgradesToIgnore[9] = GUICtrlCreateCheckbox("", $x + 80 - $xOff, $y + $yRow2 + $yChkOff, 17, 17)
 	_GUICtrlSetTip(-1, "Ignore Barrack Upgrade")
 	GUICtrlSetOnEvent(-1, "chkUpgradesToIgnore")
 
 	_GUICtrlCreateIcon($g_sLibIconPath, $eIcnDarkBarrack, $x + 110, $y + $yRow2, $iIconSize, $iIconSize)
-	$g_hChkUpgradesToIgnore[8] = GUICtrlCreateCheckbox("", $x + 125 - $xOff, $y + $yRow2 + $yChkOff, 17, 17)
+	$g_hChkUpgradesToIgnore[10] = GUICtrlCreateCheckbox("", $x + 125 - $xOff, $y + $yRow2 + $yChkOff, 17, 17)
 	_GUICtrlSetTip(-1, "Ignore Dark Barrack Upgrade")
 	GUICtrlSetOnEvent(-1, "chkUpgradesToIgnore")
 
 	_GUICtrlCreateIcon($g_sLibIconPath, $eIcnSpellFactory, $x + 170, $y + $yRow2, $iIconSize, $iIconSize)
-	$g_hChkUpgradesToIgnore[9] = GUICtrlCreateCheckbox("", $x + 185 - $xOff, $y + $yRow2 + $yChkOff, 17, 17)
+	$g_hChkUpgradesToIgnore[11] = GUICtrlCreateCheckbox("", $x + 185 - $xOff, $y + $yRow2 + $yChkOff, 17, 17)
 	_GUICtrlSetTip(-1, "Ignore Spell Factory Upgrade")
 	GUICtrlSetOnEvent(-1, "chkUpgradesToIgnore")
 
 	_GUICtrlCreateIcon($g_sLibIconPath, $eIcnDarkSpellFactory, $x + 215, $y + $yRow2, $iIconSize, $iIconSize)
-	$g_hChkUpgradesToIgnore[10] = GUICtrlCreateCheckbox("", $x + 230 - $xOff, $y + $yRow2 + $yChkOff, 17, 17)
+	$g_hChkUpgradesToIgnore[12] = GUICtrlCreateCheckbox("", $x + 230 - $xOff, $y + $yRow2 + $yChkOff, 17, 17)
 	_GUICtrlSetTip(-1, "Ignore Dark Spell Factory Upgrade")
 	GUICtrlSetOnEvent(-1, "chkUpgradesToIgnore")
 
 	_GUICtrlCreateIcon($g_sLibIconPath, $eIcnMine, $x + 275, $y + $yRow2, $iIconSize, $iIconSize)
-	$g_hChkUpgradesToIgnore[11] = GUICtrlCreateCheckbox("", $x + 290 - $xOff, $y + $yRow2 + $yChkOff, 17, 17)
+	$g_hChkUpgradesToIgnore[13] = GUICtrlCreateCheckbox("", $x + 290 - $xOff, $y + $yRow2 + $yChkOff, 17, 17)
 	_GUICtrlSetTip(-1, "Ignore Gold Mine Upgrade")
 	GUICtrlSetOnEvent(-1, "chkUpgradesToIgnore")
 
 	_GUICtrlCreateIcon($g_sLibIconPath, $eIcnCollector, $x + 320, $y + $yRow2, $iIconSize, $iIconSize)
-	$g_hChkUpgradesToIgnore[12] = GUICtrlCreateCheckbox("", $x + 335 - $xOff, $y + $yRow2 + $yChkOff, 17, 17)
+	$g_hChkUpgradesToIgnore[14] = GUICtrlCreateCheckbox("", $x + 335 - $xOff, $y + $yRow2 + $yChkOff, 17, 17)
 	_GUICtrlSetTip(-1, "Ignore Elixir Collector Upgrade")
 	GUICtrlSetOnEvent(-1, "chkUpgradesToIgnore")
 
 	_GUICtrlCreateIcon($g_sLibIconPath, $eIcnDrill, $x + 365, $y + $yRow2, $iIconSize, $iIconSize)
-	$g_hChkUpgradesToIgnore[13] = GUICtrlCreateCheckbox("", $x + 380 - $xOff, $y + $yRow2 + $yChkOff, 17, 17)
+	$g_hChkUpgradesToIgnore[15] = GUICtrlCreateCheckbox("", $x + 380 - $xOff, $y + $yRow2 + $yChkOff, 17, 17)
 	_GUICtrlSetTip(-1, "Ignore Dark Elixir Drill Upgrade")
 	GUICtrlSetOnEvent(-1, "chkUpgradesToIgnore")
 
 	;Advanced
-	Local $LeftOffset = 37
-	$y = $y + $yRow2 + 60
-	$x = $LeftOffset
-	$g_hChkUpgradesToIgnore[32] = GUICtrlCreateCheckbox("Builder's Hut", $x, $y, -1, -1)
-	_GUICtrlSetTip(-1, "Ignore Builder's Hut Upgrade")
+	Local $TopOffset = $y + $yRow2 + 60
+	$x = 37
+	$y = $TopOffset
+	$g_hChkUpgradesToIgnore[16] = GUICtrlCreateCheckbox("Air Defense", $x, $y, -1, -1)
+	_GUICtrlSetTip(-1, "Ignore Air Defense Upgrade")
 	GUICtrlSetOnEvent(-1, "chkUpgradesToIgnore")
-	$x += 100
-	$g_hChkUpgradesToIgnore[33] = GUICtrlCreateCheckbox("Cannon", $x, $y, -1, -1)
-	_GUICtrlSetTip(-1, "Ignore Cannon Upgrade")
+
+	$y += 20
+	$g_hChkUpgradesToIgnore[17] = GUICtrlCreateCheckbox("Air Sweeper", $x, $y, -1, -1)
+	_GUICtrlSetTip(-1, "Ignore Air Sweeper Upgrade")
 	GUICtrlSetOnEvent(-1, "chkUpgradesToIgnore")
-	$x += 100
-	$g_hChkUpgradesToIgnore[16] = GUICtrlCreateCheckbox("Archer Tower", $x, $y, -1, -1)
+
+	$y += 20
+	$g_hChkUpgradesToIgnore[18] = GUICtrlCreateCheckbox("Archer Tower", $x, $y, -1, -1)
 	_GUICtrlSetTip(-1, "Ignore Archer Tower Upgrade")
 	GUICtrlSetOnEvent(-1, "chkUpgradesToIgnore")
-	$x += 100
-	$g_hChkUpgradesToIgnore[17] = GUICtrlCreateCheckbox("Mortar", $x, $y, -1, -1)
-	_GUICtrlSetTip(-1, "Ignore Mortar Upgrade")
-	GUICtrlSetOnEvent(-1, "chkUpgradesToIgnore")
-	$x = $LeftOffset
+
 	$y += 20
-	$g_hChkUpgradesToIgnore[18] = GUICtrlCreateCheckbox("Hidden Tesla", $x, $y, -1, -1)
-	_GUICtrlSetTip(-1, "Ignore Hidden Tesla Upgrade")
+	$g_hChkUpgradesToIgnore[19] = GUICtrlCreateCheckbox("Army Camp", $x, $y, -1, -1)
+	_GUICtrlSetTip(-1, "Ignore Army Camp Upgrade")
 	GUICtrlSetOnEvent(-1, "chkUpgradesToIgnore")
-	$x += 100
-	$g_hChkUpgradesToIgnore[19] = GUICtrlCreateCheckbox("Traps", $x, $y, -1, -1)
-	_GUICtrlSetTip(-1, "Ignore Traps, Giant Bomb, Air Bomb, Seeking Air Mine," & @CRLF & "Skeleton Trap And Tornado Trap Upgrade")
+
+	$y += 20
+	$g_hChkUpgradesToIgnore[20] = GUICtrlCreateCheckbox("Blacksmith", $x, $y, -1, -1)
+	_GUICtrlSetTip(-1, "Ignore Blacksmith Upgrade")
 	GUICtrlSetOnEvent(-1, "chkUpgradesToIgnore")
-	$x += 100
-	$g_hChkUpgradesToIgnore[20] = GUICtrlCreateCheckbox("Wizard Tower", $x, $y, -1, -1)
-	_GUICtrlSetTip(-1, "Ignore Wizard Tower Upgrade")
-	GUICtrlSetOnEvent(-1, "chkUpgradesToIgnore")
-	$x += 100
+
+	$y += 20
 	$g_hChkUpgradesToIgnore[21] = GUICtrlCreateCheckbox("Bomb Tower", $x, $y, -1, -1)
 	_GUICtrlSetTip(-1, "Ignore Bomb Tower Upgrade")
 	GUICtrlSetOnEvent(-1, "chkUpgradesToIgnore")
-	$x = $LeftOffset
+
+	$x += 90
+	$y = $TopOffset
+	$g_hChkUpgradesToIgnore[22] = GUICtrlCreateCheckbox("Builder's Hut", $x, $y, -1, -1)
+	_GUICtrlSetTip(-1, "Ignore Builder's Hut Upgrade")
+	GUICtrlSetOnEvent(-1, "chkUpgradesToIgnore")
+
 	$y += 20
-	$g_hChkUpgradesToIgnore[22] = GUICtrlCreateCheckbox("Air Defense", $x, $y, -1, -1)
-	_GUICtrlSetTip(-1, "Ignore Air Defense Upgrade")
+	$g_hChkUpgradesToIgnore[23] = GUICtrlCreateCheckbox("Cannon", $x, $y, -1, -1)
+	_GUICtrlSetTip(-1, "Ignore Cannon Upgrade")
 	GUICtrlSetOnEvent(-1, "chkUpgradesToIgnore")
-	$x += 100
-	$g_hChkUpgradesToIgnore[23] = GUICtrlCreateCheckbox("Air Sweeper", $x, $y, -1, -1)
-	_GUICtrlSetTip(-1, "Ignore Air Sweeper Upgrade")
-	GUICtrlSetOnEvent(-1, "chkUpgradesToIgnore")
-	$x += 100
-	$g_hChkUpgradesToIgnore[24] = GUICtrlCreateCheckbox("X-Bow", $x, $y, -1, -1)
-	_GUICtrlSetTip(-1, "Ignore X-Bow Upgrade")
-	GUICtrlSetOnEvent(-1, "chkUpgradesToIgnore")
-	$x += 100
-	$g_hChkUpgradesToIgnore[25] = GUICtrlCreateCheckbox("Inferno Tower", $x, $y, -1, -1)
-	_GUICtrlSetTip(-1, "Ignore Inferno Tower Upgrade")
-	GUICtrlSetOnEvent(-1, "chkUpgradesToIgnore")
-	$x = $LeftOffset
+
 	$y += 20
-	$g_hChkUpgradesToIgnore[26] = GUICtrlCreateCheckbox("Eagle Artillery", $x, $y, -1, -1)
+	$g_hChkUpgradesToIgnore[24] = GUICtrlCreateCheckbox("Eagle Artillery", $x, $y, -1, -1)
 	_GUICtrlSetTip(-1, "Ignore Eagle Artillery Upgrade")
 	GUICtrlSetOnEvent(-1, "chkUpgradesToIgnore")
-	$x += 100
-	$g_hChkUpgradesToIgnore[27] = GUICtrlCreateCheckbox("Scattershot", $x, $y, -1, -1)
-	_GUICtrlSetTip(-1, "Ignore Scattershot Upgrade")
+
+	$y += 20
+	$g_hChkUpgradesToIgnore[25] = GUICtrlCreateCheckbox("Hidden Tesla", $x, $y, -1, -1)
+	_GUICtrlSetTip(-1, "Ignore Hidden Tesla Upgrade")
 	GUICtrlSetOnEvent(-1, "chkUpgradesToIgnore")
-	$x += 100
+
+	$y += 20
+	$g_hChkUpgradesToIgnore[26] = GUICtrlCreateCheckbox("Inferno Tower", $x, $y, -1, -1)
+	_GUICtrlSetTip(-1, "Ignore Inferno Tower Upgrade")
+	GUICtrlSetOnEvent(-1, "chkUpgradesToIgnore")
+
+	$y += 20
+	$g_hChkUpgradesToIgnore[27] = GUICtrlCreateCheckbox("Multi-Archer", $x, $y, -1, -1)
+	_GUICtrlSetTip(-1, "Ignore Multi-Archer Tower Upgrade")
+	GUICtrlSetOnEvent(-1, "chkUpgradesToIgnore")
+
+	$x += 90
+	$y = $TopOffset
 	$g_hChkUpgradesToIgnore[28] = GUICtrlCreateCheckbox("Monolith", $x, $y, -1, -1)
 	_GUICtrlSetTip(-1, "Ignore Monolith Upgrade")
 	GUICtrlSetOnEvent(-1, "chkUpgradesToIgnore")
-	$x += 100
-	$g_hChkUpgradesToIgnore[29] = GUICtrlCreateCheckbox("Army Camp", $x, $y, -1, -1)
-	_GUICtrlSetTip(-1, "Ignore Army Camp Upgrade")
-	GUICtrlSetOnEvent(-1, "chkUpgradesToIgnore")
-	$x = $LeftOffset
+
 	$y += 20
-	$g_hChkUpgradesToIgnore[30] = GUICtrlCreateCheckbox("Workshop", $x, $y, -1, -1)
-	_GUICtrlSetTip(-1, "Ignore Workshop Upgrade")
+	$g_hChkUpgradesToIgnore[29] = GUICtrlCreateCheckbox("Mortar", $x, $y, -1, -1)
+	_GUICtrlSetTip(-1, "Ignore Mortar Upgrade")
 	GUICtrlSetOnEvent(-1, "chkUpgradesToIgnore")
-	$x += 100
-	$g_hChkUpgradesToIgnore[31] = GUICtrlCreateCheckbox("Pet House", $x, $y, -1, -1)
+
+	$y += 20
+	$g_hChkUpgradesToIgnore[30] = GUICtrlCreateCheckbox("Pet House", $x, $y, -1, -1)
 	_GUICtrlSetTip(-1, "Ignore Pet House Upgrade")
 	GUICtrlSetOnEvent(-1, "chkUpgradesToIgnore")
-	$x += 100
-	$g_hChkUpgradesToIgnore[34] = GUICtrlCreateCheckbox("Spell Tower", $x, $y, -1, -1)
-	_GUICtrlSetTip(-1, "Ignore Spell Tower Upgrade")
-	GUICtrlSetOnEvent(-1, "chkUpgradesToIgnore")
-	$x = $LeftOffset
+
 	$y += 20
-	$g_hChkUpgradesToIgnore[35] = GUICtrlCreateCheckbox("Blacksmith", $x, $y, -1, -1)
-	_GUICtrlSetTip(-1, "Ignore Blacksmith Upgrade")
-	GUICtrlSetOnEvent(-1, "chkUpgradesToIgnore")
-	$x += 100
-	$g_hChkUpgradesToIgnore[36] = GUICtrlCreateCheckbox("Multi-Archer", $x, $y, -1, -1)
-	_GUICtrlSetTip(-1, "Ignore Multi-Archer Tower Upgrade")
-	GUICtrlSetOnEvent(-1, "chkUpgradesToIgnore")
-	$x += 100
-	$g_hChkUpgradesToIgnore[37] = GUICtrlCreateCheckbox("Ricochet", $x, $y, -1, -1)
+	$g_hChkUpgradesToIgnore[31] = GUICtrlCreateCheckbox("Ricochet", $x, $y, -1, -1)
 	_GUICtrlSetTip(-1, "Ignore Ricochet Cannon Upgrade")
 	GUICtrlSetOnEvent(-1, "chkUpgradesToIgnore")
+
+	$y += 20
+	$g_hChkUpgradesToIgnore[32] = GUICtrlCreateCheckbox("Scattershot", $x, $y, -1, -1)
+	_GUICtrlSetTip(-1, "Ignore Scattershot Upgrade")
+	GUICtrlSetOnEvent(-1, "chkUpgradesToIgnore")
+
+	$y += 20
+	$g_hChkUpgradesToIgnore[33] = GUICtrlCreateCheckbox("Spell Tower", $x, $y, -1, -1)
+	_GUICtrlSetTip(-1, "Ignore Spell Tower Upgrade")
+	GUICtrlSetOnEvent(-1, "chkUpgradesToIgnore")
+
+	$x += 90
+	$y = $TopOffset
+	$g_hChkUpgradesToIgnore[34] = GUICtrlCreateCheckbox("Traps", $x, $y, -1, -1)
+	_GUICtrlSetTip(-1, "Ignore Traps, Giant Bomb, Air Bomb, Seeking Air Mine," & @CRLF & "Skeleton Trap And Tornado Trap Upgrade")
+	GUICtrlSetOnEvent(-1, "chkUpgradesToIgnore")
+
+	$y += 20
+	$g_hChkUpgradesToIgnore[35] = GUICtrlCreateCheckbox("Wizard Tower", $x, $y, -1, -1)
+	_GUICtrlSetTip(-1, "Ignore Wizard Tower Upgrade")
+	GUICtrlSetOnEvent(-1, "chkUpgradesToIgnore")
+
+	$y += 20
+	$g_hChkUpgradesToIgnore[36] = GUICtrlCreateCheckbox("Workshop", $x, $y, -1, -1)
+	_GUICtrlSetTip(-1, "Ignore Workshop Upgrade")
+	GUICtrlSetOnEvent(-1, "chkUpgradesToIgnore")
+
+	$y += 20
+	$g_hChkUpgradesToIgnore[37] = GUICtrlCreateCheckbox("X-Bow", $x, $y, -1, -1)
+	_GUICtrlSetTip(-1, "Ignore X-Bow Upgrade")
+	GUICtrlSetOnEvent(-1, "chkUpgradesToIgnore")
+
 	;Buttons
-	$x = 340
-	$g_hBtnAllIgnore = GUICtrlCreateButton("All", $x, $y - 10, -1, -1)
+	$x += 100
+	$y = $TopOffset
+	$g_hBtnAllIgnore = GUICtrlCreateButton("All", $x, $y, -1, -1)
 	GUICtrlSetOnEvent(-1, "IgnoreAll")
-	$x += 30
-	$g_hBtnResetIgnore = GUICtrlCreateButton("Reset", $x, $y - 10, -1, -1)
+	$x += 2
+	$y += 33
+	$g_hBtnResetIgnore = GUICtrlCreateButton("R" & @CRLF & "e" & @CRLF & "s" & @CRLF & "e" & @CRLF & "t", $x, $y, -1, -1, BitOR($BS_MULTILINE, $BS_VCENTER))
 	GUICtrlSetOnEvent(-1, "ResetIgnore")
 
 	GUICtrlCreateGroup("", -99, -99, 1, 1)

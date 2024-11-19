@@ -169,6 +169,7 @@ Func QueenUpgrade()
 	Else
 		SetDebugLog("getResourcesMainScreen didn't get the DE value", $COLOR_DEBUG)
 	EndIf
+	If _Sleep(100) Then Return
 
 	If $g_aiCurrentLoot[$eLootDarkElixir] < ($g_afQueenUpgCost[$g_iQueenLevel] * 1000 * $SpecialEventReduction) * (1 - Number($g_iBuilderBoostDiscount) / 100) + $g_iUpgradeMinDark Then
 		SetLog("Insufficient DE for Upg Queen, requires: " & ($g_afQueenUpgCost[$g_iQueenLevel] * 1000 * $SpecialEventReduction) * (1 - Number($g_iBuilderBoostDiscount) / 100) & " + " & $g_iUpgradeMinDark, $COLOR_INFO)
@@ -541,13 +542,8 @@ Func WardenUpgrade()
 	If _Sleep($DELAYUPGRADEHERO1) Then Return
 
 	;##### Get updated village elixir values
-	If _CheckPixel($aVillageHasDarkElixir, $g_bCapturePixel) Then ; check if the village have a Dark Elixir Storage
-		$g_aiCurrentLoot[$eLootElixir] = getResourcesMainScreen(705, 74)
-		SetDebugLog("Updating village values [E]: " & $g_aiCurrentLoot[$eLootElixir], $COLOR_DEBUG)
-	Else
-		$g_aiCurrentLoot[$eLootElixir] = getResourcesMainScreen(710, 74)
-	EndIf
-
+	$g_aiCurrentLoot[$eLootElixir] = getResourcesMainScreen(696, 74)
+	SetDebugLog("Updating village values [E]: " & $g_aiCurrentLoot[$eLootElixir], $COLOR_DEBUG)
 	If _Sleep(100) Then Return
 
 	If $g_aiCurrentLoot[$eLootElixir] < ($g_afWardenUpgCost[$g_iWardenLevel] * 1000000 * $SpecialEventReduction) * (1 - Number($g_iBuilderBoostDiscount) / 100) + $g_iUpgradeMinElixir Then
@@ -741,6 +737,7 @@ Func ChampionUpgrade()
 	Else
 		SetDebugLog("getResourcesMainScreen didn't get the DE value", $COLOR_DEBUG)
 	EndIf
+	If _Sleep(100) Then Return
 
 	If $g_aiCurrentLoot[$eLootDarkElixir] < ($g_afChampionUpgCost[$g_iChampionLevel] * 1000 * $SpecialEventReduction) * (1 - Number($g_iBuilderBoostDiscount) / 100) + $g_iUpgradeMinDark Then
 		SetLog("Insufficient DE for Upg Champion, requires: " & (($g_afChampionUpgCost[$g_iChampionLevel] * 1000) * $SpecialEventReduction) * (1 - Number($g_iBuilderBoostDiscount) / 100) & " + " & $g_iUpgradeMinDark, $COLOR_INFO)

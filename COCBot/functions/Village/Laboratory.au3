@@ -35,7 +35,7 @@ EndFunc   ;==>TestLaboratory
 
 Func Laboratory($debug = False)
 
-	If Not $g_bAutoLabUpgradeEnable And $g_bFirstStartCheckDone Then Return ; Lab upgrade not enabled.
+	If Not $g_bAutoLabUpgradeEnable Then Return ; Lab upgrade not enabled.
 
 	$IsLabtoRecheck = False
 
@@ -55,7 +55,18 @@ Func Laboratory($debug = False)
 		EndIf
 	EndIf
 
-	If ChkUpgradeInProgress() Then Return False  ; see if we know about an upgrade in progress without checking the lab
+	If ChkUpgradeInProgress() Then ; see if we know about an upgrade in progress without checking the lab
+		Return False
+	Else
+		If Not $g_bRunState Then Return
+		If $g_bFirstStartCheckDone = 1 Then
+			;==========Show Red  Hide Green Hide Gray===
+			GUICtrlSetState($g_hPicLabGray, $GUI_HIDE)
+			GUICtrlSetState($g_hPicLabRed, $GUI_SHOW)
+			GUICtrlSetState($g_hPicLabGreen, $GUI_HIDE)
+			;===========================================
+		EndIf
+	EndIf
 
 	; Get updated village elixir and dark elixir values
 	VillageReport()

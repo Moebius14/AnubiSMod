@@ -25,6 +25,11 @@
 * Improved Finish Now Button Detection (Apprentice).
 * Fixed Read Laboratory Remaining Time When Goblin Builder is working.
 * Changed Main UTC Provider.
+* Updated IsAttackWhileShieldPage().
+* Improved Remove Obstacles System (DeDup).
+* Improved Army Cap OCR.
+* Improved Loot Cart Detection.
+* Adjusted Resources Reading Area.
 
 * v8.1.7 **
 * Added Fireball equipment support.

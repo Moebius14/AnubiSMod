@@ -1284,7 +1284,7 @@ Global $g_bSmartZapEnable = False, $g_bEarthQuakeZap = False, $g_bNoobZap = Fals
 
 ; <><><><> Attack Plan / Search & Attack / Options / End Battle <><><><>
 Global $g_bShareAttackEnable = 0, $g_iShareMinGold = 300000, $g_iShareMinElixir = 300000, $g_iShareMinDark = 0, $g_sShareMessage = "Nice|Good|Thanks|Wowwww", _
-		$g_bTakeLootSnapShot = True, $g_bScreenshotLootInfo = False, $g_bShareAttackEnableNow = False
+		$g_bTakeLootSnapShot = False, $g_bScreenshotLootInfo = False, $g_bShareAttackEnableNow = False
 
 ; <><><><> Attack Plan / Search & Attack / Options / Trophy Settings <><><><>
 Global $g_bDropTrophyEnable = False, $g_iDropTrophyMax = 1200, $g_iDropTrophyMin = 800, $g_bDropTrophyUseHeroes = False, $g_iDropTrophyHeroesPriority = 4, _
@@ -2118,7 +2118,7 @@ Global $g_iCmbPriorityBBaseFrequency = 4, $g_bChkBBaseFrequency = False
 Global $g_iCmbPriorityPersoChallengesFrequency = 0
 Global $IsToCheckdiff[8], $asLastTimeCheckedforChallenges[8], $DelayPersoChallengesMn[8], $IsToCheckBeforeStop = False
 Global $g_icmbAdvancedVariation = 3
-Global $g_bChkTrophyDropinPause = True, $g_iacmdRandomDelayMin = 5, $g_iacmdRandomDelayMax = 20
+Global $g_bChkTrophyDropinPause = True, $g_iacmdRandomDelayMin = 5, $g_iacmdRandomDelayMax = 15
 Global $IsKingReadyForDropTrophies = 0, $IsQueenReadyForDropTrophies = 0, $IsWardenReadyForDropTrophies = 0, $IsChampionReadyForDropTrophies = 0
 Global $g_bChkVisitBbaseinPause = True, $g_bChkPersoChallengesinPause = True
 Global $g_bFirstStartAccountFMI = 0, $g_bFirstStartAccountSBB = 0

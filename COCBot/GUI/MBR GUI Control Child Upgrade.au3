@@ -836,7 +836,7 @@ EndFunc   ;==>cmbWallRingsCB
 Func cmbWalls()
 	$g_iCmbUpgradeWallsLevel = _GUICtrlComboBox_GetCurSel($g_hCmbWalls)
 	$g_iWallCost = $g_aiWallCost[$g_iCmbUpgradeWallsLevel] * $SpecialEventReduction
-	GUICtrlSetData($g_hLblWallCost, _NumberFormat($g_iWallCost))
+	GUICtrlSetData($g_hLblWallCost, _NumberFormat(Int($g_iWallCost - ($g_iWallCost * Number($g_iBuilderBoostDiscount) / 100))))
 
 	For $i = 4 To $g_iCmbUpgradeWallsLevel + 5
 		GUICtrlSetState($g_ahWallsCurrentCount[$i], $GUI_SHOW)

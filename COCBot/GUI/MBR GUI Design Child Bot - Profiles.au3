@@ -16,7 +16,7 @@
 
 Global $g_hCmbProfile = 0, $g_hTxtVillageName = 0, $g_hBtnAddProfile = 0, $g_hBtnConfirmAddProfile = 0, $g_hBtnConfirmRenameProfile = 0, $g_hChkOnlySCIDAccounts = 0, $g_hCmbWhatSCIDAccount2Use = 0, _
 		$g_hBtnDeleteProfile = 0, $g_hBtnCancelProfileChange = 0, $g_hBtnRenameProfile = 0, $g_hBtnPullSharedPrefs = 0, $g_hBtnPushSharedPrefs = 0, $g_hBtnSaveprofile = 0
-Global $g_hTxtCurrentVillageName = 0, $g_hBtnSaveAlias = 0, $g_hBtnDeleteAlias = 0
+Global $g_hTxtCurrentVillageName = 0, $g_hBtnCopyProfileName = 0, $g_hBtnSaveAlias = 0, $g_hBtnDeleteAlias = 0
 Global $g_hChkSwitchAcc = 0, $g_hCmbSwitchAcc = 0, $g_hChkSharedPrefs = 0, $g_hCmbTotalAccount = 0, $g_hChkSmartSwitch = 0, $g_hCmbTrainTimeToSkip = 0, $g_hChkDonateLikeCrazy = 0, _
 		$g_ahChkAccount[8], $g_ahCmbProfile[8], $g_ahChkDonate[8], _
 		$g_hRadSwitchSuperCellID = 0, $g_hRadSwitchSharedPrefs = 0
@@ -136,12 +136,18 @@ Func CreateBotProfiles()
 	$g_hTxtCurrentVillageName = GUICtrlCreateInput("", $x + 138, $y + 32, 115, 19, BitOR($SS_CENTER, $ES_AUTOHSCROLL))
 	_GUICtrlSetTip(-1, "Please Enter The Name Of The Village For The Current Account")
 	GUICtrlSetOnEvent(-1, "LoadCurrentAlias")
-	$g_hBtnSaveAlias = GUICtrlCreateButton("", $x + 267, $y + 27, 24, 24)
+
+	$g_hBtnCopyProfileName = GUICtrlCreateButton("", $x + 267, $y + 29, 24, 24)
+	_GUICtrlButton_SetImageList($g_hBtnCopyProfileName, $bIconPull, 4)
+	GUICtrlSetOnEvent(-1, "BtnCopyProfileName")
+	_GUICtrlSetTip(-1, "Copy Your Current Profile Name.")
+
+	$g_hBtnSaveAlias = GUICtrlCreateButton("", $x + 297, $y + 29, 24, 24)
 	_GUICtrlButton_SetImageList($g_hBtnSaveAlias, $bIconSave, 4)
 	GUICtrlSetOnEvent(-1, "BtnSaveAlias")
 	_GUICtrlSetTip(-1, "Save Your Current Village Name.")
 
-	$g_hBtnDeleteAlias = GUICtrlCreateButton("", $x + 300, $y + 27, 24, 24)
+	$g_hBtnDeleteAlias = GUICtrlCreateButton("", $x + 327, $y + 29, 24, 24)
 	_GUICtrlButton_SetImageList($g_hBtnDeleteAlias, $bIconDelete, 4)
 	GUICtrlSetOnEvent(-1, "BtnDeleteAlias")
 	_GUICtrlSetTip(-1, "Clear Your Current Village Name.")

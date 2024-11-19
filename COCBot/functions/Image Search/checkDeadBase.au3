@@ -139,13 +139,13 @@ Func checkDeadBaseQuick($bForceCapture = True, $TestDeadBase = False)
 	Local $dbFound = False
 	Local $aTempArray, $aTempCoords, $aTempMultiCoords
 	Local $aTempArrayEx, $aTempCoordsEx, $aTempMultiCoordsEx
-	Local $aExclusions[0][2]
-	Local $aTempCollectors[0][2]
+	Local $aExclusions[0][2], $bFoundExclusions = False
+	Local $aTempCollectors[0][2], $bFoundTempCollectors = False
 	Local $aCollectors[0][2]
 
 	; check for any collector filling
 	Local $result = findMultiple($g_sImgElixirCollectorFill, $sCocDiamond, $redLines, $minLevel, $maxLevel, $maxReturnPoints, $returnProps, $bForceCapture)
-	Local $bFoundFilledCollectors = IsArray($result) = 1
+	Local $bFoundFilledCollectors = $result <> "" And IsArray($result)
 
 	If $bFoundFilledCollectors Then
 
@@ -157,9 +157,9 @@ Func checkDeadBaseQuick($bForceCapture = True, $TestDeadBase = False)
 			For $j = 0 To UBound($aTempMultiCoordsEx, 1) - 1
 				$aTempCoordsEx = $aTempMultiCoordsEx[$j]
 				_ArrayAdd($aExclusions, $aTempCoordsEx[0] & "|" & $aTempCoordsEx[1])
+				$bFoundExclusions = True
 			Next
 		Next
-		Local $bFoundExclusions = IsArray($aExclusions) = 1
 		If $bFoundExclusions Then
 			For $i = 0 To UBound($aExclusions) - 1
 				$aExclusions[$i][0] = Number($aExclusions[$i][0])
@@ -176,9 +176,9 @@ Func checkDeadBaseQuick($bForceCapture = True, $TestDeadBase = False)
 			For $j = 0 To UBound($aTempMultiCoords, 1) - 1
 				$aTempCoords = $aTempMultiCoords[$j]
 				_ArrayAdd($aTempCollectors, $aTempCoords[0] & "|" & $aTempCoords[1])
+				$bFoundTempCollectors = True
 			Next
 		Next
-		Local $bFoundTempCollectors = IsArray($aTempCollectors) = 1
 		If $bFoundTempCollectors Then
 			For $i = 0 To UBound($aTempCollectors) - 1
 				$aTempCollectors[$i][0] = Number($aTempCollectors[$i][0])

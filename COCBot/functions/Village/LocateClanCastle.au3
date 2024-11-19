@@ -174,12 +174,26 @@ Func _BtnDefineCapacity()
 		SetLog("Your Clan Castle is at level: " & $sInfo[2], $COLOR_SUCCESS)
 		$g_aiClanCastleLvl = $sInfo[2]
 	Else
-		SetLog("Clan Castle Windows Didn't Open, Please Retry", $COLOR_ERROR)
+		Local $sInfo = getNameBuilding(242, 475 + $g_iBottomOffsetY)
+		If StringInStr($sInfo, "Broken") Then
+			SetLog("Clan Castle is not rebuild yet", $COLOR_ERROR)
+		Else
+			SetLog("Clan Castle Windows Didn't Open, Please Retry", $COLOR_ERROR)
+		EndIf
 		ClearScreen()
 		Return
 	EndIf
 
 	Switch $g_aiClanCastleLvl
+		Case 1
+			$g_aiClanCastleTroopsCap = 10
+			$g_aiClanCastleSpellsCap = 0
+		Case 2
+			$g_aiClanCastleTroopsCap = 15
+			$g_aiClanCastleSpellsCap = 0
+		Case 3
+			$g_aiClanCastleTroopsCap = 20
+			$g_aiClanCastleSpellsCap = 0
 		Case 4
 			$g_aiClanCastleTroopsCap = 25
 			$g_aiClanCastleSpellsCap = 1
