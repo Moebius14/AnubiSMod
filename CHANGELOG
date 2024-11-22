@@ -12,7 +12,7 @@
 * Improved Few Clan Games Challenges Detection.
 * Cleaned CG Purge Code.
 * Improved Sieges Training Logic.
-* Updated IsPostDefenseSummaryPage() and CheckObstacles().
+* Updated IsPostDefenseSummaryPage() and CheckObstacles()
 * Increased Tolerance for CC/BB/Main White Menu Border Detection.
 * Fixed Array Bounds Error in CheckDonate().
 * Fixed Druid Donation.
@@ -30,6 +30,9 @@
 * Improved Army Cap OCR.
 * Improved Loot Cart Detection.
 * Adjusted Resources Reading Area.
+* Fixed Array Bounds Error in ClanGames().
+* Fixed IsCoordSafe(Obstacles).
+* Readded "I understand" detection (Chat).
 
 * v8.1.7 **
 * Added Fireball equipment support.
@@ -92,7 +95,7 @@
 * Added support for Streak Event in bonus calculation.
 * Improved Super Troops Count OCR in Army Overview.
 * Improved Egypt and Magic Scenery Zoom Out.
-* Fixed donation (COC 16.253.25)
+* Fixed donation (COC 16.253.25).
 * Added Spiky Ball equipment support.
 * Fixed CC Sieges Removing array issue.
 * Added Football scenery support (Attack Only).

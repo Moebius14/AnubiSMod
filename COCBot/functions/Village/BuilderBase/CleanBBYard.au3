@@ -6,7 +6,7 @@ Func CleanBBYard()
 	Local $hObstaclesTimer = __TimerInit()
 
 	; Get Builders available
-	If Not getBuilderCount(True, True) Then Return ; update builder data, return if problem
+	If Not getBuilderCount(False, True) Then Return ; update builder data, return if problem
 	If _Sleep($DELAYRESPOND) Then Return
 
 	; Obstacles function to Parallel Search , will run all pictures inside the directory
@@ -15,12 +15,12 @@ Func CleanBBYard()
 	Local $bLocate = False
 	Local $sCocDiamond = $CocDiamondECD
 	Local $redLines = $sCocDiamond
-	Local $bBuilderBase = True
+	Local $iBBElixir = 50000
 	Local $bNoBuilders = $g_iFreeBuilderCountBB < 1
 	Local $aTempArray, $aTempName, $aTempCoords, $aTempMultiCoords
 	Local $aObstacles[0][3], $bFoundObstacles = False
 
-	If $g_iFreeBuilderCountBB > 0 And Number($g_aiCurrentLootBB[$eLootElixirBB]) > 50000 Then
+	If $g_iFreeBuilderCountBB > 0 And Number($g_aiCurrentLootBB[$eLootElixirBB]) > $iBBElixir Then
 		Local $aResult = findMultiple($g_sImgCleanBBYard, $sCocDiamond, $redLines, 0, 1000, 0, "objectname,objectpoints", True)
 		If $aResult <> "" And IsArray($aResult) Then
 			SetLog("Yard Cleaning Process", $COLOR_OLIVE)
@@ -42,7 +42,7 @@ Func CleanBBYard()
 				Next
 				RemoveDupXYObs($aObstacles)
 				For $i = 0 To UBound($aObstacles, 1) - 1
-					If isInsideDiamondXY($aObstacles[$i][0], $aObstacles[$i][1]) Then ; secure x because of clan chat tab
+					If isInsideDiamondXY($aObstacles[$i][1], $aObstacles[$i][2]) Then ; secure x because of clan chat tab
 						If $g_bDebugSetlog Then SetDebugLog($aObstacles[$i][0] & " found (" & $aObstacles[$i][1] & "," & $aObstacles[$i][2] & ")", $COLOR_SUCCESS)
 						If IsMainPageBuilderBase() Then Click($aObstacles[$i][1], $aObstacles[$i][2], 1, 120, "#0430")
 						$bLocate = True
@@ -51,7 +51,7 @@ Func CleanBBYard()
 						If _Sleep($DELAYCHECKTOMBS2) Then Return
 						ClearScreen("Defaut", False)
 						If _Sleep($DELAYCHECKTOMBS1) Then Return
-						If getBuilderCount(True, True) = False Then Return ; update builder data, return if problem
+						If Not getBuilderCount(False, True) Then Return ; update builder data, return if problem
 						If _Sleep($DELAYRESPOND) Then Return
 						If $g_iFreeBuilderCountBB = 0 Then
 							SetLog("No More Builders available")

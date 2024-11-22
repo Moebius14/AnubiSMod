@@ -2603,7 +2603,15 @@ Func CatchSmallCCTrophies($StartRaidConditions = False)
 		Return
 	EndIf
 
-	If _Sleep(2000) Then Return
+	If _Sleep($DELAYDONATECC4) Then Return
+
+	; check for "I Understand" button
+	Local $aCoord = decodeSingleCoord(FindImageInPlace2("I Understand", $g_sImgChatIUnterstand, 50, 370 + $g_iMidOffsetY, 280, 520 + $g_iMidOffsetY, True))
+	If UBound($aCoord) > 1 Then
+		SetLog('Clicking "I Understand" button', $COLOR_ACTION)
+		ClickP($aCoord)
+		If _Sleep($DELAYDONATECC2) Then Return
+	EndIf
 
 	Click(120, 25) ; open the clan menu
 	If _Sleep(2000) Then Return

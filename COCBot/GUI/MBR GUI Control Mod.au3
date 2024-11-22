@@ -5,7 +5,7 @@
 ; Parameters ....: None
 ; Return values .: None
 ; Author ........: Moebius14 (2021)
-; Modified ......: 2023
+; Modified ......: 2024
 ; Remarks .......: This file is part of MyBot, previously known as ClashGameBot. Copyright 2016
 ;                  MyBot is distributed under the terms of the GNU GPL
 ; Related .......:
@@ -423,7 +423,7 @@ EndFunc   ;==>LiveDailyCount
 Func _cmbAttackCGPlannerDayLimit()
 	Switch Int(GUICtrlRead($g_hCmbAttackCGPlannerDayMin))
 		Case 0 To 8
-			GUICtrlSetBkColor($g_hCmbAttackCGPlannerDayMin, $COLOR_GREEN)
+			GUICtrlSetBkColor($g_hCmbAttackCGPlannerDayMin, $COLOR_SUCCESS1)
 		Case 9 To 12
 			GUICtrlSetBkColor($g_hCmbAttackCGPlannerDayMin, $COLOR_YELLOW)
 		Case 13 To 999
@@ -431,7 +431,7 @@ Func _cmbAttackCGPlannerDayLimit()
 	EndSwitch
 	Switch Int(GUICtrlRead($g_hCmbAttackCGPlannerDayMax))
 		Case 0 To 8
-			GUICtrlSetBkColor($g_hCmbAttackCGPlannerDayMax, $COLOR_GREEN)
+			GUICtrlSetBkColor($g_hCmbAttackCGPlannerDayMax, $COLOR_SUCCESS1)
 		Case 9 To 12
 			GUICtrlSetBkColor($g_hCmbAttackCGPlannerDayMax, $COLOR_YELLOW)
 		Case 13 To 999
@@ -1241,3 +1241,37 @@ Func ChkWarSignUp()
 		Next
 	EndIf
 EndFunc   ;==>ChkWarSignUp
+
+Func UTCTimeEvent()
+	Local $UTCTime, $UTCString, $Date, $Time, $Day, $TimeHour
+	If _Sleep(100) Then Return
+	$UTCTime = _Date_Time_GetSystemTime()
+	$UTCString = _Date_Time_SystemTimeToDateTimeStr($UTCTime)
+	;Day UTC
+	$Date = StringLeft($UTCString, 10)
+	$Day = StringSplit($Date, "/", $STR_NOCOUNT)
+	;Time UTC
+	$Time = StringRight($UTCString, 8)
+	$TimeHour = StringSplit($Time, ":", $STR_NOCOUNT)
+
+	; End Of Event (Hammer Jam until 25th of November 2024)
+	Local $EventYear = 2024
+	Local $EventMonth = 11
+	Local $EventDay = 25
+	Local $EventHour = 8
+	;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+	If $Day[2] > $EventYear Then
+		Return False
+	Else
+		If $Day[0] > $EventMonth Then Return False
+		If $Day[0] = $EventMonth Then
+			If $Day[1] > $EventDay Then Return False
+			If $Day[1] = $EventDay Then
+				If $TimeHour[0] > $EventHour Then Return False
+			EndIf
+		EndIf
+	EndIf
+	Return True
+
+EndFunc   ;==>UTCTimeEvent

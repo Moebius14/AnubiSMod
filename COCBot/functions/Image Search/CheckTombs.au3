@@ -134,14 +134,14 @@ Func CleanYard()
 	; Setup arrays, including default return values for $return
 	Local $bLocate = False
 	Local $sCocDiamond = $CocDiamondECD
-	Local $sRedLines = $CocDiamondECD
+	Local $sRedLines = $sCocDiamond
 	Local $iElixir = 50000
 	Local $bNoBuilders = $g_iFreeBuilderCount < 1
 	Local $aTempArray, $aTempName, $aTempCoords, $aTempMultiCoords
 	Local $aObstacles[0][3], $bFoundObstacles = False
 
 	If $g_iFreeBuilderCount > 0 And $g_bChkCleanYard And Number($g_aiCurrentLoot[$eLootElixir]) > $iElixir Then
-		Local $aResult = findMultiple($g_sImgCleanYard, $sCocDiamond, $sRedLines, 0, 1000, 0, "objectname,objectpoints", True)
+		Local $aResult = findMultiple($g_sImgCleanYard, $sCocDiamond, $sRedLines, 0, 1000, 0, "objectname,objectpoints", True); findMultiple($g_sImgCleanYard, $CocDiamondECD, $CocDiamondECD, 0, 1000, 0, "objectname,objectpoints", True)
 		If $aResult <> "" And IsArray($aResult) Then
 			SetLog("Yard Cleaning Process", $COLOR_OLIVE)
 			;Add found results into our Arrays
@@ -162,7 +162,7 @@ Func CleanYard()
 				Next
 				RemoveDupXYObs($aObstacles)
 				For $i = 0 To UBound($aObstacles, 1) - 1
-					If IsCoordSafe($aObstacles[$i][0], $aObstacles[$i][1]) Then ; secure x because of clan chat tab
+					If IsCoordSafe($aObstacles[$i][1], $aObstacles[$i][2]) Then ; secure x because of clan chat tab
 						If $g_bDebugSetlog Then SetDebugLog($aObstacles[$i][0] & " found (" & $aObstacles[$i][1] & "," & $aObstacles[$i][2] & ")", $COLOR_SUCCESS)
 						If IsMainPage() Then Click($aObstacles[$i][1], $aObstacles[$i][2], 1, 120, "#0430")
 						$bLocate = True

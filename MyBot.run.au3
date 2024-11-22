@@ -720,6 +720,7 @@ Func runBot() ;Bot that runs everything in order
 		EndIf
 
 		If $g_CheckModVersion Then CheckVersionStatus()
+		If Not UTCTimeEvent() Then $SpecialEventReduction = 1
 
 		PrepareDonateCC()
 		If Not $g_bRunState Then Return
@@ -1079,6 +1080,7 @@ Func _Idle() ;Sequence that runs until Full Army
 		BotHumanization()
 
 		If $g_CheckModVersion Then CheckVersionStatus()
+		If Not UTCTimeEvent() Then $SpecialEventReduction = 1
 
 		If $bControlCCMedal Then
 			CatchCCMedals(True)

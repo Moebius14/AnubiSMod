@@ -223,33 +223,51 @@ Func CollectDailyRewards($bGoldPass = False)
 					EndIf
 					If _Sleep(1000) Then ExitLoop
 				Else
-					If _Sleep(Random(3000, 4000, 1)) Then ExitLoop
+					If _Sleep(Random(3500, 4500, 1)) Then ExitLoop
 					$iClaim += 1
+
 					For $z = 0 To UBound($RewardImagesTypes) - 1
-						If Not QuickMIS("BC1", $RewardImagesTypes[$z][0], $aAllCoords[$j][0] - 50, $aAllCoords[$j][1] - 90, $aAllCoords[$j][0] + 45, $aAllCoords[$j][1] - 20) And $RewardImagesTypes[$z][1] = 1 Then
-							Switch $z
-								Case 0
-									$IsCCGoldJustCollected = 1
-								Case 1
-									$IsBOFJustCollected = 1
-								Case 2
-									$IsBOSJustCollected = 1
-								Case 3
-									$IsResPotJustCollected = 1
-								Case 4
-									$IsPetPotJustCollected = 1
-								Case 5
-									$IsAutoForgeSlotJustCollected = 1
-							EndSwitch
+						If $RewardImagesTypes[$z][1] = 1 Then
+							If Not QuickMIS("BC1", $RewardImagesTypes[$z][0], $aAllCoords[$j][0] - 50, $aAllCoords[$j][1] - 90, $aAllCoords[$j][0] + 45, $aAllCoords[$j][1] - 20) Then
+								Switch $z
+									Case 0
+										$IsCCGoldJustCollected = 1
+									Case 1
+										$IsBOFJustCollected = 1
+									Case 2
+										$IsBOSJustCollected = 1
+									Case 3
+										$IsResPotJustCollected = 1
+									Case 4
+										$IsPetPotJustCollected = 1
+									Case 5
+										$IsAutoForgeSlotJustCollected = 1
+								EndSwitch
+							Else
+								Switch $z
+									Case 0
+										$IsCCGoldPresent = 0
+									Case 1
+										$IsBOFPresent = 0
+									Case 2
+										$IsBOSPresent = 0
+									Case 3
+										$IsResPotPresent = 0
+									Case 4
+										$IsPetPotPresent = 0
+									Case 5
+										$IsAutoForgeSlotPresent = 0
+								EndSwitch
+							EndIf
 						EndIf
 					Next
 
-					Local $RewardTypes[6][2] = [[$IsCCGoldJustCollected, "Clan Capital Gold Collected"], _
-							[$IsBOFJustCollected, "Book Of Fighting Collected"], _
-							[$IsBOSJustCollected, "Book Of Spells Collected"], _
-							[$IsResPotJustCollected, "Research Potion Collected"], _
-							[$IsPetPotJustCollected, "Pet Potion Collected"], _
-							[$IsAutoForgeSlotJustCollected, "AutoForge Slot Collected"]]
+					Local $RewardTypes[6][2] = [[$IsCCGoldPresent, "Clan Capital Gold Collected"], _
+							[$IsBOFPresent, "Book Of Fighting Collected"], _
+							[$IsBOSPresent, "Book Of Spells Collected"], _
+							[$IsResPotPresent, "Research Potion Collected"], _
+							[$IsPetPotPresent, "Pet Potion Collected"], _
+							[$IsAutoForgeSlotPresent, "AutoForge Slot Collected"]]
 
 					For $z = 0 To UBound($RewardTypes) - 1
 						If $z = 0 Then $IsCCGoldJustCollectedDChallenge = $RewardTypes[$z][0]
@@ -261,10 +279,12 @@ Func CollectDailyRewards($bGoldPass = False)
 								GUICtrlSetData($g_hTxtModLog, @CRLF & _NowTime() & " [" & $g_sProfileCurrentName & "] " & $RewardTypes[$z][1], 1)
 							EndIf
 							_FileWriteLog($g_sProfileLogsPath & "\ModLog.log", " [" & $g_sProfileCurrentName & "] " & $RewardTypes[$z][1])
+							ExitLoop
 						EndIf
 					Next
 					If _Sleep(100) Then ExitLoop
 				EndIf
+				;Reset local variables
 				$IsCCGoldPresent = 0
 				$IsBOFPresent = 0
 				$IsBOSPresent = 0

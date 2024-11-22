@@ -107,7 +107,14 @@ Func CollectLootCart()
 	If $g_iTree = $eTreeEG Then
 		If _ColorCheck(_GetPixelColor(54, 278 + $g_iMidOffsetY, True), Hex(0xE90914, 6), 20) Then ; If Egypt Scenery, Open/Close Chat To remove red warning.
 			If ClickB("ClanChat") Then
-				If _Sleep(1000) Then Return
+				If _Sleep(2000) Then Return
+				; check for "I Understand" button
+				Local $aCoord = decodeSingleCoord(FindImageInPlace2("I Understand", $g_sImgChatIUnterstand, 50, 370 + $g_iMidOffsetY, 280, 520 + $g_iMidOffsetY, True))
+				If UBound($aCoord) > 1 Then
+					SetLog('Clicking "I Understand" button', $COLOR_ACTION)
+					ClickP($aCoord)
+					If _Sleep($DELAYDONATECC2) Then Return
+				EndIf
 				If Not ClickB("ClanChat") Then
 					If _ColorCheck(_GetPixelColor(390, 340 + $g_iMidOffsetY, True), Hex(0xEA8A3B, 6), 20) Then ; close chat
 						If Not ClickB("ClanChat") Then

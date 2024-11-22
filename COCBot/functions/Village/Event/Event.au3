@@ -173,7 +173,7 @@ Func CollectEventRewards()
 					EndIf
 					If _Sleep(1000) Then ExitLoop
 				Else
-					If _Sleep(Random(3000, 4000, 1)) Then ExitLoop
+					If _Sleep(Random(3500, 4500, 1)) Then ExitLoop
 					$iClaim += 1
 					If Not QuickMIS("BC1", $g_sImgOresCollect, $aAllCoords[$j][0] - 50, $aAllCoords[$j][1] - 90, $aAllCoords[$j][0] + 45, $aAllCoords[$j][1] - 20) And $IsOresPresent = 1 Then
 						$IsOresJustCollected = 1
