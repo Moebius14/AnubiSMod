@@ -214,7 +214,7 @@ Func getAllEmulators()
 					$bMatchingEmulator = True
 					$DisplayVersionMin = "5.13.220.1001"
 					$VersionMin = GetVersionNormalized($DisplayVersionMin)
-					$DisplayVersionMax = "5.21.610.1003"
+					$DisplayVersionMax = "5.21.615.1015"
 					$VersionMax = GetVersionNormalized($DisplayVersionMax)
 				Case "Nox"
 					$bMatchingEmulator = True

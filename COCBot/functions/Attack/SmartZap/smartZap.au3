@@ -196,14 +196,14 @@ Func smartZap($minDE = -1)
 					If $g_bDebugSmartZap Then SetLog("Donated " & GetTroopName($g_avAttackTroops[$i][0]) & ": " & $g_avAttackTroops[$i][1], $COLOR_DEBUG)
 					$aSpells[1][2] = $i
 					$aSpells[1][3] = Number($g_iLSpellLevel) ; Get the Level on Attack bar
-					$aSpells[1][4] = $g_avAttackTroops[$i][1]
+					$aSpells[1][4] = Number($g_avAttackTroops[$i][1])
 				EndIf
 			EndIf
 			If $g_avAttackTroops[$i][0] = $eESpell Then
 				If $g_bDebugSmartZap Then SetLog(GetTroopName($g_avAttackTroops[$i][0]) & ": " & $g_avAttackTroops[$i][1], $COLOR_DEBUG)
 				$aSpells[2][2] = $i
 				$aSpells[2][3] = Number($g_iESpellLevel) ; Get the Level on Attack bar
-				$aSpells[2][4] = $g_avAttackTroops[$i][1]
+				$aSpells[2][4] = Number($g_avAttackTroops[$i][1])
 			EndIf
 		Next
 	EndIf
@@ -650,3 +650,715 @@ Func ReCheckDrillExist($x, $y)
 	EndIf
 	Return False
 EndFunc   ;==>ReCheckDrillExist
+
+Func AirZap($bScripted = False, $bMainSide = "")
+	Local $performedZap = False
+	Local $aSpells[2][5] = [["Own", $eLSpell, -1, -1, 0], ["Donated", $eLSpell, -1, -1, 0]] ; Own/Donated, SpellType, AttackbarPosition, Level, Count
+
+	Local $bZapAirDef = True, $bZapAirSw = True
+
+	If $g_bSmartZapEnableAD = 0 Then Return $performedZap
+
+	SetLog("====== You have activated AirZap Mode ======", $COLOR_ACTION)
+	Switch $g_bSmartZapEnableAD
+		Case 1
+			SetLog("====== Air Defenses ======", $COLOR_ACTION)
+		Case 2
+			SetLog("====== Air Sweepers ======", $COLOR_ACTION)
+		Case 3
+			SetLog("====== All Air Defs ======", $COLOR_ACTION)
+	EndSwitch
+
+	For $i = 0 To UBound($g_avAttackTroops) - 1
+		If $g_avAttackTroops[$i][0] = $eLSpell Then
+			If $aSpells[0][4] = 0 Then
+				SetLog(GetTroopName($g_avAttackTroops[$i][0]) & ": " & $g_avAttackTroops[$i][1], $COLOR_DEBUG)
+				$aSpells[0][2] = $i
+				$aSpells[0][3] = Number($g_iLSpellLevel) ; Get the Level on Attack bar
+				$aSpells[0][4] = Number($g_avAttackTroops[$i][1]) ; Amount
+			Else
+				SetLog("Donated " & GetTroopName($g_avAttackTroops[$i][0]) & ": " & $g_avAttackTroops[$i][1], $COLOR_DEBUG)
+				$aSpells[1][2] = $i
+				$aSpells[1][3] = Number($g_iLSpellLevel) ; Get the Level on Attack bar
+				$aSpells[1][4] = Number($g_avAttackTroops[$i][1]) ; Amount
+			EndIf
+		EndIf
+	Next
+
+	If $aSpells[0][4] + $aSpells[1][4] = 0 Then
+		SetLog("No lightning spells trained, time to go home!", $COLOR_ERROR)
+		Return $performedZap
+	Else
+		If $aSpells[0][4] > 0 Then
+			SetLog(" - Number of " & GetTroopName($aSpells[0][1], 2) & " (Lvl " & $aSpells[0][3] & "): " & Number($aSpells[0][4]), $COLOR_INFO)
+		EndIf
+		If $aSpells[1][4] > 0 Then
+			SetLog(" - Number of Donated " & GetTroopName($aSpells[1][1], 2) & " (Lvl " & $aSpells[1][3] & "): " & Number($aSpells[1][4]), $COLOR_INFO)
+		EndIf
+	EndIf
+
+	; Wait Battle Ends in...
+	Local $bLoop = 0
+	Local $BattleStart = decodeSingleCoord(FindImageInPlace2("BattleStart", $ImgBattleStart, 380, 10, 490, 27, True))
+	If IsArray($BattleStart) And UBound($BattleStart) = 2 Then
+		While 1
+			If UBound(decodeSingleCoord(FindImageInPlace2("BattleStart", $ImgBattleStart, 380, 10, 490, 27, True))) = 2 Then
+				If _Sleep(1000) Then ExitLoop
+				$bLoop += 1
+			Else
+				ExitLoop
+			EndIf
+			If $bLoop = 10 Then ExitLoop
+		WEnd
+	EndIf
+
+	; Get AD locations and info
+	Local $aAirDefs = ADSearch()
+	Local $aAirSweepers = ASweeperSearch()
+
+	; Get the number of AD
+	If $g_bSmartZapEnableAD = 1 Or $g_bSmartZapEnableAD = 3 Then
+		If $g_bSmartZapEnableAD = 1 Then $bZapAirSw = False
+		If UBound($aAirDefs) = 0 Then
+			SetLog("No Air Defense found!", $COLOR_INFO)
+			$bZapAirDef = False
+		Else
+			SetLog(" - Number of Air Defense: " & UBound($aAirDefs), $COLOR_INFO)
+		EndIf
+	EndIf
+	; Get the number of AS
+	If $g_bSmartZapEnableAD = 2 Or $g_bSmartZapEnableAD = 3 Then
+	If $g_bSmartZapEnableAD = 2 Then $bZapAirDef = False
+		If UBound($aAirSweepers) = 0 Then
+			SetLog("No Air Sweeper found!", $COLOR_INFO)
+			$bZapAirSw = False
+		Else
+			SetLog(" - Number of Air Sweepers: " & UBound($aAirSweepers), $COLOR_INFO)
+		EndIf
+	EndIf
+
+	Switch $g_bSmartZapEnableAD
+		Case 1
+			If Not $bZapAirDef Then Return
+		Case 2
+			If Not $bZapAirSw Then Return
+		Case 3
+			If Not $bZapAirDef And Not $bZapAirSw Then Return
+	EndSwitch
+
+	If $bScripted Then
+		Switch $bMainSide
+			Case "TOP-LEFT", "TOP-RIGHT"
+				If $g_bSmartZapEnableAD = 1 Or $g_bSmartZapEnableAD = 3 Then _ArraySort($aAirDefs, 0, 0, 0, 1)     ; Sort by y top first
+				If $g_bSmartZapEnableAD > 1 Then _ArraySort($aAirSweepers, 0, 0, 0, 1)
+			Case "BOTTOM-LEFT", "BOTTOM-RIGHT"
+				If $g_bSmartZapEnableAD = 1 Or $g_bSmartZapEnableAD = 3 Then _ArraySort($aAirDefs, 1, 0, 0, 1)     ; Sort by y bottom first
+				If $g_bSmartZapEnableAD > 1 Then _ArraySort($aAirSweepers, 1, 0, 0, 1)
+		EndSwitch
+	Else
+		If $g_bSmartZapEnableAD = 1 Or $g_bSmartZapEnableAD = 3 Then _ArraySort($aAirDefs, 1, 0, 0, 3)     ; Sort by Level/HP
+		If $g_bSmartZapEnableAD > 1 Then _ArraySort($aAirSweepers, 1, 0, 0, 3)
+	EndIf
+
+	; Loop while you still have spells and Air Defense
+	Local $SameAD = False, $SameAS = False
+
+	If $bZapAirDef And Not $bZapAirSw Then
+
+		For $i = 0 To UBound($aAirDefs) - 1
+
+			If $aSpells[0][4] + $aSpells[1][4] = 0 Then ExitLoop
+
+			If $aSpells[1][4] > 0 Then
+				Local $Hits = Ceiling($aAirDefs[$i][3] / $g_aLSpellDmg[$aSpells[1][3] - 1])
+				If $Hits > Number($aSpells[1][4]) Then
+					$Hits = Number($aSpells[1][4])
+					$SameAD = True
+				Else
+					$SameAD = False
+				EndIf
+				SetLog("Dropping " & $Hits & " " & String(GetTroopName($aSpells[1][1])), $COLOR_ACTION)
+				SelectDropTroop($aSpells[1][2])
+				If _Sleep($DELAYCASTSPELL1) Then Return
+				If IsAttackPage() Then
+					For $t = 0 To $Hits - 1
+						Click($aAirDefs[$i][0], $aAirDefs[$i][1], 1, Random(120, 150, 1), "#0029")
+						If _Sleep(Random(150, 200, 1)) Then ExitLoop
+					Next
+				EndIf
+				$aSpells[1][4] -= $Hits
+				If $SameAD And $aSpells[0][4] > 0 Then
+					$Hits = Ceiling(($aAirDefs[$i][3] - ($Hits * $g_aLSpellDmg[$aSpells[1][3] - 1])) / $g_aLSpellDmg[$aSpells[1][3] - 1])
+					If $Hits > Number($aSpells[0][4]) Then
+						$Hits = Number($aSpells[0][4])
+					Else
+						$SameAD = False
+					EndIf
+					SetLog("Dropping " & $Hits & " " & String(GetTroopName($aSpells[0][1])), $COLOR_ACTION)
+					SelectDropTroop($aSpells[0][2])
+					If _Sleep($DELAYCASTSPELL1) Then Return
+					If IsAttackPage() Then
+						For $t = 0 To $Hits - 1
+							Click($aAirDefs[$i][0], $aAirDefs[$i][1], 1, Random(120, 150, 1), "#0029")
+							If _Sleep(Random(150, 200, 1)) Then ExitLoop
+						Next
+					EndIf
+					$aSpells[0][4] -= $Hits
+					If $aSpells[0][4] = 0 Then ExitLoop
+					ContinueLoop
+				Else
+					ContinueLoop
+				EndIf
+			EndIf
+
+			If $aSpells[0][4] > 0 Then
+				Local $Hits = Ceiling($aAirDefs[$i][3] / $g_aLSpellDmg[$aSpells[0][3] - 1])
+				If $Hits > Number($aSpells[0][4]) Then
+					$Hits = Number($aSpells[0][4])
+					$SameAD = True
+				Else
+					$SameAD = False
+				EndIf
+				SetLog("Dropping " & $Hits & " " & String(GetTroopName($aSpells[0][1])), $COLOR_ACTION)
+				SelectDropTroop($aSpells[0][2])
+				If _Sleep($DELAYCASTSPELL1) Then Return
+				If IsAttackPage() Then
+					For $t = 0 To $Hits - 1
+						Click($aAirDefs[$i][0], $aAirDefs[$i][1], 1, Random(120, 150, 1), "#0029")
+						If _Sleep(Random(150, 200, 1)) Then ExitLoop
+					Next
+				EndIf
+				$aSpells[0][4] -= $Hits
+				If $aSpells[0][4] = 0 Then ExitLoop
+				If Not $SameAD Then ContinueLoop
+			EndIf
+
+		Next
+
+	ElseIf Not $bZapAirDef And $bZapAirSw Then
+
+		For $i = 0 To UBound($aAirSweepers) - 1
+
+			If $aSpells[0][4] + $aSpells[1][4] = 0 Then ExitLoop
+
+			If $aSpells[1][4] > 0 Then
+				Local $Hits = Ceiling($aAirSweepers[$i][3] / $g_aLSpellDmg[$aSpells[1][3] - 1])
+				If $Hits > Number($aSpells[1][4]) Then
+					$Hits = Number($aSpells[1][4])
+					$SameAS = True
+				Else
+					$SameAS = False
+				EndIf
+				SetLog("Dropping " & $Hits & " " & String(GetTroopName($aSpells[1][1])), $COLOR_ACTION)
+				SelectDropTroop($aSpells[1][2])
+				If _Sleep($DELAYCASTSPELL1) Then Return
+				If IsAttackPage() Then
+					For $t = 0 To $Hits - 1
+						Click($aAirSweepers[$i][0], $aAirSweepers[$i][1], 1, Random(120, 150, 1), "#0029")
+						If _Sleep(Random(150, 200, 1)) Then ExitLoop
+					Next
+				EndIf
+				$aSpells[1][4] -= $Hits
+				If $SameAS And $aSpells[0][4] > 0 Then
+					$Hits = Ceiling(($aAirSweepers[$i][3] - ($Hits * $g_aLSpellDmg[$aSpells[1][3] - 1])) / $g_aLSpellDmg[$aSpells[1][3] - 1])
+					If $Hits > Number($aSpells[0][4]) Then
+						$Hits = Number($aSpells[0][4])
+					Else
+						$SameAS = False
+					EndIf
+					SetLog("Dropping " & $Hits & " " & String(GetTroopName($aSpells[0][1])), $COLOR_ACTION)
+					SelectDropTroop($aSpells[0][2])
+					If _Sleep($DELAYCASTSPELL1) Then Return
+					If IsAttackPage() Then
+						For $t = 0 To $Hits - 1
+							Click($aAirSweepers[$i][0], $aAirSweepers[$i][1], 1, Random(120, 150, 1), "#0029")
+							If _Sleep(Random(150, 200, 1)) Then ExitLoop
+						Next
+					EndIf
+					$aSpells[0][4] -= $Hits
+					If $aSpells[0][4] = 0 Then ExitLoop
+					ContinueLoop
+				Else
+					ContinueLoop
+				EndIf
+			EndIf
+
+			If $aSpells[0][4] > 0 Then
+				Local $Hits = Ceiling($aAirSweepers[$i][3] / $g_aLSpellDmg[$aSpells[0][3] - 1])
+				If $Hits > Number($aSpells[0][4]) Then
+					$Hits = Number($aSpells[0][4])
+					$SameAS = True
+				Else
+					$SameAS = False
+				EndIf
+				SetLog("Dropping " & $Hits & " " & String(GetTroopName($aSpells[0][1])), $COLOR_ACTION)
+				SelectDropTroop($aSpells[0][2])
+				If _Sleep($DELAYCASTSPELL1) Then Return
+				If IsAttackPage() Then
+					For $t = 0 To $Hits - 1
+						Click($aAirSweepers[$i][0], $aAirSweepers[$i][1], 1, Random(120, 150, 1), "#0029")
+						If _Sleep(Random(150, 200, 1)) Then ExitLoop
+					Next
+				EndIf
+				$aSpells[0][4] -= $Hits
+				If $aSpells[0][4] = 0 Then ExitLoop
+				If Not $SameAS Then ContinueLoop
+			EndIf
+
+		Next
+
+	ElseIf $bZapAirDef And $bZapAirSw Then
+
+		If $g_bChkSweepersFirst Then
+
+			;  Air Sweeper First, Air Defenses Second
+
+			For $i = 0 To UBound($aAirSweepers) - 1
+
+				If $aSpells[0][4] + $aSpells[1][4] = 0 Then ExitLoop
+
+				If $aSpells[1][4] > 0 Then
+					Local $Hits = Ceiling($aAirSweepers[$i][3] / $g_aLSpellDmg[$aSpells[1][3] - 1])
+					If $Hits > Number($aSpells[1][4]) Then
+						$Hits = Number($aSpells[1][4])
+						$SameAS = True
+					Else
+						$SameAS = False
+					EndIf
+					SetLog("Dropping " & $Hits & " " & String(GetTroopName($aSpells[1][1])), $COLOR_ACTION)
+					SelectDropTroop($aSpells[1][2])
+					If _Sleep($DELAYCASTSPELL1) Then Return
+					If IsAttackPage() Then
+						For $t = 0 To $Hits - 1
+							Click($aAirSweepers[$i][0], $aAirSweepers[$i][1], 1, Random(120, 150, 1), "#0029")
+							If _Sleep(Random(150, 200, 1)) Then ExitLoop
+						Next
+					EndIf
+					$aSpells[1][4] -= $Hits
+					If $SameAS And $aSpells[0][4] > 0 Then
+						$Hits = Ceiling(($aAirSweepers[$i][3] - ($Hits * $g_aLSpellDmg[$aSpells[1][3] - 1])) / $g_aLSpellDmg[$aSpells[1][3] - 1])
+						If $Hits > Number($aSpells[0][4]) Then
+							$Hits = Number($aSpells[0][4])
+						Else
+							$SameAS = False
+						EndIf
+						SetLog("Dropping " & $Hits & " " & String(GetTroopName($aSpells[0][1])), $COLOR_ACTION)
+						SelectDropTroop($aSpells[0][2])
+						If _Sleep($DELAYCASTSPELL1) Then Return
+						If IsAttackPage() Then
+							For $t = 0 To $Hits - 1
+								Click($aAirSweepers[$i][0], $aAirSweepers[$i][1], 1, Random(120, 150, 1), "#0029")
+								If _Sleep(Random(150, 200, 1)) Then ExitLoop
+							Next
+						EndIf
+						$aSpells[0][4] -= $Hits
+						If $aSpells[0][4] = 0 Then ExitLoop
+						ContinueLoop
+					Else
+						ContinueLoop
+					EndIf
+				EndIf
+
+				If $aSpells[0][4] > 0 Then
+					Local $Hits = Ceiling($aAirSweepers[$i][3] / $g_aLSpellDmg[$aSpells[0][3] - 1])
+					If $Hits > Number($aSpells[0][4]) Then
+						$Hits = Number($aSpells[0][4])
+						$SameAS = True
+					Else
+						$SameAS = False
+					EndIf
+					SetLog("Dropping " & $Hits & " " & String(GetTroopName($aSpells[0][1])), $COLOR_ACTION)
+					SelectDropTroop($aSpells[0][2])
+					If _Sleep($DELAYCASTSPELL1) Then Return
+					If IsAttackPage() Then
+						For $t = 0 To $Hits - 1
+							Click($aAirSweepers[$i][0], $aAirSweepers[$i][1], 1, Random(120, 150, 1), "#0029")
+							If _Sleep(Random(150, 200, 1)) Then ExitLoop
+						Next
+					EndIf
+					$aSpells[0][4] -= $Hits
+					If $aSpells[0][4] = 0 Then ExitLoop
+					If Not $SameAS Then ContinueLoop
+				EndIf
+
+			Next
+
+			For $i = 0 To UBound($aAirDefs) - 1
+
+				If $aSpells[0][4] + $aSpells[1][4] = 0 Then ExitLoop
+
+				If $aSpells[1][4] > 0 Then
+					Local $Hits = Ceiling($aAirDefs[$i][3] / $g_aLSpellDmg[$aSpells[1][3] - 1])
+					If $Hits > Number($aSpells[1][4]) Then
+						$Hits = Number($aSpells[1][4])
+						$SameAD = True
+					Else
+						$SameAD = False
+					EndIf
+					SetLog("Dropping " & $Hits & " " & String(GetTroopName($aSpells[1][1])), $COLOR_ACTION)
+					SelectDropTroop($aSpells[1][2])
+					If _Sleep($DELAYCASTSPELL1) Then Return
+					If IsAttackPage() Then
+						For $t = 0 To $Hits - 1
+							Click($aAirDefs[$i][0], $aAirDefs[$i][1], 1, Random(120, 150, 1), "#0029")
+							If _Sleep(Random(150, 200, 1)) Then ExitLoop
+						Next
+					EndIf
+					$aSpells[1][4] -= $Hits
+					If $SameAD And $aSpells[0][4] > 0 Then
+						$Hits = Ceiling(($aAirDefs[$i][3] - ($Hits * $g_aLSpellDmg[$aSpells[1][3] - 1])) / $g_aLSpellDmg[$aSpells[1][3] - 1])
+						If $Hits > Number($aSpells[0][4]) Then
+							$Hits = Number($aSpells[0][4])
+						Else
+							$SameAD = False
+						EndIf
+						SetLog("Dropping " & $Hits & " " & String(GetTroopName($aSpells[0][1])), $COLOR_ACTION)
+						SelectDropTroop($aSpells[0][2])
+						If _Sleep($DELAYCASTSPELL1) Then Return
+						If IsAttackPage() Then
+							For $t = 0 To $Hits - 1
+								Click($aAirDefs[$i][0], $aAirDefs[$i][1], 1, Random(120, 150, 1), "#0029")
+								If _Sleep(Random(150, 200, 1)) Then ExitLoop
+							Next
+						EndIf
+						$aSpells[0][4] -= $Hits
+						If $aSpells[0][4] = 0 Then ExitLoop
+						ContinueLoop
+					Else
+						ContinueLoop
+					EndIf
+				EndIf
+
+				If $aSpells[0][4] > 0 Then
+					Local $Hits = Ceiling($aAirDefs[$i][3] / $g_aLSpellDmg[$aSpells[0][3] - 1])
+					If $Hits > Number($aSpells[0][4]) Then
+						$Hits = Number($aSpells[0][4])
+						$SameAD = True
+					Else
+						$SameAD = False
+					EndIf
+					SetLog("Dropping " & $Hits & " " & String(GetTroopName($aSpells[0][1])), $COLOR_ACTION)
+					SelectDropTroop($aSpells[0][2])
+					If _Sleep($DELAYCASTSPELL1) Then Return
+					If IsAttackPage() Then
+						For $t = 0 To $Hits - 1
+							Click($aAirDefs[$i][0], $aAirDefs[$i][1], 1, Random(120, 150, 1), "#0029")
+							If _Sleep(Random(150, 200, 1)) Then ExitLoop
+						Next
+					EndIf
+					$aSpells[0][4] -= $Hits
+					If $aSpells[0][4] = 0 Then ExitLoop
+					If Not $SameAD Then ContinueLoop
+				EndIf
+
+			Next
+
+		Else
+
+			; Air Defenses First, Air Sweeper Second
+
+			For $i = 0 To UBound($aAirDefs) - 1
+
+				If $aSpells[0][4] + $aSpells[1][4] = 0 Then ExitLoop
+
+				If $aSpells[1][4] > 0 Then
+					Local $Hits = Ceiling($aAirDefs[$i][3] / $g_aLSpellDmg[$aSpells[1][3] - 1])
+					If $Hits > Number($aSpells[1][4]) Then
+						$Hits = Number($aSpells[1][4])
+						$SameAD = True
+					Else
+						$SameAD = False
+					EndIf
+					SetLog("Dropping " & $Hits & " " & String(GetTroopName($aSpells[1][1])), $COLOR_ACTION)
+					SelectDropTroop($aSpells[1][2])
+					If _Sleep($DELAYCASTSPELL1) Then Return
+					If IsAttackPage() Then
+						For $t = 0 To $Hits - 1
+							Click($aAirDefs[$i][0], $aAirDefs[$i][1], 1, Random(120, 150, 1), "#0029")
+							If _Sleep(Random(150, 200, 1)) Then ExitLoop
+						Next
+					EndIf
+					$aSpells[1][4] -= $Hits
+					If $SameAD And $aSpells[0][4] > 0 Then
+						$Hits = Ceiling(($aAirDefs[$i][3] - ($Hits * $g_aLSpellDmg[$aSpells[1][3] - 1])) / $g_aLSpellDmg[$aSpells[1][3] - 1])
+						If $Hits > Number($aSpells[0][4]) Then
+							$Hits = Number($aSpells[0][4])
+						Else
+							$SameAD = False
+						EndIf
+						SetLog("Dropping " & $Hits & " " & String(GetTroopName($aSpells[0][1])), $COLOR_ACTION)
+						SelectDropTroop($aSpells[0][2])
+						If _Sleep($DELAYCASTSPELL1) Then Return
+						If IsAttackPage() Then
+							For $t = 0 To $Hits - 1
+								Click($aAirDefs[$i][0], $aAirDefs[$i][1], 1, Random(120, 150, 1), "#0029")
+								If _Sleep(Random(150, 200, 1)) Then ExitLoop
+							Next
+						EndIf
+						$aSpells[0][4] -= $Hits
+						If $aSpells[0][4] = 0 Then ExitLoop
+						ContinueLoop
+					Else
+						ContinueLoop
+					EndIf
+				EndIf
+
+				If $aSpells[0][4] > 0 Then
+					Local $Hits = Ceiling($aAirDefs[$i][3] / $g_aLSpellDmg[$aSpells[0][3] - 1])
+					If $Hits > Number($aSpells[0][4]) Then
+						$Hits = Number($aSpells[0][4])
+						$SameAD = True
+					Else
+						$SameAD = False
+					EndIf
+					SetLog("Dropping " & $Hits & " " & String(GetTroopName($aSpells[0][1])), $COLOR_ACTION)
+					SelectDropTroop($aSpells[0][2])
+					If _Sleep($DELAYCASTSPELL1) Then Return
+					If IsAttackPage() Then
+						For $t = 0 To $Hits - 1
+							Click($aAirDefs[$i][0], $aAirDefs[$i][1], 1, Random(120, 150, 1), "#0029")
+							If _Sleep(Random(150, 200, 1)) Then ExitLoop
+						Next
+					EndIf
+					$aSpells[0][4] -= $Hits
+					If $aSpells[0][4] = 0 Then ExitLoop
+					If Not $SameAD Then ContinueLoop
+				EndIf
+
+			Next
+
+			For $i = 0 To UBound($aAirSweepers) - 1
+
+				If $aSpells[0][4] + $aSpells[1][4] = 0 Then ExitLoop
+
+				If $aSpells[1][4] > 0 Then
+					Local $Hits = Ceiling($aAirSweepers[$i][3] / $g_aLSpellDmg[$aSpells[1][3] - 1])
+					If $Hits > Number($aSpells[1][4]) Then
+						$Hits = Number($aSpells[1][4])
+						$SameAS = True
+					Else
+						$SameAS = False
+					EndIf
+					SetLog("Dropping " & $Hits & " " & String(GetTroopName($aSpells[1][1])), $COLOR_ACTION)
+					SelectDropTroop($aSpells[1][2])
+					If _Sleep($DELAYCASTSPELL1) Then Return
+					If IsAttackPage() Then
+						For $t = 0 To $Hits - 1
+							Click($aAirSweepers[$i][0], $aAirSweepers[$i][1], 1, Random(120, 150, 1), "#0029")
+							If _Sleep(Random(150, 200, 1)) Then ExitLoop
+						Next
+					EndIf
+					$aSpells[1][4] -= $Hits
+					If $SameAS And $aSpells[0][4] > 0 Then
+						$Hits = Ceiling(($aAirSweepers[$i][3] - ($Hits * $g_aLSpellDmg[$aSpells[1][3] - 1])) / $g_aLSpellDmg[$aSpells[1][3] - 1])
+						If $Hits > Number($aSpells[0][4]) Then
+							$Hits = Number($aSpells[0][4])
+						Else
+							$SameAS = False
+						EndIf
+						SetLog("Dropping " & $Hits & " " & String(GetTroopName($aSpells[0][1])), $COLOR_ACTION)
+						SelectDropTroop($aSpells[0][2])
+						If _Sleep($DELAYCASTSPELL1) Then Return
+						If IsAttackPage() Then
+							For $t = 0 To $Hits - 1
+								Click($aAirSweepers[$i][0], $aAirSweepers[$i][1], 1, Random(120, 150, 1), "#0029")
+								If _Sleep(Random(150, 200, 1)) Then ExitLoop
+							Next
+						EndIf
+						$aSpells[0][4] -= $Hits
+						If $aSpells[0][4] = 0 Then ExitLoop
+						ContinueLoop
+					Else
+						ContinueLoop
+					EndIf
+				EndIf
+
+				If $aSpells[0][4] > 0 Then
+					Local $Hits = Ceiling($aAirSweepers[$i][3] / $g_aLSpellDmg[$aSpells[0][3] - 1])
+					If $Hits > Number($aSpells[0][4]) Then
+						$Hits = Number($aSpells[0][4])
+						$SameAS = True
+					Else
+						$SameAS = False
+					EndIf
+					SetLog("Dropping " & $Hits & " " & String(GetTroopName($aSpells[0][1])), $COLOR_ACTION)
+					SelectDropTroop($aSpells[0][2])
+					If _Sleep($DELAYCASTSPELL1) Then Return
+					If IsAttackPage() Then
+						For $t = 0 To $Hits - 1
+							Click($aAirSweepers[$i][0], $aAirSweepers[$i][1], 1, Random(120, 150, 1), "#0029")
+							If _Sleep(Random(150, 200, 1)) Then ExitLoop
+						Next
+					EndIf
+					$aSpells[0][4] -= $Hits
+					If $aSpells[0][4] = 0 Then ExitLoop
+					If Not $SameAS Then ContinueLoop
+				EndIf
+
+			Next
+
+		EndIf
+
+	EndIf
+
+	; Update AttackBar
+	For $i = 0 To UBound($g_avAttackTroops) - 1
+		If $g_avAttackTroops[$i][0] = $eLSpell Then
+			If $aSpells[0][2] = $i Then
+				If Number($g_avAttackTroops[$i][1]) <> Number($aSpells[0][4]) Then $g_avAttackTroops[$i][1] = Number($aSpells[0][4])
+				SetLog("Remaining " & GetTroopName($g_avAttackTroops[$i][0]) & ": " & $g_avAttackTroops[$i][1], $COLOR_DEBUG)
+			ElseIf $aSpells[1][2] = $i Then
+				If Number($g_avAttackTroops[$i][1]) <> Number($aSpells[1][4]) Then $g_avAttackTroops[$i][1] = Number($aSpells[1][4])
+				SetLog("Remaining Donated " & GetTroopName($g_avAttackTroops[$i][0]) & ": " & $g_avAttackTroops[$i][1], $COLOR_DEBUG)
+			EndIf
+		EndIf
+	Next
+
+EndFunc   ;==>AirZap
+
+Func ADSearch($bForceCapture = True)
+
+	If $g_bSmartZapEnableAD = 0 Or $g_bSmartZapEnableAD = 2 Then Return
+
+	Local $sCocDiamond = "ECD"
+	Local $redLines = $sCocDiamond
+	Local $minLevel = 0
+	Local $maxLevel = 1000
+	Local $maxReturnPoints = 0 ; all positions
+	Local $returnProps = "objectname,objectpoints,objectlevel"
+	Local $aTempArray, $aTempCoords, $aTempMultiCoords, $aTempLevel, $aTempHP
+	Local $aADefs[0][4], $bFoundADs = False
+	Local $g_aADLevelTotal[15] = [800, 850, 900, 950, 1000, 1050, 1100, 1210, 1300, 1400, 1500, 1650, 1750, 1850, 1950]
+	Local $g_sImgSearchAirDef = @ScriptDir & "\imgxml\Buildings\ADefense"
+
+	; check for Air Defenses
+	Local $result = findMultiple($g_sImgSearchAirDef, $sCocDiamond, $redLines, $minLevel, $maxLevel, $maxReturnPoints, $returnProps, $bForceCapture)
+	Local $bFoundAirDefs = $result <> "" And IsArray($result)
+
+	If $bFoundAirDefs Then
+
+		;Add found Results into our Array
+		For $i = 0 To UBound($result, 1) - 1
+			$aTempArray = $result[$i]
+			$aTempLevel = $aTempArray[2] ; Level
+			$aTempHP = Number($g_aADLevelTotal[$aTempLevel - 1]) ; HP
+			$aTempMultiCoords = decodeMultipleCoords($aTempArray[1], 5, 5)
+			For $j = 0 To UBound($aTempMultiCoords, 1) - 1
+				$aTempCoords = $aTempMultiCoords[$j]
+				_ArrayAdd($aADefs, $aTempCoords[0] & "|" & $aTempCoords[1] & "|" & $aTempLevel & "|" & $aTempHP)
+				$bFoundADs = True
+			Next
+		Next
+		If $bFoundADs Then
+			For $i = 0 To UBound($aADefs) - 1
+				$aADefs[$i][0] = Number($aADefs[$i][0])
+				$aADefs[$i][1] = Number($aADefs[$i][1])
+				$aADefs[$i][2] = Number($aADefs[$i][2])
+				$aADefs[$i][3] = Number($aADefs[$i][3])
+			Next
+			RemoveDupXYAD($aADefs)
+		EndIf
+
+	EndIf
+
+	Return $aADefs
+
+EndFunc   ;==>ADSearch
+
+Func ASweeperSearch($bForceCapture = True)
+
+	If $g_bSmartZapEnableAD = 0 Or $g_bSmartZapEnableAD = 1 Then Return
+
+	Local $sCocDiamond = "ECD"
+	Local $redLines = $sCocDiamond
+	Local $minLevel = 0
+	Local $maxLevel = 1000
+	Local $maxReturnPoints = 0 ; all positions
+	Local $returnProps = "objectname,objectpoints,objectlevel"
+	Local $aTempArray, $aTempCoords, $aTempMultiCoords, $aTempLevel, $aTempHP
+	Local $aASweepers[0][4], $bFoundASweepers = False
+	Local $g_aADLevelTotal[7] = [750, 800, 850, 900, 950, 1000, 1050]
+	Local $g_sImgSearchAirSweeper = @ScriptDir & "\imgxml\Buildings\ASweeper"
+
+	; check for Air Defenses
+	Local $result = findMultiple($g_sImgSearchAirSweeper, $sCocDiamond, $redLines, $minLevel, $maxLevel, $maxReturnPoints, $returnProps, $bForceCapture)
+	Local $bFoundAirSweepers = $result <> "" And IsArray($result)
+
+	If $bFoundAirSweepers Then
+
+		;Add found Results into our Array
+		For $i = 0 To UBound($result, 1) - 1
+			$aTempArray = $result[$i]
+			$aTempLevel = $aTempArray[2] ; Level
+			$aTempHP = Number($g_aADLevelTotal[$aTempLevel - 1]) ; HP
+			$aTempMultiCoords = decodeMultipleCoords($aTempArray[1], 5, 5)
+			For $j = 0 To UBound($aTempMultiCoords, 1) - 1
+				$aTempCoords = $aTempMultiCoords[$j]
+				_ArrayAdd($aASweepers, $aTempCoords[0] & "|" & $aTempCoords[1] & "|" & $aTempLevel & "|" & $aTempHP)
+				$bFoundASweepers = True
+			Next
+		Next
+		If $bFoundASweepers Then
+			For $i = 0 To UBound($aASweepers) - 1
+				$aASweepers[$i][0] = Number($aASweepers[$i][0])
+				$aASweepers[$i][1] = Number($aASweepers[$i][1])
+				$aASweepers[$i][2] = Number($aASweepers[$i][2])
+				$aASweepers[$i][3] = Number($aASweepers[$i][3])
+			Next
+			RemoveDupXYAD($aASweepers)
+		EndIf
+
+	EndIf
+
+	Return $aASweepers
+
+EndFunc   ;==>ASweeperSearch
+
+Func RemoveDupXYAD(ByRef $arr)
+	; Remove Dup X Sorted
+	Local $atmparray[0][4]
+	Local $tmpCoordX = 0
+	Local $tmpCoordY = 0
+	_ArraySort($arr, 0, 0, 0, 0) ;sort by x
+	For $i = 0 To UBound($arr) - 1
+		Local $a = $arr[$i][0] - $tmpCoordX
+		Local $b = $arr[$i][1] - $tmpCoordY
+		Local $c = Sqrt($a * $a + $b * $b)
+		If $c < 25 Then
+			SetDebugLog("Skip this dup : " & $arr[$i][0] & "," & $arr[$i][1], $COLOR_INFO)
+			ContinueLoop
+		Else
+			_ArrayAdd($atmparray, $arr[$i][0] & "|" & $arr[$i][1] & "|" & $arr[$i][2] & "|" & $arr[$i][3])
+			$tmpCoordX = $arr[$i][0]
+			$tmpCoordY = $arr[$i][1]
+		EndIf
+	Next
+	; Remove Dup Y Sorted
+	Local $atmparray2[0][4]
+	$tmpCoordX = 0
+	$tmpCoordY = 0
+	_ArraySort($atmparray, 0, 0, 0, 1) ;sort by y
+	For $i = 0 To UBound($atmparray) - 1
+		Local $a = $atmparray[$i][0] - $tmpCoordX
+		Local $b = $atmparray[$i][1] - $tmpCoordY
+		Local $c = Sqrt($a * $a + $b * $b)
+		If $c < 25 Then
+			SetDebugLog("Skip this dup : " & $atmparray[$i][0] & "," & $atmparray[$i][1], $COLOR_INFO)
+			ContinueLoop
+		Else
+			_ArrayAdd($atmparray2, $atmparray[$i][0] & "|" & $atmparray[$i][1] & "|" & $atmparray[$i][2] & "|" & $atmparray[$i][3])
+			$tmpCoordX = $atmparray[$i][0]
+			$tmpCoordY = $atmparray[$i][1]
+		EndIf
+	Next
+	_ArraySort($atmparray2, 0, 0, 0, 0) ;sort by x
+	For $i = 0 To UBound($atmparray2) - 1
+		$atmparray2[$i][0] = Number($atmparray2[$i][0])
+		$atmparray2[$i][1] = Number($atmparray2[$i][1])
+		$atmparray2[$i][2] = Number($atmparray2[$i][2])
+		$atmparray2[$i][3] = Number($atmparray2[$i][3])
+	Next
+	$arr = $atmparray2
+EndFunc   ;==>RemoveDupXYAD
+
+

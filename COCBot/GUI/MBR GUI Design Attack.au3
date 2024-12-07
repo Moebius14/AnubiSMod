@@ -27,17 +27,19 @@ Func LoadTranslatedDropOrderList()
 			"Barbarians", "Super Barbarians", "Archers", "Super Archers", "Giants", "Super Giants", "Goblins", "Sneaky Goblins", _
 			"Wall Breakers", "Super Wall Breakers", "Balloons", "Rocket Balloons", "Wizards", "Super Wizards", "Healers", _
 			"Dragons", "Super Dragons", "Pekkas", "Baby Dragons", "Inferno Dragons", "Miners", "Super Miners", "Electro Dragons", "Yetis", "Dragon Riders", _
-			"Electro Titans", "Root Riders", "Minions", "Super Minions", "Hog Riders", "Super Hog Riders", "Valkyries", "Super Valkyries", "Golems", _
+			"Electro Titans", "Root Riders", "Throwers", "Minions", "Super Minions", "Hog Riders", "Super Hog Riders", "Valkyries", "Super Valkyries", "Golems", _
 			"Witchs", "Super Witchs", "Lava Hounds", "Ice Hounds", "Bowlers", "Super Bowlers", "Ice Golems", "Headhunters", "Apprentice Wardens", _
 			"Druids", "Giant Skeletons", "Royal Ghosts", "Party Wizards", "Ice Wizards", "Barchers", "Witch Golems", "Hog Wizards", "Lavaloons", "Ice Minions", _
 			"Clan Castle", "Heroes"]
 EndFunc   ;==>LoadTranslatedDropOrderList
 
 Global $g_hChkCustomDropOrderEnable = 0
-Global $g_ahCmbDropOrder[$eDropOrderCount] = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
-Global $g_ahImgDropOrder[$eDropOrderCount] = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+Global $g_ahCmbDropOrder[$eDropOrderCount] = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+Global $g_ahImgDropOrder[$eDropOrderCount] = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
 Global $g_hBtnDropOrderSet = 0, $g_ahImgDropOrderSet = 0
 Global $g_hBtnRemoveDropOrder = 0
+
+Global $g_hGUI_HeroAssign = 0, $g_hBtnHeroAssign = 0, $g_hBtnRemoveHero = 0, $g_hBtnHeroOrderSet = 0, $g_ahImgHeroOrderSet = 0
 
 Func CreateAttackTab()
 	$g_hGUI_ATTACK = _GUICreate("", $g_iSizeWGrpTab1, $g_iSizeHGrpTab1, $_GUI_CHILD_LEFT, $_GUI_CHILD_TOP, BitOR($WS_CHILD, $WS_TABSTOP), -1, $g_hFrmBotEx)
@@ -55,6 +57,7 @@ Func CreateAttackTab()
 
 	; needed to init the window now, like if it's a tab
 	CreateDropOrderGUI()
+	CreatHeroAssign()
 
 	GUICtrlCreateTabItem("")
 
@@ -142,3 +145,60 @@ Func CreateDropOrderGUI()
 	GUICtrlSetOnEvent(-1, "CloseCustomDropOrder")
 
 EndFunc   ;==>CreateDropOrderGUI
+
+Global $g_ahCmbHeroOrder[$eHeroCount] = [0, 0, 0, 0, 0]
+Global $g_ahImgHeroOrder[$eHeroCount] = [0, 0, 0, 0, 0]
+
+Func CreatHeroAssign()
+	$g_hGUI_HeroAssign = _GUICreate("Hero Assignment", $_GUI_MAIN_WIDTH - 4, $_GUI_MAIN_HEIGHT - 460, $g_iFrmBotPosX, $g_iFrmBotPosY + 80, $WS_DLGFRAME, -1, $g_hFrmBot)
+
+	Global $g_asHeroOrderList = ["", _
+			GetTranslatedFileIni("MBR Global GUI Design Names Troops", "TxtBarbarianKing", "King"), _
+			GetTranslatedFileIni("MBR Global GUI Design Names Troops", "TxtArcherQueen", "Queen"), _
+			GetTranslatedFileIni("MBR Global GUI Design Names Troops", "TxtMinionPrince", "Prince"), _
+			GetTranslatedFileIni("MBR Global GUI Design Names Troops", "TxtGrandWarden", "Warden"), _
+			GetTranslatedFileIni("MBR Global GUI Design Names Troops", "TxtRoyalChampion", "Champion")]
+
+	; Create translated list of Heroes for combo box
+	Local $sComboData = ""
+	For $j = 0 To UBound($g_asHeroShortNames) - 1
+		$sComboData &= $g_asHeroShortNames[$j] & "|"
+	Next
+
+	Local $txtTroopOrder = GetTranslatedFileIni("MBR GUI Design Child Attack - Hero_SlotOrder", "TxtHeroSlot", "Enter sequence order for Hero Slots #")
+
+	Local $x = 65
+	Local $y = 80
+	For $z = 0 To UBound($g_ahCmbHeroOrder) - 1
+		If $z < 4 Then
+			GUICtrlCreateLabel("Slot " & $z + 1, $x + 6, $y + 50, -1, 25)
+			$g_ahCmbHeroOrder[$z] = GUICtrlCreateCombo("", $x - 16, $y + 25, 70, 25, BitOR($CBS_DROPDOWNLIST + $WS_VSCROLL, $CBS_AUTOHSCROLL))
+			GUICtrlSetOnEvent(-1, "GUIHeroSlotOrder")
+			GUICtrlSetData(-1, $sComboData, "")
+			_GUICtrlSetTip(-1, $txtTroopOrder & $z + 1)
+			$g_ahImgHeroOrder[$z] = _GUICtrlCreateIcon($g_sLibIconPath, $eIcnOptions, $x - 4, $y - 32, 48, 48)
+			$x += 100 ; move right to next combobox location
+		Else
+			$g_ahCmbHeroOrder[$z] = GUICtrlCreateCombo("", $x - 16, $y + 25, 70, 25, BitOR($CBS_DROPDOWNLIST + $WS_VSCROLL, $CBS_AUTOHSCROLL))
+			GUICtrlSetOnEvent(-1, "GUIHeroSlotOrder")
+			GUICtrlSetData(-1, $sComboData, "")
+			GUICtrlSetState(-1, $GUI_HIDE)
+			$g_ahImgHeroOrder[$z] = _GUICtrlCreateIcon($g_sLibIconPath, $eIcnOptions, $x - 4, $y - 32, 48, 48)
+			GUICtrlSetState(-1, $GUI_HIDE)
+		EndIf
+	Next
+
+	$g_hBtnRemoveHero = GUICtrlCreateButton(GetTranslatedFileIni("MBR GUI Design Child Attack - Hero_SlotOrder", "BtnRemoveHero", "Empty Troop List"), $_GUI_MAIN_WIDTH - 390, 170, -1, 20)
+	_GUICtrlSetTip(-1, GetTranslatedFileIni("MBR GUI Design Child Attack - Hero_SlotOrder", "BtnRemoveHero_Info_01", "Push button to remove all Heroes and start over"))
+	GUICtrlSetOnEvent(-1, "btnRemoveHero")
+
+	$g_hBtnHeroOrderSet = GUICtrlCreateButton(GetTranslatedFileIni("MBR GUI Design Child Attack - Hero_SlotOrder", "BtnHeroOrderSet", "Apply New Order"), $_GUI_MAIN_WIDTH - 290, 170, -1, 20)
+	_GUICtrlSetTip(-1, GetTranslatedFileIni("MBR GUI Design Child Attack - Hero_SlotOrder", "BtnHeroOrderSet_Info_01", "Push button when finished selecting custom hero slot order") & @CRLF & _
+			GetTranslatedFileIni("MBR GUI Design Child Attack - Hero_SlotOrder", "BtnHeroOrderSet_Info_02", "Icon changes color based on status: Red= Not Set, Green = Order Set") & @CRLF & _
+			GetTranslatedFileIni("MBR GUI Design Child Attack - Hero_SlotOrder", "BtnHeroOrderSet_Info_03", "When not all hero slots are filled, will use random troop order in empty slots!"))
+	GUICtrlSetOnEvent(-1, "BtnHeroOrderSet")
+	$g_ahImgHeroOrderSet = _GUICtrlCreateIcon($g_sLibIconPath, $eIcnSilverStar, $_GUI_MAIN_WIDTH - 180, 170, 18, 18)
+
+	$g_hBtnHeroAssign = GUICtrlCreateButton("Close", $_GUI_MAIN_WIDTH - 110, 170, 85, 25)
+	GUICtrlSetOnEvent(-1, "CloseHeroAssign")
+EndFunc   ;==>CreatHeroAssign

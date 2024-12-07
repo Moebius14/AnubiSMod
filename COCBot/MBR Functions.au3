@@ -243,7 +243,7 @@
 #include "functions\Village\LocateClanCastle.au3"
 #include "functions\Village\LocateLab.au3"
 #include "functions\Village\LocateTownHall.au3"
-#include "functions\Village\LocateHeroesAltar.au3"
+#include "functions\Village\LocateHeroHall.au3"
 #include "functions\Village\ProfileReport.au3"
 #include "functions\Village\RequestCC.au3"
 #include "functions\Village\VillageReport.au3"
@@ -275,7 +275,8 @@
 #include "functions\Village\LocateBlacksmith.au3"
 #include "functions\Village\Blacksmith.au3"
 #include "functions\Village\Event\Event.au3"
-#include "functions\Village\AppBuilder.au3"
+#include "functions\Village\HelperHut.au3"
+#include "functions\Village\LocateHelperHut.au3"
 #include "functions\Village\MagicSnacks.au3"
 
 

@@ -151,15 +151,15 @@ Func GoldElixirChangeEBO()
 
 		If Number($CurDamage) >= 92 Then
 
-			If $g_iKingSlot >= 11 Or $g_iQueenSlot >= 11 Or $g_iWardenSlot >= 11 Or $g_iChampionSlot >= 11 Then
+			If $g_iKingSlot >= 11 Or $g_iQueenSlot >= 11 Or $g_iPrinceSlot >= 11 Or $g_iWardenSlot >= 11 Or $g_iChampionSlot >= 11 Then
 				If Not $g_bDraggedAttackBar Then DragAttackBar($g_iTotalAttackSlot, False) ; drag forward
 			Else
-				If $g_iKingSlot >= 0 Or $g_iQueenSlot >= 0 Or $g_iWardenSlot >= 0 Or $g_iChampionSlot >= 0 Then
+				If $g_iKingSlot >= 0 Or $g_iQueenSlot >= 0 Or $g_iPrinceSlot >= 0 Or $g_iWardenSlot >= 0 Or $g_iChampionSlot >= 0 Then
 					If $g_bDraggedAttackBar Then DragAttackBar($g_iTotalAttackSlot, True) ; return drag
 				EndIf
 			EndIf
 
-			If ($g_bCheckKingPower Or $g_bCheckQueenPower Or $g_bCheckWardenPower Or $g_bCheckChampionPower) Then
+			If ($g_bCheckKingPower Or $g_bCheckQueenPower Or $g_bCheckPrincePower Or $g_bCheckWardenPower Or $g_bCheckChampionPower) Then
 				If $g_bCheckKingPower And $g_iActivateKing = 0 Then
 					SetLog("Activating King's ability to restore some health before leaving with a 3 Star", $COLOR_INFO)
 					If IsAttackPage() Then SelectDropTroop($g_iKingSlot) ;If King was not activated: Boost King before Battle ends with a 3 Star
@@ -169,6 +169,11 @@ Func GoldElixirChangeEBO()
 					SetLog("Activating Queen's ability to restore some health before leaving with a 3 Star", $COLOR_INFO)
 					If IsAttackPage() Then SelectDropTroop($g_iQueenSlot) ;If Queen was not activated: Boost Queen before Battle ends with a 3 Star
 					$g_bCheckQueenPower = False
+				EndIf
+				If $g_bCheckPrincePower And $g_iActivatePrince = 0 Then
+					SetLog("Activating Prince's ability to restore some health before leaving with a 3 Star", $COLOR_INFO)
+					If IsAttackPage() Then SelectDropTroop($g_iPrinceSlot) ;If Prince was not activated: Boost Prince before Battle ends with a 3 Star
+					$g_bCheckPrincePower = False
 				EndIf
 				If $g_bCheckWardenPower And $g_iActivateWarden = 0 Then
 					SetLog("Activating Warden's ability to restore some health before leaving with a 3 Star", $COLOR_INFO)

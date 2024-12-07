@@ -265,7 +265,7 @@ Func GetFullNameSlot(Const $iTrainPos, Const $sTroopType, $iTroop = $eBarb)
 						EndIf
 				EndSwitch
 			Else
-				If $iTroop >= $eEDrag Or $iTroop <= $eRootR Then ; Case Moved 4 slots or more at first page And $iTroop = Edrag Or Yeti
+				If $iTroop >= $eEDrag Or $iTroop <= $eThrower Then ; Case Moved 4 slots or more at first page And $iTroop = Edrag Or Yeti
 					Switch $iTrainPos[0]
 						Case 91 To 171 ; 1 Column
 							$iSlotH = 155

@@ -102,7 +102,10 @@ Global $g_sImgGreenAssignButton = @ScriptDir & "\imgxml\Main Village\AppBuilder\
 Global $ImgLocked = @ScriptDir & "\imgxml\Main Village\AppBuilder\Locked*"
 Global $ImgConfirmButton = @ScriptDir & "\imgxml\Main Village\AppBuilder\Confirm*"
 Global $ImgJobInProgress = @ScriptDir & "\imgxml\Main Village\AppBuilder\Job*"
+Global $ImgOnGoingMini = @ScriptDir & "\imgxml\Main Village\AppBuilder\OnGoingMini*"
 Global $ImgAssignMini = @ScriptDir & "\imgxml\Main Village\AppBuilder\AssignMini*"
+Global $g_sImgMiniBuilderAppHead = @ScriptDir & "\imgxml\Main Village\AppBuilder\MiniBuilderApp*"
+Global $g_sImgMiniLabAssistHead = @ScriptDir & "\imgxml\Main Village\AppBuilder\MiniLabAssist*"
 ; Treasury Hunt
 Global $ImgHammerOnRock = @ScriptDir & "\imgxml\Main Village\TreasuryHunt\Hammer\Hammer*"
 Global $ImgHammersOnRock = @ScriptDir & "\imgxml\Main Village\TreasuryHunt\Hammer\"
@@ -207,6 +210,8 @@ Global $g_sImgAutoUpgradeClock = @ScriptDir & "\imgxml\Resources\BuildersBase\Au
 Global $g_sImgAutoUpgradeInfo = @ScriptDir & "\imgxml\Resources\BuildersBase\AutoUpgrade\NewBuildings\Slot"
 Global $g_sImgAutoUpgradeNewBldgYes = @ScriptDir & "\imgxml\Resources\BuildersBase\AutoUpgrade\NewBuildings\Yes"
 Global $g_sImgAutoUpgradeNewBldgNo = @ScriptDir & "\imgxml\Resources\BuildersBase\AutoUpgrade\NewBuildings\No"
+Global $ImgHeroMaxLevel = @ScriptDir & "\imgxml\Main Village\Upgrade\HeroMaxLevel\MaxLevel*.xml"
+Global $ImgHeroBook = @ScriptDir & "\imgxml\Main Village\Upgrade\Books\HeroBooks*.xml"
 #EndRegion Auto Upgrade Builder Base
 
 #Region Train
@@ -223,10 +228,13 @@ Global $g_sImgAttackBarDir = @ScriptDir & "\imgxml\AttackBar"
 Global $g_sImgSwitchSiegeMachine = @ScriptDir & "\imgxml\SwitchSiegeMachines\"
 Global $g_sImgSwitchWardenMode = @ScriptDir & "\imgxml\SwitchWardenMode"
 Global $g_sImgIsMultiplayerTab = @ScriptDir & "\imgxml\Attack\Search\MultiplayerTab*"
+Global $g_sImgPrinceBar = @ScriptDir & "\imgxml\AttackBar\Prince*"
 Global $g_sImgQueenBar = @ScriptDir & "\imgxml\AttackBar\Queen*"
 Global $g_sImgKingBar = @ScriptDir & "\imgxml\AttackBar\King*"
+Global $g_sImgPrinceBar = @ScriptDir & "\imgxml\AttackBar\Prince*"
 Global $g_sImgWardenBar = @ScriptDir & "\imgxml\AttackBar\Warden*"
 Global $g_sImgChampionBar = @ScriptDir & "\imgxml\AttackBar\Champion*"
+Global $ImgBattleStart = @ScriptDir & "\imgxml\Attack\StartBattle\BattleStart*"
 #EndRegion Attack
 
 #Region Search
@@ -238,8 +246,6 @@ Global $g_sImgWeakBaseBuildingsDir = @ScriptDir & "\imgxml\Buildings"
 Global $g_sImgWeakBaseBuildingsEagleDir = @ScriptDir & "\imgxml\Buildings\Eagle"
 Global $g_sImgWeakBaseBuildingsScatterDir = @ScriptDir & "\imgxml\Buildings\ScatterShot"
 Global $g_sImgWeakBaseBuildingsMonolithDir = @ScriptDir & "\imgxml\Buildings\Monolith"
-Global $g_sImgWeakBaseBuildingsMultiArcherDir = @ScriptDir & "\imgxml\Buildings\MultiArcher"
-Global $g_sImgWeakBaseBuildingsRicochetDir = @ScriptDir & "\imgxml\Buildings\Ricochet"
 Global $g_sImgWeakBaseBuildingsInfernoDir = @ScriptDir & "\imgxml\Buildings\Infernos"
 Global $g_sImgWeakBaseBuildingsXbowDir = @ScriptDir & "\imgxml\Buildings\Xbow"
 Global $g_sImgWeakBaseBuildingsWizTowerSnowDir = @ScriptDir & "\imgxml\Buildings\WTower_Snow"

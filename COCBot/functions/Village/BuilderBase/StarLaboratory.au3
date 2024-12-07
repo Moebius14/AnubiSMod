@@ -489,7 +489,6 @@ Func StarLabGuiDisplay()
 		If _Sleep($DELAYLABORATORY1) Then Return ; Wait for window to open
 	Else
 		SetLog("Cannot find the Star Laboratory Research Button!", $COLOR_ERROR)
-		GUICtrlSetData($g_hLbLStarLabTime, "")
 		ClearScreen()
 		If $g_bNoStarLabCheck Then $g_bFirstStartForStarLab = 0
 		Return False
@@ -528,7 +527,6 @@ Func StarLabGuiDisplay()
 	Else
 		SetLog("No Star Laboratory Upgrade in progress", $COLOR_INFO)
 		$g_sStarLabUpgradeTime = ""
-		GUICtrlSetData($g_hLbLStarLabTime, "")
 		StarLabStatusGUIUpdate()
 		If ProfileSwitchAccountEnabled() Then SwitchAccountVariablesReload("Save") ; saving $asStarLabUpgradeTime[$g_iCurAccount] = $g_sStarLabUpgradeTime for instantly displaying in multi-stats
 		CloseWindow()

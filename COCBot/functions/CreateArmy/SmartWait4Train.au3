@@ -38,7 +38,7 @@ Func SmartWait4Train($iTestSeconds = Default)
 	If Not $g_bCloseWhileTrainingEnable And Not $g_bCloseWithoutShield Then Return ; skip if nothing selected in GUI
 
 	Local $aResult, $iActiveHero
-	Local $aHeroResult[$eHeroCount]
+	Local $aHeroResult[$eHeroSlots]
 	Local Const $TRAINWAIT_NOWAIT = 0x00 ; default no waiting
 	Local Const $TRAINWAIT_SHIELD = 0x01 ; Flag value used to simplify shield exists
 	Local Const $TRAINWAIT_TROOP = 0x02 ; Value when wait for troop training and valid time exists
@@ -51,7 +51,7 @@ Func SmartWait4Train($iTestSeconds = Default)
 	Local $iShieldTime = 0, $iDiffDateTime = 0, $iDiffTime = 0
 	Local $RandomAddPercentConvertMin = ($g_iCloseRandomTimePercentMin * 5) + 5
 	Local $RandomAddPercentConvertMax = ($g_iCloseRandomTimePercentMax * 5) + 5
-	Local $RandomAddPercentConvert = Random($RandomAddPercentConvertMin, $RandomAddPercentConvertMax)
+	Local $RandomAddPercentConvert = Random($RandomAddPercentConvertMin, $RandomAddPercentConvertMax, 1)
 	Local $RandomAddPercent = ($RandomAddPercentConvert / 100) ; generate random percentage between Min and Max user set GUI value
 	Local $g_iCloseMinimumTime = Random($g_iCloseMinimumTimeMin, $g_iCloseMinimumTimeMax, 1)
 	Local $MinimumTimeClose = Number($g_iCloseMinimumTime * 60) ; Minimum time required to close
@@ -146,35 +146,41 @@ Func SmartWait4Train($iTestSeconds = Default)
 			SetLog("getArmyHeroTime OCR fail, exit SmartWait!", $COLOR_ERROR)
 			Return ; quit when ocr fai, stop trying to close while training this time
 		EndIf
-		If $g_bDebugSetlogTrain Or $g_bDebugSetlog Then SetLog("getArmyHeroTime returned: " & $aHeroResult[0] & ":" & $aHeroResult[1] & ":" & $aHeroResult[2], $COLOR_DEBUG)
+		If $g_bDebugSetlogTrain Or $g_bDebugSetlog Then SetLog("getArmyHeroTime returned: " & $aHeroResult[0] & ":" & $aHeroResult[1] & ":" & $aHeroResult[2] & ":" & $aHeroResult[3], $COLOR_DEBUG)
 		If _Sleep($DELAYRESPOND) Then Return
 		If $aHeroResult[0] > 0 Or $aHeroResult[1] > 0 Or $aHeroResult[2] > 0 Or $aHeroResult[3] > 0 Then ; check if hero is enabled to use/wait and set wait time
 			If $IsdroptrophiesActive And $bWaitOnlyOneHeroForDT Then $g_aiTimeTrain[2] = 60 ; Dumb number 60 minutes for heal any heroe !!
-			For $pTroopType = $eKing To $eChampion ; check all 4 hero
-				Local $iHeroIdx = $pTroopType - $eKing
+			Local $pTroopType
+			For $i = 0 To $eHeroSlots - 1
+				Switch $g_aiCmbCustomHeroOrder[$i]
+					Case 0
+						$pTroopType = $eKing
+					Case 1
+						$pTroopType = $eQueen
+					Case 2
+						$pTroopType = $ePrince
+					Case 3
+						$pTroopType = $eWarden
+					Case 4
+						$pTroopType = $eChampion
+				EndSwitch
 				For $pMatchMode = $DB To $LB ; check only DB and LB (TS has no wait option!)
 					If $g_bDebugSetlogTrain Or $g_bDebugSetlog Then
 						SetLog("$pTroopType: " & GetTroopName($pTroopType) & ", $pMatchMode: " & $g_asModeText[$pMatchMode], $COLOR_DEBUG)
-						SetLog("TroopToBeUsed: " & IsUnitUsed($pMatchMode, $pTroopType) & ", Hero Wait Status= " & IsSearchModeActiveMini($pMatchMode) & " & " & IsUnitUsed($pMatchMode, $pTroopType) & " & " & ($g_iHeroUpgrading[$iHeroIdx] <> 1) & " & " & ($g_iHeroWaitAttackNoBit[$pMatchMode][$iHeroIdx] = 1), $COLOR_DEBUG)
+						SetLog("TroopToBeUsed: " & IsUnitUsed($pMatchMode, $pTroopType) & ", Hero Wait Status= " & IsSearchModeActiveMini($pMatchMode) & " & " & IsUnitUsed($pMatchMode, $pTroopType) & " & " & ($g_iHeroUpgrading[$g_aiCmbCustomHeroOrder[$i]] <> 1) & " & " & ($g_iHeroWaitAttackNoBit[$pMatchMode][$g_aiCmbCustomHeroOrder[$i]] = 1), $COLOR_DEBUG)
 						SetLog("$g_aiAttackUseHeroes[" & $pMatchMode & "]= " & $g_aiAttackUseHeroes[$pMatchMode] & ", $g_aiSearchHeroWaitEnable[" & $pMatchMode & "]= " & $g_aiSearchHeroWaitEnable[$pMatchMode] & ", $g_iHeroUpgradingBit=" & $g_iHeroUpgradingBit, $COLOR_DEBUG)
 					EndIf
 					$iActiveHero = -1
-					If IsSearchModeActiveMini($pMatchMode) And IsUnitUsed($pMatchMode, $pTroopType) And $g_iHeroUpgrading[$iHeroIdx] <> 1 And $g_iHeroWaitAttackNoBit[$pMatchMode][$iHeroIdx] = 1 Then
-						$iActiveHero = $iHeroIdx ; compute array offset to active hero
+					If IsSearchModeActiveMini($pMatchMode) And IsUnitUsed($pMatchMode, $pTroopType) And $g_iHeroUpgrading[$g_aiCmbCustomHeroOrder[$i]] <> 1 And $g_iHeroWaitAttackNoBit[$pMatchMode][$g_aiCmbCustomHeroOrder[$i]] = 1 Then
+						$iActiveHero = $i ; compute array offset to active hero
 					EndIf
 					If $iActiveHero <> -1 And $aHeroResult[$iActiveHero] > 0 Then ; valid time?
 						; check exact time & existing time is less than new time
-						If $g_bCloseRandomTime And $g_aiTimeTrain[2] < $aHeroResult[$iActiveHero] And Not $IsdroptrophiesActive Then
-							$g_aiTimeTrain[2] = $aHeroResult[$iActiveHero] + ($aHeroResult[$iActiveHero] * $RandomAddPercent) ; add some random percent
-						ElseIf $g_bCloseRandomTime And $g_aiTimeTrain[2] < $aHeroResult[$iActiveHero] And $IsdroptrophiesActive And Not $bWaitOnlyOneHeroForDT Then
-							$g_aiTimeTrain[2] = $aHeroResult[$iActiveHero] + ($aHeroResult[$iActiveHero] * $RandomAddPercent)
-						ElseIf $g_bCloseRandomTime And $g_aiTimeTrain[2] > $aHeroResult[$iActiveHero] And $IsdroptrophiesActive And $bWaitOnlyOneHeroForDT Then
-							$g_aiTimeTrain[2] = $aHeroResult[$iActiveHero] + ($aHeroResult[$iActiveHero] * $RandomAddPercent)
-						ElseIf $g_bCloseExactTime And $g_aiTimeTrain[2] < $aHeroResult[$iActiveHero] And Not $IsdroptrophiesActive Then
-							$g_aiTimeTrain[2] = $aHeroResult[$iActiveHero] ; use exact time
-						ElseIf $g_bCloseExactTime And $g_aiTimeTrain[2] < $aHeroResult[$iActiveHero] And $IsdroptrophiesActive And Not $bWaitOnlyOneHeroForDT Then
+						If $g_aiTimeTrain[2] < $aHeroResult[$iActiveHero] And Not $IsdroptrophiesActive Then
 							$g_aiTimeTrain[2] = $aHeroResult[$iActiveHero]
-						ElseIf $g_bCloseExactTime And $g_aiTimeTrain[2] > $aHeroResult[$iActiveHero] And $IsdroptrophiesActive And $bWaitOnlyOneHeroForDT Then
+						ElseIf $g_aiTimeTrain[2] < $aHeroResult[$iActiveHero] And $IsdroptrophiesActive And Not $bWaitOnlyOneHeroForDT Then
+							$g_aiTimeTrain[2] = $aHeroResult[$iActiveHero]
+						ElseIf $g_aiTimeTrain[2] > $aHeroResult[$iActiveHero] And $IsdroptrophiesActive And $bWaitOnlyOneHeroForDT Then
 							$g_aiTimeTrain[2] = $aHeroResult[$iActiveHero]
 						EndIf
 						$iTrainWaitCloseFlag = BitOR($iTrainWaitCloseFlag, $TRAINWAIT_HERO)

@@ -225,17 +225,9 @@ Func ReadBuildingConfig()
 		IniReadS($g_aiClanCastleTroopsCap, $g_sProfileBuildingPath, "other", "CCTCap", -1, "int")
 		IniReadS($g_aiClanCastleSpellsCap, $g_sProfileBuildingPath, "other", "CCSCap", -1, "int")
 
-		IniReadS($g_aiKingAltarPos[0], $g_sProfileBuildingPath, "other", "xKingAltarPos", -1, "int")
-		IniReadS($g_aiKingAltarPos[1], $g_sProfileBuildingPath, "other", "yKingAltarPos", -1, "int")
-
-		IniReadS($g_aiQueenAltarPos[0], $g_sProfileBuildingPath, "other", "xQueenAltarPos", -1, "int")
-		IniReadS($g_aiQueenAltarPos[1], $g_sProfileBuildingPath, "other", "yQueenAltarPos", -1, "int")
-
-		IniReadS($g_aiWardenAltarPos[0], $g_sProfileBuildingPath, "other", "xWardenAltarPos", -1, "int")
-		IniReadS($g_aiWardenAltarPos[1], $g_sProfileBuildingPath, "other", "yWardenAltarPos", -1, "int")
-
-		IniReadS($g_aiChampionAltarPos[0], $g_sProfileBuildingPath, "other", "xChampionAltarPos", -1, "int")
-		IniReadS($g_aiChampionAltarPos[1], $g_sProfileBuildingPath, "other", "yChampionAltarPos", -1, "int")
+		IniReadS($g_aiHeroHallPos[0], $g_sProfileBuildingPath, "other", "HeroHallPosX", -1, "int")
+		IniReadS($g_aiHeroHallPos[1], $g_sProfileBuildingPath, "other", "HeroHallPosY", -1, "int")
+		IniReadS($g_aiHeroHallPos[2], $g_sProfileBuildingPath, "other", "HeroHallLvl", -1, "int")
 
 		IniReadS($g_aiLaboratoryPos[0], $g_sProfileBuildingPath, "upgrade", "LabPosX", -1, "int")
 		IniReadS($g_aiLaboratoryPos[1], $g_sProfileBuildingPath, "upgrade", "LabPosY", -1, "int")
@@ -245,6 +237,9 @@ Func ReadBuildingConfig()
 
 		IniReadS($g_aiBlacksmithPos[0], $g_sProfileBuildingPath, "upgrade", "BlacksmithPosX", -1, "int")
 		IniReadS($g_aiBlacksmithPos[1], $g_sProfileBuildingPath, "upgrade", "BlacksmithPosY", -1, "int")
+
+		IniReadS($g_aiHelperHutPos[0], $g_sProfileBuildingPath, "upgrade", "HelperHutPosX", -1, "int")
+		IniReadS($g_aiHelperHutPos[1], $g_sProfileBuildingPath, "upgrade", "HelperHutPosY", -1, "int")
 	EndIf
 
 	IniReadS($g_aiStarLaboratoryPos[0], $g_sProfileBuildingPath, "upgrade", "StarLabPosX", -1, "int")
@@ -796,6 +791,7 @@ EndFunc   ;==>ReadConfig_600_13
 Func ReadConfig_600_14()
 	IniReadS($g_bAutoLabUpgradeEnable, $g_sProfileBuildingPath, "upgrade", "upgradetroops", False, "Bool")
 	IniReadS($g_bUseLabPotion, $g_sProfileBuildingPath, "upgrade", "uselabpotion", False, "Bool")
+	IniReadS($g_bChkLabAssistant, $g_sProfileBuildingPath, "upgrade", "IsChkLabAssistant", $g_bChkLabAssistant, "int")
 	IniReadS($g_iCmbLabPotion, $g_sProfileBuildingPath, "upgrade", "Cmblabpotion", 0, "int")
 	IniReadS($g_iCmbLaboratory, $g_sProfileBuildingPath, "upgrade", "upgradetroopname", 0, "int")
 	Local $str = StringSplit(IniRead($g_sProfileBuildingPath, "upgrade", "upgradeorderlist", "-1| -1| -1| -1| -1| -1| -1| -1"), "|", $STR_NOCOUNT)
@@ -818,6 +814,7 @@ Func ReadConfig_600_15()
 	; <><><><> Village / Upgrade - Heroes <><><><>
 	IniReadS($g_bUpgradeKingEnable, $g_sProfileConfigPath, "upgrade", "UpgradeKing", False, "Bool")
 	IniReadS($g_bUpgradeQueenEnable, $g_sProfileConfigPath, "upgrade", "UpgradeQueen", False, "Bool")
+	IniReadS($g_bUpgradePrinceEnable, $g_sProfileConfigPath, "upgrade", "UpgradePrince", False, "Bool")
 	IniReadS($g_bUpgradeWardenEnable, $g_sProfileConfigPath, "upgrade", "UpgradeWarden", False, "Bool")
 	IniReadS($g_bUpgradeChampionEnable, $g_sProfileConfigPath, "upgrade", "UpgradeChampion", False, "Bool")
 	IniReadS($g_iHeroReservedBuilder, $g_sProfileConfigPath, "upgrade", "HeroReservedBuilder", 0, "int")
@@ -876,7 +873,7 @@ Func ReadConfig_600_17()
 	IniReadS($g_iCmbUpgradeWallsLevel, $g_sProfileConfigPath, "upgrade", "walllvl", 6, "int")
 	IniReadS($g_iHowUseWallRings, $g_sProfileConfigPath, "upgrade", "HowUseWR", 0, "int")
 	IniReadS($g_iCmbUseWallRings, $g_sProfileConfigPath, "upgrade", "CmbUseWR", 3, "int")
-	For $i = 4 To 17
+	For $i = 4 To 18
 		IniReadS($g_aiWallsCurrentCount[$i], $g_sProfileConfigPath, "Walls", "Wall" & StringFormat("%02d", $i), 0, "int")
 	Next
 	IniReadS($g_iWallCost, $g_sProfileConfigPath, "upgrade", "WallCost", 0, "int")
@@ -1001,17 +998,20 @@ Func ReadConfig_600_28_DB()
 	IniReadS($g_aiSearchTrophiesMax[$DB], $g_sProfileConfigPath, "search", "DBEnableBeforeTropies", 6000, "int")
 	IniReadS($g_abSearchCampsEnable[$DB], $g_sProfileConfigPath, "search", "ChkDBSearchCamps", False, "Bool")
 	IniReadS($g_aiSearchCampsPct[$DB], $g_sProfileConfigPath, "search", "DBEnableAfterArmyCamps", 100, "int")
-	Local $temp1, $temp2, $temp3, $temp4
+	Local $temp1, $temp2, $temp3, $temp4, $temp5
 	IniReadS($temp1, $g_sProfileConfigPath, "attack", "DBKingWait", $eHeroNone)
 	IniReadS($temp2, $g_sProfileConfigPath, "attack", "DBQueenWait", $eHeroNone)
-	IniReadS($temp3, $g_sProfileConfigPath, "attack", "DBWardenWait", $eHeroNone)
-	IniReadS($temp4, $g_sProfileConfigPath, "attack", "DBChampionWait", $eHeroNone)
-	$g_aiSearchHeroWaitEnable[$DB] = BitOR(Int($temp1 > $eHeroNone ? $eHeroKing : 0), Int($temp2 > $eHeroNone ? $eHeroQueen : 0), Int($temp3 > $eHeroNone ? $eHeroWarden : 0), Int($temp4 > $eHeroNone ? $eHeroChampion : 0))
+	IniReadS($temp3, $g_sProfileConfigPath, "attack", "DBPrinceWait", $eHeroNone)
+	IniReadS($temp4, $g_sProfileConfigPath, "attack", "DBWardenWait", $eHeroNone)
+	IniReadS($temp5, $g_sProfileConfigPath, "attack", "DBChampionWait", $eHeroNone)
+	$g_aiSearchHeroWaitEnable[$DB] = BitOR(Int($temp1 > $eHeroNone ? $eHeroKing : 0), Int($temp2 > $eHeroNone ? $eHeroQueen : 0), Int($temp3 > $eHeroNone ? $eHeroPrince : 0), _
+	Int($temp4 > $eHeroNone ? $eHeroWarden : 0), Int($temp5 > $eHeroNone ? $eHeroChampion : 0))
 	IniReadS($g_aiSearchNotWaitHeroesEnable[$DB], $g_sProfileConfigPath, "attack", "DBNotWaitHeroes", 0, "int")
 	$g_iHeroWaitAttackNoBit[$DB][0] = ($temp1 > $eHeroNone) ? 1 : 0
 	$g_iHeroWaitAttackNoBit[$DB][1] = ($temp2 > $eHeroNone) ? 1 : 0
 	$g_iHeroWaitAttackNoBit[$DB][2] = ($temp3 > $eHeroNone) ? 1 : 0
 	$g_iHeroWaitAttackNoBit[$DB][3] = ($temp4 > $eHeroNone) ? 1 : 0
+	$g_iHeroWaitAttackNoBit[$DB][4] = ($temp5 > $eHeroNone) ? 1 : 0
 	IniReadS($g_abSearchSpellsWaitEnable[$DB], $g_sProfileConfigPath, "search", "ChkDBSpellsWait", False, "Bool")
 	IniReadS($g_abSearchSiegeWaitEnable[$DB], $g_sProfileConfigPath, "search", "ChkDBMachineWait", False, "Bool")
 	IniReadS($g_abSearchCastleWaitEnable[$DB], $g_sProfileConfigPath, "search", "ChkDBCastleWait", False, "Bool")
@@ -1040,8 +1040,6 @@ Func ReadConfig_600_28_DB()
 	IniReadS($g_abFilterMaxEagleEnable[$DB], $g_sProfileConfigPath, "search", "DBCheckEagle", False, "Bool")
 	IniReadS($g_abFilterMaxScatterEnable[$DB], $g_sProfileConfigPath, "search", "DBCheckScatter", False, "Bool")
 	IniReadS($g_abFilterMaxMonolithEnable[$DB], $g_sProfileConfigPath, "search", "DBCheckMonolith", False, "Bool")
-	IniReadS($g_abFilterMaxMultiArcherEnable[$DB], $g_sProfileConfigPath, "search", "DBCheckMultiArcher", False, "Bool")
-	IniReadS($g_abFilterMaxRicochetEnable[$DB], $g_sProfileConfigPath, "search", "DBCheckRicochet", False, "Bool")
 	IniReadS($g_aiFilterMaxMortarLevel[$DB], $g_sProfileConfigPath, "search", "DBWeakMortar", 5, "int")
 	IniReadS($g_aiFilterMaxWizTowerLevel[$DB], $g_sProfileConfigPath, "search", "DBWeakWizTower", 4, "int")
 	IniReadS($g_aiFilterMaxAirDefenseLevel[$DB], $g_sProfileConfigPath, "search", "DBWeakAirDefense", 7, "int")
@@ -1050,8 +1048,6 @@ Func ReadConfig_600_28_DB()
 	IniReadS($g_aiFilterMaxEagleLevel[$DB], $g_sProfileConfigPath, "search", "DBWeakEagle", 2, "int")
 	IniReadS($g_aiFilterMaxScatterLevel[$DB], $g_sProfileConfigPath, "search", "DBWeakScatter", 1, "int")
 	IniReadS($g_aiFilterMaxMonolithLevel[$DB], $g_sProfileConfigPath, "search", "DBWeakMonolith", 1, "int")
-	IniReadS($g_aiFilterMaxMultiArcherLevel[$DB], $g_sProfileConfigPath, "search", "DBWeakMultiArcher", 1, "int")
-	IniReadS($g_aiFilterMaxRicochetLevel[$DB], $g_sProfileConfigPath, "search", "DBWeakRicochet", 1, "int")
 	IniReadS($g_abFilterMeetOneConditionEnable[$DB], $g_sProfileConfigPath, "search", "DBMeetOne", False, "Bool")
 EndFunc   ;==>ReadConfig_600_28_DB
 
@@ -1067,17 +1063,20 @@ Func ReadConfig_600_28_LB()
 	IniReadS($g_aiSearchTrophiesMax[$LB], $g_sProfileConfigPath, "search", "ABEnableBeforeTropies", 6000, "int")
 	IniReadS($g_abSearchCampsEnable[$LB], $g_sProfileConfigPath, "search", "ChkABSearchCamps", False, "Bool")
 	IniReadS($g_aiSearchCampsPct[$LB], $g_sProfileConfigPath, "search", "ABEnableAfterArmyCamps", 100, "int")
-	Local $temp1, $temp2, $temp3, $temp4
+	Local $temp1, $temp2, $temp3, $temp4, $temp5
 	IniReadS($temp1, $g_sProfileConfigPath, "attack", "ABKingWait", $eHeroNone)
 	IniReadS($temp2, $g_sProfileConfigPath, "attack", "ABQueenWait", $eHeroNone)
-	IniReadS($temp3, $g_sProfileConfigPath, "attack", "ABWardenWait", $eHeroNone)
-	IniReadS($temp4, $g_sProfileConfigPath, "attack", "ABChampionWait", $eHeroNone)
-	$g_aiSearchHeroWaitEnable[$LB] = BitOR(Int($temp1 > $eHeroNone ? $eHeroKing : 0), Int($temp2 > $eHeroNone ? $eHeroQueen : 0), Int($temp3 > $eHeroNone ? $eHeroWarden : 0), Int($temp4 > $eHeroNone ? $eHeroChampion : 0))
+	IniReadS($temp3, $g_sProfileConfigPath, "attack", "ABPrinceWait", $eHeroNone)
+	IniReadS($temp4, $g_sProfileConfigPath, "attack", "ABWardenWait", $eHeroNone)
+	IniReadS($temp5, $g_sProfileConfigPath, "attack", "ABChampionWait", $eHeroNone)
+	$g_aiSearchHeroWaitEnable[$LB] = BitOR(Int($temp1 > $eHeroNone ? $eHeroKing : 0), Int($temp2 > $eHeroNone ? $eHeroQueen : 0), Int($temp3 > $eHeroNone ? $eHeroPrince : 0), _
+	Int($temp4 > $eHeroNone ? $eHeroWarden : 0), Int($temp5 > $eHeroNone ? $eHeroChampion : 0))
 	IniReadS($g_aiSearchNotWaitHeroesEnable[$LB], $g_sProfileConfigPath, "attack", "ABNotWaitHeroes", 0, "int")
 	$g_iHeroWaitAttackNoBit[$LB][0] = ($temp1 > $eHeroNone) ? 1 : 0
 	$g_iHeroWaitAttackNoBit[$LB][1] = ($temp2 > $eHeroNone) ? 1 : 0
 	$g_iHeroWaitAttackNoBit[$LB][2] = ($temp3 > $eHeroNone) ? 1 : 0
 	$g_iHeroWaitAttackNoBit[$LB][3] = ($temp4 > $eHeroNone) ? 1 : 0
+	$g_iHeroWaitAttackNoBit[$LB][4] = ($temp5 > $eHeroNone) ? 1 : 0
 	IniReadS($g_abSearchSpellsWaitEnable[$LB], $g_sProfileConfigPath, "search", "ChkABSpellsWait", False, "Bool")
 	IniReadS($g_abSearchSiegeWaitEnable[$LB], $g_sProfileConfigPath, "search", "ChkABMachineWait", False, "Bool")
 	IniReadS($g_abSearchCastleWaitEnable[$LB], $g_sProfileConfigPath, "search", "ChkABCastleWait", False, "Bool")
@@ -1102,8 +1101,6 @@ Func ReadConfig_600_28_LB()
 	IniReadS($g_abFilterMaxEagleEnable[$LB], $g_sProfileConfigPath, "search", "ABCheckEagle", False, "Bool")
 	IniReadS($g_abFilterMaxScatterEnable[$LB], $g_sProfileConfigPath, "search", "ABCheckScatter", False, "Bool")
 	IniReadS($g_abFilterMaxMonolithEnable[$LB], $g_sProfileConfigPath, "search", "ABCheckMonolith", False, "Bool")
-	IniReadS($g_abFilterMaxMultiArcherEnable[$LB], $g_sProfileConfigPath, "search", "ABCheckMultiArcher", False, "Bool")
-	IniReadS($g_abFilterMaxRicochetEnable[$LB], $g_sProfileConfigPath, "search", "ABCheckRicochet", False, "Bool")
 	IniReadS($g_aiFilterMaxMortarLevel[$LB], $g_sProfileConfigPath, "search", "ABWeakMortar", 5, "int")
 	IniReadS($g_aiFilterMaxWizTowerLevel[$LB], $g_sProfileConfigPath, "search", "ABWeakWizTower", 4, "int")
 	IniReadS($g_aiFilterMaxAirDefenseLevel[$LB], $g_sProfileConfigPath, "search", "ABWeakAirDefense", 7, "int")
@@ -1112,8 +1109,6 @@ Func ReadConfig_600_28_LB()
 	IniReadS($g_aiFilterMaxEagleLevel[$LB], $g_sProfileConfigPath, "search", "ABWeakEagle", 2, "int")
 	IniReadS($g_aiFilterMaxScatterLevel[$LB], $g_sProfileConfigPath, "search", "ABWeakScatter", 1, "int")
 	IniReadS($g_aiFilterMaxMonolithLevel[$LB], $g_sProfileConfigPath, "search", "ABWeakMonolith", 1, "int")
-	IniReadS($g_aiFilterMaxMultiArcherLevel[$LB], $g_sProfileConfigPath, "search", "ABWeakMultiArcher", 1, "int")
-	IniReadS($g_aiFilterMaxRicochetLevel[$LB], $g_sProfileConfigPath, "search", "ABWeakRicochet", 1, "int")
 	IniReadS($g_abFilterMeetOneConditionEnable[$LB], $g_sProfileConfigPath, "search", "ABMeetOne", False, "Bool")
 EndFunc   ;==>ReadConfig_600_28_LB
 
@@ -1121,10 +1116,12 @@ Func ReadConfig_600_29()
 	; <><><><> Attack Plan / Search & Attack / Options / Attack <><><><>
 	IniReadS($g_iActivateQueen, $g_sProfileConfigPath, "attack", "ActivateQueen", 0, "int")
 	IniReadS($g_iActivateKing, $g_sProfileConfigPath, "attack", "ActivateKing", 0, "int")
+	IniReadS($g_iActivatePrince, $g_sProfileConfigPath, "attack", "ActivatePrince", 0, "int")
 	IniReadS($g_iActivateWarden, $g_sProfileConfigPath, "attack", "ActivateWarden", 0, "int")
 	IniReadS($g_iActivateChampion, $g_sProfileConfigPath, "attack", "ActivateChampion", 0, "int")
 	IniReadS($g_iDelayActivateQueen, $g_sProfileConfigPath, "attack", "delayActivateQueen", 9000, "int")
 	IniReadS($g_iDelayActivateKing, $g_sProfileConfigPath, "attack", "delayActivateKing", 9000, "int")
+	IniReadS($g_iDelayActivatePrince, $g_sProfileConfigPath, "attack", "delayActivatePrince", 9000, "int")
 	IniReadS($g_iDelayActivateWarden, $g_sProfileConfigPath, "attack", "delayActivateWarden", 10000, "int")
 	IniReadS($g_iDelayActivateChampion, $g_sProfileConfigPath, "attack", "delayActivateChampion", 10000, "int")
 
@@ -1156,12 +1153,13 @@ Func ReadConfig_600_29_DB()
 	; <><><><> Attack Plan / Search & Attack / Deadbase / Attack <><><><>
 	IniReadS($g_aiAttackAlgorithm[$DB], $g_sProfileConfigPath, "attack", "DBAtkAlgorithm", 0, "int")
 	IniReadS($g_aiAttackTroopSelection[$DB], $g_sProfileConfigPath, "attack", "DBSelectTroop", 0, "int")
-	Local $temp1, $temp2, $temp3, $temp4
+	Local $temp1, $temp2, $temp3, $temp4, $temp5
 	IniReadS($temp1, $g_sProfileConfigPath, "attack", "DBKingAtk", $eHeroNone)
 	IniReadS($temp2, $g_sProfileConfigPath, "attack", "DBQueenAtk", $eHeroNone)
-	IniReadS($temp3, $g_sProfileConfigPath, "attack", "DBWardenAtk", $eHeroNone)
-	IniReadS($temp4, $g_sProfileConfigPath, "attack", "DBChampionAtk", $eHeroNone)
-	$g_aiAttackUseHeroes[$DB] = BitOR(Int($temp1), Int($temp2), Int($temp3), Int($temp4))
+	IniReadS($temp3, $g_sProfileConfigPath, "attack", "DBPrinceAtk", $eHeroNone)
+	IniReadS($temp4, $g_sProfileConfigPath, "attack", "DBWardenAtk", $eHeroNone)
+	IniReadS($temp5, $g_sProfileConfigPath, "attack", "DBChampionAtk", $eHeroNone)
+	$g_aiAttackUseHeroes[$DB] = BitOR(Int($temp1), Int($temp2), Int($temp3), Int($temp4), Int($temp5))
 	IniReadS($g_abAttackDropCC[$DB], $g_sProfileConfigPath, "attack", "DBDropCC", False, "Bool")
 	IniReadS($g_abNoSearchForHigherLevel[$DB], $g_sProfileConfigPath, "attack", "DBSearchHigherLVL", False, "Bool")
 	IniReadS($g_abAttackUseLightSpell[$DB], $g_sProfileConfigPath, "attack", "DBLightSpell", False, "Bool")
@@ -1205,12 +1203,13 @@ Func ReadConfig_600_29_LB()
 	; <><><><> Attack Plan / Search & Attack / Activebase / Attack <><><><>
 	IniReadS($g_aiAttackAlgorithm[$LB], $g_sProfileConfigPath, "attack", "ABAtkAlgorithm", 0, "int")
 	IniReadS($g_aiAttackTroopSelection[$LB], $g_sProfileConfigPath, "attack", "ABSelectTroop", 0, "int")
-	Local $temp1, $temp2, $temp3, $temp4
+	Local $temp1, $temp2, $temp3, $temp4, $temp5
 	IniReadS($temp1, $g_sProfileConfigPath, "attack", "ABKingAtk", $eHeroNone)
 	IniReadS($temp2, $g_sProfileConfigPath, "attack", "ABQueenAtk", $eHeroNone)
-	IniReadS($temp3, $g_sProfileConfigPath, "attack", "ABWardenAtk", $eHeroNone)
-	IniReadS($temp4, $g_sProfileConfigPath, "attack", "ABChampionAtk", $eHeroNone)
-	$g_aiAttackUseHeroes[$LB] = BitOR(Int($temp1), Int($temp2), Int($temp3), Int($temp4))
+	IniReadS($temp3, $g_sProfileConfigPath, "attack", "ABPrinceAtk", $eHeroNone)
+	IniReadS($temp4, $g_sProfileConfigPath, "attack", "ABWardenAtk", $eHeroNone)
+	IniReadS($temp5, $g_sProfileConfigPath, "attack", "ABChampionAtk", $eHeroNone)
+	$g_aiAttackUseHeroes[$LB] = BitOR(Int($temp1), Int($temp2), Int($temp3), Int($temp4), Int($temp5))
 	IniReadS($g_abAttackDropCC[$LB], $g_sProfileConfigPath, "attack", "ABDropCC", False, "Bool")
 	IniReadS($g_abNoSearchForHigherLevel[$LB], $g_sProfileConfigPath, "attack", "ABSearchHigherLVL", False, "Bool")
 	IniReadS($g_abAttackUseLightSpell[$LB], $g_sProfileConfigPath, "attack", "ABLightSpell", False, "Bool")
@@ -1451,6 +1450,11 @@ Func ReadConfig_600_54()
 		IniReadS($g_aiCmbCustomTrainOrder[$z], $g_sProfileConfigPath, "troop", "cmbTroopOrder" & $z, -1)
 	Next
 
+	; Hero Order
+	For $z = 0 To UBound($g_aiCmbCustomHeroOrder) - 1
+		IniReadS($g_aiCmbCustomHeroOrder[$z], $g_sProfileConfigPath, "Hero", "cmbHeroOrder" & $z, -1)
+	Next
+
 	; Spells Order
 	IniReadS($g_bCustomBrewOrderEnable, $g_sProfileConfigPath, "Spells", "chkSpellOrder", False, "Bool")
 	For $z = 0 To UBound($g_aiCmbCustomBrewOrder) - 1
@@ -1468,6 +1472,8 @@ Func ReadConfig_600_56()
 	$g_bSmartZapFTW = (IniRead($g_sProfileConfigPath, "SmartZap", "FTW", "0") = "1")
 	$g_iSmartZapMinDE = Int(IniRead($g_sProfileConfigPath, "SmartZap", "MinDE", 350))
 	$g_iSmartZapExpectedDE = Int(IniRead($g_sProfileConfigPath, "SmartZap", "ExpectedDE", 320))
+	IniReadS($g_bSmartZapEnableAD, $g_sProfileConfigPath, "SmartZap", "UseSmartZapAD", $g_bSmartZapEnableAD, "int")
+	$g_bChkSweepersFirst = (IniRead($g_sProfileConfigPath, "SmartZap", "ChkSweepersFirst", "0") = "1")
 EndFunc   ;==>ReadConfig_600_56
 
 Func ReadConfig_MOD_600_57()

@@ -270,8 +270,8 @@ Func AddPoints_RemoveDuplicate(ByRef $sLoc1Coord, $sLoc2Coord, $iReturnpoints, $
 				EndIf
 				If ($aCoord1[0] + $iPointsAdded) >= $iReturnpoints Then ; Stop adding points if reached maximum allowed.
 					If $aCoord2[0] > $np And $aCoord2[$np + 1] <> "" Then
-						SetLog("AddPoints_RemoveDuplicate found more locatons then requested!", $COLOR_ERROR)
-						SetLog("Location string truncated to max requested: " & $iReturnpoints, $COLOR_ERROR)
+						SetDebugLog("AddPoints_RemoveDuplicate found more locatons then requested!", $COLOR_ERROR)
+						SetDebugLog("Location string truncated to max requested: " & $iReturnpoints, $COLOR_ERROR)
 						ExitLoop
 					EndIf
 				EndIf

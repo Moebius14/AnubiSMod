@@ -21,15 +21,15 @@ Global $g_hGUI_SEARCH = 0
 ;   MBR GUI Design Child Attack - Activebase-Search.au3
 Global $g_ahChkMaxMortar[$g_iModeCount] = [0, 0, 0], $g_ahChkMaxWizTower[$g_iModeCount] = [0, 0, 0], $g_ahChkMaxAirDefense[$g_iModeCount] = [0, 0, 0], _
 		$g_ahChkMaxXBow[$g_iModeCount] = [0, 0, 0], $g_ahChkMaxInferno[$g_iModeCount] = [0, 0, 0], $g_ahChkMaxEagle[$g_iModeCount] = [0, 0, 0], $g_ahChkMaxScatter[$g_iModeCount] = [0, 0, 0], _
-		$g_ahChkMaxMonolith[$g_iModeCount] = [0, 0, 0], $g_ahChkMaxMultiArcher[$g_iModeCount] = [0, 0, 0], $g_ahChkMaxRicochet[$g_iModeCount] = [0, 0, 0]
+		$g_ahChkMaxMonolith[$g_iModeCount] = [0, 0, 0]
 
 Global $g_ahCmbWeakMortar[$g_iModeCount] = [0, 0, 0], $g_ahCmbWeakWizTower[$g_iModeCount] = [0, 0, 0], $g_ahCmbWeakAirDefense[$g_iModeCount] = [0, 0, 0], _
 		$g_ahCmbWeakXBow[$g_iModeCount] = [0, 0, 0], $g_ahCmbWeakInferno[$g_iModeCount] = [0, 0, 0], $g_ahCmbWeakEagle[$g_iModeCount] = [0, 0, 0], $g_ahCmbWeakScatter[$g_iModeCount] = [0, 0, 0], _
-		$g_ahCmbWeakMonolith[$g_iModeCount] = [0, 0, 0],$g_ahCmbWeakMultiArcher[$g_iModeCount] = [0, 0, 0], $g_ahCmbWeakRicochet[$g_iModeCount] = [0, 0, 0]
+		$g_ahCmbWeakMonolith[$g_iModeCount] = [0, 0, 0]
 
 Global $g_ahPicWeakMortar[$g_iModeCount] = [0, 0, 0], $g_ahPicWeakWizTower[$g_iModeCount] = [0, 0, 0], $g_ahPicWeakAirDefense[$g_iModeCount] = [0, 0, 0], _
 		$g_ahPicWeakXBow[$g_iModeCount] = [0, 0, 0], $g_ahPicWeakInferno[$g_iModeCount] = [0, 0, 0], $g_ahPicWeakEagle[$g_iModeCount] = [0, 0, 0], $g_ahPicWeakScatter[$g_iModeCount] = [0, 0, 0], _
-		$g_ahPicWeakMonolith[$g_iModeCount] = [0, 0, 0], $g_ahPicWeakMultiArcher[$g_iModeCount] = [0, 0, 0], $g_ahPicWeakRicochet[$g_iModeCount] = [0, 0, 0]
+		$g_ahPicWeakMonolith[$g_iModeCount] = [0, 0, 0]
 
 Global $g_ahChkMeetOne[$g_iModeCount] = [0, 0, 0]
 

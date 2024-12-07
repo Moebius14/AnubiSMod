@@ -9,13 +9,6 @@
 ; Link ..........: https://github.com/MyBotRun/MyBot/wiki
 ; Example .......: No
 ; ===============================================================================================================================
-Func getOresValues($x_start, $y_start, $bNeedCapture = True) ;  -> Get least upgradetime on builder menu
-	Return getOcrAndCapture("coc-ores", $x_start, $y_start, 149, 16, $bNeedCapture)
-EndFunc   ;==>getOresValues
-
-Func getOresValues2($x_start, $y_start, $bNeedCapture = True) ;  -> Get least upgradetime on builder menu
-	Return getOcrAndCapture("coc-ores2", $x_start, $y_start, 149, 16, $bNeedCapture)
-EndFunc   ;==>getOresValues2
 
 Func getBuilderLeastUpgradeTime($x_start, $y_start) ;  -> Get least upgradetime on builder menu
 	Return getOcrAndCapture("coc-buildermenu-cost", $x_start, $y_start, 100, 18, True)
@@ -36,6 +29,7 @@ EndFunc   ;==>getTimeForRaid
 Func getNameBuilding($x_start, $y_start) ; getNameBuilding(242,Y) -> Gets complete name and level of the buildings, bottom of screen
 	Local $b_Obstacles[10] = ["Broken", "Cart", "Tree", "Mush", "Trunk", "Bush", "Bark", "Gem", "Cake", "Groove"]
 	Local $bResult = getOcrAndCapture("coc-build", $x_start, $y_start, 420, 27)
+	If StringInStr($bResult, "Helper", $STR_NOCASESENSEBASIC) Then Return $bResult
 	If StringInStr($bResult, "O T T O", $STR_CASESENSE) Then
 		$bResult = StringReplace($bResult, "O T T O", "O.T.T.O")
 		Return $bResult

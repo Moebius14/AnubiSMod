@@ -269,9 +269,9 @@ Func GetButtonDiamond($sButtonName)
 			$btnDiamond = GetDiamondFromRect2(430, 280 + $g_iMidOffsetY, 800, 380 + $g_iMidOffsetY)
 		Case "EventFailed"
 			$btnDiamond = GetDiamondFromRect2(280, 155 + $g_iMidOffsetY, 400, 260 + $g_iMidOffsetY)
-		Case "ObjectButtons", "BoostOne", "BoostCT", "ClockTowerPot", "Upgrade", "Research", "Treasury", "RemoveObstacle", "CollectLootCart", "Pets", "HeroBooks", _
+		Case "ObjectButtons", "BoostOne", "BoostCT", "ClockTowerPot", "Upgrade", "Research", "Treasury", "RemoveObstacle", "CollectLootCart", "Pets", _
 				"LabPotion", "LabBoosted", "BuilderPot", "Reinforce", "Info", "THWeapon", "WallRing", "GearUp", "PetPotion", "PetBoosted", "MagicItems", "Equipment", "FinishNow", _
-				"BuildersApp" ; Buttons at the bottom
+				"BuildersApp", "LabAssist", "HeroHallButton" ; Buttons at the bottom
 			$btnDiamond = GetDiamondFromRect2(140, 500 + $g_iBottomOffsetY, 720, 590 + $g_iBottomOffsetY)
 		Case "Info"
 			$btnDiamond = GetDiamondFromRect2(140, 540 + $g_iBottomOffsetY, 720, 640 + $g_iBottomOffsetY)
@@ -284,7 +284,7 @@ Func GetButtonDiamond($sButtonName)
 		Case "ClanChat"
 			$btnDiamond = GetDiamondFromRect2(10, 280 + $g_iMidOffsetY, 420, 340 + $g_iMidOffsetY)
 		Case "Snacks"
-			$btnDiamond = GetDiamondFromRect2(620, 600 + $g_iBottomOffsetY, 680, 660 + $g_iBottomOffsetY)
+			$btnDiamond = GetDiamondFromRect2(550, 600 + $g_iBottomOffsetY, 680, 660 + $g_iBottomOffsetY)
 		Case "Collect"
 			$btnDiamond = GetDiamondFromRect2(370, 430 + $g_iMidOffsetY, 510, 490 + $g_iMidOffsetY)
 		Case "BoostBarrack", "BarrackBoosted"

@@ -30,6 +30,9 @@ Func chkSmartLightSpell()
 			GUICtrlSetState($g_hTxtSmartExpectedDE, $GUI_DISABLE)
 		EndIf
 		$g_bSmartZapEnable = True
+		For $i = $g_hChkSmartLightSpellAD To $g_hChkSweepersFirst
+			GUICtrlSetState($i, $GUI_DISABLE)
+		Next
 	Else
 		GUICtrlSetState($g_hChkSmartZapDB, $GUI_DISABLE)
 		GUICtrlSetState($g_hChkSmartZapSaveHeroes, $GUI_DISABLE)
@@ -40,6 +43,12 @@ Func chkSmartLightSpell()
 		GUICtrlSetState($g_hLblSmartUseLSpell, $GUI_HIDE)
 		GUICtrlSetState($g_hTxtSmartExpectedDE, $GUI_DISABLE)
 		$g_bSmartZapEnable = False
+		GUICtrlSetState($g_hChkSmartLightSpellAD, $GUI_ENABLE)
+		If _GUICtrlComboBox_GetCurSel($g_hChkSmartLightSpellAD) < 3 Then
+			GUICtrlSetState($g_hChkSweepersFirst, $GUI_UNCHECKED + $GUI_DISABLE)
+		Else
+			GUICtrlSetState($g_hChkSweepersFirst, $GUI_ENABLE)
+		EndIf
 	EndIf
 EndFunc   ;==>chkSmartLightSpell
 
@@ -84,3 +93,18 @@ EndFunc   ;==>txtMinDark
 Func txtExpectedDE()
 	$g_iSmartZapExpectedDE = GUICtrlRead($g_hTxtSmartExpectedDE)
 EndFunc   ;==>txtExpectedDE
+
+Func chkSmartLightSpellAD()
+	If _GUICtrlComboBox_GetCurSel($g_hChkSmartLightSpellAD) > 0 Then
+		GUICtrlSetState($g_hChkSmartLightSpell, $GUI_UNCHECKED + $GUI_DISABLE)
+		If _GUICtrlComboBox_GetCurSel($g_hChkSmartLightSpellAD) < 3 Then
+			GUICtrlSetState($g_hChkSweepersFirst, $GUI_UNCHECKED + $GUI_DISABLE)
+		Else
+			GUICtrlSetState($g_hChkSweepersFirst, $GUI_ENABLE)
+		EndIf
+	Else
+		GUICtrlSetState($g_hChkSmartLightSpell, $GUI_ENABLE)
+		GUICtrlSetState($g_hChkSweepersFirst, $GUI_UNCHECKED + $GUI_DISABLE)
+	EndIf
+	chkSmartLightSpell()
+EndFunc   ;==>chkSmartLightSpellAD

@@ -267,6 +267,8 @@ Func UpgradeValue($inum, $bRepeat = False) ;function to find the value and type 
 					$g_avBuildingUpgrades[$inum][4] = "Giga Inferno"
 				Case 16
 					$g_avBuildingUpgrades[$inum][4] = "Giga Inferno"
+				Case 17
+					$g_avBuildingUpgrades[$inum][4] = "Inferno Artillery"
 			EndSwitch
 			GUICtrlSetData($g_hTxtUpgradeName[$inum], $g_avBuildingUpgrades[$inum][4])
 			$aUpgradeButton = $aTmpUpgradeButton
@@ -288,8 +290,9 @@ Func UpgradeValue($inum, $bRepeat = False) ;function to find the value and type 
 		CloseSuperchargeWindow()
 
 		If $IsTHWeapon Then
-			Local $THWLevelUp = getOcrAndCapture("coc-THWeapon", 503, 113 + $g_iMidOffsetY, 18, 17)
-			If $THWLevelUp > 0 And $THWLevelUp <= 5 Then $g_avBuildingUpgrades[$inum][5] = Number($THWLevelUp - 1)
+			Local $THWLevelUp = getOcrAndCapture("coc-YellowLevel", 503, 116, 190, 20)
+			$THWLevelUp = StringReplace($THWLevelUp, "1", "")
+			If $THWLevelUp > 1 And $THWLevelUp <= 5 Then $g_avBuildingUpgrades[$inum][5] = Number($THWLevelUp - 1)
 			GUICtrlSetData($g_hTxtUpgradeLevel[$inum], $g_avBuildingUpgrades[$inum][5])
 		EndIf
 
@@ -328,7 +331,7 @@ Func UpgradeValue($inum, $bRepeat = False) ;function to find the value and type 
 				$g_avBuildingUpgrades[$inum][2] = Number(getCostsUpgrade(552, 541 + $g_iMidOffsetY)) ; Try to read white text.
 				If $g_avBuildingUpgrades[$inum][2] = "" Then $g_avBuildingUpgrades[$inum][2] = Number(getCostsUpgrade(552, 532 + $g_iMidOffsetY)) ; Try to read yellow text (Discount).
 				If $g_avBuildingUpgrades[$inum][2] = "" Then $g_avBuildingUpgrades[$inum][2] = Number(getCostsUpgradeRed(552, 541 + $g_iMidOffsetY)) ;read Red upgrade text
-				If $g_avBuildingUpgrades[$inum][2] = "" Then $g_avBuildingUpgrades[$inum][2] = Number(getCostsUpgradeRed(552, 532 + $g_iMidOffsetY)) ;read Orange upgrade text (Discount).
+				If $g_avBuildingUpgrades[$inum][2] = "" Then $g_avBuildingUpgrades[$inum][2] = Number(getCostsUpgradeRed(552, 532 + $g_iMidOffsetY)) ;read Red upgrade text (Discount).
 				If $g_avBuildingUpgrades[$inum][2] = "" And $g_abUpgradeRepeatEnable[$inum] = False Then $bOopsFlag = True ; set error flag for user to set value if not repeat upgrade
 
 				$g_avBuildingUpgrades[$inum][6] = getBldgUpgradeTime(717, 544 + $g_iMidOffsetY) ; Try to read white text showing time for upgrade
@@ -345,7 +348,7 @@ Func UpgradeValue($inum, $bRepeat = False) ;function to find the value and type 
 				$g_avBuildingUpgrades[$inum][2] = Number(getCostsUpgradeGear(375, 476 + $g_iMidOffsetY)) ; Try to read white text.
 				If $g_avBuildingUpgrades[$inum][2] = "" Then $g_avBuildingUpgrades[$inum][2] = Number(getCostsUpgrade(375, 467 + $g_iMidOffsetY)) ; Try to read yellow text (Discount).
 				If $g_avBuildingUpgrades[$inum][2] = "" Then $g_avBuildingUpgrades[$inum][2] = Number(getCostsUpgradeGearRed(375, 476 + $g_iMidOffsetY)) ;read RED upgrade text
-				If $g_avBuildingUpgrades[$inum][2] = "" Then $g_avBuildingUpgrades[$inum][2] = Number(getCostsUpgradeGearRed(375, 467 + $g_iMidOffsetY)) ; Try to read orange text (Discount).
+				If $g_avBuildingUpgrades[$inum][2] = "" Then $g_avBuildingUpgrades[$inum][2] = Number(getCostsUpgradeGearRed(375, 467 + $g_iMidOffsetY)) ; Try to Red orange text (Discount).
 				If $g_avBuildingUpgrades[$inum][2] = "" And $g_abUpgradeRepeatEnable[$inum] = False Then $bOopsFlag = True ; set error flag for user to set value if not repeat upgrade
 
 				;HArchH X value was 195
@@ -362,8 +365,6 @@ Func UpgradeValue($inum, $bRepeat = False) ;function to find the value and type 
 				Return False
 
 		EndSelect
-
-		If StringInStr($g_avBuildingUpgrades[$inum][4], "Warden") > 0 Then $g_avBuildingUpgrades[$inum][3] = "Elixir"
 
 		; Failsafe fix for upgrade value read problems if needed.
 		If $g_avBuildingUpgrades[$inum][3] <> "" And $bOopsFlag = True And $bRepeat = False Then ;check if upgrade type value to not waste time and for text read oops flag

@@ -20,9 +20,10 @@ Func SwitchAccountVariablesReload($sType = "Load", $iAccount = $g_iCurAccount)
 	Local $aiZero82[8][2] = [[0, 0], [0, 0], [0, 0], [0, 0], [0, 0], [0, 0], [0, 0], [0, 0]]
 	Local $aiZero83[8][3] = [[0, 0, 0], [0, 0, 0], [0, 0, 0], [0, 0, 0], [0, 0, 0], [0, 0, 0], [0, 0, 0], [0, 0, 0]]
 	Local $aiZero84[8][4] = [[0, 0, 0, 0], [0, 0, 0, 0], [0, 0, 0, 0], [0, 0, 0, 0], [0, 0, 0, 0], [0, 0, 0, 0], [0, 0, 0, 0], [0, 0, 0, 0]]
+	Local $aiZero85[8][5] = [[0, 0, 0, 0, 0], [0, 0, 0, 0, 0], [0, 0, 0, 0, 0], [0, 0, 0, 0, 0], [0, 0, 0, 0, 0], [0, 0, 0, 0, 0], [0, 0, 0, 0, 0], [0, 0, 0, 0, 0]]
 	Local $asEmpty[8] = ["", "", "", "", "", "", "", ""]
-	Local $aiZeroTroop[$eTroopCount] = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
-	Local $aiZeroSpell[$eSpellCount] = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+	Local $aiZeroTroop[$eTroopCount] = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+	Local $aiZeroSpell[$eSpellCount] = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
 	Local $aiMinusOneTrue[8][2] = [[-1, True], [-1, True], [-1, True], [-1, True], [-1, True], [-1, True], [-1, True], [-1, True]]
 	Local $aiNonAvailable[8] = ["N/A", "N/A", "N/A", "N/A", "N/A", "N/A", "N/A", "N/A"]
 
@@ -125,6 +126,8 @@ Func SwitchAccountVariablesReload($sType = "Load", $iAccount = $g_iCurAccount)
 	Static $aiHeroAvailable = $aiZero
 	Static $aiHeroUpgradingBit = $aiZero
 	Static $aiHeroUpgrading = $aiZero83
+	Static $aiHiddenHeroStatus = $aiZero85
+	Static $aiFirstStartForHiddenHero = $aiTrue
 
 	; Other global status
 	Static $aiCommandStop = $aiMinus
@@ -159,6 +162,10 @@ Func SwitchAccountVariablesReload($sType = "Load", $iAccount = $g_iCurAccount)
 	;Builder's Apprentice
 	Static $gaSsAvailableAppBuilder = $aiZero
 	Static $aSTimeDiffAppBuilder = $aiZero
+
+	;Lab Assistant
+	Static $gaSsAvailableLabAssistant = $aiZero
+	Static $aSTimeDiffLabAssistant = $aiZero
 
 	;Magic Snack (Clan Castle Timer)
 	Static $SClanCastleCakeTimer = $aiZero
@@ -300,6 +307,8 @@ Func SwitchAccountVariablesReload($sType = "Load", $iAccount = $g_iCurAccount)
 			$aiHeroAvailable = $aiZero
 			$aiHeroUpgradingBit = $aiZero
 			$aiHeroUpgrading = $aiZero83
+			$aiHiddenHeroStatus = $aiZero85
+			$aiFirstStartForHiddenHero = $aiZero
 
 			; Other global status
 			$aiCommandStop = $aiMinus
@@ -338,6 +347,10 @@ Func SwitchAccountVariablesReload($sType = "Load", $iAccount = $g_iCurAccount)
 			;Builder's Apprentice
 			$gaSsAvailableAppBuilder = $aiZero
 			$aSTimeDiffAppBuilder = $aiZero
+
+			;Lab Assistant
+			$gaSsAvailableLabAssistant = $aiZero
+			$aSTimeDiffLabAssistant = $aiZero
 
 			;Magic Snack (Clan Castle Timer)
 			$SClanCastleCakeTimer = $aiZero
@@ -524,6 +537,10 @@ Func SwitchAccountVariablesReload($sType = "Load", $iAccount = $g_iCurAccount)
 			For $i = 0 To 2
 				$aiHeroUpgrading[$iAccount][$i] = $g_iHeroUpgrading[$i]
 			Next
+			For $i = 0 To 4
+				$aiHiddenHeroStatus[$iAccount][$i] = $g_aiHiddenHeroStatus[$i]
+			Next
+			$aiFirstStartForHiddenHero[$iAccount] = $g_bFirstStartForHiddenHero
 
 			; Other global status
 			$aiCommandStop[$iAccount] = $g_iCommandStop
@@ -540,6 +557,10 @@ Func SwitchAccountVariablesReload($sType = "Load", $iAccount = $g_iCurAccount)
 			;Builder's Apprentice
 			$gaSsAvailableAppBuilder[$iAccount] = $g_sAvailableAppBuilder
 			$aSTimeDiffAppBuilder[$iAccount] = $TimeDiffAppBuilder
+
+			;Lab Assistant
+			$gaSsAvailableLabAssistant[$iAccount] = $g_sAvailableLabAssistant
+			$aSTimeDiffLabAssistant[$iAccount] = $TimeDiffLabAssistant
 
 			;Magic Snack (Clan Castle Timer)
 			$SClanCastleCakeTimer[$iAccount] = $ClanCastleCakeTimer
@@ -696,7 +717,6 @@ Func SwitchAccountVariablesReload($sType = "Load", $iAccount = $g_iCurAccount)
 			$g_iMinDark4PetUpgrade = $asiMinDark4PetUpgrade[$iAccount]
 
 			$g_sStarLabUpgradeTime = $asStarLabUpgradeTime[$iAccount]
-			GUICtrlSetData($g_hLbLStarLabTime, "")
 
 			$g_sBSUpgradeTime = $asBSUpgradeTime[$iAccount]
 
@@ -743,6 +763,10 @@ Func SwitchAccountVariablesReload($sType = "Load", $iAccount = $g_iCurAccount)
 			For $i = 0 To 2
 				$g_iHeroUpgrading[$i] = $aiHeroUpgrading[$iAccount][$i]
 			Next
+			For $i = 0 To 4
+				$g_aiHiddenHeroStatus[$i] = $aiHiddenHeroStatus[$iAccount][$i]
+			Next
+			$g_bFirstStartForHiddenHero = $aiFirstStartForHiddenHero[$iAccount]
 
 			; Other global status
 			$g_iCommandStop = $aiCommandStop[$iAccount]
@@ -764,6 +788,10 @@ Func SwitchAccountVariablesReload($sType = "Load", $iAccount = $g_iCurAccount)
 			;Builder's Apprentice
 			$g_sAvailableAppBuilder = $gaSsAvailableAppBuilder[$iAccount]
 			$TimeDiffAppBuilder = $aSTimeDiffAppBuilder[$iAccount]
+
+			;Lab Assistant
+			$g_sAvailableLabAssistant = $gaSsAvailableLabAssistant[$iAccount]
+			$TimeDiffLabAssistant = $aSTimeDiffLabAssistant[$iAccount]
 
 			;Magic Snack (Clan Castle Timer)
 			$ClanCastleCakeTimer = $SClanCastleCakeTimer[$iAccount]
@@ -796,7 +824,7 @@ Func SwitchAccountVariablesReload($sType = "Load", $iAccount = $g_iCurAccount)
 					GUICtrlSetData($g_ahLblLabTime[$i], "")
 				EndIf
 				If _DateIsValid($asStarLabUpgradeTime[$i]) Then
-					Local $iStarLabTime = _DateDiff('s', _NowCalc(), $asStarLabUpgradeTime[$i]) * 1000
+					Local $iStarLabTime = _DateDiff("s", _NowCalc(), $asStarLabUpgradeTime[$i]) * 1000
 					If $iStarLabTime > 0 Then
 						_TicksToDay($iStarLabTime, $day, $hour, $min, $sec)
 						GUICtrlSetData($g_ahLbLStarLabTime[$i], $day > 0 ? StringFormat("%2ud %02i:%02i'", $day, $hour, $min) : StringFormat("%02i:%02i:%02i", $hour, $min, $sec))

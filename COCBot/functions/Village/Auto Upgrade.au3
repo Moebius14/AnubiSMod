@@ -29,10 +29,13 @@ Func _AutoUpgrade()
 	Local $b_Equipment = False
 	Local $UpgradeDone = True
 	Local $UpWindowOpen = False
+	Local $iLoopHero = 0
+	Local $HeroArray[0][3]
 
 	While 1
 
 		$iLoopAmount += 1
+
 		If $iLoopAmount >= $iLoopMax Then ExitLoop ; 8 loops max, to avoid infinite loop
 
 		If $iLoopAmount > 1 Then
@@ -100,96 +103,75 @@ Func _AutoUpgrade()
 		Click($aTmpCoord[0][1] + 20, $aTmpCoord[0][2])
 		If _Sleep($DELAYAUTOUPGRADEBUILDING1) Then Return
 
-		$g_aUpgradeNameLevel = BuildingInfo(242, 475 + $g_iBottomOffsetY)
-		Local $aUpgradeButton, $aTmpUpgradeButton
+		Local $bHeroSystem = False, $bBlackHero = False
+		If QuickMIS("BC1", $g_sImgGeneralCloseButton, 780, 145 + $g_iMidOffsetY, 815, 175 + $g_iMidOffsetY) Then
+			SetLog("Hero Hall Window Opened", $COLOR_DEBUG1)
+			$bHeroSystem = True
+			If $iLoopHero = 0 Then $HeroArray = NewHeroUpgradeSystem()
+			If $IsElix Then
+				Local $g_aUpgradeNameLevelTemp[3] = [2, "Grand Warden", 0]
+			Else
+				Local $g_aUpgradeNameLevelTemp[3] = [2, $HeroArray[0][0], 0]
+				$bBlackHero = True
+			EndIf
+			$g_aUpgradeNameLevel = $g_aUpgradeNameLevelTemp
+			$iLoopHero += 1
+		Else
+			$g_aUpgradeNameLevel = BuildingInfo(242, 475 + $g_iBottomOffsetY)
+			Local $aUpgradeButton, $aTmpUpgradeButton
 
-		; check if any wrong click by verifying the presence of the Upgrade button (the hammer)
-		$aUpgradeButton = findButton("Upgrade", Default, 1, True)
+			; check if any wrong click by verifying the presence of the Upgrade button (the hammer)
+			$aUpgradeButton = findButton("Upgrade", Default, 1, True)
 
-		If $g_aUpgradeNameLevel[1] = "Town Hall" And $g_aUpgradeNameLevel[2] > 11 Then ;Upgrade THWeapon If TH > 11
-			$aTmpUpgradeButton = findButton("THWeapon") ;try to find UpgradeTHWeapon button (swords)
-			If IsArray($aTmpUpgradeButton) And UBound($aTmpUpgradeButton) = 2 Then
-				If $g_iChkUpgradesToIgnore[1] Then
-					SetLog("TH Weapon Upgrade must be ignored, looking next...", $COLOR_WARNING)
-					$UpgradeDone = False
-					ContinueLoop
+			If $g_aUpgradeNameLevel[1] = "Town Hall" And $g_aUpgradeNameLevel[2] > 11 Then ;Upgrade THWeapon If TH > 11
+				$aTmpUpgradeButton = findButton("THWeapon") ;try to find UpgradeTHWeapon button (swords)
+				If IsArray($aTmpUpgradeButton) And UBound($aTmpUpgradeButton) = 2 Then
+					If $g_iChkUpgradesToIgnore[1] Then
+						SetLog("TH Weapon Upgrade must be ignored, looking next...", $COLOR_WARNING)
+						$UpgradeDone = False
+						ContinueLoop
+					EndIf
+					$g_aUpgradeNameLevel[1] = "Town Hall Weapon"
+					$aUpgradeButton = $aTmpUpgradeButton
 				EndIf
-				$g_aUpgradeNameLevel[1] = "Town Hall Weapon"
-				$aUpgradeButton = $aTmpUpgradeButton
 			EndIf
-		EndIf
 
-		If $b_Equipment Then
-			$aTmpUpgradeButton = findButton("GearUp") ;try to find GearUp button
-			If IsArray($aTmpUpgradeButton) And UBound($aTmpUpgradeButton) = 2 Then
-				$aUpgradeButton = $aTmpUpgradeButton
+			If $b_Equipment Then
+				$aTmpUpgradeButton = findButton("GearUp") ;try to find GearUp button
+				If IsArray($aTmpUpgradeButton) And UBound($aTmpUpgradeButton) = 2 Then
+					$aUpgradeButton = $aTmpUpgradeButton
+				EndIf
 			EndIf
-		EndIf
 
-		If Not (IsArray($aUpgradeButton) And UBound($aUpgradeButton, 1) = 2) Then
-			SetLog("No upgrade here... Wrong click, looking next...", $COLOR_WARNING)
-			$UpgradeDone = False
-			ContinueLoop
-		EndIf
-
-		;Wall & Double Button Case
-		If $g_aUpgradeNameLevel[1] = "Wall" Then
-			If $g_iChkUpgradesToIgnore[8] Or $g_bAutoUpgradeWallsEnable Then
-				SetLog("Wall upgrade must be ignored, looking next...", $COLOR_WARNING)
+			If Not (IsArray($aUpgradeButton) And UBound($aUpgradeButton, 1) = 2) Then
+				SetLog("No upgrade here... Wrong click, looking next...", $COLOR_WARNING)
 				$UpgradeDone = False
 				ContinueLoop
 			EndIf
-			Select
-				Case $IsElix And $g_iChkResourcesToIgnore[1]
-					SetLog("Elixir upgrade must be ignored", $COLOR_WARNING)
-					If $g_iChkResourcesToIgnore[0] Then
-						SetLog("Gold upgrade must be ignored, looking next...", $COLOR_WARNING)
-						$UpgradeDone = False
-						ContinueLoop
-					Else
-						If WaitforPixel($aUpgradeButton[0], $aUpgradeButton[1] - 25, $aUpgradeButton[0] + 30, $aUpgradeButton[1] - 16, "FF887F", 20, 2) Then
-							SetLog("Not enough Gold to upgrade Wall, looking next...", $COLOR_WARNING)
-							$UpgradeDone = False
-							ContinueLoop
-						Else
-							ClickP($aUpgradeButton)
-							If _Sleep($DELAYAUTOUPGRADEBUILDING1) Then Return
-							Local $bWallGoldCost = getCostsUpgrade(552, 541 + $g_iMidOffsetY)
-							If $bWallGoldCost = "" Then $bWallGoldCost = getCostsUpgrade(552, 532 + $g_iMidOffsetY) ; Try to get yellow cost (Discount)
-							If $g_aiCurrentLoot[$eLootGold] < ($bWallGoldCost + $g_iTxtSmartMinGold) Then
-								SetLog("Not enough Gold to upgrade Wall, looking next...", $COLOR_WARNING)
-								CloseWindow2()
-								If _Sleep($DELAYAUTOUPGRADEBUILDING1) Then Return
-								$UpgradeDone = False
-								ContinueLoop
-							Else
-								$UpWindowOpen = True
-							EndIf
-						EndIf
-					EndIf
-				Case $IsElix And Not $g_iChkResourcesToIgnore[1]
-					If UBound(decodeSingleCoord(FindImageInPlace2("UpgradeButton2", $g_sImgUpgradeBtn2Wall, $aUpgradeButton[0] + 65, $aUpgradeButton[1] - 20, _
-							$aUpgradeButton[0] + 140, $aUpgradeButton[1] + 20, True))) > 1 Then $aUpgradeButton[0] += 94
-					SetDebugLog("Resource check passed", $COLOR_DEBUG)
-					ClickP($aUpgradeButton)
-					If _Sleep($DELAYAUTOUPGRADEBUILDING1) Then Return
-					Local $bWallElixCost = getCostsUpgrade(552, 541 + $g_iMidOffsetY) ; get cost
-					If $bWallElixCost = "" Then $bWallElixCost = getCostsUpgrade(552, 532 + $g_iMidOffsetY) ; Try to get yellow cost (Discount)
-					If $g_aiCurrentLoot[$eLootElixir] < ($bWallElixCost + $g_iTxtSmartMinElixir) Then
-						SetLog("Insufficent Elixir to upgrade wall, checking Gold", $COLOR_WARNING)
-						CloseWindow2()
-						If _Sleep($DELAYAUTOUPGRADEBUILDING1) Then Return
+
+			;Wall & Double Button Case
+			If $g_aUpgradeNameLevel[1] = "Wall" Then
+				If $g_iChkUpgradesToIgnore[8] Or $g_bAutoUpgradeWallsEnable Then
+					SetLog("Wall upgrade must be ignored, looking next...", $COLOR_WARNING)
+					$UpgradeDone = False
+					ContinueLoop
+				EndIf
+				Select
+					Case $IsElix And $g_iChkResourcesToIgnore[1]
+						SetLog("Elixir upgrade must be ignored", $COLOR_WARNING)
 						If $g_iChkResourcesToIgnore[0] Then
 							SetLog("Gold upgrade must be ignored, looking next...", $COLOR_WARNING)
 							$UpgradeDone = False
 							ContinueLoop
 						Else
-							If _Sleep($DELAYAUTOUPGRADEBUILDING1) Then Return
-							$aUpgradeButton[0] -= 94
-							If Not WaitforPixel($aUpgradeButton[0], $aUpgradeButton[1] - 25, $aUpgradeButton[0] + 30, $aUpgradeButton[1] - 16, "FF887F", 20, 2) Then
+							If WaitforPixel($aUpgradeButton[0], $aUpgradeButton[1] - 25, $aUpgradeButton[0] + 30, $aUpgradeButton[1] - 16, "FF887F", 20, 2) Then
+								SetLog("Not enough Gold to upgrade Wall, looking next...", $COLOR_WARNING)
+								$UpgradeDone = False
+								ContinueLoop
+							Else
 								ClickP($aUpgradeButton)
 								If _Sleep($DELAYAUTOUPGRADEBUILDING1) Then Return
-								Local $bWallGoldCost = getCostsUpgrade(552, 541 + $g_iMidOffsetY)     ; get cost
+								Local $bWallGoldCost = getCostsUpgrade(552, 541 + $g_iMidOffsetY)
 								If $bWallGoldCost = "" Then $bWallGoldCost = getCostsUpgrade(552, 532 + $g_iMidOffsetY) ; Try to get yellow cost (Discount)
 								If $g_aiCurrentLoot[$eLootGold] < ($bWallGoldCost + $g_iTxtSmartMinGold) Then
 									SetLog("Not enough Gold to upgrade Wall, looking next...", $COLOR_WARNING)
@@ -200,70 +182,65 @@ Func _AutoUpgrade()
 								Else
 									$UpWindowOpen = True
 								EndIf
-							Else
-								SetLog("Not enough Gold to upgrade Wall, looking next...", $COLOR_WARNING)
-								$UpgradeDone = False
-								ContinueLoop
 							EndIf
 						EndIf
-					Else
-						$UpWindowOpen = True
-					EndIf
-				Case Not $IsElix And $g_iChkResourcesToIgnore[0]
-					SetLog("Gold upgrade must be ignored", $COLOR_WARNING)
-					If $g_iChkResourcesToIgnore[1] Then
-						SetLog("Elixir upgrade must be ignored, looking next...", $COLOR_WARNING)
-						$UpgradeDone = False
-						ContinueLoop
-					Else
+					Case $IsElix And Not $g_iChkResourcesToIgnore[1]
 						If UBound(decodeSingleCoord(FindImageInPlace2("UpgradeButton2", $g_sImgUpgradeBtn2Wall, $aUpgradeButton[0] + 65, $aUpgradeButton[1] - 20, _
-								$aUpgradeButton[0] + 140, $aUpgradeButton[1] + 20, True))) > 1 Then
-							$aUpgradeButton[0] += 94
-							If WaitforPixel($aUpgradeButton[0], $aUpgradeButton[1] - 25, $aUpgradeButton[0] + 30, $aUpgradeButton[1] - 16, "FF887F", 20, 2) Then
-								SetLog("Not enough Elixir to upgrade Wall, looking next...", $COLOR_WARNING)
+								$aUpgradeButton[0] + 140, $aUpgradeButton[1] + 20, True))) > 1 Then $aUpgradeButton[0] += 94
+						SetDebugLog("Resource check passed", $COLOR_DEBUG)
+						ClickP($aUpgradeButton)
+						If _Sleep($DELAYAUTOUPGRADEBUILDING1) Then Return
+						Local $bWallElixCost = getCostsUpgrade(552, 541 + $g_iMidOffsetY) ; get cost
+						If $bWallElixCost = "" Then $bWallElixCost = getCostsUpgrade(552, 532 + $g_iMidOffsetY) ; Try to get yellow cost (Discount)
+						If $g_aiCurrentLoot[$eLootElixir] < ($bWallElixCost + $g_iTxtSmartMinElixir) Then
+							SetLog("Insufficent Elixir to upgrade wall, checking Gold", $COLOR_WARNING)
+							CloseWindow2()
+							If _Sleep($DELAYAUTOUPGRADEBUILDING1) Then Return
+							If $g_iChkResourcesToIgnore[0] Then
+								SetLog("Gold upgrade must be ignored, looking next...", $COLOR_WARNING)
 								$UpgradeDone = False
 								ContinueLoop
 							Else
-								ClickP($aUpgradeButton)
 								If _Sleep($DELAYAUTOUPGRADEBUILDING1) Then Return
-								Local $bWallElixCost = getCostsUpgrade(552, 541 + $g_iMidOffsetY) ; get cost
-								If $bWallElixCost = "" Then $bWallElixCost = getCostsUpgrade(552, 532 + $g_iMidOffsetY) ; Try to get yellow cost (Discount)
-								If $g_aiCurrentLoot[$eLootElixir] < ($bWallElixCost + $g_iTxtSmartMinElixir) Then
-									SetLog("Not enough Elixir to upgrade Wall, looking next...", $COLOR_WARNING)
-									CloseWindow2()
+								$aUpgradeButton[0] -= 94
+								If Not WaitforPixel($aUpgradeButton[0], $aUpgradeButton[1] - 25, $aUpgradeButton[0] + 30, $aUpgradeButton[1] - 16, "FF887F", 20, 2) Then
+									ClickP($aUpgradeButton)
 									If _Sleep($DELAYAUTOUPGRADEBUILDING1) Then Return
+									Local $bWallGoldCost = getCostsUpgrade(552, 541 + $g_iMidOffsetY) ; get cost
+									If $bWallGoldCost = "" Then $bWallGoldCost = getCostsUpgrade(552, 532 + $g_iMidOffsetY) ; Try to get yellow cost (Discount)
+									If $g_aiCurrentLoot[$eLootGold] < ($bWallGoldCost + $g_iTxtSmartMinGold) Then
+										SetLog("Not enough Gold to upgrade Wall, looking next...", $COLOR_WARNING)
+										CloseWindow2()
+										If _Sleep($DELAYAUTOUPGRADEBUILDING1) Then Return
+										$UpgradeDone = False
+										ContinueLoop
+									Else
+										$UpWindowOpen = True
+									EndIf
+								Else
+									SetLog("Not enough Gold to upgrade Wall, looking next...", $COLOR_WARNING)
 									$UpgradeDone = False
 									ContinueLoop
-								Else
-									$UpWindowOpen = True
 								EndIf
 							EndIf
 						Else
-							SetLog("Elixir button not found, looking next...", $COLOR_WARNING)
-							$UpgradeDone = False
-							ContinueLoop
+							$UpWindowOpen = True
 						EndIf
-					EndIf
-				Case Not $IsElix And Not $g_iChkResourcesToIgnore[0]
-					SetDebugLog("Resource check passed", $COLOR_DEBUG)
-					ClickP($aUpgradeButton)
-					If _Sleep($DELAYAUTOUPGRADEBUILDING1) Then Return
-					Local $bWallGoldCost = getCostsUpgrade(552, 541 + $g_iMidOffsetY) ; get cost
-					If $bWallGoldCost = "" Then $bWallGoldCost = getCostsUpgrade(552, 532 + $g_iMidOffsetY) ; Try to get yellow cost (Discount)
-					If $g_aiCurrentLoot[$eLootGold] < ($bWallGoldCost + $g_iTxtSmartMinGold) Then
-						SetLog("Insufficent Gold to upgrade wall, checking Elixir", $COLOR_WARNING)
-						CloseWindow2()
-						If _Sleep($DELAYAUTOUPGRADEBUILDING1) Then Return
+					Case Not $IsElix And $g_iChkResourcesToIgnore[0]
+						SetLog("Gold upgrade must be ignored", $COLOR_WARNING)
 						If $g_iChkResourcesToIgnore[1] Then
 							SetLog("Elixir upgrade must be ignored, looking next...", $COLOR_WARNING)
 							$UpgradeDone = False
 							ContinueLoop
 						Else
-							If _Sleep($DELAYAUTOUPGRADEBUILDING1) Then Return
 							If UBound(decodeSingleCoord(FindImageInPlace2("UpgradeButton2", $g_sImgUpgradeBtn2Wall, $aUpgradeButton[0] + 65, $aUpgradeButton[1] - 20, _
 									$aUpgradeButton[0] + 140, $aUpgradeButton[1] + 20, True))) > 1 Then
 								$aUpgradeButton[0] += 94
-								If Not WaitforPixel($aUpgradeButton[0], $aUpgradeButton[1] - 25, $aUpgradeButton[0] + 30, $aUpgradeButton[1] - 16, "FF887F", 20, 2) Then
+								If WaitforPixel($aUpgradeButton[0], $aUpgradeButton[1] - 25, $aUpgradeButton[0] + 30, $aUpgradeButton[1] - 16, "FF887F", 20, 2) Then
+									SetLog("Not enough Elixir to upgrade Wall, looking next...", $COLOR_WARNING)
+									$UpgradeDone = False
+									ContinueLoop
+								Else
 									ClickP($aUpgradeButton)
 									If _Sleep($DELAYAUTOUPGRADEBUILDING1) Then Return
 									Local $bWallElixCost = getCostsUpgrade(552, 541 + $g_iMidOffsetY) ; get cost
@@ -277,10 +254,6 @@ Func _AutoUpgrade()
 									Else
 										$UpWindowOpen = True
 									EndIf
-								Else
-									SetLog("Not enough Elixir to upgrade Wall, looking next...", $COLOR_WARNING)
-									$UpgradeDone = False
-									ContinueLoop
 								EndIf
 							Else
 								SetLog("Elixir button not found, looking next...", $COLOR_WARNING)
@@ -288,16 +261,62 @@ Func _AutoUpgrade()
 								ContinueLoop
 							EndIf
 						EndIf
-					Else
-						$UpWindowOpen = True
-					EndIf
-				Case Else
-					SetDebugLog("Any case above not found ?? Bad programmer !", $COLOR_DEBUG)
-			EndSelect
+					Case Not $IsElix And Not $g_iChkResourcesToIgnore[0]
+						SetDebugLog("Resource check passed", $COLOR_DEBUG)
+						ClickP($aUpgradeButton)
+						If _Sleep($DELAYAUTOUPGRADEBUILDING1) Then Return
+						Local $bWallGoldCost = getCostsUpgrade(552, 541 + $g_iMidOffsetY) ; get cost
+						If $bWallGoldCost = "" Then $bWallGoldCost = getCostsUpgrade(552, 532 + $g_iMidOffsetY) ; Try to get yellow cost (Discount)
+						If $g_aiCurrentLoot[$eLootGold] < ($bWallGoldCost + $g_iTxtSmartMinGold) Then
+							SetLog("Insufficent Gold to upgrade wall, checking Elixir", $COLOR_WARNING)
+							CloseWindow2()
+							If _Sleep($DELAYAUTOUPGRADEBUILDING1) Then Return
+							If $g_iChkResourcesToIgnore[1] Then
+								SetLog("Elixir upgrade must be ignored, looking next...", $COLOR_WARNING)
+								$UpgradeDone = False
+								ContinueLoop
+							Else
+								If _Sleep($DELAYAUTOUPGRADEBUILDING1) Then Return
+								If UBound(decodeSingleCoord(FindImageInPlace2("UpgradeButton2", $g_sImgUpgradeBtn2Wall, $aUpgradeButton[0] + 65, $aUpgradeButton[1] - 20, _
+										$aUpgradeButton[0] + 140, $aUpgradeButton[1] + 20, True))) > 1 Then
+									$aUpgradeButton[0] += 94
+									If Not WaitforPixel($aUpgradeButton[0], $aUpgradeButton[1] - 25, $aUpgradeButton[0] + 30, $aUpgradeButton[1] - 16, "FF887F", 20, 2) Then
+										ClickP($aUpgradeButton)
+										If _Sleep($DELAYAUTOUPGRADEBUILDING1) Then Return
+										Local $bWallElixCost = getCostsUpgrade(552, 541 + $g_iMidOffsetY) ; get cost
+										If $bWallElixCost = "" Then $bWallElixCost = getCostsUpgrade(552, 532 + $g_iMidOffsetY) ; Try to get yellow cost (Discount)
+										If $g_aiCurrentLoot[$eLootElixir] < ($bWallElixCost + $g_iTxtSmartMinElixir) Then
+											SetLog("Not enough Elixir to upgrade Wall, looking next...", $COLOR_WARNING)
+											CloseWindow2()
+											If _Sleep($DELAYAUTOUPGRADEBUILDING1) Then Return
+											$UpgradeDone = False
+											ContinueLoop
+										Else
+											$UpWindowOpen = True
+										EndIf
+									Else
+										SetLog("Not enough Elixir to upgrade Wall, looking next...", $COLOR_WARNING)
+										$UpgradeDone = False
+										ContinueLoop
+									EndIf
+								Else
+									SetLog("Elixir button not found, looking next...", $COLOR_WARNING)
+									$UpgradeDone = False
+									ContinueLoop
+								EndIf
+							EndIf
+						Else
+							$UpWindowOpen = True
+						EndIf
+					Case Else
+						SetDebugLog("Any case above not found ?? Bad programmer !", $COLOR_DEBUG)
+				EndSelect
+			EndIf
+
 		EndIf
 
 		; get the name and actual level of upgrade selected, if strings are empty, will exit Auto Upgrade, an error happens
-		If $g_aUpgradeNameLevel[0] = "" Then
+		If $g_aUpgradeNameLevel[0] = "" And Not $bHeroSystem Then
 			SetLog("Error when trying to get upgrade name and level, looking next...", $COLOR_ERROR)
 			$UpgradeDone = False
 			ContinueLoop
@@ -314,86 +333,94 @@ Func _AutoUpgrade()
 				$bMustIgnoreUpgrade = ($g_iChkUpgradesToIgnore[2] = 1 Or $g_bUpgradeKingEnable = True) ? True : False ; if upgrade king is selected, will ignore it
 			Case "Archer Queen"
 				$bMustIgnoreUpgrade = ($g_iChkUpgradesToIgnore[3] = 1 Or $g_bUpgradeQueenEnable = True) ? True : False ; if upgrade queen is selected, will ignore it
+			Case "Minion Prince"
+				$bMustIgnoreUpgrade = ($g_iChkUpgradesToIgnore[4] = 1 Or $g_bUpgradePrinceEnable = True) ? True : False ; if upgrade prince is selected, will ignore it
 			Case "Grand Warden"
-				$bMustIgnoreUpgrade = ($g_iChkUpgradesToIgnore[4] = 1 Or $g_bUpgradeWardenEnable = True) ? True : False ; if upgrade warden is selected, will ignore it
+				$bMustIgnoreUpgrade = ($g_iChkUpgradesToIgnore[5] = 1 Or $g_bUpgradeWardenEnable = True) ? True : False ; if upgrade warden is selected, will ignore it
 			Case "Royal Champion"
-				$bMustIgnoreUpgrade = ($g_iChkUpgradesToIgnore[5] = 1 Or $g_bUpgradeChampionEnable = True) ? True : False ; if upgrade champion is selected, will ignore it
+				$bMustIgnoreUpgrade = ($g_iChkUpgradesToIgnore[6] = 1 Or $g_bUpgradeChampionEnable = True) ? True : False ; if upgrade champion is selected, will ignore it
 			Case "Clan Castle"
-				$bMustIgnoreUpgrade = ($g_iChkUpgradesToIgnore[6] = 1) ? True : False
-			Case "Laboratory"
 				$bMustIgnoreUpgrade = ($g_iChkUpgradesToIgnore[7] = 1) ? True : False
+			Case "Laboratory"
+				$bMustIgnoreUpgrade = ($g_iChkUpgradesToIgnore[8] = 1) ? True : False
 			Case "Wall"
-				$bMustIgnoreUpgrade = ($g_iChkUpgradesToIgnore[8] = 1 Or $g_bAutoUpgradeWallsEnable = True) ? True : False ; if wall upgrade enabled, will ignore it
+				$bMustIgnoreUpgrade = ($g_iChkUpgradesToIgnore[9] = 1 Or $g_bAutoUpgradeWallsEnable = True) ? True : False ; if wall upgrade enabled, will ignore it
 			Case "Barracks"
-				$bMustIgnoreUpgrade = ($g_iChkUpgradesToIgnore[9] = 1) ? True : False
-			Case "Dark Barracks"
 				$bMustIgnoreUpgrade = ($g_iChkUpgradesToIgnore[10] = 1) ? True : False
-			Case "Spell Factory"
+			Case "Dark Barracks"
 				$bMustIgnoreUpgrade = ($g_iChkUpgradesToIgnore[11] = 1) ? True : False
-			Case "Dark Spell Factory"
+			Case "Spell Factory"
 				$bMustIgnoreUpgrade = ($g_iChkUpgradesToIgnore[12] = 1) ? True : False
-			Case "Gold Mine"
+			Case "Dark Spell Factory"
 				$bMustIgnoreUpgrade = ($g_iChkUpgradesToIgnore[13] = 1) ? True : False
-			Case "Elixir Collector"
+			Case "Gold Mine"
 				$bMustIgnoreUpgrade = ($g_iChkUpgradesToIgnore[14] = 1) ? True : False
-			Case "Dark Elixir Drill"
+			Case "Elixir Collector"
 				$bMustIgnoreUpgrade = ($g_iChkUpgradesToIgnore[15] = 1) ? True : False
-			Case "Air Defense"
+			Case "Dark Elixir Drill"
 				$bMustIgnoreUpgrade = ($g_iChkUpgradesToIgnore[16] = 1) ? True : False
-			Case "Air Sweeper"
+			Case "Air Defense"
 				$bMustIgnoreUpgrade = ($g_iChkUpgradesToIgnore[17] = 1) ? True : False
-			Case "Archer Tower"
+			Case "Air Sweeper"
 				$bMustIgnoreUpgrade = ($g_iChkUpgradesToIgnore[18] = 1) ? True : False
-			Case "Army Camp"
+			Case "Archer Tower"
 				$bMustIgnoreUpgrade = ($g_iChkUpgradesToIgnore[19] = 1) ? True : False
-			Case "Blacksmith"
+			Case "Army Camp"
 				$bMustIgnoreUpgrade = ($g_iChkUpgradesToIgnore[20] = 1) ? True : False
-			Case "Bomb Tower"
+			Case "Blacksmith"
 				$bMustIgnoreUpgrade = ($g_iChkUpgradesToIgnore[21] = 1) ? True : False
-			Case "Builder's Hut"
+			Case "Bomb Tower"
 				$bMustIgnoreUpgrade = ($g_iChkUpgradesToIgnore[22] = 1) ? True : False
-			Case "Cannon"
+			Case "Builder's Hut"
 				$bMustIgnoreUpgrade = ($g_iChkUpgradesToIgnore[23] = 1) ? True : False
-			Case "Eagle Artillery"
+			Case "Cannon"
 				$bMustIgnoreUpgrade = ($g_iChkUpgradesToIgnore[24] = 1) ? True : False
-			Case "Hidden Tesla"
+			Case "Eagle Artillery"
 				$bMustIgnoreUpgrade = ($g_iChkUpgradesToIgnore[25] = 1) ? True : False
-			Case "Inferno Tower"
+			Case "Firespitter"
 				$bMustIgnoreUpgrade = ($g_iChkUpgradesToIgnore[26] = 1) ? True : False
-			Case "Multi-Archer"
+			Case "Giga Bomb"
 				$bMustIgnoreUpgrade = ($g_iChkUpgradesToIgnore[27] = 1) ? True : False
-			Case "Monolith"
+			Case "Hero Hall"
 				$bMustIgnoreUpgrade = ($g_iChkUpgradesToIgnore[28] = 1) ? True : False
-			Case "Mortar"
+			Case "Hidden Tesla"
 				$bMustIgnoreUpgrade = ($g_iChkUpgradesToIgnore[29] = 1) ? True : False
-			Case "Pet House"
+			Case "Inferno Tower"
 				$bMustIgnoreUpgrade = ($g_iChkUpgradesToIgnore[30] = 1) ? True : False
-			Case "Ricochet"
+			Case "Multi-Archer"
 				$bMustIgnoreUpgrade = ($g_iChkUpgradesToIgnore[31] = 1) ? True : False
-			Case "Scattershot"
+			Case "Monolith"
 				$bMustIgnoreUpgrade = ($g_iChkUpgradesToIgnore[32] = 1) ? True : False
-			Case "Spell Tower"
+			Case "Mortar"
 				$bMustIgnoreUpgrade = ($g_iChkUpgradesToIgnore[33] = 1) ? True : False
-			Case "Bomb"
+			Case "Pet House"
 				$bMustIgnoreUpgrade = ($g_iChkUpgradesToIgnore[34] = 1) ? True : False
-			Case "Spring Trap"
-				$bMustIgnoreUpgrade = ($g_iChkUpgradesToIgnore[34] = 1) ? True : False
-			Case "Giant Bomb"
-				$bMustIgnoreUpgrade = ($g_iChkUpgradesToIgnore[34] = 1) ? True : False
-			Case "Air Bomb"
-				$bMustIgnoreUpgrade = ($g_iChkUpgradesToIgnore[34] = 1) ? True : False
-			Case "Seeking Air Mine"
-				$bMustIgnoreUpgrade = ($g_iChkUpgradesToIgnore[34] = 1) ? True : False
-			Case "Skeleton Trap"
-				$bMustIgnoreUpgrade = ($g_iChkUpgradesToIgnore[34] = 1) ? True : False
-			Case "Tornado Trap"
-				$bMustIgnoreUpgrade = ($g_iChkUpgradesToIgnore[34] = 1) ? True : False
-			Case "Wizard Tower"
+			Case "Ricochet"
 				$bMustIgnoreUpgrade = ($g_iChkUpgradesToIgnore[35] = 1) ? True : False
-			Case "Workshop"
+			Case "Scattershot"
 				$bMustIgnoreUpgrade = ($g_iChkUpgradesToIgnore[36] = 1) ? True : False
-			Case "X-Bow"
+			Case "Spell Tower"
 				$bMustIgnoreUpgrade = ($g_iChkUpgradesToIgnore[37] = 1) ? True : False
+			Case "Bomb"
+				If Not StringInStr($g_aUpgradeNameLevel[1], "Giga", $STR_NOCASESENSEBASIC) Then $bMustIgnoreUpgrade = ($g_iChkUpgradesToIgnore[38] = 1) ? True : False
+			Case "Spring Trap"
+				$bMustIgnoreUpgrade = ($g_iChkUpgradesToIgnore[38] = 1) ? True : False
+			Case "Giant Bomb"
+				$bMustIgnoreUpgrade = ($g_iChkUpgradesToIgnore[38] = 1) ? True : False
+			Case "Air Bomb"
+				$bMustIgnoreUpgrade = ($g_iChkUpgradesToIgnore[38] = 1) ? True : False
+			Case "Seeking Air Mine"
+				$bMustIgnoreUpgrade = ($g_iChkUpgradesToIgnore[38] = 1) ? True : False
+			Case "Skeleton Trap"
+				$bMustIgnoreUpgrade = ($g_iChkUpgradesToIgnore[38] = 1) ? True : False
+			Case "Tornado Trap"
+				$bMustIgnoreUpgrade = ($g_iChkUpgradesToIgnore[38] = 1) ? True : False
+			Case "Wizard Tower"
+				$bMustIgnoreUpgrade = ($g_iChkUpgradesToIgnore[39] = 1) ? True : False
+			Case "Workshop"
+				$bMustIgnoreUpgrade = ($g_iChkUpgradesToIgnore[40] = 1) ? True : False
+			Case "X-Bow"
+				$bMustIgnoreUpgrade = ($g_iChkUpgradesToIgnore[41] = 1) ? True : False
 			Case Else
 				$bMustIgnoreUpgrade = False
 		EndSwitch
@@ -402,14 +429,45 @@ Func _AutoUpgrade()
 		If $bMustIgnoreUpgrade = True Then
 			SetLog("This upgrade must be ignored, looking next...", $COLOR_WARNING)
 			$UpgradeDone = False
+			If $bHeroSystem Then
+				CloseWindow2()
+				If $bBlackHero Then _ArrayDelete($HeroArray, 0)
+			EndIf
 			ContinueLoop
 		EndIf
 
 		; if upgrade don't have to be ignored, click on the Upgrade button to open Upgrade window
 		If Not $UpWindowOpen Then
-			ClickP($aUpgradeButton)
-			If _Sleep($DELAYAUTOUPGRADEBUILDING1) Then Return
-			CloseSuperchargeWindow()
+			If $bHeroSystem Then
+				If $bBlackHero Then
+					Click($HeroArray[0][2], 433 + $g_iMidOffsetY)
+				Else
+					Click(580, 433 + $g_iMidOffsetY) ; Warden
+				EndIf
+				If _Sleep($DELAYAUTOUPGRADEBUILDING1) Then Return
+				Switch $g_aUpgradeNameLevel[1]
+					Case "Barbarian King"
+						Local $g_iKingLevelOCR = Number(getOcrAndCapture("coc-YellowLevel", 627, 116, 50, 20))
+						Local $g_aUpgradeNameLevelTemp2[3] = [$g_aUpgradeNameLevel[0], $g_aUpgradeNameLevel[1], Number($g_iKingLevelOCR - 1)]
+					Case "Archer Queen"
+						Local $g_iQueenLevelOCR = Number(getOcrAndCapture("coc-YellowLevel", 618, 116, 50, 20))
+						Local $g_aUpgradeNameLevelTemp2[3] = [$g_aUpgradeNameLevel[0], $g_aUpgradeNameLevel[1], Number($g_iQueenLevelOCR - 1)]
+					Case "Minion Prince"
+						Local $g_iPrinceLevelOCR = Number(getOcrAndCapture("coc-YellowLevel", 618, 116, 50, 20))
+						Local $g_aUpgradeNameLevelTemp2[3] = [$g_aUpgradeNameLevel[0], $g_aUpgradeNameLevel[1], Number($g_iPrinceLevelOCR - 1)]
+					Case "Grand Warden"
+						Local $g_iWardenLevelOCR = Number(getOcrAndCapture("coc-YellowLevel", 622, 116, 50, 20))
+						Local $g_aUpgradeNameLevelTemp2[3] = [$g_aUpgradeNameLevel[0], $g_aUpgradeNameLevel[1], Number($g_iWardenLevelOCR - 1)]
+					Case "Royal Champion"
+						Local $g_iChampionLevelOCR = Number(getOcrAndCapture("coc-YellowLevel", 625, 116, 50, 20))
+						Local $g_aUpgradeNameLevelTemp2[3] = [$g_aUpgradeNameLevel[0], $g_aUpgradeNameLevel[1], Number($g_iChampionLevelOCR - 1)]
+				EndSwitch
+				$g_aUpgradeNameLevel = $g_aUpgradeNameLevelTemp2
+			Else
+				ClickP($aUpgradeButton)
+				If _Sleep($DELAYAUTOUPGRADEBUILDING1) Then Return
+				CloseSuperchargeWindow()
+			EndIf
 		EndIf
 
 		If $b_Equipment Then
@@ -455,6 +513,10 @@ Func _AutoUpgrade()
 		If $bMustIgnoreResource = True Then
 			SetLog("This resource must be ignored, looking next...", $COLOR_WARNING)
 			$UpgradeDone = False
+			If $bHeroSystem Then
+				CloseWindow2()
+				If $bBlackHero Then _ArrayDelete($HeroArray, 0)
+			EndIf
 			CloseWindow2()
 			ContinueLoop
 		EndIf
@@ -474,6 +536,10 @@ Func _AutoUpgrade()
 		If Not $bSufficentResourceToUpgrade Then
 			SetLog("Insufficent " & $g_aUpgradeResourceCostDuration[0] & " to launch this upgrade, looking Next...", $COLOR_WARNING)
 			$UpgradeDone = False
+			If $bHeroSystem Then
+				CloseWindow2()
+				If $bBlackHero Then _ArrayDelete($HeroArray, 0)
+			EndIf
 			CloseWindow2()
 			ContinueLoop
 		EndIf
@@ -491,6 +557,9 @@ Func _AutoUpgrade()
 			EndIf
 		Else
 			Click(630, 540 + $g_iMidOffsetY)
+			If $bHeroSystem Then
+				If $bBlackHero Then _ArrayDelete($HeroArray, 0)
+			EndIf
 		EndIf
 		$UpgradeDone = True
 
@@ -524,7 +593,7 @@ Func _AutoUpgrade()
 			EndIf
 		EndIf
 
-		If $g_aUpgradeNameLevel[1] = "Barbarian King" Or $g_aUpgradeNameLevel[1] = "Archer Queen" Or _
+		If $g_aUpgradeNameLevel[1] = "Barbarian King" Or $g_aUpgradeNameLevel[1] = "Archer Queen" Or $g_aUpgradeNameLevel[1] = "Minion Prince" Or _
 				$g_aUpgradeNameLevel[1] = "Grand Warden" Or $g_aUpgradeNameLevel[1] = "Royal Champion" Then $bHeroUpgrade = True
 
 		; Upgrade completed : if wall upgraded, restart from top. Else, at the same line there might be more...
@@ -553,6 +622,9 @@ Func _AutoUpgrade()
 				Case 16
 					$g_aUpgradeNameLevel[1] = "Giga Inferno"
 					SetLog("Launched upgrade of Giga Inferno successfully !", $COLOR_SUCCESS)
+				Case 17
+					$g_aUpgradeNameLevel[1] = "Inferno Artillery"
+					SetLog("Launched upgrade of Inferno Artillery successfully !", $COLOR_SUCCESS)
 			EndSwitch
 		Else
 			If $b_Equipment Then
@@ -579,7 +651,7 @@ Func _AutoUpgrade()
 			Case "Monolith"
 				$g_iNbrOfBuildingsUppedDElixir += 1
 				$g_iCostDElixirBuilding += $g_aUpgradeResourceCostDuration[1]
-			Case "Barbarian King", "Archer Queen", "Royal Champion"
+			Case "Barbarian King", "Archer Queen", "Minion Prince", "Royal Champion"
 				$g_iNbrOfHeroesUpped += 1
 				$g_iCostDElixirHero += $g_aUpgradeResourceCostDuration[1]
 			Case "Grand Warden"
@@ -624,14 +696,30 @@ Func _AutoUpgrade()
 		EndIf
 
 		If $bHeroUpgrade And $g_bUseHeroBooks Then
+			Local $bXHeroBook
+			Local $bInitalXcoord = 67
+			Local $bDistanceSlot = 153
+			Local $bXcoords[5] = [$bInitalXcoord, $bInitalXcoord + $bDistanceSlot, $bInitalXcoord + $bDistanceSlot * 2, $bInitalXcoord + $bDistanceSlot * 3, $bInitalXcoord + $bDistanceSlot * 4]
+			Switch $g_aUpgradeNameLevel[1]
+				Case "Barbarian King"
+					$bXHeroBook = $bXcoords[0]
+				Case "Archer Queen"
+					$bXHeroBook = $bXcoords[1]
+				Case "Minion Prince"
+					$bXHeroBook = $bXcoords[2]
+				Case "Grand Warden"
+					$bXHeroBook = $bXcoords[3]
+				Case "Royal Champion"
+					$bXHeroBook = $bXcoords[4]
+			EndSwitch
 			If _Sleep(500) Then Return
 			Local $HeroUpgradeTime = ConvertOCRTime("UseHeroBooks", $g_aUpgradeResourceCostDuration[2], False)
 			If $HeroUpgradeTime >= ($g_iHeroMinUpgradeTime * 1440) Then
 				SetLog("Hero Upgrade time > than " & $g_iHeroMinUpgradeTime & " day" & ($g_iHeroMinUpgradeTime > 1 ? "s" : ""), $COLOR_INFO)
-				Local $HeroBooks = FindButton("HeroBooks")
+				Local $HeroBooks = decodeSingleCoord(FindImageInPlace2("HeroBook", $ImgHeroBook, $bXHeroBook + 97, 370 + $g_iMidOffsetY, $bXHeroBook + 123, 400 + $g_iMidOffsetY, True))
 				If IsArray($HeroBooks) And UBound($HeroBooks) = 2 Then
 					SetLog("Use Book Of Heroes to Complete Now this Hero Upgrade", $COLOR_INFO)
-					Click($HeroBooks[0], $HeroBooks[1])
+					ClickP($HeroBooks)
 					If _Sleep(1000) Then Return
 					If ClickB("BoostConfirm") Then
 						SetLog("Hero Upgrade Finished With Book of Heroes", $COLOR_SUCCESS)
@@ -660,6 +748,8 @@ Func _AutoUpgrade()
 				EndIf
 			EndIf
 		EndIf
+
+		If $bHeroSystem Then CloseWindow2()
 
 		ClearScreen()
 
@@ -711,3 +801,56 @@ Func SpecialVillageReport()
 	UpdateStats()
 
 EndFunc   ;==>SpecialVillageReport
+
+Func NewHeroUpgradeSystem()
+
+	Local $bInitalXcoord = 67
+	Local $bDistanceSlot = 153
+	Local $bXcoords[5] = [$bInitalXcoord, $bInitalXcoord + $bDistanceSlot, $bInitalXcoord + $bDistanceSlot * 2, $bInitalXcoord + $bDistanceSlot * 3, $bInitalXcoord + $bDistanceSlot * 4]
+	Local $HeroArrayTemp[0][3]
+
+	; King
+	Local $g_iKingCostOCR = "", $bKing = "Barbarian King"
+	If _ColorCheck(_GetPixelColor($bXcoords[0], 438 + $g_iMidOffsetY, True), Hex(0x8BD43A, 6), 20) Then
+		Local $g_iKingCostOCR = Number(getOcrAndCapture("coc-HeroCost", $bXcoords[0] + 23, 433 + $g_iMidOffsetY, 65, 20, True))
+		If $g_iKingCostOCR = "" Then $g_iKingCostOCR = 0
+		_ArrayAdd($HeroArrayTemp, $bKing & "|" & $g_iKingCostOCR & "|" & $bXcoords[0] + 55)
+	EndIf
+
+	If _Sleep(100) Then Return
+
+	; Queen
+	Local $g_iQueenCostOCR = "", $bQueen = "Archer Queen"
+	If _ColorCheck(_GetPixelColor($bXcoords[1], 438 + $g_iMidOffsetY, True), Hex(0x8BD43A, 6), 20) Then
+		Local $g_iQueenCostOCR = Number(getOcrAndCapture("coc-HeroCost", $bXcoords[1] + 23, 433 + $g_iMidOffsetY, 65, 20, True))
+		If $g_iQueenCostOCR = "" Then $g_iQueenCostOCR = 0
+		_ArrayAdd($HeroArrayTemp, $bQueen & "|" & $g_iQueenCostOCR & "|" & $bXcoords[1] + 55)
+	EndIf
+
+	If _Sleep(100) Then Return
+
+	; Prince
+	Local $g_iPrinceCostOCR = "", $bPrince = "Minion Prince"
+	If _ColorCheck(_GetPixelColor($bXcoords[2], 438 + $g_iMidOffsetY, True), Hex(0x8BD43A, 6), 20) Then
+		Local $g_iPrinceCostOCR = Number(getOcrAndCapture("coc-HeroCost", $bXcoords[2] + 23, 433 + $g_iMidOffsetY, 65, 20, True))
+		If $g_iPrinceCostOCR = "" Then $g_iPrinceCostOCR = 0
+		_ArrayAdd($HeroArrayTemp, $bPrince & "|" & $g_iPrinceCostOCR & "|" & $bXcoords[2] + 55)
+	EndIf
+
+	If _Sleep(100) Then Return
+
+	; Champion
+	Local $g_iChampionCostOCR = "", $bChampion = "Royal Champion"
+	If _ColorCheck(_GetPixelColor($bXcoords[4], 438 + $g_iMidOffsetY, True), Hex(0x8BD43A, 6), 20) Then
+		Local $g_iChampionCostOCR = Number(getOcrAndCapture("coc-HeroCost", $bXcoords[4] + 23, 433 + $g_iMidOffsetY, 65, 20, True))
+		If $g_iChampionCostOCR = "" Then $g_iChampionCostOCR = 0
+		_ArrayAdd($HeroArrayTemp, $bChampion & "|" & $g_iChampionCostOCR & "|" & $bXcoords[4] + 55)
+	EndIf
+
+	If _Sleep(100) Then Return
+
+	_ArraySort($HeroArrayTemp, 1, 0, 0, 1)
+
+	Return $HeroArrayTemp
+
+EndFunc   ;==>NewHeroUpgradeSystem

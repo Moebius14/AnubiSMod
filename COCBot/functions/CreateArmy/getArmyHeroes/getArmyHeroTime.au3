@@ -25,7 +25,7 @@ Func getArmyHeroTime($iHeroType, $bOpenArmyWindow = False, $bCloseArmyWindow = F
 	$g_asHeroHealTime[3] = ""
 
 	; validate hero troop type input, must be hero enum value or "all"
-	If $iHeroType <> $eHeroKing And $iHeroType <> $eHeroQueen And $iHeroType <> $eHeroWarden And $iHeroType <> $eHeroChampion And StringInStr($iHeroType, "all", $STR_NOCASESENSEBASIC) = 0 Then
+	If $iHeroType <> $eHeroKing And $iHeroType <> $eHeroQueen And $iHeroType <> $eHeroPrince And $iHeroType <> $eHeroWarden And $iHeroType <> $eHeroChampion And StringInStr($iHeroType, "all", $STR_NOCASESENSEBASIC) = 0 Then
 		SetLog("getHeroTime slipped on banana, get doctor, tell him: " & $iHeroType, $COLOR_ERROR)
 		SetError(1)
 		Return
@@ -44,12 +44,17 @@ Func getArmyHeroTime($iHeroType, $bOpenArmyWindow = False, $bCloseArmyWindow = F
 
 	Local $iRemainTrainHeroTimer = 0, $sResultHeroTime
 	Local $sResult
-	Local $aResultHeroes[$eHeroCount] = ["", "", "", ""] ; array to hold all remaining regen time read via OCR
+	Local $aResultHeroes[$eHeroSlots] = ["", "", "", ""] ; array to hold all remaining regen time read via OCR
+
+	Local $HeroSlotsInfos[5][2] = [["King", $eHeroKing], ["Queen", $eHeroQueen], ["Prince", $eHeroPrince], ["Warden", $eHeroWarden], ["Champion", $eHeroChampion]]
 
 	; Constant Array with OCR find location: [X pos, Y Pos, Text Name, Global enum value]
-	Local Const $aHeroRemainData[$eHeroCount][4] = [[530, 380 + $g_iMidOffsetY, "King", $eHeroKing], [595, 380 + $g_iMidOffsetY, "Queen", $eHeroQueen], [657, 380 + $g_iMidOffsetY, "Warden", $eHeroWarden], [721, 380 + $g_iMidOffsetY, "Champion", $eHeroChampion]]
+	Local Const $aHeroRemainData[$eHeroSlots][4] = [[530, 380 + $g_iMidOffsetY, $HeroSlotsInfos[$g_aiCmbCustomHeroOrder[0]][0], $HeroSlotsInfos[$g_aiCmbCustomHeroOrder[0]][1]], _
+			[595, 380 + $g_iMidOffsetY, $HeroSlotsInfos[$g_aiCmbCustomHeroOrder[1]][0], $HeroSlotsInfos[$g_aiCmbCustomHeroOrder[1]][1]], _
+			[657, 380 + $g_iMidOffsetY, $HeroSlotsInfos[$g_aiCmbCustomHeroOrder[2]][0], $HeroSlotsInfos[$g_aiCmbCustomHeroOrder[2]][1]], _
+			[721, 380 + $g_iMidOffsetY, $HeroSlotsInfos[$g_aiCmbCustomHeroOrder[3]][0], $HeroSlotsInfos[$g_aiCmbCustomHeroOrder[3]][1]]]
 
-	For $index = 0 To UBound($aHeroRemainData) - 1 ;cycle through all 3 slots and hero types
+	For $index = 0 To UBound($aHeroRemainData) - 1 ;cycle through all 4 slots and hero types
 
 		; check if OCR required
 		If StringInStr($iHeroType, "all", $STR_NOCASESENSEBASIC) = 0 And $iHeroType <> $aHeroRemainData[$index][3] Then ContinueLoop
@@ -109,11 +114,11 @@ Func getArmyHeroTime($iHeroType, $bOpenArmyWindow = False, $bCloseArmyWindow = F
 	EndIf
 
 	; Determine proper return value
-	If $iHeroType = $eHeroKing Or $iHeroType = $eHeroQueen Or $iHeroType = $eHeroWarden Or $iHeroType = $eHeroChampion Then
+	If $iHeroType = $eHeroKing Or $iHeroType = $eHeroQueen Or $iHeroType = $eHeroPrince Or $iHeroType = $eHeroWarden Or $iHeroType = $eHeroChampion Then
 		Return $iRemainTrainHeroTimer ; return one requested hero value
 	ElseIf StringInStr($iHeroType, "all", $STR_NOCASESENSEBASIC) > 0 Then
 		; Set Time Array for PickupHealedHeroes
-		For $i = 0 To $eHeroCount - 1
+		For $i = 0 To $eHeroSlots - 1
 			If $aResultHeroes[$i] <> "" And $aResultHeroes[$i] > 0 Then $g_asHeroHealTime[$i] = _DateAdd("s", Int($aResultHeroes[$i]) * 60, _NowCalc())
 			SetDebugLog($aHeroRemainData[$i][2] & " heal time: " & $g_asHeroHealTime[$i])
 		Next

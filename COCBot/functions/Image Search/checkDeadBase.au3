@@ -103,7 +103,7 @@ EndFunc   ;==>checkDeadBase
 
 Func SuperchargeCheck($TestDeadBase = False)
 	; Supercharge
-	If $TestDeadBase Or ($g_iTownHallLevel >= $g_iMaxTHLevel - 2 And $g_bSupercharge) Then
+	If $TestDeadBase Or ($g_iTownHallLevel > 13 And $g_bSupercharge) Then ; Only If TH Level > 13
 		If Not FileExists($g_sImgElixirCollectorFill & "supercharge*.xml") Then
 			FileCopy($g_sImgElixirSupercharge, $g_sImgElixirCollectorFill)
 			If _Sleep($DELAYRUNBOT3) Then Return ; 200 ms

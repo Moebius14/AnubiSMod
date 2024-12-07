@@ -4,7 +4,7 @@
 ; Syntax ........:
 ; Parameters ....: None
 ; Return values .: None
-; Author ........: Moebius14 (09/2024)
+; Author ........: Moebius14 (12/2024)
 ; Modified ......:
 ; Remarks .......: This file is part of MyBot, previously known as ClashGameBot. Copyright 2015-2024
 ;                  MyBot is distributed under the terms of the GNU GPL
@@ -44,7 +44,16 @@ Func MagicSnacks()
 	Local $IsAnyBuildingUpgrade = False
 	If AllowBoostingBuildersForSnacks() Then $IsAnyBuildingUpgrade = True
 
-	If ClickB("Snacks") Then
+	Local $aSnacksButton = findButton("Snacks", Default, 1, True)
+	Local $bXOffset = 0, $bYOffset = 14
+	If IsArray($aSnacksButton) And UBound($aSnacksButton, 1) = 2 Then
+		Switch $aSnacksButton[0]
+			Case $aSnacksButton[0] < 620
+				$bXOffset = 62
+			Case Else
+				$bXOffset = 0
+		EndSwitch
+		ClickP($aSnacksButton, 1, 120, "#0433")
 		SetLog("Check Magic Snacks", $COLOR_INFO)
 		$iLastTimeChecked[$g_iCurAccount] = _NowCalc()
 		If $StarBonusReceived[2] = 1 Then $StarBonusReceived[2] = 0
@@ -53,7 +62,7 @@ Func MagicSnacks()
 		Local $aMagicSnacks[0][4]
 		Local $aMagicSnacksEmpty[0][4]
 		Local $bRecheck = False, $bLoop = 0
-		Local $aMagicSnacksTemp = QuickMIS("CNX", $g_sImgMagicSnacks, 300, 560 + $g_iBottomOffsetY, 620, 630 + $g_iBottomOffsetY) ; 0 : Name, 1 : X Coord, 2 : Y Coord, 3 : Empty
+		Local $aMagicSnacksTemp = QuickMIS("CNX", $g_sImgMagicSnacks, 300 - $bXOffset, 560 + $g_iBottomOffsetY - $bYOffset, 620 - $bXOffset, 630 + $g_iBottomOffsetY - $bYOffset) ; 0 : Name, 1 : X Coord, 2 : Y Coord, 3 : Empty
 		If IsArray($aMagicSnacksTemp) And UBound($aMagicSnacksTemp) > 0 And UBound($aMagicSnacksTemp, $UBOUND_COLUMNS) > 1 Then
 			Local $iSnacksCount = UBound($aMagicSnacksTemp)
 			While 1
@@ -63,7 +72,7 @@ Func MagicSnacks()
 				If $bRecheck Then
 					$aMagicSnacks = $aMagicSnacksEmpty ; Empty array
 					SetLog("Item Position might change, Re-Check!", $COLOR_ACTION)
-					$aMagicSnacksTemp = QuickMIS("CNX", $g_sImgMagicSnacks, 300, 560 + $g_iBottomOffsetY, 620, 630 + $g_iBottomOffsetY)
+					$aMagicSnacksTemp = QuickMIS("CNX", $g_sImgMagicSnacks, 300 - $bXOffset, 560 + $g_iBottomOffsetY - $bYOffset, 620 - $bXOffset, 630 + $g_iBottomOffsetY - $bYOffset)
 					$bRecheck = False
 				EndIf
 				For $i = 0 To UBound($aMagicSnacksTemp) - 1
@@ -73,23 +82,23 @@ Func MagicSnacks()
 				_ArraySort($aMagicSnacksTemp, 1, 0, 0, 1) ; X Coord from right to left
 				For $i = 0 To UBound($aMagicSnacksTemp) - 1
 					Switch $aMagicSnacksTemp[$i][1]
-						Case 312 To 406
-							Local $aiToUse = decodeSingleCoord(FindImageInPlace2("ToUse", $g_sImgMagicSnacksToUse, 312, 555 + $g_iBottomOffsetY, 364, 580 + $g_iBottomOffsetY, True))
-						Case 418 To 512
-							Local $aiToUse = decodeSingleCoord(FindImageInPlace2("ToUse", $g_sImgMagicSnacksToUse, 418, 555 + $g_iBottomOffsetY, 470, 580 + $g_iBottomOffsetY, True))
-						Case 524 To 618
-							Local $aiToUse = decodeSingleCoord(FindImageInPlace2("ToUse", $g_sImgMagicSnacksToUse, 524, 555 + $g_iBottomOffsetY, 576, 580 + $g_iBottomOffsetY, True))
+						Case 312 - $bXOffset To 406 - $bXOffset
+							Local $aiToUse = decodeSingleCoord(FindImageInPlace2("ToUse", $g_sImgMagicSnacksToUse, 312 - $bXOffset, 555 + $g_iBottomOffsetY - $bYOffset, 364 - $bXOffset, 580 + $g_iBottomOffsetY - $bYOffset, True))
+						Case 418 - $bXOffset To 512 - $bXOffset
+							Local $aiToUse = decodeSingleCoord(FindImageInPlace2("ToUse", $g_sImgMagicSnacksToUse, 418 - $bXOffset, 555 + $g_iBottomOffsetY - $bYOffset, 470 - $bXOffset, 580 + $g_iBottomOffsetY - $bYOffset, True))
+						Case 524 - $bXOffset To 618 - $bXOffset
+							Local $aiToUse = decodeSingleCoord(FindImageInPlace2("ToUse", $g_sImgMagicSnacksToUse, 524 - $bXOffset, 555 + $g_iBottomOffsetY - $bYOffset, 576 - $bXOffset, 580 + $g_iBottomOffsetY - $bYOffset, True))
 					EndSwitch
 					If IsArray($aiToUse) And UBound($aiToUse) = 2 Then
 						_ArrayAdd($aMagicSnacks, $aMagicSnacksTemp[$i][0] & "|" & $aMagicSnacksTemp[$i][1] & "|" & $aMagicSnacksTemp[$i][2] & "| Yes")
 					Else
 						Switch $aMagicSnacksTemp[$i][1]
-							Case 312 To 406
-								Local $aiIsFull = decodeSingleCoord(FindImageInPlace2("MagicSnackIsFull", $g_sImgMagicSnacksFull, 312, 555 + $g_iBottomOffsetY, 364, 580 + $g_iBottomOffsetY, True))
-							Case 418 To 512
-								Local $aiIsFull = decodeSingleCoord(FindImageInPlace2("MagicSnackIsFull", $g_sImgMagicSnacksFull, 418, 555 + $g_iBottomOffsetY, 470, 580 + $g_iBottomOffsetY, True))
-							Case 524 To 618
-								Local $aiIsFull = decodeSingleCoord(FindImageInPlace2("MagicSnackIsFull", $g_sImgMagicSnacksFull, 524, 555 + $g_iBottomOffsetY, 576, 580 + $g_iBottomOffsetY, True))
+							Case 312 - $bXOffset To 406 - $bXOffset
+								Local $aiIsFull = decodeSingleCoord(FindImageInPlace2("MagicSnackIsFull", $g_sImgMagicSnacksFull, 312 - $bXOffset, 555 + $g_iBottomOffsetY - $bYOffset, 364 - $bXOffset, 580 + $g_iBottomOffsetY - $bYOffset, True))
+							Case 418 - $bXOffset To 512 - $bXOffset
+								Local $aiIsFull = decodeSingleCoord(FindImageInPlace2("MagicSnackIsFull", $g_sImgMagicSnacksFull, 418 - $bXOffset, 555 + $g_iBottomOffsetY - $bYOffset, 470 - $bXOffset, 580 + $g_iBottomOffsetY - $bYOffset, True))
+							Case 524 - $bXOffset To 618 - $bXOffset
+								Local $aiIsFull = decodeSingleCoord(FindImageInPlace2("MagicSnackIsFull", $g_sImgMagicSnacksFull, 524 - $bXOffset, 555 + $g_iBottomOffsetY - $bYOffset, 576 - $bXOffset, 580 + $g_iBottomOffsetY - $bYOffset, True))
 						EndSwitch
 						If IsArray($aiIsFull) And UBound($aiIsFull) = 2 Then
 							_ArrayAdd($aMagicSnacks, $aMagicSnacksTemp[$i][0] & "|" & $aMagicSnacksTemp[$i][1] & "|" & $aMagicSnacksTemp[$i][2] & "| Full")
@@ -112,14 +121,14 @@ Func MagicSnacks()
 						If StringInStr($aMagicSnacks[$i][0], "Castle", $STR_NOCASESENSEBASIC) Then
 							If Not _DateIsValid($ClanCastleCakeTimer) Then
 								Switch $aMagicSnacks[$i][1]
-									Case 312 To 406
-										Local $aiOCRXCord = 312
-									Case 418 To 512
-										Local $aiOCRXCord = 418
-									Case 524 To 618
-										Local $aiOCRXCord = 524
+									Case 312 - $bXOffset To 406 - $bXOffset
+										Local $aiOCRXCord = 312 - $bXOffset
+									Case 418 - $bXOffset To 512 - $bXOffset
+										Local $aiOCRXCord = 418 - $bXOffset
+									Case 524 - $bXOffset To 618 - $bXOffset
+										Local $aiOCRXCord = 524 - $bXOffset
 								EndSwitch
-								Local $TimerReadOCR = getOcrAndCapture("coc-guardshield", $aiOCRXCord, 634 + $g_iBottomOffsetY, 82, 16)
+								Local $TimerReadOCR = getOcrAndCapture("coc-guardshield", $aiOCRXCord, 634 + $g_iBottomOffsetY - $bYOffset, 82, 16)
 								Local $TimerReadMinutes = ConvertOCRTime("CakeTime", $TimerReadOCR, False)
 								If $TimerReadMinutes > 0 Then
 									$ClanCastleCakeTimer = _DateAdd('n', Ceiling($TimerReadMinutes), _NowCalc())
@@ -127,7 +136,7 @@ Func MagicSnacks()
 								EndIf
 							EndIf
 						EndIf
-						If $aMagicSnacks[$i][1] > 524 Then ExitLoop 2 ; Exit loops if last snack
+						If $aMagicSnacks[$i][1] > 524 - $bXOffset Then ExitLoop 2 ; Exit loops if last snack
 						If _Sleep(1000) Then Return
 					ElseIf StringInStr($aMagicSnacks[$i][3], "Full", $STR_NOCASESENSEBASIC) Then
 						If StringInStr($aMagicSnacks[$i][0], "BuilderPotion", $STR_NOCASESENSEBASIC) Then
@@ -136,7 +145,7 @@ Func MagicSnacks()
 								If _Sleep(500) Then Return
 								Click($aMagicSnacks[$i][1], $aMagicSnacks[$i][2])
 								If _Sleep(1000) Then Return
-								Local $aiUseButton = decodeSingleCoord(FindImageInPlace2("UseButton", $g_sImgUseButton, 380, 470 + $g_iMidOffsetY, 500, 540 + $g_iMidOffsetY, True))
+								Local $aiUseButton = decodeSingleCoord(FindImageInPlace2("UseButton", $g_sImgUseButton, 550, 470 + $g_iMidOffsetY, 650, 540 + $g_iMidOffsetY, True))
 								If IsArray($aiUseButton) And UBound($aiUseButton) = 2 Then
 									ClickP($aiUseButton)
 									If _Sleep(1000) Then Return
@@ -161,7 +170,7 @@ Func MagicSnacks()
 							EndIf
 						Else
 							SetLog(ConvertName($aMagicSnacks[$i][0]) & " can't be used (Full)" & ($i = UBound($aMagicSnacks) - 1 ? "." : ", looking next..."), $COLOR_WARNING)
-							If $aMagicSnacks[$i][1] > 524 Then ExitLoop 2 ; Exit loops if last snack
+							If $aMagicSnacks[$i][1] > 524 - $bXOffset Then ExitLoop 2 ; Exit loops if last snack
 							If _Sleep(1000) Then Return
 						EndIf
 					ElseIf StringInStr($aMagicSnacks[$i][3], "Yes", $STR_NOCASESENSEBASIC) Then
@@ -171,7 +180,7 @@ Func MagicSnacks()
 								If _Sleep(500) Then Return
 								Click($aMagicSnacks[$i][1], $aMagicSnacks[$i][2])
 								If _Sleep(1000) Then Return
-								Local $aiUseButton = decodeSingleCoord(FindImageInPlace2("UseButton", $g_sImgUseButton, 380, 470 + $g_iMidOffsetY, 500, 540 + $g_iMidOffsetY, True))
+								Local $aiUseButton = decodeSingleCoord(FindImageInPlace2("UseButton", $g_sImgUseButton, 550, 470 + $g_iMidOffsetY, 650, 540 + $g_iMidOffsetY, True))
 								If IsArray($aiUseButton) And UBound($aiUseButton) = 2 Then
 									ClickP($aiUseButton)
 									If _Sleep(1000) Then Return
@@ -185,7 +194,7 @@ Func MagicSnacks()
 										GUICtrlSetData($g_hTxtModLog, @CRLF & _NowTime() & " [" & $g_sProfileCurrentName & "] Magic Snacks : " & $ActionForModLog & " Using Study Soup", 1)
 									EndIf
 									_FileWriteLog($g_sProfileLogsPath & "\ModLog.log", " [" & $g_sProfileCurrentName & "] - Magic Snacks : " & $ActionForModLog)
-									If $aMagicSnacks[$i][1] > 524 Then ExitLoop 2 ; Exit loops if last snack
+									If $aMagicSnacks[$i][1] > 524 - $bXOffset Then ExitLoop 2 ; Exit loops if last snack
 									$bRecheck = True
 									If _Sleep(1000) Then Return
 									ExitLoop
@@ -203,7 +212,7 @@ Func MagicSnacks()
 								If _Sleep(500) Then Return
 								Click($aMagicSnacks[$i][1], $aMagicSnacks[$i][2])
 								If _Sleep(1000) Then Return
-								Local $aiUseButton = decodeSingleCoord(FindImageInPlace2("UseButton", $g_sImgUseButton, 380, 470 + $g_iMidOffsetY, 500, 540 + $g_iMidOffsetY, True))
+								Local $aiUseButton = decodeSingleCoord(FindImageInPlace2("UseButton", $g_sImgUseButton, 550, 470 + $g_iMidOffsetY, 650, 540 + $g_iMidOffsetY, True))
 								If IsArray($aiUseButton) And UBound($aiUseButton) = 2 Then
 									ClickP($aiUseButton)
 									If _Sleep(1000) Then Return
@@ -214,7 +223,7 @@ Func MagicSnacks()
 										GUICtrlSetData($g_hTxtModLog, @CRLF & _NowTime() & " [" & $g_sProfileCurrentName & "] Magic Snacks : " & $ActionForModLog & " Using Builder Bite", 1)
 									EndIf
 									_FileWriteLog($g_sProfileLogsPath & "\ModLog.log", " [" & $g_sProfileCurrentName & "] - Magic Snacks : " & $ActionForModLog)
-									If $aMagicSnacks[$i][1] > 524 Then ExitLoop 2 ; Exit loops if last snack
+									If $aMagicSnacks[$i][1] > 524 - $bXOffset Then ExitLoop 2 ; Exit loops if last snack
 									$bRecheck = True
 									If _Sleep(1000) Then Return
 									ExitLoop
@@ -232,7 +241,7 @@ Func MagicSnacks()
 								If _Sleep(500) Then Return
 								Click($aMagicSnacks[$i][1], $aMagicSnacks[$i][2])
 								If _Sleep(1000) Then Return
-								Local $aiUseButton = decodeSingleCoord(FindImageInPlace2("UseButton", $g_sImgUseButton, 380, 470 + $g_iMidOffsetY, 500, 540 + $g_iMidOffsetY, True))
+								Local $aiUseButton = decodeSingleCoord(FindImageInPlace2("UseButton", $g_sImgUseButton, 550, 470 + $g_iMidOffsetY, 650, 540 + $g_iMidOffsetY, True))
 								If IsArray($aiUseButton) And UBound($aiUseButton) = 2 Then
 									ClickP($aiUseButton)
 									$ClanCastleCakeTimer = _NowCalc()
@@ -244,7 +253,7 @@ Func MagicSnacks()
 										GUICtrlSetData($g_hTxtModLog, @CRLF & _NowTime() & " [" & $g_sProfileCurrentName & "] Magic Snacks : " & $ActionForModLog, 1)
 									EndIf
 									_FileWriteLog($g_sProfileLogsPath & "\ModLog.log", " [" & $g_sProfileCurrentName & "] - Magic Snacks : " & $ActionForModLog)
-									If $aMagicSnacks[$i][1] > 524 Then ExitLoop 2 ; Exit loops if last snack
+									If $aMagicSnacks[$i][1] > 524 - $bXOffset Then ExitLoop 2 ; Exit loops if last snack
 									$bRecheck = True
 									If _Sleep(1000) Then Return
 									ExitLoop
@@ -260,7 +269,7 @@ Func MagicSnacks()
 							SetLog(ConvertName($aMagicSnacks[$i][0]) & " can be used.", $COLOR_SUCCESS1)
 							Click($aMagicSnacks[$i][1], $aMagicSnacks[$i][2])
 							If _Sleep(1000) Then Return
-							Local $aiUseButton = decodeSingleCoord(FindImageInPlace2("UseButton", $g_sImgUseButton, 380, 470 + $g_iMidOffsetY, 500, 540 + $g_iMidOffsetY, True))
+							Local $aiUseButton = decodeSingleCoord(FindImageInPlace2("UseButton", $g_sImgUseButton, 550, 470 + $g_iMidOffsetY, 650, 540 + $g_iMidOffsetY, True))
 							If IsArray($aiUseButton) And UBound($aiUseButton) = 2 Then
 								ClickP($aiUseButton)
 								If _Sleep(1000) Then Return
@@ -271,7 +280,7 @@ Func MagicSnacks()
 									GUICtrlSetData($g_hTxtModLog, @CRLF & _NowTime() & " [" & $g_sProfileCurrentName & "] Using Magic Snack : " & $ActionForModLog, 1)
 								EndIf
 								_FileWriteLog($g_sProfileLogsPath & "\ModLog.log", " [" & $g_sProfileCurrentName & "] - Using Magic Snack : " & $ActionForModLog)
-								If $aMagicSnacks[$i][1] > 524 Then ExitLoop 2 ; Exit loops if last snack
+								If $aMagicSnacks[$i][1] > 524 - $bXOffset Then ExitLoop 2 ; Exit loops if last snack
 								$bRecheck = True
 								If _Sleep(1000) Then Return
 								ExitLoop
@@ -280,7 +289,7 @@ Func MagicSnacks()
 								CloseWindow2()
 							EndIf
 						EndIf
-						If $aMagicSnacks[$i][1] > 524 Then ExitLoop 2 ; Exit loops if last snack
+						If $aMagicSnacks[$i][1] > 524 - $bXOffset Then ExitLoop 2 ; Exit loops if last snack
 						If _Sleep(1000) Then Return
 					EndIf
 				Next

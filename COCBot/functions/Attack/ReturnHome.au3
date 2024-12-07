@@ -33,7 +33,7 @@ Func ReturnHome($TakeSS = 1, $GoldChangeCheck = True) ;Return main screen
 			WEnd
 			If IsAttackPage() Then smartZap() ; Check to see if we should zap the DE Drills
 			;If Heroes were not activated: Hero Ability activation before End of Battle to restore health
-			If ($g_bCheckKingPower Or $g_bCheckQueenPower Or $g_bCheckWardenPower Or $g_bCheckChampionPower) Then
+			If ($g_bCheckKingPower Or $g_bCheckQueenPower Or $g_bCheckPrincePower Or $g_bCheckWardenPower Or $g_bCheckChampionPower) Then
 				;_CaptureRegion()
 				If _ColorCheck(_GetPixelColor($aRtnHomeCheck1[0], $aRtnHomeCheck1[1], True), Hex($aRtnHomeCheck1[2], 6), $aRtnHomeCheck1[3]) = False And _ColorCheck(_GetPixelColor($aRtnHomeCheck2[0], $aRtnHomeCheck2[1], True), Hex($aRtnHomeCheck2[2], 6), $aRtnHomeCheck2[3]) = False Then ; If not already at Return Homescreen
 					If $g_bCheckKingPower Then
@@ -43,6 +43,10 @@ Func ReturnHome($TakeSS = 1, $GoldChangeCheck = True) ;Return main screen
 					If $g_bCheckQueenPower Then
 						SetLog("Activating Queen's power to restore some health before EndBattle", $COLOR_INFO)
 						If IsAttackPage() Then SelectDropTroop($g_iQueenSlot) ;If Queen was not activated: Boost Queen before EndBattle to restore some health
+					EndIf
+					If $g_bCheckPrincePower Then
+						SetLog("Activating Prince's power to restore some health before EndBattle", $COLOR_INFO)
+						If IsAttackPage() Then SelectDropTroop($g_iPrinceSlot) ;If Prince was not activated: Boost Queen before EndBattle to restore some health
 					EndIf
 					If $g_bCheckWardenPower Then
 						SetLog("Activating Warden's power to restore some health before EndBattle", $COLOR_INFO)
@@ -66,14 +70,17 @@ Func ReturnHome($TakeSS = 1, $GoldChangeCheck = True) ;Return main screen
 	; Reset hero variables
 	$g_bCheckKingPower = False
 	$g_bCheckQueenPower = False
+	$g_bCheckPrincePower = False
 	$g_bCheckWardenPower = False
 	$g_bCheckChampionPower = False
 	$g_bDropKing = False
 	$g_bDropQueen = False
+	$g_bDropPrince = False
 	$g_bDropWarden = False
 	$g_bDropChampion = False
 	$g_aHeroesTimerActivation[$eHeroBarbarianKing] = 0
 	$g_aHeroesTimerActivation[$eHeroArcherQueen] = 0
+	$g_aHeroesTimerActivation[$eHeroMinionPrince] = 0
 	$g_aHeroesTimerActivation[$eHeroGrandWarden] = 0
 	$g_aHeroesTimerActivation[$eHeroRoyalChampion] = 0
 

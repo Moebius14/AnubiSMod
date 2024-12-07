@@ -105,6 +105,8 @@ Global $aReceivedTroopsCG[5] = [407, 160 + $g_iMidOffsetY, 0xFFFFFF, 15, 145] ; 
 Global $aKingHealth = [-1, 569 + $g_iBottomOffsetY, 0x00D500, 15, 10]
 ; Queen Health Bar, check at the middle of the bar, index - 5 is x-offset added to middle of health bar
 Global $aQueenHealth = [-1, 569 + $g_iBottomOffsetY, 0x00D500, 15, 5]
+; Prince Health Bar, check at the middle of the bar, index - 8 is x-offset added to middle of health bar
+Global $aPrinceHealth = [-1, 568 + $g_iBottomOffsetY, 0x00D500, 15, 8]
 ; Warden Health Bar, check at the middle of the bar, index - 10 is x-offset added to middle of health bar
 Global $aWardenHealth = [-1, 567 + $g_iBottomOffsetY, 0x00D500, 15, 10]
 ; Champion Health Bar, check at the middle of the bar, index - 2 is x-offset added to middle of health bar

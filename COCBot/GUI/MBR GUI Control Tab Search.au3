@@ -65,8 +65,6 @@ Func chkDBWeakBase()
 	GUICtrlSetState($g_ahCmbWeakEagle[$DB], GUICtrlRead($g_ahChkMaxEagle[$DB]) = $GUI_CHECKED ? $GUI_ENABLE : $GUI_DISABLE)
 	GUICtrlSetState($g_ahCmbWeakScatter[$DB], GUICtrlRead($g_ahChkMaxScatter[$DB]) = $GUI_CHECKED ? $GUI_ENABLE : $GUI_DISABLE)
 	GUICtrlSetState($g_ahCmbWeakMonolith[$DB], GUICtrlRead($g_ahChkMaxMonolith[$DB]) = $GUI_CHECKED ? $GUI_ENABLE : $GUI_DISABLE)
-	GUICtrlSetState($g_ahCmbWeakMultiArcher[$DB], GUICtrlRead($g_ahChkMaxMultiArcher[$DB]) = $GUI_CHECKED ? $GUI_ENABLE : $GUI_DISABLE)
-	GUICtrlSetState($g_ahCmbWeakRicochet[$DB], GUICtrlRead($g_ahChkMaxRicochet[$DB]) = $GUI_CHECKED ? $GUI_ENABLE : $GUI_DISABLE)
 EndFunc   ;==>chkDBWeakBase
 
 Func cmbABGoldElixir()
@@ -109,8 +107,6 @@ Func chkABWeakBase()
 	GUICtrlSetState($g_ahCmbWeakEagle[$LB], GUICtrlRead($g_ahChkMaxEagle[$LB]) = $GUI_CHECKED ? $GUI_ENABLE : $GUI_DISABLE)
 	GUICtrlSetState($g_ahCmbWeakScatter[$LB], GUICtrlRead($g_ahChkMaxScatter[$LB]) = $GUI_CHECKED ? $GUI_ENABLE : $GUI_DISABLE)
 	GUICtrlSetState($g_ahCmbWeakMonolith[$LB], GUICtrlRead($g_ahChkMaxMonolith[$LB]) = $GUI_CHECKED ? $GUI_ENABLE : $GUI_DISABLE)
-	GUICtrlSetState($g_ahCmbWeakMultiArcher[$LB], GUICtrlRead($g_ahChkMaxMultiArcher[$LB]) = $GUI_CHECKED ? $GUI_ENABLE : $GUI_DISABLE)
-	GUICtrlSetState($g_ahCmbWeakRicochet[$LB], GUICtrlRead($g_ahChkMaxRicochet[$LB]) = $GUI_CHECKED ? $GUI_ENABLE : $GUI_DISABLE)
 EndFunc   ;==>chkABWeakBase
 
 Func chkRestartSearchLimit()
@@ -226,6 +222,7 @@ Func EnableSearchPanels($iMatchMode)
 					GUICtrlRead($g_hChkDBActivateCamps) = $GUI_CHECKED Or _
 					GUICtrlRead($g_hChkDBKingWait) = $GUI_CHECKED Or _
 					GUICtrlRead($g_hChkDBQueenWait) = $GUI_CHECKED Or _
+					GUICtrlRead($g_hChkDBPrinceWait) = $GUI_CHECKED Or _
 					GUICtrlRead($g_hChkDBWardenWait) = $GUI_CHECKED Or _
 					GUICtrlRead($g_hChkDBChampionWait) = $GUI_CHECKED Or _
 					GUICtrlRead($g_hChkDBNotWaitHeroes) = $GUI_CHECKED Or _
@@ -247,6 +244,7 @@ Func EnableSearchPanels($iMatchMode)
 					GUICtrlRead($g_hChkABActivateCamps) = $GUI_CHECKED Or _
 					GUICtrlRead($g_hChkABKingWait) = $GUI_CHECKED Or _
 					GUICtrlRead($g_hChkABQueenWait) = $GUI_CHECKED Or _
+					GUICtrlRead($g_hChkABPrinceWait) = $GUI_CHECKED Or _
 					GUICtrlRead($g_hChkABWardenWait) = $GUI_CHECKED Or _
 					GUICtrlRead($g_hChkABChampionWait) = $GUI_CHECKED Or _
 					GUICtrlRead($g_hChkABNotWaitHeroes) = $GUI_CHECKED Or _
@@ -324,13 +322,22 @@ Func chkDBKingWait()
 EndFunc   ;==>chkDBKingWait
 
 Func chkDBQueenWait()
-	If $g_iTownHallLevel > 8 Or $g_iTownHallLevel = 0 Then ; Must be TH9 or above to have Queen
+	If $g_iTownHallLevel > 7 Or $g_iTownHallLevel = 0 Then ; Must be TH8 or above to have Queen
 		_GUI_Value_STATE("ENABLE", $g_hChkDBQueenWait & "#" & $g_hChkDBQueenAttack)
 	Else
 		GUICtrlSetState($g_hChkDBQueenWait, BitOR($GUI_DISABLE, $GUI_UNCHECKED))
 		GUICtrlSetState($g_hChkDBQueenAttack, BitOR($GUI_DISABLE, $GUI_UNCHECKED))
 	EndIf
 EndFunc   ;==>chkDBQueenWait
+
+Func chkDBPrinceWait()
+	If $g_iTownHallLevel > 8 Or $g_iTownHallLevel = 0 Then ; Must be TH9 or above to have Prince
+		_GUI_Value_STATE("ENABLE", $g_hChkDBPrinceWait & "#" & $g_hChkDBPrinceAttack)
+	Else
+		GUICtrlSetState($g_hChkDBPrinceWait, BitOR($GUI_DISABLE, $GUI_UNCHECKED))
+		GUICtrlSetState($g_hChkDBPrinceAttack, BitOR($GUI_DISABLE, $GUI_UNCHECKED))
+	EndIf
+EndFunc   ;==>chkDBPrinceWait
 
 Func chkDBWardenWait()
 	If $g_iTownHallLevel > 10 Or $g_iTownHallLevel = 0 Then ; Must be TH11 to have warden
@@ -360,13 +367,22 @@ Func chkABKingWait()
 EndFunc   ;==>chkABKingWait
 
 Func chkABQueenWait()
-	If $g_iTownHallLevel > 8 Or $g_iTownHallLevel = 0 Then ; Must be TH9 or above to have Queen
+	If $g_iTownHallLevel > 7 Or $g_iTownHallLevel = 0 Then ; Must be TH8 or above to have Queen
 		_GUI_Value_STATE("ENABLE", $g_hChkABQueenWait & "#" & $g_hChkABQueenAttack)
 	Else
 		GUICtrlSetState($g_hChkABQueenWait, BitOR($GUI_DISABLE, $GUI_UNCHECKED))
 		GUICtrlSetState($g_hChkABQueenAttack, BitOR($GUI_DISABLE, $GUI_UNCHECKED))
 	EndIf
 EndFunc   ;==>chkABQueenWait
+
+Func chkABPrinceWait()
+	If $g_iTownHallLevel > 8 Or $g_iTownHallLevel = 0 Then ; Must be TH9 or above to have Prince
+		_GUI_Value_STATE("ENABLE", $g_hChkABPrinceWait & "#" & $g_hChkABPrinceAttack)
+	Else
+		GUICtrlSetState($g_hChkABPrinceWait, BitOR($GUI_DISABLE, $GUI_UNCHECKED))
+		GUICtrlSetState($g_hChkABPrinceAttack, BitOR($GUI_DISABLE, $GUI_UNCHECKED))
+	EndIf
+EndFunc   ;==>chkABPrinceWait
 
 Func chkABWardenWait()
 	If $g_iTownHallLevel > 10 Or $g_iTownHallLevel = 0 Then ; Must be TH11 to have warden

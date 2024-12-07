@@ -28,9 +28,10 @@ Global $g_hLblVillageReportTemp = 0
 ; GLOBALS FOR NEW GAME STATUS DISPALY
 Global $g_hlblKing = 0, $g_hPicKingGray = 0, $g_hPicKingBlue = 0, $g_hPicKingRed = 0, $g_hPicKingGreen = 0
 Global $g_hlblQueen = 0, $g_hPicQueenGray = 0, $g_hPicQueenBlue = 0, $g_hPicQueenRed = 0, $g_hPicQueenGreen = 0
+Global $g_hlblPrince = 0, $g_hPicPrinceGray = 0, $g_hPicPrinceBlue = 0, $g_hPicPrinceRed = 0, $g_hPicPrinceGreen = 0
 Global $g_hlblWarden = 0, $g_hPicWardenGray = 0, $g_hPicWardenBlue = 0, $g_hPicWardenRed = 0, $g_hPicWardenGreen = 0
 Global $g_hlblChampion = 0, $g_hPicChampionGray = 0, $g_hPicChampionBlue = 0, $g_hPicChampionRed = 0, $g_hPicChampionGreen = 0
-Global $g_hlblLab = 0, $g_hPicLabGray = 0, $g_hPicLabRed = 0, $g_hPicLabGreen = 0, $g_hLbLLabTime = 0, $g_hLbLStarLabTime = 0
+Global $g_hlblLab = 0, $g_hPicLabGray = 0, $g_hPicLabRed = 0, $g_hPicLabGreen = 0, $g_hLbLLabTime = 0
 
 ; Pet House
 Global $g_hlblPet = 0, $g_hPicPetGray = 0, $g_hPicPetRed = 0, $g_hPicPetGreen = 0, $g_hLbLPetTime = 0
@@ -160,6 +161,20 @@ Func CreateBottomPanel()
 	$g_hlblQueen = GUICtrlCreateLabel(GetTranslatedFileIni("MBR Global GUI Design Names Troops", "Queen_Q", "Q"), $x + 4, $y + 21, 10, 16, $SS_LEFT)
 	_GUICtrlSetTip(-1, $sTxtTip)
 
+	$x += 19
+	$g_hPicPrinceGray = _GUICtrlCreateIcon($g_sLibIconPath, $eIcnGrayShield, $x, $y, 16, 16)
+	_GUICtrlSetTip(-1, $sTxtTip)
+	$g_hPicPrinceBlue = _GUICtrlCreateIcon($g_sLibIconPath, $eIcnBlueShield, $x, $y, 16, 16)
+	_GUICtrlSetTip(-1, $sTxtTip)
+	GUICtrlSetState(-1, $GUI_HIDE)
+	$g_hPicPrinceGreen = _GUICtrlCreateIcon($g_sLibIconPath, $eIcnGreenShield, $x, $y, 16, 16)
+	_GUICtrlSetTip(-1, $sTxtTip)
+	GUICtrlSetState(-1, $GUI_HIDE)
+	$g_hPicPrinceRed = _GUICtrlCreateIcon($g_sLibIconPath, $eIcnRedShield, $x, $y, 16, 16)
+	_GUICtrlSetTip(-1, $sTxtTip)
+	GUICtrlSetState(-1, $GUI_HIDE)
+	$g_hlblPrince = GUICtrlCreateLabel(GetTranslatedFileIni("MBR Global GUI Design Names Troops", "Prince_P", "P"), $x + 4, $y + 21, 10, 16, $SS_LEFT)
+	_GUICtrlSetTip(-1, $sTxtTip)
 
 	$x += 19
 	$g_hPicWardenGray = _GUICtrlCreateIcon($g_sLibIconPath, $eIcnGrayShield, $x, $y, 16, 16)
@@ -191,7 +206,8 @@ Func CreateBottomPanel()
 	$g_hlblChampion = GUICtrlCreateLabel(GetTranslatedFileIni("MBR Global GUI Design Names Troops", "Champion_C", "C"), $x + 4, $y + 21, 10, 16, $SS_LEFT)
 	_GUICtrlSetTip(-1, $sTxtTip)
 
-	$x += 19
+	; Lab display
+	Local $x = 199, $y = $y_bottom + 43
 	$sTxtTip = GetTranslatedFileIni("MBR GUI Design Bottom", "GrpStatus_Info_02", "Gray - N/A" & @CRLF & "Green - Lab is Running" & @CRLF & "Red - Lab Has Stopped")
 	$g_hPicLabGray = _GUICtrlCreateIcon($g_sLibIconPath, $eIcnGrayShield, $x, $y, 16, 16)
 	_GUICtrlSetTip(-1, $sTxtTip)
@@ -201,13 +217,13 @@ Func CreateBottomPanel()
 	$g_hPicLabRed = _GUICtrlCreateIcon($g_sLibIconPath, $eIcnRedShield, $x, $y, 16, 16)
 	_GUICtrlSetTip(-1, $sTxtTip)
 	GUICtrlSetState(-1, $GUI_HIDE)
-	$g_hlblLab = GUICtrlCreateLabel(GetTranslatedFileIni("MBR GUI Design Bottom", "Lab_L", "L"), $x + 4, $y + 21, 10, 16, $SS_LEFT)
+	$g_hlblLab = GUICtrlCreateLabel(GetTranslatedFileIni("MBR GUI Design Bottom", "Lab_L", "L"), $x + 4, $y + 18, 10, 16, $SS_LEFT)
+;	GUICtrlSetFont(-1, 8)
 	_GUICtrlSetTip(-1, $sTxtTip)
-	$g_hLbLLabTime = GUICtrlCreateLabel("", $x - 72, $y + 35, 50, 16, $SS_LEFT)
-	$g_hLbLStarLabTime = GUICtrlCreateLabel("", $x - 72, $y + 50, 50, 16, $SS_LEFT)
+	$g_hLbLLabTime = GUICtrlCreateLabel("", $x + 20, $y + 2, 50, 16, $SS_LEFT)
 
 	; Pet House display
-	Local $x = 199, $y = $y_bottom + 72
+	Local $x = 199, $y = $y_bottom + 76
 	$sTxtTip = GetTranslatedFileIni("MBR GUI Design Bottom", "GrpStatus_Info_02", "Gray - N/A" & @CRLF & "Green - Pet House is Running" & @CRLF & "Red - Pet House Has Stopped")
 	$g_hPicPetGray = _GUICtrlCreateIcon($g_sLibIconPath, $eIcnGrayShield, $x, $y, 16, 16)
 	_GUICtrlSetTip(-1, $sTxtTip)
@@ -217,7 +233,8 @@ Func CreateBottomPanel()
 	$g_hPicPetRed = _GUICtrlCreateIcon($g_sLibIconPath, $eIcnRedShield, $x, $y, 16, 16)
 	_GUICtrlSetTip(-1, $sTxtTip)
 	GUICtrlSetState(-1, $GUI_HIDE)
-	$g_hlblPet = GUICtrlCreateLabel(GetTranslatedFileIni("MBR GUI Design Bottom", "Pet_P", "P"), $x + 4, $y + 21, 10, 16, $SS_LEFT)
+	$g_hlblPet = GUICtrlCreateLabel(GetTranslatedFileIni("MBR GUI Design Bottom", "Pet_P", "P"), $x + 4, $y + 18, 10, 16, $SS_LEFT)
+;	GUICtrlSetFont(-1, 8)
 	_GUICtrlSetTip(-1, $sTxtTip)
 	$g_hLbLPetTime = GUICtrlCreateLabel("", $x + 20, $y + 2, 50, 16, $SS_LEFT)
 

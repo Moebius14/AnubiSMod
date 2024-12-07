@@ -1,7 +1,7 @@
 ; #FUNCTION# ====================================================================================================================
 ; Name ..........: UpgradeBuilding.au3
 ; Description ...: Upgrades buildings if loot and builders are available
-; Syntax ........: UpgradeBuilding(), UpgradeNormal($inum), UpgradeHero($inum)
+; Syntax ........: UpgradeBuilding(), UpgradeNormal($inum)
 ; Parameters ....: $inum = array index [0-3]
 ; Return values .:
 ; Author ........: KnowJack (April-2015)
@@ -23,11 +23,11 @@ Func UpgradeBuilding()
 	Local $iAvailBldr, $iAvailGold, $iAvailElixir, $iAvailDark, $iAvailBldrAtStart = True
 	Local $Endtime, $Endperiod, $TimeAdd
 	Local $iUpGrdEndTimeDiff = 0
-	Local $aCheckFrequency[14] = [5, 15, 20, 30, 60, 60, 120, 240, 240, 240, 240, 300, 300, 300] ; Dwell Time in minutes between each repeat upgrade check TH3-15.  TH reference are game TH level - 3.  So TH16 = 13 in this array.
+	Local $aCheckFrequency[15] = [5, 15, 20, 30, 60, 60, 120, 240, 240, 240, 240, 280, 280, 300, 300] ; Dwell Time in minutes between each repeat upgrade check TH3-17.  TH reference are game TH level - 3.  So TH17 = 14 in this array.
 	Local $iDTDiff
 	Local $bChkAllRptUpgrade = False
 	Local $sTime
-	Local $IsGearUp = False, $b_GearUpCount = 0, $IsUpgradeAnHero = False, $b_HeroCount = 0
+	Local $IsGearUp = False, $b_GearUpCount = 0
 
 	Static Local $sNextCheckTime = _DateAdd("n", -1, _NowCalc()) ; initialize with date/time of NOW minus one minute
 	If @error Then _logErrorDateAdd(@error)
@@ -39,13 +39,6 @@ Func UpgradeBuilding()
 	; check to see if anything is enabled before wasting time.
 	For $iz = 0 To UBound($g_avBuildingUpgrades, 1) - 1
 		If $g_abBuildingUpgradeEnable[$iz] = True Then
-			If StringInStr($g_avBuildingUpgrades[$iz][4], "King", $STR_NOCASESENSEBASIC) Or _
-					StringInStr($g_avBuildingUpgrades[$iz][4], "Queen", $STR_NOCASESENSEBASIC) Or _
-					StringInStr($g_avBuildingUpgrades[$iz][4], "Warden", $STR_NOCASESENSEBASIC) Or _
-					StringInStr($g_avBuildingUpgrades[$iz][4], "Champion", $STR_NOCASESENSEBASIC) Then
-				If $g_bUseHeroBooks Then $b_HeroCount += 1
-				$IsUpgradeAnHero = True
-			EndIf
 			If StringInStr($g_avBuildingUpgrades[$iz][4], "Gear", $STR_NOCASESENSEBASIC) Then
 				$b_GearUpCount += 1
 				$IsGearUp = True
@@ -74,28 +67,14 @@ Func UpgradeBuilding()
 			SetLog("Let's Try To Start Gear Up upgrade process", $COLOR_ACTION)
 			$iAvailBldrAtStart = False
 		Else
-			If $IsUpgradeAnHero Then
-				If ($g_iFreeBuilderCount - ($g_bAutoUpgradeWallsEnable And $g_bUpgradeWallSaveBuilder ? 1 : 0)) <= 0 Then
-					SetLog("No builder available for upgrade process")
-					Return False
-				EndIf
-				SetLog("Let's Try To Start Hero upgrade process", $COLOR_ACTION)
-			Else
-				SetLog("No builder available for upgrade process")
-				Return False
-			EndIf
+			SetLog("No builder available for upgrade process")
+			Return False
 		EndIf
 	EndIf
 
 	ZoomOut()
 
 	For $iz = 0 To UBound($g_avBuildingUpgrades, 1) - 1
-
-		Local $isHeroSelected = False
-		If StringInStr($g_avBuildingUpgrades[$iz][4], "King", $STR_NOCASESENSEBASIC) Or _
-				StringInStr($g_avBuildingUpgrades[$iz][4], "Queen", $STR_NOCASESENSEBASIC) Or _
-				StringInStr($g_avBuildingUpgrades[$iz][4], "Warden", $STR_NOCASESENSEBASIC) Or _
-				StringInStr($g_avBuildingUpgrades[$iz][4], "Champion", $STR_NOCASESENSEBASIC) Then $isHeroSelected = True
 
 		Local $IsGearSelected = False
 		If StringInStr($g_avBuildingUpgrades[$iz][4], "Gear", $STR_NOCASESENSEBASIC) Then $IsGearSelected = True
@@ -106,34 +85,25 @@ Func UpgradeBuilding()
 
 		If $g_avBuildingUpgrades[$iz][0] <= 0 Or $g_avBuildingUpgrades[$iz][1] <= 0 Or $g_avBuildingUpgrades[$iz][3] = "" Then ContinueLoop ; Now check to see if upgrade has location?
 
-		If $IsGearUp And Not $iAvailBldrAtStart And Not $IsGearSelected And Not $isHeroSelected Then ContinueLoop
+		If $IsGearUp And Not $iAvailBldrAtStart And Not $IsGearSelected Then ContinueLoop
 
 		; Check free builder in case of multiple upgrades, but skip check when time to check repeated upgrades.
 		; Why? Can't do repeat upgrades if there are no builders?  Does it correct the upgrade list?
 		If $iAvailBldr <= 0 Then
 			Select
-				Case $b_GearUpCount = 0 And $b_HeroCount = 0
+				Case $b_GearUpCount = 0
 					SetLog("No more building to check", $COLOR_DEBUG)
 					Return False
-				Case Not $IsGearSelected And $isHeroSelected And $b_HeroCount > 0
+				Case Not $IsGearSelected
 					If getBuilderCount() Then
 						If ($g_iFreeBuilderCount - ($g_bAutoUpgradeWallsEnable And $g_bUpgradeWallSaveBuilder ? 1 : 0)) <= 0 Then
 							SetLog("No builder available for #" & $iz + 1 & ", " & $g_avBuildingUpgrades[$iz][4], $COLOR_DEBUG)
 							If $b_GearUpCount = 0 Then Return False
 						EndIf
 					EndIf
-				Case Not $IsGearSelected And Not $isHeroSelected And ($b_GearUpCount > 0 Or $b_HeroCount > 0)
-					Select
-						Case $b_GearUpCount > 0 And $b_HeroCount = 0
-							SetLog("No builder available for #" & $iz + 1 & ", " & $g_avBuildingUpgrades[$iz][4], $COLOR_DEBUG)
-							SetLog("Check Next Upgrades To find Gear Up Upgrade", $COLOR_ACTION)
-						Case $b_GearUpCount = 0 And $b_HeroCount > 0
-							SetLog("No builder available for #" & $iz + 1 & ", " & $g_avBuildingUpgrades[$iz][4], $COLOR_DEBUG)
-							SetLog("Check Next Upgrades To find Hero Upgrade", $COLOR_ACTION)
-						Case $b_GearUpCount > 0 And $b_HeroCount > 0
-							SetLog("No builder available for #" & $iz + 1 & ", " & $g_avBuildingUpgrades[$iz][4], $COLOR_DEBUG)
-							SetLog("Check Next Upgrades To find Gear Up And Hero Upgrade", $COLOR_ACTION)
-					EndSelect
+				Case Not $IsGearSelected And $b_GearUpCount > 0
+					SetLog("No builder available for #" & $iz + 1 & ", " & $g_avBuildingUpgrades[$iz][4], $COLOR_DEBUG)
+					SetLog("Check Next Upgrades To find Gear Up Upgrade", $COLOR_ACTION)
 					ContinueLoop
 			EndSelect
 		EndIf
@@ -174,25 +144,10 @@ Func UpgradeBuilding()
 					SetLog("No builder available for " & $g_avBuildingUpgrades[$iz][4])
 					SetLog("Testing Return False now as no builders available.", $COLOR_DEBUG)
 					Select
-						Case $b_GearUpCount = 0 And $b_HeroCount = 0
+						Case $b_GearUpCount = 0
 							Return False
-						Case Not $IsGearSelected And $isHeroSelected And ($b_GearUpCount > 0 Or $b_HeroCount > 0)
-							If getBuilderCount() Then
-								If $g_iFreeBuilderCount - ($g_bAutoUpgradeWallsEnable And $g_bUpgradeWallSaveBuilder ? 1 : 0) <= 0 Then
-									If $b_GearUpCount = 0 Then Return False
-								EndIf
-								SetLog("Check Next Upgrades To find Hero Upgrade", $COLOR_ACTION)
-								ContinueLoop
-							EndIf
-						Case Not $IsGearSelected And Not $isHeroSelected And ($b_GearUpCount > 0 Or $b_HeroCount > 0)
-							Select
-								Case $b_GearUpCount > 0 And $b_HeroCount = 0
-									SetLog("Check Next Upgrades To find Gear Up Upgrade", $COLOR_ACTION)
-								Case $b_GearUpCount = 0 And $b_HeroCount > 0
-									SetLog("Check Next Upgrades To find Hero Upgrade", $COLOR_ACTION)
-								Case $b_GearUpCount > 0 And $b_HeroCount > 0
-									SetLog("Check Next Upgrades To find Gear Up And Hero Upgrade", $COLOR_ACTION)
-							EndSelect
+						Case Not $IsGearSelected And $b_GearUpCount > 0
+							SetLog("Check Next Upgrades To find Gear Up Upgrade", $COLOR_ACTION)
 							ContinueLoop
 					EndSelect
 				EndIf
@@ -223,8 +178,6 @@ Func UpgradeBuilding()
 				$iAvailGold -= $g_avBuildingUpgrades[$iz][2]
 				If Not StringInStr($g_avBuildingUpgrades[$iz][4], "Gear", $STR_NOCASESENSEBASIC) Then $iAvailBldr -= 1
 			Case "Elixir"
-				$iAvailBldrBook = False
-				If $isHeroSelected Then $b_HeroCount -= 1
 				If $iAvailElixir < $g_avBuildingUpgrades[$iz][2] + $g_iUpgradeMinElixir Then
 					SetLog("Insufficent Elixir for #" & $iz + 1 & ", requires: " & $g_avBuildingUpgrades[$iz][2] & " + " & $g_iUpgradeMinElixir, $COLOR_INFO)
 					ContinueLoop
@@ -232,37 +185,24 @@ Func UpgradeBuilding()
 				If UpgradeNormal($iz) = False Then ContinueLoop
 				$iUpgradeAction += 2 ^ ($iz + 1)
 				SetLog("Elixir used = " & _NumberFormat($g_avBuildingUpgrades[$iz][2], True), $COLOR_INFO)
-				If $g_avBuildingUpgrades[$iz][4] = "Grand Warden" Then
-					$g_iNbrOfWardenUpped += 1
-					$g_iCostElixirWarden += $g_avBuildingUpgrades[$iz][2]
-				Else
-					$g_iNbrOfBuildingsUppedElixir += 1
-					$g_iCostElixirBuilding += $g_avBuildingUpgrades[$iz][2]
-				EndIf
+				$g_iNbrOfBuildingsUppedElixir += 1
+				$g_iCostElixirBuilding += $g_avBuildingUpgrades[$iz][2]
 				UpdateStats()
 				$iAvailElixir -= $g_avBuildingUpgrades[$iz][2]
-				If Not $iAvailBldrBook Then $iAvailBldr -= 1
 			Case "Dark"
-				$iAvailBldrBook = False
-				If $isHeroSelected Then $b_HeroCount -= 1
 				If $iAvailDark < $g_avBuildingUpgrades[$iz][2] + $g_iUpgradeMinDark Then
 					SetLog("Insufficent Dark for #" & $iz + 1 & ", requires: " & $g_avBuildingUpgrades[$iz][2] & " + " & $g_iUpgradeMinDark, $COLOR_INFO)
 					ContinueLoop
 				EndIf
 				If $g_avBuildingUpgrades[$iz][4] = "Monolith" Then
-					If UpgradeNormal($iz) = False Then ContinueLoop ; UpgradeNormal For Megalith
+					If UpgradeNormal($iz) = False Then ContinueLoop ; UpgradeNormal For Monolith
 					$g_iNbrOfBuildingsUppedDElixir += 1
 					$g_iCostDElixirBuilding += $g_avBuildingUpgrades[$iz][2]
-				Else
-					If UpgradeHero($iz) = False Then ContinueLoop
-					$g_iNbrOfHeroesUpped += 1
-					$g_iCostDElixirHero += $g_avBuildingUpgrades[$iz][2]
 				EndIf
 				$iUpgradeAction += 2 ^ ($iz + 1)
 				SetLog("Dark Elixir used = " & _NumberFormat($g_avBuildingUpgrades[$iz][2], True), $COLOR_INFO)
 				UpdateStats()
 				$iAvailDark -= $g_avBuildingUpgrades[$iz][2]
-				If Not $iAvailBldrBook Then $iAvailBldr -= 1
 			Case Else
 				SetLog("Something went wrong with loot type on Upgradebuilding module on #" & $iz + 1, $COLOR_ERROR)
 				ExitLoop
@@ -347,6 +287,8 @@ Func UpgradeNormal($iUpgradeNumber)
 					$aResult[1] = "Giga Inferno"
 				Case 16
 					$aResult[1] = "Giga Inferno"
+				Case 17
+					$aResult[1] = "Inferno Artillery"
 			EndSwitch
 			$aUpgradeButton = $aTmpUpgradeButton
 		EndIf
@@ -376,6 +318,8 @@ Func UpgradeNormal($iUpgradeNumber)
 							$aResult[1] = "Giga Inferno"
 						Case 16
 							$aResult[1] = "Giga Inferno"
+						Case 17
+							$aResult[1] = "Inferno Artillery"
 					EndSwitch
 					$aUpgradeButton = $aTmpUpgradeButton
 				EndIf
@@ -443,35 +387,6 @@ Func UpgradeNormal($iUpgradeNumber)
 				ElseIf $g_abUpgradeRepeatEnable[$iUpgradeNumber] Then
 					GUICtrlSetState($g_hChkUpgrade[$iUpgradeNumber], $GUI_CHECKED) ; Ensure upgrade selection box is checked
 					$g_abBuildingUpgradeEnable[$iUpgradeNumber] = True ; Ensure upgrade selection box is checked
-				EndIf
-
-				If $g_bUseHeroBooks And $g_avBuildingUpgrades[$iUpgradeNumber][4] = "Grand Warden" Then
-					If _Sleep(500) Then Return
-					Local $HeroUpgradeTime = ConvertOCRTime("UseHeroBooks", $g_aUpgradeDuration, False)
-					If $HeroUpgradeTime >= ($g_iHeroMinUpgradeTime * 1440) Then
-						SetLog("Hero Upgrade time > than " & $g_iHeroMinUpgradeTime & " day" & ($g_iHeroMinUpgradeTime > 1 ? "s" : ""), $COLOR_INFO)
-						Local $HeroBooks = FindButton("HeroBooks")
-						If IsArray($HeroBooks) And UBound($HeroBooks) = 2 Then
-							SetLog("Use Book Of Heroes to Complete Now this Hero Upgrade", $COLOR_INFO)
-							Click($HeroBooks[0], $HeroBooks[1])
-							If _Sleep(1000) Then Return
-							If ClickB("BoostConfirm") Then
-								SetLog("Hero Upgrade Finished With Book of Heroes", $COLOR_SUCCESS)
-								Local $bHeroShortName = "Warden"
-								$ActionForModLog = "Upgraded with Book of Heroes"
-								If $g_iTxtCurrentVillageName <> "" Then
-									GUICtrlSetData($g_hTxtModLog, @CRLF & _NowTime() & " [" & $g_iTxtCurrentVillageName & "] " & $bHeroShortName & " : " & $ActionForModLog, 1)
-								Else
-									GUICtrlSetData($g_hTxtModLog, @CRLF & _NowTime() & " [" & $g_sProfileCurrentName & "] " & $bHeroShortName & " : " & $ActionForModLog, 1)
-								EndIf
-								_FileWriteLog($g_sProfileLogsPath & "\ModLog.log", " [" & $g_sProfileCurrentName & "] " & $bHeroShortName & " : " & $ActionForModLog)
-								If _Sleep(1000) Then Return
-								$iAvailBldrBook = True
-							EndIf
-						Else
-							SetLog("No Books of Heroes Found", $COLOR_DEBUG)
-						EndIf
-					EndIf
 				EndIf
 
 				ClearScreen()
@@ -584,136 +499,6 @@ Func UpgradeGearUp($iUpgradeNumber)
 		Return False
 	EndIf
 EndFunc   ;==>UpgradeGearUp
-
-Func UpgradeHero($iUpgradeNumber)
-	ClearScreen()
-	If _Sleep($DELAYUPGRADENORMAL1) Then Return
-
-	BuildingClick($g_avBuildingUpgrades[$iUpgradeNumber][0], $g_avBuildingUpgrades[$iUpgradeNumber][1], "#0304") ; Select the item to be upgrade
-	If _Sleep($DELAYUPGRADENORMAL4) Then Return ; Wait for window to open
-
-	Local $aResult = BuildingInfo(242, 475 + $g_iBottomOffsetY)
-	If UBound($aResult) < 2 Then Return False
-	Local $aUpgradeButton = findButton("Upgrade", Default, 1, True)
-
-	If StringStripWS($aResult[1], BitOR($STR_STRIPLEADING, $STR_STRIPTRAILING)) <> StringStripWS($g_avBuildingUpgrades[$iUpgradeNumber][4], BitOR($STR_STRIPLEADING, $STR_STRIPTRAILING)) Then ; check bldg names
-		SetLog("#" & $iUpgradeNumber + 1 & ":" & $g_avBuildingUpgrades[$iUpgradeNumber][4] & ": Not same as :" & $aResult[1] & ":? Retry now...", $COLOR_INFO)
-		ClearScreen()
-		If _Sleep($DELAYUPGRADENORMAL4) Then Return
-
-		BuildingClick($g_avBuildingUpgrades[$iUpgradeNumber][0], $g_avBuildingUpgrades[$iUpgradeNumber][1], "#0296") ; Select the item to be upgrade again in case full collector/mine
-		If _Sleep($DELAYUPGRADENORMAL4) Then Return ; Wait for window to open
-
-		$aResult = BuildingInfo(242, 475 + $g_iBottomOffsetY) ; read building name/level to check we have right bldg or if collector was not full
-		If $aResult[0] > 1 Then
-			$aUpgradeButton = findButton("Upgrade", Default, 1, True)
-			If StringStripWS($aResult[1], BitOR($STR_STRIPLEADING, $STR_STRIPTRAILING)) <> StringStripWS($g_avBuildingUpgrades[$iUpgradeNumber][4], BitOR($STR_STRIPLEADING, $STR_STRIPTRAILING)) Then ; check bldg names
-				SetLog("Found #" & $iUpgradeNumber + 1 & ":" & $g_avBuildingUpgrades[$iUpgradeNumber][4] & ": Not same as : " & $aResult[1] & ":, May need new location?", $COLOR_ERROR)
-				ClearScreen()
-				Return False
-			EndIf
-		EndIf
-	EndIf
-
-	If IsArray($aUpgradeButton) And UBound($aUpgradeButton, 1) = 2 Then
-		If _Sleep($DELAYUPGRADEHERO2) Then Return
-		ClickP($aUpgradeButton, 1, 120, "#0305") ; Click Upgrade Button
-		If _Sleep(2000) Then Return ; Wait for window to open
-		If $g_bDebugImageSave Then SaveDebugImage("UpgradeDarkBtn1")
-		If _ColorCheck(_GetPixelColor(800, 88 + $g_iMidOffsetY, True), Hex(0xF38E8D, 6), 20) Then ; wait up to 2 seconds for upgrade window to open
-			Local $RedSearch = _PixelSearch(610, 548 + $g_iMidOffsetY, 650, 552 + $g_iMidOffsetY, Hex(0xFF887F, 6), 20)
-			Local $OrangeSearch = _PixelSearch(610, 539 + $g_iMidOffsetY, 650, 543 + $g_iMidOffsetY, Hex(0xFF7A0D, 6), 20)
-			If IsArray($RedSearch) Or IsArray($OrangeSearch) Then ; Check for Red Zero = means not enough loot!
-
-				SetLog("Upgrade Fail #" & $iUpgradeNumber + 1 & " " & $g_avBuildingUpgrades[$iUpgradeNumber][4] & ", No Loot!", $COLOR_ERROR)
-
-				CloseWindow2()
-				Return False
-			Else
-				Local $g_aUpgradeDuration = getHeroUpgradeTime(730, 544 + $g_iMidOffsetY) ; get duration
-				If $g_aUpgradeDuration = "" Then $g_aUpgradeDuration = getHeroUpgradeTime(730, 532 + $g_iMidOffsetY) ; Try to read yellow text (Discount).
-				Click(630, 540 + $g_iMidOffsetY, 1, 120, "#0299") ; Click upgrade buttton
-				If _Sleep($DELAYUPGRADENORMAL3) Then Return
-				If $g_bDebugImageSave Then SaveDebugImage("UpgradeRegBtn2")
-
-				If isGemOpen(True) Then
-					SetLog("No Master Builder Available, Bot Will Retry Later", $COLOR_INFO)
-					ClickAway()
-					Return False
-				EndIf
-
-				SetLog("Upgrade #" & $iUpgradeNumber + 1 & " " & $g_avBuildingUpgrades[$iUpgradeNumber][4] & " started", $COLOR_SUCCESS)
-				_GUICtrlSetImage($g_hPicUpgradeStatus[$iUpgradeNumber], $g_sLibIconPath, $eIcnGreenLight) ; Change GUI upgrade status to done
-				$g_aiPicUpgradeStatus[$iUpgradeNumber] = $eIcnGreenLight ; Change GUI upgrade status to done
-				GUICtrlSetData($g_hTxtUpgradeValue[$iUpgradeNumber], -($g_avBuildingUpgrades[$iUpgradeNumber][2])) ; Show Negative Upgrade value in GUI
-				GUICtrlSetData($g_hTxtUpgradeLevel[$iUpgradeNumber], $g_avBuildingUpgrades[$iUpgradeNumber][5] & "+") ; Set GUI level to match $g_avBuildingUpgrades variable
-				$g_aiUpgradeLevel[$iUpgradeNumber] = $g_avBuildingUpgrades[$iUpgradeNumber][5] & "+" ; Set GUI level to match $g_avBuildingUpgrades variable
-				If Not $g_abUpgradeRepeatEnable[$iUpgradeNumber] Then ; Check for repeat upgrade
-					GUICtrlSetState($g_hChkUpgrade[$iUpgradeNumber], $GUI_UNCHECKED) ; Change upgrade selection box to unchecked
-					$g_abBuildingUpgradeEnable[$iUpgradeNumber] = False ; Change upgrade selection box to unchecked
-					$g_avBuildingUpgrades[$iUpgradeNumber][0] = -1 ;Reset $UpGrade position coordinate variable to blank to show its completed
-					$g_avBuildingUpgrades[$iUpgradeNumber][1] = -1
-					$g_avBuildingUpgrades[$iUpgradeNumber][3] = "" ; Reset loot type
-					GUICtrlSetData($g_hTxtUpgradeLevel[$iUpgradeNumber], $g_avBuildingUpgrades[$iUpgradeNumber][5] & "+") ; Set GUI level to match $g_avBuildingUpgrades variable
-					$g_avBuildingUpgrades[$iUpgradeNumber][5] = $g_avBuildingUpgrades[$iUpgradeNumber][5] & "+" ; Set GUI level to match $g_avBuildingUpgrades variable
-				ElseIf $g_abUpgradeRepeatEnable[$iUpgradeNumber] Then
-					GUICtrlSetState($g_hChkUpgrade[$iUpgradeNumber], $GUI_CHECKED) ; Ensure upgrade selection box is checked
-					$g_abBuildingUpgradeEnable[$iUpgradeNumber] = True ; Ensure upgrade selection box is checked
-				EndIf
-
-				If $g_bUseHeroBooks Then
-					If _Sleep(500) Then Return
-					Local $HeroUpgradeTime = ConvertOCRTime("UseHeroBooks", $g_aUpgradeDuration, False)
-					If $HeroUpgradeTime >= ($g_iHeroMinUpgradeTime * 1440) Then
-						SetLog("Hero Upgrade time > than " & $g_iHeroMinUpgradeTime & " day" & ($g_iHeroMinUpgradeTime > 1 ? "s" : ""), $COLOR_INFO)
-						Local $HeroBooks = FindButton("HeroBooks")
-						If IsArray($HeroBooks) And UBound($HeroBooks) = 2 Then
-							SetLog("Use Book Of Heroes to Complete Now this Hero Upgrade", $COLOR_INFO)
-							Click($HeroBooks[0], $HeroBooks[1])
-							If _Sleep(1000) Then Return
-							If ClickB("BoostConfirm") Then
-								SetLog("Hero Upgrade Finished With Book of Heroes", $COLOR_SUCCESS)
-								Local $bHeroShortName
-								Switch $aResult[1]
-									Case "Barbarian King"
-										$bHeroShortName = "King"
-									Case "Archer Queen"
-										$bHeroShortName = "Queen"
-									Case "Royal Champion"
-										$bHeroShortName = "Champion"
-								EndSwitch
-								$ActionForModLog = "Upgraded with Book of Heroes"
-								If $g_iTxtCurrentVillageName <> "" Then
-									GUICtrlSetData($g_hTxtModLog, @CRLF & _NowTime() & " [" & $g_iTxtCurrentVillageName & "] " & $bHeroShortName & " : " & $ActionForModLog, 1)
-								Else
-									GUICtrlSetData($g_hTxtModLog, @CRLF & _NowTime() & " [" & $g_sProfileCurrentName & "] " & $bHeroShortName & " : " & $ActionForModLog, 1)
-								EndIf
-								_FileWriteLog($g_sProfileLogsPath & "\ModLog.log", " [" & $g_sProfileCurrentName & "] " & $bHeroShortName & " : " & $ActionForModLog)
-								If _Sleep(1000) Then Return
-								$iAvailBldrBook = True
-							EndIf
-						Else
-							SetLog("No Books of Heroes Found", $COLOR_DEBUG)
-						EndIf
-					EndIf
-				EndIf
-
-				ClearScreen()
-				If _Sleep($DELAYUPGRADEHERO2) Then Return ; Wait for window to close
-				VillageReport(True, True)
-				UpdateStats()
-				Return True
-			EndIf
-		Else
-			SetLog("Upgrade #" & $iUpgradeNumber + 1 & " window open fail", $COLOR_ERROR)
-			ClickAway()
-		EndIf
-	Else
-		SetLog("Upgrade #" & $iUpgradeNumber + 1 & " Error finding button", $COLOR_ERROR)
-		ClearScreen()
-		Return False
-	EndIf
-EndFunc   ;==>UpgradeHero
 
 Func SetlogUpgradeValues($i)
 	Local $j

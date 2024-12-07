@@ -394,6 +394,106 @@ Func SwitchCOCAcc($NextAccount)
 	GUICtrlSetData($g_hGrpVillageName, GetTranslatedFileIni("MBR Main GUI", "Tab_07", "Profile") & ": " & $g_sProfileCurrentName)
 	GUICtrlSetData($g_hGrpVillage, GetTranslatedFileIni("MBR Main GUI", "Tab_02", "Village") & "[TH" & $g_iTownHallLevel & "]" & " : " & $g_iTxtCurrentVillageName)
 
+	;Display Level TH in Stats
+	GUICtrlSetData($g_hLblTHLevels, "")
+	_GUI_Value_STATE("HIDE", $g_aGroupListTHLevels)
+	GUICtrlSetState($g_ahPicTHLevels[$g_iTownHallLevel], $GUI_SHOW)
+	GUICtrlSetData($g_hLblTHLevels, $g_iTownHallLevel)
+
+	;Hidden Hero Slot
+	Switch $g_aiCmbCustomHeroOrder[4]
+		Case 0
+			Switch $g_aiHiddenHeroStatus[0]
+				Case 0 ; Default
+					GUICtrlSetState($g_hPicKingGray, $GUI_SHOW)
+					GUICtrlSetState($g_hPicKingRed, $GUI_HIDE)
+					GUICtrlSetState($g_hPicKingBlue, $GUI_HIDE)
+					GUICtrlSetState($g_hPicKingGreen, $GUI_HIDE)
+				Case 1 ; Ready but unused
+					GUICtrlSetState($g_hPicKingGray, $GUI_HIDE)
+					GUICtrlSetState($g_hPicKingRed, $GUI_HIDE)
+					GUICtrlSetState($g_hPicKingBlue, $GUI_HIDE)
+					GUICtrlSetState($g_hPicKingGreen, $GUI_SHOW)
+				Case 2 ; Upgrading
+					GUICtrlSetState($g_hPicKingGray, $GUI_HIDE)
+					GUICtrlSetState($g_hPicKingRed, $GUI_SHOW)
+					GUICtrlSetState($g_hPicKingBlue, $GUI_HIDE)
+					GUICtrlSetState($g_hPicKingGreen, $GUI_HIDE)
+			EndSwitch
+		Case 1
+			Switch $g_aiHiddenHeroStatus[1]
+				Case 0 ; Default
+					GUICtrlSetState($g_hPicQueenGray, $GUI_SHOW)
+					GUICtrlSetState($g_hPicQueenRed, $GUI_HIDE)
+					GUICtrlSetState($g_hPicQueenBlue, $GUI_HIDE)
+					GUICtrlSetState($g_hPicQueenGreen, $GUI_HIDE)
+				Case 1 ; Ready but unused
+					GUICtrlSetState($g_hPicQueenGray, $GUI_HIDE)
+					GUICtrlSetState($g_hPicQueenRed, $GUI_HIDE)
+					GUICtrlSetState($g_hPicQueenBlue, $GUI_HIDE)
+					GUICtrlSetState($g_hPicQueenGreen, $GUI_SHOW)
+				Case 2 ; Upgrading
+					GUICtrlSetState($g_hPicQueenGray, $GUI_HIDE)
+					GUICtrlSetState($g_hPicQueenRed, $GUI_SHOW)
+					GUICtrlSetState($g_hPicQueenBlue, $GUI_HIDE)
+					GUICtrlSetState($g_hPicQueenGreen, $GUI_HIDE)
+			EndSwitch
+		Case 2
+			Switch $g_aiHiddenHeroStatus[2]
+				Case 0 ; Default
+					GUICtrlSetState($g_hPicPrinceGray, $GUI_SHOW)
+					GUICtrlSetState($g_hPicPrinceRed, $GUI_HIDE)
+					GUICtrlSetState($g_hPicPrinceBlue, $GUI_HIDE)
+					GUICtrlSetState($g_hPicPrinceGreen, $GUI_HIDE)
+				Case 1 ; Ready but unused
+					GUICtrlSetState($g_hPicPrinceGray, $GUI_HIDE)
+					GUICtrlSetState($g_hPicPrinceRed, $GUI_HIDE)
+					GUICtrlSetState($g_hPicPrinceBlue, $GUI_HIDE)
+					GUICtrlSetState($g_hPicPrinceGreen, $GUI_SHOW)
+				Case 2 ; Upgrading
+					GUICtrlSetState($g_hPicPrinceGray, $GUI_HIDE)
+					GUICtrlSetState($g_hPicPrinceRed, $GUI_SHOW)
+					GUICtrlSetState($g_hPicPrinceBlue, $GUI_HIDE)
+					GUICtrlSetState($g_hPicPrinceGreen, $GUI_HIDE)
+			EndSwitch
+		Case 3
+			Switch $g_aiHiddenHeroStatus[3]
+				Case 0 ; Default
+					GUICtrlSetState($g_hPicWardenGray, $GUI_SHOW)
+					GUICtrlSetState($g_hPicWardenRed, $GUI_HIDE)
+					GUICtrlSetState($g_hPicWardenBlue, $GUI_HIDE)
+					GUICtrlSetState($g_hPicWardenGreen, $GUI_HIDE)
+				Case 1 ; Ready but unused
+					GUICtrlSetState($g_hPicWardenGray, $GUI_HIDE)
+					GUICtrlSetState($g_hPicWardenRed, $GUI_HIDE)
+					GUICtrlSetState($g_hPicWardenBlue, $GUI_HIDE)
+					GUICtrlSetState($g_hPicWardenGreen, $GUI_SHOW)
+				Case 2 ; Upgrading
+					GUICtrlSetState($g_hPicWardenGray, $GUI_HIDE)
+					GUICtrlSetState($g_hPicWardenRed, $GUI_SHOW)
+					GUICtrlSetState($g_hPicWardenBlue, $GUI_HIDE)
+					GUICtrlSetState($g_hPicWardenGreen, $GUI_HIDE)
+			EndSwitch
+		Case 4
+			Switch $g_aiHiddenHeroStatus[4]
+				Case 0 ; Default
+					GUICtrlSetState($g_hPicChampionGray, $GUI_SHOW)
+					GUICtrlSetState($g_hPicChampionRed, $GUI_HIDE)
+					GUICtrlSetState($g_hPicChampionBlue, $GUI_HIDE)
+					GUICtrlSetState($g_hPicChampionGreen, $GUI_HIDE)
+				Case 1 ; Ready but unused
+					GUICtrlSetState($g_hPicChampionGray, $GUI_HIDE)
+					GUICtrlSetState($g_hPicChampionRed, $GUI_HIDE)
+					GUICtrlSetState($g_hPicChampionBlue, $GUI_HIDE)
+					GUICtrlSetState($g_hPicChampionGreen, $GUI_SHOW)
+				Case 2 ; Upgrading
+					GUICtrlSetState($g_hPicChampionGray, $GUI_HIDE)
+					GUICtrlSetState($g_hPicChampionRed, $GUI_SHOW)
+					GUICtrlSetState($g_hPicChampionBlue, $GUI_HIDE)
+					GUICtrlSetState($g_hPicChampionGreen, $GUI_HIDE)
+			EndSwitch
+	EndSwitch
+
 	runBot()
 
 EndFunc   ;==>SwitchCOCAcc
@@ -446,7 +546,7 @@ EndFunc   ;==>SwitchCOCAcc_ClickAccount
 
 Func SwitchCOCAcc_ConnectedSCID(ByRef $bResult)
 	For $i = 0 To 20 ; Checking Blue Reload button continuously in 20sec
-		Local $aSuperCellIDReload = decodeSingleCoord(findImage("SupercellID Reload", $g_sImgSupercellIDReload, GetDiamondFromRect("300,145,360,200"), 1, True, Default))
+		Local $aSuperCellIDReload = decodeSingleCoord(findImage("SupercellID Reload", $g_sImgSupercellIDReload, GetDiamondFromRect("560,145,635,200"), 1, True, Default))
 		If IsArray($aSuperCellIDReload) And UBound($aSuperCellIDReload, 1) >= 2 Then
 			Click($aSuperCellIDReload[0], $aSuperCellIDReload[1], 1, 120, "Click Reload SC_ID")
 			Setlog("   1. Click Reload Supercell ID")
@@ -564,21 +664,34 @@ EndFunc   ;==>SwitchCOCAcc_ClickAccountSCID
 
 Func CheckWaitHero() ; get hero regen time remaining if enabled
 	Local $iActiveHero
-	Local $aHeroResult[$eHeroCount]
+	Local $aHeroResult[$eHeroSlots]
 	$g_aiTimeTrain[2] = 0
 
 	$aHeroResult = getArmyHeroTime("all")
-	If UBound($aHeroResult) < $eHeroCount Then Return ; OCR error
+	If UBound($aHeroResult) < $eHeroSlots Then Return ; OCR error
 
 	If _Sleep($DELAYRESPOND) Then Return
 	If Not $g_bRunState Then Return
 	If $aHeroResult[0] > 0 Or $aHeroResult[1] > 0 Or $aHeroResult[2] > 0 Or $aHeroResult[3] > 0 Then ; check if hero is enabled to use/wait and set wait time
-		For $pTroopType = $eKing To $eChampion ; check all 4 hero
+		Local $pTroopType
+		For $i = 0 To $eHeroSlots - 1
+			Switch $g_aiCmbCustomHeroOrder[$i]
+				Case 0
+					$pTroopType = $eKing
+				Case 1
+					$pTroopType = $eQueen
+				Case 2
+					$pTroopType = $ePrince
+				Case 3
+					$pTroopType = $eWarden
+				Case 4
+					$pTroopType = $eChampion
+			EndSwitch
 			For $pMatchMode = $DB To $g_iModeCount - 1 ; check all attack modes
 				$iActiveHero = -1
 				If IsUnitUsed($pMatchMode, $pTroopType) And _
 						BitOR($g_aiAttackUseHeroes[$pMatchMode], $g_aiSearchHeroWaitEnable[$pMatchMode]) = $g_aiAttackUseHeroes[$pMatchMode] Then ; check if Hero enabled to wait
-					$iActiveHero = $pTroopType - $eKing ; compute array offset to active hero
+					$iActiveHero = $i ; compute array offset to active hero
 				EndIf
 				If $iActiveHero <> -1 And $aHeroResult[$iActiveHero] > 0 Then ; valid time?
 					; check exact time & existing time is less than new time

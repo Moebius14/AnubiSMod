@@ -121,7 +121,6 @@ Func CollectEventRewards()
 	EndIf
 
 	Local $iClaim = 0, $iBonus = 0
-	Local $IsOresPresent = 0
 	Local $IsShinyPresent = 0
 	Local $IsGlowyPresent = 0
 	Local $IsStarryPresent = 0
@@ -159,7 +158,6 @@ Func CollectEventRewards()
 						Case "Starry"
 							$IsStarryPresent = 1
 					EndSwitch
-					$IsOresPresent = 1
 				EndIf
 				Click($aAllCoords[$j][0], $aAllCoords[$j][1], 1, 120, "Claim " & $j + 1)         ; Click Claim button
 				If WaitforPixel(329, 390 + $g_iMidOffsetY, 331, 392 + $g_iMidOffsetY, Hex(0xFDC875, 6), 20, 3) Then         ; wait for Cancel Button popped up in 1.5 second
@@ -173,39 +171,36 @@ Func CollectEventRewards()
 					EndIf
 					If _Sleep(1000) Then ExitLoop
 				Else
-					If _Sleep(Random(3500, 4500, 1)) Then ExitLoop
+					If _Sleep(Random(500, 1500, 1)) Then ExitLoop
 					$iClaim += 1
-					If Not QuickMIS("BC1", $g_sImgOresCollect, $aAllCoords[$j][0] - 50, $aAllCoords[$j][1] - 90, $aAllCoords[$j][0] + 45, $aAllCoords[$j][1] - 20) And $IsOresPresent = 1 Then
-						$IsOresJustCollected = 1
-						If $IsShinyPresent Then
-							SetLog("Shiny Ore Collected", $COLOR_SUCCESS1)
-							If $g_iTxtCurrentVillageName <> "" Then
-								GUICtrlSetData($g_hTxtModLog, @CRLF & _NowTime() & " [" & $g_iTxtCurrentVillageName & "] Event : Shiny Ore Collected", 1)
-							Else
-								GUICtrlSetData($g_hTxtModLog, @CRLF & _NowTime() & " [" & $g_sProfileCurrentName & "] Event : Shiny Ore Collected", 1)
-							EndIf
-							_FileWriteLog($g_sProfileLogsPath & "\ModLog.log", " [" & $g_sProfileCurrentName & "] - Event : Shiny Ore Collected")
-						ElseIf $IsGlowyPresent Then
-							SetLog("Glowy Ore Collected", $COLOR_SUCCESS1)
-							If $g_iTxtCurrentVillageName <> "" Then
-								GUICtrlSetData($g_hTxtModLog, @CRLF & _NowTime() & " [" & $g_iTxtCurrentVillageName & "] Event : Glowy Ore Collected", 1)
-							Else
-								GUICtrlSetData($g_hTxtModLog, @CRLF & _NowTime() & " [" & $g_sProfileCurrentName & "] Event : Glowy Ore Collected", 1)
-							EndIf
-							_FileWriteLog($g_sProfileLogsPath & "\ModLog.log", " [" & $g_sProfileCurrentName & "] - Event : Glowy Ore Collected")
-						ElseIf $IsStarryPresent Then
-							SetLog("Starry Ore Collected", $COLOR_SUCCESS1)
-							If $g_iTxtCurrentVillageName <> "" Then
-								GUICtrlSetData($g_hTxtModLog, @CRLF & _NowTime() & " [" & $g_iTxtCurrentVillageName & "] Event : Starry Ore Collected", 1)
-							Else
-								GUICtrlSetData($g_hTxtModLog, @CRLF & _NowTime() & " [" & $g_sProfileCurrentName & "] Event : Starry Ore Collected", 1)
-							EndIf
-							_FileWriteLog($g_sProfileLogsPath & "\ModLog.log", " [" & $g_sProfileCurrentName & "] - Event : Starry Ore Collected")
+					$IsOresJustCollected = 1
+					If $IsShinyPresent Then
+						SetLog("Shiny Ore Collected", $COLOR_SUCCESS1)
+						If $g_iTxtCurrentVillageName <> "" Then
+							GUICtrlSetData($g_hTxtModLog, @CRLF & _NowTime() & " [" & $g_iTxtCurrentVillageName & "] Event : Shiny Ore Collected", 1)
+						Else
+							GUICtrlSetData($g_hTxtModLog, @CRLF & _NowTime() & " [" & $g_sProfileCurrentName & "] Event : Shiny Ore Collected", 1)
 						EndIf
+						_FileWriteLog($g_sProfileLogsPath & "\ModLog.log", " [" & $g_sProfileCurrentName & "] - Event : Shiny Ore Collected")
+					ElseIf $IsGlowyPresent Then
+						SetLog("Glowy Ore Collected", $COLOR_SUCCESS1)
+						If $g_iTxtCurrentVillageName <> "" Then
+							GUICtrlSetData($g_hTxtModLog, @CRLF & _NowTime() & " [" & $g_iTxtCurrentVillageName & "] Event : Glowy Ore Collected", 1)
+						Else
+							GUICtrlSetData($g_hTxtModLog, @CRLF & _NowTime() & " [" & $g_sProfileCurrentName & "] Event : Glowy Ore Collected", 1)
+						EndIf
+						_FileWriteLog($g_sProfileLogsPath & "\ModLog.log", " [" & $g_sProfileCurrentName & "] - Event : Glowy Ore Collected")
+					ElseIf $IsStarryPresent Then
+						SetLog("Starry Ore Collected", $COLOR_SUCCESS1)
+						If $g_iTxtCurrentVillageName <> "" Then
+							GUICtrlSetData($g_hTxtModLog, @CRLF & _NowTime() & " [" & $g_iTxtCurrentVillageName & "] Event : Starry Ore Collected", 1)
+						Else
+							GUICtrlSetData($g_hTxtModLog, @CRLF & _NowTime() & " [" & $g_sProfileCurrentName & "] Event : Starry Ore Collected", 1)
+						EndIf
+						_FileWriteLog($g_sProfileLogsPath & "\ModLog.log", " [" & $g_sProfileCurrentName & "] - Event : Starry Ore Collected")
 					EndIf
 					If _Sleep(100) Then ExitLoop
 				EndIf
-				$IsOresPresent = 0
 				$IsShinyPresent = 0
 				$IsGlowyPresent = 0
 				$IsStarryPresent = 0

@@ -14,7 +14,7 @@
 Func BotDetectFirstTime()
 	If $g_bIsClientSyncError Then Return ; if restart after OOS, and User stop/start bot, skip this.
 
-	ClickAway()
+	ClearScreen()
 	If _Sleep($DELAYBOTDETECT1) Then Return
 
 	SetLog("Detecting your Buildings", $COLOR_INFO)
@@ -95,35 +95,51 @@ Func BotDetectFirstTime()
 		EndIf
 	EndIf
 
+	If Number($g_iTownHallLevel) >= 9 Then
+		If _Sleep($DELAYBOTDETECT3) Then Return
+		If $g_aiHelperHutPos[0] = "" Or $g_aiHelperHutPos[0] = -1 Then
+		LocateHelperHut(False)
+		SaveConfig()
+		EndIf
+	EndIf
+
 	If Number($g_iTownHallLevel) >= 7 Then
 		If $g_iCmbBoostBarbarianKing > 0 Or $g_bUpgradeKingEnable Then
 			If _Sleep($DELAYBOTDETECT3) Then Return
-			If $g_aiKingAltarPos[0] = -1 Then
-				LocateKingAltar(False)
+			If $g_aiHeroHallPos[0] = -1 Then
+				LocateHeroHall(False)
 				SaveConfig()
 			EndIf
 		EndIf
 
-		If Number($g_iTownHallLevel) >= 9 And ($g_iCmbBoostArcherQueen > 0 Or $g_bUpgradeQueenEnable) Then
+		If Number($g_iTownHallLevel) >= 8 And ($g_iCmbBoostArcherQueen > 0 Or $g_bUpgradeQueenEnable) Then
 			If _Sleep($DELAYBOTDETECT3) Then Return
-			If $g_aiQueenAltarPos[0] = -1 Then
-				LocateQueenAltar(False)
+			If $g_aiHeroHallPos[0] = -1 Then
+				LocateHeroHall(False)
+				SaveConfig()
+			EndIf
+		EndIf
+
+		If Number($g_iTownHallLevel) >= 9 And ($g_iCmbBoostMinionPrince > 0 Or $g_bUpgradePrinceEnable) Then
+			If _Sleep($DELAYBOTDETECT3) Then Return
+			If $g_aiHeroHallPos[0] = -1 Then
+				LocateHeroHall(False)
 				SaveConfig()
 			EndIf
 		EndIf
 
 		If Number($g_iTownHallLevel) >= 11 And ($g_iCmbBoostWarden > 0 Or $g_bUpgradeWardenEnable) Then
 			If _Sleep($DELAYBOTDETECT3) Then Return
-			If $g_aiWardenAltarPos[0] = -1 Then
-				LocateWardenAltar(False)
+			If $g_aiHeroHallPos[0] = -1 Then
+				LocateHeroHall(False)
 				SaveConfig()
 			EndIf
 		EndIf
 
 		If Number($g_iTownHallLevel) >= 13 And ($g_iCmbBoostChampion > 0 Or $g_bUpgradeChampionEnable) Then
 			If _Sleep($DELAYBOTDETECT3) Then Return
-			If $g_aiChampionAltarPos[0] = -1 Then
-				LocateChampionAltar(False)
+			If $g_aiHeroHallPos[0] = -1 Then
+				LocateHeroHall(False)
 				SaveConfig()
 			EndIf
 		EndIf

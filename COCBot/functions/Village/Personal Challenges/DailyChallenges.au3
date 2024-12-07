@@ -22,7 +22,7 @@ Func DailyChallenges($CCControl = True)
 		EndIf
 	Next
 
-	Local $bCheckDiscount = $bGoldPass And ($g_bUpgradeKingEnable Or $g_bUpgradeQueenEnable Or $g_bUpgradeWardenEnable Or $g_bUpgradeChampionEnable Or $g_bAutoUpgradeWallsEnable Or $bUpgradePets)
+	Local $bCheckDiscount = $bGoldPass And ($g_bUpgradeKingEnable Or $g_bUpgradeQueenEnable Or $g_bUpgradePrinceEnable Or $g_bUpgradeWardenEnable Or $g_bUpgradeChampionEnable Or $g_bAutoUpgradeWallsEnable Or $bUpgradePets)
 
 	If Not $g_bChkCollectRewards And Not $bCheckDiscount Then Return
 
@@ -170,12 +170,12 @@ Func CollectDailyRewards($bGoldPass = False)
 	EndIf
 
 	Local $iClaim = 0
-	Local $IsCCGoldPresent = 0
-	Local $IsBOFPresent = 0
-	Local $IsBOSPresent = 0
-	Local $IsResPotPresent = 0
-	Local $IsPetPotPresent = 0
-	Local $IsAutoForgeSlotPresent = 0
+	;	Local $IsCCGoldPresent = 0
+	;	Local $IsBOFPresent = 0
+	;	Local $IsBOSPresent = 0
+	;	Local $IsResPotPresent = 0
+	;	Local $IsPetPotPresent = 0
+	;	Local $IsAutoForgeSlotPresent = 0
 	Local $sAllCoordsString, $aAllCoordsTemp, $aTempCoords
 	Local $aAllCoords[0][2]
 	Local $aAllCoordsBackup[0][2]
@@ -200,16 +200,16 @@ Func CollectDailyRewards($bGoldPass = False)
 			Next
 			RemoveDupXY($aAllCoords)
 			_ArraySort($aAllCoords, 1, 0, 0, 0) ;sort by x from right to left
-			Local $RewardImagesTypes[6][2] = [[$g_sImgCCGoldCollectDaily, $IsCCGoldPresent], _
-					[$g_sImgBOFCollectDaily, $IsBOFPresent], _
-					[$g_sImgBOSCollectDaily, $IsBOSPresent], _
-					[$g_sImgResPotCollectDaily, $IsResPotPresent], _
-					[$g_sImgPetPotCollectDaily, $IsPetPotPresent], _
-					[$g_sImgAutoForgeSlotDaily, $IsAutoForgeSlotPresent]]
+			Local $RewardTypes[6][3] = [[$g_sImgCCGoldCollectDaily, False, "Clan Capital Gold Collected"], _
+					[$g_sImgBOFCollectDaily, False, "Book Of Fighting Collected"], _
+					[$g_sImgBOSCollectDaily, False, "Book Of Spells Collected"], _
+					[$g_sImgResPotCollectDaily, False, "Research Potion Collected"], _
+					[$g_sImgPetPotCollectDaily, False, "Pet Potion Collected"], _
+					[$g_sImgAutoForgeSlotDaily, False, "AutoForge Slot Collected"]]
 
 			For $j = 0 To UBound($aAllCoords) - 1
-				For $z = 0 To UBound($RewardImagesTypes) - 1
-					If QuickMIS("BC1", $RewardImagesTypes[$z][0], $aAllCoords[$j][0] - 50, $aAllCoords[$j][1] - 90, $aAllCoords[$j][0] + 45, $aAllCoords[$j][1] - 20) Then $RewardImagesTypes[$z][1] = 1
+				For $z = 0 To UBound($RewardTypes) - 1
+					If QuickMIS("BC1", $RewardTypes[$z][0], $aAllCoords[$j][0] - 50, $aAllCoords[$j][1] - 90, $aAllCoords[$j][0] + 45, $aAllCoords[$j][1] - 20) Then $RewardTypes[$z][1] = True
 				Next
 				Click($aAllCoords[$j][0], $aAllCoords[$j][1], 1, 120, "Claim " & $j + 1)         ; Click Claim button
 				If WaitforPixel(329, 390 + $g_iMidOffsetY, 331, 392 + $g_iMidOffsetY, Hex(0xFFC877, 6), 20, 3) Then         ; wait for Cancel Button popped up in 1.5 second
@@ -223,74 +223,41 @@ Func CollectDailyRewards($bGoldPass = False)
 					EndIf
 					If _Sleep(1000) Then ExitLoop
 				Else
-					If _Sleep(Random(3500, 4500, 1)) Then ExitLoop
+					If _Sleep(Random(500, 1000, 1)) Then ExitLoop
 					$iClaim += 1
-
-					For $z = 0 To UBound($RewardImagesTypes) - 1
-						If $RewardImagesTypes[$z][1] = 1 Then
-							If Not QuickMIS("BC1", $RewardImagesTypes[$z][0], $aAllCoords[$j][0] - 50, $aAllCoords[$j][1] - 90, $aAllCoords[$j][0] + 45, $aAllCoords[$j][1] - 20) Then
-								Switch $z
-									Case 0
-										$IsCCGoldJustCollected = 1
-									Case 1
-										$IsBOFJustCollected = 1
-									Case 2
-										$IsBOSJustCollected = 1
-									Case 3
-										$IsResPotJustCollected = 1
-									Case 4
-										$IsPetPotJustCollected = 1
-									Case 5
-										$IsAutoForgeSlotJustCollected = 1
-								EndSwitch
-							Else
-								Switch $z
-									Case 0
-										$IsCCGoldPresent = 0
-									Case 1
-										$IsBOFPresent = 0
-									Case 2
-										$IsBOSPresent = 0
-									Case 3
-										$IsResPotPresent = 0
-									Case 4
-										$IsPetPotPresent = 0
-									Case 5
-										$IsAutoForgeSlotPresent = 0
-								EndSwitch
-							EndIf
-						EndIf
-					Next
-
-					Local $RewardTypes[6][2] = [[$IsCCGoldPresent, "Clan Capital Gold Collected"], _
-							[$IsBOFPresent, "Book Of Fighting Collected"], _
-							[$IsBOSPresent, "Book Of Spells Collected"], _
-							[$IsResPotPresent, "Research Potion Collected"], _
-							[$IsPetPotPresent, "Pet Potion Collected"], _
-							[$IsAutoForgeSlotPresent, "AutoForge Slot Collected"]]
-
 					For $z = 0 To UBound($RewardTypes) - 1
-						If $z = 0 Then $IsCCGoldJustCollectedDChallenge = $RewardTypes[$z][0]
-						If $RewardTypes[$z][0] = 1 Then
-							SetLog($RewardTypes[$z][1], $COLOR_SUCCESS1)
+						If $RewardTypes[$z][1] Then
+							Switch $z
+								Case 0
+									$IsCCGoldJustCollected = 1
+									$IsCCGoldJustCollectedDChallenge = 1
+								Case 1
+									$IsBOFJustCollected = 1
+								Case 2
+									$IsBOSJustCollected = 1
+								Case 3
+									$IsResPotJustCollected = 1
+								Case 4
+									$IsPetPotJustCollected = 1
+								Case 5
+									$IsAutoForgeSlotJustCollected = 1
+							EndSwitch
+							SetLog($RewardTypes[$z][2], $COLOR_SUCCESS1)
 							If $g_iTxtCurrentVillageName <> "" Then
-								GUICtrlSetData($g_hTxtModLog, @CRLF & _NowTime() & " [" & $g_iTxtCurrentVillageName & "] " & $RewardTypes[$z][1], 1)
+								GUICtrlSetData($g_hTxtModLog, @CRLF & _NowTime() & " [" & $g_iTxtCurrentVillageName & "] " & $RewardTypes[$z][2], 1)
 							Else
-								GUICtrlSetData($g_hTxtModLog, @CRLF & _NowTime() & " [" & $g_sProfileCurrentName & "] " & $RewardTypes[$z][1], 1)
+								GUICtrlSetData($g_hTxtModLog, @CRLF & _NowTime() & " [" & $g_sProfileCurrentName & "] " & $RewardTypes[$z][2], 1)
 							EndIf
-							_FileWriteLog($g_sProfileLogsPath & "\ModLog.log", " [" & $g_sProfileCurrentName & "] " & $RewardTypes[$z][1])
+							_FileWriteLog($g_sProfileLogsPath & "\ModLog.log", " [" & $g_sProfileCurrentName & "] " & $RewardTypes[$z][2])
 							ExitLoop
 						EndIf
 					Next
 					If _Sleep(100) Then ExitLoop
 				EndIf
 				;Reset local variables
-				$IsCCGoldPresent = 0
-				$IsBOFPresent = 0
-				$IsBOSPresent = 0
-				$IsResPotPresent = 0
-				$IsPetPotPresent = 0
-				$IsAutoForgeSlotPresent = 0
+				For $z = 0 To UBound($RewardTypes) - 1
+					$RewardTypes[$z][1] = False
+				Next
 			Next
 		EndIf
 		If _CheckPixel($aPersonalChallengeRewardsAvail, $g_bCapturePixel) And Not _CheckPixel($aPersonalChallengeLeftEdge, $g_bCapturePixel) Then ; far left edge

@@ -281,7 +281,7 @@ Func IsPetHousePage($bSetLog = True, $iLoop = 30)
 EndFunc   ;==>IsPetHousePage
 
 Func IsBlacksmithPage($bSetLog = True, $iLoop = 30)
-	Local $aIsBlacksmithPage[4] = [807, 75, 0xFF8D95, 20] ; Pink red top of close button
+	Local $aIsBlacksmithPage[4] = [773, 156, 0xFF8D95, 20] ; Pink red top of close button
 
 	If IsPageLoop($aIsBlacksmithPage, $iLoop) Then
 		If ($g_bDebugSetlog Or $g_bDebugClick) And $bSetLog Then SetLog("**Blacksmith Window OK**", $COLOR_ACTION)

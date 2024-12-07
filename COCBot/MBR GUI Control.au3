@@ -1665,18 +1665,6 @@ Func SetTime($bForceUpdate = False)
 		EndIf
 	EndIf
 
-	If _DateIsValid($g_sStarLabUpgradeTime) Then
-		Local $iStarLabTime = _DateDiff('s', _NowCalc(), $g_sStarLabUpgradeTime) * 1000
-		If $iStarLabTime > 0 Then
-			_TicksToDay($iStarLabTime, $day, $hour, $min, $sec)
-			GUICtrlSetData($g_hLbLStarLabTime, $day > 0 ? StringFormat("%2ud %02i:%02i'", $day, $hour, $min) : StringFormat("%02i:%02i:%02i", $hour, $min, $sec))
-			GUICtrlSetColor($g_hLbLStarLabTime, $day > 0 ? $COLOR_GREEN : $COLOR_OLIVE)
-		Else
-			GUICtrlSetData($g_hLbLStarLabTime, "")
-			$g_sStarLabUpgradeTime = ""
-		EndIf
-	EndIf
-
 	If _DateIsValid($g_sPetUpgradeTime) Then
 		Local $iPetTime = _DateDiff('s', _NowCalc(), $g_sPetUpgradeTime) * 1000
 		If $iPetTime > 0 Then
@@ -2080,7 +2068,7 @@ Func Bind_ImageList($nCtrl, ByRef $hImageList)
 	Switch $nCtrl
 		Case $g_hTabMain
 			; the icons for main tab
-			Local $aIconIndex = [$eIcnHourGlass, $eIcnTH16, $eIcnAttack, $eIcnGUIMod, $eIcnGUI, $eIcnInfo]
+			Local $aIconIndex = [$eIcnHourGlass, $eIcnTH17, $eIcnAttack, $eIcnGUIMod, $eIcnGUI, $eIcnInfo]
 
 		Case $g_hGUI_VILLAGE_TAB
 			; the icons for village tab

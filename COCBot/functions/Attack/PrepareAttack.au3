@@ -28,10 +28,12 @@ Func PrepareAttack($pMatchMode, $bRemaining = False) ;Assigns troops
 	If Not $bRemaining Then ; reset Hero variables before attack if not checking remaining troops
 		$g_bDropKing = False ; reset hero dropped flags
 		$g_bDropQueen = False
+		$g_bDropPrince = False
 		$g_bDropWarden = False
 		$g_bDropChampion = False
 		If $g_iActivateKing = 1 Or $g_iActivateKing = 2 Then $g_aHeroesTimerActivation[$eHeroBarbarianKing] = 0
 		If $g_iActivateQueen = 1 Or $g_iActivateQueen = 2 Then $g_aHeroesTimerActivation[$eHeroArcherQueen] = 0
+		If $g_iActivatePrince = 1 Or $g_iActivatePrince = 2 Then $g_aHeroesTimerActivation[$eHeroMinionPrince] = 0
 		If $g_iActivateWarden = 1 Or $g_iActivateWarden = 2 Then $g_aHeroesTimerActivation[$eHeroGrandWarden] = 0
 		If $g_iActivateChampion = 1 Or $g_iActivateChampion = 2 Then $g_aHeroesTimerActivation[$eHeroRoyalChampion] = 0
 
@@ -70,6 +72,8 @@ Func PrepareAttack($pMatchMode, $bRemaining = False) ;Assigns troops
 					$bDropped = $g_bDropKing
 				Case $eQueen
 					$bDropped = $g_bDropQueen
+				Case $ePrince
+					$bDropped = $g_bDropPrince
 				Case $eWarden
 					$bDropped = $g_bDropWarden
 				Case $eChampion
@@ -402,6 +406,8 @@ Func IsUnitUsed($iMatchMode, $iTroopIndex)
 					If (BitAND($g_aiAttackUseHeroes[$iMatchMode], $eHeroKing) = $eHeroKing) Then Return True
 				Case $eQueen
 					If (BitAND($g_aiAttackUseHeroes[$iMatchMode], $eHeroQueen) = $eHeroQueen) Then Return True
+				Case $ePrince
+					If (BitAND($g_aiAttackUseHeroes[$iMatchMode], $eHeroPrince) = $eHeroPrince) Then Return True
 				Case $eWarden
 					If (BitAND($g_aiAttackUseHeroes[$iMatchMode], $eHeroWarden) = $eHeroWarden) Then Return True
 				Case $eChampion
@@ -409,7 +415,7 @@ Func IsUnitUsed($iMatchMode, $iTroopIndex)
 				Case $eCastle, $eWallW, $eBattleB, $eStoneS, $eSiegeB, $eLogL, $eFlameF, $eBattleD
 					If $g_abAttackDropCC[$iMatchMode] Then Return True
 				Case $eLSpell
-					If $g_abAttackUseLightSpell[$iMatchMode] Or $g_bSmartZapEnable Then Return True
+					If $g_abAttackUseLightSpell[$iMatchMode] Or $g_bSmartZapEnable Or $g_bSmartZapEnableAD > 0 Then Return True
 				Case $eHSpell
 					If $g_abAttackUseHealSpell[$iMatchMode] Then Return True
 				Case $eRSpell

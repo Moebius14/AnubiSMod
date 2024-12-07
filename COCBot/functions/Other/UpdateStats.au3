@@ -653,7 +653,6 @@ Func UpdateStats($bForceUpdate = False)
 	Next
 
 	If Not _DateIsValid($g_sLabUpgradeTime) Then GUICtrlSetData($g_hLbLLabTime, "")
-	If Not _DateIsValid($g_sStarLabUpgradeTime) Then GUICtrlSetData($g_hLbLStarLabTime, "")
 	If Not _DateIsValid($g_sPetUpgradeTime) Then GUICtrlSetData($g_hLbLPetTime, "")
 
 	If ProfileSwitchAccountEnabled() Then
@@ -795,7 +794,6 @@ Func ResetStats()
 			GUICtrlSetData($g_ahLblResultRuntimeNowAcc[$i], "00:00:00")
 			$g_aiRunTime[$i] = 0
 			GUICtrlSetData($g_hLbLLabTime, "")
-			GUICtrlSetData($g_hLbLStarLabTime, "")
 			GUICtrlSetData($g_hLbLPetTime, "")
 		Next
 	EndIf
@@ -806,7 +804,7 @@ Func WallsStatsMAJ()
 	$g_aiWallsCurrentCount[$g_iCmbUpgradeWallsLevel + 4] -= Number($g_iNbrOfWallsUpped)
 	$g_aiWallsCurrentCount[$g_iCmbUpgradeWallsLevel + 5] += Number($g_iNbrOfWallsUpped)
 	$g_iNbrOfWallsUpped = 0
-	For $i = 4 To 17
+	For $i = 4 To 18
 		GUICtrlSetData($g_ahWallsCurrentCount[$i], $g_aiWallsCurrentCount[$i])
 	Next
 	SaveConfig()

@@ -675,19 +675,19 @@ EndFunc   ;==>CheckDailyRewardWindow
 
 Func IsMainGrayed()
 
-	Local $offColors1[3][3] = [[0x3D5F72, 4, 0], [0x070707, 6, 0], [0x7B7B77, 8, 0]] ; 2nd light blue pixel, 3rd pixel Black, 4th pixel White
+	Local $offColors1[2][3] = [[0x3D5F72, 4, 0], [0x7B7B77, 9, 0]] ; 2nd light blue pixel, 3rd white pixel
 	Local $IsMainGrayed1 = _MultiPixelSearch(370, 7, 390, 9, 1, 1, Hex(0x576F7B, 6), $offColors1, 15) ; first light blue pixel on left of button
-	SetDebugLog("Main 1 Pixel Color #1: " & _GetPixelColor(375, 8, True) & ", #2: " & _GetPixelColor(379, 8, True) & ", #3: " & _GetPixelColor(381, 8, True) & ", #4: " & _GetPixelColor(383, 8, True), $COLOR_DEBUG)
+	SetDebugLog("Main 1 Pixel Color #1: " & _GetPixelColor(374, 8, True) & ", #2: " & _GetPixelColor(378, 8, True) & ", #3: " & _GetPixelColor(383, 8, True), $COLOR_DEBUG)
 	If IsArray($IsMainGrayed1) Then Return True
 
-	Local $offColors2[3][3] = [[0x253944, 4, 0], [0x040404, 6, 0], [0x4A4A47, 8, 0]] ; 2nd light blue pixel, 3rd pixel Black, 4th pixel White
+	Local $offColors2[2][3] = [[0x253944, 4, 0], [0x4A4A47, 9, 0]] ; 2nd light blue pixel, 3rd white pixel
 	Local $IsMainGrayed2 = _MultiPixelSearch(370, 7, 390, 9, 1, 1, Hex(0x34434A, 6), $offColors2, 15) ; first light blue pixel on left of button
-	SetDebugLog("Main 2 Pixel Color #1: " & _GetPixelColor(375, 8, True) & ", #2: " & _GetPixelColor(379, 8, True) & ", #3: " & _GetPixelColor(381, 8, True) & ", #4: " & _GetPixelColor(383, 8, True), $COLOR_DEBUG)
+	SetDebugLog("Main 2 Pixel Color #1: " & _GetPixelColor(374, 8, True) & ", #2: " & _GetPixelColor(378, 8, True) & ", #3: " & _GetPixelColor(383, 8, True), $COLOR_DEBUG)
 	If IsArray($IsMainGrayed2) Then Return True
 
-	Local $offColors3[3][3] = [[0x497188, 4, 0], [0x080808, 6, 0], [0x93938E, 8, 0]] ; 2nd light blue pixel, 3rd pixel Black, 4th pixel White
+	Local $offColors3[2][3] = [[0x497188, 4, 0], [0x93938E, 9, 0]] ; 2nd light blue pixel, 3rd white pixel
 	Local $IsMainGrayed3 = _MultiPixelSearch(370, 7, 390, 9, 1, 1, Hex(0x688593, 6), $offColors3, 15) ; first light blue pixel on left of button
-	SetDebugLog("Main 3 Pixel Color #1: " & _GetPixelColor(375, 8, True) & ", #2: " & _GetPixelColor(379, 8, True) & ", #3: " & _GetPixelColor(381, 8, True) & ", #4: " & _GetPixelColor(383, 8, True), $COLOR_DEBUG)
+	SetDebugLog("Main 3 Pixel Color #1: " & _GetPixelColor(374, 8, True) & ", #2: " & _GetPixelColor(378, 8, True) & ", #3: " & _GetPixelColor(383, 8, True), $COLOR_DEBUG)
 	If IsArray($IsMainGrayed3) Then Return True
 
 	Return False

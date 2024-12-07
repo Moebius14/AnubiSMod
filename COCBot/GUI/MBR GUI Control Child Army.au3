@@ -298,6 +298,7 @@ Func HideSpellsFctTH()
 		GUICtrlSetData($g_ahTxtTrainArmySpellCount[$eSpellClone], 0)
 		GUICtrlSetData($g_ahTxtTrainArmySpellCount[$eSpellInvisibility], 0)
 		GUICtrlSetData($g_ahTxtTrainArmySpellCount[$eSpellRecall], 0)
+		GUICtrlSetData($g_ahTxtTrainArmySpellCount[$eSpellRevive], 0)
 		GUICtrlSetData($g_ahTxtTrainArmySpellCount[$eSpellHaste], 0)
 		GUICtrlSetData($g_ahTxtTrainArmySpellCount[$eSpellSkeleton], 0)
 		GUICtrlSetData($g_ahTxtTrainArmySpellCount[$eSpellBat], 0)
@@ -314,6 +315,7 @@ Func HideSpellsFctTH()
 		GUICtrlSetData($g_ahTxtTrainArmySpellCount[$eSpellBat], 0)
 		GUICtrlSetData($g_ahTxtTrainArmySpellCount[$eSpellInvisibility], 0)
 		GUICtrlSetData($g_ahTxtTrainArmySpellCount[$eSpellRecall], 0)
+		GUICtrlSetData($g_ahTxtTrainArmySpellCount[$eSpellRevive], 0)
 		GUICtrlSetData($g_ahTxtTrainArmySpellCount[$eSpellOvergrowth], 0)
 	EndIf
 
@@ -323,6 +325,7 @@ Func HideSpellsFctTH()
 	Else
 		GUICtrlSetData($g_ahTxtTrainArmySpellCount[$eSpellInvisibility], 0)
 		GUICtrlSetData($g_ahTxtTrainArmySpellCount[$eSpellRecall], 0)
+		GUICtrlSetData($g_ahTxtTrainArmySpellCount[$eSpellRevive], 0)
 		GUICtrlSetData($g_ahTxtTrainArmySpellCount[$eSpellOvergrowth], 0)
 	EndIf
 
@@ -330,6 +333,7 @@ Func HideSpellsFctTH()
 		_GUI_Value_STATE("ENABLE", $groupInvisibility)
 	Else
 		GUICtrlSetData($g_ahTxtTrainArmySpellCount[$eSpellRecall], 0)
+		GUICtrlSetData($g_ahTxtTrainArmySpellCount[$eSpellRevive], 0)
 		GUICtrlSetData($g_ahTxtTrainArmySpellCount[$eSpellOvergrowth], 0)
 	EndIf
 
@@ -337,11 +341,16 @@ Func HideSpellsFctTH()
 		_GUI_Value_STATE("ENABLE", $groupOvergrowth)
 	Else
 		GUICtrlSetData($g_ahTxtTrainArmySpellCount[$eSpellRecall], 0)
+		GUICtrlSetData($g_ahTxtTrainArmySpellCount[$eSpellRevive], 0)
 	EndIf
 
 	If $g_iTownHallLevel > 12 Or $g_iTownHallLevel = 0 Then
 		_GUI_Value_STATE("ENABLE", $groupRecall)
+	Else
+		GUICtrlSetData($g_ahTxtTrainArmySpellCount[$eSpellRevive], 0)
 	EndIf
+
+	If $g_iTownHallLevel > 14 Or $g_iTownHallLevel = 0 Then _GUI_Value_STATE("ENABLE", $groupRevive)
 
 EndFunc   ;==>HideSpellsFctTH
 
@@ -801,7 +810,7 @@ Func BtnSpellsOrderSet()
 	Local $bMissingTroop = False ; flag for when troops are not assigned by user
 	Local $aiBrewOrder[$eSpellCount] = [ _
 			$eSpellLightning, $eSpellHeal, $eSpellRage, $eSpellJump, $eSpellFreeze, $eSpellClone, _
-			$eSpellInvisibility, $eSpellRecall, $eSpellPoison, $eSpellEarthquake, $eSpellHaste, $eSpellSkeleton, $eSpellBat, $eSpellOvergrowth]
+			$eSpellInvisibility, $eSpellRecall, $eSpellRevive, $eSpellPoison, $eSpellEarthquake, $eSpellHaste, $eSpellSkeleton, $eSpellBat, $eSpellOvergrowth]
 
 	; check for duplicate combobox index and take action
 	For $i = 0 To UBound($g_ahCmbSpellsOrder) - 1
@@ -922,6 +931,13 @@ Func SetDefaultTroopGroup($bSetLog = True)
 	If ($bSetLog Or $g_bDebugSetlogTrain) And $g_bCustomTrainOrderEnable Then SetLog("Default troop training order set", $COLOR_SUCCESS)
 EndFunc   ;==>SetDefaultTroopGroup
 
+Func SetDefaultHeroGroup($bSetLog = True)
+	For $i = 0 To $eHeroCount - 1
+		$g_aiHeroSlotOrder[$i] = $i
+	Next
+	If $bSetLog Or $g_bDebugSetlogTrain Then SetLog("Default Hero slot order set", $COLOR_SUCCESS)
+EndFunc   ;==>SetDefaultHeroGroup
+
 Func SetDefaultSpellsGroup($bSetLog = True)
 	For $i = 0 To $eSpellCount - 1
 		$g_aiBrewOrder[$i] = $i
@@ -951,6 +967,17 @@ Func IsUseCustomTroopOrder()
 	If $g_bDebugSetlogTrain And $g_bCustomTrainOrderEnable Then SetLog("Custom train order used...", $COLOR_DEBUG) ;Debug
 	Return True
 EndFunc   ;==>IsUseCustomTroopOrder
+
+Func IsUseCustomHeroOrder()
+	For $i = 0 To UBound($g_aiCmbCustomHeroOrder) - 1 ; Check if custom train order has been used, to select log message
+		If $g_aiCmbCustomHeroOrder[$i] = -1 Then
+			If $g_bDebugSetlogTrain Then SetLog("Custom train order not used...", $COLOR_DEBUG) ;Debug
+			Return False
+		EndIf
+	Next
+	If $g_bDebugSetlogTrain Then SetLog("Custom train order used...", $COLOR_DEBUG) ;Debug
+	Return True
+EndFunc   ;==>IsUseCustomHeroOrder
 
 Func CalculTimeTo($TotalTotalTime)
 	Local $HourToTrain = 0
@@ -1123,6 +1150,243 @@ Func ChkDoubleTrain()
 	lblTotalCountSiege()
 EndFunc   ;==>ChkDoubleTrain
 
+Func BtnAssignHeroSlots()
+	GUISetState(@SW_SHOW, $g_hGUI_HeroAssign)
+EndFunc   ;==>BtnAssignHeroSlots
+
+Func CloseHeroAssign()
+	GUISetState(@SW_HIDE, $g_hGUI_HeroAssign)
+EndFunc   ;==>CloseHeroAssign
+
+Func HeroSlotLock($bRemove = True)
+	Switch $g_aiHeroHallPos[2]
+		Case -1
+			For $i = 0 To UBound($g_ahCmbHeroOrder) - 1
+				GUICtrlSetState($g_ahCmbHeroOrder[$i], $GUI_HIDE)
+				_GUICtrlSetImage($g_ahImgHeroOrder[$i], $g_sLibIconPath, $eIcnLocked)
+			Next
+			GUICtrlSetState($g_hBtnRemoveHero, $GUI_DISABLE)
+			GUICtrlSetState($g_hBtnHeroOrderSet, $GUI_DISABLE)
+		Case 1 To 2
+			For $i = 0 To UBound($g_ahCmbHeroOrder) - 1
+				If $i < 1 Then
+					GUICtrlSetState($g_ahCmbHeroOrder[$i], $GUI_SHOW)
+					If $bRemove Then
+						_GUICtrlComboBox_SetCurSel($g_ahCmbHeroOrder[$i], $g_aiHeroSlotOrder[$i])
+						_GUICtrlSetImage($g_ahImgHeroOrder[$i], $g_sLibIconPath, $g_aiHeroOrderIcon[$g_aiHeroSlotOrder[$i] + 1])
+					EndIf
+					ContinueLoop
+				EndIf
+				GUICtrlSetState($g_ahCmbHeroOrder[$i], $GUI_HIDE)
+				_GUICtrlSetImage($g_ahImgHeroOrder[$i], $g_sLibIconPath, $eIcnLocked)
+			Next
+			GUICtrlSetState($g_hBtnRemoveHero, $GUI_ENABLE)
+			GUICtrlSetState($g_hBtnHeroOrderSet, $GUI_ENABLE)
+		Case 3 To 4
+			For $i = 0 To UBound($g_ahCmbHeroOrder) - 1
+				If $i < 2 Then
+					GUICtrlSetState($g_ahCmbHeroOrder[$i], $GUI_SHOW)
+					If $bRemove Then
+						_GUICtrlComboBox_SetCurSel($g_ahCmbHeroOrder[$i], $g_aiHeroSlotOrder[$i])
+						_GUICtrlSetImage($g_ahImgHeroOrder[$i], $g_sLibIconPath, $g_aiHeroOrderIcon[$g_aiHeroSlotOrder[$i] + 1])
+					EndIf
+					ContinueLoop
+				EndIf
+				GUICtrlSetState($g_ahCmbHeroOrder[$i], $GUI_HIDE)
+				_GUICtrlSetImage($g_ahImgHeroOrder[$i], $g_sLibIconPath, $eIcnLocked)
+			Next
+			GUICtrlSetState($g_hBtnRemoveHero, $GUI_ENABLE)
+			GUICtrlSetState($g_hBtnHeroOrderSet, $GUI_ENABLE)
+		Case 5 To 6
+			For $i = 0 To UBound($g_ahCmbHeroOrder) - 1
+				If $i < 3 Then
+					GUICtrlSetState($g_ahCmbHeroOrder[$i], $GUI_SHOW)
+					If $bRemove Then
+						_GUICtrlComboBox_SetCurSel($g_ahCmbHeroOrder[$i], $g_aiHeroSlotOrder[$i])
+						_GUICtrlSetImage($g_ahImgHeroOrder[$i], $g_sLibIconPath, $g_aiHeroOrderIcon[$g_aiHeroSlotOrder[$i] + 1])
+					EndIf
+					ContinueLoop
+				EndIf
+				GUICtrlSetState($g_ahCmbHeroOrder[$i], $GUI_HIDE)
+				_GUICtrlSetImage($g_ahImgHeroOrder[$i], $g_sLibIconPath, $eIcnLocked)
+			Next
+			GUICtrlSetState($g_hBtnRemoveHero, $GUI_ENABLE)
+			GUICtrlSetState($g_hBtnHeroOrderSet, $GUI_ENABLE)
+		Case Else
+			;All slots unlocked
+			For $i = 0 To UBound($g_ahCmbHeroOrder) - 1
+				If $i = 4 Then ExitLoop
+				GUICtrlSetState($g_ahCmbHeroOrder[$i], $GUI_SHOW)
+				If $bRemove Then
+					_GUICtrlComboBox_SetCurSel($g_ahCmbHeroOrder[$i], $g_aiHeroSlotOrder[$i])
+					_GUICtrlSetImage($g_ahImgHeroOrder[$i], $g_sLibIconPath, $g_aiHeroOrderIcon[$g_aiHeroSlotOrder[$i] + 1])
+				EndIf
+			Next
+			GUICtrlSetState($g_hBtnRemoveHero, $GUI_ENABLE)
+			GUICtrlSetState($g_hBtnHeroOrderSet, $GUI_ENABLE)
+	EndSwitch
+EndFunc   ;==>HeroSlotLock
+
+Func GUIHeroSlotOrder()
+	Local $bDuplicate = False
+	Local $iGUI_CtrlId = @GUI_CtrlId
+	Local $iCtrlIdImage = $iGUI_CtrlId + 1 ; record control ID for $g_ahImgHeroOrder[$z] based on control of combobox that called this function
+	Local $iHeroIndex = _GUICtrlComboBox_GetCurSel($iGUI_CtrlId) + 1 ; find zero based index number of Hero selected in combo box, add one for enum of proper icon
+
+	_GUICtrlSetImage($iCtrlIdImage, $g_sLibIconPath, $g_aiHeroOrderIcon[$iHeroIndex]) ; set proper troop icon
+
+	For $i = 0 To UBound($g_ahCmbHeroOrder) - 1 ; check for duplicate combobox index and flag problem
+		If $iGUI_CtrlId = $g_ahCmbHeroOrder[$i] Then ContinueLoop
+		If _GUICtrlComboBox_GetCurSel($iGUI_CtrlId) = _GUICtrlComboBox_GetCurSel($g_ahCmbHeroOrder[$i]) Then
+			_GUICtrlSetImage($g_ahImgHeroOrder[$i], $g_sLibIconPath, $eIcnOptions)
+			_GUICtrlComboBox_SetCurSel($g_ahCmbHeroOrder[$i], -1)
+			GUISetState()
+			$bDuplicate = True
+		EndIf
+	Next
+	If $bDuplicate Then _GUICtrlSetImage($g_ahImgHeroOrderSet, $g_sLibIconPath, $eIcnRedLight) ; set status indicator to show need to apply new order
+EndFunc   ;==>GUIHeroSlotOrder
+
+Func BtnRemoveHero()
+	Local $bWasRedraw = SetRedrawBotWindow(False, Default, Default, Default, "BtnRemoveHero")
+	Local $sComboData = ""
+	For $j = 0 To UBound($g_asHeroOrderList) - 1
+		$sComboData &= $g_asHeroOrderList[$j] & "|"
+	Next
+	For $i = 0 To UBound($g_ahCmbHeroOrder) - 1
+		$g_aiCmbCustomHeroOrder[$i] = -1
+		_GUICtrlComboBox_ResetContent($g_ahCmbHeroOrder[$i])
+		GUICtrlSetData($g_ahCmbHeroOrder[$i], $sComboData, "")
+		_GUICtrlSetImage($g_ahImgHeroOrder[$i], $g_sLibIconPath, $eIcnOptions)
+	Next
+	_GUICtrlSetImage($g_ahImgHeroOrderSet, $g_sLibIconPath, $eIcnSilverStar)
+	SetDefaultHeroGroup(False)
+	HeroSlotLock(False)
+	SetRedrawBotWindow($bWasRedraw, Default, Default, Default, "BtnRemoveHero")
+EndFunc   ;==>BtnRemoveHero
+
+Func BtnHeroOrderSet()
+	Local $bWasRedraw = SetRedrawBotWindow(False, Default, Default, Default, "BtnHeroOrderSet")
+	Local $bReady = True ; Initialize ready to record Hero order flag
+	Local $sNewTrainList = ""
+
+	If _GUICtrlComboBox_GetCurSel($g_ahCmbHeroOrder[4]) = -1 Then
+		Local $ForKing = 0, $ForQueen = 0, $ForPrince = 0, $ForWarden = 0, $ForChampion = 0
+		For $i = 0 To 3
+			Switch $g_aiCmbCustomHeroOrder[$i]
+				Case 0, 1, 2, 3
+					$ForKing += 1
+				Case 0, 2, 3, 4
+					$ForQueen += 1
+				Case 0, 1, 3, 4
+					$ForPrince += 1
+				Case 0, 1, 2, 4
+					$ForWarden += 1
+				Case 0, 1, 2, 3
+					$ForChampion += 1
+			EndSwitch
+		Next
+		If $ForKing = 4 Then
+			_GUICtrlComboBox_SetCurSel($g_ahCmbHeroOrder[4], 0)
+			$g_aiCmbCustomHeroOrder[4] = 0
+		ElseIf $ForQueen = 4 Then
+			_GUICtrlComboBox_SetCurSel($g_ahCmbHeroOrder[4], 1)
+			$g_aiCmbCustomHeroOrder[4] = 1
+		ElseIf $ForPrince = 4 Then
+			_GUICtrlComboBox_SetCurSel($g_ahCmbHeroOrder[4], 2)
+			$g_aiCmbCustomHeroOrder[4] = 2
+		ElseIf $ForWarden = 4 Then
+			_GUICtrlComboBox_SetCurSel($g_ahCmbHeroOrder[4], 3)
+			$g_aiCmbCustomHeroOrder[4] = 3
+		ElseIf $ForChampion = 4 Then
+			_GUICtrlComboBox_SetCurSel($g_ahCmbHeroOrder[4], 4)
+			$g_aiCmbCustomHeroOrder[4] = 4
+		EndIf
+	EndIf
+
+	Local $aiUsedHero = $g_aiHeroSlotOrder
+	Local $aTmpTrainOrder[0], $iStartShuffle = 0
+
+	For $i = 0 To UBound($g_ahCmbHeroOrder) - 1
+		Local $iValue = _GUICtrlComboBox_GetCurSel($g_ahCmbHeroOrder[$i])
+		If $iValue <> -1 Then
+			_ArrayAdd($aTmpTrainOrder, $iValue)
+			Local $iEmpty = _ArraySearch($aiUsedHero, $iValue)
+			If $iEmpty > -1 Then $aiUsedHero[$iEmpty] = -1
+		EndIf
+	Next
+
+	$iStartShuffle = UBound($aTmpTrainOrder)
+
+	_ArraySort($aiUsedHero)
+
+	For $i = 0 To UBound($aTmpTrainOrder) - 1
+		If $aiUsedHero[$i] = -1 Then $aiUsedHero[$i] = $aTmpTrainOrder[$i]
+	Next
+
+	_ArrayShuffle($aiUsedHero, $iStartShuffle)
+
+	For $i = 0 To UBound($g_ahCmbHeroOrder) - 1
+		_GUICtrlComboBox_SetCurSel($g_ahCmbHeroOrder[$i], $aiUsedHero[$i])
+		_GUICtrlSetImage($g_ahImgHeroOrder[$i], $g_sLibIconPath, $g_aiHeroOrderIcon[$aiUsedHero[$i] + 1])
+	Next
+
+	$g_aiCmbCustomHeroOrder = $aiUsedHero
+	If $bReady Then
+		ChangeHeroTrainOrder() ; code function to record new training order
+		If @error Then
+			Switch @error
+				Case 1
+					SetLog("Code problem, can not continue till fixed!", $COLOR_ERROR)
+				Case 2
+					SetLog("Bad Combobox selections, please fix!", $COLOR_ERROR)
+				Case 3
+					SetLog("Unable to Change Hero Train Order due bad change count!", $COLOR_ERROR)
+				Case Else
+					SetLog("Monkey ate bad banana, something wrong with ChangeHeroTrainOrder() code!", $COLOR_ERROR)
+			EndSwitch
+			_GUICtrlSetImage($g_ahImgHeroOrderSet, $g_sLibIconPath, $eIcnRedLight)
+		Else
+			SetLog("Hero training order changed successfully!", $COLOR_SUCCESS)
+			For $i = 0 To $eHeroCount - 1
+				If $g_bDebugSetlogTrain Then SetLog("i = " & $i & " g_aiHeroSlotOrder = " & $aiUsedHero[$i])
+				$sNewTrainList &= $g_asHeroNames[$aiUsedHero[$i]] & ", "
+			Next
+			$sNewTrainList = StringTrimRight($sNewTrainList, 2)
+			SetLog("Hero train order= " & $sNewTrainList, $COLOR_INFO)
+		EndIf
+	Else
+		SetLog("Must use all Hero and No duplicate Hero names!", $COLOR_ERROR)
+		_GUICtrlSetImage($g_ahImgHeroOrderSet, $g_sLibIconPath, $eIcnRedLight)
+	EndIf
+	HeroSlotLock()
+	SetRedrawBotWindow($bWasRedraw, Default, Default, Default, "BtnHeroOrderSet")
+EndFunc   ;==>BtnHeroOrderSet
+
+Func ChangeHeroTrainOrder()
+	If $g_bDebugSetlog Or $g_bDebugSetlogTrain Then SetLog("Begin Func ChangeHeroTrainOrder()", $COLOR_DEBUG) ;Debug
+	Local $iUpdateCount = 0, $aUnique
+
+	If Not IsUseCustomHeroOrder() Then ; check if no custom Hero values saved yet.
+		SetError(2, 0, False)
+		Return
+	EndIf
+
+	$aUnique = _ArrayUnique($g_aiCmbCustomHeroOrder, 0, 0, 0, 0)
+	$iUpdateCount = UBound($aUnique)
+
+	If $iUpdateCount = $eHeroCount Then ; safety check that all Hero properly assigned to new array.
+		$g_aiHeroSlotOrder = $aUnique
+		_GUICtrlSetImage($g_ahImgHeroOrderSet, $g_sLibIconPath, $eIcnGreenLight)
+	Else
+		SetLog($iUpdateCount & "|" & $eHeroCount & " - Error - Bad Hero assignment in ChangeHeroTrainOrder()", $COLOR_ERROR)
+		SetError(3, 0, False)
+		Return
+	EndIf
+
+	Return True
+EndFunc   ;==>ChangeHeroTrainOrder
+
 Func RemoveAllTmpTrain($sWhat = "All")
 	If $sWhat = "All" Or $sWhat = "Troop" Then
 		For $i = 0 To UBound($g_ahPicTrainArmyTroopTmp) - 1
@@ -1153,10 +1417,10 @@ Func HideAllTroops()
 	For $i = $g_ahTxtTrainArmyTroopCount[$eTroopMinion] To $g_ahTxtTrainArmyTroopCount[$eTroopDruid]
 		GUICtrlSetState($i, $GUI_HIDE)
 	Next
-	For $i = $g_ahPicTrainArmyTroop[$eTroopBarbarian] To $g_ahPicTrainArmyTroop[$eTroopRootRider]
+	For $i = $g_ahPicTrainArmyTroop[$eTroopBarbarian] To $g_ahPicTrainArmyTroop[$eTroopThrower]
 		GUICtrlSetState($i, $GUI_HIDE)
 	Next
-	For $i = $g_ahTxtTrainArmyTroopCount[$eTroopBarbarian] To $g_ahTxtTrainArmyTroopCount[$eTroopRootRider]
+	For $i = $g_ahTxtTrainArmyTroopCount[$eTroopBarbarian] To $g_ahTxtTrainArmyTroopCount[$eTroopThrower]
 		GUICtrlSetState($i, $GUI_HIDE)
 	Next
 	For $i = $g_ahPicTrainArmyTroop[$eTroopSuperBarbarian] To $g_ahPicTrainArmyTroop[$eTroopSuperHogRider]
@@ -1209,10 +1473,10 @@ EndFunc   ;==>SetBtnSelector
 
 Func BtnElixirTroops()
 	HideAllTroops()
-	For $i = $g_ahPicTrainArmyTroop[$eTroopBarbarian] To $g_ahPicTrainArmyTroop[$eTroopRootRider]
+	For $i = $g_ahPicTrainArmyTroop[$eTroopBarbarian] To $g_ahPicTrainArmyTroop[$eTroopThrower]
 		GUICtrlSetState($i, $GUI_SHOW)
 	Next
-	For $i = $g_ahTxtTrainArmyTroopCount[$eTroopBarbarian] To $g_ahTxtTrainArmyTroopCount[$eTroopRootRider]
+	For $i = $g_ahTxtTrainArmyTroopCount[$eTroopBarbarian] To $g_ahTxtTrainArmyTroopCount[$eTroopThrower]
 		GUICtrlSetState($i, $GUI_SHOW)
 	Next
 	SetBtnSelector("ElixirTroops")

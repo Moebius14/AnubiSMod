@@ -778,6 +778,8 @@ Func Algorithm_AttackCSV($testattack = False, $captureredarea = True)
 	SetSlotSpecialTroops()
 	If _Sleep($DELAYRESPOND) Then Return
 
+	AirZap(True, $sMainSide)
+
 	If $sMainSide = "BOTTOM-LEFT" Then
 		SetDebugLog("BOTTOM LEFT as MainSide, checking boost button")
 		Local $OneTimeLog = 0

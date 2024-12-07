@@ -122,6 +122,11 @@ Func radHerosApply()
 	GUICtrlSetState($g_hRadBothKingAbility, $g_iActivateKing = 2 ? $GUI_CHECKED : $GUI_UNCHECKED)
 	GUICtrlSetData($g_hTxtManKingAbility, ($g_iDelayActivateKing / 1000))
 
+	GUICtrlSetState($g_hRadAutoPrinceAbility, $g_iActivatePrince = 0 ? $GUI_CHECKED : $GUI_UNCHECKED)
+	GUICtrlSetState($g_hRadManPrinceAbility, $g_iActivatePrince = 1 ? $GUI_CHECKED : $GUI_UNCHECKED)
+	GUICtrlSetState($g_hRadBothPrinceAbility, $g_iActivatePrince = 2 ? $GUI_CHECKED : $GUI_UNCHECKED)
+	GUICtrlSetData($g_hTxtManPrinceAbility, ($g_iDelayActivatePrince / 1000))
+
 	GUICtrlSetState($g_hRadAutoWardenAbility, $g_iActivateWarden = 0 ? $GUI_CHECKED : $GUI_UNCHECKED)
 	GUICtrlSetState($g_hRadManWardenAbility, $g_iActivateWarden = 1 ? $GUI_CHECKED : $GUI_UNCHECKED)
 	GUICtrlSetState($g_hRadBothWardenAbility, $g_iActivateWarden = 2 ? $GUI_CHECKED : $GUI_UNCHECKED)

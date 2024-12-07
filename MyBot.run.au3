@@ -720,7 +720,7 @@ Func runBot() ;Bot that runs everything in order
 		EndIf
 
 		If $g_CheckModVersion Then CheckVersionStatus()
-		If Not UTCTimeEvent() Then $SpecialEventReduction = 1
+		; If Not UTCTimeEvent() Then $SpecialEventReduction = 1
 
 		PrepareDonateCC()
 		If Not $g_bRunState Then Return
@@ -841,6 +841,8 @@ Func runBot() ;Bot that runs everything in order
 			If ($g_iCommandStop = 3 Or $g_iCommandStop = 0) Then _RunFunction('DonateCC,Train')
 			If $g_bRestart Then ContinueLoop
 
+			HiddenSlotstatus()
+
 			If $g_bAutoUpgradeWallsEnable And $g_bChkWallUpFirst Then
 				If Not $g_bRunState Then Return
 				_RunFunction('Laboratory')
@@ -862,7 +864,7 @@ Func runBot() ;Bot that runs everything in order
 				If CheckAndroidReboot() Then ContinueLoop 2 ; must be level 2 due to loop-in-loop
 			Next
 
-			Local $aRndFuncList = ['MagicSnacks', 'AppBuilder']
+			Local $aRndFuncList = ['MagicSnacks', 'HelperHut']
 			_ArrayShuffle($aRndFuncList)
 			For $Index In $aRndFuncList
 				If Not $g_bRunState Then Return
@@ -926,6 +928,7 @@ Func runBot() ;Bot that runs everything in order
 							_RunFunction($Index)
 							If $g_bRestart Then ContinueLoop 2 ; must be level 2 due to loop-in-loop
 						Next
+						HiddenSlotstatus()
 						If Not $g_bIsBBevent Then ExitLoop
 						If ProfileSwitchAccountEnabled() And $g_bChkBBMaxEventsInARow Then
 							If Number($g_aiAttackedBBEventCount) > Number($g_aiLimitBBEventCount) And Number($g_aiLimitBBEventCount) > 0 Then ExitLoop
@@ -993,6 +996,7 @@ Func runBot() ;Bot that runs everything in order
 			Else
 				If Not $g_bRunState Then Return
 				_RunFunction('DonateCC,Train')
+				HiddenSlotstatus()
 				If ProfileSwitchAccountEnabled() Then
 					$g_iCommandStop = 2
 					checkSwitchAcc()
@@ -1011,6 +1015,7 @@ Func runBot() ;Bot that runs everything in order
 			If $g_bIsSearchLimit And $IsNewAttack Then
 				If Not $g_bRunState Then Return
 				TrainSystem()
+				HiddenSlotstatus()
 				If Not $g_bRunState Then Return
 				SetDebugLog("Are you ready? " & String($g_bIsFullArmywithHeroesAndSpells))
 				If Not $g_bIsFullArmywithHeroesAndSpells Then
@@ -1080,7 +1085,7 @@ Func _Idle() ;Sequence that runs until Full Army
 		BotHumanization()
 
 		If $g_CheckModVersion Then CheckVersionStatus()
-		If Not UTCTimeEvent() Then $SpecialEventReduction = 1
+		; If Not UTCTimeEvent() Then $SpecialEventReduction = 1
 
 		If $bControlCCMedal Then
 			CatchCCMedals(True)
@@ -1144,6 +1149,7 @@ Func _Idle() ;Sequence that runs until Full Army
 		If $g_iCommandStop = -1 Then
 			If $g_iActualTrainSkip < $g_iMaxTrainSkip Then
 				If CheckNeedOpenTrain($g_sTimeBeforeTrain) Then TrainSystem()
+				HiddenSlotstatus()
 				If $g_bRestart Then ExitLoop
 				If _Sleep($DELAYIDLE1) Then ExitLoop
 				checkMainScreen(False)
@@ -1161,6 +1167,7 @@ Func _Idle() ;Sequence that runs until Full Army
 			If Not ($g_bIsFullArmywithHeroesAndSpells) Then
 				If $g_iActualTrainSkip < $g_iMaxTrainSkip Then
 					If CheckNeedOpenTrain($g_sTimeBeforeTrain) Or (ProfileSwitchAccountEnabled() And $g_iActiveDonate And $g_bChkDonate) Then TrainSystem() ; force check trainsystem after donate and before switch account
+					HiddenSlotstatus()
 					If $g_bRestart Then ExitLoop
 					If _Sleep($DELAYIDLE1) Then ExitLoop
 					checkMainScreen(False)
@@ -1282,6 +1289,7 @@ Func AttackMain() ;Main control for attack functions
 							_RunFunction($Index)
 							If $g_bRestart Then ContinueLoop 2 ; must be level 2 due to loop-in-loop
 						Next
+						HiddenSlotstatus()
 						If Not $g_bIsBBevent Then ExitLoop
 						If ProfileSwitchAccountEnabled() And $g_bChkBBMaxEventsInARow Then
 							If Number($g_aiAttackedBBEventCount) > Number($g_aiLimitBBEventCount) And Number($g_aiLimitBBEventCount) > 0 Then ExitLoop
@@ -1344,6 +1352,7 @@ Func AttackMain() ;Main control for attack functions
 		If Not $g_bRunState Then Return
 		SetLog("Attacking Not Planned, Skipped..", $COLOR_WARNING)
 		_RunFunction('DonateCC,Train')
+		HiddenSlotstatus()
 	EndIf
 EndFunc   ;==>AttackMain
 
@@ -1354,12 +1363,14 @@ Func Attack() ;Selects which algorithm
 		If $g_bDebugSetlog Then SetDebugLog("start scripted attack", $COLOR_ERROR)
 		Algorithm_AttackCSV()
 	ElseIf $g_iMatchMode = $DB And $g_aiAttackAlgorithm[$DB] = 2 Then
+		AirZap()
 		If $g_bDebugSetlog Then SetDebugLog("start smart farm attack", $COLOR_ERROR)
 		; Variable to return : $Return[3]  [0] = To attack InSide  [1] = Quant. Sides  [2] = Name Sides
 		Local $Nside = ChkSmartFarm()
 		If Not $g_bRunState Then Return
 		AttackSmartFarm($Nside[1], $Nside[2])
 	Else
+		AirZap()
 		If $g_bDebugSetlog Then SetDebugLog("start standard attack", $COLOR_ERROR)
 		algorithm_AllTroops()
 	EndIf
@@ -1449,6 +1460,9 @@ Func __RunFunction($action)
 		Case "BoostQueen"
 			BoostQueen()
 			_Sleep($DELAYRESPOND)
+		Case "BoostPrince"
+			BoostPrince()
+			_Sleep($DELAYRESPOND)
 		Case "BoostWarden"
 			BoostWarden()
 			_Sleep($DELAYRESPOND)
@@ -1534,8 +1548,8 @@ Func __RunFunction($action)
 		Case "MagicSnacks"
 			MagicSnacks()
 			_Sleep($DELAYRUNBOT3)
-		Case "AppBuilder"
-			AppBuilder()
+		Case "HelperHut"
+			HelperHut()
 			_Sleep($DELAYRUNBOT3)
 		Case Else
 			SetLog("Unknown function call: " & $action, $COLOR_ERROR)
@@ -1593,6 +1607,12 @@ Func FirstCheck()
 		saveConfig()
 	EndIf
 	;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+	;Display Level TH in Stats
+	GUICtrlSetData($g_hLblTHLevels, "")
+	_GUI_Value_STATE("HIDE", $g_aGroupListTHLevels)
+	GUICtrlSetState($g_ahPicTHLevels[$g_iTownHallLevel], $GUI_SHOW)
+	GUICtrlSetData($g_hLblTHLevels, $g_iTownHallLevel)
 
 	If $g_bChkCollectCartFirst Then CollectLootCart()
 
@@ -1746,6 +1766,8 @@ Func FirstCheck()
 		; VERIFY THE TROOPS AND ATTACK IF IS FULL
 		SetDebugLog("-- FirstCheck on Train --")
 		TrainSystem()
+
+		HiddenSlotstatus()
 
 		If Not $g_bRunState Then Return
 		SetDebugLog("Are you ready? " & String($g_bIsFullArmywithHeroesAndSpells))
@@ -1957,6 +1979,7 @@ Func GotoBBTodoCG()
 				_RunFunction($Index)
 				If $g_bRestart Then ContinueLoop 2     ; must be level 2 due to loop-in-loop
 			Next
+			HiddenSlotstatus()
 			If Not $g_bIsBBevent Then ExitLoop
 			If ProfileSwitchAccountEnabled() And $g_bChkBBMaxEventsInARow Then
 				If Number($g_aiAttackedBBEventCount) > Number($g_aiLimitBBEventCount) And Number($g_aiLimitBBEventCount) > 0 Then ExitLoop

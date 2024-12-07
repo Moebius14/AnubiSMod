@@ -20,10 +20,12 @@ Global $g_hChkSmartLightSpell = 0, $g_hChkSmartEQSpell = 0, $g_hChkNoobZap = 0, 
 
 Global $g_hLblSmartUseLSpell = 0, $g_hLblSmartUseEQSpell = 0, $g_hLblSmartZap = 0, $g_hLblNoobZap = 0, $g_hLblSmartLightningUsed = 0, $g_hLblSmartEarthQuakeUsed = 0
 
+Global $g_hChkSmartLightSpellAD = 0, $g_hChkSweepersFirst = 0
+
 Func CreateAttackNewSmartZap()
 
 	Local $x = 25, $y = 45
-	GUICtrlCreateGroup(GetTranslatedFileIni("MBR GUI Design Child Attack - Options-SmartZap", "Group_01", "SmartZap/NoobZap"), $x - 20, $y - 20, $g_iSizeWGrpTab4, $g_iSizeHGrpTab4)
+	GUICtrlCreateGroup(GetTranslatedFileIni("MBR GUI Design Child Attack - Options-SmartZap", "Group_01", "SmartZap/NoobZap"), $x - 20, $y - 20, $g_iSizeWGrpTab4, 200)
 	GUICtrlCreateLabel(GetTranslatedFileIni("MBR GUI Design Child Attack - Options-SmartZap", "LblUse_This_Spell_to_Zap", "Use This Spell to Zap Dark Drills"), $x + 20, $y, -1, -1)
 	_GUICtrlCreateIcon($g_sLibIconPath, $eIcnNewSmartZap, $x - 10, $y, 25, 25)
 	_GUICtrlCreateIcon($g_sLibIconPath, $eIcnLightSpell, $x + 45, $y + 20, 25, 25)
@@ -85,6 +87,19 @@ Func CreateAttackNewSmartZap()
 	GUICtrlSetLimit(-1, 3)
 	GUICtrlSetOnEvent(-1, "txtExpectedDE")
 	GUICtrlSetState(-1, $GUI_DISABLE)
+
+	GUICtrlCreateGroup(GetTranslatedFileIni("MBR GUI Design Child Attack - Options-SmartZap", "Group_02", "AirZap"), $x - 20, 235, $g_iSizeWGrpTab4, 100)
+	_GUICtrlCreateIcon($g_sLibIconPath, $eIcnAirdefense, $x - 10, 255, 25, 25)
+	GUICtrlCreateLabel(GetTranslatedFileIni("MBR GUI Design Child Attack - Options-SmartZap", "LblUse_This_Spell_to_Zap02", "Use This Spell to Zap Air Defenses and Sweepers"), $x + 20, 260, -1, -1)
+	_GUICtrlCreateIcon($g_sLibIconPath, $eIcnLightSpell, $x + 40, 287, 25, 25)
+	$g_hChkSmartLightSpellAD = GUICtrlCreateCombo("", $x + 76, 290, 90, 20, BitOR($CBS_DROPDOWNLIST, $CBS_AUTOHSCROLL))
+	GUICtrlSetData(-1, "Disabled|Air Defenses|Air Sweepers|Both", "Disabled")
+	_GUICtrlSetTip(-1, GetTranslatedFileIni("MBR GUI Design Child Attack - Options-SmartZap", "LblSmartUseLSpell_Info_04", "Check this to drop Lightning Spells on top of Air Defenses/Sweepers.") & @CRLF & @CRLF & _
+			GetTranslatedFileIni("MBR GUI Design Child Attack - Options-SmartZap", "LblSmartUseLSpell_Info_02", -1) & @CRLF & _
+			GetTranslatedFileIni("MBR GUI Design Child Attack - Options-SmartZap", "LblSmartUseLSpell_Info_03", -1))
+	GUICtrlSetOnEvent(-1, "chkSmartLightSpellAD")
+	$g_hChkSweepersFirst = GUICtrlCreateCheckbox(GetTranslatedFileIni("MBR GUI Design Child Attack - Options-SmartZap", "ChkSweepersFirst", "Air Sweepers First"), $x + 185, 292, -1, -1)
+	_GUICtrlSetTip(-1, GetTranslatedFileIni("MBR GUI Design Child Attack - Options-SmartZap", "LblSmartUseLSpell_Info_05", "Check this to drop Lightning Spells on top of Air Sweepers FIRST."))
 	GUICtrlCreateGroup("", -99, -99, 1, 1)
 
 EndFunc   ;==>CreateAttackNewSmartZap

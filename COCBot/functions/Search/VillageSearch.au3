@@ -42,7 +42,7 @@ Func _VillageSearch() ;Control for searching a village that meets conditions
 	Local $logwrited = False
 	Local $iSkipped = 0
 	Local $bReturnToPickupHero = False
-	Local $abHeroUse[$eHeroCount] = [False, False, False, False]
+	Local $abHeroUse[$eHeroCount] = [False, False, False, False, False]
 	For $i = 0 To $eHeroCount - 1
 		$abHeroUse[$i] = ($g_abSearchSearchesEnable[$DB] ? IsUnitUsed($DB, $eKing + $i) : False) _
 				Or ($g_abSearchSearchesEnable[$LB] ? IsUnitUsed($LB, $eKing + $i) : False)

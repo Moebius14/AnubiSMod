@@ -16,7 +16,7 @@ Func StarBonus()
 	SetDebugLog("Begin Star Bonus window check", $COLOR_DEBUG1)
 
 	Local $aWindowChk1[4] = [630, 100 + $g_iMidOffsetY, 0x32A1F7, 20] ; Top Blue Sky
-	Local $aWindowChk2[4] = [570, 180 + $g_iMidOffsetY, 0xC8CAC6, 20] ; Grey star
+	Local $aWindowChk2[4] = [570, 180 + $g_iMidOffsetY, 0xC8CBC6, 20] ; Grey star
 
 	If _Sleep($DELAYSTARBONUS100) Then Return
 

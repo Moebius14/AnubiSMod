@@ -444,7 +444,7 @@ Func chkUpgradeKing()
 EndFunc   ;==>chkUpgradeKing
 
 Func chkUpgradeQueen()
-	If $g_iTownHallLevel > 8 Then ; Must be TH9 or above to have Queen
+	If $g_iTownHallLevel > 7 Then ; Must be TH8 or above to have Queen
 		If GUICtrlRead($g_hCmbBoostArcherQueen) > 0 Then
 			GUICtrlSetState($g_hChkUpgradeQueen, $GUI_DISABLE)
 			GUICtrlSetState($g_hChkUpgradeQueen, $GUI_UNCHECKED)
@@ -474,6 +474,38 @@ Func chkUpgradeQueen()
 		GUICtrlSetState($g_hChkUpgradeQueen, BitOR($GUI_DISABLE, $GUI_UNCHECKED))
 	EndIf
 EndFunc   ;==>chkUpgradeQueen
+
+Func chkUpgradePrince()
+	If $g_iTownHallLevel > 8 Then ; Must be TH9 or above to have Prince
+		If GUICtrlRead($g_hCmbBoostMinionPrince) > 0 Then
+			GUICtrlSetState($g_hChkUpgradePrince, $GUI_DISABLE)
+			GUICtrlSetState($g_hChkUpgradePrince, $GUI_UNCHECKED)
+			$g_bUpgradePrinceEnable = False
+		Else
+			GUICtrlSetState($g_hChkUpgradePrince, $GUI_ENABLE)
+		EndIf
+
+		Local $ahGroupPrinceWait[4] = [$g_hChkDBPrinceWait, $g_hChkABPrinceWait, $g_hPicDBPrinceWait, $g_hPicABPrinceWait]
+		Local $TxtTip = GetTranslatedFileIni("MBR GUI Design Child Attack - Search", "TxtPrinceWait_Info_01", -1) & @CRLF & _
+				GetTranslatedFileIni("MBR GUI Design Child Attack - Search", "TxtPrinceWait_Info_02", -1)
+		Local $TxtWarningTip = GetTranslatedFileIni("MBR GUI Design Child Attack - Search", "TxtPrinceWait_Info_03", "ATTENTION: Prince auto upgrade is currently enable.")
+		If GUICtrlRead($g_hChkUpgradePrince) = $GUI_CHECKED Then
+			$g_bUpgradePrinceEnable = True
+			_GUI_Value_STATE("SHOW", $groupPrinceSleeping)
+			For $i In $ahGroupPrinceWait
+				_GUICtrlSetTip($i, $TxtTip & @CRLF & $TxtWarningTip)
+			Next
+		Else
+			$g_bUpgradePrinceEnable = False
+			_GUI_Value_STATE("HIDE", $groupPrinceSleeping)
+			For $i In $ahGroupPrinceWait
+				_GUICtrlSetTip($i, $TxtTip)
+			Next
+		EndIf
+	Else
+		GUICtrlSetState($g_hChkUpgradePrince, BitOR($GUI_DISABLE, $GUI_UNCHECKED))
+	EndIf
+EndFunc   ;==>chkUpgradePrince
 
 Func chkUpgradeWarden()
 	If $g_iTownHallLevel > 10 Then ; Must be TH11 to have warden
@@ -843,7 +875,7 @@ Func cmbWalls()
 		GUICtrlSetState($g_ahPicWallsLevel[$i], $GUI_SHOW)
 	Next
 
-	For $i = $g_iCmbUpgradeWallsLevel + 6 To 17
+	For $i = $g_iCmbUpgradeWallsLevel + 6 To 18
 		GUICtrlSetState($g_ahWallsCurrentCount[$i], $GUI_HIDE)
 		GUICtrlSetState($g_ahPicWallsLevel[$i], $GUI_HIDE)
 	Next
@@ -862,12 +894,12 @@ EndFunc   ;==>btnWalls
 Func chkAutoUpgrade()
 	If GUICtrlRead($g_hChkAutoUpgrade) = $GUI_CHECKED Then
 		$g_bAutoUpgradeEnabled = True
-		For $i = $g_hLblAutoUpgrade To $g_hBtnResetIgnore
+		For $i = $g_hLblAutoUpgrade To $g_hBtnMoreBuildings
 			GUICtrlSetState($i, $GUI_ENABLE)
 		Next
 	Else
 		$g_bAutoUpgradeEnabled = False
-		For $i = $g_hLblAutoUpgrade To $g_hBtnResetIgnore
+		For $i = $g_hLblAutoUpgrade To $g_hBtnMoreBuildings
 			GUICtrlSetState($i, $GUI_DISABLE)
 		Next
 	EndIf
@@ -899,14 +931,14 @@ Func chkUpgradesToIgnore()
 EndFunc   ;==>chkUpgradesToIgnore
 
 Func IgnoreAll()
-	For $i = 0 To UBound($g_iChkUpgradesToIgnore) - 1
+	For $i = 17 To UBound($g_iChkUpgradesToIgnore) - 1
 		GUICtrlSetState($g_hChkUpgradesToIgnore[$i], $GUI_CHECKED)
 		$g_iChkUpgradesToIgnore[$i] = 1
 	Next
 EndFunc   ;==>IgnoreAll
 
 Func ResetIgnore()
-	For $i = 0 To UBound($g_iChkUpgradesToIgnore) - 1
+	For $i = 17 To UBound($g_iChkUpgradesToIgnore) - 1
 		GUICtrlSetState($g_hChkUpgradesToIgnore[$i], $GUI_UNCHECKED)
 		$g_iChkUpgradesToIgnore[$i] = 0
 	Next
@@ -1074,3 +1106,11 @@ Func CmbFreeBuilders3()
 	GUICtrlSetData($g_hCmbFreeBuilders, _GUICtrlComboBox_GetCurSel($g_hCmbFreeBuilders3) + 1)
 	GUICtrlSetData($g_hCmbFreeBuilders2, _GUICtrlComboBox_GetCurSel($g_hCmbFreeBuilders3) + 1)
 EndFunc   ;==>CmbFreeBuilders3
+
+Func BtnMoreBuildings()
+	GUISetState(@SW_SHOW, $g_hGUI_MoreBuildings)
+EndFunc   ;==>BtnMoreBuildings
+
+Func CloseMoreBuildings()
+	GUISetState(@SW_HIDE, $g_hGUI_MoreBuildings)
+EndFunc   ;==>CloseMoreBuildings

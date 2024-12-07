@@ -250,9 +250,12 @@ Func getArmyRequest($aiDonateCoords, $bNeedCapture = True)
 				$bXCoordsOCR = 300
 		EndSwitch
 		$eRequestCount = Number(getOcrAndCapture("coc-NewSysDonate", $bXCoordsOCR, $aiDonateCoords[1] - 90, 30, 14))
-		If $eRequestCount > 50 Then
-			If $iArmyIndex = $eETitan Or $iArmyIndex = $eHeal Then $eRequestCount = StringReplace($eRequestCount, "7", "", 0) ; Healer And ETitan white hair could be detected as "7"
-		EndIf
+		Switch $iArmyIndex
+			Case $eETitan, $eHeal
+				If $eRequestCount > 50 Then $eRequestCount = StringReplace($eRequestCount, "7", "", 0) ; Healer And ETitan white hair could be detected as "7"
+			Case $eThrower
+				$eRequestCount = StringRegExpReplace($eRequestCount, "[47]", "") ; Thrower helmet white area could be detected as "4" or "7"
+		EndSwitch
 		_ArrayAdd($sReqArray, $iArmyIndex & "|" & $eRequestCount & "| 0")
 		; Troops
 		If $iArmyIndex >= $eBarb And $iArmyIndex <= $eDruid Then
@@ -560,7 +563,7 @@ Func DonateCC($bUpdateStats = True)
 					Local $bDonateTroopMatched = False, $bDonateSpellMatched = False, $bDonateSiegeMatched = False
 					If Not $bDonateAllTroop And Not $bDonateAllSpell And Not $bDonateAllSiege Then
 						Local $Checked = False
-						For $i = 0 To $eTroopCount + $g_iCustomDonateConfigs - 1 ; 0 - 54 (All troops + 2 combos of custom donate - Event Troops which can't be donated)
+						For $i = 0 To $eTroopCount + $g_iCustomDonateConfigs - 1 ; 0 - 55 (All troops + 2 combos of custom donate - Event Troops which can't be donated)
 							If $g_abChkDonateTroop[$i] Then ; checking Troops & Custom
 								If $g_bDebugSetlog Then SetDebugLog("Troop: [" & $i & "] checking!", $COLOR_DEBUG)
 								If CheckDonateTroop($i, $g_asTxtDonateTroop[$i], $g_asTxtBlacklistTroop[$i], $ClanString, $bNewSystemToDonate, True, $abDonateQueueOnly[0]) Then
@@ -651,9 +654,9 @@ Func DonateCC($bUpdateStats = True)
 			If Not $bDonateSiege And Not $bDonateAllSiege Then
 				SetLog("Siege donation is not enabled, skip siege donation", $COLOR_ACTION)
 				$g_bSkipDonSiege = True
-			ElseIf $g_aiCurrentSiegeMachines[$eSiegeWallWrecker] = 0 And $g_aiCurrentSiegeMachines[$eSiegeBattleBlimp] = 0 And $g_aiCurrentSiegeMachines[$eSiegeStoneSlammer] = 0 And _
+			ElseIf ($g_aiCurrentSiegeMachines[$eSiegeWallWrecker] = 0 And $g_aiCurrentSiegeMachines[$eSiegeBattleBlimp] = 0 And $g_aiCurrentSiegeMachines[$eSiegeStoneSlammer] = 0 And _
 					$g_aiCurrentSiegeMachines[$eSiegeBarracks] = 0 And $g_aiCurrentSiegeMachines[$eSiegeLogLauncher] = 0 And $g_aiCurrentSiegeMachines[$eSiegeFlameFlinger] = 0 And _
-					$g_aiCurrentSiegeMachines[$eSiegeBattleDrill] = 0 Then
+					$g_aiCurrentSiegeMachines[$eSiegeBattleDrill] = 0) Or Not $bAvailableSiege Then
 				SetLog("No siege machines available, skip siege donation", $COLOR_OLIVE)
 				$g_bSkipDonSiege = True
 			ElseIf $g_iTotalDonateSiegeMachineCapacity = -1 Then
@@ -1032,7 +1035,7 @@ Func CheckDonate(Const $sName, Const $sDonateString, Const $sBlacklistString, Co
 				If $bSetLog Then SetLog($sName & " Keyword found: " & $asSplitDonate[$i], $COLOR_SUCCESS)
 				If $bQueueOnly And $sName <> "Custom" Then
 					Local $bTroopIndex = -1, $bSpellIndex = -1
-					For $z = 0 To $eTroopCount - $g_iEventTroops - 1 ; Troops 0 To 43
+					For $z = 0 To $eTroopCount - $g_iEventTroops - 1 ; Troops 0 To 44
 						If $g_asTroopNames[$z] = $sName Then
 							$bTroopIndex = $z
 							ExitLoop
@@ -1208,7 +1211,7 @@ Func DonateTroopType(Const $iTroopIndex, $Quant = 0, Const $bDonateQueueOnly = F
 			;Reduce iTotalDonateCapacity by troops donated
 			$g_iTotalDonateTroopCapacity -= ($Quant * $g_aiTroopSpace[$iTroopIndex])
 			;If donated max allowed troop qty set $g_bSkipDonTroops = True
-			If $g_iDonTroopsLimit = $Quant Then
+			If $g_iDonTroopsLimit = $Quant Or Number($RemainingTroopsToDonate) = 0 Then
 				$g_bSkipDonTroops = True
 			EndIf
 		EndIf
@@ -1289,9 +1292,12 @@ Func DonateSpellType(Const $iSpellIndex, $Quant = 0, Const $bDonateQueueOnly = F
 
 	SetLog("Spells Condition Matched", $COLOR_OLIVE)
 	WaitForClanMessage("Donate", $g_iDonationWindowY + 107 + $YComp - 10, $g_iDonationWindowY + 107 + $YComp + 10)
-	If _ColorCheck(_GetPixelColor($g_iDonationWindowX + 17 + ($Slot * 68), $g_iDonationWindowY + 105 + $YComp, True), Hex(0x6F47C1, 6), 20) Or _
+	If _ColorCheck(_GetPixelColor($g_iDonationWindowX + 17 + ($Slot * 68), $g_iDonationWindowY + 105 + $YComp, True), Hex(0x6F47C1, 6), 20) Or _ ;
 			_ColorCheck(_GetPixelColor($g_iDonationWindowX + 17 + 5 + ($Slot * 68), $g_iDonationWindowY + 106 + $YComp, True), Hex(0x6F47C1, 6), 20) Or _
 			_ColorCheck(_GetPixelColor($g_iDonationWindowX + 17 + 10 + ($Slot * 68), $g_iDonationWindowY + 107 + $YComp, True), Hex(0x6F47C1, 6), 20) Then ; check for 'purple'
+
+		Local $RemainingSpellsToDonate = getOcrAndCapture("coc-t-d", $g_iDonationWindowX + 28 + ($Slot * 68), $g_iDonationWindowY + 103 + $YComp, 35, 14, True)
+		If Number($RemainingSpellsToDonate) < $Quant Then $Quant = Number($RemainingSpellsToDonate)
 
 		If $g_bDebugOCRdonate Then
 			SetLog("donate", $COLOR_ERROR)
@@ -1305,6 +1311,11 @@ Func DonateSpellType(Const $iSpellIndex, $Quant = 0, Const $bDonateQueueOnly = F
 			SetLog("Donating " & $Quant & " " & $g_asSpellNames[$iSpellIndex] & " Spell" & ($Quant > 1 ? "s" : "") & ($bDonateAll ? " (to all requests)" : ""), $COLOR_GREEN)
 
 			For $i = 0 To ($Quant - 1)
+				If _ColorCheck(_GetPixelColor($g_iDonationWindowX + 22 + ($Slot * 68), $g_iDonationWindowY + 105 + $YComp, True), Hex(0x6F6F6F, 6), 20) Or _
+						Not _ColorCheck(_GetPixelColor($g_iDonationWindowX, $g_iDonationWindowY + 70, True), Hex(0xFFFFFF, 6), 10) Then
+					$Quant = $i + 1
+					ExitLoop
+				EndIf
 				Click($g_iDonationWindowX + 35 + ($Slot * 68), $g_iDonationWindowY + 70 + $YComp, 1, $DELAYDONATECC6, "#0600")
 			Next
 			$DonatedSpellCount += 1
@@ -1318,7 +1329,7 @@ Func DonateSpellType(Const $iSpellIndex, $Quant = 0, Const $bDonateQueueOnly = F
 		If $iSpellIndex >= $eSpellLightning And $iSpellIndex <= $eSpellOvergrowth Then
 			$g_iTotalDonateSpellCapacity -= ($Quant * $g_aiSpellSpace[$iSpellIndex])
 			;If donated max allowed troop qty set $g_bSkipDonSpells = True
-			If $iDonSpellsLimit = $Quant Then
+			If $iDonSpellsLimit = $Quant Or Number($RemainingSpellsToDonate) = 0 Then
 				$g_bSkipDonSpells = True
 			EndIf
 		EndIf
@@ -1389,9 +1400,13 @@ Func DonateSiegeType(Const $iSiegeIndex, $Quant = 0, $bDonateAll = False)
 	EndIf
 
 	SetLog("Sieges Condition Matched", $COLOR_OLIVE)
+	WaitForClanMessage("Donate", $g_iDonationWindowY + 107 + $YComp - 10, $g_iDonationWindowY + 107 + $YComp + 10)
 	If _ColorCheck(_GetPixelColor($g_iDonationWindowX + 17 + ($Slot * 68), $g_iDonationWindowY + 105 + $YComp, True), Hex(0x4079B8, 6), 20) Or _
 			_ColorCheck(_GetPixelColor($g_iDonationWindowX + 17 + 5 + ($Slot * 68), $g_iDonationWindowY + 106 + $YComp, True), Hex(0x4079B8, 6), 20) Or _
 			_ColorCheck(_GetPixelColor($g_iDonationWindowX + 17 + 10 + ($Slot * 68), $g_iDonationWindowY + 107 + $YComp, True), Hex(0x4079B8, 6), 20) Then ; check for 'blue'
+
+		Local $RemainingSiegesToDonate = getOcrAndCapture("coc-t-d", $g_iDonationWindowX + 28 + ($Slot * 68), $g_iDonationWindowY + 98 + $YComp, 35, 14, True)
+		If Number($RemainingSiegesToDonate) < $Quant Then $Quant = Number($RemainingSiegesToDonate)
 
 		SetLog("Donating " & $Quant & " " & ($g_asSiegeMachineNames[$iSiegeIndex]) & ($bDonateAll ? " (to all requests)" : ""), $COLOR_GREEN)
 
@@ -1401,6 +1416,11 @@ Func DonateSiegeType(Const $iSiegeIndex, $Quant = 0, $bDonateAll = False)
 		$DonatedSiegeCount += $Quant
 		$g_bFullArmy = False
 		If $g_iCommandStop = 3 Then $g_iCommandStop = 0
+
+		; Adjust Values for donated spells to prevent a Double ghost donate to stats and train
+		If $iSiegeIndex >= $eSiegeWallWrecker And $iSiegeIndex <= $eSiegeBattleDrill Then
+			$g_iTotalDonateSiegeMachineCapacity -= ($Quant * $g_aiSiegeMachineSpace[$iSiegeIndex])
+		EndIf
 
 		; Assign the donated quantity sieges to train : $Don $g_asSiegeMachineShortNames
 		$g_aiDonateSiegeMachines[$iSiegeIndex] += $Quant
@@ -1870,20 +1890,32 @@ Func SkipDonateNearFullTroops($bSetLog = False, $aHeroResult = Default)
 				If $aHeroResult = Default Or Not IsArray($aHeroResult) Then
 					$aHeroResult = getArmyHeroTime("all", True, True) ; including open & close army overview
 				EndIf
-				If @error Or UBound($aHeroResult) < $eHeroCount Then
+				If @error Or UBound($aHeroResult) < $eHeroSlots Then
 					SetLog("getArmyHeroTime return error: #" & @error & "|IA:" & IsArray($aHeroResult) & "," & UBound($aHeroResult) & ", exit SkipDonateNearFullTroops!", $COLOR_ERROR)
 					Return False ; if error, then quit SkipDonateNearFullTroops enable the donation
 				EndIf
-				If $g_bDebugSetlog Then SetDebugLog("getArmyHeroTime returned: " & $aHeroResult[0] & ":" & $aHeroResult[1] & ":" & $aHeroResult[2], $COLOR_DEBUG)
+				If $g_bDebugSetlog Then SetDebugLog("getArmyHeroTime returned: " & $aHeroResult[0] & ":" & $aHeroResult[1] & ":" & $aHeroResult[2] & ":" & $aHeroResult[3], $COLOR_DEBUG)
 				Local $iActiveHero = 0
 				Local $iHighestTime = -1
-				For $pTroopType = $eKing To $eChampion ; check all 3 hero
+				Local $pTroopType
+				For $i = 0 To $eHeroSlots - 1
+					Switch $g_aiCmbCustomHeroOrder[$i]
+						Case 0
+							$pTroopType = $eKing
+						Case 1
+							$pTroopType = $eQueen
+						Case 2
+							$pTroopType = $ePrince
+						Case 3
+							$pTroopType = $eWarden
+						Case 4
+							$pTroopType = $eChampion
+					EndSwitch
 					For $pMatchMode = $DB To $g_iModeCount - 1 ; check all attack modes
 						$iActiveHero = -1
-						If IsSearchModeActiveMini($pMatchMode) And IsUnitUsed($pMatchMode, $pTroopType) And $g_iHeroUpgrading[$pTroopType - $eKing] <> 1 And $g_iHeroWaitAttackNoBit[$pMatchMode][$pTroopType - $eKing] = 1 Then
-							$iActiveHero = $pTroopType - $eKing ; compute array offset to active hero
+						If IsSearchModeActiveMini($pMatchMode) And IsUnitUsed($pMatchMode, $pTroopType) And $g_iHeroUpgrading[$g_aiCmbCustomHeroOrder[$i]] <> 1 And $g_iHeroWaitAttackNoBit[$pMatchMode][$g_aiCmbCustomHeroOrder[$i]] = 1 Then
+							$iActiveHero = $i ; compute array offset to active hero
 						EndIf
-						;SetLog("$iActiveHero = " & $iActiveHero, $COLOR_DEBUG)
 						If $iActiveHero <> -1 And $aHeroResult[$iActiveHero] > 0 Then ; valid time?
 							If $aHeroResult[$iActiveHero] > $iHighestTime Then ; Is the time higher than indexed time?
 								$iHighestTime = $aHeroResult[$iActiveHero]

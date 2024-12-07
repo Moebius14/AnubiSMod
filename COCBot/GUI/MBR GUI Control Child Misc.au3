@@ -344,23 +344,6 @@ EndFunc   ;==>btnLocateClanCastle
 ;~ 	AndroidShield("btnLocateDarkSpellfactory") ; Update shield status due to manual $g_bRunState
 ;~ EndFunc   ;==>btnLocateDarkSpellfactory
 
-Func btnLocateKingAltar()
-	LocateKingAltar()
-EndFunc   ;==>btnLocateKingAltar
-
-
-Func btnLocateQueenAltar()
-	LocateQueenAltar()
-EndFunc   ;==>btnLocateQueenAltar
-
-Func btnLocateWardenAltar()
-	LocateWardenAltar()
-EndFunc   ;==>btnLocateWardenAltar
-
-Func btnLocateChampionAltar()
-	LocateChampionAltar()
-EndFunc   ;==>btnLocateChampionAltar
-
 Func btnLocateTownHall()
 	Local $wasRunState = $g_bRunState
 	Local $g_iOldTownHallLevel = $g_iTownHallLevel
@@ -476,6 +459,15 @@ Func btnLab()
 	AndroidShield("btnLab") ; Update shield status due to manual $g_bRunState
 EndFunc   ;==>btnLab
 
+Func btnLocateHeroHall()
+	Local $wasRunState = $g_bRunState
+	$g_bRunState = True
+	ZoomOut()
+	LocateHeroHall()
+	$g_bRunState = $wasRunState
+	AndroidShield("btnLocateHeroHall") ; Update shield status due to manual $g_bRunState
+EndFunc   ;==>btnLocateHeroHall
+
 Func btnPet()
 	Local $wasRunState = $g_bRunState
 	$g_bRunState = True
@@ -492,6 +484,15 @@ Func btnBsmith()
 	LocateBlacksmith()
 	$g_bRunState = $wasRunState
 	AndroidShield("btnBsmith") ; Update shield status due to manual $g_bRunState
+EndFunc   ;==>btnBsmith
+
+Func btnHelperHut()
+	Local $wasRunState = $g_bRunState
+	$g_bRunState = True
+	ZoomOut()
+	LocateHelperHut()
+	$g_bRunState = $wasRunState
+	AndroidShield("btnHelperHut") ; Update shield status due to manual $g_bRunState
 EndFunc   ;==>btnBsmith
 
 Func chkTrophyAtkDead()

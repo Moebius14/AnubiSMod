@@ -58,7 +58,7 @@ Func GUIDropOrder()
 	Local $iCtrlIdImage = $iGUI_CtrlId + 1 ; record control ID for $g_ahImgTroopOrder[$z] based on control of combobox that called this function
 	Local $iDropIndex = _GUICtrlComboBox_GetCurSel($iGUI_CtrlId) + 1 ; find zero based index number of troop selected in combo box, add one for enum of proper icon
 
-	If $iDropIndex < $eDropOrderCount - 5 Or $iDropIndex > $eDropOrderCount - 2 Then
+	If $iDropIndex < $eDropOrderCount - $g_iEventTroops - 1 Or $iDropIndex > $eDropOrderCount - 2 Then
 		_GUICtrlSetImage($iCtrlIdImage, $g_sLibIconPath, $g_aiDropOrderIcon[$iDropIndex]) ; set proper troop icon
 	Else
 		_GUICtrlSetImage($iCtrlIdImage, $g_sLibModIconPath, $g_aiDropOrderIcon[$iDropIndex]) ; set proper troop icon
