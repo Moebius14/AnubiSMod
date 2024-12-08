@@ -1461,18 +1461,18 @@ Func LabGuiDisplay() ; called from main loop to get an early status for indictor
 EndFunc   ;==>LabGuiDisplay
 
 Func HideShields($bHide = False)
-	Local Static $ShieldState[25]
+	Local Static $ShieldState[30]
 	Local $counter
 	If $bHide = True Then
 		$counter = 0
-		For $i = $g_hPicKingGray To $g_hlblChampion
+		For $i = $g_hPicKingGray To $g_hLbLLabTime
 			$ShieldState[$counter] = GUICtrlGetState($i)
 			GUICtrlSetState($i, $GUI_HIDE)
 			$counter += 1
 		Next
 	Else
 		$counter = 0
-		For $i = $g_hPicKingGray To $g_hlblChampion
+		For $i = $g_hPicKingGray To $g_hLbLLabTime
 			If $ShieldState[$counter] = 80 Then
 				GUICtrlSetState($i, $GUI_SHOW)
 			EndIf
