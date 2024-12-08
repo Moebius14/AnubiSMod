@@ -549,7 +549,7 @@ Func SwitchCOCAcc_ConnectedSCID(ByRef $bResult)
 		Local $aSuperCellIDReload = decodeSingleCoord(findImage("SupercellID Reload", $g_sImgSupercellIDReload, GetDiamondFromRect("560,145,635,200"), 1, True, Default))
 		If IsArray($aSuperCellIDReload) And UBound($aSuperCellIDReload, 1) >= 2 Then
 			Click($aSuperCellIDReload[0], $aSuperCellIDReload[1], 1, 120, "Click Reload SC_ID")
-			Setlog("   1. Click Reload Supercell ID")
+			SetLog("   1. Click Reload Supercell ID")
 			If $g_bDebugSetlog Then SetSwitchAccLog("   1. Click Reload Supercell ID")
 			If _Sleep(3000) Then Return "Exit"
 			If Not $g_bRunState Then Return "Exit"

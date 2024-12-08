@@ -403,7 +403,6 @@ Func ReferenceGlobals()
 	$a1 = $eTroopGoblin
 	$a1 = $eTroopWallBreaker
 	$a1 = $eTroopBalloon
-
 	$a1 = $eTroopWizard
 	$a1 = $eTroopHealer
 	$a1 = $eTroopDragon
@@ -424,13 +423,14 @@ Func ReferenceGlobals()
 	$a1 = $eTroopValkyrie
 	$a1 = $eTroopGolem
 	$a1 = $eTroopWitch
-
 	$a1 = $eTroopLavaHound
 	$a1 = $eTroopBowler
 	$a1 = $eTroopIceGolem
 	$a1 = $eTroopHeadhunter
 	$a1 = $eTroopAppWard
 	$a1 = $eTroopDruid
+	$a1 = $eTroopCount
+
 	$a1 = $eTroopGiantSkeleton
 	$a1 = $eTroopRoyalGhost
 	$a1 = $eTroopPartyWizard
@@ -440,7 +440,7 @@ Func ReferenceGlobals()
 	$a1 = $eTroopHogWizard
 	$a1 = $eTroopLavaloon
 	$a1 = $eTroopIceMinion
-	$a1 = $eTroopCount
+
 	$a1 = $eSpellLightning
 	$a1 = $eSpellHeal
 	$a1 = $eSpellRage
@@ -457,6 +457,7 @@ Func ReferenceGlobals()
 	$a1 = $eSpellBat
 	$a1 = $eSpellOvergrowth
 	$a1 = $eSpellCount
+
 	$a1 = $eBarb
 	$a1 = $eArch
 	$a1 = $eGiant
@@ -512,7 +513,7 @@ Func ReferenceGlobals()
 	$a1 = $eCSpell
 	$a1 = $eISpell
 	$a1 = $eReSpell
-	$a1 = $eReviveSpell
+	$a1 = $eRvSpell
 	$a1 = $ePSpell
 	$a1 = $eESpell
 	$a1 = $eHaSpell

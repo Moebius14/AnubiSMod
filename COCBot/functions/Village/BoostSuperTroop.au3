@@ -81,7 +81,7 @@ Func BoostSuperTroop($bTest = False)
 							Click($g_iQuickMISX, $g_iQuickMISY, 1)
 							If _Sleep(1500) Then Return
 							If $g_bSuperTroopsBoostUsePotionFirst Then
-								Setlog("Using Super Potion...", $COLOR_INFO)
+								SetLog("Using Super Potion...", $COLOR_INFO)
 								If QuickMIS("BC1", $g_sImgBoostTroopsPotion, 500, 530 + $g_iMidOffsetY, 535, 570 + $g_iMidOffsetY, True, False) Then ;find image of Super Potion
 									Click($g_iQuickMISX - 50, $g_iQuickMISY - 10, 1)
 									If _Sleep(1500) Then Return
@@ -92,17 +92,17 @@ Func BoostSuperTroop($bTest = False)
 												CancelBoost("Using Potion")
 											Else
 												Click($g_iQuickMISX - 40, $g_iQuickMISY, 1)
-												Setlog("Using Potion, Successfully Boost " & $sTroopName, $COLOR_SUCCESS)
+												SetLog("Using Potion, Successfully Boost " & $sTroopName, $COLOR_SUCCESS)
 												$bRet = True
 											EndIf
 										Else
-											Setlog("Could not find Potion button for final upgrade " & $sTroopName, $COLOR_ERROR)
+											SetLog("Could not find Potion button for final upgrade " & $sTroopName, $COLOR_ERROR)
 											CloseWindow()
 										EndIf
 									EndIf
 								Else ;try to use dark elixir because potion not found
 									If _Sleep(1500) Then Return
-									Setlog("Cannot Find Potion, Using Dark Elixir...", $COLOR_INFO)
+									SetLog("Cannot Find Potion, Using Dark Elixir...", $COLOR_INFO)
 									If QuickMIS("BC1", $g_sImgBoostTroopsButtons, 670, 530 + $g_iMidOffsetY, 700, 570 + $g_iMidOffsetY) Then ;find image of dark elixir button
 										Click($g_iQuickMISX - 55, $g_iQuickMISY, 1)
 										If _Sleep(1500) Then Return
@@ -113,11 +113,11 @@ Func BoostSuperTroop($bTest = False)
 													CancelBoost("Using Dark Elixir")
 												Else
 													Click($g_iQuickMISX - 70, $g_iQuickMISY, 1)
-													Setlog("Using Dark Elixir, Successfully Boost " & $sTroopName, $COLOR_SUCCESS)
+													SetLog("Using Dark Elixir, Successfully Boost " & $sTroopName, $COLOR_SUCCESS)
 													$bRet = True
 												EndIf
 											Else
-												Setlog("Could not find dark elixir button for final upgrade " & $sTroopName, $COLOR_ERROR)
+												SetLog("Could not find dark elixir button for final upgrade " & $sTroopName, $COLOR_ERROR)
 												CloseWindow()
 											EndIf
 										Else
@@ -125,11 +125,11 @@ Func BoostSuperTroop($bTest = False)
 											If _Sleep(1500) Then Return
 										EndIf
 									Else
-										Setlog("Could not find dark elixir button for upgrade " & $sTroopName, $COLOR_ERROR)
+										SetLog("Could not find dark elixir button for upgrade " & $sTroopName, $COLOR_ERROR)
 									EndIf
 								EndIf
 							Else
-								Setlog("Using Dark Elixir...", $COLOR_INFO)
+								SetLog("Using Dark Elixir...", $COLOR_INFO)
 								If QuickMIS("BC1", $g_sImgBoostTroopsButtons, 670, 530 + $g_iMidOffsetY, 700, 570 + $g_iMidOffsetY) Then ;find image of dark elixir button
 									Click($g_iQuickMISX - 55, $g_iQuickMISY, 1)
 									If _Sleep(1500) Then Return
@@ -140,11 +140,11 @@ Func BoostSuperTroop($bTest = False)
 												CancelBoost("Using Dark Elixir")
 											Else
 												Click($g_iQuickMISX - 70, $g_iQuickMISY, 1)
-												Setlog("Successfully Boost " & $sTroopName, $COLOR_SUCCESS)
+												SetLog("Successfully Boost " & $sTroopName, $COLOR_SUCCESS)
 												$bRet = True
 											EndIf
 										Else
-											Setlog("Could not find dark elixir button for final upgrade " & $sTroopName, $COLOR_ERROR)
+											SetLog("Could not find dark elixir button for final upgrade " & $sTroopName, $COLOR_ERROR)
 											CloseWindow()
 										EndIf
 									Else
@@ -152,11 +152,11 @@ Func BoostSuperTroop($bTest = False)
 										If _Sleep(1500) Then Return
 									EndIf
 								Else
-									Setlog("Could not find dark elixir button for upgrade " & $sTroopName, $COLOR_ERROR)
+									SetLog("Could not find dark elixir button for upgrade " & $sTroopName, $COLOR_ERROR)
 								EndIf
 							EndIf
 						Else
-							Setlog("Cannot find " & $sTroopName & ", Troop Not Unlocked yet?", $COLOR_ERROR)
+							SetLog("Cannot find " & $sTroopName & ", Troop Not Unlocked yet?", $COLOR_ERROR)
 						EndIf
 					Else
 						SetLog("Double Check Image for Icon " & $sTroopName & " Not Found", $COLOR_ERROR)

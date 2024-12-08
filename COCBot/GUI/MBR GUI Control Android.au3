@@ -182,9 +182,9 @@ Func getAllEmulators()
 	Local $aEmulator = StringSplit($sEmulatorString, "|", $STR_NOCOUNT)
 	If $sEmulatorString <> "" Then
 		If UBound($aEmulator) = 1 Then
-			Setlog("Emulator Found In Your Machine :")
+			SetLog("Emulator Found In Your Machine :")
 		Else
-			Setlog(UBound($aEmulator) & " Emulators Found In Your Machine :")
+			SetLog(UBound($aEmulator) & " Emulators Found In Your Machine :")
 		EndIf
 		For $i = 0 To UBound($aEmulator) - 1
 			Local $emuVer = ""
@@ -194,7 +194,7 @@ Func getAllEmulators()
 			SetLog("  - " & $aEmulator[$i] & " version: " & $emuVer, $COLOR_SUCCESS)
 		Next
 	Else
-		Setlog("No Emulator found in your machine")
+		SetLog("No Emulator found in your machine")
 		Return
 	EndIf
 
@@ -214,7 +214,7 @@ Func getAllEmulators()
 					$bMatchingEmulator = True
 					$DisplayVersionMin = "5.13.220.1001"
 					$VersionMin = GetVersionNormalized($DisplayVersionMin)
-					$DisplayVersionMax = "5.21.615.1015"
+					$DisplayVersionMax = "5.21.630.1018"
 					$VersionMax = GetVersionNormalized($DisplayVersionMax)
 				Case "Nox"
 					$bMatchingEmulator = True
@@ -239,7 +239,7 @@ Func getAllEmulators()
 							SetLog("You are using an unsupported " & $aEmulator[$i] & " version !", $COLOR_ERROR)
 							SetLog("Minimum Required Version : " & $DisplayVersionMin, $COLOR_SUCCESS)
 						Case $emuVer > $VersionMax
-							Setlog("This " & $aEmulator[$i] & " version has never been tested on this Mod !", $COLOR_WARNING)
+							SetLog("This " & $aEmulator[$i] & " version has never been tested on this Mod !", $COLOR_WARNING)
 							SetLog("Max Tested Version : " & $DisplayVersionMax, $COLOR_SUCCESS)
 					EndSelect
 				EndIf

@@ -1,0 +1,107 @@
+NOTE  |Author: AnubiS
+NOTE  |Attack: YetiTrowerSWall
+NOTE  |-External Edge-
+NOTE  |*** Support TH15, TH16
+NOTE  |CC : LogL, 3 Rage, 1 Jump, 3 Haste
+NOTE  |Siege : Barrack
+NOTE  |Script works on "EXTERNAL EDGES"
+      |                                                                                                                                                           |
+      |---------------------------------------------------------------- Yeti Throwers SWall Starting -------------------------------------------------------------|
+      |                                                                                                                                                           |
+      |_TROOPNAME_|__FLEXIBLE_|____TH06___|____TH07___|____TH08___|____TH09___|____TH10___|____TH11___|____TH12___|____TH13___|____TH14___|____TH15___|____TH16___|
+TRAIN |Throw      |0          |0          |0          |0          |0          |0          |0          |0          |0          |0          |8          |8          |
+TRAIN |Yeti       |0          |0          |0          |0          |0          |0          |0          |0          |0          |0          |9          |9          |
+TRAIN |SWall      |0          |0          |0          |0          |0          |0          |0          |0          |0          |0          |2          |2          |
+TRAIN |Heal       |0          |0          |0          |0          |0          |0          |0          |0          |0          |0          |1          |1          |
+      |                                                                                                                                                           |
+TRAIN |RSpell     |0          |0          |0          |0          |0          |0          |0          |0          |0          |0          |3          |3          |
+TRAIN |JSpell     |0          |0          |0          |0          |0          |0          |0          |0          |0          |0          |1          |1          |
+TRAIN |HaSpell    |0          |0          |0          |0          |0          |0          |0          |0          |0          |0          |3          |3          |
+      |                                                                                                                                                           |
+TRAIN |SiegeB     |0          |0          |0          |0          |0          |0          |0          |0          |0          |0          |3          |3          |
+      |                                                                                                                                                           |
+      |_TROOPNAME_|___________|____TH06___|____TH07___|____TH08___|____TH09___|____TH10___|____TH11___|____TH12___|____TH13___|____TH14___|____TH15___|____TH16___|
+TRAIN |King       |0          |0          |0          |0          |0          |0          |0          |0          |0          |0          |1          |1          |
+TRAIN |Prince     |0          |0          |0          |0          |0          |0          |0          |0          |0          |0          |315        |315        |
+TRAIN |Queen      |0          |0          |0          |0          |0          |0          |0          |0          |0          |0          |1          |1          |
+TRAIN |Warden     |0          |0          |0          |0          |0          |0          |0          |0          |0          |0          |315        |315        |
+TRAIN |Champion   |0          |0          |0          |0          |0          |0          |0          |0          |0          |0          |1          |1          |
+      |                                                                                                                                                           |
+      |_TROOPNAME_|___________|____TH06___|____TH07___|____TH08___|____TH09___|____TH10___|____TH11___|____TH12___|____TH13___|____TH14___|____TH15___|____TH16___|
+WMODE |0          |0          |0          |0          |0          |0          |0          |0          |0          |0          |0          |0          |0          |
+      |                                                                                                                                                           |
+      |___________|___________|____TH06___|____TH07___|____TH08___|____TH09___|____TH10___|____TH11___|____TH12___|____TH13___|____TH14___|____TH15___|____TH16___|
+REDLN |0          |0          |0          |0          |0          |0          |0          |0          |0          |0          |0          |4          |4          |
+DRPLN |0          |0          |0          |0          |0          |0          |0          |0          |0          |0          |0          |0          |0          |
+      |                                                                                                                                                           |
+      |___________|___________|____TH06___|____TH07___|____TH08___|____TH09___|____TH10___|____TH11___|____TH12___|____TH13___|____TH14___|____TH15___|____TH16___|
+CCREQ |           |           |           |           |           |           |           |           |           |           |           |           |           |
+CCSPL |RSpell     |           |           |           |           |           |           |0          |0          |0          |0          |1          |1          |
+CCSPL |FSpell     |           |           |           |           |           |           |0          |0          |0          |0          |1          |1          |
+      |                                                                                                                                                           |
+      |EXTR. GOLD |EXTR.ELIXIR|EXTR. DARK |DEPO. GOLD |DEPO.ELIXIR|DEPO. DARK |TOWNHALL   |FORCED SIDE|                                                           |
+SIDE  |0          |0          |0          |0          |0          |0          |20         |           |                                                           |
+      |EAGLE      |INFERNO    |GEMBOX     |GEMBOX     |GEMBOX     |GEMBOX     |GEMBOX     |GEMBOX     |                                                           |
+SIDEB |9          |5          |0          |0          |0          |           |           |           |                                                           |
+      |                                                                                                                                                           |
+      |VECTOR_____|SIDE_______|DROP_POINTS|ADDTILES___|VERSUS_____|RANDOMX_PX_|RANDOMY_PX_|BUILDING___|___________________________________________________________|
+MAKE  |A          |FRONT-RIGHT|10         |0          |INT-EXT    |0          |0          |           |                                                           |
+MAKE  |B          |FRONT-LEFT |10         |0          |INT-EXT    |0          |0          |           |                                                           |
+MAKE  |C          |FRONT-RIGHT|10         |-9         |INT-EXT    |0          |0          |           |                                                           |
+MAKE  |D          |LEFT-BACK  |10         |0          |INT-EXT    |0          |0          |           |                                                           |
+MAKE  |E          |FRONT-LEFT |10         |-9         |INT-EXT    |0          |0          |           |                                                           |
+MAKE  |F          |FRONT-LEFT |10         |-15        |INT-EXT    |0          |0          |           |                                                           |
+MAKE  |G          |FRONT-RIGHT|10         |-13        |INT-EXT    |0          |0          |           |                                                           |
+MAKE  |H          |FRONT-LEFT |10         |-24        |INT-EXT    |0          |0          |           |                                                           |
+MAKE  |I          |FRONT-RIGHT|10         |-26        |INT-EXT    |0          |0          |           |                                                           |
+MAKE  |J          |FRONT-LEFT |10         |-21        |INT-EXT    |0          |0          |           |                                                           |
+MAKE  |K          |FRONT-LEFT |10         |-13        |INT-EXT    |0          |0          |           |                                                           |
+MAKE  |L          |RIGHT-FRONT|10         |0          |INT-EXT    |0          |0          |           |                                                           |
+MAKE  |M          |LEFT-FRONT |10         |0          |INT-EXT    |0          |0          |           |                                                           |
+MAKE  |N          |BACK-LEFT  |1          |0          |IGNORE     |0          |0          |TOWNHALL   |                                                           |
+MAKE  |O          |BACK-RIGHT |1          |0          |IGNORE     |0          |0          |TOWNHALL   |                                                           |
+MAKE  |P          |LEFT-BACK  |1          |0          |IGNORE     |0          |0          |TOWNHALL   |                                                           |
+MAKE  |Q          |RIGHT-BACK |1          |0          |IGNORE     |0          |0          |TOWNHALL   |                                                           |
+MAKE  |R          |BACK-LEFT  |1          |0          |IGNORE     |0          |0          |INFERNO    |                                                           |
+MAKE  |S          |BACK-RIGHT |1          |0          |IGNORE     |0          |0          |INFERNO    |                                                           |
+MAKE  |T          |LEFT-BACK  |1          |0          |IGNORE     |0          |0          |INFERNO    |                                                           |
+MAKE  |U          |RIGHT-BACK |1          |0          |IGNORE     |0          |0          |INFERNO    |                                                           |
+      |                                                                                                                                                           |
+      |VECTOR_____|INDEX__________|QTY_X_VECT_|TROOPNAME__|DELAY_DROP_|DELAYCHANGE|SLEEPAFTER_|_______|___________________________________________________________|
+DROP  |A          |7-8            |1          |Yeti       |50-70      |125-200    |800-1000   |       |                                                           |
+DROP  |A          |7              |1          |SiegeB     |50-70      |125-200    |825-1250   |       |                                                           |
+DROP  |A          |8              |1          |Prince     |27-50      |0          |200-350    |       |                                                           |
+DROP  |B          |7,8            |2          |Yeti       |50-70      |125-200    |625-850    |       |                                                           |
+DROP  |B          |7,8            |2          |Throw      |50-70      |125-200    |225-250    |       |                                                           |
+DROP  |B          |7              |1          |Queen      |27-50      |0          |0          |       |                                                           |
+WAIT  |3500-4500  |               |           |           |           |           |           |       |                                                           |
+DROP  |A          |4,3,1          |3          |Yeti       |50-70      |125-200    |0          |       |                                                           |
+DROP  |B          |2,3,5          |3          |Yeti       |50-70      |125-200    |125-200    |       |                                                           |
+WAIT  |500-1000   |               |           |           |           |           |           |       |                                                           |
+DROP  |A          |1              |2          |SWall      |450-570    |450-570    |320-350    |       |                                                           |
+DROP  |A          |4,3,1          |3          |Throw      |50-70      |125-200    |0          |       |                                                           |
+DROP  |B          |2,3,5          |3          |Throw      |50-70      |125-200    |125-200    |       |                                                           |
+DROP  |B          |1              |1          |Heal       |50-70      |27-50      |320-350    |       |                                                           |
+DROP  |A          |1              |1          |Warden     |27-50      |0          |100-250    |       |                                                           |
+DROP  |A          |1              |1          |King       |27-50      |0          |100-250    |       |                                                           |
+DROP  |A          |1              |1          |Champion   |27-50      |0          |100-250    |       |                                                           |
+DROP  |C          |3              |1          |Rspell     |0          |0          |200-250    |       |                                                           |
+DROP  |E          |3              |1          |Rspell     |0          |0          |100-120    |       |                                                           |
+DROP  |F          |1              |1          |JSpell     |0          |0          |50-70      |       |                                                           |
+DROP  |G          |3              |1          |Haspell    |0          |0          |50-70      |       |                                                           |
+DROP  |K          |3              |1          |Haspell    |0          |0          |50-70      |       |                                                           |
+DROP  |R          |1              |1          |FSpell     |0          |0          |50-70      |       |                                                           |
+DROP  |S          |1              |1          |FSpell     |0          |0          |50-70      |       |                                                           |
+DROP  |T          |1              |1          |FSpell     |0          |0          |50-70      |       |                                                           |
+DROP  |U          |1              |1          |FSpell     |0          |0          |50-70      |       |                                                           |
+DROP  |N          |1              |1          |FSpell     |0          |0          |50-70      |       |                                                           |
+DROP  |O          |1              |1          |FSpell     |0          |0          |50-70      |       |                                                           |
+DROP  |P          |1              |1          |FSpell     |0          |0          |50-70      |       |                                                           |
+DROP  |Q          |1              |1          |FSpell     |0          |0          |50-70      |       |                                                           |
+DROP  |J          |1              |1          |Haspell    |0          |0          |50-70      |       |                                                           |
+DROP  |H          |2              |1          |Rspell     |0          |0          |50-70      |       |                                                           |
+DROP  |I          |2              |1          |Rspell     |0          |0          |50-70      |       |                                                           |
+WAIT  |2500-3500  |               |           |           |           |           |           |       |                                                           |
+DROP  |D          |3,4,5          |3          |REMAIN     |50-70      |100        |50-100     |       |                                                           |
+      |                                                                                                                                                           |
+      |--------------------------------------------------------- Yeti Throwers SWall End--------------------------------------------------------------------------|

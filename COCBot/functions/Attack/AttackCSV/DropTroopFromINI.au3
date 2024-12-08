@@ -142,6 +142,8 @@ Func DropTroopFromINI($sDropVectors, $iStartIndex, $iEndIndex, $aiIndexArray, $i
 			If Not $g_abAttackUseInvisibilitySpell[$g_iMatchMode] Then $bUseSpell = False
 		Case $eReSpell
 			If Not $g_abAttackUseRecallSpell[$g_iMatchMode] Then $bUseSpell = False
+		Case $eRvSpell
+			If Not $g_abAttackUseReviveSpell[$g_iMatchMode] Then $bUseSpell = False
 		Case $ePSpell
 			If Not $g_abAttackUsePoisonSpell[$g_iMatchMode] Then $bUseSpell = False
 		Case $eESpell

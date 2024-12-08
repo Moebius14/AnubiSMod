@@ -641,7 +641,7 @@ Func PetGuiDisplay()
 	ClearScreen()
 	If _Sleep(1500) Then Return ; Delay AFTER the click Away Prevents lots of coc restarts
 
-	Setlog("Checking Pet Status", $COLOR_INFO)
+	SetLog("Checking Pet Status", $COLOR_INFO)
 
 	;=================Section 2 Lab Gui
 

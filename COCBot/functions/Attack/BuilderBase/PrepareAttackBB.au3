@@ -16,7 +16,7 @@
 Func PrepareAttackBB($AttackCount = 0)
 
 	If $g_bChkForceBBAttackOnClanGames And $g_bIsBBevent Then
-		Setlog("Running Challenge is BB Challenge : " & $CurrentActiveChallenge, $COLOR_ACTION)
+		SetLog("Running Challenge is BB Challenge : " & $CurrentActiveChallenge, $COLOR_ACTION)
 		SetLog("Force BB Attack on Clan Games Enabled", $COLOR_DEBUG2)
 		SetLog("Attack, No Matter What !!", $COLOR_DEBUG2)
 		CheckLootAvail()
@@ -186,7 +186,7 @@ Func CheckArmyReady()
 		Local $Camp = QuickMIS("CNX", $g_sImgFillCamp, 45, 210 + $g_iMidOffsetY, 800, 250 + $g_iMidOffsetY)
 		For $i = 1 To UBound($Camp)
 			If QuickMIS("BC1", $g_sImgFillTrain, 45, 390 + $g_iMidOffsetY, 800, 550 + $g_iMidOffsetY) Then
-				Setlog("Fill ArmyCamp with : " & $g_iQuickMISName, $COLOR_DEBUG)
+				SetLog("Fill ArmyCamp with : " & $g_iQuickMISName, $COLOR_DEBUG)
 				Click($g_iQuickMISX, $g_iQuickMISY)
 				If _Sleep(500) Then Return
 			EndIf

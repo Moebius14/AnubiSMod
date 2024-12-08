@@ -183,34 +183,34 @@ Func btnPushSharedPrefs()
 EndFunc   ;==>btnPushSharedPrefs
 
 Func BtnSaveprofile()
-	Setlog("Saving your setting...", $COLOR_INFO)
+	SetLog("Saving your setting...", $COLOR_INFO)
 	SaveConfig()
 	readConfig()
 	applyConfig()
-	Setlog("Done!", $COLOR_SUCCESS)
+	SetLog("Done!", $COLOR_SUCCESS)
 EndFunc   ;==>BtnSaveprofile
 
 Func BtnCopyProfileName()
-	Setlog("Copying your Profile Name", $COLOR_INFO)
+	SetLog("Copying your Profile Name", $COLOR_INFO)
 	GUICtrlSetData($g_hTxtCurrentVillageName, $g_sProfileCurrentName)
-	Setlog("Done!", $COLOR_SUCCESS)
+	SetLog("Done!", $COLOR_SUCCESS)
 EndFunc   ;==>BtnCopyProfileName
 
 Func BtnSaveAlias()
-	Setlog("Saving your Village Name", $COLOR_INFO)
+	SetLog("Saving your Village Name", $COLOR_INFO)
 	SaveConfig()
 	readConfig()
 	applyConfig()
-	Setlog("Done!", $COLOR_SUCCESS)
+	SetLog("Done!", $COLOR_SUCCESS)
 EndFunc   ;==>BtnSaveAlias
 
 Func BtnDeleteAlias()
-	Setlog("Clear your Village Name", $COLOR_INFO)
+	SetLog("Clear your Village Name", $COLOR_INFO)
 	GUICtrlSetData($g_hTxtCurrentVillageName, "")
 	SaveConfig()
 	readConfig()
 	applyConfig()
-	Setlog("Done!", $COLOR_SUCCESS)
+	SetLog("Done!", $COLOR_SUCCESS)
 EndFunc   ;==>BtnDeleteAlias
 
 Func OnlySCIDAccounts()
@@ -493,7 +493,7 @@ Func btnHelperHut()
 	LocateHelperHut()
 	$g_bRunState = $wasRunState
 	AndroidShield("btnHelperHut") ; Update shield status due to manual $g_bRunState
-EndFunc   ;==>btnBsmith
+EndFunc   ;==>btnHelperHut
 
 Func chkTrophyAtkDead()
 	If GUICtrlRead($g_hChkTrophyAtkDead) = $GUI_CHECKED Then

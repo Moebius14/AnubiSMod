@@ -21,7 +21,7 @@ Func TestSmartFarm()
 	Local $RuntimeA = $g_bRunState
 	$g_bRunState = True
 
-	Setlog("Starting the SmartFarm Attack Test()", $COLOR_INFO)
+	SetLog("Starting the SmartFarm Attack Test()", $COLOR_INFO)
 
 	checkMainScreen(False)
 	CheckIfArmyIsReady()
@@ -53,7 +53,7 @@ Func TestSmartFarm()
 
 	ReturnHome($g_bTakeLootSnapShot)
 
-	Setlog("Finish the SmartFarm Attack()", $COLOR_INFO)
+	SetLog("Finish the SmartFarm Attack()", $COLOR_INFO)
 
 	CleanSuperchargeTemplates()
 
@@ -137,9 +137,9 @@ Func ChkSmartFarm($TypeResources = "All")
 
 	; Total of Resources and %
 	Local $TotalOfResources = UBound($aResourcesIN) + UBound($aResourcesOUT)
-	Setlog("Total of Resources: " & $TotalOfResources, $COLOR_INFO)
-	Setlog(" - Inside the Village: " & UBound($aResourcesIN), $COLOR_INFO)
-	Setlog(" - Outside the village: " & UBound($aResourcesOUT), $COLOR_INFO)
+	SetLog("Total of Resources: " & $TotalOfResources, $COLOR_INFO)
+	SetLog(" - Inside the Village: " & UBound($aResourcesIN), $COLOR_INFO)
+	SetLog(" - Outside the village: " & UBound($aResourcesOUT), $COLOR_INFO)
 	SetDebugLog("MainSide array: " & _ArrayToString($aMainSide))
 
 	$g_sResourcesIN = UBound($aResourcesIN)
@@ -158,7 +158,7 @@ Func ChkSmartFarm($TypeResources = "All")
 	If $Percentage_In > $PercentageInSide Then $AttackInside = True
 
 	Local $TxtLog = ($AttackInside = True) ? ("Inside with " & $Percentage_In & "%") : ("Outside with " & $Percentage_Out & "%")
-	Setlog(" - Best Attack will be " & $TxtLog)
+	SetLog(" - Best Attack will be " & $TxtLog)
 	If Not $g_bRunState Then Return
 
 	Local $OneSide = Floor($TotalOfResources / 4)
@@ -185,15 +185,15 @@ Func ChkSmartFarm($TypeResources = "All")
 			EndIf
 		Next
 		For $i = 0 To UBound($aMainSide) - 1
-			If $BestSideToAttack[0] = $Sides[$i] Then Setlog("Best Side To Attack Inside: " & $SidesExt[$i])
-			Setlog(" - Side " & $SidesExt[$i] & " with " & $aMainSide[$i] & " Resources.", $COLOR_INFO)
+			If $BestSideToAttack[0] = $Sides[$i] Then SetLog("Best Side To Attack Inside: " & $SidesExt[$i])
+			SetLog(" - Side " & $SidesExt[$i] & " with " & $aMainSide[$i] & " Resources.", $COLOR_INFO)
 		Next
 	Else
 		$BestSideToAttack = $aHowManySides
 	EndIf
 
-	Setlog("Attack at " & UBound($BestSideToAttack) & " Side(s) - " & _ArrayToString($BestSideToAttack), $COLOR_INFO)
-	Setlog(" Check Calculated  (in " & Round(__TimerDiff($hTimer) / 1000, 2) & " seconds)", $COLOR_INFO)
+	SetLog("Attack at " & UBound($BestSideToAttack) & " Side(s) - " & _ArrayToString($BestSideToAttack), $COLOR_INFO)
+	SetLog(" Check Calculated  (in " & Round(__TimerDiff($hTimer) / 1000, 2) & " seconds)", $COLOR_INFO)
 	If Not $g_bRunState Then Return
 
 	; DEBUG , image with all information
@@ -399,12 +399,12 @@ Func Side($Pixel)
 		If $Pixel[0] < 430 And $Pixel[1] > 330 Then $sReturn = "BL"
 		If $Pixel[0] >= 430 And $Pixel[1] >= 330 Then $sReturn = "BR"
 		If $sReturn = "" Then
-			Setlog("Error on SIDE...: " & _ArrayToString($Pixel), $COLOR_RED)
+			SetLog("Error on SIDE...: " & _ArrayToString($Pixel), $COLOR_RED)
 			$sReturn = "ERROR"
 		EndIf
 		Return $sReturn
 	Else
-		Setlog("ERROR SIDE|SmartFarm!!", $COLOR_RED)
+		SetLog("ERROR SIDE|SmartFarm!!", $COLOR_RED)
 	EndIf
 EndFunc   ;==>Side
 
@@ -493,13 +493,13 @@ Func DebugImageSmartFarm($THdetails, $aIn, $aOut, $sTime, $BestSideToAttack, $re
 	_GDIPlus_PenDispose($hPen)
 	_GDIPlus_PenDispose($hPen2)
 	_GDIPlus_GraphicsDispose($hGraphic)
-	Setlog("Debug Image saved!")
+	SetLog("Debug Image saved!")
 
 EndFunc   ;==>DebugImageSmartFarm
 
 Func AttackSmartFarm($Nside, $SIDESNAMES)
 
-	Setlog(" ====== Start Smart Farm Attack ====== ", $COLOR_INFO)
+	SetLog(" ====== Start Smart Farm Attack ====== ", $COLOR_INFO)
 
 	SetSlotSpecialTroops()
 
@@ -873,7 +873,7 @@ Func DropTroopSmartFarm($troop, $nbSides, $number, $slotsPerEdge = 0, $name = ""
 
 	If ($number > 0 And $nbTroopsPerEdge = 0) Then $nbTroopsPerEdge = 1
 
-	If $g_bDebugSmartFarm Then Setlog(" - " & GetTroopName($troop) & " Number: " & $number & " Sides: " & $nbSides & " SlotsPerEdge: " & $slotsPerEdge)
+	If $g_bDebugSmartFarm Then SetLog(" - " & GetTroopName($troop) & " Number: " & $number & " Sides: " & $nbSides & " SlotsPerEdge: " & $slotsPerEdge)
 
 	If $nbSides = 4 Then
 		; $listInfoPixelDropTroop = [$newPixelBottomRight, $newPixelTopLeft, $newPixelBottomLeft, $newPixelTopRight]

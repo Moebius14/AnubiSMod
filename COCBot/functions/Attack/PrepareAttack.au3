@@ -293,7 +293,7 @@ Func SelectCastleOrSiege(ByRef $iTroopIndex, $iX, $iCmbSiege, $gMatchMode)
 			Else
 				If $g_bDebugImageSave Then SaveDebugImage("PrepareAttack_SwitchSiege")
 				; If was not detectable lets click again on green icon to hide the window!
-				Setlog("Undetected " & ($bAnySiege ? "any siege machine " : GetTroopName($ToUse)) & " after click on switch btn!", $COLOR_DEBUG)
+				SetLog("Undetected " & ($bAnySiege ? "any siege machine " : GetTroopName($ToUse)) & " after click on switch btn!", $COLOR_DEBUG)
 				Click($iLastX, $iLastY, 1)
 			EndIf
 			If _Sleep(750) Then Return
@@ -337,7 +337,7 @@ Func SelectClanCastle($iX, $iLastX, $iLastY)
 
 	Else
 		; If was not detectable lets click again on green icon to hide the window!
-		Setlog("Undetected Clan Castle", $COLOR_DEBUG)
+		SetLog("Undetected Clan Castle", $COLOR_DEBUG)
 		Click($iLastX, $iLastY, 1)
 	EndIf
 
@@ -436,6 +436,8 @@ Func IsUnitUsed($iMatchMode, $iTroopIndex)
 					If $g_abAttackUseInvisibilitySpell[$iMatchMode] Then Return True
 				Case $eReSpell
 					If $g_abAttackUseRecallSpell[$iMatchMode] Then Return True
+				Case $eRvSpell
+					If $g_abAttackUseReviveSpell[$iMatchMode] Then Return True
 				Case $eSkSpell
 					If $g_abAttackUseSkeletonSpell[$iMatchMode] Then Return True
 				Case $eBtSpell

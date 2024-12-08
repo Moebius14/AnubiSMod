@@ -114,7 +114,7 @@ Func TrainSiege($bTrainFullSiege = False, $bDebugSetLog = $g_bDebugSetLog, $bSet
 				Local $iSiegeIndex = TroopIndexLookup($aSearchResult[$i][0]) - $eWallW
 				$aiQueueSiegeMachine[$iSiegeIndex] += $aSearchResult[$i][3]
 				$aiTotalSiegeMachine[$iSiegeIndex] += $aSearchResult[$i][3]
-				Setlog("- " & $g_asSiegeMachineNames[$iSiegeIndex] & " x" & $aSearchResult[$i][3] & " Queued.")
+				SetLog("- " & $g_asSiegeMachineNames[$iSiegeIndex] & " x" & $aSearchResult[$i][3] & " Queued.")
 			Next
 		EndIf
 	EndIf
@@ -176,7 +176,7 @@ Func TrainSiege($bTrainFullSiege = False, $bDebugSetLog = $g_bDebugSetLog, $bSet
 					PureClickTrain($aiSiegeCoord[0], $aiSiegeCoord[1], 1, $g_iTrainClickDelayfinal)
 				Next
 				Local $sSiegeName = $HowMany >= 2 ? $g_asSiegeMachineNames[$iSiegeIndex] & "s" : $g_asSiegeMachineNames[$iSiegeIndex] & ""
-				Setlog("Build " & $HowMany & " " & $sSiegeName, $COLOR_SUCCESS)
+				SetLog("Build " & $HowMany & " " & $sSiegeName, $COLOR_SUCCESS)
 				$aiTotalSiegeMachine[$iSiegeIndex] += $HowMany
 				If _Sleep(250) Then Return
 			Else
@@ -204,7 +204,7 @@ Func TrainSiege($bTrainFullSiege = False, $bDebugSetLog = $g_bDebugSetLog, $bSet
 						PureClickTrain($aiSiegeCoord[0], $aiSiegeCoord[1], 1, $g_iTrainClickDelayfinal)
 					Next
 					Local $sSiegeName = $HowMany >= 2 ? $g_asSiegeMachineNames[$iSiegeIndex] & "s" : $g_asSiegeMachineNames[$iSiegeIndex] & ""
-					Setlog("Build " & $HowMany & " " & $sSiegeName, $COLOR_SUCCESS)
+					SetLog("Build " & $HowMany & " " & $sSiegeName, $COLOR_SUCCESS)
 					If _Sleep(250) Then Return
 				Else
 					SetLog("Can't train siege :" & $g_asSiegeMachineNames[$iSiegeIndex], $COLOR_ERROR)

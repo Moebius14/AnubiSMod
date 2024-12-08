@@ -521,7 +521,7 @@ Func GUIControl_WM_COMMAND($hWind, $iMsg, $wParam, $lParam)
 		Case $g_hPicArrowLeft, $g_hPicArrowRight
 			btnVillageStat()
 		Case $g_hChkDebugSetlog
-			chkDebugSetlog()
+			chkDebugSetLog()
 		Case $g_hChkDebugImageSaveMod
 			chkDebugImageSaveMod()
 		Case $g_hChkDebugAndroid
@@ -582,7 +582,7 @@ Func GUIControl_WM_COMMAND($hWind, $iMsg, $wParam, $lParam)
 		Case $g_hBtnTestArmyWindow
 			Local $RuntimeA = $g_bRunState
 			$g_bRunState = True
-			Setlog("Army Window Test")
+			SetLog("Army Window Test")
 			_checkArmyCamp(False, False, False, True)
 			$g_bRunState = $RuntimeA
 		Case $g_hBtnTestBuildingLocation
@@ -615,14 +615,14 @@ Func GUIControl_WM_COMMAND($hWind, $iMsg, $wParam, $lParam)
 
 			Local $RuntimeA = $g_bRunState
 			$g_bRunState = True
-			Setlog("Prepare Attack test")
+			SetLog("Prepare Attack test")
 			PrepareAttack($DB, False)
 			$g_bRunState = $RuntimeA
 		Case $g_hBtnTestQuickTrainsimgloc
 
 			Local $RuntimeA = $g_bRunState
 			$g_bRunState = True
-			Setlog("Prepare Attack test - Remaining troops")
+			SetLog("Prepare Attack test - Remaining troops")
 			PrepareAttack($DB, True)
 			$g_bRunState = $RuntimeA
 	EndSwitch

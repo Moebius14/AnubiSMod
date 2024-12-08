@@ -1010,12 +1010,12 @@ Func btnRunFunction()
 
 	Local $saExecResult = Execute($sFunc)
 	If $saExecResult = "" And @error <> 0 Then
-		Setlog("Result : Error", $COLOR_ERROR)
+		SetLog("Result : Error", $COLOR_ERROR)
 	ElseIf IsArray($saExecResult) Then
-		Setlog("Result (IsArray) : " & _ArrayToString($saExecResult, ","), $COLOR_INFO)
+		SetLog("Result (IsArray) : " & _ArrayToString($saExecResult, ","), $COLOR_INFO)
 		_ArrayDisplay($saExecResult, "Debug Func. Result")
 	Else
-		Setlog("Result : " & $saExecResult, $COLOR_INFO)
+		SetLog("Result : " & $saExecResult, $COLOR_INFO)
 	EndIf
 
 	$g_bRunState = $currentRunState
@@ -1169,12 +1169,12 @@ EndFunc   ;==>chkSQLite
 Func SQLiteExport()
 
 	If Not $g_bUseStatistics Then
-		Setlog("")
+		SetLog("")
 		Return
 	EndIf
-	Setlog("Exporting data from SQlite, please wait!", $COLOR_ACTION)
+	SetLog("Exporting data from SQlite, please wait!", $COLOR_ACTION)
 	ExportDataBase(False)
-	Setlog("Export successfully completed.", $COLOR_SUCCESS)
+	SetLog("Export successfully completed.", $COLOR_SUCCESS)
 
 EndFunc   ;==>SQLiteExport
 

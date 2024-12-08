@@ -908,7 +908,7 @@ Func FindWallCSV(ByRef $aCSVExternalWall, ByRef $aCSVInternalWall)
 			EndIf
 		Next
 
-		Setlog("External Wall: " & _ArrayToString($aOuterWall) & " , Internal Wall: " & _ArrayToString($aInnerWall))
+		SetLog("External Wall: " & _ArrayToString($aOuterWall) & " , Internal Wall: " & _ArrayToString($aInnerWall))
 		If $aOuterWall[0] <> "" Then
 			$aCSVExternalWall[0] = $aOuterWall
 			$aCSVInternalWall[0] = $aInnerWall

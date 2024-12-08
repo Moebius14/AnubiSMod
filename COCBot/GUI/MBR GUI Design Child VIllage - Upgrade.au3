@@ -25,7 +25,6 @@ Global $g_hUseBOF = 0, $g_hUseBOFTime = 0, $g_hUseBOS = 0, $g_hUseBOSTime = 0, $
 Global $g_hChkAutoLabUpgrades = 0, $g_hCmbLaboratory = 0, $g_hLblNextUpgrade = 0, $g_hBtnResetLabUpgradeTime = 0, $g_hPicLabUpgrade = 0, _
 		$g_hLblHeroReservedBuilderMod = 0, $g_hNbrHeroReservedBuilderMod = 0, $g_hGUI_BoostBuilders = 0, $g_hBtnBoostBuilders = 0, $g_hBtnBoostBuildersClose = 0, _
 		$g_hGUI_BoostBuilders2 = 0, $g_hBtnBoostBuildersClose2 = 0
-Global $g_hGUI_HeroEquipment = 0, $g_hBtnHeroEquipmentClose = 0
 Global $g_hChkAutoStarLabUpgrades = 0, $g_hCmbStarLaboratory = 0, $g_hLblNextSLUpgrade = 0, $g_hBtnResetStarLabUpgradeTime = 0, $g_hPicStarLabUpgrade = 0
 Global $g_hUseLabPotion = 0, $g_hCmbLabPotion = 0, $g_hChkLabAssistantLabel = 0, $g_hChkLabAssistant = 0
 
@@ -35,6 +34,7 @@ Global $g_hChkUpgradeKing = 0, $g_hChkUpgradeQueen = 0, $g_hChkUpgradePrince = 0
 Global $g_hCmbHeroReservedBuilder = 0, $g_hLblHeroReservedBuilderTop = 0, $g_hLblHeroReservedBuilderBottom = 0, $g_hBtnHeroEquipment = 0
 Global $g_hChkUpgradeChampion = 0, $g_hPicChkChampionSleepWait = 0
 Global $g_hUseHeroBooks = 0, $g_hHeroMinUpgradeTime = 0
+Global $g_hGUI_HeroEquipment = 0, $g_hBtnHeroEquipmentClose = 0
 
 Global $g_hChkUpgradePets[$ePetCount]
 Global $g_hChkSortPetUpgrade = 0, $g_hCmbSortPetUpgrade = 0, $g_hLblSortPetUpgradeLvLCost = 0, $g_hCmbSortPetUpgradeLvLCost = 0, $g_hUsePetPotion = 0
@@ -953,7 +953,7 @@ Func CreateAutoUpgradeSubTab()
 	GUICtrlCreateGroup(GetTranslatedFileIni("MBR GUI Design - AutoUpgrade", "Group_02", "Upgrades to ignore"), $x - 20, $y + 85, $g_iSizeWGrpTab3 - 5, 263)
 	Local $x = 21, $y = 107
 	Local $iIconSize = 32
-	Local $xOff = (40 - $iIconSize) / 2 ; 4
+	Local $xOff = (40 - $iIconSize) / 2
 	Local $yRow1 = 50
 	Local $yRow2 = 110
 	Local $yChkOff = 32
@@ -1056,7 +1056,7 @@ Func CreateMoreBuildings()
 	;Advanced
 	Local $x = 75, $y
 	Local $TopOffset = 30
-	
+
 	$y = $TopOffset
 	$g_hChkUpgradesToIgnore[17] = GUICtrlCreateCheckbox("Air Defense", $x, $y, -1, -1)
 	_GUICtrlSetTip(-1, "Ignore Air Defense Upgrade")
@@ -1191,7 +1191,7 @@ Func CreateMoreBuildings()
 	GUICtrlSetOnEvent(-1, "ResetIgnore")
 	$g_hBtnMoreBuildingsClose = GUICtrlCreateButton("Close", $_GUI_MAIN_WIDTH - 110, 250, 85, 25)
 	GUICtrlSetOnEvent(-1, "CloseMoreBuildings")
-EndFunc   ;==>CreateBoostBuilders
+EndFunc   ;==>CreateMoreBuildings
 
 Func CreateBoostBuilders2()
 	Local $x = 25, $y = 5

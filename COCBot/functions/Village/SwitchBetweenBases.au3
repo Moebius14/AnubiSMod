@@ -101,8 +101,8 @@ Func SwitchBetweenBases($bCheckMainScreen = True, $GoToBB = False)
 						If $i = 2 And $g_bStayOnBuilderBase And $sSwitchTo = "Builder Base" Then $g_bStayOnBuilderBase = False
 					EndIf
 				Else
-					Setlog("[" & $i & "] SwitchBetweenBases Tile: " & $sTile, $COLOR_ERROR)
-					Setlog("[" & $i & "] SwitchBetweenBases isOnBuilderBase: " & isOnBuilderBase(True), $COLOR_ERROR)
+					SetLog("[" & $i & "] SwitchBetweenBases Tile: " & $sTile, $COLOR_ERROR)
+					SetLog("[" & $i & "] SwitchBetweenBases isOnBuilderBase: " & isOnBuilderBase(True), $COLOR_ERROR)
 					If $bIsOnBuilderBase Then
 						SetLog("Cannot find the Boat on the Coast", $COLOR_ERROR)
 					Else

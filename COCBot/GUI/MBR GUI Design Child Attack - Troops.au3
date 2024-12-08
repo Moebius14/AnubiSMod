@@ -1293,7 +1293,7 @@ Func CreateOrderTroopsSubTab()
 	SetDefaultTroopGroup(False)
 	LoadTranslatedTrainTroopsOrderList()
 
-	Local $x = 25, $y = 30
+	Local $x = 20, $y = 30
 	$g_hChkCustomTrainOrderEnable = GUICtrlCreateCheckbox(GetTranslatedFileIni("MBR GUI Design Child Attack - Troops_TrainingOrder", "ChkCustomTrainOrderEnable", "Troops Order"), $x - 5, $y, -1, -1)
 	GUICtrlSetState(-1, $GUI_UNCHECKED)
 	_GUICtrlSetTip(-1, GetTranslatedFileIni("MBR GUI Design Child Attack - Troops_TrainingOrder", "ChkCustomTrainOrderEnable_Info_01", "Enable to select a custom troop training order") & @CRLF & _

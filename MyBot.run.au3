@@ -1776,7 +1776,7 @@ Func FirstCheck()
 			If Not isInsideDiamond($g_aiTownHallPos) Then BotDetectFirstTime()
 			; Now the bot can attack
 			If $g_iCommandStop <> 0 And $g_iCommandStop <> 3 Then
-				Setlog("Before any other routine let's attack!", $COLOR_INFO)
+				SetLog("Before any other routine let's attack!", $COLOR_INFO)
 				If Not $g_bRunState Then Return
 				AttackMain()
 				$g_bSkipFirstZoomout = False

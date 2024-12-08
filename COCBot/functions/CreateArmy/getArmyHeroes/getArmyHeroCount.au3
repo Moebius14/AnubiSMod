@@ -914,7 +914,7 @@ Func HiddenSlotstatus()
 		ClearScreen()
 		If _Sleep(1500) Then Return ; Delay AFTER the click Away Prevents lots of coc restarts
 
-		Setlog("Checking " & $g_asHeroNames[$g_aiCmbCustomHeroOrder[4]] & " Status", $COLOR_INFO)
+		SetLog("Checking " & $g_asHeroNames[$g_aiCmbCustomHeroOrder[4]] & " Status", $COLOR_INFO)
 
 		BuildingClick($g_aiHeroHallPos[0], $g_aiHeroHallPos[1])
 		If _Sleep($DELAYBUILDINGINFO1) Then Return
@@ -1021,6 +1021,7 @@ Func HiddenSlotstatus()
 					GUICtrlSetState($g_hPicKingBlue, $GUI_HIDE)
 					GUICtrlSetState($g_hPicKingGreen, $GUI_SHOW)
 					$g_aiHiddenHeroStatus[0] = 1
+					SetLog($g_asHeroNames[$g_aiCmbCustomHeroOrder[4]] & " is ready to fight", $COLOR_SUCCESS1)
 					CloseWindow()
 					Return
 				EndIf
@@ -1030,18 +1031,21 @@ Func HiddenSlotstatus()
 					GUICtrlSetState($g_hPicKingBlue, $GUI_HIDE)
 					GUICtrlSetState($g_hPicKingGreen, $GUI_HIDE)
 					$g_aiHiddenHeroStatus[0] = 0
+					SetLog($g_asHeroNames[$g_aiCmbCustomHeroOrder[4]] & " is not available", $COLOR_DEBUG2)
 				ElseIf _ColorCheck(_GetPixelColor($bXcoords[0], 438 + $g_iMidOffsetY, True), Hex(0xADADAD, 6), 15) Then
 					GUICtrlSetState($g_hPicKingGray, $GUI_HIDE)
 					GUICtrlSetState($g_hPicKingRed, $GUI_HIDE)
 					GUICtrlSetState($g_hPicKingBlue, $GUI_HIDE)
 					GUICtrlSetState($g_hPicKingGreen, $GUI_SHOW)
 					$g_aiHiddenHeroStatus[0] = 1
+					SetLog($g_asHeroNames[$g_aiCmbCustomHeroOrder[4]] & " is ready to fight", $COLOR_SUCCESS1)
 				ElseIf IsArray(_PixelSearch($bXcoords[0] - 6, 438 + $g_iMidOffsetY, $bXcoords[0] + 10, 444 + $g_iMidOffsetY, Hex(0xFFFFFF, 6), 20, True)) Then
 					GUICtrlSetState($g_hPicKingGray, $GUI_HIDE)
 					GUICtrlSetState($g_hPicKingRed, $GUI_SHOW)
 					GUICtrlSetState($g_hPicKingBlue, $GUI_HIDE)
 					GUICtrlSetState($g_hPicKingGreen, $GUI_HIDE)
 					$g_aiHiddenHeroStatus[0] = 2
+					SetLog($g_asHeroNames[$g_aiCmbCustomHeroOrder[4]] & " is being upgraded", $COLOR_DEBUG)
 				EndIf
 				CloseWindow()
 				Return
@@ -1053,6 +1057,7 @@ Func HiddenSlotstatus()
 					GUICtrlSetState($g_hPicQueenBlue, $GUI_HIDE)
 					GUICtrlSetState($g_hPicQueenGreen, $GUI_SHOW)
 					$g_aiHiddenHeroStatus[1] = 1
+					SetLog($g_asHeroNames[$g_aiCmbCustomHeroOrder[4]] & " is ready to fight", $COLOR_SUCCESS1)
 					CloseWindow()
 					Return
 				EndIf
@@ -1062,18 +1067,21 @@ Func HiddenSlotstatus()
 					GUICtrlSetState($g_hPicQueenBlue, $GUI_HIDE)
 					GUICtrlSetState($g_hPicQueenGreen, $GUI_HIDE)
 					$g_aiHiddenHeroStatus[1] = 0
+					SetLog($g_asHeroNames[$g_aiCmbCustomHeroOrder[4]] & " is not available", $COLOR_DEBUG2)
 				ElseIf _ColorCheck(_GetPixelColor($bXcoords[1], 438 + $g_iMidOffsetY, True), Hex(0xADADAD, 6), 15) Then
 					GUICtrlSetState($g_hPicQueenGray, $GUI_HIDE)
 					GUICtrlSetState($g_hPicQueenRed, $GUI_HIDE)
 					GUICtrlSetState($g_hPicQueenBlue, $GUI_HIDE)
 					GUICtrlSetState($g_hPicQueenGreen, $GUI_SHOW)
 					$g_aiHiddenHeroStatus[1] = 1
+					SetLog($g_asHeroNames[$g_aiCmbCustomHeroOrder[4]] & " is ready to fight", $COLOR_SUCCESS1)
 				ElseIf IsArray(_PixelSearch($bXcoords[1] - 6, 438 + $g_iMidOffsetY, $bXcoords[1] + 10, 444 + $g_iMidOffsetY, Hex(0xFFFFFF, 6), 20, True)) Then
 					GUICtrlSetState($g_hPicQueenGray, $GUI_HIDE)
 					GUICtrlSetState($g_hPicQueenRed, $GUI_SHOW)
 					GUICtrlSetState($g_hPicQueenBlue, $GUI_HIDE)
 					GUICtrlSetState($g_hPicQueenGreen, $GUI_HIDE)
 					$g_aiHiddenHeroStatus[1] = 2
+					SetLog($g_asHeroNames[$g_aiCmbCustomHeroOrder[4]] & " is being upgraded", $COLOR_DEBUG)
 				EndIf
 				CloseWindow()
 				Return
@@ -1085,6 +1093,7 @@ Func HiddenSlotstatus()
 					GUICtrlSetState($g_hPicPrinceBlue, $GUI_HIDE)
 					GUICtrlSetState($g_hPicPrinceGreen, $GUI_SHOW)
 					$g_aiHiddenHeroStatus[2] = 1
+					SetLog($g_asHeroNames[$g_aiCmbCustomHeroOrder[4]] & " is ready to fight", $COLOR_SUCCESS1)
 					CloseWindow()
 					Return
 				EndIf
@@ -1094,18 +1103,21 @@ Func HiddenSlotstatus()
 					GUICtrlSetState($g_hPicPrinceBlue, $GUI_HIDE)
 					GUICtrlSetState($g_hPicPrinceGreen, $GUI_HIDE)
 					$g_aiHiddenHeroStatus[2] = 0
+					SetLog($g_asHeroNames[$g_aiCmbCustomHeroOrder[4]] & " is not available", $COLOR_DEBUG2)
 				ElseIf _ColorCheck(_GetPixelColor($bXcoords[2], 438 + $g_iMidOffsetY, True), Hex(0xADADAD, 6), 15) Then
 					GUICtrlSetState($g_hPicPrinceGray, $GUI_HIDE)
 					GUICtrlSetState($g_hPicPrinceRed, $GUI_HIDE)
 					GUICtrlSetState($g_hPicPrinceBlue, $GUI_HIDE)
 					GUICtrlSetState($g_hPicPrinceGreen, $GUI_SHOW)
 					$g_aiHiddenHeroStatus[2] = 1
+					SetLog($g_asHeroNames[$g_aiCmbCustomHeroOrder[4]] & " is ready to fight", $COLOR_SUCCESS1)
 				ElseIf IsArray(_PixelSearch($bXcoords[2] - 6, 438 + $g_iMidOffsetY, $bXcoords[2] + 10, 444 + $g_iMidOffsetY, Hex(0xFFFFFF, 6), 20, True)) Then
 					GUICtrlSetState($g_hPicPrinceGray, $GUI_HIDE)
 					GUICtrlSetState($g_hPicPrinceRed, $GUI_SHOW)
 					GUICtrlSetState($g_hPicPrinceBlue, $GUI_HIDE)
 					GUICtrlSetState($g_hPicPrinceGreen, $GUI_HIDE)
 					$g_aiHiddenHeroStatus[2] = 2
+					SetLog($g_asHeroNames[$g_aiCmbCustomHeroOrder[4]] & " is being upgraded", $COLOR_DEBUG)
 				EndIf
 				CloseWindow()
 				Return
@@ -1117,6 +1129,7 @@ Func HiddenSlotstatus()
 					GUICtrlSetState($g_hPicWardenBlue, $GUI_HIDE)
 					GUICtrlSetState($g_hPicWardenGreen, $GUI_SHOW)
 					$g_aiHiddenHeroStatus[3] = 1
+					SetLog($g_asHeroNames[$g_aiCmbCustomHeroOrder[4]] & " is ready to fight", $COLOR_SUCCESS1)
 					CloseWindow()
 					Return
 				EndIf
@@ -1126,18 +1139,21 @@ Func HiddenSlotstatus()
 					GUICtrlSetState($g_hPicWardenBlue, $GUI_HIDE)
 					GUICtrlSetState($g_hPicWardenGreen, $GUI_HIDE)
 					$g_aiHiddenHeroStatus[3] = 0
+					SetLog($g_asHeroNames[$g_aiCmbCustomHeroOrder[4]] & " is not available", $COLOR_DEBUG2)
 				ElseIf _ColorCheck(_GetPixelColor($bXcoords[3], 438 + $g_iMidOffsetY, True), Hex(0xADADAD, 6), 15) Then
 					GUICtrlSetState($g_hPicWardenGray, $GUI_HIDE)
 					GUICtrlSetState($g_hPicWardenRed, $GUI_HIDE)
 					GUICtrlSetState($g_hPicWardenBlue, $GUI_HIDE)
 					GUICtrlSetState($g_hPicWardenGreen, $GUI_SHOW)
 					$g_aiHiddenHeroStatus[3] = 1
+					SetLog($g_asHeroNames[$g_aiCmbCustomHeroOrder[4]] & " is ready to fight", $COLOR_SUCCESS1)
 				ElseIf IsArray(_PixelSearch($bXcoords[3] - 6, 438 + $g_iMidOffsetY, $bXcoords[3] + 10, 444 + $g_iMidOffsetY, Hex(0xFFFFFF, 6), 20, True)) Then
 					GUICtrlSetState($g_hPicWardenGray, $GUI_HIDE)
 					GUICtrlSetState($g_hPicWardenRed, $GUI_SHOW)
 					GUICtrlSetState($g_hPicWardenBlue, $GUI_HIDE)
 					GUICtrlSetState($g_hPicWardenGreen, $GUI_HIDE)
 					$g_aiHiddenHeroStatus[3] = 2
+					SetLog($g_asHeroNames[$g_aiCmbCustomHeroOrder[4]] & " is being upgraded", $COLOR_DEBUG)
 				EndIf
 				CloseWindow()
 				Return
@@ -1149,6 +1165,7 @@ Func HiddenSlotstatus()
 					GUICtrlSetState($g_hPicChampionBlue, $GUI_HIDE)
 					GUICtrlSetState($g_hPicChampionGreen, $GUI_SHOW)
 					$g_aiHiddenHeroStatus[4] = 1
+					SetLog($g_asHeroNames[$g_aiCmbCustomHeroOrder[4]] & " is ready to fight", $COLOR_SUCCESS1)
 					CloseWindow()
 					Return
 				EndIf
@@ -1158,18 +1175,21 @@ Func HiddenSlotstatus()
 					GUICtrlSetState($g_hPicChampionBlue, $GUI_HIDE)
 					GUICtrlSetState($g_hPicChampionGreen, $GUI_HIDE)
 					$g_aiHiddenHeroStatus[4] = 0
+					SetLog($g_asHeroNames[$g_aiCmbCustomHeroOrder[4]] & " is not available", $COLOR_DEBUG2)
 				ElseIf _ColorCheck(_GetPixelColor($bXcoords[4], 438 + $g_iMidOffsetY, True), Hex(0xADADAD, 6), 15) Then
 					GUICtrlSetState($g_hPicChampionGray, $GUI_HIDE)
 					GUICtrlSetState($g_hPicChampionRed, $GUI_HIDE)
 					GUICtrlSetState($g_hPicChampionBlue, $GUI_HIDE)
 					GUICtrlSetState($g_hPicChampionGreen, $GUI_SHOW)
 					$g_aiHiddenHeroStatus[4] = 1
+					SetLog($g_asHeroNames[$g_aiCmbCustomHeroOrder[4]] & " is ready to fight", $COLOR_SUCCESS1)
 				ElseIf IsArray(_PixelSearch($bXcoords[4] - 6, 438 + $g_iMidOffsetY, $bXcoords[4] + 10, 444 + $g_iMidOffsetY, Hex(0xFFFFFF, 6), 20, True)) Then
 					GUICtrlSetState($g_hPicChampionGray, $GUI_HIDE)
 					GUICtrlSetState($g_hPicChampionRed, $GUI_SHOW)
 					GUICtrlSetState($g_hPicChampionBlue, $GUI_HIDE)
 					GUICtrlSetState($g_hPicChampionGreen, $GUI_HIDE)
 					$g_aiHiddenHeroStatus[4] = 2
+					SetLog($g_asHeroNames[$g_aiCmbCustomHeroOrder[4]] & " is being upgraded", $COLOR_DEBUG)
 				EndIf
 				CloseWindow()
 				Return
@@ -1237,7 +1257,7 @@ Func LabGuiDisplay() ; called from main loop to get an early status for indictor
 		Return
 	EndIf
 
-	Setlog("Checking Lab Status", $COLOR_INFO)
+	SetLog("Checking Lab Status", $COLOR_INFO)
 
 	;=================Section 2 Lab Gui
 

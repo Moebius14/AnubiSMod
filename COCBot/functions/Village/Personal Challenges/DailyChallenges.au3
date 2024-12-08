@@ -214,7 +214,7 @@ Func CollectDailyRewards($bGoldPass = False)
 				Click($aAllCoords[$j][0], $aAllCoords[$j][1], 1, 120, "Claim " & $j + 1)         ; Click Claim button
 				If WaitforPixel(329, 390 + $g_iMidOffsetY, 331, 392 + $g_iMidOffsetY, Hex(0xFFC877, 6), 20, 3) Then         ; wait for Cancel Button popped up in 1.5 second
 					If $g_bChkSellRewards Then
-						Setlog("Selling extra reward for gems", $COLOR_SUCCESS)
+						SetLog("Selling extra reward for gems", $COLOR_SUCCESS)
 						ClickP($aPersonalChallengeOkBtn, 1, 120, "Okay Btn")         ; Click the Okay
 						$iClaim += 1
 					Else

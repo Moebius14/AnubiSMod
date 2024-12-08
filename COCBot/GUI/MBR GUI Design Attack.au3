@@ -39,7 +39,7 @@ Global $g_ahImgDropOrder[$eDropOrderCount] = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
 Global $g_hBtnDropOrderSet = 0, $g_ahImgDropOrderSet = 0
 Global $g_hBtnRemoveDropOrder = 0
 
-Global $g_hGUI_HeroAssign = 0, $g_hBtnHeroAssign = 0, $g_hBtnRemoveHero = 0, $g_hBtnHeroOrderSet = 0, $g_ahImgHeroOrderSet = 0
+Global $g_hGUI_HeroAssign = 0, $g_hLblHeroAssign = 0, $g_hBtnHeroAssign = 0, $g_hBtnRemoveHero = 0, $g_hBtnHeroOrderSet = 0, $g_ahImgHeroOrderSet = 0
 
 Func CreateAttackTab()
 	$g_hGUI_ATTACK = _GUICreate("", $g_iSizeWGrpTab1, $g_iSizeHGrpTab1, $_GUI_CHILD_LEFT, $_GUI_CHILD_TOP, BitOR($WS_CHILD, $WS_TABSTOP), -1, $g_hFrmBotEx)
@@ -169,6 +169,10 @@ Func CreatHeroAssign()
 
 	Local $x = 65
 	Local $y = 80
+
+	$g_hLblHeroAssign = GUICtrlCreateLabel(GetTranslatedFileIni("MBR GUI Design Child Attack - Hero_SlotOrder", "LblHeroSlot", "The order must be exactly the same as in the game's army overview"), $x - 27, $y - 65, 400, -1)
+	GUICtrlSetFont(-1, 9, $FW_BOLD)
+
 	For $z = 0 To UBound($g_ahCmbHeroOrder) - 1
 		If $z < 4 Then
 			GUICtrlCreateLabel("Slot " & $z + 1, $x + 6, $y + 50, -1, 25)

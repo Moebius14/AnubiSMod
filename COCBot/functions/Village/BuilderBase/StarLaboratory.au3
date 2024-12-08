@@ -119,8 +119,8 @@ Func StarLaboratory($bTestRun = False)
 				$g_avStarLabTroops[$iCurrentTroop][0] = $aTempArray[0] - 98 ; setting troop position relativ to found elixir coords
 				$g_avStarLabTroops[$iCurrentTroop][1] = $aTempArray[1] - 101 ; setting troop position relativ to found elixir coords
 				If $g_bDebugSetlog Then
-					Setlog("New icon X position of " & $g_avStarLabTroops[$iCurrentTroop][3] & " : " & $g_avStarLabTroops[$iCurrentTroop][0], $COLOR_DEBUG)
-					Setlog("New icon Y position of " & $g_avStarLabTroops[$iCurrentTroop][3] & " : " & $g_avStarLabTroops[$iCurrentTroop][1], $COLOR_DEBUG)
+					SetLog("New icon X position of " & $g_avStarLabTroops[$iCurrentTroop][3] & " : " & $g_avStarLabTroops[$iCurrentTroop][0], $COLOR_DEBUG)
+					SetLog("New icon Y position of " & $g_avStarLabTroops[$iCurrentTroop][3] & " : " & $g_avStarLabTroops[$iCurrentTroop][1], $COLOR_DEBUG)
 				EndIf
 			EndIf
 		Next

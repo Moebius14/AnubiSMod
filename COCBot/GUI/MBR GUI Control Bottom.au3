@@ -29,8 +29,8 @@ Func Initiate()
 		If StringInStr(@OSVersion, "WIN_11", $STR_NOCASESENSEBASIC) Or _
 				StringInStr(@OSVersion, "WIN_2019", $STR_NOCASESENSEBASIC) Or _
 				StringInStr(@OSVersion, "WIN_2022", $STR_NOCASESENSEBASIC) Then
-			Setlog(" Unsupported Windows 11 OS detected!!", $COLOR_ERROR)
-			Setlog(" See MBR forum for more information", $COLOR_ERROR)
+			SetLog(" Unsupported Windows 11 OS detected!!", $COLOR_ERROR)
+			SetLog(" See MBR forum for more information", $COLOR_ERROR)
 		EndIf
 
 		Local $sGameVersion = GetCoCAppVersion()

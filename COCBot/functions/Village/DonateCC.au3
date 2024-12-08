@@ -582,7 +582,7 @@ Func DonateCC($bUpdateStats = True)
 								EndIf
 							EndIf
 						Next
-						For $i = 0 To $eSpellCount - 1 ; 0 - 13 (14 Spells)
+						For $i = 0 To $eSpellCount - 1 ; 0 - 14 (15 Spells)
 							If $g_abChkDonateSpell[$i] Then ; checking Spells
 								If $g_bDebugSetlog Then SetDebugLog("Spell: [" & $i & "] checking!", $COLOR_DEBUG)
 								If CheckDonateSpell($i, $g_asTxtDonateSpell[$i], $g_asTxtBlacklistSpell[$i], $ClanString, $bNewSystemToDonate, True, $abDonateQueueOnly[1]) Then
@@ -601,7 +601,7 @@ Func DonateCC($bUpdateStats = True)
 								EndIf
 							EndIf
 						Next
-						For $i = ($eTroopCount + $g_iCustomDonateConfigs) To ($eTroopCount + $g_iCustomDonateConfigs + $eSiegeMachineCount) - 1 ; 55 - 61 (7 Siege Machines)
+						For $i = ($eTroopCount + $g_iCustomDonateConfigs) To ($eTroopCount + $g_iCustomDonateConfigs + $eSiegeMachineCount) - 1 ; 56 - 62 (7 Siege Machines)
 							If $g_abChkDonateTroop[$i] Then ; checking SiegeMachines
 								If $g_bDebugSetlog Then SetDebugLog("Siege: [" & $i - $eTroopCount - $g_iCustomDonateConfigs & "] checking!", $COLOR_DEBUG)
 								If CheckDonateSiege($i - $eTroopCount - $g_iCustomDonateConfigs, $g_asTxtDonateTroop[$i], $g_asTxtBlacklistTroop[$i], $ClanString, $bNewSystemToDonate, True) Then
@@ -818,7 +818,7 @@ Func DonateCC($bUpdateStats = True)
 				If $bDonateAllTroop And Not $g_bSkipDonTroops Then
 					; read available donate cap, and ByRef set the $g_bSkipDonTroops and $g_bSkipDonSpells flags
 					DonateWindowCap($g_bSkipDonTroops, $g_bSkipDonSpells)
-					Setlog("Get available donate cap (to all) in " & StringFormat("%.2f", __TimerDiff($iTimer)) & "'ms", $COLOR_DEBUG)
+					SetLog("Get available donate cap (to all) in " & StringFormat("%.2f", __TimerDiff($iTimer)) & "'ms", $COLOR_DEBUG)
 					$iTimer = __TimerInit()
 					If $g_bSkipDonTroops And $g_bSkipDonSpells Then
 						DonateWindow($aiDonateButton, $bClose)

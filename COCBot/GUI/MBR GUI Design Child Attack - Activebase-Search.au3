@@ -5,7 +5,7 @@
 ; Parameters ....: None
 ; Return values .: None
 ; Author ........:
-; Modified ......: Moebius14 (06-2023)
+; Modified ......: Moebius14 (12-2024)
 ; Remarks .......: This file is part of MyBot, previously known as ClashGameBot. Copyright 2015-2024
 ;                  MyBot is distributed under the terms of the GNU GPL
 ; Related .......:

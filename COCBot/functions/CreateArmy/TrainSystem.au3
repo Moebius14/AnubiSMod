@@ -138,14 +138,14 @@ Func CheckIfArmyIsReady()
 			($g_aiSearchHeroWaitEnable[$DB] = $eHeroNone And $g_aiSearchHeroWaitEnable[$LB] = $eHeroNone)
 
 	If $g_bDebugSetlogTrain Then
-		Setlog("Heroes are Ready: " & String($bFullArmyHero))
-		Setlog("Heroes Available Num: " & $g_iHeroAvailable) ;  	$eHeroNone = 0, $eHeroKing = 1, $eHeroQueen = 2, $eHeroPrince = 3, $eHeroWarden = 4, $eHeroChampion = 5
-		Setlog("Search Hero Wait Enable [$DB] Num: " & $g_aiSearchHeroWaitEnable[$DB]) ; 	what you are waiting for : 1 is King , 3 is King + Queen , etc etc
-		Setlog("Search Hero Wait Enable [$LB] Num: " & $g_aiSearchHeroWaitEnable[$LB])
-		Setlog("Dead Base BitAND: " & BitAND($g_aiSearchHeroWaitEnable[$DB], $g_iHeroAvailable))
-		Setlog("Live Base BitAND: " & BitAND($g_aiSearchHeroWaitEnable[$LB], $g_iHeroAvailable))
-		Setlog("Are you 'not' waiting for Heroes: " & String($g_aiSearchHeroWaitEnable[$DB] = $eHeroNone And $g_aiSearchHeroWaitEnable[$LB] = $eHeroNone))
-		Setlog("Is Wait for Heroes Active : " & IsWaitforHeroesActive())
+		SetLog("Heroes are Ready: " & String($bFullArmyHero))
+		SetLog("Heroes Available Num: " & $g_iHeroAvailable) ;  	$eHeroNone = 0, $eHeroKing = 1, $eHeroQueen = 2, $eHeroPrince = 3, $eHeroWarden = 4, $eHeroChampion = 5
+		SetLog("Search Hero Wait Enable [$DB] Num: " & $g_aiSearchHeroWaitEnable[$DB]) ; 	what you are waiting for : 1 is King , 3 is King + Queen , etc etc
+		SetLog("Search Hero Wait Enable [$LB] Num: " & $g_aiSearchHeroWaitEnable[$LB])
+		SetLog("Dead Base BitAND: " & BitAND($g_aiSearchHeroWaitEnable[$DB], $g_iHeroAvailable))
+		SetLog("Live Base BitAND: " & BitAND($g_aiSearchHeroWaitEnable[$LB], $g_iHeroAvailable))
+		SetLog("Are you 'not' waiting for Heroes: " & String($g_aiSearchHeroWaitEnable[$DB] = $eHeroNone And $g_aiSearchHeroWaitEnable[$LB] = $eHeroNone))
+		SetLog("Is Wait for Heroes Active : " & IsWaitforHeroesActive())
 	EndIf
 
 	$bFullArmyCC = IsFullClanCastle()
@@ -584,7 +584,7 @@ Func RemoveExtraTroops($toRemove)
 				If $toRemove[$j][0] = $rGetSlotNumber[$i] Then ; If $toRemove Troop Was the same as The Slot Troop
 					If $g_bDebugSetlogTrain Then SetLog("Remove troop count= " & $toRemove[$j][1], $COLOR_DEBUG)
 					If $toRemove[$j][1] > 320 Then ; Possible OCR problem,  too many troops to remove.
-						Setlog($toRemove[$j][1] & " Troop Removal number too large! Skipping troop!", $COLOR_ERROR)
+						SetLog($toRemove[$j][1] & " Troop Removal number too large! Skipping troop!", $COLOR_ERROR)
 						ExitLoop
 					EndIf
 					Local $pos = GetSlotRemoveBtnPosition($i + 1) ; Get positions of - Button to remove troop
@@ -599,7 +599,7 @@ Func RemoveExtraTroops($toRemove)
 				If $toRemove[$j][0] = $rGetSlotNumberSpells[$i] Then ; If $toRemove spell was the same as The Slot Troop
 					If $g_bDebugSetlogTrain Then SetLog("Remove spell count= " & $toRemove[$j][1], $COLOR_DEBUG)
 					If $toRemove[$j][1] > 12 Then ; Possible OCR problem, too many spells to remove.
-						Setlog($toRemove[$j][1] & " Spell removal number too large! Skipping troop!", $COLOR_ERROR)
+						SetLog($toRemove[$j][1] & " Spell removal number too large! Skipping troop!", $COLOR_ERROR)
 						ExitLoop
 					EndIf
 					Local $pos = GetSlotRemoveBtnPosition($i + 1, True) ; Get positions of - Button to remove troop
@@ -957,7 +957,7 @@ Func CheckQueueTroops($bGetQuantity = True, $bSetLog = True, $x = 778, $bQtyWSlo
 	ReDim $aResult[UBound($aSearchResult)]
 
 	If $aSearchResult[0][0] = "" Then
-		Setlog("No Troops detected!", $COLOR_ERROR)
+		SetLog("No Troops detected!", $COLOR_ERROR)
 		Return
 	EndIf
 
@@ -997,7 +997,7 @@ Func CheckQueueSpells($bGetQuantity = True, $bSetLog = True, $x = 778, $bQtyWSlo
 	Local $avSearchResult = SearchArmy($sImageDir, 73, 188 + $g_iMidOffsetY, $x, 243 + $g_iMidOffsetY, $bGetQuantity ? "Queue" : "")
 
 	If $avSearchResult[0][0] = "" Then
-		Setlog("No Spells detected!", $COLOR_ERROR)
+		SetLog("No Spells detected!", $COLOR_ERROR)
 		Return
 	EndIf
 
