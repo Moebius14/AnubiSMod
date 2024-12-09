@@ -278,7 +278,7 @@ Func GetButtonDiamond($sButtonName)
 		Case "GEM", "BOOSTBtn", "BoostConfirm" ; Boost window button (full button size)
 			$btnDiamond = GetDiamondFromRect2(340, 370 + $g_iMidOffsetY, 525, 495 + $g_iMidOffsetY)
 		Case "WallRingConfirm" ; Upgrade Wall With Wall Rings
-			$btnDiamond = GetDiamondFromRect2(445, 530 + $g_iMidOffsetY, 500, 570 + $g_iMidOffsetY)
+			$btnDiamond = GetDiamondFromRect2(560, 520 + $g_iMidOffsetY, 690, 570 + $g_iMidOffsetY)
 		Case "EnterShop"
 			$btnDiamond = GetDiamondFromRect2(350, 380 + $g_iMidOffsetY, 515, 460 + $g_iMidOffsetY)
 		Case "ClanChat"

@@ -144,6 +144,7 @@ Func BotStart($bAutostartDelay = 0)
 	$g_sAvailableAppBuilder = 0
 	$g_sAvailableLabAssistant = 0
 	$g_iBuilderBoostDiscount = 0
+	$g_bFirstStartForHiddenHero = 1
 
 	LoadCurrentProfile()
 	LoadCurrentAlias()

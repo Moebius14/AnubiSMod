@@ -40,10 +40,10 @@ Func UpgradeWall()
 						Switch WallRings()
 							Case "WRUsed"
 								ContinueLoop
-							Case "Cancel", "Locked", "NotEnough"
-								CloseWindow()
+							Case "NoButton", "NotEnough"
 								ExitLoop
-							Case "NoButton"
+							Case "Cancel", "Locked"
+								CloseWindow()
 								ExitLoop
 						EndSwitch
 					ElseIf SwitchToNextWallLevel() Then
@@ -201,10 +201,9 @@ Func UpgradeWall()
 								Switch WallRings()
 									Case "WRUsed"
 										ContinueLoop
-									Case "NoButton"
-										ClearScreen()
+									Case "NoButton", "NotEnough"
 										Return
-									Case "Cancel", "Locked", "NotEnough"
+									Case "Cancel", "Locked"
 										CloseWindow()
 										Return
 								EndSwitch
@@ -244,10 +243,9 @@ Func UseWallRingsWOU()
 				Switch WallRings()
 					Case "WRUsed"
 						ContinueLoop
-					Case "NoButton"
-						ClearScreen()
+					Case "NoButton", "NotEnough"
 						Return
-					Case "Cancel", "Locked", "NotEnough"
+					Case "Cancel", "Locked"
 						CloseWindow()
 						Return
 				EndSwitch
@@ -261,9 +259,8 @@ Func UseWallRingsWOU()
 			ExitLoop
 		EndIf
 	WEnd
-	ClearScreen()
+	ClearScreen() ; In Case
 EndFunc   ;==>UseWallRingsWOU
-
 
 Func UpgradeWallGold($iWallCost = $g_iWallCost)
 
@@ -291,13 +288,13 @@ Func UpgradeWallGold($iWallCost = $g_iWallCost)
 		EndIf
 
 		If isNoUpgradeLoot(False) = True Then
-			SetLog("Upgrade stopped due no loot", $COLOR_ERROR)
+			SetLog("Upgrade stopped due to insufficient loot", $COLOR_ERROR)
 			Return "No"
 		EndIf
 		Click(620, 540 + $g_iMidOffsetY, 1, 120, "#0317")
 		If _Sleep(1000) Then Return
 		If isGemOpen(True) Then
-			SetLog("Upgrade stopped due no loot", $COLOR_ERROR)
+			SetLog("Upgrade stopped due to insufficient loot", $COLOR_ERROR)
 			Return "No"
 		ElseIf _ColorCheck(_GetPixelColor(800, 88 + $g_iMidOffsetY, True), Hex(0xF38E8E, 6), 20) Then ; wall upgrade window red x, didnt closed on upgradeclick, so not able to upgrade
 			CloseWindow()
@@ -549,50 +546,46 @@ Func SwitchToNextWallLevel() ; switches wall level to upgrade to next level
 	Return False
 EndFunc   ;==>SwitchToNextWallLevel
 
-Func WallRingstest()
-	If _Sleep(1000) Then Return
-	Local $WRNeeded = ""
-	Local $WallRing = FindButton("WallRing")
-	If IsArray($WallRing) And UBound($WallRing) = 2 Then
-		$WRNeeded = getOcrAndCapture("coc-RemainLabGob", $WallRing[0] - 34, $WallRing[1] - 37, 40, 20)
-	EndIf
-	Return $WRNeeded
-EndFunc   ;==>WallRingstest
-
 Func WallRings()
+
+	SetLog("Trying Upgrade Wall Using Wall Rings", $COLOR_INFO)
 	If _Sleep(1000) Then Return
+
 	Local $WRNeeded = ""
 	Local $WallRing = FindButton("WallRing")
 	If IsArray($WallRing) And UBound($WallRing) = 2 Then
 		$WRNeeded = getOcrAndCapture("coc-RemainLabGob", $WallRing[0] - 34, $WallRing[1] - 37, 40, 20)
-		SetLog("Trying Upgrade Wall Using Wall Rings", $COLOR_INFO)
+		If $WRNeeded = "" Then
+			SetLog("Not Enough Wall Rings, Skip", $COLOR_ERROR)
+			ClearScreen()
+			If _Sleep(1000) Then Return
+			Return "NotEnough"
+		EndIf
+		If _Sleep(500) Then Return
+
 		Click($WallRing[0] - 14, $WallRing[1])
 		If _Sleep(1000) Then Return
 
-		If Not _ColorCheck(_GetPixelColor(570, 565 + $g_iMidOffsetY, True), Hex(0x307AE0, 6), 20) Then Return "NotEnough"
-
 		If Not IsUpgradeWallsPossible() Then Return "Locked"
 
-		If $WRNeeded = "" Then
-			SetLog("Bad OCR Read, Skip", $COLOR_ERROR)
-			Return "Cancel"
+		SetLog("Wall Rings Needed : " & $WRNeeded, $COLOR_ACTION)
+		If $WRNeeded <= $g_iCmbUseWallRings + 1 Then
+			SetLog("Wall Rings Needed Matching With Settings (" & $g_iCmbUseWallRings + 1 & ")", $COLOR_SUCCESS1)
 		Else
-			SetLog("Wall Rings Needed : " & $WRNeeded, $COLOR_ACTION)
-			If $WRNeeded <= $g_iCmbUseWallRings + 1 Then
-				SetLog("Wall Rings Needed Matching With Settings (" & $g_iCmbUseWallRings + 1 & ")", $COLOR_SUCCESS1)
-			Else
-				SetLog("Wall Rings Needed Higher Than Settings (" & $g_iCmbUseWallRings + 1 & ")", $COLOR_DEBUG)
-				Return "Cancel"
-			EndIf
+			SetLog("Wall Rings Needed Higher Than Settings (" & $g_iCmbUseWallRings + 1 & ")", $COLOR_DEBUG)
+			Return "Cancel"
 		EndIf
 
 		If Not $g_bRunState Then Return
 		If ClickB("WallRingConfirm") Then
-			If isGemOpen(True) Then ; Should never happens
-				SetLog("No free builder, Upgrade Walls Using Wall Rings skipped..", $COLOR_ERROR)
-				Return "Cancel"
-			EndIf
-			SetLog("Successfully Upgrade Wall Using Wall Rings", $COLOR_SUCCESS)
+			If _Sleep(1000) Then Return
+			Local $UseWallRingCoordsX[2] = [395, 455]
+			Local $UseWallRingCoordsY[2] = [390 + $g_iMidOffsetY, 420 + $g_iMidOffsetY]
+			Local $UseWallRingButtonClickX = Random($UseWallRingCoordsX[0], $UseWallRingCoordsX[1], 1)
+			Local $UseWallRingButtonClickY = Random($UseWallRingCoordsY[0], $UseWallRingCoordsY[1], 1)
+			Click($UseWallRingButtonClickX, $UseWallRingButtonClickY, 1, 115, "#0155") ;Click UseWallRing
+			If _Sleep(500) Then Return
+			SetLog("Successfully Upgrade Wall Using " & $WRNeeded & " Wall Rings", $COLOR_SUCCESS)
 			$ActionForModLog = "Using Wall Rings"
 			If $g_iTxtCurrentVillageName <> "" Then
 				GUICtrlSetData($g_hTxtModLog, @CRLF & _NowTime() & " [" & $g_iTxtCurrentVillageName & "] Wall Upgrade " & $ActionForModLog, 1)
@@ -605,12 +598,13 @@ Func WallRings()
 			ClearScreen()
 			Return "WRUsed"
 		Else
-			SetLog("Not Enough Wall Rings To Upgrade Wall", $COLOR_DEBUG) ; Should never happens
+			SetLog("Cannot Find Wall Ring Confirm Button", $COLOR_ERROR)
 			Return "Cancel"
 		EndIf
 	Else
 		SetLog("Wall rings Button Not Found", $COLOR_DEBUG)
-		If _Sleep(500) Then Return
+		ClearScreen()
+		If _Sleep(1000) Then Return
 		Return "NoButton"
 	EndIf
 EndFunc   ;==>WallRings

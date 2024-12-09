@@ -455,29 +455,36 @@ Func _ClanGames($test = False, $HaltMode = False)
 								; Equipment available depending on TH level
 								If $g_iTownHallLevel < $EquipmentChallenges[$j][2] Then ExitLoop
 								; King Upgrading
-								If $g_iHeroUpgrading[0] = 1 Then
-									Local $KingEquipment[5] = ["Barbarian Puppet", "Rage Vial", "Earth Quake Boots", "Vampstache", "Giant Gauntlet"]
+								If $g_iHeroUpgrading[0] = 1 Or $g_aiCmbCustomHeroOrder[4] = 0 Then
+									Local $KingEquipment[6] = ["Barbarian Puppet", "Rage Vial", "Earth Quake Boots", "Vampstache", "Giant Gauntlet", "Spiky Ball"]
 									For $t = 0 To UBound($KingEquipment) - 1
 										If $EquipmentChallenges[$j][1] = $KingEquipment[$t] Then ExitLoop
 									Next
 								EndIf
 								; Queen Upgrading
-								If $g_iHeroUpgrading[1] = 1 Then
-									Local $QueenEquipment[5] = ["Archer Puppet", "Invisibility Vial", "Giant Arrow", "Healer Puppet", "Frozen Arrow"]
+								If $g_iHeroUpgrading[1] = 1 Or $g_aiCmbCustomHeroOrder[4] = 1 Then
+									Local $QueenEquipment[6] = ["Archer Puppet", "Invisibility Vial", "Giant Arrow", "Healer Puppet", "Frozen Arrow", "Magic Mirror"]
 									For $t = 0 To UBound($QueenEquipment) - 1
 										If $EquipmentChallenges[$j][1] = $QueenEquipment[$t] Then ExitLoop
 									Next
 								EndIf
+								; Prince Upgrading
+								If $g_iHeroUpgrading[2] = 1 Or $g_aiCmbCustomHeroOrder[4] = 2 Then
+									Local $PrinceEquipment[2] = ["Henchmen Puppet", "Dark Orb"]
+									For $t = 0 To UBound($PrinceEquipment) - 1
+										If $EquipmentChallenges[$j][1] = $PrinceEquipment[$t] Then ExitLoop
+									Next
+								EndIf
 								; Warden Upgrading
-								If $g_iHeroUpgrading[2] = 1 Then
-									Local $WardenEquipment[5] = ["Eternal Tome", "Life Gem", "Rage Gem", "Healing Tome", "Fireball"]
+								If $g_iHeroUpgrading[3] = 1 Or $g_aiCmbCustomHeroOrder[4] = 3 Then
+									Local $WardenEquipment[6] = ["Eternal Tome", "Life Gem", "Rage Gem", "Healing Tome", "Fireball", "Lavaloon Puppet"]
 									For $t = 0 To UBound($WardenEquipment) - 1
 										If $EquipmentChallenges[$j][1] = $WardenEquipment[$t] Then ExitLoop
 									Next
 								EndIf
 								; Champion Upgrading
-								If $g_iHeroUpgrading[3] = 1 Then
-									Local $ChampionEquipment[4] = ["Royal Gem", "Seeking Shield", "Hog Rider Puppet", "Haste Vial"]
+								If $g_iHeroUpgrading[4] = 1 Or $g_aiCmbCustomHeroOrder[4] = 4 Then
+									Local $ChampionEquipment[5] = ["Royal Gem", "Seeking Shield", "Hog Rider Puppet", "Haste Vial", "Rocket Spear"]
 									For $t = 0 To UBound($ChampionEquipment) - 1
 										If $EquipmentChallenges[$j][1] = $ChampionEquipment[$t] Then ExitLoop
 									Next
@@ -2316,7 +2323,7 @@ Func ClanGamesChallenges($sReturnArray)
 			["SiegeB", "Siege Barrack", 10, 1, "Earn 1-5 Stars from Multiplayer Battles using a Siege Barracks"], _
 			["LogL", "Log Launcher", 10, 1, "Earn 1-5 Stars from Multiplayer Battles using a Log Launcher"]]
 
-	Local $EquipmentChallenges[20][5] = [ _
+	Local $EquipmentChallenges[25][5] = [ _
 			["BarbPuppet", "Barbarian Puppet", 8, 1, "Earn 1-5 Stars from Multiplayer Battles using Barbarian Puppet"], _
 			["RageVial", "Rage Vial", 8, 1, "Earn 1-5 Stars from Multiplayer Battles using Rage Vial"], _
 			["EQBoots", "Earth Quake Boots", 8, 1, "Earn 1-5 Stars from Multiplayer Battles using Earth Quake Boots"], _
@@ -2328,15 +2335,20 @@ Func ClanGamesChallenges($sReturnArray)
 			["GArrow", "Giant Arrow", 9, 1, "Earn 1-5 Stars from Multiplayer Battles using Giant Arrow"], _
 			["HealPuppet", "Healer Puppet", 12, 1, "Earn 1-5 Stars from Multiplayer Battles using Healer Puppet"], _
 			["FArrow", "Frozen Arrow", 9, 1, "Earn 1-5 Stars from Multiplayer Battles using Frozen Arrow"], _
+			["MMirror", "Magic Mirror", 9, 1, "Earn 1-5 Stars from Multiplayer Battles using Magic Mirror"], _
+			["HenchPuppet", "Henchmen Puppet", 9, 1, "Earn 1-5 Stars from Multiplayer Battles using Henchmen Puppet"], _
+			["DOrb", "Dark Orb", 9, 1, "Earn 1-5 Stars from Multiplayer Battles using Dark Orb"], _
 			["ETome", "Eternal Tome", 11, 1, "Earn 1-5 Stars from Multiplayer Battles using Eternal Tome"], _
 			["LifeGem", "Life Gem", 11, 1, "Earn 1-5 Stars from Multiplayer Battles using Life Gem"], _
 			["RageGem", "Rage Gem", 11, 1, "Earn 1-5 Stars from Multiplayer Battles using Rage Gem"], _
 			["HealTome", "Healing Tome", 13, 1, "Earn 1-5 Stars from Multiplayer Battles using Healing Tome"], _
 			["Fireball", "Fireball", 11, 1, "Earn 1-5 Stars from Multiplayer Battles using Fireball"], _
 			["RoyalGem", "Royal Gem", 13, 1, "Earn 1-5 Stars from Multiplayer Battles using Royal Gem"], _
+			["LavaPuppet", "Lavaloon Puppet", 13, 1, "Earn 1-5 Stars from Multiplayer Battles using Lavaloon Puppet"], _
 			["SeekShield", "Seeking Shield", 13, 1, "Earn 1-5 Stars from Multiplayer Battles using Seeking Shield"], _
 			["HogPuppet", "Hog Rider Puppet", 14, 1, "Earn 1-5 Stars from Multiplayer Battles using Hog Rider Puppet"], _
-			["HasteVial", "Haste Vial", 15, 1, "Earn 1-5 Stars from Multiplayer Battles using Haste Vial"]]
+			["HasteVial", "Haste Vial", 15, 1, "Earn 1-5 Stars from Multiplayer Battles using Haste Vial"], _
+			["RSpear", "Rocket Spear", 15, 1, "Earn 1-5 Stars from Multiplayer Battles using Rocket Spear"]]
 
 	Local $MiscChallenges[3][5] = [ _
 			["Gard", "Gardening Exercise", 6, 8, "Clear 5 obstacles from your Home Village or Builder Base"], _

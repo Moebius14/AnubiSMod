@@ -809,6 +809,125 @@ Func NewHeroUpgradeSystem()
 	Local $bXcoords[5] = [$bInitalXcoord, $bInitalXcoord + $bDistanceSlot, $bInitalXcoord + $bDistanceSlot * 2, $bInitalXcoord + $bDistanceSlot * 3, $bInitalXcoord + $bDistanceSlot * 4]
 	Local $HeroArrayTemp[0][3]
 
+	;Check Hidden Hero Upgrade To be sure
+	Switch $g_aiCmbCustomHeroOrder[4]
+		Case 0
+			If IsArray(_PixelSearch($bXcoords[0] - 6, 438 + $g_iMidOffsetY, $bXcoords[0] + 10, 444 + $g_iMidOffsetY, Hex(0xFFFFFF, 6), 20, True)) Then
+				GUICtrlSetState($g_hPicKingGray, $GUI_HIDE)
+				GUICtrlSetState($g_hPicKingRed, $GUI_SHOW)
+				GUICtrlSetState($g_hPicKingBlue, $GUI_HIDE)
+				GUICtrlSetState($g_hPicKingGreen, $GUI_HIDE)
+				SetLog($g_asHeroNames[0] & " is being upgraded", $COLOR_DEBUG)
+				;Set Status Variable
+				$g_aiHiddenHeroStatus[0] = 2
+				$g_iHeroUpgrading[0] = 1
+				$g_iHeroUpgradingBit = BitOR($g_iHeroUpgradingBit, $eHeroKing)
+			Else
+				If Not _ColorCheck(_GetPixelColor($bXcoords[0], 438 + $g_iMidOffsetY, True), Hex(0x6D6D6D, 6), 15) Then
+					GUICtrlSetState($g_hPicKingGray, $GUI_HIDE)
+					GUICtrlSetState($g_hPicKingRed, $GUI_HIDE)
+					GUICtrlSetState($g_hPicKingBlue, $GUI_HIDE)
+					GUICtrlSetState($g_hPicKingGreen, $GUI_SHOW)
+					SetLog($g_asHeroNames[0] & " is ready to fight", $COLOR_SUCCESS1)
+					$g_aiHiddenHeroStatus[0] = 1
+					$g_iHeroUpgrading[0] = 0
+					$g_iHeroUpgradingBit = BitAND($g_iHeroUpgradingBit, BitOR($eHeroQueen, $eHeroPrince, $eHeroWarden, $eHeroChampion))
+				EndIf
+			EndIf
+		Case 1
+			If IsArray(_PixelSearch($bXcoords[1] - 6, 438 + $g_iMidOffsetY, $bXcoords[1] + 10, 444 + $g_iMidOffsetY, Hex(0xFFFFFF, 6), 20, True)) Then
+				GUICtrlSetState($g_hPicQueenGray, $GUI_HIDE)
+				GUICtrlSetState($g_hPicQueenRed, $GUI_SHOW)
+				GUICtrlSetState($g_hPicQueenBlue, $GUI_HIDE)
+				GUICtrlSetState($g_hPicQueenGreen, $GUI_HIDE)
+				SetLog($g_asHeroNames[1] & " is being upgraded", $COLOR_DEBUG)
+				;Set Status Variable
+				$g_aiHiddenHeroStatus[1] = 2
+				$g_iHeroUpgrading[1] = 1
+				$g_iHeroUpgradingBit = BitOR($g_iHeroUpgradingBit, $eHeroQueen)
+			Else
+				If Not _ColorCheck(_GetPixelColor($bXcoords[1], 438 + $g_iMidOffsetY, True), Hex(0x6D6D6D, 6), 15) Then
+					GUICtrlSetState($g_hPicQueenGray, $GUI_HIDE)
+					GUICtrlSetState($g_hPicQueenRed, $GUI_HIDE)
+					GUICtrlSetState($g_hPicQueenBlue, $GUI_HIDE)
+					GUICtrlSetState($g_hPicQueenGreen, $GUI_SHOW)
+					SetLog($g_asHeroNames[1] & " is ready to fight", $COLOR_SUCCESS1)
+					$g_aiHiddenHeroStatus[1] = 1
+					$g_iHeroUpgrading[1] = 0
+					$g_iHeroUpgradingBit = BitAND($g_iHeroUpgradingBit, BitOR($eHeroKing, $eHeroPrince, $eHeroWarden, $eHeroChampion))
+				EndIf
+			EndIf
+		Case 2
+			If IsArray(_PixelSearch($bXcoords[2] - 6, 438 + $g_iMidOffsetY, $bXcoords[2] + 10, 444 + $g_iMidOffsetY, Hex(0xFFFFFF, 6), 20, True)) Then
+				GUICtrlSetState($g_hPicPrinceGray, $GUI_HIDE)
+				GUICtrlSetState($g_hPicPrinceRed, $GUI_SHOW)
+				GUICtrlSetState($g_hPicPrinceBlue, $GUI_HIDE)
+				GUICtrlSetState($g_hPicPrinceGreen, $GUI_HIDE)
+				SetLog($g_asHeroNames[2] & " is being upgraded", $COLOR_DEBUG)
+				;Set Status Variable
+				$g_aiHiddenHeroStatus[2] = 2
+				$g_iHeroUpgrading[2] = 1
+				$g_iHeroUpgradingBit = BitOR($g_iHeroUpgradingBit, $eHeroPrince)
+			Else
+				If Not _ColorCheck(_GetPixelColor($bXcoords[2], 438 + $g_iMidOffsetY, True), Hex(0x6D6D6D, 6), 15) Then
+					GUICtrlSetState($g_hPicPrinceGray, $GUI_HIDE)
+					GUICtrlSetState($g_hPicPrinceRed, $GUI_HIDE)
+					GUICtrlSetState($g_hPicPrinceBlue, $GUI_HIDE)
+					GUICtrlSetState($g_hPicPrinceGreen, $GUI_SHOW)
+					SetLog($g_asHeroNames[2] & " is ready to fight", $COLOR_SUCCESS1)
+					$g_aiHiddenHeroStatus[2] = 1
+					$g_iHeroUpgrading[2] = 0
+					$g_iHeroUpgradingBit = BitAND($g_iHeroUpgradingBit, BitOR($eHeroKing, $eHeroQueen, $eHeroWarden, $eHeroChampion))
+				EndIf
+			EndIf
+		Case 3
+			If IsArray(_PixelSearch($bXcoords[3] - 6, 438 + $g_iMidOffsetY, $bXcoords[3] + 10, 444 + $g_iMidOffsetY, Hex(0xFFFFFF, 6), 20, True)) Then
+				GUICtrlSetState($g_hPicWardenGray, $GUI_HIDE)
+				GUICtrlSetState($g_hPicWardenRed, $GUI_SHOW)
+				GUICtrlSetState($g_hPicWardenBlue, $GUI_HIDE)
+				GUICtrlSetState($g_hPicWardenGreen, $GUI_HIDE)
+				SetLog($g_asHeroNames[3] & " is being upgraded", $COLOR_DEBUG)
+				;Set Status Variable
+				$g_aiHiddenHeroStatus[3] = 2
+				$g_iHeroUpgrading[3] = 1
+				$g_iHeroUpgradingBit = BitOR($g_iHeroUpgradingBit, $eHeroWarden)
+			Else
+				If Not _ColorCheck(_GetPixelColor($bXcoords[3], 438 + $g_iMidOffsetY, True), Hex(0x6D6D6D, 6), 15) Then
+					GUICtrlSetState($g_hPicWardenGray, $GUI_HIDE)
+					GUICtrlSetState($g_hPicWardenRed, $GUI_HIDE)
+					GUICtrlSetState($g_hPicWardenBlue, $GUI_HIDE)
+					GUICtrlSetState($g_hPicWardenGreen, $GUI_SHOW)
+					SetLog($g_asHeroNames[3] & " is ready to fight", $COLOR_SUCCESS1)
+					$g_aiHiddenHeroStatus[3] = 1
+					$g_iHeroUpgrading[3] = 0
+					$g_iHeroUpgradingBit = BitAND($g_iHeroUpgradingBit, BitOR($eHeroKing, $eHeroQueen, $eHeroPrince, $eHeroChampion))
+				EndIf
+			EndIf
+		Case 4
+			If IsArray(_PixelSearch($bXcoords[4] - 6, 438 + $g_iMidOffsetY, $bXcoords[4] + 10, 444 + $g_iMidOffsetY, Hex(0xFFFFFF, 6), 20, True)) Then
+				GUICtrlSetState($g_hPicChampionGray, $GUI_HIDE)
+				GUICtrlSetState($g_hPicChampionRed, $GUI_SHOW)
+				GUICtrlSetState($g_hPicChampionBlue, $GUI_HIDE)
+				GUICtrlSetState($g_hPicChampionGreen, $GUI_HIDE)
+				SetLog($g_asHeroNames[4] & " is being upgraded", $COLOR_DEBUG)
+				;Set Status Variable
+				$g_aiHiddenHeroStatus[4] = 2
+				$g_iHeroUpgrading[4] = 1
+				$g_iHeroUpgradingBit = BitOR($g_iHeroUpgradingBit, $eHeroChampion)
+			Else
+				If Not _ColorCheck(_GetPixelColor($bXcoords[4], 438 + $g_iMidOffsetY, True), Hex(0x6D6D6D, 6), 15) Then
+					GUICtrlSetState($g_hPicChampionGray, $GUI_HIDE)
+					GUICtrlSetState($g_hPicChampionRed, $GUI_HIDE)
+					GUICtrlSetState($g_hPicChampionBlue, $GUI_HIDE)
+					GUICtrlSetState($g_hPicChampionGreen, $GUI_SHOW)
+					SetLog($g_asHeroNames[4] & " is ready to fight", $COLOR_SUCCESS1)
+					$g_aiHiddenHeroStatus[4] = 1
+					$g_iHeroUpgrading[4] = 0
+					$g_iHeroUpgradingBit = BitAND($g_iHeroUpgradingBit, BitOR($eHeroKing, $eHeroQueen, $eHeroPrince, $eHeroWarden))
+				EndIf
+			EndIf
+	EndSwitch
+
 	; King
 	Local $g_iKingCostOCR = "", $bKing = "Barbarian King"
 	If _ColorCheck(_GetPixelColor($bXcoords[0], 438 + $g_iMidOffsetY, True), Hex(0x8BD43A, 6), 20) Then
