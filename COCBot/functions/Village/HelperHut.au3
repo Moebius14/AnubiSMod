@@ -503,7 +503,7 @@ Func LabAssistant()
 	EndIf
 
 	Local $bXMultiplier = Number(getOcrAndCapture("coc-uptime", 663, 176 + $g_iMidOffsetY, 37, 17, True))
-	If $bXMultiplier = "" Or $bXMultiplier < 1 Or $bXMultiplier > 8 Then $bXMultiplier = 1 ; In Case
+	If $bXMultiplier = "" Or $bXMultiplier < 1 Or $bXMultiplier > 12 Then $bXMultiplier = 1 ; In Case
 	SetLog("Lab Assistant is Level " & $bXMultiplier, $COLOR_INFO)
 
 	WaitForClanMessage("BuildersApprenticeMid")
@@ -541,8 +541,10 @@ Func LabAssistant()
 					If $iRemainingTime > ($bXMultiplier - 1) * 60 Then $bBAGranted = True
 				Case 5, 6
 					If $iRemainingTime > ($bXMultiplier - 2) * 60 Then $bBAGranted = True
-				Case 7, 8
+				Case 7 To 10
 					If $iRemainingTime > ($bXMultiplier - 3) * 60 Then $bBAGranted = True
+				Case 11, 12
+					If $iRemainingTime > ($bXMultiplier - 4) * 60 Then $bBAGranted = True
 			EndSwitch
 			If $iRemainingTime = 0 Then $bBAGranted = True ; In Case
 			If $bBAGranted Then
@@ -575,7 +577,11 @@ Func LabAssistant()
 						Local $iLabTime = _DateDiff('n', _NowCalc(), $g_sLabUpgradeTime)
 						If $iLabTime > 0 Then
 							SetDebugLog("Lab LabUpgradeTime: " & $g_sLabUpgradeTime & ", Lab DateCalc: " & $iLabTime)
-							$g_sLabUpgradeTime = _DateAdd('n', Ceiling($iLabTime - (60 * $bXMultiplier)), _NowCalc())
+							If $iLabTime > $bXMultiplier * 60 Then
+								$g_sLabUpgradeTime = _DateAdd('n', Ceiling($iLabTime - (60 * $bXMultiplier)), _NowCalc())
+							Else
+								$g_sLabUpgradeTime = _DateAdd('n', Ceiling($iLabTime / $bXMultiplier), _NowCalc())
+							EndIf
 							SetLog("Recalculate Research time (" & $g_sLabUpgradeTime & ")")
 							LabStatusGUIUpdate()
 						EndIf
@@ -605,8 +611,10 @@ Func LabAssistant()
 							SetLog("Current Upgrade Will Finish in " & $sWaitTime & " (Less Than " & ($bXMultiplier - 1) & " Hours)", $COLOR_WARNING)
 						Case 5, 6
 							SetLog("Current Upgrade Will Finish in " & $sWaitTime & " (Less Than " & ($bXMultiplier - 2) & " Hours)", $COLOR_WARNING)
-						Case 7, 8
+						Case 7 To 10
 							SetLog("Current Upgrade Will Finish in " & $sWaitTime & " (Less Than " & ($bXMultiplier - 3) & " Hours)", $COLOR_WARNING)
+						Case 11, 12
+							SetLog("Current Upgrade Will Finish in " & $sWaitTime & " (Less Than " & ($bXMultiplier - 4) & " Hours)", $COLOR_WARNING)
 					EndSwitch
 
 					If $g_bChkLabAssistant = 1 Or ($g_bChkLabAssistant = 2 And $i = UBound($GreenAssignButtons) - 1) Then
@@ -877,7 +885,7 @@ Func HelperHutLab()
 	EndIf
 
 	Local $bXMultiplier = Number(getOcrAndCapture("coc-uptime", 663, 176 + $g_iMidOffsetY, 37, 17, True))
-	If $bXMultiplier = "" Or $bXMultiplier < 1 Or $bXMultiplier > 8 Then $bXMultiplier = 1 ; In Case
+	If $bXMultiplier = "" Or $bXMultiplier < 1 Or $bXMultiplier > 12 Then $bXMultiplier = 1 ; In Case
 	SetLog("Lab Assistant is Level " & $bXMultiplier, $COLOR_INFO)
 
 	WaitForClanMessage("BuildersApprenticeMid")
@@ -915,8 +923,10 @@ Func HelperHutLab()
 					If $iRemainingTime > ($bXMultiplier - 1) * 60 Then $bBAGranted = True
 				Case 5, 6
 					If $iRemainingTime > ($bXMultiplier - 2) * 60 Then $bBAGranted = True
-				Case 7, 8
+				Case 7 To 10
 					If $iRemainingTime > ($bXMultiplier - 3) * 60 Then $bBAGranted = True
+				Case 11, 12
+					If $iRemainingTime > ($bXMultiplier - 4) * 60 Then $bBAGranted = True
 			EndSwitch
 			If $iRemainingTime = 0 Then $bBAGranted = True ; In Case
 			If $bBAGranted Then
@@ -949,7 +959,11 @@ Func HelperHutLab()
 						Local $iLabTime = _DateDiff('n', _NowCalc(), $g_sLabUpgradeTime)
 						If $iLabTime > 0 Then
 							SetDebugLog("Lab LabUpgradeTime: " & $g_sLabUpgradeTime & ", Lab DateCalc: " & $iLabTime)
-							$g_sLabUpgradeTime = _DateAdd('n', Ceiling($iLabTime - (60 * $bXMultiplier)), _NowCalc())
+							If $iLabTime > $bXMultiplier * 60 Then
+								$g_sLabUpgradeTime = _DateAdd('n', Ceiling($iLabTime - (60 * $bXMultiplier)), _NowCalc())
+							Else
+								$g_sLabUpgradeTime = _DateAdd('n', Ceiling($iLabTime / $bXMultiplier), _NowCalc())
+							EndIf
 							SetLog("Recalculate Research time (" & $g_sLabUpgradeTime & ")")
 							LabStatusGUIUpdate()
 						EndIf
@@ -979,8 +993,10 @@ Func HelperHutLab()
 							SetLog("Current Upgrade Will Finish in " & $sWaitTime & " (Less Than " & ($bXMultiplier - 1) & " Hours)", $COLOR_WARNING)
 						Case 5, 6
 							SetLog("Current Upgrade Will Finish in " & $sWaitTime & " (Less Than " & ($bXMultiplier - 2) & " Hours)", $COLOR_WARNING)
-						Case 7, 8
+						Case 7 To 10
 							SetLog("Current Upgrade Will Finish in " & $sWaitTime & " (Less Than " & ($bXMultiplier - 3) & " Hours)", $COLOR_WARNING)
+						Case 11, 12
+							SetLog("Current Upgrade Will Finish in " & $sWaitTime & " (Less Than " & ($bXMultiplier - 4) & " Hours)", $COLOR_WARNING)
 					EndSwitch
 
 					If $g_bChkLabAssistant = 1 Or ($g_bChkLabAssistant = 2 And $i = UBound($GreenAssignButtons) - 1) Then

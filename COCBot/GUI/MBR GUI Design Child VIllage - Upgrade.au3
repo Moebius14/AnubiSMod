@@ -819,6 +819,7 @@ Func CreateWallsSubTab()
 
 	$g_hCmbUseWallRings = GUICtrlCreateCombo("", $x + 270, $y + 127, 61, 21, BitOR($CBS_DROPDOWNLIST, $CBS_AUTOHSCROLL), $WS_EX_RIGHT)
 	GUICtrlSetData(-1, "1 Max|2 Max|3 Max|4 Max|5 Max|6 Max|7 Max|8 Max", "4 Max")
+	_GUICtrlSetTip(-1, GetTranslatedFileIni("MBR GUI Design Child Village - Upgrade_Walls", "CmbUseWallRings_Info_01", "Set The Maximum Wall Rings The Bot Can Use Per Wall"))
 	GUICtrlSetState(-1, $GUI_DISABLE)
 
 	$x += 225

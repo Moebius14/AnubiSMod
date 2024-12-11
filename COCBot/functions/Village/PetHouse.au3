@@ -228,7 +228,6 @@ Func PetHouse($test = False)
 								If $iPetFinishTime > 0 Then
 									$g_sPetUpgradeTime = _DateAdd('n', Ceiling($iPetFinishTime), _NowCalc())
 									SetLog("Pet House will finish in " & $sPetTimeOCR & " (" & $g_sPetUpgradeTime & ")")
-									$iPetFinishTimeMod = $iPetFinishTime
 								EndIf
 							Else
 								CloseWindow() ; close pet upgrade window
@@ -467,7 +466,6 @@ Func PetHouse($test = False)
 								If $iPetFinishTime > 0 Then
 									$g_sPetUpgradeTime = _DateAdd('n', Ceiling($iPetFinishTime), _NowCalc())
 									SetLog("Pet House will finish in " & $sPetTimeOCR & " (" & $g_sPetUpgradeTime & ")")
-									$iPetFinishTimeMod = $iPetFinishTime
 								EndIf
 							Else
 								CloseWindow() ; close pet upgrade window
@@ -519,7 +517,6 @@ Func CheckPetUpgrade()
 			If @error Then _logErrorDateAdd(@error)
 			SetLog("Pet Upgrade will finish in " & $sPetTimeOCR & " (" & $g_sPetUpgradeTime & ")")
 			; LabStatusGUIUpdate() ; Update GUI flag
-			$iPetFinishTimeMod = $iPetFinishTime
 		ElseIf $g_bDebugSetlog Then
 			SetLog("PetLabUpgradeInProgress - Invalid getRemainTLaboratory OCR", $COLOR_DEBUG)
 		EndIf
@@ -616,7 +613,8 @@ Func PetGuiDisplay()
 		SetDebugLog("Pet House LastCheck: " & $iLastTimeChecked[$g_iCurAccount] & ", Check DateCalc: " & $iLastCheck)
 		; A check each from 2 to 5 hours [2*60 = 120 to 5*60 = 300] or when Pet House research time finishes
 		Local $iDelayToCheck = Random(120, 300, 1)
-		If $IsPetPotInStock And $g_bUsePetPotion And $iPetFinishTimeMod > 1440 Then $iDelayToCheck = 60
+		Local $iPetFinishTime = _DateDiff('n', _NowCalc(),  $g_sPetUpgradeTime)
+		If $IsPetPotInStock And $g_bUsePetPotion And $iPetFinishTime > 1440 Then $iDelayToCheck = 60
 		If $iLabTime > 0 And $iLastCheck <= $iDelayToCheck Then Return
 	EndIf
 
@@ -724,7 +722,6 @@ Func PetGuiDisplay()
 		If $iPetFinishTime > 0 Then
 			$g_sPetUpgradeTime = _DateAdd('n', Ceiling($iPetFinishTime), _NowCalc())
 			SetLog("Pet House will finish in " & $sPetTimeOCR & " (" & $g_sPetUpgradeTime & ")")
-			$iPetFinishTimeMod = $iPetFinishTime
 		EndIf
 		$g_iMinDark4PetUpgrade = 0
 		If ProfileSwitchAccountEnabled() Then SwitchAccountVariablesReload("Save")
@@ -1274,7 +1271,8 @@ EndFunc   ;==>DragPetHouse
 
 Func UsePetPotion()
 	If $g_iCmbPetPotion = 0 Then Return
-	If $g_bUsePetPotion And $iPetFinishTimeMod > 1440 Then ; only use potion if Pet upgrade time is more than 1 day
+	Local $iPetFinishTime = _DateDiff('n', _NowCalc(),  $g_sPetUpgradeTime)
+	If $g_bUsePetPotion And $iPetFinishTime > 1440 Then ; only use potion if Pet upgrade time is more than 1 day
 		If _Sleep(1000) Then Return
 		Local $PetPotion = FindButton("PetPotion")
 		If IsArray($PetPotion) And UBound($PetPotion) = 2 Then
@@ -1297,7 +1295,8 @@ Func UsePetPotion()
 					SetLog("Remaining iteration" & ($g_iCmbPetPotion > 1 ? "s: " : ": ") & $g_iCmbPetPotion, $COLOR_SUCCESS)
 					_GUICtrlComboBox_SetCurSel($g_hCmbPetPotion, $g_iCmbPetPotion)
 				EndIf
-				$g_sPetUpgradeTime = _DateAdd('n', Ceiling($iPetFinishTimeMod - 1380), _NowCalc())
+				Local $iPetFinishTime = _DateDiff('n', _NowCalc(),  $g_sPetUpgradeTime)
+				$g_sPetUpgradeTime = _DateAdd('n', Ceiling($iPetFinishTime - 1380), _NowCalc())
 				SetLog("Recalculate Pet House time, using potion (" & $g_sPetUpgradeTime & ")")
 				$ActionForModLog = "Boosting Pet Upgrade"
 				If $g_iTxtCurrentVillageName <> "" Then

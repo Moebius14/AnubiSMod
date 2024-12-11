@@ -191,7 +191,13 @@ Func IsDonateQueueOnly(ByRef $abDonateQueueOnly)
 		EndIf
 		If Not $abDonateQueueOnly[2] Then $g_aiAvailSiege = $g_aiCurrentSiegeMachines
 		For $iSiegeIndex = $eSiegeWallWrecker To $eSiegeMachineCount - 1
-			If $g_aiAvailSiege[$iSiegeIndex] > 0 Then SetLog("  - " & $g_asSiegeMachineNames[$iSiegeIndex] & ($g_aiAvailSiege[$iSiegeIndex] > 1 ? "s" : "") & " x" & $g_aiAvailSiege[$iSiegeIndex])
+			If $g_aiAvailSiege[$iSiegeIndex] > 0 Then
+				If $iSiegeIndex = 3 then
+					SetLog("  - " & $g_asSiegeMachineNames[$iSiegeIndex] & " x" & $g_aiAvailSiege[$iSiegeIndex])
+				Else
+					SetLog("  - " & $g_asSiegeMachineNames[$iSiegeIndex] & ($g_aiAvailSiege[$iSiegeIndex] > 1 ? "s" : "") & " x" & $g_aiAvailSiege[$iSiegeIndex])
+				EndIf
+			EndIf
 		Next
 
 	EndIf
@@ -267,7 +273,11 @@ Func getArmyRequest($aiDonateCoords, $bNeedCapture = True)
 			$HownManySpell += 1
 			; Sieges
 		ElseIf $iArmyIndex >= $eWallW And $iArmyIndex <= $eBattleD Then
-			$sClanText &= ", " & $eRequestCount & " " & $g_asSiegeMachineNames[$iArmyIndex - $eWallW] & ($eRequestCount > 1 ? "s" : "")
+			If $iArmyIndex - $eWallW = 3 then
+				$sClanText &= ", " & $eRequestCount & " " & $g_asSiegeMachineNames[$iArmyIndex - $eWallW]
+			Else
+				$sClanText &= ", " & $eRequestCount & " " & $g_asSiegeMachineNames[$iArmyIndex - $eWallW] & ($eRequestCount > 1 ? "s" : "")
+			EndIf
 			$HownManySiege += 1
 		ElseIf $iArmyIndex = -1 Then
 			ContinueLoop
@@ -386,7 +396,13 @@ Func DonateCC($bUpdateStats = True)
 			EndIf
 			If Not $abDonateQueueOnly[2] Then $g_aiAvailSiege = $g_aiCurrentSiegeMachines
 			For $iSiegeIndex = $eSiegeWallWrecker To $eSiegeMachineCount - 1
-				If $g_aiAvailSiege[$iSiegeIndex] > 0 Then SetLog("  - " & $g_asSiegeMachineNames[$iSiegeIndex] & ($g_aiAvailSiege[$iSiegeIndex] > 1 ? "s" : "") & " x" & $g_aiAvailSiege[$iSiegeIndex])
+				If $g_aiAvailSiege[$iSiegeIndex] > 0 Then
+					If $iSiegeIndex = 3 then
+						SetLog("  - " & $g_asSiegeMachineNames[$iSiegeIndex] & " x" & $g_aiAvailSiege[$iSiegeIndex])
+					Else
+						SetLog("  - " & $g_asSiegeMachineNames[$iSiegeIndex] & ($g_aiAvailSiege[$iSiegeIndex] > 1 ? "s" : "") & " x" & $g_aiAvailSiege[$iSiegeIndex])
+					EndIf
+				EndIf
 			Next
 
 			CloseWindow2()
@@ -983,8 +999,9 @@ Func DonateCC($bUpdateStats = True)
 	WEnd
 
 	If Not ClickB("ClanChat") Then
+		If _Sleep(1000) Then Return
 		CloseWindow2()
-		If _Sleep(500) Then Return
+		If _Sleep(1000) Then Return
 		If Not ClickB("ClanChat") Then
 			SetLog("Error finding the Clan Tab Button", $COLOR_ERROR)
 			AndroidPageError("DonateCC")

@@ -1484,9 +1484,6 @@ Func __RunFunction($action)
 		Case "PetCheck"
 			PetGuiDisplay()
 			_Sleep($DELAYRUNBOT3)
-		Case "ForgeClanCapitalGold"
-			ForgeClanCapitalGold()
-			_Sleep($DELAYRUNBOT3)
 		Case "RequestCC"
 			RequestCC()
 			If Not _Sleep($DELAYRUNBOT1) Then checkMainScreen(False)
@@ -1730,12 +1727,6 @@ Func FirstCheck()
 		EndIf
 	EndIf
 
-	If SwitchBetweenBasesMod2() Then
-		ForgeClanCapitalGold()
-		If _Sleep($DELAYRUNBOT3) Then Return
-		AutoUpgradeCC()
-		If _Sleep($DELAYRUNBOT3) Then Return
-	EndIf
 	If Not $g_bRunState Then Return
 
 	If $bControlCCMedal Then
@@ -1875,7 +1866,8 @@ Func BuilderBase($bTest = False)
 
 		Local $bUseCTPot = False
 		getBuilderCount(False, True) ; Update Builder Variables for Builders Base
-		If ($StartLabON Or $StartLabONGui) And $iStarLabFinishTimeMod > 540 And CheckBBuilderTime() Then $bUseCTPot = True
+		Local $iStarLabFinishTime = _DateDiff('n', _NowCalc(),  $g_sStarLabUpgradeTime)
+		If ($StartLabON Or $StartLabONGui) And $iStarLabFinishTime > 540 And CheckBBuilderTime() Then $bUseCTPot = True
 		If StartClockTowerBoost(False, False, $bUseCTPot) <> "NoExec" Then
 			If _Sleep(Random($DELAYRUNBOT4, $DELAYRUNBOT3, 1)) Then Return
 			If checkObstacles() Then Return

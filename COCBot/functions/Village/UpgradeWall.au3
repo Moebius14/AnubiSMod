@@ -556,7 +556,10 @@ Func WallRings()
 	If IsArray($WallRing) And UBound($WallRing) = 2 Then
 		$WRNeeded = getOcrAndCapture("coc-RemainLabGob", $WallRing[0] - 34, $WallRing[1] - 37, 40, 20)
 		If $WRNeeded = "" Then
-			SetLog("Not Enough Wall Rings, Skip", $COLOR_ERROR)
+			SetLog("Not Enough Wall Rings, Disabling Option", $COLOR_WARNING)
+			$g_iHowUseWallRings = 0 ; Turn Off Wall Rings Use
+			_GUICtrlComboBox_SetCurSel($g_hHowUseWallRings, 0)
+			cmbWallRingsCB()
 			ClearScreen()
 			If _Sleep(1000) Then Return
 			Return "NotEnough"
@@ -566,7 +569,7 @@ Func WallRings()
 		Click($WallRing[0] - 14, $WallRing[1])
 		If _Sleep(1000) Then Return
 
-		If Not IsUpgradeWallsPossible() Then Return "Locked"
+		If Not IsUpgradeWallsPossible() Then Return "Locked" ; In case
 
 		SetLog("Wall Rings Needed : " & $WRNeeded, $COLOR_ACTION)
 		If $WRNeeded <= $g_iCmbUseWallRings + 1 Then

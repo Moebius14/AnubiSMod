@@ -1261,7 +1261,8 @@ Func LabGuiDisplay() ; called from main loop to get an early status for indictor
 		SetDebugLog("Lab LastCheck: " & $iLastTimeChecked[$g_iCurAccount] & ", Check DateCalc: " & $iLastCheck)
 		; A check each from 2 to 5 hours [2*60 = 120 to 5*60 = 300] or when Lab research time finishes
 		Local $iDelayToCheck = Random(120, 300, 1)
-		If $IsResearchPotInStock And $g_bUseLabPotion And $iLabFinishTimeMod > 1440 Then $iDelayToCheck = 60
+		Local $iLabFinishTime = _DateDiff('n', _NowCalc(),  $g_sLabUpgradeTime)
+		If $IsResearchPotInStock And $g_bUseLabPotion And $iLabFinishTime > 1440 Then $iDelayToCheck = 60
 		If $iLabTime > 0 And $iLastCheck <= $iDelayToCheck Then Return
 	EndIf
 
@@ -1373,7 +1374,6 @@ Func LabGuiDisplay() ; called from main loop to get an early status for indictor
 		If $iLabFinishTime > 0 Then
 			$g_sLabUpgradeTime = _DateAdd('n', Ceiling($iLabFinishTime), _NowCalc())
 			SetLog("Research will finish in " & $sLabTimeOCR & " (" & $g_sLabUpgradeTime & ")")
-			$iLabFinishTimeMod = $iLabFinishTime
 		EndIf
 
 		Local $bUseBooks = False
@@ -1453,7 +1453,6 @@ Func LabGuiDisplay() ; called from main loop to get an early status for indictor
 
 		If $bUseBooks Then
 			$g_sLabUpgradeTime = "" ;reset lab upgrade time
-			$iLabFinishTimeMod = 0
 			;==========Hide Red  Show Green Hide Gray===
 			GUICtrlSetState($g_hPicLabGray, $GUI_HIDE)
 			GUICtrlSetState($g_hPicLabRed, $GUI_SHOW)

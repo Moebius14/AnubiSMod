@@ -93,8 +93,9 @@ Func StartClockTowerBoost($bSwitchToBB = False, $bSwitchToNV = False, $bConditio
 					ClickP($aCTBoost)
 					If _Sleep($DELAYCLOCKTOWER2) Then Return
 					SetLog("Boosted Clock Tower successfully!", $COLOR_SUCCESS)
-					If $iStarLabFinishTimeMod > 0 Then
-						$g_sStarLabUpgradeTime = _DateAdd('n', Ceiling($iStarLabFinishTimeMod - $TimeGained), _NowCalc())
+					Local $iStarLabFinishTime = _DateDiff('n', _NowCalc(),  $g_sStarLabUpgradeTime)
+					If $iStarLabFinishTime > 0 Then
+						$g_sStarLabUpgradeTime = _DateAdd('n', Ceiling($iStarLabFinishTime - $TimeGained), _NowCalc())
 						SetLog("Recalculate Research Time, Boosting Clock Tower (" & $g_sStarLabUpgradeTime & ")")
 						StarLabStatusGUIUpdate()
 					EndIf
@@ -139,11 +140,12 @@ Func StartClockTowerBoost($bSwitchToBB = False, $bSwitchToNV = False, $bConditio
 				If Not $g_bRunState Then Return
 				If ClickB("BoostConfirm") Then
 					SetLog("Builderbase Boosted With Clock Tower Potion", $COLOR_SUCCESS)
-					If $iStarLabFinishTimeMod > 0 Then
+					Local $iStarLabFinishTime = _DateDiff('n', _NowCalc(),  $g_sStarLabUpgradeTime)
+					If $iStarLabFinishTime > 0 Then
 						If $IsCTToOpen Then
-							$g_sStarLabUpgradeTime = _DateAdd('n', Ceiling($iStarLabFinishTimeMod - 270), _NowCalc())
+							$g_sStarLabUpgradeTime = _DateAdd('n', Ceiling($iStarLabFinishTime - 270), _NowCalc())
 						Else
-							$g_sStarLabUpgradeTime = _DateAdd('n', Ceiling($iStarLabFinishTimeMod - (270 + $TimeGained)), _NowCalc())
+							$g_sStarLabUpgradeTime = _DateAdd('n', Ceiling($iStarLabFinishTime - (270 + $TimeGained)), _NowCalc())
 						EndIf
 						SetLog("Recalculate Research Time, Using Potion (" & $g_sStarLabUpgradeTime & ")")
 						StarLabStatusGUIUpdate()

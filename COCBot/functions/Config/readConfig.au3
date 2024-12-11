@@ -1005,7 +1005,7 @@ Func ReadConfig_600_28_DB()
 	IniReadS($temp4, $g_sProfileConfigPath, "attack", "DBWardenWait", $eHeroNone)
 	IniReadS($temp5, $g_sProfileConfigPath, "attack", "DBChampionWait", $eHeroNone)
 	$g_aiSearchHeroWaitEnable[$DB] = BitOR(Int($temp1 > $eHeroNone ? $eHeroKing : 0), Int($temp2 > $eHeroNone ? $eHeroQueen : 0), Int($temp3 > $eHeroNone ? $eHeroPrince : 0), _
-	Int($temp4 > $eHeroNone ? $eHeroWarden : 0), Int($temp5 > $eHeroNone ? $eHeroChampion : 0))
+			Int($temp4 > $eHeroNone ? $eHeroWarden : 0), Int($temp5 > $eHeroNone ? $eHeroChampion : 0))
 	IniReadS($g_aiSearchNotWaitHeroesEnable[$DB], $g_sProfileConfigPath, "attack", "DBNotWaitHeroes", 0, "int")
 	$g_iHeroWaitAttackNoBit[$DB][0] = ($temp1 > $eHeroNone) ? 1 : 0
 	$g_iHeroWaitAttackNoBit[$DB][1] = ($temp2 > $eHeroNone) ? 1 : 0
@@ -1070,7 +1070,7 @@ Func ReadConfig_600_28_LB()
 	IniReadS($temp4, $g_sProfileConfigPath, "attack", "ABWardenWait", $eHeroNone)
 	IniReadS($temp5, $g_sProfileConfigPath, "attack", "ABChampionWait", $eHeroNone)
 	$g_aiSearchHeroWaitEnable[$LB] = BitOR(Int($temp1 > $eHeroNone ? $eHeroKing : 0), Int($temp2 > $eHeroNone ? $eHeroQueen : 0), Int($temp3 > $eHeroNone ? $eHeroPrince : 0), _
-	Int($temp4 > $eHeroNone ? $eHeroWarden : 0), Int($temp5 > $eHeroNone ? $eHeroChampion : 0))
+			Int($temp4 > $eHeroNone ? $eHeroWarden : 0), Int($temp5 > $eHeroNone ? $eHeroChampion : 0))
 	IniReadS($g_aiSearchNotWaitHeroesEnable[$LB], $g_sProfileConfigPath, "attack", "ABNotWaitHeroes", 0, "int")
 	$g_iHeroWaitAttackNoBit[$LB][0] = ($temp1 > $eHeroNone) ? 1 : 0
 	$g_iHeroWaitAttackNoBit[$LB][1] = ($temp2 > $eHeroNone) ? 1 : 0

@@ -184,7 +184,8 @@ Func MagicSnacks()
 								If IsArray($aiUseButton) And UBound($aiUseButton) = 2 Then
 									ClickP($aiUseButton)
 									If _Sleep(1000) Then Return
-									$g_sLabUpgradeTime = _DateAdd('n', Ceiling($iLabFinishTimeMod - 180), _NowCalc())
+									Local $iLabFinishTime = _DateDiff('n', _NowCalc(),  $g_sLabUpgradeTime)
+									$g_sLabUpgradeTime = _DateAdd('n', Ceiling($iLabFinishTime - 180), _NowCalc())
 									SetLog("Recalculate Research time, using Study Soup (" & $g_sLabUpgradeTime & ")")
 									LabStatusGUIUpdate()
 									$ActionForModLog = "Boosting Lab Research"

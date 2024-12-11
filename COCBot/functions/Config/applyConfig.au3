@@ -2548,7 +2548,7 @@ Func ApplyConfig_600_54($TypeReadSave)
 				SetLog("First Start Hero Slot Order Set")
 				For $z = 0 To UBound($g_ahCmbHeroOrder) - 1
 					_GUICtrlComboBox_SetCurSel($g_ahCmbHeroOrder[$z], $z)
-				_GUICtrlSetImage($g_ahImgHeroOrder[$z], $g_sLibIconPath, $g_aiHeroOrderIcon[$z + 1])
+					_GUICtrlSetImage($g_ahImgHeroOrder[$z], $g_sLibIconPath, $g_aiHeroOrderIcon[$z + 1])
 				Next
 				BtnHeroOrderSet()
 			EndIf

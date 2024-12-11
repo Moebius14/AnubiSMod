@@ -175,7 +175,11 @@ Func TrainSiege($bTrainFullSiege = False, $bDebugSetLog = $g_bDebugSetLog, $bSet
 					Local $g_iTrainClickDelayfinal = Random($g_iTrainClickDelay - $RandomClickTrainAddTimeMin, $g_iTrainClickDelay + $RandomClickTrainAddTimeMax, 1)
 					PureClickTrain($aiSiegeCoord[0], $aiSiegeCoord[1], 1, $g_iTrainClickDelayfinal)
 				Next
-				Local $sSiegeName = $HowMany >= 2 ? $g_asSiegeMachineNames[$iSiegeIndex] & "s" : $g_asSiegeMachineNames[$iSiegeIndex] & ""
+				If $iSiegeIndex = 3 then
+					Local $sSiegeName = $g_asSiegeMachineNames[$iSiegeIndex]
+				Else
+					Local $sSiegeName = $HowMany >= 2 ? $g_asSiegeMachineNames[$iSiegeIndex] & "s" : $g_asSiegeMachineNames[$iSiegeIndex] & ""
+				EndIf
 				SetLog("Build " & $HowMany & " " & $sSiegeName, $COLOR_SUCCESS)
 				$aiTotalSiegeMachine[$iSiegeIndex] += $HowMany
 				If _Sleep(250) Then Return
@@ -203,7 +207,11 @@ Func TrainSiege($bTrainFullSiege = False, $bDebugSetLog = $g_bDebugSetLog, $bSet
 						Local $g_iTrainClickDelayfinal = Random($g_iTrainClickDelay - $RandomClickTrainAddTimeMin, $g_iTrainClickDelay + $RandomClickTrainAddTimeMax, 1)
 						PureClickTrain($aiSiegeCoord[0], $aiSiegeCoord[1], 1, $g_iTrainClickDelayfinal)
 					Next
-					Local $sSiegeName = $HowMany >= 2 ? $g_asSiegeMachineNames[$iSiegeIndex] & "s" : $g_asSiegeMachineNames[$iSiegeIndex] & ""
+					If $iSiegeIndex = 3 then
+						Local $sSiegeName = $g_asSiegeMachineNames[$iSiegeIndex]
+					Else
+						Local $sSiegeName = $HowMany >= 2 ? $g_asSiegeMachineNames[$iSiegeIndex] & "s" : $g_asSiegeMachineNames[$iSiegeIndex] & ""
+					EndIf
 					SetLog("Build " & $HowMany & " " & $sSiegeName, $COLOR_SUCCESS)
 					If _Sleep(250) Then Return
 				Else

@@ -605,7 +605,6 @@ Func SetLabUpgradeTime($sTrooopName)
 	If $iLabFinishTime > 0 Then
 		$g_sLabUpgradeTime = _DateAdd('n', Ceiling($iLabFinishTime), $StartTime)
 		SetLog($sTrooopName & " Upgrade Finishes @ " & $Result & " (" & $g_sLabUpgradeTime & ")", $COLOR_SUCCESS)
-		$iLabFinishTimeMod = $iLabFinishTime
 		$g_iLaboratoryElixirCost = 0
 		$g_iLaboratoryDElixirCost = 0
 	Else
@@ -670,10 +669,10 @@ Func LabNextPage($iCurPage, $iPages, $iYMidPoint)
 	SetDebugLog("Drag to next full page.")
 	If $iCurPage = 4 Then
 		SetDebugLog("Drag to last page.")
-		ClickDrag(680, Random($iYMidPoint - 50, $iYMidPoint + 50, 1), 455, $iYMidPoint, 300); ClickDrag(680, Random(480 - 50, 480 + 50, 1), 455, 480, 300)
+		ClickDrag(680, Random($iYMidPoint - 50, $iYMidPoint + 50, 1), 455, $iYMidPoint, 300)
 	Else
 		SetDebugLog("Drag to next full page.")
-		ClickDrag(720, Random($iYMidPoint - 50, $iYMidPoint + 50, 1), 83, $iYMidPoint, 300); ClickDrag(720, Random(480 - 50, 480 + 50, 1), 83, 480, 300)
+		ClickDrag(720, Random($iYMidPoint - 50, $iYMidPoint + 50, 1), 83, $iYMidPoint, 300)
 	EndIf
 EndFunc   ;==>LabNextPage
 
@@ -696,7 +695,6 @@ Func ChkLabUpgradeInProgress($name = "")
 			$g_sLabUpgradeTime = _DateAdd('n', Ceiling($iLabFinishTime), _NowCalc())
 			If @error Then _logErrorDateAdd(@error)
 			SetLog("Research will finish in " & $sLabTimeOCR & " (" & $g_sLabUpgradeTime & ")")
-			$iLabFinishTimeMod = $iLabFinishTime
 			$g_iLaboratoryElixirCost = 0
 			$g_iLaboratoryDElixirCost = 0
 			LabStatusGUIUpdate() ; Update GUI flag
@@ -787,7 +785,6 @@ Func ChkLabUpgradeInProgress($name = "")
 
 		If $bUseBooks Then
 			$g_sLabUpgradeTime = "" ;reset lab upgrade time
-			$iLabFinishTimeMod = 0
 			;==========Show Red  Hide Green Hide Gray===
 			GUICtrlSetState($g_hPicLabGray, $GUI_HIDE)
 			GUICtrlSetState($g_hPicLabRed, $GUI_SHOW)
@@ -848,7 +845,8 @@ EndFunc   ;==>FindResearchButton
 
 Func UseLabPotion()
 	If $g_iCmbLabPotion = 0 Then Return
-	If $g_bUseLabPotion And $iLabFinishTimeMod > 1440 Then ; only use potion if lab upgrade time is more than 1 day
+	Local $iLabFinishTime = _DateDiff('n', _NowCalc(),  $g_sLabUpgradeTime)
+	If $g_bUseLabPotion And $iLabFinishTime > 1440 Then ; only use potion if lab upgrade time is more than 1 day
 		If _Sleep(1000) Then Return
 		Local $LabPotion = FindButton("LabPotion")
 		If IsArray($LabPotion) And UBound($LabPotion) = 2 Then
@@ -871,7 +869,8 @@ Func UseLabPotion()
 					SetLog("Remaining iteration" & ($g_iCmbLabPotion > 1 ? "s: " : ": ") & $g_iCmbLabPotion, $COLOR_SUCCESS)
 					_GUICtrlComboBox_SetCurSel($g_hCmbLabPotion, $g_iCmbLabPotion)
 				EndIf
-				$g_sLabUpgradeTime = _DateAdd('n', Ceiling($iLabFinishTimeMod - 1380), _NowCalc())
+				Local $iLabFinishTime = _DateDiff('n', _NowCalc(),  $g_sLabUpgradeTime)
+				$g_sLabUpgradeTime = _DateAdd('n', Ceiling($iLabFinishTime - 1380), _NowCalc())
 				SetLog("Recalculate Research time, using potion (" & $g_sLabUpgradeTime & ")")
 				LabStatusGUIUpdate()
 				$ActionForModLog = "Boosting Research"

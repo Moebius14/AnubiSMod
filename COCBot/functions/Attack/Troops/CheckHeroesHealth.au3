@@ -22,7 +22,7 @@ Func CheckHeroesHealth()
 		If $g_iKingSlot >= 11 Or $g_iQueenSlot >= 11 Or $g_iPrinceSlot >= 11 Or $g_iWardenSlot >= 11 Or $g_iChampionSlot >= 11 Then
 			If Not $g_bDraggedAttackBar Then DragAttackBar($g_iTotalAttackSlot, False)         ; drag forward
 		ElseIf $g_iKingSlot >= 0 And $g_iQueenSlot >= 0 And $g_iPrinceSlot >= 0 And $g_iWardenSlot >= 0 And $g_iChampionSlot >= 0 And ($g_iKingSlot < $g_iTotalAttackSlot - 10 Or $g_iQueenSlot < $g_iTotalAttackSlot - 10 Or _
-			$g_iPrinceSlot < $g_iTotalAttackSlot - 10 Or $g_iWardenSlot < $g_iTotalAttackSlot - 10 Or $g_iChampionSlot < $g_iTotalAttackSlot - 10) Then
+				$g_iPrinceSlot < $g_iTotalAttackSlot - 10 Or $g_iWardenSlot < $g_iTotalAttackSlot - 10 Or $g_iChampionSlot < $g_iTotalAttackSlot - 10) Then
 			If $g_bDraggedAttackBar Then DragAttackBar($g_iTotalAttackSlot, True)         ; return drag
 		EndIf
 

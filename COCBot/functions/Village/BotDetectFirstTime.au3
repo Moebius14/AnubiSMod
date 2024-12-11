@@ -73,6 +73,14 @@ Func BotDetectFirstTime()
 		EndIf
 	EndIf
 
+	If Number($g_iTownHallLevel) >= 7 Then
+		If _Sleep($DELAYBOTDETECT3) Then Return
+		If $g_aiHeroHallPos[0] = "" Or $g_aiHeroHallPos[0] = -1 Then
+			LocateHeroHall(False)
+			SaveConfig()
+		EndIf
+	EndIf
+
 	If _Sleep($DELAYBOTDETECT3) Then Return
 	If $g_aiLaboratoryPos[0] = "" Or $g_aiLaboratoryPos[0] = -1 Then
 		LocateLab(False)
@@ -100,48 +108,6 @@ Func BotDetectFirstTime()
 		If $g_aiHelperHutPos[0] = "" Or $g_aiHelperHutPos[0] = -1 Then
 		LocateHelperHut(False)
 		SaveConfig()
-		EndIf
-	EndIf
-
-	If Number($g_iTownHallLevel) >= 7 Then
-		If $g_iCmbBoostBarbarianKing > 0 Or $g_bUpgradeKingEnable Then
-			If _Sleep($DELAYBOTDETECT3) Then Return
-			If $g_aiHeroHallPos[0] = -1 Then
-				LocateHeroHall(False)
-				SaveConfig()
-			EndIf
-		EndIf
-
-		If Number($g_iTownHallLevel) >= 8 And ($g_iCmbBoostArcherQueen > 0 Or $g_bUpgradeQueenEnable) Then
-			If _Sleep($DELAYBOTDETECT3) Then Return
-			If $g_aiHeroHallPos[0] = -1 Then
-				LocateHeroHall(False)
-				SaveConfig()
-			EndIf
-		EndIf
-
-		If Number($g_iTownHallLevel) >= 9 And ($g_iCmbBoostMinionPrince > 0 Or $g_bUpgradePrinceEnable) Then
-			If _Sleep($DELAYBOTDETECT3) Then Return
-			If $g_aiHeroHallPos[0] = -1 Then
-				LocateHeroHall(False)
-				SaveConfig()
-			EndIf
-		EndIf
-
-		If Number($g_iTownHallLevel) >= 11 And ($g_iCmbBoostWarden > 0 Or $g_bUpgradeWardenEnable) Then
-			If _Sleep($DELAYBOTDETECT3) Then Return
-			If $g_aiHeroHallPos[0] = -1 Then
-				LocateHeroHall(False)
-				SaveConfig()
-			EndIf
-		EndIf
-
-		If Number($g_iTownHallLevel) >= 13 And ($g_iCmbBoostChampion > 0 Or $g_bUpgradeChampionEnable) Then
-			If _Sleep($DELAYBOTDETECT3) Then Return
-			If $g_aiHeroHallPos[0] = -1 Then
-				LocateHeroHall(False)
-				SaveConfig()
-			EndIf
 		EndIf
 	EndIf
 

@@ -94,7 +94,6 @@ Func StarLaboratory($bTestRun = False)
 			$g_sStarLabUpgradeTime = _DateAdd('n', Ceiling($iLabFinishTime), _NowCalc())
 			If @error Then _logErrorDateAdd(@error)
 			SetLog("Research will finish in " & $sLabTimeOCR & " (" & $g_sStarLabUpgradeTime & ")")
-			$iStarLabFinishTimeMod = $iLabFinishTime
 			If ProfileSwitchAccountEnabled() Then SwitchAccountVariablesReload("Save") ; saving $asStarLabUpgradeTime[$g_iCurAccount] = $g_sStarLabUpgradeTime for instantly displaying in multi-stats
 			StarLabStatusGUIUpdate() ; Update GUI flag
 		ElseIf $g_bDebugSetlog Then
@@ -256,7 +255,6 @@ Func StarLabUpgrade($iSelectedUpgrade, $bTestRun = False)
 				If $iLabFinishTime > 0 Then
 					$g_sStarLabUpgradeTime = _DateAdd('n', Ceiling($iLabFinishTime), $StartTime)
 					SetLog($g_avStarLabTroops[$iSelectedUpgrade][3] & " Upgrade Finishes @ " & $Result & " (" & $g_sStarLabUpgradeTime & ")", $COLOR_SUCCESS)
-					$iStarLabFinishTimeMod = $iLabFinishTime
 					If ProfileSwitchAccountEnabled() Then SwitchAccountVariablesReload("Save") ; saving $asStarLabUpgradeTime[$g_iCurAccount] = $g_sStarLabUpgradeTime for instantly displaying in multi-stats
 				Else
 					SetLog("Error processing upgrade time required, try again!", $COLOR_WARNING)
@@ -513,7 +511,6 @@ Func StarLabGuiDisplay()
 		Local $iLabFinishTime = ConvertOCRTime("Lab Time", $sLabTimeOCR, False)
 		SetDebugLog("$sLabTimeOCR: " & $sLabTimeOCR & ", $iLabFinishTime = " & $iLabFinishTime & " m")
 		If $iLabFinishTime > 0 Then
-			$iStarLabFinishTimeMod = $iLabFinishTime
 			$g_sStarLabUpgradeTime = _DateAdd('n', Ceiling($iLabFinishTime), _NowCalc())
 			If @error Then _logErrorDateAdd(@error)
 			SetLog("Research will finish in " & $sLabTimeOCR & " (" & $g_sStarLabUpgradeTime & ")")
