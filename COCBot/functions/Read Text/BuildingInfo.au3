@@ -38,19 +38,19 @@ Func BuildingInfo($iXstart, $iYstart)
 	EndIf
 	$aString = StringSplit($sBldgText, "(") ; Spilt the name and building level
 	If $aString[0] = 2 Then ; If we have name and level then use it
-		If $g_bDebugSetlog Then SetDebugLog("1st $aString = " & $aString[0] & ", " & $aString[1] & ", " & $aString[2], $COLOR_DEBUG) ;debug
+		If $g_bDebugSetLog Then SetDebugLog("1st $aString = " & $aString[0] & ", " & $aString[1] & ", " & $aString[2], $COLOR_DEBUG) ;debug
 		If $aString[1] <> "" Then $aResult[1] = StringStripWS($aString[1], 7) ; check for bad read and store name in result[]
 		If $aString[2] <> "" Then ; check for bad read of level
 			$sBldgLevel = $aString[2] ; store level text
 			$aString = StringSplit($sBldgLevel, ")") ;split off the closing parenthesis
 			If $aString[0] = 2 Then ; Check If we have "level XX" cleaned up
 				If StringInStr($aString[1], "Broken") Then $aString[1] &= " 200" ; Broken Clan Castle/Clock Tower (not rebuild yet): add fake level
-				If $g_bDebugSetlog Then SetDebugLog("2nd $aString = " & $aString[0] & ", " & $aString[1] & ", " & $aString[2], $COLOR_DEBUG) ;debug
+				If $g_bDebugSetLog Then SetDebugLog("2nd $aString = " & $aString[0] & ", " & $aString[1] & ", " & $aString[2], $COLOR_DEBUG) ;debug
 				If $aString[1] <> "" Then $sBldgLevel = $aString[1] ; store "level XX"
 			EndIf
 			$aString = StringSplit($sBldgLevel, " ") ;split off the level number
 			If $aString[0] = 2 Then ; If we have level number then use it
-				If $g_bDebugSetlog Then SetDebugLog("3rd $aString = " & $aString[0] & ", " & $aString[1] & ", " & $aString[2], $COLOR_DEBUG) ;debug
+				If $g_bDebugSetLog Then SetDebugLog("3rd $aString = " & $aString[0] & ", " & $aString[1] & ", " & $aString[2], $COLOR_DEBUG) ;debug
 				If $aString[2] <> "" Then $aResult[2] = Number($aString[2]) ; store bldg level
 			EndIf
 		EndIf

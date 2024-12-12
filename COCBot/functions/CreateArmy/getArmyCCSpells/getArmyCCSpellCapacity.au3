@@ -20,7 +20,7 @@ Func getArmyCCSpellCapacity($bOpenArmyWindow = False, $bCloseArmyWindow = False,
 		Return
 	EndIf
 
-	If $g_bDebugSetlogTrain Or $g_bDebugSetlog Then SetLog("Begin getArmyCCSpellCapacity:", $COLOR_DEBUG1)
+	If $g_bDebugSetLogTrain Or $g_bDebugSetLog Then SetLog("Begin getArmyCCSpellCapacity:", $COLOR_DEBUG1)
 
 	If $bCheckWindow Then
 		If Not $bOpenArmyWindow And Not IsTrainPage() Then ; check for train page
@@ -46,7 +46,7 @@ Func getArmyCCSpellCapacity($bOpenArmyWindow = False, $bCloseArmyWindow = False,
 		If _Sleep($DELAYCHECKARMYCAMP5) Then Return ; Wait 250ms
 	WEnd
 
-	If $g_bDebugSetlogTrain Then SetLog("$sCCSpellsInfo = " & $sCCSpellsInfo, $COLOR_DEBUG)
+	If $g_bDebugSetLogTrain Then SetLog("$sCCSpellsInfo = " & $sCCSpellsInfo, $COLOR_DEBUG)
 	Local $aGetCCSpellsSize = StringSplit($sCCSpellsInfo, "#") ; split the existen Spells from the total Spell factory capacity
 
 	If IsArray($aGetCCSpellsSize) Then

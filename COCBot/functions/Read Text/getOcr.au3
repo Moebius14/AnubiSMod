@@ -263,7 +263,7 @@ Func getOcrReloadMessage($x_start, $y_start, $sLogText = Default, $LogTextColor 
 	Else
 		$String = $sLogText & " " & $Result
 	EndIf
-	If $g_bDebugSetlog Then ; if enabled generate debug log message
+	If $g_bDebugSetLog Then ; if enabled generate debug log message
 		SetDebugLog($String, $LogTextColor, $bSilentSetLog)
 	ElseIf $Result <> "" Then ;
 		SetDebugLog($String, $LogTextColor, True) ; if result found, add to log file
@@ -280,7 +280,7 @@ Func getOcrMaintenanceTime($x_start, $y_start, $sLogText = Default, $LogTextColo
 	Else
 		$String = $sLogText & " " & $Result
 	EndIf
-	If $g_bDebugSetlog Then ; if enabled generate debug log message
+	If $g_bDebugSetLog Then ; if enabled generate debug log message
 		SetDebugLog($String, $LogTextColor, $bSilentSetLog)
 	ElseIf $Result <> "" Then ;
 		SetDebugLog($String, $LogTextColor, True) ; if result found, add to log file
@@ -313,7 +313,7 @@ Func getOcrRateCoc($x_start, $y_start, $sLogText = Default, $LogTextColor = Defa
 	Else
 		$String = $sLogText & " " & $Result
 	EndIf
-	If $g_bDebugSetlog Then ; if enabled generate debug log message
+	If $g_bDebugSetLog Then ; if enabled generate debug log message
 		SetDebugLog($String, $LogTextColor, $bSilentSetLog)
 	ElseIf $Result <> "" Then ;
 		SetDebugLog($String, $LogTextColor, True) ; if result found, add to log file
@@ -346,7 +346,7 @@ Func getCloudTextShort($x_start, $y_start, $sLogText = Default, $LogTextColor = 
 	; Get 3 characters of yellow text in center of attack search window during extended cloud waiting (388,378)
 	; Full text length is 316 pixels, some is covered by chat window when open
 	Local $Result = getOcrAndCapture("coc-cloudsearch", $x_start, $y_start, 51, 27)
-	If $g_bDebugSetlog And $sLogText <> Default And IsString($sLogText) Then ; if enabled generate debug log message
+	If $g_bDebugSetLog And $sLogText <> Default And IsString($sLogText) Then ; if enabled generate debug log message
 		Local $String = $sLogText & $Result
 		SetDebugLog($String, $LogTextColor, $bSilentSetLog)
 	EndIf
@@ -357,7 +357,7 @@ Func getCloudFailShort($x_start, $y_start, $sLogText = Default, $LogTextColor = 
 	; Get 6 characters of pink text in center of attack search window during failed attack search (271, 381)
 	; Full text length is 318 pixels, on checking for 1st 6 characters
 	Local $Result = getOcrAndCapture("coc-cloudfail", $x_start, $y_start, 72, 24)
-	If $g_bDebugSetlog And $sLogText <> Default And IsString($sLogText) Then ; if enabled generate debug log message
+	If $g_bDebugSetLog And $sLogText <> Default And IsString($sLogText) Then ; if enabled generate debug log message
 		Local $String = $sLogText & $Result
 		SetDebugLog($String, $LogTextColor, $bSilentSetLog)
 	EndIf

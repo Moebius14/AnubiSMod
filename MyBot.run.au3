@@ -1866,7 +1866,7 @@ Func BuilderBase($bTest = False)
 
 		Local $bUseCTPot = False
 		getBuilderCount(False, True) ; Update Builder Variables for Builders Base
-		Local $iStarLabFinishTime = _DateDiff('n', _NowCalc(),  $g_sStarLabUpgradeTime)
+		Local $iStarLabFinishTime = _DateDiff('n', _NowCalc(), $g_sStarLabUpgradeTime)
 		If ($StartLabON Or $StartLabONGui) And $iStarLabFinishTime > 540 And CheckBBuilderTime() Then $bUseCTPot = True
 		If StartClockTowerBoost(False, False, $bUseCTPot) <> "NoExec" Then
 			If _Sleep(Random($DELAYRUNBOT4, $DELAYRUNBOT3, 1)) Then Return

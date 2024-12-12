@@ -149,7 +149,7 @@ Func _BtnDefineCapacity()
 	WinGetAndroidHandle()
 	Local $bIsOnMainVillage = isOnMainVillage(True)
 	If $bIsOnMainVillage Then
-		If $g_bDebugSetlog Then SetLog("You Are On Home Village!")
+		If $g_bDebugSetLog Then SetLog("You Are On Home Village!")
 	Else
 		SwitchBetweenBases(False)
 	EndIf

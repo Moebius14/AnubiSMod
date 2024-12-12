@@ -31,6 +31,8 @@ Func _AutoUpgrade()
 	Local $UpWindowOpen = False
 	Local $iLoopHero = 0
 	Local $HeroArray[0][3]
+	Local $HeroArrayBackup[0][3]
+	Local $bHeroUpgradeDone = False
 
 	While 1
 
@@ -107,7 +109,14 @@ Func _AutoUpgrade()
 		If QuickMIS("BC1", $g_sImgGeneralCloseButton, 780, 145 + $g_iMidOffsetY, 815, 175 + $g_iMidOffsetY) Then
 			SetLog("Hero Hall Window Opened", $COLOR_DEBUG1)
 			$bHeroSystem = True
-			If $iLoopHero = 0 Then $HeroArray = NewHeroUpgradeSystem()
+			If $iLoopHero = 0 Then
+				$HeroArray = NewHeroUpgradeSystem()
+			Else
+				If $bHeroUpgradeDone Then
+					$HeroArray = $HeroArrayBackup
+					$HeroArray = NewHeroUpgradeSystem()
+				EndIf
+			EndIf
 			If $IsElix Then
 				Local $g_aUpgradeNameLevelTemp[3] = [2, "Grand Warden", 0]
 			Else
@@ -557,9 +566,6 @@ Func _AutoUpgrade()
 			EndIf
 		Else
 			Click(630, 540 + $g_iMidOffsetY)
-			If $bHeroSystem Then
-				If $bBlackHero Then _ArrayDelete($HeroArray, 0)
-			EndIf
 		EndIf
 		$UpgradeDone = True
 
@@ -631,6 +637,48 @@ Func _AutoUpgrade()
 				SetLog("Launched upgrade Gear of " & $g_aUpgradeNameLevel[1], $COLOR_ACTION)
 			Else
 				SetLog("Launched upgrade of " & $g_aUpgradeNameLevel[1] & " to level " & $g_aUpgradeNameLevel[2] + 1 & " successfully !", $COLOR_SUCCESS)
+				Switch $g_aUpgradeNameLevel[1]
+					Case "Barbarian King"
+						GUICtrlSetState($g_hPicKingGray, $GUI_HIDE)
+						GUICtrlSetState($g_hPicKingRed, $GUI_SHOW)
+						GUICtrlSetState($g_hPicKingBlue, $GUI_HIDE)
+						GUICtrlSetState($g_hPicKingGreen, $GUI_HIDE)
+						$g_aiHiddenHeroStatus[0] = 2
+						$g_iHeroUpgrading[0] = 1
+						$g_iHeroUpgradingBit = BitOR($g_iHeroUpgradingBit, $eHeroKing)
+					Case "Archer Queen"
+						GUICtrlSetState($g_hPicQueenGray, $GUI_HIDE)
+						GUICtrlSetState($g_hPicQueenRed, $GUI_SHOW)
+						GUICtrlSetState($g_hPicQueenBlue, $GUI_HIDE)
+						GUICtrlSetState($g_hPicQueenGreen, $GUI_HIDE)
+						$g_aiHiddenHeroStatus[1] = 2
+						$g_iHeroUpgrading[1] = 1
+						$g_iHeroUpgradingBit = BitOR($g_iHeroUpgradingBit, $eHeroQueen)
+					Case "Minion Prince"
+						GUICtrlSetState($g_hPicPrinceGray, $GUI_HIDE)
+						GUICtrlSetState($g_hPicPrinceRed, $GUI_SHOW)
+						GUICtrlSetState($g_hPicPrinceBlue, $GUI_HIDE)
+						GUICtrlSetState($g_hPicPrinceGreen, $GUI_HIDE)
+						$g_aiHiddenHeroStatus[2] = 2
+						$g_iHeroUpgrading[2] = 1
+						$g_iHeroUpgradingBit = BitOR($g_iHeroUpgradingBit, $eHeroPrince)
+					Case "Grand Warden"
+						GUICtrlSetState($g_hPicWardenGray, $GUI_HIDE)
+						GUICtrlSetState($g_hPicWardenRed, $GUI_SHOW)
+						GUICtrlSetState($g_hPicWardenBlue, $GUI_HIDE)
+						GUICtrlSetState($g_hPicWardenGreen, $GUI_HIDE)
+						$g_aiHiddenHeroStatus[3] = 2
+						$g_iHeroUpgrading[3] = 1
+						$g_iHeroUpgradingBit = BitOR($g_iHeroUpgradingBit, $eHeroWarden)
+					Case "Royal Champion"
+						GUICtrlSetState($g_hPicChampionGray, $GUI_HIDE)
+						GUICtrlSetState($g_hPicChampionRed, $GUI_SHOW)
+						GUICtrlSetState($g_hPicChampionBlue, $GUI_HIDE)
+						GUICtrlSetState($g_hPicChampionGreen, $GUI_HIDE)
+						$g_aiHiddenHeroStatus[4] = 2
+						$g_iHeroUpgrading[4] = 1
+						$g_iHeroUpgradingBit = BitOR($g_iHeroUpgradingBit, $eHeroChampion)
+				EndSwitch
 			EndIf
 		EndIf
 
@@ -695,6 +743,7 @@ Func _AutoUpgrade()
 			NotifyPushToTelegram($text)
 		EndIf
 
+		$bHeroUpgradeDone = False
 		If $bHeroUpgrade And $g_bUseHeroBooks Then
 			Local $bXHeroBook
 			Local $bInitalXcoord = 67
@@ -722,17 +771,55 @@ Func _AutoUpgrade()
 					ClickP($HeroBooks)
 					If _Sleep(1000) Then Return
 					If ClickB("BoostConfirm") Then
+						$bHeroUpgradeDone = True
 						SetLog("Hero Upgrade Finished With Book of Heroes", $COLOR_SUCCESS)
 						Local $bHeroShortName
 						Switch $g_aUpgradeNameLevel[1]
 							Case "Barbarian King"
 								$bHeroShortName = "King"
+								GUICtrlSetState($g_hPicKingGray, $GUI_HIDE)
+								GUICtrlSetState($g_hPicKingRed, $GUI_HIDE)
+								GUICtrlSetState($g_hPicKingBlue, $GUI_HIDE)
+								GUICtrlSetState($g_hPicKingGreen, $GUI_SHOW)
+								$g_aiHiddenHeroStatus[0] = 1
+								$g_iHeroUpgrading[0] = 0
+								$g_iHeroUpgradingBit = BitAND($g_iHeroUpgradingBit, BitOR($eHeroQueen, $eHeroPrince, $eHeroWarden, $eHeroChampion))
 							Case "Archer Queen"
 								$bHeroShortName = "Queen"
+								GUICtrlSetState($g_hPicQueenGray, $GUI_HIDE)
+								GUICtrlSetState($g_hPicQueenRed, $GUI_HIDE)
+								GUICtrlSetState($g_hPicQueenBlue, $GUI_HIDE)
+								GUICtrlSetState($g_hPicQueenGreen, $GUI_SHOW)
+								$g_aiHiddenHeroStatus[1] = 1
+								$g_iHeroUpgrading[1] = 0
+								$g_iHeroUpgradingBit = BitAND($g_iHeroUpgradingBit, BitOR($eHeroKing, $eHeroPrince, $eHeroWarden, $eHeroChampion))
+							Case "Minion Prince"
+								$bHeroShortName = "Prince"
+								GUICtrlSetState($g_hPicPrinceGray, $GUI_HIDE)
+								GUICtrlSetState($g_hPicPrinceRed, $GUI_HIDE)
+								GUICtrlSetState($g_hPicPrinceBlue, $GUI_HIDE)
+								GUICtrlSetState($g_hPicPrinceGreen, $GUI_SHOW)
+								$g_aiHiddenHeroStatus[2] = 1
+								$g_iHeroUpgrading[2] = 0
+								$g_iHeroUpgradingBit = BitAND($g_iHeroUpgradingBit, BitOR($eHeroKing, $eHeroQueen, $eHeroWarden, $eHeroChampion))
 							Case "Grand Warden"
 								$bHeroShortName = "Warden"
+								GUICtrlSetState($g_hPicWardenGray, $GUI_HIDE)
+								GUICtrlSetState($g_hPicWardenRed, $GUI_HIDE)
+								GUICtrlSetState($g_hPicWardenBlue, $GUI_HIDE)
+								GUICtrlSetState($g_hPicWardenGreen, $GUI_SHOW)
+								$g_aiHiddenHeroStatus[3] = 1
+								$g_iHeroUpgrading[3] = 0
+								$g_iHeroUpgradingBit = BitAND($g_iHeroUpgradingBit, BitOR($eHeroKing, $eHeroQueen, $eHeroPrince, $eHeroChampion))
 							Case "Royal Champion"
 								$bHeroShortName = "Champion"
+								GUICtrlSetState($g_hPicChampionGray, $GUI_HIDE)
+								GUICtrlSetState($g_hPicChampionRed, $GUI_HIDE)
+								GUICtrlSetState($g_hPicChampionBlue, $GUI_HIDE)
+								GUICtrlSetState($g_hPicChampionGreen, $GUI_SHOW)
+								$g_aiHiddenHeroStatus[4] = 1
+								$g_iHeroUpgrading[4] = 0
+								$g_iHeroUpgradingBit = BitAND($g_iHeroUpgradingBit, BitOR($eHeroKing, $eHeroQueen, $eHeroPrince, $eHeroWarden))
 						EndSwitch
 						$ActionForModLog = "Upgraded with Book of Heroes"
 						If $g_iTxtCurrentVillageName <> "" Then
@@ -742,10 +829,25 @@ Func _AutoUpgrade()
 						EndIf
 						_FileWriteLog($g_sProfileLogsPath & "\ModLog.log", " [" & $g_sProfileCurrentName & "] " & $bHeroShortName & " : " & $ActionForModLog)
 						If _Sleep(1000) Then Return
+					Else
+						If $bHeroSystem Then
+							If $bBlackHero Then _ArrayDelete($HeroArray, 0)
+						EndIf
 					EndIf
 				Else
 					SetLog("No Books of Heroes Found", $COLOR_DEBUG)
+					If $bHeroSystem Then
+						If $bBlackHero Then _ArrayDelete($HeroArray, 0)
+					EndIf
 				EndIf
+			Else
+				If $bHeroSystem Then
+					If $bBlackHero Then _ArrayDelete($HeroArray, 0)
+				EndIf
+			EndIf
+		Else
+			If $bHeroSystem Then
+				If $bBlackHero Then _ArrayDelete($HeroArray, 0)
 			EndIf
 		EndIf
 

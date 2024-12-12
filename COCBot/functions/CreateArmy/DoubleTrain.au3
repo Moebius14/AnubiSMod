@@ -18,7 +18,7 @@
 Func DoubleTrain()
 
 	If Not $g_bDoubleTrain Then Return
-	Local $bDebug = $g_bDebugSetlogTrain Or $g_bDebugSetlog
+	Local $bDebug = $g_bDebugSetLogTrain Or $g_bDebugSetLog
 
 	If $bDebug Then SetLog(" == Double Train Army == ", $COLOR_ACTION)
 

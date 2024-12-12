@@ -129,7 +129,7 @@ Func CheckSwitchAcc($IsPurging = False)
 		If IsWaitforSiegeMachine() Then ; update $g_aiTimeTrain[2]
 			OpenArmyTab(False, "SmartWait4Train()") ; Open train overview
 			Local $sSiegeInfo = getSiegeCampCap(707, 168 + $g_iMidOffsetY, True) ; OCR read Siege built and total
-			If $g_bDebugSetlogTrain Then SetLog("OCR $sSiegeInfo = " & $sSiegeInfo, $COLOR_DEBUG)
+			If $g_bDebugSetLogTrain Then SetLog("OCR $sSiegeInfo = " & $sSiegeInfo, $COLOR_DEBUG)
 			Local $aGetSiegeCap = StringSplit($sSiegeInfo, "#", $STR_NOCOUNT) ; split the built Siege number from the total Siege number
 			If UBound($aGetSiegeCap) = 2 Then
 				If $aGetSiegeCap[0] > 0 Then $g_aiTimeTrain[3] = 0 ; Available Siege
@@ -171,13 +171,13 @@ Func CheckSwitchAcc($IsPurging = False)
 			$nMinRemainTrain = CheckTroopTimeAllAccount($bForceSwitch)
 
 			If $nMinRemainTrain <= 1 And Not $bForceSwitch And Not $g_bDonateLikeCrazy Then ; Active (force switch shall give priority to Donate Account)
-				If $g_bDebugSetlog Then SetDebugLog("Switch to or Stay at Active Account: " & $g_iNextAccount + 1, $COLOR_DEBUG)
+				If $g_bDebugSetLog Then SetDebugLog("Switch to or Stay at Active Account: " & $g_iNextAccount + 1, $COLOR_DEBUG)
 				$g_iDonateSwitchCounter = 0
 			Else
 				If $g_iDonateSwitchCounter < UBound($aDonateAccount) Then ; Donate
 					$g_iNextAccount = $aDonateAccount[$g_iDonateSwitchCounter]
 					$g_iDonateSwitchCounter += 1
-					If $g_bDebugSetlog Then SetDebugLog("Switch to Donate Account " & $g_iNextAccount + 1 & ". $g_iDonateSwitchCounter = " & $g_iDonateSwitchCounter, $COLOR_DEBUG)
+					If $g_bDebugSetLog Then SetDebugLog("Switch to Donate Account " & $g_iNextAccount + 1 & ". $g_iDonateSwitchCounter = " & $g_iDonateSwitchCounter, $COLOR_DEBUG)
 					SetSwitchAccLog(" - Donate Acc [" & $g_iNextAccount + 1 & "]")
 				Else ; Active
 					$g_iDonateSwitchCounter = 0
@@ -550,7 +550,7 @@ Func SwitchCOCAcc_ConnectedSCID(ByRef $bResult)
 		If IsArray($aSuperCellIDReload) And UBound($aSuperCellIDReload, 1) >= 2 Then
 			Click($aSuperCellIDReload[0], $aSuperCellIDReload[1], 1, 120, "Click Reload SC_ID")
 			SetLog("   1. Click Reload Supercell ID")
-			If $g_bDebugSetlog Then SetSwitchAccLog("   1. Click Reload Supercell ID")
+			If $g_bDebugSetLog Then SetSwitchAccLog("   1. Click Reload Supercell ID")
 			If _Sleep(3000) Then Return "Exit"
 			If Not $g_bRunState Then Return "Exit"
 			Return "OK"
@@ -566,7 +566,7 @@ Func SwitchCOCAcc_ConnectedSCID(ByRef $bResult)
 	Return "" ; should never get here
 EndFunc   ;==>SwitchCOCAcc_ConnectedSCID
 
-Func SwitchCOCAcc_ClickAccountSCID(ByRef $bResult, $NextAccount, $iStep = 2, $bVerifyAcc = True, $bDebuglog = $g_bDebugSetlog, $bDebugImageSave = $g_bDebugImageSave)
+Func SwitchCOCAcc_ClickAccountSCID(ByRef $bResult, $NextAccount, $iStep = 2, $bVerifyAcc = True, $bDebuglog = $g_bDebugSetLog, $bDebugImageSave = $g_bDebugImageSave)
 	Local $sAccountDiamond = GetDiamondFromRect("540,353,580,725") ; Contains iXStart, $iYStart, $iXEnd, $iYEnd
 	Local $aSuperCellIDWindowsUI
 	Local $iIndexSCID = $NextAccount
@@ -605,7 +605,7 @@ Func SwitchCOCAcc_ClickAccountSCID(ByRef $bResult, $NextAccount, $iStep = 2, $bV
 				Return "Error"
 			EndIf
 
-			If $g_bDebugSetlog Then SetSwitchAccLog("Switching to Account: " & $NextAccount + 1, $COLOR_DEBUG)
+			If $g_bDebugSetLog Then SetSwitchAccLog("Switching to Account: " & $NextAccount + 1, $COLOR_DEBUG)
 
 			If $bDebugImageSave Then SaveDebugDiamondImage("ClickAccountSCID", $sAccountDiamond)
 
@@ -616,7 +616,7 @@ Func SwitchCOCAcc_ClickAccountSCID(ByRef $bResult, $NextAccount, $iStep = 2, $bV
 				SetDebugLog("SCID Accounts: " & UBound($aSearchForAccount), $COLOR_DEBUG)
 				SetLog("SCID Accounts: " & UBound($aSearchForAccount), $COLOR_DEBUG)
 
-				If $g_bDebugSetlog Then SetSwitchAccLog("SCID Accounts: " & UBound($aSearchForAccount), $COLOR_DEBUG)
+				If $g_bDebugSetLog Then SetSwitchAccLog("SCID Accounts: " & UBound($aSearchForAccount), $COLOR_DEBUG)
 
 				; Correct Index for Profile if needs to drag
 				If $NextAccount >= 3 And UBound($aSearchForAccount) == 4 Then $iIndexSCID = 3 ; based on drag logic, the account will always be the bottom one
@@ -636,7 +636,7 @@ Func SwitchCOCAcc_ClickAccountSCID(ByRef $bResult, $NextAccount, $iStep = 2, $bV
 
 					For $j = 0 To UBound($aCoordinates) - 1
 						SetDebugLog("[" & $j + 1 & "] Account coordinates: " & $aCoordinates[$j][0] & "," & $aCoordinates[$j][1] & " named: " & $g_asProfileName[$NextAccount - $iIndexSCID + $j])
-						If $g_bDebugSetlog Then SetSwitchAccLog("[" & $j + 1 & "] A/C coord: " & $aCoordinates[$j][0] & "," & $aCoordinates[$j][1] & " Profile: " & $g_asProfileName[$NextAccount - $iIndexSCID + $j])
+						If $g_bDebugSetLog Then SetSwitchAccLog("[" & $j + 1 & "] A/C coord: " & $aCoordinates[$j][0] & "," & $aCoordinates[$j][1] & " Profile: " & $g_asProfileName[$NextAccount - $iIndexSCID + $j])
 					Next
 
 					SetLog("   " & $iStep & ". Click Account [" & $NextAccount + 1 & "] Supercell ID with Profile: " & $g_asProfileName[$NextAccount])

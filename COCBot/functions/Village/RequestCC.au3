@@ -155,14 +155,14 @@ Func IsFullClanCastleType($CCType = 0) ; Troops = 0, Spells = 1, Siege Machine =
 	If $g_abRequestType[2] Then $aiRequestCountCC[2] = 1
 	Local $bIsCCRequestTypeNotUsed = Not ($g_abRequestType[0] Or $g_abRequestType[1] Or $g_abRequestType[2])
 	If $bIsCCRequestTypeNotUsed Then ; Continue reading CC status if all 3 items are unchecked
-		If $g_bDebugSetlog Then SetLog($sLog[$CCType] & " not cared about.")
+		If $g_bDebugSetLog Then SetLog($sLog[$CCType] & " not cared about.")
 		Return True
 	Else
 		Local $aRedPixel = _PixelSearch($aCheckCCNotFull[$CCType], 433 + $g_iMidOffsetY, $aCheckCCNotFull[$CCType] + 3, 435 + $g_iMidOffsetY, Hex(0xEA5054, 6), 30, True) ; red symbol
 		If IsArray($aRedPixel) Then
 			If Not $g_abRequestType[$CCType] Then
 				; Don't care about the CC limit configured in setting
-				If $g_bDebugSetlog Then SetLog("Found CC " & $sLog[$CCType] & " Not Full, But Check Is Disabled")
+				If $g_bDebugSetLog Then SetLog("Found CC " & $sLog[$CCType] & " Not Full, But Check Is Disabled")
 				Return True
 			EndIf
 
@@ -196,7 +196,7 @@ Func IsFullClanCastleType($CCType = 0) ; Troops = 0, Spells = 1, Siege Machine =
 				Else
 					Local $sCCReceived = getOcrAndCapture("coc-camps", 578, 428 + $g_iMidOffsetY, 30, 16, True, False, True) ; read CC (Siege x/1)
 				EndIf
-				If $g_bDebugSetlog Then SetLog("Read CC " & $sLog[$CCType] & "s: " & $sCCReceived)
+				If $g_bDebugSetLog Then SetLog("Read CC " & $sLog[$CCType] & "s: " & $sCCReceived)
 				Local $aCCReceived = StringSplit($sCCReceived, "#", $STR_NOCOUNT) ; split the trained troop number from the total troop number
 				If IsArray($aCCReceived) Then
 					If Number($aCCReceived[0]) >= $aiRequestCountCC[$CCType] Then
@@ -302,7 +302,7 @@ Func CheckCCArmy()
 						$aToRemove[$j][0] = $aTroopWSlot[$j][0]
 						$aToRemove[$j][1] = _Min(Number($aTroopWSlot[$j][2]), Number($iUnwanted))
 						$iUnwanted -= $aToRemove[$j][1]
-						SetLog(" - " & $aToRemove[$j][1] & "x " & ($aToRemove[$j][1] > 1 ? $g_asTroopNamesPlural[$i] : $g_asTroopNames[$i]) & ($g_bDebugSetlog ? (", at slot " & $j & ", x" & $aToRemove[$j][0] + 35) : ""))
+						SetLog(" - " & $aToRemove[$j][1] & "x " & ($aToRemove[$j][1] > 1 ? $g_asTroopNamesPlural[$i] : $g_asTroopNames[$i]) & ($g_bDebugSetLog ? (", at slot " & $j & ", x" & $aToRemove[$j][0] + 35) : ""))
 					EndIf
 				Next
 			EndIf
@@ -327,7 +327,7 @@ Func CheckCCArmy()
 						$aToRemove[$j + 5][1] = _Min(Number($aSpellWSlot[$j][2]), Number($iUnwanted))
 						$aToRemove[$j + 5][2] = $aSpellWSlot[$j][3]
 						$iUnwanted -= $aToRemove[$j + 5][1]
-						SetLog(" - " & $aToRemove[$j + 5][1] & "x " & $g_asSpellNames[$i] & ($aToRemove[$j + 5][1] > 1 ? " spells" : " spell") & ($g_bDebugSetlog ? (", at slot " & $j + 5 & ", Page" & $aToRemove[$j + 5][0]) : ""))
+						SetLog(" - " & $aToRemove[$j + 5][1] & "x " & $g_asSpellNames[$i] & ($aToRemove[$j + 5][1] > 1 ? " spells" : " spell") & ($g_bDebugSetLog ? (", at slot " & $j + 5 & ", Page" & $aToRemove[$j + 5][0]) : ""))
 					EndIf
 				Next
 			EndIf
@@ -352,7 +352,7 @@ Func CheckCCArmy()
 						$aToRemove[$j + 8][1] = _Min(Number($aSiegeWSlot[$j][2]), Number($iUnwanted))
 						$aToRemove[$j + 8][2] = $aSiegeWSlot[$j][3]
 						$iUnwanted -= $aToRemove[$j + 8][1]
-						SetLog(" - " & $aToRemove[$j + 8][1] & "x " & $g_asSiegeMachineNames[$i] & ($aToRemove[$j + 8][1] > 1 ? " Sieges" : " Siege") & ($g_bDebugSetlog ? (", at slot " & $j + 8 & ", Page" & $aToRemove[$j + 8][0]) : ""))
+						SetLog(" - " & $aToRemove[$j + 8][1] & "x " & $g_asSiegeMachineNames[$i] & ($aToRemove[$j + 8][1] > 1 ? " Sieges" : " Siege") & ($g_bDebugSetLog ? (", at slot " & $j + 8 & ", Page" & $aToRemove[$j + 8][0]) : ""))
 					EndIf
 				Next
 			EndIf

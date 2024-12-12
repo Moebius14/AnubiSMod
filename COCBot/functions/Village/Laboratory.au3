@@ -698,7 +698,7 @@ Func ChkLabUpgradeInProgress($name = "")
 			$g_iLaboratoryElixirCost = 0
 			$g_iLaboratoryDElixirCost = 0
 			LabStatusGUIUpdate() ; Update GUI flag
-		ElseIf $g_bDebugSetlog Then
+		ElseIf $g_bDebugSetLog Then
 			SetLog("Invalid getRemainTLaboratory OCR", $COLOR_DEBUG)
 		EndIf
 		If _Sleep(500) Then Return

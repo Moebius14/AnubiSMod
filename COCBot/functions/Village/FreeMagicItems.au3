@@ -172,13 +172,13 @@ Func OpenTraderWindow()
 				If Not _WaitForCheckPixel($aIsWeekyDealsOpen, True) Then
 					SetLog("Error : Cannot open Gems Menu. Pixel to check did not appear", $COLOR_ERROR)
 					CloseWindow()
-					Return FuncReturn(SetError(1, 0, False), $g_bDebugSetlog)
+					Return FuncReturn(SetError(1, 0, False), $g_bDebugSetLog)
 				EndIf
 			EndIf
 		Else
 			SetDebugLog("Error when opening Gems Menu: $aTabButton is no valid Array", $COLOR_ERROR)
 			CloseWindow()
-			Return FuncReturn(SetError(1, 0, False), $g_bDebugSetlog)
+			Return FuncReturn(SetError(1, 0, False), $g_bDebugSetLog)
 		EndIf
 	EndIf
 

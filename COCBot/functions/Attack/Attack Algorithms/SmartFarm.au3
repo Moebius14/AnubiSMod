@@ -554,7 +554,7 @@ Func AttackSmartFarm($Nside, $SIDESNAMES)
 	SetDebugLog("Giants : " & $GiantComp & "  , per side: " & ($GiantComp / $nbSides) & " / deploy points per side: " & $g_iSlotsGiants)
 
 	If $g_bCustomDropOrderEnable Then
-		Local $listInfoDeploy[56][5] = [[MatchTroopDropName(0), $nbSides, MatchTroopWaveNb(0), 1, MatchSlotsPerEdge(0)], _
+		Local $listInfoDeploy[58][5] = [[MatchTroopDropName(0), $nbSides, MatchTroopWaveNb(0), 1, MatchSlotsPerEdge(0)], _
 				[MatchTroopDropName(1), $nbSides, MatchTroopWaveNb(1), 1, MatchSlotsPerEdge(1)], _
 				[MatchTroopDropName(2), $nbSides, MatchTroopWaveNb(2), 1, MatchSlotsPerEdge(2)], _
 				[MatchTroopDropName(3), $nbSides, MatchTroopWaveNb(3), 1, MatchSlotsPerEdge(3)], _
@@ -609,9 +609,11 @@ Func AttackSmartFarm($Nside, $SIDESNAMES)
 				[MatchTroopDropName(52), $nbSides, MatchTroopWaveNb(52), 1, MatchSlotsPerEdge(52)], _
 				[MatchTroopDropName(53), $nbSides, MatchTroopWaveNb(53), 1, MatchSlotsPerEdge(53)], _
 				[MatchTroopDropName(54), $nbSides, MatchTroopWaveNb(54), 1, MatchSlotsPerEdge(54)], _
-				[MatchTroopDropName(55), $nbSides, MatchTroopWaveNb(55), 1, MatchSlotsPerEdge(55)]]
+				[MatchTroopDropName(55), $nbSides, MatchTroopWaveNb(55), 1, MatchSlotsPerEdge(55)], _
+				[MatchTroopDropName(56), $nbSides, MatchTroopWaveNb(56), 1, MatchSlotsPerEdge(56)], _
+				[MatchTroopDropName(57), $nbSides, MatchTroopWaveNb(57), 1, MatchSlotsPerEdge(57)]]
 	Else
-		Local $listInfoDeploy[56][5] = [[$eGole, $nbSides, 1, 1, 2] _
+		Local $listInfoDeploy[58][5] = [[$eGole, $nbSides, 1, 1, 2] _
 				, [$eLava, $nbSides, 1, 1, 2] _
 				, [$eIceH, $nbSides, 1, 1, 2] _
 				, [$eIceG, $nbSides, 1, 1, 2] _
@@ -649,6 +651,8 @@ Func AttackSmartFarm($Nside, $SIDESNAMES)
 				, [$eSWiza, $nbSides, 1, 1, 0] _
 				, [$ePWiza, $nbSides, 1, 1, 0] _
 				, [$eIWiza, $nbSides, 1, 1, 0] _
+				, [$eCookie, $nbSides, 1, 1, 0] _
+				, [$eRamRider, $nbSides, 1, 1, 0] _
 				, [$eBarcher, $nbSides, 1, 1, 0] _
 				, [$eGWitch, $nbSides, 1, 1, 0] _
 				, [$eHWiza, $nbSides, 1, 1, 0] _
@@ -686,7 +690,7 @@ Func AttackSmartFarm($Nside, $SIDESNAMES)
 	SetLog("Dropping left over troops", $COLOR_INFO)
 	For $x = 0 To 1
 		If PrepareAttack($g_iMatchMode, True) = 0 Then
-			If $g_bDebugSetlog Then SetDebugLog("No Wast time... exit, no troops usable left", $COLOR_DEBUG)
+			If $g_bDebugSetLog Then SetDebugLog("No Wast time... exit, no troops usable left", $COLOR_DEBUG)
 			ExitLoop ;Check remaining quantities
 		EndIf
 		For $i = $eBarb To $eIMini
@@ -706,7 +710,7 @@ EndFunc   ;==>AttackSmartFarm
 
 Func LaunchTroopSmartFarm($listInfoDeploy, $iCC, $iKing, $iQueen, $iPrince, $iWarden, $iChampion, $SIDESNAMES = "TR|TL|BR|BL")
 
-	If $g_bDebugSetlog Then SetDebugLog("LaunchTroopSmartFarm with CC " & $iCC & ", K " & $iKing & ", Q " & $iQueen & ", P " & $iPrince & ", W " & $iWarden & ", C " & $iChampion, $COLOR_DEBUG)
+	If $g_bDebugSetLog Then SetDebugLog("LaunchTroopSmartFarm with CC " & $iCC & ", K " & $iKing & ", Q " & $iQueen & ", P " & $iPrince & ", W " & $iWarden & ", C " & $iChampion, $COLOR_DEBUG)
 	; $ListInfoDeploy = [Troop, No. of Sides, $WaveNb, $MaxWaveNb, $slotsPerEdge]
 	Local $listListInfoDeployTroopPixel[0]
 	Local $pixelRandomDrop[2]
@@ -724,7 +728,7 @@ Func LaunchTroopSmartFarm($listInfoDeploy, $iCC, $iKing, $iQueen, $iPrince, $iWa
 		Local $waveNb = $listInfoDeploy[$i][2] ; waves
 		Local $maxWaveNb = $listInfoDeploy[$i][3] ; Max waves
 		Local $slotsPerEdge = $listInfoDeploy[$i][4] ; deploy Points per Edge
-		If $g_bDebugSetlog Then SetDebugLog("**ListInfoDeploy row " & $i & ": USE " & GetTroopName($troopKind, 0) & " SIDES " & $nbSides & " WAVE " & $waveNb & " XWAVE " & $maxWaveNb & " SLOTXEDGE " & $slotsPerEdge, $COLOR_DEBUG)
+		If $g_bDebugSetLog Then SetDebugLog("**ListInfoDeploy row " & $i & ": USE " & GetTroopName($troopKind, 0) & " SIDES " & $nbSides & " WAVE " & $waveNb & " XWAVE " & $maxWaveNb & " SLOTXEDGE " & $slotsPerEdge, $COLOR_DEBUG)
 
 		; Regular Troops , not Heroes or Castle
 		If (IsNumber($troopKind)) Then
@@ -785,20 +789,20 @@ Func LaunchTroopSmartFarm($listInfoDeploy, $iCC, $iKing, $iQueen, $iPrince, $iWa
 							If $g_aiDeployHeroesPosition[0] <> -1 Then
 								$pixelRandomDrop[0] = $g_aiDeployHeroesPosition[0]
 								$pixelRandomDrop[1] = $g_aiDeployHeroesPosition[1]
-								If $g_bDebugSetlog Then SetDebugLog("Deploy Heroes $g_aiDeployHeroesPosition")
+								If $g_bDebugSetLog Then SetDebugLog("Deploy Heroes $g_aiDeployHeroesPosition")
 							Else
 								$pixelRandomDrop[0] = $g_aaiBottomRightDropPoints[2][0]
 								$pixelRandomDrop[1] = $g_aaiBottomRightDropPoints[2][1] ;
-								If $g_bDebugSetlog Then SetDebugLog("Deploy Heroes $g_aaiBottomRightDropPoints")
+								If $g_bDebugSetLog Then SetDebugLog("Deploy Heroes $g_aaiBottomRightDropPoints")
 							EndIf
 							If $g_aiDeployCCPosition[0] <> -1 Then
 								$pixelRandomDropcc[0] = $g_aiDeployCCPosition[0]
 								$pixelRandomDropcc[1] = $g_aiDeployCCPosition[1]
-								If $g_bDebugSetlog Then SetDebugLog("Deploy CC $g_aiDeployHeroesPosition")
+								If $g_bDebugSetLog Then SetDebugLog("Deploy CC $g_aiDeployHeroesPosition")
 							Else
 								$pixelRandomDropcc[0] = $g_aaiBottomRightDropPoints[2][0]
 								$pixelRandomDropcc[1] = $g_aaiBottomRightDropPoints[2][1] ;
-								If $g_bDebugSetlog Then SetDebugLog("Deploy CC $g_aaiBottomRightDropPoints")
+								If $g_bDebugSetLog Then SetDebugLog("Deploy CC $g_aaiBottomRightDropPoints")
 							EndIf
 
 							If ($g_bIsCCDropped = False And $infoTroopListArrPixel[0] = "CC" And $i = $numberSidesDropTroop - 1) Then
@@ -840,7 +844,7 @@ Func LaunchTroopSmartFarm($listInfoDeploy, $iCC, $iKing, $iQueen, $iPrince, $iWa
 			Local $infoPixelDropTroop = $listInfoDeployTroopPixel[$i]
 			If Not (IsString($infoPixelDropTroop[0]) And ($infoPixelDropTroop[0] = "CC" Or $infoPixelDropTroop[0] = "HEROES")) Then
 				Local $numberLeft = ReadTroopQuantity($infoPixelDropTroop[0])
-				If $g_bDebugSetlog Then
+				If $g_bDebugSetLog Then
 					Local $aiSlotPos = GetSlotPosition($infoDropTroop[0])
 					SetDebugLog("Slot Nun= " & $infoPixelDropTroop[0])
 					SetDebugLog("Slot Xaxis= " & $aiSlotPos[0])

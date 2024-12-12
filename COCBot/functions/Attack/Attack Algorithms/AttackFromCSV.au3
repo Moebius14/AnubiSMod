@@ -532,7 +532,7 @@ Func Algorithm_AttackCSV($testattack = False, $captureredarea = True)
 
 	If $g_bCSVLocateStorageElixir Then
 		$aResult = GetLocationBuilding($eBldgElixirS, $g_iSearchTH, False)
-		If @error And $g_bDebugSetlog Then _logErrorGetBuilding(@error)
+		If @error And $g_bDebugSetLog Then _logErrorGetBuilding(@error)
 		If $aResult <> -1 Then ; check if Monkey ate bad banana
 			If $aResult = 1 Then
 				SetLog("> " & $g_sBldgNames[$eBldgElixirS] & " Not found", $COLOR_WARNING)

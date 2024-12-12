@@ -17,7 +17,7 @@ Func getArmyCCSpells($bOpenArmyWindow = False, $bCloseArmyWindow = False, $bChec
 
 	Local $aSpellWSlot[1][4] = [[0, "", 0, 0]] ; Page, Spell Name index, Quantity, X Coord for Remove
 
-	If $g_bDebugSetlogTrain Then SetLog("getArmyCCSpells():", $COLOR_DEBUG)
+	If $g_bDebugSetLogTrain Then SetLog("getArmyCCSpells():", $COLOR_DEBUG)
 
 	If Not $bOpenArmyWindow Then
 		If $bCheckWindow And Not IsTrainPage() Then ; check for train page

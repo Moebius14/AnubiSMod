@@ -585,7 +585,7 @@ Func chkTroopOrder($bSetLog = True)
 			GUICtrlSetState($g_ahCmbTroopOrder[$i], $GUI_DISABLE) ; disable combo boxes
 		Next
 		SetDefaultTroopGroup($bSetLog) ; Reset troopgroup values to default
-		If ($bSetLog Or $g_bDebugSetlogTrain) And $g_bCustomTrainOrderEnable Then
+		If ($bSetLog Or $g_bDebugSetLogTrain) And $g_bCustomTrainOrderEnable Then
 			Local $sNewTrainList = ""
 			For $i = 0 To $eTroopCount - 1
 				$sNewTrainList &= $g_asTroopShortNames[$g_aiTrainOrder[$i]] & ", "
@@ -764,7 +764,7 @@ Func BtnTroopOrderSet()
 		Else
 			SetLog("Troop training order changed successfully!", $COLOR_SUCCESS)
 			For $i = 0 To $eTroopCount - 1
-				If $g_bDebugSetlogTrain Then SetLog("i = " & $i & " g_aiTrainOrder = " & $aiUsedTroop[$i])
+				If $g_bDebugSetLogTrain Then SetLog("i = " & $i & " g_aiTrainOrder = " & $aiUsedTroop[$i])
 				$sNewTrainList &= $g_asTroopShortNames[$aiUsedTroop[$i]] & ", "
 			Next
 			$sNewTrainList = StringTrimRight($sNewTrainList, 2)
@@ -778,7 +778,7 @@ Func BtnTroopOrderSet()
 EndFunc   ;==>BtnTroopOrderSet
 
 Func ChangeTroopTrainOrder()
-	If $g_bDebugSetlog Or $g_bDebugSetlogTrain Then SetLog("Begin Func ChangeTroopTrainOrder()", $COLOR_DEBUG) ;Debug
+	If $g_bDebugSetLog Or $g_bDebugSetLogTrain Then SetLog("Begin Func ChangeTroopTrainOrder()", $COLOR_DEBUG) ;Debug
 	Local $iUpdateCount = 0, $aUnique
 
 	If Not IsUseCustomTroopOrder() Then ; check if no custom troop values saved yet.
@@ -887,7 +887,7 @@ Func BtnSpellsOrderSet()
 EndFunc   ;==>BtnSpellsOrderSet
 
 Func ChangeSpellsBrewOrder()
-	If $g_bDebugSetlog Or $g_bDebugSetlogTrain Then SetLog("Begin Func ChangeSpellsBrewOrder()", $COLOR_DEBUG) ;Debug
+	If $g_bDebugSetLog Or $g_bDebugSetLogTrain Then SetLog("Begin Func ChangeSpellsBrewOrder()", $COLOR_DEBUG) ;Debug
 
 	Local $NewTroopOrder[$eSpellCount]
 	Local $iUpdateCount = 0
@@ -928,14 +928,14 @@ Func SetDefaultTroopGroup($bSetLog = True)
 	For $i = 0 To $eTroopCount - 1
 		$g_aiTrainOrder[$i] = $i
 	Next
-	If ($bSetLog Or $g_bDebugSetlogTrain) And $g_bCustomTrainOrderEnable Then SetLog("Default troop training order set", $COLOR_SUCCESS)
+	If ($bSetLog Or $g_bDebugSetLogTrain) And $g_bCustomTrainOrderEnable Then SetLog("Default troop training order set", $COLOR_SUCCESS)
 EndFunc   ;==>SetDefaultTroopGroup
 
 Func SetDefaultHeroGroup($bSetLog = True)
 	For $i = 0 To $eHeroCount - 1
 		$g_aiHeroSlotOrder[$i] = $i
 	Next
-	If $bSetLog Or $g_bDebugSetlogTrain Then SetLog("Default Hero slot order set", $COLOR_SUCCESS)
+	If $bSetLog Or $g_bDebugSetLogTrain Then SetLog("Default Hero slot order set", $COLOR_SUCCESS)
 EndFunc   ;==>SetDefaultHeroGroup
 
 Func SetDefaultSpellsGroup($bSetLog = True)
@@ -943,39 +943,39 @@ Func SetDefaultSpellsGroup($bSetLog = True)
 		$g_aiBrewOrder[$i] = $i
 	Next
 
-	If ($bSetLog Or $g_bDebugSetlogTrain) And $g_bCustomTrainOrderEnable Then SetLog("Default Spells Brew order set", $COLOR_SUCCESS)
+	If ($bSetLog Or $g_bDebugSetLogTrain) And $g_bCustomTrainOrderEnable Then SetLog("Default Spells Brew order set", $COLOR_SUCCESS)
 EndFunc   ;==>SetDefaultSpellsGroup
 
 Func IsUseCustomSpellsOrder()
 	For $i = 0 To UBound($g_aiCmbCustomBrewOrder) - 1 ; Check if custom train order has been used, to select log message
 		If $g_aiCmbCustomBrewOrder[$i] = -1 Then
-			If $g_bDebugSetlogTrain And $g_bCustomBrewOrderEnable Then SetLog("Custom Spell order not used...", $COLOR_DEBUG) ;Debug
+			If $g_bDebugSetLogTrain And $g_bCustomBrewOrderEnable Then SetLog("Custom Spell order not used...", $COLOR_DEBUG) ;Debug
 			Return False
 		EndIf
 	Next
-	If $g_bDebugSetlogTrain And $g_bCustomBrewOrderEnable Then SetLog("Custom Spell order used...", $COLOR_DEBUG) ;Debug
+	If $g_bDebugSetLogTrain And $g_bCustomBrewOrderEnable Then SetLog("Custom Spell order used...", $COLOR_DEBUG) ;Debug
 	Return True
 EndFunc   ;==>IsUseCustomSpellsOrder
 
 Func IsUseCustomTroopOrder()
 	For $i = 0 To UBound($g_aiCmbCustomTrainOrder) - 1 ; Check if custom train order has been used, to select log message
 		If $g_aiCmbCustomTrainOrder[$i] = -1 Then
-			If $g_bDebugSetlogTrain And $g_bCustomTrainOrderEnable Then SetLog("Custom train order not used...", $COLOR_DEBUG) ;Debug
+			If $g_bDebugSetLogTrain And $g_bCustomTrainOrderEnable Then SetLog("Custom train order not used...", $COLOR_DEBUG) ;Debug
 			Return False
 		EndIf
 	Next
-	If $g_bDebugSetlogTrain And $g_bCustomTrainOrderEnable Then SetLog("Custom train order used...", $COLOR_DEBUG) ;Debug
+	If $g_bDebugSetLogTrain And $g_bCustomTrainOrderEnable Then SetLog("Custom train order used...", $COLOR_DEBUG) ;Debug
 	Return True
 EndFunc   ;==>IsUseCustomTroopOrder
 
 Func IsUseCustomHeroOrder()
 	For $i = 0 To UBound($g_aiCmbCustomHeroOrder) - 1 ; Check if custom train order has been used, to select log message
 		If $g_aiCmbCustomHeroOrder[$i] = -1 Then
-			If $g_bDebugSetlogTrain Then SetLog("Custom train order not used...", $COLOR_DEBUG) ;Debug
+			If $g_bDebugSetLogTrain Then SetLog("Custom train order not used...", $COLOR_DEBUG) ;Debug
 			Return False
 		EndIf
 	Next
-	If $g_bDebugSetlogTrain Then SetLog("Custom train order used...", $COLOR_DEBUG) ;Debug
+	If $g_bDebugSetLogTrain Then SetLog("Custom train order used...", $COLOR_DEBUG) ;Debug
 	Return True
 EndFunc   ;==>IsUseCustomHeroOrder
 
@@ -1349,7 +1349,7 @@ Func BtnHeroOrderSet()
 		Else
 			SetLog("Hero training order changed successfully!", $COLOR_SUCCESS)
 			For $i = 0 To $eHeroCount - 1
-				If $g_bDebugSetlogTrain Then SetLog("i = " & $i & " g_aiHeroSlotOrder = " & $aiUsedHero[$i])
+				If $g_bDebugSetLogTrain Then SetLog("i = " & $i & " g_aiHeroSlotOrder = " & $aiUsedHero[$i])
 				$sNewTrainList &= $g_asHeroNames[$aiUsedHero[$i]] & ", "
 			Next
 			$sNewTrainList = StringTrimRight($sNewTrainList, 2)
@@ -1364,7 +1364,7 @@ Func BtnHeroOrderSet()
 EndFunc   ;==>BtnHeroOrderSet
 
 Func ChangeHeroTrainOrder()
-	If $g_bDebugSetlog Or $g_bDebugSetlogTrain Then SetLog("Begin Func ChangeHeroTrainOrder()", $COLOR_DEBUG) ;Debug
+	If $g_bDebugSetLog Or $g_bDebugSetLogTrain Then SetLog("Begin Func ChangeHeroTrainOrder()", $COLOR_DEBUG) ;Debug
 	Local $iUpdateCount = 0, $aUnique
 
 	If Not IsUseCustomHeroOrder() Then ; check if no custom Hero values saved yet.

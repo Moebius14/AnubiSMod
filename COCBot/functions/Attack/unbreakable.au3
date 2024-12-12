@@ -74,9 +74,9 @@ Func Unbreakable()
 	If $g_bRestart = True Then Return True ; Check Restart Flag to see if drop trophy used all the troops and need to train more.
 	$iCount = 0
 	Local $iTrophyCurrent = getTrophyMainScreen($aTrophies[0], $aTrophies[1]) ; Get trophy
-	If $g_bDebugSetlog Then SetDebugLog("Trophy Count Read = " & $iTrophyCurrent, $COLOR_DEBUG)
+	If $g_bDebugSetLog Then SetDebugLog("Trophy Count Read = " & $iTrophyCurrent, $COLOR_DEBUG)
 	While Number($iTrophyCurrent) > Number($g_iDropTrophyMax) ; verify that trophy dropped and didn't fail due misc errors searching
-		If $g_bDebugSetlog Then SetDebugLog("Drop Trophy Loop #" & $iCount + 1, $COLOR_DEBUG)
+		If $g_bDebugSetLog Then SetDebugLog("Drop Trophy Loop #" & $iCount + 1, $COLOR_DEBUG)
 		DropTrophy()
 		If _Sleep($DELAYUNBREAKABLE2) Then Return True ; wait for home screen
 		ClickAway()
@@ -113,7 +113,7 @@ Func Unbreakable()
 
 	$iCount = 0
 	While 1 ; Under attack when return from sleep?  wait some more ...
-		If $g_bDebugSetlog Then SetDebugLog("Under Attack Pixels = " & _GetPixelColor(841, 342 + $g_iMidOffsetY, True) & "/" & _GetPixelColor(842, 348 + $g_iMidOffsetY, True), $COLOR_DEBUG)
+		If $g_bDebugSetLog Then SetDebugLog("Under Attack Pixels = " & _GetPixelColor(841, 342 + $g_iMidOffsetY, True) & "/" & _GetPixelColor(842, 348 + $g_iMidOffsetY, True), $COLOR_DEBUG)
 		If _ColorCheck(_GetPixelColor(841, 342 + $g_iMidOffsetY, True), Hex(0x711C0A, 6), 20) And _ColorCheck(_GetPixelColor(842, 348 + $g_iMidOffsetY, True), Hex(0x721C0E, 6), 20) Then
 			SetLog("Base is under attack, waiting 30 seocnds for end", $COLOR_INFO)
 		Else
@@ -127,7 +127,7 @@ Func Unbreakable()
 
 	Local $Message = _PixelSearch(23, 566 + $g_iBottomOffsetY, 36, 580 + $g_iBottomOffsetY, Hex(0xEBECDB, 6), 15, True) ;Check if Return Home button available and close the screen
 	If IsArray($Message) Then
-		If $g_bDebugSetlog Then SetDebugLog("Return Home Pixel = " & _GetPixelColor($Message[0], $Message[1], True) & ", Pos: " & $Message[0] & "/" & $Message[1], $COLOR_DEBUG)
+		If $g_bDebugSetLog Then SetDebugLog("Return Home Pixel = " & _GetPixelColor($Message[0], $Message[1], True) & ", Pos: " & $Message[0] & "/" & $Message[1], $COLOR_DEBUG)
 		PureClick(62, 607 + $g_iBottomOffsetY, 1, 130, "#0138")
 		If _Sleep($DELAYUNBREAKABLE3) Then Return True
 	EndIf

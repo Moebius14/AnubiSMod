@@ -75,7 +75,7 @@ Func DropTrophy()
 				getArmyHeroCount(False, True)
 			EndIf
 		Else
-			If $g_bDebugSetlogTrain Then SetLog("Halt mode - training disabled", $COLOR_DEBUG)
+			If $g_bDebugSetLogTrain Then SetLog("Halt mode - training disabled", $COLOR_DEBUG)
 		EndIf
 
 		;Check if proper troop types avail during last checkarmycamp(), no need to call separately since droptrophy checked often
@@ -83,7 +83,7 @@ Func DropTrophy()
 		For $i = 0 To UBound($g_avDTtroopsToBeUsed, 1) - 1
 			If $g_avDTtroopsToBeUsed[$i][1] > 0 Then
 				$bHaveTroops = 1
-				If $g_bDebugSetlog Then
+				If $g_bDebugSetLog Then
 					SetDebugLog("Drop Trophy Found " & StringFormat("%3s", $g_avDTtroopsToBeUsed[$i][1]) & " " & $g_avDTtroopsToBeUsed[$i][0], $COLOR_DEBUG)
 					ContinueLoop ; display all troop counts if debug flag set
 				Else
@@ -207,7 +207,7 @@ Func DropTrophy()
 					For $i = 0 To UBound($g_avDTtroopsToBeUsed, 1) - 1
 						If $g_avDTtroopsToBeUsed[$i][1] > 0 Then
 							$bHaveTroops = 1
-							If $g_bDebugSetlog Then
+							If $g_bDebugSetLog Then
 								SetDebugLog("Drop Trophy Found " & StringFormat("%3s", $g_avDTtroopsToBeUsed[$i][1]) & " " & $g_avDTtroopsToBeUsed[$i][0], $COLOR_DEBUG)
 								ContinueLoop ; display all troop counts if debug flag set
 							Else

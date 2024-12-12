@@ -520,7 +520,7 @@ Func GUIControl_WM_COMMAND($hWind, $iMsg, $wParam, $lParam)
 			btnVillageStat()
 		Case $g_hPicArrowLeft, $g_hPicArrowRight
 			btnVillageStat()
-		Case $g_hChkDebugSetlog
+		Case $g_hChkDebugSetLog
 			chkDebugSetLog()
 		Case $g_hChkDebugImageSaveMod
 			chkDebugImageSaveMod()

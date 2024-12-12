@@ -334,8 +334,8 @@ EndFunc   ;==>cmbSwitchAccProfileX
 ; #DEBUG FUNCTION# ==============================================================================================================
 
 Func chkDebugSetLog()
-	$g_bDebugSetlog = (GUICtrlRead($g_hChkDebugSetlog) = $GUI_CHECKED) ;
-	SetDebugLog("DebugSetlog " & ($g_bDebugSetlog ? "enabled" : "disabled"))
+	$g_bDebugSetLog = (GUICtrlRead($g_hChkDebugSetLog) = $GUI_CHECKED) ;
+	SetDebugLog("DebugSetLog " & ($g_bDebugSetLog ? "enabled" : "disabled"))
 EndFunc   ;==>chkDebugSetLog
 
 Func chkDebugImageSaveMod()
@@ -401,8 +401,8 @@ Func chkDebugBuildingPos()
 EndFunc   ;==>chkDebugBuildingPos
 
 Func chkDebugTrain()
-	$g_bDebugSetlogTrain = (GUICtrlRead($g_hChkdebugTrain) = $GUI_CHECKED)
-	SetDebugLog("DebugTrain " & ($g_bDebugSetlogTrain ? "enabled" : "disabled"))
+	$g_bDebugSetLogTrain = (GUICtrlRead($g_hChkdebugTrain) = $GUI_CHECKED)
+	SetDebugLog("DebugTrain " & ($g_bDebugSetLogTrain ? "enabled" : "disabled"))
 EndFunc   ;==>chkDebugTrain
 
 Func chkdebugOCRDonate()
@@ -434,7 +434,7 @@ EndFunc   ;==>btnTestTrain
 
 Func btnTestDonateCC()
 	Local $currentRunState = $g_bRunState
-	Local $currentSetlog = $g_bDebugSetlog
+	Local $currentSetLog = $g_bDebugSetLog
 	_GUICtrlTab_ClickTab($g_hTabMain, 0)
 	$g_bRunState = True
 
@@ -452,7 +452,7 @@ Func btnTestDonateCC()
 	SetLog(_PadStringCenter(" Test DonateCC end ", 54, "="), $COLOR_INFO)
 
 	$g_bRunState = $currentRunState
-	$g_bDebugSetlog = $currentSetlog
+	$g_bDebugSetLog = $currentSetLog
 EndFunc   ;==>btnTestDonateCC
 
 Func btnTestRequestCC()
@@ -700,13 +700,13 @@ Func btnTestAttackCSV()
 	Local $currentDebugAttackCSV = $g_bDebugAttackCSV
 	Local $currentMakeIMGCSV = $g_bDebugMakeIMGCSV
 	Local $currentiMatchMode = $g_iMatchMode
-	Local $currentdebugsetlog = $g_bDebugSetlog
+	Local $currentdebugsetlog = $g_bDebugSetLog
 	Local $currentDebugBuildingPos = $g_bDebugBuildingPos
 
 	$g_bRunState = True
 	$g_bDebugAttackCSV = True
 	$g_bDebugMakeIMGCSV = True
-	$g_bDebugSetlog = True
+	$g_bDebugSetLog = True
 	$g_bDebugBuildingPos = True
 
 	$g_iMatchMode = $DB ; define which script to use
@@ -736,7 +736,7 @@ Func btnTestAttackCSV()
 	$g_bDebugAttackCSV = $currentDebugAttackCSV
 	$g_bDebugMakeIMGCSV = $currentMakeIMGCSV
 	$g_iMatchMode = $currentiMatchMode
-	$g_bDebugSetlog = $currentdebugsetlog
+	$g_bDebugSetLog = $currentdebugsetlog
 	$g_bDebugBuildingPos = $currentDebugBuildingPos
 
 EndFunc   ;==>btnTestAttackCSV
@@ -750,10 +750,10 @@ Func btnTestGetLocationBuilding()
 	; Store variables changed, set test values
 	Local $currentRunState = $g_bRunState
 	Local $currentDebugBuildingPos = $g_bDebugBuildingPos
-	Local $currentdebugsetlog = $g_bDebugSetlog
+	Local $currentdebugsetlog = $g_bDebugSetLog
 	$g_bRunState = True
 	$g_bDebugBuildingPos = True
-	$g_bDebugSetlog = True
+	$g_bDebugSetLog = True
 
 	; reset village measures
 	setVillageOffset(0, 0, 1)
@@ -797,7 +797,7 @@ Func btnTestGetLocationBuilding()
 	; restore changed variables
 	$g_bRunState = $currentRunState
 	$g_bDebugBuildingPos = $currentDebugBuildingPos
-	$g_bDebugSetlog = $currentdebugsetlog
+	$g_bDebugSetLog = $currentdebugsetlog
 
 EndFunc   ;==>btnTestGetLocationBuilding
 

@@ -226,7 +226,7 @@ Func LaunchWatchdog()
 		SetLog("Cannot launch watchdog", $COLOR_RED)
 		Return 0
 	EndIf
-	If $g_bDebugSetlog Then
+	If $g_bDebugSetLog Then
 		SetDebugLog("Watchdog launched, PID = " & $pid)
 	Else
 		SetLog("Watchdog launched")

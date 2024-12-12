@@ -29,14 +29,14 @@ Global $g_hBtnElixirTroops = 0, $g_hBtnDarkElixirTroops = 0, $g_hBtnSuperTroops 
 
 ; Troops/Spells sub-tab
 Global $g_ahChkArmy[3] = [0, 0, 0]
-Global $g_ahTxtTrainArmyTroopCount[$eTroopCount] = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+Global $g_ahTxtTrainArmyTroopCount[$eTroopCount] = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
 Global $g_ahTxtTrainArmySpellCount[$eSpellCount] = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
 Global $g_ahTxtTrainArmySiegeCount[$eSiegeMachineCount] = [0, 0, 0, 0, 0, 0]
 Global $g_hTxtFullTroop = 0, $g_hChkTotalCampForced = 0, $g_hTxtTotalCampForced = 0, $g_ArmyCampCap = 0, $g_hArmyCampUpgrade = 0, $g_hBtnAdjust = 0, $g_ahPicArmyCampUpgrade = 0
 Global $g_hChkDoubleTrain = 0, $g_hChkPreciseArmy = 0
 Global $g_hBtnAssignHeroSlots = 0
 
-Global $g_ahPicTrainArmyTroop[$eTroopCount] = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+Global $g_ahPicTrainArmyTroop[$eTroopCount] = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
 Global $g_ahPicTrainArmyTroopTmp[7] = [0, 0, 0, 0, 0, 0, 0]
 Global $g_ahLblTrainArmyTroopTmp[7] = [0, 0, 0, 0, 0, 0, 0]
 Global $g_ahPicTrainArmySpell[$eSpellCount] = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
@@ -111,6 +111,8 @@ Func LoadTranslatedTrainTroopsOrderList()
 			GetTranslatedFileIni("MBR Global GUI Design Names Troops", "TxtRoyalGhosts", "Royal Ghosts"), _
 			GetTranslatedFileIni("MBR Global GUI Design Names Troops", "TxtPartyWizards", "Party Wizards"), _
 			GetTranslatedFileIni("MBR Global GUI Design Names Troops", "TxtIceWizards", "Ice Wizards"), _
+			GetTranslatedFileIni("MBR Global GUI Design Names Troops", "TxtCookies", "Cookies"), _
+			GetTranslatedFileIni("MBR Global GUI Design Names Troops", "TxtRamRiders", "Ram Riders"), _
 			GetTranslatedFileIni("MBR Global GUI Design Names Troops", "TxtBarchers", "Barchers"), _
 			GetTranslatedFileIni("MBR Global GUI Design Names Troops", "TxtWitchGolems", "Witch Golems"), _
 			GetTranslatedFileIni("MBR Global GUI Design Names Troops", "TxtHogWizards", "Hog Wizards"), _
@@ -119,8 +121,8 @@ Func LoadTranslatedTrainTroopsOrderList()
 EndFunc   ;==>LoadTranslatedTrainTroopsOrderList
 
 Global $g_hChkCustomTrainOrderEnable = 0
-Global $g_ahCmbTroopOrder[$eTroopCount] = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
-Global $g_ahImgTroopOrder[$eTroopCount] = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+Global $g_ahCmbTroopOrder[$eTroopCount] = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+Global $g_ahImgTroopOrder[$eTroopCount] = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
 Global $g_hBtnTroopOrderSet = 0, $g_ahImgTroopOrderSet = 0
 Global $g_hBtnRemoveTroops
 
@@ -309,7 +311,7 @@ Func CreateCustomTrainSubTab()
 	GUICtrlSetFont(-1, 8)
 	GUICtrlSetOnEvent(-1, "ChkDoubleTrain")
 
-	$g_hBtnAssignHeroSlots = GUICtrlCreateButton("Assign Hero Slots", $g_iSizeWGrpTab3 - 120, $y - 1, -1, 20)
+	$g_hBtnAssignHeroSlots = GUICtrlCreateButton("Assign Hero Slots", $g_iSizeWGrpTab3 - 120, $y - 2, -1, 20)
 	_GUICtrlSetTip(-1, "Use this to Assign each Hero to his Slot")
 	GUICtrlSetOnEvent(-1, "BtnAssignHeroSlots")
 
@@ -557,6 +559,24 @@ Func CreateCustomTrainSubTab()
 	GUICtrlSetOnEvent(-1, "TrainTroopCountEdit")
 
 	$x += $xsplit
+	; Cookie
+	Local $sTroopName = GetTranslatedFileIni("MBR Global GUI Design Names Troops", "TxtCookies", "Cookies")
+	$g_ahPicTrainArmyTroop[$eTroopCookie] = _GUICtrlCreateIcon($g_sLibModIconPath, $eIcnCookie, $x, $y - 5, 40, 40)
+	$g_ahTxtTrainArmyTroopCount[$eTroopCookie] = GUICtrlCreateInput("0", $x + 1, $y + 39, 40, 17, BitOR($GUI_SS_DEFAULT_INPUT, $ES_CENTER, $ES_NUMBER))
+	_GUICtrlSetTip(-1, $sTxtSetPerc & " " & $sTroopName & " " & $sTxtSetPerc2)
+	GUICtrlSetLimit(-1, 2)
+	GUICtrlSetOnEvent(-1, "TrainTroopCountEdit")
+
+	$x += $xsplit
+	; Ram Rider
+	Local $sTroopName = GetTranslatedFileIni("MBR Global GUI Design Names Troops", "TxtRamRiders", "Ram Riders")
+	$g_ahPicTrainArmyTroop[$eTroopRamRider] = _GUICtrlCreateIcon($g_sLibModIconPath, $eIcnRamRider, $x, $y - 5, 40, 40)
+	$g_ahTxtTrainArmyTroopCount[$eTroopRamRider] = GUICtrlCreateInput("0", $x + 1, $y + 39, 40, 17, BitOR($GUI_SS_DEFAULT_INPUT, $ES_CENTER, $ES_NUMBER))
+	_GUICtrlSetTip(-1, $sTxtSetPerc & " " & $sTroopName & " " & $sTxtSetPerc2)
+	GUICtrlSetLimit(-1, 2)
+	GUICtrlSetOnEvent(-1, "TrainTroopCountEdit")
+
+	$x += $xsplit
 	; Barcher
 	Local $sTroopName = GetTranslatedFileIni("MBR Global GUI Design Names Troops", "TxtBarchers", "Barchers")
 	$g_ahPicTrainArmyTroop[$eTroopBarcher] = _GUICtrlCreateIcon($g_sLibModIconPath, $eIcnBarcher, $x, $y - 5, 40, 40)
@@ -592,7 +612,10 @@ Func CreateCustomTrainSubTab()
 	GUICtrlSetLimit(-1, 2)
 	GUICtrlSetOnEvent(-1, "TrainTroopCountEdit")
 
-	$x += $xsplit
+	; Next Row
+	$x = $iStartX
+	$y += $ysplit
+
 	; IceMinions
 	Local $sTroopName = GetTranslatedFileIni("MBR Global GUI Design Names Troops", "TxtIceMinions", "Ice Minions")
 	$g_ahPicTrainArmyTroop[$eTroopIceMinion] = _GUICtrlCreateIcon($g_sLibModIconPath, $eIcnIceMinion, $x, $y - 5, 40, 40)
@@ -1301,7 +1324,7 @@ Func CreateOrderTroopsSubTab()
 	GUICtrlSetOnEvent(-1, "chkTroopOrder2")
 
 	If UBound($g_asTroopOrderList) - 1 <> $eTroopCount Then ; safety check in case troops are added
-		If $g_bDebugSetlogTrain Then SetLog("UBound($g_asTroopOrderList) - 1: " & UBound($g_asTroopOrderList) - 1 & " = " & "$eTroopCount: " & $eTroopCount, $COLOR_DEBUG) ;Debug
+		If $g_bDebugSetLogTrain Then SetLog("UBound($g_asTroopOrderList) - 1: " & UBound($g_asTroopOrderList) - 1 & " = " & "$eTroopCount: " & $eTroopCount, $COLOR_DEBUG) ;Debug
 		SetLog("Monkey ate bad banana, fix $g_asTroopOrderList & $eTroopCount arrays!", $COLOR_RED)
 	EndIf
 

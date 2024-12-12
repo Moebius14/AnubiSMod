@@ -725,7 +725,7 @@ Func CheckDonateOften()
 				getArmyHeroCount(False, True)
 			EndIf
 		Else
-			If $g_bDebugSetlogTrain Then SetLog("Halt mode - training disabled", $COLOR_DEBUG)
+			If $g_bDebugSetLogTrain Then SetLog("Halt mode - training disabled", $COLOR_DEBUG)
 		EndIf
 		$IsTroopDonated = False
 		$IsSpellDonated = False

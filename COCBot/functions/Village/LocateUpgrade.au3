@@ -201,7 +201,7 @@ Func UpgradeValue($inum, $bRepeat = False) ;function to find the value and type 
 		Local $ButtonPixel = _MultiPixelSearch(284, 572, 580, 615, 1, 1, Hex(0x0D0D0D, 6), $offColors, 40) ; first black pixel on side of button
 		SetDebugLog("Pixel Color #1: " & _GetPixelColor(390, 572, True) & ", #2: " & _GetPixelColor(429, 601, True) & ", #3: " & _GetPixelColor(457, 606, True) & ", #4: " & _GetPixelColor(471, 572, True), $COLOR_DEBUG)
 		If IsArray($ButtonPixel) Then
-			If $g_bDebugSetlog Or $bOopsFlag Then
+			If $g_bDebugSetLog Or $bOopsFlag Then
 				SetLog("ButtonPixel = " & $ButtonPixel[0] & ", " & $ButtonPixel[1], $COLOR_DEBUG) ;Debug
 				SetLog("Pixel Color #1: " & _GetPixelColor($ButtonPixel[0], $ButtonPixel[1], True) & ", #2: " & _GetPixelColor($ButtonPixel[0] + 39, $ButtonPixel[1] + 19, True) & ", #3: " & _GetPixelColor($ButtonPixel[0] + 68, $ButtonPixel[1] + 34, True) & ", #4: " & _GetPixelColor($ButtonPixel[0] + 81, $ButtonPixel[1], True), $COLOR_DEBUG)
 			EndIf

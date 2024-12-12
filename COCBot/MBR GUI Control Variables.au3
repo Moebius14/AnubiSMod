@@ -233,7 +233,7 @@ Func InitializeControlVariables()
 	; always enabled / unchanged controls during enabling/disabling all GUI controls function
 	;$oAlwaysEnabledControls($g_hChkUpdatingWhenMinimized) = 1
 	$oAlwaysEnabledControls($g_hChkHideWhenMinimized) = 1
-	$oAlwaysEnabledControls($g_hChkDebugSetlog) = 1
+	$oAlwaysEnabledControls($g_hChkDebugSetLog) = 1
 	$oAlwaysEnabledControls($g_hChkDebugImageSaveMod) = 1
 	$oAlwaysEnabledControls($g_hChkDebugAndroid) = 1
 	$oAlwaysEnabledControls($g_hChkDebugClick) = 1

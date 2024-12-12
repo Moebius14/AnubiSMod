@@ -43,7 +43,7 @@ Func CleanBBYard()
 				RemoveDupXYObs($aObstacles)
 				For $i = 0 To UBound($aObstacles, 1) - 1
 					If isInsideDiamondXY($aObstacles[$i][1], $aObstacles[$i][2]) Then ; secure x because of clan chat tab
-						If $g_bDebugSetlog Then SetDebugLog($aObstacles[$i][0] & " found (" & $aObstacles[$i][1] & "," & $aObstacles[$i][2] & ")", $COLOR_SUCCESS)
+						If $g_bDebugSetLog Then SetDebugLog($aObstacles[$i][0] & " found (" & $aObstacles[$i][1] & "," & $aObstacles[$i][2] & ")", $COLOR_SUCCESS)
 						If IsMainPageBuilderBase() Then Click($aObstacles[$i][1], $aObstacles[$i][2], 1, 120, "#0430")
 						$bLocate = True
 						If _Sleep($DELAYCOLLECT3) Then Return

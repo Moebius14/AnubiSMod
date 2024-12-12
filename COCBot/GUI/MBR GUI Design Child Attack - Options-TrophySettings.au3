@@ -119,8 +119,8 @@ Func CreateAttackSearchOptionsTrophySettings()
 			GetTranslatedFileIni("MBR Global GUI Design Names Troops", "Champion", -1) & $txtPriorityConnector & GetTranslatedFileIni("MBR Global GUI Design Names Troops", "Queen", -1) & $txtPriorityConnector & GetTranslatedFileIni("MBR Global GUI Design Names Troops", "Warden", -1) & $txtPriorityConnector & GetTranslatedFileIni("MBR Global GUI Design Names Troops", "Prince", -1) & $txtPriorityConnector & GetTranslatedFileIni("MBR Global GUI Design Names Troops", "King", -1) & "|" & _
 			""
 
-	If $g_bDebugSetlog Then SetDebugLog($txtPriorityDefault)
-	If $g_bDebugSetlog Then SetDebugLog($txtPriorityList)
+	If $g_bDebugSetLog Then SetDebugLog($txtPriorityDefault)
+	If $g_bDebugSetLog Then SetDebugLog($txtPriorityList)
 	GUICtrlSetData(-1, $txtPriorityList, $txtPriorityDefault)
 	GUICtrlSetState(-1, $GUI_DISABLE)
 

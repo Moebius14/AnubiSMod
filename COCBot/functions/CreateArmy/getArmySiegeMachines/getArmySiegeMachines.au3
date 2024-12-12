@@ -17,7 +17,7 @@ Func getArmySiegeMachines($bOpenArmyWindow = False, $bCloseArmyWindow = False, $
 
 	;If $g_iTotalTrainSpaceSiege < 1 Then Return
 
-	If $g_bDebugSetlogTrain Then SetLog("getArmySiegeMachines():", $COLOR_DEBUG)
+	If $g_bDebugSetLogTrain Then SetLog("getArmySiegeMachines():", $COLOR_DEBUG)
 
 	If Not $bOpenArmyWindow Then
 		If $bCheckWindow And Not IsTrainPage() Then ; check for train page
@@ -47,7 +47,7 @@ Func getArmySiegeMachines($bOpenArmyWindow = False, $bCloseArmyWindow = False, $
 
 	; Get Siege Capacities
 	Local $sSiegeInfo = getSiegeCampCap(707, 168 + $g_iMidOffsetY, $bNeedCapture) ; OCR read Siege built and total
-	If $g_bDebugSetlogTrain Then SetLog("OCR $sSiegeInfo = " & $sSiegeInfo, $COLOR_DEBUG)
+	If $g_bDebugSetLogTrain Then SetLog("OCR $sSiegeInfo = " & $sSiegeInfo, $COLOR_DEBUG)
 	Local $aGetSiegeCap = StringSplit($sSiegeInfo, "#", $STR_NOCOUNT) ; split the built Siege number from the total Siege number
 	If UBound($aGetSiegeCap) = 2 Then
 		If $bSetLog Then SetLog("Total Siege Workshop Capacity: " & $aGetSiegeCap[0] & "/" & $aGetSiegeCap[1])
@@ -75,8 +75,8 @@ Func getArmySiegeMachines($bOpenArmyWindow = False, $bCloseArmyWindow = False, $
 				$sSiegeName = $g_aiCurrentSiegeMachines[$iSiegeIndex] >= 2 ? $g_asSiegeMachineNames[$iSiegeIndex] & "s" : $g_asSiegeMachineNames[$iSiegeIndex] & ""
 			EndIf
 
-			If $g_bDebugSetlogTrain Then SetLog($sSiegeName & " Coord: (" & $aSiegeCoords[0] & "," & $aSiegeCoords[1] & ") Quant :" & $g_aiCurrentSiegeMachines[$iSiegeIndex])
-			If $g_bDebugSetlogTrain Then SetLog($sSiegeName & " Slot (" & Slot($aSiegeCoords[0], $aSiegeCoords[1]) & "," & 194 + $g_iMidOffsetY & ")")
+			If $g_bDebugSetLogTrain Then SetLog($sSiegeName & " Coord: (" & $aSiegeCoords[0] & "," & $aSiegeCoords[1] & ") Quant :" & $g_aiCurrentSiegeMachines[$iSiegeIndex])
+			If $g_bDebugSetLogTrain Then SetLog($sSiegeName & " Slot (" & Slot($aSiegeCoords[0], $aSiegeCoords[1]) & "," & 194 + $g_iMidOffsetY & ")")
 
 			If $bSetLog Then SetLog(" - " & $g_aiCurrentSiegeMachines[$iSiegeIndex] & " " & $sSiegeName & " Available", $COLOR_SUCCESS)
 		Next

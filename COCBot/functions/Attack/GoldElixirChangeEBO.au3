@@ -140,7 +140,7 @@ Func GoldElixirChangeEBO()
 		If $NoResourceOCR Then
 			SetLog("Exit now, [G]: " & $Gold2 & " [E]: " & $Elixir2 & " [DE]: " & $DarkElixir2 & " [%]: " & $CurDamage, $COLOR_INFO)
 		Else
-			If $g_bDebugSetlog Then
+			If $g_bDebugSetLog Then
 				SetDebugLog("Exit in " & $txtDiff & ", [G]: " & $Gold2 & " [E]: " & $Elixir2 & " [DE]: " & $DarkElixir2 & " [%]: " & $CurDamage & ", Suspend-Time: " & $g_iSuspendAndroidTime & ", Suspend-Count: " & $g_iSuspendAndroidTimeCount & ", Offset: " & $iSuspendAndroidTimeOffset, $COLOR_INFO)
 			Else
 				SetLog("Exit in " & $txtDiff & ", [G]: " & $Gold2 & " [E]: " & $Elixir2 & " [DE]: " & $DarkElixir2 & " [%]: " & $CurDamage, $COLOR_INFO)
@@ -295,7 +295,7 @@ Func GoldElixirChangeEBO()
 			SetLog("Gold & Elixir & DE no change detected, waiting...", $COLOR_SUCCESS)
 		EndIf
 	Else
-		If $g_bDebugSetlog Then
+		If $g_bDebugSetLog Then
 			SetDebugLog("Gold1: " & Number($Gold1) & "  Gold2: " & Number($Gold2), $COLOR_DEBUG)
 			SetDebugLog("Elixir1: " & Number($Elixir1) & "  Elixir2: " & Number($Elixir2), $COLOR_DEBUG)
 			SetDebugLog("Dark Elixir1: " & Number($DarkElixir1) & "  Dark Elixir2: " & Number($DarkElixir2), $COLOR_DEBUG)

@@ -134,7 +134,7 @@ Func PrepareAttack($pMatchMode, $bRemaining = False) ;Assigns troops
 						EndIf
 						$iTroopNumber += $avAttackBar[$j][2]
 
-						Local $sDebugText = $g_bDebugSetlog ? " (X:" & $avAttackBar[$j][3] & "|Y:" & $avAttackBar[$j][4] & "|OCR-X:" & $avAttackBar[$j][5] & "|OCR-Y:" & $avAttackBar[$j][6] & ")" : ""
+						Local $sDebugText = $g_bDebugSetLog ? " (X:" & $avAttackBar[$j][3] & "|Y:" & $avAttackBar[$j][4] & "|OCR-X:" & $avAttackBar[$j][5] & "|OCR-Y:" & $avAttackBar[$j][6] & ")" : ""
 						SetLog($avAttackBar[$j][1] & ": " & $avAttackBar[$j][2] & " " & GetTroopName($avAttackBar[$j][0], $avAttackBar[$j][2]) & $sLogExtension & $sDebugText, $COLOR_SUCCESS)
 					Else
 						SetDebugLog("Discard use of " & GetTroopName($avAttackBar[$j][0]) & " (" & $avAttackBar[$j][0] & ")", $COLOR_ERROR)
@@ -219,7 +219,7 @@ Func SelectCastleOrSiege(ByRef $iTroopIndex, $iX, $iCmbSiege, $gMatchMode)
 			If $g_bDebugImageSave Then SaveDebugDiamondImage("SelectCastleOrSiege", $sSearchArea)
 
 			Local $aSearchResult = findMultiple($g_sImgSwitchSiegeMachine, $sSearchArea, $sSearchArea, 0, 1000, 5, "objectname,objectpoints", True)
-			If $g_bDebugSetlog Then SetDebugLog("Benchmark Switch Siege imgloc: " & StringFormat("%.2f", _Timer_Diff($hStarttime)) & "'ms")
+			If $g_bDebugSetLog Then SetDebugLog("Benchmark Switch Siege imgloc: " & StringFormat("%.2f", _Timer_Diff($hStarttime)) & "'ms")
 			$hStarttime = _Timer_Init()
 
 			If $aSearchResult <> "" And IsArray($aSearchResult) Then
@@ -266,7 +266,7 @@ Func SelectCastleOrSiege(ByRef $iTroopIndex, $iX, $iCmbSiege, $gMatchMode)
 						Next
 					EndIf
 				Next
-				If $g_bDebugSetlog Then SetDebugLog("Benchmark Switch Siege Levels: " & StringFormat("%.2f", _Timer_Diff($hStarttime)) & "'ms")
+				If $g_bDebugSetLog Then SetDebugLog("Benchmark Switch Siege Levels: " & StringFormat("%.2f", _Timer_Diff($hStarttime)) & "'ms")
 				$hStarttime = _Timer_Init()
 
 				If ($iTroopIndex = $ToUse Or $bAnySiege) And $g_iSiegeLevel >= $iFinalLevel Then
@@ -299,7 +299,7 @@ Func SelectCastleOrSiege(ByRef $iTroopIndex, $iX, $iCmbSiege, $gMatchMode)
 			If _Sleep(750) Then Return
 		EndIf
 	EndIf
-	If $g_bDebugSetlog Then SetDebugLog("Benchmark Switch Siege Detection: " & StringFormat("%.2f", _Timer_Diff($hStarttime)) & "'ms")
+	If $g_bDebugSetLog Then SetDebugLog("Benchmark Switch Siege Detection: " & StringFormat("%.2f", _Timer_Diff($hStarttime)) & "'ms")
 
 EndFunc   ;==>SelectCastleOrSiege
 
@@ -359,7 +359,7 @@ Func SelectWardenMode($iMode, $XCoord)
 		If Not IsArray($aCurrentModeArray) Or UBound($aCurrentModeArray) < 2 Then Return $sLogText
 
 		SetDebugLog("SelectWardenMode() $aCurrentMode[0]: " & _ArrayToString($aCurrentModeArray))
-		If $g_bDebugSetlog Then SetLog("Benchmark G. Warden mode detection: " & StringFormat("%.2f", _Timer_Diff($hStarttime)) & "'ms", $COLOR_DEBUG)
+		If $g_bDebugSetLog Then SetLog("Benchmark G. Warden mode detection: " & StringFormat("%.2f", _Timer_Diff($hStarttime)) & "'ms", $COLOR_DEBUG)
 
 		If $aCurrentModeArray[0] = $aSelectMode[$iMode] Then
 			$sLogText = " (" & $aCurrentModeArray[0] & " mode)"
@@ -382,7 +382,7 @@ Func SelectWardenMode($iMode, $XCoord)
 					EndIf
 				Next
 				If $sLogText = "" Then ClickP($aArrowCoords, 1, 120)
-				If $g_bDebugSetlog Then SetLog("Benchmark G. Warden mode selection: " & StringFormat("%.2f", _Timer_Diff($hStarttime)) & "'ms", $COLOR_DEBUG)
+				If $g_bDebugSetLog Then SetLog("Benchmark G. Warden mode selection: " & StringFormat("%.2f", _Timer_Diff($hStarttime)) & "'ms", $COLOR_DEBUG)
 			EndIf
 		EndIf
 	EndIf

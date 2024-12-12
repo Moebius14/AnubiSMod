@@ -15,7 +15,7 @@
 
 Func getArmySpellTime($bOpenArmyWindow = False, $bCloseArmyWindow = False, $bCheckWindow = True, $bSetLog = True, $bNeedCapture = True)
 
-	If $g_bDebugSetlogTrain Then SetLog("getArmySpellTime():", $COLOR_DEBUG1)
+	If $g_bDebugSetLogTrain Then SetLog("getArmySpellTime():", $COLOR_DEBUG1)
 
 	$g_aiTimeTrain[1] = 0 ; reset time
 

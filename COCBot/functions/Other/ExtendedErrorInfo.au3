@@ -36,7 +36,7 @@ EndFunc   ;==>_logErrorDLLCall
 
 ; #FUNCTION# ====================================================================================================================
 ; Name ..........: _logErrorDateDiff
-; Description ...: Setlogs @error information for _DateDiff function
+; Description ...: SetLogs @error information for _DateDiff function
 ; Syntax ........: _logErrorDateDiff($ErrorCode)
 ; Parameters ....: $ErrorCode           - an unknown value.
 ; Return values .: None
@@ -63,7 +63,7 @@ EndFunc   ;==>_logErrorDateDiff
 
 ; #FUNCTION# ====================================================================================================================
 ; Name ..........: _logErrorDateAdd
-; Description ...: Setlogs @error information for _DateAdd function
+; Description ...: SetLogs @error information for _DateAdd function
 ; Syntax ........: _logErrorDateAdd($ErrorCode)
 ; Parameters ....: $ErrorCode           - an unknown value.
 ; Return values .: None

@@ -12,7 +12,7 @@
 ; ===============================================================================================================================
 Global $g_avWindowCoordinates[2] = [-1, -1]
 
-Func IsWindowOpen($sImagePath, $iLoopCount = 1, $iDelay = 200, $sSearchArea = "", $bDebuglog = $g_bDebugSetlog, $bDebugImageSave = $g_bDebugImageSave)
+Func IsWindowOpen($sImagePath, $iLoopCount = 1, $iDelay = 200, $sSearchArea = "", $bDebuglog = $g_bDebugSetLog, $bDebugImageSave = $g_bDebugImageSave)
 	Local $aFiles = _FileListToArrayRec($sImagePath)
 	Local $aWindow, $avResetCoords[2] = [-1, -1]
 
@@ -56,7 +56,7 @@ Func IsWindowOpen($sImagePath, $iLoopCount = 1, $iDelay = 200, $sSearchArea = ""
 	Return False
 EndFunc   ;==>IsWindowOpen
 
-Func CloseWindow($IsinBlacksmith = False, $IsinPet = False, $IsinLab = False, $IsToClickRight = False, $iLoopCount = 5, $iDelay = 200, $aSearchArea = Default, $bDebuglog = $g_bDebugSetlog, $bDebugImageSave = $g_bDebugImageSave)
+Func CloseWindow($IsinBlacksmith = False, $IsinPet = False, $IsinLab = False, $IsToClickRight = False, $iLoopCount = 5, $iDelay = 200, $aSearchArea = Default, $bDebuglog = $g_bDebugSetLog, $bDebugImageSave = $g_bDebugImageSave)
 	Local $aiButton
 	Local $sImageDir = @ScriptDir & "\imgxml\Windows\CloseButton\*"
 
@@ -119,7 +119,7 @@ Func CloseWindow($IsinBlacksmith = False, $IsinPet = False, $IsinLab = False, $I
 	Return False
 EndFunc   ;==>CloseWindow
 
-Func CloseWindow2($iLoopCount = 5, $iDelay = 200, $aSearchArea = Default, $bDebuglog = $g_bDebugSetlog, $bDebugImageSave = $g_bDebugImageSave)
+Func CloseWindow2($iLoopCount = 5, $iDelay = 200, $aSearchArea = Default, $bDebuglog = $g_bDebugSetLog, $bDebugImageSave = $g_bDebugImageSave)
 	Local $aiButton
 	Local $sImageDir = @ScriptDir & "\imgxml\Windows\CloseButton\*"
 

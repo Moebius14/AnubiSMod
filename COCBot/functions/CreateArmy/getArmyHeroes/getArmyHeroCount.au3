@@ -16,7 +16,7 @@
 
 Func getArmyHeroCount($bOpenArmyWindow = False, $bCloseArmyWindow = False, $CheckWindow = True, $bSetLog = True)
 
-	If $g_bDebugSetlogTrain Or $g_bDebugSetlog Then SetLog("Begin getArmyHeroCount:", $COLOR_DEBUG)
+	If $g_bDebugSetLogTrain Or $g_bDebugSetLog Then SetLog("Begin getArmyHeroCount:", $COLOR_DEBUG)
 
 	If $CheckWindow Then
 		If Not $bOpenArmyWindow And Not IsTrainPage() Then ; check for train page
@@ -78,7 +78,7 @@ Func getArmyHeroCount($bOpenArmyWindow = False, $bCloseArmyWindow = False, $Chec
 					$g_iHeroUpgrading[4] = 0
 					$g_iHeroUpgradingBit = BitAND($g_iHeroUpgradingBit, BitOR($eHeroKing, $eHeroPrince, $eHeroQueen, $eHeroWarden))
 				Case StringInStr($sResult, "heal", $STR_NOCASESENSEBASIC)
-					If $g_bDebugSetlogTrain Or $iDebugArmyHeroCount = 1 Then
+					If $g_bDebugSetLogTrain Or $iDebugArmyHeroCount = 1 Then
 						Switch $i
 							Case 0
 								Switch $g_aiCmbCustomHeroOrder[$i]
@@ -670,9 +670,9 @@ Func getArmyHeroCount($bOpenArmyWindow = False, $bCloseArmyWindow = False, $Chec
 									$sMessage = "-Need to Feed Code Monkey some bananas"
 							EndSwitch
 					EndSwitch
-					If $g_bDebugSetlogTrain Or $iDebugArmyHeroCount = 1 Then SetLog("Hero slot#" & $i + 1 & $sMessage & " Upgrade in Process", $COLOR_DEBUG)
+					If $g_bDebugSetLogTrain Or $iDebugArmyHeroCount = 1 Then SetLog("Hero slot#" & $i + 1 & $sMessage & " Upgrade in Process", $COLOR_DEBUG)
 				Case StringInStr($sResult, "none", $STR_NOCASESENSEBASIC)
-					If $g_bDebugSetlogTrain Or $iDebugArmyHeroCount = 1 Then SetLog("Hero slot#" & $i + 1 & " Empty, stop count", $COLOR_DEBUG)
+					If $g_bDebugSetLogTrain Or $iDebugArmyHeroCount = 1 Then SetLog("Hero slot#" & $i + 1 & " Empty, stop count", $COLOR_DEBUG)
 					ExitLoop ; when we find empty slots, done looking for heroes
 				Case Else
 					If $bSetLog Then SetLog("Hero slot#" & $i + 1 & " bad OCR string returned!", $COLOR_ERROR)
@@ -682,8 +682,8 @@ Func getArmyHeroCount($bOpenArmyWindow = False, $bCloseArmyWindow = False, $Chec
 		EndIf
 	Next
 
-	If $g_bDebugSetlogTrain Or $iDebugArmyHeroCount = 1 Then SetLog("Hero Status  K|Q|P|W|C : " & BitAND($g_iHeroAvailable, $eHeroKing) & "|" & BitAND($g_iHeroAvailable, $eHeroQueen) & "|" & BitAND($g_iHeroAvailable, $eHeroPrince) & "|" & BitAND($g_iHeroAvailable, $eHeroWarden) & "|" & BitAND($g_iHeroAvailable, $eHeroChampion), $COLOR_DEBUG)
-	If $g_bDebugSetlogTrain Or $iDebugArmyHeroCount = 1 Then SetLog("Hero Upgrade K|Q|P|W|C : " & BitAND($g_iHeroUpgradingBit, $eHeroKing) & "|" & BitAND($g_iHeroUpgradingBit, $eHeroQueen) & "|" & BitAND($g_iHeroUpgradingBit, $eHeroPrince) & "|" & BitAND($g_iHeroUpgradingBit, $eHeroWarden) & "|" & BitAND($g_iHeroUpgradingBit, $eHeroChampion), $COLOR_DEBUG)
+	If $g_bDebugSetLogTrain Or $iDebugArmyHeroCount = 1 Then SetLog("Hero Status  K|Q|P|W|C : " & BitAND($g_iHeroAvailable, $eHeroKing) & "|" & BitAND($g_iHeroAvailable, $eHeroQueen) & "|" & BitAND($g_iHeroAvailable, $eHeroPrince) & "|" & BitAND($g_iHeroAvailable, $eHeroWarden) & "|" & BitAND($g_iHeroAvailable, $eHeroChampion), $COLOR_DEBUG)
+	If $g_bDebugSetLogTrain Or $iDebugArmyHeroCount = 1 Then SetLog("Hero Upgrade K|Q|P|W|C : " & BitAND($g_iHeroUpgradingBit, $eHeroKing) & "|" & BitAND($g_iHeroUpgradingBit, $eHeroQueen) & "|" & BitAND($g_iHeroUpgradingBit, $eHeroPrince) & "|" & BitAND($g_iHeroUpgradingBit, $eHeroWarden) & "|" & BitAND($g_iHeroUpgradingBit, $eHeroChampion), $COLOR_DEBUG)
 
 	If $bCloseArmyWindow Then CloseWindow()
 
@@ -1034,7 +1034,7 @@ Func HiddenSlotstatus()
 					GUICtrlSetState($g_hPicKingGreen, $GUI_HIDE)
 					$g_aiHiddenHeroStatus[0] = 0
 					SetLog($g_asHeroNames[0] & " is not available", $COLOR_DEBUG2)
-				ElseIf _ColorCheck(_GetPixelColor($bXcoords[0], 438 + $g_iMidOffsetY, True), Hex(0xADADAD, 6), 15) Then
+				ElseIf _ColorCheck(_GetPixelColor($bXcoords[0], 438 + $g_iMidOffsetY, True), Hex(0xADADAD, 6), 15) Or _ColorCheck(_GetPixelColor($bXcoords[0], 438 + $g_iMidOffsetY, True), Hex(0x8BD43A, 6), 15) Then
 					GUICtrlSetState($g_hPicKingGray, $GUI_HIDE)
 					GUICtrlSetState($g_hPicKingRed, $GUI_HIDE)
 					GUICtrlSetState($g_hPicKingBlue, $GUI_HIDE)
@@ -1077,7 +1077,7 @@ Func HiddenSlotstatus()
 					GUICtrlSetState($g_hPicQueenGreen, $GUI_HIDE)
 					$g_aiHiddenHeroStatus[1] = 0
 					SetLog($g_asHeroNames[1] & " is not available", $COLOR_DEBUG2)
-				ElseIf _ColorCheck(_GetPixelColor($bXcoords[1], 438 + $g_iMidOffsetY, True), Hex(0xADADAD, 6), 15) Then
+				ElseIf _ColorCheck(_GetPixelColor($bXcoords[1], 438 + $g_iMidOffsetY, True), Hex(0xADADAD, 6), 15) Or _ColorCheck(_GetPixelColor($bXcoords[1], 438 + $g_iMidOffsetY, True), Hex(0x8BD43A, 6), 15) Then
 					GUICtrlSetState($g_hPicQueenGray, $GUI_HIDE)
 					GUICtrlSetState($g_hPicQueenRed, $GUI_HIDE)
 					GUICtrlSetState($g_hPicQueenBlue, $GUI_HIDE)
@@ -1120,7 +1120,7 @@ Func HiddenSlotstatus()
 					GUICtrlSetState($g_hPicPrinceGreen, $GUI_HIDE)
 					$g_aiHiddenHeroStatus[2] = 0
 					SetLog($g_asHeroNames[2] & " is not available", $COLOR_DEBUG2)
-				ElseIf _ColorCheck(_GetPixelColor($bXcoords[2], 438 + $g_iMidOffsetY, True), Hex(0xADADAD, 6), 15) Then
+				ElseIf _ColorCheck(_GetPixelColor($bXcoords[2], 438 + $g_iMidOffsetY, True), Hex(0xADADAD, 6), 15) Or _ColorCheck(_GetPixelColor($bXcoords[2], 438 + $g_iMidOffsetY, True), Hex(0x8BD43A, 6), 15) Then
 					GUICtrlSetState($g_hPicPrinceGray, $GUI_HIDE)
 					GUICtrlSetState($g_hPicPrinceRed, $GUI_HIDE)
 					GUICtrlSetState($g_hPicPrinceBlue, $GUI_HIDE)
@@ -1163,7 +1163,7 @@ Func HiddenSlotstatus()
 					GUICtrlSetState($g_hPicWardenGreen, $GUI_HIDE)
 					$g_aiHiddenHeroStatus[3] = 0
 					SetLog($g_asHeroNames[3] & " is not available", $COLOR_DEBUG2)
-				ElseIf _ColorCheck(_GetPixelColor($bXcoords[3], 438 + $g_iMidOffsetY, True), Hex(0xADADAD, 6), 15) Then
+				ElseIf _ColorCheck(_GetPixelColor($bXcoords[3], 438 + $g_iMidOffsetY, True), Hex(0xADADAD, 6), 15) Or _ColorCheck(_GetPixelColor($bXcoords[3], 438 + $g_iMidOffsetY, True), Hex(0x8BD43A, 6), 15) Then
 					GUICtrlSetState($g_hPicWardenGray, $GUI_HIDE)
 					GUICtrlSetState($g_hPicWardenRed, $GUI_HIDE)
 					GUICtrlSetState($g_hPicWardenBlue, $GUI_HIDE)
@@ -1206,7 +1206,7 @@ Func HiddenSlotstatus()
 					GUICtrlSetState($g_hPicChampionGreen, $GUI_HIDE)
 					$g_aiHiddenHeroStatus[4] = 0
 					SetLog($g_asHeroNames[4] & " is not available", $COLOR_DEBUG2)
-				ElseIf _ColorCheck(_GetPixelColor($bXcoords[4], 438 + $g_iMidOffsetY, True), Hex(0xADADAD, 6), 15) Then
+				ElseIf _ColorCheck(_GetPixelColor($bXcoords[4], 438 + $g_iMidOffsetY, True), Hex(0xADADAD, 6), 15) Or _ColorCheck(_GetPixelColor($bXcoords[4], 438 + $g_iMidOffsetY, True), Hex(0x8BD43A, 6), 15) Then
 					GUICtrlSetState($g_hPicChampionGray, $GUI_HIDE)
 					GUICtrlSetState($g_hPicChampionRed, $GUI_HIDE)
 					GUICtrlSetState($g_hPicChampionBlue, $GUI_HIDE)
@@ -1261,7 +1261,7 @@ Func LabGuiDisplay() ; called from main loop to get an early status for indictor
 		SetDebugLog("Lab LastCheck: " & $iLastTimeChecked[$g_iCurAccount] & ", Check DateCalc: " & $iLastCheck)
 		; A check each from 2 to 5 hours [2*60 = 120 to 5*60 = 300] or when Lab research time finishes
 		Local $iDelayToCheck = Random(120, 300, 1)
-		Local $iLabFinishTime = _DateDiff('n', _NowCalc(),  $g_sLabUpgradeTime)
+		Local $iLabFinishTime = _DateDiff('n', _NowCalc(), $g_sLabUpgradeTime)
 		If $IsResearchPotInStock And $g_bUseLabPotion And $iLabFinishTime > 1440 Then $iDelayToCheck = 60
 		If $iLabTime > 0 And $iLastCheck <= $iDelayToCheck Then Return
 	EndIf

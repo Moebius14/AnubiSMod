@@ -111,18 +111,22 @@ Func MatchTroopDropName($Num)
 		Case 48
 			Return $eIWiza
 		Case 49
-			Return $eBarcher
+			Return $eCookie
 		Case 50
-			Return $eGWitch
+			Return $eRamRider
 		Case 51
-			Return $eHWiza
+			Return $eBarcher
 		Case 52
-			Return $eLavaloon
+			Return $eGWitch
 		Case 53
-			Return $eIMini
+			Return $eHWiza
 		Case 54
-			Return "CC"
+			Return $eLavaloon
 		Case 55
+			Return $eIMini
+		Case 56
+			Return "CC"
+		Case 57
 			Return "HEROES"
 	EndSwitch
 EndFunc   ;==>MatchTroopDropName
@@ -304,19 +308,23 @@ Func MatchSlotsPerEdge($Num)
 			Return 0
 		Case 48 ;$eIWiza
 			Return 0
-		Case 49 ;$eBarcher
+		Case 49 ;$eCookie
 			Return 0
-		Case 50 ;$eGWitch
+		Case 50 ;$eRamRider
 			Return 0
-		Case 51 ;$eHWiza
+		Case 51 ;$eBarcher
 			Return 0
-		Case 52 ;$eLavaloon
+		Case 52 ;$eGWitch
 			Return 0
-		Case 53 ;$eIMini
+		Case 53 ;$eHWiza
 			Return 0
-		Case 54 ;CC
+		Case 54 ;$eLavaloon
+			Return 0
+		Case 55 ;$eIMini
+			Return 0
+		Case 56 ;CC
 			Return 1
-		Case 55 ;HEROES
+		Case 57 ;HEROES
 			Return 1
 	EndSwitch
 EndFunc   ;==>MatchSlotsPerEdge
@@ -331,9 +339,9 @@ Func MatchSidesDrop($Num)
 			If $g_aiAttackStdDropSides[$g_iMatchMode] = 4 Then Return 4
 			If $g_aiAttackStdDropSides[$g_iMatchMode] = 5 Then Return 1
 			If $g_aiAttackStdDropSides[$g_iMatchMode] = 6 Then Return 1
-		Case 47
+		Case 56
 			Return 1 ;CC
-		Case 48
+		Case 57
 			Return 1 ;HEROES
 	EndSwitch
 EndFunc   ;==>MatchSidesDrop

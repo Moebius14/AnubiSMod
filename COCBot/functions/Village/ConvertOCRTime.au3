@@ -55,7 +55,7 @@ Func ConvertOCRTime($sCaller, $sConvertTo, $bSetLog = True, $sReturnFormat = "mi
 				Return $iRemainTimer
 		EndSwitch
 
-		If $iRemainTimer = 0 And $g_bDebugSetlog Then SetDebugLog($sCaller & ": Bad OCR string", $COLOR_ERROR)
+		If $iRemainTimer = 0 And $g_bDebugSetLog Then SetDebugLog($sCaller & ": Bad OCR string", $COLOR_ERROR)
 
 		If $bSetLog Then SetLog($sCaller & " Time: " & $iRemainTimer & " " & $sReturnFormat, $COLOR_INFO)
 	Else

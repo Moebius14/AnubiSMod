@@ -58,7 +58,7 @@ Func DoubleCannonUpgrade($test = False)
 		$CountGetInfo += 1
 		If $CountGetInfo >= 50 Then Return
 	WEnd
-	If $g_bDebugSetlog Then SetDebugLog(_ArrayToString($sInfo, " "), $COLOR_DEBUG)
+	If $g_bDebugSetLog Then SetDebugLog(_ArrayToString($sInfo, " "), $COLOR_DEBUG)
 	If @error Then Return SetError(0, 0, 0)
 	If $sInfo[0] > 1 Or $sInfo[0] = "" Then
 		If StringInStr($sInfo[1], "uble") = 0 Then
@@ -205,7 +205,7 @@ Func ArcherTowerUpgrade($test = False)
 		$CountGetInfo += 1
 		If $CountGetInfo >= 50 Then Return
 	WEnd
-	If $g_bDebugSetlog Then SetDebugLog(_ArrayToString($sInfo, " "), $COLOR_DEBUG)
+	If $g_bDebugSetLog Then SetDebugLog(_ArrayToString($sInfo, " "), $COLOR_DEBUG)
 	If @error Then Return SetError(0, 0, 0)
 	If $sInfo[0] > 1 Or $sInfo[0] = "" Then
 		If StringInStr($sInfo[1], "Archer") = 0 Then
@@ -353,7 +353,7 @@ Func MultiMortarUpgrade($test = False)
 		$CountGetInfo += 1
 		If $CountGetInfo >= 50 Then Return
 	WEnd
-	If $g_bDebugSetlog Then SetDebugLog(_ArrayToString($sInfo, " "), $COLOR_DEBUG)
+	If $g_bDebugSetLog Then SetDebugLog(_ArrayToString($sInfo, " "), $COLOR_DEBUG)
 	If @error Then Return SetError(0, 0, 0)
 	If $sInfo[0] > 1 Or $sInfo[0] = "" Then
 		If StringInStr($sInfo[1], "Multi") = 0 Then
@@ -501,7 +501,7 @@ Func AnyDefUpgrade($test = False)
 		$CountGetInfo += 1
 		If $CountGetInfo >= 50 Then Return
 	WEnd
-	If $g_bDebugSetlog Then SetDebugLog(_ArrayToString($sInfo, " "), $COLOR_DEBUG)
+	If $g_bDebugSetLog Then SetDebugLog(_ArrayToString($sInfo, " "), $COLOR_DEBUG)
 	If @error Then Return SetError(0, 0, 0)
 	If $sInfo[0] > 1 Or $sInfo[0] = "" Then
 		If StringInStr($sInfo[1], "Cann") = 0 Or StringInStr($sInfo[1], "uble") <> 0 Then

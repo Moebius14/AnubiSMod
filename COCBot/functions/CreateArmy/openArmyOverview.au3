@@ -23,7 +23,7 @@ Func OpenArmyOverview($bCheckMain = True, $sWhereFrom = "Undefined")
 	EndIf
 
 	If WaitforPixel(23, 505 + $g_iBottomOffsetY, 53, 507 + $g_iBottomOffsetY, Hex(0xEEB344, 6), 15, 10) Then
-		If $g_bDebugSetlogTrain Then SetLog("Click $aArmyTrainButton" & " (Called from " & $sWhereFrom & ")", $COLOR_SUCCESS)
+		If $g_bDebugSetLogTrain Then SetLog("Click $aArmyTrainButton" & " (Called from " & $sWhereFrom & ")", $COLOR_SUCCESS)
 		ClickP($aArmyTrainButton, 1, 120, "#0293") ; Button Army Overview
 	EndIf
 
@@ -57,13 +57,13 @@ Func OpenSiegeMachinesTab($bSetLog = True, $sWhereFrom = "Undefined")
 EndFunc   ;==>OpenSiegeMachinesTab
 
 Func OpenTrainTab($sTab, $bSetLog = True, $sWhereFrom = "Undefined")
-	FuncEnter(OpenTrainTab, $g_bDebugSetlogTrain)
+	FuncEnter(OpenTrainTab, $g_bDebugSetLogTrain)
 
 	WaitForClanMessage("Tabs")
 
 	If Not IsTrainPage() Then
 		SetDebugLog("Error in OpenTrainTab: Cannot find the Army Overview Window", $COLOR_ERROR)
-		Return FuncReturn(SetError(1, 0, False), $g_bDebugSetlogTrain)
+		Return FuncReturn(SetError(1, 0, False), $g_bDebugSetLogTrain)
 	EndIf
 
 	Local $bIsCleanArea = False
@@ -90,20 +90,20 @@ Func OpenTrainTab($sTab, $bSetLog = True, $sWhereFrom = "Undefined")
 				$aIsTabOpen[0] = 730
 		EndSwitch
 		If Not _CheckPixel($aIsTabOpen, True) Then
-			If $bSetLog Or $g_bDebugSetlogTrain Then SetLog("Open " & $sTab & ($g_bDebugSetlogTrain ? " (Called from " & $sWhereFrom & ")" : ""), $COLOR_INFO)
+			If $bSetLog Or $g_bDebugSetLogTrain Then SetLog("Open " & $sTab & ($g_bDebugSetLogTrain ? " (Called from " & $sWhereFrom & ")" : ""), $COLOR_INFO)
 			ClickP($aTabButton)
 			If Not _WaitForCheckPixel($aIsTabOpen, True) Then
 				SetLog("Error in OpenTrainTab: Cannot open " & $sTab & ". Pixel to check did not appear", $COLOR_ERROR)
-				Return FuncReturn(SetError(1, 0, False), $g_bDebugSetlogTrain)
+				Return FuncReturn(SetError(1, 0, False), $g_bDebugSetLogTrain)
 			EndIf
 		EndIf
 	Else
 		SetDebugLog("Error in OpenTrainTab: $aTabButton is no valid Array", $COLOR_ERROR)
-		Return FuncReturn(SetError(1, 0, False), $g_bDebugSetlogTrain)
+		Return FuncReturn(SetError(1, 0, False), $g_bDebugSetLogTrain)
 	EndIf
 
 	If _Sleep(200) Then Return
-	Return FuncReturn(True, $g_bDebugSetlogTrain)
+	Return FuncReturn(True, $g_bDebugSetLogTrain)
 EndFunc   ;==>OpenTrainTab
 
 Func UpdateNextPageTroop()

@@ -26,7 +26,7 @@ Func CheckHeroesHealth()
 			If $g_bDraggedAttackBar Then DragAttackBar($g_iTotalAttackSlot, True)         ; return drag
 		EndIf
 
-		If $g_bDebugSetlog Then
+		If $g_bDebugSetLog Then
 			SetDebugLog("CheckHeroesHealth() for Queen started ")
 			If _Sleep($DELAYRESPOND) Then Return ; improve pause button response
 		EndIf
@@ -38,7 +38,7 @@ Func CheckHeroesHealth()
 					Local $aQueenHealthCopy = $aQueenHealth
 					$aQueenHealthCopy[0] = $asQueenResult[0] - $aQueenHealthCopy[4]
 					Local $QueenPixelColor = _GetPixelColor($aQueenHealthCopy[0], $aQueenHealthCopy[1], $g_bCapturePixel)
-					If $g_bDebugSetlog Then SetDebugLog(" Queen _GetPixelColor(" & $aQueenHealthCopy[0] & "," & $aQueenHealthCopy[1] & "): " & $QueenPixelColor, $COLOR_DEBUG)
+					If $g_bDebugSetLog Then SetDebugLog(" Queen _GetPixelColor(" & $aQueenHealthCopy[0] & "," & $aQueenHealthCopy[1] & "): " & $QueenPixelColor, $COLOR_DEBUG)
 					If Not _CheckPixel2($aQueenHealthCopy, $QueenPixelColor, "Red+Blue") Then
 						SetLog("Queen is getting weak, Activating Queen's ability", $COLOR_INFO)
 						ClickP($asQueenResult, 2)
@@ -66,7 +66,7 @@ Func CheckHeroesHealth()
 			EndIf
 		EndIf
 
-		If $g_bDebugSetlog Then
+		If $g_bDebugSetLog Then
 			SetDebugLog("CheckHeroesHealth() for King started ")
 			If _Sleep($DELAYRESPOND) Then Return ; improve pause button response
 		EndIf
@@ -78,7 +78,7 @@ Func CheckHeroesHealth()
 					Local $aKingHealthCopy = $aKingHealth ; copy ScreenCoordinates array to modify locally with dynamic X coordinate from slotposition
 					$aKingHealthCopy[0] = $asKingResult[0] - $aKingHealthCopy[4]
 					Local $KingPixelColor = _GetPixelColor($aKingHealthCopy[0], $aKingHealthCopy[1], $g_bCapturePixel)
-					If $g_bDebugSetlog Then SetDebugLog("King _GetPixelColor(" & $aKingHealthCopy[0] & "," & $aKingHealthCopy[1] & "): " & $KingPixelColor, $COLOR_DEBUG)
+					If $g_bDebugSetLog Then SetDebugLog("King _GetPixelColor(" & $aKingHealthCopy[0] & "," & $aKingHealthCopy[1] & "): " & $KingPixelColor, $COLOR_DEBUG)
 					If Not _CheckPixel2($aKingHealthCopy, $KingPixelColor, "Red+Blue") Then
 						SetLog("King is getting weak, Activating King's ability", $COLOR_INFO)
 						ClickP($asKingResult, 2)
@@ -106,7 +106,7 @@ Func CheckHeroesHealth()
 			EndIf
 		EndIf
 
-		If $g_bDebugSetlog Then
+		If $g_bDebugSetLog Then
 			SetDebugLog("CheckHeroesHealth() for Prince started ")
 			If _Sleep($DELAYRESPOND) Then Return ; improve pause button response
 		EndIf
@@ -118,7 +118,7 @@ Func CheckHeroesHealth()
 					Local $aPrinceHealthCopy = $aPrinceHealth
 					$aPrinceHealthCopy[0] = $asPrinceResult[0] - $aPrinceHealthCopy[4]
 					Local $PrincePixelColor = _GetPixelColor($aPrinceHealthCopy[0], $aPrinceHealthCopy[1], $g_bCapturePixel)
-					If $g_bDebugSetlog Then SetDebugLog(" Prince _GetPixelColor(" & $aPrinceHealthCopy[0] & "," & $aPrinceHealthCopy[1] & "): " & $PrincePixelColor, $COLOR_DEBUG)
+					If $g_bDebugSetLog Then SetDebugLog(" Prince _GetPixelColor(" & $aPrinceHealthCopy[0] & "," & $aPrinceHealthCopy[1] & "): " & $PrincePixelColor, $COLOR_DEBUG)
 					If Not _CheckPixel2($aPrinceHealthCopy, $PrincePixelColor, "Red+Blue") Then
 						SetLog("Prince is getting weak, Activating Prince's ability", $COLOR_INFO)
 						ClickP($asPrinceResult, 2)
@@ -146,7 +146,7 @@ Func CheckHeroesHealth()
 			EndIf
 		EndIf
 
-		If $g_bDebugSetlog Then
+		If $g_bDebugSetLog Then
 			SetDebugLog("CheckHeroesHealth() for Warden started ")
 			If _Sleep($DELAYRESPOND) Then Return ; improve pause button response
 		EndIf
@@ -158,7 +158,7 @@ Func CheckHeroesHealth()
 					Local $aWardenHealthCopy = $aWardenHealth
 					$aWardenHealthCopy[0] = $asWardenResult[0] - $aWardenHealthCopy[4]
 					Local $WardenPixelColor = _GetPixelColor($aWardenHealthCopy[0], $aWardenHealthCopy[1], $g_bCapturePixel)
-					If $g_bDebugSetlog Then SetDebugLog(" Grand Warden _GetPixelColor(" & $aWardenHealthCopy[0] & "," & $aWardenHealthCopy[1] & "): " & $WardenPixelColor, $COLOR_DEBUG)
+					If $g_bDebugSetLog Then SetDebugLog(" Grand Warden _GetPixelColor(" & $aWardenHealthCopy[0] & "," & $aWardenHealthCopy[1] & "): " & $WardenPixelColor, $COLOR_DEBUG)
 					If Not _CheckPixel2($aWardenHealthCopy, $WardenPixelColor, "Red+Blue") Then
 						SetLog("Grand Warden is getting weak, Activating Warden's ability", $COLOR_INFO)
 						ClickP($asWardenResult, 2)
@@ -186,7 +186,7 @@ Func CheckHeroesHealth()
 			EndIf
 		EndIf
 
-		If $g_bDebugSetlog Then
+		If $g_bDebugSetLog Then
 			SetDebugLog("CheckHeroesHealth() for Royal Champion started ")
 			If _Sleep($DELAYRESPOND) Then Return ; improve pause button response
 		EndIf
@@ -198,7 +198,7 @@ Func CheckHeroesHealth()
 					Local $aChampionHealthCopy = $aChampionHealth
 					$aChampionHealthCopy[0] = $asChampionResult[0] - $aChampionHealthCopy[4]
 					Local $ChampionPixelColor = _GetPixelColor($aChampionHealthCopy[0], $aChampionHealthCopy[1], $g_bCapturePixel)
-					If $g_bDebugSetlog Then SetDebugLog("Royal Champion _GetPixelColor(" & $aChampionHealthCopy[0] & "," & $aChampionHealthCopy[1] & "): " & $ChampionPixelColor, $COLOR_DEBUG)
+					If $g_bDebugSetLog Then SetDebugLog("Royal Champion _GetPixelColor(" & $aChampionHealthCopy[0] & "," & $aChampionHealthCopy[1] & "): " & $ChampionPixelColor, $COLOR_DEBUG)
 					If Not _CheckPixel2($aChampionHealthCopy, $ChampionPixelColor, "Red+Blue") Then
 						SetLog("Royal Champion is getting weak, Activating Royal Champion's ability", $COLOR_INFO)
 						ClickP($asChampionResult, 2)

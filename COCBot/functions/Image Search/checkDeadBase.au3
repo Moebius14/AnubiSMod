@@ -237,7 +237,7 @@ Func checkDeadBaseQuick($bForceCapture = True, $TestDeadBase = False)
 		Next
 	EndIf
 
-	If $g_bDebugSetlog Then
+	If $g_bDebugSetLog Then
 		If Not $bFoundFilledCollectors Then
 			SetDebugLog("IMGLOC : NOT A DEADBASE", $COLOR_INFO)
 		ElseIf Not $dbFound Then
@@ -268,8 +268,8 @@ Func checkDeadBaseFolder($directory, $executeNewCode = "checkDeadBaseQuick(True,
 	If IsArray($aFiles) = 0 Then Return False
 	If $aFiles[0] = 0 Then Return False
 
-	Local $wasDebugsetlog = $g_bDebugSetlog
-	$g_bDebugSetlog = True
+	Local $wasDebugsetlog = $g_bDebugSetLog
+	$g_bDebugSetLog = True
 
 	SetLog("Checking " & $aFiles[0] & " village screenshot" & ($aFiles[0] > 1 ? "s" : "") & " for dead base...")
 
@@ -312,7 +312,7 @@ Func checkDeadBaseFolder($directory, $executeNewCode = "checkDeadBaseQuick(True,
 	SetLog("Collectors found  : " & $iSuperNewFound)
 	SetLog("Duration in ms. : " & Round($iTotalMsSuperNew))
 
-	$g_bDebugSetlog = $wasDebugsetlog
+	$g_bDebugSetLog = $wasDebugsetlog
 	$g_bRunState = $currentRunState
 	Return True
 

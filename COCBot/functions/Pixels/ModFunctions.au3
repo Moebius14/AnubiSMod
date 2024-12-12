@@ -97,7 +97,7 @@ Func _ColorCheckSubjetive($nColor1 = 0x00FF00, $nColor2 = 0x00FF6C, $sVari = Def
 	EndIf
 
 	Local $iPixelDiff = Ciede1976(rgb2lab($nColor1, $sIgnore), rgb2lab($nColor2, $sIgnore))
-	If $g_bDebugSetlog Then SetLog("_ColorCheckSubjetive | $iPixelDiff " & $iPixelDiff, $COLOR_INFO)
+	If $g_bDebugSetLog Then SetLog("_ColorCheckSubjetive | $iPixelDiff " & $iPixelDiff, $COLOR_INFO)
 	If $iPixelDiff > $sVari Then
 		Return False
 	EndIf
@@ -322,31 +322,31 @@ Func findMultipleQuick($sDirectory, $iQuantityMatch = Default, $vArea2SearchOri 
 	$extError = @extended
 	If $error Then
 		_logErrorDLLCall($g_sLibMyBotPath, $error)
-		If $g_bDebugSetlog Then SetDebugLog(" imgloc DLL Error : " & $error & " --- " & $extError)
+		If $g_bDebugSetLog Then SetDebugLog(" imgloc DLL Error : " & $error & " --- " & $extError)
 		SetError(2, $extError, $aCoords) ; Set external error code = 2 for DLL error
 		Return -1
 	EndIf
 
 	If checkImglocError($result, "findMultipleQuick", $sDirectory) = True Then
-		If $g_bDebugSetlog Then SetDebugLog("findMultipleQuick Returned Error or No values : ", $COLOR_DEBUG)
+		If $g_bDebugSetLog Then SetDebugLog("findMultipleQuick Returned Error or No values : ", $COLOR_DEBUG)
 		Return -1
 	EndIf
 
 	Local $resultArr = StringSplit($result[0], "|", $STR_NOCOUNT), $sSlipt = StringSplit($sOnlyFind, "|", $STR_NOCOUNT)
 	If Not $bOnlyFindIsSpace And $bIsDir Then
-		If $g_bDebugSetlog Then SetDebugLog(" ***  findMultipleQuick multiples **** ", $COLOR_OLIVE)
+		If $g_bDebugSetLog Then SetDebugLog(" ***  findMultipleQuick multiples **** ", $COLOR_OLIVE)
 		If CompKick($resultArr, $sSlipt, $bExactFind) Then
-			If $g_bDebugSetlog Then SetDebugLog(" ***  findMultipleQuick has no result **** ", $COLOR_OLIVE)
+			If $g_bDebugSetLog Then SetDebugLog(" ***  findMultipleQuick has no result **** ", $COLOR_OLIVE)
 			Return -1
 		EndIf
 	ElseIf Not $bIsDir Then
-		If $g_bDebugSetlog Then SetDebugLog(" ***  findMultipleQuick one **** ", $COLOR_OLIVE)
+		If $g_bDebugSetLog Then SetDebugLog(" ***  findMultipleQuick one **** ", $COLOR_OLIVE)
 		Local $iIsA = _ArraySearch($resultArr, $sFileName & $sExtension)
 		If $iIsA <> -1 Then
 			Local $resultArr[1] = [String($sFileName & $sExtension)]
-			If $g_bDebugSetlog Then SetDebugLog(" ***  findMultipleQuick " & $resultArr[0] & " **** ", $COLOR_OLIVE)
+			If $g_bDebugSetLog Then SetDebugLog(" ***  findMultipleQuick " & $resultArr[0] & " **** ", $COLOR_OLIVE)
 		Else
-			If $g_bDebugSetlog Then SetDebugLog(" ***  findMultipleQuick only one has no result **** ", $COLOR_OLIVE)
+			If $g_bDebugSetLog Then SetDebugLog(" ***  findMultipleQuick only one has no result **** ", $COLOR_OLIVE)
 			Return -1
 		EndIf
 	EndIf
@@ -400,7 +400,7 @@ EndFunc   ;==>DMduplicated
 
 Func CompKick(ByRef $vFiles, $aof, $bType = False)
 	If (UBound($aof) = 1) And StringIsSpace($aof[0]) Then Return False
-	If $g_bDebugSetlog Then
+	If $g_bDebugSetLog Then
 		SetDebugLog("CompKick : " & _ArrayToString($vFiles))
 		SetDebugLog("CompKick : " & _ArrayToString($aof))
 		SetDebugLog("CompKick : " & "Exact mode : " & $bType)
@@ -410,7 +410,7 @@ Func CompKick(ByRef $vFiles, $aof, $bType = False)
 	Local $aRS[0]
 
 	If IsArray($vFiles) And IsArray($aof) Then
-		If $g_bDebugSetlog Then SetDebugLog("CompKick compare : " & _ArrayToString($vFiles))
+		If $g_bDebugSetLog Then SetDebugLog("CompKick compare : " & _ArrayToString($vFiles))
 		If $bType Then
 			For $s In $aof
 				For $s2 In $vFiles

@@ -68,7 +68,7 @@ EndFunc   ;==>GetPixelListDistance
 
 ; USES OLD OPENCV DETECTION
 Func GetLocationItem($functionName)
-	If $g_bDebugSetlog Or $g_bDebugBuildingPos Then
+	If $g_bDebugSetLog Or $g_bDebugBuildingPos Then
 		Local $hTimer = __TimerInit()
 		SetLog("GetLocationItem(" & $functionName & ")", $COLOR_DEBUG)
 	EndIf

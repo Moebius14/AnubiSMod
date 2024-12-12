@@ -267,7 +267,7 @@ Func _VillageSearch() ;Control for searching a village that meets conditions
 		For $i = 0 To $g_iModeCount - 1
 			If $match[$i] Or $bAlwaysMeasure Then
 				If Not CheckZoomOut("VillageSearch", True, False) Then
-					If $g_bDebugSetlog Then SaveDebugImage("VillageSearchMeasureFailed", False) ; make clean snapshot as well
+					If $g_bDebugSetLog Then SaveDebugImage("VillageSearchMeasureFailed", False) ; make clean snapshot as well
 					ExitLoop ; disable exiting search for December 2018 update due to zoomout issues
 					; check two more times, only required for snow theme (snow fall can make it easily fail), but don't hurt to keep it
 					$i = 0
@@ -666,7 +666,7 @@ Func WriteLogVillageSearch($x)
 	If $g_abFilterMeetTH[$x] Then $MeetTHtext = "- Max TH " & $g_aiMaxTH[$x] ;$g_aiFilterMeetTHMin
 	If $g_abFilterMeetTHOutsideEnable[$x] Then $MeetTHOtext = "- TH Outside"
 	If IsWeakBaseActive($x) Then $MeetWeakBasetext = "- Weak Base"
-	If Not ($g_bIsSearchLimit) And $g_bDebugSetlog Then
+	If Not ($g_bIsSearchLimit) And $g_bDebugSetLog Then
 		SetLogCentered(" Searching For " & $g_asModeText[$x] & " ", Default, $COLOR_INFO)
 		SetLog("Enable " & $g_asModeText[$x] & " search IF ", $COLOR_INFO)
 		If $g_abSearchSearchesEnable[$x] Then SetLog("- Numbers of searches range " & $g_aiSearchSearchesMin[$x] & " - " & $g_aiSearchSearchesMax[$x], $COLOR_INFO)

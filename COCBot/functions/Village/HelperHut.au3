@@ -13,6 +13,17 @@
 ; Example .......: No
 ; ===============================================================================================================================
 
+Func LabTimeGained($bLevel = 1)
+	Local $bLabTimeGained = 0
+	Switch $bLevel
+		Case 1
+			$bLabTimeGained = 30 ; minutes
+		Case Else
+			$bLabTimeGained = ($bLevel - 1) * 60
+	EndSwitch
+	Return $bLabTimeGained
+EndFunc   ;==>LabTimeGained
+
 Func HelperHut()
 
 	Select
@@ -578,9 +589,13 @@ Func LabAssistant()
 						If $iLabTime > 0 Then
 							SetDebugLog("Lab LabUpgradeTime: " & $g_sLabUpgradeTime & ", Lab DateCalc: " & $iLabTime)
 							If $iLabTime > $bXMultiplier * 60 Then
-								$g_sLabUpgradeTime = _DateAdd('n', Ceiling($iLabTime - (60 * $bXMultiplier)), _NowCalc())
+								$g_sLabUpgradeTime = _DateAdd('n', Ceiling($iLabTime - LabTimeGained($bXMultiplier)), _NowCalc())
 							Else
-								$g_sLabUpgradeTime = _DateAdd('n', Ceiling($iLabTime / $bXMultiplier), _NowCalc())
+								If $bXMultiplier = 1 Then
+									$g_sLabUpgradeTime = _DateAdd('n', Ceiling($iLabTime * 0.66), _NowCalc())
+								Else
+									$g_sLabUpgradeTime = _DateAdd('n', Ceiling($iLabTime / $bXMultiplier), _NowCalc())
+								EndIf
 							EndIf
 							SetLog("Recalculate Research time (" & $g_sLabUpgradeTime & ")")
 							LabStatusGUIUpdate()
@@ -960,9 +975,13 @@ Func HelperHutLab()
 						If $iLabTime > 0 Then
 							SetDebugLog("Lab LabUpgradeTime: " & $g_sLabUpgradeTime & ", Lab DateCalc: " & $iLabTime)
 							If $iLabTime > $bXMultiplier * 60 Then
-								$g_sLabUpgradeTime = _DateAdd('n', Ceiling($iLabTime - (60 * $bXMultiplier)), _NowCalc())
+								$g_sLabUpgradeTime = _DateAdd('n', Ceiling($iLabTime - LabTimeGained($bXMultiplier)), _NowCalc())
 							Else
-								$g_sLabUpgradeTime = _DateAdd('n', Ceiling($iLabTime / $bXMultiplier), _NowCalc())
+								If $bXMultiplier = 1 Then
+									$g_sLabUpgradeTime = _DateAdd('n', Ceiling($iLabTime * 0.66), _NowCalc())
+								Else
+									$g_sLabUpgradeTime = _DateAdd('n', Ceiling($iLabTime / $bXMultiplier), _NowCalc())
+								EndIf
 							EndIf
 							SetLog("Recalculate Research time (" & $g_sLabUpgradeTime & ")")
 							LabStatusGUIUpdate()

@@ -484,7 +484,7 @@ Func _ClanGames($test = False, $HaltMode = False)
 								EndIf
 								; Champion Upgrading
 								If $g_iHeroUpgrading[4] = 1 Or $g_aiCmbCustomHeroOrder[4] = 4 Then
-									Local $ChampionEquipment[5] = ["Royal Gem", "Seeking Shield", "Hog Rider Puppet", "Haste Vial", "Rocket Spear"]
+									Local $ChampionEquipment[6] = ["Royal Gem", "Seeking Shield", "Hog Rider Puppet", "Haste Vial", "Rocket Spear", "Electro Boots"]
 									For $t = 0 To UBound($ChampionEquipment) - 1
 										If $EquipmentChallenges[$j][1] = $ChampionEquipment[$t] Then ExitLoop
 									Next
@@ -2323,7 +2323,7 @@ Func ClanGamesChallenges($sReturnArray)
 			["SiegeB", "Siege Barrack", 10, 1, "Earn 1-5 Stars from Multiplayer Battles using a Siege Barracks"], _
 			["LogL", "Log Launcher", 10, 1, "Earn 1-5 Stars from Multiplayer Battles using a Log Launcher"]]
 
-	Local $EquipmentChallenges[25][5] = [ _
+	Local $EquipmentChallenges[26][5] = [ _
 			["BarbPuppet", "Barbarian Puppet", 8, 1, "Earn 1-5 Stars from Multiplayer Battles using Barbarian Puppet"], _
 			["RageVial", "Rage Vial", 8, 1, "Earn 1-5 Stars from Multiplayer Battles using Rage Vial"], _
 			["EQBoots", "Earth Quake Boots", 8, 1, "Earn 1-5 Stars from Multiplayer Battles using Earth Quake Boots"], _
@@ -2348,7 +2348,8 @@ Func ClanGamesChallenges($sReturnArray)
 			["SeekShield", "Seeking Shield", 13, 1, "Earn 1-5 Stars from Multiplayer Battles using Seeking Shield"], _
 			["HogPuppet", "Hog Rider Puppet", 14, 1, "Earn 1-5 Stars from Multiplayer Battles using Hog Rider Puppet"], _
 			["HasteVial", "Haste Vial", 15, 1, "Earn 1-5 Stars from Multiplayer Battles using Haste Vial"], _
-			["RSpear", "Rocket Spear", 15, 1, "Earn 1-5 Stars from Multiplayer Battles using Rocket Spear"]]
+			["RSpear", "Rocket Spear", 15, 1, "Earn 1-5 Stars from Multiplayer Battles using Rocket Spear"], _
+			["ElectroBoots", "Electro Boots", 15, 1, "Earn 1-5 Stars from Multiplayer Battles usingElectro Boots"]]
 
 	Local $MiscChallenges[3][5] = [ _
 			["Gard", "Gardening Exercise", 6, 8, "Clear 5 obstacles from your Home Village or Builder Base"], _

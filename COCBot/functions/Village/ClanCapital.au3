@@ -2557,13 +2557,13 @@ Func CatchCCMedals($bForced = False)
 			If Not _WaitForCheckPixel($aIsRaidMedalsOpen, True) Then
 				SetLog("Error : Cannot open Raid Medals Menu. Pixel to check did not appear", $COLOR_ERROR)
 				CloseWindow()
-				Return FuncReturn(SetError(1, 0, False), $g_bDebugSetlog)
+				Return FuncReturn(SetError(1, 0, False), $g_bDebugSetLog)
 			EndIf
 		EndIf
 	Else
 		SetDebugLog("Error when opening Raid Medals Menu: $aTabButton is no valid Array", $COLOR_ERROR)
 		CloseWindow()
-		Return FuncReturn(SetError(1, 0, False), $g_bDebugSetlog)
+		Return FuncReturn(SetError(1, 0, False), $g_bDebugSetLog)
 	EndIf
 
 	SetLog("Opening Raid Medals Menu", $COLOR_BLUE)
@@ -2993,13 +2993,13 @@ Func CheckAvailableMagicItems($TestDebug = False)
 			If Not _WaitForCheckPixel($aIsRaidMedalsOpen, True) Then
 				SetDebugLog("Error : Cannot open Raid Medals Menu. Pixel to check did not appear", $COLOR_ERROR)
 				CloseWindow()
-				Return FuncReturn(SetError(1, 0, False), $g_bDebugSetlog)
+				Return FuncReturn(SetError(1, 0, False), $g_bDebugSetLog)
 			EndIf
 		EndIf
 	Else
 		SetDebugLog("Error when opening Raid Medals Menu: $aTabButton is no valid Array", $COLOR_ERROR)
 		CloseWindow()
-		Return FuncReturn(SetError(1, 0, False), $g_bDebugSetlog)
+		Return FuncReturn(SetError(1, 0, False), $g_bDebugSetLog)
 	EndIf
 
 	If _Sleep(1000) Then Return
@@ -3354,13 +3354,13 @@ Func SoldAndBuyItems($TestDebug = False, $ForceTime = False)
 				If Not _WaitForCheckPixel($aIsRaidMedalsOpen, True) Then
 					SetLog("Error : Cannot open Raid Medals Menu. Pixel to check did not appear", $COLOR_ERROR)
 					CloseWindow()
-					Return FuncReturn(SetError(1, 0, False), $g_bDebugSetlog)
+					Return FuncReturn(SetError(1, 0, False), $g_bDebugSetLog)
 				EndIf
 			EndIf
 		Else
 			SetDebugLog("Error when opening Raid Medals Menu: $aTabButton is no valid Array", $COLOR_ERROR)
 			CloseWindow()
-			Return FuncReturn(SetError(1, 0, False), $g_bDebugSetlog)
+			Return FuncReturn(SetError(1, 0, False), $g_bDebugSetLog)
 		EndIf
 
 		If _Sleep(2000) Then Return

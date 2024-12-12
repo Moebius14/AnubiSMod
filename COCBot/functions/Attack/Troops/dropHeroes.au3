@@ -17,7 +17,7 @@
 ; Example .......: No
 ; ===============================================================================================================================
 Func dropHeroes($iX, $iY, $iKingSlotNumber = -1, $iQueenSlotNumber = -1, $iPrinceSlotNumber = -1, $iWardenSlotNumber = -1, $iChampionSlotNumber = -1) ;Drops for All Heroes
-	If $g_bDebugSetlog Then SetDebugLog("dropHeroes $iKingSlotNumber " & $iKingSlotNumber & " $iQueenSlotNumber " & $iQueenSlotNumber & " $iPrinceSlotNumber " & $iPrinceSlotNumber & " $iWardenSlotNumber " & $iWardenSlotNumber & " $iChampionSlotNumber " & $iChampionSlotNumber & " matchmode " & $g_iMatchMode, $COLOR_DEBUG)
+	If $g_bDebugSetLog Then SetDebugLog("dropHeroes $iKingSlotNumber " & $iKingSlotNumber & " $iQueenSlotNumber " & $iQueenSlotNumber & " $iPrinceSlotNumber " & $iPrinceSlotNumber & " $iWardenSlotNumber " & $iWardenSlotNumber & " $iChampionSlotNumber " & $iChampionSlotNumber & " matchmode " & $g_iMatchMode, $COLOR_DEBUG)
 	If _Sleep($DELAYDROPHEROES1) Then Return
 	Local $bDropKing = False
 	Local $bDropQueen = False
@@ -35,19 +35,19 @@ Func dropHeroes($iX, $iY, $iKingSlotNumber = -1, $iQueenSlotNumber = -1, $iPrinc
 	For $i = 0 To UBound($g_aiCmbCustomHeroOrder) - 1
 		Switch $g_aiCmbCustomHeroOrder[$i]
 			Case 0
-				If $g_bDebugSetlog Then SetDebugLog("drop KING = " & $bDropKing, $COLOR_DEBUG)
+				If $g_bDebugSetLog Then SetDebugLog("drop KING = " & $bDropKing, $COLOR_DEBUG)
 				KingDrop($iX, $iY, $iKingSlotNumber, $bDropKing)
 			Case 1
-				If $g_bDebugSetlog Then SetDebugLog("drop QUEEN = " & $bDropQueen, $COLOR_DEBUG)
+				If $g_bDebugSetLog Then SetDebugLog("drop QUEEN = " & $bDropQueen, $COLOR_DEBUG)
 				QueenDrop($iX, $iY, $iQueenSlotNumber, $bDropQueen)
 			Case 2
-				If $g_bDebugSetlog Then SetDebugLog("drop PRINCE = " & $bDropPrince, $COLOR_DEBUG)
+				If $g_bDebugSetLog Then SetDebugLog("drop PRINCE = " & $bDropPrince, $COLOR_DEBUG)
 				PrinceDrop($iX, $iY, $iPrinceSlotNumber, $bDropPrince)
 			Case 3
-				If $g_bDebugSetlog Then SetDebugLog("drop WARDEN = " & $bDropWarden, $COLOR_DEBUG)
+				If $g_bDebugSetLog Then SetDebugLog("drop WARDEN = " & $bDropWarden, $COLOR_DEBUG)
 				WardenDrop($iX, $iY, $iWardenSlotNumber, $bDropWarden)
 			Case 4
-				If $g_bDebugSetlog Then SetDebugLog("drop CHAMPION = " & $bDropChampion, $COLOR_DEBUG)
+				If $g_bDebugSetLog Then SetDebugLog("drop CHAMPION = " & $bDropChampion, $COLOR_DEBUG)
 				ChampionDrop($iX, $iY, $iChampionSlotNumber, $bDropChampion)
 		EndSwitch
 	Next

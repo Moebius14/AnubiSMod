@@ -460,7 +460,7 @@ Func CenterVillage($iX, $iY, $iOffsetX, $iOffsetY)
 		$aScrollPos[1] = $aCenterHomeVillageClickDrag[1]
 	EndIf
 
-	If $g_bDebugSetlog Then SetDebugLog("CenterVillage at point : " & $aScrollPos[0] & ", " & $aScrollPos[1] & " Offset : " & $iOffsetX & ", " & $iOffsetY, $COLOR_INFO)
+	If $g_bDebugSetLog Then SetDebugLog("CenterVillage at point : " & $aScrollPos[0] & ", " & $aScrollPos[1] & " Offset : " & $iOffsetX & ", " & $iOffsetY, $COLOR_INFO)
 	If $g_bDebugImageSave Then SaveDebugPointImage("CenterVillage", $aScrollPos)
 	ClearScreen()
 	ClickDrag($aScrollPos[0], $aScrollPos[1], $aScrollPos[0] - $iOffsetX, $aScrollPos[1] - $iOffsetY)
@@ -475,16 +475,16 @@ Func IsCoordSafe($x, $y)
 	SetDeBugLog("Testing Coords : " & $x & "," & $y)
 
 	If $x < 82 And $y > 427 + $g_iBottomOffsetY And $bIsOnMainBase Then ; coordinates where the game will click on the War Button (safe margin)
-		If $g_bDebugSetlog Then SetDebugLog("Too close to War Button")
+		If $g_bDebugSetLog Then SetDebugLog("Too close to War Button")
 		$bResult = False
 	ElseIf $x < 72 And ($y > 270 + $g_iMidOffsetY And $y < 345 + $g_iMidOffsetY) Then ; coordinates where the game will click on the CHAT tab (safe margin)
-		If $g_bDebugSetlog Then SetDebugLog("Too close to CHAT Tab")
+		If $g_bDebugSetLog Then SetDebugLog("Too close to CHAT Tab")
 		$bResult = False
 	ElseIf $y < 63 Then ; coordinates where the game will click on the BUILDER button or SHIELD button (safe margin)
-		If $g_bDebugSetlog Then SetDebugLog("Too close to Builder and Shield")
+		If $g_bDebugSetLog Then SetDebugLog("Too close to Builder and Shield")
 		$bResult = False
 	ElseIf $x > 692 And $y > 126 + $g_iMidOffsetY And $y < 180 + $g_iMidOffsetY And $bIsOnMainBase Then ; coordinates where the game will click on the GEMS button (safe margin)
-		If $g_bDebugSetlog Then SetDebugLog("Too close to GEMS")
+		If $g_bDebugSetLog Then SetDebugLog("Too close to GEMS")
 		$bResult = False
 	EndIf
 

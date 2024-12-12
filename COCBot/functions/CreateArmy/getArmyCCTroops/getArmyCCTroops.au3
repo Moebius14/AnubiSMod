@@ -17,7 +17,7 @@ Func getArmyCCTroops($bOpenArmyWindow = False, $bCloseArmyWindow = False, $bChec
 
 	Local $aTroopWSlot[1][3] = [[0, "", 0]] ; X-Coord, Troop Name index, Quantity
 
-	If $g_bDebugSetlogTrain Then SetLog("getArmyCCTroops():", $COLOR_DEBUG)
+	If $g_bDebugSetLogTrain Then SetLog("getArmyCCTroops():", $COLOR_DEBUG)
 
 	If Not $bOpenArmyWindow Then
 		If $bCheckWindow And Not IsTrainPage() Then ; check for train page
@@ -39,7 +39,7 @@ Func getArmyCCTroops($bOpenArmyWindow = False, $bCloseArmyWindow = False, $bChec
 	Local $aTempTroopArray, $avTroops, $aTroopCoords
 	Local $sTroopName = ""
 	Local $iTroopIndex = -1
-	Local $aCurrentCCTroopsEmpty[$eTroopCount] = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0] ; Local Copy to reset Troops Array
+	Local $aCurrentCCTroopsEmpty[$eTroopCount] = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0] ; Local Copy to reset Troops Array
 	Local $aCurrentTroopsLog[0][3] ; [0] = Name [1] = Quantities [3] Xaxis
 
 	$g_aiCurrentCCTroops = $aCurrentCCTroopsEmpty ; Reset Current Troops Array

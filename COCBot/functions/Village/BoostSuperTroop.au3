@@ -259,11 +259,11 @@ Func OpenBarrel($bTest = False)
 				If $g_bFirstStartBarrel Then ;First Start to check if the selected troop(s) <> boosted troop(s)
 					$g_bFirstStartBarrel = 0
 				Else
-					Local $bSetlog = 0
+					Local $bSetLog = 0
 					For $i = 0 To $iMaxSupersTroop - 1
-						If $g_iCmbSuperTroops[$i] > 0 Then $bSetlog += 1
+						If $g_iCmbSuperTroops[$i] > 0 Then $bSetLog += 1
 					Next
-					If $bSetlog > 0 Then SetLog("Troop" & ($bSetlog > 1 ? "s" : "") & " Already boosted", $COLOR_INFO)
+					If $bSetLog > 0 Then SetLog("Troop" & ($bSetLog > 1 ? "s" : "") & " Already boosted", $COLOR_INFO)
 					$bOpenBarrel = False
 				EndIf
 			Else

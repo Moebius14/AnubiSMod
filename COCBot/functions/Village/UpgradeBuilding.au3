@@ -79,7 +79,7 @@ Func UpgradeBuilding()
 		Local $IsGearSelected = False
 		If StringInStr($g_avBuildingUpgrades[$iz][4], "Gear", $STR_NOCASESENSEBASIC) Then $IsGearSelected = True
 
-		If $g_bDebugSetlog Then SetlogUpgradeValues($iz) ; massive debug data dump for each upgrade
+		If $g_bDebugSetLog Then SetLogUpgradeValues($iz) ; massive debug data dump for each upgrade
 
 		If Not $g_abBuildingUpgradeEnable[$iz] Then ContinueLoop ; Is the upgrade checkbox selected?
 
@@ -113,7 +113,7 @@ Func UpgradeBuilding()
 			If $bChkAllRptUpgrade = False Then
 				$iDTDiff = Int(_DateDiff('n', _NowCalc(), $sNextCheckTime)) ; get date/time difference for repeat upgrade check
 				If @error Then _logErrorDateDiff(@error)
-				If $g_bDebugSetlog Then
+				If $g_bDebugSetLog Then
 					SetDebugLog("Delay time between repeat upgrade checks = " & $aCheckFrequency[($g_iTownHallLevel < 3 ? 0 : $g_iTownHallLevel - 3)] & " Min", $COLOR_DEBUG)
 					SetDebugLog("Delay time remaining = " & $iDTDiff & " Min", $COLOR_DEBUG)
 				EndIf
@@ -136,7 +136,7 @@ Func UpgradeBuilding()
 
 			If $bChkAllRptUpgrade = True Or $iUpGrdEndTimeDiff < 0 Then ; when past delay time or past end time for previous upgrade then check status
 				If UpgradeValue($iz, True) = False Then ; try to get new upgrade values
-					If $g_bDebugSetlog Then SetlogUpgradeValues($iz) ; Debug data for when upgrade is not ready or done repeating
+					If $g_bDebugSetLog Then SetLogUpgradeValues($iz) ; Debug data for when upgrade is not ready or done repeating
 					SetLog("Repeat upgrade #" & $iz + 1 & " " & $g_avBuildingUpgrades[$iz][4] & " not ready yet", $COLOR_ERROR)
 					ContinueLoop ; Not ready yet..
 				ElseIf ($iAvailBldr <= 0) Then
@@ -500,7 +500,7 @@ Func UpgradeGearUp($iUpgradeNumber)
 	EndIf
 EndFunc   ;==>UpgradeGearUp
 
-Func SetlogUpgradeValues($i)
+Func SetLogUpgradeValues($i)
 	Local $j
 	For $j = 0 To UBound($g_avBuildingUpgrades, 2) - 1
 		SetLog("$g_avBuildingUpgrades[" & $i & "][" & $j & "]= " & $g_avBuildingUpgrades[$i][$j], $COLOR_DEBUG)
@@ -513,4 +513,4 @@ Func SetlogUpgradeValues($i)
 	SetLog("$g_hTxtUpgradeTime= " & $g_avBuildingUpgrades[$i][6], $COLOR_DEBUG) ; Upgrade time
 	SetLog("$g_hTxtUpgradeEndTime= " & $g_avBuildingUpgrades[$i][7], $COLOR_DEBUG) ; Upgrade End time
 	SetLog("$g_hChkUpgradeRepeat= " & $g_abUpgradeRepeatEnable, $COLOR_DEBUG) ; repeat box
-EndFunc   ;==>SetlogUpgradeValues
+EndFunc   ;==>SetLogUpgradeValues

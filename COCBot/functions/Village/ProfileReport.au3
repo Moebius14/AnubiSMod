@@ -78,16 +78,16 @@ Func ProfileReport()
 		$iDefensesWon = 0
 	Else
 		$iAttacksWon = getProfile(547, 449 + $g_iMidOffsetY)
-		If $g_bDebugSetlog Then SetDebugLog("$iAttacksWon: " & $iAttacksWon, $COLOR_DEBUG)
+		If $g_bDebugSetLog Then SetDebugLog("$iAttacksWon: " & $iAttacksWon, $COLOR_DEBUG)
 		$iCount = 0
 		While $iAttacksWon = "" ; Wait for $attacksWon to be readable in case of slow PC
 			If _Sleep($DELAYPROFILEREPORT1) Then Return
 			$iAttacksWon = getProfile(547, 449 + $g_iMidOffsetY)
-			If $g_bDebugSetlog Then SetDebugLog("Read Loop $iAttacksWon: " & $iAttacksWon & ", Count: " & $iCount, $COLOR_DEBUG)
+			If $g_bDebugSetLog Then SetDebugLog("Read Loop $iAttacksWon: " & $iAttacksWon & ", Count: " & $iCount, $COLOR_DEBUG)
 			$iCount += 1
 			If $iCount >= 20 Then ExitLoop
 		WEnd
-		If $g_bDebugSetlog And $iCount >= 20 Then SetLog("Excess wait time for reading $AttacksWon: " & getProfile(547, 449 + $g_iMidOffsetY), $COLOR_DEBUG)
+		If $g_bDebugSetLog And $iCount >= 20 Then SetLog("Excess wait time for reading $AttacksWon: " & getProfile(547, 449 + $g_iMidOffsetY), $COLOR_DEBUG)
 		$iDefensesWon = getProfile(761, 449 + $g_iMidOffsetY)
 	EndIf
 	$g_iTroopsDonated = getProfile(179, 449 + $g_iMidOffsetY)

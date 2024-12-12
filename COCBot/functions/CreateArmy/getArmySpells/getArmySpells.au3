@@ -15,7 +15,7 @@
 
 Func getArmySpells($bOpenArmyWindow = False, $bCloseArmyWindow = False, $bCheckWindow = False, $bSetLog = True, $bNeedCapture = True)
 
-	If $g_bDebugSetlogTrain Then SetLog("getArmySpells():", $COLOR_DEBUG)
+	If $g_bDebugSetLogTrain Then SetLog("getArmySpells():", $COLOR_DEBUG)
 
 	If Not $bOpenArmyWindow Then
 		If $bCheckWindow And Not IsTrainPage() Then ; check for train page

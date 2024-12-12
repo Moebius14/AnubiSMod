@@ -18,7 +18,7 @@
 
 Func getArmyTroops($bOpenArmyWindow = False, $bCloseArmyWindow = False, $bCheckWindow = False, $bSetLog = True, $bNeedCapture = True)
 
-	If $g_bDebugSetlogTrain Then SetLog("getArmyTroops():", $COLOR_DEBUG)
+	If $g_bDebugSetLogTrain Then SetLog("getArmyTroops():", $COLOR_DEBUG)
 
 	If Not $bOpenArmyWindow Then
 		If $bCheckWindow And Not IsTrainPage() Then ; check for train page
@@ -46,7 +46,7 @@ Func getArmyTroops($bOpenArmyWindow = False, $bCloseArmyWindow = False, $bCheckW
 	Local $aTempTroopArray, $aTroopCoords
 	Local $sTroopName = ""
 	Local $iTroopIndex = -1, $iDropTrophyIndex = -1
-	Local $aCurrentTroopsEmpty[$eTroopCount] = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0] ; Local Copy to reset Troops Array
+	Local $aCurrentTroopsEmpty[$eTroopCount] = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0] ; Local Copy to reset Troops Array
 	Local $aTroopsForTropyDropEmpty[8][2] = [["Barb", 0], ["Arch", 0], ["Giant", 0], ["Wall", 0], ["Gobl", 0], ["Mini", 0], ["Ball", 0], ["Wiza", 0]] ; Local Copy to reset Troop Drop Trophy Array
 	Local $aCurrentTroopsLog[0][3] ; [0] = Name [1] = Quantities [3] Xaxis
 

@@ -61,7 +61,7 @@ Func MainSuggestedUpgradeCode($bDebugImage = $g_bDebugImageSave)
 
 	; If is not selected return
 	If Not $g_iChkBBSuggestedUpgrades Then Return $NoExecution
-	Local $bDebug = $g_bDebugSetlog
+	Local $bDebug = $g_bDebugSetLog
 	Local $bScreencap = True
 	Local $y = 102, $x = 490, $x1 = 630
 
@@ -464,7 +464,7 @@ Func NewBuildings($aResult, $bDebugImage = $g_bDebugImageSave)
 						If $bDebugImage Then SaveDebugRectImage("FoundInfo", $aTileArea)
 
 						If $i = UBound($ClocksCoordinates) - 1 Then
-							If $g_bDebugSetlog Then SetDebugLog("Slot without enough resources!", $COLOR_DEBUG)
+							If $g_bDebugSetLog Then SetDebugLog("Slot without enough resources!", $COLOR_DEBUG)
 							CloseWindow()
 							ExitLoop
 						EndIf

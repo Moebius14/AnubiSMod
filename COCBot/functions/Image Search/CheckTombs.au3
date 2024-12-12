@@ -43,15 +43,15 @@ Func CheckTombs()
 		Next
 		$TombsXY = $return[5]
 
-		If $g_bDebugSetlog Then SetDebugLog("Filename :" & $return[0])
-		If $g_bDebugSetlog Then SetDebugLog("Type :" & $return[1])
-		If $g_bDebugSetlog Then SetDebugLog("Total Objects :" & $return[4])
+		If $g_bDebugSetLog Then SetDebugLog("Filename :" & $return[0])
+		If $g_bDebugSetLog Then SetDebugLog("Type :" & $return[1])
+		If $g_bDebugSetLog Then SetDebugLog("Total Objects :" & $return[4])
 
 		If IsArray($TombsXY) Then
 			; Loop through all found points for the item and click them to clear them, there should only be one
 			For $j = 0 To UBound($TombsXY) - 1
 				If IsCoordSafe($TombsXY[$j][0], $TombsXY[$j][1]) Then
-					If $g_bDebugSetlog Then SetDebugLog("Coords :" & $TombsXY[$j][0] & "," & $TombsXY[$j][1])
+					If $g_bDebugSetLog Then SetDebugLog("Coords :" & $TombsXY[$j][0] & "," & $TombsXY[$j][1])
 					If IsMainPage() Then
 						Click($TombsXY[$j][0], $TombsXY[$j][1], 1, 120, "#0430")
 						If Not $bRemoved1 Then $bRemoved1 = True
@@ -82,15 +82,15 @@ Func CheckTombs()
 				Next
 				$TombsXY2 = $return2[5]
 
-				If $g_bDebugSetlog Then SetDebugLog("Filename :" & $return2[0])
-				If $g_bDebugSetlog Then SetDebugLog("Type :" & $return2[1])
-				If $g_bDebugSetlog Then SetDebugLog("Total Objects :" & $return2[4])
+				If $g_bDebugSetLog Then SetDebugLog("Filename :" & $return2[0])
+				If $g_bDebugSetLog Then SetDebugLog("Type :" & $return2[1])
+				If $g_bDebugSetLog Then SetDebugLog("Total Objects :" & $return2[4])
 
 				If IsArray($TombsXY2) Then
 					; Loop through all found points for the item and click them to clear them, there should only be one
 					For $z = 0 To UBound($TombsXY2) - 1
 						If IsCoordSafe($TombsXY2[$z][0], $TombsXY2[$z][1]) Then
-							If $g_bDebugSetlog Then SetDebugLog("Coords :" & $TombsXY2[$z][0] & "," & $TombsXY2[$z][1])
+							If $g_bDebugSetLog Then SetDebugLog("Coords :" & $TombsXY2[$z][0] & "," & $TombsXY2[$z][1])
 							If IsMainPage() Then
 								Click($TombsXY2[$z][0], $TombsXY2[$z][1], 1, 120, "#0430")
 								If Not $bRemoved2 Then $bRemoved2 = True
@@ -163,7 +163,7 @@ Func CleanYard()
 				RemoveDupXYObs($aObstacles)
 				For $i = 0 To UBound($aObstacles, 1) - 1
 					If IsCoordSafe($aObstacles[$i][1], $aObstacles[$i][2]) Then ; secure x because of clan chat tab
-						If $g_bDebugSetlog Then SetDebugLog($aObstacles[$i][0] & " found (" & $aObstacles[$i][1] & "," & $aObstacles[$i][2] & ")", $COLOR_SUCCESS)
+						If $g_bDebugSetLog Then SetDebugLog($aObstacles[$i][0] & " found (" & $aObstacles[$i][1] & "," & $aObstacles[$i][2] & ")", $COLOR_SUCCESS)
 						If IsMainPage() Then Click($aObstacles[$i][1], $aObstacles[$i][2], 1, 120, "#0430")
 						$bLocate = True
 						If _Sleep($DELAYCOLLECT3) Then Return
@@ -205,14 +205,14 @@ Func CleanYard()
 			Next
 			$GemBoxXY = $return[5]
 
-			If $g_bDebugSetlog Then SetDebugLog("Filename :" & $return[0])
-			If $g_bDebugSetlog Then SetDebugLog("Type :" & $return[1])
-			If $g_bDebugSetlog Then SetDebugLog("Total Objects :" & $return[4])
+			If $g_bDebugSetLog Then SetDebugLog("Filename :" & $return[0])
+			If $g_bDebugSetLog Then SetDebugLog("Type :" & $return[1])
+			If $g_bDebugSetLog Then SetDebugLog("Total Objects :" & $return[4])
 
 			If IsArray($GemBoxXY) Then
 				; Loop through all found points for the item and click them to remove it, there should only be one
 				For $j = 0 To UBound($GemBoxXY) - 1
-					If $g_bDebugSetlog Then SetDebugLog("Coords :" & $GemBoxXY[$j][0] & "," & $GemBoxXY[$j][1])
+					If $g_bDebugSetLog Then SetDebugLog("Coords :" & $GemBoxXY[$j][0] & "," & $GemBoxXY[$j][1])
 					If IsCoordSafe($GemBoxXY[$j][0], $GemBoxXY[$j][1]) Then
 						If IsMainPage() Then Click($GemBoxXY[$j][0], $GemBoxXY[$j][1], 1, 120, "#0430")
 						If _Sleep($DELAYCHECKTOMBS2) Then Return
@@ -242,7 +242,7 @@ Func CleanYard()
 		SetLog("No Builders available to remove Obstacles!")
 	Else
 		If Not $bLocate And $g_bChkCleanYard And Number($g_aiCurrentLoot[$eLootElixir]) > $iElixir Then SetLog("No Obstacles found, Yard is clean!", $COLOR_SUCCESS)
-		If $g_bDebugSetlog Then SetDebugLog("Time: " & Round(__TimerDiff($hObstaclesTimer) / 1000, 2) & "'s", $COLOR_SUCCESS)
+		If $g_bDebugSetLog Then SetDebugLog("Time: " & Round(__TimerDiff($hObstaclesTimer) / 1000, 2) & "'s", $COLOR_SUCCESS)
 	EndIf
 	UpdateStats()
 	ClearScreen()

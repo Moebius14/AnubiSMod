@@ -400,7 +400,7 @@ Func PetHouse($test = False)
 				; get the Pet Level
 				Local $iPetLevel = getPetsLevel($iPetLevelxCoord, 544 + $g_iMidOffsetY)
 				If Not ($iPetLevel > 0 And $iPetLevel <= $g_ePetLevels[$i]) Then ;If detected level is not between 1 and 10 Or 15, To Prevent Crash
-					If $g_bDebugSetlog Then SetDebugLog("Pet Level OCR Misdetection, Detected Level is : " & $iPetLevel, $COLOR_WARNING)
+					If $g_bDebugSetLog Then SetDebugLog("Pet Level OCR Misdetection, Detected Level is : " & $iPetLevel, $COLOR_WARNING)
 					ContinueLoop
 				EndIf
 				If $iPetLevel < $g_ePetLevels[$i] Then
@@ -497,7 +497,7 @@ EndFunc   ;==>PetHouse
 ; check the Pet House to see if a Pet is upgrading already
 Func CheckPetUpgrade()
 	; check for upgrade in process - look for green in finish upgrade with gems button
-	If $g_bDebugSetlog Then SetLog("_GetPixelColor(805, 245): " & _GetPixelColor(085, 215 + $g_iMidOffsetY, True) & ":BED79A", $COLOR_DEBUG)
+	If $g_bDebugSetLog Then SetLog("_GetPixelColor(805, 245): " & _GetPixelColor(085, 215 + $g_iMidOffsetY, True) & ":BED79A", $COLOR_DEBUG)
 	If _ColorCheck(_GetPixelColor(805, 215 + $g_iMidOffsetY, True), Hex(0xBED79A, 6), 20) Then
 		SetLog("Pet House Upgrade in progress, waiting for completion", $COLOR_INFO)
 		If Not $g_bFirstStartCheckDone Then
@@ -517,7 +517,7 @@ Func CheckPetUpgrade()
 			If @error Then _logErrorDateAdd(@error)
 			SetLog("Pet Upgrade will finish in " & $sPetTimeOCR & " (" & $g_sPetUpgradeTime & ")")
 			; LabStatusGUIUpdate() ; Update GUI flag
-		ElseIf $g_bDebugSetlog Then
+		ElseIf $g_bDebugSetLog Then
 			SetLog("PetLabUpgradeInProgress - Invalid getRemainTLaboratory OCR", $COLOR_DEBUG)
 		EndIf
 		If ProfileSwitchAccountEnabled() Then SwitchAccountVariablesReload("Save")
@@ -656,7 +656,7 @@ Func PetGuiDisplay()
 		Return
 	EndIf
 
-	If $g_bDebugSetlog Then SetDebugLog("Pet House (x,y): " & $g_aiPetHousePos[0] & "," & $g_aiPetHousePos[1])
+	If $g_bDebugSetLog Then SetDebugLog("Pet House (x,y): " & $g_aiPetHousePos[0] & "," & $g_aiPetHousePos[1])
 
 	BuildingClickP($g_aiPetHousePos, "#0197") ;Click Pet House
 	If _Sleep(1500) Then Return ; Wait for window to open
@@ -913,7 +913,7 @@ Func GetMinDark4PetUpgrade($PetHouseLevel = 0)
 			; get the Pet Level
 			Local $iPetLevel = Number(getPetsLevel($iPetLevelxCoord, 544 + $g_iMidOffsetY))
 			If Not ($iPetLevel > 0 And $iPetLevel <= $g_ePetLevels[$i]) Then ;If detected level is not between 1 and 10 Or 15, To Prevent Crash
-				If $g_bDebugSetlog Then SetDebugLog("Pet Level OCR Misdetection, Detected Level is : " & $iPetLevel, $COLOR_WARNING)
+				If $g_bDebugSetLog Then SetDebugLog("Pet Level OCR Misdetection, Detected Level is : " & $iPetLevel, $COLOR_WARNING)
 				ContinueLoop
 			EndIf
 
@@ -1196,7 +1196,7 @@ Func GetPetUpgradeList($PetHouseLevel = 0)
 
 			$iPetLevel = Number(getPetsLevel($iPetLevelxCoord, 544 + $g_iMidOffsetY))
 			If Not ($iPetLevel > 0 And $iPetLevel <= $g_ePetLevels[$i]) Then ;If detected level is not between 1 and 10 Or 15, To Prevent Crash
-				If $g_bDebugSetlog Then SetDebugLog("Pet Level OCR Misdetection, Detected Level is : " & $iPetLevel, $COLOR_WARNING)
+				If $g_bDebugSetLog Then SetDebugLog("Pet Level OCR Misdetection, Detected Level is : " & $iPetLevel, $COLOR_WARNING)
 				ContinueLoop
 			EndIf
 

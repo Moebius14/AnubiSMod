@@ -60,7 +60,7 @@ Func SaveDebugImage($sImageName = "Unknown", $vCaptureNew = Default, $bCreateSub
 		Local $EditedImage = _GDIPlus_BitmapCreateFromHBITMAP($g_hHBitmap2)
 		_GDIPlus_ImageSaveToFile($EditedImage, $sFullFileName)
 		_GDIPlus_BitmapDispose($EditedImage)
-		If $g_bDebugSetlog Then SetDebugLog("DebugImageSave " & $sFullFileName, $COLOR_DEBUG)
+		If $g_bDebugSetLog Then SetDebugLog("DebugImageSave " & $sFullFileName, $COLOR_DEBUG)
 	EndIf
 
 	If _Sleep($DELAYDEBUGIMAGESAVE1) Then Return
@@ -126,7 +126,7 @@ Func SaveDebugRectImageCrop($sImageName = "Unknown", $sArea = "" , $vCaptureNew 
 		_GDIPlus_BitmapDispose($hClone)
 		_GDIPlus_BitmapDispose($oBitmap)
 
-		If $g_bDebugSetlog Then SetDebugLog("DebugImageSave " & $sFullFileName, $COLOR_DEBUG)
+		If $g_bDebugSetLog Then SetDebugLog("DebugImageSave " & $sFullFileName, $COLOR_DEBUG)
 	EndIf
 
 	If _Sleep($DELAYDEBUGIMAGESAVE1) Then Return
@@ -178,7 +178,7 @@ Func SaveSCIDebugImage($sImageName = "Unknown", $vCaptureNew = Default, $bCreate
 		Local $EditedImage = _GDIPlus_BitmapCreateFromHBITMAP($g_hHBitmap2)
 		_GDIPlus_ImageSaveToFile($EditedImage, $sFullFileName)
 		_GDIPlus_BitmapDispose($EditedImage)
-		If $g_bDebugSetlog Then SetDebugLog("DebugImageSave " & $sFullFileName, $COLOR_DEBUG)
+		If $g_bDebugSetLog Then SetDebugLog("DebugImageSave " & $sFullFileName, $COLOR_DEBUG)
 	EndIf
 
 	If _Sleep($DELAYDEBUGIMAGESAVE1) Then Return
@@ -260,7 +260,7 @@ Func SaveDebugRectImage($sImageName = "Unknown", $sArea = "" , $vCaptureNew = De
 		_GDIPlus_GraphicsDispose($hGraphic)		
 		_GDIPlus_BitmapDispose($editedImage)
 		
-		If $g_bDebugSetlog Then SetDebugLog("DebugImageSave " & $sFullFileName, $COLOR_DEBUG)
+		If $g_bDebugSetLog Then SetDebugLog("DebugImageSave " & $sFullFileName, $COLOR_DEBUG)
 	EndIf
 
 	If _Sleep($DELAYDEBUGIMAGESAVE1) Then Return
@@ -338,7 +338,7 @@ Func SaveDebugPointImage($sImageName = "Unknown", $aiPoint = 0, $vCaptureNew = D
 		_GDIPlus_GraphicsDispose($hGraphic)		
 		_GDIPlus_BitmapDispose($editedImage)
 		
-		If $g_bDebugSetlog Then SetDebugLog("DebugImageSave " & $sFullFileName, $COLOR_DEBUG)
+		If $g_bDebugSetLog Then SetDebugLog("DebugImageSave " & $sFullFileName, $COLOR_DEBUG)
 	EndIf
 
 	If _Sleep($DELAYDEBUGIMAGESAVE1) Then Return
@@ -431,7 +431,7 @@ Func SaveDebugDiamondImage($sImageName = "Unknown", $sArea = "" , $vCaptureNew =
 		_GDIPlus_GraphicsDispose($hGraphic)		
 		_GDIPlus_BitmapDispose($editedImage)
 		
-		If $g_bDebugSetlog Then SetDebugLog("DebugImageSave " & $sFullFileName, $COLOR_DEBUG)
+		If $g_bDebugSetLog Then SetDebugLog("DebugImageSave " & $sFullFileName, $COLOR_DEBUG)
 	EndIf
 
 	If _Sleep($DELAYDEBUGIMAGESAVE1) Then Return

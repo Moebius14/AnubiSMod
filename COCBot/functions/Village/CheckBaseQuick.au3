@@ -35,7 +35,7 @@ Func CheckBaseQuick($sReturnHome = "")
 
 	If IsMainPage() Then ; check for main page
 
-		If $g_bDebugSetlog Then SetDebugLog("CheckBaseQuick now", $COLOR_DEBUG)
+		If $g_bDebugSetLog Then SetDebugLog("CheckBaseQuick now", $COLOR_DEBUG)
 
 		If Not IsToFillCCWithMedalsOnly() Then RequestCC() ; fill CC
 		If _Sleep($DELAYRUNBOT1) Then Return
@@ -60,7 +60,7 @@ Func CheckBaseQuick($sReturnHome = "")
 				TrainSystem()
 				If $g_bRestart Then Return
 			Else
-				If $g_bDebugSetlogTrain Then SetLog("skip train. " & $g_iActualTrainSkip + 1 & "/" & $g_iMaxTrainSkip, $color_purple)
+				If $g_bDebugSetLogTrain Then SetLog("skip train. " & $g_iActualTrainSkip + 1 & "/" & $g_iMaxTrainSkip, $color_purple)
 				$g_iActualTrainSkip = $g_iActualTrainSkip + 1
 				CheckOverviewFullArmy(True, False) ; use true parameter to open train overview window
 				getArmySpells()
@@ -78,7 +78,7 @@ Func CheckBaseQuick($sReturnHome = "")
 		If _Sleep($DELAYRUNBOT1) Then Return
 
 	Else
-		If $g_bDebugSetlog Then SetDebugLog("Not on main page, CheckBaseQuick skipped", $COLOR_WARNING)
+		If $g_bDebugSetLog Then SetDebugLog("Not on main page, CheckBaseQuick skipped", $COLOR_WARNING)
 	EndIf
 
 EndFunc   ;==>CheckBaseQuick

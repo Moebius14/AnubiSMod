@@ -41,7 +41,7 @@ Func RemoveSieges($bHowToRemoveSieges)
 		If Not OpenArmyTab(False, "Removesieges") Then Return
 		If _Sleep(300) Then Return
 		Local $sSiegeInfo = getSiegeCampCap(707, 168 + $g_iMidOffsetY, True) ; OCR read Siege built and total
-		If $g_bDebugSetlogTrain Then SetLog("OCR $sSiegeInfo = " & $sSiegeInfo, $COLOR_DEBUG)
+		If $g_bDebugSetLogTrain Then SetLog("OCR $sSiegeInfo = " & $sSiegeInfo, $COLOR_DEBUG)
 		Local $aGetSiegeCap = StringSplit($sSiegeInfo, "#", $STR_NOCOUNT) ; split the built Siege number from the total Siege number
 		If UBound($aGetSiegeCap) = 2 Then
 			Click(775, 175 + $g_iMidOffsetY)
@@ -70,13 +70,13 @@ Func RemoveSiegesQueue() ; Will remove All Sieges in queue
 	Local Const $yRemoveBtn = 198 + $g_iMidOffsetY ; Troop remove button Y location
 	Local $bColorCheck = False
 	Local $bLoop = 0
-	If Not $g_bRunState Then Return FuncReturn(False, $g_bDebugSetlogTrain)
-	$bColorCheck = _ColorCheck(_GetPixelColor($x, $y, True, $g_bDebugSetlogTrain ? "RemoveSiegesQueue:E70D0F" : Default), Hex(0xE70D0F, 6), 20)
+	If Not $g_bRunState Then Return FuncReturn(False, $g_bDebugSetLogTrain)
+	$bColorCheck = _ColorCheck(_GetPixelColor($x, $y, True, $g_bDebugSetLogTrain ? "RemoveSiegesQueue:E70D0F" : Default), Hex(0xE70D0F, 6), 20)
 	While $bColorCheck
 		Local $g_iTrainClickDelayfinal = Random($g_iTrainClickDelay - $RandomClickTrainAddTimeMin, $g_iTrainClickDelay + $RandomClickTrainAddTimeMax, 1)
 		Click($x, $yRemoveBtn, 1, $g_iTrainClickDelayfinal)  ; click remove button
 		If _Sleep(200) Then Return
-		$bColorCheck = _ColorCheck(_GetPixelColor($x, $y, True, $g_bDebugSetlogTrain ? "RemoveSiegesQueue:E70D0F" : Default), Hex(0xE70D0F, 6), 20)
+		$bColorCheck = _ColorCheck(_GetPixelColor($x, $y, True, $g_bDebugSetLogTrain ? "RemoveSiegesQueue:E70D0F" : Default), Hex(0xE70D0F, 6), 20)
 		$bLoop += 1
 		If $bLoop = 7 Then ExitLoop
 	WEnd
@@ -93,7 +93,7 @@ Func TrainSiege($bTrainFullSiege = False, $bDebugSetLog = $g_bDebugSetLog, $bSet
 	; Check if is necessary run the routine
 	If Not $g_bRunState Then Return
 
-	If $g_bDebugSetlogTrain Then SetLog("-- TrainSiege --", $COLOR_DEBUG)
+	If $g_bDebugSetLogTrain Then SetLog("-- TrainSiege --", $COLOR_DEBUG)
 
 	If Not OpenSiegeMachinesTab(True, "TrainSiege()") Then Return
 	If _Sleep(500) Then Return
@@ -119,7 +119,7 @@ Func TrainSiege($bTrainFullSiege = False, $bDebugSetLog = $g_bDebugSetLog, $bSet
 		EndIf
 	EndIf
 
-	If $g_bDebugSetlogTrain Or $bDebugSetLog Then
+	If $g_bDebugSetLogTrain Or $bDebugSetLog Then
 		For $iSiegeIndex = $eSiegeWallWrecker To $eSiegeMachineCount - 1
 			SetLog("-- " & $g_asSiegeMachineNames[$iSiegeIndex] & " --", $COLOR_DEBUG)
 			SetLog(@TAB & "To Build: " & $g_aiArmyCompSiegeMachines[$iSiegeIndex], $COLOR_DEBUG)

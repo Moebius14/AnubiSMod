@@ -371,7 +371,7 @@ Func KingUpgrade()
 	Local $YellowSearch = _PixelSearch(610, 539 + $g_iMidOffsetY, 650, 543 + $g_iMidOffsetY, Hex(0xFFF10D, 6), 20)
 	If (IsArray($aWhiteZeros) And UBound($aWhiteZeros, 1) = 2) Then
 
-		Local $bUpgradeCost = 1000 * ($g_afKingUpgCost[$g_iKingLevel - 1] * 1000 * $SpecialEventReduction * (1 - Number($g_iBuilderBoostDiscount) / 100))
+		Local $bUpgradeCost = ($g_afKingUpgCost[$g_iKingLevel] * 1000 * $SpecialEventReduction * (1 - Number($g_iBuilderBoostDiscount) / 100));($g_afKingUpgCost[96] * 1000 * $SpecialEventReduction * (1 - Number($g_iBuilderBoostDiscount) / 100))
 		SetLog("Upgrade cost " & Number($bUpgradeCost) & " Dark Elixir", $COLOR_INFO)
 		If _Sleep(1000) Then Return
 
@@ -384,12 +384,10 @@ Func KingUpgrade()
 			Return
 		EndIf
 		SetLog("King Upgrade complete", $COLOR_SUCCESS)
-		If $g_aiCmbCustomHeroOrder[4] = 0 Then
-			GUICtrlSetState($g_hPicKingGray, $GUI_HIDE)
-			GUICtrlSetState($g_hPicKingRed, $GUI_SHOW)
-			GUICtrlSetState($g_hPicKingBlue, $GUI_HIDE)
-			GUICtrlSetState($g_hPicKingGreen, $GUI_HIDE)
-		EndIf
+		GUICtrlSetState($g_hPicKingGray, $GUI_HIDE)
+		GUICtrlSetState($g_hPicKingRed, $GUI_SHOW)
+		GUICtrlSetState($g_hPicKingBlue, $GUI_HIDE)
+		GUICtrlSetState($g_hPicKingGreen, $GUI_HIDE)
 		$g_aiHiddenHeroStatus[0] = 2
 		$g_iHeroUpgrading[0] = 1
 		$g_iHeroUpgradingBit = BitOR($g_iHeroUpgradingBit, $eHeroKing)
@@ -401,7 +399,7 @@ Func KingUpgrade()
 		UpdateStats()
 	ElseIf IsArray($YellowSearch) Then
 
-		Local $bUpgradeCost = 1000 * ($g_afKingUpgCost[$g_iKingLevel - 1] * 1000 * $SpecialEventReduction * (1 - Number($g_iBuilderBoostDiscount) / 100))
+		Local $bUpgradeCost = ($g_afKingUpgCost[$g_iKingLevel] * 1000 * $SpecialEventReduction * (1 - Number($g_iBuilderBoostDiscount) / 100))
 		SetLog("Upgrade cost " & Number($bUpgradeCost) & " Dark Elixir", $COLOR_INFO)
 		If _Sleep(1000) Then Return
 
@@ -414,12 +412,10 @@ Func KingUpgrade()
 			Return
 		EndIf
 		SetLog("King Upgrade complete", $COLOR_SUCCESS)
-		If $g_aiCmbCustomHeroOrder[4] = 0 Then
-			GUICtrlSetState($g_hPicKingGray, $GUI_HIDE)
-			GUICtrlSetState($g_hPicKingRed, $GUI_SHOW)
-			GUICtrlSetState($g_hPicKingBlue, $GUI_HIDE)
-			GUICtrlSetState($g_hPicKingGreen, $GUI_HIDE)
-		EndIf
+		GUICtrlSetState($g_hPicKingGray, $GUI_HIDE)
+		GUICtrlSetState($g_hPicKingRed, $GUI_SHOW)
+		GUICtrlSetState($g_hPicKingBlue, $GUI_HIDE)
+		GUICtrlSetState($g_hPicKingGreen, $GUI_HIDE)
 		$g_aiHiddenHeroStatus[0] = 2
 		$g_iHeroUpgrading[0] = 1
 		$g_iHeroUpgradingBit = BitOR($g_iHeroUpgradingBit, $eHeroKing)
@@ -446,12 +442,10 @@ Func KingUpgrade()
 				If _Sleep(1000) Then Return
 				If ClickB("BoostConfirm") Then
 					SetLog("Hero Upgrade Finished With Book of Heroes", $COLOR_SUCCESS)
-					If $g_aiCmbCustomHeroOrder[4] = 0 Then
-						GUICtrlSetState($g_hPicKingGray, $GUI_HIDE)
-						GUICtrlSetState($g_hPicKingRed, $GUI_HIDE)
-						GUICtrlSetState($g_hPicKingBlue, $GUI_HIDE)
-						GUICtrlSetState($g_hPicKingGreen, $GUI_SHOW)
-					EndIf
+					GUICtrlSetState($g_hPicKingGray, $GUI_HIDE)
+					GUICtrlSetState($g_hPicKingRed, $GUI_HIDE)
+					GUICtrlSetState($g_hPicKingBlue, $GUI_HIDE)
+					GUICtrlSetState($g_hPicKingGreen, $GUI_SHOW)
 					$g_aiHiddenHeroStatus[0] = 1
 					$g_iHeroUpgrading[0] = 0
 					$g_iHeroUpgradingBit = BitAND($g_iHeroUpgradingBit, BitOR($eHeroQueen, $eHeroPrince, $eHeroWarden, $eHeroChampion))
@@ -559,7 +553,7 @@ Func QueenUpgrade()
 	Local $YellowSearch = _PixelSearch(610, 539 + $g_iMidOffsetY, 650, 543 + $g_iMidOffsetY, Hex(0xFFF10D, 6), 20)
 	If (IsArray($aWhiteZeros) And UBound($aWhiteZeros, 1) = 2) Then
 
-		Local $bUpgradeCost = 1000 * ($g_afQueenUpgCost[$g_iQueenLevel - 1] * 1000 * $SpecialEventReduction * (1 - Number($g_iBuilderBoostDiscount) / 100))
+		Local $bUpgradeCost = ($g_afQueenUpgCost[$g_iQueenLevel] * 1000 * $SpecialEventReduction * (1 - Number($g_iBuilderBoostDiscount) / 100))
 		SetLog("Upgrade cost " & Number($bUpgradeCost) & " Dark Elixir", $COLOR_INFO)
 		If _Sleep(1000) Then Return
 
@@ -572,12 +566,10 @@ Func QueenUpgrade()
 			Return
 		EndIf
 		SetLog("Queen Upgrade complete", $COLOR_SUCCESS)
-		If $g_aiCmbCustomHeroOrder[4] = 1 Then
-			GUICtrlSetState($g_hPicQueenGray, $GUI_HIDE)
-			GUICtrlSetState($g_hPicQueenRed, $GUI_SHOW)
-			GUICtrlSetState($g_hPicQueenBlue, $GUI_HIDE)
-			GUICtrlSetState($g_hPicQueenGreen, $GUI_HIDE)
-		EndIf
+		GUICtrlSetState($g_hPicQueenGray, $GUI_HIDE)
+		GUICtrlSetState($g_hPicQueenRed, $GUI_SHOW)
+		GUICtrlSetState($g_hPicQueenBlue, $GUI_HIDE)
+		GUICtrlSetState($g_hPicQueenGreen, $GUI_HIDE)
 		$g_aiHiddenHeroStatus[1] = 2
 		$g_iHeroUpgrading[1] = 1
 		$g_iHeroUpgradingBit = BitOR($g_iHeroUpgradingBit, $eHeroQueen)
@@ -589,7 +581,7 @@ Func QueenUpgrade()
 		UpdateStats()
 	ElseIf IsArray($YellowSearch) Then
 
-		Local $bUpgradeCost = 1000 * ($g_afQueenUpgCost[$g_iQueenLevel - 1] * 1000 * $SpecialEventReduction * (1 - Number($g_iBuilderBoostDiscount) / 100))
+		Local $bUpgradeCost = ($g_afQueenUpgCost[$g_iQueenLevel] * 1000 * $SpecialEventReduction * (1 - Number($g_iBuilderBoostDiscount) / 100))
 		SetLog("Upgrade cost " & Number($bUpgradeCost) & " Dark Elixir", $COLOR_INFO)
 		If _Sleep(1000) Then Return
 
@@ -602,12 +594,10 @@ Func QueenUpgrade()
 			Return
 		EndIf
 		SetLog("Queen Upgrade complete", $COLOR_SUCCESS)
-		If $g_aiCmbCustomHeroOrder[4] = 1 Then
-			GUICtrlSetState($g_hPicQueenGray, $GUI_HIDE)
-			GUICtrlSetState($g_hPicQueenRed, $GUI_SHOW)
-			GUICtrlSetState($g_hPicQueenBlue, $GUI_HIDE)
-			GUICtrlSetState($g_hPicQueenGreen, $GUI_HIDE)
-		EndIf
+		GUICtrlSetState($g_hPicQueenGray, $GUI_HIDE)
+		GUICtrlSetState($g_hPicQueenRed, $GUI_SHOW)
+		GUICtrlSetState($g_hPicQueenBlue, $GUI_HIDE)
+		GUICtrlSetState($g_hPicQueenGreen, $GUI_HIDE)
 		$g_aiHiddenHeroStatus[1] = 2
 		$g_iHeroUpgrading[1] = 1
 		$g_iHeroUpgradingBit = BitOR($g_iHeroUpgradingBit, $eHeroQueen)
@@ -634,12 +624,10 @@ Func QueenUpgrade()
 				If _Sleep(1000) Then Return
 				If ClickB("BoostConfirm") Then
 					SetLog("Hero Upgrade Finished With Book of Heroes", $COLOR_SUCCESS)
-					If $g_aiCmbCustomHeroOrder[4] = 1 Then
-						GUICtrlSetState($g_hPicQueenGray, $GUI_HIDE)
-						GUICtrlSetState($g_hPicQueenRed, $GUI_HIDE)
-						GUICtrlSetState($g_hPicQueenBlue, $GUI_HIDE)
-						GUICtrlSetState($g_hPicQueenGreen, $GUI_SHOW)
-					EndIf
+					GUICtrlSetState($g_hPicQueenGray, $GUI_HIDE)
+					GUICtrlSetState($g_hPicQueenRed, $GUI_HIDE)
+					GUICtrlSetState($g_hPicQueenBlue, $GUI_HIDE)
+					GUICtrlSetState($g_hPicQueenGreen, $GUI_SHOW)
 					$g_aiHiddenHeroStatus[1] = 1
 					$g_iHeroUpgrading[1] = 0
 					$g_iHeroUpgradingBit = BitAND($g_iHeroUpgradingBit, BitOR($eHeroKing, $eHeroPrince, $eHeroWarden, $eHeroChampion))
@@ -747,7 +735,7 @@ Func PrinceUpgrade()
 	Local $YellowSearch = _PixelSearch(610, 539 + $g_iMidOffsetY, 650, 543 + $g_iMidOffsetY, Hex(0xFFF10D, 6), 20)
 	If (IsArray($aWhiteZeros) And UBound($aWhiteZeros, 1) = 2) Then
 
-		Local $bUpgradeCost = 1000 * ($g_afPrinceUpgCost[$g_iPrinceLevel - 1] * 1000 * $SpecialEventReduction * (1 - Number($g_iBuilderBoostDiscount) / 100))
+		Local $bUpgradeCost = ($g_afPrinceUpgCost[$g_iPrinceLevel] * 1000 * $SpecialEventReduction * (1 - Number($g_iBuilderBoostDiscount) / 100))
 		SetLog("Upgrade cost " & Number($bUpgradeCost) & " Dark Elixir", $COLOR_INFO)
 		If _Sleep(1000) Then Return
 
@@ -760,12 +748,10 @@ Func PrinceUpgrade()
 			Return
 		EndIf
 		SetLog("Prince Upgrade complete", $COLOR_SUCCESS)
-		If $g_aiCmbCustomHeroOrder[4] = 2 Then
-			GUICtrlSetState($g_hPicPrinceGray, $GUI_HIDE)
-			GUICtrlSetState($g_hPicPrinceRed, $GUI_SHOW)
-			GUICtrlSetState($g_hPicPrinceBlue, $GUI_HIDE)
-			GUICtrlSetState($g_hPicPrinceGreen, $GUI_HIDE)
-		EndIf
+		GUICtrlSetState($g_hPicPrinceGray, $GUI_HIDE)
+		GUICtrlSetState($g_hPicPrinceRed, $GUI_SHOW)
+		GUICtrlSetState($g_hPicPrinceBlue, $GUI_HIDE)
+		GUICtrlSetState($g_hPicPrinceGreen, $GUI_HIDE)
 		$g_aiHiddenHeroStatus[2] = 2
 		$g_iHeroUpgrading[2] = 1
 		$g_iHeroUpgradingBit = BitOR($g_iHeroUpgradingBit, $eHeroPrince)
@@ -777,7 +763,7 @@ Func PrinceUpgrade()
 		UpdateStats()
 	ElseIf IsArray($YellowSearch) Then
 
-		Local $bUpgradeCost = 1000 * ($g_afPrinceUpgCost[$g_iPrinceLevel - 1] * 1000 * $SpecialEventReduction * (1 - Number($g_iBuilderBoostDiscount) / 100))
+		Local $bUpgradeCost = ($g_afPrinceUpgCost[$g_iPrinceLevel] * 1000 * $SpecialEventReduction * (1 - Number($g_iBuilderBoostDiscount) / 100))
 		SetLog("Upgrade cost " & Number($bUpgradeCost) & " Dark Elixir", $COLOR_INFO)
 		If _Sleep(1000) Then Return
 
@@ -790,12 +776,10 @@ Func PrinceUpgrade()
 			Return
 		EndIf
 		SetLog("Prince Upgrade complete", $COLOR_SUCCESS)
-		If $g_aiCmbCustomHeroOrder[4] = 2 Then
-			GUICtrlSetState($g_hPicPrinceGray, $GUI_HIDE)
-			GUICtrlSetState($g_hPicPrinceRed, $GUI_SHOW)
-			GUICtrlSetState($g_hPicPrinceBlue, $GUI_HIDE)
-			GUICtrlSetState($g_hPicPrinceGreen, $GUI_HIDE)
-		EndIf
+		GUICtrlSetState($g_hPicPrinceGray, $GUI_HIDE)
+		GUICtrlSetState($g_hPicPrinceRed, $GUI_SHOW)
+		GUICtrlSetState($g_hPicPrinceBlue, $GUI_HIDE)
+		GUICtrlSetState($g_hPicPrinceGreen, $GUI_HIDE)
 		$g_aiHiddenHeroStatus[2] = 2
 		$g_iHeroUpgrading[2] = 1
 		$g_iHeroUpgradingBit = BitOR($g_iHeroUpgradingBit, $eHeroPrince)
@@ -822,12 +806,10 @@ Func PrinceUpgrade()
 				If _Sleep(1000) Then Return
 				If ClickB("BoostConfirm") Then
 					SetLog("Hero Upgrade Finished With Book of Heroes", $COLOR_SUCCESS)
-					If $g_aiCmbCustomHeroOrder[4] = 2 Then
-						GUICtrlSetState($g_hPicPrinceGray, $GUI_HIDE)
-						GUICtrlSetState($g_hPicPrinceRed, $GUI_HIDE)
-						GUICtrlSetState($g_hPicPrinceBlue, $GUI_HIDE)
-						GUICtrlSetState($g_hPicPrinceGreen, $GUI_SHOW)
-					EndIf
+					GUICtrlSetState($g_hPicPrinceGray, $GUI_HIDE)
+					GUICtrlSetState($g_hPicPrinceRed, $GUI_HIDE)
+					GUICtrlSetState($g_hPicPrinceBlue, $GUI_HIDE)
+					GUICtrlSetState($g_hPicPrinceGreen, $GUI_SHOW)
 					$g_aiHiddenHeroStatus[2] = 1
 					$g_iHeroUpgrading[2] = 0
 					$g_iHeroUpgradingBit = BitAND($g_iHeroUpgradingBit, BitOR($eHeroKing, $eHeroQueen, $eHeroWarden, $eHeroChampion))
@@ -934,7 +916,7 @@ Func WardenUpgrade()
 	Local $YellowSearch = _PixelSearch(610, 539 + $g_iMidOffsetY, 650, 543 + $g_iMidOffsetY, Hex(0xFFF10D, 6), 20)
 	If (IsArray($aWhiteZeros) And UBound($aWhiteZeros, 1) = 2) Then
 
-		Local $bUpgradeCost = 1000 * ($g_afWardenUpgCost[$g_iWardenLevel - 1] * 1000 * $SpecialEventReduction * (1 - Number($g_iBuilderBoostDiscount) / 100))
+		Local $bUpgradeCost = ($g_afWardenUpgCost[$g_iWardenLevel] * 1000000 * $SpecialEventReduction * (1 - Number($g_iBuilderBoostDiscount) / 100))
 		SetLog("Upgrade cost " & Number($bUpgradeCost) & " Elixir", $COLOR_INFO)
 		If _Sleep(1000) Then Return
 
@@ -947,12 +929,10 @@ Func WardenUpgrade()
 			Return
 		EndIf
 		SetLog("Warden Upgrade complete", $COLOR_SUCCESS)
-		If $g_aiCmbCustomHeroOrder[4] = 3 Then
-			GUICtrlSetState($g_hPicWardenGray, $GUI_HIDE)
-			GUICtrlSetState($g_hPicWardenRed, $GUI_SHOW)
-			GUICtrlSetState($g_hPicWardenBlue, $GUI_HIDE)
-			GUICtrlSetState($g_hPicWardenGreen, $GUI_HIDE)
-		EndIf
+		GUICtrlSetState($g_hPicWardenGray, $GUI_HIDE)
+		GUICtrlSetState($g_hPicWardenRed, $GUI_SHOW)
+		GUICtrlSetState($g_hPicWardenBlue, $GUI_HIDE)
+		GUICtrlSetState($g_hPicWardenGreen, $GUI_HIDE)
 		$g_aiHiddenHeroStatus[3] = 2
 		$g_iHeroUpgrading[3] = 1
 		$g_iHeroUpgradingBit = BitOR($g_iHeroUpgradingBit, $eHeroWarden)
@@ -964,7 +944,7 @@ Func WardenUpgrade()
 		UpdateStats()
 	ElseIf IsArray($YellowSearch) Then
 
-		Local $bUpgradeCost = 1000 * ($g_afWardenUpgCost[$g_iWardenLevel - 1] * 1000 * $SpecialEventReduction * (1 - Number($g_iBuilderBoostDiscount) / 100))
+		Local $bUpgradeCost = ($g_afWardenUpgCost[$g_iWardenLevel] * 1000000 * $SpecialEventReduction * (1 - Number($g_iBuilderBoostDiscount) / 100))
 		SetLog("Upgrade cost " & Number($bUpgradeCost) & " Elixir", $COLOR_INFO)
 		If _Sleep(1000) Then Return
 
@@ -977,12 +957,10 @@ Func WardenUpgrade()
 			Return
 		EndIf
 		SetLog("Warden Upgrade complete", $COLOR_SUCCESS)
-		If $g_aiCmbCustomHeroOrder[4] = 3 Then
-			GUICtrlSetState($g_hPicWardenGray, $GUI_HIDE)
-			GUICtrlSetState($g_hPicWardenRed, $GUI_SHOW)
-			GUICtrlSetState($g_hPicWardenBlue, $GUI_HIDE)
-			GUICtrlSetState($g_hPicWardenGreen, $GUI_HIDE)
-		EndIf
+		GUICtrlSetState($g_hPicWardenGray, $GUI_HIDE)
+		GUICtrlSetState($g_hPicWardenRed, $GUI_SHOW)
+		GUICtrlSetState($g_hPicWardenBlue, $GUI_HIDE)
+		GUICtrlSetState($g_hPicWardenGreen, $GUI_HIDE)
 		$g_aiHiddenHeroStatus[3] = 2
 		$g_iHeroUpgrading[3] = 1
 		$g_iHeroUpgradingBit = BitOR($g_iHeroUpgradingBit, $eHeroWarden)
@@ -1009,12 +987,10 @@ Func WardenUpgrade()
 				If _Sleep(1000) Then Return
 				If ClickB("BoostConfirm") Then
 					SetLog("Hero Upgrade Finished With Book of Heroes", $COLOR_SUCCESS)
-					If $g_aiCmbCustomHeroOrder[4] = 3 Then
-						GUICtrlSetState($g_hPicWardenGray, $GUI_HIDE)
-						GUICtrlSetState($g_hPicWardenRed, $GUI_HIDE)
-						GUICtrlSetState($g_hPicWardenBlue, $GUI_HIDE)
-						GUICtrlSetState($g_hPicWardenGreen, $GUI_SHOW)
-					EndIf
+					GUICtrlSetState($g_hPicWardenGray, $GUI_HIDE)
+					GUICtrlSetState($g_hPicWardenRed, $GUI_HIDE)
+					GUICtrlSetState($g_hPicWardenBlue, $GUI_HIDE)
+					GUICtrlSetState($g_hPicWardenGreen, $GUI_SHOW)
 					$g_aiHiddenHeroStatus[3] = 1
 					$g_iHeroUpgrading[3] = 0
 					$g_iHeroUpgradingBit = BitAND($g_iHeroUpgradingBit, BitOR($eHeroKing, $eHeroQueen, $eHeroPrince, $eHeroChampion))
@@ -1122,7 +1098,7 @@ Func ChampionUpgrade()
 	Local $YellowSearch = _PixelSearch(610, 539 + $g_iMidOffsetY, 650, 543 + $g_iMidOffsetY, Hex(0xFFF10D, 6), 20)
 	If (IsArray($aWhiteZeros) And UBound($aWhiteZeros, 1) = 2) Then
 
-		Local $bUpgradeCost = 1000 * ($g_afChampionUpgCost[$g_iChampionLevel - 1] * 1000 * $SpecialEventReduction * (1 - Number($g_iBuilderBoostDiscount) / 100))
+		Local $bUpgradeCost = ($g_afChampionUpgCost[$g_iChampionLevel] * 1000 * $SpecialEventReduction * (1 - Number($g_iBuilderBoostDiscount) / 100))
 		SetLog("Upgrade cost " & Number($bUpgradeCost) & " Dark Elixir", $COLOR_INFO)
 		If _Sleep(1000) Then Return
 
@@ -1135,12 +1111,10 @@ Func ChampionUpgrade()
 			Return
 		EndIf
 		SetLog("Champion Upgrade complete", $COLOR_SUCCESS)
-		If $g_aiCmbCustomHeroOrder[4] = 4 Then
-			GUICtrlSetState($g_hPicChampionGray, $GUI_HIDE)
-			GUICtrlSetState($g_hPicChampionRed, $GUI_SHOW)
-			GUICtrlSetState($g_hPicChampionBlue, $GUI_HIDE)
-			GUICtrlSetState($g_hPicChampionGreen, $GUI_HIDE)
-		EndIf
+		GUICtrlSetState($g_hPicChampionGray, $GUI_HIDE)
+		GUICtrlSetState($g_hPicChampionRed, $GUI_SHOW)
+		GUICtrlSetState($g_hPicChampionBlue, $GUI_HIDE)
+		GUICtrlSetState($g_hPicChampionGreen, $GUI_HIDE)
 		$g_aiHiddenHeroStatus[4] = 2
 		$g_iHeroUpgrading[4] = 1
 		$g_iHeroUpgradingBit = BitOR($g_iHeroUpgradingBit, $eHeroChampion)
@@ -1152,7 +1126,7 @@ Func ChampionUpgrade()
 		UpdateStats()
 	ElseIf IsArray($YellowSearch) Then
 
-		Local $bUpgradeCost = 1000 * ($g_afChampionUpgCost[$g_iChampionLevel - 1] * 1000 * $SpecialEventReduction * (1 - Number($g_iBuilderBoostDiscount) / 100))
+		Local $bUpgradeCost = ($g_afChampionUpgCost[$g_iChampionLevel] * 1000 * $SpecialEventReduction * (1 - Number($g_iBuilderBoostDiscount) / 100))
 		SetLog("Upgrade cost " & Number($bUpgradeCost) & " Dark Elixir", $COLOR_INFO)
 		If _Sleep(1000) Then Return
 
@@ -1165,12 +1139,10 @@ Func ChampionUpgrade()
 			Return
 		EndIf
 		SetLog("Champion Upgrade complete", $COLOR_SUCCESS)
-		If $g_aiCmbCustomHeroOrder[4] = 4 Then
-			GUICtrlSetState($g_hPicChampionGray, $GUI_HIDE)
-			GUICtrlSetState($g_hPicChampionRed, $GUI_SHOW)
-			GUICtrlSetState($g_hPicChampionBlue, $GUI_HIDE)
-			GUICtrlSetState($g_hPicChampionGreen, $GUI_HIDE)
-		EndIf
+		GUICtrlSetState($g_hPicChampionGray, $GUI_HIDE)
+		GUICtrlSetState($g_hPicChampionRed, $GUI_SHOW)
+		GUICtrlSetState($g_hPicChampionBlue, $GUI_HIDE)
+		GUICtrlSetState($g_hPicChampionGreen, $GUI_HIDE)
 		$g_aiHiddenHeroStatus[4] = 2
 		$g_iHeroUpgrading[4] = 1
 		$g_iHeroUpgradingBit = BitOR($g_iHeroUpgradingBit, $eHeroChampion)
@@ -1197,12 +1169,10 @@ Func ChampionUpgrade()
 				If _Sleep(1000) Then Return
 				If ClickB("BoostConfirm") Then
 					SetLog("Hero Upgrade Finished With Book of Heroes", $COLOR_SUCCESS)
-					If $g_aiCmbCustomHeroOrder[4] = 4 Then
-						GUICtrlSetState($g_hPicChampionGray, $GUI_HIDE)
-						GUICtrlSetState($g_hPicChampionRed, $GUI_HIDE)
-						GUICtrlSetState($g_hPicChampionBlue, $GUI_HIDE)
-						GUICtrlSetState($g_hPicChampionGreen, $GUI_SHOW)
-					EndIf
+					GUICtrlSetState($g_hPicChampionGray, $GUI_HIDE)
+					GUICtrlSetState($g_hPicChampionRed, $GUI_HIDE)
+					GUICtrlSetState($g_hPicChampionBlue, $GUI_HIDE)
+					GUICtrlSetState($g_hPicChampionGreen, $GUI_SHOW)
 					$g_aiHiddenHeroStatus[4] = 1
 					$g_iHeroUpgrading[4] = 0
 					$g_iHeroUpgradingBit = BitAND($g_iHeroUpgradingBit, BitOR($eHeroKing, $eHeroQueen, $eHeroPrince, $eHeroWarden))
@@ -1232,7 +1202,7 @@ Func ReservedBuildersForHeroes($aSetLog = True)
 	Local $iFreeBuildersReservedForHeroes = _Max(Number($g_iHeroReservedBuilder) - $iUsedBuildersForHeroes, 0)
 	If $aSetLog Then SetLog($iFreeBuildersReservedForHeroes & " free builder" & ($iFreeBuildersReservedForHeroes > 1 ? "s are" : " is") & " reserved for heroes.", $COLOR_INFO)
 
-	If $g_bDebugSetlog Then SetLog("HeroBuilders R|Rn|W|F: " & $g_iHeroReservedBuilder & "|" & Number($g_iHeroReservedBuilder) & "|" & $iUsedBuildersForHeroes & "|" & $iFreeBuildersReservedForHeroes, $COLOR_DEBUG)
+	If $g_bDebugSetLog Then SetLog("HeroBuilders R|Rn|W|F: " & $g_iHeroReservedBuilder & "|" & Number($g_iHeroReservedBuilder) & "|" & $iUsedBuildersForHeroes & "|" & $iFreeBuildersReservedForHeroes, $COLOR_DEBUG)
 
 	Return $iFreeBuildersReservedForHeroes
 EndFunc   ;==>ReservedBuildersForHeroes

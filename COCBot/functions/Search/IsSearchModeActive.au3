@@ -70,7 +70,7 @@ Func IsSearchModeActive($g_iMatchMode, $bDontCheckHeroes = False, $bNoLog = Fals
 
 	If $bCheckHeroes And $g_bCheckSpells And $bcheckSiege Then ;If $bCheckHeroes Then
 		If ($checkSearches Or $g_abSearchSearchesEnable[$g_iMatchMode] = False) And ($checkTropies Or $g_abSearchTropiesEnable[$g_iMatchMode] = False) And ($checkArmyCamps Or $g_abSearchCampsEnable[$g_iMatchMode] = False) Then
-			If $g_bDebugSetlog And Not $bNoLog Then SetLog($g_asModeText[$g_iMatchMode] & " active! ($checkSearches=" & $checkSearches & _
+			If $g_bDebugSetLog And Not $bNoLog Then SetLog($g_asModeText[$g_iMatchMode] & " active! ($checkSearches=" & $checkSearches & _
 					",$checkTropies=" & $checkTropies & _
 					",$checkArmyCamps=" & $checkArmyCamps & _
 					",$bCheckHeroes=" & $bCheckHeroes & _
@@ -78,7 +78,7 @@ Func IsSearchModeActive($g_iMatchMode, $bDontCheckHeroes = False, $bNoLog = Fals
 					",$bcheckSiege=" & $bcheckSiege & ")", $COLOR_INFO)
 			Return True
 		Else
-			If $g_bDebugSetlog And Not $bNoLog Then
+			If $g_bDebugSetLog And Not $bNoLog Then
 				SetLog($g_asModeText[$g_iMatchMode] & " not active!", $COLOR_INFO)
 				Local $txtsearches = "Fail"
 				If $checkSearches Then $txtsearches = "Success"
@@ -101,12 +101,12 @@ Func IsSearchModeActive($g_iMatchMode, $bDontCheckHeroes = False, $bNoLog = Fals
 			Return False
 		EndIf
 	ElseIf Not $bCheckHeroes Then
-		If $g_bDebugSetlog And Not $bNoLog Then SetLog("Heroes not ready", $COLOR_DEBUG)
+		If $g_bDebugSetLog And Not $bNoLog Then SetLog("Heroes not ready", $COLOR_DEBUG)
 		Return False
 	ElseIf Not $bcheckSiege Then
-		If $g_bDebugSetlog And Not $bNoLog Then SetLog("Siege not ready", $COLOR_DEBUG)
+		If $g_bDebugSetLog And Not $bNoLog Then SetLog("Siege not ready", $COLOR_DEBUG)
 	Else
-		If $g_bDebugSetlog And Not $bNoLog Then SetLog("Spells not ready", $COLOR_DEBUG)
+		If $g_bDebugSetLog And Not $bNoLog Then SetLog("Spells not ready", $COLOR_DEBUG)
 		Return False
 	EndIf
 EndFunc   ;==>IsSearchModeActive
@@ -132,11 +132,11 @@ EndFunc   ;==>IsSearchModeActiveMini
 Func IsWaitforSpellsActive()
 	For $i = $DB To $g_iModeCount - 1
 		If $g_abAttackTypeEnable[$i] And $g_abSearchSpellsWaitEnable[$i] Then
-			If $g_bDebugSetlogTrain Or $g_bDebugSetlog Then SetLog("IsWaitforSpellsActive = True", $COLOR_DEBUG)
+			If $g_bDebugSetLogTrain Or $g_bDebugSetLog Then SetLog("IsWaitforSpellsActive = True", $COLOR_DEBUG)
 			Return True
 		EndIf
 	Next
-	If $g_bDebugSetlogTrain Or $g_bDebugSetlog Then SetLog("IsWaitforSpellsActive = False", $COLOR_DEBUG)
+	If $g_bDebugSetLogTrain Or $g_bDebugSetLog Then SetLog("IsWaitforSpellsActive = False", $COLOR_DEBUG)
 	Return False
 EndFunc   ;==>IsWaitforSpellsActive
 
@@ -157,11 +157,11 @@ EndFunc   ;==>IsWaitforSpellsActive
 Func IsWaitforHeroesActive()
 	For $i = $DB To $g_iModeCount - 1
 		If $g_abAttackTypeEnable[$i] And ($g_aiSearchHeroWaitEnable[$i] > $eHeroNone And (BitAND($g_aiAttackUseHeroes[$i], $g_aiSearchHeroWaitEnable[$i]) = $g_aiSearchHeroWaitEnable[$i]) And (Abs($g_aiSearchHeroWaitEnable[$i] - $g_iHeroUpgradingBit) > $eHeroNone)) Then
-			If $g_bDebugSetlogTrain Or $g_bDebugSetlog Then SetLog("IsWaitforHeroesActive = True", $COLOR_DEBUG)
+			If $g_bDebugSetLogTrain Or $g_bDebugSetLog Then SetLog("IsWaitforHeroesActive = True", $COLOR_DEBUG)
 			Return True
 		EndIf
 	Next
-	If $g_bDebugSetlogTrain Or $g_bDebugSetlog Then SetLog("IsWaitforHeroesActive = False", $COLOR_DEBUG)
+	If $g_bDebugSetLogTrain Or $g_bDebugSetLog Then SetLog("IsWaitforHeroesActive = False", $COLOR_DEBUG)
 	Return False
 EndFunc   ;==>IsWaitforHeroesActive
 
@@ -182,10 +182,10 @@ EndFunc   ;==>IsWaitforHeroesActive
 Func IsWaitforSiegeMachine()
 	For $i = $DB To $g_iModeCount - 1
 		If $g_abAttackTypeEnable[$i] And $g_abSearchSiegeWaitEnable[$i] Then
-			If $g_bDebugSetlogTrain Or $g_bDebugSetlog Then SetLog("IsWaitforSiegeMachine = True", $COLOR_DEBUG)
+			If $g_bDebugSetLogTrain Or $g_bDebugSetLog Then SetLog("IsWaitforSiegeMachine = True", $COLOR_DEBUG)
 			Return True
 		EndIf
 	Next
-	If $g_bDebugSetlogTrain Or $g_bDebugSetlog Then SetLog("IsWaitforSiegeMachine = False", $COLOR_DEBUG)
+	If $g_bDebugSetLogTrain Or $g_bDebugSetLog Then SetLog("IsWaitforSiegeMachine = False", $COLOR_DEBUG)
 	Return False
 EndFunc   ;==>IsWaitforSiegeMachine

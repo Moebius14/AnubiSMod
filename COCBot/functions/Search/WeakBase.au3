@@ -204,7 +204,7 @@ Func defenseSearch(ByRef $aResult, $directory, $townHallLevel, $settingArray, $i
 			If $aResult[0][0] = "" Then $aResult[0][0] = $aDefenseResult[6]
 			; Check to see if further searches are required, $performSearch is passed ByRef, so this will update the value in the calling function
 			If Number($aDefenseResult[2]) > getMaxUISetting($settingArray, $iDefenseType) Then $performSearch = False
-			If $g_bDebugSetlog Then
+			If $g_bDebugSetLog Then
 				SetDebugLog("checkDefense: " & $g_aWeakDefenseNames[$iDefenseType] & " - " & Round(__TimerDiff($defenseTimer) / 1000, 2) & " seconds")
 				For $i = 0 To UBound($aDefenseResult) - 2
 					SetDebugLog("$aDefenseResult[" & $i & "]: " & $aDefenseResult[$i])
@@ -295,9 +295,9 @@ Func IsWeakBase($townHallLevel = $g_iMaxTHLevel, $redlines = "", $bForceCaptureR
 	; Forces the display of the various statistical displays, if set to true
 	; displayWeakBaseLog($aResult, true)
 	; Displays the various statistical displays, if debug logging is enabled
-	displayWeakBaseLog($aResult, $g_bDebugSetlog)
+	displayWeakBaseLog($aResult, $g_bDebugSetLog)
 
-	If $g_bDebugSetlog Then
+	If $g_bDebugSetLog Then
 		_LogObjList($g_oBldgAttackInfo) ; raw debug only!
 		Local $text = _ArrayToString($aResult, ",", 0, UBound($aResult, 1) - 1, "|", 0, UBound($aResult, 2) - 1)
 		If @error Then SetDebugLog("Error _ArrayToString, code:" & @error, $COLOR_ERROR)
@@ -433,7 +433,7 @@ Func DefenseSearchMultiMatch($iDefenseType, $directory, $redlines = "DCD", $stat
 		$redlines = "DCD"
 	EndIf
 
-	If $g_bDebugSetlog Then
+	If $g_bDebugSetLog Then
 		SetDebugLog("> " & $g_sBldgNames[$iDefenseType + 7] & " Max Level: " & $maxLevel & " Max Search Level: " & $maxLevelSearch, $COLOR_DEBUG)
 		SetDebugLog("> Max return points: " & $maxReturnPoints, $COLOR_DEBUG)
 		SetDebugLog("> Red Line Exists:" & $bRedLineExists & " , redlines=" & $redlines, $COLOR_DEBUG)
@@ -551,7 +551,7 @@ Func DefenseSearchMultiMatch($iDefenseType, $directory, $redlines = "DCD", $stat
 		Local $aBldgCoord = decodeMultipleCoords($sLocCoord) ; change building location string into array
 		If IsArray($aBldgCoord) Then $return[5] = $aBldgCoord ; store in return array
 
-		If $g_bDebugSetlog Or $g_bDebugBuildingPos Then
+		If $g_bDebugSetLog Or $g_bDebugBuildingPos Then
 			SetLog($g_sBldgNames[$iDefenseType + 7] & " Coordinates: " & $sLocCoord, $COLOR_DEBUG)
 			Local $sText
 			Select
