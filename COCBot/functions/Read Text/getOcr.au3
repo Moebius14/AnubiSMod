@@ -100,7 +100,7 @@ Func getCostsUpgrade($x_start, $y_start) ; -> Gets complete value of Gold/Elixir
 EndFunc   ;==>getCostsUpgrade
 
 Func getCostsUpgradeGear($x_start, $y_start) ; -> Gets complete value of Gold/Elixir bonus loot in "AttackReport.au3"
-	Local $Result = StringReplace(getOcrAndCapture("coc-CostsUpgrades-Gear", $x_start, $y_start, 130, 20, True), "b", "")
+	Local $Result = StringReplace(getOcrAndCapture("coc-RemainLabGob", $x_start, $y_start, 130, 20, True), "b", "")
 	Return $Result
 EndFunc   ;==>getCostsUpgradeGear
 
@@ -110,7 +110,7 @@ Func getCostsUpgradeRed($x_start, $y_start) ; -> Gets complete value of Gold/Eli
 EndFunc   ;==>getCostsUpgradeRed
 
 Func getCostsUpgradeGearRed($x_start, $y_start) ; -> Gets complete value of Gold/Elixir xxx,xxx , RED text on green upgrade button."UpgradeBuildings.au3"
-	Local $Result = StringReplace(getOcrAndCapture("coc-u-r", $x_start, $y_start, 130, 20, True), "b", "")
+	Local $Result = StringReplace(getOcrAndCapture("coc-CostsUpgradesRed-Gear", $x_start, $y_start, 130, 20, True), "b", "")
 	Return $Result
 EndFunc   ;==>getCostsUpgradeGearRed
 

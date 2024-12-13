@@ -297,7 +297,7 @@ Func algorithm_AllTroops() ;Attack Algorithm for all existing troops
 							[MatchTroopDropName(56), MatchSidesDrop(56), MatchTroopWaveNb(56), 1, MatchSlotsPerEdge(56)], _
 							[MatchTroopDropName(57), MatchSidesDrop(57), MatchTroopWaveNb(57), 1, MatchSlotsPerEdge(57)]]
 				Else
-					Local $listInfoDeploy[56][5] = [[$eGole, $nbSides, 1, 1, 2] _
+					Local $listInfoDeploy[58][5] = [[$eGole, $nbSides, 1, 1, 2] _
 							, [$eIceG, $nbSides, 1, 1, 2] _
 							, [$eLava, $nbSides, 1, 1, 2] _
 							, [$eYeti, $nbSides, 1, 1, 2] _
@@ -439,7 +439,7 @@ Func algorithm_AllTroops() ;Attack Algorithm for all existing troops
 			If $g_bDebugSetLog Then SetDebugLog("No Wast time... exit, no troops usable left", $COLOR_DEBUG)
 			ExitLoop ;Check remaining quantities
 		EndIf
-		For $i = $eBarb To $eIWiza ; launch all remaining troops
+		For $i = $eBarb To $eIMini ; launch all remaining troops
 			If LaunchTroop($i, $nbSides, 1, 1, 1) Then
 				CheckHeroesHealth()
 				If _Sleep($DELAYALGORITHM_ALLTROOPS5) Then Return

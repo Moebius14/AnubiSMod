@@ -166,6 +166,7 @@ Func SwitchAccountVariablesReload($sType = "Load", $iAccount = $g_iCurAccount)
 	;Lab Assistant
 	Static $gaSsAvailableLabAssistant = $aiZero
 	Static $aSTimeDiffLabAssistant = $aiZero
+	Static $SbLabAssistantUsedTime = $aiZero
 
 	;Magic Snack (Clan Castle Timer)
 	Static $SClanCastleCakeTimer = $aiZero
@@ -350,6 +351,7 @@ Func SwitchAccountVariablesReload($sType = "Load", $iAccount = $g_iCurAccount)
 			;Lab Assistant
 			$gaSsAvailableLabAssistant = $aiZero
 			$aSTimeDiffLabAssistant = $aiZero
+			$SbLabAssistantUsedTime = $aiZero
 
 			;Magic Snack (Clan Castle Timer)
 			$SClanCastleCakeTimer = $aiZero
@@ -559,6 +561,7 @@ Func SwitchAccountVariablesReload($sType = "Load", $iAccount = $g_iCurAccount)
 			;Lab Assistant
 			$gaSsAvailableLabAssistant[$iAccount] = $g_sAvailableLabAssistant
 			$aSTimeDiffLabAssistant[$iAccount] = $TimeDiffLabAssistant
+			$SbLabAssistantUsedTime[$iAccount] = $bLabAssistantUsedTime
 
 			;Magic Snack (Clan Castle Timer)
 			$SClanCastleCakeTimer[$iAccount] = $ClanCastleCakeTimer
@@ -789,6 +792,7 @@ Func SwitchAccountVariablesReload($sType = "Load", $iAccount = $g_iCurAccount)
 			;Lab Assistant
 			$g_sAvailableLabAssistant = $gaSsAvailableLabAssistant[$iAccount]
 			$TimeDiffLabAssistant = $aSTimeDiffLabAssistant[$iAccount]
+			$bLabAssistantUsedTime = $SbLabAssistantUsedTime[$iAccount]
 
 			;Magic Snack (Clan Castle Timer)
 			$ClanCastleCakeTimer = $SClanCastleCakeTimer[$iAccount]

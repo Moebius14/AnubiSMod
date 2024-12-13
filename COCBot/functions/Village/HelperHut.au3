@@ -582,7 +582,8 @@ Func LabAssistant()
 					If $iMin > 0 Then $sWaitTime &= $iMin & " minutes "
 
 					SetLog("Current Upgrade Will Finish in " & $sWaitTime, $COLOR_SUCCESS1)
-
+					$bLabAssistantUsedTime = _NowCalc()
+#cs
 					; Check if is a valid date and Calculated the number of minutes from remain time Lab and now
 					If _DateIsValid($g_sLabUpgradeTime) Then
 						Local $iLabTime = _DateDiff('n', _NowCalc(), $g_sLabUpgradeTime)
@@ -601,7 +602,7 @@ Func LabAssistant()
 							LabStatusGUIUpdate()
 						EndIf
 					EndIf
-
+#ce
 				EndIf
 
 				Click($GreenAssignButtons[$i][1], $GreenAssignButtons[$i][2]) ;Click Assign
@@ -634,8 +635,8 @@ Func LabAssistant()
 
 					If $g_bChkLabAssistant = 1 Or ($g_bChkLabAssistant = 2 And $i = UBound($GreenAssignButtons) - 1) Then
 						Local $StartTime = _NowCalc() ; what is date:time now
-						$g_sAvailableAppBuilder = _DateAdd('n', Ceiling($iRemainingTime), $StartTime)
-						SetLog("Assistant Next Check @ " & $g_sAvailableAppBuilder, $COLOR_DEBUG1)
+						$g_sAvailableLabAssistant = _DateAdd('n', Ceiling($iRemainingTime), $StartTime)
+						SetLog("Assistant Next Check @ " & $g_sAvailableLabAssistant, $COLOR_DEBUG1)
 						$bUnderTime[$g_iCurAccount] = True
 					Else
 						SetLog("Check Next Upgrade...", $COLOR_INFO)
@@ -968,7 +969,8 @@ Func HelperHutLab()
 					If $iMin > 0 Then $sWaitTime &= $iMin & " minutes "
 
 					SetLog("Current Upgrade Will Finish in " & $sWaitTime, $COLOR_SUCCESS1)
-
+					$bLabAssistantUsedTime = _NowCalc()
+#cs
 					; Check if is a valid date and Calculated the number of minutes from remain time Lab and now
 					If _DateIsValid($g_sLabUpgradeTime) Then
 						Local $iLabTime = _DateDiff('n', _NowCalc(), $g_sLabUpgradeTime)
@@ -987,7 +989,7 @@ Func HelperHutLab()
 							LabStatusGUIUpdate()
 						EndIf
 					EndIf
-
+#ce
 				EndIf
 
 				Click($GreenAssignButtons[$i][1], $GreenAssignButtons[$i][2]) ;Click Assign
@@ -1020,8 +1022,8 @@ Func HelperHutLab()
 
 					If $g_bChkLabAssistant = 1 Or ($g_bChkLabAssistant = 2 And $i = UBound($GreenAssignButtons) - 1) Then
 						Local $StartTime = _NowCalc() ; what is date:time now
-						$g_sAvailableAppBuilder = _DateAdd('n', Ceiling($iRemainingTime), $StartTime)
-						SetLog("Assistant Next Check @ " & $g_sAvailableAppBuilder, $COLOR_DEBUG1)
+						$g_sAvailableLabAssistant = _DateAdd('n', Ceiling($iRemainingTime), $StartTime)
+						SetLog("Assistant Next Check @ " & $g_sAvailableLabAssistant, $COLOR_DEBUG1)
 						$bUnderTime[$g_iCurAccount] = True
 					Else
 						SetLog("Check Next Upgrade...", $COLOR_INFO)

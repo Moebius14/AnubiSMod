@@ -1262,7 +1262,14 @@ Func LabGuiDisplay() ; called from main loop to get an early status for indictor
 		; A check each from 2 to 5 hours [2*60 = 120 to 5*60 = 300] or when Lab research time finishes
 		Local $iDelayToCheck = Random(120, 300, 1)
 		Local $iLabFinishTime = _DateDiff('n', _NowCalc(), $g_sLabUpgradeTime)
-		If $IsResearchPotInStock And $g_bUseLabPotion And $iLabFinishTime > 1440 Then $iDelayToCheck = 60
+		If $IsResearchPotInStock And $g_bUseLabPotion And $iLabFinishTime > 1440 Then $iDelayToCheck = 60 ; Check Again 60 min later
+		If _DateIsValid($bLabAssistantUsedTime) Then
+			Local $DiffLabAssistantUsedTime = _DateDiff('n', $bLabAssistantUsedTime, _NowCalc())
+			If $DiffLabAssistantUsedTime > 60 Then ; One Hour after using Lab Assistant (Because I cant' find the formula !)
+				$iDelayToCheck = 0 ; Check Right Now
+				$bLabAssistantUsedTime = 0
+			EndIf
+		EndIf
 		If $iLabTime > 0 And $iLastCheck <= $iDelayToCheck Then Return
 	EndIf
 
@@ -1270,13 +1277,13 @@ Func LabGuiDisplay() ; called from main loop to get an early status for indictor
 	If Number($g_aiCurrentLoot[$eLootDarkElixir]) < Number($g_iLaboratoryDElixirCost) And Not _DateIsValid($g_sLabUpgradeTime) Then
 		If Number($g_iLaboratoryDElixirCost) > 0 Then
 			SetLog("Minimum DE for Lab upgrade: " & _NumberFormat($g_iLaboratoryDElixirCost, True))
-			Return
+			If Not _DateIsValid($bLabAssistantUsedTime) Then Return
 		EndIf
 	EndIf
 	If Number($g_aiCurrentLoot[$eLootElixir]) < Number($g_iLaboratoryElixirCost) And Not _DateIsValid($g_sLabUpgradeTime) Then
 		If Number($g_iLaboratoryElixirCost) > 0 Then
 			SetLog("Minimum Elixir for Lab upgrade: " & _NumberFormat($g_iLaboratoryElixirCost, True))
-			Return
+			If Not _DateIsValid($bLabAssistantUsedTime) Then Return
 		EndIf
 	EndIf
 

@@ -2311,12 +2311,12 @@ Global $SpecialEventReduction = 1 ; Check UTCTimeEvent()
 ;;;;;;;;;;;;;;;
 
 ; COC Version
-Global $sGameMinimalVersion = "16.654.13"
+Global $sGameMinimalVersion = "16.654.16"
 
 ;Builder's Apprentice
 Global $g_sAvailableAppBuilder = 0, $TimeDiffAppBuilder = 0, $g_bChkAppBuilder = 0
 ;Lab Assistant
-Global $g_sAvailableLabAssistant = 0, $TimeDiffLabAssistant = 0, $g_bChkLabAssistant = 0
+Global $g_sAvailableLabAssistant = 0, $TimeDiffLabAssistant = 0, $g_bChkLabAssistant = 0, $bLabAssistantUsedTime = 0
 
 ;Magic Snacks
 Global $g_bChkUseSnacks = False
