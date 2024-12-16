@@ -13,17 +13,6 @@
 ; Example .......: No
 ; ===============================================================================================================================
 
-Func LabTimeGained($bLevel = 1)
-	Local $bLabTimeGained = 0
-	Switch $bLevel
-		Case 1
-			$bLabTimeGained = 30 ; minutes
-		Case Else
-			$bLabTimeGained = ($bLevel - 1) * 60
-	EndSwitch
-	Return $bLabTimeGained
-EndFunc   ;==>LabTimeGained
-
 Func HelperHut()
 
 	Select
@@ -583,26 +572,6 @@ Func LabAssistant()
 
 					SetLog("Current Upgrade Will Finish in " & $sWaitTime, $COLOR_SUCCESS1)
 					$bLabAssistantUsedTime = _NowCalc()
-#cs
-					; Check if is a valid date and Calculated the number of minutes from remain time Lab and now
-					If _DateIsValid($g_sLabUpgradeTime) Then
-						Local $iLabTime = _DateDiff('n', _NowCalc(), $g_sLabUpgradeTime)
-						If $iLabTime > 0 Then
-							SetDebugLog("Lab LabUpgradeTime: " & $g_sLabUpgradeTime & ", Lab DateCalc: " & $iLabTime)
-							If $iLabTime > $bXMultiplier * 60 Then
-								$g_sLabUpgradeTime = _DateAdd('n', Ceiling($iLabTime - LabTimeGained($bXMultiplier)), _NowCalc())
-							Else
-								If $bXMultiplier = 1 Then
-									$g_sLabUpgradeTime = _DateAdd('n', Ceiling($iLabTime * 0.66), _NowCalc())
-								Else
-									$g_sLabUpgradeTime = _DateAdd('n', Ceiling($iLabTime / $bXMultiplier), _NowCalc())
-								EndIf
-							EndIf
-							SetLog("Recalculate Research time (" & $g_sLabUpgradeTime & ")")
-							LabStatusGUIUpdate()
-						EndIf
-					EndIf
-#ce
 				EndIf
 
 				Click($GreenAssignButtons[$i][1], $GreenAssignButtons[$i][2]) ;Click Assign
@@ -970,26 +939,6 @@ Func HelperHutLab()
 
 					SetLog("Current Upgrade Will Finish in " & $sWaitTime, $COLOR_SUCCESS1)
 					$bLabAssistantUsedTime = _NowCalc()
-#cs
-					; Check if is a valid date and Calculated the number of minutes from remain time Lab and now
-					If _DateIsValid($g_sLabUpgradeTime) Then
-						Local $iLabTime = _DateDiff('n', _NowCalc(), $g_sLabUpgradeTime)
-						If $iLabTime > 0 Then
-							SetDebugLog("Lab LabUpgradeTime: " & $g_sLabUpgradeTime & ", Lab DateCalc: " & $iLabTime)
-							If $iLabTime > $bXMultiplier * 60 Then
-								$g_sLabUpgradeTime = _DateAdd('n', Ceiling($iLabTime - LabTimeGained($bXMultiplier)), _NowCalc())
-							Else
-								If $bXMultiplier = 1 Then
-									$g_sLabUpgradeTime = _DateAdd('n', Ceiling($iLabTime * 0.66), _NowCalc())
-								Else
-									$g_sLabUpgradeTime = _DateAdd('n', Ceiling($iLabTime / $bXMultiplier), _NowCalc())
-								EndIf
-							EndIf
-							SetLog("Recalculate Research time (" & $g_sLabUpgradeTime & ")")
-							LabStatusGUIUpdate()
-						EndIf
-					EndIf
-#ce
 				EndIf
 
 				Click($GreenAssignButtons[$i][1], $GreenAssignButtons[$i][2]) ;Click Assign

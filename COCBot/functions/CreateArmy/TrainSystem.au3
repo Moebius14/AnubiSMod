@@ -139,7 +139,7 @@ Func CheckIfArmyIsReady()
 
 	If $g_bDebugSetLogTrain Then
 		SetLog("Heroes are Ready: " & String($bFullArmyHero))
-		SetLog("Heroes Available Num: " & $g_iHeroAvailable) ;  	$eHeroNone = 0, $eHeroKing = 1, $eHeroQueen = 2, $eHeroPrince = 3, $eHeroWarden = 4, $eHeroChampion = 5
+		SetLog("Heroes Available Num: " & $g_iHeroAvailable) ;  	$eHeroNone = 0, $eHeroKing = 1, $eHeroQueen = 2, $eHeroPrince = 4, $eHeroWarden = 8, $eHeroChampion = 16
 		SetLog("Search Hero Wait Enable [$DB] Num: " & $g_aiSearchHeroWaitEnable[$DB]) ; 	what you are waiting for : 1 is King , 3 is King + Queen , etc etc
 		SetLog("Search Hero Wait Enable [$LB] Num: " & $g_aiSearchHeroWaitEnable[$LB])
 		SetLog("Dead Base BitAND: " & BitAND($g_aiSearchHeroWaitEnable[$DB], $g_iHeroAvailable))

@@ -118,6 +118,15 @@ Func UpgradeHeroes()
 					SetLog($g_asHeroNames[0] & " is ready to fight", $COLOR_SUCCESS1)
 					$g_iHeroUpgrading[0] = 0
 					$g_iHeroUpgradingBit = BitAND($g_iHeroUpgradingBit, BitOR($eHeroQueen, $eHeroPrince, $eHeroWarden, $eHeroChampion))
+					If ($g_abAttackTypeEnable[$DB] And BitAND($g_aiAttackUseHeroes[$DB], $g_aiSearchHeroWaitEnable[$DB], $eHeroKing) = $eHeroKing) Or _
+							($g_abAttackTypeEnable[$LB] And BitAND($g_aiAttackUseHeroes[$LB], $g_aiSearchHeroWaitEnable[$LB], $eHeroKing) = $eHeroKing) Then                     ; check wait for hero status
+						If $g_iSearchNotWaitHeroesEnable Then
+							$g_iHeroAvailable = BitOR($g_iHeroAvailable, $eHeroKing)
+						Else
+							SetLog("Warning: King Upgrading & Wait enabled, Disable Wait for King or may never attack!", $COLOR_ERROR)
+						EndIf
+						_GUI_Value_STATE("SHOW", $groupKingSleeping)                     ; Show king sleeping icon
+					EndIf
 				EndIf
 			EndIf
 		Case 1
@@ -139,6 +148,15 @@ Func UpgradeHeroes()
 					SetLog($g_asHeroNames[1] & " is ready to fight", $COLOR_SUCCESS1)
 					$g_iHeroUpgrading[1] = 0
 					$g_iHeroUpgradingBit = BitAND($g_iHeroUpgradingBit, BitOR($eHeroKing, $eHeroPrince, $eHeroWarden, $eHeroChampion))
+					If ($g_abAttackTypeEnable[$DB] And BitAND($g_aiAttackUseHeroes[$DB], $g_aiSearchHeroWaitEnable[$DB], $eHeroQueen) = $eHeroQueen) Or _
+							($g_abAttackTypeEnable[$LB] And BitAND($g_aiAttackUseHeroes[$LB], $g_aiSearchHeroWaitEnable[$LB], $eHeroQueen) = $eHeroQueen) Then                     ; check wait for hero status
+						If $g_iSearchNotWaitHeroesEnable Then
+							$g_iHeroAvailable = BitOR($g_iHeroAvailable, $eHeroQueen)
+						Else
+							SetLog("Warning: Queen Upgrading & Wait enabled, Disable Wait for Queen or may never attack!", $COLOR_ERROR)
+						EndIf
+						_GUI_Value_STATE("SHOW", $groupQueenSleeping)                     ; Show Queen sleeping icon
+					EndIf
 				EndIf
 			EndIf
 		Case 2
@@ -160,6 +178,15 @@ Func UpgradeHeroes()
 					SetLog($g_asHeroNames[2] & " is ready to fight", $COLOR_SUCCESS1)
 					$g_iHeroUpgrading[2] = 0
 					$g_iHeroUpgradingBit = BitAND($g_iHeroUpgradingBit, BitOR($eHeroKing, $eHeroQueen, $eHeroWarden, $eHeroChampion))
+					If ($g_abAttackTypeEnable[$DB] And BitAND($g_aiAttackUseHeroes[$DB], $g_aiSearchHeroWaitEnable[$DB], $eHeroPrince) = $eHeroPrince) Or _
+							($g_abAttackTypeEnable[$LB] And BitAND($g_aiAttackUseHeroes[$LB], $g_aiSearchHeroWaitEnable[$LB], $eHeroPrince) = $eHeroPrince) Then                     ; check wait for hero status
+						If $g_iSearchNotWaitHeroesEnable Then
+							$g_iHeroAvailable = BitOR($g_iHeroAvailable, $eHeroPrince)
+						Else
+							SetLog("Warning: Prince Upgrading & Wait enabled, Disable Wait for Prince or may never attack!", $COLOR_ERROR)
+						EndIf
+						_GUI_Value_STATE("SHOW", $groupPrinceSleeping)                     ; Show king sleeping icon
+					EndIf
 				EndIf
 			EndIf
 		Case 3
@@ -181,6 +208,15 @@ Func UpgradeHeroes()
 					SetLog($g_asHeroNames[3] & " is ready to fight", $COLOR_SUCCESS1)
 					$g_iHeroUpgrading[3] = 0
 					$g_iHeroUpgradingBit = BitAND($g_iHeroUpgradingBit, BitOR($eHeroKing, $eHeroQueen, $eHeroPrince, $eHeroChampion))
+					If ($g_abAttackTypeEnable[$DB] And BitAND($g_aiAttackUseHeroes[$DB], $g_aiSearchHeroWaitEnable[$DB], $eHeroWarden) = $eHeroWarden) Or _
+							($g_abAttackTypeEnable[$LB] And BitAND($g_aiAttackUseHeroes[$LB], $g_aiSearchHeroWaitEnable[$LB], $eHeroWarden) = $eHeroWarden) Then                     ; check wait for hero status
+						If $g_iSearchNotWaitHeroesEnable Then
+							$g_iHeroAvailable = BitOR($g_iHeroAvailable, $eHeroWarden)
+						Else
+							SetLog("Warning: Warden Upgrading & Wait enabled, Disable Wait for Warden or may never attack!", $COLOR_ERROR)
+						EndIf
+						_GUI_Value_STATE("SHOW", $groupWardenSleeping)                     ; Show king sleeping icon
+					EndIf
 				EndIf
 			EndIf
 		Case 4
@@ -202,6 +238,15 @@ Func UpgradeHeroes()
 					SetLog($g_asHeroNames[4] & " is ready to fight", $COLOR_SUCCESS1)
 					$g_iHeroUpgrading[4] = 0
 					$g_iHeroUpgradingBit = BitAND($g_iHeroUpgradingBit, BitOR($eHeroKing, $eHeroQueen, $eHeroPrince, $eHeroWarden))
+					If ($g_abAttackTypeEnable[$DB] And BitAND($g_aiAttackUseHeroes[$DB], $g_aiSearchHeroWaitEnable[$DB], $eHeroChampion) = $eHeroChampion) Or _
+							($g_abAttackTypeEnable[$LB] And BitAND($g_aiAttackUseHeroes[$LB], $g_aiSearchHeroWaitEnable[$LB], $eHeroChampion) = $eHeroChampion) Then                     ; check wait for hero status
+						If $g_iSearchNotWaitHeroesEnable Then
+							$g_iHeroAvailable = BitOR($g_iHeroAvailable, $eHeroChampion)
+						Else
+							SetLog("Warning: Champion Upgrading & Wait enabled, Disable Wait for Champion or may never attack!", $COLOR_ERROR)
+						EndIf
+						_GUI_Value_STATE("SHOW", $groupChampionSleeping)                     ; Show king sleeping icon
+					EndIf
 				EndIf
 			EndIf
 	EndSwitch
@@ -360,7 +405,7 @@ Func KingUpgrade()
 	Local $YellowSearch = _PixelSearch(610, 539 + $g_iMidOffsetY, 650, 543 + $g_iMidOffsetY, Hex(0xFFF10D, 6), 20)
 	If (IsArray($aWhiteZeros) And UBound($aWhiteZeros, 1) = 2) Then
 
-		Local $bUpgradeCost = ($g_afKingUpgCost[$g_iKingLevel] * 1000 * $SpecialEventReduction * (1 - Number($g_iBuilderBoostDiscount) / 100));($g_afKingUpgCost[96] * 1000 * $SpecialEventReduction * (1 - Number($g_iBuilderBoostDiscount) / 100))
+		Local $bUpgradeCost = ($g_afKingUpgCost[$g_iKingLevel] * 1000 * $SpecialEventReduction * (1 - Number($g_iBuilderBoostDiscount) / 100)) ;($g_afKingUpgCost[96] * 1000 * $SpecialEventReduction * (1 - Number($g_iBuilderBoostDiscount) / 100))
 		SetLog("Upgrade cost " & _NumberFormat($bUpgradeCost) & " Dark Elixir", $COLOR_INFO)
 		If _Sleep(1000) Then Return
 

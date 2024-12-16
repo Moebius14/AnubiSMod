@@ -14,7 +14,7 @@
 ; Example .......: No
 ; ===============================================================================================================================
 
-Func getArmyHeroCount($bOpenArmyWindow = False, $bCloseArmyWindow = False, $CheckWindow = True, $bSetLog = True)
+Func getArmyHeroCount($bOpenArmyWindow = False, $bCloseArmyWindow = False, $CheckWindow = True, $bSetLog = True) ;getArmyHeroCount(False, False, True, True)
 
 	If $g_bDebugSetLogTrain Or $g_bDebugSetLog Then SetLog("Begin getArmyHeroCount:", $COLOR_DEBUG)
 
@@ -31,7 +31,13 @@ Func getArmyHeroCount($bOpenArmyWindow = False, $bCloseArmyWindow = False, $Chec
 		EndIf
 	EndIf
 
+	Local $HeroSlotsInfos[5] = [$eHeroKing, $eHeroQueen, $eHeroPrince, $eHeroWarden, $eHeroChampion]
+	Local $b5SlotStatusAvail = BitAND($g_iHeroAvailable, $HeroSlotsInfos[$g_aiCmbCustomHeroOrder[4]])
+	Local $b5SlotStatusUp = BitAND($g_iHeroUpgradingBit, $HeroSlotsInfos[$g_aiCmbCustomHeroOrder[4]])
 	$g_iHeroAvailable = $eHeroNone ; Reset hero available data
+	If $b5SlotStatusAvail Then $g_iHeroAvailable = BitOR($g_iHeroAvailable, $HeroSlotsInfos[$g_aiCmbCustomHeroOrder[4]])
+	If $b5SlotStatusUp Then $g_iHeroUpgradingBit = BitOR($g_iHeroUpgradingBit, $HeroSlotsInfos[$g_aiCmbCustomHeroOrder[4]])
+
 	Local $iDebugArmyHeroCount = 0 ; local debug flag
 
 	; Detection by OCR
@@ -866,7 +872,8 @@ Func ArmyHeroStatus($i)
 EndFunc   ;==>ArmyHeroStatus
 
 Func HiddenSlotstatus()
-	If $g_iTownHallLevel < 13 Then
+	If $g_aiHeroHallPos[2] = 1 Then
+
 		Switch $g_aiCmbCustomHeroOrder[4]
 			Case 0
 				GUICtrlSetState($g_hPicKingGray, $GUI_SHOW)
@@ -895,7 +902,39 @@ Func HiddenSlotstatus()
 				GUICtrlSetState($g_hPicChampionGreen, $GUI_HIDE)
 		EndSwitch
 		Return
+
 	Else
+
+		If $g_iTownHallLevel < 13 Then
+			Switch $g_aiCmbCustomHeroOrder[4]
+				Case 0
+					GUICtrlSetState($g_hPicKingGray, $GUI_SHOW)
+					GUICtrlSetState($g_hPicKingRed, $GUI_HIDE)
+					GUICtrlSetState($g_hPicKingBlue, $GUI_HIDE)
+					GUICtrlSetState($g_hPicKingGreen, $GUI_HIDE)
+				Case 1
+					GUICtrlSetState($g_hPicQueenGray, $GUI_SHOW)
+					GUICtrlSetState($g_hPicQueenRed, $GUI_HIDE)
+					GUICtrlSetState($g_hPicQueenBlue, $GUI_HIDE)
+					GUICtrlSetState($g_hPicQueenGreen, $GUI_HIDE)
+				Case 2
+					GUICtrlSetState($g_hPicPrinceGray, $GUI_SHOW)
+					GUICtrlSetState($g_hPicPrinceRed, $GUI_HIDE)
+					GUICtrlSetState($g_hPicPrinceBlue, $GUI_HIDE)
+					GUICtrlSetState($g_hPicPrinceGreen, $GUI_HIDE)
+				Case 3
+					GUICtrlSetState($g_hPicWardenGray, $GUI_SHOW)
+					GUICtrlSetState($g_hPicWardenRed, $GUI_HIDE)
+					GUICtrlSetState($g_hPicWardenBlue, $GUI_HIDE)
+					GUICtrlSetState($g_hPicWardenGreen, $GUI_HIDE)
+				Case 4
+					GUICtrlSetState($g_hPicChampionGray, $GUI_SHOW)
+					GUICtrlSetState($g_hPicChampionRed, $GUI_HIDE)
+					GUICtrlSetState($g_hPicChampionBlue, $GUI_HIDE)
+					GUICtrlSetState($g_hPicChampionGreen, $GUI_HIDE)
+			EndSwitch
+		EndIf
+
 		Local Static $iLastTimeCheckedHidden[8]
 		If $g_bFirstStartForHiddenHero Then $iLastTimeCheckedHidden[$g_iCurAccount] = ""
 
@@ -1011,6 +1050,7 @@ Func HiddenSlotstatus()
 					GUICtrlSetState($g_hPicKingGreen, $GUI_SHOW)
 					$g_iHeroUpgrading[0] = 0
 					$g_iHeroUpgradingBit = BitAND($g_iHeroUpgradingBit, BitOR($eHeroQueen, $eHeroPrince, $eHeroWarden, $eHeroChampion))
+					$g_iHeroAvailable = BitOR($g_iHeroAvailable, $eHeroKing)
 					SetLog($g_asHeroNames[0] & " is ready to fight", $COLOR_SUCCESS1)
 					CloseWindow()
 					Return
@@ -1028,6 +1068,7 @@ Func HiddenSlotstatus()
 					GUICtrlSetState($g_hPicKingGreen, $GUI_SHOW)
 					$g_iHeroUpgrading[0] = 0
 					$g_iHeroUpgradingBit = BitAND($g_iHeroUpgradingBit, BitOR($eHeroQueen, $eHeroPrince, $eHeroWarden, $eHeroChampion))
+					$g_iHeroAvailable = BitOR($g_iHeroAvailable, $eHeroKing)
 					SetLog($g_asHeroNames[0] & " is ready to fight", $COLOR_SUCCESS1)
 				ElseIf IsArray(_PixelSearch($bXcoords[0] - 6, 438 + $g_iMidOffsetY, $bXcoords[0] + 10, 444 + $g_iMidOffsetY, Hex(0xFFFFFF, 6), 20, True)) Then
 					GUICtrlSetState($g_hPicKingGray, $GUI_HIDE)
@@ -1038,6 +1079,15 @@ Func HiddenSlotstatus()
 					;Set Status Variable
 					$g_iHeroUpgrading[0] = 1
 					$g_iHeroUpgradingBit = BitOR($g_iHeroUpgradingBit, $eHeroKing)
+					If ($g_abAttackTypeEnable[$DB] And BitAND($g_aiAttackUseHeroes[$DB], $g_aiSearchHeroWaitEnable[$DB], $eHeroKing) = $eHeroKing) Or _
+							($g_abAttackTypeEnable[$LB] And BitAND($g_aiAttackUseHeroes[$LB], $g_aiSearchHeroWaitEnable[$LB], $eHeroKing) = $eHeroKing) Then                     ; check wait for hero status
+						If $g_iSearchNotWaitHeroesEnable Then
+							$g_iHeroAvailable = BitOR($g_iHeroAvailable, $eHeroKing)
+						Else
+							SetLog("Warning: King Upgrading & Wait enabled, Disable Wait for King or may never attack!", $COLOR_ERROR)
+						EndIf
+						_GUI_Value_STATE("SHOW", $groupKingSleeping)                     ; Show king sleeping icon
+					EndIf
 				EndIf
 				CloseWindow()
 				Return
@@ -1050,6 +1100,7 @@ Func HiddenSlotstatus()
 					GUICtrlSetState($g_hPicQueenGreen, $GUI_SHOW)
 					$g_iHeroUpgrading[1] = 0
 					$g_iHeroUpgradingBit = BitAND($g_iHeroUpgradingBit, BitOR($eHeroKing, $eHeroPrince, $eHeroWarden, $eHeroChampion))
+					$g_iHeroAvailable = BitOR($g_iHeroAvailable, $eHeroQueen)
 					SetLog($g_asHeroNames[1] & " is ready to fight", $COLOR_SUCCESS1)
 					CloseWindow()
 					Return
@@ -1067,6 +1118,7 @@ Func HiddenSlotstatus()
 					GUICtrlSetState($g_hPicQueenGreen, $GUI_SHOW)
 					$g_iHeroUpgrading[1] = 0
 					$g_iHeroUpgradingBit = BitAND($g_iHeroUpgradingBit, BitOR($eHeroKing, $eHeroPrince, $eHeroWarden, $eHeroChampion))
+					$g_iHeroAvailable = BitOR($g_iHeroAvailable, $eHeroQueen)
 					SetLog($g_asHeroNames[1] & " is ready to fight", $COLOR_SUCCESS1)
 				ElseIf IsArray(_PixelSearch($bXcoords[1] - 6, 438 + $g_iMidOffsetY, $bXcoords[1] + 10, 444 + $g_iMidOffsetY, Hex(0xFFFFFF, 6), 20, True)) Then
 					GUICtrlSetState($g_hPicQueenGray, $GUI_HIDE)
@@ -1077,6 +1129,15 @@ Func HiddenSlotstatus()
 					;Set Status Variable
 					$g_iHeroUpgrading[1] = 1
 					$g_iHeroUpgradingBit = BitOR($g_iHeroUpgradingBit, $eHeroQueen)
+					If ($g_abAttackTypeEnable[$DB] And BitAND($g_aiAttackUseHeroes[$DB], $g_aiSearchHeroWaitEnable[$DB], $eHeroQueen) = $eHeroQueen) Or _
+							($g_abAttackTypeEnable[$LB] And BitAND($g_aiAttackUseHeroes[$LB], $g_aiSearchHeroWaitEnable[$LB], $eHeroQueen) = $eHeroQueen) Then                     ; check wait for hero status
+						If $g_iSearchNotWaitHeroesEnable Then
+							$g_iHeroAvailable = BitOR($g_iHeroAvailable, $eHeroQueen)
+						Else
+							SetLog("Warning: Queen Upgrading & Wait enabled, Disable Wait for Queen or may never attack!", $COLOR_ERROR)
+						EndIf
+						_GUI_Value_STATE("SHOW", $groupQueenSleeping)                     ; Show Queen sleeping icon
+					EndIf
 				EndIf
 				CloseWindow()
 				Return
@@ -1089,6 +1150,7 @@ Func HiddenSlotstatus()
 					GUICtrlSetState($g_hPicPrinceGreen, $GUI_SHOW)
 					$g_iHeroUpgrading[2] = 0
 					$g_iHeroUpgradingBit = BitAND($g_iHeroUpgradingBit, BitOR($eHeroKing, $eHeroQueen, $eHeroWarden, $eHeroChampion))
+					$g_iHeroAvailable = BitOR($g_iHeroAvailable, $eHeroPrince)
 					SetLog($g_asHeroNames[2] & " is ready to fight", $COLOR_SUCCESS1)
 					CloseWindow()
 					Return
@@ -1106,6 +1168,7 @@ Func HiddenSlotstatus()
 					GUICtrlSetState($g_hPicPrinceGreen, $GUI_SHOW)
 					$g_iHeroUpgrading[2] = 0
 					$g_iHeroUpgradingBit = BitAND($g_iHeroUpgradingBit, BitOR($eHeroKing, $eHeroQueen, $eHeroWarden, $eHeroChampion))
+					$g_iHeroAvailable = BitOR($g_iHeroAvailable, $eHeroPrince)
 					SetLog($g_asHeroNames[2] & " is ready to fight", $COLOR_SUCCESS1)
 				ElseIf IsArray(_PixelSearch($bXcoords[2] - 6, 438 + $g_iMidOffsetY, $bXcoords[2] + 10, 444 + $g_iMidOffsetY, Hex(0xFFFFFF, 6), 20, True)) Then
 					GUICtrlSetState($g_hPicPrinceGray, $GUI_HIDE)
@@ -1116,6 +1179,15 @@ Func HiddenSlotstatus()
 					;Set Status Variable
 					$g_iHeroUpgrading[2] = 1
 					$g_iHeroUpgradingBit = BitOR($g_iHeroUpgradingBit, $eHeroPrince)
+					If ($g_abAttackTypeEnable[$DB] And BitAND($g_aiAttackUseHeroes[$DB], $g_aiSearchHeroWaitEnable[$DB], $eHeroPrince) = $eHeroPrince) Or _
+							($g_abAttackTypeEnable[$LB] And BitAND($g_aiAttackUseHeroes[$LB], $g_aiSearchHeroWaitEnable[$LB], $eHeroPrince) = $eHeroPrince) Then                     ; check wait for hero status
+						If $g_iSearchNotWaitHeroesEnable Then
+							$g_iHeroAvailable = BitOR($g_iHeroAvailable, $eHeroPrince)
+						Else
+							SetLog("Warning: Prince Upgrading & Wait enabled, Disable Wait for Prince or may never attack!", $COLOR_ERROR)
+						EndIf
+						_GUI_Value_STATE("SHOW", $groupPrinceSleeping)                     ; Show king sleeping icon
+					EndIf
 				EndIf
 				CloseWindow()
 				Return
@@ -1128,6 +1200,7 @@ Func HiddenSlotstatus()
 					GUICtrlSetState($g_hPicWardenGreen, $GUI_SHOW)
 					$g_iHeroUpgrading[3] = 0
 					$g_iHeroUpgradingBit = BitAND($g_iHeroUpgradingBit, BitOR($eHeroKing, $eHeroQueen, $eHeroPrince, $eHeroChampion))
+					$g_iHeroAvailable = BitOR($g_iHeroAvailable, $eHeroWarden)
 					SetLog($g_asHeroNames[3] & " is ready to fight", $COLOR_SUCCESS1)
 					CloseWindow()
 					Return
@@ -1145,6 +1218,7 @@ Func HiddenSlotstatus()
 					GUICtrlSetState($g_hPicWardenGreen, $GUI_SHOW)
 					$g_iHeroUpgrading[3] = 0
 					$g_iHeroUpgradingBit = BitAND($g_iHeroUpgradingBit, BitOR($eHeroKing, $eHeroQueen, $eHeroPrince, $eHeroChampion))
+					$g_iHeroAvailable = BitOR($g_iHeroAvailable, $eHeroWarden)
 					SetLog($g_asHeroNames[3] & " is ready to fight", $COLOR_SUCCESS1)
 				ElseIf IsArray(_PixelSearch($bXcoords[3] - 6, 438 + $g_iMidOffsetY, $bXcoords[3] + 10, 444 + $g_iMidOffsetY, Hex(0xFFFFFF, 6), 20, True)) Then
 					GUICtrlSetState($g_hPicWardenGray, $GUI_HIDE)
@@ -1155,6 +1229,15 @@ Func HiddenSlotstatus()
 					;Set Status Variable
 					$g_iHeroUpgrading[3] = 1
 					$g_iHeroUpgradingBit = BitOR($g_iHeroUpgradingBit, $eHeroWarden)
+					If ($g_abAttackTypeEnable[$DB] And BitAND($g_aiAttackUseHeroes[$DB], $g_aiSearchHeroWaitEnable[$DB], $eHeroWarden) = $eHeroWarden) Or _
+							($g_abAttackTypeEnable[$LB] And BitAND($g_aiAttackUseHeroes[$LB], $g_aiSearchHeroWaitEnable[$LB], $eHeroWarden) = $eHeroWarden) Then                     ; check wait for hero status
+						If $g_iSearchNotWaitHeroesEnable Then
+							$g_iHeroAvailable = BitOR($g_iHeroAvailable, $eHeroWarden)
+						Else
+							SetLog("Warning: Warden Upgrading & Wait enabled, Disable Wait for Warden or may never attack!", $COLOR_ERROR)
+						EndIf
+						_GUI_Value_STATE("SHOW", $groupWardenSleeping)                     ; Show king sleeping icon
+					EndIf
 				EndIf
 				CloseWindow()
 				Return
@@ -1167,6 +1250,7 @@ Func HiddenSlotstatus()
 					GUICtrlSetState($g_hPicChampionGreen, $GUI_SHOW)
 					$g_iHeroUpgrading[4] = 0
 					$g_iHeroUpgradingBit = BitAND($g_iHeroUpgradingBit, BitOR($eHeroKing, $eHeroQueen, $eHeroPrince, $eHeroWarden))
+					$g_iHeroAvailable = BitOR($g_iHeroAvailable, $eHeroChampion)
 					SetLog($g_asHeroNames[4] & " is ready to fight", $COLOR_SUCCESS1)
 					CloseWindow()
 					Return
@@ -1184,6 +1268,7 @@ Func HiddenSlotstatus()
 					GUICtrlSetState($g_hPicChampionGreen, $GUI_SHOW)
 					$g_iHeroUpgrading[4] = 0
 					$g_iHeroUpgradingBit = BitAND($g_iHeroUpgradingBit, BitOR($eHeroKing, $eHeroQueen, $eHeroPrince, $eHeroWarden))
+					$g_iHeroAvailable = BitOR($g_iHeroAvailable, $eHeroChampion)
 					SetLog($g_asHeroNames[4] & " is ready to fight", $COLOR_SUCCESS1)
 				ElseIf IsArray(_PixelSearch($bXcoords[4] - 6, 438 + $g_iMidOffsetY, $bXcoords[4] + 10, 444 + $g_iMidOffsetY, Hex(0xFFFFFF, 6), 20, True)) Then
 					GUICtrlSetState($g_hPicChampionGray, $GUI_HIDE)
@@ -1194,6 +1279,15 @@ Func HiddenSlotstatus()
 					;Set Status Variable
 					$g_iHeroUpgrading[4] = 1
 					$g_iHeroUpgradingBit = BitOR($g_iHeroUpgradingBit, $eHeroChampion)
+					If ($g_abAttackTypeEnable[$DB] And BitAND($g_aiAttackUseHeroes[$DB], $g_aiSearchHeroWaitEnable[$DB], $eHeroChampion) = $eHeroChampion) Or _
+							($g_abAttackTypeEnable[$LB] And BitAND($g_aiAttackUseHeroes[$LB], $g_aiSearchHeroWaitEnable[$LB], $eHeroChampion) = $eHeroChampion) Then                     ; check wait for hero status
+						If $g_iSearchNotWaitHeroesEnable Then
+							$g_iHeroAvailable = BitOR($g_iHeroAvailable, $eHeroChampion)
+						Else
+							SetLog("Warning: Champion Upgrading & Wait enabled, Disable Wait for Champion or may never attack!", $COLOR_ERROR)
+						EndIf
+						_GUI_Value_STATE("SHOW", $groupChampionSleeping)                     ; Show king sleeping icon
+					EndIf
 				EndIf
 				CloseWindow()
 				Return
@@ -1526,35 +1620,76 @@ Func CheckHeroOrder()
 		EndIf
 	Next
 
-	Local $ForKing = 0, $ForQueen = 0, $ForPrince = 0, $ForWarden = 0, $ForChampion = 0
-	For $i = 0 To $eHeroSlots - 1
-		Switch $g_aiCmbCustomHeroOrder[$i]
-			Case 0
-				$ForKing += 1
-			Case 1
-				$ForQueen += 1
+	If $g_aiHeroHallPos[2] > 6 Then
+		Local $ForKing = 0, $ForQueen = 0, $ForPrince = 0, $ForWarden = 0, $ForChampion = 0
+		For $i = 0 To $eHeroSlots - 1
+			Switch $g_aiCmbCustomHeroOrder[$i]
+				Case 0
+					$ForKing += 1
+				Case 1
+					$ForQueen += 1
+				Case 2
+					$ForPrince += 1
+				Case 3
+					$ForWarden += 1
+				Case 4
+					$ForChampion += 1
+			EndSwitch
+		Next
+		If $ForKing = 0 Then
+			$g_aiCmbCustomHeroOrder[4] = 0
+		ElseIf $ForQueen = 0 Then
+			$g_aiCmbCustomHeroOrder[4] = 1
+		ElseIf $ForPrince = 0 Then
+			$g_aiCmbCustomHeroOrder[4] = 2
+		ElseIf $ForWarden = 0 Then
+			$g_aiCmbCustomHeroOrder[4] = 3
+		ElseIf $ForChampion = 0 Then
+			$g_aiCmbCustomHeroOrder[4] = 4
+		EndIf
+	Else
+		Switch $g_aiHeroHallPos[2]
 			Case 2
-				$ForPrince += 1
-			Case 3
-				$ForWarden += 1
-			Case 4
-				$ForChampion += 1
+				If $g_aiCmbCustomHeroOrder[0] = 0 Then $g_aiCmbCustomHeroOrder[4] = 1
+				If $g_aiCmbCustomHeroOrder[0] = 1 Then $g_aiCmbCustomHeroOrder[4] = 0
+			Case 3, 4
+				If $g_aiCmbCustomHeroOrder[0] = 0 And $g_aiCmbCustomHeroOrder[1] = 1 Then $g_aiCmbCustomHeroOrder[4] = 2
+				If $g_aiCmbCustomHeroOrder[0] = 1 And $g_aiCmbCustomHeroOrder[1] = 0 Then $g_aiCmbCustomHeroOrder[4] = 2
+				If $g_aiCmbCustomHeroOrder[0] = 1 And $g_aiCmbCustomHeroOrder[1] = 2 Then $g_aiCmbCustomHeroOrder[4] = 0
+				If $g_aiCmbCustomHeroOrder[0] = 2 And $g_aiCmbCustomHeroOrder[1] = 1 Then $g_aiCmbCustomHeroOrder[4] = 0
+				If $g_aiCmbCustomHeroOrder[0] = 0 And $g_aiCmbCustomHeroOrder[1] = 2 Then $g_aiCmbCustomHeroOrder[4] = 1
+				If $g_aiCmbCustomHeroOrder[0] = 2 And $g_aiCmbCustomHeroOrder[1] = 0 Then $g_aiCmbCustomHeroOrder[4] = 1
+			Case 5, 6
+				If $g_aiCmbCustomHeroOrder[0] = 0 And $g_aiCmbCustomHeroOrder[1] = 1 And $g_aiCmbCustomHeroOrder[2] = 2 Then $g_aiCmbCustomHeroOrder[4] = 3
+				If $g_aiCmbCustomHeroOrder[0] = 0 And $g_aiCmbCustomHeroOrder[1] = 2 And $g_aiCmbCustomHeroOrder[2] = 1 Then $g_aiCmbCustomHeroOrder[4] = 3
+				If $g_aiCmbCustomHeroOrder[0] = 1 And $g_aiCmbCustomHeroOrder[1] = 2 And $g_aiCmbCustomHeroOrder[2] = 0 Then $g_aiCmbCustomHeroOrder[4] = 3
+				If $g_aiCmbCustomHeroOrder[0] = 1 And $g_aiCmbCustomHeroOrder[1] = 0 And $g_aiCmbCustomHeroOrder[2] = 2 Then $g_aiCmbCustomHeroOrder[4] = 3
+				If $g_aiCmbCustomHeroOrder[0] = 2 And $g_aiCmbCustomHeroOrder[1] = 0 And $g_aiCmbCustomHeroOrder[2] = 1 Then $g_aiCmbCustomHeroOrder[4] = 3
+				If $g_aiCmbCustomHeroOrder[0] = 2 And $g_aiCmbCustomHeroOrder[1] = 1 And $g_aiCmbCustomHeroOrder[2] = 0 Then $g_aiCmbCustomHeroOrder[4] = 3
+				If $g_aiCmbCustomHeroOrder[0] = 0 And $g_aiCmbCustomHeroOrder[1] = 1 And $g_aiCmbCustomHeroOrder[2] = 3 Then $g_aiCmbCustomHeroOrder[4] = 2
+				If $g_aiCmbCustomHeroOrder[0] = 0 And $g_aiCmbCustomHeroOrder[1] = 3 And $g_aiCmbCustomHeroOrder[2] = 1 Then $g_aiCmbCustomHeroOrder[4] = 2
+				If $g_aiCmbCustomHeroOrder[0] = 1 And $g_aiCmbCustomHeroOrder[1] = 0 And $g_aiCmbCustomHeroOrder[2] = 3 Then $g_aiCmbCustomHeroOrder[4] = 2
+				If $g_aiCmbCustomHeroOrder[0] = 1 And $g_aiCmbCustomHeroOrder[1] = 3 And $g_aiCmbCustomHeroOrder[2] = 0 Then $g_aiCmbCustomHeroOrder[4] = 2
+				If $g_aiCmbCustomHeroOrder[0] = 2 And $g_aiCmbCustomHeroOrder[1] = 1 And $g_aiCmbCustomHeroOrder[2] = 3 Then $g_aiCmbCustomHeroOrder[4] = 2
+				If $g_aiCmbCustomHeroOrder[0] = 2 And $g_aiCmbCustomHeroOrder[1] = 3 And $g_aiCmbCustomHeroOrder[2] = 1 Then $g_aiCmbCustomHeroOrder[4] = 2
+				If $g_aiCmbCustomHeroOrder[0] = 0 And $g_aiCmbCustomHeroOrder[1] = 2 And $g_aiCmbCustomHeroOrder[2] = 3 Then $g_aiCmbCustomHeroOrder[4] = 1
+				If $g_aiCmbCustomHeroOrder[0] = 0 And $g_aiCmbCustomHeroOrder[1] = 3 And $g_aiCmbCustomHeroOrder[2] = 2 Then $g_aiCmbCustomHeroOrder[4] = 1
+				If $g_aiCmbCustomHeroOrder[0] = 2 And $g_aiCmbCustomHeroOrder[1] = 0 And $g_aiCmbCustomHeroOrder[2] = 3 Then $g_aiCmbCustomHeroOrder[4] = 1
+				If $g_aiCmbCustomHeroOrder[0] = 2 And $g_aiCmbCustomHeroOrder[1] = 3 And $g_aiCmbCustomHeroOrder[2] = 0 Then $g_aiCmbCustomHeroOrder[4] = 1
+				If $g_aiCmbCustomHeroOrder[0] = 3 And $g_aiCmbCustomHeroOrder[1] = 0 And $g_aiCmbCustomHeroOrder[2] = 2 Then $g_aiCmbCustomHeroOrder[4] = 1
+				If $g_aiCmbCustomHeroOrder[0] = 3 And $g_aiCmbCustomHeroOrder[1] = 2 And $g_aiCmbCustomHeroOrder[2] = 0 Then $g_aiCmbCustomHeroOrder[4] = 1
+				If $g_aiCmbCustomHeroOrder[0] = 1 And $g_aiCmbCustomHeroOrder[1] = 2 And $g_aiCmbCustomHeroOrder[2] = 3 Then $g_aiCmbCustomHeroOrder[4] = 0
+				If $g_aiCmbCustomHeroOrder[0] = 1 And $g_aiCmbCustomHeroOrder[1] = 3 And $g_aiCmbCustomHeroOrder[2] = 2 Then $g_aiCmbCustomHeroOrder[4] = 0
+				If $g_aiCmbCustomHeroOrder[0] = 2 And $g_aiCmbCustomHeroOrder[1] = 1 And $g_aiCmbCustomHeroOrder[2] = 3 Then $g_aiCmbCustomHeroOrder[4] = 0
+				If $g_aiCmbCustomHeroOrder[0] = 2 And $g_aiCmbCustomHeroOrder[1] = 3 And $g_aiCmbCustomHeroOrder[2] = 1 Then $g_aiCmbCustomHeroOrder[4] = 0
+				If $g_aiCmbCustomHeroOrder[0] = 3 And $g_aiCmbCustomHeroOrder[1] = 2 And $g_aiCmbCustomHeroOrder[2] = 1 Then $g_aiCmbCustomHeroOrder[4] = 0
+				If $g_aiCmbCustomHeroOrder[0] = 3 And $g_aiCmbCustomHeroOrder[1] = 1 And $g_aiCmbCustomHeroOrder[2] = 2 Then $g_aiCmbCustomHeroOrder[4] = 0
 		EndSwitch
-	Next
-	If $ForKing = 0 Then
-		$g_aiCmbCustomHeroOrder[4] = 0
-	ElseIf $ForQueen = 0 Then
-		$g_aiCmbCustomHeroOrder[4] = 1
-	ElseIf $ForPrince = 0 Then
-		$g_aiCmbCustomHeroOrder[4] = 2
-	ElseIf $ForWarden = 0 Then
-		$g_aiCmbCustomHeroOrder[4] = 3
-	ElseIf $ForChampion = 0 Then
-		$g_aiCmbCustomHeroOrder[4] = 4
 	EndIf
 
 	Local $aiUsedHero = $g_aiHeroSlotOrder
 	Local $aTmpTrainOrder[0], $iStartShuffle = 0
+	Local $HiddenBackup = $g_aiCmbCustomHeroOrder[4]
 
 	For $i = 0 To UBound($g_aiCmbCustomHeroOrder) - 1
 		Local $iValue = $g_aiCmbCustomHeroOrder[$i]
@@ -1566,7 +1701,6 @@ Func CheckHeroOrder()
 	Next
 
 	$iStartShuffle = UBound($aTmpTrainOrder)
-
 	_ArraySort($aiUsedHero)
 
 	For $i = 0 To UBound($aTmpTrainOrder) - 1
@@ -1576,6 +1710,18 @@ Func CheckHeroOrder()
 	_ArrayShuffle($aiUsedHero, $iStartShuffle)
 
 	$g_aiCmbCustomHeroOrder = $aiUsedHero
+
+	If $g_aiHeroHallPos[2] < 7 Then
+		If $g_aiCmbCustomHeroOrder[4] <> $HiddenBackup Then
+			For $i = 0 To $eHeroSlots - 1
+				If $g_aiCmbCustomHeroOrder[$i] = $HiddenBackup Then
+					$g_aiCmbCustomHeroOrder[$i] = $g_aiCmbCustomHeroOrder[4]
+					$g_aiCmbCustomHeroOrder[4] = $HiddenBackup
+					ExitLoop
+				EndIf
+			Next
+		EndIf
+	EndIf
 
 	Switch $g_aiCmbCustomHeroOrder[4]
 		Case 0
@@ -1591,16 +1737,16 @@ Func CheckHeroOrder()
 					GUICtrlSetState($g_hPicKingBlue, $GUI_HIDE)
 					GUICtrlSetState($g_hPicKingGreen, $GUI_HIDE)
 				Else
-					If $g_iTownHallLevel < 13 Then
-						GUICtrlSetState($g_hPicKingGray, $GUI_SHOW)
-						GUICtrlSetState($g_hPicKingRed, $GUI_HIDE)
-						GUICtrlSetState($g_hPicKingBlue, $GUI_HIDE)
-						GUICtrlSetState($g_hPicKingGreen, $GUI_HIDE)
-					Else
+					If BitAND($g_iHeroAvailable, $eHeroKing) = $eHeroKing Then
 						GUICtrlSetState($g_hPicKingGray, $GUI_HIDE)
 						GUICtrlSetState($g_hPicKingRed, $GUI_HIDE)
 						GUICtrlSetState($g_hPicKingBlue, $GUI_HIDE)
 						GUICtrlSetState($g_hPicKingGreen, $GUI_SHOW)
+					Else
+						GUICtrlSetState($g_hPicKingGray, $GUI_SHOW)
+						GUICtrlSetState($g_hPicKingRed, $GUI_HIDE)
+						GUICtrlSetState($g_hPicKingBlue, $GUI_HIDE)
+						GUICtrlSetState($g_hPicKingGreen, $GUI_HIDE)
 					EndIf
 				EndIf
 			EndIf
@@ -1617,16 +1763,16 @@ Func CheckHeroOrder()
 					GUICtrlSetState($g_hPicQueenBlue, $GUI_HIDE)
 					GUICtrlSetState($g_hPicQueenGreen, $GUI_HIDE)
 				Else
-					If $g_iTownHallLevel < 13 Then
-						GUICtrlSetState($g_hPicQueenGray, $GUI_SHOW)
-						GUICtrlSetState($g_hPicQueenRed, $GUI_HIDE)
-						GUICtrlSetState($g_hPicQueenBlue, $GUI_HIDE)
-						GUICtrlSetState($g_hPicQueenGreen, $GUI_HIDE)
-					Else
+					If BitAND($g_iHeroAvailable, $eHeroQueen) = $eHeroQueen Then
 						GUICtrlSetState($g_hPicQueenGray, $GUI_HIDE)
 						GUICtrlSetState($g_hPicQueenRed, $GUI_HIDE)
 						GUICtrlSetState($g_hPicQueenBlue, $GUI_HIDE)
 						GUICtrlSetState($g_hPicQueenGreen, $GUI_SHOW)
+					Else
+						GUICtrlSetState($g_hPicQueenGray, $GUI_SHOW)
+						GUICtrlSetState($g_hPicQueenRed, $GUI_HIDE)
+						GUICtrlSetState($g_hPicQueenBlue, $GUI_HIDE)
+						GUICtrlSetState($g_hPicQueenGreen, $GUI_HIDE)
 					EndIf
 				EndIf
 			EndIf
@@ -1643,16 +1789,16 @@ Func CheckHeroOrder()
 					GUICtrlSetState($g_hPicPrinceBlue, $GUI_HIDE)
 					GUICtrlSetState($g_hPicPrinceGreen, $GUI_HIDE)
 				Else
-					If $g_iTownHallLevel < 13 Then
-						GUICtrlSetState($g_hPicPrinceGray, $GUI_SHOW)
-						GUICtrlSetState($g_hPicPrinceRed, $GUI_HIDE)
-						GUICtrlSetState($g_hPicPrinceBlue, $GUI_HIDE)
-						GUICtrlSetState($g_hPicPrinceGreen, $GUI_HIDE)
-					Else
+					If BitAND($g_iHeroAvailable, $eHeroPrince) = $eHeroPrince Then
 						GUICtrlSetState($g_hPicPrinceGray, $GUI_HIDE)
 						GUICtrlSetState($g_hPicPrinceRed, $GUI_HIDE)
 						GUICtrlSetState($g_hPicPrinceBlue, $GUI_HIDE)
 						GUICtrlSetState($g_hPicPrinceGreen, $GUI_SHOW)
+					Else
+						GUICtrlSetState($g_hPicPrinceGray, $GUI_SHOW)
+						GUICtrlSetState($g_hPicPrinceRed, $GUI_HIDE)
+						GUICtrlSetState($g_hPicPrinceBlue, $GUI_HIDE)
+						GUICtrlSetState($g_hPicPrinceGreen, $GUI_HIDE)
 					EndIf
 				EndIf
 			EndIf
@@ -1669,16 +1815,16 @@ Func CheckHeroOrder()
 					GUICtrlSetState($g_hPicWardenBlue, $GUI_HIDE)
 					GUICtrlSetState($g_hPicWardenGreen, $GUI_HIDE)
 				Else
-					If $g_iTownHallLevel < 13 Then
-						GUICtrlSetState($g_hPicWardenGray, $GUI_SHOW)
-						GUICtrlSetState($g_hPicWardenRed, $GUI_HIDE)
-						GUICtrlSetState($g_hPicWardenBlue, $GUI_HIDE)
-						GUICtrlSetState($g_hPicWardenGreen, $GUI_HIDE)
-					Else
+					If BitAND($g_iHeroAvailable, $eHeroWarden) = $eHeroWarden Then
 						GUICtrlSetState($g_hPicWardenGray, $GUI_HIDE)
 						GUICtrlSetState($g_hPicWardenRed, $GUI_HIDE)
 						GUICtrlSetState($g_hPicWardenBlue, $GUI_HIDE)
 						GUICtrlSetState($g_hPicWardenGreen, $GUI_SHOW)
+					Else
+						GUICtrlSetState($g_hPicWardenGray, $GUI_SHOW)
+						GUICtrlSetState($g_hPicWardenRed, $GUI_HIDE)
+						GUICtrlSetState($g_hPicWardenBlue, $GUI_HIDE)
+						GUICtrlSetState($g_hPicWardenGreen, $GUI_HIDE)
 					EndIf
 				EndIf
 			EndIf
@@ -1695,16 +1841,16 @@ Func CheckHeroOrder()
 					GUICtrlSetState($g_hPicChampionBlue, $GUI_HIDE)
 					GUICtrlSetState($g_hPicChampionGreen, $GUI_HIDE)
 				Else
-					If $g_iTownHallLevel < 13 Then
-						GUICtrlSetState($g_hPicChampionGray, $GUI_SHOW)
-						GUICtrlSetState($g_hPicChampionRed, $GUI_HIDE)
-						GUICtrlSetState($g_hPicChampionBlue, $GUI_HIDE)
-						GUICtrlSetState($g_hPicChampionGreen, $GUI_HIDE)
-					Else
+					If BitAND($g_iHeroAvailable, $eHeroChampion) = $eHeroChampion Then
 						GUICtrlSetState($g_hPicChampionGray, $GUI_HIDE)
 						GUICtrlSetState($g_hPicChampionRed, $GUI_HIDE)
 						GUICtrlSetState($g_hPicChampionBlue, $GUI_HIDE)
 						GUICtrlSetState($g_hPicChampionGreen, $GUI_SHOW)
+					Else
+						GUICtrlSetState($g_hPicChampionGray, $GUI_SHOW)
+						GUICtrlSetState($g_hPicChampionRed, $GUI_HIDE)
+						GUICtrlSetState($g_hPicChampionBlue, $GUI_HIDE)
+						GUICtrlSetState($g_hPicChampionGreen, $GUI_HIDE)
 					EndIf
 				EndIf
 			EndIf
