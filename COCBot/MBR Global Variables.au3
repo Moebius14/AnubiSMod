@@ -737,7 +737,7 @@ Global Const $g_aiHeroOrderIcon[$eHeroCount + 1] = [ _
 Global Const $g_asHeroNames[$eHeroCount] = ["Barbarian King", "Archer Queen", "Minion Prince", "Grand Warden", "Royal Champion"]
 Global Const $g_asHeroShortNames[$eHeroCount] = ["King", "Queen", "Prince", "Warden", "Champion"]
 Global $g_aiHeroBoost[$eHeroCount] = ["1970/01/01 00:00:00", "1970/01/01 00:00:00", "1970/01/01 00:00:00", "1970/01/01 00:00:00", "1970/01/01 00:00:00"] ; Use Epoch as standard values :)
-Global $g_aiHiddenHeroStatus[$eHeroCount] = [0, 0, 0, 0, 0], $g_bFirstStartForHiddenHero = 1
+Global $g_bFirstStartForHiddenHero = 1
 
 ; Leagues
 Global $g_bLeagueAttack = False
@@ -1110,8 +1110,8 @@ Global $g_aiTrainOrder[$eTroopCount] = [ _
 		$eTroopLavaHound, $eTroopIceHound, $eTroopBowler, $eTroopSuperBowler, $eTroopIceGolem, $eTroopHeadhunter, $eTroopAppWard, $eTroopDruid, $eTroopGiantSkeleton, $eTroopRoyalGhost, $eTroopPartyWizard, _
 		$eTroopIceWizard, $eTroopCookie, $eTroopRamRider, $eTroopBarcher, $eTroopWitchGolem, $eTroopHogWizard, $eTroopLavaloon, $eTroopIceMinion]
 
-Global $g_aiHeroSlotOrder[$eHeroCount] = [$eHeroBarbarianKing, $eHeroArcherQueen, $eHeroMinionPrince, $eHeroGrandWarden, $eHeroRoyalChampion]
 Global $g_aiCmbCustomHeroOrder[$eHeroCount] = [-1, -1, -1, -1, -1]
+Global $g_aiHeroSlotOrder[$eHeroCount] = [$eHeroBarbarianKing, $eHeroArcherQueen, $eHeroMinionPrince, $eHeroGrandWarden, $eHeroRoyalChampion]
 
 ; Spells Brew Order
 Global Const $g_aiSpellsOrderIcon[$eSpellCount + 1] = [ _

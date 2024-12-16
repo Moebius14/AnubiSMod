@@ -34,7 +34,6 @@ Global $g_ahTxtTrainArmySpellCount[$eSpellCount] = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0
 Global $g_ahTxtTrainArmySiegeCount[$eSiegeMachineCount] = [0, 0, 0, 0, 0, 0]
 Global $g_hTxtFullTroop = 0, $g_hChkTotalCampForced = 0, $g_hTxtTotalCampForced = 0, $g_ArmyCampCap = 0, $g_hArmyCampUpgrade = 0, $g_hBtnAdjust = 0, $g_ahPicArmyCampUpgrade = 0
 Global $g_hChkDoubleTrain = 0, $g_hChkPreciseArmy = 0
-Global $g_hBtnAssignHeroSlots = 0
 
 Global $g_ahPicTrainArmyTroop[$eTroopCount] = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
 Global $g_ahPicTrainArmyTroopTmp[7] = [0, 0, 0, 0, 0, 0, 0]
@@ -298,22 +297,16 @@ Func CreateCustomTrainSubTab()
 	$g_hLblCountTotalSpells = GUICtrlCreateLabel(0, $x + 245, $y + 51, 35, 15, $SS_CENTER)
 	GUICtrlCreateGroup("", -99, -99, 1, 1)
 
-	$g_hChkPreciseArmy = GUICtrlCreateCheckbox(GetTranslatedFileIni("MBR GUI Design Child Attack - Troops", "ChkPreciseArmy", "Precise"), $g_iSizeWGrpTab3 - 137, $y - 24, -1, -1)
+	$g_hChkPreciseArmy = GUICtrlCreateCheckbox(GetTranslatedFileIni("MBR GUI Design Child Attack - Troops", "ChkPreciseArmy", "Precise Army"), $g_iSizeWGrpTab3 - 120, $y - 25, -1, -1)
 	_GUICtrlSetTip(-1, GetTranslatedFileIni("MBR Global GUI Design", "Precise ArmyTip", "Always check and remove wrong troops or spells exist in army"))
-	GUICtrlSetFont(-1, 8)
 	GUICtrlSetOnEvent(-1, "ChkPreciseArmy")
 
-	$g_hChkDoubleTrain = GUICtrlCreateCheckbox(GetTranslatedFileIni("MBR GUI Design Child Attack - Troops", "ChkDoubleTrain", "Double Train"), $g_iSizeWGrpTab3 - 82, $y - 24, -1, -1)
+	$g_hChkDoubleTrain = GUICtrlCreateCheckbox(GetTranslatedFileIni("MBR GUI Design Child Attack - Troops", "ChkDoubleTrain", "Double Train"), $g_iSizeWGrpTab3 - 120, $y - 5, -1, -1)
 	_GUICtrlSetTip(-1, GetTranslatedFileIni("MBR Global GUI Design", "DoubleTrainTip", "Train 2nd set of Troops & Spells after training 1st combo") & @CRLF & _
 			GetTranslatedFileIni("MBR Global GUI Design", "DoubleTrainTip1", "Make sure to enter exactly the 'Total Camp',") & @CRLF & _
 			GetTranslatedFileIni("MBR Global GUI Design", "DoubleTrainTip2", "'Total Spell' and number of Troops/Spells in your Setting") & @CRLF & _
 			GetTranslatedFileIni("MBR Global GUI Design", "DoubleTrainTip3", "Note: Donations + Double Train can produce an unbalanced army!"))
-	GUICtrlSetFont(-1, 8)
 	GUICtrlSetOnEvent(-1, "ChkDoubleTrain")
-
-	$g_hBtnAssignHeroSlots = GUICtrlCreateButton("Assign Hero Slots", $g_iSizeWGrpTab3 - 120, $y - 2, -1, 20)
-	_GUICtrlSetTip(-1, "Use this to Assign each Hero to his Slot")
-	GUICtrlSetOnEvent(-1, "BtnAssignHeroSlots")
 
 	_GUICtrlCreateIcon($g_sLibIconPath, $eIcnTroopsCost, $g_iSizeWGrpTab3 - 125, $y + 19, 24, 24)
 	$g_hLblTotalTimeCamp = GUICtrlCreateLabel(" 0s", $g_iSizeWGrpTab3 - 99, $y + 24, 70, 15, $SS_RIGHT)

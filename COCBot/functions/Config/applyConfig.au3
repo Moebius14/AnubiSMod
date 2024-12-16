@@ -2528,33 +2528,6 @@ Func ApplyConfig_600_54($TypeReadSave)
 				EndIf
 			EndIf
 
-			; Hero Slot Order
-			For $z = 0 To UBound($g_ahCmbHeroOrder) - 1
-				_GUICtrlComboBox_SetCurSel($g_ahCmbHeroOrder[$z], $g_aiCmbCustomHeroOrder[$z])
-				_GUICtrlSetImage($g_ahImgHeroOrder[$z], $g_sLibIconPath, $g_aiHeroOrderIcon[$g_aiCmbCustomHeroOrder[$z] + 1])
-			Next
-
-			Local $iValueSet = 0
-			For $i = 0 To UBound($g_ahCmbHeroOrder) - 1
-				Local $iValue = _GUICtrlComboBox_GetCurSel($g_ahCmbHeroOrder[$i])
-				If $iValue <> -1 Then
-					$iValueSet += 1
-				EndIf
-			Next
-			If $iValueSet > 0 And $iValueSet < $eHeroCount Then
-				SetLog("Set your Hero Slot Order For New Bot Version")
-				BtnHeroOrderSet()
-			ElseIf $iValueSet = 0 Then
-				SetLog("First Start Hero Slot Order Set")
-				For $z = 0 To UBound($g_ahCmbHeroOrder) - 1
-					_GUICtrlComboBox_SetCurSel($g_ahCmbHeroOrder[$z], $z)
-					_GUICtrlSetImage($g_ahImgHeroOrder[$z], $g_sLibIconPath, $g_aiHeroOrderIcon[$z + 1])
-				Next
-				BtnHeroOrderSet()
-			EndIf
-			If Not ChangeHeroTrainOrder() Then SetDefaultHeroGroup(False) ; process error
-			HeroSlotLock()
-
 			; Spells Order
 			GUICtrlSetState($g_hChkCustomBrewOrderEnable, $g_bCustomBrewOrderEnable ? $GUI_CHECKED : $GUI_UNCHECKED)
 			chkSpellsOrder()
@@ -2581,10 +2554,6 @@ Func ApplyConfig_600_54($TypeReadSave)
 			$g_bCustomTrainOrderEnable = (GUICtrlRead($g_hChkCustomTrainOrderEnable) = $GUI_CHECKED)
 			For $z = 0 To UBound($g_ahCmbTroopOrder) - 1
 				$g_aiCmbCustomTrainOrder[$z] = _GUICtrlComboBox_GetCurSel($g_ahCmbTroopOrder[$z])
-			Next
-			; Hero Order
-			For $z = 0 To UBound($g_ahCmbHeroOrder) - 1
-				$g_aiCmbCustomHeroOrder[$z] = _GUICtrlComboBox_GetCurSel($g_ahCmbHeroOrder[$z])
 			Next
 			; Spells Order
 			$g_bCustomBrewOrderEnable = (GUICtrlRead($g_hChkCustomBrewOrderEnable) = $GUI_CHECKED)

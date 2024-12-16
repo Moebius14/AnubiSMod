@@ -1452,11 +1452,6 @@ Func ReadConfig_600_54()
 		IniReadS($g_aiCmbCustomTrainOrder[$z], $g_sProfileConfigPath, "troop", "cmbTroopOrder" & $z, -1)
 	Next
 
-	; Hero Order
-	For $z = 0 To UBound($g_aiCmbCustomHeroOrder) - 1
-		IniReadS($g_aiCmbCustomHeroOrder[$z], $g_sProfileConfigPath, "Hero", "cmbHeroOrder" & $z, -1)
-	Next
-
 	; Spells Order
 	IniReadS($g_bCustomBrewOrderEnable, $g_sProfileConfigPath, "Spells", "chkSpellOrder", False, "Bool")
 	For $z = 0 To UBound($g_aiCmbCustomBrewOrder) - 1

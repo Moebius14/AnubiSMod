@@ -31,6 +31,8 @@ Func OpenArmyOverview($bCheckMain = True, $sWhereFrom = "Undefined")
 	If Not IsTrainPage() Then
 		SetError(1)
 		Return False ; exit if I'm not in train page
+	Else
+		CheckHeroOrder()
 	EndIf
 	Return True
 

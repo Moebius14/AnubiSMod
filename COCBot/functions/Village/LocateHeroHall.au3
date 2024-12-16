@@ -104,7 +104,6 @@ Func _LocateHeroHall($bCollect = True)
 				EndSelect
 			Else
 				$g_aiHeroHallPos[2] = $sHeroHallInfo[2]
-				HeroSlotLock()
 			EndIf
 		Else
 			SetLog(" Operator Error - Bad Hero Hall Location: " & "(" & $g_aiHeroHallPos[0] & "," & $g_aiHeroHallPos[1] & ")", $COLOR_ERROR)
@@ -153,7 +152,6 @@ Func ImgLocateHeroHall()
 		Local $sHeroHallInfo = BuildingInfo(242, 475 + $g_iBottomOffsetY)
 		If StringInStr($sHeroHallInfo[1], "Hero") Then
 			$g_aiHeroHallPos[2] = $sHeroHallInfo[2]
-			HeroSlotLock()
 		EndIf
 		If _Sleep($DELAYBUILDINGINFO1) Then Return
 		ClearScreen()

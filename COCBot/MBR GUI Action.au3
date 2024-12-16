@@ -160,7 +160,6 @@ Func BotStart($bAutostartDelay = 0)
 	CloseCampSizeAdjust()
 	CloseHeroEquipment()
 	CloseMoreBuildings()
-	CloseHeroAssign()
 	;Mod>
 
 	CleanSuperchargeTemplates()

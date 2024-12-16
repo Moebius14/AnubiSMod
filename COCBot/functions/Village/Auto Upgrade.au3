@@ -643,7 +643,6 @@ Func _AutoUpgrade()
 						GUICtrlSetState($g_hPicKingRed, $GUI_SHOW)
 						GUICtrlSetState($g_hPicKingBlue, $GUI_HIDE)
 						GUICtrlSetState($g_hPicKingGreen, $GUI_HIDE)
-						$g_aiHiddenHeroStatus[0] = 2
 						$g_iHeroUpgrading[0] = 1
 						$g_iHeroUpgradingBit = BitOR($g_iHeroUpgradingBit, $eHeroKing)
 					Case "Archer Queen"
@@ -651,7 +650,6 @@ Func _AutoUpgrade()
 						GUICtrlSetState($g_hPicQueenRed, $GUI_SHOW)
 						GUICtrlSetState($g_hPicQueenBlue, $GUI_HIDE)
 						GUICtrlSetState($g_hPicQueenGreen, $GUI_HIDE)
-						$g_aiHiddenHeroStatus[1] = 2
 						$g_iHeroUpgrading[1] = 1
 						$g_iHeroUpgradingBit = BitOR($g_iHeroUpgradingBit, $eHeroQueen)
 					Case "Minion Prince"
@@ -659,7 +657,6 @@ Func _AutoUpgrade()
 						GUICtrlSetState($g_hPicPrinceRed, $GUI_SHOW)
 						GUICtrlSetState($g_hPicPrinceBlue, $GUI_HIDE)
 						GUICtrlSetState($g_hPicPrinceGreen, $GUI_HIDE)
-						$g_aiHiddenHeroStatus[2] = 2
 						$g_iHeroUpgrading[2] = 1
 						$g_iHeroUpgradingBit = BitOR($g_iHeroUpgradingBit, $eHeroPrince)
 					Case "Grand Warden"
@@ -667,7 +664,6 @@ Func _AutoUpgrade()
 						GUICtrlSetState($g_hPicWardenRed, $GUI_SHOW)
 						GUICtrlSetState($g_hPicWardenBlue, $GUI_HIDE)
 						GUICtrlSetState($g_hPicWardenGreen, $GUI_HIDE)
-						$g_aiHiddenHeroStatus[3] = 2
 						$g_iHeroUpgrading[3] = 1
 						$g_iHeroUpgradingBit = BitOR($g_iHeroUpgradingBit, $eHeroWarden)
 					Case "Royal Champion"
@@ -675,7 +671,6 @@ Func _AutoUpgrade()
 						GUICtrlSetState($g_hPicChampionRed, $GUI_SHOW)
 						GUICtrlSetState($g_hPicChampionBlue, $GUI_HIDE)
 						GUICtrlSetState($g_hPicChampionGreen, $GUI_HIDE)
-						$g_aiHiddenHeroStatus[4] = 2
 						$g_iHeroUpgrading[4] = 1
 						$g_iHeroUpgradingBit = BitOR($g_iHeroUpgradingBit, $eHeroChampion)
 				EndSwitch
@@ -781,7 +776,6 @@ Func _AutoUpgrade()
 								GUICtrlSetState($g_hPicKingRed, $GUI_HIDE)
 								GUICtrlSetState($g_hPicKingBlue, $GUI_HIDE)
 								GUICtrlSetState($g_hPicKingGreen, $GUI_SHOW)
-								$g_aiHiddenHeroStatus[0] = 1
 								$g_iHeroUpgrading[0] = 0
 								$g_iHeroUpgradingBit = BitAND($g_iHeroUpgradingBit, BitOR($eHeroQueen, $eHeroPrince, $eHeroWarden, $eHeroChampion))
 							Case "Archer Queen"
@@ -790,7 +784,6 @@ Func _AutoUpgrade()
 								GUICtrlSetState($g_hPicQueenRed, $GUI_HIDE)
 								GUICtrlSetState($g_hPicQueenBlue, $GUI_HIDE)
 								GUICtrlSetState($g_hPicQueenGreen, $GUI_SHOW)
-								$g_aiHiddenHeroStatus[1] = 1
 								$g_iHeroUpgrading[1] = 0
 								$g_iHeroUpgradingBit = BitAND($g_iHeroUpgradingBit, BitOR($eHeroKing, $eHeroPrince, $eHeroWarden, $eHeroChampion))
 							Case "Minion Prince"
@@ -799,7 +792,6 @@ Func _AutoUpgrade()
 								GUICtrlSetState($g_hPicPrinceRed, $GUI_HIDE)
 								GUICtrlSetState($g_hPicPrinceBlue, $GUI_HIDE)
 								GUICtrlSetState($g_hPicPrinceGreen, $GUI_SHOW)
-								$g_aiHiddenHeroStatus[2] = 1
 								$g_iHeroUpgrading[2] = 0
 								$g_iHeroUpgradingBit = BitAND($g_iHeroUpgradingBit, BitOR($eHeroKing, $eHeroQueen, $eHeroWarden, $eHeroChampion))
 							Case "Grand Warden"
@@ -808,7 +800,6 @@ Func _AutoUpgrade()
 								GUICtrlSetState($g_hPicWardenRed, $GUI_HIDE)
 								GUICtrlSetState($g_hPicWardenBlue, $GUI_HIDE)
 								GUICtrlSetState($g_hPicWardenGreen, $GUI_SHOW)
-								$g_aiHiddenHeroStatus[3] = 1
 								$g_iHeroUpgrading[3] = 0
 								$g_iHeroUpgradingBit = BitAND($g_iHeroUpgradingBit, BitOR($eHeroKing, $eHeroQueen, $eHeroPrince, $eHeroChampion))
 							Case "Royal Champion"
@@ -817,7 +808,6 @@ Func _AutoUpgrade()
 								GUICtrlSetState($g_hPicChampionRed, $GUI_HIDE)
 								GUICtrlSetState($g_hPicChampionBlue, $GUI_HIDE)
 								GUICtrlSetState($g_hPicChampionGreen, $GUI_SHOW)
-								$g_aiHiddenHeroStatus[4] = 1
 								$g_iHeroUpgrading[4] = 0
 								$g_iHeroUpgradingBit = BitAND($g_iHeroUpgradingBit, BitOR($eHeroKing, $eHeroQueen, $eHeroPrince, $eHeroWarden))
 						EndSwitch
@@ -921,7 +911,6 @@ Func NewHeroUpgradeSystem()
 				GUICtrlSetState($g_hPicKingGreen, $GUI_HIDE)
 				SetLog($g_asHeroNames[0] & " is being upgraded", $COLOR_DEBUG)
 				;Set Status Variable
-				$g_aiHiddenHeroStatus[0] = 2
 				$g_iHeroUpgrading[0] = 1
 				$g_iHeroUpgradingBit = BitOR($g_iHeroUpgradingBit, $eHeroKing)
 			Else
@@ -931,7 +920,6 @@ Func NewHeroUpgradeSystem()
 					GUICtrlSetState($g_hPicKingBlue, $GUI_HIDE)
 					GUICtrlSetState($g_hPicKingGreen, $GUI_SHOW)
 					SetLog($g_asHeroNames[0] & " is ready to fight", $COLOR_SUCCESS1)
-					$g_aiHiddenHeroStatus[0] = 1
 					$g_iHeroUpgrading[0] = 0
 					$g_iHeroUpgradingBit = BitAND($g_iHeroUpgradingBit, BitOR($eHeroQueen, $eHeroPrince, $eHeroWarden, $eHeroChampion))
 				EndIf
@@ -944,7 +932,6 @@ Func NewHeroUpgradeSystem()
 				GUICtrlSetState($g_hPicQueenGreen, $GUI_HIDE)
 				SetLog($g_asHeroNames[1] & " is being upgraded", $COLOR_DEBUG)
 				;Set Status Variable
-				$g_aiHiddenHeroStatus[1] = 2
 				$g_iHeroUpgrading[1] = 1
 				$g_iHeroUpgradingBit = BitOR($g_iHeroUpgradingBit, $eHeroQueen)
 			Else
@@ -954,7 +941,6 @@ Func NewHeroUpgradeSystem()
 					GUICtrlSetState($g_hPicQueenBlue, $GUI_HIDE)
 					GUICtrlSetState($g_hPicQueenGreen, $GUI_SHOW)
 					SetLog($g_asHeroNames[1] & " is ready to fight", $COLOR_SUCCESS1)
-					$g_aiHiddenHeroStatus[1] = 1
 					$g_iHeroUpgrading[1] = 0
 					$g_iHeroUpgradingBit = BitAND($g_iHeroUpgradingBit, BitOR($eHeroKing, $eHeroPrince, $eHeroWarden, $eHeroChampion))
 				EndIf
@@ -967,7 +953,6 @@ Func NewHeroUpgradeSystem()
 				GUICtrlSetState($g_hPicPrinceGreen, $GUI_HIDE)
 				SetLog($g_asHeroNames[2] & " is being upgraded", $COLOR_DEBUG)
 				;Set Status Variable
-				$g_aiHiddenHeroStatus[2] = 2
 				$g_iHeroUpgrading[2] = 1
 				$g_iHeroUpgradingBit = BitOR($g_iHeroUpgradingBit, $eHeroPrince)
 			Else
@@ -977,7 +962,6 @@ Func NewHeroUpgradeSystem()
 					GUICtrlSetState($g_hPicPrinceBlue, $GUI_HIDE)
 					GUICtrlSetState($g_hPicPrinceGreen, $GUI_SHOW)
 					SetLog($g_asHeroNames[2] & " is ready to fight", $COLOR_SUCCESS1)
-					$g_aiHiddenHeroStatus[2] = 1
 					$g_iHeroUpgrading[2] = 0
 					$g_iHeroUpgradingBit = BitAND($g_iHeroUpgradingBit, BitOR($eHeroKing, $eHeroQueen, $eHeroWarden, $eHeroChampion))
 				EndIf
@@ -990,7 +974,6 @@ Func NewHeroUpgradeSystem()
 				GUICtrlSetState($g_hPicWardenGreen, $GUI_HIDE)
 				SetLog($g_asHeroNames[3] & " is being upgraded", $COLOR_DEBUG)
 				;Set Status Variable
-				$g_aiHiddenHeroStatus[3] = 2
 				$g_iHeroUpgrading[3] = 1
 				$g_iHeroUpgradingBit = BitOR($g_iHeroUpgradingBit, $eHeroWarden)
 			Else
@@ -1000,7 +983,6 @@ Func NewHeroUpgradeSystem()
 					GUICtrlSetState($g_hPicWardenBlue, $GUI_HIDE)
 					GUICtrlSetState($g_hPicWardenGreen, $GUI_SHOW)
 					SetLog($g_asHeroNames[3] & " is ready to fight", $COLOR_SUCCESS1)
-					$g_aiHiddenHeroStatus[3] = 1
 					$g_iHeroUpgrading[3] = 0
 					$g_iHeroUpgradingBit = BitAND($g_iHeroUpgradingBit, BitOR($eHeroKing, $eHeroQueen, $eHeroPrince, $eHeroChampion))
 				EndIf
@@ -1013,7 +995,6 @@ Func NewHeroUpgradeSystem()
 				GUICtrlSetState($g_hPicChampionGreen, $GUI_HIDE)
 				SetLog($g_asHeroNames[4] & " is being upgraded", $COLOR_DEBUG)
 				;Set Status Variable
-				$g_aiHiddenHeroStatus[4] = 2
 				$g_iHeroUpgrading[4] = 1
 				$g_iHeroUpgradingBit = BitOR($g_iHeroUpgradingBit, $eHeroChampion)
 			Else
@@ -1023,7 +1004,6 @@ Func NewHeroUpgradeSystem()
 					GUICtrlSetState($g_hPicChampionBlue, $GUI_HIDE)
 					GUICtrlSetState($g_hPicChampionGreen, $GUI_SHOW)
 					SetLog($g_asHeroNames[4] & " is ready to fight", $COLOR_SUCCESS1)
-					$g_aiHiddenHeroStatus[4] = 1
 					$g_iHeroUpgrading[4] = 0
 					$g_iHeroUpgradingBit = BitAND($g_iHeroUpgradingBit, BitOR($eHeroKing, $eHeroQueen, $eHeroPrince, $eHeroWarden))
 				EndIf

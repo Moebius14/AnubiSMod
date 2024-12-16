@@ -1381,11 +1381,6 @@ Func SaveConfig_600_54()
 		_Ini_Add("troop", "cmbTroopOrder" & $z, $g_aiCmbCustomTrainOrder[$z])
 	Next
 
-	; Hero Order
-	For $z = 0 To UBound($g_aiCmbCustomHeroOrder) - 1
-		_Ini_Add("Hero", "cmbHeroOrder" & $z, $g_aiCmbCustomHeroOrder[$z])
-	Next
-
 	; Spells Order
 	_Ini_Add("Spells", "chkSpellOrder", $g_bCustomBrewOrderEnable ? 1 : 0)
 	For $z = 0 To UBound($g_aiCmbCustomBrewOrder) - 1

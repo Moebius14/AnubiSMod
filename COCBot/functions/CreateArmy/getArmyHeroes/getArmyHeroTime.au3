@@ -75,7 +75,7 @@ Func getArmyHeroTime($iHeroType, $bOpenArmyWindow = False, $bCloseArmyWindow = F
 		EndIf
 
 		$sResult = getRemainTHero($aHeroRemainData[$index][0], $aHeroRemainData[$index][1]) ;Get Hero training time via OCR.
-		If StringInStr($sResult, "s", $STR_NOCASESENSEBASIC) = 0 Then
+		If Not StringInStr($sResult, "s", $STR_NOCASESENSEBASIC) Or Not StringInStr($sResult, "m", $STR_NOCASESENSEBASIC) Then
 			Local $YCoordsNewPos = $aHeroRemainData[$index][1] + 2
 			$sResult = getRemainTHero($aHeroRemainData[$index][0], $YCoordsNewPos)
 		EndIf

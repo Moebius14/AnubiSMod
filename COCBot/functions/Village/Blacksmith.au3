@@ -172,10 +172,12 @@ Func Blacksmith($bTest = False)
 			If QuickMIS("BC1", $g_sImgHeroEquipement, 135, 330 + $g_iMidOffsetY, 290, 365 + $g_iMidOffsetY) Then
 				If $g_iQuickMISName <> $g_asEquipmentOrderList[$g_aiCmbCustomEquipmentOrder[$i]][2] Then $ToClickOnHero = True
 			Else
-				SetLog("No Hero head image found", $COLOR_ERROR)
-				If $g_bDebugImageSave Then SaveDebugImage("Blacksmith_HeroHead")
-				CloseWindow()
-				Return
+				If $g_aiHeroHallPos[2] > 1 Then ; Hero Hall Lvl 1 : King Only, No Hero Head
+					SetLog("No Hero head image found", $COLOR_ERROR)
+					If $g_bDebugImageSave Then SaveDebugImage("Blacksmith_HeroHead")
+					CloseWindow()
+					Return
+				EndIf
 			EndIf
 		EndIf
 
