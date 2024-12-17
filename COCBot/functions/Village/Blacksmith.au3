@@ -125,32 +125,32 @@ Func Blacksmith($bTest = False)
 					SetLog("BlackSmith level 3 needed, looking next", $COLOR_SUCCESS)
 					ContinueLoop
 				EndIf
-			Case 7 ; Giant Arrow
+			Case 8 ; Giant Arrow
 				If $BuildingInfo[2] < 2 Then
 					SetLog("BlackSmith level 2 needed, looking next", $COLOR_SUCCESS)
 					ContinueLoop
 				EndIf
-			Case 8 ; Healer Puppet
+			Case 9 ; Healer Puppet
 				If $BuildingInfo[2] < 5 Then
 					SetLog("BlackSmith level 5 needed, looking next", $COLOR_SUCCESS)
 					ContinueLoop
 				EndIf
-			Case 12 ; Rage Gem
+			Case 16 ; Rage Gem
 				If $BuildingInfo[2] < 4 Then
 					SetLog("BlackSmith level 4 needed, looking next", $COLOR_SUCCESS)
 					ContinueLoop
 				EndIf
-			Case 13 ; Healing Tome
+			Case 17 ; Healing Tome
 				If $BuildingInfo[2] < 6 Then
 					SetLog("BlackSmith level 6 needed, looking next", $COLOR_SUCCESS)
 					ContinueLoop
 				EndIf
-			Case 17 ; Hog Rider Puppet
+			Case 22 ; Hog Rider Puppet
 				If $BuildingInfo[2] < 7 Then
 					SetLog("BlackSmith level 7 needed, looking next", $COLOR_SUCCESS)
 					ContinueLoop
 				EndIf
-			Case 18 ; Haste Vial
+			Case 23 ; Haste Vial
 				If $BuildingInfo[2] < 8 Then
 					SetLog("BlackSmith level 8 needed, looking next", $COLOR_SUCCESS)
 					ContinueLoop
@@ -182,7 +182,7 @@ Func Blacksmith($bTest = False)
 		EndIf
 
 		If $ToClickOnHero Then
-			SetDebugLog("Click On " & $g_asEquipmentOrderList[$g_aiCmbCustomEquipmentOrder[$i]][2] & " [" & $g_asEquipmentOrderList[$g_aiCmbCustomEquipmentOrder[$i]][3] & ",375]", $COLOR_DEBUG)
+			SetDebugLog("Click On " & $g_asEquipmentOrderList[$g_aiCmbCustomEquipmentOrder[$i]][2] & " [" & $g_asEquipmentOrderList[$g_aiCmbCustomEquipmentOrder[$i]][3] & ",380]", $COLOR_DEBUG)
 			Click($g_asEquipmentOrderList[$g_aiCmbCustomEquipmentOrder[$i]][3], 350 + $g_iMidOffsetY) ; Click on corresponding Hero
 		EndIf
 

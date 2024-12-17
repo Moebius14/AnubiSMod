@@ -36,10 +36,14 @@ Func IsSearchCGAttackEnabled()
 			Sleep(Random(3500, 5500, 1))
 			ClearScreen()
 			Sleep(Random(3500, 5500, 1))
+			__RunFunction('DonateCC,Train')
+			If _Sleep($DELAYRUNBOT3) Then Return
+			HiddenSlotstatus()
+			If _Sleep($DELAYRUNBOT3) Then Return
 			If IsToFillCCWithMedalsOnly() Then
-				Local $aRndFuncList = ['DonateCC,Train', 'CollectFreeMagicItems', 'Collect', 'DailyChallenge', 'UpgradeWall', 'Laboratory', 'UpgradeHeroes', 'UpgradeBuilding', 'PetHouse', 'CheckTombs', 'CleanYard']
+				Local $aRndFuncList = ['CollectFreeMagicItems', 'Collect', 'DailyChallenge', 'UpgradeWall', 'Laboratory', 'UpgradeHeroes', 'UpgradeBuilding', 'PetHouse', 'CheckTombs', 'CleanYard']
 			Else
-				Local $aRndFuncList = ['DonateCC,Train', 'RequestCC', 'CollectFreeMagicItems', 'Collect', 'DailyChallenge', 'UpgradeWall', 'Laboratory', 'UpgradeHeroes', 'UpgradeBuilding', 'PetHouse', 'CheckTombs', 'CleanYard']
+				Local $aRndFuncList = ['RequestCC', 'CollectFreeMagicItems', 'Collect', 'DailyChallenge', 'UpgradeWall', 'Laboratory', 'UpgradeHeroes', 'UpgradeBuilding', 'PetHouse', 'CheckTombs', 'CleanYard']
 			EndIf
 			For $Index In $aRndFuncList
 				_RunFunction($Index)
