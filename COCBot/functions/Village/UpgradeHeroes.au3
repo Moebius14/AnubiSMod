@@ -30,7 +30,7 @@ Func FinishTimeCalculation($bHero = "")
 			EndIf
 			SetDebugLog("Upgrade Time OCR : " & $g_aUpgradeDuration)
 			$g_aiHeroUpgradeFinishDate[0] = _DateAdd('n', Ceiling($HeroUpgradeTime), _NowCalc())
-			SetLog($bHero & " Upgrade Finishes in " & $HeroUpgradeTime & " min. (" & $g_aiHeroUpgradeFinishDate[0] & ")", $COLOR_SUCCESS)
+			SetLog($bHero & " Upgrade Finishes @ " & $g_aiHeroUpgradeFinishDate[0], $COLOR_SUCCESS)
 			If _Sleep(200) Then Return
 			CloseWindow2()
 			If _Sleep($DELAYUPGRADEHERO3) Then Return
@@ -45,7 +45,7 @@ Func FinishTimeCalculation($bHero = "")
 			EndIf
 			SetDebugLog("Upgrade Time OCR : " & $g_aUpgradeDuration)
 			$g_aiHeroUpgradeFinishDate[1] = _DateAdd('n', Ceiling($HeroUpgradeTime), _NowCalc())
-			SetLog($bHero & " Upgrade Finishes in " & $HeroUpgradeTime & " min. (" & $g_aiHeroUpgradeFinishDate[1] & ")", $COLOR_SUCCESS)
+			SetLog($bHero & " Upgrade Finishes @ " & $g_aiHeroUpgradeFinishDate[1], $COLOR_SUCCESS)
 			If _Sleep(200) Then Return
 			CloseWindow2()
 			If _Sleep($DELAYUPGRADEHERO3) Then Return
@@ -60,7 +60,7 @@ Func FinishTimeCalculation($bHero = "")
 			EndIf
 			SetDebugLog("Upgrade Time OCR : " & $g_aUpgradeDuration)
 			$g_aiHeroUpgradeFinishDate[2] = _DateAdd('n', Ceiling($HeroUpgradeTime), _NowCalc())
-			SetLog($bHero & " Upgrade Finishes in " & $HeroUpgradeTime & " min. (" & $g_aiHeroUpgradeFinishDate[2] & ")", $COLOR_SUCCESS)
+			SetLog($bHero & " Upgrade Finishes @ " & $g_aiHeroUpgradeFinishDate[2], $COLOR_SUCCESS)
 			If _Sleep(200) Then Return
 			CloseWindow2()
 			If _Sleep($DELAYUPGRADEHERO3) Then Return
@@ -75,7 +75,7 @@ Func FinishTimeCalculation($bHero = "")
 			EndIf
 			SetDebugLog("Upgrade Time OCR : " & $g_aUpgradeDuration)
 			$g_aiHeroUpgradeFinishDate[3] = _DateAdd('n', Ceiling($HeroUpgradeTime), _NowCalc())
-			SetLog($bHero & " Upgrade Finishes in " & $HeroUpgradeTime & " min. (" & $g_aiHeroUpgradeFinishDate[3] & ")", $COLOR_SUCCESS)
+			SetLog($bHero & " Upgrade Finishes @ " & $g_aiHeroUpgradeFinishDate[3], $COLOR_SUCCESS)
 			If _Sleep(200) Then Return
 			CloseWindow2()
 			If _Sleep($DELAYUPGRADEHERO3) Then Return
@@ -90,7 +90,7 @@ Func FinishTimeCalculation($bHero = "")
 			EndIf
 			SetDebugLog("Upgrade Time OCR : " & $g_aUpgradeDuration)
 			$g_aiHeroUpgradeFinishDate[4] = _DateAdd('n', Ceiling($HeroUpgradeTime), _NowCalc())
-			SetLog($bHero & " Upgrade Finishes in " & $HeroUpgradeTime & " min. (" & $g_aiHeroUpgradeFinishDate[4] & ")", $COLOR_SUCCESS)
+			SetLog($bHero & " Upgrade Finishes @ " & $g_aiHeroUpgradeFinishDate[4], $COLOR_SUCCESS)
 			If _Sleep(200) Then Return
 			CloseWindow2()
 			If _Sleep($DELAYUPGRADEHERO3) Then Return
@@ -105,7 +105,7 @@ Func NeededResources($bHero = "")
 			$g_iKingLevel = Number(getOcrAndCapture("coc-YellowLevel", 552, 116, 40, 20))
 			$g_aiHeroNeededResource[0] = Number(getCostsUpgradeRed(552, 541 + $g_iMidOffsetY)) ;read Red upgrade text
 			If $g_aiHeroNeededResource[0] = "" Then $g_aiHeroNeededResource[0] = Number(getCostsUpgradeRed(552, 532 + $g_iMidOffsetY)) ;read Red upgrade text (Discount).
-			SetLog($bHero & " Requires " & _NumberFormat($g_aiHeroNeededResource[0]) & " Dark Elixir", $COLOR_SUCCESS)
+			SetLog($bHero & " Upgrade Requires " & _NumberFormat($g_aiHeroNeededResource[0]) & " Dark Elixir", $COLOR_SUCCESS)
 			If _Sleep(200) Then Return
 			CloseWindow2()
 		Case "Queen"
@@ -114,7 +114,7 @@ Func NeededResources($bHero = "")
 			$g_iQueenLevel = Number(getOcrAndCapture("coc-YellowLevel", 545, 116, 40, 20))
 			$g_aiHeroNeededResource[1] = Number(getCostsUpgradeRed(552, 541 + $g_iMidOffsetY)) ;read Red upgrade text
 			If $g_aiHeroNeededResource[1] = "" Then $g_aiHeroNeededResource[1] = Number(getCostsUpgradeRed(552, 532 + $g_iMidOffsetY)) ;read Red upgrade text (Discount).
-			SetLog($bHero & " Requires " & _NumberFormat($g_aiHeroNeededResource[1]) & " Dark Elixir", $COLOR_SUCCESS)
+			SetLog($bHero & " Upgrade Requires " & _NumberFormat($g_aiHeroNeededResource[1]) & " Dark Elixir", $COLOR_SUCCESS)
 			If _Sleep(200) Then Return
 			CloseWindow2()
 		Case "Prince"
@@ -123,7 +123,7 @@ Func NeededResources($bHero = "")
 			$g_iPrinceLevel = Number(getOcrAndCapture("coc-YellowLevel", 635, 116, 40, 20))
 			$g_aiHeroNeededResource[2] = Number(getCostsUpgradeRed(552, 541 + $g_iMidOffsetY)) ;read Red upgrade text
 			If $g_aiHeroNeededResource[2] = "" Then $g_aiHeroNeededResource[2] = Number(getCostsUpgradeRed(552, 532 + $g_iMidOffsetY)) ;read Red upgrade text (Discount).
-			SetLog($bHero & " Requires " & _NumberFormat($g_aiHeroNeededResource[2]) & " Dark Elixir", $COLOR_SUCCESS)
+			SetLog($bHero & " Upgrade Requires " & _NumberFormat($g_aiHeroNeededResource[2]) & " Dark Elixir", $COLOR_SUCCESS)
 			If _Sleep(200) Then Return
 			CloseWindow2()
 		Case "Warden"
@@ -132,7 +132,7 @@ Func NeededResources($bHero = "")
 			$g_iWardenLevel = Number(getOcrAndCapture("coc-YellowLevel", 552, 116, 40, 20))
 			$g_aiHeroNeededResource[3] = Number(getCostsUpgradeRed(552, 541 + $g_iMidOffsetY)) ;read Red upgrade text
 			If $g_aiHeroNeededResource[3] = "" Then $g_aiHeroNeededResource[3] = Number(getCostsUpgradeRed(552, 532 + $g_iMidOffsetY)) ;read Red upgrade text (Discount).
-			SetLog($bHero & " Requires " & _NumberFormat($g_aiHeroNeededResource[3]) & " Elixir", $COLOR_SUCCESS)
+			SetLog($bHero & " Upgrade Requires " & _NumberFormat($g_aiHeroNeededResource[3]) & " Elixir", $COLOR_SUCCESS)
 			If _Sleep(200) Then Return
 			CloseWindow2()
 		Case "Champion"
@@ -141,7 +141,7 @@ Func NeededResources($bHero = "")
 			$g_iChampionLevel = Number(getOcrAndCapture("coc-YellowLevel", 552, 116, 40, 20))
 			$g_aiHeroNeededResource[4] = Number(getCostsUpgradeRed(552, 541 + $g_iMidOffsetY)) ;read Red upgrade text
 			If $g_aiHeroNeededResource[4] = "" Then $g_aiHeroNeededResource[4] = Number(getCostsUpgradeRed(552, 532 + $g_iMidOffsetY)) ;read Red upgrade text (Discount).
-			SetLog($bHero & " Requires " & _NumberFormat($g_aiHeroNeededResource[4]) & " Dark Elixir", $COLOR_SUCCESS)
+			SetLog($bHero & " Upgrade Requires " & _NumberFormat($g_aiHeroNeededResource[4]) & " Dark Elixir", $COLOR_SUCCESS)
 			If _Sleep(200) Then Return
 			CloseWindow2()
 	EndSwitch
@@ -183,7 +183,7 @@ Func UpgradeHeroes()
 				If Number($g_aiHeroNeededResource[0]) <= Number($g_aiCurrentLoot[$eLootDarkElixir]) Then
 					$IsToOpen += 1
 				Else
-					SetLog("King Requires " & _NumberFormat($g_aiHeroNeededResource[0]) & " Dark Elixir", $COLOR_SUCCESS)
+					SetLog("King Upgrade Requires " & _NumberFormat($g_aiHeroNeededResource[0]) & " Dark Elixir", $COLOR_SUCCESS)
 				EndIf
 			EndIf
 		EndIf
@@ -206,7 +206,7 @@ Func UpgradeHeroes()
 				If Number($g_aiHeroNeededResource[1]) <= Number($g_aiCurrentLoot[$eLootDarkElixir]) Then
 					$IsToOpen += 1
 				Else
-					SetLog("Queen Requires " & _NumberFormat($g_aiHeroNeededResource[1]) & " Dark Elixir", $COLOR_SUCCESS)
+					SetLog("Queen Upgrade Requires " & _NumberFormat($g_aiHeroNeededResource[1]) & " Dark Elixir", $COLOR_SUCCESS)
 				EndIf
 			EndIf
 		EndIf
@@ -229,7 +229,7 @@ Func UpgradeHeroes()
 				If Number($g_aiHeroNeededResource[2]) <= Number($g_aiCurrentLoot[$eLootDarkElixir]) Then
 					$IsToOpen += 1
 				Else
-					SetLog("Prince Requires " & _NumberFormat($g_aiHeroNeededResource[2]) & " Dark Elixir", $COLOR_SUCCESS)
+					SetLog("Prince Upgrade Requires " & _NumberFormat($g_aiHeroNeededResource[2]) & " Dark Elixir", $COLOR_SUCCESS)
 				EndIf
 			EndIf
 		EndIf
@@ -252,7 +252,7 @@ Func UpgradeHeroes()
 				If Number($g_aiHeroNeededResource[3]) <= Number($g_aiCurrentLoot[$eLootElixir]) Then
 					$IsToOpen += 1
 				Else
-					SetLog("Warden Requires " & _NumberFormat($g_aiHeroNeededResource[3]) & " Elixir", $COLOR_SUCCESS)
+					SetLog("Warden Upgrade Requires " & _NumberFormat($g_aiHeroNeededResource[3]) & " Elixir", $COLOR_SUCCESS)
 				EndIf
 			EndIf
 		EndIf
@@ -275,7 +275,7 @@ Func UpgradeHeroes()
 				If Number($g_aiHeroNeededResource[4]) <= Number($g_aiCurrentLoot[$eLootDarkElixir]) Then
 					$IsToOpen += 1
 				Else
-					SetLog("Champion Requires " & _NumberFormat($g_aiHeroNeededResource[4]) & " Dark Elixir", $COLOR_SUCCESS)
+					SetLog("Champion Upgrade Requires " & _NumberFormat($g_aiHeroNeededResource[4]) & " Dark Elixir", $COLOR_SUCCESS)
 				EndIf
 			EndIf
 		EndIf
