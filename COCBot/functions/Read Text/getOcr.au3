@@ -140,7 +140,7 @@ Func getBldgUpgradeTime($x_start, $y_start) ; -> Gets complete remain building u
 EndFunc   ;==>getBldgUpgradeTime
 
 Func getBldgUpgradeTime2($x_start, $y_start) ; -> Gets complete remain building upgrade time
-	Return getOcrAndCapture("coc-uptime3", $x_start, $y_start, 105, 18, True) ; "12d 19h"
+	Return getOcrAndCapture("coc-uptime3", $x_start, $y_start, 110, 18, True) ; "12d 19h"
 EndFunc   ;==>getBldgUpgradeTime2
 
 Func getGearUpgradeTime($x_start, $y_start) ; -> Gets complete remain building upgrade time
@@ -160,7 +160,12 @@ Func getPetUpgradeTime($x_start, $y_start) ; -> Gets complete remain lab upgrade
 EndFunc   ;==>getPetUpgradeTime
 
 Func getHeroUpgradeTime($x_start, $y_start) ; -> Gets complete upgrade time for heroes 595, 490 + $g_iMidOffsetY
-	Local $Result = StringReplace(getOcrAndCapture("coc-uptime", $x_start, $y_start, 105, 18, True), "b", "")
+	Local $Result = StringReplace(getOcrAndCapture("coc-uptime", $x_start, $y_start, 110, 18, True), "b", "")
+	Return $Result
+EndFunc   ;==>getHeroUpgradeTime
+
+Func getHeroUpgradeTime2($x_start, $y_start) ; -> Gets complete upgrade time for heroes 595, 490 + $g_iMidOffsetY
+	Local $Result = StringReplace(getOcrAndCapture("coc-uptime3", $x_start, $y_start, 110, 18, True), "b", "")
 	Return $Result
 EndFunc   ;==>getHeroUpgradeTime
 

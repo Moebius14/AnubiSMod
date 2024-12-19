@@ -146,6 +146,12 @@ Func BotStart($bAutostartDelay = 0)
 	$g_iBuilderBoostDiscount = 0
 	$g_bFirstStartForHiddenHero = 1
 	$g_iHeroAvailable = $eHeroNone
+	For $i = 0 To 4
+		$g_aiHeroUpgradeFinishDate[$i] = 0
+	Next
+	For $i = 0 To 4
+		$g_aiHeroNeededResource[$i] = 0
+	Next
 
 	LoadCurrentProfile()
 	LoadCurrentAlias()

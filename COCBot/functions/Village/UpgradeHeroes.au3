@@ -5,7 +5,7 @@
 ; Parameters ....: None
 ; Return values .: None
 ; Author ........: z0mbie (2015)
-; Modified ......: Master1st (09/2015), ProMac (10/2015), MonkeyHunter (06/2016)
+; Modified ......: Master1st (09/2015), ProMac (10/2015), MonkeyHunter (06/2016), Moebius14 (12/2024)
 ; Remarks .......: This file is part of MyBot, previously known as ClashGameBot. Copyright 2015-2024
 ;                  MyBot is distributed under the terms of the GNU GPL
 ; Related .......:
@@ -16,6 +16,136 @@
 Local $bInitalXcoord = 67
 Local $bDistanceSlot = 153
 Local $bXcoords[5] = [$bInitalXcoord, $bInitalXcoord + $bDistanceSlot, $bInitalXcoord + $bDistanceSlot * 2, $bInitalXcoord + $bDistanceSlot * 3, $bInitalXcoord + $bDistanceSlot * 4]
+
+Func FinishTimeCalculation($bHero = "")
+	Switch $bHero
+		Case "King"
+			Click($bXcoords[0] + 115, 232 + $g_iMidOffsetY)
+			If _Sleep($DELAYUPGRADEHERO3) Then Return ; Wait for window to open
+			Local $g_aUpgradeDuration = getHeroUpgradeTime(715, 544 + $g_iMidOffsetY) ; get duration
+			Local $HeroUpgradeTime = ConvertOCRTime("TimeToFinish", $g_aUpgradeDuration, False)
+			If $HeroUpgradeTime = 0 Then
+				$g_aUpgradeDuration = getHeroUpgradeTime2(715, 544 + $g_iMidOffsetY) ; Try to read with 2nd lib.
+				$HeroUpgradeTime = ConvertOCRTime("TimeToFinish", $g_aUpgradeDuration, False)
+			EndIf
+			SetDebugLog("Upgrade Time OCR : " & $g_aUpgradeDuration)
+			$g_aiHeroUpgradeFinishDate[0] = _DateAdd('n', Ceiling($HeroUpgradeTime), _NowCalc())
+			SetLog($bHero & " Upgrade Finishes in " & $HeroUpgradeTime & " min. (" & $g_aiHeroUpgradeFinishDate[0] & ")", $COLOR_SUCCESS)
+			If _Sleep(200) Then Return
+			CloseWindow2()
+			If _Sleep($DELAYUPGRADEHERO3) Then Return
+		Case "Queen"
+			Click($bXcoords[1] + 115, 232 + $g_iMidOffsetY)
+			If _Sleep($DELAYUPGRADEHERO3) Then Return ; Wait for window to open
+			Local $g_aUpgradeDuration = getHeroUpgradeTime(715, 544 + $g_iMidOffsetY) ; get duration
+			Local $HeroUpgradeTime = ConvertOCRTime("TimeToFinish", $g_aUpgradeDuration, False)
+			If $HeroUpgradeTime = 0 Then
+				$g_aUpgradeDuration = getHeroUpgradeTime2(715, 544 + $g_iMidOffsetY) ; Try to read with 2nd lib.
+				$HeroUpgradeTime = ConvertOCRTime("TimeToFinish", $g_aUpgradeDuration, False)
+			EndIf
+			SetDebugLog("Upgrade Time OCR : " & $g_aUpgradeDuration)
+			$g_aiHeroUpgradeFinishDate[1] = _DateAdd('n', Ceiling($HeroUpgradeTime), _NowCalc())
+			SetLog($bHero & " Upgrade Finishes in " & $HeroUpgradeTime & " min. (" & $g_aiHeroUpgradeFinishDate[1] & ")", $COLOR_SUCCESS)
+			If _Sleep(200) Then Return
+			CloseWindow2()
+			If _Sleep($DELAYUPGRADEHERO3) Then Return
+		Case "Prince"
+			Click($bXcoords[2] + 115, 232 + $g_iMidOffsetY)
+			If _Sleep($DELAYUPGRADEHERO3) Then Return ; Wait for window to open
+			Local $g_aUpgradeDuration = getHeroUpgradeTime(715, 544 + $g_iMidOffsetY) ; get duration
+			Local $HeroUpgradeTime = ConvertOCRTime("TimeToFinish", $g_aUpgradeDuration, False)
+			If $HeroUpgradeTime = 0 Then
+				$g_aUpgradeDuration = getHeroUpgradeTime2(715, 544 + $g_iMidOffsetY) ; Try to read with 2nd lib.
+				$HeroUpgradeTime = ConvertOCRTime("TimeToFinish", $g_aUpgradeDuration, False)
+			EndIf
+			SetDebugLog("Upgrade Time OCR : " & $g_aUpgradeDuration)
+			$g_aiHeroUpgradeFinishDate[2] = _DateAdd('n', Ceiling($HeroUpgradeTime), _NowCalc())
+			SetLog($bHero & " Upgrade Finishes in " & $HeroUpgradeTime & " min. (" & $g_aiHeroUpgradeFinishDate[2] & ")", $COLOR_SUCCESS)
+			If _Sleep(200) Then Return
+			CloseWindow2()
+			If _Sleep($DELAYUPGRADEHERO3) Then Return
+		Case "Warden"
+			Click($bXcoords[3] + 115, 232 + $g_iMidOffsetY)
+			If _Sleep($DELAYUPGRADEHERO3) Then Return ; Wait for window to open
+			Local $g_aUpgradeDuration = getHeroUpgradeTime(715, 544 + $g_iMidOffsetY) ; get duration
+			Local $HeroUpgradeTime = ConvertOCRTime("TimeToFinish", $g_aUpgradeDuration, False)
+			If $HeroUpgradeTime = 0 Then
+				$g_aUpgradeDuration = getHeroUpgradeTime2(715, 544 + $g_iMidOffsetY) ; Try to read with 2nd lib.
+				$HeroUpgradeTime = ConvertOCRTime("TimeToFinish", $g_aUpgradeDuration, False)
+			EndIf
+			SetDebugLog("Upgrade Time OCR : " & $g_aUpgradeDuration)
+			$g_aiHeroUpgradeFinishDate[3] = _DateAdd('n', Ceiling($HeroUpgradeTime), _NowCalc())
+			SetLog($bHero & " Upgrade Finishes in " & $HeroUpgradeTime & " min. (" & $g_aiHeroUpgradeFinishDate[3] & ")", $COLOR_SUCCESS)
+			If _Sleep(200) Then Return
+			CloseWindow2()
+			If _Sleep($DELAYUPGRADEHERO3) Then Return
+		Case "Champion"
+			Click($bXcoords[4] + 115, 232 + $g_iMidOffsetY)
+			If _Sleep($DELAYUPGRADEHERO3) Then Return ; Wait for window to open
+			Local $g_aUpgradeDuration = getHeroUpgradeTime(715, 544 + $g_iMidOffsetY) ; get duration
+			Local $HeroUpgradeTime = ConvertOCRTime("TimeToFinish", $g_aUpgradeDuration, False)
+			If $HeroUpgradeTime = 0 Then
+				$g_aUpgradeDuration = getHeroUpgradeTime2(715, 544 + $g_iMidOffsetY) ; Try to read with 2nd lib.
+				$HeroUpgradeTime = ConvertOCRTime("TimeToFinish", $g_aUpgradeDuration, False)
+			EndIf
+			SetDebugLog("Upgrade Time OCR : " & $g_aUpgradeDuration)
+			$g_aiHeroUpgradeFinishDate[4] = _DateAdd('n', Ceiling($HeroUpgradeTime), _NowCalc())
+			SetLog($bHero & " Upgrade Finishes in " & $HeroUpgradeTime & " min. (" & $g_aiHeroUpgradeFinishDate[4] & ")", $COLOR_SUCCESS)
+			If _Sleep(200) Then Return
+			CloseWindow2()
+			If _Sleep($DELAYUPGRADEHERO3) Then Return
+	EndSwitch
+EndFunc   ;==>FinishTimeCalculation
+
+Func NeededResources($bHero = "")
+	Switch $bHero
+		Case "King"
+			Click($bXcoords[0] + 115, 232 + $g_iMidOffsetY)
+			If _Sleep($DELAYUPGRADEHERO3) Then Return ; Wait for window to open
+			$g_iKingLevel = Number(getOcrAndCapture("coc-YellowLevel", 552, 116, 40, 20))
+			$g_aiHeroNeededResource[0] = Number(getCostsUpgradeRed(552, 541 + $g_iMidOffsetY)) ;read Red upgrade text
+			If $g_aiHeroNeededResource[0] = "" Then $g_aiHeroNeededResource[0] = Number(getCostsUpgradeRed(552, 532 + $g_iMidOffsetY)) ;read Red upgrade text (Discount).
+			SetLog($bHero & " Requires " & _NumberFormat($g_aiHeroNeededResource[0]) & " Dark Elixir", $COLOR_SUCCESS)
+			If _Sleep(200) Then Return
+			CloseWindow2()
+		Case "Queen"
+			Click($bXcoords[1] + 115, 232 + $g_iMidOffsetY)
+			If _Sleep($DELAYUPGRADEHERO3) Then Return ; Wait for window to open
+			$g_iQueenLevel = Number(getOcrAndCapture("coc-YellowLevel", 545, 116, 40, 20))
+			$g_aiHeroNeededResource[1] = Number(getCostsUpgradeRed(552, 541 + $g_iMidOffsetY)) ;read Red upgrade text
+			If $g_aiHeroNeededResource[1] = "" Then $g_aiHeroNeededResource[1] = Number(getCostsUpgradeRed(552, 532 + $g_iMidOffsetY)) ;read Red upgrade text (Discount).
+			SetLog($bHero & " Requires " & _NumberFormat($g_aiHeroNeededResource[1]) & " Dark Elixir", $COLOR_SUCCESS)
+			If _Sleep(200) Then Return
+			CloseWindow2()
+		Case "Prince"
+			Click($bXcoords[2] + 115, 232 + $g_iMidOffsetY)
+			If _Sleep($DELAYUPGRADEHERO3) Then Return ; Wait for window to open
+			$g_iPrinceLevel = Number(getOcrAndCapture("coc-YellowLevel", 635, 116, 40, 20))
+			$g_aiHeroNeededResource[2] = Number(getCostsUpgradeRed(552, 541 + $g_iMidOffsetY)) ;read Red upgrade text
+			If $g_aiHeroNeededResource[2] = "" Then $g_aiHeroNeededResource[2] = Number(getCostsUpgradeRed(552, 532 + $g_iMidOffsetY)) ;read Red upgrade text (Discount).
+			SetLog($bHero & " Requires " & _NumberFormat($g_aiHeroNeededResource[2]) & " Dark Elixir", $COLOR_SUCCESS)
+			If _Sleep(200) Then Return
+			CloseWindow2()
+		Case "Warden"
+			Click($bXcoords[3] + 115, 232 + $g_iMidOffsetY)
+			If _Sleep($DELAYUPGRADEHERO3) Then Return ; Wait for window to open
+			$g_iWardenLevel = Number(getOcrAndCapture("coc-YellowLevel", 552, 116, 40, 20))
+			$g_aiHeroNeededResource[3] = Number(getCostsUpgradeRed(552, 541 + $g_iMidOffsetY)) ;read Red upgrade text
+			If $g_aiHeroNeededResource[3] = "" Then $g_aiHeroNeededResource[3] = Number(getCostsUpgradeRed(552, 532 + $g_iMidOffsetY)) ;read Red upgrade text (Discount).
+			SetLog($bHero & " Requires " & _NumberFormat($g_aiHeroNeededResource[3]) & " Elixir", $COLOR_SUCCESS)
+			If _Sleep(200) Then Return
+			CloseWindow2()
+		Case "Champion"
+			Click($bXcoords[4] + 115, 232 + $g_iMidOffsetY)
+			If _Sleep($DELAYUPGRADEHERO3) Then Return ; Wait for window to open
+			$g_iChampionLevel = Number(getOcrAndCapture("coc-YellowLevel", 552, 116, 40, 20))
+			$g_aiHeroNeededResource[4] = Number(getCostsUpgradeRed(552, 541 + $g_iMidOffsetY)) ;read Red upgrade text
+			If $g_aiHeroNeededResource[4] = "" Then $g_aiHeroNeededResource[4] = Number(getCostsUpgradeRed(552, 532 + $g_iMidOffsetY)) ;read Red upgrade text (Discount).
+			SetLog($bHero & " Requires " & _NumberFormat($g_aiHeroNeededResource[4]) & " Dark Elixir", $COLOR_SUCCESS)
+			If _Sleep(200) Then Return
+			CloseWindow2()
+	EndSwitch
+EndFunc   ;==>NeededResources
 
 Func UpgradeHeroes()
 
@@ -31,37 +161,132 @@ Func UpgradeHeroes()
 
 	If $g_bRestart Then Return
 
+	$g_aiCurrentLoot[$eLootElixir] = getResourcesMainScreen(696, 74)
+	$g_aiCurrentLoot[$eLootDarkElixir] = getResourcesMainScreen(728, 123)
+
+	Local $IsToOpen = 0
 	If $g_bUpgradeKingEnable Then
-		If Not isInsideDiamond($g_aiHeroHallPos) Then ImgLocateHeroHall()
-		If $g_aiHeroHallPos[0] = -1 Or $g_aiHeroHallPos[1] = -1 Then ImgLocateHeroHall()
-		SaveConfig()
+		If _DateIsValid($g_aiHeroUpgradeFinishDate[0]) Then
+			If _DateDiff('n', _NowCalc(), $g_aiHeroUpgradeFinishDate[0]) < 0 Then
+				$IsToOpen += 1
+			Else
+				If BitAND($g_iHeroUpgradingBit, $eHeroKing) <> $eHeroKing Then
+					$IsToOpen += 1
+				Else
+					SetLog("King Upgrade Finishes @ " & $g_aiHeroUpgradeFinishDate[0], $COLOR_SUCCESS)
+				EndIf
+			EndIf
+		Else
+			If $g_aiHeroNeededResource[0] = 0 Then
+				$IsToOpen += 1
+			Else
+				If Number($g_aiHeroNeededResource[0]) <= Number($g_aiCurrentLoot[$eLootDarkElixir]) Then
+					$IsToOpen += 1
+				Else
+					SetLog("King Requires " & _NumberFormat($g_aiHeroNeededResource[0]) & " Dark Elixir", $COLOR_SUCCESS)
+				EndIf
+			EndIf
+		EndIf
 	EndIf
-
 	If $g_bUpgradeQueenEnable Then
-		If Not isInsideDiamond($g_aiHeroHallPos) Then ImgLocateHeroHall()
-		If $g_aiHeroHallPos[0] = -1 Or $g_aiHeroHallPos[1] = -1 Then ImgLocateHeroHall()
-		SaveConfig()
+		If _DateIsValid($g_aiHeroUpgradeFinishDate[1]) Then
+			If _DateDiff('n', _NowCalc(), $g_aiHeroUpgradeFinishDate[1]) < 0 Then
+				$IsToOpen += 1
+			Else
+				If BitAND($g_iHeroUpgradingBit, $eHeroQueen) <> $eHeroQueen Then
+					$IsToOpen += 1
+				Else
+					SetLog("Queen Upgrade Finishes @ " & $g_aiHeroUpgradeFinishDate[1], $COLOR_SUCCESS)
+				EndIf
+			EndIf
+		Else
+			If $g_aiHeroNeededResource[1] = 0 Then
+				$IsToOpen += 1
+			Else
+				If Number($g_aiHeroNeededResource[1]) <= Number($g_aiCurrentLoot[$eLootDarkElixir]) Then
+					$IsToOpen += 1
+				Else
+					SetLog("Queen Requires " & _NumberFormat($g_aiHeroNeededResource[1]) & " Dark Elixir", $COLOR_SUCCESS)
+				EndIf
+			EndIf
+		EndIf
 	EndIf
-
 	If $g_bUpgradePrinceEnable Then
-		If Not isInsideDiamond($g_aiHeroHallPos) Then ImgLocateHeroHall()
-		If $g_aiHeroHallPos[0] = -1 Or $g_aiHeroHallPos[1] = -1 Then ImgLocateHeroHall()
-		SaveConfig()
+		If _DateIsValid($g_aiHeroUpgradeFinishDate[2]) Then
+			If _DateDiff('n', _NowCalc(), $g_aiHeroUpgradeFinishDate[2]) < 0 Then
+				$IsToOpen += 1
+			Else
+				If BitAND($g_iHeroUpgradingBit, $eHeroPrince) <> $eHeroPrince Then
+					$IsToOpen += 1
+				Else
+					SetLog("Prince Upgrade Finishes @ " & $g_aiHeroUpgradeFinishDate[2], $COLOR_SUCCESS)
+				EndIf
+			EndIf
+		Else
+			If $g_aiHeroNeededResource[2] = 0 Then
+				$IsToOpen += 1
+			Else
+				If Number($g_aiHeroNeededResource[2]) <= Number($g_aiCurrentLoot[$eLootDarkElixir]) Then
+					$IsToOpen += 1
+				Else
+					SetLog("Prince Requires " & _NumberFormat($g_aiHeroNeededResource[2]) & " Dark Elixir", $COLOR_SUCCESS)
+				EndIf
+			EndIf
+		EndIf
 	EndIf
-
 	If $g_bUpgradeWardenEnable Then
-		If Not isInsideDiamond($g_aiHeroHallPos) Then ImgLocateHeroHall()
-		If $g_aiHeroHallPos[0] = -1 Or $g_aiHeroHallPos[1] = -1 Then ImgLocateHeroHall()
-		SaveConfig()
+		If _DateIsValid($g_aiHeroUpgradeFinishDate[3]) Then
+			If _DateDiff('n', _NowCalc(), $g_aiHeroUpgradeFinishDate[3]) < 0 Then
+				$IsToOpen += 1
+			Else
+				If BitAND($g_iHeroUpgradingBit, $eHeroWarden) <> $eHeroWarden Then
+					$IsToOpen += 1
+				Else
+					SetLog("Warden Upgrade Finishes @ " & $g_aiHeroUpgradeFinishDate[3], $COLOR_SUCCESS)
+				EndIf
+			EndIf
+		Else
+			If $g_aiHeroNeededResource[3] = 0 Then
+				$IsToOpen += 1
+			Else
+				If Number($g_aiHeroNeededResource[3]) <= Number($g_aiCurrentLoot[$eLootElixir]) Then
+					$IsToOpen += 1
+				Else
+					SetLog("Warden Requires " & _NumberFormat($g_aiHeroNeededResource[3]) & " Elixir", $COLOR_SUCCESS)
+				EndIf
+			EndIf
+		EndIf
 	EndIf
-
 	If $g_bUpgradeChampionEnable Then
+		If _DateIsValid($g_aiHeroUpgradeFinishDate[4]) Then
+			If _DateDiff('n', _NowCalc(), $g_aiHeroUpgradeFinishDate[4]) < 0 Then
+				$IsToOpen += 1
+			Else
+				If BitAND($g_iHeroUpgradingBit, $eHeroChampion) <> $eHeroChampion Then
+					$IsToOpen += 1
+				Else
+					SetLog("Champion Upgrade Finishes @ " & $g_aiHeroUpgradeFinishDate[4], $COLOR_SUCCESS)
+				EndIf
+			EndIf
+		Else
+			If $g_aiHeroNeededResource[4] = 0 Then
+				$IsToOpen += 1
+			Else
+				If Number($g_aiHeroNeededResource[4]) <= Number($g_aiCurrentLoot[$eLootDarkElixir]) Then
+					$IsToOpen += 1
+				Else
+					SetLog("Champion Requires " & _NumberFormat($g_aiHeroNeededResource[4]) & " Dark Elixir", $COLOR_SUCCESS)
+				EndIf
+			EndIf
+		EndIf
+	EndIf
+	If $IsToOpen = 0 Then Return
+
+	If BitOR($g_bUpgradeKingEnable, $g_bUpgradeQueenEnable, $g_bUpgradePrinceEnable, $g_bUpgradeWardenEnable, $g_bUpgradeChampionEnable) Then
 		If Not isInsideDiamond($g_aiHeroHallPos) Then ImgLocateHeroHall()
 		If $g_aiHeroHallPos[0] = -1 Or $g_aiHeroHallPos[1] = -1 Then ImgLocateHeroHall()
 		SaveConfig()
 	EndIf
-
-	SetLog("Upgrading Heroes", $COLOR_INFO)
 
 	If Not getBuilderCount() Then Return ; update builder data, return if problem
 	If _Sleep($DELAYRESPOND) Then Return
@@ -70,6 +295,8 @@ Func UpgradeHeroes()
 		SetLog("Not enough Builders available to upgrade Heroes")
 		Return
 	EndIf
+
+	SetLog("Upgrading Heroes", $COLOR_INFO)
 
 	BuildingClick($g_aiHeroHallPos[0], $g_aiHeroHallPos[1])
 	If _Sleep($DELAYBUILDINGINFO1) Then Return
@@ -100,12 +327,12 @@ Func UpgradeHeroes()
 	;Check Hidden Hero Upgrade To be sure
 	Switch $g_aiCmbCustomHeroOrder[4]
 		Case 0
-			If IsArray(_PixelSearch($bXcoords[0] - 6, 438 + $g_iMidOffsetY, $bXcoords[0] + 10, 444 + $g_iMidOffsetY, Hex(0xFFFFFF, 6), 20, True)) Then
+			If IsArray(_PixelSearch($bXcoords[0] - 6, 438 + $g_iMidOffsetY, $bXcoords[0] + 4, 444 + $g_iMidOffsetY, Hex(0xFFFFFF, 6), 20, True)) Then
 				GUICtrlSetState($g_hPicKingGray, $GUI_HIDE)
 				GUICtrlSetState($g_hPicKingRed, $GUI_SHOW)
 				GUICtrlSetState($g_hPicKingBlue, $GUI_HIDE)
 				GUICtrlSetState($g_hPicKingGreen, $GUI_HIDE)
-				SetLog($g_asHeroNames[$i] & " is being upgraded", $COLOR_DEBUG)
+				SetLog($g_asHeroNames[0] & " is being upgraded", $COLOR_DEBUG)
 				;Set Status Variable
 				$g_iHeroUpgrading[0] = 1
 				$g_iHeroUpgradingBit = BitOR($g_iHeroUpgradingBit, $eHeroKing)
@@ -130,7 +357,7 @@ Func UpgradeHeroes()
 				EndIf
 			EndIf
 		Case 1
-			If IsArray(_PixelSearch($bXcoords[1] - 6, 438 + $g_iMidOffsetY, $bXcoords[1] + 10, 444 + $g_iMidOffsetY, Hex(0xFFFFFF, 6), 20, True)) Then
+			If IsArray(_PixelSearch($bXcoords[1] - 6, 438 + $g_iMidOffsetY, $bXcoords[1] + 4, 444 + $g_iMidOffsetY, Hex(0xFFFFFF, 6), 20, True)) Then
 				GUICtrlSetState($g_hPicQueenGray, $GUI_HIDE)
 				GUICtrlSetState($g_hPicQueenRed, $GUI_SHOW)
 				GUICtrlSetState($g_hPicQueenBlue, $GUI_HIDE)
@@ -160,7 +387,7 @@ Func UpgradeHeroes()
 				EndIf
 			EndIf
 		Case 2
-			If IsArray(_PixelSearch($bXcoords[2] - 6, 438 + $g_iMidOffsetY, $bXcoords[2] + 10, 444 + $g_iMidOffsetY, Hex(0xFFFFFF, 6), 20, True)) Then
+			If IsArray(_PixelSearch($bXcoords[2] - 6, 438 + $g_iMidOffsetY, $bXcoords[2] + 4, 444 + $g_iMidOffsetY, Hex(0xFFFFFF, 6), 20, True)) Then
 				GUICtrlSetState($g_hPicPrinceGray, $GUI_HIDE)
 				GUICtrlSetState($g_hPicPrinceRed, $GUI_SHOW)
 				GUICtrlSetState($g_hPicPrinceBlue, $GUI_HIDE)
@@ -190,7 +417,7 @@ Func UpgradeHeroes()
 				EndIf
 			EndIf
 		Case 3
-			If IsArray(_PixelSearch($bXcoords[3] - 6, 438 + $g_iMidOffsetY, $bXcoords[3] + 10, 444 + $g_iMidOffsetY, Hex(0xFFFFFF, 6), 20, True)) Then
+			If IsArray(_PixelSearch($bXcoords[3] - 6, 438 + $g_iMidOffsetY, $bXcoords[3] + 4, 444 + $g_iMidOffsetY, Hex(0xFFFFFF, 6), 20, True)) Then
 				GUICtrlSetState($g_hPicWardenGray, $GUI_HIDE)
 				GUICtrlSetState($g_hPicWardenRed, $GUI_SHOW)
 				GUICtrlSetState($g_hPicWardenBlue, $GUI_HIDE)
@@ -220,7 +447,7 @@ Func UpgradeHeroes()
 				EndIf
 			EndIf
 		Case 4
-			If IsArray(_PixelSearch($bXcoords[4] - 6, 438 + $g_iMidOffsetY, $bXcoords[4] + 10, 444 + $g_iMidOffsetY, Hex(0xFFFFFF, 6), 20, True)) Then
+			If IsArray(_PixelSearch($bXcoords[4] - 6, 438 + $g_iMidOffsetY, $bXcoords[4] + 4, 444 + $g_iMidOffsetY, Hex(0xFFFFFF, 6), 20, True)) Then
 				GUICtrlSetState($g_hPicChampionGray, $GUI_HIDE)
 				GUICtrlSetState($g_hPicChampionRed, $GUI_SHOW)
 				GUICtrlSetState($g_hPicChampionBlue, $GUI_HIDE)
@@ -267,6 +494,9 @@ Func UpgradeHeroes()
 
 				If _Sleep($DELAYUPGRADEHERO1) Then Return
 			EndIf
+			If $g_bUpgradeKingEnable And BitAND($g_iHeroUpgradingBit, $eHeroKing) = $eHeroKing Then
+				If $g_aiHeroUpgradeFinishDate[0] = 0 Then FinishTimeCalculation("King")
+			EndIf
 			; ### Archer Queen ###
 			If $g_bUpgradeQueenEnable And BitAND($g_iHeroUpgradingBit, $eHeroQueen) <> $eHeroQueen Then
 				If $g_iFreeBuilderCount < 1 + ($g_bAutoUpgradeWallsEnable And $g_bUpgradeWallSaveBuilder ? 1 : 0) Then
@@ -276,6 +506,9 @@ Func UpgradeHeroes()
 				QueenUpgrade()
 
 				If _Sleep($DELAYUPGRADEHERO1) Then Return
+			EndIf
+			If $g_bUpgradeQueenEnable And BitAND($g_iHeroUpgradingBit, $eHeroQueen) = $eHeroQueen Then
+				If $g_aiHeroUpgradeFinishDate[1] = 0 Then FinishTimeCalculation("Queen")
 			EndIf
 			; ### Minion Prince ###
 			If $g_bUpgradePrinceEnable And BitAND($g_iHeroUpgradingBit, $eHeroPrince) <> $eHeroPrince Then
@@ -287,6 +520,9 @@ Func UpgradeHeroes()
 
 				If _Sleep($DELAYUPGRADEHERO1) Then Return
 			EndIf
+			If $g_bUpgradePrinceEnable And BitAND($g_iHeroUpgradingBit, $eHeroPrince) = $eHeroPrince Then
+				If $g_aiHeroUpgradeFinishDate[2] = 0 Then FinishTimeCalculation("Prince")
+			EndIf
 			; ### Royal Champion ###
 			If $g_bUpgradeChampionEnable And BitAND($g_iHeroUpgradingBit, $eHeroChampion) <> $eHeroChampion Then
 				If $g_iFreeBuilderCount < 1 + ($g_bAutoUpgradeWallsEnable And $g_bUpgradeWallSaveBuilder ? 1 : 0) Then
@@ -296,6 +532,9 @@ Func UpgradeHeroes()
 				ChampionUpgrade()
 
 				If _Sleep($DELAYUPGRADEHERO1) Then Return
+			EndIf
+			If $g_bUpgradeChampionEnable And BitAND($g_iHeroUpgradingBit, $eHeroChampion) = $eHeroChampion Then
+				If $g_aiHeroUpgradeFinishDate[4] = 0 Then FinishTimeCalculation("Champion")
 			EndIf
 		EndIf
 	EndIf
@@ -312,6 +551,8 @@ Func UpgradeHeroes()
 				Return
 			EndIf
 			WardenUpgrade()
+		ElseIf BitAND($g_iHeroUpgradingBit, $eHeroWarden) = $eHeroWarden Then
+			If $g_aiHeroUpgradeFinishDate[3] = 0 Then FinishTimeCalculation("Warden")
 		EndIf
 	EndIf
 
@@ -334,14 +575,25 @@ Func KingUpgrade()
 		Return
 	EndIf
 
-	If _ColorCheck(_GetPixelColor($bXcoords[0], 438 + $g_iMidOffsetY, True), Hex(0x8BD43A, 6), 20) Then
+	If IsArray(_PixelSearch($bXcoords[0] - 6, 438 + $g_iMidOffsetY, $bXcoords[0] + 4, 444 + $g_iMidOffsetY, Hex(0xFFFFFF, 6), 20, True)) Then
+		SetLog("King Upgrade is already Running - Skipped!", $COLOR_INFO)
+		Return
+	EndIf
+	Local $bOffset = False
+	If _ColorCheck(_GetPixelColor($bXcoords[0], 438 + $g_iMidOffsetY, True), Hex(0x8BD43A, 6), 20) And _
+			IsArray(_PixelSearch($bXcoords[0], 438 + $g_iMidOffsetY, $bXcoords[0] + 95, 444 + $g_iMidOffsetY, Hex(0xFFFFFF, 6), 20, True)) Then
 		SetDebugLog("Green Pixel Check: OK")
+	ElseIf _ColorCheck(_GetPixelColor($bXcoords[0] + 42, 438 + $g_iMidOffsetY, True), Hex(0x8BD43A, 6), 20) And _
+			IsArray(_PixelSearch($bXcoords[0] + 42, 438 + $g_iMidOffsetY, $bXcoords[0] + 95, 444 + $g_iMidOffsetY, Hex(0xFFFFFF, 6), 20, True)) Then
+		SetDebugLog("Green Pixel Check: OK")
+		$bOffset = True
 	Else
 		If IsArray(_PixelSearch($bXcoords[0], 438 + $g_iMidOffsetY, $bXcoords[0] + 95, 444 + $g_iMidOffsetY, Hex(0xFF887F, 6), 20, True)) Then
 			SetLog("Insufficient DE for Upg King", $COLOR_INFO)
+			If $g_aiHeroNeededResource[0] = 0 Then NeededResources("King")
 			Return
 		EndIf
-		Local $HeroMaxLevel = decodeSingleCoord(FindImageInPlace2("HeroMaxLevel", $ImgHeroMaxLevel, $bXcoords[0] + 20, 420 + $g_iMidOffsetY, $bXcoords[0] + 65, 445 + $g_iMidOffsetY, True))
+		Local $HeroMaxLevel = decodeSingleCoord(FindImageInPlace2("HeroMaxLevel", $ImgHeroMaxLevel, $bXcoords[0] + 20, 420 + $g_iMidOffsetY, $bXcoords[0] + 100, 445 + $g_iMidOffsetY, True))
 		If IsArray($HeroMaxLevel) And UBound($HeroMaxLevel) = 2 Then
 			SetLog("Your Barbarian King is at max level, cannot upgrade anymore!", $COLOR_INFO)
 			$g_bUpgradeKingEnable = False ; turn Off the Kings upgrade
@@ -350,11 +602,7 @@ Func KingUpgrade()
 			ReducecmbHeroReservedBuilder()
 			Return
 		EndIf
-		If IsArray(_PixelSearch($bXcoords[0] - 6, 438 + $g_iMidOffsetY, $bXcoords[0] + 10, 444 + $g_iMidOffsetY, Hex(0xFFFFFF, 6), 20, True)) Then
-			SetLog("King Upgrade is already Running - Skipped!", $COLOR_INFO)
-			Return
-		EndIf
-		If _ColorCheck(_GetPixelColor($bXcoords[0], 438 + $g_iMidOffsetY, True), Hex(0xADADAD, 6), 15) Then
+		If _ColorCheck(_GetPixelColor($bXcoords[0], 438 + $g_iMidOffsetY, True), Hex(0xADADAD, 6), 15) Or _ColorCheck(_GetPixelColor($bXcoords[0] + 42, 438 + $g_iMidOffsetY, True), Hex(0xADADAD, 6), 15) Then
 			SetLog("Hero Hall upgrade needed - Skipped!", $COLOR_ERROR)
 			Return
 		EndIf
@@ -364,9 +612,13 @@ Func KingUpgrade()
 		EndIf
 	EndIf
 
-	Local $g_iKingCostOCR = getOcrAndCapture("coc-HeroCost", $bXcoords[0] + 23, 433 + $g_iMidOffsetY, 65, 20)
+	If $bOffset Then
+		Local $g_iKingCostOCR = getOcrAndCapture("coc-HeroCost", $bXcoords[0] + 38, 433 + $g_iMidOffsetY, 65, 20, True)
+	Else
+		Local $g_iKingCostOCR = getOcrAndCapture("coc-HeroCost", $bXcoords[0] + 23, 433 + $g_iMidOffsetY, 65, 20, True)
+	EndIf
 	If $g_iKingCostOCR = "" Then
-		SetLog("Insufficient DE for Upg King", $COLOR_INFO)
+		SetLog("OCR Read Error", $COLOR_ERROR)
 		Return
 	EndIf
 
@@ -398,11 +650,15 @@ Func KingUpgrade()
 	EndIf
 
 	Local $bHeroUpgrade = False
-	Local $g_aUpgradeDuration = getHeroUpgradeTime(730, 544 + $g_iMidOffsetY) ; get duration
+	Local $g_aUpgradeDuration = getHeroUpgradeTime(715, 544 + $g_iMidOffsetY) ; get duration
 	If $g_aUpgradeDuration = "" Then $g_aUpgradeDuration = getHeroUpgradeTime(730, 532 + $g_iMidOffsetY) ; Try to read yellow text (Discount).
 
 	Local $aWhiteZeros = decodeSingleCoord(FindImageInPlace2("UpgradeWhiteZero", $g_sImgUpgradeWhiteZero, 560, 535 + $g_iMidOffsetY, 670, 565 + $g_iMidOffsetY, True))
 	Local $YellowSearch = _PixelSearch(610, 539 + $g_iMidOffsetY, 650, 543 + $g_iMidOffsetY, Hex(0xFFF10D, 6), 20)
+	Local $ahGroupKingWait[4] = [$g_hChkDBKingWait, $g_hChkABKingWait, $g_hPicDBKingWait, $g_hPicABKingWait]
+	Local $TxtTip = GetTranslatedFileIni("MBR GUI Design Child Attack - Search", "TxtKingWait_Info_01", -1) & @CRLF & _
+			GetTranslatedFileIni("MBR GUI Design Child Attack - Search", "TxtKingWait_Info_02", -1)
+	Local $TxtWarningTip = GetTranslatedFileIni("MBR GUI Design Child Attack - Search", "TxtKingWait_Info_03", "ATTENTION: King auto upgrade is currently enable.")
 	If (IsArray($aWhiteZeros) And UBound($aWhiteZeros, 1) = 2) Then
 
 		Local $bUpgradeCost = ($g_afKingUpgCost[$g_iKingLevel] * 1000 * $SpecialEventReduction * (1 - Number($g_iBuilderBoostDiscount) / 100))
@@ -430,6 +686,20 @@ Func KingUpgrade()
 		$g_iNbrOfHeroesUpped += 1
 		$g_iCostDElixirHero += $bUpgradeCost
 		UpdateStats()
+		If Not $g_bRepUpgradeKingEnable Then
+			$g_bUpgradeKingEnable = False ; turn Off the Kings upgrade
+			GUICtrlSetState($g_hChkUpgradeKing, $GUI_UNCHECKED)
+			_GUI_Value_STATE("HIDE", $groupKingSleeping)
+			For $i In $ahGroupKingWait
+				_GUICtrlSetTip($i, $TxtTip)
+			Next
+			GUICtrlSetState($g_hChkRepUpgradeKing, $GUI_UNCHECKED + $GUI_DISABLE)
+		EndIf
+		Local $bFinishTime = ConvertOCRTime("FinishTime", $g_aUpgradeDuration, False)
+		$g_aiHeroUpgradeFinishDate[0] = _DateAdd('n', Ceiling($bFinishTime), _NowCalc())
+		SetLog("King Upgrade Finishes in " & $bFinishTime & " min. (" & $g_aiHeroUpgradeFinishDate[0] & ")", $COLOR_SUCCESS)
+		$g_aiHeroNeededResource[0] = 0
+		$g_aiCurrentLoot[$eLootDarkElixir] -= $bUpgradeCost
 	ElseIf IsArray($YellowSearch) Then
 
 		Local $bUpgradeCost = ($g_afKingUpgCost[$g_iKingLevel] * 1000 * $SpecialEventReduction * (1 - Number($g_iBuilderBoostDiscount) / 100))
@@ -456,6 +726,20 @@ Func KingUpgrade()
 		$g_iNbrOfHeroesUpped += 1
 		$g_iCostDElixirHero += $bUpgradeCost
 		UpdateStats()
+		If Not $g_bRepUpgradeKingEnable Then
+			$g_bUpgradeKingEnable = False ; turn Off the Kings upgrade
+			GUICtrlSetState($g_hChkUpgradeKing, $GUI_UNCHECKED)
+			_GUI_Value_STATE("HIDE", $groupKingSleeping)
+			For $i In $ahGroupKingWait
+				_GUICtrlSetTip($i, $TxtTip)
+			Next
+			GUICtrlSetState($g_hChkRepUpgradeKing, $GUI_UNCHECKED + $GUI_DISABLE)
+		EndIf
+		Local $bFinishTime = ConvertOCRTime("FinishTime", $g_aUpgradeDuration, False)
+		$g_aiHeroUpgradeFinishDate[0] = _DateAdd('n', Ceiling($bFinishTime), _NowCalc())
+		SetLog("King Upgrade Finishes in " & $bFinishTime & " min. (" & $g_aiHeroUpgradeFinishDate[0] & ")", $COLOR_SUCCESS)
+		$g_aiHeroNeededResource[0] = 0
+		$g_aiCurrentLoot[$eLootDarkElixir] -= $bUpgradeCost
 	Else
 		SetLog("King Upgrade Fail! No DE!", $COLOR_ERROR)
 		CloseWindow2(1)
@@ -473,7 +757,7 @@ Func KingUpgrade()
 				ClickP($HeroBooks)
 				If _Sleep(1000) Then Return
 				If ClickB("BoostConfirm") Then
-					SetLog("Hero Upgrade Finished With Book of Heroes", $COLOR_SUCCESS)
+					SetLog("King Upgrade Finished With Book of Heroes", $COLOR_SUCCESS)
 					GUICtrlSetState($g_hPicKingGray, $GUI_HIDE)
 					GUICtrlSetState($g_hPicKingRed, $GUI_HIDE)
 					GUICtrlSetState($g_hPicKingBlue, $GUI_HIDE)
@@ -481,13 +765,15 @@ Func KingUpgrade()
 					$g_iHeroUpgrading[0] = 0
 					$g_iHeroUpgradingBit = BitAND($g_iHeroUpgradingBit, BitOR($eHeroQueen, $eHeroPrince, $eHeroWarden, $eHeroChampion))
 					$g_iFreeBuilderCount += 1
+					$g_aiHeroUpgradeFinishDate[0] = 0
+					$g_aiHeroNeededResource[0] = 0
 					$ActionForModLog = "Upgraded with Book of Heroes"
 					If $g_iTxtCurrentVillageName <> "" Then
-						GUICtrlSetData($g_hTxtModLog, @CRLF & _NowTime() & " [" & $g_iTxtCurrentVillageName & "] Queen : " & $ActionForModLog, 1)
+						GUICtrlSetData($g_hTxtModLog, @CRLF & _NowTime() & " [" & $g_iTxtCurrentVillageName & "] King : " & $ActionForModLog, 1)
 					Else
-						GUICtrlSetData($g_hTxtModLog, @CRLF & _NowTime() & " [" & $g_sProfileCurrentName & "] Queen : " & $ActionForModLog, 1)
+						GUICtrlSetData($g_hTxtModLog, @CRLF & _NowTime() & " [" & $g_sProfileCurrentName & "] King : " & $ActionForModLog, 1)
 					EndIf
-					_FileWriteLog($g_sProfileLogsPath & "\ModLog.log", " [" & $g_sProfileCurrentName & "] - Queen : " & $ActionForModLog)
+					_FileWriteLog($g_sProfileLogsPath & "\ModLog.log", " [" & $g_sProfileCurrentName & "] - King : " & $ActionForModLog)
 					If _Sleep(1000) Then Return
 				EndIf
 			Else
@@ -513,14 +799,25 @@ Func QueenUpgrade()
 		Return
 	EndIf
 
-	If _ColorCheck(_GetPixelColor($bXcoords[1], 438 + $g_iMidOffsetY, True), Hex(0x8BD43A, 6), 20) Then
+	If IsArray(_PixelSearch($bXcoords[1] - 6, 438 + $g_iMidOffsetY, $bXcoords[1] + 4, 444 + $g_iMidOffsetY, Hex(0xFFFFFF, 6), 20, True)) Then
+		SetLog("Queen Upgrade is already Running - Skipped!", $COLOR_INFO)
+		Return
+	EndIf
+	Local $bOffset = False
+	If _ColorCheck(_GetPixelColor($bXcoords[1], 438 + $g_iMidOffsetY, True), Hex(0x8BD43A, 6), 20) And _
+			IsArray(_PixelSearch($bXcoords[1], 438 + $g_iMidOffsetY, $bXcoords[1] + 95, 444 + $g_iMidOffsetY, Hex(0xFFFFFF, 6), 20, True)) Then
 		SetDebugLog("Green Pixel Check: OK")
+	ElseIf _ColorCheck(_GetPixelColor($bXcoords[1] + 42, 438 + $g_iMidOffsetY, True), Hex(0x8BD43A, 6), 20) And _
+			IsArray(_PixelSearch($bXcoords[1] + 42, 438 + $g_iMidOffsetY, $bXcoords[1] + 95, 444 + $g_iMidOffsetY, Hex(0xFFFFFF, 6), 20, True)) Then
+		SetDebugLog("Green Pixel Check: OK")
+		$bOffset = True
 	Else
 		If IsArray(_PixelSearch($bXcoords[1], 438 + $g_iMidOffsetY, $bXcoords[1] + 95, 444 + $g_iMidOffsetY, Hex(0xFF887F, 6), 20, True)) Then
 			SetLog("Insufficient DE for Upg Queen", $COLOR_INFO)
+			If $g_aiHeroNeededResource[1] = 0 Then NeededResources("Queen")
 			Return
 		EndIf
-		Local $HeroMaxLevel = decodeSingleCoord(FindImageInPlace2("HeroMaxLevel", $ImgHeroMaxLevel, $bXcoords[1] + 20, 420 + $g_iMidOffsetY, $bXcoords[1] + 65, 445 + $g_iMidOffsetY, True))
+		Local $HeroMaxLevel = decodeSingleCoord(FindImageInPlace2("HeroMaxLevel", $ImgHeroMaxLevel, $bXcoords[1] + 20, 420 + $g_iMidOffsetY, $bXcoords[1] + 100, 445 + $g_iMidOffsetY, True))
 		If IsArray($HeroMaxLevel) And UBound($HeroMaxLevel) = 2 Then
 			SetLog("Your Archer Queen is at max level, cannot upgrade anymore!", $COLOR_INFO)
 			$g_bUpgradeQueenEnable = False ; turn Off the Kings upgrade
@@ -529,11 +826,7 @@ Func QueenUpgrade()
 			ReducecmbHeroReservedBuilder()
 			Return
 		EndIf
-		If IsArray(_PixelSearch($bXcoords[1] - 6, 438 + $g_iMidOffsetY, $bXcoords[1] + 10, 444 + $g_iMidOffsetY, Hex(0xFFFFFF, 6), 20, True)) Then
-			SetLog("Queen Upgrade is already Running - Skipped!", $COLOR_INFO)
-			Return
-		EndIf
-		If _ColorCheck(_GetPixelColor($bXcoords[1], 438 + $g_iMidOffsetY, True), Hex(0xADADAD, 6), 15) Then
+		If _ColorCheck(_GetPixelColor($bXcoords[1], 438 + $g_iMidOffsetY, True), Hex(0xADADAD, 6), 15) Or _ColorCheck(_GetPixelColor($bXcoords[1] + 42, 438 + $g_iMidOffsetY, True), Hex(0xADADAD, 6), 15) Then
 			SetLog("Hero Hall upgrade needed - Skipped!", $COLOR_ERROR)
 			Return
 		EndIf
@@ -543,7 +836,11 @@ Func QueenUpgrade()
 		EndIf
 	EndIf
 
-	Local $g_iQueenCostOCR = getOcrAndCapture("coc-HeroCost", $bXcoords[1] + 23, 433 + $g_iMidOffsetY, 65, 20)
+	If $bOffset Then
+		Local $g_iQueenCostOCR = getOcrAndCapture("coc-HeroCost", $bXcoords[0] + 38, 433 + $g_iMidOffsetY, 65, 20, True)
+	Else
+		Local $g_iQueenCostOCR = getOcrAndCapture("coc-HeroCost", $bXcoords[0] + 23, 433 + $g_iMidOffsetY, 65, 20, True)
+	EndIf
 	If $g_iQueenCostOCR = "" Then
 		SetLog("Insufficient DE for Upg Queen", $COLOR_INFO)
 		Return
@@ -577,11 +874,15 @@ Func QueenUpgrade()
 	EndIf
 
 	Local $bHeroUpgrade = False
-	Local $g_aUpgradeDuration = getHeroUpgradeTime(730, 544 + $g_iMidOffsetY) ; get duration
+	Local $g_aUpgradeDuration = getHeroUpgradeTime(715, 544 + $g_iMidOffsetY) ; get duration
 	If $g_aUpgradeDuration = "" Then $g_aUpgradeDuration = getHeroUpgradeTime(730, 532 + $g_iMidOffsetY) ; Try to read yellow text (Discount).
 
 	Local $aWhiteZeros = decodeSingleCoord(FindImageInPlace2("UpgradeWhiteZero", $g_sImgUpgradeWhiteZero, 560, 535 + $g_iMidOffsetY, 670, 565 + $g_iMidOffsetY, True))
 	Local $YellowSearch = _PixelSearch(610, 539 + $g_iMidOffsetY, 650, 543 + $g_iMidOffsetY, Hex(0xFFF10D, 6), 20)
+	Local $ahGroupQueenWait[4] = [$g_hChkDBQueenWait, $g_hChkABQueenWait, $g_hPicDBQueenWait, $g_hPicABQueenWait]
+	Local $TxtTip = GetTranslatedFileIni("MBR GUI Design Child Attack - Search", "TxtQueenWait_Info_01", -1) & @CRLF & _
+			GetTranslatedFileIni("MBR GUI Design Child Attack - Search", "TxtQueenWait_Info_02", -1)
+	Local $TxtWarningTip = GetTranslatedFileIni("MBR GUI Design Child Attack - Search", "TxtQueenWait_Info_03", "ATTENTION: Queen auto upgrade is currently enable.")
 	If (IsArray($aWhiteZeros) And UBound($aWhiteZeros, 1) = 2) Then
 
 		Local $bUpgradeCost = ($g_afQueenUpgCost[$g_iQueenLevel] * 1000 * $SpecialEventReduction * (1 - Number($g_iBuilderBoostDiscount) / 100))
@@ -609,6 +910,20 @@ Func QueenUpgrade()
 		$g_iNbrOfHeroesUpped += 1
 		$g_iCostDElixirHero += $bUpgradeCost
 		UpdateStats()
+		If Not $g_bRepUpgradeQueenEnable Then
+			$g_bUpgradeQueenEnable = False ; turn Off the Queens upgrade
+			GUICtrlSetState($g_hChkUpgradeQueen, $GUI_UNCHECKED)
+			_GUI_Value_STATE("HIDE", $groupQueenSleeping)
+			For $i In $ahGroupQueenWait
+				_GUICtrlSetTip($i, $TxtTip)
+			Next
+			GUICtrlSetState($g_hChkRepUpgradeQueen, $GUI_UNCHECKED + $GUI_DISABLE)
+		EndIf
+		Local $bFinishTime = ConvertOCRTime("FinishTime", $g_aUpgradeDuration, False)
+		$g_aiHeroUpgradeFinishDate[1] = _DateAdd('n', Ceiling($bFinishTime), _NowCalc())
+		SetLog("Queen Upgrade Finishes in " & $bFinishTime & " min. (" & $g_aiHeroUpgradeFinishDate[1] & ")", $COLOR_SUCCESS)
+		$g_aiHeroNeededResource[1] = 0
+		$g_aiCurrentLoot[$eLootDarkElixir] -= $bUpgradeCost
 	ElseIf IsArray($YellowSearch) Then
 
 		Local $bUpgradeCost = ($g_afQueenUpgCost[$g_iQueenLevel] * 1000 * $SpecialEventReduction * (1 - Number($g_iBuilderBoostDiscount) / 100))
@@ -635,6 +950,20 @@ Func QueenUpgrade()
 		$g_iNbrOfHeroesUpped += 1
 		$g_iCostDElixirHero += $bUpgradeCost
 		UpdateStats()
+		If Not $g_bRepUpgradeQueenEnable Then
+			$g_bUpgradeQueenEnable = False ; turn Off the Queens upgrade
+			GUICtrlSetState($g_hChkUpgradeQueen, $GUI_UNCHECKED)
+			_GUI_Value_STATE("HIDE", $groupQueenSleeping)
+			For $i In $ahGroupQueenWait
+				_GUICtrlSetTip($i, $TxtTip)
+			Next
+			GUICtrlSetState($g_hChkRepUpgradeQueen, $GUI_UNCHECKED + $GUI_DISABLE)
+		EndIf
+		Local $bFinishTime = ConvertOCRTime("FinishTime", $g_aUpgradeDuration, False)
+		$g_aiHeroUpgradeFinishDate[1] = _DateAdd('n', Ceiling($bFinishTime), _NowCalc())
+		SetLog("Queen Upgrade Finishes in " & $bFinishTime & " min. (" & $g_aiHeroUpgradeFinishDate[1] & ")", $COLOR_SUCCESS)
+		$g_aiHeroNeededResource[1] = 0
+		$g_aiCurrentLoot[$eLootDarkElixir] -= $bUpgradeCost
 	Else
 		SetLog("Queen Upgrade Fail! No DE!", $COLOR_ERROR)
 		CloseWindow2(1)
@@ -652,7 +981,7 @@ Func QueenUpgrade()
 				ClickP($HeroBooks)
 				If _Sleep(1000) Then Return
 				If ClickB("BoostConfirm") Then
-					SetLog("Hero Upgrade Finished With Book of Heroes", $COLOR_SUCCESS)
+					SetLog("Queen Upgrade Finished With Book of Heroes", $COLOR_SUCCESS)
 					GUICtrlSetState($g_hPicQueenGray, $GUI_HIDE)
 					GUICtrlSetState($g_hPicQueenRed, $GUI_HIDE)
 					GUICtrlSetState($g_hPicQueenBlue, $GUI_HIDE)
@@ -660,6 +989,8 @@ Func QueenUpgrade()
 					$g_iHeroUpgrading[1] = 0
 					$g_iHeroUpgradingBit = BitAND($g_iHeroUpgradingBit, BitOR($eHeroKing, $eHeroPrince, $eHeroWarden, $eHeroChampion))
 					$g_iFreeBuilderCount += 1
+					$g_aiHeroUpgradeFinishDate[1] = 0
+					$g_aiHeroNeededResource[1] = 0
 					$ActionForModLog = "Upgraded with Book of Heroes"
 					If $g_iTxtCurrentVillageName <> "" Then
 						GUICtrlSetData($g_hTxtModLog, @CRLF & _NowTime() & " [" & $g_iTxtCurrentVillageName & "] Queen : " & $ActionForModLog, 1)
@@ -692,14 +1023,25 @@ Func PrinceUpgrade()
 		Return
 	EndIf
 
-	If _ColorCheck(_GetPixelColor($bXcoords[2], 438 + $g_iMidOffsetY, True), Hex(0x8BD43A, 6), 20) Then
+	If IsArray(_PixelSearch($bXcoords[2] - 6, 438 + $g_iMidOffsetY, $bXcoords[2] + 4, 444 + $g_iMidOffsetY, Hex(0xFFFFFF, 6), 20, True)) Then
+		SetLog("Prince Upgrade is already Running - Skipped!", $COLOR_INFO)
+		Return
+	EndIf
+	Local $bOffset = False
+	If _ColorCheck(_GetPixelColor($bXcoords[1], 438 + $g_iMidOffsetY, True), Hex(0x8BD43A, 6), 20) And _
+			IsArray(_PixelSearch($bXcoords[1], 438 + $g_iMidOffsetY, $bXcoords[1] + 95, 444 + $g_iMidOffsetY, Hex(0xFFFFFF, 6), 20, True)) Then
 		SetDebugLog("Green Pixel Check: OK")
+	ElseIf _ColorCheck(_GetPixelColor($bXcoords[1] + 42, 438 + $g_iMidOffsetY, True), Hex(0x8BD43A, 6), 20) And _
+			IsArray(_PixelSearch($bXcoords[1] + 42, 438 + $g_iMidOffsetY, $bXcoords[1] + 95, 444 + $g_iMidOffsetY, Hex(0xFFFFFF, 6), 20, True)) Then
+		SetDebugLog("Green Pixel Check: OK")
+		$bOffset = True
 	Else
 		If IsArray(_PixelSearch($bXcoords[2], 438 + $g_iMidOffsetY, $bXcoords[2] + 95, 444 + $g_iMidOffsetY, Hex(0xFF887F, 6), 20, True)) Then
 			SetLog("Insufficient DE for Upg Prince", $COLOR_INFO)
+			If $g_aiHeroNeededResource[2] = 0 Then NeededResources("Prince")
 			Return
 		EndIf
-		Local $HeroMaxLevel = decodeSingleCoord(FindImageInPlace2("HeroMaxLevel", $ImgHeroMaxLevel, $bXcoords[2] + 20, 420 + $g_iMidOffsetY, $bXcoords[2] + 65, 445 + $g_iMidOffsetY, True))
+		Local $HeroMaxLevel = decodeSingleCoord(FindImageInPlace2("HeroMaxLevel", $ImgHeroMaxLevel, $bXcoords[2] + 20, 420 + $g_iMidOffsetY, $bXcoords[2] + 100, 445 + $g_iMidOffsetY, True))
 		If IsArray($HeroMaxLevel) And UBound($HeroMaxLevel) = 2 Then
 			SetLog("Your Minion Prince is at max level, cannot upgrade anymore!", $COLOR_INFO)
 			$g_bUpgradePrinceEnable = False ; turn Off the Princes upgrade
@@ -708,11 +1050,7 @@ Func PrinceUpgrade()
 			ReducecmbHeroReservedBuilder()
 			Return
 		EndIf
-		If IsArray(_PixelSearch($bXcoords[2] - 6, 438 + $g_iMidOffsetY, $bXcoords[2] + 10, 444 + $g_iMidOffsetY, Hex(0xFFFFFF, 6), 20, True)) Then
-			SetLog("Prince Upgrade is already Running - Skipped!", $COLOR_INFO)
-			Return
-		EndIf
-		If _ColorCheck(_GetPixelColor($bXcoords[2], 438 + $g_iMidOffsetY, True), Hex(0xADADAD, 6), 15) Then
+		If _ColorCheck(_GetPixelColor($bXcoords[2], 438 + $g_iMidOffsetY, True), Hex(0xADADAD, 6), 15) Or _ColorCheck(_GetPixelColor($bXcoords[2] + 42, 438 + $g_iMidOffsetY, True), Hex(0xADADAD, 6), 15) Then
 			SetLog("Hero Hall upgrade needed - Skipped!", $COLOR_ERROR)
 			Return
 		EndIf
@@ -722,9 +1060,13 @@ Func PrinceUpgrade()
 		EndIf
 	EndIf
 
-	Local $g_iPrinceCostOCR = getOcrAndCapture("coc-HeroCost", $bXcoords[2] + 23, 433 + $g_iMidOffsetY, 65, 20)
+	If $bOffset Then
+		Local $g_iPrinceCostOCR = getOcrAndCapture("coc-HeroCost", $bXcoords[0] + 38, 433 + $g_iMidOffsetY, 65, 20, True)
+	Else
+		Local $g_iPrinceCostOCR = getOcrAndCapture("coc-HeroCost", $bXcoords[0] + 23, 433 + $g_iMidOffsetY, 65, 20, True)
+	EndIf
 	If $g_iPrinceCostOCR = "" Then
-		SetLog("Insufficient DE for Upg Prince", $COLOR_INFO)
+		SetLog("Insufficient DE for Upg Queen", $COLOR_INFO)
 		Return
 	EndIf
 
@@ -756,11 +1098,15 @@ Func PrinceUpgrade()
 	EndIf
 
 	Local $bHeroUpgrade = False
-	Local $g_aUpgradeDuration = getHeroUpgradeTime(730, 544 + $g_iMidOffsetY) ; get duration
+	Local $g_aUpgradeDuration = getHeroUpgradeTime(715, 544 + $g_iMidOffsetY) ; get duration
 	If $g_aUpgradeDuration = "" Then $g_aUpgradeDuration = getHeroUpgradeTime(730, 532 + $g_iMidOffsetY) ; Try to read yellow text (Discount).
 
 	Local $aWhiteZeros = decodeSingleCoord(FindImageInPlace2("UpgradeWhiteZero", $g_sImgUpgradeWhiteZero, 560, 535 + $g_iMidOffsetY, 670, 565 + $g_iMidOffsetY, True))
 	Local $YellowSearch = _PixelSearch(610, 539 + $g_iMidOffsetY, 650, 543 + $g_iMidOffsetY, Hex(0xFFF10D, 6), 20)
+	Local $ahGroupPrinceWait[4] = [$g_hChkDBPrinceWait, $g_hChkABPrinceWait, $g_hPicDBPrinceWait, $g_hPicABPrinceWait]
+	Local $TxtTip = GetTranslatedFileIni("MBR GUI Design Child Attack - Search", "TxtPrinceWait_Info_01", -1) & @CRLF & _
+			GetTranslatedFileIni("MBR GUI Design Child Attack - Search", "TxtPrinceWait_Info_02", -1)
+	Local $TxtWarningTip = GetTranslatedFileIni("MBR GUI Design Child Attack - Search", "TxtPrinceWait_Info_03", "ATTENTION: Prince auto upgrade is currently enable.")
 	If (IsArray($aWhiteZeros) And UBound($aWhiteZeros, 1) = 2) Then
 
 		Local $bUpgradeCost = ($g_afPrinceUpgCost[$g_iPrinceLevel] * 1000 * $SpecialEventReduction * (1 - Number($g_iBuilderBoostDiscount) / 100))
@@ -788,6 +1134,20 @@ Func PrinceUpgrade()
 		$g_iNbrOfHeroesUpped += 1
 		$g_iCostDElixirHero += $bUpgradeCost
 		UpdateStats()
+		If Not $g_bRepUpgradePrinceEnable Then
+			$g_bUpgradePrinceEnable = False ; turn Off the Princes upgrade
+			GUICtrlSetState($g_hChkUpgradePrince, $GUI_UNCHECKED)
+			_GUI_Value_STATE("HIDE", $groupPrinceSleeping)
+			For $i In $ahGroupPrinceWait
+				_GUICtrlSetTip($i, $TxtTip)
+			Next
+			GUICtrlSetState($g_hChkRepUpgradePrince, $GUI_UNCHECKED + $GUI_DISABLE)
+		EndIf
+		Local $bFinishTime = ConvertOCRTime("FinishTime", $g_aUpgradeDuration, False)
+		$g_aiHeroUpgradeFinishDate[2] = _DateAdd('n', Ceiling($bFinishTime), _NowCalc())
+		SetLog("Prince Upgrade Finishes in " & $bFinishTime & " min. (" & $g_aiHeroUpgradeFinishDate[2] & ")", $COLOR_SUCCESS)
+		$g_aiHeroNeededResource[2] = 0
+		$g_aiCurrentLoot[$eLootDarkElixir] -= $bUpgradeCost
 	ElseIf IsArray($YellowSearch) Then
 
 		Local $bUpgradeCost = ($g_afPrinceUpgCost[$g_iPrinceLevel] * 1000 * $SpecialEventReduction * (1 - Number($g_iBuilderBoostDiscount) / 100))
@@ -814,6 +1174,20 @@ Func PrinceUpgrade()
 		$g_iNbrOfHeroesUpped += 1
 		$g_iCostDElixirHero += $bUpgradeCost
 		UpdateStats()
+		If Not $g_bRepUpgradePrinceEnable Then
+			$g_bUpgradePrinceEnable = False ; turn Off the Princes upgrade
+			GUICtrlSetState($g_hChkUpgradePrince, $GUI_UNCHECKED)
+			_GUI_Value_STATE("HIDE", $groupPrinceSleeping)
+			For $i In $ahGroupPrinceWait
+				_GUICtrlSetTip($i, $TxtTip)
+			Next
+			GUICtrlSetState($g_hChkRepUpgradePrince, $GUI_UNCHECKED + $GUI_DISABLE)
+		EndIf
+		Local $bFinishTime = ConvertOCRTime("FinishTime", $g_aUpgradeDuration, False)
+		$g_aiHeroUpgradeFinishDate[2] = _DateAdd('n', Ceiling($bFinishTime), _NowCalc())
+		SetLog("Prince Upgrade Finishes in " & $bFinishTime & " min. (" & $g_aiHeroUpgradeFinishDate[2] & ")", $COLOR_SUCCESS)
+		$g_aiHeroNeededResource[2] = 0
+		$g_aiCurrentLoot[$eLootDarkElixir] -= $bUpgradeCost
 	Else
 		SetLog("Prince Upgrade Fail! No DE!", $COLOR_ERROR)
 		CloseWindow2(1)
@@ -831,7 +1205,7 @@ Func PrinceUpgrade()
 				ClickP($HeroBooks)
 				If _Sleep(1000) Then Return
 				If ClickB("BoostConfirm") Then
-					SetLog("Hero Upgrade Finished With Book of Heroes", $COLOR_SUCCESS)
+					SetLog("Prince Upgrade Finished With Book of Heroes", $COLOR_SUCCESS)
 					GUICtrlSetState($g_hPicPrinceGray, $GUI_HIDE)
 					GUICtrlSetState($g_hPicPrinceRed, $GUI_HIDE)
 					GUICtrlSetState($g_hPicPrinceBlue, $GUI_HIDE)
@@ -839,6 +1213,8 @@ Func PrinceUpgrade()
 					$g_iHeroUpgrading[2] = 0
 					$g_iHeroUpgradingBit = BitAND($g_iHeroUpgradingBit, BitOR($eHeroKing, $eHeroQueen, $eHeroWarden, $eHeroChampion))
 					$g_iFreeBuilderCount += 1
+					$g_aiHeroUpgradeFinishDate[2] = 0
+					$g_aiHeroNeededResource[2] = 0
 					$ActionForModLog = "Upgraded with Book of Heroes"
 					If $g_iTxtCurrentVillageName <> "" Then
 						GUICtrlSetData($g_hTxtModLog, @CRLF & _NowTime() & " [" & $g_iTxtCurrentVillageName & "] Prince : " & $ActionForModLog, 1)
@@ -870,14 +1246,25 @@ Func WardenUpgrade()
 		Return
 	EndIf
 
-	If _ColorCheck(_GetPixelColor($bXcoords[3], 438 + $g_iMidOffsetY, True), Hex(0x8BD43A, 6), 20) Then
+	If IsArray(_PixelSearch($bXcoords[3] - 6, 438 + $g_iMidOffsetY, $bXcoords[3] + 4, 444 + $g_iMidOffsetY, Hex(0xFFFFFF, 6), 20, True)) Then
+		SetLog("Warden Upgrade is already Running - Skipped!", $COLOR_INFO)
+		Return
+	EndIf
+	Local $bOffset = False
+	If _ColorCheck(_GetPixelColor($bXcoords[3], 438 + $g_iMidOffsetY, True), Hex(0x8BD43A, 6), 20) And _
+			IsArray(_PixelSearch($bXcoords[3], 438 + $g_iMidOffsetY, $bXcoords[3] + 95, 444 + $g_iMidOffsetY, Hex(0xFFFFFF, 6), 20, True)) Then
 		SetDebugLog("Green Pixel Check: OK")
+	ElseIf _ColorCheck(_GetPixelColor($bXcoords[3] + 42, 425 + $g_iMidOffsetY, True), Hex(0xBEEA8C, 6), 20) And _
+			IsArray(_PixelSearch($bXcoords[3] + 42, 438 + $g_iMidOffsetY, $bXcoords[3] + 95, 444 + $g_iMidOffsetY, Hex(0xFFFFFF, 6), 20, True)) Then
+		SetDebugLog("Green Pixel Check: OK")
+		$bOffset = True
 	Else
 		If IsArray(_PixelSearch($bXcoords[3], 438 + $g_iMidOffsetY, $bXcoords[3] + 95, 444 + $g_iMidOffsetY, Hex(0xFF887F, 6), 20, True)) Then
 			SetLog("Insufficient Elixir for Upg Warden", $COLOR_INFO)
+			If $g_aiHeroNeededResource[3] = 0 Then NeededResources("Warden")
 			Return
 		EndIf
-		Local $HeroMaxLevel = decodeSingleCoord(FindImageInPlace2("HeroMaxLevel", $ImgHeroMaxLevel, $bXcoords[3] + 20, 420 + $g_iMidOffsetY, $bXcoords[3] + 65, 445 + $g_iMidOffsetY, True))
+		Local $HeroMaxLevel = decodeSingleCoord(FindImageInPlace2("HeroMaxLevel", $ImgHeroMaxLevel, $bXcoords[3] + 20, 420 + $g_iMidOffsetY, $bXcoords[3] + 100, 445 + $g_iMidOffsetY, True))
 		If IsArray($HeroMaxLevel) And UBound($HeroMaxLevel) = 2 Then
 			SetLog("Your Grand Warden is at max level, cannot upgrade anymore!", $COLOR_INFO)
 			$g_bUpgradeWardenEnable = False ; turn Off the Wardens upgrade
@@ -886,11 +1273,7 @@ Func WardenUpgrade()
 			ReducecmbHeroReservedBuilder()
 			Return
 		EndIf
-		If IsArray(_PixelSearch($bXcoords[3] - 6, 438 + $g_iMidOffsetY, $bXcoords[3] + 10, 444 + $g_iMidOffsetY, Hex(0xFFFFFF, 6), 20, True)) Then
-			SetLog("Warden Upgrade is already Running - Skipped!", $COLOR_INFO)
-			Return
-		EndIf
-		If _ColorCheck(_GetPixelColor($bXcoords[3], 438 + $g_iMidOffsetY, True), Hex(0xADADAD, 6), 15) Then
+		If _ColorCheck(_GetPixelColor($bXcoords[3], 438 + $g_iMidOffsetY, True), Hex(0xADADAD, 6), 15) Or _ColorCheck(_GetPixelColor($bXcoords[3] + 42, 425 + $g_iMidOffsetY, True), Hex(0xD2D2D2, 6), 15) Then
 			SetLog("Hero Hall upgrade needed - Skipped!", $COLOR_ERROR)
 			Return
 		EndIf
@@ -900,9 +1283,13 @@ Func WardenUpgrade()
 		EndIf
 	EndIf
 
-	Local $g_iWardenCostOCR = getOcrAndCapture("coc-HeroCost", $bXcoords[3] + 10, 433 + $g_iMidOffsetY, 84, 20)
+	If $bOffset Then
+		Local $g_iWardenCostOCR = getOcrAndCapture("coc-HeroCost", $bXcoords[3] + 32, 433 + $g_iMidOffsetY, 75, 20, True)
+	Else
+		Local $g_iWardenCostOCR = getOcrAndCapture("coc-HeroCost", $bXcoords[3] + 10, 433 + $g_iMidOffsetY, 84, 20, True)
+	EndIf
 	If $g_iWardenCostOCR = "" Then
-		SetLog("Insufficient Elixir for Upg Warden", $COLOR_INFO)
+		SetLog("Insufficient DE for Upg Warden", $COLOR_INFO)
 		Return
 	EndIf
 
@@ -934,11 +1321,15 @@ Func WardenUpgrade()
 	EndIf
 
 	Local $bHeroUpgrade = False
-	Local $g_aUpgradeDuration = getHeroUpgradeTime(730, 544 + $g_iMidOffsetY) ; get duration
+	Local $g_aUpgradeDuration = getHeroUpgradeTime(715, 544 + $g_iMidOffsetY) ; get duration
 	If $g_aUpgradeDuration = "" Then $g_aUpgradeDuration = getHeroUpgradeTime(730, 532 + $g_iMidOffsetY) ; Try to read yellow text (Discount).
 
 	Local $aWhiteZeros = decodeSingleCoord(FindImageInPlace2("UpgradeWhiteZero", $g_sImgUpgradeWhiteZero, 560, 535 + $g_iMidOffsetY, 670, 565 + $g_iMidOffsetY, True))
 	Local $YellowSearch = _PixelSearch(610, 539 + $g_iMidOffsetY, 650, 543 + $g_iMidOffsetY, Hex(0xFFF10D, 6), 20)
+	Local $ahGroupWardenWait[4] = [$g_hChkDBWardenWait, $g_hChkABWardenWait, $g_hPicDBWardenWait, $g_hPicABWardenWait]
+	Local $TxtTip = GetTranslatedFileIni("MBR GUI Design Child Attack - Search", "TxtWardenWait_Info_01", -1) & @CRLF & _
+			GetTranslatedFileIni("MBR GUI Design Child Attack - Search", "TxtWardenWait_Info_02", -1)
+	Local $TxtWarningTip = GetTranslatedFileIni("MBR GUI Design Child Attack - Search", "TxtWardenWait_Info_03", "ATTENTION: Warden auto upgrade is currently enable.")
 	If (IsArray($aWhiteZeros) And UBound($aWhiteZeros, 1) = 2) Then
 
 		Local $bUpgradeCost = ($g_afWardenUpgCost[$g_iWardenLevel] * 1000000 * $SpecialEventReduction * (1 - Number($g_iBuilderBoostDiscount) / 100))
@@ -966,6 +1357,20 @@ Func WardenUpgrade()
 		$g_iNbrOfWardenUpped += 1
 		$g_iCostElixirWarden += $bUpgradeCost
 		UpdateStats()
+		If Not $g_bRepUpgradeWardenEnable Then
+			$g_bUpgradeWardenEnable = False ; turn Off the Wardens upgrade
+			GUICtrlSetState($g_hChkUpgradeWarden, $GUI_UNCHECKED)
+			_GUI_Value_STATE("HIDE", $groupWardenSleeping)
+			For $i In $ahGroupWardenWait
+				_GUICtrlSetTip($i, $TxtTip)
+			Next
+			GUICtrlSetState($g_hChkRepUpgradeWarden, $GUI_UNCHECKED + $GUI_DISABLE)
+		EndIf
+		Local $bFinishTime = ConvertOCRTime("FinishTime", $g_aUpgradeDuration, False)
+		$g_aiHeroUpgradeFinishDate[3] = _DateAdd('n', Ceiling($bFinishTime), _NowCalc())
+		SetLog("Warden Upgrade Finishes in " & $bFinishTime & " min. (" & $g_aiHeroUpgradeFinishDate[3] & ")", $COLOR_SUCCESS)
+		$g_aiHeroNeededResource[3] = 0
+		$g_aiCurrentLoot[$eLootElixir] -= $bUpgradeCost
 	ElseIf IsArray($YellowSearch) Then
 
 		Local $bUpgradeCost = ($g_afWardenUpgCost[$g_iWardenLevel] * 1000000 * $SpecialEventReduction * (1 - Number($g_iBuilderBoostDiscount) / 100))
@@ -992,6 +1397,20 @@ Func WardenUpgrade()
 		$g_iNbrOfWardenUpped += 1
 		$g_iCostElixirWarden += $bUpgradeCost
 		UpdateStats()
+		If Not $g_bRepUpgradeWardenEnable Then
+			$g_bUpgradeWardenEnable = False ; turn Off the Wardens upgrade
+			GUICtrlSetState($g_hChkUpgradeWarden, $GUI_UNCHECKED)
+			_GUI_Value_STATE("HIDE", $groupWardenSleeping)
+			For $i In $ahGroupWardenWait
+				_GUICtrlSetTip($i, $TxtTip)
+			Next
+			GUICtrlSetState($g_hChkRepUpgradeWarden, $GUI_UNCHECKED + $GUI_DISABLE)
+		EndIf
+		Local $bFinishTime = ConvertOCRTime("FinishTime", $g_aUpgradeDuration, False)
+		$g_aiHeroUpgradeFinishDate[3] = _DateAdd('n', Ceiling($bFinishTime), _NowCalc())
+		SetLog("Warden Upgrade Finishes in " & $bFinishTime & " min. (" & $g_aiHeroUpgradeFinishDate[3] & ")", $COLOR_SUCCESS)
+		$g_aiHeroNeededResource[3] = 0
+		$g_aiCurrentLoot[$eLootElixir] -= $bUpgradeCost
 	Else
 		SetLog("Warden Upgrade Fail! No Elixir!", $COLOR_ERROR)
 		CloseWindow2(1)
@@ -1009,7 +1428,7 @@ Func WardenUpgrade()
 				ClickP($HeroBooks)
 				If _Sleep(1000) Then Return
 				If ClickB("BoostConfirm") Then
-					SetLog("Hero Upgrade Finished With Book of Heroes", $COLOR_SUCCESS)
+					SetLog("Warden Upgrade Finished With Book of Heroes", $COLOR_SUCCESS)
 					GUICtrlSetState($g_hPicWardenGray, $GUI_HIDE)
 					GUICtrlSetState($g_hPicWardenRed, $GUI_HIDE)
 					GUICtrlSetState($g_hPicWardenBlue, $GUI_HIDE)
@@ -1017,6 +1436,8 @@ Func WardenUpgrade()
 					$g_iHeroUpgrading[3] = 0
 					$g_iHeroUpgradingBit = BitAND($g_iHeroUpgradingBit, BitOR($eHeroKing, $eHeroQueen, $eHeroPrince, $eHeroChampion))
 					$g_iFreeBuilderCount += 1
+					$g_aiHeroUpgradeFinishDate[3] = 0
+					$g_aiHeroNeededResource[3] = 0
 					$ActionForModLog = "Upgraded with Book of Heroes"
 					If $g_iTxtCurrentVillageName <> "" Then
 						GUICtrlSetData($g_hTxtModLog, @CRLF & _NowTime() & " [" & $g_iTxtCurrentVillageName & "] Warden : " & $ActionForModLog, 1)
@@ -1049,14 +1470,25 @@ Func ChampionUpgrade()
 		Return
 	EndIf
 
-	If _ColorCheck(_GetPixelColor($bXcoords[4], 438 + $g_iMidOffsetY, True), Hex(0x8BD43A, 6), 20) Then
+	If IsArray(_PixelSearch($bXcoords[4] - 6, 438 + $g_iMidOffsetY, $bXcoords[4] + 4, 444 + $g_iMidOffsetY, Hex(0xFFFFFF, 6), 20, True)) Then
+		SetLog("Champion Upgrade is already Running - Skipped!", $COLOR_INFO)
+		Return
+	EndIf
+	Local $bOffset = False
+	If _ColorCheck(_GetPixelColor($bXcoords[1], 438 + $g_iMidOffsetY, True), Hex(0x8BD43A, 6), 20) And _
+			IsArray(_PixelSearch($bXcoords[1], 438 + $g_iMidOffsetY, $bXcoords[1] + 95, 444 + $g_iMidOffsetY, Hex(0xFFFFFF, 6), 20, True)) Then
 		SetDebugLog("Green Pixel Check: OK")
+	ElseIf _ColorCheck(_GetPixelColor($bXcoords[1] + 42, 438 + $g_iMidOffsetY, True), Hex(0x8BD43A, 6), 20) And _
+			IsArray(_PixelSearch($bXcoords[1] + 42, 438 + $g_iMidOffsetY, $bXcoords[1] + 95, 444 + $g_iMidOffsetY, Hex(0xFFFFFF, 6), 20, True)) Then
+		SetDebugLog("Green Pixel Check: OK")
+		$bOffset = True
 	Else
 		If IsArray(_PixelSearch($bXcoords[4], 438 + $g_iMidOffsetY, $bXcoords[4] + 95, 444 + $g_iMidOffsetY, Hex(0xFF887F, 6), 20, True)) Then
 			SetLog("Insufficient DE for Upg Champion", $COLOR_INFO)
+			If $g_aiHeroNeededResource[4] = 0 Then NeededResources("Champion")
 			Return
 		EndIf
-		Local $HeroMaxLevel = decodeSingleCoord(FindImageInPlace2("HeroMaxLevel", $ImgHeroMaxLevel, $bXcoords[4] + 20, 420 + $g_iMidOffsetY, $bXcoords[4] + 65, 445 + $g_iMidOffsetY, True))
+		Local $HeroMaxLevel = decodeSingleCoord(FindImageInPlace2("HeroMaxLevel", $ImgHeroMaxLevel, $bXcoords[4] + 20, 420 + $g_iMidOffsetY, $bXcoords[4] + 100, 445 + $g_iMidOffsetY, True))
 		If IsArray($HeroMaxLevel) And UBound($HeroMaxLevel) = 2 Then
 			SetLog("Your Royal Champion is at max level, cannot upgrade anymore!", $COLOR_INFO)
 			$g_bUpgradeChampionEnable = False ; turn Off the Champions upgrade
@@ -1065,11 +1497,7 @@ Func ChampionUpgrade()
 			ReducecmbHeroReservedBuilder()
 			Return
 		EndIf
-		If IsArray(_PixelSearch($bXcoords[4] - 6, 438 + $g_iMidOffsetY, $bXcoords[4] + 10, 444 + $g_iMidOffsetY, Hex(0xFFFFFF, 6), 20, True)) Then
-			SetLog("Champion Upgrade is already Running - Skipped!", $COLOR_INFO)
-			Return
-		EndIf
-		If _ColorCheck(_GetPixelColor($bXcoords[4], 438 + $g_iMidOffsetY, True), Hex(0xADADAD, 6), 15) Then
+		If _ColorCheck(_GetPixelColor($bXcoords[4], 438 + $g_iMidOffsetY, True), Hex(0xADADAD, 6), 15) Or _ColorCheck(_GetPixelColor($bXcoords[4] + 42, 438 + $g_iMidOffsetY, True), Hex(0xADADAD, 6), 15) Then
 			SetLog("Hero Hall upgrade needed - Skipped!", $COLOR_ERROR)
 			Return
 		EndIf
@@ -1079,9 +1507,13 @@ Func ChampionUpgrade()
 		EndIf
 	EndIf
 
-	Local $g_iChampionCostOCR = getOcrAndCapture("coc-HeroCost", $bXcoords[4] + 23, 433 + $g_iMidOffsetY, 65, 20)
+	If $bOffset Then
+		Local $g_iChampionCostOCR = getOcrAndCapture("coc-HeroCost", $bXcoords[0] + 38, 433 + $g_iMidOffsetY, 65, 20, True)
+	Else
+		Local $g_iChampionCostOCR = getOcrAndCapture("coc-HeroCost", $bXcoords[0] + 23, 433 + $g_iMidOffsetY, 65, 20, True)
+	EndIf
 	If $g_iChampionCostOCR = "" Then
-		SetLog("Insufficient DE for Upg Champion", $COLOR_INFO)
+		SetLog("Insufficient DE for Upg Queen", $COLOR_INFO)
 		Return
 	EndIf
 
@@ -1113,11 +1545,15 @@ Func ChampionUpgrade()
 	EndIf
 
 	Local $bHeroUpgrade = False
-	Local $g_aUpgradeDuration = getHeroUpgradeTime(730, 544 + $g_iMidOffsetY) ; get duration
+	Local $g_aUpgradeDuration = getHeroUpgradeTime(715, 544 + $g_iMidOffsetY) ; get duration
 	If $g_aUpgradeDuration = "" Then $g_aUpgradeDuration = getHeroUpgradeTime(730, 532 + $g_iMidOffsetY) ; Try to read yellow text (Discount).
 
 	Local $aWhiteZeros = decodeSingleCoord(FindImageInPlace2("UpgradeWhiteZero", $g_sImgUpgradeWhiteZero, 560, 535 + $g_iMidOffsetY, 670, 565 + $g_iMidOffsetY, True))
 	Local $YellowSearch = _PixelSearch(610, 539 + $g_iMidOffsetY, 650, 543 + $g_iMidOffsetY, Hex(0xFFF10D, 6), 20)
+	Local $ahGroupChampionWait[4] = [$g_hChkDBChampionWait, $g_hChkABChampionWait, $g_hPicDBChampionWait, $g_hPicABChampionWait]
+	Local $TxtTip = GetTranslatedFileIni("MBR GUI Design Child Attack - Search", "TxtChampionWait_Info_01", -1) & @CRLF & _
+			GetTranslatedFileIni("MBR GUI Design Child Attack - Search", "TxtChampionWait_Info_02", -1)
+	Local $TxtWarningTip = GetTranslatedFileIni("MBR GUI Design Child Attack - Search", "TxtChampionWait_Info_03", "ATTENTION: Champion auto upgrade is currently enable.")
 	If (IsArray($aWhiteZeros) And UBound($aWhiteZeros, 1) = 2) Then
 
 		Local $bUpgradeCost = ($g_afChampionUpgCost[$g_iChampionLevel] * 1000 * $SpecialEventReduction * (1 - Number($g_iBuilderBoostDiscount) / 100))
@@ -1145,6 +1581,20 @@ Func ChampionUpgrade()
 		$g_iNbrOfHeroesUpped += 1
 		$g_iCostDElixirHero += $bUpgradeCost
 		UpdateStats()
+		If Not $g_bRepUpgradeChampionEnable Then
+			$g_bUpgradeChampionEnable = False ; turn Off the Champions upgrade
+			GUICtrlSetState($g_hChkUpgradeChampion, $GUI_UNCHECKED)
+			_GUI_Value_STATE("HIDE", $groupChampionSleeping)
+			For $i In $ahGroupChampionWait
+				_GUICtrlSetTip($i, $TxtTip)
+			Next
+			GUICtrlSetState($g_hChkRepUpgradeChampion, $GUI_UNCHECKED + $GUI_DISABLE)
+		EndIf
+		Local $bFinishTime = ConvertOCRTime("FinishTime", $g_aUpgradeDuration, False)
+		$g_aiHeroUpgradeFinishDate[4] = _DateAdd('n', Ceiling($bFinishTime), _NowCalc())
+		SetLog("Champion Upgrade Finishes in " & $bFinishTime & " min. (" & $g_aiHeroUpgradeFinishDate[4] & ")", $COLOR_SUCCESS)
+		$g_aiHeroNeededResource[4] = 0
+		$g_aiCurrentLoot[$eLootDarkElixir] -= $bUpgradeCost
 	ElseIf IsArray($YellowSearch) Then
 
 		Local $bUpgradeCost = ($g_afChampionUpgCost[$g_iChampionLevel] * 1000 * $SpecialEventReduction * (1 - Number($g_iBuilderBoostDiscount) / 100))
@@ -1171,6 +1621,20 @@ Func ChampionUpgrade()
 		$g_iNbrOfHeroesUpped += 1
 		$g_iCostDElixirHero += $bUpgradeCost
 		UpdateStats()
+		If Not $g_bRepUpgradeChampionEnable Then
+			$g_bUpgradeChampionEnable = False ; turn Off the Champions upgrade
+			GUICtrlSetState($g_hChkUpgradeChampion, $GUI_UNCHECKED)
+			_GUI_Value_STATE("HIDE", $groupChampionSleeping)
+			For $i In $ahGroupChampionWait
+				_GUICtrlSetTip($i, $TxtTip)
+			Next
+			GUICtrlSetState($g_hChkRepUpgradeChampion, $GUI_UNCHECKED + $GUI_DISABLE)
+		EndIf
+		Local $bFinishTime = ConvertOCRTime("FinishTime", $g_aUpgradeDuration, False)
+		$g_aiHeroUpgradeFinishDate[4] = _DateAdd('n', Ceiling($bFinishTime), _NowCalc())
+		SetLog("Champion Upgrade Finishes in " & $bFinishTime & " min. (" & $g_aiHeroUpgradeFinishDate[4] & ")", $COLOR_SUCCESS)
+		$g_aiHeroNeededResource[4] = 0
+		$g_aiCurrentLoot[$eLootDarkElixir] -= $bUpgradeCost
 	Else
 		SetLog("Champion Upgrade Fail! No DE!", $COLOR_ERROR)
 		CloseWindow2(1)
@@ -1188,7 +1652,7 @@ Func ChampionUpgrade()
 				ClickP($HeroBooks)
 				If _Sleep(1000) Then Return
 				If ClickB("BoostConfirm") Then
-					SetLog("Hero Upgrade Finished With Book of Heroes", $COLOR_SUCCESS)
+					SetLog("Champion Upgrade Finished With Book of Heroes", $COLOR_SUCCESS)
 					GUICtrlSetState($g_hPicChampionGray, $GUI_HIDE)
 					GUICtrlSetState($g_hPicChampionRed, $GUI_HIDE)
 					GUICtrlSetState($g_hPicChampionBlue, $GUI_HIDE)
@@ -1196,6 +1660,8 @@ Func ChampionUpgrade()
 					$g_iHeroUpgrading[4] = 0
 					$g_iHeroUpgradingBit = BitAND($g_iHeroUpgradingBit, BitOR($eHeroKing, $eHeroQueen, $eHeroPrince, $eHeroWarden))
 					$g_iFreeBuilderCount += 1
+					$g_aiHeroUpgradeFinishDate[4] = 0
+					$g_aiHeroNeededResource[4] = 0
 					$ActionForModLog = "Upgraded with Book of Heroes"
 					If $g_iTxtCurrentVillageName <> "" Then
 						GUICtrlSetData($g_hTxtModLog, @CRLF & _NowTime() & " [" & $g_iTxtCurrentVillageName & "] Champion : " & $ActionForModLog, 1)

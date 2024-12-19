@@ -110,19 +110,22 @@ Func _AutoUpgrade()
 			SetLog("Hero Hall Window Opened", $COLOR_DEBUG1)
 			$bHeroSystem = True
 			If $iLoopHero = 0 Then
-				$HeroArray = NewHeroUpgradeSystem()
+				$HeroArray = NewHeroUpgradeSystem($IsElix)
 			Else
 				If $bHeroUpgradeDone Then
 					$HeroArray = $HeroArrayBackup
-					$HeroArray = NewHeroUpgradeSystem()
+					$HeroArray = NewHeroUpgradeSystem($IsElix)
 				EndIf
 			EndIf
-			If $IsElix Then
-				Local $g_aUpgradeNameLevelTemp[3] = [2, "Grand Warden", 0]
-			Else
-				Local $g_aUpgradeNameLevelTemp[3] = [2, $HeroArray[0][0], 0]
-				$bBlackHero = True
+			If $HeroArray[0][0] = "" Then
+				SetLog("Something gone wrong, looking next...", $COLOR_WARNING)
+				$HeroArray = $HeroArrayBackup
+				CloseWindow2()
+				$UpgradeDone = False
+				ContinueLoop
 			EndIf
+			Local $g_aUpgradeNameLevelTemp[3] = [2, $HeroArray[0][0], 0]
+			If Not $IsElix Then $bBlackHero = True
 			$g_aUpgradeNameLevel = $g_aUpgradeNameLevelTemp
 			$iLoopHero += 1
 		Else
@@ -448,11 +451,7 @@ Func _AutoUpgrade()
 		; if upgrade don't have to be ignored, click on the Upgrade button to open Upgrade window
 		If Not $UpWindowOpen Then
 			If $bHeroSystem Then
-				If $bBlackHero Then
-					Click($HeroArray[0][2], 433 + $g_iMidOffsetY)
-				Else
-					Click(580, 433 + $g_iMidOffsetY) ; Warden
-				EndIf
+				Click($HeroArray[0][2], 433 + $g_iMidOffsetY)
 				If _Sleep($DELAYAUTOUPGRADEBUILDING1) Then Return
 				Switch $g_aUpgradeNameLevel[1]
 					Case "Barbarian King"
@@ -894,7 +893,7 @@ Func SpecialVillageReport()
 
 EndFunc   ;==>SpecialVillageReport
 
-Func NewHeroUpgradeSystem()
+Func NewHeroUpgradeSystem($IsElix = False)
 
 	Local $bInitalXcoord = 67
 	Local $bDistanceSlot = 153
@@ -1010,48 +1009,94 @@ Func NewHeroUpgradeSystem()
 			EndIf
 	EndSwitch
 
-	; King
-	Local $g_iKingCostOCR = "", $bKing = "Barbarian King"
-	If _ColorCheck(_GetPixelColor($bXcoords[0], 438 + $g_iMidOffsetY, True), Hex(0x8BD43A, 6), 20) Then
-		Local $g_iKingCostOCR = Number(getOcrAndCapture("coc-HeroCost", $bXcoords[0] + 23, 433 + $g_iMidOffsetY, 65, 20, True))
-		If $g_iKingCostOCR = "" Then $g_iKingCostOCR = 0
-		_ArrayAdd($HeroArrayTemp, $bKing & "|" & $g_iKingCostOCR & "|" & $bXcoords[0] + 55)
+	If $IsElix Then
+
+		; Warden
+		Local $g_iWardenCostOCR = "", $bWarden = "Grand Warden"
+		If _ColorCheck(_GetPixelColor($bXcoords[3], 438 + $g_iMidOffsetY, True), Hex(0x8BD43A, 6), 20) Then
+			Local $g_iWardenCostOCR = Number(getOcrAndCapture("coc-HeroCost", $bXcoords[3] + 10, 433 + $g_iMidOffsetY, 84, 20, True))
+			If $g_iWardenCostOCR = "" Then $g_iWardenCostOCR = 0
+			_ArrayAdd($HeroArrayTemp, $bWarden & "|" & $g_iWardenCostOCR & "|" & $bXcoords[3] + 55)
+		Else
+			If _ColorCheck(_GetPixelColor($bXcoords[3] + 42, 425 + $g_iMidOffsetY, True), Hex(0xBEEA8C, 6), 20) Then
+				Local $g_iWardenCostOCR = Number(getOcrAndCapture("coc-HeroCost", $bXcoords[3] + 32, 433 + $g_iMidOffsetY, 75, 20, True))
+				If $g_iWardenCostOCR = "" Then $g_iWardenCostOCR = 0
+				_ArrayAdd($HeroArrayTemp, $bWarden & "|" & $g_iWardenCostOCR & "|" & $bXcoords[3] + 80)
+			EndIf
+		EndIf
+		If _Sleep(100) Then Return
+		Return $HeroArrayTemp
+
+	Else
+
+		; King
+		Local $g_iKingCostOCR = "", $bKing = "Barbarian King"
+		If _ColorCheck(_GetPixelColor($bXcoords[0], 438 + $g_iMidOffsetY, True), Hex(0x8BD43A, 6), 20) Then
+			Local $g_iKingCostOCR = Number(getOcrAndCapture("coc-HeroCost", $bXcoords[0] + 23, 433 + $g_iMidOffsetY, 65, 20, True))
+			If $g_iKingCostOCR = "" Then $g_iKingCostOCR = 0
+			_ArrayAdd($HeroArrayTemp, $bKing & "|" & $g_iKingCostOCR & "|" & $bXcoords[0] + 55)
+		Else
+			If _ColorCheck(_GetPixelColor($bXcoords[0] + 42, 438 + $g_iMidOffsetY, True), Hex(0x8BD43A, 6), 20) Then
+				Local $g_iKingCostOCR = Number(getOcrAndCapture("coc-HeroCost", $bXcoords[0] + 38, 433 + $g_iMidOffsetY, 65, 20, True))
+				If $g_iKingCostOCR = "" Then $g_iKingCostOCR = 0
+				_ArrayAdd($HeroArrayTemp, $bKing & "|" & $g_iKingCostOCR & "|" & $bXcoords[0] + 80)
+			EndIf
+		EndIf
+
+		If _Sleep(100) Then Return
+
+		; Queen
+		Local $g_iQueenCostOCR = "", $bQueen = "Archer Queen"
+		If _ColorCheck(_GetPixelColor($bXcoords[1], 438 + $g_iMidOffsetY, True), Hex(0x8BD43A, 6), 20) Then
+			Local $g_iQueenCostOCR = Number(getOcrAndCapture("coc-HeroCost", $bXcoords[1] + 23, 433 + $g_iMidOffsetY, 65, 20, True))
+			If $g_iQueenCostOCR = "" Then $g_iQueenCostOCR = 0
+			_ArrayAdd($HeroArrayTemp, $bQueen & "|" & $g_iQueenCostOCR & "|" & $bXcoords[1] + 55)
+		Else
+			If _ColorCheck(_GetPixelColor($bXcoords[1] + 42, 438 + $g_iMidOffsetY, True), Hex(0x8BD43A, 6), 20) Then
+				Local $g_iQueenCostOCR = Number(getOcrAndCapture("coc-HeroCost", $bXcoords[1] + 38, 433 + $g_iMidOffsetY, 65, 20, True))
+				If $g_iQueenCostOCR = "" Then $g_iQueenCostOCR = 0
+				_ArrayAdd($HeroArrayTemp, $bQueen & "|" & $g_iQueenCostOCR & "|" & $bXcoords[1] + 80)
+			EndIf
+		EndIf
+
+		If _Sleep(100) Then Return
+
+		; Prince
+		Local $g_iPrinceCostOCR = "", $bPrince = "Minion Prince"
+		If _ColorCheck(_GetPixelColor($bXcoords[2], 438 + $g_iMidOffsetY, True), Hex(0x8BD43A, 6), 20) Then
+			Local $g_iPrinceCostOCR = Number(getOcrAndCapture("coc-HeroCost", $bXcoords[2] + 23, 433 + $g_iMidOffsetY, 65, 20, True))
+			If $g_iPrinceCostOCR = "" Then $g_iPrinceCostOCR = 0
+			_ArrayAdd($HeroArrayTemp, $bPrince & "|" & $g_iPrinceCostOCR & "|" & $bXcoords[2] + 55)
+		Else
+			If _ColorCheck(_GetPixelColor($bXcoords[2] + 42, 438 + $g_iMidOffsetY, True), Hex(0x8BD43A, 6), 20) Then
+				Local $g_iPrinceCostOCR = Number(getOcrAndCapture("coc-HeroCost", $bXcoords[2] + 38, 433 + $g_iMidOffsetY, 65, 20, True))
+				If $g_iPrinceCostOCR = "" Then $g_iPrinceCostOCR = 0
+				_ArrayAdd($HeroArrayTemp, $bPrince & "|" & $g_iPrinceCostOCR & "|" & $bXcoords[2] + 80)
+			EndIf
+		EndIf
+
+		If _Sleep(100) Then Return
+
+		; Champion
+		Local $g_iChampionCostOCR = "", $bChampion = "Royal Champion"
+		If _ColorCheck(_GetPixelColor($bXcoords[4], 438 + $g_iMidOffsetY, True), Hex(0x8BD43A, 6), 20) Then
+			Local $g_iChampionCostOCR = Number(getOcrAndCapture("coc-HeroCost", $bXcoords[4] + 23, 433 + $g_iMidOffsetY, 65, 20, True))
+			If $g_iChampionCostOCR = "" Then $g_iChampionCostOCR = 0
+			_ArrayAdd($HeroArrayTemp, $bChampion & "|" & $g_iChampionCostOCR & "|" & $bXcoords[4] + 55)
+		Else
+			If _ColorCheck(_GetPixelColor($bXcoords[4] + 42, 438 + $g_iMidOffsetY, True), Hex(0x8BD43A, 6), 20) Then
+				Local $g_iChampionCostOCR = Number(getOcrAndCapture("coc-HeroCost", $bXcoords[4] + 38, 433 + $g_iMidOffsetY, 65, 20, True))
+				If $g_iChampionCostOCR = "" Then $g_iChampionCostOCR = 0
+				_ArrayAdd($HeroArrayTemp, $bChampion & "|" & $g_iChampionCostOCR & "|" & $bXcoords[4] + 80)
+			EndIf
+		EndIf
+
+		If _Sleep(100) Then Return
+
+		_ArraySort($HeroArrayTemp, 1, 0, 0, 1)
+
+		Return $HeroArrayTemp
+
 	EndIf
-
-	If _Sleep(100) Then Return
-
-	; Queen
-	Local $g_iQueenCostOCR = "", $bQueen = "Archer Queen"
-	If _ColorCheck(_GetPixelColor($bXcoords[1], 438 + $g_iMidOffsetY, True), Hex(0x8BD43A, 6), 20) Then
-		Local $g_iQueenCostOCR = Number(getOcrAndCapture("coc-HeroCost", $bXcoords[1] + 23, 433 + $g_iMidOffsetY, 65, 20, True))
-		If $g_iQueenCostOCR = "" Then $g_iQueenCostOCR = 0
-		_ArrayAdd($HeroArrayTemp, $bQueen & "|" & $g_iQueenCostOCR & "|" & $bXcoords[1] + 55)
-	EndIf
-
-	If _Sleep(100) Then Return
-
-	; Prince
-	Local $g_iPrinceCostOCR = "", $bPrince = "Minion Prince"
-	If _ColorCheck(_GetPixelColor($bXcoords[2], 438 + $g_iMidOffsetY, True), Hex(0x8BD43A, 6), 20) Then
-		Local $g_iPrinceCostOCR = Number(getOcrAndCapture("coc-HeroCost", $bXcoords[2] + 23, 433 + $g_iMidOffsetY, 65, 20, True))
-		If $g_iPrinceCostOCR = "" Then $g_iPrinceCostOCR = 0
-		_ArrayAdd($HeroArrayTemp, $bPrince & "|" & $g_iPrinceCostOCR & "|" & $bXcoords[2] + 55)
-	EndIf
-
-	If _Sleep(100) Then Return
-
-	; Champion
-	Local $g_iChampionCostOCR = "", $bChampion = "Royal Champion"
-	If _ColorCheck(_GetPixelColor($bXcoords[4], 438 + $g_iMidOffsetY, True), Hex(0x8BD43A, 6), 20) Then
-		Local $g_iChampionCostOCR = Number(getOcrAndCapture("coc-HeroCost", $bXcoords[4] + 23, 433 + $g_iMidOffsetY, 65, 20, True))
-		If $g_iChampionCostOCR = "" Then $g_iChampionCostOCR = 0
-		_ArrayAdd($HeroArrayTemp, $bChampion & "|" & $g_iChampionCostOCR & "|" & $bXcoords[4] + 55)
-	EndIf
-
-	If _Sleep(100) Then Return
-
-	_ArraySort($HeroArrayTemp, 1, 0, 0, 1)
-
-	Return $HeroArrayTemp
 
 EndFunc   ;==>NewHeroUpgradeSystem

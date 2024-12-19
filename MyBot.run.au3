@@ -819,7 +819,7 @@ Func runBot() ;Bot that runs everything in order
 				Next
 				BoostEverything()
 				If $g_bRestart Then ContinueLoop
-				Local $aRndFuncList = ['BoostBuilders', 'BoostBarracks', 'BoostSpellFactory', 'BoostWorkshop', 'BoostKing', 'BoostQueen', 'BoostWarden', 'BoostChampion']
+				Local $aRndFuncList = ['BoostBuilders', 'BoostBarracks', 'BoostSpellFactory', 'BoostWorkshop', 'BoostKing', 'BoostQueen', 'BoostPrince', 'BoostWarden', 'BoostChampion']
 				_ArrayShuffle($aRndFuncList)
 				For $Index In $aRndFuncList
 					If Not $g_bRunState Then Return
@@ -843,18 +843,38 @@ Func runBot() ;Bot that runs everything in order
 
 			HiddenSlotstatus()
 
-			If $g_bAutoUpgradeWallsEnable And $g_bChkWallUpFirst Then
+			If $g_bFirstStart Then
 				If Not $g_bRunState Then Return
 				_RunFunction('Laboratory')
 				If $g_bRestart Then ContinueLoop
 				If CheckAndroidReboot() Then ContinueLoop
 				If Not $g_bRunState Then Return
-				_RunFunction('UpgradeWall')
+				_RunFunction('UpgradeHeroes')
 				If $g_bRestart Then ContinueLoop
 				If CheckAndroidReboot() Then ContinueLoop
-				Local $aRndFuncList = ['UpgradeHeroes', 'UpgradeBuilding', 'PetHouse', 'Blacksmith']
+				If $g_bAutoUpgradeWallsEnable And $g_bChkWallUpFirst Then
+					If Not $g_bRunState Then Return
+					_RunFunction('UpgradeWall')
+					If $g_bRestart Then ContinueLoop
+					If CheckAndroidReboot() Then ContinueLoop
+					Local $aRndFuncList = ['UpgradeBuilding', 'PetHouse', 'Blacksmith']
+				Else
+					Local $aRndFuncList = ['UpgradeWall', 'UpgradeBuilding', 'PetHouse', 'Blacksmith']
+				EndIf
 			Else
-				Local $aRndFuncList = ['Laboratory', 'UpgradeHeroes', 'UpgradeBuilding', 'PetHouse', 'Blacksmith']
+				If $g_bAutoUpgradeWallsEnable And $g_bChkWallUpFirst Then
+					If Not $g_bRunState Then Return
+					_RunFunction('Laboratory')
+					If $g_bRestart Then ContinueLoop
+					If CheckAndroidReboot() Then ContinueLoop
+					If Not $g_bRunState Then Return
+					_RunFunction('UpgradeWall')
+					If $g_bRestart Then ContinueLoop
+					If CheckAndroidReboot() Then ContinueLoop
+					Local $aRndFuncList = ['UpgradeHeroes', 'UpgradeBuilding', 'PetHouse', 'Blacksmith']
+				Else
+					Local $aRndFuncList = ['UpgradeWall', 'Laboratory', 'UpgradeHeroes', 'UpgradeBuilding', 'PetHouse', 'Blacksmith']
+				EndIf
 			EndIf
 			_ArrayShuffle($aRndFuncList)
 			For $Index In $aRndFuncList
@@ -878,9 +898,9 @@ Func runBot() ;Bot that runs everything in order
 
 			If SwitchBetweenBasesMod2() Then
 				ForgeClanCapitalGold()
-				_Sleep($DELAYRUNBOT3)
+				If _Sleep($DELAYRUNBOT3) Then Return
 				AutoUpgradeCC()
-				_Sleep($DELAYRUNBOT3)
+				If _Sleep($DELAYRUNBOT3) Then Return
 			EndIf
 
 			Local $AllowCG = True
@@ -940,6 +960,10 @@ Func runBot() ;Bot that runs everything in order
 			SwitchBetweenBasesMod()
 
 			If $g_bAutoUpgradeWallsEnable And $g_bChkWallUpFirst Then
+				If Not $g_bRunState Then Return
+				UpgradeWall()
+				If $g_bRestart Then ContinueLoop
+				If CheckAndroidReboot() Then ContinueLoop
 				If $IstoSwitchMod Then
 					If Not $g_bRunState Then Return
 					BuilderBase()
@@ -1114,12 +1138,12 @@ Func _Idle() ;Sequence that runs until Full Army
 		EndIf
 		If $g_bRestart Then ExitLoop
 		CollectCCGold()
-		_Sleep($DELAYRUNBOT3)
+		If _Sleep($DELAYRUNBOT3) Then Return
 		If SwitchBetweenBasesMod2() Then
 			ForgeClanCapitalGold()
-			_Sleep($DELAYRUNBOT3)
+			If _Sleep($DELAYRUNBOT3) Then Return
 			AutoUpgradeCC()
-			_Sleep($DELAYRUNBOT3)
+			If _Sleep($DELAYRUNBOT3) Then Return
 		EndIf
 		If Not $g_bRunState Then Return
 		If Random(0, $g_iCollectAtCount - 1, 1) = 0 Then ; This is prevent from collecting all the time which isn't needed anyway, chance to run is 1/$g_iCollectAtCount
@@ -1395,15 +1419,15 @@ Func __RunFunction($action)
 			_Sleep($DELAYRUNBOT1)
 		Case "CheckTombs"
 			CheckTombs()
-			_Sleep($DELAYRUNBOT3)
+			If _Sleep($DELAYRUNBOT3) Then Return
 		Case "CleanYard"
 			CleanYard()
 		Case "ReplayShare"
 			ReplayShare($g_bShareAttackEnableNow)
-			_Sleep($DELAYRUNBOT3)
+			If _Sleep($DELAYRUNBOT3) Then Return
 		Case "NotifyReport"
 			NotifyReport()
-			_Sleep($DELAYRUNBOT3)
+			If _Sleep($DELAYRUNBOT3) Then Return
 		Case "DonateCC"
 			If $g_iActiveDonate And $g_bChkDonate Then
 				; if in "Halt/Donate" don't skip near full army
@@ -1477,13 +1501,13 @@ Func __RunFunction($action)
 			_Sleep($DELAYRESPOND)
 		Case "DailyChallenge"
 			DailyChallenges()
-			_Sleep($DELAYRUNBOT3)
+			If _Sleep($DELAYRUNBOT3) Then Return
 		Case "LabCheck"
 			LabGuiDisplay()
-			_Sleep($DELAYRUNBOT3)
+			If _Sleep($DELAYRUNBOT3) Then Return
 		Case "PetCheck"
 			PetGuiDisplay()
-			_Sleep($DELAYRUNBOT3)
+			If _Sleep($DELAYRUNBOT3) Then Return
 		Case "RequestCC"
 			RequestCC()
 			If Not _Sleep($DELAYRUNBOT1) Then checkMainScreen(False)
@@ -1500,7 +1524,7 @@ Func __RunFunction($action)
 			If Not _Sleep($DELAYRUNBOT3) Then checkMainScreen(False)
 		Case "UpgradeHeroes"
 			UpgradeHeroes()
-			_Sleep($DELAYRUNBOT3)
+			If _Sleep($DELAYRUNBOT3) Then Return
 		Case "UpgradeBuilding"
 			UpgradeBuilding()
 			If _Sleep($DELAYRUNBOT3) Then Return
@@ -1509,7 +1533,7 @@ Func __RunFunction($action)
 		Case "UpgradeWall"
 			$g_iNbrOfWallsUpped = 0
 			UpgradeWall()
-			_Sleep($DELAYRUNBOT3)
+			If _Sleep($DELAYRUNBOT3) Then Return
 		Case "BuilderBase"
 			If $g_bChkBBaseFrequency And Not $g_bIsBBevent Then
 				$ActionForModLog = "Switch To Builder Base"
@@ -1521,33 +1545,33 @@ Func __RunFunction($action)
 				_FileWriteLog($g_sProfileLogsPath & "\ModLog.log", " [" & $g_sProfileCurrentName & "] - Humanization : " & $ActionForModLog)
 			EndIf
 			BuilderBase()
-			_Sleep($DELAYRUNBOT3)
+			If _Sleep($DELAYRUNBOT3) Then Return
 		Case "CollectAchievements"
 			CollectAchievements()
-			_Sleep($DELAYRUNBOT3)
+			If _Sleep($DELAYRUNBOT3) Then Return
 		Case "CollectFreeMagicItems"
 			CollectFreeMagicItems()
-			_Sleep($DELAYRUNBOT3)
+			If _Sleep($DELAYRUNBOT3) Then Return
 		Case "AutoUpgradeCC"
 			AutoUpgradeCC()
-			_Sleep($DELAYRUNBOT3)
+			If _Sleep($DELAYRUNBOT3) Then Return
 		Case "CollectCCGold"
 			CollectCCGold()
-			_Sleep($DELAYRUNBOT3)
+			If _Sleep($DELAYRUNBOT3) Then Return
 		Case "PurgeMedals"
 			SoldAndBuyItems()
-			_Sleep($DELAYRUNBOT3)
+			If _Sleep($DELAYRUNBOT3) Then Return
 		Case "Blacksmith"
 			Blacksmith()
-			_Sleep($DELAYRUNBOT3)
+			If _Sleep($DELAYRUNBOT3) Then Return
 		Case ""
 			SetDebugLog("Function call doesn't support empty string, please review array size", $COLOR_ERROR)
 		Case "MagicSnacks"
 			MagicSnacks()
-			_Sleep($DELAYRUNBOT3)
+			If _Sleep($DELAYRUNBOT3) Then Return
 		Case "HelperHut"
 			HelperHut()
-			_Sleep($DELAYRUNBOT3)
+			If _Sleep($DELAYRUNBOT3) Then Return
 		Case Else
 			SetLog("Unknown function call: " & $action, $COLOR_ERROR)
 	EndSwitch
@@ -1757,8 +1781,11 @@ Func FirstCheck()
 		; VERIFY THE TROOPS AND ATTACK IF IS FULL
 		SetDebugLog("-- FirstCheck on Train --")
 		TrainSystem()
-
+		If Not $g_bRunState Then Return
+		If _Sleep($DELAYRUNBOT3) Then Return
 		HiddenSlotstatus()
+		If Not $g_bRunState Then Return
+		If _Sleep($DELAYRUNBOT3) Then Return
 
 		If Not $g_bRunState Then Return
 		SetDebugLog("Are you ready? " & String($g_bIsFullArmywithHeroesAndSpells))

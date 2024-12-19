@@ -118,6 +118,8 @@ Func getArmyHeroCount($bOpenArmyWindow = False, $bCloseArmyWindow = False, $Chec
 										$g_iHeroUpgrading[4] = 0
 										$g_iHeroUpgradingBit = BitAND($g_iHeroUpgradingBit, BitOR($eHeroKing, $eHeroQueen, $eHeroPrince, $eHeroWarden))
 										$IsChampionReadyForDropTrophies = 0
+									Case Else
+										$sMessage = "-Very Bad Monkey Needs"
 								EndSwitch
 							Case 1
 								Switch $g_aiCmbCustomHeroOrder[$i]
@@ -151,6 +153,8 @@ Func getArmyHeroCount($bOpenArmyWindow = False, $bCloseArmyWindow = False, $Chec
 										$g_iHeroUpgrading[4] = 0
 										$g_iHeroUpgradingBit = BitAND($g_iHeroUpgradingBit, BitOR($eHeroKing, $eHeroQueen, $eHeroPrince, $eHeroWarden))
 										$IsChampionReadyForDropTrophies = 0
+									Case Else
+										$sMessage = "-Very Bad Monkey Needs"
 								EndSwitch
 							Case 2
 								Switch $g_aiCmbCustomHeroOrder[$i]
@@ -184,6 +188,8 @@ Func getArmyHeroCount($bOpenArmyWindow = False, $bCloseArmyWindow = False, $Chec
 										$g_iHeroUpgrading[4] = 0
 										$g_iHeroUpgradingBit = BitAND($g_iHeroUpgradingBit, BitOR($eHeroKing, $eHeroQueen, $eHeroPrince, $eHeroWarden))
 										$IsChampionReadyForDropTrophies = 0
+									Case Else
+										$sMessage = "-Very Bad Monkey Needs"
 								EndSwitch
 							Case 3
 								Switch $g_aiCmbCustomHeroOrder[$i]
@@ -217,6 +223,8 @@ Func getArmyHeroCount($bOpenArmyWindow = False, $bCloseArmyWindow = False, $Chec
 										$g_iHeroUpgrading[4] = 0
 										$g_iHeroUpgradingBit = BitAND($g_iHeroUpgradingBit, BitOR($eHeroKing, $eHeroQueen, $eHeroPrince, $eHeroWarden))
 										$IsChampionReadyForDropTrophies = 0
+									Case Else
+										$sMessage = "-Very Bad Monkey Needs"
 								EndSwitch
 							Case 4
 								Switch $g_aiCmbCustomHeroOrder[$i]
@@ -1042,7 +1050,7 @@ Func HiddenSlotstatus()
 
 		Switch $g_aiCmbCustomHeroOrder[4]
 			Case 0
-				Local $HeroMaxLevel = decodeSingleCoord(FindImageInPlace2("HeroMaxLevel", $ImgHeroMaxLevel, $bXcoords[0] + 20, 420 + $g_iMidOffsetY, $bXcoords[0] + 65, 445 + $g_iMidOffsetY, True))
+				Local $HeroMaxLevel = decodeSingleCoord(FindImageInPlace2("HeroMaxLevel", $ImgHeroMaxLevel, $bXcoords[0] + 20, 420 + $g_iMidOffsetY, $bXcoords[0] + 100, 445 + $g_iMidOffsetY, True))
 				If IsArray($HeroMaxLevel) And UBound($HeroMaxLevel) = 2 Then
 					GUICtrlSetState($g_hPicKingGray, $GUI_HIDE)
 					GUICtrlSetState($g_hPicKingRed, $GUI_HIDE)
@@ -1061,16 +1069,7 @@ Func HiddenSlotstatus()
 					GUICtrlSetState($g_hPicKingBlue, $GUI_HIDE)
 					GUICtrlSetState($g_hPicKingGreen, $GUI_HIDE)
 					SetLog($g_asHeroNames[0] & " is not available", $COLOR_DEBUG2)
-				ElseIf _ColorCheck(_GetPixelColor($bXcoords[0], 438 + $g_iMidOffsetY, True), Hex(0xADADAD, 6), 15) Or _ColorCheck(_GetPixelColor($bXcoords[0], 438 + $g_iMidOffsetY, True), Hex(0x8BD43A, 6), 15) Then
-					GUICtrlSetState($g_hPicKingGray, $GUI_HIDE)
-					GUICtrlSetState($g_hPicKingRed, $GUI_HIDE)
-					GUICtrlSetState($g_hPicKingBlue, $GUI_HIDE)
-					GUICtrlSetState($g_hPicKingGreen, $GUI_SHOW)
-					$g_iHeroUpgrading[0] = 0
-					$g_iHeroUpgradingBit = BitAND($g_iHeroUpgradingBit, BitOR($eHeroQueen, $eHeroPrince, $eHeroWarden, $eHeroChampion))
-					$g_iHeroAvailable = BitOR($g_iHeroAvailable, $eHeroKing)
-					SetLog($g_asHeroNames[0] & " is ready to fight", $COLOR_SUCCESS1)
-				ElseIf IsArray(_PixelSearch($bXcoords[0] - 6, 438 + $g_iMidOffsetY, $bXcoords[0] + 10, 444 + $g_iMidOffsetY, Hex(0xFFFFFF, 6), 20, True)) Then
+				ElseIf IsArray(_PixelSearch($bXcoords[0] - 6, 438 + $g_iMidOffsetY, $bXcoords[0] + 4, 444 + $g_iMidOffsetY, Hex(0xFFFFFF, 6), 20, True)) Then
 					GUICtrlSetState($g_hPicKingGray, $GUI_HIDE)
 					GUICtrlSetState($g_hPicKingRed, $GUI_SHOW)
 					GUICtrlSetState($g_hPicKingBlue, $GUI_HIDE)
@@ -1088,11 +1087,21 @@ Func HiddenSlotstatus()
 						EndIf
 						_GUI_Value_STATE("SHOW", $groupKingSleeping)                     ; Show king sleeping icon
 					EndIf
+				ElseIf _ColorCheck(_GetPixelColor($bXcoords[0], 438 + $g_iMidOffsetY, True), Hex(0xADADAD, 6), 15) Or _ColorCheck(_GetPixelColor($bXcoords[0], 438 + $g_iMidOffsetY, True), Hex(0x8BD43A, 6), 15) Or _
+						_ColorCheck(_GetPixelColor($bXcoords[0] + 42, 438 + $g_iMidOffsetY, True), Hex(0xADADAD, 6), 15) Or _ColorCheck(_GetPixelColor($bXcoords[0] + 42, 438 + $g_iMidOffsetY, True), Hex(0x8BD43A, 6), 20) Then
+					GUICtrlSetState($g_hPicKingGray, $GUI_HIDE)
+					GUICtrlSetState($g_hPicKingRed, $GUI_HIDE)
+					GUICtrlSetState($g_hPicKingBlue, $GUI_HIDE)
+					GUICtrlSetState($g_hPicKingGreen, $GUI_SHOW)
+					$g_iHeroUpgrading[0] = 0
+					$g_iHeroUpgradingBit = BitAND($g_iHeroUpgradingBit, BitOR($eHeroQueen, $eHeroPrince, $eHeroWarden, $eHeroChampion))
+					$g_iHeroAvailable = BitOR($g_iHeroAvailable, $eHeroKing)
+					SetLog($g_asHeroNames[0] & " is ready to fight", $COLOR_SUCCESS1)
 				EndIf
 				CloseWindow()
 				Return
 			Case 1
-				Local $HeroMaxLevel = decodeSingleCoord(FindImageInPlace2("HeroMaxLevel", $ImgHeroMaxLevel, $bXcoords[1] + 20, 420 + $g_iMidOffsetY, $bXcoords[1] + 65, 445 + $g_iMidOffsetY, True))
+				Local $HeroMaxLevel = decodeSingleCoord(FindImageInPlace2("HeroMaxLevel", $ImgHeroMaxLevel, $bXcoords[1] + 20, 420 + $g_iMidOffsetY, $bXcoords[1] + 10, 445 + $g_iMidOffsetY, True))
 				If IsArray($HeroMaxLevel) And UBound($HeroMaxLevel) = 2 Then
 					GUICtrlSetState($g_hPicQueenGray, $GUI_HIDE)
 					GUICtrlSetState($g_hPicQueenRed, $GUI_HIDE)
@@ -1111,16 +1120,7 @@ Func HiddenSlotstatus()
 					GUICtrlSetState($g_hPicQueenBlue, $GUI_HIDE)
 					GUICtrlSetState($g_hPicQueenGreen, $GUI_HIDE)
 					SetLog($g_asHeroNames[1] & " is not available", $COLOR_DEBUG2)
-				ElseIf _ColorCheck(_GetPixelColor($bXcoords[1], 438 + $g_iMidOffsetY, True), Hex(0xADADAD, 6), 15) Or _ColorCheck(_GetPixelColor($bXcoords[1], 438 + $g_iMidOffsetY, True), Hex(0x8BD43A, 6), 15) Then
-					GUICtrlSetState($g_hPicQueenGray, $GUI_HIDE)
-					GUICtrlSetState($g_hPicQueenRed, $GUI_HIDE)
-					GUICtrlSetState($g_hPicQueenBlue, $GUI_HIDE)
-					GUICtrlSetState($g_hPicQueenGreen, $GUI_SHOW)
-					$g_iHeroUpgrading[1] = 0
-					$g_iHeroUpgradingBit = BitAND($g_iHeroUpgradingBit, BitOR($eHeroKing, $eHeroPrince, $eHeroWarden, $eHeroChampion))
-					$g_iHeroAvailable = BitOR($g_iHeroAvailable, $eHeroQueen)
-					SetLog($g_asHeroNames[1] & " is ready to fight", $COLOR_SUCCESS1)
-				ElseIf IsArray(_PixelSearch($bXcoords[1] - 6, 438 + $g_iMidOffsetY, $bXcoords[1] + 10, 444 + $g_iMidOffsetY, Hex(0xFFFFFF, 6), 20, True)) Then
+				ElseIf IsArray(_PixelSearch($bXcoords[1] - 6, 438 + $g_iMidOffsetY, $bXcoords[1] + 4, 444 + $g_iMidOffsetY, Hex(0xFFFFFF, 6), 20, True)) Then
 					GUICtrlSetState($g_hPicQueenGray, $GUI_HIDE)
 					GUICtrlSetState($g_hPicQueenRed, $GUI_SHOW)
 					GUICtrlSetState($g_hPicQueenBlue, $GUI_HIDE)
@@ -1138,11 +1138,21 @@ Func HiddenSlotstatus()
 						EndIf
 						_GUI_Value_STATE("SHOW", $groupQueenSleeping)                     ; Show Queen sleeping icon
 					EndIf
+				ElseIf _ColorCheck(_GetPixelColor($bXcoords[1], 438 + $g_iMidOffsetY, True), Hex(0xADADAD, 6), 15) Or _ColorCheck(_GetPixelColor($bXcoords[1], 438 + $g_iMidOffsetY, True), Hex(0x8BD43A, 6), 15) Or _
+						_ColorCheck(_GetPixelColor($bXcoords[1] + 42, 438 + $g_iMidOffsetY, True), Hex(0xADADAD, 6), 15) Or _ColorCheck(_GetPixelColor($bXcoords[1] + 42, 438 + $g_iMidOffsetY, True), Hex(0x8BD43A, 6), 20) Then
+					GUICtrlSetState($g_hPicQueenGray, $GUI_HIDE)
+					GUICtrlSetState($g_hPicQueenRed, $GUI_HIDE)
+					GUICtrlSetState($g_hPicQueenBlue, $GUI_HIDE)
+					GUICtrlSetState($g_hPicQueenGreen, $GUI_SHOW)
+					$g_iHeroUpgrading[1] = 0
+					$g_iHeroUpgradingBit = BitAND($g_iHeroUpgradingBit, BitOR($eHeroKing, $eHeroPrince, $eHeroWarden, $eHeroChampion))
+					$g_iHeroAvailable = BitOR($g_iHeroAvailable, $eHeroQueen)
+					SetLog($g_asHeroNames[1] & " is ready to fight", $COLOR_SUCCESS1)
 				EndIf
 				CloseWindow()
 				Return
 			Case 2
-				Local $HeroMaxLevel = decodeSingleCoord(FindImageInPlace2("HeroMaxLevel", $ImgHeroMaxLevel, $bXcoords[2] + 20, 420 + $g_iMidOffsetY, $bXcoords[2] + 65, 445 + $g_iMidOffsetY, True))
+				Local $HeroMaxLevel = decodeSingleCoord(FindImageInPlace2("HeroMaxLevel", $ImgHeroMaxLevel, $bXcoords[2] + 20, 420 + $g_iMidOffsetY, $bXcoords[2] + 100, 445 + $g_iMidOffsetY, True))
 				If IsArray($HeroMaxLevel) And UBound($HeroMaxLevel) = 2 Then
 					GUICtrlSetState($g_hPicPrinceGray, $GUI_HIDE)
 					GUICtrlSetState($g_hPicPrinceRed, $GUI_HIDE)
@@ -1161,16 +1171,7 @@ Func HiddenSlotstatus()
 					GUICtrlSetState($g_hPicPrinceBlue, $GUI_HIDE)
 					GUICtrlSetState($g_hPicPrinceGreen, $GUI_HIDE)
 					SetLog($g_asHeroNames[2] & " is not available", $COLOR_DEBUG2)
-				ElseIf _ColorCheck(_GetPixelColor($bXcoords[2], 438 + $g_iMidOffsetY, True), Hex(0xADADAD, 6), 15) Or _ColorCheck(_GetPixelColor($bXcoords[2], 438 + $g_iMidOffsetY, True), Hex(0x8BD43A, 6), 15) Then
-					GUICtrlSetState($g_hPicPrinceGray, $GUI_HIDE)
-					GUICtrlSetState($g_hPicPrinceRed, $GUI_HIDE)
-					GUICtrlSetState($g_hPicPrinceBlue, $GUI_HIDE)
-					GUICtrlSetState($g_hPicPrinceGreen, $GUI_SHOW)
-					$g_iHeroUpgrading[2] = 0
-					$g_iHeroUpgradingBit = BitAND($g_iHeroUpgradingBit, BitOR($eHeroKing, $eHeroQueen, $eHeroWarden, $eHeroChampion))
-					$g_iHeroAvailable = BitOR($g_iHeroAvailable, $eHeroPrince)
-					SetLog($g_asHeroNames[2] & " is ready to fight", $COLOR_SUCCESS1)
-				ElseIf IsArray(_PixelSearch($bXcoords[2] - 6, 438 + $g_iMidOffsetY, $bXcoords[2] + 10, 444 + $g_iMidOffsetY, Hex(0xFFFFFF, 6), 20, True)) Then
+				ElseIf IsArray(_PixelSearch($bXcoords[2] - 6, 438 + $g_iMidOffsetY, $bXcoords[2] + 4, 444 + $g_iMidOffsetY, Hex(0xFFFFFF, 6), 20, True)) Then
 					GUICtrlSetState($g_hPicPrinceGray, $GUI_HIDE)
 					GUICtrlSetState($g_hPicPrinceRed, $GUI_SHOW)
 					GUICtrlSetState($g_hPicPrinceBlue, $GUI_HIDE)
@@ -1188,6 +1189,16 @@ Func HiddenSlotstatus()
 						EndIf
 						_GUI_Value_STATE("SHOW", $groupPrinceSleeping)                     ; Show king sleeping icon
 					EndIf
+				ElseIf _ColorCheck(_GetPixelColor($bXcoords[2], 438 + $g_iMidOffsetY, True), Hex(0xADADAD, 6), 15) Or _ColorCheck(_GetPixelColor($bXcoords[2], 438 + $g_iMidOffsetY, True), Hex(0x8BD43A, 6), 15) Or _
+						_ColorCheck(_GetPixelColor($bXcoords[2] + 42, 438 + $g_iMidOffsetY, True), Hex(0xADADAD, 6), 15) Or _ColorCheck(_GetPixelColor($bXcoords[2] + 42, 438 + $g_iMidOffsetY, True), Hex(0x8BD43A, 6), 20) Then
+					GUICtrlSetState($g_hPicPrinceGray, $GUI_HIDE)
+					GUICtrlSetState($g_hPicPrinceRed, $GUI_HIDE)
+					GUICtrlSetState($g_hPicPrinceBlue, $GUI_HIDE)
+					GUICtrlSetState($g_hPicPrinceGreen, $GUI_SHOW)
+					$g_iHeroUpgrading[2] = 0
+					$g_iHeroUpgradingBit = BitAND($g_iHeroUpgradingBit, BitOR($eHeroKing, $eHeroQueen, $eHeroWarden, $eHeroChampion))
+					$g_iHeroAvailable = BitOR($g_iHeroAvailable, $eHeroPrince)
+					SetLog($g_asHeroNames[2] & " is ready to fight", $COLOR_SUCCESS1)
 				EndIf
 				CloseWindow()
 				Return
@@ -1211,16 +1222,7 @@ Func HiddenSlotstatus()
 					GUICtrlSetState($g_hPicWardenBlue, $GUI_HIDE)
 					GUICtrlSetState($g_hPicWardenGreen, $GUI_HIDE)
 					SetLog($g_asHeroNames[3] & " is not available", $COLOR_DEBUG2)
-				ElseIf _ColorCheck(_GetPixelColor($bXcoords[3], 438 + $g_iMidOffsetY, True), Hex(0xADADAD, 6), 15) Or _ColorCheck(_GetPixelColor($bXcoords[3], 438 + $g_iMidOffsetY, True), Hex(0x8BD43A, 6), 15) Then
-					GUICtrlSetState($g_hPicWardenGray, $GUI_HIDE)
-					GUICtrlSetState($g_hPicWardenRed, $GUI_HIDE)
-					GUICtrlSetState($g_hPicWardenBlue, $GUI_HIDE)
-					GUICtrlSetState($g_hPicWardenGreen, $GUI_SHOW)
-					$g_iHeroUpgrading[3] = 0
-					$g_iHeroUpgradingBit = BitAND($g_iHeroUpgradingBit, BitOR($eHeroKing, $eHeroQueen, $eHeroPrince, $eHeroChampion))
-					$g_iHeroAvailable = BitOR($g_iHeroAvailable, $eHeroWarden)
-					SetLog($g_asHeroNames[3] & " is ready to fight", $COLOR_SUCCESS1)
-				ElseIf IsArray(_PixelSearch($bXcoords[3] - 6, 438 + $g_iMidOffsetY, $bXcoords[3] + 10, 444 + $g_iMidOffsetY, Hex(0xFFFFFF, 6), 20, True)) Then
+				ElseIf IsArray(_PixelSearch($bXcoords[3] - 6, 438 + $g_iMidOffsetY, $bXcoords[3] + 4, 444 + $g_iMidOffsetY, Hex(0xFFFFFF, 6), 20, True)) Then
 					GUICtrlSetState($g_hPicWardenGray, $GUI_HIDE)
 					GUICtrlSetState($g_hPicWardenRed, $GUI_SHOW)
 					GUICtrlSetState($g_hPicWardenBlue, $GUI_HIDE)
@@ -1238,11 +1240,21 @@ Func HiddenSlotstatus()
 						EndIf
 						_GUI_Value_STATE("SHOW", $groupWardenSleeping)                     ; Show king sleeping icon
 					EndIf
+				ElseIf _ColorCheck(_GetPixelColor($bXcoords[3], 438 + $g_iMidOffsetY, True), Hex(0xADADAD, 6), 15) Or _ColorCheck(_GetPixelColor($bXcoords[3], 438 + $g_iMidOffsetY, True), Hex(0x8BD43A, 6), 15) Or _
+						_ColorCheck(_GetPixelColor($bXcoords[3] + 42, 425 + $g_iMidOffsetY, True), Hex(0xBEEA8C, 6), 20) Or _ColorCheck(_GetPixelColor($bXcoords[3] + 42, 425 + $g_iMidOffsetY, True), Hex(0xD2D2D2, 6), 15) Then
+					GUICtrlSetState($g_hPicWardenGray, $GUI_HIDE)
+					GUICtrlSetState($g_hPicWardenRed, $GUI_HIDE)
+					GUICtrlSetState($g_hPicWardenBlue, $GUI_HIDE)
+					GUICtrlSetState($g_hPicWardenGreen, $GUI_SHOW)
+					$g_iHeroUpgrading[3] = 0
+					$g_iHeroUpgradingBit = BitAND($g_iHeroUpgradingBit, BitOR($eHeroKing, $eHeroQueen, $eHeroPrince, $eHeroChampion))
+					$g_iHeroAvailable = BitOR($g_iHeroAvailable, $eHeroWarden)
+					SetLog($g_asHeroNames[3] & " is ready to fight", $COLOR_SUCCESS1)
 				EndIf
 				CloseWindow()
 				Return
 			Case 4
-				Local $HeroMaxLevel = decodeSingleCoord(FindImageInPlace2("HeroMaxLevel", $ImgHeroMaxLevel, $bXcoords[4] + 20, 420 + $g_iMidOffsetY, $bXcoords[4] + 65, 445 + $g_iMidOffsetY, True))
+				Local $HeroMaxLevel = decodeSingleCoord(FindImageInPlace2("HeroMaxLevel", $ImgHeroMaxLevel, $bXcoords[4] + 20, 420 + $g_iMidOffsetY, $bXcoords[4] + 100, 445 + $g_iMidOffsetY, True))
 				If IsArray($HeroMaxLevel) And UBound($HeroMaxLevel) = 2 Then
 					GUICtrlSetState($g_hPicChampionGray, $GUI_HIDE)
 					GUICtrlSetState($g_hPicChampionRed, $GUI_HIDE)
@@ -1261,16 +1273,7 @@ Func HiddenSlotstatus()
 					GUICtrlSetState($g_hPicChampionBlue, $GUI_HIDE)
 					GUICtrlSetState($g_hPicChampionGreen, $GUI_HIDE)
 					SetLog($g_asHeroNames[4] & " is not available", $COLOR_DEBUG2)
-				ElseIf _ColorCheck(_GetPixelColor($bXcoords[4], 438 + $g_iMidOffsetY, True), Hex(0xADADAD, 6), 15) Or _ColorCheck(_GetPixelColor($bXcoords[4], 438 + $g_iMidOffsetY, True), Hex(0x8BD43A, 6), 15) Then
-					GUICtrlSetState($g_hPicChampionGray, $GUI_HIDE)
-					GUICtrlSetState($g_hPicChampionRed, $GUI_HIDE)
-					GUICtrlSetState($g_hPicChampionBlue, $GUI_HIDE)
-					GUICtrlSetState($g_hPicChampionGreen, $GUI_SHOW)
-					$g_iHeroUpgrading[4] = 0
-					$g_iHeroUpgradingBit = BitAND($g_iHeroUpgradingBit, BitOR($eHeroKing, $eHeroQueen, $eHeroPrince, $eHeroWarden))
-					$g_iHeroAvailable = BitOR($g_iHeroAvailable, $eHeroChampion)
-					SetLog($g_asHeroNames[4] & " is ready to fight", $COLOR_SUCCESS1)
-				ElseIf IsArray(_PixelSearch($bXcoords[4] - 6, 438 + $g_iMidOffsetY, $bXcoords[4] + 10, 444 + $g_iMidOffsetY, Hex(0xFFFFFF, 6), 20, True)) Then
+				ElseIf IsArray(_PixelSearch($bXcoords[4] - 6, 438 + $g_iMidOffsetY, $bXcoords[4] + 4, 444 + $g_iMidOffsetY, Hex(0xFFFFFF, 6), 20, True)) Then
 					GUICtrlSetState($g_hPicChampionGray, $GUI_HIDE)
 					GUICtrlSetState($g_hPicChampionRed, $GUI_SHOW)
 					GUICtrlSetState($g_hPicChampionBlue, $GUI_HIDE)
@@ -1288,6 +1291,16 @@ Func HiddenSlotstatus()
 						EndIf
 						_GUI_Value_STATE("SHOW", $groupChampionSleeping)                     ; Show king sleeping icon
 					EndIf
+				ElseIf _ColorCheck(_GetPixelColor($bXcoords[4], 438 + $g_iMidOffsetY, True), Hex(0xADADAD, 6), 15) Or _ColorCheck(_GetPixelColor($bXcoords[4], 438 + $g_iMidOffsetY, True), Hex(0x8BD43A, 6), 15) Or _
+						_ColorCheck(_GetPixelColor($bXcoords[4] + 42, 438 + $g_iMidOffsetY, True), Hex(0xADADAD, 6), 15) Or _ColorCheck(_GetPixelColor($bXcoords[4] + 42, 438 + $g_iMidOffsetY, True), Hex(0x8BD43A, 6), 20) Then
+					GUICtrlSetState($g_hPicChampionGray, $GUI_HIDE)
+					GUICtrlSetState($g_hPicChampionRed, $GUI_HIDE)
+					GUICtrlSetState($g_hPicChampionBlue, $GUI_HIDE)
+					GUICtrlSetState($g_hPicChampionGreen, $GUI_SHOW)
+					$g_iHeroUpgrading[4] = 0
+					$g_iHeroUpgradingBit = BitAND($g_iHeroUpgradingBit, BitOR($eHeroKing, $eHeroQueen, $eHeroPrince, $eHeroWarden))
+					$g_iHeroAvailable = BitOR($g_iHeroAvailable, $eHeroChampion)
+					SetLog($g_asHeroNames[4] & " is ready to fight", $COLOR_SUCCESS1)
 				EndIf
 				CloseWindow()
 				Return

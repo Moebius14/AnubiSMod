@@ -383,8 +383,8 @@ Func SkipWallUpgrade($iWallCost = $g_iWallCost) ; Dynamic Upgrades
 	IniReadS($g_iUpgradeWallLootType, $g_sProfileConfigPath, "upgrade", "use-storage", "0") ; Reset Variable to User Selection
 
 	Local $iUpgradeAction = 0
-	Local $iBuildingsNeedGold = 0
-	Local $iBuildingsNeedElixir = 0
+	Local $iUpgradesNeedGold = 0
+	Local $iUpgradesNeedElixir = 0
 	Local $iAvailBuilderCount = 0
 	Local $GoldPending = False
 
@@ -436,89 +436,70 @@ Func SkipWallUpgrade($iWallCost = $g_iWallCost) ; Dynamic Upgrades
 			EndIf
 	EndSwitch
 
-	;;;;; Check building upgrade resouce needs .vs. available resources for walls
+	;;;;; Check upgrades resource needs .vs. available resources for walls
 	For $iz = 0 To UBound($g_avBuildingUpgrades, 1) - 1 ; loop through all upgrades to see if any are enabled.
 		If $g_abBuildingUpgradeEnable[$iz] = True Then $iUpgradeAction += 1 ; count number enabled
 	Next
 
 	If $g_iFreeBuilderCount > ($g_bUpgradeWallSaveBuilder ? 1 : 0) And $iUpgradeAction > 0 Then ; check if builder available for bldg upgrade, and upgrades enabled
+		; December 2024 : Add Warden Cost to Needed Elixir
+		If ($g_iWardenLevel <> -1) And ($g_iWardenLevel < $g_iMaxWardenLevel) And $g_bUpgradeWardenEnable And BitAND($g_iHeroUpgradingBit, $eHeroWarden) <> $eHeroWarden Then
+			Local $g_ExactWardenCost = ($g_afWardenUpgCost[$g_iWardenLevel] * 1000000 * $SpecialEventReduction) * (1 - Number($g_iBuilderBoostDiscount) / 100)
+			$iUpgradesNeedElixir += Number($g_ExactWardenCost)
+			$iAvailBuilderCount -= 1
+		EndIf
 		For $iz = 0 To UBound($g_avBuildingUpgrades, 1) - 1
 			; internal check if builder still available, if loop index upgrade slot is enabled, and if upgrade is not in progress
 			If $iAvailBuilderCount > ($g_bUpgradeWallSaveBuilder ? 1 : 0) And $g_abBuildingUpgradeEnable[$iz] = True And $g_avBuildingUpgrades[$iz][7] = "" Then
 				Switch $g_avBuildingUpgrades[$iz][3]
 					Case "Gold"
-						$iBuildingsNeedGold += Number($g_avBuildingUpgrades[$iz][2]) ; sum gold required for enabled upgrade
+						$iUpgradesNeedGold += Number($g_avBuildingUpgrades[$iz][2]) ; sum gold required for enabled upgrade
 						$iAvailBuilderCount -= 1 ; subtract builder from free count, as only need to save gold for upgrades where builder is available
 					Case "Elixir"
-						$iBuildingsNeedElixir += Number($g_avBuildingUpgrades[$iz][2]) ; sum elixir required for enabled upgrade
+						$iUpgradesNeedElixir += Number($g_avBuildingUpgrades[$iz][2]) ; sum elixir required for enabled upgrade
 						$iAvailBuilderCount -= 1 ; subtract builder from free count, as only need to save elixir for upgrades where builder is available
 				EndSwitch
 			EndIf
 		Next
-		SetDebugLog("SkipWall-Upgrade Summary: G:" & $iBuildingsNeedGold & ", E:" & $iBuildingsNeedElixir & ", Wall: " & $iWallCost & ", MinG: " & $g_iUpgradeWallMinGold & ", MinE: " & $g_iUpgradeWallMinElixir) ; debug
-		If $iBuildingsNeedGold > 0 Or $iBuildingsNeedElixir > 0 Then ; if upgrade enabled and building upgrade resource is required, log user messages.
+		; December 2024 : Add Lab Cost to Needed Elixir
+		If $g_bAutoLabUpgradeEnable And $g_iLaboratoryElixirCost > 0 Then
+			$iUpgradesNeedElixir += Number($g_iLaboratoryElixirCost)
+		EndIf
+		SetDebugLog("SkipWall-Upgrade Summary: G:" & $iUpgradesNeedGold & ", E:" & $iUpgradesNeedElixir & ", Wall: " & $iWallCost & ", MinG: " & $g_iUpgradeWallMinGold & ", MinE: " & $g_iUpgradeWallMinElixir) ; debug
+		If $iUpgradesNeedGold > 0 Or $iUpgradesNeedElixir > 0 Then ; if upgrade enabled and building upgrade resource is required, log user messages.
 			Switch $g_iUpgradeWallLootType
 				Case 0 ; Using gold
-					If $g_aiCurrentLoot[$eLootGold] - ($iBuildingsNeedGold + $iWallCost + Number($g_iUpgradeWallMinGold)) < 0 Then
-						If $iBuildingsNeedGold > 0 Then SetLog("Skip Wall upgrade - insufficient gold for selected upgrades", $COLOR_WARNING)
+					If $g_aiCurrentLoot[$eLootGold] - ($iUpgradesNeedGold + $iWallCost + Number($g_iUpgradeWallMinGold)) < 0 Then
+						If $iUpgradesNeedGold > 0 Then SetLog("Skip Wall upgrade - insufficient gold for selected upgrades", $COLOR_WARNING)
 						Return "Skip"
 					EndIf
 				Case 1 ; Using elixir
-					If $g_aiCurrentLoot[$eLootElixir] - ($iBuildingsNeedElixir + $iWallCost + Number($g_iUpgradeWallMinElixir)) < 0 Then
-						If $iBuildingsNeedElixir > 0 Then SetLog("Skip Wall upgrade - insufficient elixir for selected upgrades", $COLOR_WARNING)
+					If $g_aiCurrentLoot[$eLootElixir] - ($iUpgradesNeedElixir + $iWallCost + Number($g_iUpgradeWallMinElixir)) < 0 Then
+						If $iUpgradesNeedElixir > 0 Then SetLog("Skip Wall upgrade - insufficient elixir for selected upgrades", $COLOR_WARNING)
 						Return "Skip"
 					EndIf
 				Case 2 ; Using gold and elixir
-					If $g_aiCurrentLoot[$eLootElixir] - ($iBuildingsNeedElixir + $iWallCost + Number($g_iUpgradeWallMinElixir)) < 0 Then
-						If $g_aiCurrentLoot[$eLootGold] - ($iBuildingsNeedGold + $iWallCost + Number($g_iUpgradeWallMinGold)) < 0 Then
+					If $g_aiCurrentLoot[$eLootElixir] - ($iUpgradesNeedElixir + $iWallCost + Number($g_iUpgradeWallMinElixir)) < 0 Then
+						If $g_aiCurrentLoot[$eLootGold] - ($iUpgradesNeedGold + $iWallCost + Number($g_iUpgradeWallMinGold)) < 0 Then
 							SetLog("Skip Wall upgrade - insufficient gold and elixir for selected upgrades", $COLOR_WARNING)
 							Return "Skip"
 						Else
-							If $iBuildingsNeedElixir > 0 Then SetLog("Wall upgrade: insufficient elixir for selected upgrades", $COLOR_WARNING)
+							If $iUpgradesNeedElixir > 0 Then SetLog("Wall upgrade: insufficient elixir for selected upgrades", $COLOR_WARNING)
 							SetLog("Using Gold only for Wall Upgrade", $COLOR_SUCCESS1)
 							Return "Gold"
+						EndIf
+					Else
+						If $g_aiCurrentLoot[$eLootGold] - ($iUpgradesNeedGold + $iWallCost + Number($g_iUpgradeWallMinGold)) < 0 Then
+							If $iUpgradesNeedGold > 0 Then SetLog("Wall upgrade: insufficient gold for selected upgrades", $COLOR_WARNING)
+							SetLog("Using Elixir only for Wall Upgrade", $COLOR_SUCCESS1)
+							Return "Elixir"
 						EndIf
 					EndIf
 			EndSwitch
 		EndIf
 		If _Sleep($DELAYRESPOND) Then Return True
 	EndIf
-	;;;;;;;;;;;;;;;;;;;;;;;;;;;End bldg upgrade value checking
-
-	;;;;;;;;;;;;;;;;;;;;;;;;;;;##### Verify the Upgrade troop kind in Laboratory , if is elixir Spell/Troop , the Lab have priority #####;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-	Local $bMinWallElixir = Number($g_aiCurrentLoot[$eLootElixir]) > ($iWallCost + Number($g_iLaboratoryElixirCost) + Number($g_iUpgradeWallMinElixir)) ; Check if enough Elixir
-	If $g_bAutoLabUpgradeEnable And $g_iLaboratoryElixirCost > 0 And Not $bMinWallElixir Then
-		Switch $g_iUpgradeWallLootType
-			Case 0 ; Using gold
-				; do nothing
-			Case 1 ; Using elixir
-				SetLog("Laboratory needs Elixir to Upgrade :  " & _NumberFormat($g_iLaboratoryElixirCost, True), $COLOR_SUCCESS1)
-				SetLog("Skipping Wall Upgrade", $COLOR_SUCCESS1)
-				Return "Skip"
-			Case 2 ; Using gold and elixir
-				SetLog("Laboratory needs Elixir to Upgrade :  " & _NumberFormat($g_iLaboratoryElixirCost, True), $COLOR_SUCCESS1)
-				SetLog("Using Gold only for Wall Upgrade", $COLOR_SUCCESS1)
-				Return "Gold"
-		EndSwitch
-	EndIf
-
-	;   Is Warden Level updated |          Is Warden not max yet           |  Is Upgrade enabled       |               Is Warden not already upgrading                |               Is a Builder available
-	If ($g_iWardenLevel <> -1) And ($g_iWardenLevel < $g_iMaxWardenLevel) And $g_bUpgradeWardenEnable And BitAND($g_iHeroUpgradingBit, $eHeroWarden) <> $eHeroWarden And ($g_iFreeBuilderCount > ($g_bUpgradeWallSaveBuilder ? 1 : 0)) Then
-		Local $g_ExactWardenCost = ($g_afWardenUpgCost[$g_iWardenLevel] * 1000000) - ($g_afWardenUpgCost[$g_iWardenLevel] * 1000000) * Number($g_iBuilderBoostDiscount) / 100
-		Local $bMinWardenElixir = Number($g_aiCurrentLoot[$eLootElixir]) > $iWallCost + $g_ExactWardenCost + Number($g_iUpgradeWallMinElixir)
-		If Not $bMinWardenElixir Then
-			Switch $g_iUpgradeWallLootType
-				Case 1 ; Elixir
-					SetLog("Grand Warden needs " & _NumberFormat($g_ExactWardenCost, True) & " Elixir for next Level", $COLOR_WARNING)
-					SetLog("Skipping Wall Upgrade", $COLOR_WARNING)
-					Return "Skip"
-				Case 2 ; Elixir & Gold
-					SetLog("Grand Warden needs " & _NumberFormat($g_ExactWardenCost, True) & " Elixir for next Level", $COLOR_SUCCESS1)
-					SetLog("Using Gold only for Wall Upgrade", $COLOR_SUCCESS1)
-					Return "Gold"
-			EndSwitch
-		EndIf
-	EndIf
+	;;;;;;;;;;;;;;;;;;;;;;;;;;;End upgrades value checking
 
 	If $GoldPending Then
 		SetLog("Using Gold only for Wall Upgrade", $COLOR_SUCCESS1)

@@ -127,6 +127,8 @@ Func SwitchAccountVariablesReload($sType = "Load", $iAccount = $g_iCurAccount)
 	Static $aiHeroUpgradingBit = $aiZero
 	Static $aiHeroUpgrading = $aiZero83
 	Static $aiFirstStartForHiddenHero = $aiTrue
+	Static $g_aiSHeroUpgradeFinishDate = $aiZero85
+	Static $g_aiSHeroNeededResource = $aiZero85
 
 	; Other global status
 	Static $aiCommandStop = $aiMinus
@@ -307,6 +309,8 @@ Func SwitchAccountVariablesReload($sType = "Load", $iAccount = $g_iCurAccount)
 			$aiHeroUpgradingBit = $aiZero
 			$aiHeroUpgrading = $aiZero83
 			$aiFirstStartForHiddenHero = $aiTrue
+			$g_aiSHeroUpgradeFinishDate = $aiZero85
+			$g_aiSHeroNeededResource = $aiZero85
 
 			; Other global status
 			$aiCommandStop = $aiMinus
@@ -536,6 +540,12 @@ Func SwitchAccountVariablesReload($sType = "Load", $iAccount = $g_iCurAccount)
 				$aiHeroUpgrading[$iAccount][$i] = $g_iHeroUpgrading[$i]
 			Next
 			$aiFirstStartForHiddenHero[$iAccount] = $g_bFirstStartForHiddenHero
+			For $i = 0 To 4
+				$g_aiSHeroUpgradeFinishDate[$iAccount][$i] = $g_aiHeroUpgradeFinishDate[$i]
+			Next
+			For $i = 0 To 4
+				$g_aiSHeroNeededResource[$iAccount][$i] = $g_aiHeroNeededResource[$i]
+			Next
 
 			; Other global status
 			$aiCommandStop[$iAccount] = $g_iCommandStop
@@ -759,6 +769,12 @@ Func SwitchAccountVariablesReload($sType = "Load", $iAccount = $g_iCurAccount)
 				$g_iHeroUpgrading[$i] = $aiHeroUpgrading[$iAccount][$i]
 			Next
 			$g_bFirstStartForHiddenHero = $aiFirstStartForHiddenHero[$iAccount]
+			For $i = 0 To 4
+				$g_aiHeroUpgradeFinishDate[$i] = $g_aiSHeroUpgradeFinishDate[$iAccount][$i]
+			Next
+			For $i = 0 To 4
+				$g_aiHeroNeededResource[$i] = $g_aiSHeroNeededResource[$iAccount][$i]
+			Next
 
 			; Other global status
 			$g_iCommandStop = $aiCommandStop[$iAccount]

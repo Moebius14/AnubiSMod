@@ -31,6 +31,7 @@ Global $g_hUseLabPotion = 0, $g_hCmbLabPotion = 0, $g_hChkLabAssistantLabel = 0,
 ; Heroes
 Global $g_hChkUpgradeKing = 0, $g_hChkUpgradeQueen = 0, $g_hChkUpgradePrince = 0, $g_hChkUpgradeWarden = 0, _
 		$g_hPicChkKingSleepWait = 0, $g_hPicChkQueenSleepWait = 0, $g_hPicChkPrinceSleepWait = 0, $g_hPicChkWardenSleepWait = 0
+Global $g_hChkRepUpgradeKing = 0, $g_hChkRepUpgradeQueen = 0, $g_hChkRepUpgradePrince = 0, $g_hChkRepUpgradeWarden = 0, $g_hChkRepUpgradeChampion = 0
 Global $g_hCmbHeroReservedBuilder = 0, $g_hLblHeroReservedBuilderTop = 0, $g_hLblHeroReservedBuilderBottom = 0, $g_hBtnHeroEquipment = 0
 Global $g_hChkUpgradeChampion = 0, $g_hPicChkChampionSleepWait = 0
 Global $g_hUseHeroBooks = 0, $g_hHeroMinUpgradeTime = 0
@@ -315,83 +316,93 @@ EndFunc   ;==>CreateLaboratorySubTab
 
 Func CreateHeroesSubTab()
 	Local $sTxtTip = ""
-	Local $x = 25, $y = 45
-	GUICtrlCreateGroup(GetTranslatedFileIni("MBR GUI Design Child Village - Upgrade_Heroes", "Group_01", "Upgrade Heroes Continuously"), $x - 20, $y - 20, $g_iSizeWGrpTab3 - 4, $g_iSizeHGrpTab3)
+	Local $sTxtChkRepeat = GetTranslatedFileIni("MBR GUI Design Child Village - Upgrade_Buildings", "TxtChkRepeat", "Check box to Enable Upgrade to repeat continuously")
+	Local $x = 25, $y = 50
+	GUICtrlCreateGroup(GetTranslatedFileIni("MBR GUI Design Child Village - Upgrade_Heroes", "Group_01", "Upgrade Heroes"), $x - 20, $y - 20, $g_iSizeWGrpTab3 - 4, $g_iSizeHGrpTab3 - 6)
 	GUICtrlCreateLabel(GetTranslatedFileIni("MBR GUI Design Child Village - Upgrade_Heroes", "LblAutoUpgrading_01", "Auto upgrading of your Heroes"), $x - 10, $y, -1, -1)
-	$x += 5
-	$y += 20
-	$g_hChkUpgradeKing = GUICtrlCreateCheckbox("", $x, $y + 25, 17, 17)
+
+	$x -= 5
+	$y += 15
+	$g_hChkUpgradeKing = GUICtrlCreateCheckbox("", $x, $y + 23, 17, 17)
 	$sTxtTip = GetTranslatedFileIni("MBR GUI Design Child Village - Upgrade_Heroes", "ChkUpgradeKing_Info_01", "Enable upgrading of your King when you have enough Dark Elixir (Saving Min. Dark Elixir)") & @CRLF & _
 			GetTranslatedFileIni("MBR GUI Design Child Village - Upgrade_Heroes", "ChkUpgradeKing_Info_02", "You can manually locate your Hero Hall on Misc Tab") & @CRLF & _
 			GetTranslatedFileIni("MBR GUI Design Child Village - Upgrade_Heroes", "ChkUpgradeHeroes_Info_01", "Verify your Resume Bot Dark Elixir value at Misc Tab vs Saving Min. Dark Elixir here!") & @CRLF & _
 			GetTranslatedFileIni("MBR GUI Design Child Village - Upgrade_Heroes", "ChkUpgradeKing_Info_04", "Enabled with TownHall 7 and higher")
 	_GUICtrlSetTip(-1, $sTxtTip)
 	GUICtrlSetOnEvent(-1, "chkUpgradeKing")
+	$g_hChkRepUpgradeKing = GUICtrlCreateCheckbox("Rep.", $x + 25, $y + 59, -1, 17)
+	_GUICtrlSetTip(-1, $sTxtChkRepeat)
 	_GUICtrlCreateIcon($g_sLibIconPath, $eIcnKingUpgr, $x + 18, $y + 7, 48, 48)
 	_GUICtrlSetTip(-1, $sTxtTip)
 	$g_hPicChkKingSleepWait = _GUICtrlCreateIcon($g_sLibIconPath, $eIcnSleepingKing, $x + 18, $y + 7, 48, 48)
 	_GUICtrlSetTip(-1, $sTxtTip)
 	GUICtrlSetState(-1, $GUI_HIDE)
 
-	$x += 75
-	$g_hChkUpgradeQueen = GUICtrlCreateCheckbox("", $x, $y + 25, 17, 17)
+	$x += 80
+	$g_hChkUpgradeQueen = GUICtrlCreateCheckbox("", $x, $y + 23, 17, 17)
 	$sTxtTip = GetTranslatedFileIni("MBR GUI Design Child Village - Upgrade_Heroes", "ChkUpgradeQueen_Info_01", "Enable upgrading of your Queen when you have enough Dark Elixir (Saving Min. Dark Elixir)") & @CRLF & _
 			GetTranslatedFileIni("MBR GUI Design Child Village - Upgrade_Heroes", "ChkUpgradeQueen_Info_02", "You can manually locate your Hero Hall on Misc Tab") & @CRLF & _
 			GetTranslatedFileIni("MBR GUI Design Child Village - Upgrade_Heroes", "ChkUpgradeHeroes_Info_01", -1) & @CRLF & _
 			GetTranslatedFileIni("MBR GUI Design Child Village - Upgrade_Heroes", "ChkUpgradeQueen_Info_03", "Enabled with TownHall 8 and higher")
 	_GUICtrlSetTip(-1, $sTxtTip)
 	GUICtrlSetOnEvent(-1, "chkUpgradeQueen")
+	$g_hChkRepUpgradeQueen = GUICtrlCreateCheckbox("Rep.", $x + 25, $y + 59, -1, 17)
+	_GUICtrlSetTip(-1, $sTxtChkRepeat)
 	_GUICtrlCreateIcon($g_sLibIconPath, $eIcnQueenUpgr, $x + 18, $y + 7, 48, 48)
 	_GUICtrlSetTip(-1, $sTxtTip)
 	$g_hPicChkQueenSleepWait = _GUICtrlCreateIcon($g_sLibIconPath, $eIcnSleepingQueen, $x + 18, $y + 7, 48, 48)
 	_GUICtrlSetTip(-1, $sTxtTip)
 	GUICtrlSetState(-1, $GUI_HIDE)
 
-	$x += 75
-	$g_hChkUpgradePrince = GUICtrlCreateCheckbox("", $x, $y + 25, 17, 17)
+	$x += 80
+	$g_hChkUpgradePrince = GUICtrlCreateCheckbox("", $x, $y + 23, 17, 17)
 	$sTxtTip = GetTranslatedFileIni("MBR GUI Design Child Village - Upgrade_Heroes", "ChkUpgradePrince_Info_01", "Enable upgrading of your Prince when you have enough Dark Elixir (Saving Min. Dark Elixir)") & @CRLF & _
 			GetTranslatedFileIni("MBR GUI Design Child Village - Upgrade_Heroes", "ChkUpgradePrince_Info_02", "You can manually locate your Hero Hall on Misc Tab") & @CRLF & _
 			GetTranslatedFileIni("MBR GUI Design Child Village - Upgrade_Heroes", "ChkUpgradeHeroes_Info_01", -1) & @CRLF & _
 			GetTranslatedFileIni("MBR GUI Design Child Village - Upgrade_Heroes", "ChkUpgradePrince_Info_03", "Enabled with TownHall 9 and higher")
 	_GUICtrlSetTip(-1, $sTxtTip)
 	GUICtrlSetOnEvent(-1, "chkUpgradePrince")
+	$g_hChkRepUpgradePrince = GUICtrlCreateCheckbox("Rep.", $x + 25, $y + 59, -1, 17)
+	_GUICtrlSetTip(-1, $sTxtChkRepeat)
 	_GUICtrlCreateIcon($g_sLibIconPath, $eIcnPrinceUpgr, $x + 18, $y + 7, 48, 48)
 	_GUICtrlSetTip(-1, $sTxtTip)
 	$g_hPicChkPrinceSleepWait = _GUICtrlCreateIcon($g_sLibIconPath, $eIcnSleepingPrince, $x + 18, $y + 7, 48, 48)
 	_GUICtrlSetTip(-1, $sTxtTip)
 	GUICtrlSetState(-1, $GUI_HIDE)
 
-	$x += 75
-	$g_hChkUpgradeWarden = GUICtrlCreateCheckbox("", $x, $y + 25, 17, 17)
+	$x += 80
+	$g_hChkUpgradeWarden = GUICtrlCreateCheckbox("", $x, $y + 23, 17, 17)
 	$sTxtTip = GetTranslatedFileIni("MBR GUI Design Child Village - Upgrade_Heroes", "ChkUpgradeWarden_Info_01", "Enable upgrading of your Warden when you have enough Elixir (Saving Min. Elixir)") & @CRLF & _
 			GetTranslatedFileIni("MBR GUI Design Child Village - Upgrade_Heroes", "ChkUpgradeWarden_Info_02", "You can manually locate your Hero Hall on Misc Tab") & @CRLF & _
 			GetTranslatedFileIni("MBR GUI Design Child Village - Upgrade_Heroes", "ChkUpgradeHeroes_Info_01", -1) & @CRLF & _
 			GetTranslatedFileIni("MBR GUI Design Child Village - Upgrade_Heroes", "ChkUpgradeWarden_Info_03", "Enabled with TownHall 11")
 	_GUICtrlSetTip(-1, $sTxtTip)
 	GUICtrlSetOnEvent(-1, "chkUpgradeWarden")
-	GUICtrlSetColor(-1, $COLOR_ERROR)
+	$g_hChkRepUpgradeWarden = GUICtrlCreateCheckbox("Rep.", $x + 25, $y + 59, -1, 17)
+	_GUICtrlSetTip(-1, $sTxtChkRepeat)
 	_GUICtrlCreateIcon($g_sLibIconPath, $eIcnWardenUpgr, $x + 18, $y + 7, 48, 48)
 	_GUICtrlSetTip(-1, $sTxtTip)
 	$g_hPicChkWardenSleepWait = _GUICtrlCreateIcon($g_sLibIconPath, $eIcnSleepingWarden, $x + 18, $y + 7, 48, 48)
 	_GUICtrlSetTip(-1, $sTxtTip)
 	GUICtrlSetState(-1, $GUI_HIDE)
 
-	$x += 75
-	$g_hChkUpgradeChampion = GUICtrlCreateCheckbox("", $x, $y + 25, 17, 17)
+	$x += 80
+	$g_hChkUpgradeChampion = GUICtrlCreateCheckbox("", $x, $y + 23, 17, 17)
 	$sTxtTip = GetTranslatedFileIni("MBR GUI Design Child Village - Upgrade_Heroes", "ChkUpgradeChampion_Info_01", "Enable upgrading of your Royal Champion when you have enough Dark Elixir (Saving Min. Dark Elixir)") & @CRLF & _
 			GetTranslatedFileIni("MBR GUI Design Child Village - Upgrade_Heroes", "ChkUpgradeChampion_Info_02", "You can manually locate your Hero Hall on Misc Tab") & @CRLF & _
 			GetTranslatedFileIni("MBR GUI Design Child Village - Upgrade_Heroes", "ChkUpgradeHeroes_Info_01", -1) & @CRLF & _
 			GetTranslatedFileIni("MBR GUI Design Child Village - Upgrade_Heroes", "ChkUpgradeChampion_Info_03", "Enabled with TownHall 13 and higher")
 	_GUICtrlSetTip(-1, $sTxtTip)
 	GUICtrlSetOnEvent(-1, "chkUpgradeChampion")
-	GUICtrlSetColor(-1, $COLOR_ERROR)
+	$g_hChkRepUpgradeChampion = GUICtrlCreateCheckbox("Rep.", $x + 25, $y + 59, -1, 17)
+	_GUICtrlSetTip(-1, $sTxtChkRepeat)
 	_GUICtrlCreateIcon($g_sLibIconPath, $eIcnChampionUpgr, $x + 18, $y + 7, 48, 48)
 	_GUICtrlSetTip(-1, $sTxtTip)
 	$g_hPicChkChampionSleepWait = _GUICtrlCreateIcon($g_sLibIconPath, $eIcnSleepingChampion, $x + 18, $y + 7, 48, 48)
 	_GUICtrlSetTip(-1, $sTxtTip)
 	GUICtrlSetState(-1, $GUI_HIDE)
 
-	$y += 60
+	$y += 72
 	$x = 45
 	$g_hLblHeroReservedBuilderTop = GUICtrlCreateLabel(GetTranslatedFileIni("MBR GUI Design Child Village - Upgrade_Heroes", "LblHeroReservedBuilderTop", "Reserve "), $x, $y + 15, -1, -1)
 	$g_hCmbHeroReservedBuilder = GUICtrlCreateCombo("", $x + 50, $y + 11, 30, 21, $CBS_DROPDOWNLIST, $WS_EX_RIGHT)
@@ -411,7 +422,7 @@ Func CreateHeroesSubTab()
 
 	; Pets
 	Local $x = 20, $y = 200
-	GUICtrlCreateLabel(GetTranslatedFileIni("MBR GUI Design Child Village - Upgrade_Pets", "LblAutoUpgrading_02", "Auto upgrading of your Pets"), $x - 10, $y, -1, -1)
+	GUICtrlCreateLabel(GetTranslatedFileIni("MBR GUI Design Child Village - Upgrade_Pets", "LblAutoUpgrading_02", "Auto upgrading of your Pets"), $x - 5, $y, -1, -1)
 
 	$y += 15
 	$g_hChkUpgradePets[$ePetLassi] = GUICtrlCreateCheckbox("", $x, $y + 25, 17, 17)
@@ -501,7 +512,7 @@ Func CreateHeroesSubTab()
 	_GUICtrlSetTip(-1, $sTxtTip)
 
 	$x = 45
-	$y += 70
+	$y += 67
 	$g_hChkSortPetUpgrade = GUICtrlCreateCheckbox(GetTranslatedFileIni("MBR GUI Design Child Village - Upgrade_Pets", "ChkSortPetUpgrade", "Sort Pet Upgrade By:"), $x, $y, -1, -1)
 	GUICtrlSetOnEvent(-1, "SortPetUpgrade")
 	$g_hCmbSortPetUpgrade = GUICtrlCreateCombo("", $x + 120, $y, 85, 18, BitOR($CBS_DROPDOWNLIST, $CBS_AUTOHSCROLL))

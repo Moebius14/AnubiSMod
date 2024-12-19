@@ -393,10 +393,10 @@ Func BlacksmithUpTime()
 		If ClickB("Info") Then
 			If _Sleep(2000) Then Return ; Wait for info window to open
 			If _ColorCheck(_GetPixelColor(802, 118, True), Hex(0xF38E8D, 6), 20) Then ; Info window found
-				Local $RemainingTime = getBldgUpgradeTime(717, 544 + $g_iMidOffsetY) ; get duration
+				Local $RemainingTime = getBldgUpgradeTime(715, 544 + $g_iMidOffsetY) ; get duration
 				$RemainingTimeMinutes = ConvertOCRTime("BSUpgrade", $RemainingTime, False)
 				If $RemainingTimeMinutes = 0 Then
-					$RemainingTime = getBldgUpgradeTime2(717, 544 + $g_iMidOffsetY) ; get duration
+					$RemainingTime = getBldgUpgradeTime2(715, 544 + $g_iMidOffsetY) ; get duration
 					$RemainingTimeMinutes = ConvertOCRTime("BSUpgrade", $RemainingTime, False)
 				EndIf
 				Local $StartTime = _NowCalc()
