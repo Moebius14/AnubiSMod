@@ -731,23 +731,22 @@ Func ArmyHeroStatus($i)
 				GUICtrlSetState($g_hPicChampionGreen, $GUI_HIDE)
 		EndSwitch
 	EndIf
-	Local $sResult = ""
+
 	Local Const $aHeroesRect[$eHeroSlots][4] = [[525, 315 + $g_iMidOffsetY, 589, 375 + $g_iMidOffsetY], _
 			[590, 315 + $g_iMidOffsetY, 653, 375 + $g_iMidOffsetY], _
 			[654, 315 + $g_iMidOffsetY, 717, 375 + $g_iMidOffsetY], _
 			[718, 315 + $g_iMidOffsetY, 780, 375 + $g_iMidOffsetY]]                                     ; Review
 
 	; Perform the search
-	_CaptureRegion2($aHeroesRect[$i][0], $aHeroesRect[$i][1], $aHeroesRect[$i][2], $aHeroesRect[$i][3])
-	Local $res = DllCallMyBot("SearchMultipleTilesBetweenLevels", "handle", $g_hHBitmap2, "str", $g_sImgArmyOverviewHeroes, "str", "FV", "Int", 0, "str", "FV", "Int", 0, "Int", 1000)
-	If $res[0] <> "" Then
-		Local $aKeys = StringSplit($res[0], "|", $STR_NOCOUNT)
-		If StringInStr($aKeys[0], "xml", $STR_NOCASESENSEBASIC) Then
-			Local $aResult = StringSplit($aKeys[0], "_", $STR_NOCOUNT)
-			$sResult = $aResult[0]
+	Local $sResult = "", $aTempArray
+	Local $sSearchDiamond = GetDiamondFromRect2($aHeroesRect[$i][0], $aHeroesRect[$i][1], $aHeroesRect[$i][2], $aHeroesRect[$i][3])
+	Local $result = findMultiple($g_sImgArmyOverviewHeroes, $sSearchDiamond, $sSearchDiamond, 50, 1000, 0, "objectname,objectpoints", True)
+	If $result <> "" And IsArray($result) Then
+		For $t = 0 To UBound($result, 1) - 1
+			$aTempArray = $result[$t]
 			Select
 				Case $g_aiCmbCustomHeroOrder[$i] = 0
-					Switch $sResult
+					Switch $aTempArray[0]
 						Case "heal" ; Blue
 							GUICtrlSetState($g_hPicKingGray, $GUI_HIDE)
 							GUICtrlSetState($g_hPicKingGreen, $GUI_HIDE)
@@ -765,7 +764,7 @@ Func ArmyHeroStatus($i)
 							GUICtrlSetState($g_hPicKingGreen, $GUI_SHOW)
 					EndSwitch
 				Case $g_aiCmbCustomHeroOrder[$i] = 1
-					Switch $sResult
+					Switch $aTempArray[0]
 						Case "heal" ; Blue
 							GUICtrlSetState($g_hPicQueenGray, $GUI_HIDE)
 							GUICtrlSetState($g_hPicQueenGreen, $GUI_HIDE)
@@ -783,7 +782,7 @@ Func ArmyHeroStatus($i)
 							GUICtrlSetState($g_hPicQueenGreen, $GUI_SHOW)
 					EndSwitch
 				Case $g_aiCmbCustomHeroOrder[$i] = 2
-					Switch $sResult
+					Switch $aTempArray[0]
 						Case "heal" ; Blue
 							GUICtrlSetState($g_hPicPrinceGray, $GUI_HIDE)
 							GUICtrlSetState($g_hPicPrinceGreen, $GUI_HIDE)
@@ -801,7 +800,7 @@ Func ArmyHeroStatus($i)
 							GUICtrlSetState($g_hPicPrinceGreen, $GUI_SHOW)
 					EndSwitch
 				Case $g_aiCmbCustomHeroOrder[$i] = 3
-					Switch $sResult
+					Switch $aTempArray[0]
 						Case "heal" ; Blue
 							GUICtrlSetState($g_hPicWardenGray, $GUI_HIDE)
 							GUICtrlSetState($g_hPicWardenGreen, $GUI_HIDE)
@@ -819,7 +818,7 @@ Func ArmyHeroStatus($i)
 							GUICtrlSetState($g_hPicWardenGreen, $GUI_SHOW)
 					EndSwitch
 				Case $g_aiCmbCustomHeroOrder[$i] = 4
-					Switch $sResult
+					Switch $aTempArray[0]
 						Case "heal" ; Blue
 							GUICtrlSetState($g_hPicChampionGray, $GUI_HIDE)
 							GUICtrlSetState($g_hPicChampionGreen, $GUI_HIDE)
@@ -837,8 +836,8 @@ Func ArmyHeroStatus($i)
 							GUICtrlSetState($g_hPicChampionGreen, $GUI_SHOW)
 					EndSwitch
 			EndSelect
-			Return $sResult
-		EndIf
+		Next
+		Return $aTempArray[0]
 	EndIf
 
 	;return 'none' if there was a problem with the search ; or no Hero slot
