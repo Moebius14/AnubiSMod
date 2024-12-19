@@ -744,100 +744,99 @@ Func ArmyHeroStatus($i)
 	If $result <> "" And IsArray($result) Then
 		For $t = 0 To UBound($result, 1) - 1
 			$aTempArray = $result[$t]
-			Select
-				Case $g_aiCmbCustomHeroOrder[$i] = 0
-					Switch $aTempArray[0]
-						Case "heal" ; Blue
-							GUICtrlSetState($g_hPicKingGray, $GUI_HIDE)
-							GUICtrlSetState($g_hPicKingGreen, $GUI_HIDE)
-							GUICtrlSetState($g_hPicKingRed, $GUI_HIDE)
-							GUICtrlSetState($g_hPicKingBlue, $GUI_SHOW)
-						Case "upgrade" ; Red
-							GUICtrlSetState($g_hPicKingGray, $GUI_HIDE)
-							GUICtrlSetState($g_hPicKingGreen, $GUI_HIDE)
-							GUICtrlSetState($g_hPicKingBlue, $GUI_HIDE)
-							GUICtrlSetState($g_hPicKingRed, $GUI_SHOW)
-						Case "king" ; Green
-							GUICtrlSetState($g_hPicKingGray, $GUI_HIDE)
-							GUICtrlSetState($g_hPicKingRed, $GUI_HIDE)
-							GUICtrlSetState($g_hPicKingBlue, $GUI_HIDE)
-							GUICtrlSetState($g_hPicKingGreen, $GUI_SHOW)
-					EndSwitch
-				Case $g_aiCmbCustomHeroOrder[$i] = 1
-					Switch $aTempArray[0]
-						Case "heal" ; Blue
-							GUICtrlSetState($g_hPicQueenGray, $GUI_HIDE)
-							GUICtrlSetState($g_hPicQueenGreen, $GUI_HIDE)
-							GUICtrlSetState($g_hPicQueenRed, $GUI_HIDE)
-							GUICtrlSetState($g_hPicQueenBlue, $GUI_SHOW)
-						Case "upgrade" ; Red
-							GUICtrlSetState($g_hPicQueenGray, $GUI_HIDE)
-							GUICtrlSetState($g_hPicQueenGreen, $GUI_HIDE)
-							GUICtrlSetState($g_hPicQueenBlue, $GUI_HIDE)
-							GUICtrlSetState($g_hPicQueenRed, $GUI_SHOW)
-						Case "queen" ; Green
-							GUICtrlSetState($g_hPicQueenGray, $GUI_HIDE)
-							GUICtrlSetState($g_hPicQueenRed, $GUI_HIDE)
-							GUICtrlSetState($g_hPicQueenBlue, $GUI_HIDE)
-							GUICtrlSetState($g_hPicQueenGreen, $GUI_SHOW)
-					EndSwitch
-				Case $g_aiCmbCustomHeroOrder[$i] = 2
-					Switch $aTempArray[0]
-						Case "heal" ; Blue
-							GUICtrlSetState($g_hPicPrinceGray, $GUI_HIDE)
-							GUICtrlSetState($g_hPicPrinceGreen, $GUI_HIDE)
-							GUICtrlSetState($g_hPicPrinceRed, $GUI_HIDE)
-							GUICtrlSetState($g_hPicPrinceBlue, $GUI_SHOW)
-						Case "upgrade" ; Red
-							GUICtrlSetState($g_hPicPrinceGray, $GUI_HIDE)
-							GUICtrlSetState($g_hPicPrinceGreen, $GUI_HIDE)
-							GUICtrlSetState($g_hPicPrinceBlue, $GUI_HIDE)
-							GUICtrlSetState($g_hPicPrinceRed, $GUI_SHOW)
-						Case "Prince" ; Green
-							GUICtrlSetState($g_hPicPrinceGray, $GUI_HIDE)
-							GUICtrlSetState($g_hPicPrinceRed, $GUI_HIDE)
-							GUICtrlSetState($g_hPicPrinceBlue, $GUI_HIDE)
-							GUICtrlSetState($g_hPicPrinceGreen, $GUI_SHOW)
-					EndSwitch
-				Case $g_aiCmbCustomHeroOrder[$i] = 3
-					Switch $aTempArray[0]
-						Case "heal" ; Blue
-							GUICtrlSetState($g_hPicWardenGray, $GUI_HIDE)
-							GUICtrlSetState($g_hPicWardenGreen, $GUI_HIDE)
-							GUICtrlSetState($g_hPicWardenRed, $GUI_HIDE)
-							GUICtrlSetState($g_hPicWardenBlue, $GUI_SHOW)
-						Case "upgrade" ; Red
-							GUICtrlSetState($g_hPicWardenGray, $GUI_HIDE)
-							GUICtrlSetState($g_hPicWardenGreen, $GUI_HIDE)
-							GUICtrlSetState($g_hPicWardenBlue, $GUI_HIDE)
-							GUICtrlSetState($g_hPicWardenRed, $GUI_SHOW)
-						Case "warden" ; Green
-							GUICtrlSetState($g_hPicWardenGray, $GUI_HIDE)
-							GUICtrlSetState($g_hPicWardenRed, $GUI_HIDE)
-							GUICtrlSetState($g_hPicWardenBlue, $GUI_HIDE)
-							GUICtrlSetState($g_hPicWardenGreen, $GUI_SHOW)
-					EndSwitch
-				Case $g_aiCmbCustomHeroOrder[$i] = 4
-					Switch $aTempArray[0]
-						Case "heal" ; Blue
-							GUICtrlSetState($g_hPicChampionGray, $GUI_HIDE)
-							GUICtrlSetState($g_hPicChampionGreen, $GUI_HIDE)
-							GUICtrlSetState($g_hPicChampionRed, $GUI_HIDE)
-							GUICtrlSetState($g_hPicChampionBlue, $GUI_SHOW)
-						Case "upgrade" ; Red
-							GUICtrlSetState($g_hPicChampionGray, $GUI_HIDE)
-							GUICtrlSetState($g_hPicChampionGreen, $GUI_HIDE)
-							GUICtrlSetState($g_hPicChampionBlue, $GUI_HIDE)
-							GUICtrlSetState($g_hPicChampionRed, $GUI_SHOW)
-						Case "Champion" ; Green
-							GUICtrlSetState($g_hPicChampionGray, $GUI_HIDE)
-							GUICtrlSetState($g_hPicChampionRed, $GUI_HIDE)
-							GUICtrlSetState($g_hPicChampionBlue, $GUI_HIDE)
-							GUICtrlSetState($g_hPicChampionGreen, $GUI_SHOW)
-					EndSwitch
-			EndSelect
+			If $g_aiCmbCustomHeroOrder[$i] = 0 Then
+				Switch $aTempArray[0]
+					Case "heal"     ; Blue
+						GUICtrlSetState($g_hPicKingGray, $GUI_HIDE)
+						GUICtrlSetState($g_hPicKingGreen, $GUI_HIDE)
+						GUICtrlSetState($g_hPicKingRed, $GUI_HIDE)
+						GUICtrlSetState($g_hPicKingBlue, $GUI_SHOW)
+					Case "upgrade"     ; Red
+						GUICtrlSetState($g_hPicKingGray, $GUI_HIDE)
+						GUICtrlSetState($g_hPicKingGreen, $GUI_HIDE)
+						GUICtrlSetState($g_hPicKingBlue, $GUI_HIDE)
+						GUICtrlSetState($g_hPicKingRed, $GUI_SHOW)
+					Case "king"     ; Green
+						GUICtrlSetState($g_hPicKingGray, $GUI_HIDE)
+						GUICtrlSetState($g_hPicKingRed, $GUI_HIDE)
+						GUICtrlSetState($g_hPicKingBlue, $GUI_HIDE)
+						GUICtrlSetState($g_hPicKingGreen, $GUI_SHOW)
+				EndSwitch
+			ElseIf $g_aiCmbCustomHeroOrder[$i] = 1 Then
+				Switch $aTempArray[0]
+					Case "heal"     ; Blue
+						GUICtrlSetState($g_hPicQueenGray, $GUI_HIDE)
+						GUICtrlSetState($g_hPicQueenGreen, $GUI_HIDE)
+						GUICtrlSetState($g_hPicQueenRed, $GUI_HIDE)
+						GUICtrlSetState($g_hPicQueenBlue, $GUI_SHOW)
+					Case "upgrade"     ; Red
+						GUICtrlSetState($g_hPicQueenGray, $GUI_HIDE)
+						GUICtrlSetState($g_hPicQueenGreen, $GUI_HIDE)
+						GUICtrlSetState($g_hPicQueenBlue, $GUI_HIDE)
+						GUICtrlSetState($g_hPicQueenRed, $GUI_SHOW)
+					Case "Queen"     ; Green
+						GUICtrlSetState($g_hPicQueenGray, $GUI_HIDE)
+						GUICtrlSetState($g_hPicQueenRed, $GUI_HIDE)
+						GUICtrlSetState($g_hPicQueenBlue, $GUI_HIDE)
+						GUICtrlSetState($g_hPicQueenGreen, $GUI_SHOW)
+				EndSwitch
+			ElseIf $g_aiCmbCustomHeroOrder[$i] = 2 Then
+				Switch $aTempArray[0]
+					Case "heal"     ; Blue
+						GUICtrlSetState($g_hPicPrinceGray, $GUI_HIDE)
+						GUICtrlSetState($g_hPicPrinceGreen, $GUI_HIDE)
+						GUICtrlSetState($g_hPicPrinceRed, $GUI_HIDE)
+						GUICtrlSetState($g_hPicPrinceBlue, $GUI_SHOW)
+					Case "upgrade"     ; Red
+						GUICtrlSetState($g_hPicPrinceGray, $GUI_HIDE)
+						GUICtrlSetState($g_hPicPrinceGreen, $GUI_HIDE)
+						GUICtrlSetState($g_hPicPrinceBlue, $GUI_HIDE)
+						GUICtrlSetState($g_hPicPrinceRed, $GUI_SHOW)
+					Case "Prince"     ; Green
+						GUICtrlSetState($g_hPicPrinceGray, $GUI_HIDE)
+						GUICtrlSetState($g_hPicPrinceRed, $GUI_HIDE)
+						GUICtrlSetState($g_hPicPrinceBlue, $GUI_HIDE)
+						GUICtrlSetState($g_hPicPrinceGreen, $GUI_SHOW)
+				EndSwitch
+			ElseIf $g_aiCmbCustomHeroOrder[$i] = 3 Then
+				Switch $aTempArray[0]
+					Case "heal"     ; Blue
+						GUICtrlSetState($g_hPicWardenGray, $GUI_HIDE)
+						GUICtrlSetState($g_hPicWardenGreen, $GUI_HIDE)
+						GUICtrlSetState($g_hPicWardenRed, $GUI_HIDE)
+						GUICtrlSetState($g_hPicWardenBlue, $GUI_SHOW)
+					Case "upgrade"     ; Red
+						GUICtrlSetState($g_hPicWardenGray, $GUI_HIDE)
+						GUICtrlSetState($g_hPicWardenGreen, $GUI_HIDE)
+						GUICtrlSetState($g_hPicWardenBlue, $GUI_HIDE)
+						GUICtrlSetState($g_hPicWardenRed, $GUI_SHOW)
+					Case "warden"     ; Green
+						GUICtrlSetState($g_hPicWardenGray, $GUI_HIDE)
+						GUICtrlSetState($g_hPicWardenRed, $GUI_HIDE)
+						GUICtrlSetState($g_hPicWardenBlue, $GUI_HIDE)
+						GUICtrlSetState($g_hPicWardenGreen, $GUI_SHOW)
+				EndSwitch
+			ElseIf $g_aiCmbCustomHeroOrder[$i] = 4 Then
+				Switch $aTempArray[0]
+					Case "heal"     ; Blue
+						GUICtrlSetState($g_hPicChampionGray, $GUI_HIDE)
+						GUICtrlSetState($g_hPicChampionGreen, $GUI_HIDE)
+						GUICtrlSetState($g_hPicChampionRed, $GUI_HIDE)
+						GUICtrlSetState($g_hPicChampionBlue, $GUI_SHOW)
+					Case "upgrade"     ; Red
+						GUICtrlSetState($g_hPicChampionGray, $GUI_HIDE)
+						GUICtrlSetState($g_hPicChampionGreen, $GUI_HIDE)
+						GUICtrlSetState($g_hPicChampionBlue, $GUI_HIDE)
+						GUICtrlSetState($g_hPicChampionRed, $GUI_SHOW)
+					Case "Champion"     ; Green
+						GUICtrlSetState($g_hPicChampionGray, $GUI_HIDE)
+						GUICtrlSetState($g_hPicChampionRed, $GUI_HIDE)
+						GUICtrlSetState($g_hPicChampionBlue, $GUI_HIDE)
+						GUICtrlSetState($g_hPicChampionGreen, $GUI_SHOW)
+				EndSwitch
+			EndIf
+			Return $aTempArray[0]
 		Next
-		Return $aTempArray[0]
 	EndIf
 
 	;return 'none' if there was a problem with the search ; or no Hero slot
@@ -909,37 +908,7 @@ Func HiddenSlotstatus()
 		Return
 
 	Else
-
-		If $g_iTownHallLevel < 13 Then
-			Switch $g_aiCmbCustomHeroOrder[4]
-				Case 0
-					GUICtrlSetState($g_hPicKingGray, $GUI_SHOW)
-					GUICtrlSetState($g_hPicKingRed, $GUI_HIDE)
-					GUICtrlSetState($g_hPicKingBlue, $GUI_HIDE)
-					GUICtrlSetState($g_hPicKingGreen, $GUI_HIDE)
-				Case 1
-					GUICtrlSetState($g_hPicQueenGray, $GUI_SHOW)
-					GUICtrlSetState($g_hPicQueenRed, $GUI_HIDE)
-					GUICtrlSetState($g_hPicQueenBlue, $GUI_HIDE)
-					GUICtrlSetState($g_hPicQueenGreen, $GUI_HIDE)
-				Case 2
-					GUICtrlSetState($g_hPicPrinceGray, $GUI_SHOW)
-					GUICtrlSetState($g_hPicPrinceRed, $GUI_HIDE)
-					GUICtrlSetState($g_hPicPrinceBlue, $GUI_HIDE)
-					GUICtrlSetState($g_hPicPrinceGreen, $GUI_HIDE)
-				Case 3
-					GUICtrlSetState($g_hPicWardenGray, $GUI_SHOW)
-					GUICtrlSetState($g_hPicWardenRed, $GUI_HIDE)
-					GUICtrlSetState($g_hPicWardenBlue, $GUI_HIDE)
-					GUICtrlSetState($g_hPicWardenGreen, $GUI_HIDE)
-				Case 4
-					GUICtrlSetState($g_hPicChampionGray, $GUI_SHOW)
-					GUICtrlSetState($g_hPicChampionRed, $GUI_HIDE)
-					GUICtrlSetState($g_hPicChampionBlue, $GUI_HIDE)
-					GUICtrlSetState($g_hPicChampionGreen, $GUI_HIDE)
-			EndSwitch
-		EndIf
-
+	
 		Local Static $iLastTimeCheckedHidden[8]
 		If $g_bFirstStartForHiddenHero Then $iLastTimeCheckedHidden[$g_iCurAccount] = ""
 
