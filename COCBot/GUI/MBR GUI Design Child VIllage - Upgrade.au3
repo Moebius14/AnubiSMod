@@ -321,7 +321,6 @@ Func CreateHeroesSubTab()
 	GUICtrlCreateGroup(GetTranslatedFileIni("MBR GUI Design Child Village - Upgrade_Heroes", "Group_01", "Upgrade Heroes"), $x - 20, $y - 20, $g_iSizeWGrpTab3 - 4, $g_iSizeHGrpTab3 - 6)
 	GUICtrlCreateLabel(GetTranslatedFileIni("MBR GUI Design Child Village - Upgrade_Heroes", "LblAutoUpgrading_01", "Auto upgrading of your Heroes"), $x - 10, $y, -1, -1)
 
-	$x -= 5
 	$y += 15
 	$g_hChkUpgradeKing = GUICtrlCreateCheckbox("", $x, $y + 23, 17, 17)
 	$sTxtTip = GetTranslatedFileIni("MBR GUI Design Child Village - Upgrade_Heroes", "ChkUpgradeKing_Info_01", "Enable upgrading of your King when you have enough Dark Elixir (Saving Min. Dark Elixir)") & @CRLF & _

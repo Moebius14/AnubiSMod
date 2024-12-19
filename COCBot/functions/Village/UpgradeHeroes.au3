@@ -697,7 +697,7 @@ Func KingUpgrade()
 		EndIf
 		Local $bFinishTime = ConvertOCRTime("FinishTime", $g_aUpgradeDuration, False)
 		$g_aiHeroUpgradeFinishDate[0] = _DateAdd('n', Ceiling($bFinishTime), _NowCalc())
-		SetLog("King Upgrade Finishes in " & $bFinishTime & " min. (" & $g_aiHeroUpgradeFinishDate[0] & ")", $COLOR_SUCCESS)
+		SetLog("King Upgrade Finishes @ " & $g_aiHeroUpgradeFinishDate[0], $COLOR_SUCCESS)
 		$g_aiHeroNeededResource[0] = 0
 		$g_aiCurrentLoot[$eLootDarkElixir] -= $bUpgradeCost
 	ElseIf IsArray($YellowSearch) Then
@@ -737,7 +737,7 @@ Func KingUpgrade()
 		EndIf
 		Local $bFinishTime = ConvertOCRTime("FinishTime", $g_aUpgradeDuration, False)
 		$g_aiHeroUpgradeFinishDate[0] = _DateAdd('n', Ceiling($bFinishTime), _NowCalc())
-		SetLog("King Upgrade Finishes in " & $bFinishTime & " min. (" & $g_aiHeroUpgradeFinishDate[0] & ")", $COLOR_SUCCESS)
+		SetLog("King Upgrade Finishes @ " & $g_aiHeroUpgradeFinishDate[0], $COLOR_SUCCESS)
 		$g_aiHeroNeededResource[0] = 0
 		$g_aiCurrentLoot[$eLootDarkElixir] -= $bUpgradeCost
 	Else
@@ -921,7 +921,7 @@ Func QueenUpgrade()
 		EndIf
 		Local $bFinishTime = ConvertOCRTime("FinishTime", $g_aUpgradeDuration, False)
 		$g_aiHeroUpgradeFinishDate[1] = _DateAdd('n', Ceiling($bFinishTime), _NowCalc())
-		SetLog("Queen Upgrade Finishes in " & $bFinishTime & " min. (" & $g_aiHeroUpgradeFinishDate[1] & ")", $COLOR_SUCCESS)
+		SetLog("Queen Upgrade Finishes @ " & $g_aiHeroUpgradeFinishDate[1], $COLOR_SUCCESS)
 		$g_aiHeroNeededResource[1] = 0
 		$g_aiCurrentLoot[$eLootDarkElixir] -= $bUpgradeCost
 	ElseIf IsArray($YellowSearch) Then
@@ -961,7 +961,7 @@ Func QueenUpgrade()
 		EndIf
 		Local $bFinishTime = ConvertOCRTime("FinishTime", $g_aUpgradeDuration, False)
 		$g_aiHeroUpgradeFinishDate[1] = _DateAdd('n', Ceiling($bFinishTime), _NowCalc())
-		SetLog("Queen Upgrade Finishes in " & $bFinishTime & " min. (" & $g_aiHeroUpgradeFinishDate[1] & ")", $COLOR_SUCCESS)
+		SetLog("Queen Upgrade Finishes @ " & $g_aiHeroUpgradeFinishDate[1], $COLOR_SUCCESS)
 		$g_aiHeroNeededResource[1] = 0
 		$g_aiCurrentLoot[$eLootDarkElixir] -= $bUpgradeCost
 	Else
@@ -1145,7 +1145,7 @@ Func PrinceUpgrade()
 		EndIf
 		Local $bFinishTime = ConvertOCRTime("FinishTime", $g_aUpgradeDuration, False)
 		$g_aiHeroUpgradeFinishDate[2] = _DateAdd('n', Ceiling($bFinishTime), _NowCalc())
-		SetLog("Prince Upgrade Finishes in " & $bFinishTime & " min. (" & $g_aiHeroUpgradeFinishDate[2] & ")", $COLOR_SUCCESS)
+		SetLog("Prince Upgrade Finishes @ " & $g_aiHeroUpgradeFinishDate[2], $COLOR_SUCCESS)
 		$g_aiHeroNeededResource[2] = 0
 		$g_aiCurrentLoot[$eLootDarkElixir] -= $bUpgradeCost
 	ElseIf IsArray($YellowSearch) Then
@@ -1185,7 +1185,7 @@ Func PrinceUpgrade()
 		EndIf
 		Local $bFinishTime = ConvertOCRTime("FinishTime", $g_aUpgradeDuration, False)
 		$g_aiHeroUpgradeFinishDate[2] = _DateAdd('n', Ceiling($bFinishTime), _NowCalc())
-		SetLog("Prince Upgrade Finishes in " & $bFinishTime & " min. (" & $g_aiHeroUpgradeFinishDate[2] & ")", $COLOR_SUCCESS)
+		SetLog("Prince Upgrade Finishes @ " & $g_aiHeroUpgradeFinishDate[2], $COLOR_SUCCESS)
 		$g_aiHeroNeededResource[2] = 0
 		$g_aiCurrentLoot[$eLootDarkElixir] -= $bUpgradeCost
 	Else
@@ -1368,7 +1368,7 @@ Func WardenUpgrade()
 		EndIf
 		Local $bFinishTime = ConvertOCRTime("FinishTime", $g_aUpgradeDuration, False)
 		$g_aiHeroUpgradeFinishDate[3] = _DateAdd('n', Ceiling($bFinishTime), _NowCalc())
-		SetLog("Warden Upgrade Finishes in " & $bFinishTime & " min. (" & $g_aiHeroUpgradeFinishDate[3] & ")", $COLOR_SUCCESS)
+		SetLog("Warden Upgrade Finishes @ " & $g_aiHeroUpgradeFinishDate[3], $COLOR_SUCCESS)
 		$g_aiHeroNeededResource[3] = 0
 		$g_aiCurrentLoot[$eLootElixir] -= $bUpgradeCost
 	ElseIf IsArray($YellowSearch) Then
@@ -1408,7 +1408,7 @@ Func WardenUpgrade()
 		EndIf
 		Local $bFinishTime = ConvertOCRTime("FinishTime", $g_aUpgradeDuration, False)
 		$g_aiHeroUpgradeFinishDate[3] = _DateAdd('n', Ceiling($bFinishTime), _NowCalc())
-		SetLog("Warden Upgrade Finishes in " & $bFinishTime & " min. (" & $g_aiHeroUpgradeFinishDate[3] & ")", $COLOR_SUCCESS)
+		SetLog("Warden Upgrade Finishes @ " & $g_aiHeroUpgradeFinishDate[3], $COLOR_SUCCESS)
 		$g_aiHeroNeededResource[3] = 0
 		$g_aiCurrentLoot[$eLootElixir] -= $bUpgradeCost
 	Else
@@ -1592,7 +1592,7 @@ Func ChampionUpgrade()
 		EndIf
 		Local $bFinishTime = ConvertOCRTime("FinishTime", $g_aUpgradeDuration, False)
 		$g_aiHeroUpgradeFinishDate[4] = _DateAdd('n', Ceiling($bFinishTime), _NowCalc())
-		SetLog("Champion Upgrade Finishes in " & $bFinishTime & " min. (" & $g_aiHeroUpgradeFinishDate[4] & ")", $COLOR_SUCCESS)
+		SetLog("Champion Upgrade Finishes @ " & $g_aiHeroUpgradeFinishDate[4], $COLOR_SUCCESS)
 		$g_aiHeroNeededResource[4] = 0
 		$g_aiCurrentLoot[$eLootDarkElixir] -= $bUpgradeCost
 	ElseIf IsArray($YellowSearch) Then
@@ -1632,7 +1632,7 @@ Func ChampionUpgrade()
 		EndIf
 		Local $bFinishTime = ConvertOCRTime("FinishTime", $g_aUpgradeDuration, False)
 		$g_aiHeroUpgradeFinishDate[4] = _DateAdd('n', Ceiling($bFinishTime), _NowCalc())
-		SetLog("Champion Upgrade Finishes in " & $bFinishTime & " min. (" & $g_aiHeroUpgradeFinishDate[4] & ")", $COLOR_SUCCESS)
+		SetLog("Champion Upgrade Finishes @ " & $g_aiHeroUpgradeFinishDate[4], $COLOR_SUCCESS)
 		$g_aiHeroNeededResource[4] = 0
 		$g_aiCurrentLoot[$eLootDarkElixir] -= $bUpgradeCost
 	Else

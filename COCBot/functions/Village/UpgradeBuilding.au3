@@ -349,8 +349,6 @@ Func UpgradeNormal($iUpgradeNumber)
 				CloseWindow2()
 				Return False
 			Else
-				Local $g_aUpgradeDuration = getHeroUpgradeTime(715, 544 + $g_iMidOffsetY)
-				If $g_aUpgradeDuration = "" Then $g_aUpgradeDuration = getHeroUpgradeTime(730, 532 + $g_iMidOffsetY) ; Try to read yellow text (Discount).
 				Click(630, 540 + $g_iMidOffsetY, 1, 120, "#0299") ; Click upgrade buttton
 				If _Sleep(1000) Then Return
 				If $aResult[1] = "Town Hall" Then

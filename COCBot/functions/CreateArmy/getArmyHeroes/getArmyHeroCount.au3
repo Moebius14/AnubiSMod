@@ -680,8 +680,6 @@ Func getArmyHeroCount($bOpenArmyWindow = False, $bCloseArmyWindow = False, $Chec
 										EndIf
 										_GUI_Value_STATE("SHOW", $groupChampionSleeping) ; Show Champion sleeping icon
 									EndIf
-								Case Else
-									$sMessage = "-Need to Feed Code Monkey some bananas"
 							EndSwitch
 					EndSwitch
 					If $g_bDebugSetLogTrain Or $iDebugArmyHeroCount = 1 Then SetLog("Hero slot#" & $i + 1 & $sMessage & " Upgrade in Process", $COLOR_DEBUG)

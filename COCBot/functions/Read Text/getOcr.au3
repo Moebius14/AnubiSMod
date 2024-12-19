@@ -167,7 +167,7 @@ EndFunc   ;==>getHeroUpgradeTime
 Func getHeroUpgradeTime2($x_start, $y_start) ; -> Gets complete upgrade time for heroes 595, 490 + $g_iMidOffsetY
 	Local $Result = StringReplace(getOcrAndCapture("coc-uptime3", $x_start, $y_start, 110, 18, True), "b", "")
 	Return $Result
-EndFunc   ;==>getHeroUpgradeTime
+EndFunc   ;==>getHeroUpgradeTime2
 
 Func getChatString($x_start, $y_start, $language) ; -> Get string chat request - Latin Alphabetic - EN "DonateCC.au3"
 	Return getOcrAndCapture($language, $x_start, $y_start, 320, 16)
