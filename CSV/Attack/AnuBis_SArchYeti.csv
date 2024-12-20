@@ -1,6 +1,6 @@
 ﻿NOTE  |Author: AnubiS
 NOTE  |Attack: SArchYeti
-NOTE  |*** Support TH13, TH14, TH15
+NOTE  |*** Support TH13-14, TH15-17
 NOTE  |CC14: Log, Ground, Rage, Freeze
 NOTE  |CC15: Log, Yeti+Titan, Rage, Freeze
 NOTE  |Siege : Log Launcher
@@ -24,6 +24,7 @@ TRAIN |LogL       |0          |0          |0          |0          |0          |0
       |_TROOPNAME_|___________|____TH06___|____TH07___|____TH08___|____TH09___|____TH10___|____TH11___|____TH12___|____TH13___|____TH14___|___TH15____|
 TRAIN |King       |0          |0          |0          |0          |0          |0          |0          |0          |1          |1          |1          |
 TRAIN |Queen      |0          |0          |0          |0          |0          |0          |0          |0          |1          |1          |1          |
+TRAIN |Prince     |0          |0          |0          |0          |0          |0          |0          |0          |1          |1          |1          |
 TRAIN |Warden     |0          |0          |0          |0          |0          |0          |0          |0          |312        |312        |312        |
 TRAIN |Champion   |0          |0          |0          |0          |0          |0          |0          |0          |1          |1          |1          |
       |                                                                                                                                  			  |
@@ -89,6 +90,7 @@ DROP  |Q          |10         |1          |Hunt       |70-95      |60-90      |5
 DROP  |Q          |10         |1          |King       |0          |0          |20-50      |           |           |           |           |           |
 DROP  |Q          |10         |1          |Warden     |0          |0          |20-50      |           |           |           |           |           |
 DROP  |Q          |10         |1          |Queen      |0          |0          |20-50      |           |           |           |           |           |
+DROP  |Q          |10         |1          |Prince     |0          |0          |20-50      |           |           |           |           |           |
 DROP  |Q          |10         |1          |Champion   |0          |0          |150-170    |           |           |           |           |           |
 DROP  |A          |3          |1          |RSpell     |50-70      |0          |50-70      |           |           |           |           |           |
 DROP  |Z          |3          |1          |RSpell     |50-70      |0          |50-70      |           |           |           |           |           |

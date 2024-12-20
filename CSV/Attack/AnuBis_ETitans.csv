@@ -1,6 +1,6 @@
 NOTE  |Author: AnubiS
 NOTE  |Attack: Electro Titans
-NOTE  |*** Support TH14, TH15
+NOTE  |*** Support TH13-14, TH15-17
 NOTE  |CC : Log, 1 Rage & 1 Freeze, 2 Yetis, 1 Valk, 1 Barb
 NOTE  |Siege : Log Launcher
 NOTE  |Script works on "EXTERNAL EDGES"
@@ -19,6 +19,7 @@ TRAIN |LogL       |0          |0          |0          |0          |0          |0
       |_TROOPNAME_|___________|____TH06___|____TH07___|____TH08___|____TH09___|____TH10___|___TH11____|___TH12____|___TH13____|___TH14____|___TH15____|
 TRAIN |King       |0          |0          |0          |0          |0          |0          |0          |0          |1          |1          |1          |
 TRAIN |Queen      |0          |0          |0          |0          |0          |0          |0          |0          |1          |1          |1          |
+TRAIN |Prince     |0          |0          |0          |0          |0          |0          |0     	  |0          |34         |34	      |34         |
 TRAIN |Warden     |0          |0          |0          |0          |0          |0          |0          |0          |33         |33         |33         |
 TRAIN |Champion   |0          |0          |0          |0          |0          |0          |0          |0          |1          |1          |1          |
       |                                                                                                                                  			  |
@@ -30,8 +31,8 @@ REDLN |0          |0          |0          |0          |0          |0          |0
 DRPLN |0          |0          |0          |0          |0          |0          |0          |0          |0          |0          |0          |0          |
       |___________|___________|____TH06___|____TH07___|____TH08___|____TH09___|____TH10___|____TH11___|____TH12___|____TH13___|____TH14___|____TH15___|
 CCREQ |           |           |           |           |           |           |           |           |           |           |           |           |
-CCSPL |RSpell	  |           |           |           |           |           |           |           |1          |1          |1          |1          |
-CCSPL |FSpell     |           |           |           |           |           |           |           |0          |0          |1          |1          |
+CCSPL |RSpell	  |           |           |           |           |           |           |           |           |1          |1          |1          |
+CCSPL |FSpell     |           |           |           |           |           |           |           |           |1          |1          |1          |
       |                                                                                                                                 			  |
       |EXTR. GOLD |EXTR.ELIXIR|EXTR. DARK |DEPO. GOLD |DEPO.ELIXIR|DEPO. DARK |TOWNHALL   |FORCED SIDE|           |           |           |           |
 SIDE  |0          |0          |0          |0          |0          |0          |9          |           |           |           |           |           |
@@ -73,6 +74,7 @@ WAIT  |3000-4000  |           |           |           |           |           | 
 DROP  |A          |10         |1          |LogL       |50-70      |27-50      |150-170    |           |           |           |           |           |
 DROP  |A          |4,6,8,9    |4          |ETitan     |50-70      |27-50      |0          |           |           |           |           |           |
 DROP  |B          |1,7,5      |3          |ETitan     |50-70      |27-50      |150-170    |           |           |           |           |           |
+DROP  |B          |1          |1          |Prince     |50-70      |27-50      |150-170    |           |           |           |           |           |
 DROP  |B          |1          |1          |Champion   |50-70      |27-50      |150-170    |           |           |           |           |           |
 WAIT  |500-1500   |           |           |           |           |           |           |           |           |           |           |           |
 DROP  |B          |1,3        |2          |Wiza       |50-70      |27-50      |150-170    |           |           |           |           |           |

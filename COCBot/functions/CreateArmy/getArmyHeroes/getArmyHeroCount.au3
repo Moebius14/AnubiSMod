@@ -738,7 +738,7 @@ Func ArmyHeroStatus($i)
 			[718, 315 + $g_iMidOffsetY, 780, 375 + $g_iMidOffsetY]]                                     ; Review
 
 	; Perform the search
-	Local $sResult = "", $aTempArray
+	Local $aTempArray
 	Local $sSearchDiamond = GetDiamondFromRect2($aHeroesRect[$i][0], $aHeroesRect[$i][1], $aHeroesRect[$i][2], $aHeroesRect[$i][3])
 	Local $result = findMultiple($g_sImgArmyOverviewHeroes, $sSearchDiamond, $sSearchDiamond, 50, 1000, 0, "objectname,objectpoints", True)
 	If $result <> "" And IsArray($result) Then
@@ -1565,7 +1565,7 @@ EndFunc   ;==>HideShields
 
 Func CheckHeroOrder()
 
-	Local $sResult = "", $aTempArray
+	Local $aTempArray
 	Local Const $aHeroesRect[$eHeroSlots][4] = [[525, 315 + $g_iMidOffsetY, 589, 375 + $g_iMidOffsetY], _
 			[590, 315 + $g_iMidOffsetY, 653, 375 + $g_iMidOffsetY], _
 			[654, 315 + $g_iMidOffsetY, 717, 375 + $g_iMidOffsetY], _

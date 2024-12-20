@@ -1,7 +1,7 @@
 NOTE  |Author: AnubiS
 NOTE  |Attack: IceBowitchPekParty
 NOTE  |-External Edge-
-NOTE  |*** Support TH13, TH14, TH15
+NOTE  |*** Support TH13-14, TH15-17
 NOTE  |CC : WW Or LogL, 1 Rage, 1 Freeze
 NOTE  |Siege : Log Launcher Or Wrecker
 NOTE  |Script works on "EXTERNAL EDGES"               
@@ -20,11 +20,12 @@ TRAIN |Espell     |0          |0          |0          |0          |0          |0
 TRAIN |Haspell    |0          |0          |0          |0          |0          |0          |0          |0          |1          |1          |1          |
       |                                              				                                                                     			  |
 TRAIN |LogL       |0          |0          |0          |0          |0          |0          |0          |0          |3          |3          |3          |
-TRAIN |WallW      |0          |0          |0          |0          |0          |0          |0          |3          |0          |0          |0          |
+TRAIN |WallW      |0          |0          |0          |0          |0          |0          |0          |0          |0          |0          |0          |
       |                                                                					                        		                              |
       |_TROOPNAME_|___________|____TH06___|____TH07___|____TH08___|____TH09___|____TH10___|____TH11___|____TH12___|____TH13___|____TH14___|____TH15___|
 TRAIN |King       |0          |0          |0          |0          |0          |0          |0          |0          |32         |32         |32         |
 TRAIN |Queen      |0          |0          |0          |0          |0          |0          |0          |0          |37         |37         |37         |
+TRAIN |Prince     |0          |0          |0          |0          |0          |0          |0     	  |0          |33         |33	      |33         |
 TRAIN |Warden     |0          |0          |0          |0          |0          |0          |0          |0          |34         |34         |34         |
 TRAIN |Champion   |0          |0          |0          |0          |0          |0          |0          |0          |38         |38         |38         |
       |                                                                                                                                  			  |
@@ -37,8 +38,8 @@ DRPLN |0          |0          |0          |0          |0          |0          |0
       |                                                                                                                       						  |
       |___________|___________|____TH06___|____TH07___|____TH08___|____TH09___|____TH10___|____TH11___|____TH12___|____TH13___|____TH14___|____TH15___|
 CCREQ |           |           |           |           |           |           |           |           |           |           |           |           |
-CCSPL |RSpell	  |           |           |           |           |           |           |0          |0          |1          |1          |1          |
-CCSPL |FSpell     |           |           |           |           |           |           |0          |0          |0          |1          |1          |
+CCSPL |RSpell	  |           |           |           |           |           |           |           |           |1          |1          |1          |
+CCSPL |FSpell     |           |           |           |           |           |           |           |           |1          |1          |1          |
       |                                                                                                                                  			  |
       |EXTR. GOLD |EXTR.ELIXIR|EXTR. DARK |DEPO. GOLD |DEPO.ELIXIR|DEPO. DARK |TOWNHALL   |FORCED SIDE|                                               |
 SIDE  |0          |0          |0          |0          |0          |0          |20         |           |                                               |
@@ -113,8 +114,9 @@ DROP  |O          |1              |1          |FSpell     |0          |0        
 DROP  |P          |1              |1          |FSpell     |0          |0          |100-150    |       |                                               |
 DROP  |Q          |1              |1          |FSpell     |0          |0          |100-150    |       |                                               |
 DROP  |A          |1              |1          |Warden     |27-50      |0          |100-250    |       |                                               |
-DROP  |A          |1              |1          |KING       |27-50      |0          |100-250    |       |                                               |
+DROP  |A          |1              |1          |King       |27-50      |0          |100-250    |       |                                               |
 DROP  |A          |1              |1          |Queen      |27-50      |0          |100-250    |       |                                               |
+DROP  |A          |1              |1          |Prince     |27-50      |0          |100-250    |       |                                               |
 DROP  |A          |1              |1          |Champion   |27-50      |0          |100-250    |       |                                               |
 DROP  |G          |2              |1          |Rspell     |27-50      |0          |400-600    |       |                                               |
 DROP  |H          |2              |1          |Rspell     |27-50      |0          |           |       |                                               |
@@ -124,6 +126,6 @@ DROP  |J          |3              |1          |Haspell    |30-50      |0        
 DROP  |J          |1              |1          |Rspell     |30-50      |0          |50-100     |       |                                               |
 DROP  |L-M        |3,4            |3          |Arch       |50-70      |270-500    |300-400    |       |                                               |
 WAIT  |2500-3500  |               |           |           |           |           |           |       |                                               |
-DROP  |A-B        |1,2,4,5,6      |5          |REMAIN     |50-70      |100        |50-100     |       |           |           |           |           | 
+DROP  |A-B        |1,2,4,5,6      |5          |REMAIN     |50-70      |100        |50-100     |       |                                               | 
       |                                                                                                                                               |
       |----------------------------------------------IceBowitchParty End------------------------------------------------------------------------------|

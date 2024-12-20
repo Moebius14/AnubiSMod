@@ -275,7 +275,7 @@ Func CheckCCArmy()
 	Local $aTroopWSlot, $aSpellWSlot, $aSiegeWSlot
 
 	For $i = 0 To 2
-		If $g_aiClanCastleTroopWaitQty[$i] = 0 And $g_aiClanCastleTroopWaitType[$i] > 0 Then $g_aiCCTroopsExpected[$g_aiClanCastleTroopWaitType[$i] - 1] = 50 ; expect troop type only. Do not care about qty
+		If $g_aiClanCastleTroopWaitQty[$i] = 0 And $g_aiClanCastleTroopWaitType[$i] > 0 Then $g_aiCCTroopsExpected[$g_aiClanCastleTroopWaitType[$i] - 1] = $g_aiClanCastleTroopsCap ; expect troop type only. Do not care about qty
 	Next
 
 	SetLog("Getting current army in Clan Castle...")

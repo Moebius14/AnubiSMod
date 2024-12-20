@@ -1,6 +1,6 @@
 NOTE  |Author: AnubiS
 NOTE  |Attack: IceSBowler
-NOTE  |*** Support TH13, TH14, TH15
+NOTE  |*** Support TH13-14, TH15-17
 NOTE  |CC : Flame Flinger, Ground, Rage, Freeze
 NOTE  |Siege : Flame Flinger
 NOTE  |Script works on "External Edges"             
@@ -18,12 +18,13 @@ TRAIN |RSpell     |0          |0          |0          |0          |0          |0
 TRAIN |JSpell     |0          |0          |0          |0          |0          |0          |0          |0          |2          |2          |2          |
 TRAIN |Fspell     |0          |0          |0          |0          |0          |0          |0          |0          |3          |3          |3          |
       |                                                                                                                                  			  |
-TRAIN |FlameF     |0          |0          |0          |0          |0          |0          |0          |0          |0          |3          |3          |
-TRAIN |SiegeB     |0          |0          |0          |0          |0          |0          |0          |0          |3          |0          |0          |
+TRAIN |FlameF     |0          |0          |0          |0          |0          |0          |0          |0          |3          |3          |3          |
+TRAIN |SiegeB     |0          |0          |0          |0          |0          |0          |0          |0          |0          |0          |0          |
       |                                                                					                        		                              |
       |_TROOPNAME_|___________|____TH06___|____TH07___|____TH08___|____TH09___|____TH10___|____TH11___|____TH12___|____TH13___|____TH14___|___TH15____|
 TRAIN |King       |0          |0          |0          |0          |0          |0          |0          |0          |1          |1          |1          |
 TRAIN |Queen      |0          |0          |0          |0          |0          |0          |0          |0          |1          |1          |1          |
+TRAIN |Prince     |0          |0          |0          |0          |0          |0          |0          |0          |37         |37         |37         |
 TRAIN |Warden     |0          |0          |0          |0          |0          |0          |0          |0          |310        |310        |310        |
 TRAIN |Champion   |0          |0          |0          |0          |0          |0          |0          |0          |1          |1          |1          |
       |                                                                                                                                  			  |
@@ -37,7 +38,7 @@ DRPLN |0          |0          |0          |0          |0          |0          |0
       |___________|___________|____TH06___|____TH07___|____TH08___|____TH09___|____TH10___|____TH11___|____TH12___|____TH13___|____TH14___|____TH15___|
 CCREQ |           |           |           |           |           |           |           |           |           |           |           |           |
 CCSPL |RSpell	  |           |           |           |           |           |           |           |1          |1          |1          |1          |
-CCSPL |FSpell     |           |           |           |           |           |           |           |0          |0          |1          |1          |
+CCSPL |FSpell     |           |           |           |           |           |           |           |0          |1          |1          |1          |
       |                                                                					                        		                              |
       |EXTR. GOLD |EXTR.ELIXIR|EXTR. DARK |DEPO. GOLD |DEPO.ELIXIR|DEPO. DARK |TOWNHALL   |FORCED SIDE|           |           |           |           |
 SIDE  |0          |0          |0          |0          |0          |0          |10         |           |           |           |           |           |
@@ -77,11 +78,12 @@ DROP  |A          |7,8            |2          |Yeti       |50-70      |27-50    
 DROP  |A          |7              |1          |SiegeB     |50-70      |27-50      |120-150    |       |           |           |           |           |
 DROP  |A          |7              |1          |FlameF     |50-70      |27-50      |120-150    |       |           |           |           |           |
 DROP  |B          |7              |1          |Queen      |0   		  |0          |220-350    |       |           |           |           |           |
+DROP  |B          |7              |1          |Prince     |0   		  |0          |220-350    |       |           |           |           |           |
 DROP  |B          |7-8            |4          |Heal       |100-170    |50-150     |120-150    |       |           |           |           |           |
 WAIT  |10000-12000|               |           |           |           |           |           |       |           |           |           |           |
 DROP  |F          |1              |1          |JSpell     |50-70      |0          |300-350    |       |           |           |           |           |
 DROP  |A-B        |4              |1          |IceG       |150-170    |127-150    |220-350    |       |           |           |           |           |
-DROP  |A          |1              |1          |KING       |0          |0          |100-150    |       |           |           |           |           |
+DROP  |A          |1              |1          |King       |0          |0          |100-150    |       |           |           |           |           |
 DROP  |A          |1              |6          |Wall       |50-100     |127-150    |100-150    |       |           |           |           |           |
 DROP  |A          |1              |3          |Wall       |50-100     |127-150    |100-150    |       |           |           |           |           |
 DROP  |A          |6,3,2          |3          |SBowl      |50-100     |127-150    |0	      |       |           |           |           |           |

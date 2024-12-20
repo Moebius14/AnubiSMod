@@ -1,6 +1,6 @@
 ﻿NOTE  |Author: AnubiS
 NOTE  |Attack: IceSWiz8EQ
-NOTE  |*** Support TH14, TH15
+NOTE  |*** Support TH12, TH13-14, TH15-17
 NOTE  |CC : Log Launcher, Ground, Rage, Freeze
 NOTE  |Siege : Log Launcher
 NOTE  |Script works on "External Edges" 
@@ -16,11 +16,12 @@ TRAIN |FSpell     |0          |0          |0          |0          |0          |0
 TRAIN |Espell     |0          |0          |0          |0          |0          |0          |0          |8          |8          |8          |8          |
       |                                              				                                                                     			  |
 TRAIN |LogL       |0          |0          |0          |0          |0          |0          |0          |0          |3          |3          |3          |
-TRAIN |WallW      |0          |0          |0          |0          |0          |0          |0          |3          |3          |3          |3          |
+TRAIN |WallW      |0          |0          |0          |0          |0          |0          |0          |3          |0          |0          |0          |
       |                                                                					                        		                              |
       |_TROOPNAME_|___________|____TH06___|____TH07___|____TH08___|____TH09___|____TH10___|____TH11___|____TH12___|____TH13___|____TH14___|___TH15____|
 TRAIN |King       |0          |0          |0          |0          |0          |0          |0          |1          |1          |1          |1          |
 TRAIN |Queen      |0          |0          |0          |0          |0          |0          |0          |1          |1          |1          |1          |
+TRAIN |Prince     |0          |0          |0          |0          |0          |0          |0          |1          |1          |1          |1          |
 TRAIN |Warden     |0          |0          |0          |0          |0          |0          |0          |33         |33         |33         |33         |
 TRAIN |Champion   |0          |0          |0          |0          |0          |0          |0          |0          |1          |1          |1          |
       |                                                                                                                                  			  |
@@ -34,7 +35,7 @@ DRPLN |0          |0          |0          |0          |0          |0          |0
       |___________|___________|____TH06___|____TH07___|____TH08___|____TH09___|____TH10___|____TH11___|____TH12___|____TH13___|____TH14___|____TH15___|
 CCREQ |           |           |           |           |           |           |           |           |           |           |           |           |
 CCSPL |RSpell	  |           |           |           |           |           |           |           |1          |1          |1          |1          |
-CCSPL |FSpell     |           |           |           |           |           |           |           |0          |0          |1          |1          |
+CCSPL |FSpell     |           |           |           |           |           |           |           |0          |1          |1          |1          |
       |                                                                					                        		                              |
       |EXTR. GOLD |EXTR.ELIXIR|EXTR. DARK |DEPO. GOLD |DEPO.ELIXIR|DEPO. DARK |TOWNHALL   |FORCED SIDE|___________|___________|___________|___________|
 SIDE  |0          |0          |0          |0          |0          |0          |20         |           |           |           |           |           |
@@ -89,6 +90,7 @@ DROP  |R          |2          |1          |SWiza      |60-82      |60-90      |5
 DROP  |Q          |10         |1          |King       |0          |0          |20-50      |           |           |           |           |           |
 DROP  |Q          |10         |1          |Warden     |0          |0          |20-50      |           |           |           |           |           |
 DROP  |Q          |10         |1          |Queen      |0          |0          |20-50      |           |           |           |           |           |
+DROP  |Q          |10         |1          |Prince     |0          |0          |20-50      |           |           |           |           |           |
 DROP  |Q          |10         |1          |Champion   |0          |0          |150-170    |           |           |           |           |           |
 DROP  |F          |1          |1          |FSpell     |50-70      |0          |50-70      |           |           |           |           |           |
 DROP  |G          |1          |1          |FSpell     |50-70      |0          |50-70      |           |           |           |           |           |

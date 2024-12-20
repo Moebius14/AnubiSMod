@@ -157,27 +157,35 @@ Func Blacksmith($bTest = False)
 				EndIf
 		EndSwitch
 
-		Local $ToClickOnHero = False
-		If $i = 0 Then
-			$ToClickOnHero = True
-		Else
-			If Not IsBlacksmithPage() Then
-				SetLog("Blacksmith Window not found", $COLOR_ERROR)
-				If $g_bDebugImageSave Then SaveDebugImage("Blacksmith_Window")
-				ClickAway()
-				If _Sleep(500) Then Return
-				ClickAway()
-				Return
-			EndIf
-			If QuickMIS("BC1", $g_sImgHeroEquipement, 135, 330 + $g_iMidOffsetY, 290, 365 + $g_iMidOffsetY) Then
-				If $g_iQuickMISName <> $g_asEquipmentOrderList[$g_aiCmbCustomEquipmentOrder[$i]][2] Then $ToClickOnHero = True
-			Else
-				If $g_aiHeroHallPos[2] > 1 Then ; Hero Hall Lvl 1 : King Only, No Hero Head
-					SetLog("No Hero head image found", $COLOR_ERROR)
-					If $g_bDebugImageSave Then SaveDebugImage("Blacksmith_HeroHead")
-					CloseWindow()
-					Return
+		If Not IsBlacksmithPage() Then
+			SetLog("Blacksmith Window not found", $COLOR_ERROR)
+			If $g_bDebugImageSave Then SaveDebugImage("Blacksmith_Window")
+			ClickAway()
+			If _Sleep(500) Then Return
+			ClickAway()
+			Return
+		EndIf
+
+		Local $aTempArray, $ToClickOnHero = True
+		Local $sSearchDiamond = GetDiamondFromRect2(135, 330 + $g_iMidOffsetY, 290, 365 + $g_iMidOffsetY)
+		Local $result = findMultiple($g_sImgHeroEquipement, $sSearchDiamond, $sSearchDiamond, 0, 1000, 0, "objectname,objectpoints", True)
+		If $result <> "" And IsArray($result) Then
+			For $t = 0 To UBound($result, 1) - 1
+				If UBound($result, 1) > 1 Then ExitLoop
+				$aTempArray = $result[$t]
+				If $aTempArray[0] = $g_asEquipmentOrderList[$g_aiCmbCustomEquipmentOrder[$i]][2] Then
+					$ToClickOnHero = False
+					ExitLoop
 				EndIf
+			Next
+		Else
+			If $g_aiHeroHallPos[2] = 1 Then     ; Hero Hall Lvl 1 : King Only, No Hero Head
+				$ToClickOnHero = False
+			ElseIf $g_aiHeroHallPos[2] > 1 Then
+				SetLog("No Hero head image found", $COLOR_ERROR)
+				If $g_bDebugImageSave Then SaveDebugImage("Blacksmith_HeroHead")
+				CloseWindow()
+				Return
 			EndIf
 		EndIf
 

@@ -1786,8 +1786,6 @@ Func FirstCheck()
 		HiddenSlotstatus()
 		If Not $g_bRunState Then Return
 		If _Sleep($DELAYRUNBOT3) Then Return
-
-		If Not $g_bRunState Then Return
 		SetDebugLog("Are you ready? " & String($g_bIsFullArmywithHeroesAndSpells))
 		If $g_bIsFullArmywithHeroesAndSpells Then
 			; Just in case of new profile! or BotDetectFirstTime() failed on Initiate()

@@ -1,6 +1,6 @@
 ﻿NOTE  |Author: AnubiS
 NOTE  |Attack: SGiantSwitc
-NOTE  |*** Support TH12, TH13, TH14
+NOTE  |*** Support TH12, TH13-14, TH15-17
 NOTE  |CC : Log Launcher, Wall Wrecker Ground, Rage/Freeze
 NOTE  |Siege : Log Launcher or Wall Wrecker
 NOTE  |Script works on "External Edges" 
@@ -8,33 +8,34 @@ NOTE  |Script works on "External Edges"
       |-----------------------------------------------------SGiants SWitches Starting-----------------------------------------------------------------|
       |                                              				                                                                     			  |
       |_TROOPNAME_|__FLEXIBLE_|____TH06___|____TH07___|____TH08___|____TH09___|____TH10___|____TH11___|____TH12___|____TH13___|____TH14___|___TH15____|
-TRAIN |SGiant     |0          |0          |0          |0          |0          |0          |0          |10         |12         |12         |0          |
-TRAIN |BabyD      |0          |0          |0          |0          |0          |0          |0          |2          |2          |2          |0          |
-TRAIN |SWitc      |0          |0          |0          |0          |0          |0          |0          |4          |4          |4          |0          |
+TRAIN |SGiant     |0          |0          |0          |0          |0          |0          |0          |10         |12         |12         |14         |
+TRAIN |BabyD      |0          |0          |0          |0          |0          |0          |0          |2          |2          |2          |2          |
+TRAIN |SWitc      |0          |0          |0          |0          |0          |0          |0          |4          |4          |4          |4          |
       |                                              				                                                                     			  | 
-TRAIN |RSpell     |0          |0          |0          |0          |0          |0          |0          |3          |3          |3          |0          |
-TRAIN |SkSpell    |0          |0          |0          |0          |0          |0          |0          |5          |5          |5          |0          |
+TRAIN |RSpell     |0          |0          |0          |0          |0          |0          |0          |3          |3          |3          |3          |
+TRAIN |SkSpell    |0          |0          |0          |0          |0          |0          |0          |5          |5          |5          |5          |
       |                                              				                                                                     			  |
-TRAIN |LogL       |0          |0          |0          |0          |0          |0          |0          |0          |3          |3          |0          |
+TRAIN |LogL       |0          |0          |0          |0          |0          |0          |0          |0          |3          |3          |3          |
 TRAIN |WallW      |0          |0          |0          |0          |0          |0          |0          |3          |0          |0          |0          |
       |                                                                					                        		                              |
       |_TROOPNAME_|___________|____TH06___|____TH07___|____TH08___|____TH09___|____TH10___|____TH11___|____TH12___|____TH13___|____TH14___|___TH15____|
-TRAIN |King       |0          |0          |0          |0          |0          |0          |0          |1          |1          |1          |0          |
-TRAIN |Queen      |0          |0          |0          |0          |0          |0          |0          |312        |312        |312        |0          |
-TRAIN |Warden     |0          |0          |0          |0          |0          |0          |0          |36         |36         |36         |0          |
-TRAIN |Champion   |0          |0          |0          |0          |0          |0          |0          |0          |1          |1          |0          |
+TRAIN |King       |0          |0          |0          |0          |0          |0          |0          |1          |1          |1          |1          |
+TRAIN |Queen      |0          |0          |0          |0          |0          |0          |0          |312        |312        |312        |312        |
+TRAIN |Prince     |0          |0          |0          |0          |0          |0          |0          |310        |310        |310        |310        |
+TRAIN |Warden     |0          |0          |0          |0          |0          |0          |0          |36         |36         |36         |36         |
+TRAIN |Champion   |0          |0          |0          |0          |0          |0          |0          |0          |1          |1          |1          |
       |                                                                                                                                  			  |
       |_TROOPNAME_|___________|____TH06___|____TH07___|____TH08___|____TH09___|____TH10___|____TH11___|____TH12___|____TH13___|____TH14___|____TH15___|	  
 WMODE |0	      |0          |0          |0          |0          |0          |0          |0          |0          |0          |0  	      |0       	  |
       |                                                                                                                                  			  |
       |___________|___________|____TH06___|____TH07___|____TH08___|____TH09___|____TH10___|____TH11___|____TH12___|____TH13___|____TH14___|____TH15___|
-REDLN |0          |0          |0          |0          |0          |0          |0          |0          |4          |4          |4          |0          |
+REDLN |0          |0          |0          |0          |0          |0          |0          |0          |4          |4          |4          |4          |
 DRPLN |0          |0          |0          |0          |0          |0          |0          |0          |0          |0          |0          |0          |
       |                                                                                                                     						  |
       |___________|___________|____TH06___|____TH07___|____TH08___|____TH09___|____TH10___|____TH11___|____TH12___|____TH13___|____TH14___|____TH15___|
 CCREQ |           |           |           |           |           |           |           |           |           |           |           |           |
-CCSPL |RSpell     |           |           |           |           |           |           |           |1          |1          |1          |0          |
-CCSPL |FSpell     |           |           |           |           |           |           |           |1          |1          |1          |0          |
+CCSPL |RSpell     |           |           |           |           |           |           |           |1          |1          |1          |1          |
+CCSPL |FSpell     |           |           |           |           |           |           |           |0          |1          |1          |1          |
       |                                                                					                        		                              |
       |EXTR. GOLD |EXTR.ELIXIR|EXTR. DARK |DEPO. GOLD |DEPO.ELIXIR|DEPO. DARK |TOWNHALL   |FORCED SIDE|___________|___________|___________|___________|
 SIDE  |0          |0          |0          |0          |0          |0          |20         |           |           |           |           |           |
@@ -85,6 +86,7 @@ DROP  |Q          |6,8        |2          |SWitc      |70-95      |60-90      |0
 DROP  |R          |1,3        |3          |SWitc      |70-95      |60-90      |150-250    |           |           |           |           |           |
 DROP  |Q          |10         |1          |King       |0          |0          |20-50      |           |    ﻿       |           |           |           |
 DROP  |Q          |10         |1          |Queen      |0          |0          |20-50      |           |           |           |           |           |
+DROP  |Q          |10         |1          |Prince     |0          |0          |20-50      |           |           |           |           |           |
 DROP  |Q          |10         |1          |Warden     |0          |0          |20-50      |           |           |           |           |           |
 DROP  |Q          |10         |1          |Champion   |0          |0          |150-170    |           |           |           |           |           |
 DROP  |A          |3          |1          |RSpell     |50-70      |0          |200-300    |           |           |           |           |           |

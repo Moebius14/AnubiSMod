@@ -1,6 +1,6 @@
 NOTE  |Author: AnubiS
 NOTE  |Attack: IceBowitchSM
-NOTE  |*** Support TH13, TH14, TH15, TH16
+NOTE  |*** Support TH13-14, TH15-17
 NOTE  |CC : Log Launcher, Ground, Rage, Freeze
 NOTE  |Siege : Log Launcher
 NOTE  |Script works on "External Edges"             
@@ -23,6 +23,7 @@ TRAIN |LogL       |0          |0          |0          |0          |0          |0
       |_TROOPNAME_|___________|____TH06___|____TH07___|____TH08___|____TH09___|____TH10___|____TH11___|____TH12___|____TH13___|____TH14___|___TH15____|
 TRAIN |King       |0          |0          |0          |0          |0          |0          |0          |0          |312        |312        |312        |
 TRAIN |Queen      |0          |0          |0          |0          |0          |0          |0          |0          |314        |314        |314        |
+TRAIN |Prince     |0          |0          |0          |0          |0          |0          |0     	  |0          |39         |39	      |39         |
 TRAIN |Warden     |0          |0          |0          |0          |0          |0          |0          |0          |37         |37         |37         |
 TRAIN |Champion   |0          |0          |0          |0          |0          |0          |0          |0          |318        |318        |318        |
       |                                                                                                                                 			  |
@@ -35,8 +36,8 @@ DRPLN |0          |0          |0          |0          |0          |0          |0
       |                                                                                                                     						  |
       |___________|___________|____TH06___|____TH07___|____TH08___|____TH09___|____TH10___|____TH11___|____TH12___|____TH13___|____TH14___|____TH15___|
 CCREQ |           |           |           |           |           |           |           |           |           |           |           |           |
-CCSPL |RSpell	  |           |           |           |           |           |           |           |0          |1          |1          |1          |
-CCSPL |FSpell     |           |           |           |           |           |           |           |0          |0          |1          |1          |
+CCSPL |RSpell	  |           |           |           |           |           |           |           |           |1          |1          |1          |
+CCSPL |FSpell     |           |           |           |           |           |           |           |           |1          |1          |1          |
       |                                                                					                        		                              |
       |EXTR. GOLD |EXTR.ELIXIR|EXTR. DARK |DEPO. GOLD |DEPO.ELIXIR|DEPO. DARK |TOWNHALL   |FORCED SIDE|           |           |           |           |
 SIDE  |0          |0          |0          |0          |0          |0          |10         |           |           |           |           |           |
@@ -92,8 +93,9 @@ DROP  |M          |3,5            |2          |SMine      |100-150    |50-100   
 DROP  |A          |1              |1          |Castle     |50-70      |50-100     |100-120    |       |           |           |           |           |
 DROP  |C          |3              |1          |Rspell     |80-120     |0          |400-600    |       |           |           |           |           |
 DROP  |E          |3              |1          |Rspell     |100-150    |0          |100-120    |       |           |           |           |           |
-DROP  |A          |1              |1          |KING       |100-150    |0          |100-150    |       |           |           |           |           |
+DROP  |A          |1              |1          |King       |100-150    |0          |100-150    |       |           |           |           |           |
 DROP  |A          |1              |1          |Queen      |100-150    |0          |100-150    |       |           |           |           |           |
+DROP  |A          |1              |1          |Prince     |100-150    |0          |100-150    |       |           |           |           |           |
 DROP  |A          |1              |1          |Champion   |100-150    |0          |100-150    |       |           |           |           |           |
 DROP  |A          |1              |1          |Warden     |100-150    |0          |100-150    |       |           |           |           |           |
 DROP  |F          |1              |1          |JSpell     |100-150    |0          |300-600    |       |           |           |           |           |

@@ -431,7 +431,6 @@ Func SkipWallUpgrade($iWallCost = $g_iWallCost) ; Dynamic Upgrades
 					SetLog("Skip Wall upgrade - insufficient gold and elixir for Wall upgrade", $COLOR_WARNING)
 					Return "Skip"
 				EndIf
-				SetLog("Skip Wall upgrade - insufficient elixir for Wall upgrade", $COLOR_WARNING)
 				$GoldPending = True
 			EndIf
 	EndSwitch
@@ -502,6 +501,7 @@ Func SkipWallUpgrade($iWallCost = $g_iWallCost) ; Dynamic Upgrades
 	;;;;;;;;;;;;;;;;;;;;;;;;;;;End upgrades value checking
 
 	If $GoldPending Then
+		SetLog("Wall upgrade: insufficient elixir for selected upgrades", $COLOR_WARNING)
 		SetLog("Using Gold only for Wall Upgrade", $COLOR_SUCCESS1)
 		Return "Gold"
 	EndIf

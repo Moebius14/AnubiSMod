@@ -1,7 +1,7 @@
 NOTE  |Author: AnubiS
 NOTE  |Attack: RootWitchThrow
 NOTE  |-External Edge-
-NOTE  |*** Support TH15, TH16
+NOTE  |*** Support TH15-17
 NOTE  |CC : LogL, 3 Rage,1 Clone, 2 Freeze
 NOTE  |Siege : Log Launcher
 NOTE  |Script works on "EXTERNAL EDGES"               
@@ -21,8 +21,8 @@ TRAIN |LogL       |0          |0          |0          |0          |0          |0
       |                                                                					                        		                						  |
       |_TROOPNAME_|___________|____TH06___|____TH07___|____TH08___|____TH09___|____TH10___|____TH11___|____TH12___|____TH13___|____TH14___|____TH15___|____TH16___|
 TRAIN |King       |0          |0          |0          |0          |0          |0          |0          |0          |0          |0          |314        |314        |
-TRAIN |Prince     |0          |0          |0          |0          |0          |0          |0          |0          |0          |0          |312        |312        |
 TRAIN |Queen      |0          |0          |0          |0          |0          |0          |0          |0          |0          |0          |312        |312        |
+TRAIN |Prince     |0          |0          |0          |0          |0          |0          |0          |0          |0          |0          |310        |310        |
 TRAIN |Warden     |0          |0          |0          |0          |0          |0          |0          |0          |0          |0          |317        |317        |
 TRAIN |Champion   |0          |0          |0          |0          |0          |0          |0          |0          |0          |0          |319        |319        |
       |                                                                                                                                  						  |

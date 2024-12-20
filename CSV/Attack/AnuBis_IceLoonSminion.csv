@@ -1,6 +1,6 @@
 NOTE  |Author: AnubiS
 NOTE  |Attack: IceLoonSMini
-NOTE  |*** Support TH12, TH13, TH14, TH15
+NOTE  |*** Support TH12, TH13-14, TH15-17
 NOTE  |CC : 1 Rage 1 Freeze and Balloons
 NOTE  |Siege : Stone Slammers
 NOTE  |Script works on "EXTERNAL EDGES"
@@ -21,6 +21,7 @@ TRAIN |StoneS     |0          |0          |0          |0          |0          |0
       |_TROOPNAME_|___________|____TH06___|____TH07___|____TH08___|____TH09___|____TH10___|____TH11___|____TH12___|____TH13___|____TH14___|____TH15___|
 TRAIN |King       |0          |0          |0          |0          |0          |0          |0          |1          |1          |1          |1          |
 TRAIN |Queen      |0          |0          |0          |0          |0          |0          |0          |1          |1          |1          |1          |
+TRAIN |Prince     |0          |0          |0          |0          |0          |0          |0          |1          |1          |1          |1          |
 TRAIN |Warden     |0          |0          |0          |0          |0          |0          |0          |34         |34         |34         |34         |
 TRAIN |Champion   |0          |0          |0          |0          |0          |0          |0          |0          |1          |1          |1          |
       |                                                                                                                                  			  |
@@ -34,7 +35,7 @@ DRPLN |0          |0          |0          |0          |0          |0          |0
       |___________|___________|____TH06___|____TH07___|____TH08___|____TH09___|____TH10___|____TH11___|____TH12___|____TH13___|____TH14___|____TH15___|
 CCREQ |           |           |           |           |           |           |           |           |           |           |           |           |
 CCSPL |RSpell	  |           |           |           |           |           |           |           |1          |1          |1          |1          |
-CCSPL |FSpell     |           |           |           |           |           |           |           |0          |0          |1          |1          |
+CCSPL |FSpell     |           |           |           |           |           |           |           |0          |1          |1          |1          |
       |                                                                                                                   						      |
       |EXTR. GOLD |EXTR.ELIXIR|EXTR. DARK |DEPO. GOLD |DEPO.ELIXIR|DEPO. DARK |TOWNHALL   |FORCED SIDE|           |           |		      |		      |
 SIDE  |0          |0          |0          |0          |0          |40         |9          |           |           |           |		      |		      |
@@ -89,6 +90,7 @@ DROP  |Q          |3          |1          |Ball       |75-100     |40-50      |2
 DROP  |A          |1          |1          |Warden     |0          |0          |40-300     |           |           |           |           |           |
 DROP  |A          |1          |1          |King       |0          |30-70      |40-300     |           |           |           |           |           |
 DROP  |A          |1          |1          |Queen      |0          |30-70      |40-300     |           |           |           |           |           |
+DROP  |A          |1          |1          |Prince     |0          |30-70      |40-300     |           |           |           |           |           |
 DROP  |A          |1          |1          |Champion   |0          |30-70      |40-300     |           |           |           |           |           |
 DROP  |C          |3,4,6,8,10 |5          |SMini      |30-50      |30-70      |0		  |           |           |           |           |           |
 DROP  |D          |2,3,5,6,8  |5          |SMini      |30-50      |30-70      |0          |           |           |           |           |           |

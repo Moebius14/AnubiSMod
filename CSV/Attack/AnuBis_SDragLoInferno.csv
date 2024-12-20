@@ -1,6 +1,6 @@
 NOTE  |Author: AnubiS
 NOTE  |Attack: SDragLoInferno
-NOTE  |*** Support TH12, TH13, TH14, TH15
+NOTE  |*** Support TH12, TH13-14, TH15-17
 NOTE  |CC : 1 Rage 1 Freeze and Balloons
 NOTE  |Siege : Stone Slammers
 NOTE  |Script works on "EXTERNAL EDGES"
@@ -21,6 +21,7 @@ TRAIN |StoneS     |0          |0          |0          |0          |0          |0
       |_TROOPNAME_|___________|____TH06___|____TH07___|____TH08___|____TH09___|____TH10___|____TH11___|____TH12___|____TH13___|____TH14___|____TH15___|
 TRAIN |King       |0          |0          |0          |0          |0          |0          |0          |1          |1          |1          |1          |
 TRAIN |Queen      |0          |0          |0          |0          |0          |0          |0          |1          |1          |1          |1          |
+TRAIN |Prince     |0          |0          |0          |0          |0          |0          |0          |1          |1          |1          |1          |
 TRAIN |Warden     |0          |0          |0          |0          |0          |0          |0          |313        |313        |313        |313        |
 TRAIN |Champion   |0          |0          |0          |0          |0          |0          |0          |0          |1          |1          |1          |
       |                                                                                                                                  			  |
@@ -34,7 +35,7 @@ DRPLN |0          |0          |0          |0          |0          |0          |0
       |___________|___________|____TH06___|____TH07___|____TH08___|____TH09___|____TH10___|____TH11___|____TH12___|____TH13___|____TH14___|____TH15___|
 CCREQ |           |           |           |           |           |           |           |           |           |           |           |           |
 CCSPL |RSpell	  |           |           |           |           |           |           |           |1          |1          |1          |1          |
-CCSPL |FSpell     |           |           |           |           |           |           |           |0          |0          |1          |1          |
+CCSPL |FSpell     |           |           |           |           |           |           |           |0          |1          |1          |1          |
       |                                                                                                                                               |
       |EXTR. GOLD |EXTR.ELIXIR|EXTR. DARK |DEPO. GOLD |DEPO.ELIXIR|DEPO. DARK |TOWNHALL   |FORCED SIDE|___________|___________|___________|___________|
 SIDE  |0          |0          |0          |0          |0          |0          |20         |           |           |           |           |           |
@@ -74,9 +75,10 @@ DROP  |A          |3          |1          |SiegeB     |0          |50-70      |1
 DROP  |A          |3          |1          |StoneS     |0          |50-70      |150-170    |           |           |           |           |           |
 DROP  |A          |3          |1          |Castle     |0          |50-70      |150-170    |           |           |           |           |           |
 WAIT  |2000-3000  |           |           |           |           |           |           |           |           |           |           |           |
-DROP  |A          |3          |1          |KING       |0          |0          |150-200    |           |           |           |           |           |
+DROP  |A          |3          |1          |King       |0          |0          |150-200    |           |           |           |           |           |
 WAIT  |1000-1300  |           |           |           |           |           |           |           |           |           |           |           |
-DROP  |A          |3          |1          |QUEEN      |0          |0          |150-200    |           |           |           |           |           |
+DROP  |A          |3          |1          |Queen      |0          |0          |150-200    |           |           |           |           |           |
+DROP  |A          |3          |1          |Prince     |0          |0          |150-200    |           |           |           |           |           |
 WAIT  |1000-1300  |           |           |           |           |           |           |           |           |           |           |           |
 DROP  |A          |3,6        |2          |SDrag      |50-70      |137-150    |15-20      |           |           |           |           |           |
 DROP  |B          |3,6        |2          |SDrag      |50-70      |137-150    |300-400    |           |           |           |           |           |
@@ -91,7 +93,7 @@ DROP  |A          |10         |1          |InfernoD   |50-70      |137-150    |1
 DROP  |A          |10         |1          |Warden     |0	      |0          |100-250    |           |           |           |           |           |
 DROP  |C          |3          |1          |RSpell     |0          |0          |178-200    |           |           |           |           |           |
 DROP  |D          |2          |1          |RSpell     |0          |0          |130-250    |           |           |           |           |           |
-DROP  |A          |9          |1          |CHAMPION   |0          |0          |150-300    |           |           |           |           |           |
+DROP  |A          |9          |1          |Champion   |0          |0          |150-300    |           |           |           |           |           |
 DROP  |R          |1          |1          |FSpell     |0          |0          |100-150    |           |           |           |           |           |
 DROP  |S          |1          |1          |FSpell     |0          |0          |100-150    |           |           |           |           |           |
 DROP  |X          |1          |1          |FSpell     |0          |0          |100-150    |           |           |           |           |           |
