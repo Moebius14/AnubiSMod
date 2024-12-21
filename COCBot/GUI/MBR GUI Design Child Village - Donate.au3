@@ -25,7 +25,7 @@ Global $g_hGrpRequestCC = 0, $g_hLblRequestCCHoursAM = 0, $g_hLblRequestCCHoursP
 Global $g_hLblRequestCChour = 0, $g_ahLblRequestCChoursE = 0
 Global $g_hLblRequestCChours[12] = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
 Global $g_hLblRequestType, $g_hChkRequestType_Troops, $g_hChkRequestType_Spells, $g_hChkRequestType_Siege
-Global $g_hTxtRequestCountCCTroop, $g_hTxtRequestCountCCSpell, $g_hChkClanCastleSpell = 0
+Global $g_hTxtRequestCountCCTroop, $g_hTxtRequestCountCCSpell, $g_hTxtRequestCountCCSiege
 Global $g_ahCmbClanCastleTroop[3], $g_ahTxtClanCastleTroop[3]
 Global $g_ahCmbClanCastleSpell[3], $g_ahCmbClanCastleSiege[2]
 
@@ -194,6 +194,15 @@ Func CreateRequestSubTab()
 	_GUICtrlSetTip(-1, GetTranslatedFileIni("MBR GUI Design Child Village - Donate-CC", "lblIfLessThan_Info_03", "Do not request when already received that many CC Spells") & @CRLF & _
 			GetTranslatedFileIni("MBR GUI Design Child Village - Donate-CC", "lblIfLessThan_Info_04", "Set to either ""0"" or your max CC spells capacity when full CC Spell wanted"))
 	If GUICtrlRead($g_hChkRequestType_Spells) = $GUI_CHECKED Then
+		GUICtrlSetState(-1, $GUI_ENABLE)
+	Else
+		GUICtrlSetState(-1, $GUI_DISABLE)
+	EndIf
+	$g_hTxtRequestCountCCSiege = GUICtrlCreateInput("0", $x + 275, $y + 20, 25, 16, BitOR($SS_RIGHT, $ES_NUMBER))
+	GUICtrlSetLimit(-1, 1)
+	_GUICtrlSetTip(-1, GetTranslatedFileIni("MBR GUI Design Child Village - Donate-CC", "lblIfLessThan_Info_05", "Do not request when already received that many CC Sieges") & @CRLF & _
+			GetTranslatedFileIni("MBR GUI Design Child Village - Donate-CC", "lblIfLessThan_Info_06", "Set to either ""0"" or your max CC sieges capacity when full CC Siege wanted"))
+	If GUICtrlRead($g_hChkRequestType_Siege) = $GUI_CHECKED Then
 		GUICtrlSetState(-1, $GUI_ENABLE)
 	Else
 		GUICtrlSetState(-1, $GUI_DISABLE)

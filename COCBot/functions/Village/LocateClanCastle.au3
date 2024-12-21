@@ -101,37 +101,63 @@ Func LocateClanCastle($bCollect = True)
 				$g_aiClanCastleLvl = $sInfo[2]
 
 				Switch $g_aiClanCastleLvl
+					Case 1
+						$g_aiClanCastleTroopsCap = 10
+						$g_aiClanCastleSpellsCap = 0
+						$g_aiClanCastleSiegesCap = 0
+					Case 2
+						$g_aiClanCastleTroopsCap = 15
+						$g_aiClanCastleSpellsCap = 0
+						$g_aiClanCastleSiegesCap = 0
+					Case 3
+						$g_aiClanCastleTroopsCap = 20
+						$g_aiClanCastleSpellsCap = 0
+						$g_aiClanCastleSiegesCap = 0
 					Case 4
 						$g_aiClanCastleTroopsCap = 25
 						$g_aiClanCastleSpellsCap = 1
+						$g_aiClanCastleSiegesCap = 0
 					Case 5
 						$g_aiClanCastleTroopsCap = 30
 						$g_aiClanCastleSpellsCap = 1
+						$g_aiClanCastleSiegesCap = 0
 					Case 6
 						$g_aiClanCastleTroopsCap = 35
 						$g_aiClanCastleSpellsCap = 1
+						$g_aiClanCastleSiegesCap = 1
 					Case 7
 						$g_aiClanCastleTroopsCap = 35
 						$g_aiClanCastleSpellsCap = 2
+						$g_aiClanCastleSiegesCap = 1
 					Case 8
 						$g_aiClanCastleTroopsCap = 40
 						$g_aiClanCastleSpellsCap = 2
+						$g_aiClanCastleSiegesCap = 1
 					Case 9
 						$g_aiClanCastleTroopsCap = 45
 						$g_aiClanCastleSpellsCap = 2
+						$g_aiClanCastleSiegesCap = 1
 					Case 10
 						$g_aiClanCastleTroopsCap = 45
 						$g_aiClanCastleSpellsCap = 3
-					Case 11, 12
+						$g_aiClanCastleSiegesCap = 1
+					Case 11
 						$g_aiClanCastleTroopsCap = 50
 						$g_aiClanCastleSpellsCap = 3
+						$g_aiClanCastleSiegesCap = 1
+					Case 12
+						$g_aiClanCastleTroopsCap = 50
+						$g_aiClanCastleSpellsCap = 3
+						$g_aiClanCastleSiegesCap = 2
 					Case 13
 						$g_aiClanCastleTroopsCap = 55
 						$g_aiClanCastleSpellsCap = 3
+						$g_aiClanCastleSiegesCap = 2
 				EndSwitch
-				SetLog("CC Troops/Spells Capacities Set", $COLOR_SUCCESS1)
+				SetLog("CC Troops/Spells/Sieges Capacities Set", $COLOR_SUCCESS1)
 				SetLog("CC Troops Capacity : " & $g_aiClanCastleTroopsCap, $COLOR_ACTION)
-				SetLog("CC Spells Capacity : " & $g_aiClanCastleSpellsCap, $COLOR_ACTION)
+				SetLog("CC Spell" & ($g_aiClanCastleSpellsCap > 1 ? "s" : "") & " Capacity : " & $g_aiClanCastleSpellsCap, $COLOR_ACTION)
+				SetLog("CC Siege" & ($g_aiClanCastleSiegesCap > 1 ? "s" : "") & " Capacity : " & $g_aiClanCastleSiegesCap, $COLOR_ACTION)
 
 			EndIf
 		Else
@@ -157,7 +183,7 @@ Func _BtnDefineCapacity()
 		SwitchBetweenBases(False)
 	EndIf
 
-	If $g_aiClanCastlePos[0] = -1 Then
+	If $g_aiClanCastlePos[0] = -1 Or $g_aiClanCastleTroopsCap = -1 Or $g_aiClanCastleSiegesCap = -1 Then
 		SetLog("Locate Clan Castle First", $COLOR_ERROR)
 		LocateClanCastle(False)
 		Return
@@ -191,48 +217,68 @@ Func _BtnDefineCapacity()
 		Case 1
 			$g_aiClanCastleTroopsCap = 10
 			$g_aiClanCastleSpellsCap = 0
+			$g_aiClanCastleSiegesCap = 0
 		Case 2
 			$g_aiClanCastleTroopsCap = 15
 			$g_aiClanCastleSpellsCap = 0
+			$g_aiClanCastleSiegesCap = 0
 		Case 3
 			$g_aiClanCastleTroopsCap = 20
 			$g_aiClanCastleSpellsCap = 0
+			$g_aiClanCastleSiegesCap = 0
 		Case 4
 			$g_aiClanCastleTroopsCap = 25
 			$g_aiClanCastleSpellsCap = 1
+			$g_aiClanCastleSiegesCap = 0
 		Case 5
 			$g_aiClanCastleTroopsCap = 30
 			$g_aiClanCastleSpellsCap = 1
+			$g_aiClanCastleSiegesCap = 0
 		Case 6
 			$g_aiClanCastleTroopsCap = 35
 			$g_aiClanCastleSpellsCap = 1
+			$g_aiClanCastleSiegesCap = 1
 		Case 7
 			$g_aiClanCastleTroopsCap = 35
 			$g_aiClanCastleSpellsCap = 2
+			$g_aiClanCastleSiegesCap = 1
 		Case 8
 			$g_aiClanCastleTroopsCap = 40
 			$g_aiClanCastleSpellsCap = 2
+			$g_aiClanCastleSiegesCap = 1
 		Case 9
 			$g_aiClanCastleTroopsCap = 45
 			$g_aiClanCastleSpellsCap = 2
+			$g_aiClanCastleSiegesCap = 1
 		Case 10
 			$g_aiClanCastleTroopsCap = 45
 			$g_aiClanCastleSpellsCap = 3
-		Case 11, 12
+			$g_aiClanCastleSiegesCap = 1
+		Case 11
 			$g_aiClanCastleTroopsCap = 50
 			$g_aiClanCastleSpellsCap = 3
+			$g_aiClanCastleSiegesCap = 1
+		Case 12
+			$g_aiClanCastleTroopsCap = 50
+			$g_aiClanCastleSpellsCap = 3
+			$g_aiClanCastleSiegesCap = 2
 		Case 13
 			$g_aiClanCastleTroopsCap = 55
 			$g_aiClanCastleSpellsCap = 3
+			$g_aiClanCastleSiegesCap = 2
 	EndSwitch
-	SetLog("CC Troops/Spells Capacities Set", $COLOR_SUCCESS1)
+	SetLog("CC Troops/Spells/Sieges Capacities Set", $COLOR_SUCCESS1)
 	SetLog("CC Troops Capacity : " & $g_aiClanCastleTroopsCap, $COLOR_ACTION)
-	SetLog("CC Spells Capacity : " & $g_aiClanCastleSpellsCap, $COLOR_ACTION)
+	SetLog("CC Spell" & ($g_aiClanCastleSpellsCap > 1 ? "s" : "") & " Capacity : " & $g_aiClanCastleSpellsCap, $COLOR_ACTION)
+	SetLog("CC Siege" & ($g_aiClanCastleSiegesCap > 1 ? "s" : "") & " Capacity : " & $g_aiClanCastleSiegesCap, $COLOR_ACTION)
 	SaveConfig()
 	ClearScreen()
 EndFunc   ;==>_BtnDefineCapacity
 
 Func BtnDefineCapacity()
+
+	_GUICtrlTab_ClickTab($g_hTabMain, 0)
+
 	Local $wasRunState = $g_bRunState
 	$g_bRunState = True
 
@@ -243,3 +289,65 @@ Func BtnDefineCapacity()
 	AndroidShield("DefineCapacity 2") ; Update shield status due to manual $g_bRunState
 	Return $Result
 EndFunc   ;==>BtnDefineCapacity
+
+Func AdjustCcCapacities($bClanCastleLvl = 6)
+	Switch $bClanCastleLvl
+		Case 1
+			$g_aiClanCastleTroopsCap = 10
+			$g_aiClanCastleSpellsCap = 0
+			$g_aiClanCastleSiegesCap = 0
+		Case 2
+			$g_aiClanCastleTroopsCap = 15
+			$g_aiClanCastleSpellsCap = 0
+			$g_aiClanCastleSiegesCap = 0
+		Case 3
+			$g_aiClanCastleTroopsCap = 20
+			$g_aiClanCastleSpellsCap = 0
+			$g_aiClanCastleSiegesCap = 0
+		Case 4
+			$g_aiClanCastleTroopsCap = 25
+			$g_aiClanCastleSpellsCap = 1
+			$g_aiClanCastleSiegesCap = 0
+		Case 5
+			$g_aiClanCastleTroopsCap = 30
+			$g_aiClanCastleSpellsCap = 1
+			$g_aiClanCastleSiegesCap = 0
+		Case 6
+			$g_aiClanCastleTroopsCap = 35
+			$g_aiClanCastleSpellsCap = 1
+			$g_aiClanCastleSiegesCap = 1
+		Case 7
+			$g_aiClanCastleTroopsCap = 35
+			$g_aiClanCastleSpellsCap = 2
+			$g_aiClanCastleSiegesCap = 1
+		Case 8
+			$g_aiClanCastleTroopsCap = 40
+			$g_aiClanCastleSpellsCap = 2
+			$g_aiClanCastleSiegesCap = 1
+		Case 9
+			$g_aiClanCastleTroopsCap = 45
+			$g_aiClanCastleSpellsCap = 2
+			$g_aiClanCastleSiegesCap = 1
+		Case 10
+			$g_aiClanCastleTroopsCap = 45
+			$g_aiClanCastleSpellsCap = 3
+			$g_aiClanCastleSiegesCap = 1
+		Case 11
+			$g_aiClanCastleTroopsCap = 50
+			$g_aiClanCastleSpellsCap = 3
+			$g_aiClanCastleSiegesCap = 1
+		Case 12
+			$g_aiClanCastleTroopsCap = 50
+			$g_aiClanCastleSpellsCap = 3
+			$g_aiClanCastleSiegesCap = 2
+		Case 13
+			$g_aiClanCastleTroopsCap = 55
+			$g_aiClanCastleSpellsCap = 3
+			$g_aiClanCastleSiegesCap = 2
+	EndSwitch
+	SetLog("New CC Troops/Spells/Sieges Capacities Set", $COLOR_SUCCESS1)
+	SetLog("CC Troops Capacity : " & $g_aiClanCastleTroopsCap, $COLOR_ACTION)
+	SetLog("CC Spell" & ($g_aiClanCastleSpellsCap > 1 ? "s" : "") & " Capacity : " & $g_aiClanCastleSpellsCap, $COLOR_ACTION)
+	SetLog("CC Siege" & ($g_aiClanCastleSiegesCap > 1 ? "s" : "") & " Capacity : " & $g_aiClanCastleSiegesCap, $COLOR_ACTION)
+	SaveConfig()
+EndFunc   ;==>AdjustCcCapacities

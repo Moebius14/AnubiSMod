@@ -243,6 +243,7 @@ Func SaveBuildingConfig()
 	_Ini_Add("other", "CCLvl", $g_aiClanCastleLvl)
 	_Ini_Add("other", "CCTCap", $g_aiClanCastleTroopsCap)
 	_Ini_Add("other", "CCSCap", $g_aiClanCastleSpellsCap)
+	_Ini_Add("other", "CCSiegeCap", $g_aiClanCastleSiegesCap)
 
 	_Ini_Add("other", "totalcamp", $g_iTotalCampSpace)
 
@@ -624,6 +625,7 @@ Func SaveConfig_600_11()
 	_Ini_Add("donate", "RequestType_Siege", $g_abRequestType[2] ? 1 : 0)
 	_Ini_Add("donate", "RequestCountCC_Troop", $g_iRequestCountCCTroop)
 	_Ini_Add("donate", "RequestCountCC_Spell", $g_iRequestCountCCSpell)
+	_Ini_Add("donate", "RequestCountCC_Siege", $g_iRequestCountCCSiege)
 	For $i = 0 To 2
 		_Ini_Add("donate", "cmbClanCastleTroop" & $i, $g_aiClanCastleTroopWaitType[$i])
 		_Ini_Add("donate", "txtClanCastleTroop" & $i, $g_aiClanCastleTroopWaitQty[$i])

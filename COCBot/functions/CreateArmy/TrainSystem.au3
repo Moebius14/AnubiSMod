@@ -1491,6 +1491,10 @@ Func FillCCWMedals($g_bFullArmy = False, $g_bCheckSpells = False, $bFullArmyHero
 	Local $BuildingInfo = BuildingInfo(242, 475 + $g_iBottomOffsetY)
 
 	If $BuildingInfo[1] = "Clan Castle" Then
+		If $g_aiClanCastleLvl <> $BuildingInfo[2] Then
+			$g_aiClanCastleLvl = $BuildingInfo[2]
+			AdjustCcCapacities($BuildingInfo[2])
+		EndIf
 		If ClickB("Reinforce") Then
 			If _Sleep(1000) Then Return
 			If Number($g_iLootCCMedal) = 0 Then
@@ -1577,6 +1581,10 @@ Func FillCCWMedals($g_bFullArmy = False, $g_bCheckSpells = False, $bFullArmyHero
 			Local $BuildingInfo = BuildingInfo(242, 475 + $g_iBottomOffsetY)
 
 			If $BuildingInfo[1] = "Clan Castle" Then
+				If $g_aiClanCastleLvl <> $BuildingInfo[2] Then
+					$g_aiClanCastleLvl = $BuildingInfo[2]
+					AdjustCcCapacities($BuildingInfo[2])
+				EndIf
 				If ClickB("Reinforce") Then
 					If _Sleep(1000) Then Return
 					If Number($g_iLootCCMedal) = 0 Then
@@ -1658,6 +1666,10 @@ Func FillCCWMedals($g_bFullArmy = False, $g_bCheckSpells = False, $bFullArmyHero
 			$BuildingInfo = BuildingInfo(242, 475 + $g_iBottomOffsetY)
 
 			If $BuildingInfo[1] = "Clan Castle" Then
+				If $g_aiClanCastleLvl <> $BuildingInfo[2] Then
+					$g_aiClanCastleLvl = $BuildingInfo[2]
+					AdjustCcCapacities($BuildingInfo[2])
+				EndIf
 				If ClickB("Reinforce") Then
 					If _Sleep(1000) Then Return
 					If Number($g_iLootCCMedal) = 0 Then

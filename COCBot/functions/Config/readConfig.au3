@@ -224,6 +224,7 @@ Func ReadBuildingConfig()
 		IniReadS($g_aiClanCastleLvl, $g_sProfileBuildingPath, "other", "CCLvl", -1, "int")
 		IniReadS($g_aiClanCastleTroopsCap, $g_sProfileBuildingPath, "other", "CCTCap", -1, "int")
 		IniReadS($g_aiClanCastleSpellsCap, $g_sProfileBuildingPath, "other", "CCSCap", -1, "int")
+		IniReadS($g_aiClanCastleSiegesCap, $g_sProfileBuildingPath, "other", "CCSiegeCap", -1, "int")
 
 		IniReadS($g_aiHeroHallPos[0], $g_sProfileBuildingPath, "other", "HeroHallPosX", -1, "int")
 		IniReadS($g_aiHeroHallPos[1], $g_sProfileBuildingPath, "other", "HeroHallPosY", -1, "int")
@@ -676,6 +677,7 @@ Func ReadConfig_600_11()
 	$g_abRequestType[2] = (IniRead($g_sProfileConfigPath, "donate", "RequestType_Siege", "0") = "1")
 	$g_iRequestCountCCTroop = Int(IniRead($g_sProfileConfigPath, "donate", "RequestCountCC_Troop", "0"))
 	$g_iRequestCountCCSpell = Int(IniRead($g_sProfileConfigPath, "donate", "RequestCountCC_Spell", "0"))
+	$g_iRequestCountCCSiege = Int(IniRead($g_sProfileConfigPath, "donate", "RequestCountCC_Siege", "0"))
 	For $i = 0 To $eTroopCount - 1
 		$g_aiCCTroopsExpected[$i] = 0
 	Next

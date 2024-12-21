@@ -151,8 +151,7 @@ EndFunc   ;==>_makerequest
 
 Func IsFullClanCastleType($CCType = 0) ; Troops = 0, Spells = 1, Siege Machine = 2
 	Local $aCheckCCNotFull[3] = [79, 446, 563], $sLog[3] = ["Troop", "Spell", "Siege Machine"]
-	Local $aiRequestCountCC[3] = [Number($g_iRequestCountCCTroop), Number($g_iRequestCountCCSpell), 0]
-	If $g_abRequestType[2] Then $aiRequestCountCC[2] = 1
+	Local $aiRequestCountCC[3] = [Number($g_iRequestCountCCTroop), Number($g_iRequestCountCCSpell), Number($g_iRequestCountCCSiege)]
 	Local $bIsCCRequestTypeNotUsed = Not ($g_abRequestType[0] Or $g_abRequestType[1] Or $g_abRequestType[2])
 	If $bIsCCRequestTypeNotUsed Then ; Continue reading CC status if all 3 items are unchecked
 		If $g_bDebugSetLog Then SetLog($sLog[$CCType] & " not cared about.")
@@ -167,35 +166,42 @@ Func IsFullClanCastleType($CCType = 0) ; Troops = 0, Spells = 1, Siege Machine =
 			EndIf
 
 			; avoid total expected troops / spells is less than expected CC q'ty.
-			Local $iTotalExpectedTroop = 0, $iTotalExpectedSpell = 0
+			Local $iTotalExpectedTroop = 0, $iTotalExpectedSpell = 0, $iTotalExpectedSiege = 0
 			For $i = 0 To $eTroopCount - 1
 				$iTotalExpectedTroop += $g_aiCCTroopsExpected[$i] * $g_aiTroopSpace[$i]
 			Next
 			For $i = 0 To $eSpellCount - 1
 				$iTotalExpectedSpell += $g_aiCCSpellsExpected[$i] * $g_aiSpellSpace[$i]
 			Next
+			For $i = 0 To $eSiegeMachineCount - 1
+				$iTotalExpectedSiege += $g_aiCCSiegeExpected[$i]
+			Next
 
 			If $aiRequestCountCC[0] > $iTotalExpectedTroop And $iTotalExpectedTroop > 0 Then $aiRequestCountCC[0] = $iTotalExpectedTroop
 			If $aiRequestCountCC[1] > $iTotalExpectedSpell And $iTotalExpectedSpell > 0 Then $aiRequestCountCC[1] = $iTotalExpectedSpell
+			If $aiRequestCountCC[2] > $iTotalExpectedSiege And $iTotalExpectedSiege > 0 Then $aiRequestCountCC[2] = $iTotalExpectedSiege
 
 			If ($CCType = 0 And ($aiRequestCountCC[$CCType] = 0 Or $aiRequestCountCC[$CCType] = $g_aiClanCastleTroopsCap)) Or _
-					($CCType = 1 And ($aiRequestCountCC[$CCType] = 0 Or $aiRequestCountCC[$CCType] = $g_aiClanCastleSpellsCap)) Then
-				If $CCType = 1 And $g_aiClanCastleSpellsCap = 1 Then
-					SetLog("Full CC " & $sLog[$CCType] & " Required", $COLOR_DEBUG)
-				Else
-					SetLog("Full CC " & $sLog[$CCType] & "s Required", $COLOR_DEBUG)
-				EndIf
+					($CCType = 1 And ($aiRequestCountCC[$CCType] = 0 Or $aiRequestCountCC[$CCType] = $g_aiClanCastleSpellsCap)) Or _
+					($CCType = 2 And ($aiRequestCountCC[$CCType] = 0 Or $aiRequestCountCC[$CCType] = $g_aiClanCastleSiegesCap)) Then
+				Switch $CCType
+					Case 0
+						SetLog("Full CC " & $sLog[$CCType] & "s Required", $COLOR_DEBUG)
+					Case 1
+						SetLog("Full CC " & $sLog[$CCType] & ($g_aiClanCastleSpellsCap > 1 ? "s" : "") & " Required", $COLOR_DEBUG)
+					Case 2
+						SetLog("Full CC " & $sLog[$CCType] & ($g_aiClanCastleSiegesCap > 1 ? "s" : "") & " Required", $COLOR_DEBUG)
+				EndSwitch
 				Return False
 			Else
-				If $CCType < 2 Then
-					If $CCType = 0 Then
+				Switch $CCType
+					Case 0
 						Local $sCCReceived = getOcrAndCapture("coc-camps", 307, 428 + $g_iMidOffsetY, 60, 16, True, False, True) ; read CC troop
-					Else
+					Case 1
 						Local $sCCReceived = getOcrAndCapture("coc-camps", 461, 428 + $g_iMidOffsetY, 35, 16, True, False, True) ; read CC spells
-					EndIf
-				Else
-					Local $sCCReceived = getOcrAndCapture("coc-camps", 578, 428 + $g_iMidOffsetY, 30, 16, True, False, True) ; read CC (Siege x/1)
-				EndIf
+					Case 2
+						Local $sCCReceived = getOcrAndCapture("coc-camps", 578, 428 + $g_iMidOffsetY, 30, 16, True, False, True) ; read CC Siege(s)
+				EndSwitch
 				If $g_bDebugSetLog Then SetLog("Read CC " & $sLog[$CCType] & "s: " & $sCCReceived)
 				Local $aCCReceived = StringSplit($sCCReceived, "#", $STR_NOCOUNT) ; split the trained troop number from the total troop number
 				If IsArray($aCCReceived) Then

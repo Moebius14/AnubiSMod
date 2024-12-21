@@ -921,7 +921,7 @@ Global $g_bRequestTroopsEnable = False
 Global $g_sRequestTroopsText = ""
 Global $g_abRequestCCHours[24] = [False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False]
 Global $g_abRequestType[3] = [True, True, False] ; (0 = Troop, 1 = Spell, 2 = Siege Machine)
-Global $g_iRequestCountCCTroop = 0, $g_iRequestCountCCSpell = 0
+Global $g_iRequestCountCCTroop = 0, $g_iRequestCountCCSpell = 0, $g_iRequestCountCCSiege = 0
 Global $g_aiCCTroopsExpected[$eTroopCount] = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
 Global $g_aiCCSpellsExpected[$eSpellCount] = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
 Global $g_aiCCSiegeExpected[$eSiegeMachineCount] = [0, 0, 0, 0, 0, 0, 0]
@@ -1415,6 +1415,7 @@ Global $g_aiClanCastlePos[2] = [-1, -1] ; Position of clan castle
 Global $g_aiClanCastleLvl = -1 ; Level of clan castle
 Global $g_aiClanCastleTroopsCap = -1 ; Troops Capacity of clan castle
 Global $g_aiClanCastleSpellsCap = -1 ; Spells Capacity of clan castle
+Global $g_aiClanCastleSiegesCap = -1 ; Sieges Capacity of clan castle
 Global $g_iDetectedImageType = 0 ; Image theme; 0 = normal, 1 = snow
 Global $g_abNotNeedAllTime[2] = [True, True] ; Collect LootCart, CheckTombs
 

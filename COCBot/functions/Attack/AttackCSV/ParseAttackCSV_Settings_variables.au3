@@ -54,8 +54,17 @@ Func ParseAttackCSV_Settings_variables(ByRef $aiCSVTroops, ByRef $aiCSVTroopsBoo
 							$iTHCol = $iTHBeginCol + 9
 							$iTH = 15
 						Case $g_iMaxCapTroopTH[12] + 5 To $g_iMaxCapTroopTH[14]    ; TH13/14
-							$iTHCol = $iTHBeginCol + 7
-							$iTH = 13
+							Switch $g_aiClanCastleSpellsCap
+								Case 3 ; TH14
+									$iTHCol = $iTHBeginCol + 8
+									$iTH = 14
+								Case 2 ; TH13
+									$iTHCol = $iTHBeginCol + 7
+									$iTH = 13
+								Case Else ; Forgot to relocate ?
+									$iTHCol = $iTHBeginCol + 7
+									$iTH = 13
+							EndSwitch
 						Case $g_iMaxCapTroopTH[11] + 5 To $g_iMaxCapTroopTH[12]    ; TH12
 							$iTHCol = $iTHBeginCol + 6
 							$iTH = 12

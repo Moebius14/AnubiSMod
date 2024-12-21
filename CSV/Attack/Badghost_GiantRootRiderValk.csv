@@ -36,7 +36,7 @@ DRPLN |0          |0          |0          |0          |0          |0          |0
       |___________|___________|____TH06___|____TH07___|____TH08___|____TH09___|____TH10___|____TH11___|____TH12___|____TH13___|____TH14___|____TH15___|____TH16___|
 CCREQ |           |           |           |           |           |           |           |           |           |           |           |           |           |
 CCSPL |RSpell     |           |           |           |           |           |           |           |           |1          |1          |1          |1          |
-CCSPL |FSpell     |           |           |           |           |           |           |           |           |1          |1          |1          |1          |
+CCSPL |FSpell     |           |           |           |           |           |           |           |           |0          |1          |1          |1          |
       |                                                                                                                                                           |
       |EXTR. GOLD |EXTR.ELIXIR|EXTR. DARK |DEPO. GOLD |DEPO.ELIXIR|DEPO. DARK |TOWNHALL   |FORCED SIDE|
 SIDE  |0          |0          |0          |0          |0          |0          |20         |           |

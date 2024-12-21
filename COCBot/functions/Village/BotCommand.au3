@@ -814,6 +814,10 @@ Func IsCCTreasuryFull()
 	Local $BuildingInfo = BuildingInfo(242, 475 + $g_iBottomOffsetY)
 
 	If $BuildingInfo[1] = "Clan Castle" Then
+		If $g_aiClanCastleLvl <> $BuildingInfo[2] Then
+			$g_aiClanCastleLvl = $BuildingInfo[2]
+			AdjustCcCapacities($BuildingInfo[2])
+		EndIf
 		SetDebugLog("Clan Castle Windows Is Open", $COLOR_DEBUG1)
 	Else
 		For $i = 1 To 10
@@ -828,7 +832,13 @@ Func IsCCTreasuryFull()
 
 			$BuildingInfo = BuildingInfo(242, 475 + $g_iBottomOffsetY)
 
-			If $BuildingInfo[1] = "Clan Castle" Then ExitLoop
+			If $BuildingInfo[1] = "Clan Castle" Then
+				If $g_aiClanCastleLvl <> $BuildingInfo[2] Then
+					$g_aiClanCastleLvl = $BuildingInfo[2]
+					AdjustCcCapacities($BuildingInfo[2])
+				EndIf
+				ExitLoop
+			EndIf
 			ClearScreen()
 			$NewX = Number($g_aiClanCastlePos[0] - (2 * $i))
 			$NewY = Number($g_aiClanCastlePos[1] + (2 * $i))
@@ -838,7 +848,13 @@ Func IsCCTreasuryFull()
 
 			$BuildingInfo = BuildingInfo(242, 475 + $g_iBottomOffsetY)
 
-			If $BuildingInfo[1] = "Clan Castle" Then ExitLoop
+			If $BuildingInfo[1] = "Clan Castle" Then
+				If $g_aiClanCastleLvl <> $BuildingInfo[2] Then
+					$g_aiClanCastleLvl = $BuildingInfo[2]
+					AdjustCcCapacities($BuildingInfo[2])
+				EndIf
+				ExitLoop
+			EndIf
 		Next
 	EndIf
 

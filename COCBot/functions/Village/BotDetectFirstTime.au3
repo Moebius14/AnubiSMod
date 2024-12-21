@@ -67,7 +67,7 @@ Func BotDetectFirstTime()
 
 	If $g_bScreenshotHideName Then
 		If _Sleep($DELAYBOTDETECT3) Then Return
-		If $g_aiClanCastlePos[0] = -1 Or $g_aiClanCastleTroopsCap = -1 Then
+		If $g_aiClanCastlePos[0] = -1 Or $g_aiClanCastleTroopsCap = -1 Or $g_aiClanCastleSiegesCap = -1 Then
 			LocateClanCastle(False)
 			SaveConfig()
 		EndIf
