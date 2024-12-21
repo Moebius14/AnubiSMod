@@ -438,14 +438,14 @@ Func _VillageSearch() ;Control for searching a village that meets conditions
 		EndIf
 
 		If $g_bSearchRestartPickupHero Then
-			For $i = 0 To $eHeroCount - 1 ; check all heros
-				If Not $abHeroUse[$i] Or Not _DateIsValid($g_asHeroHealTime[$i]) Then ContinueLoop
+			For $i = 0 To $eHeroSlots - 1 ; check slots
+				If Not $abHeroUse[$g_aiCmbCustomHeroOrder[$i]] Or Not _DateIsValid($g_asHeroHealTime[$i]) Then ContinueLoop
 				Local $iTimeTillHeroHealed = Int(_DateDiff('s', _NowCalc(), $g_asHeroHealTime[$i])) ; hero time in seconds
-				SetDebugLog($g_asHeroNames[$i] & " will be ready in " & $iTimeTillHeroHealed & " seconds")
+				SetDebugLog($g_asHeroNames[$g_aiCmbCustomHeroOrder[$i]] & " will be ready in " & $iTimeTillHeroHealed & " seconds")
 				If $iTimeTillHeroHealed <= 0 Then
 					$bReturnToPickupHero = True
 					$g_asHeroHealTime[$i] = ""
-					SetLog($g_asHeroNames[$i] & " is ready. Return home to pick " & ($i <> 1 ? "him" : "her") & " up to join the attack")
+					SetLog($g_asHeroNames[$g_aiCmbCustomHeroOrder[$i]] & " is ready. Return home to pick " & ($g_aiCmbCustomHeroOrder[$i] <> 1 ? "him" : "her") & " up to join the attack")
 					ExitLoop ; found 1 Hero is ready, skip checking other heros
 				EndIf
 			Next
