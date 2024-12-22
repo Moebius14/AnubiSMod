@@ -102,10 +102,7 @@ Func ClickRemoveObstacleBB()
 			Local $IsCleaningRunning = True
 			While $IsCleaningRunning
 				; check for Cancel Button
-				Local $offColors[3][3] = [[0xA75834, 34, 21], [0x0D0D0D, 38, 29], [0xFFFFFF, 81, 0]] ; , 2nd pixel Grey in hammer, 3rd pixel black broken hammer, 4th pixel white edge of button
-				Local $CancelButton = _MultiPixelSearch(385, 572, 475, 605, 1, 1, Hex(0x0D0D0D, 6), $offColors, 40) ; first black pixel on side of button
-				SetDebugLog("Pixel Color #1: " & _GetPixelColor(390, 572, True) & ", #2: " & _GetPixelColor(424, 593, True) & ", #3: " & _GetPixelColor(428, 601, True) & ", #4: " & _GetPixelColor(471, 572, True), $COLOR_DEBUG)
-				If IsArray($CancelButton) Then
+				If QuickMIS("BC1", $g_sImgCancelButton, 140, 500 + $g_iBottomOffsetY, 740, 590 + $g_iBottomOffsetY) Then
 					If _Sleep(500) Then ExitLoop
 				Else
 					$IsCleaningRunning = False

@@ -197,14 +197,7 @@ Func UpgradeValue($inum, $bRepeat = False) ;function to find the value and type 
 			If _Sleep($DELAYUPGRADEVALUE4) Then Return
 		EndIf
 		; check for upgrade in process
-		Local $offColors[3][3] = [[0x0D0D0D, 39, 29], [0x904F31, 67, 34], [0xFFFFFF, 81, 0]] ; 2nd pixel black broken hammer, 3rd pixel lt brown handle, 4th pixel white edge of button
-		Local $ButtonPixel = _MultiPixelSearch(284, 572, 580, 615, 1, 1, Hex(0x0D0D0D, 6), $offColors, 40) ; first black pixel on side of button
-		SetDebugLog("Pixel Color #1: " & _GetPixelColor(390, 572, True) & ", #2: " & _GetPixelColor(429, 601, True) & ", #3: " & _GetPixelColor(457, 606, True) & ", #4: " & _GetPixelColor(471, 572, True), $COLOR_DEBUG)
-		If IsArray($ButtonPixel) Then
-			If $g_bDebugSetLog Or $bOopsFlag Then
-				SetLog("ButtonPixel = " & $ButtonPixel[0] & ", " & $ButtonPixel[1], $COLOR_DEBUG) ;Debug
-				SetLog("Pixel Color #1: " & _GetPixelColor($ButtonPixel[0], $ButtonPixel[1], True) & ", #2: " & _GetPixelColor($ButtonPixel[0] + 39, $ButtonPixel[1] + 19, True) & ", #3: " & _GetPixelColor($ButtonPixel[0] + 68, $ButtonPixel[1] + 34, True) & ", #4: " & _GetPixelColor($ButtonPixel[0] + 81, $ButtonPixel[1], True), $COLOR_DEBUG)
-			EndIf
+		If QuickMIS("BC1", $g_sImgCancelButton, 140, 500 + $g_iBottomOffsetY, 740, 590 + $g_iBottomOffsetY) Then
 			SetLog("Selection #" & $inum + 1 & " Upgrade in process - Skipped!", $COLOR_WARNING)
 			ClearScreen()
 			Return False

@@ -272,7 +272,7 @@ Func GetButtonDiamond($sButtonName)
 		Case "ObjectButtons", "BoostOne", "BoostCT", "ClockTowerPot", "Upgrade", "Research", "Treasury", "RemoveObstacle", "CollectLootCart", "Pets", _
 				"LabPotion", "LabBoosted", "BuilderPot", "Reinforce", "Info", "THWeapon", "WallRing", "GearUp", "PetPotion", "PetBoosted", "MagicItems", "Equipment", "FinishNow", _
 				"BuildersApp", "LabAssist", "HeroHallButton" ; Buttons at the bottom
-			$btnDiamond = GetDiamondFromRect2(140, 500 + $g_iBottomOffsetY, 720, 590 + $g_iBottomOffsetY)
+			$btnDiamond = GetDiamondFromRect2(140, 500 + $g_iBottomOffsetY, 740, 590 + $g_iBottomOffsetY)
 		Case "Info"
 			$btnDiamond = GetDiamondFromRect2(140, 540 + $g_iBottomOffsetY, 720, 640 + $g_iBottomOffsetY)
 		Case "GEM", "BOOSTBtn", "BoostConfirm" ; Boost window button (full button size)
