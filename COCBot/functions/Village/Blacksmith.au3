@@ -119,40 +119,40 @@ Func Blacksmith($bTest = False)
 		SetLog("Try to upgrade " & $g_asEquipmentOrderList[$g_aiCmbCustomEquipmentOrder[$i]][0], $COLOR_SUCCESS)
 		If _Sleep(500) Then Return
 
-		Switch $g_aiCmbCustomEquipmentOrder[$i]
-			Case 3 ; Vampstache
+		Switch $g_asEquipmentOrderList[$g_aiCmbCustomEquipmentOrder[$i]][0]
+			Case "Vampstache"
 				If $BuildingInfo[2] < 3 Then
-					SetLog("BlackSmith level 3 needed, looking next", $COLOR_SUCCESS)
+					SetLog("BlackSmith level 3 needed, looking next", $COLOR_WARNING)
 					ContinueLoop
 				EndIf
-			Case 8 ; Giant Arrow
+			Case "Giant Arrow"
 				If $BuildingInfo[2] < 2 Then
-					SetLog("BlackSmith level 2 needed, looking next", $COLOR_SUCCESS)
+					SetLog("BlackSmith level 2 needed, looking next", $COLOR_WARNING)
 					ContinueLoop
 				EndIf
-			Case 9 ; Healer Puppet
+			Case "Healer Puppet"
 				If $BuildingInfo[2] < 5 Then
-					SetLog("BlackSmith level 5 needed, looking next", $COLOR_SUCCESS)
+					SetLog("BlackSmith level 5 needed, looking next", $COLOR_WARNING)
 					ContinueLoop
 				EndIf
-			Case 16 ; Rage Gem
+			Case "Rage Gem"
 				If $BuildingInfo[2] < 4 Then
-					SetLog("BlackSmith level 4 needed, looking next", $COLOR_SUCCESS)
+					SetLog("BlackSmith level 4 needed, looking next", $COLOR_WARNING)
 					ContinueLoop
 				EndIf
-			Case 17 ; Healing Tome
+			Case "Healing Tome"
 				If $BuildingInfo[2] < 6 Then
-					SetLog("BlackSmith level 6 needed, looking next", $COLOR_SUCCESS)
+					SetLog("BlackSmith level 6 needed, looking next", $COLOR_WARNING)
 					ContinueLoop
 				EndIf
-			Case 22 ; Hog Rider Puppet
+			Case "Hog Rider Puppet"
 				If $BuildingInfo[2] < 7 Then
-					SetLog("BlackSmith level 7 needed, looking next", $COLOR_SUCCESS)
+					SetLog("BlackSmith level 7 needed, looking next", $COLOR_WARNING)
 					ContinueLoop
 				EndIf
-			Case 23 ; Haste Vial
+			Case "Haste Vial"
 				If $BuildingInfo[2] < 8 Then
-					SetLog("BlackSmith level 8 needed, looking next", $COLOR_SUCCESS)
+					SetLog("BlackSmith level 8 needed, looking next", $COLOR_WARNING)
 					ContinueLoop
 				EndIf
 		EndSwitch
