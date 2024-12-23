@@ -127,7 +127,7 @@ EndFunc   ;==>_checkMainScreenImage
 Func checkChatTabPixel()
 	SetDebugLog("Checking chat tab pixel exists to ensure images have loaded correctly")
 	If _Sleep(500) Then Return
-	Local $aChatTabPixel = decodeSingleCoord(findImage("ChatTabPixel", $g_sImgChatTabPixel, GetDiamondFromRect("5,315,30,360"), 1, True))
+	Local $aChatTabPixel = decodeSingleCoord(findImage("ChatTabPixel", $g_sImgChatTabPixel, GetDiamondFromRect2(5, 285 + $g_iMidOffsetY, 30, 330 + $g_iMidOffsetY), 1, True))
 	If UBound($aChatTabPixel) = 2 Then
 		SetDebugLog("ChatTabPixel found", $COLOR_SUCCESS)
 		Return True

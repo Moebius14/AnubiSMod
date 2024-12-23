@@ -908,7 +908,7 @@ Func HiddenSlotstatus()
 		Return
 
 	Else
-	
+
 		Local Static $iLastTimeCheckedHidden[8]
 		If $g_bFirstStartForHiddenHero Then $iLastTimeCheckedHidden[$g_iCurAccount] = ""
 

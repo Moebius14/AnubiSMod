@@ -809,7 +809,7 @@ Func CreateWallsSubTab()
 
 	_GUICtrlCreateIcon($g_sLibModIconPath, $eIcnPriority, $x - 12, $y + 97, 20, 20)
 	$g_hChkWallUpFirst = GUICtrlCreateCheckbox(GetTranslatedFileIni("MBR GUI Design Child Village - Upgrade_Walls", "ChkWallUpFirst", "Upgrade Walls First"), $x + 18, $y + 97, -1, -1)
-	_GUICtrlSetTip(-1, GetTranslatedFileIni("MBR GUI Design Child Village - Upgrade_Walls", "ChkWallUpFirst_Info_01", "Check This To Upgrade Walls Before Buildings Or Heroes, But After Laboratory"))
+	_GUICtrlSetTip(-1, GetTranslatedFileIni("MBR GUI Design Child Village - Upgrade_Walls", "ChkWallUpFirst_Info_01", "Check This To Upgrade Walls Before Buildings and Heroes, But After Laboratory"))
 	GUICtrlSetState(-1, $GUI_ENABLE)
 	GUICtrlSetState(-1, $GUI_UNCHECKED)
 

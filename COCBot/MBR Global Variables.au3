@@ -975,6 +975,7 @@ Global $IsOresJustCollected = 0
 ; Heroes
 Global $g_bUpgradeKingEnable = False, $g_bUpgradeQueenEnable = False, $g_bUpgradePrinceEnable = False, $g_bUpgradeWardenEnable = False, $g_bUpgradeChampionEnable = False, $g_iHeroReservedBuilder = 0
 Global $g_bRepUpgradeKingEnable = False, $g_bRepUpgradeQueenEnable = False, $g_bRepUpgradePrinceEnable = False, $g_bRepUpgradeWardenEnable = False, $g_bRepUpgradeChampionEnable = False
+Global $bCheckValuesForWarden = False
 ;Buildings
 Global Const $g_iUpgradeSlots = 12
 Global $g_aiPicUpgradeStatus[$g_iUpgradeSlots] = [$eIcnRedLight, $eIcnRedLight, $eIcnRedLight, $eIcnRedLight, $eIcnRedLight, $eIcnRedLight, $eIcnRedLight, _

@@ -842,40 +842,32 @@ Func runBot() ;Bot that runs everything in order
 			If $g_bRestart Then ContinueLoop
 
 			HiddenSlotstatus()
-
-			If $g_bFirstStart Then
+			If Not $g_bRunState Then Return
+			If TakeWardenValues() Then _RunFunction('UpgradeHeroes')
+			If $g_bRestart Then ContinueLoop
+			If CheckAndroidReboot() Then ContinueLoop
+			If Not $g_bRunState Then Return
+			_RunFunction('Laboratory')
+			If $g_bRestart Then ContinueLoop
+			If CheckAndroidReboot() Then ContinueLoop
+			If $g_bAutoUpgradeWallsEnable And $g_bChkWallUpFirst Then
 				If Not $g_bRunState Then Return
-				_RunFunction('Laboratory')
+				_RunFunction('UpgradeWall')
 				If $g_bRestart Then ContinueLoop
 				If CheckAndroidReboot() Then ContinueLoop
 				If Not $g_bRunState Then Return
 				_RunFunction('UpgradeHeroes')
 				If $g_bRestart Then ContinueLoop
 				If CheckAndroidReboot() Then ContinueLoop
-				If $g_bAutoUpgradeWallsEnable And $g_bChkWallUpFirst Then
-					If Not $g_bRunState Then Return
-					_RunFunction('UpgradeWall')
-					If $g_bRestart Then ContinueLoop
-					If CheckAndroidReboot() Then ContinueLoop
-					Local $aRndFuncList = ['UpgradeBuilding', 'PetHouse', 'Blacksmith']
-				Else
-					Local $aRndFuncList = ['UpgradeWall', 'UpgradeBuilding', 'PetHouse', 'Blacksmith']
-				EndIf
+				Local $aRndFuncList = ['UpgradeBuilding', 'PetHouse', 'Blacksmith']
 			Else
-				If $g_bAutoUpgradeWallsEnable And $g_bChkWallUpFirst Then
-					If Not $g_bRunState Then Return
-					_RunFunction('Laboratory')
-					If $g_bRestart Then ContinueLoop
-					If CheckAndroidReboot() Then ContinueLoop
-					If Not $g_bRunState Then Return
-					_RunFunction('UpgradeWall')
-					If $g_bRestart Then ContinueLoop
-					If CheckAndroidReboot() Then ContinueLoop
-					Local $aRndFuncList = ['UpgradeHeroes', 'UpgradeBuilding', 'PetHouse', 'Blacksmith']
-				Else
-					Local $aRndFuncList = ['UpgradeWall', 'Laboratory', 'UpgradeHeroes', 'UpgradeBuilding', 'PetHouse', 'Blacksmith']
-				EndIf
+				If Not $g_bRunState Then Return
+				_RunFunction('UpgradeHeroes')
+				If $g_bRestart Then ContinueLoop
+				If CheckAndroidReboot() Then ContinueLoop
+				Local $aRndFuncList = ['UpgradeWall', 'UpgradeBuilding', 'PetHouse', 'Blacksmith']
 			EndIf
+
 			_ArrayShuffle($aRndFuncList)
 			For $Index In $aRndFuncList
 				If Not $g_bRunState Then Return

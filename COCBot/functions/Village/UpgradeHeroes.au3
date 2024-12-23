@@ -164,121 +164,135 @@ Func UpgradeHeroes()
 	$g_aiCurrentLoot[$eLootElixir] = getResourcesMainScreen(696, 74)
 	$g_aiCurrentLoot[$eLootDarkElixir] = getResourcesMainScreen(728, 123)
 
+	If Not getBuilderCount() Then Return ; update builder data, return if problem
+	If _Sleep($DELAYRESPOND) Then Return
+
+	If $g_iFreeBuilderCount < 1 + ($g_bAutoUpgradeWallsEnable And $g_bUpgradeWallSaveBuilder ? 1 : 0) Then
+		If Not $bCheckValuesForWarden Then
+			SetLog("Not enough Builders available to upgrade Heroes")
+			Return
+		EndIf
+	EndIf
+
 	Local $IsToOpen = 0
-	If $g_bUpgradeKingEnable Then
-		If _DateIsValid($g_aiHeroUpgradeFinishDate[0]) Then
-			If _DateDiff('n', _NowCalc(), $g_aiHeroUpgradeFinishDate[0]) < 0 Then
-				$IsToOpen += 1
-			Else
-				If BitAND($g_iHeroUpgradingBit, $eHeroKing) <> $eHeroKing Then
+	If Not $bCheckValuesForWarden Then
+		If $g_bUpgradeKingEnable Then
+			If _DateIsValid($g_aiHeroUpgradeFinishDate[0]) Then
+				If _DateDiff('n', _NowCalc(), $g_aiHeroUpgradeFinishDate[0]) < 0 Then
 					$IsToOpen += 1
 				Else
-					SetLog("King Upgrade Finishes @ " & $g_aiHeroUpgradeFinishDate[0], $COLOR_SUCCESS)
+					If BitAND($g_iHeroUpgradingBit, $eHeroKing) <> $eHeroKing Then
+						$IsToOpen += 1
+					Else
+						SetLog("King Upgrade Finishes @ " & $g_aiHeroUpgradeFinishDate[0] & ", Skip", $COLOR_INFO)
+					EndIf
 				EndIf
-			EndIf
-		Else
-			If $g_aiHeroNeededResource[0] = 0 Then
-				$IsToOpen += 1
 			Else
-				If Number($g_aiHeroNeededResource[0]) <= Number($g_aiCurrentLoot[$eLootDarkElixir]) Then
+				If $g_aiHeroNeededResource[0] = 0 Then
 					$IsToOpen += 1
 				Else
-					SetLog("King Upgrade Requires " & _NumberFormat($g_aiHeroNeededResource[0]) & " Dark Elixir", $COLOR_SUCCESS)
-				EndIf
-			EndIf
-		EndIf
-	EndIf
-	If $g_bUpgradeQueenEnable Then
-		If _DateIsValid($g_aiHeroUpgradeFinishDate[1]) Then
-			If _DateDiff('n', _NowCalc(), $g_aiHeroUpgradeFinishDate[1]) < 0 Then
-				$IsToOpen += 1
-			Else
-				If BitAND($g_iHeroUpgradingBit, $eHeroQueen) <> $eHeroQueen Then
-					$IsToOpen += 1
-				Else
-					SetLog("Queen Upgrade Finishes @ " & $g_aiHeroUpgradeFinishDate[1], $COLOR_SUCCESS)
-				EndIf
-			EndIf
-		Else
-			If $g_aiHeroNeededResource[1] = 0 Then
-				$IsToOpen += 1
-			Else
-				If Number($g_aiHeroNeededResource[1]) <= Number($g_aiCurrentLoot[$eLootDarkElixir]) Then
-					$IsToOpen += 1
-				Else
-					SetLog("Queen Upgrade Requires " & _NumberFormat($g_aiHeroNeededResource[1]) & " Dark Elixir", $COLOR_SUCCESS)
+					If Number($g_aiHeroNeededResource[0]) <= Number($g_aiCurrentLoot[$eLootDarkElixir]) Then
+						$IsToOpen += 1
+					Else
+						SetLog("King Upgrade Requires " & _NumberFormat($g_aiHeroNeededResource[0]) & " Dark Elixir, Skip", $COLOR_INFO)
+					EndIf
 				EndIf
 			EndIf
 		EndIf
-	EndIf
-	If $g_bUpgradePrinceEnable Then
-		If _DateIsValid($g_aiHeroUpgradeFinishDate[2]) Then
-			If _DateDiff('n', _NowCalc(), $g_aiHeroUpgradeFinishDate[2]) < 0 Then
-				$IsToOpen += 1
-			Else
-				If BitAND($g_iHeroUpgradingBit, $eHeroPrince) <> $eHeroPrince Then
+		If $g_bUpgradeQueenEnable Then
+			If _DateIsValid($g_aiHeroUpgradeFinishDate[1]) Then
+				If _DateDiff('n', _NowCalc(), $g_aiHeroUpgradeFinishDate[1]) < 0 Then
 					$IsToOpen += 1
 				Else
-					SetLog("Prince Upgrade Finishes @ " & $g_aiHeroUpgradeFinishDate[2], $COLOR_SUCCESS)
+					If BitAND($g_iHeroUpgradingBit, $eHeroQueen) <> $eHeroQueen Then
+						$IsToOpen += 1
+					Else
+						SetLog("Queen Upgrade Finishes @ " & $g_aiHeroUpgradeFinishDate[1] & ", Skip", $COLOR_INFO)
+					EndIf
 				EndIf
-			EndIf
-		Else
-			If $g_aiHeroNeededResource[2] = 0 Then
-				$IsToOpen += 1
 			Else
-				If Number($g_aiHeroNeededResource[2]) <= Number($g_aiCurrentLoot[$eLootDarkElixir]) Then
+				If $g_aiHeroNeededResource[1] = 0 Then
 					$IsToOpen += 1
 				Else
-					SetLog("Prince Upgrade Requires " & _NumberFormat($g_aiHeroNeededResource[2]) & " Dark Elixir", $COLOR_SUCCESS)
-				EndIf
-			EndIf
-		EndIf
-	EndIf
-	If $g_bUpgradeWardenEnable Then
-		If _DateIsValid($g_aiHeroUpgradeFinishDate[3]) Then
-			If _DateDiff('n', _NowCalc(), $g_aiHeroUpgradeFinishDate[3]) < 0 Then
-				$IsToOpen += 1
-			Else
-				If BitAND($g_iHeroUpgradingBit, $eHeroWarden) <> $eHeroWarden Then
-					$IsToOpen += 1
-				Else
-					SetLog("Warden Upgrade Finishes @ " & $g_aiHeroUpgradeFinishDate[3], $COLOR_SUCCESS)
-				EndIf
-			EndIf
-		Else
-			If $g_aiHeroNeededResource[3] = 0 Then
-				$IsToOpen += 1
-			Else
-				If Number($g_aiHeroNeededResource[3]) <= Number($g_aiCurrentLoot[$eLootElixir]) Then
-					$IsToOpen += 1
-				Else
-					SetLog("Warden Upgrade Requires " & _NumberFormat($g_aiHeroNeededResource[3]) & " Elixir", $COLOR_SUCCESS)
+					If Number($g_aiHeroNeededResource[1]) <= Number($g_aiCurrentLoot[$eLootDarkElixir]) Then
+						$IsToOpen += 1
+					Else
+						SetLog("Queen Upgrade Requires " & _NumberFormat($g_aiHeroNeededResource[1]) & " Dark Elixir, Skip", $COLOR_INFO)
+					EndIf
 				EndIf
 			EndIf
 		EndIf
-	EndIf
-	If $g_bUpgradeChampionEnable Then
-		If _DateIsValid($g_aiHeroUpgradeFinishDate[4]) Then
-			If _DateDiff('n', _NowCalc(), $g_aiHeroUpgradeFinishDate[4]) < 0 Then
-				$IsToOpen += 1
-			Else
-				If BitAND($g_iHeroUpgradingBit, $eHeroChampion) <> $eHeroChampion Then
+		If $g_bUpgradePrinceEnable Then
+			If _DateIsValid($g_aiHeroUpgradeFinishDate[2]) Then
+				If _DateDiff('n', _NowCalc(), $g_aiHeroUpgradeFinishDate[2]) < 0 Then
 					$IsToOpen += 1
 				Else
-					SetLog("Champion Upgrade Finishes @ " & $g_aiHeroUpgradeFinishDate[4], $COLOR_SUCCESS)
+					If BitAND($g_iHeroUpgradingBit, $eHeroPrince) <> $eHeroPrince Then
+						$IsToOpen += 1
+					Else
+						SetLog("Prince Upgrade Finishes @ " & $g_aiHeroUpgradeFinishDate[2] & ", Skip", $COLOR_INFO)
+					EndIf
 				EndIf
-			EndIf
-		Else
-			If $g_aiHeroNeededResource[4] = 0 Then
-				$IsToOpen += 1
 			Else
-				If Number($g_aiHeroNeededResource[4]) <= Number($g_aiCurrentLoot[$eLootDarkElixir]) Then
+				If $g_aiHeroNeededResource[2] = 0 Then
 					$IsToOpen += 1
 				Else
-					SetLog("Champion Upgrade Requires " & _NumberFormat($g_aiHeroNeededResource[4]) & " Dark Elixir", $COLOR_SUCCESS)
+					If Number($g_aiHeroNeededResource[2]) <= Number($g_aiCurrentLoot[$eLootDarkElixir]) Then
+						$IsToOpen += 1
+					Else
+						SetLog("Prince Upgrade Requires " & _NumberFormat($g_aiHeroNeededResource[2]) & " Dark Elixir, Skip", $COLOR_INFO)
+					EndIf
 				EndIf
 			EndIf
 		EndIf
+		If $g_bUpgradeWardenEnable Then
+			If _DateIsValid($g_aiHeroUpgradeFinishDate[3]) Then
+				If _DateDiff('n', _NowCalc(), $g_aiHeroUpgradeFinishDate[3]) < 0 Then
+					$IsToOpen += 1
+				Else
+					If BitAND($g_iHeroUpgradingBit, $eHeroWarden) <> $eHeroWarden Then
+						$IsToOpen += 1
+					Else
+						SetLog("Warden Upgrade Finishes @ " & $g_aiHeroUpgradeFinishDate[3] & ", Skip", $COLOR_INFO)
+					EndIf
+				EndIf
+			Else
+				If $g_aiHeroNeededResource[3] = 0 Then
+					$IsToOpen += 1
+				Else
+					If Number($g_aiHeroNeededResource[3]) <= Number($g_aiCurrentLoot[$eLootElixir]) Then
+						$IsToOpen += 1
+					Else
+						SetLog("Warden Upgrade Requires " & _NumberFormat($g_aiHeroNeededResource[3]) & " Elixir, Skip", $COLOR_INFO)
+					EndIf
+				EndIf
+			EndIf
+		EndIf
+		If $g_bUpgradeChampionEnable Then
+			If _DateIsValid($g_aiHeroUpgradeFinishDate[4]) Then
+				If _DateDiff('n', _NowCalc(), $g_aiHeroUpgradeFinishDate[4]) < 0 Then
+					$IsToOpen += 1
+				Else
+					If BitAND($g_iHeroUpgradingBit, $eHeroChampion) <> $eHeroChampion Then
+						$IsToOpen += 1
+					Else
+						SetLog("Champion Upgrade Finishes @ " & $g_aiHeroUpgradeFinishDate[4] & ", Skip", $COLOR_INFO)
+					EndIf
+				EndIf
+			Else
+				If $g_aiHeroNeededResource[4] = 0 Then
+					$IsToOpen += 1
+				Else
+					If Number($g_aiHeroNeededResource[4]) <= Number($g_aiCurrentLoot[$eLootDarkElixir]) Then
+						$IsToOpen += 1
+					Else
+						SetLog("Champion Upgrade Requires " & _NumberFormat($g_aiHeroNeededResource[4]) & " Dark Elixir, Skip", $COLOR_INFO)
+					EndIf
+				EndIf
+			EndIf
+		EndIf
+	Else
+		$IsToOpen = 1
 	EndIf
 	If $IsToOpen = 0 Then Return
 
@@ -288,15 +302,11 @@ Func UpgradeHeroes()
 		SaveConfig()
 	EndIf
 
-	If Not getBuilderCount() Then Return ; update builder data, return if problem
-	If _Sleep($DELAYRESPOND) Then Return
-
-	If $g_iFreeBuilderCount < 1 + ($g_bAutoUpgradeWallsEnable And $g_bUpgradeWallSaveBuilder ? 1 : 0) Then
-		SetLog("Not enough Builders available to upgrade Heroes")
-		Return
+	If Not $bCheckValuesForWarden Then
+		SetLog("Upgrading Heroes", $COLOR_INFO)
+	Else
+		SetLog("Checking Warden Values", $COLOR_INFO)
 	EndIf
-
-	SetLog("Upgrading Heroes", $COLOR_INFO)
 
 	BuildingClick($g_aiHeroHallPos[0], $g_aiHeroHallPos[1])
 	If _Sleep($DELAYBUILDINGINFO1) Then Return
@@ -478,6 +488,13 @@ Func UpgradeHeroes()
 			EndIf
 	EndSwitch
 
+	If $bCheckValuesForWarden Then
+		WardenUpgrade()
+		CloseWindow()
+		$bCheckValuesForWarden = False
+		Return
+	EndIf
+
 	;Check if Auto Lab Upgrade is enabled and if a Dark Troop/Spell is selected for Upgrade. If yes, it has priority!
 	If BitOR($g_bUpgradeKingEnable, $g_bUpgradeQueenEnable, $g_bUpgradePrinceEnable, $g_bUpgradeChampionEnable) Then
 		If $g_bAutoLabUpgradeEnable And $g_iLaboratoryDElixirCost > 0 Then
@@ -493,9 +510,8 @@ Func UpgradeHeroes()
 				KingUpgrade()
 
 				If _Sleep($DELAYUPGRADEHERO1) Then Return
-			EndIf
-			If $g_bUpgradeKingEnable And BitAND($g_iHeroUpgradingBit, $eHeroKing) = $eHeroKing Then
-				If $g_aiHeroUpgradeFinishDate[0] = 0 Then FinishTimeCalculation("King")
+			ElseIf $g_bUpgradeKingEnable And BitAND($g_iHeroUpgradingBit, $eHeroKing) = $eHeroKing Then
+				If Not _DateIsValid($g_aiHeroUpgradeFinishDate[0]) Then FinishTimeCalculation("King")
 			EndIf
 			; ### Archer Queen ###
 			If $g_bUpgradeQueenEnable And BitAND($g_iHeroUpgradingBit, $eHeroQueen) <> $eHeroQueen Then
@@ -506,9 +522,8 @@ Func UpgradeHeroes()
 				QueenUpgrade()
 
 				If _Sleep($DELAYUPGRADEHERO1) Then Return
-			EndIf
-			If $g_bUpgradeQueenEnable And BitAND($g_iHeroUpgradingBit, $eHeroQueen) = $eHeroQueen Then
-				If $g_aiHeroUpgradeFinishDate[1] = 0 Then FinishTimeCalculation("Queen")
+			ElseIf $g_bUpgradeQueenEnable And BitAND($g_iHeroUpgradingBit, $eHeroQueen) = $eHeroQueen Then
+				If Not _DateIsValid($g_aiHeroUpgradeFinishDate[1]) Then FinishTimeCalculation("Queen")
 			EndIf
 			; ### Minion Prince ###
 			If $g_bUpgradePrinceEnable And BitAND($g_iHeroUpgradingBit, $eHeroPrince) <> $eHeroPrince Then
@@ -519,9 +534,8 @@ Func UpgradeHeroes()
 				PrinceUpgrade()
 
 				If _Sleep($DELAYUPGRADEHERO1) Then Return
-			EndIf
-			If $g_bUpgradePrinceEnable And BitAND($g_iHeroUpgradingBit, $eHeroPrince) = $eHeroPrince Then
-				If $g_aiHeroUpgradeFinishDate[2] = 0 Then FinishTimeCalculation("Prince")
+			ElseIf $g_bUpgradePrinceEnable And BitAND($g_iHeroUpgradingBit, $eHeroPrince) = $eHeroPrince Then
+				If Not _DateIsValid($g_aiHeroUpgradeFinishDate[2]) Then FinishTimeCalculation("Prince")
 			EndIf
 			; ### Royal Champion ###
 			If $g_bUpgradeChampionEnable And BitAND($g_iHeroUpgradingBit, $eHeroChampion) <> $eHeroChampion Then
@@ -532,9 +546,8 @@ Func UpgradeHeroes()
 				ChampionUpgrade()
 
 				If _Sleep($DELAYUPGRADEHERO1) Then Return
-			EndIf
-			If $g_bUpgradeChampionEnable And BitAND($g_iHeroUpgradingBit, $eHeroChampion) = $eHeroChampion Then
-				If $g_aiHeroUpgradeFinishDate[4] = 0 Then FinishTimeCalculation("Champion")
+			ElseIf $g_bUpgradeChampionEnable And BitAND($g_iHeroUpgradingBit, $eHeroChampion) = $eHeroChampion Then
+				If Not _DateIsValid($g_aiHeroUpgradeFinishDate[4]) Then FinishTimeCalculation("Champion")
 			EndIf
 		EndIf
 	EndIf
@@ -552,7 +565,7 @@ Func UpgradeHeroes()
 			EndIf
 			WardenUpgrade()
 		ElseIf BitAND($g_iHeroUpgradingBit, $eHeroWarden) = $eHeroWarden Then
-			If $g_aiHeroUpgradeFinishDate[3] = 0 Then FinishTimeCalculation("Warden")
+			If Not _DateIsValid($g_aiHeroUpgradeFinishDate[3]) Then FinishTimeCalculation("Warden")
 		EndIf
 	EndIf
 
@@ -561,7 +574,7 @@ Func UpgradeHeroes()
 EndFunc   ;==>UpgradeHeroes
 
 Func KingUpgrade()
-	;upgradeking
+
 	If Not $g_bUpgradeKingEnable Then Return
 
 	SetLog("Upgrade King")
@@ -1235,7 +1248,11 @@ EndFunc   ;==>PrinceUpgrade
 Func WardenUpgrade()
 	If Not $g_bUpgradeWardenEnable Then Return
 
-	SetLog("Upgrade Grand Warden")
+	If Not $bCheckValuesForWarden Then
+		SetLog("Upgrade Warden")
+	Else
+		SetLog("Checking Warden Values")
+	EndIf
 
 	If $g_iTownHallLevel < 11 Then
 		SetLog("TH upgrade needed - Skipped!", $COLOR_ERROR)
@@ -1308,6 +1325,15 @@ Func WardenUpgrade()
 			Return
 		Else
 			SetLog("Your Grand Warden Level read as: " & $g_iWardenLevel, $COLOR_SUCCESS)
+		EndIf
+	EndIf
+
+	If $bCheckValuesForWarden Then
+		If $g_aiHeroNeededResource[3] = 0 Then
+			$g_aiHeroNeededResource[3] = ($g_afWardenUpgCost[$g_iWardenLevel] * 1000000 * $SpecialEventReduction * (1 - Number($g_iBuilderBoostDiscount) / 100))
+			SetLog("Warden Upgrade Requires " & _NumberFormat($g_aiHeroNeededResource[3]) & " Elixir", $COLOR_SUCCESS)
+			CloseWindow2(1)
+			Return
 		EndIf
 	EndIf
 
@@ -1691,3 +1717,19 @@ Func ReservedBuildersForHeroes($aSetLog = True)
 
 	Return $iFreeBuildersReservedForHeroes
 EndFunc   ;==>ReservedBuildersForHeroes
+
+Func TakeWardenValues()
+	If $g_bUpgradeWardenEnable And $g_bAutoUpgradeWallsEnable Then
+		Local $bWardenCheck = False
+		If Not _DateIsValid($g_aiHeroUpgradeFinishDate[3]) Then
+			If $g_aiHeroNeededResource[3] = 0 Then $bWardenCheck = True
+		ElseIf _DateIsValid($g_aiHeroUpgradeFinishDate[3]) Then
+			If _DateDiff('n', _NowCalc(), $g_aiHeroUpgradeFinishDate[3]) < 0 Then $bWardenCheck = True
+		EndIf
+		If $bWardenCheck Then
+			$bCheckValuesForWarden = True
+			Return True
+		EndIf
+	EndIf
+	Return False
+EndFunc   ;==>TakeWardenValues

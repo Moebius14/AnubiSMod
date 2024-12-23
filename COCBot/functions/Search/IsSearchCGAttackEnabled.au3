@@ -36,15 +36,45 @@ Func IsSearchCGAttackEnabled()
 			Sleep(Random(3500, 5500, 1))
 			ClearScreen()
 			Sleep(Random(3500, 5500, 1))
-			__RunFunction('DonateCC,Train')
-			If _Sleep($DELAYRUNBOT3) Then Return
-			HiddenSlotstatus()
-			If _Sleep($DELAYRUNBOT3) Then Return
-			If IsToFillCCWithMedalsOnly() Then
-				Local $aRndFuncList = ['CollectFreeMagicItems', 'Collect', 'DailyChallenge', 'UpgradeWall', 'Laboratory', 'UpgradeHeroes', 'UpgradeBuilding', 'PetHouse', 'CheckTombs', 'CleanYard']
-			Else
-				Local $aRndFuncList = ['RequestCC', 'CollectFreeMagicItems', 'Collect', 'DailyChallenge', 'UpgradeWall', 'Laboratory', 'UpgradeHeroes', 'UpgradeBuilding', 'PetHouse', 'CheckTombs', 'CleanYard']
-			EndIf
+			If $g_bAutoUpgradeWallsEnable And $g_bChkWallUpFirst Then
+					__RunFunction('DonateCC,Train')
+					If _Sleep($DELAYRUNBOT3) Then Return
+					HiddenSlotstatus()
+					If _Sleep($DELAYRUNBOT3) Then Return
+					If TakeWardenValues() Then
+						UpgradeHeroes()
+						If _Sleep($DELAYRUNBOT3) Then Return
+					EndIf
+					Laboratory()
+					If _Sleep($DELAYRUNBOT3) Then Return
+					UpgradeWall()
+					If _Sleep($DELAYRUNBOT3) Then Return
+					UpgradeHeroes()
+					If _Sleep($DELAYRUNBOT3) Then Return
+					If IsToFillCCWithMedalsOnly() Then
+						Local $aRndFuncList = ['CleanYard', 'CollectFreeMagicItems', 'Collect', 'PetHouse', 'Blacksmith', 'UpgradeBuilding', 'CheckTombs']
+					Else
+						Local $aRndFuncList = ['CleanYard', 'RequestCC', 'CollectFreeMagicItems', 'Collect', 'PetHouse', 'Blacksmith', 'UpgradeBuilding', 'CheckTombs']
+					EndIf
+				Else
+					__RunFunction('DonateCC,Train')
+					If _Sleep($DELAYRUNBOT3) Then Return
+					HiddenSlotstatus()
+					If _Sleep($DELAYRUNBOT3) Then Return
+					If TakeWardenValues() Then
+						UpgradeHeroes()
+						If _Sleep($DELAYRUNBOT3) Then Return
+					EndIf
+					Laboratory()
+					If _Sleep($DELAYRUNBOT3) Then Return
+					UpgradeHeroes()
+					If _Sleep($DELAYRUNBOT3) Then Return
+					If IsToFillCCWithMedalsOnly() Then
+						Local $aRndFuncList = ['CleanYard', 'CollectFreeMagicItems', 'Collect', 'UpgradeWall', 'UpgradeBuilding', 'PetHouse', 'Blacksmith']
+					Else
+						Local $aRndFuncList = ['CleanYard', 'RequestCC', 'CollectFreeMagicItems', 'Collect', 'UpgradeWall', 'UpgradeBuilding', 'PetHouse', 'Blacksmith']
+					EndIf
+				EndIf
 			For $Index In $aRndFuncList
 				_RunFunction($Index)
 			Next
