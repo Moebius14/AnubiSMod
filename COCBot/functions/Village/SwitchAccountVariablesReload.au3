@@ -548,7 +548,7 @@ Func SwitchAccountVariablesReload($sType = "Load", $iAccount = $g_iCurAccount)
 			For $i = 0 To 4
 				$g_aiSHeroNeededResource[$iAccount][$i] = $g_aiHeroNeededResource[$i]
 			Next
-			$bSCheckValuesForWarden[$iAccount] = $bSCheckValuesForWarden
+			$bSCheckValuesForWarden[$iAccount] = $bCheckValuesForWarden
 
 			; Other global status
 			$aiCommandStop[$iAccount] = $g_iCommandStop
@@ -778,7 +778,7 @@ Func SwitchAccountVariablesReload($sType = "Load", $iAccount = $g_iCurAccount)
 			For $i = 0 To 4
 				$g_aiHeroNeededResource[$i] = $g_aiSHeroNeededResource[$iAccount][$i]
 			Next
-			$bSCheckValuesForWarden = $bSCheckValuesForWarden[$iAccount]
+			$bCheckValuesForWarden = $bSCheckValuesForWarden[$iAccount]
 
 			; Other global status
 			$g_iCommandStop = $aiCommandStop[$iAccount]
