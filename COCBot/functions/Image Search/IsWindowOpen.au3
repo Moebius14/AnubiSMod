@@ -62,7 +62,7 @@ Func CloseWindow($IsinBlacksmith = False, $IsinPet = False, $IsinLab = False, $I
 
 	If $aSearchArea = Default Then
 		Local $iMidPointX = Round($g_iGAME_WIDTH / 2)
-		Local $iMidPointY = Round($g_iGAME_HEIGHT / 2)
+		Local $iMidPointY = 460 + $g_iMidOffsetY
 
 		Local $iX1 = $iMidPointX
 		Local $iX2 = $g_iGAME_WIDTH
@@ -125,7 +125,7 @@ Func CloseWindow2($iLoopCount = 5, $iDelay = 200, $aSearchArea = Default, $bDebu
 
 	If $aSearchArea = Default Then
 		Local $iMidPointX = Round($g_iGAME_WIDTH / 2)
-		Local $iMidPointY = Round($g_iGAME_HEIGHT / 2)
+		Local $iMidPointY = 460 + $g_iMidOffsetY
 
 		Local $iX1 = $iMidPointX
 		Local $iX2 = $g_iGAME_WIDTH

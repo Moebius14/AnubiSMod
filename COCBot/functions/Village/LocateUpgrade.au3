@@ -80,7 +80,7 @@ Func LocateUpgrades()
 				ContinueLoop
 			EndIf
 			AndroidShieldForceDown(True, True)
-			$stext = GetTranslatedFileIni("MBR Popups", "Func_Locate_Building_01", "Click 'Locate Building' button then click on your Building/Hero to upgrade.") & @CRLF & @CRLF & GetTranslatedFileIni("MBR Popups", "Func_Locate_Building_02", "Click 'Finished' button when done locating all upgrades.") & @CRLF & @CRLF & GetTranslatedFileIni("MBR Popups", "Func_Locate_Building_03", "Click on Cancel to exit finding buildings.") & @CRLF & @CRLF
+			$stext = GetTranslatedFileIni("MBR Popups", "Func_Locate_Building_01", "Click 'Locate Building' button then click on your Building to upgrade.") & @CRLF & @CRLF & GetTranslatedFileIni("MBR Popups", "Func_Locate_Building_02", "Click 'Finished' button when done locating all upgrades.") & @CRLF & @CRLF & GetTranslatedFileIni("MBR Popups", "Func_Locate_Building_03", "Click on Cancel to exit finding buildings.") & @CRLF & @CRLF
 			_ExtMsgBoxSet(1 + 64, $SS_CENTER, 0x004080, 0xFFFF00, 10, "Comic Sans MS", 500)
 			$MsgBox = _ExtMsgBox(0, GetTranslatedFileIni("MBR Popups", "Func_Locate_Building_04", "Locate Building|Finished|Cancel"), GetTranslatedFileIni("MBR Popups", "Func_Locate_Building_05", "Locate Upgrades"), $stext, 0, $g_hFrmBot)
 			Switch $MsgBox
