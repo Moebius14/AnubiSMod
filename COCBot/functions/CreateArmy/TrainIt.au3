@@ -177,7 +177,7 @@ Func GetVariable(Const $asImageToUse, Const $iIndex)
 				If UBound($aResult) > 1 Then
 					Local $aCoordinates = StringSplit($aResult[1], ",", $STR_NOCOUNT)
 					If UBound($aCoordinates) > 1 Then
-						Local $iButtonX = 75 + Int($aCoordinates[0])
+						Local $iButtonX = 60 + Int($aCoordinates[0])
 						Local $iButtonY = 375 + Int($aCoordinates[1])
 						Local $sColorToCheck = "0x" & _GetPixelColor($iButtonX, $iButtonY, $g_bCapturePixel)
 						Local $iTolerance = 40
