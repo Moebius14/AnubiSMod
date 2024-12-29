@@ -69,7 +69,7 @@ Func Unbreakable()
 
 	If $g_bDropTrophyEnable And (Number($g_aiCurrentLoot[$eLootTrophy]) > Number($g_iDropTrophyMax) Or $IsdroptrophiesActive) Then DropTrophy()
 	If _Sleep($DELAYUNBREAKABLE2) Then Return True ; wait for home screen
-	ClickAway()
+	ClearScreen()
 	If _Sleep($DELAYUNBREAKABLE1) Then Return True ; wait for home screen
 	If $g_bRestart = True Then Return True ; Check Restart Flag to see if drop trophy used all the troops and need to train more.
 	$iCount = 0
@@ -79,7 +79,7 @@ Func Unbreakable()
 		If $g_bDebugSetLog Then SetDebugLog("Drop Trophy Loop #" & $iCount + 1, $COLOR_DEBUG)
 		DropTrophy()
 		If _Sleep($DELAYUNBREAKABLE2) Then Return True ; wait for home screen
-		ClickAway()
+		ClearScreen()
 		If _Sleep($DELAYUNBREAKABLE1) Then Return True ; wait for home screen
 		$iTrophyCurrent = getTrophyMainScreen($aTrophies[0], $aTrophies[1])
 		If ($iCount > 2) And (Number($iTrophyCurrent) > Number($g_iDropTrophyMax)) Then ; If unable to drop trophy after a couple of tries, restart at main loop.
@@ -98,7 +98,7 @@ Func Unbreakable()
 		Return True ; return to runbot and try again
 	EndIf
 
-	ClickAway()
+	ClearScreen()
 	If _Sleep($DELAYUNBREAKABLE1) Then Return True
 
 	If CheckObstacles() = True Then SetLog("Window clean required, but no problem for MyBot!", $COLOR_INFO)

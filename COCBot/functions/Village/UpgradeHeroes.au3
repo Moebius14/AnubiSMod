@@ -157,6 +157,7 @@ Func UpgradeHeroes()
 		Return
 	EndIf
 
+	If Not $g_bRunState Then Return
 	checkMainScreen(False)
 
 	If $g_bRestart Then Return
@@ -308,6 +309,8 @@ Func UpgradeHeroes()
 		SetLog("Checking Warden Values", $COLOR_INFO)
 	EndIf
 
+	If Not $g_bRunState Then Return
+
 	BuildingClick($g_aiHeroHallPos[0], $g_aiHeroHallPos[1])
 	If _Sleep($DELAYBUILDINGINFO1) Then Return
 	Local $sHeroHallInfo = BuildingInfo(242, 475 + $g_iBottomOffsetY)
@@ -333,6 +336,8 @@ Func UpgradeHeroes()
 		ClearScreen()
 		Return
 	EndIf
+
+	If Not $g_bRunState Then Return
 
 	;Check Hidden Hero Upgrade To be sure
 	Switch $g_aiCmbCustomHeroOrder[4]
@@ -513,6 +518,7 @@ Func UpgradeHeroes()
 			ElseIf $g_bUpgradeKingEnable And BitAND($g_iHeroUpgradingBit, $eHeroKing) = $eHeroKing Then
 				If Not _DateIsValid($g_aiHeroUpgradeFinishDate[0]) Then FinishTimeCalculation("King")
 			EndIf
+			If Not $g_bRunState Then Return
 			; ### Archer Queen ###
 			If $g_bUpgradeQueenEnable And BitAND($g_iHeroUpgradingBit, $eHeroQueen) <> $eHeroQueen Then
 				If $g_iFreeBuilderCount < 1 + ($g_bAutoUpgradeWallsEnable And $g_bUpgradeWallSaveBuilder ? 1 : 0) Then
@@ -525,6 +531,7 @@ Func UpgradeHeroes()
 			ElseIf $g_bUpgradeQueenEnable And BitAND($g_iHeroUpgradingBit, $eHeroQueen) = $eHeroQueen Then
 				If Not _DateIsValid($g_aiHeroUpgradeFinishDate[1]) Then FinishTimeCalculation("Queen")
 			EndIf
+			If Not $g_bRunState Then Return
 			; ### Minion Prince ###
 			If $g_bUpgradePrinceEnable And BitAND($g_iHeroUpgradingBit, $eHeroPrince) <> $eHeroPrince Then
 				If $g_iFreeBuilderCount < 1 + ($g_bAutoUpgradeWallsEnable And $g_bUpgradeWallSaveBuilder ? 1 : 0) Then
@@ -537,6 +544,7 @@ Func UpgradeHeroes()
 			ElseIf $g_bUpgradePrinceEnable And BitAND($g_iHeroUpgradingBit, $eHeroPrince) = $eHeroPrince Then
 				If Not _DateIsValid($g_aiHeroUpgradeFinishDate[2]) Then FinishTimeCalculation("Prince")
 			EndIf
+			If Not $g_bRunState Then Return
 			; ### Royal Champion ###
 			If $g_bUpgradeChampionEnable And BitAND($g_iHeroUpgradingBit, $eHeroChampion) <> $eHeroChampion Then
 				If $g_iFreeBuilderCount < 1 + ($g_bAutoUpgradeWallsEnable And $g_bUpgradeWallSaveBuilder ? 1 : 0) Then
@@ -549,6 +557,7 @@ Func UpgradeHeroes()
 			ElseIf $g_bUpgradeChampionEnable And BitAND($g_iHeroUpgradingBit, $eHeroChampion) = $eHeroChampion Then
 				If Not _DateIsValid($g_aiHeroUpgradeFinishDate[4]) Then FinishTimeCalculation("Champion")
 			EndIf
+			If Not $g_bRunState Then Return
 		EndIf
 	EndIf
 
@@ -569,6 +578,7 @@ Func UpgradeHeroes()
 		EndIf
 	EndIf
 
+	If Not $g_bRunState Then Return
 	CloseWindow()
 
 EndFunc   ;==>UpgradeHeroes
@@ -578,6 +588,8 @@ Func KingUpgrade()
 	If Not $g_bUpgradeKingEnable Then Return
 
 	SetLog("Upgrade King")
+
+	If Not $g_bRunState Then Return
 
 	If $g_iTownHallLevel < 7 Then
 		SetLog("TH upgrade needed - Skipped!", $COLOR_ERROR)
@@ -639,6 +651,7 @@ Func KingUpgrade()
 
 	Click($bXcoords[0] + 55, 433 + $g_iMidOffsetY) ; Click Upgrade Button
 	If _Sleep($DELAYUPGRADEHERO3) Then Return ; Wait for window to open
+	If Not $g_bRunState Then Return
 
 	If $g_bDebugImageSave Then SaveDebugImage("UpgradeDarkBtn1")
 	If _ColorCheck(_GetPixelColor(800, 88 + $g_iMidOffsetY, True), Hex(0xF38E8D, 6), 20) Then ; Check if the Hero Upgrade window is open
@@ -803,6 +816,8 @@ Func QueenUpgrade()
 
 	SetLog("Upgrade Queen")
 
+	If Not $g_bRunState Then Return
+
 	If $g_iTownHallLevel < 8 Then
 		SetLog("TH upgrade needed - Skipped!", $COLOR_ERROR)
 		$g_bUpgradeQueenEnable = False ; turn Off the Queens upgrade
@@ -863,6 +878,7 @@ Func QueenUpgrade()
 
 	Click($bXcoords[1] + 55, 433 + $g_iMidOffsetY) ; Click Upgrade Button
 	If _Sleep($DELAYUPGRADEHERO3) Then Return ; Wait for window to open
+	If Not $g_bRunState Then Return
 
 	If $g_bDebugImageSave Then SaveDebugImage("UpgradeDarkBtn1")
 	If _ColorCheck(_GetPixelColor(800, 88 + $g_iMidOffsetY, True), Hex(0xF38E8D, 6), 20) Then ; Check if the Hero Upgrade window is open
@@ -1027,6 +1043,8 @@ Func PrinceUpgrade()
 
 	SetLog("Upgrade Prince")
 
+	If Not $g_bRunState Then Return
+
 	If $g_iTownHallLevel < 9 Then
 		SetLog("TH upgrade needed - Skipped!", $COLOR_ERROR)
 		$g_bUpgradeQueenEnable = False ; turn Off the Queens upgrade
@@ -1087,6 +1105,7 @@ Func PrinceUpgrade()
 
 	Click($bXcoords[2] + 55, 433 + $g_iMidOffsetY) ; Click Upgrade Button
 	If _Sleep($DELAYUPGRADEHERO3) Then Return ; Wait for window to open
+	If Not $g_bRunState Then Return
 
 	If $g_bDebugImageSave Then SaveDebugImage("UpgradeDarkBtn1")
 	If _ColorCheck(_GetPixelColor(800, 88 + $g_iMidOffsetY, True), Hex(0xF38E8D, 6), 20) Then ; Check if the Hero Upgrade window is open
@@ -1254,6 +1273,8 @@ Func WardenUpgrade()
 		SetLog("Checking Warden Values")
 	EndIf
 
+	If Not $g_bRunState Then Return
+
 	If $g_iTownHallLevel < 11 Then
 		SetLog("TH upgrade needed - Skipped!", $COLOR_ERROR)
 		$g_bUpgradeWardenEnable = False ; turn Off the Wardens upgrade
@@ -1314,6 +1335,7 @@ Func WardenUpgrade()
 
 	Click($bXcoords[3] + 55, 433 + $g_iMidOffsetY) ; Click Upgrade Button
 	If _Sleep($DELAYUPGRADEHERO3) Then Return ; Wait for window to open
+	If Not $g_bRunState Then Return
 
 	If $g_bDebugImageSave Then SaveDebugImage("UpgradeDarkBtn1")
 	If _ColorCheck(_GetPixelColor(800, 88 + $g_iMidOffsetY, True), Hex(0xF38E8D, 6), 20) Then ; Check if the Hero Upgrade window is open
@@ -1487,6 +1509,8 @@ Func ChampionUpgrade()
 
 	SetLog("Upgrade Champion")
 
+	If Not $g_bRunState Then Return
+
 	If $g_iTownHallLevel < 13 Then
 		SetLog("TH upgrade needed - Skipped!", $COLOR_ERROR)
 		$g_bUpgradeChampionEnable = False ; turn Off the Champions upgrade
@@ -1547,6 +1571,7 @@ Func ChampionUpgrade()
 
 	Click($bXcoords[4] + 55, 433 + $g_iMidOffsetY) ; Click Upgrade Button
 	If _Sleep($DELAYUPGRADEHERO3) Then Return ; Wait for window to open
+	If Not $g_bRunState Then Return
 
 	If $g_bDebugImageSave Then SaveDebugImage("UpgradeDarkBtn1")
 	If _ColorCheck(_GetPixelColor(800, 88 + $g_iMidOffsetY, True), Hex(0xF38E8D, 6), 20) Then ; Check if the Hero Upgrade window is open
