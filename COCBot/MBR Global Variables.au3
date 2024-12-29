@@ -551,7 +551,7 @@ Global Enum $eIcnArcher = 1, $eIcnDonArcher, $eIcnBalloon, $eIcnDonBalloon, $eIc
 		$eIcnRageVial, $eIcnEQBoots, $eIcnVampstache, $eIcnArcherPuppet, $eIcnInvisibilityVial, $eIcnGiantArrow, $eIcnHealerPuppet, $eIcnEternalTome, $eIcnLifeGem, $eIcnHealingTome, $eIcnRageGem, $eIcnRoyalGem, _
 		$eIcnSeekingShield, $eIcnGauntlet, $eIcnBlacksmith, $eIcnMultiArcher, $eIcnRicochet, $eIcnFrozenArrow, $eIcnHogPuppet, $eIcnHasteVial, $eIcnOvergrowthSpell, $eIcnFireball, $eIcnAngryJelly, $eIcnSpikyBall, _
 		$eIcnRocketSpear, $eIcnDruid, $eIcnMagicMirror, $eIcnLavaloonPuppet, $eHdV17, $eIcnTH17, $eWall18, $eIcnHelperHut, $eIcnThrower, $eIcnReviveSpell, $eIcnHeroHall, $eIcnHenchmenPuppet, $eIcnDarkOrb, $eIcnPrince, _
-		$eIcnPrinceUpgr, $eIcnPrinceBoost, $eIcnLocked, $eIcnSleepingPrince, $eIcnElectroBoots
+		$eIcnPrinceUpgr, $eIcnPrinceBoost, $eIcnLocked, $eIcnSleepingPrince, $eIcnElectroBoots, $eIcnSnakeBracelet
 
 ; enumerated Icons 1-based index to IconLibMod
 Global Enum $eIcnModZZZ = 1, $eIcnHumanization, $eIcnGUIMod, $eIcnBell, $eIcnDebugMod, $eIcnModRandomClose, $eIcnModLog, $eIcnChallenge, $eIcnModCW, $eIcnModBuilderPotion, _
@@ -560,7 +560,7 @@ Global Enum $eIcnModZZZ = 1, $eIcnHumanization, $eIcnGUIMod, $eIcnBell, $eIcnDeb
 		$eIcnModCCWall1, $eIcnModCCWall5, $eIcnModCCBigBarb, $eIcnModCCBoulder, $eIcnModCCForest, $eIcnModCCGreatPyre, $eIcnModCCGrove, $eIcnModCCPillar, $eIcnModCCBarrackRuin, $eIcnModCCBowBlastRuin, _
 		$eIcnModCCBombTowerRuin, $eIcnModCCSwizardtowerRuin, $eIcnModCCWall2, $eIcnModCCWall3, $eIcnModHeroBook, $eIcnModCCPrioritized, $eIcnCWLChampion, $eIcnPriority, _
 		$eIcnGiantSkeleton, $eIcnRoyalGhost, $eIcnPartyWizard, $eIcnIceWizard, $eIcnAllSpell, $eIcnAllSiege, $eIcnModFightingBook, $eIcnModEverythingBook, $eIcnModPetPotion, $eIcnModBuilderJar, $eIcnBarcher, _
-		$eIcnLavaloon, $eIcnWitchGolem, $eIcnHogWizard, $eIcnIceMinion, $eIcnCookie, $eIcnRamrider
+		$eIcnLavaloon, $eIcnWitchGolem, $eIcnHogWizard, $eIcnIceMinion, $eIcnCookie, $eIcnRamrider, $eIcnGlowyOre, $eIcnSourElixir
 
 Global $eIcnDonBlank = $eIcnDonBlacklist
 Global $eIcnOptions = $eIcnDonBlacklist
@@ -2035,15 +2035,16 @@ Global $ExternalArea[8][3]
 
 Global $g_aVillageSize[10] = ["", "", "", "", "", "", "", "", "", ""]
 
-; Blacksmith (26 equipment - December 2024)
+; Blacksmith (27 equipment - January 2025)
 Global $g_aiBlacksmithPos[2] = [-1, -1] ; Position of Blacksmith
-Global $g_asEquipmentOrderList[26][4] = [ _
+Global $g_asEquipmentOrderList[27][4] = [ _
 		[GetTranslatedFileIni("MBR GUI Design Child Village - Equipment", "TxtBarbarianPuppet", "Barbarian Puppet"), "BarbarianPuppet", "King", 155], _
 		[GetTranslatedFileIni("MBR GUI Design Child Village - Equipment", "TxtRageVial", "Rage Vial"), "RageVial", "King", 155], _
 		[GetTranslatedFileIni("MBR GUI Design Child Village - Equipment", "TxtEQBoots", "Earth Quake Boots"), "EQBoots", "King", 155], _
 		[GetTranslatedFileIni("MBR GUI Design Child Village - Equipment", "TxtVampstache", "Vampstache"), "Vampstache", "King", 155], _
 		[GetTranslatedFileIni("MBR GUI Design Child Village - Equipment", "TxtGauntlet", "Giant Gauntlet"), "Gauntlet", "King", 155], _
 		[GetTranslatedFileIni("MBR GUI Design Child Village - Equipment", "TxtSpikyBall", "Spiky Ball"), "SpikyBall", "King", 155], _
+		[GetTranslatedFileIni("MBR GUI Design Child Village - Equipment", "TxtSnakeBracelet", "Snake Bracelet"), "SnakeB", "King", 155], _
 		[GetTranslatedFileIni("MBR GUI Design Child Village - Equipment", "TxtArcherPuppet", "Archer Puppet"), "ArcherPuppet", "Queen", 184], _
 		[GetTranslatedFileIni("MBR GUI Design Child Village - Equipment", "TxtInvisibilityVial", "Invisibility Vial"), "InvisibilityVial", "Queen", 184], _
 		[GetTranslatedFileIni("MBR GUI Design Child Village - Equipment", "TxtGiantArrow", "Giant Arrow"), "GiantArrow", "Queen", 184], _
@@ -2065,30 +2066,30 @@ Global $g_asEquipmentOrderList[26][4] = [ _
 		[GetTranslatedFileIni("MBR GUI Design Child Village - Equipment", "TxtRocketSpear", "Rocket Spear"), "RocketSpear", "Champion", 270], _
 		[GetTranslatedFileIni("MBR GUI Design Child Village - Equipment", "TxtElectroBoots", "Electro Boots"), "ElectroBoots", "Champion", 270]]
 
-Global Enum $eBarbarianPuppet, $eRageVial, $eEQBoots, $eVampstache, $eGiantGauntlet, $eSpikyBall, $eArcherPuppet, $eInvisibilityVial, $eGiantArrow, $eHealerPuppet, _
+Global Enum $eBarbarianPuppet, $eRageVial, $eEQBoots, $eVampstache, $eGiantGauntlet, $eSpikyBall, $eSnakeBracelet, $eArcherPuppet, $eInvisibilityVial, $eGiantArrow, $eHealerPuppet, _
 		$eFrozenArrow, $eMagicMirror, $eHenchmen, $eDarkOrb, $eEternalTome, $eLifeGem, $eRageGem, $eHealingTome, $eFireball, $eLavaloonPuppet, $eRoyalGem, $eSeekingShield, _
 		$eHogPuppet, $eHasteVial, $eRocketSpear, $eElectroBoots, $eEquipmentCount
 Global $g_hChkCustomEquipmentOrderEnable = 0, $g_bChkCustomEquipmentOrderEnable = 0, $g_hChkFinishCurrentEquipmentFirst = 0, $g_bChkFinishCurrentEquipmentFirst = 1
 Global $g_hBtnEquipmentOrderSet = 0, $g_ahImgEquipmentOrderSet = 0, $g_hBtnRemoveEquipment = 0
-Global $g_EquipmentOrderLabel[$eEquipmentCount] = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
-Global $g_ahCmbEquipmentOrder[$eEquipmentCount] = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
-Global $g_ahImgEquipmentOrder[$eEquipmentCount] = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
-Global $g_ahImgEquipmentOrder2[$eEquipmentCount] = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+Global $g_EquipmentOrderLabel[$eEquipmentCount] = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+Global $g_ahCmbEquipmentOrder[$eEquipmentCount] = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+Global $g_ahImgEquipmentOrder[$eEquipmentCount] = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+Global $g_ahImgEquipmentOrder2[$eEquipmentCount] = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
 Global $g_aiEquipmentOrder[$eEquipmentCount] = [ _
-		$eBarbarianPuppet, $eRageVial, $eEQBoots, $eVampstache, $eGiantGauntlet, $eSpikyBall, $eArcherPuppet, $eInvisibilityVial, $eGiantArrow, $eHealerPuppet, _
+		$eBarbarianPuppet, $eRageVial, $eEQBoots, $eVampstache, $eGiantGauntlet, $eSpikyBall, $eSnakeBracelet, $eArcherPuppet, $eInvisibilityVial, $eGiantArrow, $eHealerPuppet, _
 		$eFrozenArrow, $eMagicMirror, $eHenchmen, $eDarkOrb, $eEternalTome, $eLifeGem, $eRageGem, $eHealingTome, $eFireball, $eLavaloonPuppet, $eRoyalGem, $eSeekingShield, _
 		$eHogPuppet, $eHasteVial, $eRocketSpear, $eElectroBoots]
 Global Const $g_aiEquipmentOrderIcon[$eEquipmentCount + 1][2] = [ _
 		[$eIcnOptions, $eIcnOptions], _
-		[$eIcnBarbarianPuppet, $eIcnKing], [$eIcnRageVial, $eIcnKing], [$eIcnEQBoots, $eIcnKing], [$eIcnVampstache, $eIcnKing], [$eIcnGauntlet, $eIcnKing], [$eIcnSpikyBall, $eIcnKing], _
+		[$eIcnBarbarianPuppet, $eIcnKing], [$eIcnRageVial, $eIcnKing], [$eIcnEQBoots, $eIcnKing], [$eIcnVampstache, $eIcnKing], [$eIcnGauntlet, $eIcnKing], [$eIcnSpikyBall, $eIcnKing], [$eIcnSnakeBracelet, $eIcnKing], _
 		[$eIcnArcherPuppet, $eIcnQueen], [$eIcnInvisibilityVial, $eIcnQueen], [$eIcnGiantArrow, $eIcnQueen], [$eIcnHealerPuppet, $eIcnQueen], [$eIcnFrozenArrow, $eIcnQueen], [$eIcnMagicMirror, $eIcnQueen], _
 		[$eIcnHenchmenPuppet, $eIcnPrince], [$eIcnDarkOrb, $eIcnPrince], _
 		[$eIcnEternalTome, $eIcnWarden], [$eIcnLifeGem, $eIcnWarden], [$eIcnRageGem, $eIcnWarden], [$eIcnHealingTome, $eIcnWarden], [$eIcnFireball, $eIcnWarden], [$eIcnLavaloonPuppet, $eIcnWarden], _
 		[$eIcnRoyalGem, $eIcnChampion], [$eIcnSeekingShield, $eIcnChampion], [$eIcnHogPuppet, $eIcnChampion], [$eIcnHasteVial, $eIcnChampion], [$eIcnRocketSpear, $eIcnChampion], [$eIcnElectroBoots, $eIcnChampion]]
-Global $g_aiCmbCustomEquipmentOrder[$eEquipmentCount] = [-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1]
-Global $g_hChkCustomEquipmentOrder[$eEquipmentCount] = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
-Global $g_bChkCustomEquipmentOrder[$eEquipmentCount] = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
-Global Const $g_asEquipmentShortNames[$eEquipmentCount] = ["BarbPuppet", "RageVial", "EQBoots", "Stache", "Gauntlet", "SpikyBall", "ArchPuppet", _
+Global $g_aiCmbCustomEquipmentOrder[$eEquipmentCount] = [-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1]
+Global $g_hChkCustomEquipmentOrder[$eEquipmentCount] = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+Global $g_bChkCustomEquipmentOrder[$eEquipmentCount] = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+Global Const $g_asEquipmentShortNames[$eEquipmentCount] = ["BarbPuppet", "RageVial", "EQBoots", "Stache", "Gauntlet", "SpikyBall", "SnakeB", "ArchPuppet", _
 		"InvVial", "GArrow", "HealPuppet", "FArrow", "Mirror", "Henchmen", "DarkOrb", "Eternal", "Life", "RageGem", "HealTome", "Fireball", "Lavaloon", _
 		"RoyalGem", "Shield", "HogPuppet", "HasteVial", "Rocket", "ElectroBoots"]
 Global $StarBonusReceived[3] = [0, 0, 0] ; BlackSmith/Treasury/Snacks

@@ -124,10 +124,14 @@ Func ChkBBaseFrequency()
 EndFunc   ;==>ChkBBaseFrequency
 
 Func ChkCollectRewards()
-	If GUICtrlRead($g_hChkCollectRewards) = $GUI_CHECKED Then
-		$g_bChkCollectRewards = True
-	Else
-		$g_bChkCollectRewards = False
+	If GUICtrlRead($g_hChkCollectRewards) = $GUI_CHECKED And GUICtrlRead($g_hChkEventCollect) = $GUI_CHECKED Then
+		GUICtrlSetState($g_hChkSellRewards, $GUI_ENABLE)
+	ElseIf GUICtrlRead($g_hChkCollectRewards) = $GUI_UNCHECKED And GUICtrlRead($g_hChkEventCollect) = $GUI_CHECKED Then
+		GUICtrlSetState($g_hChkSellRewards, $GUI_ENABLE)
+	ElseIf GUICtrlRead($g_hChkCollectRewards) = $GUI_CHECKED And GUICtrlRead($g_hChkEventCollect) = $GUI_UNCHECKED Then
+		GUICtrlSetState($g_hChkSellRewards, $GUI_ENABLE)
+	ElseIf GUICtrlRead($g_hChkCollectRewards) = $GUI_UNCHECKED And GUICtrlRead($g_hChkEventCollect) = $GUI_UNCHECKED Then
+		GUICtrlSetState($g_hChkSellRewards, $GUI_DISABLE)
 	EndIf
 EndFunc   ;==>ChkCollectRewards
 

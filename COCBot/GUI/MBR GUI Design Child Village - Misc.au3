@@ -331,8 +331,8 @@ Func CreateMiscNormalVillageSubTab()
 	_GUICtrlSetTip(-1, GetTranslatedFileIni("MBR GUI Design Child Village - Misc", "ChkTombstones_Info_01", "Check this to automatically clear tombstones after enemy attack."))
 	GUICtrlSetState(-1, $GUI_CHECKED)
 
-	_GUICtrlCreateIcon($g_sLibIconPath, $eIcnTree, $x + 230, $y, 24, 24)
-	$g_hChkCleanYard = GUICtrlCreateCheckbox(GetTranslatedFileIni("MBR GUI Design Child Village - Misc", "ChkCleanYard", "Remove Obstacles"), $x + 265, $y + 4, -1, -1)
+	_GUICtrlCreateIcon($g_sLibIconPath, $eIcnTree, $x + 256, $y, 24, 24)
+	$g_hChkCleanYard = GUICtrlCreateCheckbox(GetTranslatedFileIni("MBR GUI Design Child Village - Misc", "ChkCleanYard", "Remove Obstacles"), $x + 290, $y + 4, -1, -1)
 	_GUICtrlSetTip(-1, GetTranslatedFileIni("MBR GUI Design Child Village - Misc", "ChkCleanYard_Info_01", "Check this to automatically clear Yard from Trees, Trunks, etc."))
 	GUICtrlSetState(-1, $GUI_CHECKED)
 
@@ -342,9 +342,11 @@ Func CreateMiscNormalVillageSubTab()
 	_GUICtrlSetTip(-1, GetTranslatedFileIni("MBR GUI Design Child Village - Misc", "ChkGemsBox_Info_01", "Check this to automatically clear GemBox."))
 	GUICtrlSetState(-1, $GUI_UNCHECKED)
 
-	$g_hChkEventCollect = GUICtrlCreateCheckbox(GetTranslatedFileIni("MBR GUI Design Child Village - Misc", "ChkEventCollect", "Collect Event Stuff"), $x + 265, $y + 4, -1, -1)
+	_GUICtrlCreateIcon($g_sLibModIconPath, $eIcnSourElixir, $x + 258, $y + 4, 19, 19)
+	$g_hChkEventCollect = GUICtrlCreateCheckbox(GetTranslatedFileIni("MBR GUI Design Child Village - Misc", "ChkEventCollect", "Collect Event Stuff"), $x + 290, $y + 4, -1, -1)
 	_GUICtrlSetTip(-1, GetTranslatedFileIni("MBR GUI Design Child Village - Misc", "ChkEventCollect_Info_01", "Check this to automatically collect resource and rewards from event."))
 	GUICtrlSetState(-1, $GUI_UNCHECKED)
+	GUICtrlSetOnEvent(-1, "ChkCollectRewards")
 
 	$y += 21
 	_GUICtrlCreateIcon($g_sLibIconPath, $eIcnCollectAchievements, $x + 22, $y - 9, 48, 48)
@@ -352,19 +354,22 @@ Func CreateMiscNormalVillageSubTab()
 	_GUICtrlSetTip(-1, GetTranslatedFileIni("MBR GUI Design Child Village - Misc", "ChkCollectAchievements_Info", "Check this to automatically collect achievement rewards."))
 	GUICtrlSetState(-1, $GUI_CHECKED)
 
-	_GUICtrlCreateIcon($g_sLibIconPath, $eIcnPowerPotion, $x + 233, $y + 1, 19, 24)
-	$g_hChkFreeMagicItems = GUICtrlCreateCheckbox(GetTranslatedFileIni("MBR GUI Design Child Village - Misc", "ChkFreeMagicItems", "Collect Free Magic Items"), $x + 265, $y + 4, -1, -1)
-	_GUICtrlSetTip(-1, GetTranslatedFileIni("MBR GUI Design Child Village - Misc", "ChkFreeMagicItems_Info", "Check this to automatically collect free magic items.\r\nMust be at least Th8."))
+	_GUICtrlCreateIcon($g_sLibModIconPath, $eIcnGlowyOre, $x + 258, $y + 4, 19, 19)
+	$g_hChkFreeMagicItems = GUICtrlCreateCheckbox(GetTranslatedFileIni("MBR GUI Design Child Village - Misc", "ChkFreeMagicItems", "Collect Free Items"), $x + 290, $y + 4, -1, -1)
+	_GUICtrlSetTip(-1, GetTranslatedFileIni("MBR GUI Design Child Village - Misc", "ChkFreeMagicItems_Info", "Check this to automatically collect free items.\r\nMust be at least Th8."))
 	GUICtrlSetState(-1, $GUI_CHECKED)
 
 	$y += 21
 	_GUICtrlCreateIcon($g_sLibModIconPath, $eIcnChallenge, $x + 32, $y + 1, 24, 24)
-	$g_hChkCollectRewards = GUICtrlCreateCheckbox(GetTranslatedFileIni("MBR GUI Design Child Village - Misc", "ChkCollectRewards", "Collect Challenge Rewards"), $x + 100, $y + 4, -1, -1)
-	_GUICtrlSetTip(-1, GetTranslatedFileIni("MBR GUI Design Child Village - Misc", "ChkCollectRewards_Info", "Check this to automatically collect daily challenges rewards."))
+	$g_hChkCollectRewards = GUICtrlCreateCheckbox(GetTranslatedFileIni("MBR GUI Design Child Village - Misc", "ChkCollectRewards", "Collect Daily Rewards"), $x + 100, $y + 4, -1, -1)
+	_GUICtrlSetTip(-1, GetTranslatedFileIni("MBR GUI Design Child Village - Misc", "ChkCollectRewards_Info", "Check this to automatically collect daily challenge rewards."))
 	GUICtrlSetState(-1, $GUI_CHECKED)
 	GUICtrlSetOnEvent(-1, "ChkCollectRewards")
-	$g_hChkSellRewards = GUICtrlCreateCheckbox(GetTranslatedFileIni("MBR GUI Design Child Village - Misc", "ChkSellRewards", "Sell Extras"), $x + 265, $y + 4, -1, -1)
-	_GUICtrlSetTip(-1, GetTranslatedFileIni("MBR GUI Design Child Village - Misc", "ChkSellExtra_Info_01", "Check to automatically sell all extra daily challenges rewards for gems."))
+
+	_GUICtrlCreateIcon($g_sLibIconPath, $eIcnGem, $x + 258, $y + 4, 19, 19)
+	$g_hChkSellRewards = GUICtrlCreateCheckbox(GetTranslatedFileIni("MBR GUI Design Child Village - Misc", "ChkSellRewards", "Sell Extras"), $x + 290, $y + 4, -1, -1)
+	_GUICtrlSetTip(-1, GetTranslatedFileIni("MBR GUI Design Child Village - Misc", "ChkSellExtra_Info_01", "Check to automatically sell all extra daily challenge and event rewards for gems."))
+	GUICtrlSetState(-1, $GUI_UNCHECKED)
 
 	GUICtrlCreateGroup("", -99, -99, 1, 1)
 
