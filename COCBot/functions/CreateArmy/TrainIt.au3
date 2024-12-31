@@ -214,8 +214,8 @@ Func GetFullNameSlot(Const $iTrainPos, Const $sTroopType, $iTroop = $eBarb)
 
 	Local $iSlotH, $iSlotV
 	Local $bMoveCount = $eETitan - $g_iNextPageTroop
-	Local $ExtendedTroops4 = False
-	If $bMoveCount > 4 Then $ExtendedTroops4 = True
+	Local $ExtendedTroops = False
+	If $bMoveCount > 2 Then $ExtendedTroops = True
 
 	If $sTroopType = "Spell" Then
 		Switch $iTrainPos[0]
@@ -256,7 +256,7 @@ Func GetFullNameSlot(Const $iTrainPos, Const $sTroopType, $iTroop = $eBarb)
 	If $sTroopType = "Normal" Then
 
 		If $iTroop > $g_iNextPageTroop Then ; Normal Troops in second page
-			If $ExtendedTroops4 And $iTroop <= $g_iNextPageTroop + $bMoveCount Then ; Hidden troops when 4+ slots offset.
+			If $ExtendedTroops And $iTroop <= $g_iNextPageTroop + $bMoveCount Then ; Hidden troops when 4+ slots offset.
 				Switch $iTrainPos[0]
 					Case 85 To 170 ; 1 Column (1st)
 						$iSlotH = 152

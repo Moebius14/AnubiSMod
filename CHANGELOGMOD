@@ -1,6 +1,9 @@
-* v24.12.xx
+* v24.12.31 **
 * Improved Upgrade Logic Between Lab/Heroes/Buildings/Walls [Mod].
 * Changed Few Cosmetics.
+* Added Snake Barrel Code and Event CSV's.
+* Added Hero Upgrade Order.
+* Added Relocate All Your Buildings Button.
 
 * v24.12.21 **
 * Updated All CSV scripts (Prince support).

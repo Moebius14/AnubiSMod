@@ -500,83 +500,102 @@ Func UpgradeHeroes()
 		Return
 	EndIf
 
-	;Check if Auto Lab Upgrade is enabled and if a Dark Troop/Spell is selected for Upgrade. If yes, it has priority!
-	If BitOR($g_bUpgradeKingEnable, $g_bUpgradeQueenEnable, $g_bUpgradePrinceEnable, $g_bUpgradeChampionEnable) Then
-		If $g_bAutoLabUpgradeEnable And $g_iLaboratoryDElixirCost > 0 Then
-			SetLog("Laboratory needs DE to Upgrade:  " & $g_iLaboratoryDElixirCost)
-			SetLog("Skipping the Queen, King, Champion and Prince Upgrade!")
-		Else
-			; ### Barbarian King ###
-			If $g_bUpgradeKingEnable And BitAND($g_iHeroUpgradingBit, $eHeroKing) <> $eHeroKing Then
-				If $g_iFreeBuilderCount < 1 + ($g_bAutoUpgradeWallsEnable And $g_bUpgradeWallSaveBuilder ? 1 : 0) Then
-					SetLog("Not enough Builders available to upgrade the Barbarian King")
-					Return
+	Local $bHeroUpgradeOrder[0][2]
+	For $i = 0 To UBound($g_aiCmbHeroOrder) - 1
+		_ArrayAdd($bHeroUpgradeOrder, $i & "|" & $g_aiCmbHeroOrder[$i])
+	Next
+	_ArraySort($bHeroUpgradeOrder, 0, 0, 0, 1)
+
+	Local $bSetLog = True
+	For $i = 0 To UBound($bHeroUpgradeOrder) - 1
+		Switch $bHeroUpgradeOrder[$i][0]
+			Case 0, 1, 2, 4
+				;Check if Auto Lab Upgrade is enabled and if a Dark Troop/Spell is selected for Upgrade. If yes, it has priority!
+				If BitOR($g_bUpgradeKingEnable, $g_bUpgradeQueenEnable, $g_bUpgradePrinceEnable, $g_bUpgradeChampionEnable) Then
+					If $g_bAutoLabUpgradeEnable And $g_iLaboratoryDElixirCost > 0 Then
+						If $bSetLog Then SetLog("Laboratory needs DE to Upgrade:  " & $g_iLaboratoryDElixirCost)
+						If $bSetLog Then SetLog("Skipping the Queen, King, Champion and Prince Upgrade!")
+						$bSetLog = False
+						ContinueLoop
+					EndIf
+					Switch $bHeroUpgradeOrder[$i][0]
+						Case 0
+							; ### Barbarian King ###
+							If $g_bUpgradeKingEnable And BitAND($g_iHeroUpgradingBit, $eHeroKing) <> $eHeroKing Then
+								If $g_iFreeBuilderCount < 1 + ($g_bAutoUpgradeWallsEnable And $g_bUpgradeWallSaveBuilder ? 1 : 0) Then
+									SetLog("Not enough Builders available to upgrade the Barbarian King")
+									Return
+								EndIf
+								KingUpgrade()
+
+								If _Sleep($DELAYUPGRADEHERO1) Then Return
+							ElseIf $g_bUpgradeKingEnable And BitAND($g_iHeroUpgradingBit, $eHeroKing) = $eHeroKing Then
+								If Not _DateIsValid($g_aiHeroUpgradeFinishDate[0]) Then FinishTimeCalculation("King")
+							EndIf
+							If Not $g_bRunState Then Return
+						Case 1
+							; ### Archer Queen ###
+							If $g_bUpgradeQueenEnable And BitAND($g_iHeroUpgradingBit, $eHeroQueen) <> $eHeroQueen Then
+								If $g_iFreeBuilderCount < 1 + ($g_bAutoUpgradeWallsEnable And $g_bUpgradeWallSaveBuilder ? 1 : 0) Then
+									SetLog("Not enough Builders available to upgrade the Archer Queen")
+									Return
+								EndIf
+								QueenUpgrade()
+
+								If _Sleep($DELAYUPGRADEHERO1) Then Return
+							ElseIf $g_bUpgradeQueenEnable And BitAND($g_iHeroUpgradingBit, $eHeroQueen) = $eHeroQueen Then
+								If Not _DateIsValid($g_aiHeroUpgradeFinishDate[1]) Then FinishTimeCalculation("Queen")
+							EndIf
+							If Not $g_bRunState Then Return
+						Case 2
+							; ### Minion Prince ###
+							If $g_bUpgradePrinceEnable And BitAND($g_iHeroUpgradingBit, $eHeroPrince) <> $eHeroPrince Then
+								If $g_iFreeBuilderCount < 1 + ($g_bAutoUpgradeWallsEnable And $g_bUpgradeWallSaveBuilder ? 1 : 0) Then
+									SetLog("Not enough Builders available to upgrade the Archer Queen")
+									Return
+								EndIf
+								PrinceUpgrade()
+
+								If _Sleep($DELAYUPGRADEHERO1) Then Return
+							ElseIf $g_bUpgradePrinceEnable And BitAND($g_iHeroUpgradingBit, $eHeroPrince) = $eHeroPrince Then
+								If Not _DateIsValid($g_aiHeroUpgradeFinishDate[2]) Then FinishTimeCalculation("Prince")
+							EndIf
+							If Not $g_bRunState Then Return
+						Case 4
+							; ### Royal Champion ###
+							If $g_bUpgradeChampionEnable And BitAND($g_iHeroUpgradingBit, $eHeroChampion) <> $eHeroChampion Then
+								If $g_iFreeBuilderCount < 1 + ($g_bAutoUpgradeWallsEnable And $g_bUpgradeWallSaveBuilder ? 1 : 0) Then
+									SetLog("Not enough Builders available to upgrade the Royal Champion")
+									Return
+								EndIf
+								ChampionUpgrade()
+
+								If _Sleep($DELAYUPGRADEHERO1) Then Return
+							ElseIf $g_bUpgradeChampionEnable And BitAND($g_iHeroUpgradingBit, $eHeroChampion) = $eHeroChampion Then
+								If Not _DateIsValid($g_aiHeroUpgradeFinishDate[4]) Then FinishTimeCalculation("Champion")
+							EndIf
+							If Not $g_bRunState Then Return
+					EndSwitch
 				EndIf
-				KingUpgrade()
-
-				If _Sleep($DELAYUPGRADEHERO1) Then Return
-			ElseIf $g_bUpgradeKingEnable And BitAND($g_iHeroUpgradingBit, $eHeroKing) = $eHeroKing Then
-				If Not _DateIsValid($g_aiHeroUpgradeFinishDate[0]) Then FinishTimeCalculation("King")
-			EndIf
-			If Not $g_bRunState Then Return
-			; ### Archer Queen ###
-			If $g_bUpgradeQueenEnable And BitAND($g_iHeroUpgradingBit, $eHeroQueen) <> $eHeroQueen Then
-				If $g_iFreeBuilderCount < 1 + ($g_bAutoUpgradeWallsEnable And $g_bUpgradeWallSaveBuilder ? 1 : 0) Then
-					SetLog("Not enough Builders available to upgrade the Archer Queen")
-					Return
+			Case 3
+				; ### Grand Warden ###
+				;Check if Auto Lab Upgrade is enabled and if a Elixir Troop/Spell is selected for Upgrade. If yes, it has priority!
+				If $g_bUpgradeWardenEnable Then
+					If $g_bAutoLabUpgradeEnable And $g_iLaboratoryElixirCost > 0 Then
+						SetLog("Laboratory needs Elixir to Upgrade:  " & $g_iLaboratoryElixirCost)
+						SetLog("Skipping the Warden Upgrade!")
+					ElseIf BitAND($g_iHeroUpgradingBit, $eHeroWarden) <> $eHeroWarden Then
+						If $g_iFreeBuilderCount < 1 + ($g_bAutoUpgradeWallsEnable And $g_bUpgradeWallSaveBuilder ? 1 : 0) Then
+							SetLog("Not enough Builders available to upgrade the Grand Warden")
+							Return
+						EndIf
+						WardenUpgrade()
+					ElseIf BitAND($g_iHeroUpgradingBit, $eHeroWarden) = $eHeroWarden Then
+						If Not _DateIsValid($g_aiHeroUpgradeFinishDate[3]) Then FinishTimeCalculation("Warden")
+					EndIf
 				EndIf
-				QueenUpgrade()
-
-				If _Sleep($DELAYUPGRADEHERO1) Then Return
-			ElseIf $g_bUpgradeQueenEnable And BitAND($g_iHeroUpgradingBit, $eHeroQueen) = $eHeroQueen Then
-				If Not _DateIsValid($g_aiHeroUpgradeFinishDate[1]) Then FinishTimeCalculation("Queen")
-			EndIf
-			If Not $g_bRunState Then Return
-			; ### Minion Prince ###
-			If $g_bUpgradePrinceEnable And BitAND($g_iHeroUpgradingBit, $eHeroPrince) <> $eHeroPrince Then
-				If $g_iFreeBuilderCount < 1 + ($g_bAutoUpgradeWallsEnable And $g_bUpgradeWallSaveBuilder ? 1 : 0) Then
-					SetLog("Not enough Builders available to upgrade the Archer Queen")
-					Return
-				EndIf
-				PrinceUpgrade()
-
-				If _Sleep($DELAYUPGRADEHERO1) Then Return
-			ElseIf $g_bUpgradePrinceEnable And BitAND($g_iHeroUpgradingBit, $eHeroPrince) = $eHeroPrince Then
-				If Not _DateIsValid($g_aiHeroUpgradeFinishDate[2]) Then FinishTimeCalculation("Prince")
-			EndIf
-			If Not $g_bRunState Then Return
-			; ### Royal Champion ###
-			If $g_bUpgradeChampionEnable And BitAND($g_iHeroUpgradingBit, $eHeroChampion) <> $eHeroChampion Then
-				If $g_iFreeBuilderCount < 1 + ($g_bAutoUpgradeWallsEnable And $g_bUpgradeWallSaveBuilder ? 1 : 0) Then
-					SetLog("Not enough Builders available to upgrade the Royal Champion")
-					Return
-				EndIf
-				ChampionUpgrade()
-
-				If _Sleep($DELAYUPGRADEHERO1) Then Return
-			ElseIf $g_bUpgradeChampionEnable And BitAND($g_iHeroUpgradingBit, $eHeroChampion) = $eHeroChampion Then
-				If Not _DateIsValid($g_aiHeroUpgradeFinishDate[4]) Then FinishTimeCalculation("Champion")
-			EndIf
-			If Not $g_bRunState Then Return
-		EndIf
-	EndIf
-
-	; ### Grand Warden ###
-	;Check if Auto Lab Upgrade is enabled and if a Elixir Troop/Spell is selected for Upgrade. If yes, it has priority!
-	If $g_bUpgradeWardenEnable Then
-		If $g_bAutoLabUpgradeEnable And $g_iLaboratoryElixirCost > 0 Then
-			SetLog("Laboratory needs Elixir to Upgrade:  " & $g_iLaboratoryElixirCost)
-			SetLog("Skipping the Warden Upgrade!")
-		ElseIf BitAND($g_iHeroUpgradingBit, $eHeroWarden) <> $eHeroWarden Then
-			If $g_iFreeBuilderCount < 1 + ($g_bAutoUpgradeWallsEnable And $g_bUpgradeWallSaveBuilder ? 1 : 0) Then
-				SetLog("Not enough Builders available to upgrade the Grand Warden")
-				Return
-			EndIf
-			WardenUpgrade()
-		ElseIf BitAND($g_iHeroUpgradingBit, $eHeroWarden) = $eHeroWarden Then
-			If Not _DateIsValid($g_aiHeroUpgradeFinishDate[3]) Then FinishTimeCalculation("Warden")
-		EndIf
-	EndIf
+		EndSwitch
+	Next
 
 	If Not $g_bRunState Then Return
 	CloseWindow()

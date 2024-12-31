@@ -731,6 +731,9 @@ Func SaveConfig_600_15()
 	_Ini_Add("upgrade", "RepUpgradeWarden", $g_bRepUpgradeWardenEnable ? 1 : 0)
 	_Ini_Add("upgrade", "UpgradeChampion", $g_bUpgradeChampionEnable ? 1 : 0)
 	_Ini_Add("upgrade", "RepUpgradeChampion", $g_bRepUpgradeChampionEnable ? 1 : 0)
+	For $z = 0 To UBound($g_aiCmbHeroOrder) - 1
+		_Ini_Add("upgrade", "cmbHeroUpOrder" & $z, $g_aiCmbHeroOrder[$z])
+	Next
 	_Ini_Add("upgrade", "HeroReservedBuilder", $g_iHeroReservedBuilder)
 	_Ini_Add("upgrade", "UseHeroBooks", $g_bUseHeroBooks ? 1 : 0)
 	_Ini_Add("upgrade", "HeroMinUpgradeTime", $g_iHeroMinUpgradeTime)

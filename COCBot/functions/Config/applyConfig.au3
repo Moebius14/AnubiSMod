@@ -1043,6 +1043,25 @@ Func ApplyConfig_600_15($TypeReadSave)
 			chkUpgradeChampion()
 			chkDBChampionWait()
 			chkABChampionWait()
+
+			For $z = 0 To UBound($g_ahCmbHeroOrder) - 1
+				_GUICtrlComboBox_SetCurSel($g_ahCmbHeroOrder[$z], $g_aiCmbHeroOrder[$z])
+			Next
+			Local $iValueSet = 0
+			For $i = 0 To UBound($g_ahCmbHeroOrder) - 1
+				Local $iValue = _GUICtrlComboBox_GetCurSel($g_ahCmbHeroOrder[$i])
+				If $iValue <> -1 Then
+					$iValueSet += 1
+				EndIf
+			Next
+			If $iValueSet = 0 Then
+				SetLog("First Start Hero Upgrade Order Set")
+				For $z = 0 To UBound($g_ahCmbHeroOrder) - 1
+					_GUICtrlComboBox_SetCurSel($g_ahCmbHeroOrder[$z], $z)
+					$g_aiCmbHeroOrder[$z] = $z
+				Next
+			EndIf
+
 			_GUICtrlComboBox_SetCurSel($g_hCmbHeroReservedBuilder, $g_iHeroReservedBuilder)
 			cmbHeroReservedBuilder()
 			GUICtrlSetState($g_hUseHeroBooks, $g_bUseHeroBooks ? $GUI_CHECKED : $GUI_UNCHECKED)
@@ -1096,6 +1115,9 @@ Func ApplyConfig_600_15($TypeReadSave)
 			$g_bRepUpgradeWardenEnable = (GUICtrlRead($g_hChkRepUpgradeWarden) = $GUI_CHECKED)
 			$g_bUpgradeChampionEnable = (GUICtrlRead($g_hChkUpgradeChampion) = $GUI_CHECKED)
 			$g_bRepUpgradeChampionEnable = (GUICtrlRead($g_hChkRepUpgradeChampion) = $GUI_CHECKED)
+			For $z = 0 To UBound($g_ahCmbHeroOrder) - 1
+				$g_aiCmbHeroOrder[$z] = _GUICtrlComboBox_GetCurSel($g_ahCmbHeroOrder[$z])
+			Next
 			$g_iHeroReservedBuilder = _GUICtrlComboBox_GetCurSel($g_hCmbHeroReservedBuilder)
 			$g_bUseHeroBooks = (GUICtrlRead($g_hUseHeroBooks) = $GUI_CHECKED)
 			$g_iHeroMinUpgradeTime = GUICtrlRead($g_hHeroMinUpgradeTime)

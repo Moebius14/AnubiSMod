@@ -415,14 +415,14 @@ Func DragIfNeeded($Troop)
 	If Not $g_bRunState Then Return
 	Local $bCheckPixel = False
 	Local $iIndex = TroopIndexLookup($Troop, "DragIfNeeded")
-	Local $bDrag = False, $ExtendedTroops4 = False, $ExtendedDragTroops4 = 0
+	Local $bDrag = False, $ExtendedTroops = False, $ExtendedDragTroops = 0
 	Local $bMoveCount = $eETitan - $g_iNextPageTroop
 
 	If $iIndex > $g_iNextPageTroop Then $bDrag = True ; Drag if Troops is on Right side from $g_iNextPageTroop
 	If $iIndex > $eDruid Then $bDrag = False ; No Drag If Event Troops
-	If $bMoveCount > 4 Then  ; MicroDragLeft if Moved 4+ slots at left to find hidden columns.
-		$ExtendedTroops4 = True
-		$ExtendedDragTroops4 = 70 ; Drag more to the right before.
+	If $bMoveCount > 2 Then  ; MicroDragLeft if Moved 2+ slots at left to find hidden columns.
+		$ExtendedTroops = True
+		$ExtendedDragTroops = 70 ; Drag more to the right before.
 	EndIf
 
 	If $bDrag Then
@@ -430,11 +430,11 @@ Func DragIfNeeded($Troop)
 		If $g_bDebugSetLogTrain Then SetLog("DragIfNeeded : to the right")
 		For $i = 1 To 4
 			If Not $bCheckPixel Then
-				ClickDrag(715, 433 + $g_iMidOffsetY, 300 - $ExtendedDragTroops4, 433 + $g_iMidOffsetY)
+				ClickDrag(715, 433 + $g_iMidOffsetY, 300 - $ExtendedDragTroops, 433 + $g_iMidOffsetY)
 				If _Sleep(Random(1500, 2000, 1)) Then Return
 				If _ColorCheck(_GetPixelColor(776, 380 + $g_iMidOffsetY, True), Hex(0xD3D3CB, 6), 5) Then
 					$bCheckPixel = True
-					If $ExtendedTroops4 And $iIndex > $g_iNextPageTroop And $iIndex <= $g_iNextPageTroop + $bMoveCount Then
+					If $ExtendedTroops And $iIndex > $g_iNextPageTroop And $iIndex <= $g_iNextPageTroop + $bMoveCount Then
 						If _ColorCheck(_GetPixelColor(776, 380 + $g_iMidOffsetY, True), Hex(0xD3D3CB, 6), 5) Then
 							If $g_bDebugSetLogTrain Then SetLog("DragIfNeeded : MicroDrag to the left")
 							ClickDrag(250, 433 + $g_iMidOffsetY, 435, 433 + $g_iMidOffsetY)
@@ -443,7 +443,7 @@ Func DragIfNeeded($Troop)
 					EndIf
 				EndIf
 			Else
-				If $ExtendedTroops4 And $iIndex > $g_iNextPageTroop And $iIndex <= $g_iNextPageTroop + $bMoveCount Then
+				If $ExtendedTroops And $iIndex > $g_iNextPageTroop And $iIndex <= $g_iNextPageTroop + $bMoveCount Then
 					If _ColorCheck(_GetPixelColor(776, 380 + $g_iMidOffsetY, True), Hex(0xD3D3CB, 6), 5) Then
 						If $g_bDebugSetLogTrain Then SetLog("DragIfNeeded : MicroDrag to the left")
 						ClickDrag(250, 433 + $g_iMidOffsetY, 435, 433 + $g_iMidOffsetY)
@@ -458,7 +458,7 @@ Func DragIfNeeded($Troop)
 		If $g_bDebugSetLogTrain Then SetLog("DragIfNeeded : to the left")
 		For $i = 1 To 4
 			If Not $bCheckPixel Then
-				ClickDrag(200, 433 + $g_iMidOffsetY, 615 + $ExtendedDragTroops4, 433 + $g_iMidOffsetY)
+				ClickDrag(200, 433 + $g_iMidOffsetY, 615 + $ExtendedDragTroops, 433 + $g_iMidOffsetY)
 				If _Sleep(Random(1500, 2000, 1)) Then Return
 				If _ColorCheck(_GetPixelColor(75, 380 + $g_iMidOffsetY, True), Hex(0xD3D3CB, 6), 5) Then $bCheckPixel = True
 			Else
@@ -797,7 +797,7 @@ Func GetSlotNumber($bSpells = False)
 			Local Const $Orders = [$eBarb, $eSBarb, $eArch, $eSArch, $eGiant, $eSGiant, $eGobl, $eSGobl, $eWall, $eSWall, $eBall, $eRBall, $eWiza, $eSWiza, $eHeal, $eDrag, $eSDrag, _
 					$eYeti, $eRDrag, $ePekk, $eBabyD, $eInfernoD, $eMine, $eSMine, $eEDrag, $eETitan, $eRootR, $eThrower, _
 					$eMini, $eSMini, $eHogs, $eSHogs, $eValk, $eSValk, $eGole, $eWitc, $eSWitc, $eLava, $eIceH, $eBowl, $eSBowl, $eIceG, $eHunt, $eAppWard, $eDruid, _
-					$eGSkel, $eRGhost, $ePWiza, $eIWiza, $eCookie, $eRamRider, $eBarcher, $eGWitch, $eHWiza, $eLavaloon, $eIMini]
+					$eGSkel, $eRGhost, $ePWiza, $eIWiza, $eCookie, $eRamRider, $eSnakeBarrel, $eBarcher, $eGWitch, $eHWiza, $eLavaloon, $eIMini]
 
 			Local $allCurTroops[UBound($Orders)]
 

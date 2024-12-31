@@ -345,6 +345,7 @@ EndFunc   ;==>btnLocateClanCastle
 ;~ EndFunc   ;==>btnLocateDarkSpellfactory
 
 Func btnLocateTownHall()
+	_GUICtrlTab_ClickTab($g_hTabMain, 0)
 	Local $wasRunState = $g_bRunState
 	Local $g_iOldTownHallLevel = $g_iTownHallLevel
 	$g_bRunState = True
@@ -373,6 +374,7 @@ Func btnLocateTownHall()
 EndFunc   ;==>btnLocateTownHall
 
 Func btnResetBuilding()
+	_GUICtrlTab_ClickTab($g_hTabMain, 0)
 	Local $wasRunState = $g_bRunState
 	$g_bRunState = True
 	While 1
@@ -451,6 +453,7 @@ Func btnResetDistributor()
 EndFunc   ;==>btnResetDistributor
 
 Func btnLab()
+	_GUICtrlTab_ClickTab($g_hTabMain, 0)
 	Local $wasRunState = $g_bRunState
 	$g_bRunState = True
 	ZoomOut()
@@ -460,6 +463,7 @@ Func btnLab()
 EndFunc   ;==>btnLab
 
 Func btnLocateHeroHall()
+	_GUICtrlTab_ClickTab($g_hTabMain, 0)
 	Local $wasRunState = $g_bRunState
 	$g_bRunState = True
 	ZoomOut()
@@ -469,6 +473,7 @@ Func btnLocateHeroHall()
 EndFunc   ;==>btnLocateHeroHall
 
 Func btnPet()
+	_GUICtrlTab_ClickTab($g_hTabMain, 0)
 	Local $wasRunState = $g_bRunState
 	$g_bRunState = True
 	ZoomOut()
@@ -478,6 +483,7 @@ Func btnPet()
 EndFunc   ;==>btnPet
 
 Func btnBsmith()
+	_GUICtrlTab_ClickTab($g_hTabMain, 0)
 	Local $wasRunState = $g_bRunState
 	$g_bRunState = True
 	ZoomOut()
@@ -487,6 +493,7 @@ Func btnBsmith()
 EndFunc   ;==>btnBsmith
 
 Func btnHelperHut()
+	_GUICtrlTab_ClickTab($g_hTabMain, 0)
 	Local $wasRunState = $g_bRunState
 	$g_bRunState = True
 	ZoomOut()
@@ -494,6 +501,39 @@ Func btnHelperHut()
 	$g_bRunState = $wasRunState
 	AndroidShield("btnHelperHut") ; Update shield status due to manual $g_bRunState
 EndFunc   ;==>btnHelperHut
+
+Func btnRelocateAll()
+	_GUICtrlTab_ClickTab($g_hTabMain, 0)
+	SetLog("Relocate All Your Buildings", $COLOR_INFO)
+	Local $wasRunState = $g_bRunState
+	Local $g_iOldTownHallLevel = $g_iTownHallLevel
+	$g_bRunState = True
+	ZoomOut()
+	LocateTownHall()
+	If Not $g_iOldTownHallLevel = $g_iTownHallLevel Then
+		_ExtMsgBoxSet(1 + 64, $SS_CENTER, 0x004080, 0xFFFF00, 12, "Comic Sans MS", 600)
+		Local $stext = @CRLF & GetTranslatedFileIni("MBR Popups", "Locating_your_TH", "If you locating your TH because you upgraded,") & @CRLF & _
+				GetTranslatedFileIni("MBR Popups", "Must_restart_bot", "then you must restart bot!!!") & @CRLF & @CRLF
+		Local $MsgBox = _ExtMsgBox(0, GetTranslatedFileIni("MBR Popups", "Ok_Ok", "Ok"), GetTranslatedFileIni("MBR Popups", "UpgradeTH_Info", "Warning!"), $stext, 120)
+		If _Sleep($DELAYRESPOND) Then Return
+	EndIf
+	If _Sleep($DELAYRESPOND) Then Return
+	LocateClanCastle(False)
+	If _Sleep($DELAYRESPOND) Then Return
+	LocateHeroHall()
+	If _Sleep($DELAYRESPOND) Then Return
+	LocateLab()
+	If _Sleep($DELAYRESPOND) Then Return
+	LocatePetHouse()
+	If _Sleep($DELAYRESPOND) Then Return
+	LocateBlacksmith()
+	If _Sleep($DELAYRESPOND) Then Return
+	btnHelperHut()
+	If _Sleep($DELAYRESPOND) Then Return
+	SetLog("Relocate successfully done.", $COLOR_SUCCESS)
+	$g_bRunState = $wasRunState
+	AndroidShield("btnRelocateAll") ; Update shield status due to manual $g_bRunState
+EndFunc   ;==>btnRelocateAll
 
 Func chkTrophyAtkDead()
 	If GUICtrlRead($g_hChkTrophyAtkDead) = $GUI_CHECKED Then

@@ -29,13 +29,13 @@ Func LoadTranslatedDropOrderList()
 			"Dragons", "Super Dragons", "Pekkas", "Baby Dragons", "Inferno Dragons", "Miners", "Super Miners", "Electro Dragons", "Yetis", "Dragon Riders", _
 			"Electro Titans", "Root Riders", "Throwers", "Minions", "Super Minions", "Hog Riders", "Super Hog Riders", "Valkyries", "Super Valkyries", "Golems", _
 			"Witchs", "Super Witchs", "Lava Hounds", "Ice Hounds", "Bowlers", "Super Bowlers", "Ice Golems", "Headhunters", "Apprentice Wardens", _
-			"Druids", "Giant Skeletons", "Royal Ghosts", "Party Wizards", "Ice Wizards", "Cookies", "Ram Riders", "Barchers", "Witch Golems", "Hog Wizards", "Lavaloons", "Ice Minions", _
+			"Druids", "Giant Skeletons", "Royal Ghosts", "Party Wizards", "Ice Wizards", "Cookies", "Ram Riders", "Snake Barrels", "Barchers", "Witch Golems", "Hog Wizards", "Lavaloons", "Ice Minions", _
 			"Clan Castle", "Heroes"]
 EndFunc   ;==>LoadTranslatedDropOrderList
 
 Global $g_hChkCustomDropOrderEnable = 0
-Global $g_ahCmbDropOrder[$eDropOrderCount] = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
-Global $g_ahImgDropOrder[$eDropOrderCount] = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+Global $g_ahCmbDropOrder[$eDropOrderCount] = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+Global $g_ahImgDropOrder[$eDropOrderCount] = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
 Global $g_hBtnDropOrderSet = 0, $g_ahImgDropOrderSet = 0
 Global $g_hBtnRemoveDropOrder = 0
 

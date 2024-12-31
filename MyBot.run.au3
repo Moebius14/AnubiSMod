@@ -1408,7 +1408,7 @@ Func __RunFunction($action)
 	Switch $action
 		Case "Collect"
 			Collect()
-			_Sleep($DELAYRUNBOT1)
+			If _Sleep($DELAYRUNBOT1) Then Return
 		Case "CheckTombs"
 			CheckTombs()
 			If _Sleep($DELAYRUNBOT3) Then Return
@@ -1463,34 +1463,34 @@ Func __RunFunction($action)
 			EndIf
 		Case "BoostBarracks"
 			BoostBarracks()
-			_Sleep($DELAYRESPOND)
+			If _Sleep($DELAYRESPOND) Then Return
 		Case "BoostSpellFactory"
 			BoostSpellFactory()
-			_Sleep($DELAYRESPOND)
+			If _Sleep($DELAYRESPOND) Then Return
 		Case "BoostWorkshop"
 			BoostWorkshop()
-			_Sleep($DELAYRESPOND)
+			If _Sleep($DELAYRESPOND) Then Return
 		Case "BoostKing"
 			BoostKing()
-			_Sleep($DELAYRESPOND)
+			If _Sleep($DELAYRESPOND) Then Return
 		Case "BoostQueen"
 			BoostQueen()
-			_Sleep($DELAYRESPOND)
+			If _Sleep($DELAYRESPOND) Then Return
 		Case "BoostPrince"
 			BoostPrince()
-			_Sleep($DELAYRESPOND)
+			If _Sleep($DELAYRESPOND) Then Return
 		Case "BoostWarden"
 			BoostWarden()
-			_Sleep($DELAYRESPOND)
+			If _Sleep($DELAYRESPOND) Then Return
 		Case "BoostChampion"
 			BoostChampion()
-			_Sleep($DELAYRESPOND)
+			If _Sleep($DELAYRESPOND) Then Return
 		Case "BoostEverything"
 			BoostEverything()
-			_Sleep($DELAYRESPOND)
+			If _Sleep($DELAYRESPOND) Then Return
 		Case "BoostBuilders"
 			CheckBuilderPotion()
-			_Sleep($DELAYRESPOND)
+			If _Sleep($DELAYRESPOND) Then Return
 		Case "DailyChallenge"
 			DailyChallenges()
 			If _Sleep($DELAYRUNBOT3) Then Return

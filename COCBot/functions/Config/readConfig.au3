@@ -824,6 +824,9 @@ Func ReadConfig_600_15()
 	IniReadS($g_bRepUpgradeWardenEnable, $g_sProfileConfigPath, "upgrade", "RepUpgradeWarden", False, "Bool")
 	IniReadS($g_bUpgradeChampionEnable, $g_sProfileConfigPath, "upgrade", "UpgradeChampion", False, "Bool")
 	IniReadS($g_bRepUpgradeChampionEnable, $g_sProfileConfigPath, "upgrade", "RepUpgradeChampion", False, "Bool")
+	For $z = 0 To UBound($g_aiCmbHeroOrder) - 1
+		IniReadS($g_aiCmbHeroOrder[$z], $g_sProfileConfigPath, "upgrade", "cmbHeroUpOrder" & $z, -1)
+	Next
 	IniReadS($g_iHeroReservedBuilder, $g_sProfileConfigPath, "upgrade", "HeroReservedBuilder", 0, "int")
 	IniReadS($g_bUseHeroBooks, $g_sProfileConfigPath, "upgrade", "UseHeroBooks", False, "Bool")
 	IniReadS($g_iHeroMinUpgradeTime, $g_sProfileConfigPath, "upgrade", "HeroMinUpgradeTime", 5, "int")

@@ -115,18 +115,20 @@ Func MatchTroopDropName($Num)
 		Case 50
 			Return $eRamRider
 		Case 51
-			Return $eBarcher
+			Return $eSnakeBarrel
 		Case 52
-			Return $eGWitch
+			Return $eBarcher
 		Case 53
-			Return $eHWiza
+			Return $eGWitch
 		Case 54
-			Return $eLavaloon
+			Return $eHWiza
 		Case 55
-			Return $eIMini
+			Return $eLavaloon
 		Case 56
-			Return "CC"
+			Return $eIMini
 		Case 57
+			Return "CC"
+		Case 58
 			Return "HEROES"
 	EndSwitch
 EndFunc   ;==>MatchTroopDropName
@@ -312,19 +314,21 @@ Func MatchSlotsPerEdge($Num)
 			Return 0
 		Case 50 ;$eRamRider
 			Return 0
-		Case 51 ;$eBarcher
+		Case 51 ;$eSnakeBarrel
 			Return 0
-		Case 52 ;$eGWitch
+		Case 52 ;$eBarcher
 			Return 0
-		Case 53 ;$eHWiza
+		Case 53 ;$eGWitch
 			Return 0
-		Case 54 ;$eLavaloon
+		Case 54 ;$eHWiza
 			Return 0
-		Case 55 ;$eIMini
+		Case 55 ;$eLavaloon
 			Return 0
-		Case 56 ;CC
+		Case 56 ;$eIMini
+			Return 0
+		Case 57 ;CC
 			Return 1
-		Case 57 ;HEROES
+		Case 58 ;HEROES
 			Return 1
 	EndSwitch
 EndFunc   ;==>MatchSlotsPerEdge

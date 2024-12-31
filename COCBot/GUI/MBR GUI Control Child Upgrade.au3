@@ -419,9 +419,11 @@ Func chkUpgradeKing()
 		If GUICtrlRead($g_hCmbBoostBarbarianKing) > 0 Then
 			GUICtrlSetState($g_hChkUpgradeKing, $GUI_UNCHECKED + $GUI_DISABLE)
 			GUICtrlSetState($g_hChkRepUpgradeKing, $GUI_UNCHECKED + $GUI_DISABLE)
+			GUICtrlSetState($g_ahCmbHeroOrder[0], $GUI_DISABLE)
 			$g_bUpgradeKingEnable = False
 		Else
 			GUICtrlSetState($g_hChkUpgradeKing, $GUI_ENABLE)
+			GUICtrlSetState($g_ahCmbHeroOrder[0], $GUI_ENABLE)
 		EndIf
 
 		If GUICtrlRead($g_hChkUpgradeKing) = $GUI_CHECKED Then
@@ -442,6 +444,7 @@ Func chkUpgradeKing()
 	Else
 		GUICtrlSetState($g_hChkUpgradeKing, BitOR($GUI_DISABLE, $GUI_UNCHECKED))
 		GUICtrlSetState($g_hChkRepUpgradeKing, BitOR($GUI_DISABLE, $GUI_UNCHECKED))
+		GUICtrlSetState($g_ahCmbHeroOrder[0], $GUI_DISABLE)
 		_GUI_Value_STATE("HIDE", $groupKingSleeping)
 		For $i In $ahGroupKingWait
 			_GUICtrlSetTip($i, $TxtTip)
@@ -458,9 +461,11 @@ Func chkUpgradeQueen()
 		If GUICtrlRead($g_hCmbBoostArcherQueen) > 0 Then
 			GUICtrlSetState($g_hChkUpgradeQueen, $GUI_UNCHECKED + $GUI_DISABLE)
 			GUICtrlSetState($g_hChkRepUpgradeQueen, $GUI_UNCHECKED + $GUI_DISABLE)
+			GUICtrlSetState($g_ahCmbHeroOrder[1], $GUI_DISABLE)
 			$g_bUpgradeQueenEnable = False
 		Else
 			GUICtrlSetState($g_hChkUpgradeQueen, $GUI_ENABLE)
+			GUICtrlSetState($g_ahCmbHeroOrder[1], $GUI_ENABLE)
 		EndIf
 
 		If GUICtrlRead($g_hChkUpgradeQueen) = $GUI_CHECKED Then
@@ -481,10 +486,10 @@ Func chkUpgradeQueen()
 	Else
 		GUICtrlSetState($g_hChkUpgradeQueen, BitOR($GUI_DISABLE, $GUI_UNCHECKED))
 		GUICtrlSetState($g_hChkRepUpgradeQueen, BitOR($GUI_DISABLE, $GUI_UNCHECKED))
+		GUICtrlSetState($g_ahCmbHeroOrder[1], $GUI_DISABLE)
 		_GUI_Value_STATE("HIDE", $groupQueenSleeping)
 		For $i In $ahGroupQueenWait
 			_GUICtrlSetTip($i, $TxtTip)
-			GUICtrlSetState($g_hChkRepUpgradeQueen, $GUI_DISABLE)
 		Next
 	EndIf
 EndFunc   ;==>chkUpgradeQueen
@@ -498,9 +503,11 @@ Func chkUpgradePrince()
 		If GUICtrlRead($g_hCmbBoostMinionPrince) > 0 Then
 			GUICtrlSetState($g_hChkUpgradePrince, $GUI_UNCHECKED + $GUI_DISABLE)
 			GUICtrlSetState($g_hChkRepUpgradePrince, $GUI_UNCHECKED + $GUI_DISABLE)
+			GUICtrlSetState($g_ahCmbHeroOrder[2], $GUI_DISABLE)
 			$g_bUpgradePrinceEnable = False
 		Else
 			GUICtrlSetState($g_hChkUpgradePrince, $GUI_ENABLE)
+			GUICtrlSetState($g_ahCmbHeroOrder[2], $GUI_ENABLE)
 		EndIf
 
 		If GUICtrlRead($g_hChkUpgradePrince) = $GUI_CHECKED Then
@@ -521,6 +528,7 @@ Func chkUpgradePrince()
 	Else
 		GUICtrlSetState($g_hChkUpgradePrince, BitOR($GUI_DISABLE, $GUI_UNCHECKED))
 		GUICtrlSetState($g_hChkRepUpgradePrince, BitOR($GUI_DISABLE, $GUI_UNCHECKED))
+		GUICtrlSetState($g_ahCmbHeroOrder[2], $GUI_DISABLE)
 		$g_bUpgradePrinceEnable = False
 		_GUI_Value_STATE("HIDE", $groupPrinceSleeping)
 		For $i In $ahGroupPrinceWait
@@ -538,9 +546,11 @@ Func chkUpgradeWarden()
 		If GUICtrlRead($g_hCmbBoostWarden) > 0 Then
 			GUICtrlSetState($g_hChkUpgradeWarden, $GUI_UNCHECKED + $GUI_DISABLE)
 			GUICtrlSetState($g_hChkRepUpgradeWarden, $GUI_UNCHECKED + $GUI_DISABLE)
+			GUICtrlSetState($g_ahCmbHeroOrder[3], $GUI_DISABLE)
 			$g_bUpgradeWardenEnable = False
 		Else
 			GUICtrlSetState($g_hChkUpgradeWarden, $GUI_ENABLE)
+			GUICtrlSetState($g_ahCmbHeroOrder[3], $GUI_ENABLE)
 		EndIf
 
 		If GUICtrlRead($g_hChkUpgradeWarden) = $GUI_CHECKED Then
@@ -561,6 +571,7 @@ Func chkUpgradeWarden()
 	Else
 		GUICtrlSetState($g_hChkUpgradeWarden, BitOR($GUI_DISABLE, $GUI_UNCHECKED))
 		GUICtrlSetState($g_hChkRepUpgradeWarden, BitOR($GUI_DISABLE, $GUI_UNCHECKED))
+		GUICtrlSetState($g_ahCmbHeroOrder[3], $GUI_DISABLE)
 		_GUI_Value_STATE("HIDE", $groupWardenSleeping)
 		For $i In $ahGroupWardenWait
 			_GUICtrlSetTip($i, $TxtTip)
@@ -577,9 +588,11 @@ Func chkUpgradeChampion()
 		If GUICtrlRead($g_hCmbBoostChampion) > 0 Then
 			GUICtrlSetState($g_hChkUpgradeChampion, $GUI_UNCHECKED + $GUI_DISABLE)
 			GUICtrlSetState($g_hChkRepUpgradeChampion, $GUI_UNCHECKED + $GUI_DISABLE)
+			GUICtrlSetState($g_ahCmbHeroOrder[4], $GUI_DISABLE)
 			$g_bUpgradeChampionEnable = False
 		Else
 			GUICtrlSetState($g_hChkUpgradeChampion, $GUI_ENABLE)
+			GUICtrlSetState($g_ahCmbHeroOrder[4], $GUI_ENABLE)
 		EndIf
 
 		If GUICtrlRead($g_hChkUpgradeChampion) = $GUI_CHECKED Then
@@ -600,12 +613,57 @@ Func chkUpgradeChampion()
 	Else
 		GUICtrlSetState($g_hChkUpgradeChampion, BitOR($GUI_DISABLE, $GUI_UNCHECKED))
 		GUICtrlSetState($g_hChkRepUpgradeChampion, BitOR($GUI_DISABLE, $GUI_UNCHECKED))
+		GUICtrlSetState($g_ahCmbHeroOrder[4], $GUI_DISABLE)
 		_GUI_Value_STATE("HIDE", $groupChampionSleeping)
 		For $i In $ahGroupChampionWait
 			_GUICtrlSetTip($i, $TxtTip)
 		Next
 	EndIf
 EndFunc   ;==>chkUpgradeChampion
+
+Func GUIHeroUpOrder()
+	Local $iGUI_CtrlId = @GUI_CtrlId
+	Local $bValue = -1, $Duplicate = False
+
+	For $i = 0 To UBound($g_ahCmbHeroOrder) - 1 ; Save Duplicate Slot
+		If $iGUI_CtrlId = $g_ahCmbHeroOrder[$i] Then
+			$bValue = $g_aiCmbHeroOrder[$i]
+			ExitLoop
+		EndIf
+	Next
+
+	For $i = 0 To UBound($g_ahCmbHeroOrder) - 1 ; check for duplicate combobox index and flag problem
+		If $iGUI_CtrlId = $g_ahCmbHeroOrder[$i] Then ContinueLoop
+		If _GUICtrlComboBox_GetCurSel($iGUI_CtrlId) = _GUICtrlComboBox_GetCurSel($g_ahCmbHeroOrder[$i]) Then
+			_GUICtrlComboBox_SetCurSel($g_ahCmbHeroOrder[$i], -1)
+			$g_aiCmbHeroOrder[$i] = -1
+			GUISetState()
+			$Duplicate = True
+		EndIf
+	Next
+
+	If $Duplicate Then HeroOrderSet($bValue)
+EndFunc   ;==>GUIHeroUpOrder
+
+Func HeroOrderSet($bValue = -1)
+	Local $bWasRedraw = SetRedrawBotWindow(False, Default, Default, Default, "HeroOrderSet")
+	Local $sNewTrainList = ""
+
+	For $i = 0 To UBound($g_ahCmbHeroOrder) - 1
+		Local $iValue = _GUICtrlComboBox_GetCurSel($g_ahCmbHeroOrder[$i])
+		If $iValue = -1 Then
+			_GUICtrlComboBox_SetCurSel($g_ahCmbHeroOrder[$i], $bValue)
+			$g_aiCmbHeroOrder[$i] = $bValue
+			ExitLoop
+		EndIf
+	Next
+
+	SetLog("Hero Upgrade order changed successfully!", $COLOR_SUCCESS)
+
+	SaveConfig_600_15()
+
+	SetRedrawBotWindow($bWasRedraw, Default, Default, Default, "HeroOrderSet")
+EndFunc   ;==>HeroOrderSet
 
 Func cmbHeroReservedBuilder()
 	If $g_iTownHallLevel > 6 Then ; Must be TH7 or above to have Heroes

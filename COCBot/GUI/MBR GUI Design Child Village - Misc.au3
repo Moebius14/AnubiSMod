@@ -24,7 +24,7 @@ Global $g_hChkTrap = 0, $g_hChkCollect = 0, $g_hChkTombstones = 0, $g_hChkCleanY
 Global $g_hChkCollectCartFirst = 0, $g_hTxtCollectGold = 0, $g_hTxtCollectElixir = 0, $g_hTxtCollectDark = 0
 Global $g_hBtnLocateSpellfactory = 0, $g_hBtnLocateDarkSpellFactory = 0
 Global $g_hBtnLocateHeroHall = 0, $g_hBtnLocateLaboratory = 0, $g_hBtnLocatePetHouse = 0, $g_hBtnResetBuilding = 0, _
-		$g_hBtnLocateBlacksmith = 0, $g_hBtnLocateHeroHall = 0, $g_hBtnLocateHelperHut = 0
+		$g_hBtnLocateBlacksmith = 0, $g_hBtnLocateHeroHall = 0, $g_hBtnLocateHelperHut = 0, $g_hBtnLocateAll = 0
 Global $g_hChkTreasuryCollect = 0, $g_hTxtTreasuryGold = 0, $g_hTxtTreasuryElixir = 0, $g_hTxtTreasuryDark = 0, $g_hChkCollectAchievements = 0, $g_hChkFreeMagicItems = 0, $g_hChkCollectRewards = 0, $g_hChkSellRewards = 0
 
 Global $g_alblBldBaseStats[3] = ["", "", ""]
@@ -419,7 +419,13 @@ Func CreateMiscNormalVillageSubTab()
 	_GUICtrlSetTip(-1, $sTxtRelocate & GetTranslatedFileIni("MBR GUI Design Child Village - Misc", "BtnLocateHelperHut_Info_01", "Helper Hut"))
 	GUICtrlSetOnEvent(-1, "btnHelperHut")
 
-	$x += 145
+	$x += 105
+	$g_hBtnLocateAll = GUICtrlCreateButton(GetTranslatedFileIni("MBR GUI Design Child Village - Misc", "BtnLocateAll", "Entire Village"), $x, $y, 36, 36, $BS_ICON)
+	_GUICtrlSetImage(-1, $g_sLibModIconPath, $eIcnScenery)
+	_GUICtrlSetTip(-1, $sTxtRelocate & GetTranslatedFileIni("MBR GUI Design Child Village - Misc", "BtnLocateAll_Info_01", "Entire Village"))
+	GUICtrlSetOnEvent(-1, "btnRelocateAll")
+
+	$x += 40
 	GUICtrlCreateButton(GetTranslatedFileIni("MBR GUI Design Child Village - Misc", "BtnReset", "Reset."), $x, $y, 36, 36, $BS_ICON)
 	_GUICtrlSetImage(-1, $g_sLibIconPath, $eIcnBldgX)
 	_GUICtrlSetTip(-1, GetTranslatedFileIni("MBR GUI Design Child Village - Misc", "BtnReset_Info_01", "Click here to reset all building locations,") & @CRLF & _

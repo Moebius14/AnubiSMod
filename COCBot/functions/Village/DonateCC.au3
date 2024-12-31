@@ -579,7 +579,7 @@ Func DonateCC($bUpdateStats = True)
 					Local $bDonateTroopMatched = False, $bDonateSpellMatched = False, $bDonateSiegeMatched = False
 					If Not $bDonateAllTroop And Not $bDonateAllSpell And Not $bDonateAllSiege Then
 						Local $Checked = False
-						For $i = 0 To $eTroopCount + $g_iCustomDonateConfigs - 1 ; 0 - 57 (All troops + 2 combos of custom donate - Event Troops which can't be donated)
+						For $i = 0 To $eTroopCount + $g_iCustomDonateConfigs - 1 ; 0 - 58 (All troops + 2 combos of custom donate - Event Troops which can't be donated)
 							If $g_abChkDonateTroop[$i] Then ; checking Troops & Custom
 								If $g_bDebugSetLog Then SetDebugLog("Troop: [" & $i & "] checking!", $COLOR_DEBUG)
 								If CheckDonateTroop($i, $g_asTxtDonateTroop[$i], $g_asTxtBlacklistTroop[$i], $ClanString, $bNewSystemToDonate, True, $abDonateQueueOnly[0]) Then

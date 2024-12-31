@@ -31,14 +31,14 @@ Global $g_ahCmbClanCastleSpell[3], $g_ahCmbClanCastleSiege[2]
 
 ; Donate
 Global $g_hChkExtraAlphabets = 0, $g_hChkExtraChinese = 0, $g_hChkExtraKorean = 0, $g_hChkExtraPersian = 0
-Global $g_ahChkDonateTroop[$eTroopCount + $g_iCustomDonateConfigs + $eSiegeMachineCount] = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
-Global $g_ahChkDonateAllTroop[$eTroopCount + $g_iCustomDonateConfigs + $eSiegeMachineCount] = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
-Global $g_ahTxtDonateTroop[$eTroopCount + $g_iCustomDonateConfigs + $eSiegeMachineCount] = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
-Global $g_ahTxtBlacklistTroop[$eTroopCount + $g_iCustomDonateConfigs + $eSiegeMachineCount] = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
-Global $g_ahGrpDonateTroop[$eTroopCount + $g_iCustomDonateConfigs + $eSiegeMachineCount] = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
-Global $g_ahGrpDonateTroop2[$eTroopCount + $g_iCustomDonateConfigs + $eSiegeMachineCount] = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
-Global $g_ahLblDonateTroop[$eTroopCount + $g_iCustomDonateConfigs + $eSiegeMachineCount] = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
-Global $g_ahBtnDonateTroop[$eTroopCount + $g_iCustomDonateConfigs + $eSiegeMachineCount] = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+Global $g_ahChkDonateTroop[$eTroopCount + $g_iCustomDonateConfigs + $eSiegeMachineCount] = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+Global $g_ahChkDonateAllTroop[$eTroopCount + $g_iCustomDonateConfigs + $eSiegeMachineCount] = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+Global $g_ahTxtDonateTroop[$eTroopCount + $g_iCustomDonateConfigs + $eSiegeMachineCount] = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+Global $g_ahTxtBlacklistTroop[$eTroopCount + $g_iCustomDonateConfigs + $eSiegeMachineCount] = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+Global $g_ahGrpDonateTroop[$eTroopCount + $g_iCustomDonateConfigs + $eSiegeMachineCount] = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+Global $g_ahGrpDonateTroop2[$eTroopCount + $g_iCustomDonateConfigs + $eSiegeMachineCount] = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+Global $g_ahLblDonateTroop[$eTroopCount + $g_iCustomDonateConfigs + $eSiegeMachineCount] = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+Global $g_ahBtnDonateTroop[$eTroopCount + $g_iCustomDonateConfigs + $eSiegeMachineCount] = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
 
 Global $g_ahChkDonateSpell[$eSpellCount] = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
 Global $g_ahChkDonateAllSpell[$eSpellCount] = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
@@ -1242,7 +1242,7 @@ Func CreateDonateSubTab()
 	GUICtrlSetState(-1, $GUI_HIDE)
 	GUICtrlSetBkColor(-1, 0x505050)
 	GUICtrlSetColor(-1, $COLOR_WHITE)
-	GUICtrlSetData(-1, StringFormat(GetTranslatedFileIni("MBR GUI Design Child Village - Donate", "TxtBlacklistTroop_Item_06", "no balloon\r\nballoons no")))
+	GUICtrlSetData(-1, StringFormat(GetTranslatedFileIni("MBR GUI Design Child Village - Donate", "TxtBlacklistTroop_Item_06", "rocket\r\nno balloon\r\nballoons no")))
 	_GUICtrlSetTip(-1, $sTxtKeywordsNoTip & " " & $sTxtBalloons)
 	GUICtrlCreateGroup("", -99, -99, 1, 1)
 
@@ -1347,7 +1347,7 @@ Func CreateDonateSubTab()
 	GUICtrlSetState(-1, $GUI_HIDE)
 	GUICtrlSetBkColor(-1, 0x505050)
 	GUICtrlSetColor(-1, $COLOR_WHITE)
-	GUICtrlSetData(-1, StringFormat(GetTranslatedFileIni("MBR GUI Design Child Village - Donate", "TxtBlacklistTroop_Item_09", "no dragon\r\ndragon no")))
+	GUICtrlSetData(-1, StringFormat(GetTranslatedFileIni("MBR GUI Design Child Village - Donate", "TxtBlacklistTroop_Item_09", "electro\r\nedrag\r\nno dragon\r\ndragon no")))
 	_GUICtrlSetTip(-1, $sTxtKeywordsNoTip & " " & $sTxtDragons)
 	GUICtrlCreateGroup("", -99, -99, 1, 1)
 
@@ -3146,7 +3146,12 @@ Func CreateDonateSubTab()
 	$y = $Offy
 	;;; Custom Combination Donate #1 by ChiefM3, edit by Hervidero
 
-	Local $aTroopList = $sTxtBarbarians & "|" & $sTxtSuperBarbarians & "|" & $sTxtArchers & "|" & $sTxtSuperArchers & "|" & $sTxtGiants & "|" & $sTxtSuperGiants & "|" & $sTxtGoblins & "|" & $sTxtSneakyGoblins & "|" & $sTxtWallBreakers & "|" & $sTxtSuperWallBreakers & "|" & $sTxtBalloons & "|" & $sTxtRocketBalloons & "|" & $sTxtWizards & "|" & $sTxtSuperWizards & "|" & $sTxtHealers & "|" & $sTxtDragons & "|" & $sTxtSuperDragons & "|" & $sTxtPekkas & "|" & $sTxtBabyDragons & "|" & $sTxtInfernoDragons & "|" & $sTxtMiners & "|" & $sTxtSuperMiners & "|" & $sTxtElectroDragons & "|" & $sTxtYetis & "|" & $sTxtDragonRiders & "|" & $sTxtElectroTitans & "|" & $sTxtRootRiders & "|" & $sTxtMinions & "|" & $sTxtSuperMinions & "|" & $sTxtHogRiders & "|" & $sTxtSuperHogRiders & "|" & $sTxtValkyries & "|" & $sTxtSuperValkyries & "|" & $sTxtGolems & "|" & $sTxtWitches & "|" & $sTxtSuperWitches & "|" & $sTxtLavaHounds & "|" & $sTxtIceHounds & "|" & $sTxtBowlers & "|" & $sTxtSuperBowlers & "|" & $sTxtIceGolems & "|" & $sTxtHeadhunters & "|" & $sTxtAppWards & "|" & $sTxtDruids & "|" & $sTxtNothing
+	Local $aTroopList = $sTxtBarbarians & "|" & $sTxtSuperBarbarians & "|" & $sTxtArchers & "|" & $sTxtSuperArchers & "|" & $sTxtGiants & "|" & $sTxtSuperGiants & "|" & $sTxtGoblins & "|" & _
+			$sTxtSneakyGoblins & "|" & $sTxtWallBreakers & "|" & $sTxtSuperWallBreakers & "|" & $sTxtBalloons & "|" & $sTxtRocketBalloons & "|" & $sTxtWizards & "|" & $sTxtSuperWizards & "|" & _
+			$sTxtHealers & "|" & $sTxtDragons & "|" & $sTxtSuperDragons & "|" & $sTxtPekkas & "|" & $sTxtBabyDragons & "|" & $sTxtInfernoDragons & "|" & $sTxtMiners & "|" & $sTxtSuperMiners & "|" & _
+			$sTxtElectroDragons & "|" & $sTxtYetis & "|" & $sTxtDragonRiders & "|" & $sTxtElectroTitans & "|" & $sTxtRootRiders & "|" & $sTxtThrowers & "|" & $sTxtMinions & "|" & $sTxtSuperMinions & "|" & _
+			$sTxtHogRiders & "|" & $sTxtSuperHogRiders & "|" & $sTxtValkyries & "|" & $sTxtSuperValkyries & "|" & $sTxtGolems & "|" & $sTxtWitches & "|" & $sTxtSuperWitches & "|" & $sTxtLavaHounds & "|" & _
+			$sTxtIceHounds & "|" & $sTxtBowlers & "|" & $sTxtSuperBowlers & "|" & $sTxtIceGolems & "|" & $sTxtHeadhunters & "|" & $sTxtAppWards & "|" & $sTxtDruids & "|" & $sTxtNothing
 
 	$g_ahGrpDonateTroop[$eCustomA] = GUICtrlCreateGroup($sDonateTxtCustomA, $x - 20, $y + 15, 216, 134)
 	$x -= 10

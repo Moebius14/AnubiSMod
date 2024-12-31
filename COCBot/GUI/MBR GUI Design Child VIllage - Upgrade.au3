@@ -314,12 +314,27 @@ Func CreateLaboratorySubTab()
 
 EndFunc   ;==>CreateLaboratorySubTab
 
+Global $g_ahCmbHeroOrder[$eHeroCount] = [0, 0, 0, 0, 0]
+
+Func LoadHeroTroopsOrderList()
+	Global $g_asHeroOrderList = ["#1", "#2", "#3", "#4", "#5"]
+EndFunc   ;==>LoadHeroTroopsOrderList
+
 Func CreateHeroesSubTab()
 	Local $sTxtTip = ""
 	Local $sTxtChkRepeat = GetTranslatedFileIni("MBR GUI Design Child Village - Upgrade_Buildings", "TxtChkRepeat", "Check box to Enable Upgrade to repeat continuously")
 	Local $x = 25, $y = 50
 	GUICtrlCreateGroup(GetTranslatedFileIni("MBR GUI Design Child Village - Upgrade_Heroes", "Group_01", "Upgrade Heroes"), $x - 20, $y - 20, $g_iSizeWGrpTab3 - 4, $g_iSizeHGrpTab3 - 6)
 	GUICtrlCreateLabel(GetTranslatedFileIni("MBR GUI Design Child Village - Upgrade_Heroes", "LblAutoUpgrading_01", "Auto upgrading of your Heroes"), $x - 10, $y, -1, -1)
+
+	LoadHeroTroopsOrderList()
+
+	; Create translated list of Troops for combo box
+	Local $sComboData = ""
+	For $j = 0 To UBound($g_asHeroOrderList) - 1
+		$sComboData &= $g_asHeroOrderList[$j] & "|"
+	Next
+	Local $txtHeroOrder = GetTranslatedFileIni("MBR GUI Design Child Village - Upgrade_Heroes", "txtHeroOrder", "Enter sequence order for upgrading your ")
 
 	$y += 15
 	$g_hChkUpgradeKing = GUICtrlCreateCheckbox("", $x, $y + 23, 17, 17)
@@ -329,7 +344,11 @@ Func CreateHeroesSubTab()
 			GetTranslatedFileIni("MBR GUI Design Child Village - Upgrade_Heroes", "ChkUpgradeKing_Info_04", "Enabled with TownHall 7 and higher")
 	_GUICtrlSetTip(-1, $sTxtTip)
 	GUICtrlSetOnEvent(-1, "chkUpgradeKing")
-	$g_hChkRepUpgradeKing = GUICtrlCreateCheckbox("Rep.", $x + 25, $y + 59, -1, 17)
+	$g_ahCmbHeroOrder[0] = GUICtrlCreateCombo("", $x + 4, $y + 57, 38, -1, BitOR($CBS_DROPDOWNLIST + $WS_VSCROLL, $CBS_AUTOHSCROLL))
+	GUICtrlSetOnEvent(-1, "GUIHeroUpOrder")
+	GUICtrlSetData(-1, $sComboData, "#1")
+	_GUICtrlSetTip(-1, $txtHeroOrder & "Barbarian King")
+	$g_hChkRepUpgradeKing = GUICtrlCreateCheckbox("Rep", $x + 45, $y + 59, 35, 17)
 	_GUICtrlSetTip(-1, $sTxtChkRepeat)
 	_GUICtrlCreateIcon($g_sLibIconPath, $eIcnKingUpgr, $x + 18, $y + 7, 48, 48)
 	_GUICtrlSetTip(-1, $sTxtTip)
@@ -345,7 +364,11 @@ Func CreateHeroesSubTab()
 			GetTranslatedFileIni("MBR GUI Design Child Village - Upgrade_Heroes", "ChkUpgradeQueen_Info_03", "Enabled with TownHall 8 and higher")
 	_GUICtrlSetTip(-1, $sTxtTip)
 	GUICtrlSetOnEvent(-1, "chkUpgradeQueen")
-	$g_hChkRepUpgradeQueen = GUICtrlCreateCheckbox("Rep.", $x + 25, $y + 59, -1, 17)
+	$g_ahCmbHeroOrder[1] = GUICtrlCreateCombo("", $x + 4, $y + 57, 38, -1, BitOR($CBS_DROPDOWNLIST + $WS_VSCROLL, $CBS_AUTOHSCROLL))
+	GUICtrlSetOnEvent(-1, "GUIHeroUpOrder")
+	GUICtrlSetData(-1, $sComboData, "#2")
+	_GUICtrlSetTip(-1, $txtHeroOrder & "Archer Queen")
+	$g_hChkRepUpgradeQueen = GUICtrlCreateCheckbox("Rep", $x + 45, $y + 59, 35, 17)
 	_GUICtrlSetTip(-1, $sTxtChkRepeat)
 	_GUICtrlCreateIcon($g_sLibIconPath, $eIcnQueenUpgr, $x + 18, $y + 7, 48, 48)
 	_GUICtrlSetTip(-1, $sTxtTip)
@@ -361,7 +384,11 @@ Func CreateHeroesSubTab()
 			GetTranslatedFileIni("MBR GUI Design Child Village - Upgrade_Heroes", "ChkUpgradePrince_Info_03", "Enabled with TownHall 9 and higher")
 	_GUICtrlSetTip(-1, $sTxtTip)
 	GUICtrlSetOnEvent(-1, "chkUpgradePrince")
-	$g_hChkRepUpgradePrince = GUICtrlCreateCheckbox("Rep.", $x + 25, $y + 59, -1, 17)
+	$g_ahCmbHeroOrder[2] = GUICtrlCreateCombo("", $x + 4, $y + 57, 38, -1, BitOR($CBS_DROPDOWNLIST + $WS_VSCROLL, $CBS_AUTOHSCROLL))
+	GUICtrlSetOnEvent(-1, "GUIHeroUpOrder")
+	GUICtrlSetData(-1, $sComboData, "#3")
+	_GUICtrlSetTip(-1, $txtHeroOrder & "Minion Prince")
+	$g_hChkRepUpgradePrince = GUICtrlCreateCheckbox("Rep", $x + 45, $y + 59, 35, 17)
 	_GUICtrlSetTip(-1, $sTxtChkRepeat)
 	_GUICtrlCreateIcon($g_sLibIconPath, $eIcnPrinceUpgr, $x + 18, $y + 7, 48, 48)
 	_GUICtrlSetTip(-1, $sTxtTip)
@@ -377,7 +404,11 @@ Func CreateHeroesSubTab()
 			GetTranslatedFileIni("MBR GUI Design Child Village - Upgrade_Heroes", "ChkUpgradeWarden_Info_03", "Enabled with TownHall 11")
 	_GUICtrlSetTip(-1, $sTxtTip)
 	GUICtrlSetOnEvent(-1, "chkUpgradeWarden")
-	$g_hChkRepUpgradeWarden = GUICtrlCreateCheckbox("Rep.", $x + 25, $y + 59, -1, 17)
+	$g_ahCmbHeroOrder[3] = GUICtrlCreateCombo("", $x + 4, $y + 57, 38, -1, BitOR($CBS_DROPDOWNLIST + $WS_VSCROLL, $CBS_AUTOHSCROLL))
+	GUICtrlSetOnEvent(-1, "GUIHeroUpOrder")
+	GUICtrlSetData(-1, $sComboData, "#4")
+	_GUICtrlSetTip(-1, $txtHeroOrder & "Grand Warden")
+	$g_hChkRepUpgradeWarden = GUICtrlCreateCheckbox("Rep", $x + 45, $y + 59, 35, 17)
 	_GUICtrlSetTip(-1, $sTxtChkRepeat)
 	_GUICtrlCreateIcon($g_sLibIconPath, $eIcnWardenUpgr, $x + 18, $y + 7, 48, 48)
 	_GUICtrlSetTip(-1, $sTxtTip)
@@ -393,7 +424,11 @@ Func CreateHeroesSubTab()
 			GetTranslatedFileIni("MBR GUI Design Child Village - Upgrade_Heroes", "ChkUpgradeChampion_Info_03", "Enabled with TownHall 13 and higher")
 	_GUICtrlSetTip(-1, $sTxtTip)
 	GUICtrlSetOnEvent(-1, "chkUpgradeChampion")
-	$g_hChkRepUpgradeChampion = GUICtrlCreateCheckbox("Rep.", $x + 25, $y + 59, -1, 17)
+	$g_ahCmbHeroOrder[4] = GUICtrlCreateCombo("", $x + 4, $y + 57, 38, -1, BitOR($CBS_DROPDOWNLIST + $WS_VSCROLL, $CBS_AUTOHSCROLL))
+	GUICtrlSetOnEvent(-1, "GUIHeroUpOrder")
+	GUICtrlSetData(-1, $sComboData, "#5")
+	_GUICtrlSetTip(-1, $txtHeroOrder & "Royal Champion")
+	$g_hChkRepUpgradeChampion = GUICtrlCreateCheckbox("Rep", $x + 45, $y + 59, 35, 17)
 	_GUICtrlSetTip(-1, $sTxtChkRepeat)
 	_GUICtrlCreateIcon($g_sLibIconPath, $eIcnChampionUpgr, $x + 18, $y + 7, 48, 48)
 	_GUICtrlSetTip(-1, $sTxtTip)
@@ -401,7 +436,7 @@ Func CreateHeroesSubTab()
 	_GUICtrlSetTip(-1, $sTxtTip)
 	GUICtrlSetState(-1, $GUI_HIDE)
 
-	$y += 72
+	$y += 77
 	$x = 45
 	$g_hLblHeroReservedBuilderTop = GUICtrlCreateLabel(GetTranslatedFileIni("MBR GUI Design Child Village - Upgrade_Heroes", "LblHeroReservedBuilderTop", "Reserve "), $x, $y + 15, -1, -1)
 	$g_hCmbHeroReservedBuilder = GUICtrlCreateCombo("", $x + 50, $y + 11, 30, 21, $CBS_DROPDOWNLIST, $WS_EX_RIGHT)
@@ -420,9 +455,10 @@ Func CreateHeroesSubTab()
 	GUICtrlCreateLabel("Days", $x + 300, $y + 4)
 
 	; Pets
-	Local $x = 20, $y = 200
+	Local $x = 20, $y = 210
 	GUICtrlCreateLabel(GetTranslatedFileIni("MBR GUI Design Child Village - Upgrade_Pets", "LblAutoUpgrading_02", "Auto upgrading of your Pets"), $x - 5, $y, -1, -1)
 
+	$x -= 5
 	$y += 15
 	$g_hChkUpgradePets[$ePetLassi] = GUICtrlCreateCheckbox("", $x, $y + 25, 17, 17)
 	$sTxtTip = GetTranslatedFileIni("MBR GUI Design Child Village - Upgrade_Heroes", "ChkUpgradeLassi_Info_01", "Enable upgrading of your Pet, Lassi, when you have enough Dark Elixir")
@@ -465,8 +501,8 @@ Func CreateHeroesSubTab()
 	_GUICtrlCreateIcon($g_sLibIconPath, $eIcnPetFrosty, $x + 15, $y - 3, 64, 64)
 	_GUICtrlSetTip(-1, $sTxtTip)
 
-	$x = 20
-	$y += 65
+	$x = 15
+	$y += 55
 	$g_hChkUpgradePets[$ePetDiggy] = GUICtrlCreateCheckbox("", $x, $y + 25, 17, 17)
 	$sTxtTip = GetTranslatedFileIni("MBR GUI Design Child Village - Upgrade_Heroes", "ChkUpgradeDiggy_Info_01", "Enable upgrading of your Pet, Diggy, when you have enough Dark Elixir")
 	_GUICtrlSetTip(-1, $sTxtTip)
