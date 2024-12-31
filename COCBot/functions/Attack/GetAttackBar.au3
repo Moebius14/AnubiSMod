@@ -37,7 +37,9 @@ Func GetAttackBar($bRemaining = False, $pMatchMode = $DB, $bDebug = False)
 			$sSearchDiamond = GetDiamondFromRect("0,535,835,698")
 		ElseIf IsArray(_PixelSearch($a12OrMoreSlots[0], $a12OrMoreSlots[1], $g_iGAME_WIDTH, $a12OrMoreSlots[1] + 3, Hex($a12OrMoreSlots[2], 6), $a12OrMoreSlots[3], True)) And $g_bCheckExtAttackBar Then
 			$bCheckSlot12 = True
-			SetLog("Check Extended Attack Bar")
+			SetLog("Check " & ($pMatchMode = $DT ? "" : "Extended ") & "Attack Bar")
+		Else
+			SetLog("Check Attack Bar")
 		EndIf
 		SetDebugLog("GetBarCheck: DoubleRow= " & $bDoubleRow)
 	EndIf

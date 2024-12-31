@@ -3102,7 +3102,7 @@ Func CreateDonateSubTab()
 	GUICtrlSetState(-1, $GUI_HIDE)
 	GUICtrlSetBkColor(-1, 0x505050)
 	GUICtrlSetColor(-1, $COLOR_WHITE)
-	GUICtrlSetData(-1, StringFormat(GetTranslatedFileIni("MBR GUI Design Child Village - Donate", "TxtBlacklistTroop_Item_34", "no bat\r\nbat no")))
+	GUICtrlSetData(-1, StringFormat(GetTranslatedFileIni("MBR GUI Design Child Village - Donate", "TxtBlacklistTroop_Item_34", "blimp\r\nno bat\r\nbat no")))
 	_GUICtrlSetTip(-1, $sTxtKeywordsNoTip & " " & $sTxtBatSpells)
 	GUICtrlCreateGroup("", -99, -99, 1, 1)
 

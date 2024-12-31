@@ -2290,7 +2290,7 @@ Global $g_iTree = $eTreeDSS ; default to classic
 Global $g_aiSearchZoomOutCounter[2] = [0, 1] ; 0: Counter of SearchZoomOut calls, 1: # of post zoomouts after image found
 Global $g_bOnBuilderBaseEnemyVillage = False
 
-Global $g_iNextPageTroop = $eETitan
+Global $g_iNextPageTroop = $eETitan, $g_iDarkTroopOffset = False, $g_iDarkTroopOffsetCheckTimer = ""
 
 ;ClanCapital
 Global $g_iLootCCGold = 0, $g_iLootCCMedal = 0, $g_iCCTrophies = 0, $g_bChkEnableAutoUpgradeCC = False, $g_bChkAutoUpgradeCCIgnore = False, $g_bChkEnableSmartSwitchCC = False

@@ -126,7 +126,7 @@ Func UpdateNextPageTroop()
 
 	Local $aiTileCoord = decodeSingleCoord(findImage("UpdateNextPageTroop", $sEDragTile, GetDiamondFromRect("75,375,780,550"), 1, True))
 
-	If IsArray($aiTileCoord) And UBound($aiTileCoord, 1) = 2 And _ColorCheck(_GetPixelColor(75, 385 + $g_iMidOffsetY, True), Hex(0xD3D3CB, 6), 5) And $aiTileCoord[0] > 580 Then
+	If IsArray($aiTileCoord) And UBound($aiTileCoord, 1) = 2 And _ColorCheck(_GetPixelColor(76, 385 + $g_iMidOffsetY, True), Hex(0xD3D3CB, 6), 5) And $aiTileCoord[0] > 580 Then
 		SetDebugLog("Found EDrag at " & $aiTileCoord[0] & ", " & $aiTileCoord[1])
 
 		$g_iNextPageTroop = $eETitan
@@ -153,7 +153,7 @@ Func UpdateNextPageTroop()
 	Else ; Support 2 Super Troops + 2+ Event Troops (Moebius14)
 
 		$aiTileCoord = decodeSingleCoord(findImage("UpdateNextPageTroop", $sMinerTile, GetDiamondFromRect("75,375,780,550"), 1, True))
-		If IsArray($aiTileCoord) And UBound($aiTileCoord, 1) = 2 And _ColorCheck(_GetPixelColor(75, 385 + $g_iMidOffsetY, True), Hex(0xD3D3CB, 6), 5) And $aiTileCoord[0] > 580 Then
+		If IsArray($aiTileCoord) And UBound($aiTileCoord, 1) = 2 And _ColorCheck(_GetPixelColor(76, 385 + $g_iMidOffsetY, True), Hex(0xD3D3CB, 6), 5) And $aiTileCoord[0] > 580 Then
 
 			If PointInRect($aSlot2[0], $aSlot2[1], $aSlot2[2], $aSlot2[3], $aiTileCoord[0], $aiTileCoord[1]) Then
 				Local $aiTileCoord2 = decodeSingleCoord(findImage("UpdateNextPageTroop", $sSMinerTile, GetDiamondFromRect("75,375,780,550"), 1, True))
@@ -173,7 +173,7 @@ Func UpdateNextPageTroop()
 		Else ; No Miner Tile Found
 
 			Local $aiTileCoord3 = decodeSingleCoord(findImage("UpdateNextPageTroop", $sBabyDragonTile, GetDiamondFromRect("75,375,780,550"), 1, True))
-			If IsArray($aiTileCoord3) And UBound($aiTileCoord3, 1) = 2 And _ColorCheck(_GetPixelColor(75, 385 + $g_iMidOffsetY, True), Hex(0xD3D3CB, 6), 5) And $aiTileCoord3[0] > 668 Then
+			If IsArray($aiTileCoord3) And UBound($aiTileCoord3, 1) = 2 And _ColorCheck(_GetPixelColor(76, 385 + $g_iMidOffsetY, True), Hex(0xD3D3CB, 6), 5) And $aiTileCoord3[0] > 668 Then
 
 				If PointInRect($aSlot3[0], $aSlot3[1], $aSlot3[2], $aSlot3[3], $aiTileCoord3[0], $aiTileCoord3[1]) Then
 					$g_iNextPageTroop = $eBabyD
@@ -183,7 +183,7 @@ Func UpdateNextPageTroop()
 			Else ; No Baby Drag Tile Found
 
 				Local $aiTileCoord4 = decodeSingleCoord(findImage("UpdateNextPageTroop", $sPekkaTile, GetDiamondFromRect("75,375,780,550"), 1, True))
-				If IsArray($aiTileCoord4) And UBound($aiTileCoord4, 1) = 2 And _ColorCheck(_GetPixelColor(75, 385 + $g_iMidOffsetY, True), Hex(0xD3D3CB, 6), 5) And $aiTileCoord4[0] > 668 Then
+				If IsArray($aiTileCoord4) And UBound($aiTileCoord4, 1) = 2 And _ColorCheck(_GetPixelColor(76, 385 + $g_iMidOffsetY, True), Hex(0xD3D3CB, 6), 5) And $aiTileCoord4[0] > 668 Then
 
 					If PointInRect($aSlot3[0], $aSlot3[1], $aSlot3[2], $aSlot3[3], $aiTileCoord4[0], $aiTileCoord4[1]) Then
 						$g_iNextPageTroop = $ePekk
@@ -193,7 +193,7 @@ Func UpdateNextPageTroop()
 				Else ; No Pekka Tile Found
 
 					Local $aiTileCoord5 = decodeSingleCoord(findImage("UpdateNextPageTroop", $sDragonTile, GetDiamondFromRect("75,375,780,550"), 1, True))
-					If IsArray($aiTileCoord5) And UBound($aiTileCoord5, 1) = 2 And _ColorCheck(_GetPixelColor(75, 385 + $g_iMidOffsetY, True), Hex(0xD3D3CB, 6), 5) And $aiTileCoord5[0] > 580 Then
+					If IsArray($aiTileCoord5) And UBound($aiTileCoord5, 1) = 2 And _ColorCheck(_GetPixelColor(76, 385 + $g_iMidOffsetY, True), Hex(0xD3D3CB, 6), 5) And $aiTileCoord5[0] > 580 Then
 
 						If PointInRect($aSlot4[0], $aSlot4[1], $aSlot4[2], $aSlot4[3], $aiTileCoord5[0], $aiTileCoord5[1]) Then
 							$g_iNextPageTroop = $eMine
@@ -247,3 +247,58 @@ Func PointInRect($iBLx, $iBLy, $iTRx, $iTRy, $iPTx, $iPTy)
 	If $iPTx > $iBLx And $iPTx < $iTRx And $iPTy < $iBLy And $iPTy > $iTRy Then Return True
 	Return False
 EndFunc   ;==>PointInRect
+
+Func IsDarkTroopOffset()
+
+	$g_iDarkTroopOffset = False
+	If $g_iNextPageTroop <> $eYeti Then Return
+
+	If _DateIsValid($g_iDarkTroopOffsetCheckTimer) Then
+		Local $iLastCheck = _DateDiff('s', $g_iDarkTroopOffsetCheckTimer, _NowCalc())
+		SetDebugLog("Dark Troops Positions LastCheck: " & $g_iDarkTroopOffsetCheckTimer & ", Check DateCalc: " & $iLastCheck)
+		If $iLastCheck < 60 Then Return ; Check every 60 seconds.
+	EndIf
+
+	$g_iDarkTroopOffsetCheckTimer = _NowCalc()
+
+	Local $aSlot1[4] = [523, 545, 606, 465] ; Ice Golem Pos 1
+	Local $aSlot2[4] = [607, 460, 690, 375] ; Ice Golem Pos 2
+	Local $aSlot3[4] = [270, 460, 350, 375] ; Minion Pos 1
+	Local $aSlot4[4] = [185, 460, 268, 375] ; Minion Pos 1
+
+	Local $sIceGolemTile = @ScriptDir & "\imgxml\Train\Train_Train\IceG*"
+	Local $sMinionTile = @ScriptDir & "\imgxml\Train\Train_Train\Mini*"
+
+	Local $aiTileCoord = decodeSingleCoord(findImage("UpdateNextPageDarkTroop", $sIceGolemTile, GetDiamondFromRect("520,375,692,550"), 1, True))
+
+	If IsArray($aiTileCoord) And UBound($aiTileCoord, 1) = 2 And _ColorCheck(_GetPixelColor(777, 385 + $g_iMidOffsetY, True), Hex(0xD3D3CB, 6), 5) Then
+		SetDebugLog("Found Ice Golem at " & $aiTileCoord[0] & ", " & $aiTileCoord[1])
+
+		If PointInRect($aSlot1[0], $aSlot1[1], $aSlot1[2], $aSlot1[3], $aiTileCoord[0], $aiTileCoord[1]) Then
+			Local $aiTileCoord2 = decodeSingleCoord(findImage("UpdateNextPageDarkTroop", $sMinionTile, GetDiamondFromRect("185,375,350,460"), 1, True))
+			If IsArray($aiTileCoord2) And UBound($aiTileCoord2, 1) = 2 Then
+				SetDebugLog("Found Minion at " & $aiTileCoord2[0] & ", " & $aiTileCoord2[1])
+				If PointInRect($aSlot3[0], $aSlot3[1], $aSlot3[2], $aSlot3[3], $aiTileCoord2[0], $aiTileCoord2[1]) Then
+					$g_iDarkTroopOffset = False
+					SetDebugLog("Found Ice Golem at original position")
+				ElseIf PointInRect($aSlot4[0], $aSlot4[1], $aSlot4[2], $aSlot4[3], $aiTileCoord2[0], $aiTileCoord2[1]) Then ; 2 Super Dark Troops -> MicroDrag Left For $eRDrag and $eETitan
+					$g_iDarkTroopOffset = True
+					SetDebugLog("Found Ice Golem moved 2 Slots")
+				EndIf
+			EndIf
+			If _Sleep(100) Then Return
+			Return
+		EndIf
+
+		If PointInRect($aSlot2[0], $aSlot2[1], $aSlot2[2], $aSlot2[3], $aiTileCoord[0], $aiTileCoord[1]) Then ; 1 Super Dark Troop
+			$g_iDarkTroopOffset = False
+			SetDebugLog("Found Ice Golem moved 1 Slots")
+			If _Sleep(100) Then Return
+			Return
+		EndIf
+
+	EndIf
+
+	If _Sleep(100) Then Return
+
+EndFunc   ;==>IsDarkTroopOffset
