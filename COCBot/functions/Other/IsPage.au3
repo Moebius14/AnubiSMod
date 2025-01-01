@@ -62,6 +62,11 @@ Func IsAttackPage($bCapturePixel = $g_bCapturePixel)
 		Return True
 	EndIf
 
+	If IsPageLoop($aIsAttackPage2, 1, $bCapturePixel) Then ; End Battle Button hidden by Empty Siege Window.
+		If $g_bDebugSetLog Or $g_bDebugClick Then SetLog("**Attack Window OK**", $COLOR_ACTION)
+		Return True
+	EndIf
+
 	If $g_bDebugSetLog Or $g_bDebugClick Then
 		Local $colorRead = _GetPixelColor($aIsAttackPage[0], $aIsAttackPage[1], $bCapturePixel)
 		SetLog("**Attack Window FAIL**", $COLOR_ACTION)

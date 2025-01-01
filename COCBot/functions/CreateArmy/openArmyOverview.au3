@@ -262,8 +262,8 @@ Func IsDarkTroopOffset()
 	$g_iDarkTroopOffsetCheckTimer = _NowCalc()
 
 	Local $aSlot1[4] = [523, 545, 606, 465] ; Ice Golem Pos 1
-	Local $aSlot2[4] = [607, 460, 690, 375] ; Ice Golem Pos 2
-	Local $aSlot3[4] = [270, 460, 350, 375] ; Minion Pos 1
+	Local $aSlot2[4] = [523, 460, 606, 375] ; Ice Golem Pos 2
+	Local $aSlot3[4] = [270, 460, 353, 375] ; Minion Pos 1
 	Local $aSlot4[4] = [185, 460, 268, 375] ; Minion Pos 1
 
 	Local $sIceGolemTile = @ScriptDir & "\imgxml\Train\Train_Train\IceG*"
@@ -291,7 +291,7 @@ Func IsDarkTroopOffset()
 		EndIf
 
 		If PointInRect($aSlot2[0], $aSlot2[1], $aSlot2[2], $aSlot2[3], $aiTileCoord[0], $aiTileCoord[1]) Then ; 1 Super Dark Troop
-			$g_iDarkTroopOffset = False
+			$g_iDarkTroopOffset = True
 			SetDebugLog("Found Ice Golem moved 1 Slots")
 			If _Sleep(100) Then Return
 			Return

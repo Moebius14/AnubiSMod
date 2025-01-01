@@ -123,6 +123,7 @@ Global $a12OrMoreSlots[4] = [850, 662 + $g_iBottomOffsetY, 0x3A396E, 25] ; Attac
 Global $aDoubRowAttackBar[4] = [68, 486, 0xFC5D64, 20]
 Global $aTroopIsDeployed[4] = [0, 0, 0x404040, 20] ; Attackbar Remain Check X and Y are Dummies
 Global Const $aIsAttackPage[4] = [50, 548 + $g_iBottomOffsetY, 0xD10D0E, 20] ; red button "end battle" - left portion
+Global Const $aIsAttackPage2[4] = [50, 548 + $g_iBottomOffsetY, 0x5F0606, 20] ; red button "end battle" hidden by empty siege - left portion
 
 ; 1 - Dark Gray : Castle filled/No Castle | 2 - Light Green : Available or Already made | 3 - White : Available or Castle filled/No Castle
 Global $aRequestTroopsAO[6] = [714, 538 + $g_iMidOffsetY, 0x919191, 0x6DB630, 0xFFFFFF, 25] ; Button Request Troops in Army Overview  (x,y, Gray - Full/No Castle, Green - Available or Already, White - Available or Full)

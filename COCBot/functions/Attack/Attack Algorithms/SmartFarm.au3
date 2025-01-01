@@ -824,7 +824,7 @@ Func LaunchTroopSmartFarm($listInfoDeploy, $iCC, $iKing, $iQueen, $iPrince, $iWa
 							If _Sleep($DELAYLAUNCHTROOP21) Then Return
 							SelectDropTroop($infoTroopListArrPixel[0]) ;Select Troop - $troop
 							If _Sleep($DELAYLAUNCHTROOP23) Then Return
-							SetLog("Dropping " & $infoTroopListArrPixel[2] & "  of " & $infoTroopListArrPixel[5] & " Points Per Side: " & $infoTroopListArrPixel[3] & " (side " & $i + 1 & ")", $COLOR_SUCCESS)
+							SetLog("Dropping " & $infoTroopListArrPixel[2] & " of " & $infoTroopListArrPixel[5] & " Points Per Side: " & $infoTroopListArrPixel[3] & " (side " & $i + 1 & ")", $COLOR_SUCCESS)
 							Local $pixelDropTroop[1] = [$listPixel]
 							DropOnPixel($infoTroopListArrPixel[0], $pixelDropTroop, $infoTroopListArrPixel[2], $infoTroopListArrPixel[3])
 						EndIf
@@ -856,7 +856,7 @@ Func LaunchTroopSmartFarm($listInfoDeploy, $iCC, $iKing, $iQueen, $iPrince, $iWa
 					If _Sleep($DELAYLAUNCHTROOP21) Then Return
 					SelectDropTroop($infoPixelDropTroop[0]) ;Select Troop
 					If _Sleep($DELAYLAUNCHTROOP23) Then Return
-					SetLog("Dropping last " & $numberLeft & "  of " & $infoPixelDropTroop[5], $COLOR_SUCCESS)
+					SetLog("Dropping last " & $numberLeft & " of " & $infoPixelDropTroop[5], $COLOR_SUCCESS)
 					;                     $troop,             $listArrPixel,       $number,      $slotsPerEdge = 0
 					DropOnPixel($infoPixelDropTroop[0], $infoPixelDropTroop[1], Ceiling($numberLeft), $infoPixelDropTroop[3])
 				EndIf
