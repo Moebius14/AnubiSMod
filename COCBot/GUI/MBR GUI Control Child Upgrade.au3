@@ -6,7 +6,7 @@
 ; Return values .: None
 ; Author ........: MyBot.run team
 ; Modified ......: CodeSlinger69 (2017)
-; Remarks .......: This file is part of MyBot, previously known as ClashGameBot. Copyright 2015-2024
+; Remarks .......: This file is part of MyBot, previously known as ClashGameBot. Copyright 2015-2025
 ;                  MyBot is distributed under the terms of the GNU GPL
 ; Related .......:
 ; Link ..........: https://github.com/MyBotRun/MyBot/wiki
@@ -209,7 +209,7 @@ Func chkLab()
 		GUICtrlSetState($g_hPicLabUpgrade, $GUI_SHOW)
 		GUICtrlSetState($g_hLblNextUpgrade, $GUI_ENABLE)
 		GUICtrlSetState($g_hCmbLaboratory, $GUI_ENABLE)
-		If $g_iCmbLaboratory > 48 Then
+		If $g_iCmbLaboratory > UBound($g_avLabTroops) - 3 Then
 			_GUICtrlSetImage($g_hPicLabUpgrade, $g_sLibModIconPath, $g_avLabTroops[$g_iCmbLaboratory][1])
 		Else
 			_GUICtrlSetImage($g_hPicLabUpgrade, $g_sLibIconPath, $g_avLabTroops[$g_iCmbLaboratory][1])
@@ -220,7 +220,7 @@ Func chkLab()
 		GUICtrlSetState($g_hPicLabUpgrade, $GUI_HIDE)
 		GUICtrlSetState($g_hLblNextUpgrade, $GUI_DISABLE)
 		GUICtrlSetState($g_hCmbLaboratory, $GUI_DISABLE)
-		If $g_iCmbLaboratory > 48 Then
+		If $g_iCmbLaboratory > UBound($g_avLabTroops) - 3 Then
 			_GUICtrlSetImage($g_hPicLabUpgrade, $g_sLibModIconPath, $g_avLabTroops[$g_iCmbLaboratory][1])
 		Else
 			_GUICtrlSetImage($g_hPicLabUpgrade, $g_sLibIconPath, $g_avLabTroops[$g_iCmbLaboratory][1])
@@ -338,7 +338,7 @@ EndFunc   ;==>StarLabStatusGUIUpdate
 
 Func cmbLab()
 	$g_iCmbLaboratory = _GUICtrlComboBox_GetCurSel($g_hCmbLaboratory)
-	If $g_iCmbLaboratory > 48 Then
+	If $g_iCmbLaboratory > UBound($g_avLabTroops) - 3 Then
 		_GUICtrlSetImage($g_hPicLabUpgrade, $g_sLibModIconPath, $g_avLabTroops[$g_iCmbLaboratory][1])
 	Else
 		_GUICtrlSetImage($g_hPicLabUpgrade, $g_sLibIconPath, $g_avLabTroops[$g_iCmbLaboratory][1])

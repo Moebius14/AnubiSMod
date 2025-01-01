@@ -6,7 +6,7 @@
 ; Return values .: ---
 ; Author ........: ViperZ And Uncle Xbenk 01-2018
 ; Modified ......: ProMac 02/2018 [v2 and v3] , ProMac 08/2018 v4 , GrumpyHog 08/2020, Moebius14 01/2024
-; Remarks .......: This file is part of MyBotRun. Copyright 2015-2024
+; Remarks .......: This file is part of MyBotRun. Copyright 2015-2025
 ;                  MyBotRun is distributed under the terms of the GNU GPL
 ; Related .......: ---
 ; Link ..........: https://www.mybot.run

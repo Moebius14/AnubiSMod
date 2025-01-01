@@ -3,7 +3,7 @@
 ; Description ...: Equipment Upgrade V1
 ; Author ........: Moebius (2023-12)
 ; Modified ......: Moebius (2024-10)
-; Remarks .......: This file is part of MyBot Copyright 2015-2024
+; Remarks .......: This file is part of MyBot Copyright 2015-2025
 ;                  MyBot is distributed under the terms of the GNU GPL
 ; Related .......: Returns True or False
 ; Link ..........: https://github.com/MyBotRun/MyBot/wiki

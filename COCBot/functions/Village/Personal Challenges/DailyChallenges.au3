@@ -3,7 +3,7 @@
 ; Description ...: Daily Challenges
 ; Author ........: TripleM (04/2019), Demen (07/2019)
 ; Modified ......: Moebius (04/2024)
-; Remarks .......: This file is part of MyBot Copyright 2015-2024
+; Remarks .......: This file is part of MyBot Copyright 2015-2025
 ;                  MyBot is distributed under the terms of the GNU GPL
 ; Related .......:
 ; Link ..........: https://github.com/MyBotRun/MyBot/wiki

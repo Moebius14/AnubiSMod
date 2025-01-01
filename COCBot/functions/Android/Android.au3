@@ -6,7 +6,7 @@
 ; Return values .: None
 ; Author ........: Cosote (12-2015)
 ; Modified ......: CodeSlinger69 (01-2017), TFKNazgul (08-2023)
-; Remarks .......: This file is part of MyBot, previously known as ClashGameBot. Copyright 2015-2024
+; Remarks .......: This file is part of MyBot, previously known as ClashGameBot. Copyright 2015-2025
 ;                  MyBot is distributed under the terms of the GNU GPL
 ; Related .......:
 ; Link ..........: https://github.com/MyBotRun/MyBot/wiki

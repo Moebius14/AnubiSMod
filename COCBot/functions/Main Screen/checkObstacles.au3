@@ -6,7 +6,7 @@
 ; Return values .: Returns True when there is something blocking
 ; Author ........: Hungle (2014)
 ; Modified ......: KnowJack (2015), Sardo (08-2015), TheMaster1st(10-2015), MonkeyHunter (08-2016), MMHK (12-2016), Moebius (11-2024)
-; Remarks .......: This file is part of MyBot, previously known as ClashGameBot. Copyright 2015-2024
+; Remarks .......: This file is part of MyBot, previously known as ClashGameBot. Copyright 2015-2025
 ;                  MyBot is distributed under the terms of the GNU GPL
 ; Related .......:
 ; Link ..........: https://github.com/MyBotRun/MyBot/wiki

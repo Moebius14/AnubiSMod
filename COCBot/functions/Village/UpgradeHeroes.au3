@@ -6,7 +6,7 @@
 ; Return values .: None
 ; Author ........: z0mbie (2015)
 ; Modified ......: Master1st (09/2015), ProMac (10/2015), MonkeyHunter (06/2016), Moebius14 (12/2024)
-; Remarks .......: This file is part of MyBot, previously known as ClashGameBot. Copyright 2015-2024
+; Remarks .......: This file is part of MyBot, previously known as ClashGameBot. Copyright 2015-2025
 ;                  MyBot is distributed under the terms of the GNU GPL
 ; Related .......:
 ; Link ..........: https://github.com/MyBotRun/MyBot/wiki

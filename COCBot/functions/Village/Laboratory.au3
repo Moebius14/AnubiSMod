@@ -6,7 +6,7 @@
 ; Return values .: None
 ; Author ........: summoner
 ; Modified ......: KnowJack (06/2015), Sardo (08/2015), Monkeyhunter(04/2016), MMHK(06/2018), Chilly-Chill (12/2019), Moebius14 (11/2024)
-; Remarks .......: This file is part of MyBot, previously known as ClashGameBot. Copyright 2015-2024
+; Remarks .......: This file is part of MyBot, previously known as ClashGameBot. Copyright 2015-2025
 ;                  MyBot is distributed under the terms of the GNU GPL
 ; Related .......:
 ; Link ..........: https://github.com/MyBotRun/MyBot/wiki
@@ -123,8 +123,8 @@ Func Laboratory($debug = False)
 	If $g_iCmbLaboratory > 0 Then
 		SetDebugLog("User picked to upgrade " & $g_avLabTroops[$g_iCmbLaboratory][0])
 		Local $iPage = Ceiling($g_iCmbLaboratory / $iPicsPerPage) ; page # of user choice
-		If $g_iCmbLaboratory > 44 And $g_iCmbLaboratory <> 52 Then $iPage = 5 ; Sieges or Any Siege
-		If $g_iCmbLaboratory = 52 Then $iPage = 2 ; Any Spell
+		If $g_iCmbLaboratory > 44 And $g_iCmbLaboratory <> UBound($g_avLabTroops) - 2 Then $iPage = 5 ; Sieges or Any Siege
+		If $g_iCmbLaboratory = UBound($g_avLabTroops) - 2 Then $iPage = 2 ; Any Spell
 		While ($iCurPage < $iPage) ; go directly to the needed page
 			LabNextPage($iCurPage, $iPages, $iYMidPoint) ; go to next page of upgrades
 			$iCurPage += 1 ; Next page
@@ -134,13 +134,13 @@ Func Laboratory($debug = False)
 		; Get coords of upgrade the user wants
 		If $iCurPage >= $iPages Then
 			SetDebugLog("Finding on last page diamond")
-			If $g_iCmbLaboratory = 53 Then
+			If $g_iCmbLaboratory = UBound($g_avLabTroops) - 1 Then
 				Local $aPageUpgrades = findMultiple($g_sImgAnySiege, $sLabTroopsSectionDiam, $sLabTroopsSectionDiam, 0, 1000, 0, "objectname,objectpoints", True) ; Returns $aCurrentTroops[index] = $aArray[2] = ["TroopShortName", CordX,CordY]
 			Else
 				Local $aPageUpgrades = findMultiple($g_sImgLabResearch, $sLabTroopsSectionDiam, $sLabTroopsSectionDiam, 0, 1000, 0, "objectname,objectpoints", True)
 			EndIf
 		Else
-			If $g_iCmbLaboratory = 52 Then
+			If $g_iCmbLaboratory = UBound($g_avLabTroops) - 2 Then
 				Local $aPageUpgrades = findMultiple($g_sImgAnySpell, $sLabTroopsSectionDiam, $sLabTroopsSectionDiam, 0, 1000, 0, "objectname,objectpoints", True)
 			Else
 				Local $aPageUpgrades = findMultiple($g_sImgLabResearch, $sLabTroopsSectionDiam, $sLabTroopsSectionDiam, 0, 1000, 0, "objectname,objectpoints", True) ; Returns $aCurrentTroops[index] = $aArray[2] = ["TroopShortName", CordX,CordY]
@@ -164,7 +164,7 @@ Func Laboratory($debug = False)
 					If _Sleep($DELAYLABORATORY2) Then Return
 				Next
 
-			ElseIf $g_iCmbLaboratory = 52 Then
+			ElseIf $g_iCmbLaboratory = UBound($g_avLabTroops) - 2 Then
 
 				For $i = 0 To UBound($aPageUpgrades, 1) - 1 ; Loop through found upgrades
 					Local $aTempTroopArray = $aPageUpgrades[$i] ; Declare Array to Temp Array
@@ -184,7 +184,7 @@ Func Laboratory($debug = False)
 					Next
 				Next
 
-			ElseIf $g_iCmbLaboratory = 53 Then
+			ElseIf $g_iCmbLaboratory = UBound($g_avLabTroops) - 1 Then
 
 				For $i = 0 To UBound($aPageUpgrades, 1) - 1 ; Loop through found upgrades
 					Local $aTempTroopArray = $aPageUpgrades[$i] ; Declare Array to Temp Array
@@ -208,7 +208,7 @@ Func Laboratory($debug = False)
 
 		Else
 
-			If $g_iCmbLaboratory = 52 Then
+			If $g_iCmbLaboratory = UBound($g_avLabTroops) - 2 Then
 				For $t = 19 To 24
 					Local $iRaw = Mod($t, 2)
 					Local $iColumn = 0
@@ -341,7 +341,7 @@ Func Laboratory($debug = False)
 					chkLab()
 				EndIf
 
-			ElseIf $g_iCmbLaboratory = 52 Then
+			ElseIf $g_iCmbLaboratory = UBound($g_avLabTroops) - 2 Then
 
 				$iPage = 3
 				While ($iCurPage < $iPage) ; go directly to the needed page
@@ -436,7 +436,7 @@ Func Laboratory($debug = False)
 
 				Next
 
-			ElseIf $g_iCmbLaboratory = 53 Then
+			ElseIf $g_iCmbLaboratory = UBound($g_avLabTroops) - 1 Then
 
 				For $t = 45 To 51
 
@@ -845,7 +845,7 @@ EndFunc   ;==>FindResearchButton
 
 Func UseLabPotion()
 	If $g_iCmbLabPotion = 0 Then Return
-	Local $iLabFinishTime = _DateDiff('n', _NowCalc(),  $g_sLabUpgradeTime)
+	Local $iLabFinishTime = _DateDiff('n', _NowCalc(), $g_sLabUpgradeTime)
 	If $g_bUseLabPotion And $iLabFinishTime > 1440 Then ; only use potion if lab upgrade time is more than 1 day
 		If _Sleep(1000) Then Return
 		Local $LabPotion = FindButton("LabPotion")
@@ -869,7 +869,7 @@ Func UseLabPotion()
 					SetLog("Remaining iteration" & ($g_iCmbLabPotion > 1 ? "s: " : ": ") & $g_iCmbLabPotion, $COLOR_SUCCESS)
 					_GUICtrlComboBox_SetCurSel($g_hCmbLabPotion, $g_iCmbLabPotion)
 				EndIf
-				Local $iLabFinishTime = _DateDiff('n', _NowCalc(),  $g_sLabUpgradeTime)
+				Local $iLabFinishTime = _DateDiff('n', _NowCalc(), $g_sLabUpgradeTime)
 				$g_sLabUpgradeTime = _DateAdd('n', Ceiling($iLabFinishTime - 1380), _NowCalc())
 				SetLog("Recalculate Research time, using potion (" & $g_sLabUpgradeTime & ")")
 				LabStatusGUIUpdate()
