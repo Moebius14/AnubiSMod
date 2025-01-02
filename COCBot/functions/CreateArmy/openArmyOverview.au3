@@ -250,8 +250,10 @@ EndFunc   ;==>PointInRect
 
 Func IsDarkTroopOffset()
 
-	$g_iDarkTroopOffset = False
-	If $g_iNextPageTroop <> $eYeti Then Return
+	If $g_iNextPageTroop > $eRDrag Then
+		$g_iDarkTroopOffset = False
+		Return
+	EndIf
 
 	If _DateIsValid($g_iDarkTroopOffsetCheckTimer) Then
 		Local $iLastCheck = _DateDiff('s', $g_iDarkTroopOffsetCheckTimer, _NowCalc())
@@ -259,6 +261,7 @@ Func IsDarkTroopOffset()
 		If $iLastCheck < 60 Then Return ; Check every 60 seconds.
 	EndIf
 
+	$g_iDarkTroopOffset = False
 	$g_iDarkTroopOffsetCheckTimer = _NowCalc()
 
 	Local $aSlot1[4] = [523, 545, 606, 465] ; Ice Golem Pos 1

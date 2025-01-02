@@ -420,39 +420,49 @@ Func DragIfNeeded($Troop)
 
 	If $iIndex > $g_iNextPageTroop Then $bDrag = True ; Drag if Troops is on Right side from $g_iNextPageTroop
 	If $iIndex > $eDruid Then $bDrag = False ; No Drag If Event Troops
-	If $bMoveCount > 2 Then  ; MicroDragLeft if Moved 2+ slots at left to find hidden columns.
-		$ExtendedTroops = True
-		$ExtendedDragTroops = 70 ; Drag more to the right before.
-	EndIf
+
+	Switch $bMoveCount
+		Case 0
+			SetDebugLog("No Hidden Troop Slot To Manage")
+		Case 1, 2
+			If $g_iDarkTroopOffset Then $ExtendedTroops = True
+		Case 3, 4
+			$ExtendedTroops = True
+		Case 5, 6
+			$ExtendedDragTroops = 85
+			$ExtendedTroops = True
+		Case 7
+			$ExtendedDragTroops = 170
+			$ExtendedTroops = True
+		Case Else
+			SetDebugLog("Never seen such a gap before!")
+	EndSwitch
 
 	If $bDrag Then
 		If _ColorCheck(_GetPixelColor(777, 380 + $g_iMidOffsetY, True), Hex(0xD3D3CB, 6), 5) Then $bCheckPixel = True
 		If $g_bDebugSetLogTrain Then SetLog("DragIfNeeded : to the right")
 		For $i = 1 To 4
 			If Not $bCheckPixel Then
-				ClickDrag(715, 433 + $g_iMidOffsetY, 300 - $ExtendedDragTroops, 433 + $g_iMidOffsetY)
+				ClickDrag(715, 433 + $g_iMidOffsetY, 230, 433 + $g_iMidOffsetY)
 				If _Sleep(Random(1500, 2000, 1)) Then Return
 				If _ColorCheck(_GetPixelColor(777, 380 + $g_iMidOffsetY, True), Hex(0xD3D3CB, 6), 5) Then
 					$bCheckPixel = True
 					IsDarkTroopOffset()
 					If ($ExtendedTroops And $iIndex > $g_iNextPageTroop And $iIndex <= $g_iNextPageTroop + $bMoveCount) Or _
-							($g_iDarkTroopOffset And ($iIndex = $eRDrag Or $iIndex = $eETitan)) Then
-						If _ColorCheck(_GetPixelColor(777, 380 + $g_iMidOffsetY, True), Hex(0xD3D3CB, 6), 5) Then
-							If $g_bDebugSetLogTrain Then SetLog("DragIfNeeded : MicroDrag to the left")
-							ClickDrag(250, 433 + $g_iMidOffsetY, 435, 433 + $g_iMidOffsetY)
-							If _Sleep(Random(1500, 2000, 1)) Then Return
-						EndIf
+							($g_iDarkTroopOffset And $iIndex > $eRDrag And $iIndex < $eThrower) Then
+						If $g_bDebugSetLogTrain Then SetLog("DragIfNeeded : MicroDrag to the left")
+						ClickDrag(250, 433 + $g_iMidOffsetY, 435 + $ExtendedDragTroops, 433 + $g_iMidOffsetY)
+						If _Sleep(Random(1500, 2000, 1)) Then Return
+						Return True
 					EndIf
 				EndIf
 			Else
 				IsDarkTroopOffset()
 				If $ExtendedTroops And $iIndex > $g_iNextPageTroop And $iIndex <= $g_iNextPageTroop + $bMoveCount Or _
-						($g_iDarkTroopOffset And ($iIndex = $eRDrag Or $iIndex = $eETitan)) Then
-					If _ColorCheck(_GetPixelColor(777, 380 + $g_iMidOffsetY, True), Hex(0xD3D3CB, 6), 5) Then
-						If $g_bDebugSetLogTrain Then SetLog("DragIfNeeded : MicroDrag to the left")
-						ClickDrag(250, 433 + $g_iMidOffsetY, 435, 433 + $g_iMidOffsetY)
-						If _Sleep(Random(1500, 2000, 1)) Then Return
-					EndIf
+						($g_iDarkTroopOffset And $iIndex > $eRDrag And $iIndex < $eThrower) Then
+					If $g_bDebugSetLogTrain Then SetLog("DragIfNeeded : MicroDrag to the left")
+					ClickDrag(250, 433 + $g_iMidOffsetY, 435 + $ExtendedDragTroops, 433 + $g_iMidOffsetY)
+					If _Sleep(Random(1500, 2000, 1)) Then Return
 				EndIf
 				Return True
 			EndIf
@@ -462,7 +472,7 @@ Func DragIfNeeded($Troop)
 		If $g_bDebugSetLogTrain Then SetLog("DragIfNeeded : to the left")
 		For $i = 1 To 4
 			If Not $bCheckPixel Then
-				ClickDrag(200, 433 + $g_iMidOffsetY, 615 + $ExtendedDragTroops, 433 + $g_iMidOffsetY)
+				ClickDrag(200, 433 + $g_iMidOffsetY, 685, 433 + $g_iMidOffsetY)
 				If _Sleep(Random(1500, 2000, 1)) Then Return
 				If _ColorCheck(_GetPixelColor(76, 380 + $g_iMidOffsetY, True), Hex(0xD3D3CB, 6), 5) Then $bCheckPixel = True
 			Else
@@ -470,7 +480,6 @@ Func DragIfNeeded($Troop)
 			EndIf
 		Next
 	EndIf
-	SetLog("Failed to Verify Troop " & $g_asTroopNames[TroopIndexLookup($Troop, "DragIfNeeded")] & " Position or Failed to Drag Successfully", $COLOR_ERROR)
 	Return False
 EndFunc   ;==>DragIfNeeded
 
