@@ -175,7 +175,7 @@ Func TrainSiege($bTrainFullSiege = False, $bDebugSetLog = $g_bDebugSetLog, $bSet
 					Local $g_iTrainClickDelayfinal = Random($g_iTrainClickDelay - $RandomClickTrainAddTimeMin, $g_iTrainClickDelay + $RandomClickTrainAddTimeMax, 1)
 					PureClickTrain($aiSiegeCoord[0], $aiSiegeCoord[1], 1, $g_iTrainClickDelayfinal)
 				Next
-				If $iSiegeIndex = 3 then
+				If $iSiegeIndex = 3 Then
 					Local $sSiegeName = $g_asSiegeMachineNames[$iSiegeIndex]
 				Else
 					Local $sSiegeName = $HowMany >= 2 ? $g_asSiegeMachineNames[$iSiegeIndex] & "s" : $g_asSiegeMachineNames[$iSiegeIndex] & ""
@@ -207,7 +207,7 @@ Func TrainSiege($bTrainFullSiege = False, $bDebugSetLog = $g_bDebugSetLog, $bSet
 						Local $g_iTrainClickDelayfinal = Random($g_iTrainClickDelay - $RandomClickTrainAddTimeMin, $g_iTrainClickDelay + $RandomClickTrainAddTimeMax, 1)
 						PureClickTrain($aiSiegeCoord[0], $aiSiegeCoord[1], 1, $g_iTrainClickDelayfinal)
 					Next
-					If $iSiegeIndex = 3 then
+					If $iSiegeIndex = 3 Then
 						Local $sSiegeName = $g_asSiegeMachineNames[$iSiegeIndex]
 					Else
 						Local $sSiegeName = $HowMany >= 2 ? $g_asSiegeMachineNames[$iSiegeIndex] & "s" : $g_asSiegeMachineNames[$iSiegeIndex] & ""

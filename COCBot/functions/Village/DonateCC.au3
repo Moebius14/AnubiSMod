@@ -192,7 +192,7 @@ Func IsDonateQueueOnly(ByRef $abDonateQueueOnly)
 		If Not $abDonateQueueOnly[2] Then $g_aiAvailSiege = $g_aiCurrentSiegeMachines
 		For $iSiegeIndex = $eSiegeWallWrecker To $eSiegeMachineCount - 1
 			If $g_aiAvailSiege[$iSiegeIndex] > 0 Then
-				If $iSiegeIndex = 3 then
+				If $iSiegeIndex = 3 Then
 					SetLog("  - " & $g_asSiegeMachineNames[$iSiegeIndex] & " x" & $g_aiAvailSiege[$iSiegeIndex])
 				Else
 					SetLog("  - " & $g_asSiegeMachineNames[$iSiegeIndex] & ($g_aiAvailSiege[$iSiegeIndex] > 1 ? "s" : "") & " x" & $g_aiAvailSiege[$iSiegeIndex])
@@ -273,7 +273,7 @@ Func getArmyRequest($aiDonateCoords, $bNeedCapture = True)
 			$HownManySpell += 1
 			; Sieges
 		ElseIf $iArmyIndex >= $eWallW And $iArmyIndex <= $eBattleD Then
-			If $iArmyIndex - $eWallW = 3 then
+			If $iArmyIndex - $eWallW = 3 Then
 				$sClanText &= ", " & $eRequestCount & " " & $g_asSiegeMachineNames[$iArmyIndex - $eWallW]
 			Else
 				$sClanText &= ", " & $eRequestCount & " " & $g_asSiegeMachineNames[$iArmyIndex - $eWallW] & ($eRequestCount > 1 ? "s" : "")
@@ -397,7 +397,7 @@ Func DonateCC($bUpdateStats = True)
 			If Not $abDonateQueueOnly[2] Then $g_aiAvailSiege = $g_aiCurrentSiegeMachines
 			For $iSiegeIndex = $eSiegeWallWrecker To $eSiegeMachineCount - 1
 				If $g_aiAvailSiege[$iSiegeIndex] > 0 Then
-					If $iSiegeIndex = 3 then
+					If $iSiegeIndex = 3 Then
 						SetLog("  - " & $g_asSiegeMachineNames[$iSiegeIndex] & " x" & $g_aiAvailSiege[$iSiegeIndex])
 					Else
 						SetLog("  - " & $g_asSiegeMachineNames[$iSiegeIndex] & ($g_aiAvailSiege[$iSiegeIndex] > 1 ? "s" : "") & " x" & $g_aiAvailSiege[$iSiegeIndex])
@@ -617,7 +617,7 @@ Func DonateCC($bUpdateStats = True)
 								EndIf
 							EndIf
 						Next
-						For $i = ($eTroopCount + $g_iCustomDonateConfigs) To ($eTroopCount + $g_iCustomDonateConfigs + $eSiegeMachineCount) - 1 ; 58 - 64 (7 Siege Machines)
+						For $i = ($eTroopCount + $g_iCustomDonateConfigs) To ($eTroopCount + $g_iCustomDonateConfigs + $eSiegeMachineCount) - 1 ; 59 - 65 (7 Siege Machines)
 							If $g_abChkDonateTroop[$i] Then ; checking SiegeMachines
 								If $g_bDebugSetLog Then SetDebugLog("Siege: [" & $i - $eTroopCount - $g_iCustomDonateConfigs & "] checking!", $COLOR_DEBUG)
 								If CheckDonateSiege($i - $eTroopCount - $g_iCustomDonateConfigs, $g_asTxtDonateTroop[$i], $g_asTxtBlacklistTroop[$i], $ClanString, $bNewSystemToDonate, True) Then
@@ -683,12 +683,7 @@ Func DonateCC($bUpdateStats = True)
 				SetLog("Clan Castle Siege is full, skip siege donation", $COLOR_ACTION)
 				$g_bSkipDonSiege = True
 			ElseIf $g_iTotalDonateSiegeMachineCapacity > 0 Then
-				If Not $bNewSystemToDonate Then
-					If Not $bDonateSiegeMatched Then
-						SetLog("Siege request doesn't match, skip siege donation", $COLOR_ACTION)
-						$g_bSkipDonSiege = True
-					EndIf
-				EndIf
+				If Not $bNewSystemToDonate And Not $bDonateSiegeMatched Then $g_bSkipDonSiege = True
 			EndIf
 
 			;;; Flagged to Skip Check
