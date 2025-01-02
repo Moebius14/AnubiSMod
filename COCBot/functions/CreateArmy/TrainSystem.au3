@@ -719,15 +719,20 @@ Func IsQueueEmpty($sType = "Troops", $bSkipTabCheck = False, $removeExtraTroopsQ
 	WaitForClanMessage("Tabs")
 
 	If Not IsArray(_PixelSearch($iArrowX, $iArrowY, $iArrowX + 4, $iArrowY, Hex(0xAFDC87, 6), 30, True)) And _
-			Not IsArray(_PixelSearch($iArrowX, $iArrowY + 3, $iArrowX + 4, $iArrowY + 3, Hex(0x79BF30, 6), 30, True)) Then
+			Not IsArray(_PixelSearch($iArrowX, $iArrowY + 3, $iArrowX + 4, $iArrowY + 3, Hex(0x79BF30, 6), 30, True)) And _
+			Not IsArray(_PixelSearch($iArrowX - 2, $iArrowY + 3, $iArrowX + 2, $iArrowY + 3, Hex(0xA5D27B, 6), 30, True)) And _
+			Not IsArray(_PixelSearch($iArrowX - 2, $iArrowY + 6, $iArrowX + 2, $iArrowY + 6, Hex(0x6FB424, 6), 30, True)) Then
 
 		If $g_bDebugSetLogTrain Then SetLog($sType & " Queue empty", $COLOR_DEBUG)
-		Return True ; Check Green Arrows at top first, if not there -> Return
+		Return True     ; Check Green Arrows at top first, if not there -> Return
 
-	ElseIf IsArray(_PixelSearch($iArrowX, $iArrowY, $iArrowX + 4, $iArrowY, Hex(0xAFDC87, 6), 30, True)) And _
-			IsArray(_PixelSearch($iArrowX, $iArrowY + 3, $iArrowX + 4, $iArrowY + 3, Hex(0x79BF30, 6), 30, True)) And Not $removeExtraTroopsQueue Then
+	ElseIf ((IsArray(_PixelSearch($iArrowX, $iArrowY, $iArrowX + 4, $iArrowY, Hex(0xAFDC87, 6), 30, True)) And _
+			IsArray(_PixelSearch($iArrowX, $iArrowY + 3, $iArrowX + 4, $iArrowY + 3, Hex(0x79BF30, 6), 30, True))) Or _
+			(IsArray(_PixelSearch($iArrowX - 2, $iArrowY + 3, $iArrowX + 2, $iArrowY + 3, Hex(0xA5D27B, 6), 30, True)) And _
+			IsArray(_PixelSearch($iArrowX - 2, $iArrowY + 6, $iArrowX + 2, $iArrowY + 6, Hex(0x6FB424, 6), 30, True)))) And Not $removeExtraTroopsQueue Then
 
-		If Not WaitforPixel($iArrowX - 9, $iArrowY - 1, $iArrowX - 5, $iArrowY + 1, Hex(0xAFDC87, 6), 30, 2) Then Return False  ; check if boost arrow
+		If Not WaitforPixel($iArrowX - 9, $iArrowY - 1, $iArrowX - 5, $iArrowY + 1, Hex(0xAFDC87, 6), 30, 2) And _
+				Not WaitforPixel($iArrowX - 11, $iArrowY + 2, $iArrowX - 7, $iArrowY + 4, Hex(0xA5D27B, 6), 30, 2) Then Return False ; check if boost arrow
 
 	EndIf
 	If _Sleep($DELAYRESPOND) Then Return
