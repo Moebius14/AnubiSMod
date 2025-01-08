@@ -152,23 +152,7 @@ Func AppBuilder()
 
 	WaitForClanMessage("BuildersApprenticeMid")
 
-	Local $MiniHead = decodeSingleCoord(FindImageInPlace2("MiniBuilderApp", $g_sImgMiniBuilderAppHead, 690, 230 + $g_iMidOffsetY, 840, 500 + $g_iMidOffsetY, True)) ; Recurrence
-	If IsArray($MiniHead) And UBound($MiniHead) = 2 Then
-		ClickP($MiniHead)
-		If _Sleep(1000) Then Return
-		Local $aConfirmButton = findButton("ConfirmButton", Default, 1, True)
-		If IsArray($aConfirmButton) And UBound($aConfirmButton) = 2 Then
-			ClickP($aConfirmButton)
-			If _Sleep(1000) Then Return
-		Else
-			Click(530, 415 + $g_iMidOffsetY)
-			If _Sleep(1000) Then Return
-		EndIf
-	EndIf
-
 	If $g_bChkAppBuilder = 2 Then MoveToBottom()
-
-	WaitForClanMessage("BuildersApprenticeMid")
 
 	Local $GreenAssignButtons = QuickMIS("CNX", $g_sImgGreenAssignButton, 690, 230 + $g_iMidOffsetY, 840, 500 + $g_iMidOffsetY)
 	If IsArray($GreenAssignButtons) And UBound($GreenAssignButtons) > 0 And UBound($GreenAssignButtons, $UBOUND_COLUMNS) > 1 Then
@@ -1242,9 +1226,9 @@ Func HelperHutApp($bToOpen = False)
 		EndIf
 	EndIf
 
-	If $g_bChkAppBuilder = 2 Then MoveToBottom()
-
 	WaitForClanMessage("BuildersApprenticeMid")
+
+	If $g_bChkAppBuilder = 2 Then MoveToBottom()
 
 	Local $GreenAssignButtons = QuickMIS("CNX", $g_sImgGreenAssignButton, 690, 230 + $g_iMidOffsetY, 840, 500 + $g_iMidOffsetY)
 	If IsArray($GreenAssignButtons) And UBound($GreenAssignButtons) > 0 And UBound($GreenAssignButtons, $UBOUND_COLUMNS) > 1 Then

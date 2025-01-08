@@ -662,7 +662,7 @@ Func KingUpgrade()
 		Local $g_iKingCostOCR = getOcrAndCapture("coc-HeroCost", $bXcoords[0] + 23, 433 + $g_iMidOffsetY, 65, 20, True)
 	EndIf
 	If $g_iKingCostOCR = "" Then
-		SetLog("OCR Read Error", $COLOR_ERROR)
+		SetLog("King Cost OCR Read Error", $COLOR_ERROR)
 		Return
 	EndIf
 
@@ -884,12 +884,12 @@ Func QueenUpgrade()
 	EndIf
 
 	If $bOffset Then
-		Local $g_iQueenCostOCR = getOcrAndCapture("coc-HeroCost", $bXcoords[0] + 38, 433 + $g_iMidOffsetY, 65, 20, True)
+		Local $g_iQueenCostOCR = getOcrAndCapture("coc-HeroCost", $bXcoords[1] + 38, 433 + $g_iMidOffsetY, 65, 20, True)
 	Else
-		Local $g_iQueenCostOCR = getOcrAndCapture("coc-HeroCost", $bXcoords[0] + 23, 433 + $g_iMidOffsetY, 65, 20, True)
+		Local $g_iQueenCostOCR = getOcrAndCapture("coc-HeroCost", $bXcoords[1] + 23, 433 + $g_iMidOffsetY, 65, 20, True)
 	EndIf
 	If $g_iQueenCostOCR = "" Then
-		SetLog("Insufficient DE for Upg Queen", $COLOR_INFO)
+		SetLog("Queen Cost OCR Read Error", $COLOR_ERROR)
 		Return
 	EndIf
 
@@ -1078,11 +1078,11 @@ Func PrinceUpgrade()
 		Return
 	EndIf
 	Local $bOffset = False
-	If _ColorCheck(_GetPixelColor($bXcoords[1], 438 + $g_iMidOffsetY, True), Hex(0x8BD43A, 6), 20) And _
-			IsArray(_PixelSearch($bXcoords[1], 438 + $g_iMidOffsetY, $bXcoords[1] + 95, 444 + $g_iMidOffsetY, Hex(0xFFFFFF, 6), 20, True)) Then
+	If _ColorCheck(_GetPixelColor($bXcoords[2], 438 + $g_iMidOffsetY, True), Hex(0x8BD43A, 6), 20) And _
+			IsArray(_PixelSearch($bXcoords[2], 438 + $g_iMidOffsetY, $bXcoords[2] + 95, 444 + $g_iMidOffsetY, Hex(0xFFFFFF, 6), 20, True)) Then
 		SetDebugLog("Green Pixel Check: OK")
-	ElseIf _ColorCheck(_GetPixelColor($bXcoords[1] + 42, 438 + $g_iMidOffsetY, True), Hex(0x8BD43A, 6), 20) And _
-			IsArray(_PixelSearch($bXcoords[1] + 42, 438 + $g_iMidOffsetY, $bXcoords[1] + 95, 444 + $g_iMidOffsetY, Hex(0xFFFFFF, 6), 20, True)) Then
+	ElseIf _ColorCheck(_GetPixelColor($bXcoords[2] + 42, 438 + $g_iMidOffsetY, True), Hex(0x8BD43A, 6), 20) And _
+			IsArray(_PixelSearch($bXcoords[2] + 42, 438 + $g_iMidOffsetY, $bXcoords[2] + 95, 444 + $g_iMidOffsetY, Hex(0xFFFFFF, 6), 20, True)) Then
 		SetDebugLog("Green Pixel Check: OK")
 		$bOffset = True
 	Else
@@ -1111,12 +1111,12 @@ Func PrinceUpgrade()
 	EndIf
 
 	If $bOffset Then
-		Local $g_iPrinceCostOCR = getOcrAndCapture("coc-HeroCost", $bXcoords[0] + 38, 433 + $g_iMidOffsetY, 65, 20, True)
+		Local $g_iPrinceCostOCR = getOcrAndCapture("coc-HeroCost", $bXcoords[2] + 38, 433 + $g_iMidOffsetY, 65, 20, True)
 	Else
-		Local $g_iPrinceCostOCR = getOcrAndCapture("coc-HeroCost", $bXcoords[0] + 23, 433 + $g_iMidOffsetY, 65, 20, True)
+		Local $g_iPrinceCostOCR = getOcrAndCapture("coc-HeroCost", $bXcoords[2] + 23, 433 + $g_iMidOffsetY, 65, 20, True)
 	EndIf
 	If $g_iPrinceCostOCR = "" Then
-		SetLog("Insufficient DE for Upg Queen", $COLOR_INFO)
+		SetLog("Prince Cost OCR Read Error", $COLOR_ERROR)
 		Return
 	EndIf
 
@@ -1346,7 +1346,7 @@ Func WardenUpgrade()
 		Local $g_iWardenCostOCR = getOcrAndCapture("coc-HeroCost", $bXcoords[3] + 10, 433 + $g_iMidOffsetY, 84, 20, True)
 	EndIf
 	If $g_iWardenCostOCR = "" Then
-		SetLog("Insufficient DE for Upg Warden", $COLOR_INFO)
+		SetLog("Warden Cost OCR Read Error", $COLOR_ERROR)
 		Return
 	EndIf
 
@@ -1544,11 +1544,11 @@ Func ChampionUpgrade()
 		Return
 	EndIf
 	Local $bOffset = False
-	If _ColorCheck(_GetPixelColor($bXcoords[1], 438 + $g_iMidOffsetY, True), Hex(0x8BD43A, 6), 20) And _
-			IsArray(_PixelSearch($bXcoords[1], 438 + $g_iMidOffsetY, $bXcoords[1] + 95, 444 + $g_iMidOffsetY, Hex(0xFFFFFF, 6), 20, True)) Then
+	If _ColorCheck(_GetPixelColor($bXcoords[4], 438 + $g_iMidOffsetY, True), Hex(0x8BD43A, 6), 20) And _
+			IsArray(_PixelSearch($bXcoords[4], 438 + $g_iMidOffsetY, $bXcoords[4] + 95, 444 + $g_iMidOffsetY, Hex(0xFFFFFF, 6), 20, True)) Then
 		SetDebugLog("Green Pixel Check: OK")
-	ElseIf _ColorCheck(_GetPixelColor($bXcoords[1] + 42, 438 + $g_iMidOffsetY, True), Hex(0x8BD43A, 6), 20) And _
-			IsArray(_PixelSearch($bXcoords[1] + 42, 438 + $g_iMidOffsetY, $bXcoords[1] + 95, 444 + $g_iMidOffsetY, Hex(0xFFFFFF, 6), 20, True)) Then
+	ElseIf _ColorCheck(_GetPixelColor($bXcoords[4] + 42, 438 + $g_iMidOffsetY, True), Hex(0x8BD43A, 6), 20) And _
+			IsArray(_PixelSearch($bXcoords[4] + 42, 438 + $g_iMidOffsetY, $bXcoords[4] + 95, 444 + $g_iMidOffsetY, Hex(0xFFFFFF, 6), 20, True)) Then
 		SetDebugLog("Green Pixel Check: OK")
 		$bOffset = True
 	Else
@@ -1577,12 +1577,12 @@ Func ChampionUpgrade()
 	EndIf
 
 	If $bOffset Then
-		Local $g_iChampionCostOCR = getOcrAndCapture("coc-HeroCost", $bXcoords[0] + 38, 433 + $g_iMidOffsetY, 65, 20, True)
+		Local $g_iChampionCostOCR = getOcrAndCapture("coc-HeroCost", $bXcoords[4] + 38, 433 + $g_iMidOffsetY, 65, 20, True)
 	Else
-		Local $g_iChampionCostOCR = getOcrAndCapture("coc-HeroCost", $bXcoords[0] + 23, 433 + $g_iMidOffsetY, 65, 20, True)
+		Local $g_iChampionCostOCR = getOcrAndCapture("coc-HeroCost", $bXcoords[4] + 23, 433 + $g_iMidOffsetY, 65, 20, True)
 	EndIf
 	If $g_iChampionCostOCR = "" Then
-		SetLog("Insufficient DE for Upg Queen", $COLOR_INFO)
+		SetLog("Champion Cost OCR Read Error", $COLOR_ERROR)
 		Return
 	EndIf
 

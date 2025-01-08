@@ -1,4 +1,14 @@
-* v8.1.8
+* v8.2.0 **
+* Excluded TH7- from HiddenSlotstatus().
+* Added support for BB Defensive Layout obstructed window.
+* Improved Helpers recurrence detection.
+* Fixed Upgrade Heroes.
+* Added Fire and Ice Scenery support (Attack Only).
+
+* v8.1.9 **
+* Fixed Icon File
+
+* v8.1.8 **
 * Improved Shield Time OCR (Partially Hidden "M" is now read).
 * Improved Donate System (Requests with Pictures).
 * Updated Close While Training/Without Shield Option.

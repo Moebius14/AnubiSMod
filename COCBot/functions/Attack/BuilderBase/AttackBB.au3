@@ -153,6 +153,8 @@ Func ClickFindNowButton()
 		If _Sleep(500) Then Return
 	Next
 
+	If Obstructed() Then SetLog("Defensive Layout obstructed by obstacles, Attack Anyway !", $COLOR_WARNING)
+
 	If _Sleep(8000) Then Return ; give time for find now button to go away
 	If Not $bRet Then
 		SetLog("Could not locate Find Now Button to go find an attack.", $COLOR_ERROR)
@@ -162,6 +164,27 @@ Func ClickFindNowButton()
 
 	Return $bRet
 EndFunc   ;==>ClickFindNowButton
+
+Func Obstructed()
+
+	If _Sleep(250) Then Return
+	Local $sSearchDiamond = GetDiamondFromRect2(460, 380 + $g_iMidOffsetY, 600, 445 + $g_iMidOffsetY)
+
+	For $i = 0 To 3
+		Local $aCoords = decodeSingleCoord(findImage("ClickAttack", $g_sImgBBAttackButton, $sSearchDiamond, 1, True))
+		If IsArray($aCoords) And UBound($aCoords) = 2 Then
+			SetDebugLog("Attack Button found at " & String($aCoords[0]) & " " & String($aCoords[1]))
+			ClickP($aCoords, 1, 120, "#0149") ; Click Attack Button
+			If _Sleep(250) Then Return
+			Return True
+		EndIf
+		If $i = 3 Then ExitLoop
+		If _Sleep(250) Then Return
+	Next
+
+	Return False
+
+EndFunc   ;==>Obstructed
 
 Func WaitCloudsBB()
 	Local $bRet = True

@@ -26,10 +26,11 @@ Func PrepareSearch($Mode = $DB) ;Click attack button and find match button, will
 
 	; RestartSearchPickupHero - Check Remaining Heal Time
 	If $g_bSearchRestartPickupHero And $Mode <> $DT Then
-		For $pTroopType = $eKing To $eChampion ; check all 4 hero
+		Local $pTroopType[$eHeroCount] = [$eKing, $eQueen, $ePrince, $eWarden, $eChampion]
+		For $i = 0 To $eHeroSlots - 1 ; check slots
 			For $pMatchMode = $DB To $g_iModeCount - 1 ; check all attack modes
-				If IsUnitUsed($pMatchMode, $pTroopType) Then
-					If Not _DateIsValid($g_asHeroHealTime[$pTroopType - $eKing]) Then
+				If IsUnitUsed($pMatchMode, $pTroopType[$g_aiCmbCustomHeroOrder[$i]]) Then
+					If Not _DateIsValid($g_asHeroHealTime[$i]) Then
 						getArmyHeroTime("All", True, True)
 						ExitLoop 2
 					EndIf

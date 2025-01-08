@@ -876,6 +876,13 @@ Func ArmyHeroStatus($i)
 EndFunc   ;==>ArmyHeroStatus
 
 Func HiddenSlotstatus()
+
+	If $g_iTownHallLevel < 7 Then
+		SetDebugLog("Townhall Lvl " & $g_iTownHallLevel & " has no Hero Hall", $COLOR_DEBUG)
+		Return
+	EndIf
+	If $g_aiHeroHallPos[1] = "" Or $g_aiHeroHallPos[1] = -1 Then Return
+
 	If $g_aiHeroHallPos[2] = 1 Then
 
 		Switch $g_aiCmbCustomHeroOrder[4]
