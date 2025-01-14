@@ -75,11 +75,11 @@ Func SwitchBetweenBases($bCheckMainScreen = True, $GoToBB = False)
 			; loop through the detected images
 			For $j = 0 To UBound($avBoat, $UBOUND_ROWS) - 1
 				$avTempArray = $avBoat[$j]
-				SetLog("Boat Search find : " & $avTempArray[0])
+				SetDebugLog("Boat Search find : " & $avTempArray[0])
 				$aButtonCoords = decodeSingleCoord($avTempArray[1])
 
 				If IsArray($aButtonCoords) And UBound($aButtonCoords, $UBOUND_ROWS) = 2 Then
-					SetLog("[" & $i & "] Going to " & $sSwitchTo, $COLOR_INFO)
+					If $i = 0 Then SetLog("Going to " & $sSwitchTo, $COLOR_INFO)
 					ClickP($aButtonCoords)
 					If _Sleep($DELAYSWITCHBASES1) Then Return
 

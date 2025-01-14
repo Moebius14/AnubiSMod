@@ -4,6 +4,10 @@
 * Improved Helpers recurrence detection.
 * Fixed Upgrade Heroes.
 * Added Fire and Ice Scenery support (Attack Only).
+* Improved Streak Event Support.
+* Fixed Array Bounds Error when $g_bSearchRestartPickupHero.
+* Added Support for the new TOS and Personnal datas sharing Windows.
+* Updated Wall Cost.
 
 * v8.1.9 **
 * Fixed Icon File

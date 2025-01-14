@@ -183,6 +183,12 @@ Func _checkObstacles($bBuilderBase = False, $bRecursive = False) ;Checks if some
 			_ColorCheck(_GetPixelColor(600, 9, $g_bCapturePixel), Hex(0x000000, 6), 1)
 	If Not $bHasTopBlackBar And IsMainGrayed() Then
 		SetDebugLog("checkObstacles: Found gray Window to close")
+		; Streak Event
+		If CheckStreakEvent() Then
+			SetLog("Streak Event window closed chief!", $COLOR_INFO) ; Check for Streak Event window to (2024-06) update
+			$g_bMinorObstacle = True
+			Return False
+		EndIf
 		; Offers Received from SuperCell Store
 		Local $aiSCOffer = decodeSingleCoord(FindImageInPlace2("SCOffers", $g_sImgOkayBlue, 360, 400 + $g_iMidOffsetY, 510, 500 + $g_iMidOffsetY, True))
 		If IsArray($aiSCOffer) And UBound($aiSCOffer) = 2 Then
@@ -503,7 +509,7 @@ Func CheckAllObstacles($bDebugImageSave = $g_bDebugImageSave, $MinType = 0, $Max
 	;; 0 : Connection Lost, Error, Another Device, Inactivity Or Login Failed Then Click "Try Again" Or "Reload" Or "Reload Game"
 	;; 1 : Error! (Out of Sync)/OOS Then Click on "Reload Game"
 	;; 2 : Rate Clash Of Clans Then click On "Never"
-	;; 3 : Important Notice Then Click On "OK"
+	;; 3 : Important Notice Then Click On "OK" Or "Agree"
 	;; 4 : Major Update, Stop bot
 	;; 5 : Google Play Services Has Stopped Then Click on "OK"
 	;; 6 : Clash Of Clan isn't responding Then Reboot Emulator
@@ -513,7 +519,7 @@ Func CheckAllObstacles($bDebugImageSave = $g_bDebugImageSave, $MinType = 0, $Max
 	Local $aiObstacleType[9][7] = [["", "Detected Connection Lost!", $sImgConnectionLost, 170, 260, 400, 320], _
 			["", "Detected Out Of Sync!", $sImgOos, 330, 310, 460, 350], _
 			["", "Detected Rate Game!", $sImgRateGame, 170, 260, 400, 320], _
-			["", "Detected Important Notice!", $sImgNotice, 170, 250, 400, 300], _
+			["", "Detected Important Notice!", $sImgNotice, 170, 250, 400, 320], _
 			["", "Detected Major Update!", $sImgMajorUpdate, 210, 270, 350, 360], _
 			["", "Detected Google Play Services Has Stopped!", $sImgGPServices, 280, 300, 410, 340], _
 			["", "Detected COC isn't Responding!!", $sImgClashNotResponding, 210, 240, 360, 310], _

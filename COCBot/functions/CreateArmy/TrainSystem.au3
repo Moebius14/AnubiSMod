@@ -1593,7 +1593,7 @@ Func FillCCWMedals($g_bFullArmy = False, $g_bCheckSpells = False, $bFullArmyHero
 			SetLog("New Try...", $COLOR_DEBUG1)
 			ClearScreen()
 			If _Sleep(1500) Then Return
-			PureClickVisit($NewX, $NewY) ; select CC
+			PureClickPrecise($NewX, $NewY) ; select CC
 			If _Sleep($DELAYBUILDINGINFO1) Then Return
 
 			Local $BuildingInfo = BuildingInfo(242, 475 + $g_iBottomOffsetY)
@@ -1678,7 +1678,7 @@ Func FillCCWMedals($g_bFullArmy = False, $g_bCheckSpells = False, $bFullArmyHero
 			$NewX = Number($g_aiClanCastlePos[0] - (2 * $i))
 			$NewY = Number($g_aiClanCastlePos[1] + (2 * $i))
 			If _Sleep(1500) Then Return
-			PureClickVisit($NewX, $NewY) ; select CC
+			PureClickPrecise($NewX, $NewY) ; select CC
 			If _Sleep($DELAYBUILDINGINFO1) Then Return
 
 			$BuildingInfo = BuildingInfo(242, 475 + $g_iBottomOffsetY)

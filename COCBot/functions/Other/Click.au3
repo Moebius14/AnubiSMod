@@ -16,6 +16,47 @@
 #include-once
 #include <WinAPISys.au3>
 
+Func PureClickPrecise($x, $y, $times = 1, $speed = 120, $debugtxt = "")
+	Local $txt = ""
+	$speed = Random($speed - $speed * 0.15, $speed + $speed * 0.15, 1)
+	If $g_bDebugClick Or TestCapture() Then
+		$txt = _DecodeDebug($debugtxt)
+		SetLog("Click " & $x & "," & $y & "," & $times & "," & $speed & " " & $debugtxt & $txt, $COLOR_ACTION, "Verdana", "7.5", 0)
+	EndIf
+
+	If TestCapture() Then Return
+
+	If $g_bAndroidAdbClick = True Then
+		AndroidClick($x, $y, $times, $speed)
+		Return
+	EndIf
+
+	Local $SuspendMode = ResumeAndroid()
+	If $times <> 1 Then
+		For $i = 0 To ($times - 1)
+			If isProblemAffectBeforeClick($i) Then
+				If $g_bDebugClick Then SetLog("VOIDED Click " & $x & "," & $y & "," & $times & "," & $speed & " " & $debugtxt & $txt, $COLOR_ERROR, "Verdana", "7.5", 0)
+				checkMainScreen(False)
+				SuspendAndroid($SuspendMode)
+				Return ; if need to clear screen do not click
+			EndIf
+			MoveMouseOutBS()
+			_ControlClick($x, $y)
+			If _Sleep($speed, False) Then ExitLoop
+		Next
+	Else
+		If isProblemAffectBeforeClick() Then
+			If $g_bDebugClick Then SetLog("VOIDED Click " & $x & "," & $y & "," & $times & "," & $speed & " " & $debugtxt & $txt, $COLOR_ERROR, "Verdana", "7.5", 0)
+			checkMainScreen(False)
+			SuspendAndroid($SuspendMode)
+			Return ; if need to clear screen do not click
+		EndIf
+		MoveMouseOutBS()
+		_ControlClick($x, $y)
+	EndIf
+	SuspendAndroid($SuspendMode)
+EndFunc   ;==>PureClickPrecise
+
 Func Click($x, $y, $times = 1, $speed = 120, $debugtxt = "")
 	Local $txt = "", $aPrevCoor[2] = [$x, $y]
 	If $g_bUseRandomClick Then
@@ -197,39 +238,6 @@ Func PureClickTrain($x, $y, $times = 1, $speed = 165, $debugtxt = "")
 	EndIf
 	SuspendAndroid($SuspendMode)
 EndFunc   ;==>PureClickTrain
-
-Func PureClickVisit($x, $y, $times = 1, $speed = 120, $debugtxt = "")
-	Local $txt = "", $aPrevCoor[2] = [$x, $y]
-
-	$speed = Random($speed - $speed * 0.15, $speed + $speed * 0.15, 1)
-
-	If $g_bDebugClick Then
-		$txt = _DecodeDebug($debugtxt)
-		SetLog("PureClick " & $x & "," & $y & "," & $times & "," & $speed & " " & $debugtxt & $txt, $COLOR_ACTION, "Verdana", "7.5", 0)
-	EndIf
-
-	If TestCapture() Then Return
-
-	If $g_bAndroidAdbClick = True Then
-		For $i = 1 To $times
-			AndroidClick($x, $y, 1, $speed, False)
-		Next
-		Return
-	EndIf
-
-	Local $SuspendMode = ResumeAndroid()
-	If $times <> 1 Then
-		For $i = 0 To ($times - 1)
-			MoveMouseOutBS()
-			_ControlClick($x, $y)
-			If _Sleep($speed, False) Then ExitLoop
-		Next
-	Else
-		MoveMouseOutBS()
-		_ControlClick($x, $y)
-	EndIf
-	SuspendAndroid($SuspendMode)
-EndFunc   ;==>PureClickVisit
 
 ; PureClickP : takes an array[2] (or array[4]) as a parameter [x,y]
 Func PureClickP($point, $howMuch = 1, $speed = 120, $debugtxt = "")

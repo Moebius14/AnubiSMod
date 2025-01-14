@@ -53,7 +53,7 @@ Func CheckTombs()
 				If IsCoordSafe($TombsXY[$j][0], $TombsXY[$j][1]) Then
 					If $g_bDebugSetLog Then SetDebugLog("Coords :" & $TombsXY[$j][0] & "," & $TombsXY[$j][1])
 					If IsMainPage() Then
-						Click($TombsXY[$j][0], $TombsXY[$j][1], 1, 120, "#0430")
+						PureClickPrecise($TombsXY[$j][0], $TombsXY[$j][1], 1, 120, "#0430")
 						If Not $bRemoved1 Then $bRemoved1 = True
 					EndIf
 				EndIf
@@ -92,7 +92,7 @@ Func CheckTombs()
 						If IsCoordSafe($TombsXY2[$z][0], $TombsXY2[$z][1]) Then
 							If $g_bDebugSetLog Then SetDebugLog("Coords :" & $TombsXY2[$z][0] & "," & $TombsXY2[$z][1])
 							If IsMainPage() Then
-								Click($TombsXY2[$z][0], $TombsXY2[$z][1], 1, 120, "#0430")
+								PureClickPrecise($TombsXY2[$z][0], $TombsXY2[$z][1], 1, 120, "#0430")
 								If Not $bRemoved2 Then $bRemoved2 = True
 							EndIf
 						EndIf
@@ -164,7 +164,7 @@ Func CleanYard()
 				For $i = 0 To UBound($aObstacles, 1) - 1
 					If IsCoordSafe($aObstacles[$i][1], $aObstacles[$i][2]) Then ; secure x because of clan chat tab
 						If $g_bDebugSetLog Then SetDebugLog($aObstacles[$i][0] & " found (" & $aObstacles[$i][1] & "," & $aObstacles[$i][2] & ")", $COLOR_SUCCESS)
-						If IsMainPage() Then Click($aObstacles[$i][1], $aObstacles[$i][2], 1, 120, "#0430")
+						If IsMainPage() Then PureClickPrecise($aObstacles[$i][1], $aObstacles[$i][2], 1, 120, "#0430")
 						$bLocate = True
 						If _Sleep($DELAYCOLLECT3) Then Return
 						If Not ClickRemoveObstacle() Then ContinueLoop
@@ -214,7 +214,7 @@ Func CleanYard()
 				For $j = 0 To UBound($GemBoxXY) - 1
 					If $g_bDebugSetLog Then SetDebugLog("Coords :" & $GemBoxXY[$j][0] & "," & $GemBoxXY[$j][1])
 					If IsCoordSafe($GemBoxXY[$j][0], $GemBoxXY[$j][1]) Then
-						If IsMainPage() Then Click($GemBoxXY[$j][0], $GemBoxXY[$j][1], 1, 120, "#0430")
+						If IsMainPage() Then PureClickPrecise($GemBoxXY[$j][0], $GemBoxXY[$j][1], 1, 120, "#0430")
 						If _Sleep($DELAYCHECKTOMBS2) Then Return
 						$bLocate = True
 						If _Sleep($DELAYCOLLECT3) Then Return

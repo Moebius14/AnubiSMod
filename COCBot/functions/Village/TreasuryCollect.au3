@@ -55,7 +55,7 @@ Func TreasuryCollect($CollectMode = $g_bChkTreasuryCollect)
 			SetLog("New Try...", $COLOR_DEBUG1)
 			ClearScreen()
 			If _Sleep(Random(1000, 1500, 1)) Then Return
-			PureClickVisit($NewX, $NewY) ; select CC
+			PureClickPrecise($NewX, $NewY) ; select CC
 			If _Sleep($DELAYBUILDINGINFO1) Then Return
 
 			$BuildingInfo = BuildingInfo(242, 475 + $g_iBottomOffsetY)
@@ -71,7 +71,7 @@ Func TreasuryCollect($CollectMode = $g_bChkTreasuryCollect)
 			$NewX = Number($g_aiClanCastlePos[0] - (2 * $i))
 			$NewY = Number($g_aiClanCastlePos[1] + (2 * $i))
 			If _Sleep(Random(1000, 1500, 1)) Then Return
-			PureClickVisit($NewX, $NewY) ; select CC
+			PureClickPrecise($NewX, $NewY) ; select CC
 			If _Sleep($DELAYBUILDINGINFO1) Then Return
 
 			$BuildingInfo = BuildingInfo(242, 475 + $g_iBottomOffsetY)

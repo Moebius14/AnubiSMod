@@ -1631,7 +1631,7 @@ Func CheckTH()
 		Return
 	EndIf
 
-	PureClickVisit($g_iTHx, $g_iTHy)
+	PureClickPrecise($g_iTHx, $g_iTHy)
 	If _Sleep(800) Then Return
 	Local $BuildingNameFull = getNameBuilding(242, 520 + $g_iBottomOffsetY)
 	If Not StringInStr($BuildingNameFull, "Town") Then
@@ -1701,7 +1701,7 @@ Func CheckMortar()
 		Next
 		If $count <= $RandomNumBuildingTocheck Then
 			SetLog("We Will Click On Mortar " & $count & "", $COLOR_OLIVE)
-			PureClickVisit($xInfo, $yInfo)
+			PureClickPrecise($xInfo, $yInfo)
 			If _Sleep(800) Then Return
 			Local $BuildingNameFull = getNameBuilding(242, 520 + $g_iBottomOffsetY)
 			If Not StringInStr($BuildingNameFull, "Mortar") Then
@@ -1780,7 +1780,7 @@ Func CheckWizard()
 
 		If $count <= $RandomNumBuildingTocheck Then
 			SetLog("We Will Click On Wizard Tower " & $count & "", $COLOR_OLIVE)
-			PureClickVisit($xInfo, $yInfo)
+			PureClickPrecise($xInfo, $yInfo)
 			If _Sleep(800) Then Return
 			Local $BuildingNameFull = getNameBuilding(242, 520 + $g_iBottomOffsetY)
 			If Not StringInStr($BuildingNameFull, "Wizard") Then
@@ -1851,7 +1851,7 @@ Func CheckXBows()
 		Next
 		If $count <= $RandomNumBuildingTocheck Then
 			SetLog("We Will Click On X-Bow " & $count & "", $COLOR_OLIVE)
-			PureClickVisit($xInfo + 9, $yInfo)
+			PureClickPrecise($xInfo + 9, $yInfo)
 			If _Sleep(800) Then Return
 			Local $BuildingNameFull = getNameBuilding(242, 520 + $g_iBottomOffsetY)
 			If Not StringInStr($BuildingNameFull, "Bow") Then
@@ -1924,7 +1924,7 @@ Func CheckInferno()
 		Next
 		If $count <= $RandomNumBuildingTocheck Then
 			SetLog("We Will Click On Inferno Tower " & $count & "", $COLOR_OLIVE)
-			PureClickVisit($xInfo, $yInfo)
+			PureClickPrecise($xInfo, $yInfo)
 			If _Sleep(800) Then Return
 			Local $BuildingNameFull = getNameBuilding(242, 520 + $g_iBottomOffsetY)
 			If Not StringInStr($BuildingNameFull, "nferno") Then
@@ -1978,7 +1978,7 @@ Func CheckEagle()
 	$yInfo = $aIndXY[2]
 
 	SetLog("We Will Click On Eagle Artillery...", $COLOR_OLIVE)
-	PureClickVisit($xInfo, $yInfo)
+	PureClickPrecise($xInfo, $yInfo)
 	If _Sleep(800) Then Return
 	Local $BuildingNameFull = getNameBuilding(242, 520 + $g_iBottomOffsetY)
 	If Not StringInStr($BuildingNameFull, "Eagle") Then
@@ -2036,7 +2036,7 @@ Func CheckScatter()
 		Next
 		If $count <= $RandomNumBuildingTocheck Then
 			SetLog("We Will Click On ScatterShot " & $count & "", $COLOR_OLIVE)
-			PureClickVisit($xInfo, $yInfo)
+			PureClickPrecise($xInfo, $yInfo)
 			If _Sleep(800) Then Return
 			Local $BuildingNameFull = getNameBuilding(242, 520 + $g_iBottomOffsetY)
 			If Not StringInStr($BuildingNameFull, "Scatte") Then
@@ -2107,7 +2107,7 @@ Func CheckAirDefense()
 		Next
 		If $count <= $RandomNumBuildingTocheck Then
 			SetLog("We Will Click On Air Defense " & $count & "", $COLOR_OLIVE)
-			PureClickVisit($xInfo, $yInfo)
+			PureClickPrecise($xInfo, $yInfo)
 			If _Sleep(800) Then Return
 			Local $BuildingNameFull = getNameBuilding(242, 520 + $g_iBottomOffsetY)
 			If Not StringInStr($BuildingNameFull, "Defense") Then
@@ -2178,7 +2178,7 @@ Func GoldStorage()
 		Next
 		If $count <= $RandomNumBuildingTocheck Then
 			SetLog("We Will Click On Gold Storage " & $count & "", $COLOR_OLIVE)
-			PureClickVisit($xInfo, $yInfo)
+			PureClickPrecise($xInfo, $yInfo)
 			If _Sleep(800) Then Return
 			Local $BuildingNameFull = getNameBuilding(242, 520 + $g_iBottomOffsetY)
 			If Not StringInStr($BuildingNameFull, "Gold") Then
@@ -2249,7 +2249,7 @@ Func ElixirStorage()
 		Next
 		If $count <= $RandomNumBuildingTocheck Then
 			SetLog("We Will Click On Elixir Storage " & $count & "", $COLOR_OLIVE)
-			PureClickVisit($xInfo, $yInfo)
+			PureClickPrecise($xInfo, $yInfo)
 			If _Sleep(800) Then Return
 			Local $BuildingNameFull = getNameBuilding(242, 520 + $g_iBottomOffsetY)
 			If Not StringInStr($BuildingNameFull, "Elixir") Then
@@ -2296,7 +2296,7 @@ Func Monolith()
 	$yInfo = $aIndXY[2]
 
 	SetLog("We Will Click On Monolith...", $COLOR_OLIVE)
-	PureClickVisit($xInfo, $yInfo)
+	PureClickPrecise($xInfo, $yInfo)
 	If _Sleep(800) Then Return
 	Local $BuildingNameFull = getNameBuilding(242, 520 + $g_iBottomOffsetY)
 	If Not StringInStr($BuildingNameFull, "Monolith") Then
@@ -2335,7 +2335,7 @@ Func MultiArcher()
 	$yInfo = $aIndXY[2]
 
 	SetLog("We Will Click On Multi-Archer Tower...", $COLOR_OLIVE)
-	PureClickVisit($xInfo, $yInfo)
+	PureClickPrecise($xInfo, $yInfo)
 	If _Sleep(800) Then Return
 	Local $BuildingNameFull = getNameBuilding(242, 520 + $g_iBottomOffsetY)
 	If Not StringInStr($BuildingNameFull, "Multi-Archer") Then
@@ -2374,7 +2374,7 @@ Func Ricochet()
 	$yInfo = $aIndXY[2]
 
 	SetLog("We Will Click On Ricochet Cannon...", $COLOR_OLIVE)
-	PureClickVisit($xInfo, $yInfo)
+	PureClickPrecise($xInfo, $yInfo)
 	If _Sleep(800) Then Return
 	Local $BuildingNameFull = getNameBuilding(242, 520 + $g_iBottomOffsetY)
 	If Not StringInStr($BuildingNameFull, "Ricochet") Then
@@ -3263,31 +3263,17 @@ Func CheckWarTime(ByRef $sResult, ByRef $bResult, $bReturnFrom = True, $WWR = Fa
 	If IsWarMenu() Then
 
 		If $g_bClanWarLeague And $IsWarEnded And $WWR Then
-			Local $DaysCount = StringRight(getOcrAndCapture("coc-ores", 175, 622 + $g_iBottomOffsetY, 515, 25, True), 1)
-			$DaysCount = StringReplace($DaysCount, "#", "", 0)
-			If $DaysCount = "" Then $DaysCount = 7
-			SetLog("Total days for this CWL : " & $DaysCount, $COLOR_ACTION)
+			Local $DaysCount = StringRight(getOcrAndCapture("coc-CWL-Days", 175, 622 + $g_iBottomOffsetY, 515, 25, True), 1)
+			SetDebugLog("OCR CWL Days : " & $DaysCount)
+			If $DaysCount = "" Or $DaysCount > 7 Then $DaysCount = 7
 
 			Local $xBattleDay = Random(0, $DaysCount - 1, 1)
 			If $xBattleDay > 0 Then
 				SetLog("Open Random Day", $COLOR_OLIVE)
+				SetLog("Open Day " & $DaysCount - $xBattleDay, $COLOR_BLUE)
 			Else
 				SetLog("Stay In Last Day", $COLOR_OLIVE)
 			EndIf
-			Switch $xBattleDay
-				Case 1
-					SetLog("Open Day " & $DaysCount - 1, $COLOR_BLUE)
-				Case 2
-					SetLog("Open Day " & $DaysCount - 2, $COLOR_BLUE)
-				Case 3
-					SetLog("Open Day " & $DaysCount - 3, $COLOR_BLUE)
-				Case 4
-					SetLog("Open Day " & $DaysCount - 4, $COLOR_BLUE)
-				Case 5
-					SetLog("Open Day " & $DaysCount - 5, $COLOR_BLUE)
-				Case 6
-					SetLog("Open Day " & $DaysCount - 6, $COLOR_BLUE)
-			EndSwitch
 			For $t = 0 To 4 ; Check 5 times
 				If QuickMIS("BC1", $directoryDay & "\CWL_BattleDay", 175, 585 + $g_iBottomOffsetY, 690, 625 + $g_iBottomOffsetY) Then
 					If $xBattleDay > 0 Then Click($g_iQuickMISX - ($xBattleDay * 76) - 5, 615 + $g_iBottomOffsetY)
@@ -3310,7 +3296,7 @@ Func CheckWarTime(ByRef $sResult, ByRef $bResult, $bReturnFrom = True, $WWR = Fa
 			Local $RandomXDayToClick = 0, $WarNumberAfterRandom = 0, $PrepDayNumber = 0, $DayReal = 0
 			For $t = 0 To 4 ; Check 5 times
 				If QuickMIS("BC1", $directoryDay & "\CWL_BattleDay", 175, 585 + $g_iBottomOffsetY, 690, 625 + $g_iBottomOffsetY) Then ; Battle Day Number
-					$DayReal = Number(getOcrAndCapture("coc-ores", $g_iQuickMISX - 20, 622 + $g_iBottomOffsetY, 26, 25, True))
+					$DayReal = Number(getOcrAndCapture("coc-CWL-Days", $g_iQuickMISX - 20, 622 + $g_iBottomOffsetY, 26, 25, True))
 					Local $RandomXDayBefore = Random(1, $DayReal - 1, 1)
 					$RandomXDayToClick = $g_iQuickMISX - ($RandomXDayBefore * 76) - 5
 					$WarNumberAfterRandom = $DayReal - $RandomXDayBefore

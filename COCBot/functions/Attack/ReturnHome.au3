@@ -206,6 +206,15 @@ Func ReturnHome($TakeSS = 1, $GoldChangeCheck = True) ;Return main screen
 					ContinueLoop
 				EndIf
 			Case $bIsMainGrayed
+				; Clan Capital Result
+				If UBound(decodeSingleCoord(FindImageInPlace2("CCResults", $g_sImgClanCapitalResults, 210, 130 + $g_iMidOffsetY, 320, 240 + $g_iMidOffsetY, True))) > 1 Then
+					If _ColorCheck(_GetPixelColor(247, 311 + $g_iMidOffsetY, $g_bCapturePixel), Hex(0xFFFFFF, 6), 10) And _ColorCheck(_GetPixelColor(669, 242 + $g_iMidOffsetY, $g_bCapturePixel), Hex(0xFFFFFF, 6), 10) Then
+						$bControlCCMedal = True
+						CloseWindow()
+						If _Sleep($DELAYCHECKOBSTACLES1) Then Return
+						ContinueLoop
+					EndIf
+				EndIf
 				If StarBonus() Then
 					SetLog("Star Bonus window closed chief!", $COLOR_INFO) ; Check for Star Bonus window to fill treasury (2016-01) update
 					ContinueLoop
@@ -297,7 +306,8 @@ Func CheckStreakEvent()
 		ClickP($aContinueButton, 1, 120, "#0433")
 		If _Sleep(2500) Then Return
 	EndIf
-	If Not _ColorCheck(_GetPixelColor(290, 120 + $g_iMidOffsetY, $g_bCapturePixel), Hex(0x9B071A, 6), 20) And Not _ColorCheck(_GetPixelColor(560, 150 + $g_iMidOffsetY, $g_bCapturePixel), Hex(0x9B071A, 6), 20) Then
+	Local $bCheckStreakEventWindow = _ColorCheck(_GetPixelColor(290, 150 + $g_iMidOffsetY, $g_bCapturePixel), Hex(0x9B071A, 6), 20) And _ColorCheck(_GetPixelColor(560, 150 + $g_iMidOffsetY, $g_bCapturePixel), Hex(0x9B071A, 6), 20)
+	If Not $bCheckStreakEventWindow Then
 		SetDebugLog("Streak Event window not found?", $COLOR_DEBUG)
 		Return $bRet
 	EndIf

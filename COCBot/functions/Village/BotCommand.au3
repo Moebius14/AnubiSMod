@@ -173,7 +173,7 @@ Func BotCommand()
 							If _Sleep($DELAYRUNBOT3) Then Return
 							HiddenSlotstatus()
 							If _Sleep($DELAYRUNBOT3) Then Return
-							If TakeWardenValues() Then 
+							If TakeWardenValues() Then
 								UpgradeHeroes()
 								If _Sleep($DELAYRUNBOT3) Then Return
 							EndIf
@@ -184,16 +184,16 @@ Func BotCommand()
 							UpgradeHeroes()
 							If _Sleep($DELAYRUNBOT3) Then Return
 							If IsToFillCCWithMedalsOnly() Then
-								Local $aRndFuncList = ['CleanYard', 'CollectFreeMagicItems', 'Collect', 'PetHouse', 'Blacksmith', 'UpgradeBuilding', 'CheckTombs']
+								Local $aRndFuncList = ['CleanYard', 'CollectFreeMagicItems', 'Collect', 'PetHouse', 'Blacksmith', 'UpgradeBuilding', 'CheckTombs', 'DailyChallenge', 'CollectAchievements', 'HelperHut']
 							Else
-								Local $aRndFuncList = ['CleanYard', 'RequestCC', 'CollectFreeMagicItems', 'Collect', 'PetHouse', 'Blacksmith', 'UpgradeBuilding', 'CheckTombs']
+								Local $aRndFuncList = ['CleanYard', 'RequestCC', 'CollectFreeMagicItems', 'Collect', 'PetHouse', 'Blacksmith', 'UpgradeBuilding', 'CheckTombs', 'DailyChallenge', 'CollectAchievements', 'HelperHut']
 							EndIf
 						Else
 							__RunFunction('DonateCC,Train')
 							If _Sleep($DELAYRUNBOT3) Then Return
 							HiddenSlotstatus()
 							If _Sleep($DELAYRUNBOT3) Then Return
-							If TakeWardenValues() Then 
+							If TakeWardenValues() Then
 								UpgradeHeroes()
 								If _Sleep($DELAYRUNBOT3) Then Return
 							EndIf
@@ -202,9 +202,9 @@ Func BotCommand()
 							UpgradeHeroes()
 							If _Sleep($DELAYRUNBOT3) Then Return
 							If IsToFillCCWithMedalsOnly() Then
-								Local $aRndFuncList = ['CleanYard', 'CollectFreeMagicItems', 'Collect', 'UpgradeWall', 'UpgradeBuilding', 'PetHouse', 'Blacksmith', 'CheckTombs']
+								Local $aRndFuncList = ['CleanYard', 'CollectFreeMagicItems', 'Collect', 'UpgradeWall', 'UpgradeBuilding', 'PetHouse', 'Blacksmith', 'CheckTombs', 'DailyChallenge', 'CollectAchievements', 'HelperHut']
 							Else
-								Local $aRndFuncList = ['CleanYard', 'RequestCC', 'CollectFreeMagicItems', 'Collect', 'UpgradeWall', 'UpgradeBuilding', 'PetHouse', 'Blacksmith', 'CheckTombs']
+								Local $aRndFuncList = ['CleanYard', 'RequestCC', 'CollectFreeMagicItems', 'Collect', 'UpgradeWall', 'UpgradeBuilding', 'PetHouse', 'Blacksmith', 'CheckTombs', 'DailyChallenge', 'CollectAchievements', 'HelperHut']
 							EndIf
 						EndIf
 						_ArrayShuffle($aRndFuncList)
@@ -267,7 +267,7 @@ Func BotCommand()
 							If _Sleep($DELAYRUNBOT3) Then Return
 							HiddenSlotstatus()
 							If _Sleep($DELAYRUNBOT3) Then Return
-							If TakeWardenValues() Then 
+							If TakeWardenValues() Then
 								UpgradeHeroes()
 								If _Sleep($DELAYRUNBOT3) Then Return
 							EndIf
@@ -278,16 +278,16 @@ Func BotCommand()
 							UpgradeHeroes()
 							If _Sleep($DELAYRUNBOT3) Then Return
 							If IsToFillCCWithMedalsOnly() Then
-								Local $aRndFuncList = ['CleanYard', 'CollectFreeMagicItems', 'Collect', 'PetHouse', 'Blacksmith', 'UpgradeBuilding', 'CheckTombs']
+								Local $aRndFuncList = ['CleanYard', 'CollectFreeMagicItems', 'Collect', 'PetHouse', 'Blacksmith', 'UpgradeBuilding', 'CheckTombs', 'DailyChallenge', 'CollectAchievements', 'HelperHut']
 							Else
-								Local $aRndFuncList = ['CleanYard', 'RequestCC', 'CollectFreeMagicItems', 'Collect', 'PetHouse', 'Blacksmith', 'UpgradeBuilding', 'CheckTombs']
+								Local $aRndFuncList = ['CleanYard', 'RequestCC', 'CollectFreeMagicItems', 'Collect', 'PetHouse', 'Blacksmith', 'UpgradeBuilding', 'CheckTombs', 'DailyChallenge', 'CollectAchievements', 'HelperHut']
 							EndIf
 						Else
 							__RunFunction('DonateCC,Train')
 							If _Sleep($DELAYRUNBOT3) Then Return
 							HiddenSlotstatus()
 							If _Sleep($DELAYRUNBOT3) Then Return
-							If TakeWardenValues() Then 
+							If TakeWardenValues() Then
 								UpgradeHeroes()
 								If _Sleep($DELAYRUNBOT3) Then Return
 							EndIf
@@ -296,9 +296,9 @@ Func BotCommand()
 							UpgradeHeroes()
 							If _Sleep($DELAYRUNBOT3) Then Return
 							If IsToFillCCWithMedalsOnly() Then
-								Local $aRndFuncList = ['CleanYard', 'CollectFreeMagicItems', 'Collect', 'UpgradeWall', 'UpgradeBuilding', 'PetHouse', 'Blacksmith', 'CheckTombs']
+								Local $aRndFuncList = ['CleanYard', 'CollectFreeMagicItems', 'Collect', 'UpgradeWall', 'UpgradeBuilding', 'PetHouse', 'Blacksmith', 'CheckTombs', 'DailyChallenge', 'CollectAchievements', 'HelperHut']
 							Else
-								Local $aRndFuncList = ['CleanYard', 'RequestCC', 'CollectFreeMagicItems', 'Collect', 'UpgradeWall', 'UpgradeBuilding', 'PetHouse', 'Blacksmith', 'CheckTombs']
+								Local $aRndFuncList = ['CleanYard', 'RequestCC', 'CollectFreeMagicItems', 'Collect', 'UpgradeWall', 'UpgradeBuilding', 'PetHouse', 'Blacksmith', 'CheckTombs', 'DailyChallenge', 'CollectAchievements', 'HelperHut']
 							EndIf
 						EndIf
 						_ArrayShuffle($aRndFuncList)
@@ -357,7 +357,7 @@ Func BotCommand()
 							If _Sleep($DELAYRUNBOT3) Then Return
 							HiddenSlotstatus()
 							If _Sleep($DELAYRUNBOT3) Then Return
-							If TakeWardenValues() Then 
+							If TakeWardenValues() Then
 								UpgradeHeroes()
 								If _Sleep($DELAYRUNBOT3) Then Return
 							EndIf
@@ -368,16 +368,16 @@ Func BotCommand()
 							UpgradeHeroes()
 							If _Sleep($DELAYRUNBOT3) Then Return
 							If IsToFillCCWithMedalsOnly() Then
-								Local $aRndFuncList = ['CleanYard', 'CollectFreeMagicItems', 'Collect', 'PetHouse', 'Blacksmith', 'UpgradeBuilding', 'CheckTombs']
+								Local $aRndFuncList = ['CleanYard', 'CollectFreeMagicItems', 'Collect', 'PetHouse', 'Blacksmith', 'UpgradeBuilding', 'CheckTombs', 'DailyChallenge', 'CollectAchievements', 'HelperHut']
 							Else
-								Local $aRndFuncList = ['CleanYard', 'RequestCC', 'CollectFreeMagicItems', 'Collect', 'PetHouse', 'Blacksmith', 'UpgradeBuilding', 'CheckTombs']
+								Local $aRndFuncList = ['CleanYard', 'RequestCC', 'CollectFreeMagicItems', 'Collect', 'PetHouse', 'Blacksmith', 'UpgradeBuilding', 'CheckTombs', 'DailyChallenge', 'CollectAchievements', 'HelperHut']
 							EndIf
 						Else
 							__RunFunction('DonateCC,Train')
 							If _Sleep($DELAYRUNBOT3) Then Return
 							HiddenSlotstatus()
 							If _Sleep($DELAYRUNBOT3) Then Return
-							If TakeWardenValues() Then 
+							If TakeWardenValues() Then
 								UpgradeHeroes()
 								If _Sleep($DELAYRUNBOT3) Then Return
 							EndIf
@@ -386,9 +386,9 @@ Func BotCommand()
 							UpgradeHeroes()
 							If _Sleep($DELAYRUNBOT3) Then Return
 							If IsToFillCCWithMedalsOnly() Then
-								Local $aRndFuncList = ['CleanYard', 'CollectFreeMagicItems', 'Collect', 'UpgradeWall', 'UpgradeBuilding', 'PetHouse', 'Blacksmith', 'CheckTombs']
+								Local $aRndFuncList = ['CleanYard', 'CollectFreeMagicItems', 'Collect', 'UpgradeWall', 'UpgradeBuilding', 'PetHouse', 'Blacksmith', 'CheckTombs', 'DailyChallenge', 'CollectAchievements', 'HelperHut']
 							Else
-								Local $aRndFuncList = ['CleanYard', 'RequestCC', 'CollectFreeMagicItems', 'Collect', 'UpgradeWall', 'UpgradeBuilding', 'PetHouse', 'Blacksmith', 'CheckTombs']
+								Local $aRndFuncList = ['CleanYard', 'RequestCC', 'CollectFreeMagicItems', 'Collect', 'UpgradeWall', 'UpgradeBuilding', 'PetHouse', 'Blacksmith', 'CheckTombs', 'DailyChallenge', 'CollectAchievements', 'HelperHut']
 							EndIf
 						EndIf
 						_ArrayShuffle($aRndFuncList)
@@ -448,7 +448,7 @@ Func BotCommand()
 							If _Sleep($DELAYRUNBOT3) Then Return
 							HiddenSlotstatus()
 							If _Sleep($DELAYRUNBOT3) Then Return
-							If TakeWardenValues() Then 
+							If TakeWardenValues() Then
 								UpgradeHeroes()
 								If _Sleep($DELAYRUNBOT3) Then Return
 							EndIf
@@ -459,16 +459,16 @@ Func BotCommand()
 							UpgradeHeroes()
 							If _Sleep($DELAYRUNBOT3) Then Return
 							If IsToFillCCWithMedalsOnly() Then
-								Local $aRndFuncList = ['CleanYard', 'CollectFreeMagicItems', 'Collect', 'PetHouse', 'Blacksmith', 'UpgradeBuilding', 'CheckTombs']
+								Local $aRndFuncList = ['CleanYard', 'CollectFreeMagicItems', 'Collect', 'PetHouse', 'Blacksmith', 'UpgradeBuilding', 'CheckTombs', 'DailyChallenge', 'CollectAchievements', 'HelperHut']
 							Else
-								Local $aRndFuncList = ['CleanYard', 'RequestCC', 'CollectFreeMagicItems', 'Collect', 'PetHouse', 'Blacksmith', 'UpgradeBuilding', 'CheckTombs']
+								Local $aRndFuncList = ['CleanYard', 'RequestCC', 'CollectFreeMagicItems', 'Collect', 'PetHouse', 'Blacksmith', 'UpgradeBuilding', 'CheckTombs', 'DailyChallenge', 'CollectAchievements', 'HelperHut']
 							EndIf
 						Else
 							__RunFunction('DonateCC,Train')
 							If _Sleep($DELAYRUNBOT3) Then Return
 							HiddenSlotstatus()
 							If _Sleep($DELAYRUNBOT3) Then Return
-							If TakeWardenValues() Then 
+							If TakeWardenValues() Then
 								UpgradeHeroes()
 								If _Sleep($DELAYRUNBOT3) Then Return
 							EndIf
@@ -477,9 +477,9 @@ Func BotCommand()
 							UpgradeHeroes()
 							If _Sleep($DELAYRUNBOT3) Then Return
 							If IsToFillCCWithMedalsOnly() Then
-								Local $aRndFuncList = ['CleanYard', 'CollectFreeMagicItems', 'Collect', 'UpgradeWall', 'UpgradeBuilding', 'PetHouse', 'Blacksmith', 'CheckTombs']
+								Local $aRndFuncList = ['CleanYard', 'CollectFreeMagicItems', 'Collect', 'UpgradeWall', 'UpgradeBuilding', 'PetHouse', 'Blacksmith', 'CheckTombs', 'DailyChallenge', 'CollectAchievements', 'HelperHut']
 							Else
-								Local $aRndFuncList = ['CleanYard', 'RequestCC', 'CollectFreeMagicItems', 'Collect', 'UpgradeWall', 'UpgradeBuilding', 'PetHouse', 'Blacksmith', 'CheckTombs']
+								Local $aRndFuncList = ['CleanYard', 'RequestCC', 'CollectFreeMagicItems', 'Collect', 'UpgradeWall', 'UpgradeBuilding', 'PetHouse', 'Blacksmith', 'CheckTombs', 'DailyChallenge', 'CollectAchievements', 'HelperHut']
 							EndIf
 						EndIf
 						_ArrayShuffle($aRndFuncList)
@@ -538,7 +538,7 @@ Func BotCommand()
 							If _Sleep($DELAYRUNBOT3) Then Return
 							HiddenSlotstatus()
 							If _Sleep($DELAYRUNBOT3) Then Return
-							If TakeWardenValues() Then 
+							If TakeWardenValues() Then
 								UpgradeHeroes()
 								If _Sleep($DELAYRUNBOT3) Then Return
 							EndIf
@@ -549,16 +549,16 @@ Func BotCommand()
 							UpgradeHeroes()
 							If _Sleep($DELAYRUNBOT3) Then Return
 							If IsToFillCCWithMedalsOnly() Then
-								Local $aRndFuncList = ['CleanYard', 'CollectFreeMagicItems', 'Collect', 'PetHouse', 'Blacksmith', 'UpgradeBuilding', 'CheckTombs']
+								Local $aRndFuncList = ['CleanYard', 'CollectFreeMagicItems', 'Collect', 'PetHouse', 'Blacksmith', 'UpgradeBuilding', 'CheckTombs', 'DailyChallenge', 'CollectAchievements', 'HelperHut']
 							Else
-								Local $aRndFuncList = ['CleanYard', 'RequestCC', 'CollectFreeMagicItems', 'Collect', 'PetHouse', 'Blacksmith', 'UpgradeBuilding', 'CheckTombs']
+								Local $aRndFuncList = ['CleanYard', 'RequestCC', 'CollectFreeMagicItems', 'Collect', 'PetHouse', 'Blacksmith', 'UpgradeBuilding', 'CheckTombs', 'DailyChallenge', 'CollectAchievements', 'HelperHut']
 							EndIf
 						Else
 							__RunFunction('DonateCC,Train')
 							If _Sleep($DELAYRUNBOT3) Then Return
 							HiddenSlotstatus()
 							If _Sleep($DELAYRUNBOT3) Then Return
-							If TakeWardenValues() Then 
+							If TakeWardenValues() Then
 								UpgradeHeroes()
 								If _Sleep($DELAYRUNBOT3) Then Return
 							EndIf
@@ -567,9 +567,9 @@ Func BotCommand()
 							UpgradeHeroes()
 							If _Sleep($DELAYRUNBOT3) Then Return
 							If IsToFillCCWithMedalsOnly() Then
-								Local $aRndFuncList = ['CleanYard', 'CollectFreeMagicItems', 'Collect', 'UpgradeWall', 'UpgradeBuilding', 'PetHouse', 'Blacksmith', 'CheckTombs']
+								Local $aRndFuncList = ['CleanYard', 'CollectFreeMagicItems', 'Collect', 'UpgradeWall', 'UpgradeBuilding', 'PetHouse', 'Blacksmith', 'CheckTombs', 'DailyChallenge', 'CollectAchievements', 'HelperHut']
 							Else
-								Local $aRndFuncList = ['CleanYard', 'RequestCC', 'CollectFreeMagicItems', 'Collect', 'UpgradeWall', 'UpgradeBuilding', 'PetHouse', 'Blacksmith', 'CheckTombs']
+								Local $aRndFuncList = ['CleanYard', 'RequestCC', 'CollectFreeMagicItems', 'Collect', 'UpgradeWall', 'UpgradeBuilding', 'PetHouse', 'Blacksmith', 'CheckTombs', 'DailyChallenge', 'CollectAchievements', 'HelperHut']
 							EndIf
 						EndIf
 						_ArrayShuffle($aRndFuncList)
@@ -628,7 +628,7 @@ Func BotCommand()
 							If _Sleep($DELAYRUNBOT3) Then Return
 							HiddenSlotstatus()
 							If _Sleep($DELAYRUNBOT3) Then Return
-							If TakeWardenValues() Then 
+							If TakeWardenValues() Then
 								UpgradeHeroes()
 								If _Sleep($DELAYRUNBOT3) Then Return
 							EndIf
@@ -639,16 +639,16 @@ Func BotCommand()
 							UpgradeHeroes()
 							If _Sleep($DELAYRUNBOT3) Then Return
 							If IsToFillCCWithMedalsOnly() Then
-								Local $aRndFuncList = ['CleanYard', 'CollectFreeMagicItems', 'Collect', 'PetHouse', 'Blacksmith', 'UpgradeBuilding', 'CheckTombs']
+								Local $aRndFuncList = ['CleanYard', 'CollectFreeMagicItems', 'Collect', 'PetHouse', 'Blacksmith', 'UpgradeBuilding', 'CheckTombs', 'DailyChallenge', 'CollectAchievements', 'HelperHut']
 							Else
-								Local $aRndFuncList = ['CleanYard', 'RequestCC', 'CollectFreeMagicItems', 'Collect', 'PetHouse', 'Blacksmith', 'UpgradeBuilding', 'CheckTombs']
+								Local $aRndFuncList = ['CleanYard', 'RequestCC', 'CollectFreeMagicItems', 'Collect', 'PetHouse', 'Blacksmith', 'UpgradeBuilding', 'CheckTombs', 'DailyChallenge', 'CollectAchievements', 'HelperHut']
 							EndIf
 						Else
 							__RunFunction('DonateCC,Train')
 							If _Sleep($DELAYRUNBOT3) Then Return
 							HiddenSlotstatus()
 							If _Sleep($DELAYRUNBOT3) Then Return
-							If TakeWardenValues() Then 
+							If TakeWardenValues() Then
 								UpgradeHeroes()
 								If _Sleep($DELAYRUNBOT3) Then Return
 							EndIf
@@ -657,9 +657,9 @@ Func BotCommand()
 							UpgradeHeroes()
 							If _Sleep($DELAYRUNBOT3) Then Return
 							If IsToFillCCWithMedalsOnly() Then
-								Local $aRndFuncList = ['CleanYard', 'CollectFreeMagicItems', 'Collect', 'UpgradeWall', 'UpgradeBuilding', 'PetHouse', 'Blacksmith', 'CheckTombs']
+								Local $aRndFuncList = ['CleanYard', 'CollectFreeMagicItems', 'Collect', 'UpgradeWall', 'UpgradeBuilding', 'PetHouse', 'Blacksmith', 'CheckTombs', 'DailyChallenge', 'CollectAchievements', 'HelperHut']
 							Else
-								Local $aRndFuncList = ['CleanYard', 'RequestCC', 'CollectFreeMagicItems', 'Collect', 'UpgradeWall', 'UpgradeBuilding', 'PetHouse', 'Blacksmith', 'CheckTombs']
+								Local $aRndFuncList = ['CleanYard', 'RequestCC', 'CollectFreeMagicItems', 'Collect', 'UpgradeWall', 'UpgradeBuilding', 'PetHouse', 'Blacksmith', 'CheckTombs', 'DailyChallenge', 'CollectAchievements', 'HelperHut']
 							EndIf
 						EndIf
 						_ArrayShuffle($aRndFuncList)
@@ -875,7 +875,7 @@ Func IsCCTreasuryFull()
 			SetLog("New Try...", $COLOR_DEBUG1)
 			ClearScreen()
 			If _Sleep(Random(1000, 1500, 1)) Then Return
-			PureClickVisit($NewX, $NewY) ; select CC
+			PureClickPrecise($NewX, $NewY) ; select CC
 			If _Sleep($DELAYBUILDINGINFO1) Then Return
 
 			$BuildingInfo = BuildingInfo(242, 475 + $g_iBottomOffsetY)
@@ -891,7 +891,7 @@ Func IsCCTreasuryFull()
 			$NewX = Number($g_aiClanCastlePos[0] - (2 * $i))
 			$NewY = Number($g_aiClanCastlePos[1] + (2 * $i))
 			If _Sleep(Random(1000, 1500, 1)) Then Return
-			PureClickVisit($NewX, $NewY) ; select CC
+			PureClickPrecise($NewX, $NewY) ; select CC
 			If _Sleep($DELAYBUILDINGINFO1) Then Return
 
 			$BuildingInfo = BuildingInfo(242, 475 + $g_iBottomOffsetY)

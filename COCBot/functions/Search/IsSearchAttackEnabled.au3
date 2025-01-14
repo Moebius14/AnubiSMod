@@ -37,107 +37,108 @@ Func IsSearchAttackEnabled()
 	If $g_bAttackPlannerDayLimit And _OverAttackLimit() Then ; check daily attack limit before checking schedule
 		SetLog("Daily attack limit reached, skip attacks till new day starts!", $COLOR_INFO)
 		If _Sleep($DELAYRESPOND) Then Return True
-		SetLog("Prepare Bot before pause...", $COLOR_WARNING)
-		If $g_bChkVisitBbaseinPause And ($g_bChkCollectBuilderBase Or $g_bChkStartClockTowerBoost Or $g_iChkBBSuggestedUpgrades Or $g_bChkEnableBBAttack Or $g_bChkCleanBBYard) Then SwitchBetweenBasesMod()
-		If $IstoSwitchMod And $g_bChkVisitBbaseinPause And ($g_bChkCollectBuilderBase Or $g_bChkStartClockTowerBoost Or $g_iChkBBSuggestedUpgrades Or $g_bChkEnableBBAttack Or $g_bChkCleanBBYard) Then
-			If $g_bAutoUpgradeWallsEnable And $g_bChkWallUpFirst Then
-				__RunFunction('DonateCC,Train')
-				If _Sleep($DELAYRUNBOT3) Then Return
-				HiddenSlotstatus()
-				If _Sleep($DELAYRUNBOT3) Then Return
-				If TakeWardenValues() Then
-					UpgradeHeroes()
-					If _Sleep($DELAYRUNBOT3) Then Return
-				EndIf
-				Laboratory()
-				If _Sleep($DELAYRUNBOT3) Then Return
-				UpgradeHeroes()
-				If _Sleep($DELAYRUNBOT3) Then Return
-				UpgradeWall()
-				If _Sleep($DELAYRUNBOT3) Then Return
-				If IsToFillCCWithMedalsOnly() Then
-					Local $aRndFuncList = ['CleanYard', 'CollectFreeMagicItems', 'Collect', 'PetHouse', 'BuilderBase', 'Blacksmith', 'UpgradeBuilding', 'CheckTombs']
-				Else
-					Local $aRndFuncList = ['CleanYard', 'RequestCC', 'CollectFreeMagicItems', 'Collect', 'PetHouse', 'BuilderBase', 'Blacksmith', 'UpgradeBuilding', 'CheckTombs']
-				EndIf
-			Else
-				__RunFunction('DonateCC,Train')
-				If _Sleep($DELAYRUNBOT3) Then Return
-				HiddenSlotstatus()
-				If _Sleep($DELAYRUNBOT3) Then Return
-				If TakeWardenValues() Then
-					UpgradeHeroes()
-					If _Sleep($DELAYRUNBOT3) Then Return
-				EndIf
-				Laboratory()
-				If _Sleep($DELAYRUNBOT3) Then Return
-				UpgradeHeroes()
-				If _Sleep($DELAYRUNBOT3) Then Return
-				If IsToFillCCWithMedalsOnly() Then
-					Local $aRndFuncList = ['CleanYard', 'CollectFreeMagicItems', 'Collect', 'UpgradeWall', 'UpgradeBuilding', 'PetHouse', 'BuilderBase', 'Blacksmith', 'CheckTombs']
-				Else
-					Local $aRndFuncList = ['CleanYard', 'RequestCC', 'CollectFreeMagicItems', 'Collect', 'UpgradeWall', 'UpgradeBuilding', 'PetHouse', 'BuilderBase', 'Blacksmith', 'CheckTombs']
-				EndIf
-			EndIf
-			$IstoSwitchMod = 0
-		Else
-			If $g_bAutoUpgradeWallsEnable And $g_bChkWallUpFirst Then
-				__RunFunction('DonateCC,Train')
-				If _Sleep($DELAYRUNBOT3) Then Return
-				HiddenSlotstatus()
-				If _Sleep($DELAYRUNBOT3) Then Return
-				If TakeWardenValues() Then
-					UpgradeHeroes()
-					If _Sleep($DELAYRUNBOT3) Then Return
-				EndIf
-				Laboratory()
-				If _Sleep($DELAYRUNBOT3) Then Return
-				UpgradeHeroes()
-				If _Sleep($DELAYRUNBOT3) Then Return
-				UpgradeWall()
-				If _Sleep($DELAYRUNBOT3) Then Return
-				If IsToFillCCWithMedalsOnly() Then
-					Local $aRndFuncList = ['CleanYard', 'CollectFreeMagicItems', 'Collect', 'PetHouse', 'Blacksmith', 'UpgradeBuilding', 'CheckTombs']
-				Else
-					Local $aRndFuncList = ['CleanYard', 'RequestCC', 'CollectFreeMagicItems', 'Collect', 'PetHouse', 'Blacksmith', 'UpgradeBuilding', 'CheckTombs']
-				EndIf
-			Else
-				__RunFunction('DonateCC,Train')
-				If _Sleep($DELAYRUNBOT3) Then Return
-				HiddenSlotstatus()
-				If _Sleep($DELAYRUNBOT3) Then Return
-				If TakeWardenValues() Then
-					UpgradeHeroes()
-					If _Sleep($DELAYRUNBOT3) Then Return
-				EndIf
-				Laboratory()
-				If _Sleep($DELAYRUNBOT3) Then Return
-				UpgradeHeroes()
-				If _Sleep($DELAYRUNBOT3) Then Return
-				If IsToFillCCWithMedalsOnly() Then
-					Local $aRndFuncList = ['CleanYard', 'CollectFreeMagicItems', 'Collect', 'UpgradeWall', 'UpgradeBuilding', 'PetHouse', 'Blacksmith', 'CheckTombs']
-				Else
-					Local $aRndFuncList = ['CleanYard', 'RequestCC', 'CollectFreeMagicItems', 'Collect', 'UpgradeWall', 'UpgradeBuilding', 'PetHouse', 'Blacksmith', 'CheckTombs']
-				EndIf
-			EndIf
-		EndIf
-		$IsTofillWithMedalsPause = False
-		For $Index In $aRndFuncList
-			_RunFunction($Index)
-		Next
-		$IsTofillWithMedalsPause = True
-		If _Sleep(1000) Then Return
-		If $g_bChkPersoChallengesinPause Then DailyChallenges(False)
-		If _Sleep(1000) Then Return
-		CollectCCGold()
-		If SwitchBetweenBasesMod2() Then
-			ForgeClanCapitalGold()
-			_Sleep($DELAYRUNBOT3)
-			AutoUpgradeCC()
-			_Sleep($DELAYRUNBOT3)
-		EndIf
-		If _Sleep($DELAYRUNBOT3) Then Return
 		If $bCloseGame Then
+			SetLog("Prepare Bot before pause...", $COLOR_WARNING)
+			If $g_bChkVisitBbaseinPause And ($g_bChkCollectBuilderBase Or $g_bChkStartClockTowerBoost Or $g_iChkBBSuggestedUpgrades Or $g_bChkEnableBBAttack Or $g_bChkCleanBBYard) Then SwitchBetweenBasesMod()
+			If $IstoSwitchMod And $g_bChkVisitBbaseinPause And ($g_bChkCollectBuilderBase Or $g_bChkStartClockTowerBoost Or $g_iChkBBSuggestedUpgrades Or $g_bChkEnableBBAttack Or $g_bChkCleanBBYard) Then
+				If $g_bAutoUpgradeWallsEnable And $g_bChkWallUpFirst Then
+					__RunFunction('DonateCC,Train')
+					If _Sleep($DELAYRUNBOT3) Then Return
+					HiddenSlotstatus()
+					If _Sleep($DELAYRUNBOT3) Then Return
+					If TakeWardenValues() Then
+						UpgradeHeroes()
+						If _Sleep($DELAYRUNBOT3) Then Return
+					EndIf
+					Laboratory()
+					If _Sleep($DELAYRUNBOT3) Then Return
+					UpgradeHeroes()
+					If _Sleep($DELAYRUNBOT3) Then Return
+					UpgradeWall()
+					If _Sleep($DELAYRUNBOT3) Then Return
+					If IsToFillCCWithMedalsOnly() Then
+						Local $aRndFuncList = ['CleanYard', 'CollectFreeMagicItems', 'Collect', 'PetHouse', 'BuilderBase', 'Blacksmith', 'UpgradeBuilding', 'CheckTombs', 'CollectAchievements', 'HelperHut']
+					Else
+						Local $aRndFuncList = ['CleanYard', 'RequestCC', 'CollectFreeMagicItems', 'Collect', 'PetHouse', 'BuilderBase', 'Blacksmith', 'UpgradeBuilding', 'CheckTombs', 'CollectAchievements', 'HelperHut']
+					EndIf
+				Else
+					__RunFunction('DonateCC,Train')
+					If _Sleep($DELAYRUNBOT3) Then Return
+					HiddenSlotstatus()
+					If _Sleep($DELAYRUNBOT3) Then Return
+					If TakeWardenValues() Then
+						UpgradeHeroes()
+						If _Sleep($DELAYRUNBOT3) Then Return
+					EndIf
+					Laboratory()
+					If _Sleep($DELAYRUNBOT3) Then Return
+					UpgradeHeroes()
+					If _Sleep($DELAYRUNBOT3) Then Return
+					If IsToFillCCWithMedalsOnly() Then
+						Local $aRndFuncList = ['CleanYard', 'CollectFreeMagicItems', 'Collect', 'UpgradeWall', 'UpgradeBuilding', 'PetHouse', 'BuilderBase', 'Blacksmith', 'CheckTombs', 'CollectAchievements', 'HelperHut']
+					Else
+						Local $aRndFuncList = ['CleanYard', 'RequestCC', 'CollectFreeMagicItems', 'Collect', 'UpgradeWall', 'UpgradeBuilding', 'PetHouse', 'BuilderBase', 'Blacksmith', 'CheckTombs', 'CollectAchievements', 'HelperHut']
+					EndIf
+				EndIf
+				$IstoSwitchMod = 0
+			Else
+				If $g_bAutoUpgradeWallsEnable And $g_bChkWallUpFirst Then
+					__RunFunction('DonateCC,Train')
+					If _Sleep($DELAYRUNBOT3) Then Return
+					HiddenSlotstatus()
+					If _Sleep($DELAYRUNBOT3) Then Return
+					If TakeWardenValues() Then
+						UpgradeHeroes()
+						If _Sleep($DELAYRUNBOT3) Then Return
+					EndIf
+					Laboratory()
+					If _Sleep($DELAYRUNBOT3) Then Return
+					UpgradeHeroes()
+					If _Sleep($DELAYRUNBOT3) Then Return
+					UpgradeWall()
+					If _Sleep($DELAYRUNBOT3) Then Return
+					If IsToFillCCWithMedalsOnly() Then
+						Local $aRndFuncList = ['CleanYard', 'CollectFreeMagicItems', 'Collect', 'PetHouse', 'Blacksmith', 'UpgradeBuilding', 'CheckTombs', 'CollectAchievements', 'HelperHut']
+					Else
+						Local $aRndFuncList = ['CleanYard', 'RequestCC', 'CollectFreeMagicItems', 'Collect', 'PetHouse', 'Blacksmith', 'UpgradeBuilding', 'CheckTombs', 'CollectAchievements', 'HelperHut']
+					EndIf
+				Else
+					__RunFunction('DonateCC,Train')
+					If _Sleep($DELAYRUNBOT3) Then Return
+					HiddenSlotstatus()
+					If _Sleep($DELAYRUNBOT3) Then Return
+					If TakeWardenValues() Then
+						UpgradeHeroes()
+						If _Sleep($DELAYRUNBOT3) Then Return
+					EndIf
+					Laboratory()
+					If _Sleep($DELAYRUNBOT3) Then Return
+					UpgradeHeroes()
+					If _Sleep($DELAYRUNBOT3) Then Return
+					If IsToFillCCWithMedalsOnly() Then
+						Local $aRndFuncList = ['CleanYard', 'CollectFreeMagicItems', 'Collect', 'UpgradeWall', 'UpgradeBuilding', 'PetHouse', 'Blacksmith', 'CheckTombs', 'CollectAchievements', 'HelperHut']
+					Else
+						Local $aRndFuncList = ['CleanYard', 'RequestCC', 'CollectFreeMagicItems', 'Collect', 'UpgradeWall', 'UpgradeBuilding', 'PetHouse', 'Blacksmith', 'CheckTombs', 'CollectAchievements', 'HelperHut']
+					EndIf
+				EndIf
+			EndIf
+			$IsTofillWithMedalsPause = False
+			For $Index In $aRndFuncList
+				_RunFunction($Index)
+			Next
+			$IsTofillWithMedalsPause = True
+			If _Sleep(1000) Then Return
+			If $g_bChkPersoChallengesinPause Then DailyChallenges(False)
+			If _Sleep(1000) Then Return
+			CollectCCGold()
+			If SwitchBetweenBasesMod2() Then
+				ForgeClanCapitalGold()
+				_Sleep($DELAYRUNBOT3)
+				AutoUpgradeCC()
+				_Sleep($DELAYRUNBOT3)
+			EndIf
+			If _Sleep($DELAYRUNBOT3) Then Return
+
 			$iWaitTime = _getTimeRemainTimeToday() ; get seconds left in day till Midnight
 
 			If $g_bAttackPlannerEnable And $g_bAttackPlannerCloseCoC And $g_bNotifyTGEnable And $g_bChkNotifyPauseTime And $g_bNotifyAlertVillageReport Then
@@ -183,103 +184,104 @@ Func IsSearchAttackEnabled()
 		If _IsTimeInRange($aNoAttackTimes[0], $aNoAttackTimes[1]) Then ; returns true if time now is between start/end time
 			SetLog("Attack schedule random skip time found", $COLOR_INFO)
 			If _Sleep($DELAYRESPOND) Then Return True
-			SetLog("Prepare Bot before pause...", $COLOR_WARNING)
-			If $g_bChkVisitBbaseinPause And ($g_bChkCollectBuilderBase Or $g_bChkStartClockTowerBoost Or $g_iChkBBSuggestedUpgrades Or $g_bChkEnableBBAttack Or $g_bChkCleanBBYard) Then SwitchBetweenBasesMod()
-			If $IstoSwitchMod And $g_bChkVisitBbaseinPause And ($g_bChkCollectBuilderBase Or $g_bChkStartClockTowerBoost Or $g_iChkBBSuggestedUpgrades Or $g_bChkEnableBBAttack Or $g_bChkCleanBBYard) Then
-				If $g_bAutoUpgradeWallsEnable And $g_bChkWallUpFirst Then
-					__RunFunction('DonateCC,Train')
-					If _Sleep($DELAYRUNBOT3) Then Return
-					HiddenSlotstatus()
-					If _Sleep($DELAYRUNBOT3) Then Return
-					If TakeWardenValues() Then
-						UpgradeHeroes()
-						If _Sleep($DELAYRUNBOT3) Then Return
-					EndIf
-					Laboratory()
-					If _Sleep($DELAYRUNBOT3) Then Return
-					UpgradeHeroes()
-					If _Sleep($DELAYRUNBOT3) Then Return
-					UpgradeWall()
-					If _Sleep($DELAYRUNBOT3) Then Return
-					If IsToFillCCWithMedalsOnly() Then
-						Local $aRndFuncList = ['CleanYard', 'CollectFreeMagicItems', 'Collect', 'PetHouse', 'BuilderBase', 'Blacksmith', 'UpgradeBuilding', 'CheckTombs']
-					Else
-						Local $aRndFuncList = ['CleanYard', 'RequestCC', 'CollectFreeMagicItems', 'Collect', 'PetHouse', 'BuilderBase', 'Blacksmith', 'UpgradeBuilding', 'CheckTombs']
-					EndIf
-				Else
-					__RunFunction('DonateCC,Train')
-					If _Sleep($DELAYRUNBOT3) Then Return
-					HiddenSlotstatus()
-					If _Sleep($DELAYRUNBOT3) Then Return
-					If TakeWardenValues() Then
-						UpgradeHeroes()
-						If _Sleep($DELAYRUNBOT3) Then Return
-					EndIf
-					Laboratory()
-					If _Sleep($DELAYRUNBOT3) Then Return
-					UpgradeHeroes()
-					If _Sleep($DELAYRUNBOT3) Then Return
-					If IsToFillCCWithMedalsOnly() Then
-						Local $aRndFuncList = ['CleanYard', 'CollectFreeMagicItems', 'Collect', 'UpgradeWall', 'UpgradeBuilding', 'PetHouse', 'BuilderBase', 'Blacksmith', 'CheckTombs']
-					Else
-						Local $aRndFuncList = ['CleanYard', 'RequestCC', 'CollectFreeMagicItems', 'Collect', 'UpgradeWall', 'UpgradeBuilding', 'PetHouse', 'BuilderBase', 'Blacksmith', 'CheckTombs']
-					EndIf
-				EndIf
-				$IstoSwitchMod = 0
-			Else
-				If $g_bAutoUpgradeWallsEnable And $g_bChkWallUpFirst Then
-					__RunFunction('DonateCC,Train')
-					If _Sleep($DELAYRUNBOT3) Then Return
-					HiddenSlotstatus()
-					If _Sleep($DELAYRUNBOT3) Then Return
-					If TakeWardenValues() Then
-						UpgradeHeroes()
-						If _Sleep($DELAYRUNBOT3) Then Return
-					EndIf
-					Laboratory()
-					If _Sleep($DELAYRUNBOT3) Then Return
-					UpgradeHeroes()
-					If _Sleep($DELAYRUNBOT3) Then Return
-					UpgradeWall()
-					If _Sleep($DELAYRUNBOT3) Then Return
-					If IsToFillCCWithMedalsOnly() Then
-						Local $aRndFuncList = ['CleanYard', 'CollectFreeMagicItems', 'Collect', 'PetHouse', 'Blacksmith', 'UpgradeBuilding', 'CheckTombs']
-					Else
-						Local $aRndFuncList = ['CleanYard', 'RequestCC', 'CollectFreeMagicItems', 'Collect', 'PetHouse', 'Blacksmith', 'UpgradeBuilding', 'CheckTombs']
-					EndIf
-				Else
-					__RunFunction('DonateCC,Train')
-					If _Sleep($DELAYRUNBOT3) Then Return
-					HiddenSlotstatus()
-					If _Sleep($DELAYRUNBOT3) Then Return
-					Laboratory()
-					If _Sleep($DELAYRUNBOT3) Then Return
-					UpgradeHeroes()
-					If _Sleep($DELAYRUNBOT3) Then Return
-					If IsToFillCCWithMedalsOnly() Then
-						Local $aRndFuncList = ['CleanYard', 'CollectFreeMagicItems', 'Collect', 'UpgradeWall', 'UpgradeBuilding', 'PetHouse', 'Blacksmith', 'CheckTombs']
-					Else
-						Local $aRndFuncList = ['CleanYard', 'RequestCC', 'CollectFreeMagicItems', 'Collect', 'UpgradeWall', 'UpgradeBuilding', 'PetHouse', 'Blacksmith', 'CheckTombs']
-					EndIf
-				EndIf
-			EndIf
-			$IsTofillWithMedalsPause = False
-			For $Index In $aRndFuncList
-				_RunFunction($Index)
-			Next
-			$IsTofillWithMedalsPause = True
-			If _Sleep(1000) Then Return
-			If $g_bChkPersoChallengesinPause Then DailyChallenges(False)
-			If _Sleep(1000) Then Return
-			CollectCCGold()
-			If SwitchBetweenBasesMod2() Then
-				ForgeClanCapitalGold()
-				_Sleep($DELAYRUNBOT3)
-				AutoUpgradeCC()
-				_Sleep($DELAYRUNBOT3)
-			EndIf
-			If _Sleep($DELAYRUNBOT3) Then Return
 			If $bCloseGame Then
+				SetLog("Prepare Bot before pause...", $COLOR_WARNING)
+				If $g_bChkVisitBbaseinPause And ($g_bChkCollectBuilderBase Or $g_bChkStartClockTowerBoost Or $g_iChkBBSuggestedUpgrades Or $g_bChkEnableBBAttack Or $g_bChkCleanBBYard) Then SwitchBetweenBasesMod()
+				If $IstoSwitchMod And $g_bChkVisitBbaseinPause And ($g_bChkCollectBuilderBase Or $g_bChkStartClockTowerBoost Or $g_iChkBBSuggestedUpgrades Or $g_bChkEnableBBAttack Or $g_bChkCleanBBYard) Then
+					If $g_bAutoUpgradeWallsEnable And $g_bChkWallUpFirst Then
+						__RunFunction('DonateCC,Train')
+						If _Sleep($DELAYRUNBOT3) Then Return
+						HiddenSlotstatus()
+						If _Sleep($DELAYRUNBOT3) Then Return
+						If TakeWardenValues() Then
+							UpgradeHeroes()
+							If _Sleep($DELAYRUNBOT3) Then Return
+						EndIf
+						Laboratory()
+						If _Sleep($DELAYRUNBOT3) Then Return
+						UpgradeHeroes()
+						If _Sleep($DELAYRUNBOT3) Then Return
+						UpgradeWall()
+						If _Sleep($DELAYRUNBOT3) Then Return
+						If IsToFillCCWithMedalsOnly() Then
+							Local $aRndFuncList = ['CleanYard', 'CollectFreeMagicItems', 'Collect', 'PetHouse', 'BuilderBase', 'Blacksmith', 'UpgradeBuilding', 'CheckTombs', 'CollectAchievements', 'HelperHut']
+						Else
+							Local $aRndFuncList = ['CleanYard', 'RequestCC', 'CollectFreeMagicItems', 'Collect', 'PetHouse', 'BuilderBase', 'Blacksmith', 'UpgradeBuilding', 'CheckTombs', 'CollectAchievements', 'HelperHut']
+						EndIf
+					Else
+						__RunFunction('DonateCC,Train')
+						If _Sleep($DELAYRUNBOT3) Then Return
+						HiddenSlotstatus()
+						If _Sleep($DELAYRUNBOT3) Then Return
+						If TakeWardenValues() Then
+							UpgradeHeroes()
+							If _Sleep($DELAYRUNBOT3) Then Return
+						EndIf
+						Laboratory()
+						If _Sleep($DELAYRUNBOT3) Then Return
+						UpgradeHeroes()
+						If _Sleep($DELAYRUNBOT3) Then Return
+						If IsToFillCCWithMedalsOnly() Then
+							Local $aRndFuncList = ['CleanYard', 'CollectFreeMagicItems', 'Collect', 'UpgradeWall', 'UpgradeBuilding', 'PetHouse', 'BuilderBase', 'Blacksmith', 'CheckTombs', 'CollectAchievements', 'HelperHut']
+						Else
+							Local $aRndFuncList = ['CleanYard', 'RequestCC', 'CollectFreeMagicItems', 'Collect', 'UpgradeWall', 'UpgradeBuilding', 'PetHouse', 'BuilderBase', 'Blacksmith', 'CheckTombs', 'CollectAchievements', 'HelperHut']
+						EndIf
+					EndIf
+					$IstoSwitchMod = 0
+				Else
+					If $g_bAutoUpgradeWallsEnable And $g_bChkWallUpFirst Then
+						__RunFunction('DonateCC,Train')
+						If _Sleep($DELAYRUNBOT3) Then Return
+						HiddenSlotstatus()
+						If _Sleep($DELAYRUNBOT3) Then Return
+						If TakeWardenValues() Then
+							UpgradeHeroes()
+							If _Sleep($DELAYRUNBOT3) Then Return
+						EndIf
+						Laboratory()
+						If _Sleep($DELAYRUNBOT3) Then Return
+						UpgradeHeroes()
+						If _Sleep($DELAYRUNBOT3) Then Return
+						UpgradeWall()
+						If _Sleep($DELAYRUNBOT3) Then Return
+						If IsToFillCCWithMedalsOnly() Then
+							Local $aRndFuncList = ['CleanYard', 'CollectFreeMagicItems', 'Collect', 'PetHouse', 'Blacksmith', 'UpgradeBuilding', 'CheckTombs', 'CollectAchievements', 'HelperHut']
+						Else
+							Local $aRndFuncList = ['CleanYard', 'RequestCC', 'CollectFreeMagicItems', 'Collect', 'PetHouse', 'Blacksmith', 'UpgradeBuilding', 'CheckTombs', 'CollectAchievements', 'HelperHut']
+						EndIf
+					Else
+						__RunFunction('DonateCC,Train')
+						If _Sleep($DELAYRUNBOT3) Then Return
+						HiddenSlotstatus()
+						If _Sleep($DELAYRUNBOT3) Then Return
+						Laboratory()
+						If _Sleep($DELAYRUNBOT3) Then Return
+						UpgradeHeroes()
+						If _Sleep($DELAYRUNBOT3) Then Return
+						If IsToFillCCWithMedalsOnly() Then
+							Local $aRndFuncList = ['CleanYard', 'CollectFreeMagicItems', 'Collect', 'UpgradeWall', 'UpgradeBuilding', 'PetHouse', 'Blacksmith', 'CheckTombs', 'CollectAchievements', 'HelperHut']
+						Else
+							Local $aRndFuncList = ['CleanYard', 'RequestCC', 'CollectFreeMagicItems', 'Collect', 'UpgradeWall', 'UpgradeBuilding', 'PetHouse', 'Blacksmith', 'CheckTombs', 'CollectAchievements', 'HelperHut']
+						EndIf
+					EndIf
+				EndIf
+				$IsTofillWithMedalsPause = False
+				For $Index In $aRndFuncList
+					_RunFunction($Index)
+				Next
+				$IsTofillWithMedalsPause = True
+				If _Sleep(1000) Then Return
+				If $g_bChkPersoChallengesinPause Then DailyChallenges(False)
+				If _Sleep(1000) Then Return
+				CollectCCGold()
+				If SwitchBetweenBasesMod2() Then
+					ForgeClanCapitalGold()
+					_Sleep($DELAYRUNBOT3)
+					AutoUpgradeCC()
+					_Sleep($DELAYRUNBOT3)
+				EndIf
+				If _Sleep($DELAYRUNBOT3) Then Return
+
 				$iWaitTime = _DateDiff('s', _NowCalc(), $aNoAttackTimes[1]) ; find time to stop attacking in seconds
 				If @error Then
 					_logErrorDateDiff(@error)
@@ -325,108 +327,108 @@ Func IsSearchAttackEnabled()
 
 		If Not IsPlannedTimeNow() Then
 			SetLog("Attack schedule planned skip time found", $COLOR_INFO)
-			SetLog("Prepare Bot before pause...", $COLOR_WARNING)
-			If $g_bChkVisitBbaseinPause And ($g_bChkCollectBuilderBase Or $g_bChkStartClockTowerBoost Or $g_iChkBBSuggestedUpgrades Or $g_bChkEnableBBAttack Or $g_bChkCleanBBYard) Then SwitchBetweenBasesMod()
-			If $IstoSwitchMod And $g_bChkVisitBbaseinPause And ($g_bChkCollectBuilderBase Or $g_bChkStartClockTowerBoost Or $g_iChkBBSuggestedUpgrades Or $g_bChkEnableBBAttack Or $g_bChkCleanBBYard) Then
-				If $g_bAutoUpgradeWallsEnable And $g_bChkWallUpFirst Then
-					__RunFunction('DonateCC,Train')
-					If _Sleep($DELAYRUNBOT3) Then Return
-					HiddenSlotstatus()
-					If _Sleep($DELAYRUNBOT3) Then Return
-					If TakeWardenValues() Then
-						UpgradeHeroes()
-						If _Sleep($DELAYRUNBOT3) Then Return
-					EndIf
-					Laboratory()
-					If _Sleep($DELAYRUNBOT3) Then Return
-					UpgradeWall()
-					If _Sleep($DELAYRUNBOT3) Then Return
-					UpgradeHeroes()
-					If _Sleep($DELAYRUNBOT3) Then Return
-					If IsToFillCCWithMedalsOnly() Then
-						Local $aRndFuncList = ['CleanYard', 'CollectFreeMagicItems', 'Collect', 'PetHouse', 'BuilderBase', 'Blacksmith', 'UpgradeBuilding', 'CheckTombs']
-					Else
-						Local $aRndFuncList = ['CleanYard', 'RequestCC', 'CollectFreeMagicItems', 'Collect', 'PetHouse', 'BuilderBase', 'Blacksmith', 'UpgradeBuilding', 'CheckTombs']
-					EndIf
-				Else
-					__RunFunction('DonateCC,Train')
-					If _Sleep($DELAYRUNBOT3) Then Return
-					HiddenSlotstatus()
-					If _Sleep($DELAYRUNBOT3) Then Return
-					If TakeWardenValues() Then
-						UpgradeHeroes()
-						If _Sleep($DELAYRUNBOT3) Then Return
-					EndIf
-					Laboratory()
-					If _Sleep($DELAYRUNBOT3) Then Return
-					UpgradeHeroes()
-					If _Sleep($DELAYRUNBOT3) Then Return
-					If IsToFillCCWithMedalsOnly() Then
-						Local $aRndFuncList = ['CleanYard', 'CollectFreeMagicItems', 'Collect', 'UpgradeWall', 'UpgradeBuilding', 'PetHouse', 'BuilderBase', 'Blacksmith', 'CheckTombs']
-					Else
-						Local $aRndFuncList = ['CleanYard', 'RequestCC', 'CollectFreeMagicItems', 'Collect', 'UpgradeWall', 'UpgradeBuilding', 'PetHouse', 'BuilderBase', 'Blacksmith', 'CheckTombs']
-					EndIf
-				EndIf
-				$IstoSwitchMod = 0
-			Else
-				If $g_bAutoUpgradeWallsEnable And $g_bChkWallUpFirst Then
-					__RunFunction('DonateCC,Train')
-					If _Sleep($DELAYRUNBOT3) Then Return
-					HiddenSlotstatus()
-					If _Sleep($DELAYRUNBOT3) Then Return
-					If TakeWardenValues() Then
-						UpgradeHeroes()
-						If _Sleep($DELAYRUNBOT3) Then Return
-					EndIf
-					Laboratory()
-					If _Sleep($DELAYRUNBOT3) Then Return
-					UpgradeWall()
-					If _Sleep($DELAYRUNBOT3) Then Return
-					UpgradeHeroes()
-					If _Sleep($DELAYRUNBOT3) Then Return
-					If IsToFillCCWithMedalsOnly() Then
-						Local $aRndFuncList = ['CleanYard', 'CollectFreeMagicItems', 'Collect', 'PetHouse', 'Blacksmith', 'UpgradeBuilding', 'CheckTombs']
-					Else
-						Local $aRndFuncList = ['CleanYard', 'RequestCC', 'CollectFreeMagicItems', 'Collect', 'PetHouse', 'Blacksmith', 'UpgradeBuilding', 'CheckTombs']
-					EndIf
-				Else
-					__RunFunction('DonateCC,Train')
-					If _Sleep($DELAYRUNBOT3) Then Return
-					HiddenSlotstatus()
-					If _Sleep($DELAYRUNBOT3) Then Return
-					If TakeWardenValues() Then
-						UpgradeHeroes()
-						If _Sleep($DELAYRUNBOT3) Then Return
-					EndIf
-					Laboratory()
-					If _Sleep($DELAYRUNBOT3) Then Return
-					UpgradeHeroes()
-					If _Sleep($DELAYRUNBOT3) Then Return
-					If IsToFillCCWithMedalsOnly() Then
-						Local $aRndFuncList = ['CleanYard', 'CollectFreeMagicItems', 'Collect', 'UpgradeWall', 'UpgradeBuilding', 'PetHouse', 'Blacksmith', 'CheckTombs']
-					Else
-						Local $aRndFuncList = ['CleanYard', 'RequestCC', 'CollectFreeMagicItems', 'Collect', 'UpgradeWall', 'UpgradeBuilding', 'PetHouse', 'Blacksmith', 'CheckTombs']
-					EndIf
-				EndIf
-			EndIf
-			$IsTofillWithMedalsPause = False
-			For $Index In $aRndFuncList
-				_RunFunction($Index)
-			Next
-			$IsTofillWithMedalsPause = True
-			If _Sleep(1000) Then Return
-			If $g_bChkPersoChallengesinPause Then DailyChallenges(False)
-			If _Sleep(1000) Then Return
-			CollectCCGold()
-			If SwitchBetweenBasesMod2() Then
-				ForgeClanCapitalGold()
-				_Sleep($DELAYRUNBOT3)
-				AutoUpgradeCC()
-				_Sleep($DELAYRUNBOT3)
-			EndIf
-			SetLog("Attack schedule planned skip time found", $COLOR_INFO)
-			If _Sleep($DELAYRESPOND) Then Return True
 			If $bCloseGame Then
+				SetLog("Prepare Bot before pause...", $COLOR_WARNING)
+				If $g_bChkVisitBbaseinPause And ($g_bChkCollectBuilderBase Or $g_bChkStartClockTowerBoost Or $g_iChkBBSuggestedUpgrades Or $g_bChkEnableBBAttack Or $g_bChkCleanBBYard) Then SwitchBetweenBasesMod()
+				If $IstoSwitchMod And $g_bChkVisitBbaseinPause And ($g_bChkCollectBuilderBase Or $g_bChkStartClockTowerBoost Or $g_iChkBBSuggestedUpgrades Or $g_bChkEnableBBAttack Or $g_bChkCleanBBYard) Then
+					If $g_bAutoUpgradeWallsEnable And $g_bChkWallUpFirst Then
+						__RunFunction('DonateCC,Train')
+						If _Sleep($DELAYRUNBOT3) Then Return
+						HiddenSlotstatus()
+						If _Sleep($DELAYRUNBOT3) Then Return
+						If TakeWardenValues() Then
+							UpgradeHeroes()
+							If _Sleep($DELAYRUNBOT3) Then Return
+						EndIf
+						Laboratory()
+						If _Sleep($DELAYRUNBOT3) Then Return
+						UpgradeWall()
+						If _Sleep($DELAYRUNBOT3) Then Return
+						UpgradeHeroes()
+						If _Sleep($DELAYRUNBOT3) Then Return
+						If IsToFillCCWithMedalsOnly() Then
+							Local $aRndFuncList = ['CleanYard', 'CollectFreeMagicItems', 'Collect', 'PetHouse', 'BuilderBase', 'Blacksmith', 'UpgradeBuilding', 'CheckTombs', 'CollectAchievements', 'HelperHut']
+						Else
+							Local $aRndFuncList = ['CleanYard', 'RequestCC', 'CollectFreeMagicItems', 'Collect', 'PetHouse', 'BuilderBase', 'Blacksmith', 'UpgradeBuilding', 'CheckTombs', 'CollectAchievements', 'HelperHut']
+						EndIf
+					Else
+						__RunFunction('DonateCC,Train')
+						If _Sleep($DELAYRUNBOT3) Then Return
+						HiddenSlotstatus()
+						If _Sleep($DELAYRUNBOT3) Then Return
+						If TakeWardenValues() Then
+							UpgradeHeroes()
+							If _Sleep($DELAYRUNBOT3) Then Return
+						EndIf
+						Laboratory()
+						If _Sleep($DELAYRUNBOT3) Then Return
+						UpgradeHeroes()
+						If _Sleep($DELAYRUNBOT3) Then Return
+						If IsToFillCCWithMedalsOnly() Then
+							Local $aRndFuncList = ['CleanYard', 'CollectFreeMagicItems', 'Collect', 'UpgradeWall', 'UpgradeBuilding', 'PetHouse', 'BuilderBase', 'Blacksmith', 'CheckTombs', 'CollectAchievements', 'HelperHut']
+						Else
+							Local $aRndFuncList = ['CleanYard', 'RequestCC', 'CollectFreeMagicItems', 'Collect', 'UpgradeWall', 'UpgradeBuilding', 'PetHouse', 'BuilderBase', 'Blacksmith', 'CheckTombs', 'CollectAchievements', 'HelperHut']
+						EndIf
+					EndIf
+					$IstoSwitchMod = 0
+				Else
+					If $g_bAutoUpgradeWallsEnable And $g_bChkWallUpFirst Then
+						__RunFunction('DonateCC,Train')
+						If _Sleep($DELAYRUNBOT3) Then Return
+						HiddenSlotstatus()
+						If _Sleep($DELAYRUNBOT3) Then Return
+						If TakeWardenValues() Then
+							UpgradeHeroes()
+							If _Sleep($DELAYRUNBOT3) Then Return
+						EndIf
+						Laboratory()
+						If _Sleep($DELAYRUNBOT3) Then Return
+						UpgradeWall()
+						If _Sleep($DELAYRUNBOT3) Then Return
+						UpgradeHeroes()
+						If _Sleep($DELAYRUNBOT3) Then Return
+						If IsToFillCCWithMedalsOnly() Then
+							Local $aRndFuncList = ['CleanYard', 'CollectFreeMagicItems', 'Collect', 'PetHouse', 'Blacksmith', 'UpgradeBuilding', 'CheckTombs', 'CollectAchievements', 'HelperHut']
+						Else
+							Local $aRndFuncList = ['CleanYard', 'RequestCC', 'CollectFreeMagicItems', 'Collect', 'PetHouse', 'Blacksmith', 'UpgradeBuilding', 'CheckTombs', 'CollectAchievements', 'HelperHut']
+						EndIf
+					Else
+						__RunFunction('DonateCC,Train')
+						If _Sleep($DELAYRUNBOT3) Then Return
+						HiddenSlotstatus()
+						If _Sleep($DELAYRUNBOT3) Then Return
+						If TakeWardenValues() Then
+							UpgradeHeroes()
+							If _Sleep($DELAYRUNBOT3) Then Return
+						EndIf
+						Laboratory()
+						If _Sleep($DELAYRUNBOT3) Then Return
+						UpgradeHeroes()
+						If _Sleep($DELAYRUNBOT3) Then Return
+						If IsToFillCCWithMedalsOnly() Then
+							Local $aRndFuncList = ['CleanYard', 'CollectFreeMagicItems', 'Collect', 'UpgradeWall', 'UpgradeBuilding', 'PetHouse', 'Blacksmith', 'CheckTombs', 'CollectAchievements', 'HelperHut']
+						Else
+							Local $aRndFuncList = ['CleanYard', 'RequestCC', 'CollectFreeMagicItems', 'Collect', 'UpgradeWall', 'UpgradeBuilding', 'PetHouse', 'Blacksmith', 'CheckTombs', 'CollectAchievements', 'HelperHut']
+						EndIf
+					EndIf
+				EndIf
+				$IsTofillWithMedalsPause = False
+				For $Index In $aRndFuncList
+					_RunFunction($Index)
+				Next
+				$IsTofillWithMedalsPause = True
+				If _Sleep(1000) Then Return
+				If $g_bChkPersoChallengesinPause Then DailyChallenges(False)
+				If _Sleep(1000) Then Return
+				CollectCCGold()
+				If SwitchBetweenBasesMod2() Then
+					ForgeClanCapitalGold()
+					_Sleep($DELAYRUNBOT3)
+					AutoUpgradeCC()
+					_Sleep($DELAYRUNBOT3)
+				EndIf
+				If _Sleep($DELAYRESPOND) Then Return True
+
 				; determine how long to close CoC or emulator if selected
 				If Not $g_abPlannedAttackWeekDays[@WDAY - 1] Then
 					$iWaitTime = _getTimeRemainTimeToday()     ; get number of seconds remaining till Midnight today
